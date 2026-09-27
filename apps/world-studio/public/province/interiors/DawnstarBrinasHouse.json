@@ -1,0 +1,3975 @@
+{
+ "schemaVersion": 1,
+ "cellId": "DawnstarBrinasHouse",
+ "plugin": "Skyrim.esm",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": "composite:farmhouse/farmhouse01-with-door",
+ "refCount": 141,
+ "kits": {
+  "bmv-treehouse-int": {
+   "id": "bmv-treehouse-int",
+   "glb": "kits/bmv-treehouse-int.glb",
+   "manifest": "kits/bmv-treehouse-int.kit.json"
+  },
+  "htbm-hut-int": {
+   "id": "htbm-hut-int",
+   "glb": "kits/htbm-hut-int.glb",
+   "manifest": "kits/htbm-hut-int.kit.json"
+  },
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "mudmother-hut-int": {
+   "id": "mudmother-hut-int",
+   "glb": "kits/mudmother-hut-int.glb",
+   "manifest": "kits/mudmother-hut-int.kit.json"
+  },
+  "settlement-imperial-v1": {
+   "id": "settlement-imperial-v1",
+   "glb": "kits/settlement-imperial-v1.glb",
+   "manifest": "kits/settlement-imperial-v1.kit.json"
+  },
+  "underwater-v1": {
+   "id": "underwater-v1",
+   "glb": "kits/underwater-v1.glb",
+   "manifest": "kits/underwater-v1.kit.json"
+  },
+  "works-v1": {
+   "id": "works-v1",
+   "glb": "kits/works-v1.glb",
+   "manifest": "kits/works-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   -23.6671,
+   0.0,
+   12.7593
+  ],
+  "yawDeg": 0.0
+ },
+ "exitDoor": {
+  "id": "DawnstarBrinasHouse.00013CC1",
+  "refId": "00013CC1",
+  "positionM": [
+   -23.6639,
+   0.0,
+   13.2668
+  ],
+  "yawDeg": 180.0
+ },
+ "doors": [
+  {
+   "exteriorDoorId": "door.imperial-fringe.claywater-station.1",
+   "interiorLoadDoorRef": "00013CC1",
+   "arrivalMarker": {
+    "positionM": [
+     -23.6671,
+     0.0,
+     12.7593
+    ],
+    "yawDeg": 0.0
+   },
+   "loadDoor": {
+    "positionM": [
+     -23.6639,
+     0.0,
+     13.2668
+    ],
+    "yawDeg": 180.0
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   45,
+   48,
+   48
+  ],
+  "intensity": 1.0
+ },
+ "fog": {
+  "colorRGB": [
+   31,
+   52,
+   46
+  ],
+  "nearM": 1.422,
+  "farM": 56.896
+ },
+ "lighting": {
+  "ambientRGB": [
+   45,
+   48,
+   48
+  ],
+  "directionalRGB": [
+   65,
+   70,
+   80
+  ],
+  "fogNearRGB": [
+   31,
+   52,
+   46
+  ],
+  "fogNearM": 1.422,
+  "fogFarM": 56.896,
+  "directionalFade": 0.0,
+  "fogClipM": 0.0,
+  "fogPower": 1.0,
+  "fogFarRGB": [
+   0,
+   0,
+   0
+  ],
+  "fogMax": 1.0,
+  "inherits": 159,
+  "template": "FarmLightingTemplate"
+ },
+ "placements": [
+  {
+   "id": "DawnstarBrinasHouse.00013CC1",
+   "assetId": "vanilla:architecture/farmhouse/farmhouseldoor01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.6639,
+    0.0,
+    13.2668
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "door",
+   "base": "FarmhouseLDoor01",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.0004D7E5",
+   "assetId": "vanilla:clutter/containers/chest01/chest01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -16.6253,
+    0.0087,
+    10.6079
+   ],
+   "rotationDeg": [
+    0.0,
+    269.759,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "TreasBanditChest",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F4",
+   "assetId": "vanilla:clutter/deadanimals/hangingrabbit02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingRabbit02",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F5",
+   "assetId": "vanilla:clutter/hay/hayscatter01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -17.9706,
+    0.0,
+    8.0011
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F6",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -15.4853,
+    0.0087,
+    10.6915
+   ],
+   "rotationDeg": [
+    0.0,
+    341.092,
+    0.0
+   ],
+   "scale": 0.95,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F7",
+   "assetId": "vanilla:clutter/deadanimals/hanginganimalsring01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingAnimalsRing01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F8",
+   "assetId": "vanilla:clutter/deadanimals/hangingpheasant02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    315.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingPheasant02",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03F9",
+   "assetId": "vanilla:clutter/deadanimals/hangingpheasant01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingPheasant01",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FA",
+   "assetId": "vanilla:clutter/deadanimals/hangingrabbit01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingRabbit01",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FB",
+   "assetId": "vanilla:clutter/deadanimals/hangingpheasant02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    135.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingPheasant02",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FC",
+   "assetId": "vanilla:clutter/deadanimals/hangingrabbit01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.3543,
+    3.0413,
+    6.6441
+   ],
+   "rotationDeg": [
+    0.0,
+    45.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HangingRabbit01",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FD",
+   "assetId": "vanilla:clutter/food/bread01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.3902,
+    0.9397,
+    11.4092
+   ],
+   "rotationDeg": [
+    0.034,
+    240.593,
+    0.061
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodBread01B",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FE",
+   "assetId": "vanilla:clutter/food/bread01a",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.0263,
+    0.9359,
+    11.5226
+   ],
+   "rotationDeg": [
+    0.452,
+    1.253,
+    -0.278
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodBread01A",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E03FF",
+   "assetId": "vanilla:furniture/common/commonbed01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -15.0248,
+    0.0,
+    7.3561
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0400",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.9093,
+    0.8999,
+    11.7598
+   ],
+   "rotationDeg": [
+    0.153,
+    57.89,
+    -0.011
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0401",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.6287,
+    0.9,
+    11.7102
+   ],
+   "rotationDeg": [
+    0.09,
+    332.809,
+    0.067
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0402",
+   "assetId": "vanilla:clutter/common/commontableround01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.272,
+    -0.0,
+    11.7214
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CommonTableRound01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0403",
+   "assetId": "vanilla:furniture/common/commonchair01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    -21.3654,
+    0.0,
+    11.5568
+   ],
+   "rotationDeg": [
+    0.0,
+    49.916,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonChair01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0404",
+   "assetId": "vanilla:furniture/common/commonchair01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    -19.0974,
+    0.0,
+    11.7443
+   ],
+   "rotationDeg": [
+    0.0,
+    297.044,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0405",
+   "assetId": "vanilla:clutter/common/commonshelf01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.3122,
+    0.0004,
+    6.3748
+   ],
+   "rotationDeg": [
+    0.0,
+    0.092,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CommonShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0406",
+   "assetId": "vanilla:clutter/kitchen/woodenladle01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.4264,
+    0.9508,
+    6.6132
+   ],
+   "rotationDeg": [
+    -1.064,
+    71.623,
+    0.132
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "WoodenLadle01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0407",
+   "assetId": "vanilla:clutter/dining set/basicknife01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.4966,
+    0.9498,
+    6.3513
+   ],
+   "rotationDeg": [
+    0.429,
+    256.635,
+    179.855
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicKnife01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0408",
+   "assetId": "vanilla:clutter/dining set/basicfork01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.4954,
+    0.9505,
+    6.1225
+   ],
+   "rotationDeg": [
+    0.312,
+    265.844,
+    179.929
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicFork01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0409",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -21.8398,
+    2.292,
+    6.2962
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornWall01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040A",
+   "assetId": "vanilla:clutter/containers/chest01/chest01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -16.6124,
+    0.0,
+    7.3119
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "PersonalChestSmall",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040B",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.7542,
+    0.8962,
+    6.668
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040C",
+   "assetId": "vanilla:furniture/commontableonebench",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.2834,
+    0.0,
+    6.6943
+   ],
+   "rotationDeg": [
+    0.0,
+    178.809,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonTableOneBench",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040D",
+   "assetId": "vanilla:clutter/kettle01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -25.4177,
+    0.0242,
+    7.004
+   ],
+   "rotationDeg": [
+    0.06,
+    0.017,
+    0.002
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Kettle01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040E",
+   "assetId": "vanilla:clutter/bucket01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -26.0531,
+    0.0046,
+    11.3753
+   ],
+   "rotationDeg": [
+    -0.025,
+    51.566,
+    0.065
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Bucket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E040F",
+   "assetId": "vanilla:clutter/basket04",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.1907,
+    0.0046,
+    11.8956
+   ],
+   "rotationDeg": [
+    0.0,
+    176.654,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket04",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0410",
+   "assetId": "vanilla:clutter/basket03",
+   "kit": "works-v1",
+   "positionM": [
+    -27.2093,
+    0.9009,
+    6.2121
+   ],
+   "rotationDeg": [
+    0.079,
+    358.32,
+    -0.107
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket03",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0411",
+   "assetId": "vanilla:clutter/basket02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.8986,
+    0.9018,
+    6.2078
+   ],
+   "rotationDeg": [
+    -0.094,
+    357.127,
+    0.146
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket02",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0412",
+   "assetId": "vanilla:clutter/basket01",
+   "kit": "underwater-v1",
+   "positionM": [
+    -28.3925,
+    0.9026,
+    6.4178
+   ],
+   "rotationDeg": [
+    -0.265,
+    358.394,
+    0.388
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0413",
+   "assetId": "vanilla:clutter/bucket01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -24.777,
+    1.114,
+    6.2033
+   ],
+   "rotationDeg": [
+    0.0,
+    182.384,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Bucket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0414",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -28.4379,
+    0.0,
+    11.8254
+   ],
+   "rotationDeg": [
+    0.0,
+    290.283,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFood01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0415",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -24.7552,
+    0.0,
+    6.2464
+   ],
+   "rotationDeg": [
+    0.0,
+    153.736,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelFood01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0416",
+   "assetId": "vanilla:architecture/farmhouse/interior/farmintend01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -30.9514,
+    0.0,
+    9.1034
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "FarmIntEnd01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0417",
+   "assetId": "vanilla:architecture/farmhouse/interior/farmintend02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -12.7447,
+    0.0,
+    9.1034
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "FarmIntEnd02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0418",
+   "assetId": "vanilla:architecture/farmhouse/interior/farmintdoorway01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.6687,
+    0.0,
+    9.1034
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "FarmIntDoorway01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0419",
+   "assetId": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.0274,
+    0.0,
+    9.1034
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "FarmIntWallHearth01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041A",
+   "assetId": "vanilla:clutter/common/endtable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.1247,
+    0.0,
+    9.3128
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "EndTable01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041B",
+   "assetId": "vanilla:clutter/common/cupboard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.522,
+    0.0,
+    9.7304
+   ],
+   "rotationDeg": [
+    0.0,
+    267.708,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "Cupboard01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041C",
+   "assetId": "vanilla:clutter/basket03",
+   "kit": "works-v1",
+   "positionM": [
+    -29.5529,
+    1.5244,
+    9.1928
+   ],
+   "rotationDeg": [
+    -0.136,
+    266.016,
+    0.29
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket03",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041D",
+   "assetId": "vanilla:clutter/kitchen/castironpotsmall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.5202,
+    1.5534,
+    9.8269
+   ],
+   "rotationDeg": [
+    -1.111,
+    63.176,
+    1.881
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CastIronPotSmall01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041E",
+   "assetId": "vanilla:clutter/kitchen/castironpotmedium01",
+   "kit": "works-v1",
+   "positionM": [
+    -29.5431,
+    1.522,
+    10.2733
+   ],
+   "rotationDeg": [
+    -0.186,
+    346.312,
+    0.424
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CastIronPotMedium01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E041F",
+   "assetId": "vanilla:clutter/kitchen/woodenladle01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.5412,
+    0.9957,
+    9.1077
+   ],
+   "rotationDeg": [
+    -35.953,
+    194.44,
+    167.115
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "WoodenLadle01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0420",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.6204,
+    0.8974,
+    9.5526
+   ],
+   "rotationDeg": [
+    -0.164,
+    357.744,
+    0.218
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0421",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.6279,
+    0.9688,
+    9.3153
+   ],
+   "rotationDeg": [
+    -30.562,
+    341.49,
+    -67.479
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0422",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.4329,
+    0.8974,
+    9.4208
+   ],
+   "rotationDeg": [
+    -0.203,
+    326.465,
+    -0.149
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0423",
+   "assetId": "vanilla:clutter/common/wardrobe01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -16.9753,
+    0.0,
+    11.8499
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "CommonWardrobe01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0424",
+   "assetId": "vanilla:clutter/bucket01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -23.0268,
+    1.5267,
+    6.3321
+   ],
+   "rotationDeg": [
+    0.513,
+    299.556,
+    -0.175
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Bucket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0425",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.6526,
+    0.8975,
+    6.3663
+   ],
+   "rotationDeg": [
+    0.482,
+    173.731,
+    0.313
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0426",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.4794,
+    0.8971,
+    6.3034
+   ],
+   "rotationDeg": [
+    -0.148,
+    326.753,
+    -0.065
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0427",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.2658,
+    0.8971,
+    6.3692
+   ],
+   "rotationDeg": [
+    0.023,
+    219.182,
+    -0.114
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0428",
+   "assetId": "vanilla:clutter/basket03",
+   "kit": "works-v1",
+   "positionM": [
+    -22.8303,
+    0.885,
+    6.3994
+   ],
+   "rotationDeg": [
+    0.193,
+    358.186,
+    -0.07
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket03",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0429",
+   "assetId": "vanilla:plants/hangingfrostmirriam01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -28.2617,
+    2.9537,
+    6.1719
+   ],
+   "rotationDeg": [
+    0.0,
+    16.226,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "HangingFrostMirriam",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E042A",
+   "assetId": "vanilla:plants/hangingelvesear01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.8022,
+    2.8202,
+    6.1803
+   ],
+   "rotationDeg": [
+    0.0,
+    170.925,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "HangingElvesEar01",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E042B",
+   "assetId": "vanilla:plants/hanginggarlicbraid01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.4507,
+    2.9351,
+    6.17
+   ],
+   "rotationDeg": [
+    0.0,
+    72.09,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "HangingGarlicBraid",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E042C",
+   "assetId": "vanilla:plants/hanginggarlicbraid01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.1622,
+    2.9351,
+    6.1763
+   ],
+   "rotationDeg": [
+    0.0,
+    280.75,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "HangingGarlicBraid",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E042E",
+   "assetId": "vanilla:clutter/candles/candlehornchandelier01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -18.2099,
+    4.0719,
+    9.1014
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornChandelier01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E042F",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.3865,
+    2.1882,
+    6.3776
+   ],
+   "rotationDeg": [
+    -0.117,
+    74.943,
+    0.007
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0430",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.5557,
+    2.1881,
+    6.2685
+   ],
+   "rotationDeg": [
+    -0.09,
+    125.092,
+    -0.123
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0431",
+   "assetId": "vanilla:furniture/common/commonchair01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    -27.055,
+    -0.0023,
+    11.6855
+   ],
+   "rotationDeg": [
+    0.0,
+    356.449,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonChair01FL",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0432",
+   "assetId": "vanilla:weapons/steel/steelmace",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -17.179,
+    2.2715,
+    11.8602
+   ],
+   "rotationDeg": [
+    -45.042,
+    260.431,
+    -4.61
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SteelMace",
+   "baseType": "WEAP"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0433",
+   "assetId": "vanilla:clutter/kitchen/castironpotmedium01",
+   "kit": "works-v1",
+   "positionM": [
+    -29.6308,
+    1.1133,
+    7.6291
+   ],
+   "rotationDeg": [
+    -0.125,
+    39.839,
+    -0.013
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CastIronPotMedium01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0434",
+   "assetId": "vanilla:clutter/meadery/meadbarrel01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.5304,
+    0.0005,
+    8.4316
+   ],
+   "rotationDeg": [
+    0.0,
+    254.003,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "MeadBarrel01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0435",
+   "assetId": "vanilla:clutter/barrel01",
+   "kit": "bmv-treehouse-int",
+   "positionM": [
+    -29.6613,
+    0.0,
+    7.6425
+   ],
+   "rotationDeg": [
+    0.0,
+    226.788,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BarrelMeat01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0436",
+   "assetId": "vanilla:clutter/barrel02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -29.5964,
+    0.0,
+    6.8327
+   ],
+   "rotationDeg": [
+    0.0,
+    226.788,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Barrel02Static",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0437",
+   "assetId": "vanilla:clutter/pelts/peltfarmwall03",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -13.5704,
+    1.3998,
+    10.5434
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 0.9,
+   "category": "clutter",
+   "base": "PeltFarmWall03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0438",
+   "assetId": "vanilla:clutter/pelts/peltfarmwall02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -13.5625,
+    1.3998,
+    7.4759
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    -1.432
+   ],
+   "scale": 0.9,
+   "category": "clutter",
+   "base": "PeltFarmWall02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0439",
+   "assetId": "vanilla:clutter/pelts/peltfarmwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -16.2882,
+    1.3998,
+    5.8249
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "PeltFarmWall01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E043A",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -28.0745,
+    0.8962,
+    6.718
+   ],
+   "rotationDeg": [
+    0.0,
+    250.898,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E043C",
+   "assetId": "vanilla:clutter/barrel02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -29.4191,
+    0.0,
+    11.1848
+   ],
+   "rotationDeg": [
+    0.0,
+    154.206,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Barrel02Static",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E043E",
+   "assetId": "vanilla:clutter/meadery/meadbarrel01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.1816,
+    0.8962,
+    6.339
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "MeadBarrel01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E043F",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.3653,
+    0.881,
+    11.864
+   ],
+   "rotationDeg": [
+    0.0,
+    238.006,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0440",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.3892,
+    1.65,
+    6.6983
+   ],
+   "rotationDeg": [
+    0.0,
+    256.627,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0441",
+   "assetId": "vanilla:clutter/hay/hayscatter02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -28.7842,
+    0.0,
+    10.9617
+   ],
+   "rotationDeg": [
+    0.0,
+    343.957,
+    0.0
+   ],
+   "scale": 0.95,
+   "category": "clutter",
+   "base": "HayScatter02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0442",
+   "assetId": "vanilla:clutter/hay/hayscatter04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    -28.7803,
+    0.0066,
+    7.7499
+   ],
+   "rotationDeg": [
+    0.0,
+    296.688,
+    0.0
+   ],
+   "scale": 0.95,
+   "category": "clutter",
+   "base": "HayScatter04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0443",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    -24.0701,
+    0.0065,
+    7.2305
+   ],
+   "rotationDeg": [
+    0.0,
+    16.902,
+    0.0
+   ],
+   "scale": 0.95,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0444",
+   "assetId": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.0259,
+    0.0809,
+    5.9871
+   ],
+   "rotationDeg": [
+    0.0,
+    268.327,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FireplaceWood01Burning",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0445",
+   "assetId": "vanilla:clutter/dining set/basicfork01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.4053,
+    1.5349,
+    6.4971
+   ],
+   "rotationDeg": [
+    -2.616,
+    353.799,
+    -0.487
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicFork01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0446",
+   "assetId": "vanilla:clutter/dining set/basicfork01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.5688,
+    1.535,
+    6.4913
+   ],
+   "rotationDeg": [
+    -2.427,
+    0.266,
+    -0.257
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicFork01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0447",
+   "assetId": "vanilla:clutter/dining set/basicknife01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.8725,
+    1.5348,
+    6.4681
+   ],
+   "rotationDeg": [
+    -1.431,
+    19.507,
+    -4.225
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicKnife01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0448",
+   "assetId": "vanilla:clutter/dining set/basicknife01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.7518,
+    1.5348,
+    6.4759
+   ],
+   "rotationDeg": [
+    -1.881,
+    12.327,
+    -3.883
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicKnife01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0449",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.2361,
+    0.2472,
+    6.2941
+   ],
+   "rotationDeg": [
+    -0.113,
+    20.524,
+    -0.144
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044A",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.023,
+    0.2471,
+    6.3642
+   ],
+   "rotationDeg": [
+    -0.04,
+    20.527,
+    -0.191
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044B",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.4221,
+    0.2472,
+    6.3541
+   ],
+   "rotationDeg": [
+    -0.049,
+    162.331,
+    0.214
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044C",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.6267,
+    0.246,
+    6.2787
+   ],
+   "rotationDeg": [
+    0.192,
+    162.331,
+    0.185
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044D",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.8318,
+    0.246,
+    6.3728
+   ],
+   "rotationDeg": [
+    0.014,
+    216.763,
+    0.128
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044E",
+   "assetId": "vanilla:plants/leek01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.1179,
+    0.5606,
+    7.0686
+   ],
+   "rotationDeg": [
+    -35.218,
+    178.405,
+    -57.475
+   ],
+   "scale": 0.7,
+   "category": "item",
+   "base": "FoodLeek",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E044F",
+   "assetId": "vanilla:plants/leek01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.0423,
+    0.5063,
+    7.1564
+   ],
+   "rotationDeg": [
+    71.199,
+    348.544,
+    -45.371
+   ],
+   "scale": 0.7,
+   "category": "item",
+   "base": "FoodLeek",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0450",
+   "assetId": "vanilla:clutter/firewood/firewoodpilemedium01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -17.8832,
+    0.0217,
+    7.0995
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.92,
+   "category": "clutter",
+   "base": "FirewoodPileMedium01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0451",
+   "assetId": "vanilla:clutter/firewood/firewoodpilelarge01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    -22.5302,
+    0.0078,
+    7.2792
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.66,
+   "category": "clutter",
+   "base": "FirewoodPileLarge01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0452",
+   "assetId": "vanilla:clutter/basket03",
+   "kit": "works-v1",
+   "positionM": [
+    -17.2193,
+    0.0043,
+    6.3852
+   ],
+   "rotationDeg": [
+    0.032,
+    358.484,
+    0.012
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket03",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0453",
+   "assetId": "vanilla:clutter/ingredients/mead01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.2224,
+    0.8815,
+    9.4953
+   ],
+   "rotationDeg": [
+    0.0,
+    41.539,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodMead",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0454",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.1598,
+    0.8889,
+    12.0521
+   ],
+   "rotationDeg": [
+    0.041,
+    0.01,
+    -0.197
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0455",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.4472,
+    0.89,
+    11.649
+   ],
+   "rotationDeg": [
+    -0.196,
+    328.485,
+    -0.127
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0456",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.7706,
+    0.8962,
+    6.219
+   ],
+   "rotationDeg": [
+    0.0,
+    298.407,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0457",
+   "assetId": "vanilla:clutter/ingredients/mead01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -26.6788,
+    0.8958,
+    6.4196
+   ],
+   "rotationDeg": [
+    0.0,
+    328.487,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodMead",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0458",
+   "assetId": "vanilla:plants/hanginggarlicbraid01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.0196,
+    2.9351,
+    5.8757
+   ],
+   "rotationDeg": [
+    0.0,
+    84.982,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "plant",
+   "base": "HangingGarlicBraid",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0459",
+   "assetId": "vanilla:plants/hangingelvesear01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.6064,
+    2.7543,
+    5.8656
+   ],
+   "rotationDeg": [
+    0.0,
+    0.47,
+    0.0
+   ],
+   "scale": 1.11,
+   "category": "plant",
+   "base": "HangingElvesEar01",
+   "baseType": "FLOR"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045A",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -18.8662,
+    1.655,
+    6.6791
+   ],
+   "rotationDeg": [
+    -0.161,
+    129.421,
+    0.298
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045B",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -20.8006,
+    1.655,
+    6.678
+   ],
+   "rotationDeg": [
+    -0.161,
+    238.283,
+    0.298
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045C",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -21.0272,
+    1.6552,
+    6.6758
+   ],
+   "rotationDeg": [
+    -0.039,
+    304.171,
+    0.367
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045D",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -18.2117,
+    2.292,
+    6.2962
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornWall01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045E",
+   "assetId": "vanilla:clutter/kettle01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.082,
+    0.345,
+    7.1499
+   ],
+   "rotationDeg": [
+    -0.05,
+    224.149,
+    -0.003
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Kettle01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E045F",
+   "assetId": "vanilla:clutter/candles/candlehornfloor01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.1643,
+    -0.0,
+    8.4398
+   ],
+   "rotationDeg": [
+    0.0,
+    18.358,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleHornFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0461",
+   "assetId": "vanilla:furniture/common/commonbed01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.9573,
+    0.0,
+    10.5818
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CommonBed01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0463",
+   "assetId": "vanilla:clutter/pelts/peltfloor01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -15.5808,
+    0.0075,
+    8.7925
+   ],
+   "rotationDeg": [
+    0.0,
+    52.999,
+    0.0
+   ],
+   "scale": 0.9,
+   "category": "clutter",
+   "base": "PeltFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0464",
+   "assetId": "vanilla:clutter/pelts/peltfloor02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.9019,
+    0.0058,
+    9.6419
+   ],
+   "rotationDeg": [
+    0.0,
+    95.971,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "PeltFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0465",
+   "assetId": "vanilla:clutter/pelts/peltfloor03",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.5073,
+    0.0167,
+    9.7617
+   ],
+   "rotationDeg": [
+    0.0,
+    52.999,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "PeltFloor03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0466",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -23.803,
+    2.189,
+    6.3199
+   ],
+   "rotationDeg": [
+    0.17,
+    20.517,
+    0.049
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0467",
+   "assetId": "vanilla:clutter/wine/winebottle01a",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.6289,
+    0.8857,
+    9.7421
+   ],
+   "rotationDeg": [
+    0.329,
+    0.068,
+    -0.121
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAltoA",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0468",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.403,
+    0.8857,
+    9.8017
+   ],
+   "rotationDeg": [
+    0.276,
+    10.081,
+    -0.056
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0469",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.6706,
+    0.8858,
+    10.1097
+   ],
+   "rotationDeg": [
+    0.102,
+    55.22,
+    0.077
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E046A",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.4614,
+    0.8857,
+    10.0776
+   ],
+   "rotationDeg": [
+    -0.147,
+    177.779,
+    0.054
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E046B",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.4142,
+    0.8858,
+    10.3739
+   ],
+   "rotationDeg": [
+    -0.079,
+    76.835,
+    0.092
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E046C",
+   "assetId": "vanilla:clutter/wine/winebottle02b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -29.6241,
+    0.8864,
+    10.3114
+   ],
+   "rotationDeg": [
+    0.08,
+    220.945,
+    0.123
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineBottle02",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E046E",
+   "assetId": "vanilla:clutter/wine/winebottle01b",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -27.6547,
+    0.8998,
+    6.5902
+   ],
+   "rotationDeg": [
+    -0.024,
+    348.954,
+    -0.122
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodWineAlto",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E046F",
+   "assetId": "vanilla:clutter/deadanimals/wallmountedsabrecat02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.4477,
+    4.8804,
+    10.0215
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "WallMountedSabreCat02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0470",
+   "assetId": "vanilla:clutter/deadanimals/wallmountedhorker01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -14.4573,
+    4.8936,
+    8.169
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "WallMountedHorker01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0471",
+   "assetId": "vanilla:clutter/common/broom",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -24.661,
+    0.7927,
+    6.7109
+   ],
+   "rotationDeg": [
+    -8.623,
+    354.828,
+    -26.088
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Broom01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0475",
+   "assetId": "vanilla:clutter/bones/deerskullhornsstatic",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -25.482,
+    3.2405,
+    6.068
+   ],
+   "rotationDeg": [
+    62.935,
+    274.211,
+    -8.085
+   ],
+   "scale": 1.13,
+   "category": "clutter",
+   "base": "BoneDeerSkullHornedStatic",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0476",
+   "assetId": "vanilla:clutter/bones/deerskullhornsstatic",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -21.8624,
+    3.2405,
+    6.1325
+   ],
+   "rotationDeg": [
+    62.935,
+    274.211,
+    -8.085
+   ],
+   "scale": 1.13,
+   "category": "clutter",
+   "base": "BoneDeerSkullHornedStatic",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0477",
+   "assetId": "vanilla:clutter/bones/deerskullhornsstatic",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -18.1898,
+    3.2405,
+    6.1348
+   ],
+   "rotationDeg": [
+    62.935,
+    274.211,
+    -8.085
+   ],
+   "scale": 1.13,
+   "category": "clutter",
+   "base": "BoneDeerSkullHornedStatic",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.000E0478",
+   "assetId": "vanilla:clutter/deadanimals/wallmountedbear01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -19.9461,
+    3.3646,
+    6.1754
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.18,
+   "category": "clutter",
+   "base": "WallMountedBear01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "DawnstarBrinasHouse.0010859A",
+   "assetId": "vanilla:clutter/books/basicbook03a",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -17.1148,
+    0.1589,
+    6.4115
+   ],
+   "rotationDeg": [
+    -63.025,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SkillOneHanded1",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "DawnstarBrinasHouse.0010C73C",
+   "assetId": "vanilla:furniture/smallcookingpot",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    -21.3138,
+    0.0,
+    8.0279
+   ],
+   "rotationDeg": [
+    0.0,
+    37.242,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CraftingCookingPotSm",
+   "baseType": "FURN"
+  },
+  {
+   "id": "DawnstarBrinasHouse.0010C73D",
+   "assetId": "vanilla:clutter/cookingspitfarmhouse01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    -21.3138,
+    0.0,
+    8.0279
+   ],
+   "rotationDeg": [
+    0.0,
+    37.242,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CookingSpitFarmhouse01",
+   "baseType": "STAT"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "000E042D",
+   "positionM": [
+    -18.2459,
+    4.4881,
+    9.1337
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 1.0,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": -205.385,
+    "baseRadiusUnits": 512,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 0.5,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 1.0
+    }
+   }
+  },
+  {
+   "refId": "000E043B",
+   "positionM": [
+    -20.0142,
+    1.2807,
+    6.0323
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    173,
+    103,
+    52
+   ],
+   "fade": 1.0,
+   "flags": 4105,
+   "falloffExponent": 1.0,
+   "base": "FarmInteriorFireLight01",
+   "raw": {
+    "xrdsUnits": -106.584,
+    "baseRadiusUnits": 512,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 2.0,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 50.0
+    }
+   }
+  },
+  {
+   "refId": "000E043D",
+   "positionM": [
+    -15.3976,
+    2.513,
+    8.6959
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 1.0,
+   "flags": 4105,
+   "falloffExponent": 1.0,
+   "base": "FarmInteriorShadowLight01",
+   "raw": {
+    "xrdsUnits": -249.915,
+    "baseRadiusUnits": 512,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 0.5,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 50.0
+    }
+   }
+  },
+  {
+   "refId": "000E0460",
+   "positionM": [
+    -24.3218,
+    1.1088,
+    9.9433
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    193,
+    185,
+    168
+   ],
+   "fade": 1.0,
+   "flags": 1,
+   "falloffExponent": 1.0,
+   "base": "FarmInteriorBounce01",
+   "raw": {
+    "xrdsUnits": -251.43,
+    "baseRadiusUnits": 512,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 0.5,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 1.0
+    }
+   }
+  },
+  {
+   "refId": "000E0462",
+   "positionM": [
+    -27.3236,
+    2.3668,
+    7.1848
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 1.0,
+   "flags": 4105,
+   "falloffExponent": 1.0,
+   "base": "FarmInteriorShadowLight01",
+   "raw": {
+    "xrdsUnits": -242.992,
+    "baseRadiusUnits": 512,
+    "xlig": {
+     "fovOffset": 0.0,
+     "fadeOffset": 0.5,
+     "endDistanceCap": 0.0,
+     "shadowDepthBias": 50.0
+    }
+   }
+  }
+ ],
+ "sockets": [
+  {
+   "id": "socket.DawnstarBrinasHouse.0004D7E5",
+   "kind": "container",
+   "positionM": [
+    -16.6253,
+    0.0087,
+    10.6079
+   ],
+   "yawDeg": 269.759,
+   "host": "DawnstarBrinasHouse.0004D7E5",
+   "containerClass": "chest",
+   "fillRule": "blanket.household-chest",
+   "why": "TreasBanditChest placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E03FD",
+   "kind": "item",
+   "positionM": [
+    -20.3902,
+    0.9397,
+    11.4092
+   ],
+   "yawDeg": 240.593,
+   "host": "DawnstarBrinasHouse.000E03FD",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodBread01B placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E03FE",
+   "kind": "item",
+   "positionM": [
+    -20.0263,
+    0.9359,
+    11.5226
+   ],
+   "yawDeg": 1.251,
+   "host": "DawnstarBrinasHouse.000E03FE",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodBread01A placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E03FF",
+   "kind": "idle",
+   "positionM": [
+    -15.0248,
+    0.0,
+    7.3561
+   ],
+   "yawDeg": 270.0,
+   "host": "DawnstarBrinasHouse.000E03FF",
+   "activity": "sleep",
+   "why": "CommonBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0400",
+   "kind": "item",
+   "positionM": [
+    -19.9093,
+    0.8999,
+    11.7598
+   ],
+   "yawDeg": 57.89,
+   "host": "DawnstarBrinasHouse.000E0400",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0401",
+   "kind": "item",
+   "positionM": [
+    -20.6287,
+    0.9,
+    11.7102
+   ],
+   "yawDeg": 332.809,
+   "host": "DawnstarBrinasHouse.000E0401",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0403",
+   "kind": "idle",
+   "positionM": [
+    -21.3654,
+    0.0,
+    11.5568
+   ],
+   "yawDeg": 49.916,
+   "host": "DawnstarBrinasHouse.000E0403",
+   "activity": "sit",
+   "why": "CommonChair01L placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0404",
+   "kind": "idle",
+   "positionM": [
+    -19.0974,
+    0.0,
+    11.7443
+   ],
+   "yawDeg": 297.044,
+   "host": "DawnstarBrinasHouse.000E0404",
+   "activity": "sit",
+   "why": "CommonChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0406",
+   "kind": "item",
+   "positionM": [
+    -27.4264,
+    0.9508,
+    6.6132
+   ],
+   "yawDeg": 71.621,
+   "host": "DawnstarBrinasHouse.000E0406",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "WoodenLadle01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0407",
+   "kind": "item",
+   "positionM": [
+    -26.4966,
+    0.9498,
+    6.3513
+   ],
+   "yawDeg": 76.634,
+   "host": "DawnstarBrinasHouse.000E0407",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicKnife01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0408",
+   "kind": "item",
+   "positionM": [
+    -26.4954,
+    0.9505,
+    6.1225
+   ],
+   "yawDeg": 85.844,
+   "host": "DawnstarBrinasHouse.000E0408",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicFork01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E040A",
+   "kind": "container",
+   "positionM": [
+    -16.6124,
+    0.0,
+    7.3119
+   ],
+   "yawDeg": 270.0,
+   "host": "DawnstarBrinasHouse.000E040A",
+   "containerClass": "chest",
+   "fillRule": "blanket.household-chest",
+   "why": "PersonalChestSmall placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E040C",
+   "kind": "idle",
+   "positionM": [
+    -27.2834,
+    0.0,
+    6.6943
+   ],
+   "yawDeg": 178.809,
+   "host": "DawnstarBrinasHouse.000E040C",
+   "activity": "sit",
+   "why": "CommonTableOneBench placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E040D",
+   "kind": "item",
+   "positionM": [
+    -25.4177,
+    0.0242,
+    7.004
+   ],
+   "yawDeg": 0.017,
+   "host": "DawnstarBrinasHouse.000E040D",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Kettle01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E040E",
+   "kind": "item",
+   "positionM": [
+    -26.0531,
+    0.0046,
+    11.3753
+   ],
+   "yawDeg": 51.566,
+   "host": "DawnstarBrinasHouse.000E040E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Bucket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E040F",
+   "kind": "item",
+   "positionM": [
+    -26.1907,
+    0.0046,
+    11.8956
+   ],
+   "yawDeg": 176.654,
+   "host": "DawnstarBrinasHouse.000E040F",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket04 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0410",
+   "kind": "item",
+   "positionM": [
+    -27.2093,
+    0.9009,
+    6.2121
+   ],
+   "yawDeg": 358.32,
+   "host": "DawnstarBrinasHouse.000E0410",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket03 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0411",
+   "kind": "item",
+   "positionM": [
+    -27.8986,
+    0.9018,
+    6.2078
+   ],
+   "yawDeg": 357.127,
+   "host": "DawnstarBrinasHouse.000E0411",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0412",
+   "kind": "item",
+   "positionM": [
+    -28.3925,
+    0.9026,
+    6.4178
+   ],
+   "yawDeg": 358.393,
+   "host": "DawnstarBrinasHouse.000E0412",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0413",
+   "kind": "item",
+   "positionM": [
+    -24.777,
+    1.114,
+    6.2033
+   ],
+   "yawDeg": 182.384,
+   "host": "DawnstarBrinasHouse.000E0413",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Bucket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0414",
+   "kind": "container",
+   "positionM": [
+    -28.4379,
+    0.0,
+    11.8254
+   ],
+   "yawDeg": 290.283,
+   "host": "DawnstarBrinasHouse.000E0414",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFood01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0415",
+   "kind": "container",
+   "positionM": [
+    -24.7552,
+    0.0,
+    6.2464
+   ],
+   "yawDeg": 153.736,
+   "host": "DawnstarBrinasHouse.000E0415",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelFood01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041A",
+   "kind": "container",
+   "positionM": [
+    -14.1247,
+    0.0,
+    9.3128
+   ],
+   "yawDeg": 90.0,
+   "host": "DawnstarBrinasHouse.000E041A",
+   "containerClass": "chest",
+   "fillRule": "blanket.household-chest",
+   "why": "EndTable01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041B",
+   "kind": "container",
+   "positionM": [
+    -29.522,
+    0.0,
+    9.7304
+   ],
+   "yawDeg": 267.708,
+   "host": "DawnstarBrinasHouse.000E041B",
+   "containerClass": "chest",
+   "fillRule": "blanket.household-chest",
+   "why": "Cupboard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041C",
+   "kind": "item",
+   "positionM": [
+    -29.5529,
+    1.5244,
+    9.1928
+   ],
+   "yawDeg": 266.015,
+   "host": "DawnstarBrinasHouse.000E041C",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket03 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041D",
+   "kind": "item",
+   "positionM": [
+    -29.5202,
+    1.5534,
+    9.8269
+   ],
+   "yawDeg": 63.139,
+   "host": "DawnstarBrinasHouse.000E041D",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "CastIronPotSmall01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041E",
+   "kind": "item",
+   "positionM": [
+    -29.5431,
+    1.522,
+    10.2733
+   ],
+   "yawDeg": 346.311,
+   "host": "DawnstarBrinasHouse.000E041E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "CastIronPotMedium01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E041F",
+   "kind": "item",
+   "positionM": [
+    -29.5412,
+    0.9957,
+    9.1077
+   ],
+   "yawDeg": 22.089,
+   "host": "DawnstarBrinasHouse.000E041F",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "WoodenLadle01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0420",
+   "kind": "item",
+   "positionM": [
+    -29.6204,
+    0.8974,
+    9.5526
+   ],
+   "yawDeg": 357.744,
+   "host": "DawnstarBrinasHouse.000E0420",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0421",
+   "kind": "item",
+   "positionM": [
+    -29.6279,
+    0.9688,
+    9.3153
+   ],
+   "yawDeg": 32.294,
+   "host": "DawnstarBrinasHouse.000E0421",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0422",
+   "kind": "item",
+   "positionM": [
+    -29.4329,
+    0.8974,
+    9.4208
+   ],
+   "yawDeg": 326.465,
+   "host": "DawnstarBrinasHouse.000E0422",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0423",
+   "kind": "container",
+   "positionM": [
+    -16.9753,
+    0.0,
+    11.8499
+   ],
+   "yawDeg": 180.0,
+   "host": "DawnstarBrinasHouse.000E0423",
+   "containerClass": "chest",
+   "fillRule": "blanket.household-chest",
+   "why": "CommonWardrobe01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0424",
+   "kind": "item",
+   "positionM": [
+    -23.0268,
+    1.5267,
+    6.3321
+   ],
+   "yawDeg": 299.554,
+   "host": "DawnstarBrinasHouse.000E0424",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Bucket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0425",
+   "kind": "item",
+   "positionM": [
+    -23.6526,
+    0.8975,
+    6.3663
+   ],
+   "yawDeg": 173.734,
+   "host": "DawnstarBrinasHouse.000E0425",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0426",
+   "kind": "item",
+   "positionM": [
+    -23.4794,
+    0.8971,
+    6.3034
+   ],
+   "yawDeg": 326.753,
+   "host": "DawnstarBrinasHouse.000E0426",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0427",
+   "kind": "item",
+   "positionM": [
+    -23.2658,
+    0.8971,
+    6.3692
+   ],
+   "yawDeg": 219.182,
+   "host": "DawnstarBrinasHouse.000E0427",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0428",
+   "kind": "item",
+   "positionM": [
+    -22.8303,
+    0.885,
+    6.3994
+   ],
+   "yawDeg": 358.186,
+   "host": "DawnstarBrinasHouse.000E0428",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket03 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E042F",
+   "kind": "item",
+   "positionM": [
+    -23.3865,
+    2.1882,
+    6.3776
+   ],
+   "yawDeg": 74.943,
+   "host": "DawnstarBrinasHouse.000E042F",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0430",
+   "kind": "item",
+   "positionM": [
+    -23.5557,
+    2.1881,
+    6.2685
+   ],
+   "yawDeg": 125.092,
+   "host": "DawnstarBrinasHouse.000E0430",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0431",
+   "kind": "idle",
+   "positionM": [
+    -27.055,
+    -0.0023,
+    11.6855
+   ],
+   "yawDeg": 356.449,
+   "host": "DawnstarBrinasHouse.000E0431",
+   "activity": "sit",
+   "why": "CommonChair01FL placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0432",
+   "kind": "item",
+   "positionM": [
+    -17.179,
+    2.2715,
+    11.8602
+   ],
+   "yawDeg": 263.697,
+   "host": "DawnstarBrinasHouse.000E0432",
+   "itemClass": "weapon",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SteelMace placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0433",
+   "kind": "item",
+   "positionM": [
+    -29.6308,
+    1.1133,
+    7.6291
+   ],
+   "yawDeg": 39.839,
+   "host": "DawnstarBrinasHouse.000E0433",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "CastIronPotMedium01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0435",
+   "kind": "container",
+   "positionM": [
+    -29.6613,
+    0.0,
+    7.6425
+   ],
+   "yawDeg": 226.788,
+   "host": "DawnstarBrinasHouse.000E0435",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "BarrelMeat01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0445",
+   "kind": "item",
+   "positionM": [
+    -23.4053,
+    1.5349,
+    6.4971
+   ],
+   "yawDeg": 353.821,
+   "host": "DawnstarBrinasHouse.000E0445",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicFork01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0446",
+   "kind": "item",
+   "positionM": [
+    -23.5688,
+    1.535,
+    6.4913
+   ],
+   "yawDeg": 0.276,
+   "host": "DawnstarBrinasHouse.000E0446",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicFork01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0447",
+   "kind": "item",
+   "positionM": [
+    -23.8725,
+    1.5348,
+    6.4681
+   ],
+   "yawDeg": 19.613,
+   "host": "DawnstarBrinasHouse.000E0447",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicKnife01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0448",
+   "kind": "item",
+   "positionM": [
+    -23.7518,
+    1.5348,
+    6.4759
+   ],
+   "yawDeg": 12.455,
+   "host": "DawnstarBrinasHouse.000E0448",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicKnife01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0449",
+   "kind": "item",
+   "positionM": [
+    -23.2361,
+    0.2472,
+    6.2941
+   ],
+   "yawDeg": 20.524,
+   "host": "DawnstarBrinasHouse.000E0449",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044A",
+   "kind": "item",
+   "positionM": [
+    -23.023,
+    0.2471,
+    6.3642
+   ],
+   "yawDeg": 20.527,
+   "host": "DawnstarBrinasHouse.000E044A",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044B",
+   "kind": "item",
+   "positionM": [
+    -23.4221,
+    0.2472,
+    6.3541
+   ],
+   "yawDeg": 162.331,
+   "host": "DawnstarBrinasHouse.000E044B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044C",
+   "kind": "item",
+   "positionM": [
+    -23.6267,
+    0.246,
+    6.2787
+   ],
+   "yawDeg": 162.332,
+   "host": "DawnstarBrinasHouse.000E044C",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044D",
+   "kind": "item",
+   "positionM": [
+    -23.8318,
+    0.246,
+    6.3728
+   ],
+   "yawDeg": 216.763,
+   "host": "DawnstarBrinasHouse.000E044D",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044E",
+   "kind": "item",
+   "positionM": [
+    -19.1179,
+    0.5606,
+    7.0686
+   ],
+   "yawDeg": 220.529,
+   "host": "DawnstarBrinasHouse.000E044E",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodLeek placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E044F",
+   "kind": "item",
+   "positionM": [
+    -19.0423,
+    0.5063,
+    7.1564
+   ],
+   "yawDeg": 304.743,
+   "host": "DawnstarBrinasHouse.000E044F",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodLeek placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0452",
+   "kind": "item",
+   "positionM": [
+    -17.2193,
+    0.0043,
+    6.3852
+   ],
+   "yawDeg": 358.484,
+   "host": "DawnstarBrinasHouse.000E0452",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket03 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0453",
+   "kind": "item",
+   "positionM": [
+    -14.2224,
+    0.8815,
+    9.4953
+   ],
+   "yawDeg": 41.539,
+   "host": "DawnstarBrinasHouse.000E0453",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodMead placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0454",
+   "kind": "item",
+   "positionM": [
+    -20.1598,
+    0.8889,
+    12.0521
+   ],
+   "yawDeg": 0.009,
+   "host": "DawnstarBrinasHouse.000E0454",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0455",
+   "kind": "item",
+   "positionM": [
+    -20.4472,
+    0.89,
+    11.649
+   ],
+   "yawDeg": 328.486,
+   "host": "DawnstarBrinasHouse.000E0455",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0456",
+   "kind": "item",
+   "positionM": [
+    -26.7706,
+    0.8962,
+    6.219
+   ],
+   "yawDeg": 298.407,
+   "host": "DawnstarBrinasHouse.000E0456",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0457",
+   "kind": "item",
+   "positionM": [
+    -26.6788,
+    0.8958,
+    6.4196
+   ],
+   "yawDeg": 328.487,
+   "host": "DawnstarBrinasHouse.000E0457",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodMead placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E045A",
+   "kind": "item",
+   "positionM": [
+    -18.8662,
+    1.655,
+    6.6791
+   ],
+   "yawDeg": 129.42,
+   "host": "DawnstarBrinasHouse.000E045A",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E045B",
+   "kind": "item",
+   "positionM": [
+    -20.8006,
+    1.655,
+    6.678
+   ],
+   "yawDeg": 238.282,
+   "host": "DawnstarBrinasHouse.000E045B",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E045C",
+   "kind": "item",
+   "positionM": [
+    -21.0272,
+    1.6552,
+    6.6758
+   ],
+   "yawDeg": 304.171,
+   "host": "DawnstarBrinasHouse.000E045C",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E045E",
+   "kind": "item",
+   "positionM": [
+    -19.082,
+    0.345,
+    7.1499
+   ],
+   "yawDeg": 224.149,
+   "host": "DawnstarBrinasHouse.000E045E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Kettle01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0461",
+   "kind": "idle",
+   "positionM": [
+    -14.9573,
+    0.0,
+    10.5818
+   ],
+   "yawDeg": 270.0,
+   "host": "DawnstarBrinasHouse.000E0461",
+   "activity": "sleep",
+   "why": "CommonBed01R placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0466",
+   "kind": "item",
+   "positionM": [
+    -23.803,
+    2.189,
+    6.3199
+   ],
+   "yawDeg": 20.517,
+   "host": "DawnstarBrinasHouse.000E0466",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0467",
+   "kind": "item",
+   "positionM": [
+    -29.6289,
+    0.8857,
+    9.7421
+   ],
+   "yawDeg": 0.067,
+   "host": "DawnstarBrinasHouse.000E0467",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAltoA placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0468",
+   "kind": "item",
+   "positionM": [
+    -29.403,
+    0.8857,
+    9.8017
+   ],
+   "yawDeg": 10.081,
+   "host": "DawnstarBrinasHouse.000E0468",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0469",
+   "kind": "item",
+   "positionM": [
+    -29.6706,
+    0.8858,
+    10.1097
+   ],
+   "yawDeg": 55.22,
+   "host": "DawnstarBrinasHouse.000E0469",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E046A",
+   "kind": "item",
+   "positionM": [
+    -29.4614,
+    0.8857,
+    10.0776
+   ],
+   "yawDeg": 177.778,
+   "host": "DawnstarBrinasHouse.000E046A",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E046B",
+   "kind": "item",
+   "positionM": [
+    -29.4142,
+    0.8858,
+    10.3739
+   ],
+   "yawDeg": 76.834,
+   "host": "DawnstarBrinasHouse.000E046B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E046C",
+   "kind": "item",
+   "positionM": [
+    -29.6241,
+    0.8864,
+    10.3114
+   ],
+   "yawDeg": 220.946,
+   "host": "DawnstarBrinasHouse.000E046C",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodWineBottle02 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E046E",
+   "kind": "item",
+   "positionM": [
+    -27.6547,
+    0.8998,
+    6.5902
+   ],
+   "yawDeg": 348.954,
+   "host": "DawnstarBrinasHouse.000E046E",
+   "itemClass": "food-or-potion",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "FoodWineAlto placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0471",
+   "kind": "item",
+   "positionM": [
+    -24.661,
+    0.7927,
+    6.7109
+   ],
+   "yawDeg": 359.026,
+   "host": "DawnstarBrinasHouse.000E0471",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Broom01 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0472",
+   "kind": "idle",
+   "positionM": [
+    -25.7809,
+    0.0,
+    9.6995
+   ],
+   "yawDeg": 38.675,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0473",
+   "kind": "idle",
+   "positionM": [
+    -21.8962,
+    0.0,
+    9.3261
+   ],
+   "yawDeg": 332.785,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.000E0474",
+   "kind": "idle",
+   "positionM": [
+    -17.7085,
+    0.0,
+    9.1214
+   ],
+   "yawDeg": 225.355,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.0010859A",
+   "kind": "item",
+   "positionM": [
+    -17.1148,
+    0.1589,
+    6.4115
+   ],
+   "yawDeg": 0.0,
+   "host": "DawnstarBrinasHouse.0010859A",
+   "itemClass": "book",
+   "valueBand": "mid",
+   "contentPending": true,
+   "why": "SkillOneHanded1 placed by the cell's author"
+  },
+  {
+   "id": "socket.DawnstarBrinasHouse.0010C73C",
+   "kind": "idle",
+   "positionM": [
+    -21.3138,
+    0.0,
+    8.0279
+   ],
+   "yawDeg": 37.242,
+   "host": "DawnstarBrinasHouse.0010C73C",
+   "activity": "work-at",
+   "why": "CraftingCookingPotSm placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "0001A6B8",
+   "reason": "actor",
+   "base": "BrinaMerilis",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "0001A6BA",
+   "reason": "actor",
+   "base": "HorikHalfhand",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "00020069",
+   "reason": "marker",
+   "base": "XMarker",
+   "baseType": "STAT"
+  },
+  {
+   "refId": "000E042D",
+   "reason": "light-source",
+   "base": "FarmInteriorLight01",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "000E043B",
+   "reason": "light-source",
+   "base": "FarmInteriorFireLight01",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "000E043D",
+   "reason": "light-source",
+   "base": "FarmInteriorShadowLight01",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "000E0460",
+   "reason": "light-source",
+   "base": "FarmInteriorBounce01",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "000E0462",
+   "reason": "light-source",
+   "base": "FarmInteriorShadowLight01",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "000E0472",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "000E0473",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "000E0474",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "0010E1A6",
+   "reason": "marker",
+   "base": "NorthMarker",
+   "baseType": "STAT"
+  }
+ ],
+ "counts": {
+  "placements": 129,
+  "drops": 12,
+  "lights": 5,
+  "dropsByReason": {
+   "actor": 2,
+   "light-source": 5,
+   "marker": 5
+  },
+  "socketsByKind": {
+   "container": 8,
+   "idle": 10,
+   "item": 61
+  }
+ }
+}

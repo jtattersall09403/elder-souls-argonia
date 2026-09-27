@@ -69,7 +69,14 @@
     "tell": "bottom-step",
     "valueM": -0.3181
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01",
@@ -150,7 +157,14 @@
     "tell": "post-foot",
     "valueM": 0.1469
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01",
@@ -273,7 +287,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01",
@@ -389,7 +410,14 @@
     "tell": "foundation-top",
     "valueM": 2.1003
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -442,7 +470,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -856,12 +891,12 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   },
-   "anchorClassEvidence": "unplaced"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",

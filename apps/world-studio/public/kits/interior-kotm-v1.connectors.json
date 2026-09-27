@@ -1,0 +1,2812 @@
+{
+ "assets": {
+  "kotm:argonia/clutter/buntingline01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.98,
+     0.54
+    ],
+    "widthM": 6.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.42,
+     3.95
+    ],
+    "widthM": 6.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.98,
+     7.36
+    ],
+    "widthM": 6.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.53,
+     3.95
+    ],
+    "widthM": 6.82
+   }
+  ],
+  "kotm:argonia/clutter/burner02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -1.53
+    ],
+    "widthM": 2.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.36,
+     -0.11
+    ],
+    "widthM": 2.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     1.31
+    ],
+    "widthM": 2.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.44,
+     -0.11
+    ],
+    "widthM": 2.84
+   }
+  ],
+  "kotm:argonia/clutter/doll_atronachamber": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.01
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.16
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.01
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "kotm:argonia/clutter/firewoodpilehuge01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.83,
+     0.0
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.83,
+     0.0
+    ],
+    "widthM": 1.08
+   }
+  ],
+  "kotm:argonia/clutter/firewoodpilelarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.18,
+     -0.85
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.61,
+     0.07
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.18,
+     0.98
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     0.07
+    ],
+    "widthM": 1.83
+   }
+  ],
+  "kotm:argonia/clutter/firewoodpilesmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.33,
+     0.0
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.45,
+     0.0
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "kotm:argonia/clutter/hangingfeathers01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.86,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.56,
+     0.02
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.86,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "kotm:argonia/clutter/saxhleelfence01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.49,
+     0.0
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.49,
+     0.0
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "kotm:argonia/clutter/saxhleeltapestry01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.63
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.65
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "kotm:argonia/clutter/saxhleeltapestry02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.63
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.65
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "kotm:argonia/clutter/spinningwheel": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.37
+    ],
+    "widthM": 1.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.73,
+     0.05
+    ],
+    "widthM": 0.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.47
+    ],
+    "widthM": 1.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.67,
+     0.05
+    ],
+    "widthM": 0.84
+   }
+  ],
+  "kotm:argonia/clutter/tamwindchime01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.16
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     -0.01
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     -0.01
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "kotm:argonia/clutter/urn01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "kotm:argonia/clutter/urn02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "kotm:argonia/clutter/vase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "kotm:argonia/clutter/vase03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "kotm:argonia/clutter/vase05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "kotm:argonia/clutter/vase06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.49,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.49,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.16,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "kotm:argonia/clutter/wallbasket01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "kotm:argonia/clutter/wallbasket03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "kotm:argonia/clutter/wallbasket04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "kotm:argonia/clutter/wallbasket05": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "kotm:argonia/clutter/wallbasket06": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "kotm:argonia/food/flatbread": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.22
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.01
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.24
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.01
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "kotm:argonia/food/sakebottle02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.14
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.14
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.36,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "kotm:argonia/furniture/rusticbed": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.16
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.74,
+     0.0
+    ],
+    "widthM": 2.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.16
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.73,
+     0.0
+    ],
+    "widthM": 2.32
+   }
+  ],
+  "kotm:argonia/furniture/rusticchair01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.29
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.0
+    ],
+    "widthM": 0.58
+   }
+  ],
+  "kotm:argonia/furniture/rusticchair02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.29
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     -0.0
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.28
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     -0.0
+    ],
+    "widthM": 0.57
+   }
+  ],
+  "kotm:argonia/furniture/rusticchair04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.23
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.21,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.23
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.21,
+     0.0
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "kotm:argonia/furniture/rusticchest": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 1.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.6,
+     0.02
+    ],
+    "widthM": 0.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.32
+    ],
+    "widthM": 1.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.6,
+     0.02
+    ],
+    "widthM": 0.61
+   }
+  ],
+  "kotm:argonia/furniture/rusticcupboard": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.34
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.65,
+     0.0
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.35
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     0.0
+    ],
+    "widthM": 0.69
+   }
+  ],
+  "kotm:argonia/furniture/rusticshelf": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.28
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.47,
+     -0.01
+    ],
+    "widthM": 0.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.47,
+     -0.01
+    ],
+    "widthM": 0.55
+   }
+  ],
+  "kotm:argonia/furniture/rustictable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.43
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.0
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.43
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.0
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "kotm:argonia/furniture/rustictable02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.43
+    ],
+    "widthM": 1.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     0.0
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.43
+    ],
+    "widthM": 1.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.7,
+     0.0
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "kotm:argonia/furniture/rustictable03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.84,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.62
+    ],
+    "widthM": 1.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.62,
+     0.0
+    ],
+    "widthM": 1.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.84,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.62
+    ],
+    "widthM": 1.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     0.0
+    ],
+    "widthM": 1.24
+   }
+  ],
+  "kotm:argonia/mudhuts/floor02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.88,
+     -3.93
+    ],
+    "widthM": 15.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.61,
+     0.02
+    ],
+    "widthM": 7.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.88,
+     3.97
+    ],
+    "widthM": 15.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.85,
+     0.02
+    ],
+    "widthM": 7.9
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhutintfloor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.13
+    ],
+    "widthM": 12.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.11,
+     -0.01
+    ],
+    "widthM": 12.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.11
+    ],
+    "widthM": 12.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.11,
+     -0.01
+    ],
+    "widthM": 12.24
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhutintstairs": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.64,
+     -3.25
+    ],
+    "widthM": 3.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.33,
+     -3.25
+    ],
+    "widthM": 3.88
+   }
+  ],
+  "kotm:argonia/mudhuts/smpodint01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -6.32
+    ],
+    "widthM": 11.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.93,
+     -0.56
+    ],
+    "widthM": 11.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     5.21
+    ],
+    "widthM": 11.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.99,
+     -0.56
+    ],
+    "widthM": 11.53
+   }
+  ],
+  "kotm:argonia/mudhuts/smpodint02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.53,
+     -6.15
+    ],
+    "widthM": 13.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.31,
+     0.78
+    ],
+    "widthM": 13.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.53,
+     7.72
+    ],
+    "widthM": 13.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.37,
+     0.78
+    ],
+    "widthM": 13.87
+   }
+  ],
+  "kotm:argonia/mudhuts/tamu_woodpole01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.13
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     -0.01
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.1
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     -0.01
+    ],
+    "widthM": 0.23
+   }
+  ],
+  "kotm:loliceptresource/barrel/miscbarrelopen01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.3
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.38,
+     0.14
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.58
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     0.14
+    ],
+    "widthM": 0.88
+   }
+  ],
+  "kotm:mihail monsters and animals/rabbit/frog/frogmeat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.09
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.1
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.01
+    ],
+    "widthM": 0.19
+   }
+  ],
+  "kotm:mihail monsters and animals/rabbit/frog/frogmeat2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.1
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.1
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "kotm:oaristys/clutter/rugs": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.93
+    ],
+    "widthM": 1.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.84,
+     0.01
+    ],
+    "widthM": 1.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.95
+    ],
+    "widthM": 1.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.77,
+     0.01
+    ],
+    "widthM": 1.88
+   }
+  ],
+  "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.21
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     -0.01
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.19
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     -0.01
+    ],
+    "widthM": 0.4
+   }
+  ],
+  "vanilla:architecture/riften/clutter/rtchimney01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.83
+    ],
+    "widthM": 1.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.83,
+     0.0
+    ],
+    "widthM": 1.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.83
+    ],
+    "widthM": 1.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.83,
+     0.0
+    ],
+    "widthM": 1.66
+   }
+  ],
+  "vanilla:clutter/books/basicbook01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook04a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/book02lowpoly": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.17,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/common/fishingpolecollection01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.5,
+     -1.9
+    ],
+    "widthM": 1.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.42,
+     -0.91
+    ],
+    "widthM": 1.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.5,
+     0.07
+    ],
+    "widthM": 1.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.42,
+     -0.91
+    ],
+    "widthM": 1.97
+   }
+  ],
+  "vanilla:clutter/common/rag01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.18
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.18
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "vanilla:clutter/common/rug03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.99
+    ],
+    "widthM": 1.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.87,
+     -0.01
+    ],
+    "widthM": 1.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.98
+    ],
+    "widthM": 1.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.87,
+     -0.01
+    ],
+    "widthM": 1.97
+   }
+  ],
+  "vanilla:clutter/common/rug07": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.44
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.01,
+     0.01
+    ],
+    "widthM": 2.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.46
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.03,
+     0.01
+    ],
+    "widthM": 2.9
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedmudcrab01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.5,
+     0.14
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.5,
+     0.14
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedslaughterfish01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.62,
+     -0.15
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.63,
+     -0.15
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "vanilla:clutter/dining set/basicwoodenbowl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.17,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/dining set/basicwoodenplate01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "vanilla:clutter/giant/giantspit01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.69
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.89
+    ],
+    "widthM": 0.78
+   }
+  ],
+  "vanilla:clutter/glazedcandles01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/ingredients/mudcrabchitin": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.19
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.19
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.0
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "vanilla:clutter/wallbaskethex02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.35,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     0.06
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.35,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.06
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:clutter/wallbaskethex03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.42,
+     0.06
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.42,
+     0.06
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:furniture/smallcookingpotnohandle": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -0.92
+    ],
+    "widthM": 0.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.32,
+     -0.66
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     -0.4
+    ],
+    "widthM": 0.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     -0.66
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "vanilla:plants/mushroom01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:plants/slaughterfishegg01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ]
+ },
+ "counts": {
+  "assets": 69,
+  "bounds": 242,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "interior-kotm-v1",
+ "schemaVersion": 1
+}

@@ -60,6 +60,13 @@
     "slopeTermMPerDeg": 0.10115,
     "evidence": "plugin"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 22,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -73,6 +80,10 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
@@ -145,6 +156,13 @@
     "slopeTermMPerDeg": -0.09981,
     "evidence": "plugin"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 10,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -158,6 +176,10 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
@@ -210,6 +232,13 @@
     "n": 12,
     "slopeTermMPerDeg": -0.01456,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 12,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -269,6 +298,13 @@
     "n": 6,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 95,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
@@ -330,6 +366,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 7,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -388,6 +431,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
@@ -449,15 +499,29 @@
     "DockStepsDown01:3.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.1391,
-    "p50": 0.6633,
-    "p75": 9.9166,
-    "n": 3,
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -515,7 +579,7 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -2.3095,
+   "designedWaterlineM": -1.5912,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -562,16 +626,15 @@
     "DockRopeStr01:3.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "water",
+   "anchorClass": "wall",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5931,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1024,11 +1087,11 @@
     "FenceWoven02:10 - L1_Posts01:10.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.0942,
-    "p50": 0.1488,
-    "p75": 0.192,
-    "n": 497,
-    "slopeTermMPerDeg": -0.00193,
+    "p25": 0.0955,
+    "p50": 0.1489,
+    "p75": 0.1927,
+    "n": 495,
+    "slopeTermMPerDeg": -0.00169,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1142,6 +1205,13 @@
     "n": 55,
     "slopeTermMPerDeg": 0.00926,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 63,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -1345,6 +1415,10 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
@@ -1432,6 +1506,10 @@
      "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
@@ -1934,10 +2012,10 @@
    ],
    "designedSinkM": {
     "p25": -0.0067,
-    "p50": 0.0045,
+    "p50": 0.0048,
     "p75": 0.1078,
-    "n": 568,
-    "slopeTermMPerDeg": -0.00206,
+    "n": 565,
+    "slopeTermMPerDeg": -0.00128,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1988,12 +2066,12 @@
     "Barrel02:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.0728,
+    "n": 416,
+    "slopeTermMPerDeg": -0.00084,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2109,10 +2187,10 @@
    },
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0564,
+    "p50": 0.0631,
     "p75": 0.1491,
-    "n": 91,
-    "slopeTermMPerDeg": 0.00719,
+    "n": 92,
+    "slopeTermMPerDeg": 0.00727,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2169,10 +2247,10 @@
    },
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0312,
+    "p50": 0.036,
     "p75": 0.115,
-    "n": 103,
-    "slopeTermMPerDeg": 0.01358,
+    "n": 104,
+    "slopeTermMPerDeg": 0.01342,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2223,12 +2301,12 @@
     "FarmBench01:5.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.001,
+    "p50": 0.0087,
+    "p75": 0.0399,
+    "n": 42,
+    "slopeTermMPerDeg": -0.01821,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2281,8 +2359,8 @@
     "p25": -0.0402,
     "p50": -0.013,
     "p75": 0.0046,
-    "n": 120,
-    "slopeTermMPerDeg": -0.00764,
+    "n": 119,
+    "slopeTermMPerDeg": -0.00742,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2342,14 +2420,14 @@
     "HayMound01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0687,
+    "p50": -0.0277,
+    "p75": -0.0107,
+    "n": 53,
+    "slopeTermMPerDeg": -0.0035,
+    "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2408,12 +2486,12 @@
     "L2_Rope.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.2809,
+    "p50": -0.2305,
+    "p75": -0.1444,
+    "n": 22,
+    "slopeTermMPerDeg": -0.01105,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2474,12 +2552,19 @@
     "L2_Rope.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.3481,
+    "p50": -0.2598,
+    "p75": -0.1395,
+    "n": 38,
+    "slopeTermMPerDeg": 0.00061,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 39,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2540,12 +2625,19 @@
     "L2_Rope.Mat.002"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.286,
+    "p50": -0.1422,
+    "p75": 0.0401,
+    "n": 39,
+    "slopeTermMPerDeg": 0.01616,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 43,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2598,9 +2690,9 @@
     "Ivy01:12.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2656,15 +2748,20 @@
     "Ivy02:12.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
+    "p25": 0.1349,
+    "p50": 0.1349,
+    "p75": 0.1349,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "wall",
+   "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.1349
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2714,14 +2811,14 @@
     "Ivy03:12.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
+    "p25": -1.1048,
+    "p50": -0.6571,
+    "p75": -0.6571,
+    "n": 5,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
-   "anchorClass": "wall",
+   "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2774,14 +2871,14 @@
     "ChickenNest01_1:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
+    "p25": -0.0277,
+    "p50": -0.0263,
+    "p75": 0.1186,
+    "n": 4,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
-   "anchorClass": "hanging",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2834,12 +2931,12 @@
     "CandleLanternWithCandle:7.Mat": 0.89
    },
    "designedSinkM": {
-    "p25": 0.25,
-    "p50": 0.25,
-    "p75": 0.25,
-    "n": 0,
+    "p25": -0.0285,
+    "p50": -0.0268,
+    "p75": -0.0095,
+    "n": 5,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2858,6 +2955,70 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.024
+  },
+  {
+   "id": "bmv:architecture/phitt/aldredanyia/signpost",
+   "node": "es|03759bc926|_architecture_phitt_aldredanyia_signpost",
+   "category": "architecture",
+   "sizeM": [
+    2.431,
+    0.199,
+    5.909
+   ],
+   "originOffsetM": [
+    1.214,
+    0.1,
+    2.884
+   ],
+   "triangles": 452,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rope01.dds.001",
+    "woodpost02.dds.001",
+    "woodpostend03.dds"
+   ],
+   "materials": [
+    "Zylinder01:0.Mat",
+    "Zylinder01:1.Mat",
+    "Zylinder01:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Zylinder01:0.Mat": 0.784,
+    "Zylinder01:1.Mat": 0.784,
+    "Zylinder01:2.Mat": 0.784
+   },
+   "designedSinkM": {
+    "p25": -2.3305,
+    "p50": -1.8498,
+    "p75": -1.4948,
+    "n": 90,
+    "slopeTermMPerDeg": -0.00369,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.884,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.609,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.884
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
@@ -2865,8 +3026,9 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 45,
-  "OPAQUE": 96
+  "MASK": 48,
+  "OPAQUE": 96,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -2899,16 +3061,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 26640668,
-  "bytesAfter": 12164864,
-  "images": 46,
-  "imageBytesAfter": 10520852,
+  "bytesBefore": 26818656,
+  "bytesAfter": 12266844,
+  "images": 49,
+  "imageBytesAfter": 10606008,
   "warnings": [],
-  "sha256": "adbb109414ebf173befa3a9cd4f816558612d8b0b91d2ae2ab53271f55765cef",
+  "sha256": "ab9eb98c083e61f11a140f138238dcc98c391cb1722aa9b695bcdc053053fc46",
   "sidecarBytes": {
-   "connectors": 32243,
-   "footprints": 55309,
-   "interiors": 31045
+   "connectors": 33981,
+   "footprints": 56281,
+   "interiors": 37460
   }
  }
 }

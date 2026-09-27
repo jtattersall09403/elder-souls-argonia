@@ -1,5 +1,29 @@
 {
  "assets": {
+  "bmv:architecture/phitt/aldredanyia/signpost": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.22,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.21,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
   "composite:farmhouse/farmhouse01-with-door": [
    {
     "evidence": "bounds",
@@ -477,15 +501,18 @@
     "widthM": 7.33
    },
    {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 9.03,
-    "normalDeg": 270.0,
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.22,
+    "normalDeg": 269.9,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
     "positionInPiece": [
-     -3.67,
-     -0.05
+     -3.58,
+     0.01
     ],
-    "widthM": 4.38
+    "template": "bmv-blackmarsh:t0275",
+    "widthM": 4.39
    }
   ],
   "vanilla:architecture/docks/dockstr4way01": [
@@ -561,6 +588,34 @@
     "widthM": 7.29
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 147",
+    "heightM": 7.22,
+    "normalDeg": 146.8,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     2.76,
+     4.22
+    ],
+    "template": "bmv-valenwood:t1003",
+    "widthM": 7.31
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 179",
+    "heightM": 7.22,
+    "normalDeg": 179.3,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     0.04,
+     3.25
+    ],
+    "template": "bmv-blackmarsh:t0035",
+    "widthM": 4.69
+   },
+   {
     "count": 5,
     "evidence": "co-placement",
     "face": "toward 180",
@@ -575,6 +630,20 @@
     "widthM": 4.69
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 235",
+    "heightM": 7.22,
+    "normalDeg": 235.1,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -4.14,
+     2.88
+    ],
+    "template": "bmv-valenwood:t1003",
+    "widthM": 7.31
+   },
+   {
     "evidence": "bounds",
     "face": "west",
     "heightM": 7.22,
@@ -584,6 +653,20 @@
      0.0
     ],
     "widthM": 7.29
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 359",
+    "heightM": 7.22,
+    "normalDeg": 359.3,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -0.04,
+     -3.25
+    ],
+    "template": "bmv-blackmarsh:t0035",
+    "widthM": 4.69
    }
   ],
   "vanilla:architecture/farmhouse/farmhouse01": [
@@ -899,17 +982,17 @@
     "widthM": 3.64
    },
    {
-    "count": 4,
+    "count": 11,
     "evidence": "co-placement",
     "face": "toward 90",
-    "heightM": 2.49,
+    "heightM": 2.46,
     "normalDeg": 90.0,
-    "pairedWith": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+    "pairedWith": "vanilla:architecture/farmhouse/stonewall/stonewall02",
     "positionInPiece": [
      1.82,
-     -0.0
+     0.0
     ],
-    "template": "vanilla:t0762",
+    "template": "vanilla:t2548",
     "widthM": 1.96
    },
    {
@@ -976,17 +1059,17 @@
     "widthM": 3.68
    },
    {
-    "count": 5,
+    "count": 11,
     "evidence": "co-placement",
     "face": "toward 270",
-    "heightM": 2.44,
-    "normalDeg": 270.3,
-    "pairedWith": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+    "heightM": 2.46,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:architecture/farmhouse/stonewall/stonewall01",
     "positionInPiece": [
-     -1.78,
-     -0.01
+     -1.82,
+     -0.0
     ],
-    "template": "vanilla:t0560",
+    "template": "vanilla:t2548",
     "widthM": 1.96
    }
   ],
@@ -1878,9 +1961,9 @@
   ]
  },
  "counts": {
-  "assets": 45,
-  "bounds": 142,
-  "co-placement": 16
+  "assets": 46,
+  "bounds": 143,
+  "co-placement": 21
  },
  "elongationRatio": 2.0,
  "kit": "settlement-imperial-v1",

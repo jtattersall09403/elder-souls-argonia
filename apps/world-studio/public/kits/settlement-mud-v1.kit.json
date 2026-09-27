@@ -38,6 +38,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placedScaleMedian": 2.3,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 1.39,
+    "p90": 2.3,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -167,7 +174,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "hanging",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -824,6 +831,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placedScaleMedian": 1.45,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.45,
+    "p90": 1.45,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -888,6 +902,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 0.85,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.85,
+    "p90": 0.85,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -1253,13 +1274,13 @@
    },
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.035,
-    "buryCapM": 0.5,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -1313,13 +1334,13 @@
    },
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -1387,13 +1408,13 @@
    },
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.001,
-    "buryCapM": 0.5,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -1570,9 +1591,9 @@
     "DLC2RieklingSkull02:0.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1634,6 +1655,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placeUse": "hanging-only",
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1718,6 +1740,68 @@
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 2.149
+  },
+  {
+   "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "node": "es|a812bc48bb|v_meshes_argoniannest_argonianlanterns04",
+   "category": "misc",
+   "sizeM": [
+    0.655,
+    0.639,
+    1.025
+   ],
+   "originOffsetM": [
+    0.317,
+    0.317,
+    0.889
+   ],
+   "triangles": 1080,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "histtree.dds",
+    "rope01.dds"
+   ],
+   "materials": [
+    "DLC2DarkElfLanternStatic06:0.Mat",
+    "DLC2DarkElfLanternStatic06:1.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.8895,
+    "p50": -0.8895,
+    "p75": -0.8895,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8895
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.889,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.667,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.889
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
@@ -1957,6 +2041,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placedScaleMedian": 1.3,
+   "placedScaleEvidence": {
+    "n": 11,
+    "p10": 1.3,
+    "p90": 1.3,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -2023,6 +2114,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placedScaleMedian": 2.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 3.1,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2073,11 +2171,7 @@
    "droppedShapes": [
     {
      "shape": "EditorMarker",
-     "offsetM": [
-      0.32,
-      116.11,
-      -0.01
-     ]
+     "reason": "effect-no-texture"
     }
    ],
    "textures": [
@@ -2085,7 +2179,6 @@
     "shipwood01.dds"
    ],
    "materials": [
-    "EditorMarker.Mat",
     "ShipOar01:5.Mat",
     "ShipOar01:6.Mat",
     "ShipWoodplanks04:5.Mat"
@@ -2146,11 +2239,7 @@
    "droppedShapes": [
     {
      "shape": "EditorMarker",
-     "offsetM": [
-      0.17,
-      48.16,
-      -0.05
-     ]
+     "reason": "effect-no-texture"
     }
    ],
    "textures": [
@@ -2159,7 +2248,6 @@
     "shipwoodside01.dds"
    ],
    "materials": [
-    "EditorMarker.Mat.001",
     "L1_BoatDetails.Mat",
     "ShipRowBoat01:3.Mat",
     "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
@@ -2328,6 +2416,14 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    25.5,
+    102.8,
+    154.6,
+    211.6,
+    258.6,
+    321.9
+   ],
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
@@ -2394,6 +2490,14 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
+   "glowFacingsDeg": [
+    60.5,
+    134.2,
+    178.5,
+    252.8,
+    305.9,
+    350.0
+   ],
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
@@ -2435,6 +2539,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2495,6 +2606,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 0.95,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.95,
+    "p90": 0.95,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2675,6 +2793,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.1,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.1,
+    "p90": 1.1,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2965,7 +3090,7 @@
     7.554,
     3.924
    ],
-   "triangles": 16141,
+   "triangles": 16130,
    "lodRatios": [
     0.35,
     0.12
@@ -2973,7 +3098,12 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "mesh",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Object10:3",
+     "reason": "effect-no-texture"
+    }
+   ],
    "textures": [
     "roofthatched.dds",
     "rope01.dds.001",
@@ -2988,7 +3118,6 @@
     "HutWalls.Mat.001",
     "Object09:4.Mat",
     "Object10:0.Mat",
-    "Object10:3.Mat",
     "Ruins_WoodenDoor04:4.Mat",
     "Tri DoorFrame 0.Mat",
     "Tri DoorFrame 0.Mat.001",
@@ -3060,6 +3189,7 @@
    "collision": "mesh",
    "droppedShapes": [],
    "textures": [
+    "desertcracked01_d.dds",
     "dryoakpost01.dds"
    ],
    "materials": [
@@ -3067,15 +3197,27 @@
     "Quader01:1.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.4785,
+    "p50": -0.4785,
+    "p75": -0.4785,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.4785
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3115,20 +3257,34 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "RuinsSpiderSac01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.0134,
+    "p50": -0.0134,
+    "p75": -0.0134,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 0.72,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 0.53,
+    "p90": 0.79,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0134
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3168,20 +3324,27 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "RuinsSpiderSac04:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.4154,
+    "p50": 0.4154,
+    "p75": 0.4154,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.4154
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3221,17 +3384,26 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "dim_smallcorkpod.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3274,17 +3446,27 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "dim_smallcorkpod2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
-    "n": 0,
+    "p25": 1.0168,
+    "p50": 1.6468,
+    "p75": 1.915,
+    "n": 7,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
+   },
+   "placeUse": "ruin-only",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 7,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3303,6 +3485,126 @@
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.179
+  },
+  {
+   "id": "composite:mud/pod-as-placed",
+   "node": "es|cbc095070f|composite__mud_pod-as-placed",
+   "category": "misc",
+   "sizeM": [
+    13.621,
+    13.918,
+    13.747
+   ],
+   "originOffsetM": [
+    7.967,
+    6.194,
+    6.725
+   ],
+   "triangles": 852,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
+   "materials": [
+    "dim_smallcorkpod2.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.725,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.725
+  },
+  {
+   "id": "composite:mud/kotm-house-pod",
+   "node": "es|210ba141dd|composite__mud_kotm-house-pod",
+   "category": "misc",
+   "sizeM": [
+    13.621,
+    14.914,
+    13.747
+   ],
+   "originOffsetM": [
+    7.967,
+    7.19,
+    6.725
+   ],
+   "triangles": 1507,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "desertcracked01_d.dds",
+    "desertcracked01light_d.dds",
+    "dryoakpost01.dds",
+    "metalwork01.dds"
+   ],
+   "materials": [
+    "Door:23.Mat",
+    "Door:24.Mat",
+    "Door:26.Mat",
+    "Door:29.Mat",
+    "dim_corkmanor.Mat",
+    "dim_smallcorkpod2.Mat.002",
+    "dim_smallcorkpod4.Mat",
+    "dim_smallcorkpod5.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 1.9922,
+    "p50": 1.9922,
+    "p75": 1.9922,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.725,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.725
   },
   {
    "id": "kotm:argonia/mudhuts/lizardhouse",
@@ -3332,7 +3634,8 @@
     "dryoakpost01.dds",
     "lizardhut_d.dds",
     "rivermud.dds",
-    "rottingwood01.dds"
+    "rottingwood01.dds",
+    "telmushroomdetails01.dds"
    ],
    "materials": [
     "80930698.obj.Mat",
@@ -3343,15 +3646,27 @@
     "Scene Root:22.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -1.8984,
+    "p50": -1.8984,
+    "p75": -1.8984,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.8984
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3398,9 +3713,9 @@
     "dim_corkpod9.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3446,16 +3761,18 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "dim_corkpod01.Mat",
     "dim_corkpod02.Mat",
     "dim_corkpod03.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3501,18 +3818,21 @@
    "alphaTest": false,
    "collision": "mesh",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds",
+    "desertcracked01light_d.dds"
+   ],
    "materials": [
-    "dim_smallcorkpod4.Mat",
-    "dim_smallcorkpod5.Mat"
+    "dim_smallcorkpod4.Mat.001",
+    "dim_smallcorkpod5.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
-    "n": 0,
+    "p25": 0.6921,
+    "p50": 0.7693,
+    "p75": 0.8191,
+    "n": 4,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3560,16 +3880,16 @@
     "metalwork01.dds"
    ],
    "materials": [
-    "Door:23.Mat",
-    "Door:24.Mat",
-    "Door:26.Mat",
-    "Door:29.Mat",
-    "dim_corkmanor.Mat"
+    "Door:23.Mat.001",
+    "Door:24.Mat.001",
+    "Door:26.Mat.001",
+    "Door:29.Mat.001",
+    "dim_corkmanor.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3625,15 +3945,20 @@
     "Object01.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3673,21 +3998,29 @@
    "alphaTest": false,
    "collision": "none",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "amber.dds",
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "Objekt01:1.Mat",
     "TM_MWNordHouseChimney01:1.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.5536,
+    "p50": -0.5536,
+    "p75": -0.5536,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5536
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3727,21 +4060,29 @@
    "alphaTest": false,
    "collision": "none",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "amber.dds",
+    "desertcracked01_d.dds"
+   ],
    "materials": [
     "Kugel02:1.Mat",
     "TM_MWNordHouseChimney01:1.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.1746,
+    "p50": -0.1746,
+    "p75": -0.1746,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill (plugin-unsupported)"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1746
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3781,21 +4122,29 @@
    "alphaTest": false,
    "collision": "none",
    "droppedShapes": [],
-   "textures": [],
+   "textures": [
+    "desertcracked01_d.dds",
+    "desertcracked01light_d.dds"
+   ],
    "materials": [
     "TM_MWNordHouseChimney01:0.Mat",
     "TM_MWNordHouseChimney01:1.Mat.002"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.8181,
+    "p50": 0.8181,
+    "p75": 0.8181,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "wall",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.8181
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3842,12 +4191,12 @@
     "Objekt04.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.6705,
+    "p50": -0.2631,
+    "p75": -0.0247,
+    "n": 27,
+    "slopeTermMPerDeg": -0.05284,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3891,6 +4240,7 @@
    "collision": "mesh",
    "droppedShapes": [],
    "textures": [
+    "dlc2rrbuildings02.dds",
     "rottingwood01.dds"
    ],
    "materials": [
@@ -3898,12 +4248,12 @@
     "RifRmSmSecondFloorStair01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -3.474,
+    "p50": -3.2607,
+    "p75": -2.483,
+    "n": 13,
+    "slopeTermMPerDeg": 0.06834,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3947,6 +4297,7 @@
    "collision": "none",
    "droppedShapes": [],
    "textures": [
+    "dlc2rrbuildings02.dds",
     "dryoakpost01.dds",
     "leatherhide01.dds",
     "riftenrope01.dds"
@@ -3961,15 +4312,27 @@
     "Objekt02:3.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": -0.0257,
+    "p50": -0.0257,
+    "p75": -0.0257,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.59,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.4,
+    "p90": 1.59,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0257
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4010,6 +4373,7 @@
    "collision": "none",
    "droppedShapes": [],
    "textures": [
+    "dlc2rrbuildings02.dds",
     "dryoakpost01.dds",
     "leatherhide01.dds",
     "riftenrope01.dds"
@@ -4024,9 +4388,9 @@
     "Objekt02:0:0.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4053,24 +4417,25 @@
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
-  "textures/_resourcepack/landscape/desertcracked01_d.dds",
-  "textures/_resourcepack/landscape/desertcracked01_n.dds",
-  "textures/_resourcepack/landscape/desertcracked01light_d.dds",
-  "textures/creationclub/bgssse025/clutter/amber.dds",
   "textures/creationclub/bgssse025/clutter/amber_bl.dds",
-  "textures/creationclub/bgssse025/clutter/amber_n.dds",
-  "textures/cubemaps/shinydull.dds",
-  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds",
-  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds",
-  "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds",
-  "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds"
+  "textures/creationclub/bgssse025/clutter/amber_n.dds"
  ],
  "texturesSubstituted": {
+  "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
+  "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/_resourcepack/landscape/desertcracked01light_d.dds": "textures/argonia/landscape/dirt02.dds",
+  "textures/creationclub/bgssse025/clutter/amber.dds": "textures/argonia/misc/vakkastone_d.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds": "textures/dungeons/rottingwood01.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds",
   "textures/argonia/landscape/riverbottom_n.dds": "textures/landscape/riverbottom_n.dds"
  },
  "alphaModes": {
   "MASK": 34,
-  "OPAQUE": 190
+  "OPAQUE": 200,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -4103,16 +4468,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 36191504,
-  "bytesAfter": 16946972,
-  "images": 64,
-  "imageBytesAfter": 13457061,
+  "bytesBefore": 38590740,
+  "bytesAfter": 18364820,
+  "images": 69,
+  "imageBytesAfter": 14778012,
   "warnings": [],
-  "sha256": "e92a8aa385edcde9db7bdc675c262b604cb9c18d959350b82cbcf315b0cbd84a",
+  "sha256": "517ef1abf36503ac5f545a8ce4b7c60db115c3a03c23671333b032b062f4b0b0",
   "sidecarBytes": {
-   "connectors": 42961,
-   "footprints": 95135,
-   "interiors": 41338
+   "connectors": 45782,
+   "footprints": 100583,
+   "interiors": 52804
   }
  }
 }

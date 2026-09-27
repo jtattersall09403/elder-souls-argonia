@@ -650,6 +650,20 @@
     "widthM": 2.33
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 11.21,
+    "normalDeg": 90.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "template": "kotm:t0118",
+    "widthM": 2.33
+   },
+   {
     "evidence": "bounds",
     "face": "south",
     "heightM": 11.21,
@@ -693,6 +707,20 @@
      -1.17,
      3.64
     ],
+    "widthM": 2.33
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
+    "positionInPiece": [
+     -0.0,
+     1.82
+    ],
+    "template": "kotm:t0118",
     "widthM": 2.33
    }
   ],
@@ -823,6 +851,20 @@
     "widthM": 3.81
    },
    {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01",
+    "positionInPiece": [
+     -0.0,
+     1.82
+    ],
+    "template": "kotm:t0163",
+    "widthM": 3.81
+   },
+   {
     "evidence": "bounds",
     "face": "west",
     "heightM": 8.02,
@@ -901,6 +943,20 @@
      -0.0,
      -1.91
     ],
+    "widthM": 3.81
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02",
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "template": "kotm:t0163",
     "widthM": 3.81
    },
    {
@@ -1344,14 +1400,17 @@
   ],
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01": [
    {
-    "evidence": "bounds",
-    "face": "north",
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 0",
     "heightM": 7.28,
     "normalDeg": 0.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
     "positionInPiece": [
      0.0,
-     -3.76
+     -3.62
     ],
+    "template": "kotm:t0004",
     "widthM": 3.86
    },
    {
@@ -1366,14 +1425,17 @@
     "widthM": 7.52
    },
    {
-    "evidence": "bounds",
-    "face": "south",
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 180",
     "heightM": 7.28,
     "normalDeg": 180.0,
+    "pairedWith": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
     "positionInPiece": [
      0.0,
-     3.76
+     3.62
     ],
+    "template": "kotm:t0004",
     "widthM": 3.86
    },
    {
@@ -3611,8 +3673,8 @@
  },
  "counts": {
   "assets": 88,
-  "bounds": 312,
-  "co-placement": 0
+  "bounds": 310,
+  "co-placement": 6
  },
  "elongationRatio": 2.0,
  "kit": "imperial-keep",

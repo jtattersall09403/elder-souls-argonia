@@ -77,7 +77,14 @@
     "tell": "post-foot",
     "valueM": -0.4744
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge02",
@@ -153,7 +160,14 @@
     "tell": "post-foot",
     "valueM": -0.4744
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge03",
@@ -222,13 +236,21 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
+   "anchorClass": "water",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.4744
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 8.5107,
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 7,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge04",
@@ -298,13 +320,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.1194
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 0.6,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck01",
@@ -361,15 +390,27 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.114,
    "designedSinkM": {
-    "p25": 1.7424,
-    "p50": 2.7448,
-    "p75": 3.1059,
-    "n": 4,
+    "p25": -0.1139,
+    "p50": -0.1139,
+    "p75": -0.1139,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1139
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 10,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck02",
@@ -439,7 +480,14 @@
     "tell": "post-foot",
     "valueM": -0.0119
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 10,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -944,7 +992,15 @@
     "tell": "post-foot",
     "valueM": -0.0052
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.35,
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck02",
@@ -1012,7 +1068,15 @@
     "tell": "post-foot",
     "valueM": -0.0331
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.35,
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck01",

@@ -474,7 +474,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "deck",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 111,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -646,10 +653,10 @@
     }
    },
    "designedSinkM": {
-    "p25": -0.1138,
+    "p25": 0.0,
     "p50": 0.0,
     "p75": 0.3484,
-    "n": 6,
+    "n": 5,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
@@ -826,7 +833,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "wall",
+   "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -944,19 +951,19 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
    "designedSinkM": {
     "p25": -0.0067,
-    "p50": 0.0045,
+    "p50": 0.0048,
     "p75": 0.1078,
-    "n": 568,
-    "slopeTermMPerDeg": -0.00206,
+    "n": 565,
+    "slopeTermMPerDeg": -0.00128,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

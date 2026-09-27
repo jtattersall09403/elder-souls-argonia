@@ -2783,14 +2783,14 @@
     "widthM": 4.06
    },
    {
-    "count": 14,
+    "count": 15,
     "evidence": "co-placement",
     "face": "toward 90",
     "heightM": 4.71,
     "normalDeg": 90.0,
     "pairedWith": "vanilla:architecture/shackkit/shackframerend02",
     "positionInPiece": [
-     1.81,
+     1.82,
      -0.0
     ],
     "template": "vanilla:t0093",
@@ -2830,18 +2830,18 @@
     "widthM": 2.12
    },
    {
-    "count": 7,
+    "count": 9,
     "evidence": "co-placement",
-    "face": "toward 360",
+    "face": "toward 356",
     "heightM": 1.91,
-    "normalDeg": 359.7,
+    "normalDeg": 356.2,
     "pairedWith": "vanilla:architecture/shackkit/shackroofside01",
     "positionInPiece": [
-     -0.01,
-     -1.82
+     -0.1,
+     -1.59
     ],
-    "template": "vanilla:t0344",
-    "widthM": 3.65
+    "template": "bmv-blackmarsh:t0109",
+    "widthM": 3.77
    }
   ],
   "vanilla:architecture/shackkit/shackframelmid01": [
@@ -2950,18 +2950,18 @@
     "widthM": 2.18
    },
    {
-    "count": 14,
+    "count": 17,
     "evidence": "co-placement",
     "face": "toward 270",
-    "heightM": 4.71,
+    "heightM": 1.91,
     "normalDeg": 270.0,
-    "pairedWith": "vanilla:architecture/shackkit/shackframelend01",
+    "pairedWith": "vanilla:architecture/shackkit/shackroofside01",
     "positionInPiece": [
-     -1.81,
+     -1.82,
      0.0
     ],
-    "template": "vanilla:t0093",
-    "widthM": 2.12
+    "template": "vanilla:t0096",
+    "widthM": 2.03
    }
   ],
   "vanilla:architecture/shackkit/shackroofcorner01": [
@@ -3108,7 +3108,7 @@
     "widthM": 2.03
    },
    {
-    "count": 14,
+    "count": 17,
     "evidence": "co-placement",
     "face": "toward 90",
     "heightM": 1.91,
@@ -3122,18 +3122,18 @@
     "widthM": 2.03
    },
    {
-    "count": 7,
+    "count": 9,
     "evidence": "co-placement",
-    "face": "toward 180",
+    "face": "toward 176",
     "heightM": 1.91,
-    "normalDeg": 179.7,
+    "normalDeg": 176.2,
     "pairedWith": "vanilla:architecture/shackkit/shackframelend01",
     "positionInPiece": [
-     0.01,
-     1.82
+     0.1,
+     1.59
     ],
-    "template": "vanilla:t0344",
-    "widthM": 3.65
+    "template": "bmv-blackmarsh:t0109",
+    "widthM": 3.77
    },
    {
     "evidence": "bounds",

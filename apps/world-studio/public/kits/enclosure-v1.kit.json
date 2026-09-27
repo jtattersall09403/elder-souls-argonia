@@ -164,7 +164,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.5,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024arch01",
@@ -316,7 +323,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 42,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall02",
@@ -476,7 +490,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.465,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way",
@@ -958,7 +979,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.494,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall01a",
@@ -1185,7 +1213,14 @@
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "placedScaleMedian": 1.8,
+   "placedScaleEvidence": {
+    "n": 27,
+    "p10": 1.0,
+    "p90": 2.2,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall01",
@@ -1467,9 +1502,9 @@
     "9.Mat.015"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2028,7 +2063,7 @@
     "slopeTermMPerDeg": -0.04203,
     "evidence": "plugin"
    },
-   "anchorClass": "wall",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2323,7 +2358,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -2924,12 +2959,12 @@
     "objPlane02.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.0569,
-    "p50": 0.1707,
-    "p75": 0.949,
-    "n": 3,
+    "p25": -0.1381,
+    "p50": -0.1381,
+    "p75": -0.1381,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2947,7 +2982,19 @@
    "undersideClosed": true,
    "undersideCoverage": 0.63,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.138
+   "pivotAboveBaseM": 0.138,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1381
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal",
@@ -3412,11 +3459,11 @@
     "StockadeBarricade01-03:3.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.1444,
-    "p50": 0.2664,
-    "p75": 0.4196,
-    "n": 74,
-    "slopeTermMPerDeg": 0.00786,
+    "p25": 0.1605,
+    "p50": 0.2688,
+    "p75": 0.426,
+    "n": 72,
+    "slopeTermMPerDeg": 0.00799,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3469,11 +3516,11 @@
     "StockadePike01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.6454,
-    "p50": 0.9749,
-    "p75": 1.4476,
-    "n": 69,
-    "slopeTermMPerDeg": 0.00151,
+    "p25": 0.6556,
+    "p50": 0.9921,
+    "p75": 1.457,
+    "n": 68,
+    "slopeTermMPerDeg": 0.00247,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

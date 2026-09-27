@@ -47,15 +47,27 @@
     }
    },
    "designedSinkM": {
-    "p25": -15.9367,
-    "p50": 15.6389,
-    "p75": 25.6447,
-    "n": 4,
+    "p25": -23.8677,
+    "p50": -23.8677,
+    "p75": -23.8677,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -23.8677
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 22,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetronc001lianess",
@@ -237,9 +249,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -479,9 +491,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -534,9 +546,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -587,9 +599,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -640,9 +652,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -693,9 +705,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -746,9 +758,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -799,9 +811,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -852,9 +864,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -905,9 +917,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -968,7 +980,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 17,
+    "p10": 1.0,
+    "p90": 1.4,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalcon45v001",
@@ -1085,9 +1104,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1574,9 +1593,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1692,7 +1711,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 22,
+    "p10": 1.0,
+    "p90": 1.2,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow001",
@@ -1737,9 +1763,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1790,9 +1816,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1843,9 +1869,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1896,9 +1922,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1958,7 +1984,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 82,
+    "p10": 1.0,
+    "p90": 1.2,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
@@ -2012,7 +2045,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -2020,6 +2053,13 @@
     "valueM": -0.3487,
     "deckTopM": 0.0013,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 18,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -2127,9 +2167,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2186,7 +2226,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 23,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet001",
@@ -2231,9 +2278,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2284,9 +2331,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2337,9 +2384,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2390,9 +2437,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2460,6 +2507,13 @@
     "valueM": -0.3489,
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 11,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -2762,6 +2816,13 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -1.5289
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 20,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -2824,6 +2885,13 @@
     "valueM": -0.3489,
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 17,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -2999,7 +3067,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 83,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01",
@@ -3356,6 +3431,13 @@
     "valueM": -0.2967,
     "deckTopM": 0.0533,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 13,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -3732,12 +3814,12 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   },
-   "anchorClassEvidence": "unplaced"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01",
@@ -4041,6 +4123,13 @@
     "valueM": -0.3489,
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 244,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -4341,6 +4430,13 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -1.9802
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    }
   },
   {
@@ -4638,7 +4734,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "deck",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64d01",
@@ -4693,12 +4796,12 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   },
-   "anchorClassEvidence": "unplaced"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64i01",
@@ -5563,6 +5666,13 @@
     "valueM": -0.3408,
     "deckTopM": 0.0092,
     "deckClearanceM": 0.35
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 30,
+    "p10": 1.0,
+    "p90": 5.0,
+    "source": "plugin"
    }
   },
   {
@@ -5836,9 +5946,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6009,7 +6119,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.5,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche1",
@@ -6054,9 +6171,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6107,9 +6224,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6160,9 +6277,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6213,9 +6330,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6266,9 +6383,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6319,9 +6436,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6372,9 +6489,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6425,9 +6542,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6478,9 +6595,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6533,9 +6650,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6590,15 +6707,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 3.0,
+   "placedScaleEvidence": {
+    "n": 51,
+    "p10": 3.0,
+    "p90": 3.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04",
@@ -6647,9 +6771,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6700,15 +6824,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treemere03",
@@ -6753,15 +6884,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.4,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.3,
+    "p90": 1.4,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -6806,9 +6944,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6865,7 +7003,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 10,
+    "p10": 0.61,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -6908,15 +7053,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin"
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 8,
+    "p10": 1.0,
+    "p90": 1.18,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -6959,9 +7111,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -7139,7 +7291,14 @@
     "tell": "post-foot",
     "valueM": -1.5414
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.84,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 0.84,
+    "p90": 0.84,
+    "source": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -7255,7 +7414,8 @@
     "tell": "floor-plane",
     "valueM": -2.6273
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placeUse": "hanging-only"
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -8043,9 +8203,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -8113,7 +8273,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "wall",
+   "anchorClass": "deck",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -10740,9 +10900,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.12,
-    "p50": 0.12,
-    "p75": 0.12,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"

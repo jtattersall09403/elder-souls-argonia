@@ -389,12 +389,18 @@
    "closedShellPromotedBy": "door-piece",
    "entrance": {
     "doorAsset": "dlc01/dungeons/castle/lghalls/casexfreelgdoor01.nif",
+    "heightM": 1.518,
     "kind": "esp-door",
-    "placements": 6,
-    "radial": true,
-    "radiusM": 8.884
+    "offsetM": [
+     4.538,
+     0.726
+    ],
+    "placements": 4,
+    "radiusM": 4.596,
+    "sideDeg": 231.24,
+    "yawDeg": 279.79
    },
-   "entranceWhy": "the exterior door dlc01/dungeons/castle/lghalls/casexfreelgdoor01.nif that opens this interior, at a constant radius on any bearing across the plugin's placements (6 placements)",
+   "entranceWhy": "the exterior door dlc01/dungeons/castle/lghalls/casexfreelgdoor01.nif that opens this interior, at the offset the plugin places it in this shell's own frame (4 placements)",
    "espLink": {
     "doorModel": "dlc01/dungeons/castle/lghalls/casexfreelgdoor01.nif",
     "interiorCell": "01treeint",
@@ -426,10 +432,10 @@
      "doorwaySource": "assembly",
      "kind": "assembly",
      "offsetM": [
-      -4.11,
-      -3.37
+      -3.43,
+      -2.81
      ],
-     "radiusM": 5.32,
+     "radiusM": 4.43,
      "sideDeg": 309.32
     },
     {
@@ -450,16 +456,21 @@
      "doorwaySource": "assembly",
      "kind": "assembly",
      "offsetM": [
-      -4.11,
-      -3.37
+      -3.43,
+      -2.81
      ],
-     "radiusM": 5.32,
+     "radiusM": 4.43,
      "sideDeg": 309.32
     }
    ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    1.5,
+    5.0
+   ],
+   "storeys": 2,
    "tileset": "bmv-treehouse-int",
    "why": "Valenwood.esp teleports from this shell into interior cell 01treeint (4 placements of the load door); that cell is built from bmv:architecture/citebosmer/houses, which is packaged as bmv-treehouse-int"
   },
@@ -954,7 +965,7 @@
     "kind": "esp-door",
     "offsetM": [
      0.218,
-     0.187
+     -0.187
     ],
     "placements": 8,
     "radiusM": 1.607,
@@ -1015,6 +1026,11 @@
    "ringFraction": 0.778,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    -0.6,
+    8.0
+   ],
+   "storeys": 2,
    "tileset": "bmv-treehouse-int",
    "why": "Valenwood.esp teleports from this shell into interior cell 01treeint (8 placements of the load door); that cell is built from bmv:architecture/citebosmer/houses, which is packaged as bmv-treehouse-int"
   },
@@ -1783,7 +1799,7 @@
     "deg": 225.9,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 366 times with other statics to one side; the side they left open, at 226\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+    "why": "the source authors placed this piece 374 times with other statics to one side; the side they left open, at 226\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -2774,7 +2790,7 @@
     "kind": "esp-door",
     "offsetM": [
      0.218,
-     0.187
+     -0.187
     ],
     "placements": 8,
     "radiusM": 1.607,
@@ -2835,6 +2851,11 @@
    "ringFraction": 0.778,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    -0.6,
+    8.0
+   ],
+   "storeys": 2,
    "tileset": "bmv-treehouse-int",
    "why": "Valenwood.esp teleports from this shell into interior cell 01treeint (8 placements of the load door); that cell is built from bmv:architecture/citebosmer/houses, which is packaged as bmv-treehouse-int"
   },
@@ -3243,6 +3264,10 @@
    "ringFraction": 0.833,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    8.0
+   ],
+   "storeys": 1,
    "tileset": "dungeon-root-v1",
    "why": "a hollow Hist trunk, not a built room: the root dungeon kit is the grown interior grammar for it"
   },
@@ -3331,6 +3356,216 @@
   }
  },
  "kit": "settlement-root-v1",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
  "rules": {
   "doorwayArcM": [
    0.8,
@@ -3341,6 +3576,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",
@@ -3357,5 +3593,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }

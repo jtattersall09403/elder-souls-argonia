@@ -1,0 +1,3950 @@
+{
+ "assets": {
+  "bmv:architecture/phitt/aldredanyia/house03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.51
+    ],
+    "widthM": 9.62
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 26",
+    "heightM": 1.63,
+    "normalDeg": 25.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.97,
+     -2.03
+    ],
+    "template": "bmv-blackmarsh:t0014",
+    "widthM": 1.08
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 68",
+    "heightM": 1.63,
+    "normalDeg": 68.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.25,
+     -0.91
+    ],
+    "template": "bmv-blackmarsh:t0039",
+    "widthM": 1.11
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 80",
+    "heightM": 1.63,
+    "normalDeg": 79.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     4.43,
+     -0.82
+    ],
+    "template": "bmv-blackmarsh:t0209",
+    "widthM": 1.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.81,
+     0.01
+    ],
+    "widthM": 9.04
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 101",
+    "heightM": 1.63,
+    "normalDeg": 100.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.14,
+     0.4
+    ],
+    "template": "bmv-blackmarsh:t0038",
+    "widthM": 1.11
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 109",
+    "heightM": 1.63,
+    "normalDeg": 109.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     4.97,
+     1.74
+    ],
+    "template": "bmv-blackmarsh:t0210",
+    "widthM": 1.11
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 137",
+    "heightM": 1.63,
+    "normalDeg": 137.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.4,
+     1.5
+    ],
+    "template": "bmv-blackmarsh:t0015",
+    "widthM": 1.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.53
+    ],
+    "widthM": 9.62
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 182",
+    "heightM": 3.58,
+    "normalDeg": 182.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -0.1,
+     2.58
+    ],
+    "template": "bmv-blackmarsh:t0011",
+    "widthM": 5.65
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 228",
+    "heightM": 1.63,
+    "normalDeg": 228.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -1.56,
+     1.41
+    ],
+    "template": "bmv-blackmarsh:t0012",
+    "widthM": 1.14
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 254",
+    "heightM": 1.63,
+    "normalDeg": 254.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.15,
+     0.6
+    ],
+    "template": "bmv-blackmarsh:t0021",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 257",
+    "heightM": 1.63,
+    "normalDeg": 257.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -5.13,
+     1.17
+    ],
+    "template": "bmv-blackmarsh:t0205",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 269",
+    "heightM": 1.63,
+    "normalDeg": 269.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -4.39,
+     0.07
+    ],
+    "template": "bmv-blackmarsh:t0206",
+    "widthM": 1.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.81,
+     0.01
+    ],
+    "widthM": 9.04
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 286",
+    "heightM": 1.63,
+    "normalDeg": 286.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -4.28,
+     -1.24
+    ],
+    "template": "bmv-blackmarsh:t0207",
+    "widthM": 1.11
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 299",
+    "heightM": 1.63,
+    "normalDeg": 298.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.1,
+     -1.15
+    ],
+    "template": "bmv-blackmarsh:t0022",
+    "widthM": 1.12
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 336",
+    "heightM": 1.63,
+    "normalDeg": 336.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -0.88,
+     -2.0
+    ],
+    "template": "bmv-blackmarsh:t0013",
+    "widthM": 1.07
+   }
+  ],
+  "bmv:architecture/phitt/aldredanyia/overhang05": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.79,
+     0.0
+    ],
+    "widthM": 2.1
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 102",
+    "heightM": 1.63,
+    "normalDeg": 101.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     3.01,
+     0.63
+    ],
+    "template": "bmv-blackmarsh:t0217",
+    "widthM": 1.11
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 116",
+    "heightM": 1.63,
+    "normalDeg": 116.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.6,
+     1.29
+    ],
+    "template": "bmv-blackmarsh:t0216",
+    "widthM": 1.12
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 125",
+    "heightM": 1.63,
+    "normalDeg": 125.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.9,
+     0.64
+    ],
+    "template": "bmv-blackmarsh:t0019",
+    "widthM": 1.13
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 148",
+    "heightM": 1.63,
+    "normalDeg": 148.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.3,
+     2.12
+    ],
+    "template": "bmv-blackmarsh:t0024",
+    "widthM": 1.1
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 167",
+    "heightM": 1.63,
+    "normalDeg": 167.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.61,
+     2.67
+    ],
+    "template": "bmv-blackmarsh:t0018",
+    "widthM": 1.02
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 179",
+    "heightM": 3.58,
+    "normalDeg": 179.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     0.05,
+     2.58
+    ],
+    "template": "bmv-blackmarsh:t0011",
+    "widthM": 5.65
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 190",
+    "heightM": 1.63,
+    "normalDeg": 189.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -0.47,
+     2.75
+    ],
+    "template": "bmv-blackmarsh:t0017",
+    "widthM": 1.01
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 211",
+    "heightM": 1.63,
+    "normalDeg": 210.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -1.26,
+     2.13
+    ],
+    "template": "bmv-blackmarsh:t0040",
+    "widthM": 1.1
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 223",
+    "heightM": 1.63,
+    "normalDeg": 222.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -1.25,
+     1.35
+    ],
+    "template": "bmv-blackmarsh:t0041",
+    "widthM": 1.13
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 231",
+    "heightM": 1.63,
+    "normalDeg": 230.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -0.84,
+     0.69
+    ],
+    "template": "bmv-blackmarsh:t0016",
+    "widthM": 1.14
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 246",
+    "heightM": 1.63,
+    "normalDeg": 245.9,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.58,
+     1.16
+    ],
+    "template": "bmv-blackmarsh:t0213",
+    "widthM": 1.11
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 257",
+    "heightM": 1.63,
+    "normalDeg": 256.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.96,
+     0.69
+    ],
+    "template": "bmv-blackmarsh:t0212",
+    "widthM": 1.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.79,
+     0.0
+    ],
+    "widthM": 2.1
+   }
+  ],
+  "bmv:architecture/phitt/aldredanyia/window": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.55
+    ],
+    "widthM": 1.01
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 2",
+    "heightM": 1.63,
+    "normalDeg": 1.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.04,
+     -1.31
+    ],
+    "template": "bmv-blackmarsh:t0042",
+    "widthM": 1.01
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 9",
+    "heightM": 1.63,
+    "normalDeg": 9.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.58,
+     -3.62
+    ],
+    "template": "bmv-blackmarsh:t0026",
+    "widthM": 1.01
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 14",
+    "heightM": 1.63,
+    "normalDeg": 14.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     1.3,
+     -5.1
+    ],
+    "template": "bmv-blackmarsh:t0210",
+    "widthM": 1.11
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 16",
+    "heightM": 1.63,
+    "normalDeg": 16.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.71,
+     -2.46
+    ],
+    "template": "bmv-blackmarsh:t0044",
+    "widthM": 1.04
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 20",
+    "heightM": 1.63,
+    "normalDeg": 20.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.08,
+     -2.93
+    ],
+    "template": "bmv-blackmarsh:t0279",
+    "widthM": 1.1
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 31",
+    "heightM": 1.63,
+    "normalDeg": 30.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.68,
+     -1.14
+    ],
+    "template": "bmv-blackmarsh:t0043",
+    "widthM": 1.1
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 31",
+    "heightM": 1.63,
+    "normalDeg": 30.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     1.27,
+     -2.13
+    ],
+    "template": "bmv-blackmarsh:t0040",
+    "widthM": 1.1
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 39",
+    "heightM": 1.63,
+    "normalDeg": 39.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.08,
+     -1.31
+    ],
+    "template": "bmv-blackmarsh:t0046",
+    "widthM": 1.13
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 42",
+    "heightM": 1.63,
+    "normalDeg": 42.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     1.37,
+     -1.53
+    ],
+    "template": "bmv-blackmarsh:t0015",
+    "widthM": 1.13
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 49",
+    "heightM": 1.63,
+    "normalDeg": 49.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.76,
+     -0.66
+    ],
+    "template": "bmv-blackmarsh:t0027",
+    "widthM": 1.14
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 63",
+    "heightM": 1.63,
+    "normalDeg": 62.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.4,
+     -1.24
+    ],
+    "template": "bmv-blackmarsh:t0048",
+    "widthM": 1.12
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 65",
+    "heightM": 1.63,
+    "normalDeg": 64.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     1.98,
+     -0.94
+    ],
+    "template": "bmv-blackmarsh:t0013",
+    "widthM": 1.07
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 73",
+    "heightM": 1.63,
+    "normalDeg": 73.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.5,
+     -0.77
+    ],
+    "template": "bmv-blackmarsh:t0031",
+    "widthM": 1.12
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 74",
+    "heightM": 1.63,
+    "normalDeg": 74.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     2.15,
+     -0.6
+    ],
+    "template": "bmv-blackmarsh:t0021",
+    "widthM": 1.12
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 78",
+    "heightM": 1.63,
+    "normalDeg": 78.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     3.48,
+     -0.73
+    ],
+    "template": "bmv-blackmarsh:t0075",
+    "widthM": 1.12
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 79",
+    "heightM": 1.63,
+    "normalDeg": 78.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     2.68,
+     -0.54
+    ],
+    "template": "bmv-blackmarsh:t0018",
+    "widthM": 1.02
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 84",
+    "heightM": 1.63,
+    "normalDeg": 84.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     4.28,
+     -0.45
+    ],
+    "template": "bmv-blackmarsh:t0287",
+    "widthM": 1.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.5,
+     0.01
+    ],
+    "widthM": 1.11
+   },
+   {
+    "count": 8,
+    "evidence": "co-placement",
+    "face": "toward 96",
+    "heightM": 1.63,
+    "normalDeg": 96.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     3.46,
+     0.38
+    ],
+    "template": "bmv-blackmarsh:t0140",
+    "widthM": 1.11
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 97",
+    "heightM": 1.63,
+    "normalDeg": 97.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     2.16,
+     0.27
+    ],
+    "template": "bmv-blackmarsh:t0038",
+    "widthM": 1.11
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 101",
+    "heightM": 1.63,
+    "normalDeg": 101.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     2.73,
+     0.55
+    ],
+    "template": "bmv-blackmarsh:t0017",
+    "widthM": 1.01
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 104",
+    "heightM": 1.63,
+    "normalDeg": 104.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     3.56,
+     0.9
+    ],
+    "template": "bmv-blackmarsh:t0026",
+    "widthM": 1.01
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 107",
+    "heightM": 1.63,
+    "normalDeg": 106.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     4.33,
+     1.29
+    ],
+    "template": "bmv-blackmarsh:t0083",
+    "widthM": 1.11
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 114",
+    "heightM": 1.63,
+    "normalDeg": 113.9,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     2.06,
+     0.91
+    ],
+    "template": "bmv-blackmarsh:t0014",
+    "widthM": 1.08
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 119",
+    "heightM": 1.63,
+    "normalDeg": 119.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.16,
+     0.64
+    ],
+    "template": "bmv-blackmarsh:t0043",
+    "widthM": 1.1
+   },
+   {
+    "count": 19,
+    "evidence": "co-placement",
+    "face": "toward 121",
+    "heightM": 1.63,
+    "normalDeg": 121.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     3.65,
+     2.23
+    ],
+    "template": "bmv-blackmarsh:t0054",
+    "widthM": 1.13
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 128",
+    "heightM": 1.63,
+    "normalDeg": 127.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.35,
+     1.04
+    ],
+    "template": "bmv-blackmarsh:t0046",
+    "widthM": 1.13
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 133",
+    "heightM": 1.63,
+    "normalDeg": 133.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     1.54,
+     1.44
+    ],
+    "template": "bmv-blackmarsh:t0012",
+    "widthM": 1.14
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 138",
+    "heightM": 1.63,
+    "normalDeg": 137.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     2.57,
+     2.81
+    ],
+    "template": "bmv-blackmarsh:t0228",
+    "widthM": 1.13
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 144",
+    "heightM": 1.63,
+    "normalDeg": 144.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.59,
+     0.81
+    ],
+    "template": "bmv-blackmarsh:t0027",
+    "widthM": 1.14
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 152",
+    "heightM": 1.63,
+    "normalDeg": 151.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     1.18,
+     2.19
+    ],
+    "template": "bmv-blackmarsh:t0024",
+    "widthM": 1.1
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 162",
+    "heightM": 1.63,
+    "normalDeg": 162.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     1.61,
+     5.01
+    ],
+    "template": "bmv-blackmarsh:t0205",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 164",
+    "heightM": 1.63,
+    "normalDeg": 164.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.83,
+     2.92
+    ],
+    "template": "bmv-blackmarsh:t0226",
+    "widthM": 1.04
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 166",
+    "heightM": 1.63,
+    "normalDeg": 165.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.86,
+     3.37
+    ],
+    "template": "bmv-blackmarsh:t0221",
+    "widthM": 1.12
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 168",
+    "heightM": 1.63,
+    "normalDeg": 168.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.54,
+     2.56
+    ],
+    "template": "bmv-blackmarsh:t0031",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 170",
+    "heightM": 1.63,
+    "normalDeg": 169.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.94,
+     5.22
+    ],
+    "template": "bmv-blackmarsh:t0219",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 170",
+    "heightM": 1.63,
+    "normalDeg": 170.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     1.0,
+     5.88
+    ],
+    "template": "bmv-blackmarsh:t0227",
+    "widthM": 1.01
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 178",
+    "heightM": 1.63,
+    "normalDeg": 177.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     0.08,
+     1.85
+    ],
+    "template": "bmv-blackmarsh:t0020",
+    "widthM": 1.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.56
+    ],
+    "widthM": 1.01
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 182",
+    "heightM": 1.63,
+    "normalDeg": 181.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -0.04,
+     1.31
+    ],
+    "template": "bmv-blackmarsh:t0042",
+    "widthM": 1.01
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 190",
+    "heightM": 1.63,
+    "normalDeg": 190.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -0.54,
+     3.03
+    ],
+    "template": "bmv-blackmarsh:t0217",
+    "widthM": 1.11
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 214",
+    "heightM": 1.63,
+    "normalDeg": 213.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -0.61,
+     0.92
+    ],
+    "template": "bmv-blackmarsh:t0019",
+    "widthM": 1.13
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 233",
+    "heightM": 1.63,
+    "normalDeg": 232.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -3.03,
+     2.31
+    ],
+    "template": "bmv-blackmarsh:t0228",
+    "widthM": 1.13
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 239",
+    "heightM": 1.63,
+    "normalDeg": 238.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.21,
+     1.35
+    ],
+    "template": "bmv-blackmarsh:t0222",
+    "widthM": 1.13
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 249",
+    "heightM": 1.63,
+    "normalDeg": 249.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -2.65,
+     1.0
+    ],
+    "template": "bmv-blackmarsh:t0213",
+    "widthM": 1.11
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 254",
+    "heightM": 1.63,
+    "normalDeg": 254.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -3.34,
+     0.96
+    ],
+    "template": "bmv-blackmarsh:t0221",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 258",
+    "heightM": 1.63,
+    "normalDeg": 258.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -5.19,
+     1.09
+    ],
+    "template": "bmv-blackmarsh:t0219",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 259",
+    "heightM": 1.63,
+    "normalDeg": 259.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.98,
+     0.57
+    ],
+    "template": "bmv-blackmarsh:t0226",
+    "widthM": 1.04
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 260",
+    "heightM": 1.63,
+    "normalDeg": 259.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     -4.43,
+     0.82
+    ],
+    "template": "bmv-blackmarsh:t0209",
+    "widthM": 1.12
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 265",
+    "heightM": 1.63,
+    "normalDeg": 265.3,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -5.94,
+     0.49
+    ],
+    "template": "bmv-blackmarsh:t0227",
+    "widthM": 1.01
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 266",
+    "heightM": 1.63,
+    "normalDeg": 265.7,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     -4.38,
+     0.33
+    ],
+    "template": "bmv-blackmarsh:t0206",
+    "widthM": 1.11
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 269",
+    "heightM": 1.63,
+    "normalDeg": 269.2,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.17,
+     0.03
+    ],
+    "template": "bmv-blackmarsh:t0223",
+    "widthM": 1.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.01
+    ],
+    "widthM": 1.11
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 280",
+    "heightM": 1.63,
+    "normalDeg": 279.9,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.26,
+     -0.4
+    ],
+    "template": "bmv-blackmarsh:t0281",
+    "widthM": 1.11
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 283",
+    "heightM": 1.63,
+    "normalDeg": 282.8,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/house03",
+    "positionInPiece": [
+     -4.34,
+     -0.99
+    ],
+    "template": "bmv-blackmarsh:t0207",
+    "widthM": 1.11
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 292",
+    "heightM": 1.63,
+    "normalDeg": 292.0,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.9,
+     -1.17
+    ],
+    "template": "bmv-blackmarsh:t0279",
+    "widthM": 1.1
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 296",
+    "heightM": 1.63,
+    "normalDeg": 296.4,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -2.59,
+     -1.29
+    ],
+    "template": "bmv-blackmarsh:t0216",
+    "widthM": 1.12
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 308",
+    "heightM": 1.63,
+    "normalDeg": 307.6,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -2.22,
+     -1.71
+    ],
+    "template": "bmv-blackmarsh:t0282",
+    "widthM": 1.14
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 319",
+    "heightM": 1.63,
+    "normalDeg": 319.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -0.71,
+     -0.82
+    ],
+    "template": "bmv-blackmarsh:t0016",
+    "widthM": 1.14
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 345",
+    "heightM": 1.63,
+    "normalDeg": 345.1,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/overhang05",
+    "positionInPiece": [
+     -0.78,
+     -2.94
+    ],
+    "template": "bmv-blackmarsh:t0212",
+    "widthM": 1.12
+   },
+   {
+    "count": 27,
+    "evidence": "co-placement",
+    "face": "toward 358",
+    "heightM": 1.63,
+    "normalDeg": 357.5,
+    "pairedWith": "bmv:architecture/phitt/aldredanyia/window",
+    "positionInPiece": [
+     -0.08,
+     -1.85
+    ],
+    "template": "bmv-blackmarsh:t0020",
+    "widthM": 1.01
+   }
+  ],
+  "composite:phitt/marsh-house-03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.12,
+     -4.56
+    ],
+    "widthM": 9.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.81,
+     1.33
+    ],
+    "widthM": 11.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.12,
+     7.21
+    ],
+    "widthM": 9.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.04,
+     1.33
+    ],
+    "widthM": 11.77
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/baseentrance00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.9,
+     -6.79
+    ],
+    "widthM": 7.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.8,
+     -3.27
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.9,
+     0.26
+    ],
+    "widthM": 7.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.01,
+     -3.27
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/baseentrance01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.9,
+     -6.79
+    ],
+    "widthM": 7.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.8,
+     -3.27
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.9,
+     0.26
+    ],
+    "widthM": 7.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.01,
+     -3.27
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/basetower00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -4.02
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.09,
+     -0.49
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     3.03
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/basetower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -4.02
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.09,
+     -0.49
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     3.03
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/dome": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -8.48
+    ],
+    "widthM": 16.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.48,
+     0.0
+    ],
+    "widthM": 16.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     8.48
+    ],
+    "widthM": 16.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.48,
+     0.0
+    ],
+    "widthM": 16.96
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/entrance00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.94,
+     -2.26
+    ],
+    "widthM": 5.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.78,
+     -0.47
+    ],
+    "widthM": 3.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.94,
+     1.31
+    ],
+    "widthM": 5.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.09,
+     -0.47
+    ],
+    "widthM": 3.57
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/house01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 14.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.68,
+     -6.79
+    ],
+    "widthM": 11.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 14.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.29,
+     -1.12
+    ],
+    "widthM": 11.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 14.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.68,
+     4.55
+    ],
+    "widthM": 11.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 14.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.64,
+     -1.12
+    ],
+    "widthM": 11.34
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/house01base": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.24,
+     -6.79
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     -1.12
+    ],
+    "widthM": 11.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.24,
+     4.55
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.76,
+     -1.12
+    ],
+    "widthM": 11.34
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/housebase00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.52,
+     -6.79
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.04,
+     -3.27
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.52,
+     0.26
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.01,
+     -3.27
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/housebase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.52,
+     -6.79
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.04,
+     -3.27
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.52,
+     0.26
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.01,
+     -3.27
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/housetall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -3.91
+    ],
+    "widthM": 7.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.52,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.0,
+     0.02
+    ],
+    "widthM": 7.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     3.95
+    ],
+    "widthM": 7.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.52,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.89,
+     0.02
+    ],
+    "widthM": 7.86
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/largewindow00": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.79,
+     -6.65
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     -6.65
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/middletower00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -3.92
+    ],
+    "widthM": 6.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.99,
+     -0.49
+    ],
+    "widthM": 6.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     2.93
+    ],
+    "widthM": 6.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.85,
+     -0.49
+    ],
+    "widthM": 6.85
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/middletower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     -4.0
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     -0.49
+    ],
+    "widthM": 7.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     3.03
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.03
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/roof": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.69
+    ],
+    "widthM": 7.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.5,
+     -1.3
+    ],
+    "widthM": 6.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.09
+    ],
+    "widthM": 7.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.5,
+     -1.3
+    ],
+    "widthM": 6.78
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/toptower00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -4.02
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.09,
+     -0.49
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     3.03
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/toptower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     -4.02
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     -0.49
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     3.03
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -3.24
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.09,
+     0.28
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     3.81
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     0.28
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 26.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.42,
+     7.78
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 26.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.78,
+     11.3
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 26.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.42,
+     14.83
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 26.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     11.3
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     -3.56
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     -0.03
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     3.49
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.03
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     -3.45
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     0.07
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     3.6
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     0.07
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 20.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.42,
+     -4.01
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 20.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.78,
+     -0.48
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 20.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.42,
+     3.04
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 20.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.48
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -2.94
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.09,
+     0.58
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     4.1
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     0.58
+    ],
+    "widthM": 7.04
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     -3.71
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     -0.19
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     3.34
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.19
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower07": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.58,
+     7.78
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     11.3
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.58,
+     14.83
+    ],
+    "widthM": 7.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     11.3
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/custom/tower08": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 26.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.42,
+     -4.02
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 26.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.78,
+     -0.49
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 26.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.42,
+     3.03
+    ],
+    "widthM": 10.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 26.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.95,
+     -0.49
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/miniwall": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.88,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.89,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     0.0
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     0.0
+    ],
+    "widthM": 1.7
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.41,
+     0.0
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.41,
+     0.0
+    ],
+    "widthM": 1.7
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.55,
+     0.0
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.55,
+     0.0
+    ],
+    "widthM": 1.7
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.56,
+     -3.13
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.13,
+     -1.56
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.56,
+     0.0
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     -1.56
+    ],
+    "widthM": 3.13
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.84,
+     -7.68
+    ],
+    "widthM": 7.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.0,
+     -3.84
+    ],
+    "widthM": 7.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.84,
+     0.0
+    ],
+    "widthM": 7.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.68,
+     -3.84
+    ],
+    "widthM": 7.68
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.01
+    ],
+    "widthM": 2.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.01,
+     0.0
+    ],
+    "widthM": 2.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.01
+    ],
+    "widthM": 2.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.01,
+     0.0
+    ],
+    "widthM": 2.02
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.55,
+     0.0
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.55,
+     0.0
+    ],
+    "widthM": 1.7
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.69,
+     -0.45
+    ],
+    "widthM": 1.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.94,
+     -0.45
+    ],
+    "widthM": 1.79
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.62,
+     0.8
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.16,
+     1.96
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.62,
+     3.13
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.4,
+     1.96
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.53
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.67,
+     -0.08
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.37
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     -0.08
+    ],
+    "widthM": 0.9
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/stairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -2.65
+    ],
+    "widthM": 7.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.76,
+     0.39
+    ],
+    "widthM": 6.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     3.42
+    ],
+    "widthM": 7.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.59,
+     0.39
+    ],
+    "widthM": 6.07
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/tradehome": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.26,
+     -4.43
+    ],
+    "widthM": 5.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.52,
+     -2.26
+    ],
+    "widthM": 4.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.26,
+     -0.09
+    ],
+    "widthM": 5.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.04,
+     -2.26
+    ],
+    "widthM": 4.34
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -1.64
+    ],
+    "widthM": 3.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.68,
+     0.01
+    ],
+    "widthM": 3.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     1.66
+    ],
+    "widthM": 3.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.72,
+     0.01
+    ],
+    "widthM": 3.3
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.33,
+     0.0
+    ],
+    "widthM": 3.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.33,
+     0.0
+    ],
+    "widthM": 3.04
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.66,
+     -0.01
+    ],
+    "widthM": 3.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.66,
+     -0.01
+    ],
+    "widthM": 3.11
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.19,
+     -2.18
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.98,
+     -0.28
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.19,
+     1.63
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.6,
+     -0.28
+    ],
+    "widthM": 3.81
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.98
+    ],
+    "widthM": 4.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.02,
+     -0.07
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.83
+    ],
+    "widthM": 4.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.01,
+     -0.07
+    ],
+    "widthM": 3.81
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.72,
+     -0.07
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.17,
+     -0.07
+    ],
+    "widthM": 3.81
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfence": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.66
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.97,
+     0.0
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 0.66
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.43
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.43,
+     0.0
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.43
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.0
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.71,
+     -1.82
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     -0.71
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.71,
+     0.4
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.71
+    ],
+    "widthM": 2.22
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.12,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.7,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.56,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.2,
+     -1.63
+    ],
+    "widthM": 4.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.44,
+     0.1
+    ],
+    "widthM": 3.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.2,
+     1.82
+    ],
+    "widthM": 4.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.1
+    ],
+    "widthM": 3.45
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.27
+    ],
+    "widthM": 6.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.27,
+     0.0
+    ],
+    "widthM": 6.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.27
+    ],
+    "widthM": 6.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.27,
+     0.0
+    ],
+    "widthM": 6.54
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.27
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.71,
+     0.0
+    ],
+    "widthM": 6.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.27
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.71,
+     0.0
+    ],
+    "widthM": 6.54
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.71
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.71,
+     0.0
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.71
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.71,
+     0.0
+    ],
+    "widthM": 3.42
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/crane01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.57,
+     -0.18
+    ],
+    "widthM": 2.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.33,
+     -0.18
+    ],
+    "widthM": 2.73
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/crane02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.67,
+     -0.18
+    ],
+    "widthM": 2.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.33,
+     -0.18
+    ],
+    "widthM": 2.73
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/crane03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.85,
+     -0.18
+    ],
+    "widthM": 2.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.33,
+     -0.18
+    ],
+    "widthM": 2.73
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/sbigplanter02t": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.19
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.0
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.19
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.0
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.11
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.12
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.12
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.3,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.12
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.3,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.12,
+     0.0
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.3,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.12
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.3,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.12,
+     0.0
+    ],
+    "widthM": 2.24
+   }
+  ],
+  "hlaalu:hlaaluarchitecture/objects/trlanternpostbase": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ]
+ },
+ "counts": {
+  "assets": 72,
+  "bounds": 238,
+  "co-placement": 84
+ },
+ "elongationRatio": 2.0,
+ "kit": "hlaalu-domestic",
+ "schemaVersion": 1
+}

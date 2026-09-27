@@ -251,6 +251,10 @@
    "ringFraction": 0.861,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -285,7 +289,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 270.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 24 times with other statics to one side; the side they left open, at 270\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "heightM": 11.21,
    "interior": "none",
    "planAreaM2": 5.43,
@@ -298,7 +307,12 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": null,
+   "front": {
+    "deg": 0.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 4 times with other statics to one side; the side they left open, at 0\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "frontFaceFraction": 0.0,
    "headroomM": 10.92,
    "heightM": 11.21,
@@ -355,10 +369,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
    "front": {
-    "deg": 309.8,
-    "evidence": "asymmetry",
+    "deg": 0.0,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 310\u00b0 in the piece's own frame carries 1.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 3 times with other statics to one side; the side they left open, at 0\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -409,10 +423,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
    "front": {
-    "deg": 284.5,
-    "evidence": "asymmetry",
+    "deg": 270.0,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 284\u00b0 in the piece's own frame carries 2.07x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 3 times with other statics to one side; the side they left open, at 270\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -602,7 +616,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 0.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 6 times with other statics to one side; the side they left open, at 0\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "heightM": 3.7,
    "interior": "none",
    "planAreaM2": 2.99,
@@ -801,6 +820,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -863,6 +886,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -941,6 +968,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    2.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -970,6 +1001,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    2.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -1009,6 +1044,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    2.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -1274,6 +1313,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -1336,6 +1379,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -1398,6 +1445,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -1482,6 +1533,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-imperial-int",
    "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
   },
@@ -2035,6 +2090,216 @@
   }
  },
  "kit": "imperial-keep",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
  "rules": {
   "doorwayArcM": [
    0.8,
@@ -2045,6 +2310,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",
@@ -2061,5 +2327,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }

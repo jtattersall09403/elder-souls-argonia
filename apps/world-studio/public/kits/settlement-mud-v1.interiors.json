@@ -64,7 +64,7 @@
     },
     {
      "count": 11,
-     "doorAsset": "bmv:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
+     "doorAsset": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
      "doorwaySource": "assembly",
      "kind": "assembly",
      "offsetM": [
@@ -78,6 +78,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "BM&V marsh hut exteriors ship no interior; the farmhouse interior tileset is the nearest single-room grammar we own"
   },
@@ -113,7 +117,7 @@
     "radiusM": 6.5,
     "sideDeg": 151.59
    },
-   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01, vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
+   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01, ruinswooddoorload01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
    "floorOffsetM": 0.0,
    "frontFaceFraction": 0.014,
    "headroomM": 4.52,
@@ -139,23 +143,139 @@
      "sideDeg": 151.64
     },
     {
-     "count": 1,
+     "count": 11,
      "doorAsset": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
-     "doorwaySource": "composite-leaf",
-     "kind": "composite-leaf",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
      "offsetM": [
       3.19,
       5.92
      ],
      "radiusM": 6.72,
-     "sideDeg": 151.68
+     "sideDeg": 151.7
     }
    ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "BM&V marsh hut exteriors ship no interior; the farmhouse interior tileset is the nearest single-room grammar we own"
+  },
+  "composite:mud/kotm-house-pod": {
+   "category": "misc",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "doorAsset": "kotm:argonia/mudhuts/door01",
+    "heightM": 2.4429,
+    "kind": "esp-door",
+    "offsetM": [
+     -0.91,
+     6.29
+    ],
+    "placements": 8,
+    "radiusM": 6.352,
+    "sideDeg": 188.25,
+    "yawDeg": 4.75
+   },
+   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior stands on any bearing across the plugin's placements; this composite hangs it at 188 deg in its own frame, so the entrance is fixed there",
+   "espLink": {
+    "doorModel": "kotm:argonia/mudhuts/door01",
+    "interiorCell": "KeebaHouseCrafter",
+    "interiorFamily": "kotm:argonia/mudhuts",
+    "interiorSizeM": {
+     "heightM": 10.79,
+     "planXM": 12.86,
+     "planYM": 14.1
+    },
+    "placements": 2,
+    "plugin": "King of the Murkmire.esp"
+   },
+   "floorOffsetM": 4.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 9.64,
+   "heightM": 13.75,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 2.88,
+   "planAreaM2": 150.8,
+   "planCentreM": [
+    -1.44,
+    -0.67
+   ],
+   "provenance": [
+    {
+     "count": 1,
+     "doorAsset": "kotm:argonia/mudhuts/door01",
+     "doorwaySource": "composite-leaf",
+     "kind": "composite-leaf",
+     "offsetM": [
+      -0.91,
+      6.29
+     ],
+     "radiusM": 6.35,
+     "sideDeg": 188.25
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "storeyLevelsM": [
+    2.4,
+    4.0
+   ],
+   "storeys": 1,
+   "tileset": "interior-kotm-v1",
+   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseCrafter (2 placements of the load door); that cell is built from kotm:argonia/mudhuts, which is packaged as interior-kotm-v1"
+  },
+  "composite:mud/pod-as-placed": {
+   "category": "misc",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "doorAsset": "kotm:argonia/mudhuts/door01",
+    "kind": "esp-door",
+    "placements": 8,
+    "radial": true,
+    "radiusM": 6.272
+   },
+   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior, at a constant radius on any bearing across the plugin's placements (8 placements)",
+   "espLink": {
+    "doorModel": "kotm:argonia/mudhuts/door01",
+    "interiorCell": "KeebaHouseCrafter",
+    "interiorFamily": "kotm:argonia/mudhuts",
+    "interiorSizeM": {
+     "heightM": 10.79,
+     "planXM": 12.86,
+     "planYM": 14.1
+    },
+    "placements": 2,
+    "plugin": "King of the Murkmire.esp"
+   },
+   "floorOffsetM": 4.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 9.61,
+   "heightM": 13.79,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 2.79,
+   "planAreaM2": 147.68,
+   "planCentreM": [
+    -1.75,
+    -0.5
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "storeyLevelsM": [
+    4.0
+   ],
+   "storeys": 1,
+   "tileset": "interior-kotm-v1",
+   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseCrafter (2 placements of the load door); that cell is built from kotm:argonia/mudhuts, which is packaged as interior-kotm-v1"
   },
   "ferries:yamadori/ferries/plank_ferry_swamp_01": {
    "category": "misc",
@@ -361,10 +481,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 347.8,
-    "evidence": "asymmetry",
+    "deg": 187.0,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 348\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 5 times with other statics to one side; the side they left open, at 187\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 2.78,
    "interior": "none",
@@ -378,10 +498,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 196.3,
-    "evidence": "asymmetry",
+    "deg": 13.1,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 196\u00b0 in the piece's own frame carries 6.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 50 times with other statics to one side; the side they left open, at 13\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 2.5,
    "interior": "none",
@@ -431,6 +551,10 @@
    "ringFraction": 0.931,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    4.0
+   ],
+   "storeys": 1,
    "why": "measured to enclose a volume (93% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/manorext": {
@@ -461,6 +585,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire never places it; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/mudhut01": {
@@ -503,18 +631,47 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/mudhut02": {
    "category": "misc",
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "doorAsset": "kotm:argonia/mudhuts/door01",
+    "heightM": 6.677,
+    "kind": "esp-door",
+    "offsetM": [
+     6.119,
+     -5.487
+    ],
+    "placements": 4,
+    "radiusM": 6.499,
+    "sideDeg": 70.31,
+    "yawDeg": 245.41
+   },
+   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior, at the offset the plugin places it in this shell's own frame (4 placements)",
+   "espLink": {
+    "doorModel": "kotm:argonia/mudhuts/door01",
+    "interiorCell": "KeebaHouseElder",
+    "interiorFamily": "kotm:argonia/mudhuts",
+    "interiorSizeM": {
+     "heightM": 15.03,
+     "planXM": 21.86,
+     "planYM": 14.15
+    },
+    "placements": 4,
+    "plugin": "King of the Murkmire.esp"
+   },
    "floorOffsetM": 0.0,
-   "front": null,
    "frontFaceFraction": 0.0,
    "headroomM": 12.13,
    "heightM": 12.25,
-   "interior": "none",
+   "interior": "tileset",
+   "interiorSource": "esp-door",
    "medianWallM": 6.17,
    "planAreaM2": 153.26,
    "planCentreM": [
@@ -525,7 +682,13 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+   "storeyLevelsM": [
+    0.0,
+    6.7
+   ],
+   "storeys": 2,
+   "tileset": "interior-kotm-v1",
+   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseElder (4 placements of the load door); that cell is built from kotm:argonia/mudhuts, which is packaged as interior-kotm-v1"
   },
   "kotm:argonia/mudhuts/mudhut03": {
    "category": "misc",
@@ -626,6 +789,10 @@
    "ringFraction": 0.764,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    2.0
+   ],
+   "storeys": 1,
    "why": "measured to enclose a volume (76% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire never places it; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/smpodext01": {
@@ -666,6 +833,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/smpodext02": {
@@ -674,21 +845,21 @@
    "entrance": {
     "doorAsset": "kotm:argonia/mudhuts/door01",
     "kind": "esp-door",
-    "placements": 12,
+    "placements": 8,
     "radial": true,
     "radiusM": 6.313
    },
-   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior, at a constant radius on any bearing across the plugin's placements (12 placements)",
+   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior, at a constant radius on any bearing across the plugin's placements (8 placements)",
    "espLink": {
     "doorModel": "kotm:argonia/mudhuts/door01",
-    "interiorCell": "KeebaHouseElder",
-    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorCell": "KeebaHouseCrafter",
+    "interiorFamily": "kotm:argonia/mudhuts",
     "interiorSizeM": {
-     "heightM": 15.03,
-     "planXM": 21.86,
-     "planYM": 14.15
+     "heightM": 10.79,
+     "planXM": 12.86,
+     "planYM": 14.1
     },
-    "placements": 4,
+    "placements": 2,
     "plugin": "King of the Murkmire.esp"
    },
    "floorOffsetM": 0.0,
@@ -718,8 +889,12 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "tileset": "vanilla-farmhouse-int",
-   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseElder (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
+   "tileset": "interior-kotm-v1",
+   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseCrafter (2 placements of the load door); that cell is built from kotm:argonia/mudhuts, which is packaged as interior-kotm-v1"
   },
   "kotm:argonia/mudhuts/smpodextdoor": {
    "category": "misc",
@@ -727,10 +902,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 2.0,
    "front": {
-    "deg": 227.2,
-    "evidence": "asymmetry",
+    "deg": 8.4,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 227\u00b0 in the piece's own frame carries 3.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 5 times with other statics to one side; the side they left open, at 8\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 0.161,
    "headroomM": 2.26,
@@ -753,10 +928,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 43.7,
-    "evidence": "asymmetry",
+    "deg": 89.3,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 44\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 15 times with other statics to one side; the side they left open, at 89\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 2.22,
    "interior": "none",
@@ -769,7 +944,12 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 87.7,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 15 times with other statics to one side; the side they left open, at 88\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "heightM": 3.77,
    "interior": "none",
    "planAreaM2": 4.07,
@@ -971,6 +1151,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.2 m tall)"
   },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.02,
+   "interior": "none",
+   "planAreaM2": 0.31,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.0 m tall)"
+  },
   "mudmother:gv_meshes/argoniannest/argonianplatform": {
    "category": "misc",
    "entrance": null,
@@ -1044,6 +1236,10 @@
    "ringFraction": 0.792,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "Argonian nest exteriors are one-room mud dwellings; the farmhouse interior tileset is the single-room rustic grammar we own that fits them"
   },
@@ -1180,6 +1376,10 @@
    "ringFraction": 0.833,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    8.0
+   ],
+   "storeys": 1,
    "tileset": "dungeon-root-v1",
    "why": "a hollow Hist trunk, not a built room: the root dungeon kit is the grown interior grammar for it"
   },
@@ -1191,19 +1391,19 @@
     "heightM": -0.042,
     "kind": "esp-door",
     "offsetM": [
-     5.779,
-     -2.329
+     -0.246,
+     8.469
     ],
     "placements": 2,
-    "radiusM": 6.231,
-    "sideDeg": 111.95,
+    "radiusM": 8.473,
+    "sideDeg": 181.66,
     "yawDeg": 360.0
    },
    "entranceWhy": "the exterior door dlc02/architecture/telvannitower/dlc2telmithryndoor01.nif that opens this interior, at the offset the plugin places it in this shell's own frame (2 placements)",
    "espLink": {
     "doorModel": "dlc02/architecture/telvannitower/dlc2telmithryndoor01.nif",
     "interiorCell": "00MudHut01",
-    "interiorFamily": "vanilla:dungeons/riften/clutter",
+    "interiorFamily": "mudmother:gv_meshes/argoniannest",
     "interiorSizeM": {
      "heightM": 7.49,
      "planXM": 17.09,
@@ -1239,8 +1439,12 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "mudmother-hut-int",
-   "why": "ArgonianLakeHouse.esl teleports from this shell into interior cell 00MudHut01 (2 placements of the load door); that cell is built from vanilla:dungeons/riften/clutter, which is packaged as mudmother-hut-int"
+   "why": "ArgonianLakeHouse.esl teleports from this shell into interior cell 00MudHut01 (2 placements of the load door); that cell is built from mudmother:gv_meshes/argoniannest, which is packaged as mudmother-hut-int"
   },
   "mudmother:gv_meshes/argoniannest/paintedurn01": {
    "category": "container",
@@ -1348,6 +1552,216 @@
   }
  },
  "kit": "settlement-mud-v1",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
  "rules": {
   "doorwayArcM": [
    0.8,

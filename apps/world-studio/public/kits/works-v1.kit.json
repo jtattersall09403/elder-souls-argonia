@@ -69,7 +69,8 @@
     "L2_Flames01:3.Mat": 0.5,
     "L2_Flames:0.Mat": 0.5,
     "L2_Flames:1.Mat": 0.5,
-    "L2_Flames:2.Mat": 0.5
+    "L2_Flames:2.Mat": 0.5,
+    "Shading.Mat": 0.5
    },
    "decalMaterials": [
     "Shading.Mat"
@@ -820,11 +821,11 @@
     "WheelR01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.48,
-    "p50": -0.4287,
-    "p75": -0.3558,
-    "n": 89,
-    "slopeTermMPerDeg": -0.00938,
+    "p25": -0.4652,
+    "p50": -0.4254,
+    "p75": -0.3554,
+    "n": 87,
+    "slopeTermMPerDeg": -0.00996,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -941,11 +942,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.6301
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -960,7 +956,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.63
+   "pivotAboveBaseM": -0.63,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.6301
+   }
   },
   {
    "id": "vanilla:clutter/carts/handcartcrate",
@@ -1165,10 +1166,10 @@
    },
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0312,
+    "p50": 0.036,
     "p75": 0.115,
-    "n": 103,
-    "slopeTermMPerDeg": 0.01358,
+    "n": 104,
+    "slopeTermMPerDeg": 0.01342,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1225,23 +1226,23 @@
    },
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0564,
+    "p50": 0.0631,
     "p75": 0.1491,
-    "n": 91,
-    "slopeTermMPerDeg": 0.00719,
+    "n": 92,
+    "slopeTermMPerDeg": 0.00727,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.024,
-    "buryCapM": 0.25,
+    "buryCapM": 0.9,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -1295,13 +1296,13 @@
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.019,
-    "buryCapM": 0.25,
+    "buryCapM": 0.9,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -1859,11 +1860,11 @@
     "MineWoodplanks04:13.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.567,
+    "p25": -0.5285,
     "p50": -0.2711,
-    "p75": -0.0972,
-    "n": 15,
-    "slopeTermMPerDeg": -0.04367,
+    "p75": -0.1068,
+    "n": 13,
+    "slopeTermMPerDeg": -0.02193,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1923,6 +1924,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -1971,9 +1979,9 @@
     "MineScaffoldSupport01:13.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2026,9 +2034,9 @@
     "MineScaffoldBaseSupport01:13.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2149,11 +2157,11 @@
     "MineOreIron01:4.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0072,
-    "p50": 0.2535,
+    "p25": 0.0169,
+    "p50": 0.2613,
     "p75": 0.4227,
-    "n": 147,
-    "slopeTermMPerDeg": -0.01206,
+    "n": 145,
+    "slopeTermMPerDeg": -0.01069,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2273,11 +2281,11 @@
     "StockadeScaffoldBase0Sided01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.557,
-    "p50": 1.3247,
+    "p25": 0.593,
+    "p50": 1.3681,
     "p75": 2.3844,
-    "n": 72,
-    "slopeTermMPerDeg": -0.03233,
+    "n": 70,
+    "slopeTermMPerDeg": -0.02878,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2387,10 +2395,10 @@
     "StockadeScaffoldBase2Sided01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.4006,
+    "p25": 0.7726,
     "p50": 0.9711,
     "p75": 1.1948,
-    "n": 6,
+    "n": 5,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
@@ -2556,9 +2564,9 @@
     "StockadeScaffoldBaseSupport01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2613,14 +2621,14 @@
     "StockadeScaffoldTop0Sided01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.2574,
-    "p50": -0.1059,
-    "p75": -0.0049,
-    "n": 101,
-    "slopeTermMPerDeg": -0.01856,
+    "p25": -0.2499,
+    "p50": -0.0997,
+    "p75": 0.0037,
+    "n": 100,
+    "slopeTermMPerDeg": -0.01751,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -3234,16 +3242,15 @@
     "p75": 0.0562,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-unsupported)"
+    "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "water",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0562
    },
-   "designedWaterlineM": -1.3655,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3299,16 +3306,15 @@
     "p75": 0.0562,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-unsupported)"
+    "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "water",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0562
    },
-   "designedWaterlineM": -1.0305,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3367,6 +3373,13 @@
     "n": 4,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 7,
+    "p10": 0.85,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3428,6 +3441,13 @@
     "n": 3,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
@@ -3504,6 +3524,13 @@
     "slopeTermMPerDeg": -0.10931,
     "evidence": "plugin"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -3579,6 +3606,13 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -3636,15 +3670,29 @@
     "DockStepsDown01:3.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.1391,
-    "p50": 0.6633,
-    "p75": 9.9166,
-    "n": 3,
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3701,6 +3749,13 @@
     "n": 16,
     "slopeTermMPerDeg": -0.0112,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 84,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "policy",
@@ -3830,10 +3885,10 @@
    },
    "designedSinkM": {
     "p25": -0.0067,
-    "p50": 0.0045,
+    "p50": 0.0048,
     "p75": 0.1078,
-    "n": 568,
-    "slopeTermMPerDeg": -0.00206,
+    "n": 565,
+    "slopeTermMPerDeg": -0.00128,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4053,11 +4108,11 @@
     "Basket01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.0068,
+    "p25": -0.0028,
     "p50": 0.0,
     "p75": 0.0244,
-    "n": 14,
-    "slopeTermMPerDeg": 0.00213,
+    "n": 13,
+    "slopeTermMPerDeg": 0.00215,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4166,8 +4221,8 @@
     "p25": -0.0247,
     "p50": 0.0,
     "p75": 0.0309,
-    "n": 20,
-    "slopeTermMPerDeg": 0.00595,
+    "n": 19,
+    "slopeTermMPerDeg": 0.00584,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4221,21 +4276,21 @@
     "p25": -0.0402,
     "p50": -0.013,
     "p75": 0.0046,
-    "n": 120,
-    "slopeTermMPerDeg": -0.00764,
+    "n": 119,
+    "slopeTermMPerDeg": -0.00742,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
+    "buryCapM": 0.9,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": true,
@@ -4519,6 +4574,9 @@
    "materials": [
     "HorseTrough01:0.Mat",
     "HorseTrough01:1.Mat",
+    "WATER.Mat"
+   ],
+   "waterMaterials": [
     "WATER.Mat"
    ],
    "designedSinkM": {
@@ -5143,9 +5201,9 @@
     "HagravenFence02:20.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -5335,15 +5393,20 @@
     "CookingStand01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0031,
+    "p50": 0.0031,
+    "p75": 0.0031,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill (plugin-unsupported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0031
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5390,15 +5453,15 @@
     "Spit:0 - L2_Details:0 - L1_Supports:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0436,
+    "p50": -0.0129,
+    "p75": 0.0333,
+    "n": 30,
+    "slopeTermMPerDeg": -0.02872,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5498,6 +5561,430 @@
    "pivotAboveBaseM": -0.0
   },
   {
+   "id": "bmv:roadsignsmall01l",
+   "node": "es|1581645f25|bmv__roadsignsmall01l",
+   "category": "misc",
+   "sizeM": [
+    0.869,
+    0.023,
+    0.279
+   ],
+   "originOffsetM": [
+    0.36,
+    -0.122,
+    0.143
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignsmall.dds"
+   ],
+   "materials": [
+    "RoadSignSmall01L:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1428,
+    "p50": -0.1428,
+    "p75": -0.1428,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1428
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.143,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.143
+  },
+  {
+   "id": "bmv:roadsignsmall01r",
+   "node": "es|33b705549d|bmv__roadsignsmall01r",
+   "category": "misc",
+   "sizeM": [
+    0.868,
+    0.025,
+    0.273
+   ],
+   "originOffsetM": [
+    0.43,
+    0.127,
+    0.157
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignsmall.dds"
+   ],
+   "materials": [
+    "RoadSignSmall01R:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1569,
+    "p50": -0.1569,
+    "p75": -0.1569,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1569
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.157,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.157
+  },
+  {
+   "id": "bmv:roadsignmedium01l",
+   "node": "es|7bc028c679|bmv__roadsignmedium01l",
+   "category": "misc",
+   "sizeM": [
+    1.021,
+    0.035,
+    0.274
+   ],
+   "originOffsetM": [
+    0.436,
+    -0.116,
+    0.143
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignmedium.dds"
+   ],
+   "materials": [
+    "RoadSignMedium01L:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1427,
+    "p50": -0.1427,
+    "p75": -0.1427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1427
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.143,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.143
+  },
+  {
+   "id": "bmv:roadsignmedium01r",
+   "node": "es|aa2db8d81c|bmv__roadsignmedium01r",
+   "category": "misc",
+   "sizeM": [
+    1.026,
+    0.023,
+    0.311
+   ],
+   "originOffsetM": [
+    0.441,
+    0.145,
+    0.155
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignmedium.dds"
+   ],
+   "materials": [
+    "RoadSignMedium01R:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.155,
+    "p50": -0.155,
+    "p75": -0.155,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.155,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.155
+  },
+  {
+   "id": "bmv:roadsignlarge01l",
+   "node": "es|9dfb983a34|bmv__roadsignlarge01l",
+   "category": "misc",
+   "sizeM": [
+    1.414,
+    0.084,
+    0.328
+   ],
+   "originOffsetM": [
+    0.635,
+    -0.091,
+    0.164
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignlarge.dds"
+   ],
+   "materials": [
+    "RoadSignLarge01L:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.164,
+    "p50": -0.164,
+    "p75": -0.164,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.164,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.501,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.164
+  },
+  {
+   "id": "bmv:roadsignlarge01r",
+   "node": "es|35414d7271|bmv__roadsignlarge01r",
+   "category": "misc",
+   "sizeM": [
+    1.409,
+    0.023,
+    0.273
+   ],
+   "originOffsetM": [
+    0.63,
+    0.145,
+    0.137
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignlarge.dds"
+   ],
+   "materials": [
+    "RoadSignLarge01R:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1366,
+    "p50": -0.1366,
+    "p75": -0.1366,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1366
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.137,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.137
+  },
+  {
+   "id": "vanilla:effects/fxfirewithembers01",
+   "node": "es|6a42a81536|vanilla__effects_fxfirewithembers01",
+   "category": "effect",
+   "sizeM": [
+    2.288,
+    1.176,
+    1.648
+   ],
+   "originOffsetM": [
+    1.144,
+    0.638,
+    0.337
+   ],
+   "triangles": 1218,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [
+    {
+     "shape": "L2_Plane03:0",
+     "reason": "refraction-only"
+    }
+   ],
+   "textures": [
+    "fxembers.dds",
+    "fxfireatlas04.dds",
+    "glowslightflash.dds",
+    "vaportile01.dds"
+   ],
+   "materials": [
+    "Flames02grant01:0.Mat",
+    "L2_Flames02grant:0.Mat",
+    "L2_Flames02grant:1.Mat",
+    "L2_qhcoal04:0 - L2_CoalsBase:0.Mat",
+    "glow:0.Mat"
+   ],
+   "additiveMaterials": [
+    "Flames02grant01:0.Mat",
+    "L2_Flames02grant:0.Mat",
+    "L2_Flames02grant:1.Mat",
+    "L2_qhcoal04:0 - L2_CoalsBase:0.Mat",
+    "glow:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1056,
+    "p50": -0.0917,
+    "p75": 0.0638,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "fx",
+   "anchorClassEvidence": "category",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.337,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.029,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.337
+  },
+  {
    "id": "vanilla:clutter/woodfires/campfire01burning",
    "node": "es|5116a03db3|lla__clutter_woodfires_campfire01burning",
    "category": "clutter",
@@ -5576,15 +6063,15 @@
     "evidence": "Skyrim.esm: LightCampFire01 is the nearest LIGH ref (< 200 units) to 60 of 145 Campfire01Burning refs (next: DefaultTorch01NS_Fast 9; none 31); offset is the median of those 60 in the piece's frame, glTF Y-up metres (horizontal median 0.13 m)."
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0543,
+    "p50": -0.0,
+    "p75": 0.0325,
+    "n": 42,
+    "slopeTermMPerDeg": 0.00056,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5644,15 +6131,15 @@
     ]
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": 0.1275,
+    "p50": 0.2649,
+    "p75": 0.449,
+    "n": 54,
+    "slopeTermMPerDeg": 0.01035,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5703,15 +6190,20 @@
     "FishingGear_FishNet01:0.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0206,
+    "p50": 0.0206,
+    "p75": 0.0206,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0206
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5760,15 +6252,15 @@
     "Pot:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0216,
+    "p50": 0.0665,
+    "p75": 0.2135,
+    "n": 15,
+    "slopeTermMPerDeg": 0.03531,
+    "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5815,15 +6307,15 @@
     "SpitPotOpenLoose01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
+    "p25": -0.1249,
+    "p50": -0.1173,
+    "p75": -0.1048,
+    "n": 7,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5870,15 +6362,15 @@
     "CastIronPotMedium01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
+    "p25": -0.3635,
+    "p50": 0.0083,
+    "p75": 0.0085,
+    "n": 5,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5925,15 +6417,20 @@
     "SpitPotOpenLoose01:0.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.0993,
+    "p50": -0.0993,
+    "p75": -0.0993,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0993
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5980,15 +6477,15 @@
     "Basket05:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0197,
+    "p50": 0.0,
+    "p75": 0.0355,
+    "n": 12,
+    "slopeTermMPerDeg": 0.00133,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6035,15 +6532,15 @@
     "Basket06:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.0089,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 10,
+    "slopeTermMPerDeg": -0.00336,
+    "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6090,15 +6587,20 @@
     "Zylinder01.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.2625,
+    "p50": -0.2625,
+    "p75": -0.2625,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2625
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6145,15 +6647,15 @@
     "Objekt01.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
+    "p25": -0.2647,
+    "p50": -0.0137,
+    "p75": 0.0071,
+    "n": 3,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6213,15 +6715,15 @@
     ]
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "p25": -0.4973,
+    "p50": -0.4953,
+    "p75": -0.4644,
+    "n": 9,
+    "slopeTermMPerDeg": -0.00285,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6383,12 +6885,30 @@
   "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
-  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
+  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds"
  },
  "alphaModes": {
-  "MASK": 35,
-  "OPAQUE": 223,
-  "BLEND": 3
+  "MASK": 36,
+  "OPAQUE": 227,
+  "BLEND": 9
+ },
+ "effectTextures": {
+  "fx:smoke-column": {
+   "file": "works-v1-fx/smokeparticles01.png",
+   "sourcePath": "textures/effects/smokeparticles01.dds",
+   "sourceArchive": "Skyrim - Textures.bsa",
+   "sha256Dds": "2e6a0308ebf32f864a76fef14844183ba5306cf9f5f7eef43a50a8fe09a8c7db",
+   "px": [
+    512,
+    512
+   ],
+   "pngBytes": 147174,
+   "atlas": [
+    4,
+    4
+   ]
+  }
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -6421,16 +6941,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 40135568,
-  "bytesAfter": 19520600,
-  "images": 82,
-  "imageBytesAfter": 17032331,
+  "bytesBefore": 41155796,
+  "bytesAfter": 20072492,
+  "images": 85,
+  "imageBytesAfter": 17520783,
   "warnings": [],
-  "sha256": "354aad5ff1e5ff454686162c5bdc1063391f6b1571741f2477b4b4d861c5ab5f",
+  "sha256": "8d1341d6588f6e8ce758b2e4042fe701c9b68153da8a9cd8e457ea647c31f1f2",
   "sidecarBytes": {
-   "connectors": 71458,
-   "footprints": 131405,
-   "interiors": 55485
+   "connectors": 76338,
+   "footprints": 135343,
+   "interiors": 63158
   }
  }
 }

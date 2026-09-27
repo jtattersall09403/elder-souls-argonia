@@ -65,7 +65,14 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 0.8,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
@@ -133,7 +140,14 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 0.8,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
@@ -195,13 +209,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
     "valueM": -0.0036
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 0.8,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01",
@@ -529,7 +550,14 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.8,
+    "p90": 0.8,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01",
@@ -597,7 +625,14 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.8,
+    "p90": 0.8,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
@@ -663,7 +698,14 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
@@ -979,13 +1021,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "hanging",
+   "anchorClass": "wall",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 0.87,
+   "placedScaleEvidence": {
+    "n": 8,
+    "p10": 0.87,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01",
@@ -1107,13 +1156,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
+   "anchorClass": "wall",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02",
@@ -1177,7 +1233,14 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.87,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 0.87,
+    "p90": 0.87,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01",
@@ -1495,7 +1558,14 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.16,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.16,
+    "p90": 1.16,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01",
@@ -1676,7 +1746,14 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.28,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.28,
+    "p90": 1.28,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01",
@@ -1740,7 +1817,14 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.3,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.28,
+    "p90": 1.3,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02",
@@ -1804,7 +1888,14 @@
     "tell": "door-sill",
     "valueM": -7.2827
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
@@ -1859,7 +1950,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 18,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02",
@@ -1975,7 +2073,14 @@
     "tell": "door-sill",
     "valueM": -7.2827
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01",
@@ -2039,7 +2144,14 @@
     "tell": "door-sill",
     "valueM": -7.2827
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.1,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.1,
+    "p90": 1.1,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01",
@@ -2101,7 +2213,14 @@
     "tell": "door-sill",
     "valueM": -2.731
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.8,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 0.7,
+    "p90": 0.85,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01",
@@ -2144,9 +2263,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3020,15 +3139,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02",
@@ -3085,7 +3211,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 7,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01",
@@ -3204,7 +3337,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01",
@@ -3308,9 +3448,9 @@
     "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-unsupported)"
+    "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
@@ -3369,15 +3509,27 @@
     }
    },
    "designedSinkM": {
-    "p25": 5.7058,
-    "p50": 6.6491,
-    "p75": 7.3461,
-    "n": 3,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "mesh-sill (plugin-spread)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01",
@@ -3488,15 +3640,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 1.07,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.07,
+    "p90": 1.07,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01",
@@ -3760,7 +3919,14 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02",
@@ -3821,7 +3987,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
@@ -3879,13 +4052,21 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "water",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -2.2448,
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01",
@@ -4191,7 +4372,14 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
@@ -4251,13 +4439,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01",
@@ -4362,9 +4557,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4424,7 +4619,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
@@ -4660,7 +4855,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "wall",
+   "anchorClass": "hanging",
    "groundLineTell": {
     "type": "mesh",
     "tell": "door-sill",
@@ -4781,7 +4976,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 9,
+    "p10": 0.82,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02",
@@ -4836,7 +5038,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03",
@@ -4896,7 +5105,14 @@
     "tell": "post-foot",
     "valueM": -0.1711
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01",
@@ -4939,15 +5155,22 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin"
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02",
@@ -4990,9 +5213,9 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -5041,15 +5264,16 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.18,
-    "p50": 0.18,
-    "p75": 0.18,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
    "anchorClass": "water",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.18
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01",
@@ -5096,10 +5320,10 @@
    },
    "designedSinkM": {
     "p25": -0.1147,
-    "p50": -0.0456,
+    "p50": -0.0072,
     "p75": 0.0146,
-    "n": 20,
-    "slopeTermMPerDeg": 0.00012,
+    "n": 17,
+    "slopeTermMPerDeg": -0.00384,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

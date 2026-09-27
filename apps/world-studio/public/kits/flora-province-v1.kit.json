@@ -239,8 +239,8 @@
     "p25": 0.6389,
     "p50": 2.8089,
     "p75": 5.8521,
-    "n": 320,
-    "slopeTermMPerDeg": 0.02424,
+    "n": 319,
+    "slopeTermMPerDeg": 0.02308,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1653,13 +1653,14 @@
    "designedSinkM": {
     "p25": 0.7683,
     "p50": 1.6046,
-    "p75": 3.3627,
-    "n": 74,
-    "slopeTermMPerDeg": 0.0441,
+    "p75": 3.8213,
+    "n": 69,
+    "slopeTermMPerDeg": 0.04102,
     "evidence": "plugin"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin"
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 1.8007
   },
   {
    "id": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -1729,8 +1730,8 @@
     "p25": 0.0751,
     "p50": 0.0751,
     "p75": 0.3168,
-    "n": 491,
-    "slopeTermMPerDeg": 0.99367,
+    "n": 490,
+    "slopeTermMPerDeg": 0.99354,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2540,7 +2541,8 @@
     "tell": "floor-plane",
     "valueM": 0.0888
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.0
   },
   {
    "id": "bmv:landscape/trees/gkblillipad2",
@@ -6472,9 +6474,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.303,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -6630,8 +6632,8 @@
     "p25": 1.8207,
     "p50": 2.731,
     "p75": 4.0965,
-    "n": 308,
-    "slopeTermMPerDeg": 0.29413,
+    "n": 306,
+    "slopeTermMPerDeg": 0.29404,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -8122,9 +8124,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.325,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -8289,7 +8291,7 @@
     "slopeTermMPerDeg": 0.07527,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin"
   },
   {
@@ -9771,10 +9773,10 @@
    "pivotAboveBaseM": 0.138,
    "designedSinkM": {
     "p25": 1.3655,
-    "p50": 2.6564,
-    "p75": 4.4538,
-    "n": 293,
-    "slopeTermMPerDeg": 0.38071,
+    "p50": 2.673,
+    "p75": 4.5392,
+    "n": 292,
+    "slopeTermMPerDeg": 0.38042,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -11259,14 +11261,14 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.065,
    "designedSinkM": {
-    "p25": 0.4153,
-    "p50": 2.0253,
-    "p75": 3.8475,
-    "n": 248,
-    "slopeTermMPerDeg": 0.07221,
+    "p25": 0.6717,
+    "p50": 2.2373,
+    "p75": 4.1018,
+    "n": 207,
+    "slopeTermMPerDeg": 0.02889,
     "evidence": "plugin"
    },
-   "anchorClass": "wall",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin"
   },
   {
@@ -12425,9 +12427,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -15171,9 +15173,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.325,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -15246,9 +15248,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.809,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -18154,9 +18156,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.052,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -18219,11 +18221,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.69,
    "designedSinkM": {
-    "p25": 0.8901,
-    "p50": 1.6834,
-    "p75": 2.5573,
-    "n": 468,
-    "slopeTermMPerDeg": 0.00402,
+    "p25": 0.9502,
+    "p50": 1.7251,
+    "p75": 2.5735,
+    "n": 459,
+    "slopeTermMPerDeg": 0.00877,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -18286,11 +18288,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.573,
    "designedSinkM": {
-    "p25": 0.4338,
-    "p50": 1.0537,
-    "p75": 1.517,
-    "n": 895,
-    "slopeTermMPerDeg": -0.01215,
+    "p25": 0.4889,
+    "p50": 1.0708,
+    "p75": 1.5251,
+    "n": 874,
+    "slopeTermMPerDeg": -0.00236,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -18351,11 +18353,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.47,
    "designedSinkM": {
-    "p25": 0.7296,
-    "p50": 1.0952,
+    "p25": 0.7307,
+    "p50": 1.0964,
     "p75": 1.4484,
-    "n": 563,
-    "slopeTermMPerDeg": 0.01334,
+    "n": 562,
+    "slopeTermMPerDeg": 0.01351,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -18416,11 +18418,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.336,
    "designedSinkM": {
-    "p25": 0.548,
-    "p50": 0.8682,
-    "p75": 1.1349,
-    "n": 732,
-    "slopeTermMPerDeg": 0.00806,
+    "p25": 0.557,
+    "p50": 0.87,
+    "p75": 1.1358,
+    "n": 727,
+    "slopeTermMPerDeg": 0.0095,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -18481,11 +18483,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.383,
    "designedSinkM": {
-    "p25": 0.3691,
-    "p50": 0.5515,
-    "p75": 0.7475,
-    "n": 389,
-    "slopeTermMPerDeg": 0.01782,
+    "p25": 0.3704,
+    "p50": 0.5579,
+    "p75": 0.7499,
+    "n": 388,
+    "slopeTermMPerDeg": 0.01786,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -22697,9 +22699,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 2.867,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -33813,9 +33815,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 4.317,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -36658,9 +36660,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": -0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -36734,9 +36736,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.085,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -40754,9 +40756,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.209,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -44488,9 +44490,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -46107,9 +46109,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.063,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.063,
+    "p50": -0.063,
+    "p75": -0.063,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -47235,7 +47237,8 @@
     "tell": "floor-plane",
     "valueM": -0.0319
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.0
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -47309,13 +47312,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
+   "anchorClass": "water",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.9729
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 5.462
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -47834,11 +47838,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.848,
    "designedSinkM": {
-    "p25": 1.0554,
-    "p50": 1.7099,
-    "p75": 2.31,
-    "n": 1058,
-    "slopeTermMPerDeg": 0.00113,
+    "p25": 1.0692,
+    "p50": 1.7168,
+    "p75": 2.3129,
+    "n": 1051,
+    "slopeTermMPerDeg": -0.01422,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -47899,11 +47903,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.231,
    "designedSinkM": {
-    "p25": 0.987,
-    "p50": 1.4166,
-    "p75": 1.8267,
-    "n": 394,
-    "slopeTermMPerDeg": 0.01139,
+    "p25": 1.0009,
+    "p50": 1.4241,
+    "p75": 1.8292,
+    "n": 389,
+    "slopeTermMPerDeg": 0.01091,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -47964,11 +47968,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.253,
    "designedSinkM": {
-    "p25": 0.9974,
+    "p25": 1.0145,
     "p50": 1.5698,
     "p75": 2.0375,
-    "n": 298,
-    "slopeTermMPerDeg": 0.00781,
+    "n": 297,
+    "slopeTermMPerDeg": 0.00847,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -48029,11 +48033,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.188,
    "designedSinkM": {
-    "p25": 0.4475,
-    "p50": 0.7465,
-    "p75": 1.0491,
-    "n": 718,
-    "slopeTermMPerDeg": 0.00969,
+    "p25": 0.4521,
+    "p50": 0.7591,
+    "p75": 1.0528,
+    "n": 711,
+    "slopeTermMPerDeg": 0.014,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -48094,11 +48098,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.26,
    "designedSinkM": {
-    "p25": 0.3933,
-    "p50": 0.6543,
-    "p75": 0.8937,
-    "n": 378,
-    "slopeTermMPerDeg": 0.01374,
+    "p25": 0.4071,
+    "p50": 0.6557,
+    "p75": 0.8942,
+    "n": 375,
+    "slopeTermMPerDeg": 0.01421,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -48159,11 +48163,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.205,
    "designedSinkM": {
-    "p25": 0.4597,
-    "p50": 0.8115,
-    "p75": 1.0752,
-    "n": 303,
-    "slopeTermMPerDeg": 0.00733,
+    "p25": 0.4778,
+    "p50": 0.8173,
+    "p75": 1.0753,
+    "n": 300,
+    "slopeTermMPerDeg": 0.00729,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -48224,11 +48228,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.09,
    "designedSinkM": {
-    "p25": 0.1541,
-    "p50": 0.3217,
-    "p75": 0.4851,
-    "n": 469,
-    "slopeTermMPerDeg": 0.01267,
+    "p25": 0.1598,
+    "p50": 0.3265,
+    "p75": 0.4856,
+    "n": 466,
+    "slopeTermMPerDeg": 0.01351,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -48625,9 +48629,8 @@
     "slopeTermMPerDeg": -0.01713,
     "evidence": "plugin"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 1.4464
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel01wet",
@@ -48964,11 +48967,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.247,
    "designedSinkM": {
-    "p25": 0.0647,
-    "p50": 0.1631,
-    "p75": 0.2579,
-    "n": 1378,
-    "slopeTermMPerDeg": -0.00627,
+    "p25": 0.0771,
+    "p50": 0.168,
+    "p75": 0.2623,
+    "n": 1344,
+    "slopeTermMPerDeg": -0.00384,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49031,11 +49034,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.32,
    "designedSinkM": {
-    "p25": 0.0782,
-    "p50": 0.1931,
-    "p75": 0.2928,
-    "n": 744,
-    "slopeTermMPerDeg": 0.00197,
+    "p25": 0.0908,
+    "p50": 0.2015,
+    "p75": 0.2974,
+    "n": 720,
+    "slopeTermMPerDeg": 0.00609,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49098,11 +49101,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.279,
    "designedSinkM": {
-    "p25": 0.218,
-    "p50": 0.352,
-    "p75": 0.4919,
-    "n": 628,
-    "slopeTermMPerDeg": -0.016,
+    "p25": 0.226,
+    "p50": 0.3568,
+    "p75": 0.4955,
+    "n": 616,
+    "slopeTermMPerDeg": -0.01395,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49165,11 +49168,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.503,
    "designedSinkM": {
-    "p25": 0.1059,
+    "p25": 0.1078,
     "p50": 0.227,
     "p75": 0.3543,
-    "n": 727,
-    "slopeTermMPerDeg": 0.00547,
+    "n": 716,
+    "slopeTermMPerDeg": 0.00603,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49234,11 +49237,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.584,
    "designedSinkM": {
-    "p25": 0.1473,
-    "p50": 0.2795,
-    "p75": 0.4739,
-    "n": 692,
-    "slopeTermMPerDeg": -0.03584,
+    "p25": 0.1489,
+    "p50": 0.2828,
+    "p75": 0.4741,
+    "n": 683,
+    "slopeTermMPerDeg": -0.03565,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49304,11 +49307,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.49,
    "designedSinkM": {
-    "p25": 0.1321,
-    "p50": 0.2476,
-    "p75": 0.3742,
-    "n": 2092,
-    "slopeTermMPerDeg": -0.01048,
+    "p25": 0.1397,
+    "p50": 0.2529,
+    "p75": 0.3763,
+    "n": 2046,
+    "slopeTermMPerDeg": -0.00528,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49371,11 +49374,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.711,
    "designedSinkM": {
-    "p25": 1.6338,
-    "p50": 2.0493,
-    "p75": 2.4155,
-    "n": 1487,
-    "slopeTermMPerDeg": 0.03993,
+    "p25": 1.6409,
+    "p50": 2.0534,
+    "p75": 2.4196,
+    "n": 1480,
+    "slopeTermMPerDeg": 0.04016,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49443,8 +49446,8 @@
     "p25": -0.0961,
     "p50": 0.135,
     "p75": 0.3649,
-    "n": 430,
-    "slopeTermMPerDeg": 0.00778,
+    "n": 427,
+    "slopeTermMPerDeg": 0.00746,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49512,11 +49515,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.594,
    "designedSinkM": {
-    "p25": 0.3073,
-    "p50": 0.706,
-    "p75": 1.1018,
-    "n": 567,
-    "slopeTermMPerDeg": 0.00077,
+    "p25": 0.3123,
+    "p50": 0.7075,
+    "p75": 1.1023,
+    "n": 563,
+    "slopeTermMPerDeg": 0.0123,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49583,11 +49586,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.652,
    "designedSinkM": {
-    "p25": 0.4674,
+    "p25": 0.4772,
     "p50": 0.7661,
     "p75": 1.0446,
-    "n": 350,
-    "slopeTermMPerDeg": 0.00158,
+    "n": 345,
+    "slopeTermMPerDeg": 0.00327,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49654,11 +49657,11 @@
    "openBackYawDeg": 270.0,
    "pivotAboveBaseM": 4.964,
    "designedSinkM": {
-    "p25": 0.262,
-    "p50": 1.2411,
+    "p25": 0.2664,
+    "p50": 1.2425,
     "p75": 1.8155,
-    "n": 432,
-    "slopeTermMPerDeg": -0.03376,
+    "n": 430,
+    "slopeTermMPerDeg": -0.03503,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49723,11 +49726,11 @@
    "openBackYawDeg": 258.8,
    "pivotAboveBaseM": 0.389,
    "designedSinkM": {
-    "p25": 7.2152,
+    "p25": 7.1914,
     "p50": 8.5794,
-    "p75": 9.4482,
-    "n": 640,
-    "slopeTermMPerDeg": 0.0112,
+    "p75": 9.4462,
+    "n": 638,
+    "slopeTermMPerDeg": 0.01144,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49790,11 +49793,11 @@
    "openBackYawDeg": 270.0,
    "pivotAboveBaseM": 1.516,
    "designedSinkM": {
-    "p25": 7.4702,
-    "p50": 8.6337,
-    "p75": 9.576,
-    "n": 828,
-    "slopeTermMPerDeg": 0.01992,
+    "p25": 7.4698,
+    "p50": 8.631,
+    "p75": 9.5561,
+    "n": 827,
+    "slopeTermMPerDeg": 0.01987,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49926,11 +49929,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.036,
    "designedSinkM": {
-    "p25": 4.3919,
-    "p50": 5.6207,
+    "p25": 4.4124,
+    "p50": 5.6308,
     "p75": 6.6995,
-    "n": 267,
-    "slopeTermMPerDeg": 0.02235,
+    "n": 264,
+    "slopeTermMPerDeg": 0.02249,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -49991,11 +49994,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.425,
    "designedSinkM": {
-    "p25": 4.2007,
+    "p25": 4.2434,
     "p50": 5.6649,
     "p75": 6.8916,
-    "n": 334,
-    "slopeTermMPerDeg": 0.01857,
+    "n": 333,
+    "slopeTermMPerDeg": 0.01926,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50058,11 +50061,11 @@
    "openBackYawDeg": 270.0,
    "pivotAboveBaseM": 0.091,
    "designedSinkM": {
-    "p25": 8.4974,
-    "p50": 9.7865,
-    "p75": 10.6396,
-    "n": 473,
-    "slopeTermMPerDeg": 0.02302,
+    "p25": 8.5068,
+    "p50": 9.795,
+    "p75": 10.6407,
+    "n": 472,
+    "slopeTermMPerDeg": 0.02308,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50203,11 +50206,11 @@
    "openBackYawDeg": 225.0,
    "pivotAboveBaseM": -0.003,
    "designedSinkM": {
-    "p25": 0.0196,
-    "p50": 0.185,
-    "p75": 0.3347,
-    "n": 1205,
-    "slopeTermMPerDeg": -0.00124,
+    "p25": 0.0251,
+    "p50": 0.1873,
+    "p75": 0.3369,
+    "n": 1192,
+    "slopeTermMPerDeg": -0.00129,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50278,11 +50281,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.221,
    "designedSinkM": {
-    "p25": -0.0519,
-    "p50": 0.0264,
+    "p25": -0.0516,
+    "p50": 0.0323,
     "p75": 0.1949,
-    "n": 108,
-    "slopeTermMPerDeg": 0.00757,
+    "n": 106,
+    "slopeTermMPerDeg": 0.01085,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50353,11 +50356,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.06,
    "designedSinkM": {
-    "p25": -0.0,
-    "p50": 0.0715,
-    "p75": 0.1794,
-    "n": 118,
-    "slopeTermMPerDeg": -0.00414,
+    "p25": 0.0,
+    "p50": 0.0735,
+    "p75": 0.1801,
+    "n": 113,
+    "slopeTermMPerDeg": -0.0,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50428,11 +50431,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.221,
    "designedSinkM": {
-    "p25": 0.0726,
-    "p50": 0.2295,
+    "p25": 0.0791,
+    "p50": 0.2304,
     "p75": 0.3319,
-    "n": 190,
-    "slopeTermMPerDeg": 0.00244,
+    "n": 187,
+    "slopeTermMPerDeg": 0.00424,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50503,11 +50506,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.42,
    "designedSinkM": {
-    "p25": -0.0245,
-    "p50": 0.3239,
-    "p75": 1.2053,
-    "n": 173,
-    "slopeTermMPerDeg": 0.16232,
+    "p25": -0.0234,
+    "p50": 0.3245,
+    "p75": 1.2261,
+    "n": 172,
+    "slopeTermMPerDeg": 0.16511,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50653,11 +50656,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.114,
    "designedSinkM": {
-    "p25": 0.016,
-    "p50": 0.2335,
-    "p75": 0.4593,
-    "n": 4403,
-    "slopeTermMPerDeg": 0.05351,
+    "p25": 0.0196,
+    "p50": 0.2361,
+    "p75": 0.4608,
+    "n": 4369,
+    "slopeTermMPerDeg": 0.05509,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50728,11 +50731,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
-    "p25": -0.0065,
-    "p50": 0.073,
-    "p75": 0.1639,
-    "n": 542,
-    "slopeTermMPerDeg": -0.00299,
+    "p25": -0.0022,
+    "p50": 0.0786,
+    "p75": 0.167,
+    "n": 530,
+    "slopeTermMPerDeg": -0.00223,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50804,10 +50807,10 @@
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0882,
-    "p75": 0.1785,
-    "n": 413,
-    "slopeTermMPerDeg": 0.00213,
+    "p50": 0.0891,
+    "p75": 0.179,
+    "n": 409,
+    "slopeTermMPerDeg": 0.00229,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -50879,10 +50882,10 @@
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.1041,
-    "p75": 0.1973,
-    "n": 285,
-    "slopeTermMPerDeg": 0.00723,
+    "p50": 0.1058,
+    "p75": 0.1986,
+    "n": 282,
+    "slopeTermMPerDeg": 0.00803,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -51070,11 +51073,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 2.037,
    "designedSinkM": {
-    "p25": -0.8322,
-    "p50": -0.4987,
-    "p75": -0.0053,
-    "n": 73,
-    "slopeTermMPerDeg": -0.02581,
+    "p25": -0.8117,
+    "p50": -0.4928,
+    "p75": -0.0,
+    "n": 72,
+    "slopeTermMPerDeg": -0.02606,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

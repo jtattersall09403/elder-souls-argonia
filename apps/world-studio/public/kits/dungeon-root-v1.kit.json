@@ -2536,7 +2536,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "hanging",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin"
   },
   {
@@ -5074,7 +5074,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "deck",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 111,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -5650,7 +5657,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 10,
+    "p10": 0.61,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -5685,23 +5699,30 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.05,
-    "buryCapM": 0.25,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin"
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 8,
+    "p10": 1.0,
+    "p90": 1.18,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -5924,7 +5945,14 @@
     "tell": "post-foot",
     "valueM": -1.5414
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "placedScaleMedian": 0.84,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 0.84,
+    "p90": 0.84,
+    "source": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histtree",
@@ -6375,9 +6403,9 @@
     "p75": -0.0638,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-unsupported)"
+    "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -6492,7 +6520,14 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 4,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -6545,13 +6580,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
     "valueM": 0.3148
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "placedScaleMedian": 1.43,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.43,
+    "source": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -6586,13 +6628,13 @@
    ],
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": -3.995,
-    "buryCapM": 0.5,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
    "designedSinkM": {
@@ -6819,11 +6861,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.011,
-    "buryCapM": 0.25,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
    "designedSinkM": {
@@ -6891,7 +6933,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "hanging",
+   "anchorClass": "deck",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",

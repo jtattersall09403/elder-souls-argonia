@@ -76,7 +76,8 @@
     "tell": "floor-plane",
     "valueM": 0.0888
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.0
   },
   {
    "id": "bmv:landscape/grass/esurosebaywillowherb01",
@@ -140,9 +141,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.039,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -515,9 +516,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.096,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -587,9 +588,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.1,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -659,9 +660,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.051,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.051,
+    "p50": -0.051,
+    "p75": -0.051,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -731,9 +732,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -803,9 +804,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -875,9 +876,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -947,9 +948,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.037,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.037,
+    "p50": -0.037,
+    "p75": -0.037,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1096,9 +1097,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1168,9 +1169,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1240,9 +1241,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.021,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.021,
+    "p50": -0.021,
+    "p75": -0.021,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1389,9 +1390,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1461,9 +1462,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.13,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.13,
+    "p50": -0.13,
+    "p75": -0.13,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1610,9 +1611,9 @@
    "openBackYawDeg": 157.5,
    "pivotAboveBaseM": 0.1,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.1,
+    "p50": -0.1,
+    "p75": -0.1,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1682,9 +1683,9 @@
    "openBackYawDeg": 157.5,
    "pivotAboveBaseM": 0.057,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1754,9 +1755,9 @@
    "openBackYawDeg": 315.0,
    "pivotAboveBaseM": 0.035,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.035,
+    "p50": -0.035,
+    "p75": -0.035,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1826,9 +1827,9 @@
    "openBackYawDeg": 157.5,
    "pivotAboveBaseM": 0.057,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1898,9 +1899,9 @@
    "openBackYawDeg": 157.5,
    "pivotAboveBaseM": 0.057,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -1970,9 +1971,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2042,9 +2043,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2114,9 +2115,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.039,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2186,9 +2187,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.039,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2258,9 +2259,9 @@
    "openBackYawDeg": 191.2,
    "pivotAboveBaseM": 0.006,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2330,9 +2331,9 @@
    "openBackYawDeg": 191.2,
    "pivotAboveBaseM": 0.006,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2402,9 +2403,9 @@
    "openBackYawDeg": 191.2,
    "pivotAboveBaseM": 0.006,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2474,9 +2475,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.053,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2777,9 +2778,9 @@
    "openBackYawDeg": 180.0,
    "pivotAboveBaseM": 0.124,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.124,
+    "p50": -0.124,
+    "p75": -0.124,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2849,9 +2850,9 @@
    "openBackYawDeg": 270.0,
    "pivotAboveBaseM": 0.018,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.018,
+    "p50": -0.018,
+    "p75": -0.018,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -2921,9 +2922,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.108,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.108,
+    "p50": -0.108,
+    "p75": -0.108,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3070,11 +3071,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.059,
    "designedSinkM": {
-    "p25": 0.0097,
-    "p50": 0.0843,
-    "p75": 0.1388,
-    "n": 129,
-    "slopeTermMPerDeg": 0.0022,
+    "p25": 0.0099,
+    "p50": 0.0868,
+    "p75": 0.143,
+    "n": 128,
+    "slopeTermMPerDeg": 0.00205,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3143,10 +3144,10 @@
    "pivotAboveBaseM": 0.048,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0977,
+    "p50": 0.0995,
     "p75": 0.2894,
-    "n": 155,
-    "slopeTermMPerDeg": -0.00539,
+    "n": 153,
+    "slopeTermMPerDeg": -0.00517,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3215,10 +3216,10 @@
    "pivotAboveBaseM": 0.037,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0712,
+    "p50": 0.0747,
     "p75": 0.1632,
-    "n": 127,
-    "slopeTermMPerDeg": 0.00119,
+    "n": 126,
+    "slopeTermMPerDeg": 0.00177,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3286,11 +3287,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.12,
    "designedSinkM": {
-    "p25": -0.3619,
-    "p50": -0.084,
-    "p75": 0.048,
-    "n": 118,
-    "slopeTermMPerDeg": -0.02138,
+    "p25": -0.1841,
+    "p50": -0.0308,
+    "p75": 0.0685,
+    "n": 97,
+    "slopeTermMPerDeg": -0.01198,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3430,9 +3431,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.076,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.076,
+    "p50": -0.076,
+    "p75": -0.076,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3502,9 +3503,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.073,
+    "p50": -0.073,
+    "p75": -0.073,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3574,9 +3575,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.064,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.064,
+    "p50": -0.064,
+    "p75": -0.064,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3646,9 +3647,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.037,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.037,
+    "p50": -0.037,
+    "p75": -0.037,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3718,9 +3719,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.031,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.031,
+    "p50": -0.031,
+    "p75": -0.031,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -3790,9 +3791,9 @@
    "openBackYawDeg": 191.2,
    "pivotAboveBaseM": 0.005,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4016,9 +4017,9 @@
    "openBackYawDeg": 247.5,
    "pivotAboveBaseM": 0.024,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.024,
+    "p50": -0.024,
+    "p75": -0.024,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4088,9 +4089,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.065,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.065,
+    "p50": -0.065,
+    "p75": -0.065,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4160,9 +4161,9 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.096,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4232,9 +4233,9 @@
    "openBackYawDeg": 236.2,
    "pivotAboveBaseM": 0.02,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.02,
+    "p50": -0.02,
+    "p75": -0.02,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -4304,9 +4305,9 @@
    "openBackYawDeg": 247.5,
    "pivotAboveBaseM": 0.022,
    "designedSinkM": {
-    "p25": 0.08,
-    "p50": 0.08,
-    "p75": 0.08,
+    "p25": -0.022,
+    "p50": -0.022,
+    "p75": -0.022,
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
@@ -5603,11 +5604,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.087,
    "designedSinkM": {
-    "p25": 0.0475,
-    "p50": 0.2071,
-    "p75": 0.3262,
-    "n": 378,
-    "slopeTermMPerDeg": 0.00134,
+    "p25": 0.0556,
+    "p50": 0.209,
+    "p75": 0.3266,
+    "n": 373,
+    "slopeTermMPerDeg": 0.00433,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -5675,11 +5676,11 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.058,
    "designedSinkM": {
-    "p25": 0.1512,
-    "p50": 0.8694,
+    "p25": 0.1609,
+    "p50": 0.8757,
     "p75": 1.9024,
-    "n": 1207,
-    "slopeTermMPerDeg": 0.16666,
+    "n": 1190,
+    "slopeTermMPerDeg": 0.16776,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

@@ -1,0 +1,4560 @@
+{
+ "kit": "interior-kotm-v1",
+ "assets": [
+  {
+   "id": "kotm:argonia/clutter/buntingline01",
+   "node": "es|b283775111|kotm__argonia_clutter_buntingline01",
+   "category": "clutter",
+   "sizeM": [
+    6.893,
+    6.815,
+    2.626
+   ],
+   "originOffsetM": [
+    -0.528,
+    7.355,
+    0.494
+   ],
+   "triangles": 114,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "Flags01:44.Mat",
+    "Flags03:44.Mat",
+    "Flags04:44.Mat",
+    "Flags05:44.Mat",
+    "Flags06:44.Mat",
+    "Flags07:44.Mat",
+    "Flags08:44.Mat",
+    "Flags09:44.Mat",
+    "Flags10:44.Mat",
+    "SRopefestivalLine01:41.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Flags01:44.Mat": 0.196,
+    "Flags03:44.Mat": 0.196,
+    "Flags04:44.Mat": 0.196,
+    "Flags05:44.Mat": 0.196,
+    "Flags06:44.Mat": 0.196,
+    "Flags07:44.Mat": 0.196,
+    "Flags08:44.Mat": 0.196,
+    "Flags09:44.Mat": 0.196,
+    "Flags10:44.Mat": 0.196,
+    "SRopefestivalLine01:41.Mat": 0.196
+   },
+   "decalMaterials": [
+    "SRopefestivalLine01:41.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.494,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.031,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.494
+  },
+  {
+   "id": "kotm:argonia/clutter/burner02",
+   "node": "es|96537c45fa|kotm__argonia_clutter_burner02",
+   "category": "clutter",
+   "sizeM": [
+    2.803,
+    2.843,
+    4.184
+   ],
+   "originOffsetM": [
+    1.441,
+    1.313,
+    0.047
+   ],
+   "triangles": 2281,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ash01.dds",
+    "baldcypressbark01_d.dds",
+    "coal01.dds",
+    "desertcracked01_d.dds",
+    "desertcracked02light_d.dds"
+   ],
+   "materials": [
+    "Scene01.Mat",
+    "Scene02.Mat",
+    "Scene03.Mat",
+    "Scene04.Mat",
+    "StructureBP_SuperWeaponBench.mo.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0468,
+    "p50": -0.0468,
+    "p75": -0.0468,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.047,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.376,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.047,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0468
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/doll_atronachamber",
+   "node": "es|ef7baf840a|kotm__argonia_clutter_doll_atronachamber",
+   "category": "clutter",
+   "sizeM": [
+    0.201,
+    0.303,
+    0.153
+   ],
+   "originOffsetM": [
+    0.099,
+    0.157,
+    0.058
+   ],
+   "triangles": 1236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "amber.dds"
+   ],
+   "materials": [
+    "Doll:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0584,
+    "p50": -0.0584,
+    "p75": -0.0584,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.058,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.058,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0584
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/firewoodpilehuge01",
+   "node": "es|4c5bcd763e|kotm__argonia_clutter_firewoodpilehuge01",
+   "category": "clutter",
+   "sizeM": [
+    3.666,
+    1.077,
+    1.473
+   ],
+   "originOffsetM": [
+    1.833,
+    0.538,
+    0.024
+   ],
+   "triangles": 1426,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "firewood01.dds"
+   ],
+   "materials": [
+    "FirewoodPileHuge01:0.Mat",
+    "FirewoodPileHuge01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FirewoodPileHuge01:14.Mat": 0.498
+   },
+   "designedSinkM": {
+    "p25": -0.0235,
+    "p50": -0.0235,
+    "p75": -0.0235,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.945,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0235
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/firewoodpilelarge01",
+   "node": "es|7765e491c4|otm__argonia_clutter_firewoodpilelarge01",
+   "category": "clutter",
+   "sizeM": [
+    2.854,
+    1.833,
+    0.879
+   ],
+   "originOffsetM": [
+    1.246,
+    0.98,
+    0.019
+   ],
+   "triangles": 852,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "firewood01.dds"
+   ],
+   "materials": [
+    "Firewood:0.Mat",
+    "Firewood:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat": 0.498
+   },
+   "designedSinkM": {
+    "p25": -0.019,
+    "p50": -0.019,
+    "p75": -0.019,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.019,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.633,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.019,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.019
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/firewoodpilesmall01",
+   "node": "es|cfbaf94e68|otm__argonia_clutter_firewoodpilesmall01",
+   "category": "clutter",
+   "sizeM": [
+    0.782,
+    0.956,
+    0.405
+   ],
+   "originOffsetM": [
+    0.452,
+    0.478,
+    0.017
+   ],
+   "triangles": 158,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "firewood01.dds"
+   ],
+   "materials": [
+    "Firewood:0.Mat.001",
+    "Firewood:14.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat.001": 0.498
+   },
+   "designedSinkM": {
+    "p25": -0.0165,
+    "p50": -0.0165,
+    "p75": -0.0165,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.017,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.962,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.017,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0165
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/hangingfeathers01",
+   "node": "es|119030aaea|kotm__argonia_clutter_hangingfeathers01",
+   "category": "clutter",
+   "sizeM": [
+    1.098,
+    0.078,
+    0.864
+   ],
+   "originOffsetM": [
+    0.542,
+    0.063,
+    1.269
+   ],
+   "triangles": 306,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftenrope01.dds",
+    "wallbaskets01details01.dds",
+    "wrwoodbeamint01.dds"
+   ],
+   "materials": [
+    "WallBasketLarge01:1.Mat",
+    "WallBasketLarge01:3.Mat",
+    "WallBasketLarge01:7.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "WallBasketLarge01:3.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": -0.6059,
+    "p50": -0.6059,
+    "p75": -0.6059,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.269,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.772,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.269,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.6059
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/saxhleelfence01",
+   "node": "es|4d2fea283b|kotm__argonia_clutter_saxhleelfence01",
+   "category": "clutter",
+   "sizeM": [
+    2.975,
+    0.379,
+    1.21
+   ],
+   "originOffsetM": [
+    1.487,
+    0.189,
+    0.014
+   ],
+   "triangles": 1420,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "riftenrope01.dds"
+   ],
+   "materials": [
+    "Mesh_0083.Mat",
+    "Mesh_0112.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.014,
+    "p50": -0.014,
+    "p75": -0.014,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.014,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.727,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.014,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.014
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/saxhleeltapestry01",
+   "node": "es|7ac6cd6503|kotm__argonia_clutter_saxhleeltapestry01",
+   "category": "clutter",
+   "sizeM": [
+    0.211,
+    1.275,
+    2.231
+   ],
+   "originOffsetM": [
+    0.15,
+    0.648,
+    2.228
+   ],
+   "triangles": 48,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "Banner1_Banner.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Banner1_Banner.Mat": 0.333
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.228,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 2.228
+  },
+  {
+   "id": "kotm:argonia/clutter/saxhleeltapestry02",
+   "node": "es|736261f17c|kotm__argonia_clutter_saxhleeltapestry02",
+   "category": "clutter",
+   "sizeM": [
+    0.211,
+    1.275,
+    2.231
+   ],
+   "originOffsetM": [
+    0.15,
+    0.648,
+    2.228
+   ],
+   "triangles": 48,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "Banner1_Banner.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Banner1_Banner.Mat.001": 0.333
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.228,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 2.228
+  },
+  {
+   "id": "kotm:argonia/clutter/spinningwheel",
+   "node": "es|5f06481895|kotm__argonia_clutter_spinningwheel",
+   "category": "clutter",
+   "sizeM": [
+    1.396,
+    0.837,
+    1.127
+   ],
+   "originOffsetM": [
+    0.666,
+    0.465,
+    0.005
+   ],
+   "triangles": 2920,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "whwoodbasetrim.dds"
+   ],
+   "materials": [
+    "SpinningWheel.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0046,
+    "p50": -0.0046,
+    "p75": -0.0046,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.327,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/tamwindchime01",
+   "node": "es|8106bd40c8|kotm__argonia_clutter_tamwindchime01",
+   "category": "clutter",
+   "sizeM": [
+    0.309,
+    0.307,
+    1.574
+   ],
+   "originOffsetM": [
+    0.155,
+    0.148,
+    0.635
+   ],
+   "triangles": 724,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "flatbow_red.dds",
+    "riftenrope01.dds",
+    "wallbaskets01.dds"
+   ],
+   "materials": [
+    "Chime05:61.Mat",
+    "Chime05:64.Mat",
+    "Rope01.Mat",
+    "Rope0:1.Mat",
+    "Rope0:2.Mat",
+    "Rope0:3.Mat",
+    "Rope0:4.Mat",
+    "Rope0:6.Mat",
+    "WallBasket01:0.Mat",
+    "Wood0:1.Mat",
+    "Wood0:2.Mat",
+    "Wood0:3.Mat",
+    "Wood0:4.Mat",
+    "Wood0:6.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.6352,
+    "p50": -0.6352,
+    "p75": -0.6352,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.635,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.988,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.635,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.6352
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/urn01",
+   "node": "es|e41eeee16d|kotm__argonia_clutter_urn01",
+   "category": "clutter",
+   "sizeM": [
+    0.291,
+    0.291,
+    0.368
+   ],
+   "originOffsetM": [
+    0.146,
+    0.146,
+    0.002
+   ],
+   "triangles": 1440,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "urn.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0017,
+    "p50": -0.0017,
+    "p75": -0.0017,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.002,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0017
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/urn02",
+   "node": "es|b059302b36|kotm__argonia_clutter_urn02",
+   "category": "clutter",
+   "sizeM": [
+    0.222,
+    0.222,
+    0.38
+   ],
+   "originOffsetM": [
+    0.111,
+    0.111,
+    0.0
+   ],
+   "triangles": 1368,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "urn.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/vase01",
+   "node": "es|cae63ed4f7|kotm__argonia_clutter_vase01",
+   "category": "clutter",
+   "sizeM": [
+    0.445,
+    0.445,
+    0.627
+   ],
+   "originOffsetM": [
+    0.222,
+    0.222,
+    0.009
+   ],
+   "triangles": 320,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "vase.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0088,
+    "p50": -0.0088,
+    "p75": -0.0088,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.009,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.875,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.009,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0088
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/vase03",
+   "node": "es|aad0820721|kotm__argonia_clutter_vase03",
+   "category": "clutter",
+   "sizeM": [
+    0.517,
+    0.517,
+    1.23
+   ],
+   "originOffsetM": [
+    0.259,
+    0.259,
+    0.007
+   ],
+   "triangles": 560,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "vase.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.0068,
+    "p50": -0.0068,
+    "p75": -0.0068,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.007,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.754,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.007,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0068
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/vase05",
+   "node": "es|7dbacf31a3|kotm__argonia_clutter_vase05",
+   "category": "clutter",
+   "sizeM": [
+    0.245,
+    0.245,
+    0.431
+   ],
+   "originOffsetM": [
+    0.122,
+    0.122,
+    -0.0
+   ],
+   "triangles": 432,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "jug.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0004,
+    "p50": 0.0004,
+    "p75": 0.0004,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.934,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0004
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/vase06",
+   "node": "es|e4168ee017|kotm__argonia_clutter_vase06",
+   "category": "clutter",
+   "sizeM": [
+    0.31,
+    0.276,
+    0.487
+   ],
+   "originOffsetM": [
+    0.155,
+    0.138,
+    -0.0
+   ],
+   "triangles": 526,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds"
+   ],
+   "materials": [
+    "jug.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.0003,
+    "p50": 0.0003,
+    "p75": 0.0003,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.934,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0003
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/wallbasket01",
+   "node": "es|da4a2686c7|kotm__argonia_clutter_wallbasket01",
+   "category": "clutter",
+   "sizeM": [
+    0.768,
+    0.072,
+    0.768
+   ],
+   "originOffsetM": [
+    0.384,
+    0.021,
+    0.347
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "WallBasketLarge01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3471,
+    "p50": -0.3471,
+    "p75": -0.3471,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.347,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.994,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.347,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/wallbasket03",
+   "node": "es|52f6262ef2|kotm__argonia_clutter_wallbasket03",
+   "category": "clutter",
+   "sizeM": [
+    0.768,
+    0.072,
+    0.768
+   ],
+   "originOffsetM": [
+    0.384,
+    0.021,
+    0.347
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "WallBasketLarge01:0.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.3471,
+    "p50": -0.3471,
+    "p75": -0.3471,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.347,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.994,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.347,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/wallbasket04",
+   "node": "es|bfe883501d|kotm__argonia_clutter_wallbasket04",
+   "category": "clutter",
+   "sizeM": [
+    0.773,
+    0.111,
+    0.766
+   ],
+   "originOffsetM": [
+    0.386,
+    0.054,
+    0.326
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "WallBasket01:0.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.0862,
+    "p50": -0.0862,
+    "p75": -0.0862,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.326,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.326,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/wallbasket05",
+   "node": "es|3ea22371ca|kotm__argonia_clutter_wallbasket05",
+   "category": "clutter",
+   "sizeM": [
+    0.773,
+    0.111,
+    0.766
+   ],
+   "originOffsetM": [
+    0.386,
+    0.054,
+    0.326
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "WallBasket01:0.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -0.0862,
+    "p50": -0.0862,
+    "p75": -0.0862,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.326,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.326,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   }
+  },
+  {
+   "id": "kotm:argonia/clutter/wallbasket06",
+   "node": "es|2373287439|kotm__argonia_clutter_wallbasket06",
+   "category": "clutter",
+   "sizeM": [
+    0.773,
+    0.111,
+    0.766
+   ],
+   "originOffsetM": [
+    0.386,
+    0.054,
+    0.326
+   ],
+   "triangles": 400,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cuirass.dds"
+   ],
+   "materials": [
+    "WallBasket01:0.Mat.003"
+   ],
+   "designedSinkM": {
+    "p25": -0.0862,
+    "p50": -0.0862,
+    "p75": -0.0862,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.326,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.326,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   }
+  },
+  {
+   "id": "kotm:argonia/food/flatbread",
+   "node": "es|9b8d017baf|kotm__argonia_food_flatbread",
+   "category": "clutter",
+   "sizeM": [
+    0.319,
+    0.456,
+    0.083
+   ],
+   "originOffsetM": [
+    0.187,
+    0.24,
+    0.008
+   ],
+   "triangles": 768,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "latka_n_jerky.dds"
+   ],
+   "materials": [
+    "latka.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0084,
+    "p50": -0.0084,
+    "p75": -0.0084,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.008,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.848,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.008,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0084
+   }
+  },
+  {
+   "id": "kotm:argonia/food/sakebottle02",
+   "node": "es|15508e934e|kotm__argonia_food_sakebottle02",
+   "category": "clutter",
+   "sizeM": [
+    0.262,
+    0.279,
+    0.357
+   ],
+   "originOffsetM": [
+    0.127,
+    0.141,
+    0.001
+   ],
+   "triangles": 916,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "honeypot01.dds",
+    "winebottles01.dds"
+   ],
+   "materials": [
+    "Sake_bottle_Small_2.Mat",
+    "sake_tokkuri.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0009,
+    "p50": -0.0009,
+    "p75": -0.0009,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0009
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticbed",
+   "node": "es|0924a7ec97|kotm__argonia_furniture_rusticbed",
+   "category": "furniture",
+   "sizeM": [
+    1.471,
+    2.316,
+    0.951
+   ],
+   "originOffsetM": [
+    0.728,
+    1.159,
+    0.005
+   ],
+   "triangles": 1793,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "bedpillow01.dds",
+    "hay01.dds",
+    "pelt01.dds",
+    "pelt02.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "BedHay01:1.Mat",
+    "BedHay01:2.Mat",
+    "BedPelt01:0.Mat",
+    "BedPelt01:1.Mat",
+    "Object07.Mat",
+    "bedframe02.Mat",
+    "bedframeend02.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "BedHay01:2.Mat": 0.039,
+    "BedPelt01:0.Mat": 0.498,
+    "BedPelt01:1.Mat": 0.498
+   },
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.647,
+     0.418,
+     1.019
+    ],
+    "centreOffsetM": [
+     0.008,
+     0.47,
+     0.002
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.999,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.005
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticchair01",
+   "node": "es|6dbbae41ad|kotm__argonia_furniture_rusticchair01",
+   "category": "furniture",
+   "sizeM": [
+    0.591,
+    0.577,
+    0.949
+   ],
+   "originOffsetM": [
+    0.295,
+    0.289,
+    -0.009
+   ],
+   "triangles": 1276,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "CommonChair01:1.Mat",
+    "CommonChair01:2.Mat",
+    "CommonChair01:3.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.26,
+     0.418,
+     0.254
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.484,
+     -0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.009,
+    "p50": 0.009,
+    "p75": 0.009,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.009,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.87,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.009,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.009
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticchair02",
+   "node": "es|98624b8a30|kotm__argonia_furniture_rusticchair02",
+   "category": "furniture",
+   "sizeM": [
+    0.746,
+    0.574,
+    0.874
+   ],
+   "originOffsetM": [
+    0.377,
+    0.284,
+    -0.018
+   ],
+   "triangles": 1560,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "NobleChair01:0.Mat",
+    "NobleChair01:1.Mat",
+    "NobleChair01:2.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.328,
+     0.385,
+     0.252
+    ],
+    "centreOffsetM": [
+     -0.004,
+     0.455,
+     -0.003
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.018,
+    "p50": 0.018,
+    "p75": 0.018,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.018,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.861,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.018,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.018
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticchair04",
+   "node": "es|cac59696f5|kotm__argonia_furniture_rusticchair04",
+   "category": "furniture",
+   "sizeM": [
+    0.422,
+    0.461,
+    0.443
+   ],
+   "originOffsetM": [
+    0.212,
+    0.231,
+    -0.006
+   ],
+   "triangles": 350,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "CommonChair01:0.Mat",
+    "CommonChair01:1.Mat.001",
+    "CommonChair01:2.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.186,
+     0.195,
+     0.203
+    ],
+    "centreOffsetM": [
+     -0.001,
+     0.228,
+     0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.006,
+    "p50": 0.006,
+    "p75": 0.006,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.006,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.775,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.006,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.006
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticchest",
+   "node": "es|91b247bb83|kotm__argonia_furniture_rusticchest",
+   "category": "container",
+   "sizeM": [
+    1.203,
+    0.615,
+    0.566
+   ],
+   "originOffsetM": [
+    0.601,
+    0.32,
+    0.28
+   ],
+   "triangles": 996,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "metalwork01.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "0:24.Mat",
+    "1.00.Mat",
+    "2.Mat",
+    "3.Mat",
+    "4.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.529,
+     0.249,
+     0.271
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.004,
+     0.013
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.2796,
+    "p50": -0.2796,
+    "p75": -0.2796,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.28,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.28,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2796
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticcupboard",
+   "node": "es|f28b99edfe|kotm__argonia_furniture_rusticcupboard",
+   "category": "container",
+   "sizeM": [
+    1.308,
+    0.683,
+    1.8
+   ],
+   "originOffsetM": [
+    0.654,
+    0.347,
+    0.9
+   ],
+   "triangles": 1508,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "metalwork01.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "1.00.Mat.001",
+    "2.Mat.001",
+    "3.Mat.001",
+    "4.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.575,
+     0.792,
+     0.301
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.0,
+     0.006
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.9001,
+    "p50": -0.9001,
+    "p75": -0.9001,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.9,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.9,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9001
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rusticshelf",
+   "node": "es|b8caa2ebc9|kotm__argonia_furniture_rusticshelf",
+   "category": "furniture",
+   "sizeM": [
+    0.942,
+    0.55,
+    1.611
+   ],
+   "originOffsetM": [
+    0.471,
+    0.266,
+    0.806
+   ],
+   "triangles": 1724,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "1.00.Mat.002",
+    "2.Mat.002",
+    "3.Mat.002"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.414,
+     0.709,
+     0.242
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.0,
+     -0.009
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.8055,
+    "p50": -0.8055,
+    "p75": -0.8055,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.806,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.853,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.806,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8055
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rustictable01",
+   "node": "es|0aff3765d4|kotm__argonia_furniture_rustictable01",
+   "category": "furniture",
+   "sizeM": [
+    0.923,
+    0.863,
+    0.849
+   ],
+   "originOffsetM": [
+    0.462,
+    0.432,
+    0.396
+   ],
+   "triangles": 1752,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "1.00.Mat.003",
+    "2.Mat.003",
+    "3.Mat.003"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.406,
+     0.374,
+     0.38
+    ],
+    "centreOffsetM": [
+     -0.0,
+     0.028,
+     -0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.396,
+    "p50": -0.396,
+    "p75": -0.396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.396,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.963,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.396,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.396
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rustictable02",
+   "node": "es|0fd00b565d|kotm__argonia_furniture_rustictable02",
+   "category": "furniture",
+   "sizeM": [
+    1.399,
+    0.863,
+    0.849
+   ],
+   "originOffsetM": [
+    0.699,
+    0.432,
+    0.396
+   ],
+   "triangles": 1752,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "1.00.Mat.004",
+    "2.Mat.004",
+    "3.Mat.004"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.615,
+     0.374,
+     0.38
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.028,
+     -0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.396,
+    "p50": -0.396,
+    "p75": -0.396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.396,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.396,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.396
+   }
+  },
+  {
+   "id": "kotm:argonia/furniture/rustictable03",
+   "node": "es|e154537994|kotm__argonia_furniture_rustictable03",
+   "category": "furniture",
+   "sizeM": [
+    1.263,
+    1.243,
+    0.803
+   ],
+   "originOffsetM": [
+    0.644,
+    0.624,
+    0.41
+   ],
+   "triangles": 1777,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "baldcypressbark01_d.dds",
+    "treepineforestcut01.dds"
+   ],
+   "materials": [
+    "1.00.Mat.005",
+    "2.Mat.005",
+    "3.Mat.005"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.556,
+     0.353,
+     0.547
+    ],
+    "centreOffsetM": [
+     -0.013,
+     -0.009,
+     0.003
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.4101,
+    "p50": -0.4101,
+    "p75": -0.4101,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.41,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.923,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.41,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4101
+   }
+  },
+  {
+   "id": "kotm:argonia/mudhuts/floor02",
+   "node": "es|59cc60b7ef|kotm__argonia_mudhuts_floor02",
+   "category": "misc",
+   "sizeM": [
+    15.463,
+    7.894,
+    0.1
+   ],
+   "originOffsetM": [
+    5.854,
+    3.968,
+    0.555
+   ],
+   "triangles": 3976,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbuildings02.dds",
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "RRBuildingInt02Floor:11.Mat",
+    "RRBuildingInt02Floor:9.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.5547,
+    "p50": -0.5547,
+    "p75": -0.5547,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.555,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.905,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.555,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5547
+   }
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhutintfloor01",
+   "node": "es|702fe2ae81|kotm__argonia_mudhuts_mudhutintfloor01",
+   "category": "misc",
+   "sizeM": [
+    12.226,
+    12.239,
+    0.46
+   ],
+   "originOffsetM": [
+    6.113,
+    6.113,
+    0.458
+   ],
+   "triangles": 372,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "riftencanalplanks01.dds",
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "Sphere.001.Mat",
+    "Sphere.002.Mat",
+    "Sphere.005.Mat",
+    "Sphere.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.4585,
+    "p50": -0.4585,
+    "p75": -0.4585,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.458,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.721,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.458,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4585
+   }
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhutintstairs",
+   "node": "es|0f135f9f2c|kotm__argonia_mudhuts_mudhutintstairs",
+   "category": "misc",
+   "sizeM": [
+    8.963,
+    3.88,
+    3.567
+   ],
+   "originOffsetM": [
+    4.326,
+    -1.309,
+    3.707
+   ],
+   "triangles": 1002,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "Sphere.001.00.001.Mat",
+    "Sphere.001.00.Mat",
+    "Sphere.001.002.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.707,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.517,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.707
+  },
+  {
+   "id": "kotm:argonia/mudhuts/smpodint01",
+   "node": "es|a8fc18a8d9|kotm__argonia_mudhuts_smpodint01",
+   "category": "misc",
+   "sizeM": [
+    11.924,
+    11.527,
+    11.825
+   ],
+   "originOffsetM": [
+    5.993,
+    5.208,
+    4.887
+   ],
+   "triangles": 736,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "desertcracked01light_d.dds",
+    "dirt02.dds",
+    "dryoakpost01.dds"
+   ],
+   "materials": [
+    "dim_sm_ckpd_int.Mat",
+    "dim_sm_ckpd_int2.Mat",
+    "dim_sm_ckpd_int3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -4.1058,
+    "p50": -4.1058,
+    "p75": -4.1058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.887,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.756,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.887,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -4.1058
+   }
+  },
+  {
+   "id": "kotm:argonia/mudhuts/smpodint02",
+   "node": "es|55e9235784|kotm__argonia_mudhuts_smpodint02",
+   "category": "misc",
+   "sizeM": [
+    13.679,
+    13.873,
+    9.955
+   ],
+   "originOffsetM": [
+    7.373,
+    7.721,
+    5.179
+   ],
+   "triangles": 1084,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "desertcracked01light_d.dds",
+    "dirt02.dds",
+    "dryoakpost01.dds"
+   ],
+   "materials": [
+    "dim_sm_int_2.Mat",
+    "dim_sm_int_3.Mat",
+    "dim_sm_int_4.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 5.179,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.788,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.179
+  },
+  {
+   "id": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "node": "es|6d52e22a20|kotm__argonia_mudhuts_tamu_woodpole01",
+   "category": "misc",
+   "sizeM": [
+    0.228,
+    0.224,
+    1.917
+   ],
+   "originOffsetM": [
+    0.125,
+    0.099,
+    -0.0
+   ],
+   "triangles": 708,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "riftenrope01.dds"
+   ],
+   "materials": [
+    "TamuRope01.Mat",
+    "TamuWoodPole01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.109,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  {
+   "id": "kotm:loliceptresource/barrel/miscbarrelopen01",
+   "node": "es|e5b4bec811|loliceptresource_barrel_miscbarrelopen01",
+   "category": "misc",
+   "sizeM": [
+    0.761,
+    0.879,
+    1.722
+   ],
+   "originOffsetM": [
+    0.38,
+    0.58,
+    0.004
+   ],
+   "triangles": 3049,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "broom01.dds",
+    "meadbarrel01.dds",
+    "saw01.dds",
+    "shovel01.dds",
+    "shovel02.dds"
+   ],
+   "materials": [
+    "BFXOilBarrelOpen01:0.Mat",
+    "Broom.Mat",
+    "Fork01.Mat",
+    "Hoe01.Mat",
+    "Hoe02.Mat",
+    "Saw01.Mat",
+    "shovel01.Mat",
+    "shovel02.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Broom.Mat": 0.502,
+    "Hoe01.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": -0.0042,
+    "p50": -0.0042,
+    "p75": -0.0042,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.004,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.833,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.004,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0042
+   }
+  },
+  {
+   "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat",
+   "node": "es|23b8841ef7|onsters and animals_rabbit_frog_frogmeat",
+   "category": "creature",
+   "sizeM": [
+    0.308,
+    0.194,
+    0.063
+   ],
+   "originOffsetM": [
+    0.187,
+    0.1,
+    0.005
+   ],
+   "triangles": 1900,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "meat.dds"
+   ],
+   "materials": [
+    "123.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0046,
+    "p50": -0.0046,
+    "p75": -0.0046,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.335,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   }
+  },
+  {
+   "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat2",
+   "node": "es|ab50ba8764|nsters and animals_rabbit_frog_frogmeat2",
+   "category": "creature",
+   "sizeM": [
+    0.308,
+    0.194,
+    0.063
+   ],
+   "originOffsetM": [
+    0.187,
+    0.1,
+    0.005
+   ],
+   "triangles": 1900,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "meat2.dds"
+   ],
+   "materials": [
+    "123.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.0046,
+    "p50": -0.0046,
+    "p75": -0.0046,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.005,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.335,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   }
+  },
+  {
+   "id": "kotm:oaristys/clutter/rugs",
+   "node": "es|b73f911f94|kotm__oaristys_clutter_rugs",
+   "category": "clutter",
+   "sizeM": [
+    1.611,
+    1.877,
+    0.915
+   ],
+   "originOffsetM": [
+    0.774,
+    0.948,
+    0.003
+   ],
+   "triangles": 1732,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rug01.dds",
+    "rug02.dds",
+    "rug03.dds",
+    "rug04.dds"
+   ],
+   "materials": [
+    "Rug01.Mat",
+    "Rug01_1.Mat",
+    "Rug01_2.Mat",
+    "Rug01_3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0034,
+    "p50": -0.0034,
+    "p75": -0.0034,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.003,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.703,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0034
+   }
+  },
+  {
+   "id": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "node": "es|9fa1208c94|atures_horker_giant snail_giantsnailmeat",
+   "category": "misc",
+   "sizeM": [
+    0.228,
+    0.399,
+    0.083
+   ],
+   "originOffsetM": [
+    0.111,
+    0.191,
+    0.038
+   ],
+   "triangles": 576,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "snailmeat.dds"
+   ],
+   "materials": [
+    "SnailMeatlowpoly.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0377,
+    "p50": -0.0377,
+    "p75": -0.0377,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.038,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.038,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0377
+   }
+  },
+  {
+   "id": "vanilla:architecture/riften/clutter/rtchimney01",
+   "node": "es|10d2969cee|_architecture_riften_clutter_rtchimney01",
+   "category": "architecture",
+   "sizeM": [
+    1.653,
+    1.653,
+    3.813
+   ],
+   "originOffsetM": [
+    0.827,
+    0.827,
+    0.413
+   ],
+   "triangles": 122,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "riftenstonedetail01.dds",
+    "riftenstonewall02.dds"
+   ],
+   "materials": [
+    "RTChimney01:20.Mat",
+    "RTChimney01:23.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.4127,
+    "p50": -0.4127,
+    "p75": -0.4127,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.413,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.34,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.413,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4127
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/basicbook01",
+   "node": "es|cbf3d28ba5|vanilla__clutter_books_basicbook01",
+   "category": "clutter",
+   "sizeM": [
+    0.264,
+    0.331,
+    0.059
+   ],
+   "originOffsetM": [
+    0.131,
+    0.166,
+    0.029
+   ],
+   "triangles": 544,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01a.dds",
+    "book01paper.dds"
+   ],
+   "materials": [
+    "Book01a:0.Mat",
+    "Book01a:1.Mat",
+    "Book01a:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0285,
+    "p50": -0.0285,
+    "p75": -0.0285,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/basicbook03",
+   "node": "es|822106fb99|vanilla__clutter_books_basicbook03",
+   "category": "clutter",
+   "sizeM": [
+    0.264,
+    0.331,
+    0.059
+   ],
+   "originOffsetM": [
+    0.131,
+    0.166,
+    0.029
+   ],
+   "triangles": 538,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01paper.dds",
+    "book03.dds"
+   ],
+   "materials": [
+    "Book01a:0.Mat.001",
+    "Book01a:1.Mat.001",
+    "Book01a:3.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.0285,
+    "p50": -0.0285,
+    "p75": -0.0285,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/basicbook04",
+   "node": "es|e2868c43da|vanilla__clutter_books_basicbook04",
+   "category": "clutter",
+   "sizeM": [
+    0.264,
+    0.331,
+    0.059
+   ],
+   "originOffsetM": [
+    0.131,
+    0.166,
+    0.029
+   ],
+   "triangles": 538,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01paper.dds",
+    "book04.dds"
+   ],
+   "materials": [
+    "Book01a:0.Mat.002",
+    "Book01a:1.Mat.002",
+    "Book01a:3.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -0.0285,
+    "p50": -0.0285,
+    "p75": -0.0285,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/basicbook04a",
+   "node": "es|650d2db1b4|vanilla__clutter_books_basicbook04a",
+   "category": "clutter",
+   "sizeM": [
+    0.264,
+    0.331,
+    0.059
+   ],
+   "originOffsetM": [
+    0.131,
+    0.166,
+    0.029
+   ],
+   "triangles": 538,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01paper.dds",
+    "book04.dds"
+   ],
+   "materials": [
+    "Book01a:0.Mat.003",
+    "Book01a:1.Mat.003",
+    "Book01a:3.Mat.003"
+   ],
+   "designedSinkM": {
+    "p25": -0.0285,
+    "p50": -0.0285,
+    "p75": -0.0285,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/basicbook06",
+   "node": "es|e8581822f8|vanilla__clutter_books_basicbook06",
+   "category": "clutter",
+   "sizeM": [
+    0.264,
+    0.331,
+    0.056
+   ],
+   "originOffsetM": [
+    0.131,
+    0.166,
+    0.027
+   ],
+   "triangles": 538,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01paper.dds",
+    "book06.dds"
+   ],
+   "materials": [
+    "Book01a:0.Mat.004",
+    "Book01a:1.Mat.004",
+    "Book01a:3.Mat.004"
+   ],
+   "designedSinkM": {
+    "p25": -0.0272,
+    "p50": -0.0272,
+    "p75": -0.0272,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.027,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0272
+   }
+  },
+  {
+   "id": "vanilla:clutter/books/book02lowpoly",
+   "node": "es|bf46d1444c|vanilla__clutter_books_book02lowpoly",
+   "category": "clutter",
+   "sizeM": [
+    0.339,
+    0.431,
+    0.091
+   ],
+   "originOffsetM": [
+    0.169,
+    0.215,
+    0.046
+   ],
+   "triangles": 544,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "book01paper.dds",
+    "book02mq103.dds"
+   ],
+   "materials": [
+    "LargestBook:0.Mat",
+    "LargestBook:1.Mat",
+    "LargestBook:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0458,
+    "p50": -0.0458,
+    "p75": -0.0458,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.046,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.046,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0458
+   }
+  },
+  {
+   "id": "vanilla:clutter/common/fishingpolecollection01",
+   "node": "es|f5953954f3|__clutter_common_fishingpolecollection01",
+   "category": "clutter",
+   "sizeM": [
+    1.84,
+    1.969,
+    2.172
+   ],
+   "originOffsetM": [
+    0.416,
+    0.071,
+    -0.0
+   ],
+   "triangles": 2596,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fishingpole.dds",
+    "ingotsteel01.dds"
+   ],
+   "materials": [
+    "FishingPoleCollection:0.Mat",
+    "FishingPoleCollection:1.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.543,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/common/rag01",
+   "node": "es|61fd4f6211|vanilla__clutter_common_rag01",
+   "category": "clutter",
+   "sizeM": [
+    0.201,
+    0.355,
+    0.038
+   ],
+   "originOffsetM": [
+    0.094,
+    0.177,
+    0.02
+   ],
+   "triangles": 762,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rag01.dds"
+   ],
+   "materials": [
+    "Rag01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0205,
+    "p50": -0.0205,
+    "p75": -0.0205,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.02,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.864,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.02,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0205
+   }
+  },
+  {
+   "id": "vanilla:clutter/common/rug03",
+   "node": "es|f9ed13522a|vanilla__clutter_common_rug03",
+   "category": "clutter",
+   "sizeM": [
+    1.74,
+    1.968,
+    0.017
+   ],
+   "originOffsetM": [
+    0.871,
+    0.976,
+    -0.002
+   ],
+   "triangles": 71,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rug02.dds",
+    "rug03.dds"
+   ],
+   "materials": [
+    "Rug03:1.Mat",
+    "Rug03:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Rug03:1.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.0019,
+    "p50": 0.0019,
+    "p75": 0.0019,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.002,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.002,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0019
+   }
+  },
+  {
+   "id": "vanilla:clutter/common/rug07",
+   "node": "es|6068b53445|vanilla__clutter_common_rug07",
+   "category": "clutter",
+   "sizeM": [
+    2.036,
+    2.896,
+    0.032
+   ],
+   "originOffsetM": [
+    1.027,
+    1.456,
+    0.0
+   ],
+   "triangles": 82,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rug02.dds",
+    "rug03.dds"
+   ],
+   "materials": [
+    "Rug07:1.Mat",
+    "Rug07:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Rug07:1.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/wallmountedmudcrab01",
+   "node": "es|b141c8c55f|clutter_deadanimals_wallmountedmudcrab01",
+   "category": "clutter",
+   "sizeM": [
+    0.992,
+    0.305,
+    0.809
+   ],
+   "originOffsetM": [
+    0.496,
+    0.297,
+    0.376
+   ],
+   "triangles": 4284,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "mountedheadbase01.dds",
+    "mudcrab.dds"
+   ],
+   "materials": [
+    "Mudcrab.Mat",
+    "WallMountedMudcrab01:0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Mudcrab.Mat": 0.765
+   },
+   "designedSinkM": {
+    "p25": -0.3763,
+    "p50": -0.3763,
+    "p75": -0.3763,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.376,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.376,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3763
+   }
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+   "node": "es|ba3aa77b09|r_deadanimals_wallmountedslaughterfish01",
+   "category": "clutter",
+   "sizeM": [
+    1.246,
+    0.31,
+    0.495
+   ],
+   "originOffsetM": [
+    0.63,
+    -0.0,
+    0.247
+   ],
+   "triangles": 2932,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "slaughterfish.dds",
+    "woodmount01.dds"
+   ],
+   "materials": [
+    "BODY.Mat",
+    "WallMountedSlaughterFish01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.2472,
+    "p50": -0.2472,
+    "p75": -0.2472,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.247,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.247,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2472
+   }
+  },
+  {
+   "id": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "node": "es|41c80c0903|la__clutter_dining set_basicwoodenbowl01",
+   "category": "clutter",
+   "sizeM": [
+    0.348,
+    0.348,
+    0.114
+   ],
+   "originOffsetM": [
+    0.174,
+    0.174,
+    0.0
+   ],
+   "triangles": 100,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "diningset01.dds"
+   ],
+   "materials": [
+    "BasicWoodenBowl01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  {
+   "id": "vanilla:clutter/dining set/basicwoodenplate01",
+   "node": "es|ce81bd34a5|a__clutter_dining set_basicwoodenplate01",
+   "category": "clutter",
+   "sizeM": [
+    0.597,
+    0.299,
+    0.057
+   ],
+   "originOffsetM": [
+    0.299,
+    0.149,
+    -0.0
+   ],
+   "triangles": 100,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "diningset01.dds"
+   ],
+   "materials": [
+    "BasicWoodenPlate01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  {
+   "id": "vanilla:clutter/giant/giantspit01",
+   "node": "es|cd21873bff|vanilla__clutter_giant_giantspit01",
+   "category": "clutter",
+   "sizeM": [
+    0.782,
+    3.581,
+    3.356
+   ],
+   "originOffsetM": [
+    0.388,
+    1.894,
+    1.239
+   ],
+   "triangles": 354,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tundradriftwoodbark01.dds"
+   ],
+   "materials": [
+    "GiantSpit01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.2389,
+    "p50": -1.2389,
+    "p75": -1.2389,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.239,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.146,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.239,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.2389
+   }
+  },
+  {
+   "id": "vanilla:clutter/glazedcandles01",
+   "node": "es|af17fd68a4|vanilla__clutter_glazedcandles01",
+   "category": "clutter",
+   "sizeM": [
+    0.218,
+    0.215,
+    0.169
+   ],
+   "originOffsetM": [
+    0.109,
+    0.108,
+    -0.0
+   ],
+   "triangles": 434,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "candles01.dds",
+    "glazedpottery01.dds"
+   ],
+   "materials": [
+    "GlazedCandles01:5.Mat",
+    "GlazedCandles01:6.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "GlazedCandles01:6.Mat": 0.89
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  {
+   "id": "vanilla:clutter/ingredients/mudcrabchitin",
+   "node": "es|32753f4057|nilla__clutter_ingredients_mudcrabchitin",
+   "category": "clutter",
+   "sizeM": [
+    0.607,
+    0.384,
+    0.279
+   ],
+   "originOffsetM": [
+    0.304,
+    0.192,
+    0.139
+   ],
+   "triangles": 396,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "mudcrabchitin.dds"
+   ],
+   "materials": [
+    "MudcrabChitin:0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "MudcrabChitin:0.Mat": 0.765
+   },
+   "designedSinkM": {
+    "p25": -0.1394,
+    "p50": -0.1394,
+    "p75": -0.1394,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.139,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.713,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.139,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1394
+   }
+  },
+  {
+   "id": "vanilla:clutter/wallbaskethex02",
+   "node": "es|3284f2b6cc|vanilla__clutter_wallbaskethex02",
+   "category": "clutter",
+   "sizeM": [
+    0.773,
+    0.112,
+    1.345
+   ],
+   "originOffsetM": [
+    0.386,
+    0.113,
+    1.01
+   ],
+   "triangles": 528,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftenrope01.dds",
+    "wallbaskets01.dds",
+    "wallbaskets01details01.dds",
+    "wrwoodbeamint01.dds"
+   ],
+   "materials": [
+    "WallBasketHex02:0.Mat",
+    "WallBasketHex02:1.Mat",
+    "WallBasketHex02:3.Mat",
+    "WallBasketHex02:7.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "WallBasketHex02:3.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": -1.0098,
+    "p50": -1.0098,
+    "p75": -1.0098,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.582,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.0098
+   }
+  },
+  {
+   "id": "vanilla:clutter/wallbaskethex03",
+   "node": "es|2966add68e|vanilla__clutter_wallbaskethex03",
+   "category": "clutter",
+   "sizeM": [
+    0.84,
+    0.112,
+    1.374
+   ],
+   "originOffsetM": [
+    0.42,
+    0.113,
+    1.01
+   ],
+   "triangles": 552,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "riftenrope01.dds",
+    "wallbaskets01.dds",
+    "wallbaskets01details01.dds",
+    "wrwoodbeamint01.dds"
+   ],
+   "materials": [
+    "WallBasketHex03:0.Mat",
+    "WallBasketHex03:1.Mat",
+    "WallBasketHex03:3.Mat",
+    "WallBasketHex03:7.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "WallBasketHex03:3.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": -1.0098,
+    "p50": -1.0098,
+    "p75": -1.0098,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.54,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.0098
+   }
+  },
+  {
+   "id": "vanilla:furniture/smallcookingpotnohandle",
+   "node": "es|e1d8b591df|nilla__furniture_smallcookingpotnohandle",
+   "category": "furniture",
+   "sizeM": [
+    0.511,
+    0.519,
+    0.236
+   ],
+   "originOffsetM": [
+    0.188,
+    -0.398,
+    -0.604
+   ],
+   "triangles": 482,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "stew01.dds",
+    "wrfireplaceclutter01.dds"
+   ],
+   "materials": [
+    "PotOpen01:17.Mat",
+    "PotOpen01:18.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.225,
+     0.104,
+     0.228
+    ],
+    "centreOffsetM": [
+     0.068,
+     0.722,
+     -0.657
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.6036,
+    "p50": 0.6036,
+    "p75": 0.6036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.604,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.85,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.604,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.6036
+   }
+  },
+  {
+   "id": "vanilla:plants/mushroom01",
+   "node": "es|f3a939df44|vanilla__plants_mushroom01",
+   "category": "fungus",
+   "sizeM": [
+    0.299,
+    0.287,
+    0.38
+   ],
+   "originOffsetM": [
+    0.149,
+    0.144,
+    0.19
+   ],
+   "triangles": 426,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "mushroom01.dds"
+   ],
+   "materials": [
+    "Mushroom01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1902,
+    "p50": -0.1902,
+    "p75": -0.1902,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.19,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.19,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1902
+   }
+  },
+  {
+   "id": "vanilla:plants/slaughterfishegg01",
+   "node": "es|bd0309b698|vanilla__plants_slaughterfishegg01",
+   "category": "plant",
+   "sizeM": [
+    0.078,
+    0.077,
+    0.101
+   ],
+   "originOffsetM": [
+    0.038,
+    0.037,
+    0.053
+   ],
+   "triangles": 136,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "slaughterfisheggs01.dds"
+   ],
+   "materials": [
+    "SlaughterfishEgg01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0525,
+    "p50": -0.0525,
+    "p75": -0.0525,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.053,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.053,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0525
+   }
+  }
+ ],
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-kotm-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/_byoh/clutter/food/milkjug01_n.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_n.dds",
+  "textures/creationclub/bgssse025/clutter/amber_n.dds"
+ ],
+ "texturesSubstituted": {
+  "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
+  "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/_resourcepack/landscape/desertcracked01light_d.dds": "textures/argonia/landscape/dirt02.dds",
+  "textures/creationclub/bgssse025/clutter/amber.dds": "textures/argonia/misc/vakkastone_d.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds": "textures/dungeons/rottingwood01.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
+  "textures/_resourcepack/landscape/desertcracked02light_d.dds": "textures/argonia/landscape/dirt02.dds",
+  "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds"
+ },
+ "alphaModes": {
+  "MASK": 30,
+  "OPAQUE": 146,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "normal,attrib"
+  ],
+  "textures": {
+   "color": "etc1s",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 25217968,
+  "bytesAfter": 4956852,
+  "images": 66,
+  "imageBytesAfter": 3309623,
+  "warnings": [],
+  "sha256": "274b59cb2a3e02e95c479f8a747f387494a6983b35e2befd66d661f7d0874222",
+  "sidecarBytes": {
+   "connectors": 45471,
+   "footprints": 98353,
+   "interiors": 39148
+  }
+ }
+}

@@ -46,6 +46,150 @@
     "widthM": 1.39
    }
   ],
+  "bmv:roadsignlarge01l": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.33,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.78,
+     -0.14
+    ],
+    "widthM": 0.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.33,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.63,
+     -0.14
+    ],
+    "widthM": 0.09
+   }
+  ],
+  "bmv:roadsignlarge01r": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.78,
+     0.13
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.63,
+     0.13
+    ],
+    "widthM": 0.02
+   }
+  ],
+  "bmv:roadsignmedium01l": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.59,
+     -0.14
+    ],
+    "widthM": 0.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.44,
+     -0.14
+    ],
+    "widthM": 0.03
+   }
+  ],
+  "bmv:roadsignmedium01r": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.58,
+     0.13
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.44,
+     0.13
+    ],
+    "widthM": 0.02
+   }
+  ],
+  "bmv:roadsignsmall01l": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     -0.13
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     -0.13
+    ],
+    "widthM": 0.02
+   }
+  ],
+  "bmv:roadsignsmall01r": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.44,
+     0.12
+    ],
+    "widthM": 0.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.12
+    ],
+    "widthM": 0.03
+   }
+  ],
   "composite:works/stockade-scaffold-2stage": [
    {
     "evidence": "bounds",
@@ -832,6 +976,20 @@
     "widthM": 7.77
    },
    {
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 178",
+    "heightM": 7.27,
+    "normalDeg": 178.0,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
+    "positionInPiece": [
+     0.1,
+     2.93
+    ],
+    "template": "bmv-blackmarsh:t0055",
+    "widthM": 4.65
+   },
+   {
     "evidence": "bounds",
     "face": "south",
     "heightM": 7.27,
@@ -852,6 +1010,20 @@
      -0.24
     ],
     "widthM": 7.77
+   },
+   {
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 358",
+    "heightM": 7.27,
+    "normalDeg": 358.0,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
+    "positionInPiece": [
+     -0.1,
+     -2.93
+    ],
+    "template": "bmv-blackmarsh:t0055",
+    "widthM": 4.65
    }
   ],
   "vanilla:architecture/farmhouse/lumbermill01waterwheel01": [
@@ -3123,18 +3295,18 @@
     "widthM": 3.58
    },
    {
-    "count": 4,
+    "count": 5,
     "evidence": "co-placement",
-    "face": "toward 92",
+    "face": "toward 91",
     "heightM": 0.96,
-    "normalDeg": 91.9,
+    "normalDeg": 91.4,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
     "positionInPiece": [
      1.85,
-     0.06
+     0.04
     ],
     "template": "vanilla:t0891",
-    "widthM": 3.56
+    "widthM": 3.54
    },
    {
     "evidence": "bounds",
@@ -3161,84 +3333,112 @@
   ],
   "vanilla:clutter/stockade/stockadescaffoldtop0sided01": [
    {
-    "count": 17,
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 0",
     "heightM": 0.28,
-    "normalDeg": 0.2,
+    "normalDeg": 0.1,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     0.01,
-     -1.81
+     0.0,
+     -1.82
     ],
-    "template": "vanilla:t0100",
+    "template": "vanilla:t2456",
     "widthM": 3.53
    },
    {
-    "count": 6,
+    "count": 33,
     "evidence": "co-placement",
     "face": "toward 45",
     "heightM": 0.28,
-    "normalDeg": 44.8,
+    "normalDeg": 45.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     1.79,
+     1.8,
      -1.8
     ],
     "template": "vanilla:t1948",
     "widthM": 5.07
    },
    {
-    "count": 7,
+    "count": 66,
     "evidence": "co-placement",
-    "face": "toward 89",
+    "face": "toward 90",
     "heightM": 0.28,
-    "normalDeg": 88.9,
+    "normalDeg": 89.8,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     1.79,
-     -0.04
+     1.81,
+     -0.01
     ],
     "template": "vanilla:t0366",
-    "widthM": 3.76
+    "widthM": 3.74
    },
    {
-    "count": 14,
+    "count": 23,
+    "evidence": "co-placement",
+    "face": "toward 117",
+    "heightM": 0.28,
+    "normalDeg": 116.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     3.62,
+     1.82
+    ],
+    "template": "vanilla:t2411",
+    "widthM": 4.82
+   },
+   {
+    "count": 29,
+    "evidence": "co-placement",
+    "face": "toward 135",
+    "heightM": 0.28,
+    "normalDeg": 135.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.81,
+     1.82
+    ],
+    "template": "vanilla:t2404",
+    "widthM": 5.06
+   },
+   {
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 175",
     "heightM": 0.28,
-    "normalDeg": 175.2,
+    "normalDeg": 175.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     0.08,
-     0.96
+     0.09,
+     0.97
     ],
     "template": "vanilla:t0099",
-    "widthM": 3.82
+    "widthM": 3.83
    },
    {
-    "count": 17,
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 0.28,
-    "normalDeg": 180.1,
+    "normalDeg": 179.6,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -0.0,
-     1.82
+     0.01,
+     1.8
     ],
-    "template": "vanilla:t0100",
-    "widthM": 3.53
+    "template": "vanilla:t2457",
+    "widthM": 3.55
    },
    {
-    "count": 6,
+    "count": 33,
     "evidence": "co-placement",
     "face": "toward 225",
     "heightM": 0.28,
-    "normalDeg": 224.8,
+    "normalDeg": 225.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -1.79,
+     -1.8,
      1.8
     ],
     "template": "vanilla:t1948",
@@ -3273,18 +3473,32 @@
     "widthM": 3.77
    },
    {
-    "count": 7,
+    "count": 66,
     "evidence": "co-placement",
-    "face": "toward 269",
+    "face": "toward 270",
     "heightM": 0.28,
-    "normalDeg": 268.9,
+    "normalDeg": 269.8,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -1.79,
-     0.04
+     -1.81,
+     0.01
     ],
     "template": "vanilla:t0366",
-    "widthM": 3.76
+    "widthM": 3.74
+   },
+   {
+    "count": 23,
+    "evidence": "co-placement",
+    "face": "toward 296",
+    "heightM": 0.28,
+    "normalDeg": 296.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -3.63,
+     -1.8
+    ],
+    "template": "vanilla:t2411",
+    "widthM": 4.82
    },
    {
     "count": 5,
@@ -3301,18 +3515,32 @@
     "widthM": 5.02
    },
    {
-    "count": 14,
+    "count": 29,
+    "evidence": "co-placement",
+    "face": "toward 315",
+    "heightM": 0.28,
+    "normalDeg": 315.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.81,
+     -1.81
+    ],
+    "template": "vanilla:t2404",
+    "widthM": 5.06
+   },
+   {
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 355",
     "heightM": 0.28,
-    "normalDeg": 355.2,
+    "normalDeg": 355.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -0.08,
-     -0.96
+     -0.09,
+     -0.97
     ],
     "template": "vanilla:t0099",
-    "widthM": 3.82
+    "widthM": 3.83
    }
   ],
   "vanilla:clutter/stockade/stockadescaffoldtop1sided01": [
@@ -3385,18 +3613,18 @@
     "widthM": 3.74
    },
    {
-    "count": 4,
+    "count": 5,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 0.96,
-    "normalDeg": 180.3,
+    "normalDeg": 180.2,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldstairs01",
     "positionInPiece": [
      -0.01,
      1.85
     ],
     "template": "vanilla:t0891",
-    "widthM": 3.56
+    "widthM": 3.54
    },
    {
     "evidence": "bounds",
@@ -4271,12 +4499,58 @@
     ],
     "widthM": 2.94
    }
+  ],
+  "vanilla:effects/fxfirewithembers01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.54
+    ],
+    "widthM": 2.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.14,
+     0.05
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.64
+    ],
+    "widthM": 2.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.14,
+     0.05
+    ],
+    "widthM": 1.18
+   }
   ]
  },
  "counts": {
-  "assets": 103,
-  "bounds": 348,
-  "co-placement": 17
+  "assets": 110,
+  "bounds": 364,
+  "co-placement": 23
  },
  "elongationRatio": 2.0,
  "kit": "works-v1",

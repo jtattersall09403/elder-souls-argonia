@@ -162,6 +162,98 @@
     "widthM": 15.1
    }
   ],
+  "composite:mud/kotm-house-pod": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.16,
+     -7.72
+    ],
+    "widthM": 13.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.75,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.65,
+     -0.26
+    ],
+    "widthM": 14.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.16,
+     7.19
+    ],
+    "widthM": 13.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.75,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.97,
+     -0.26
+    ],
+    "widthM": 14.91
+   }
+  ],
+  "composite:mud/pod-as-placed": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.16,
+     -7.82
+    ],
+    "widthM": 13.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.65,
+     -0.81
+    ],
+    "widthM": 14.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.16,
+     6.19
+    ],
+    "widthM": 13.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.97,
+     -0.81
+    ],
+    "widthM": 14.01
+   }
+  ],
   "ferries:yamadori/ferries/plank_ferry_swamp_01": [
    {
     "evidence": "bounds",
@@ -1351,6 +1443,20 @@
     "widthM": 1.18
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 91",
+    "heightM": 3.77,
+    "normalDeg": 90.7,
+    "pairedWith": "kotm:argonia/mudhuts/stairs02",
+    "positionInPiece": [
+     1.24,
+     0.01
+    ],
+    "template": "kotm:t0098",
+    "widthM": 1.22
+   },
+   {
     "evidence": "bounds",
     "face": "west",
     "heightM": 3.77,
@@ -1360,6 +1466,20 @@
      0.0
     ],
     "widthM": 1.18
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 271",
+    "heightM": 3.77,
+    "normalDeg": 270.7,
+    "pairedWith": "kotm:argonia/mudhuts/stairs02",
+    "positionInPiece": [
+     -1.24,
+     -0.01
+    ],
+    "template": "kotm:t0098",
+    "widthM": 1.22
    }
   ],
   "kotm:argonia/mudhuts/window01": [
@@ -1796,6 +1916,52 @@
     "evidence": "bounds",
     "face": "west",
     "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.02,
     "normalDeg": 270.0,
     "positionInPiece": [
      -0.32,
@@ -2614,9 +2780,9 @@
   ]
  },
  "counts": {
-  "assets": 63,
-  "bounds": 226,
-  "co-placement": 0
+  "assets": 66,
+  "bounds": 238,
+  "co-placement": 2
  },
  "elongationRatio": 2.0,
  "kit": "settlement-mud-v1",
