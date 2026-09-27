@@ -1,0 +1,15 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/travel-services.v1",
+ "title": "Travel services, stations and rootways (worldgen.travel_services)",
+ "type": "object",
+ "required": ["schemaVersion", "stations", "services"],
+ "properties": {
+  "schemaVersion": {"const": 1},
+  "stations": {"type": "array", "items": {"type": "object", "required": ["id"]}},
+  "services": {"type": "array", "items": {"type": "object", "required": ["id"], "properties": {
+   "operator": {"type": "object", "properties": {
+    "nearestPlaceId": {"type": ["string", "null"]},
+    "socketRef": {"type": ["string", "null"], "pattern": "^(socket|post)\\."}}}}}}
+ }
+}

@@ -1,51 +1,288 @@
 {
  "schemaVersion": 1,
- "decision": "docs/decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md",
+ "decision": [
+  "docs/decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md",
+  "docs/decisions/0104-the-world-is-one-normalised-record-set-promises-are-fulfilled-by-placed-interactables.md"
+ ],
  "about": "The vocabulary in which every place socket is written (0103 decision 5). compile_settlement refuses a socket kind, activity, day phase, schedule purpose, item class, container class or fill rule that is not listed here. Each item class names the vanilla mesh folder or file that supplies its meshes. A socket therefore cannot promise an item that has no asset.",
- "socketKinds": ["npc", "idle", "item", "container", "encounter", "fauna", "ambience", "marker"],
- "valueBands": ["trivial", "low", "moderate", "high", "precious"],
- "dangerBands": ["D1", "D2", "D3", "D4", "D5"],
- "dayPhases": ["night", "astronomical", "nautical", "civil", "sunrise", "morning", "noon",
-               "afternoon", "sunset", "dusk"],
+ "socketKinds": [
+  "npc",
+  "idle",
+  "item",
+  "container",
+  "station",
+  "sign",
+  "encounter",
+  "fauna",
+  "ambience",
+  "marker"
+ ],
+ "valueBands": [
+  "trivial",
+  "low",
+  "moderate",
+  "high",
+  "precious"
+ ],
+ "dangerBands": [
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5"
+ ],
+ "dayPhases": [
+  "night",
+  "astronomical",
+  "nautical",
+  "civil",
+  "sunrise",
+  "morning",
+  "noon",
+  "afternoon",
+  "sunset",
+  "dusk"
+ ],
  "dayPhaseSource": "packages/world-time/src/clock.ts DayPhase (world 8a dayPhase())",
- "schedulePurposes": ["work", "home", "evening", "leisure"],
- "activities": ["stand", "sit", "sleep", "lean", "work-at", "fish", "tend", "cook", "pole"],
+ "schedulePurposes": [
+  "work",
+  "home",
+  "evening",
+  "leisure"
+ ],
+ "activities": [
+  "stand",
+  "sit",
+  "sleep",
+  "lean",
+  "work-at",
+  "fish",
+  "tend",
+  "cook",
+  "pole"
+ ],
  "itemClasses": {
-  "food": {"assetSource": "vanilla:meshes/clutter/food", "valueBand": "trivial"},
-  "drink": {"assetSource": "vanilla:meshes/clutter/wine", "valueBand": "trivial"},
-  "fish": {"assetSource": "vanilla:meshes/clutter/deadanimals (deadpondfish, deadsalmon, salmonmeat)", "valueBand": "trivial"},
-  "misc-household": {"assetSource": "vanilla:meshes/clutter/common (inkwell01, quill01, flagon01, rag01, broom)", "valueBand": "low"},
-  "tool": {"assetSource": "vanilla:meshes/clutter/common (hoe, pickaxe01, saw01, shovel01, pitchfork01) and clutter/blacksmith", "valueBand": "low"},
-  "fishing-gear": {"assetSource": "vanilla:meshes/clutter/common (fishingpole, fishingpolecollection01)", "valueBand": "low"},
-  "pelt": {"assetSource": "vanilla:meshes/clutter/pelts", "valueBand": "low"},
-  "ingredient": {"assetSource": "vanilla:meshes/clutter/ingredients", "valueBand": "low"},
-  "potion": {"assetSource": "vanilla:meshes/clutter/potions", "valueBand": "moderate"},
-  "coin": {"assetSource": "vanilla:meshes/clutter/coin01.nif", "valueBand": "low"},
-  "gem": {"assetSource": "vanilla:meshes/clutter/gemstones", "valueBand": "precious"},
-  "book": {"assetSource": "vanilla:meshes/clutter/books (basicbook, journal)", "valueBand": "low", "textBearing": true},
-  "note": {"assetSource": "vanilla:meshes/clutter/books (note01..04, notetornpaper)", "valueBand": "trivial", "textBearing": true}
+  "food": {
+   "assetSource": "vanilla:meshes/clutter/food",
+   "valueBand": "trivial"
+  },
+  "drink": {
+   "assetSource": "vanilla:meshes/clutter/wine",
+   "valueBand": "trivial"
+  },
+  "fish": {
+   "assetSource": "vanilla:meshes/clutter/deadanimals (deadpondfish, deadsalmon, salmonmeat)",
+   "valueBand": "trivial"
+  },
+  "misc-household": {
+   "assetSource": "vanilla:meshes/clutter/common (inkwell01, quill01, flagon01, rag01, broom)",
+   "valueBand": "low"
+  },
+  "tool": {
+   "assetSource": "vanilla:meshes/clutter/common (hoe, pickaxe01, saw01, shovel01, pitchfork01) and clutter/blacksmith",
+   "valueBand": "low"
+  },
+  "fishing-gear": {
+   "assetSource": "vanilla:meshes/clutter/common (fishingpole, fishingpolecollection01)",
+   "valueBand": "low"
+  },
+  "pelt": {
+   "assetSource": "vanilla:meshes/clutter/pelts",
+   "valueBand": "low"
+  },
+  "ingredient": {
+   "assetSource": "vanilla:meshes/clutter/ingredients",
+   "valueBand": "low"
+  },
+  "potion": {
+   "assetSource": "vanilla:meshes/clutter/potions",
+   "valueBand": "moderate"
+  },
+  "coin": {
+   "assetSource": "vanilla:meshes/clutter/coin01.nif",
+   "valueBand": "low"
+  },
+  "gem": {
+   "assetSource": "vanilla:meshes/clutter/gemstones",
+   "valueBand": "precious"
+  },
+  "book": {
+   "assetSource": "vanilla:meshes/clutter/books (basicbook, journal)",
+   "valueBand": "low",
+   "textBearing": true
+  },
+  "note": {
+   "assetSource": "vanilla:meshes/clutter/books (note01..04, notetornpaper)",
+   "valueBand": "trivial",
+   "textBearing": true
+  }
  },
  "containerClasses": {
-  "barrel": {"nameFamilies": ["barrel"], "defaultFillRule": "blanket.household-barrel"},
-  "crate": {"nameFamilies": ["crate"], "defaultFillRule": "blanket.storage-crate"},
-  "sack": {"nameFamilies": ["sack"], "defaultFillRule": "blanket.storage-crate"},
-  "basket": {"nameFamilies": ["basket"], "defaultFillRule": "blanket.fish-basket"},
-  "urn": {"nameFamilies": ["urn"], "defaultFillRule": "blanket.household-urn"},
-  "chest": {"nameFamilies": ["chest", "wardrobe", "cupboard", "endtable", "dresser"], "defaultFillRule": null},
-  "strongbox": {"nameFamilies": ["strongbox"], "defaultFillRule": null}
+  "barrel": {
+   "nameFamilies": [
+    "barrel"
+   ],
+   "defaultFillRule": "blanket.household-barrel"
+  },
+  "crate": {
+   "nameFamilies": [
+    "crate"
+   ],
+   "defaultFillRule": "blanket.storage-crate"
+  },
+  "sack": {
+   "nameFamilies": [
+    "sack"
+   ],
+   "defaultFillRule": "blanket.storage-crate"
+  },
+  "basket": {
+   "nameFamilies": [
+    "basket"
+   ],
+   "defaultFillRule": "blanket.fish-basket"
+  },
+  "urn": {
+   "nameFamilies": [
+    "urn"
+   ],
+   "defaultFillRule": "blanket.household-urn"
+  },
+  "chest": {
+   "nameFamilies": [
+    "chest",
+    "wardrobe",
+    "cupboard",
+    "endtable",
+    "dresser"
+   ],
+   "defaultFillRule": null
+  },
+  "strongbox": {
+   "nameFamilies": [
+    "strongbox"
+   ],
+   "defaultFillRule": null
+  }
  },
  "furnitureActivities": {
-  "sit": ["chair", "bench", "sofa", "stool"],
-  "sleep": ["bed", "bedroll"],
-  "work-at": ["table", "anvil", "workbench"],
-  "cook": ["oven", "cookingpot", "spitpot"]
+  "sit": [
+   "chair",
+   "bench",
+   "sofa",
+   "stool"
+  ],
+  "sleep": [
+   "bed",
+   "bedroll"
+  ],
+  "work-at": [
+   "table",
+   "anvil",
+   "workbench"
+  ],
+  "cook": [
+   "oven",
+   "cookingpot",
+   "spitpot"
+  ]
  },
  "fillRules": {
-  "blanket.household-barrel": {"itemClasses": ["food", "drink", "misc-household"], "valueBand": "low", "hiddenGemChance": 0.05},
-  "blanket.household-urn": {"itemClasses": ["food", "drink", "misc-household"], "valueBand": "low", "hiddenGemChance": 0.02},
-  "blanket.storage-crate": {"itemClasses": ["food", "tool", "misc-household"], "valueBand": "low", "hiddenGemChance": 0.0},
-  "blanket.fish-basket": {"itemClasses": ["fish", "fishing-gear"], "valueBand": "trivial", "hiddenGemChance": 0.0},
-  "blanket.water-barrel": {"itemClasses": [], "valueBand": "trivial", "hiddenGemChance": 0.0},
-  "authored": {"needs": "lootTable", "lootTableFields": ["itemClasses", "valueBand", "storyNote"]}
+  "blanket.household-barrel": {
+   "itemClasses": [
+    "food",
+    "drink",
+    "misc-household"
+   ],
+   "valueBand": "low",
+   "hiddenGemChance": 0.05
+  },
+  "blanket.household-urn": {
+   "itemClasses": [
+    "food",
+    "drink",
+    "misc-household"
+   ],
+   "valueBand": "low",
+   "hiddenGemChance": 0.02
+  },
+  "blanket.storage-crate": {
+   "itemClasses": [
+    "food",
+    "tool",
+    "misc-household"
+   ],
+   "valueBand": "low",
+   "hiddenGemChance": 0.0
+  },
+  "blanket.fish-basket": {
+   "itemClasses": [
+    "fish",
+    "fishing-gear"
+   ],
+   "valueBand": "trivial",
+   "hiddenGemChance": 0.0
+  },
+  "blanket.water-barrel": {
+   "itemClasses": [],
+   "valueBand": "trivial",
+   "hiddenGemChance": 0.0
+  },
+  "authored": {
+   "needs": "lootTable",
+   "lootTableFields": [
+    "itemClasses",
+    "valueBand",
+    "storyNote"
+   ]
+  }
+ },
+ "commonFields": {
+  "fills": "promise ids",
+  "owner": "owner id or null",
+  "valueTier": "value tier or null"
+ },
+ "stationClasses": {
+  "forge": {
+   "kit": "works-v1",
+   "assetSource": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01"
+  },
+  "tanning-rack": {
+   "kit": "works-v1",
+   "assetSource": "vanilla:clutter/common/tanningrack01"
+  },
+  "cooking-spit": {
+   "kit": "interior-farmhouse-v1",
+   "assetSource": "vanilla:clutter/cookingspitfarmhouse01"
+  },
+  "fish-rack": {
+   "kit": "settlement-mud-v1",
+   "assetSource": "mudmother:gv_meshes/argoniannest/fishracksmall"
+  },
+  "grindstone": {
+   "kit": "works-v1",
+   "assetSource": "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic"
+  },
+  "workbench": {
+   "kit": "works-v1",
+   "assetSource": "vanilla:clutter/blacksmith/blacksmithworkbench01"
+  },
+  "alchemy": {
+   "kit": null,
+   "assetSource": "vanilla:furniture/workbenches/alchemyworkbench01",
+   "note": "in the vault (vanilla), in no published kit yet: a kit-build job, not a sourcing gap"
+  },
+  "enchanting": {
+   "kit": null,
+   "assetSource": "vanilla:furniture/workbenches/enchantingworkbench01",
+   "note": "in the vault (vanilla), in no published kit yet: a kit-build job, not a sourcing gap"
+  }
+ },
+ "sign": {
+  "pointsTo": "one route. or place. id per arm"
+ },
+ "doorTypes": {
+  "load": "a cell transition: the door-links record holds an XTEL for its shell (worldgen.door_types)",
+  "swing": "opens in place by animation; no cell"
  }
 }

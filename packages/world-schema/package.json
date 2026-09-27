@@ -1,0 +1,9 @@
+{
+  "name": "@elder-souls/world-schema",
+  "private": true,
+  "version": "0.1.0",
+  "description": "One JSON Schema per authored world record family, versioned by schemaVersion, and the referential-integrity gate over them (decision 0104). Python validates through jsonschema; TypeScript types are generated from the same files (queued).",
+  "scripts": {
+    "test": "python3 -m pytest -q -p no:cacheprovider ."
+  }
+}

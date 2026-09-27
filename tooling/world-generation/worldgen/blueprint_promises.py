@@ -498,10 +498,156 @@ def write_ledger(bp_id: str, rec: dict, ledger: list[Promise], out_dir: Path = O
     return path
 
 
+# ------------------------------------------------------------------ ledger record (0104)
+#
+# The promise ledger RECORD (decision 0104 decision 3): one row per promise
+# the source records make a place, each with a stable id
+# `promise.<place-slug>.<slug>` built from its source path, its kind, its
+# source (file and path) and its text. Generated here, never hand-written,
+# committed at `world/sources/placement/promises/<place-id>.json`, and
+# checked by `promise_gate.promise_gate_errors` at every compile. A row's
+# `unfilled` block (one of the four 0102 reasons) is the builder's, so a
+# regeneration keeps it for every row whose id survives.
+
+CATALOGUE_REL = "world/sources/catalogue"
+TRAVEL_SERVICES_REL = "world/sources/routes/travel-services.json"
+#: the catalogue socket bucket -> the slug word its promise rows carry
+SOCKET_BUCKETS = ("scene", "evidence", "post", "marks")
+
+
+def _slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", str(text).lower()).strip("-")
+
+
+def _cap(text: str) -> str:
+    return text[:1].upper() + text[1:]
+
+
+def _record_file(place_id: str) -> str:
+    for rf in catalogue.load_region_files():
+        if any(r.get("id") == place_id for r in rf.places):
+            return str(rf.path.relative_to(REPO_ROOT))
+    return f"{CATALOGUE_REL}/?"
+
+
+def _bucket_tail(sid: str, place_slug: str) -> str:
+    """`post.claywater-station.poler` -> `poler` (the id past its bucket
+    prefix and the place segment)."""
+    parts = sid.split(".")[1:]
+    if parts and parts[0] == place_slug:
+        parts = parts[1:]
+    return _slug("-".join(parts) or sid)
+
+
+def _row(place_slug: str, slug: str, kind: str, file: str, path: str, text: str) -> dict:
+    return {"id": f"promise.{place_slug}.{slug}", "kind": kind,
+            "source": {"file": file, "path": path}, "text": text, "unfilled": None}
+
+
+def ledger_rows(rec: dict, services_doc: dict | None = None) -> list[dict]:
+    """Every promise row of one catalogue record, sorted by id."""
+    place_id = rec["id"]
+    place_slug = place_id.rsplit(".", 1)[-1]
+    name = rec.get("name") or place_slug
+    cat = _record_file(place_id)
+    at = f"places[{place_id}]"
+    rows: list[dict] = []
+    for service in rec.get("services") or []:
+        rows.append(_row(place_slug, f"service-{_slug(service)}", "service", cat,
+                         f"{at}.services[{service}]", f"{name} offers the {service} service."))
+    for key in ("notableNpcSlots",):
+        for slot in rec.get(key) or []:
+            sid = slot.get("slotId")
+            rows.append(_row(place_slug, f"occupant-{_slug(sid)}", "occupant", cat,
+                             f"{at}.{key}[{sid}]", f"{_cap(slot.get('role') or sid)} lives and "
+                             f"works at {name}."))
+    for slot in (rec.get("contents") or {}).get("npcs") or []:
+        sid = slot.get("slotId")
+        rows.append(_row(place_slug, f"occupant-{_slug(sid)}", "occupant", cat,
+                         f"{at}.contents.npcs[{sid}]", f"{name} has {slot.get('count') or 'some'} "
+                         f"{slot.get('role') or sid} occupants."))
+    for svc in (services_doc or {}).get("services") or []:
+        op = svc.get("operator") or {}
+        if svc.get("status") != "active" or op.get("nearestPlaceId") != place_id:
+            continue
+        rows.append(_row(place_slug, f"operator-{_slug(svc['id'])}", "operator",
+                         TRAVEL_SERVICES_REL, f"services[{svc['id']}].operator",
+                         f"The {op.get('role') or 'operator'} runs the "
+                         f"{svc.get('kind') or svc['id'].split('.')[0]} service from {name}."))
+    for prov in (rec.get("questHooks") or {}).get("provisions") or []:
+        rows.append(_row(place_slug, f"provision-{_slug(prov.removeprefix('quest.provision.'))}",
+                         "provision", cat, f"{at}.questHooks.provisions[{prov}]",
+                         f"{name} holds what quest provision {prov} needs."))
+    sockets = rec.get("sockets") or {}
+    for bucket in SOCKET_BUCKETS:
+        for sid in dict.fromkeys(sockets.get(bucket) or []):
+            rows.append(_row(place_slug, f"{bucket}-{_bucket_tail(sid, place_slug)}", "socketBucket",
+                             cat, f"{at}.sockets.{bucket}[{sid}]",
+                             f"{name} has the {bucket} socket {sid}."))
+    # quests 20 §12: a settlement owes one safe (D0) interior
+    if (rec.get("classification") or {}).get("class") == "settlement":
+        rows.append(_row(place_slug, "safe-interior", "safeInterior", cat,
+                         f"{at}.classification.class",
+                         f"{name} has one safe interior (danger D0, quests 20 section 12)."))
+    by_id: dict[str, dict] = {}
+    for row in rows:
+        by_id.setdefault(row["id"], row)
+    return sorted(by_id.values(), key=lambda r: r["id"])
+
+
+def _sha(path: Path) -> str:
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def ledger_record(rec: dict, services_doc: dict | None = None,
+                  previous: dict | None = None) -> dict:
+    """The ledger document of one place; `previous` (the committed ledger)
+    lends its `unfilled` blocks to the rows whose ids survive."""
+    from .promise_gate import LEDGER_SCHEMA_VERSION
+    kept = {r["id"]: r.get("unfilled") for r in (previous or {}).get("promises") or []}
+    rows = ledger_rows(rec, services_doc)
+    for row in rows:
+        row["unfilled"] = kept.get(row["id"])
+    files = sorted({r["source"]["file"] for r in rows})
+    return {"schemaVersion": LEDGER_SCHEMA_VERSION,
+            "placeId": rec["id"],
+            "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write "
+                         "(decision 0104); never hand-edit a row but its `unfilled` block",
+            "derivedFrom": [{"file": f, "sha256": _sha(REPO_ROOT / f)} for f in files
+                            if (REPO_ROOT / f).exists()],
+            "promises": rows}
+
+
+def write_ledger_record(place_id: str, root: Path | None = None) -> Path:
+    from .atomic_write import locked_write_text
+    from .promise_gate import LEDGER_DIR, ledger_path, load_ledger
+    root = root or LEDGER_DIR
+    rec = load_record(place_id)
+    if rec is None:
+        raise SystemExit(f"{place_id}: no catalogue record")
+    services_doc = json.loads((REPO_ROOT / TRAVEL_SERVICES_REL).read_text(encoding="utf-8"))
+    doc = ledger_record(rec, services_doc, load_ledger(place_id, root))
+    path = ledger_path(place_id, root)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    locked_write_text(path, json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
+    return path
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Build the promise ledger for the blueprints.")
     ap.add_argument("--id", help="one place id (default: every blueprint)")
+    ap.add_argument("--write", action="store_true",
+                    help="write the promise ledger record world/sources/placement/promises/"
+                         "<place-id>.json (0104 decision 3; needs --id)")
     args = ap.parse_args()
+    if args.write:
+        if not args.id:
+            ap.error("--write needs --id <place-id>")
+        path = write_ledger_record(args.id)
+        rows = json.loads(path.read_text())["promises"]
+        print(f"{args.id}: {len(rows)} promise rows -> {path.relative_to(REPO_ROOT)}")
+        return 0
     paths = blueprint_paths(BLUEPRINT_DIR)
     if args.id:
         paths = [p for p in paths if p.stem == args.id]

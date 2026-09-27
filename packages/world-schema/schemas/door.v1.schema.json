@@ -1,0 +1,16 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/door.v1",
+ "title": "A door: a transition, its own family (decision 0104 decision 4)",
+ "type": "object",
+ "required": ["id", "parcelId"],
+ "properties": {
+  "id": {"type": "string", "pattern": "^door\\."},
+  "parcelId": {"type": "string", "pattern": "^parcel\\."},
+  "doorType": {"enum": ["load", "swing"]},
+  "fills": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^promise\\."}, "uniqueItems": true},
+  "owner": {"type": ["string", "null"]},
+  "valueTier": {"type": ["string", "null"]},
+  "interiorClaim": {"type": "object"}
+ }
+}

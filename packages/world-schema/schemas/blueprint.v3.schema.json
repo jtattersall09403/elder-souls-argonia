@@ -1,0 +1,20 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/blueprint.v3",
+ "title": "blueprint file, schema 1 to 3",
+ "type": "object",
+ "required": ["schemaVersion", "blueprint"],
+ "properties": {
+  "schemaVersion": {"enum": [1, 2, 3]},
+  "blueprint": {"type": "object", "required": ["id"],
+   "properties": {
+    "id": {"type": "string"},
+    "parcels": {"type": "array", "items": {"type": "object", "required": ["id"], "properties": {
+     "id": {"type": "string", "pattern": "^parcel\\."},
+     "fills": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^promise\\."}}}}},
+    "doors": {"type": "array", "items": {"$ref": "world-schema/door.v1"}},
+    "questSockets": {"type": "array", "items": {"type": "object", "required": ["id", "kind"], "properties": {
+     "fills": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^promise\\."}}}}}
+   }}
+ }
+}

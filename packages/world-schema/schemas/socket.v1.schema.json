@@ -1,0 +1,22 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/socket.v1",
+ "title": "A placed interactable: a layout socket op (decisions 0103 and 0104)",
+ "type": "object",
+ "required": ["op", "id", "kind"],
+ "properties": {
+  "op": {"const": "socket"},
+  "id": {"type": "string", "pattern": "^socket\\.[a-z0-9-]+\\.[a-z0-9]+(-[a-z0-9]+)*$"},
+  "kind": {"enum": ["npc", "idle", "item", "container", "station", "sign", "encounter", "fauna", "ambience", "marker"]},
+  "at": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+  "host": {"type": "string"},
+  "parcel": {"type": "string", "pattern": "^parcel\\."},
+  "fills": {"type": "array", "items": {"type": "string", "pattern": "^promise\\."}, "uniqueItems": true},
+  "owner": {"type": ["string", "null"]},
+  "valueTier": {"type": ["string", "null"]},
+  "stationClass": {"type": "string"},
+  "pointsTo": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^(route|place)\\."}},
+  "schedule": {"type": "array", "items": {"type": "object", "properties": {"socketId": {"type": "string", "pattern": "^socket\\."}}}}
+ },
+ "anyOf": [{"required": ["at"]}, {"required": ["host"]}]
+}

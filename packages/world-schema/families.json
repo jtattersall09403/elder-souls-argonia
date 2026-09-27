@@ -1,0 +1,47 @@
+{
+ "schemaVersion": 1,
+ "families": {
+  "promises": {
+   "schema": "promises.v1.schema.json",
+   "files": [
+    "world/sources/placement/promises/*.json"
+   ],
+   "homeOf": "promise."
+  },
+  "layout": {
+   "schema": "layout.v1.schema.json",
+   "files": [
+    "world/sources/blueprints/*.layout.json"
+   ],
+   "homeOf": "socket."
+  },
+  "socket": {
+   "schema": "socket.v1.schema.json",
+   "within": "layout ops[op=socket]"
+  },
+  "door": {
+   "schema": "door.v1.schema.json",
+   "within": "blueprint doors[]"
+  },
+  "blueprint": {
+   "schema": "blueprint.v3.schema.json",
+   "files": [
+    "world/sources/blueprints/place.*.json"
+   ],
+   "homeOf": "door."
+  },
+  "travel-services": {
+   "schema": "travel-services.v1.schema.json",
+   "files": [
+    "world/sources/routes/travel-services.json"
+   ],
+   "homeOf": "travel services"
+  },
+  "socket-vocabulary": {
+   "schema": "socket-vocabulary.v1.schema.json",
+   "files": [
+    "world/sources/vocab/socket-vocabulary.json"
+   ]
+  }
+ }
+}

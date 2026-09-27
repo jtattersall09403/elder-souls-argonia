@@ -1,0 +1,15 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/socket-vocabulary.v1",
+ "title": "The socket vocabulary (decisions 0103 and 0104)",
+ "type": "object",
+ "required": ["schemaVersion", "socketKinds", "stationClasses", "doorTypes", "itemClasses", "containerClasses", "fillRules"],
+ "properties": {
+  "schemaVersion": {"const": 1},
+  "socketKinds": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+  "stationClasses": {"type": "object", "additionalProperties": {"type": "object", "required": ["kit", "assetSource"],
+   "properties": {"kit": {"type": ["string", "null"]}, "assetSource": {"type": "string"}},
+   "if": {"properties": {"assetSource": {"const": "sourcing"}}}, "then": {"required": ["register"]}}},
+  "doorTypes": {"type": "object", "required": ["load", "swing"]}
+ }
+}

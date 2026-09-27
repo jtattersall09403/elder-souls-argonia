@@ -4,99 +4,143 @@
   {
    "path": "apps/world-studio/public/province/water/water-meta.json",
    "enforced": true,
-   "_": "Compiled field water bundle (surface/flow/class/shore rasters); decisions 0025 and 0046."
+   "_": "Compiled field water bundle (surface/flow/class/shore rasters); decisions 0025 and 0046.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/catalogue",
-   "enforced": true
+   "enforced": true,
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/catalogue/type-recipes.json",
-   "enforced": true
+   "enforced": true,
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/sites/plot-remedies.json",
    "enforced": true,
-   "_": "The 16g review's remedies, one row per failing record (worldgen.plot_remedies --apply/--check); the reproducible, idempotent record of what the review decided and why."
+   "_": "The 16g review's remedies, one row per failing record (worldgen.plot_remedies --apply/--check); the reproducible, idempotent record of what the review decided and why.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/catalogue/design-groups.json",
    "enforced": true,
-   "_": "Design groups (16g): places that are one blueprint and one build; worldgen.catalogue checks the membership, liveness and spread."
+   "_": "Design groups (16g): places that are one blueprint and one build; worldgen.catalogue checks the membership, liveness and spread.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/catalogue/interior-recipes.json",
    "enforced": true,
-   "_": "Family -> interior realisation recipe and its kits (16g, world 70 §48 rule 2); worldgen.catalogue checks every dungeon-kind family has a row and every kit it names exists."
+   "_": "Family -> interior realisation recipe and its kits (16g, world 70 §48 rule 2); worldgen.catalogue checks every dungeon-kind family has a row and every kit it names exists.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/placement/settlement-asset-inventory.json",
-   "enforced": true
+   "enforced": true,
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "apps/world-studio/public/province/places.json",
    "enforced": true,
-   "_": "Plotted place catalogue for the studio map (worldgen.export_places); a projection of world/sources/catalogue, so NOT in id-registry (its IDs would duplicate the catalogue's)."
+   "_": "Plotted place catalogue for the studio map (worldgen.export_places); a projection of world/sources/catalogue, so NOT in id-registry (its IDs would duplicate the catalogue's).",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "apps/world-studio/public/province/routes-minor.json",
    "enforced": true,
-   "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json."
+   "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "apps/world-studio/public/province/waterways-minor.json",
    "enforced": true,
-   "_": "Minor water network — channels, rivers, ferry crossings (worldgen.compile_minor_waterways, Part 3c); same px frame and shape as routes-minor.json."
+   "_": "Minor water network — channels, rivers, ferry crossings (worldgen.compile_minor_waterways, Part 3c); same px frame and shape as routes-minor.json.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "apps/world-studio/public/province/routes-index.json",
    "enforced": true,
-   "_": "Route registry projection for the studio's routes/waterways layers (worldgen.export_routes); keyed by route id, joined to the geometry bundles."
+   "_": "Route registry projection for the studio's routes/waterways layers (worldgen.export_routes); keyed by route id, joined to the geometry bundles.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/flora/palettes.json",
    "enforced": true,
-   "_": "Vegetation palettes (worldgen.build_palettes). schemaVersion 3 (16f): layers carry the water-record gates (water_kinds, season_kinds, channel_exclusion)."
+   "_": "Vegetation palettes (worldgen.build_palettes). schemaVersion 3 (16f): layers carry the water-record gates (water_kinds, season_kinds, channel_exclusion).",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",
    "enforced": false,
-   "owner": "Phase 10b (moveset wiring adds the polearm families)"
+   "owner": "Phase 10b (moveset wiring adds the polearm families)",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "packages/game-core/src/validation/visualScenarioExpectations.json",
    "enforced": false,
-   "owner": "Phase 10b"
+   "owner": "Phase 10b",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/routes/registry.json",
    "enforced": true,
-   "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society)."
+   "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society).",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/registries",
    "enforced": true,
-   "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044."
+   "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "world/sources/quests",
    "enforced": true,
-   "_": "Quest data (worldgen.quests): lines plus one packet file per group and per catalogue region. world/sources/registries/quests.json is now a GENERATED projection of this directory (worldgen.quests --sync), so the quest ids are registered here in id-registry.json and not there."
+   "_": "Quest data (worldgen.quests): lines plus one packet file per group and per catalogue region. world/sources/registries/quests.json is now a GENERATED projection of this directory (worldgen.quests --sync), so the quest ids are registered here in id-registry.json and not there.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "apps/world-studio/public/province/blueprints.json",
    "enforced": true,
-   "_": "Settlement blueprints projected to world metres for the studio's Blueprint view (worldgen.export_blueprints); a projection of world/sources/blueprints, so NOT in id-registry (its IDs would duplicate the blueprints')."
+   "_": "Settlement blueprints projected to world metres for the studio's Blueprint view (worldgen.export_blueprints); a projection of world/sources/blueprints, so NOT in id-registry (its IDs would duplicate the blueprints').",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "packages/game-core/src/stats/data",
    "enforced": true,
-   "_": "The stats model's canonical tables (module 76 §129; decision 0088): curves, skills, attributes."
+   "_": "The stats model's canonical tables (module 76 §129; decision 0088): curves, skills, attributes.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
   },
   {
    "path": "packages/game-core/src/stats/sim/data",
    "enforced": true,
-   "_": "The balance harness's own tables (module 76 §129; decisions 0088/0089): gear mirror, build checkpoints, worked enemies, content models, Morrowind's rules."
+   "_": "The balance harness's own tables (module 76 §129; decisions 0088/0089): gear mirror, build checkpoints, worked enemies, content models, Morrowind's rules.",
+   "schemaQueued": "16k exit (decision 0104: schemas for the remaining families, then generated TypeScript types)"
+  },
+  {
+   "path": "world/sources/placement/promises",
+   "enforced": true,
+   "schema": "promises",
+   "_": "Promise ledgers, one per place (decision 0104 decision 3; worldgen.blueprint_promises --write)."
+  },
+  {
+   "path": "world/sources/blueprints",
+   "enforced": true,
+   "schema": "blueprint",
+   "_": "Place blueprints (schema 3, 0104) and layouts (schema 1, 0100): the layout is the home table of a place's sockets; the blueprint of its doors."
+  },
+  {
+   "path": "world/sources/routes/travel-services.json",
+   "enforced": true,
+   "schema": "travel-services",
+   "_": "Travel services, stations and rootways (worldgen.travel_services)."
+  },
+  {
+   "path": "world/sources/vocab/socket-vocabulary.json",
+   "enforced": true,
+   "schema": "socket-vocabulary",
+   "_": "The socket vocabulary (0103, 0104)."
   }
  ]
 }

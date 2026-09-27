@@ -1,0 +1,14 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "world-schema/layout.v1",
+ "title": "A place layout: the authored ops the workbench applies (decision 0100)",
+ "type": "object",
+ "required": ["schemaVersion", "placeId", "ops"],
+ "properties": {
+  "schemaVersion": {"const": 1},
+  "placeId": {"type": "string", "pattern": "^place\\."},
+  "ops": {"type": "array", "items": {"type": "object", "required": ["op"],
+   "if": {"properties": {"op": {"const": "socket"}}},
+   "then": {"$ref": "world-schema/socket.v1"}}}
+ }
+}
