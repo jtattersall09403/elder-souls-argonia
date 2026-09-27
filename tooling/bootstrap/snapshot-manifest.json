@@ -37,17 +37,17 @@
     {
       "id": "claude-transcripts",
       "object": "snapshot/v1/claude-transcripts.tar",
-      "bytes": 1693440000,
-      "sha256": "43d6ed053bff7bf2ad0ad6c03b15f39a39cf14e334388e179ba22331527bf46f",
+      "bytes": 1697454080,
+      "sha256": "943c7146e359cf6a1553ea692b803278bf3e9a862810e1eb66d9f5aedc7e051d",
       "root": ".claude-home",
       "tier": "claude",
       "needsArchives": false,
-      "sourceBytes": 1684949853,
-      "sourceFingerprint": "5703b39db8542c7c3e28806bbe92e27b415bcea51d415bd62095e45fa0707f51",
+      "sourceBytes": 1688866794,
+      "sourceFingerprint": "a40ea8392c82fee00b6763abe97da377abcdf3085db9e4e0d0e423aa0f16bfac",
       "tarWarnings": 0,
       "filesObject": "snapshot/v1/claude-transcripts.files",
-      "createdAt": "2026-09-27T01:54:30+00:00",
-      "prevSha256": "a1a5d4b657a7efcb551d9510a095f9afe90196faffc071e2451becb813873ed6"
+      "createdAt": "2026-09-27T14:58:57+00:00",
+      "prevSha256": "43d6ed053bff7bf2ad0ad6c03b15f39a39cf14e334388e179ba22331527bf46f"
     },
     {
       "id": "mod-sources/3d-grass-for-vanilla-122363",
