@@ -1,5 +1,5 @@
 {
-  "_": "Engineering standard 6. Scopes are the code that generates, compiles or places WORLD DATA \u2014 runtime gameplay jitter (an enemy's decision timer) is not world building and is out of scope by construction. Every allowlist entry needs a reason; an entry with no reason is a bug.",
+  "_": "Engineering standard 6. Scopes are the code that generates, compiles or places WORLD DATA — runtime gameplay jitter (an enemy's decision timer) is not world building and is out of scope by construction. Every allowlist entry needs a reason; an entry with no reason is a bug.",
   "scopes": [
     {
       "dir": "tooling/world-generation/worldgen",
@@ -46,6 +46,21 @@
       "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
       "line": 563,
       "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/place_gates.py",
+      "line": 208,
+      "reason": "startedAt stamp of a gate run in its REPORT JSON and the build ledger (16k build cost is measured as data); no world data depends on it"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/site_packet.py",
+      "line": 233,
+      "reason": "writtenAt stamp of the site packet REPORT under tooling/.reports; the packet's content is read from records"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/claim_signature.py",
+      "line": 136,
+      "reason": "claimedAt audit stamp on a 0098 signature claim row; the cap and 2 km rules never read it"
     }
   ]
 }

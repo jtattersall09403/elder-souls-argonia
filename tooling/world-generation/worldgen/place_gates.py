@@ -124,7 +124,7 @@ def compile_gates(g: Gates, settlement: dict | None, why_missing: str, seconds: 
 
 def interior_gate(g: Gates, bp: dict) -> None:
     from .export_interior_bundle import check
-    t = time.time()
+    t = time.perf_counter()
     failures, cells = [], []
     for door in bp.get("doors") or []:
         claim = door.get("interiorClaim") or {}
@@ -137,18 +137,18 @@ def interior_gate(g: Gates, bp: dict) -> None:
             failures.append(f"{door['id']}: tier A cell {cell} has no published bundle {path.name}")
             continue
         failures += check(json.loads(path.read_text(encoding="utf-8")))
-    g.add("interiors", time.time() - t, failures, cells=sorted(set(cells)))
+    g.add("interiors", time.perf_counter() - t, failures, cells=sorted(set(cells)))
 
 
 def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene: Path,
                   bp_source: str) -> None:
     from . import breadth_bars as bb
     from . import claim_signature as cl
-    t = time.time()
+    t = time.perf_counter()
     try:
         sigs = cl.place_signatures(place_id, scene, env=wb_env(place_id), blueprint=bp)
     except (FileNotFoundError, subprocess.CalledProcessError) as exc:
-        g.add("0098.place", time.time() - t, [f"no signature: {exc}"])
+        g.add("0098.place", time.perf_counter() - t, [f"no signature: {exc}"])
         g.add("0098.province", 0.0, [f"no signature: {exc}"])
         return
     from . import parcel_kinds as pk
@@ -161,7 +161,7 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
     column = bb.built_column(len(counted), record_bars)
     failures = []
     if column is None:
-        g.add("0098.place", time.time() - t, [],
+        g.add("0098.place", time.perf_counter() - t, [],
               [f"{len(buildings)} counted buildings: below every breadth-bars column"])
     else:
         from .site_packet import type_sheet
@@ -186,37 +186,37 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
             failures.append(f"0098: distinct shells {len(shells)} < {row['shellsMin']} ({column})")
         if top > row["topShellShareMax"]:
             failures.append(f"0098: top shell share {top:.2f} > {row['topShellShareMax']} ({column})")
-        g.add("0098.place", time.time() - t, failures, column=column, typeNumber=type_no,
+        g.add("0098.place", time.perf_counter() - t, failures, column=column, typeNumber=type_no,
               blueprint=bp_source,
               measured={"buildings": len(buildings), "dwellings": len(dwellings),
                         "signatureRatio": round(ratio, 3), "shells": len(shells),
                         "topShellShare": round(top, 3)})
-    t = time.time()
+    t = time.perf_counter()
     cap, repeat_m = cl.province_bars()
     copies = [s for s, parcels in sigs.items() for _ in parcels]
     claims = cl.load()["claims"]
     errors = cl.province_errors(place_id, copies, claims, cap, repeat_m, cl.place_positions())
     held = Counter(c["signature"] for c in claims if c["placeId"] == place_id)
     unclaimed = sorted(s for s in sigs if held[s] != len(sigs[s]))
-    g.add("0098.province", time.time() - t, errors,
+    g.add("0098.province", time.perf_counter() - t, errors,
           [f"{len(unclaimed)} signature(s) whose claimed copies differ from the scene "
            f"(claim_signature --from-scene)"] if unclaimed else None)
 
 
 def run(place_id: str, scene_name: str | None = None) -> dict:
-    t0 = time.time()
+    t0 = time.perf_counter()
     started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     g = Gates()
     layout = _layout_path(place_id)
     scene = scene_name or place_id.removeprefix("place.").replace(".", "-") + "-gates"
 
-    t = time.time()
+    t = time.perf_counter()
     summary, tail = run_apply(layout, scene, True, t0)
     compiled_ok = summary is not None
     if summary is None:                       # the compile stage crashed: rules alone
         summary, tail2 = run_apply(layout, scene, False, t)
         tail = f"{tail} (rules re-run without the compile: {tail2})"
-    apply_s = time.time() - t
+    apply_s = time.perf_counter() - t
     if summary is None:
         g.add("wb.rules", apply_s, [f"wb.py apply failed: {tail}"])
     elif summary.get("failed"):
@@ -248,11 +248,11 @@ def run(place_id: str, scene_name: str | None = None) -> dict:
     bp_source = str(bp_file.relative_to(REPO_ROOT))
 
     from . import promise_gate as pg
-    t = time.time()
+    t = time.perf_counter()
     sockets = (settlement or {}).get("sockets")
     if sockets is None:
         sockets = pg.layout_sockets(json.loads(layout.read_text(encoding="utf-8")))
-    g.add("promises", time.time() - t, pg.promise_gate_errors(bp, pg.load_ledger(place_id), sockets))
+    g.add("promises", time.perf_counter() - t, pg.promise_gate_errors(bp, pg.load_ledger(place_id), sockets))
 
     g.rows[-1]["blueprint"] = bp_source
     interior_gate(g, bp)
@@ -262,7 +262,7 @@ def run(place_id: str, scene_name: str | None = None) -> dict:
                   gates_output(place_id) / "scenes" / f"{scene}.json", bp_source)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
-           "wallS": round(time.time() - t0, 2), "ok": all(r["ok"] for r in g.rows),
+           "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),
            "gates": g.rows, "notMeasured": list(NOT_MEASURED)}
     return doc
 

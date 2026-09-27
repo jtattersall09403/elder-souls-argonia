@@ -269,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--id", required=True)
     ap.add_argument("--stdout", action="store_true", help="print the whole packet instead")
     a = ap.parse_args(argv)
-    t0 = time.time()
+    t0 = time.perf_counter()
     packet = build(a.id)
     out = REPORTS / a.id / "site-packet.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -279,7 +279,7 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(packet, indent=1, sort_keys=True))
     else:
         print("\n".join(digest(packet)))
-        print(f"  -> {_rel(out)} ({time.time() - t0:.2f} s)")
+        print(f"  -> {_rel(out)} ({time.perf_counter() - t0:.2f} s)")
     return 0
 
 
