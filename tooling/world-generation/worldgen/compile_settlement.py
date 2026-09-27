@@ -72,6 +72,7 @@ from . import terrain_requests
 from . import vegetation_patches as sc_mod
 from . import sockets as sk_mod
 from .blueprint_promises import _service_parcels, socket_promise_errors
+from .promise_gate import fills_index, load_ledger, promise_gate_errors  # 0104 (lane T2)
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -948,6 +949,48 @@ def _designed_sink_m(asset: dict) -> float:
     return 0.0
 
 
+def placement_world_y(heights, designed_sink_m: float, scale: float = 1.0,
+                      fit: str | None = None, explicit_sink_m: float | None = None) -> float:
+    """THE seat of a ground piece (16k walk 2, place-diag P1): its pivot's
+    world y from the ground under it, the one function the compile, the
+    workbench (`measure.seat`: settle, apply, check) and the runtime's
+    re-anchor share. ``heights`` are the ground (the PADDED ground where a
+    pad covers it) at the anchor samples: the outline's vertices for a
+    streamed-perimeter piece, the pivot for streamed-origin. The ground line
+    is their mean (the lowest for a `dug-in` fit); the pivot stands the
+    designed sink below it (`designedSinkM.p50` x scale, positive = pivot
+    under the ground line), or an op's explicit sink in metres when it names
+    one. Same rule as the runtime's `anchoring.ts anchorPlacement`."""
+    heights = [float(h) for h in heights]
+    if not heights:
+        raise ValueError("placement_world_y: no ground samples")
+    line = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
+    sink = float(explicit_sink_m) if explicit_sink_m is not None else float(designed_sink_m) * float(scale)
+    return line - sink
+
+
+def anchor_samples(asset: dict, position, yaw_deg: float, scale: float,
+                   footprint_m=None) -> list[tuple[float, float]]:
+    """The runtime's anchor samples for a ground piece (`anchoring.ts`): the
+    placement's outline (``footprint_m``, else the asset's bounds turned by
+    its yaw, as the bundle export fills it) for streamed-perimeter, the
+    pivot for any other anchor mode."""
+    mode = ((asset.get("placement") or {}).get("anchorMode")) or "streamed-perimeter"
+    if mode != "streamed-perimeter":
+        return [(float(position[0]), float(position[2]))]
+    poly = footprint_m or _plan_footprint_m(asset, position, yaw_deg, scale)
+    return [(float(x), float(z)) for x, z in poly]
+
+
+def seat_y(asset: dict, survey, position, yaw_deg: float, scale: float,
+           footprint_m=None, explicit_sink_m: float | None = None) -> float:
+    """`placement_world_y` for a compiled ground placement on ``survey`` (the
+    padded survey inside `compile_blueprint`)."""
+    samples = anchor_samples(asset, position, yaw_deg, scale, footprint_m)
+    return placement_world_y([survey.height_at(x, z) for x, z in samples],
+                             _designed_sink_m(asset), scale, asset_fit(asset), explicit_sink_m)
+
+
 def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
                         shelf: "KitShelf", survey, errors: list[str]) -> list[dict]:
     """A parcel's authored `assembly` (blueprint.assembly_failures), realised
@@ -956,13 +999,28 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
     `mountOffsetM` is (x, up, z) in the shell's own frame and `yawDeg` /
     `pitchDeg` are RELATIVE to the shell, which is what the runtime composes
     (anchoring.ts `mountedTransform`: parent matrix x offset x own turn).
-    `on: ground` members are seated on the terrain by their own designed
-    sink over their own bounds outline, like any ground piece."""
+    A member naming a `host` (another member's id: a lantern on its barrel,
+    a board on its post; 16k walk 2 P4/D7) is mounted on THAT member's
+    placement instead, its `atM`/`upM`/`yaw` read in the host's frame.
+    `on: ground` members are seated on the terrain by `seat_y` over their
+    own bounds outline, like any ground piece (`seat_y`)."""
     out = []
-    cx, _cy, cz = building["positionM"]
-    yaw = float(building["yawDeg"])
-    scale = float(building.get("scale", 1.0))
-    for n, member in enumerate(parcel.get("assembly") or []):
+    by_member: dict[str, dict] = {}
+    members = list(enumerate(parcel.get("assembly") or []))
+    # hosts first: a hosted member waits for its host (a chain resolves in turn)
+    pending = [(n, m) for n, m in members if m.get("host")]
+    ordered = [(n, m) for n, m in members if not m.get("host")]
+    while pending:
+        ready = [(n, m) for n, m in pending
+                 if m["host"] in {x.get("id") for _k, x in ordered}]
+        if not ready:
+            for n, m in pending:
+                errors.append(f"{parcel['id']}: assembly[{n}] {m.get('id')} names host "
+                              f"{m['host']!r}, which is no other member of this assembly")
+            break
+        ordered += ready
+        pending = [x for x in pending if x not in ready]
+    for n, member in ordered:
         if str(member["asset"]).startswith(EFFECT_PREFIX):
             row = effect_placement(bp_id, seed, parcel, building, member, shelf, errors)
             if row is not None:
@@ -972,10 +1030,22 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
         if asset is None:
             errors.append(f"{parcel['id']}: assembly[{n}] {member['asset']} is in no built kit")
             continue
+        host = building
+        if member.get("host"):
+            host = by_member.get(member["host"])
+            if host is None:        # the host itself failed; its error names it
+                continue
+            if member["on"] != "parent":
+                errors.append(f"{parcel['id']}: assembly[{n}] {member['id']} names host "
+                              f"{member['host']!r} but stands on: {member['on']}")
+                continue
+        cx, _cy, cz = host["positionM"]
+        yaw = float(host["yawDeg"]) if host is building else _world_yaw(host, out, building)
+        scale = float(host.get("scale", 1.0))
         lx, lz = (float(v) for v in member["atM"])
         (dx, dz), = fp_mod.rotate_m([(lx, lz)], yaw)
         wx, wz = cx + dx, cz + dz
-        # a hung piece is drawn at its shell's scale (no child scale at runtime)
+        # a hung piece is drawn at its parent's scale (no child scale at runtime)
         m_scale = scale if member["on"] == "parent" else float(member.get("scale", 1.0))
         row = {"id": f"{bp_id}.{parcel['id']}.assembly.{member['id']}", "parcelId": parcel["id"],
                "objectKind": "assembly", "assetId": asset["id"], "kit": asset["kit"],
@@ -989,24 +1059,42 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
             row["provenance"]["mountPair"] = dict(member["mountPair"])
         if member["on"] == "parent":
             up = float(member["upM"])
-            row.update({"positionM": [round(wx, 3), round(building["positionM"][1] + up, 3),
+            row.update({"positionM": [round(wx, 3), round(host["positionM"][1] + up, 3),
                                       round(wz, 3)],
                         "yawDeg": round(float(member.get("yaw", 0.0)) % 360.0, 3),
-                        "parentPlacementId": building["id"],
+                        "parentPlacementId": host["id"],
                         "mountOffsetM": [round(lx / scale, 4), round(up / scale, 4),
                                          round(lz / scale, 4)],
                         "footprintM": []})
+            if member.get("host"):
+                row["host"] = host["id"]
         else:
             m_yaw = (yaw + float(member.get("yaw", 0.0))) % 360.0
-            ground = survey.height_at(wx, wz) - _designed_sink_m(asset) * m_scale
+            foot = [[round(x, 3), round(z, 3)] for x, z in _plan_footprint_m(
+                asset, [wx, 0.0, wz], m_yaw, m_scale)]
+            ground = seat_y(asset, survey, [wx, 0.0, wz], m_yaw, m_scale, foot)
             row.update({"positionM": [round(wx, 3), round(ground, 3), round(wz, 3)],
-                        "yawDeg": round(m_yaw, 3),
-                        "footprintM": [[round(x, 3), round(z, 3)] for x, z in _plan_footprint_m(
-                            asset, [wx, 0.0, wz], m_yaw, m_scale)]})
+                        "yawDeg": round(m_yaw, 3), "footprintM": foot})
         if "pitch" in member:
             row["pitchDeg"] = float(member["pitch"])
+        by_member[member["id"]] = row
         out.append(row)
     return out
+
+
+def _world_yaw(row: dict, rows: list[dict], building: dict) -> float:
+    """A compiled row's world yaw: its own for a ground row, composed up its
+    parent chain for a mounted one (the runtime's parent x own turn)."""
+    yaw = float(row["yawDeg"])
+    parent_id = row.get("parentPlacementId")
+    while parent_id:
+        parent = building if parent_id == building["id"] else next(
+            (r for r in rows if r["id"] == parent_id), None)
+        if parent is None:
+            break
+        yaw += float(parent["yawDeg"])
+        parent_id = parent.get("parentPlacementId")
+    return yaw % 360.0
 
 
 EFFECT_PREFIX = "fx:"
@@ -2505,14 +2593,20 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                               f"along its axis; a quay starts at the shore")
             else:
                 cx, cz, quay_shift = anchored
+        if parcel.get("stacksOn"):
+            # a storey on its base: the base's top, pivot centred (no ground under it)
+            pivot_y = base_y + (asset["sizeM"][2] * scale / 2 if fit != "dug-in" else 0.0)
+        else:
+            # the ONE seat (place-diag P1): the ground line under the parcel's
+            # outline, less the kit's designed sink, as the runtime applies it
+            pivot_y = seat_y(asset, survey, [cx, 0.0, cz], yaw, scale, foot_m)
         placements.append({
             "id": f"{bp_id}.{pid}.building",
             "parcelId": pid,
             "objectKind": "parcel",
             "assetId": asset["id"],
             "kit": asset["kit"],
-            # grid transform, centred pivot — never flora bottom-anchoring
-            "positionM": [round(cx, 3), round(base_y + (asset["sizeM"][2] * scale / 2 if fit != "dug-in" else 0.0), 3), round(cz, 3)],
+            "positionM": [round(cx, 3), round(pivot_y, 3), round(cz, 3)],
             "yawDeg": yaw,
             "scale": scale,
             "groundFit": fit,
@@ -2555,7 +2649,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                     # the owner saw round the hull and the landing stage)
                     dropped_no_host[pid] = dropped_no_host.get(pid, 0) + 1
                     continue
-                py = survey.height_at(px, pz)
+                d_yaw = round((phase + i * 71.0) % 360.0, 1)
+                py = seat_y(prop, survey, [px, 0.0, pz], d_yaw, 1.0)
                 placements.append({
                     "id": f"{bp_id}.{pid}.dressing.{i + 1}",
                     "parcelId": pid,
@@ -2564,7 +2659,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                     "assetId": aid,
                     "kit": kit_of_asset.get(aid),
                     "positionM": [round(px, 3), round(py, 3), round(pz, 3)],
-                    "yawDeg": round((phase + i * 71.0) % 360.0, 1),
+                    "yawDeg": d_yaw,
                     "scale": 1.0,
                     "groundFit": "direct",
                     "provenance": _provenance(bp_id, seed,
@@ -2586,7 +2681,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "landmarkId": landmark["id"], "objectKind": "landmark",
             "assetId": asset["id"], "kit": asset["kit"],
             "positionM": [round(x, 3),
-                          round(survey.height_at(x, z) + asset["sizeM"][2] * scale / 2, 3),
+                          round(seat_y(asset, survey, [x, 0.0, z],
+                                       float(landmark.get("yawDeg", 0.0)), scale), 3),
                           round(z, 3)],
             "yawDeg": float(landmark.get("yawDeg", 0.0)), "scale": scale,
             "groundFit": landmark.get("groundFit", "direct"),
@@ -2730,6 +2826,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     socket_errors += sk_mod.socket_gate_errors(bp, macro_record, sockets, placements,
                                                category_of, _service_parcels(bp), vocab)
     socket_errors += socket_promise_errors(ledger, sockets)
+    socket_errors += promise_gate_errors(bp, load_ledger(bp_id), sockets)  # 0104 decision 5
     if bp_mod.is_fixture(bp):
         warns += socket_errors          # a proving yard carries no roster or loot
     else:
@@ -2817,6 +2914,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         "floodBandReport": flood_report,
         "purposeSummary": pp_mod.purpose_summary(bp),
         "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
+        # 0104: promise id -> the sockets, doors and parcels that fill it
+        "promiseFills": fills_index(bp, sockets),
         "phase11ObligationReceipt": obligation_receipt,
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing

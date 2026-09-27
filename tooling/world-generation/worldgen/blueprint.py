@@ -240,7 +240,7 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     attack) and where critical-animation clearance is checked;
                     a safe city still has them, each with its why.
   questSockets[]    {id, kind ("scene"|"evidence"|"container"|"npc"|
-                    "encounter"|"boss"|"station"|"mark"), position?,
+                    "encounter"|"boss"|"post"|"mark"), position?,
                     parcelId?, ownerQuestTier?, questId?, socketRef?}
                     A socket bound to a parcel and a quest purpose are the SAME
                     fact seen twice (owner review 2026-09-08), so both
@@ -410,11 +410,15 @@ from .catalogue import CATALOGUE_DIR, load_region_files
 from .dock_spec import (BLUEPRINT_DIR, DOCK_DEPTH_SAMPLE_M,  # noqa: F401
                         HULL_CLASS_DEPTH_M)
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 #: 2 (2026-09-26): a parcel's `services` is a list (one building hosts several:
 #: an inn is lodging and a trader). A schema-1 file, with the `service` string,
 #: still reads; `blueprint_files.parcel_services` is the one accessor.
-READABLE_SCHEMA_VERSIONS = (1, 2)
+#: 3 (2026-09-27, decision 0104): parcels, doors and quest sockets may carry
+#: `fills: [promise ids]` (`fills_failures`; `promise_gate` matches them to the
+#: place's ledger) and doors `doorType`. A schema-1 or -2 file reads as one
+#: that fills nothing: `promise_gate.fills_index` reads `fills` with a default.
+READABLE_SCHEMA_VERSIONS = (1, 2, 3)
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Kit SETS a district may be built from (Phase 11 Part 6, owner ruling
@@ -474,7 +478,7 @@ def kits_for_district(kit_set: str, kind: str = "building") -> tuple[str, ...]:
     return kits + DRESSING_KITS if kind == "prop" else kits
 INTERIOR_CULTURES = {"argonian", "imperial", "dunmer"}
 GROUND_FIT = {"direct", "plinth", "pad", "stilt", "dug-in"}
-SOCKET_KINDS = {"scene", "evidence", "container", "npc", "encounter", "boss", "station", "mark"}
+SOCKET_KINDS = {"scene", "evidence", "container", "npc", "encounter", "boss", "post", "mark"}
 TRAVEL_KINDS = {"ferry", "boat", "root", "water-taxi"}
 MAX_VARIANTS = 3
 DOOR_FACING_TOLERANCE_DEG = 100.0
@@ -1729,7 +1733,7 @@ def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
 ASSEMBLY_LAYERS = frozenset({"door", "porch", "steps", "window", "shutter", "roof",
                              "chimney", "annex", "light", "clutter", "wear"})
 ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "layer",
-                           "evidence", "scale", "mountPair"})
+                           "evidence", "scale", "mountPair", "host"})
 #: An assembly member's `mountPair` (0102 decision 5; written by the
 #: workbench export's `mount_pair`): the mined band or points pair it hangs
 #: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
@@ -1795,6 +1799,37 @@ def assembly_failures(parcel: dict) -> list[str]:
             out.append(f"{where}: evidence must name the template, mount pair or 'measured'")
         if "mountPair" in m:
             out += [f"{where}: mountPair {why}" for why in mount_pair_failures(m["mountPair"])]
+    ids = {m.get("id") for m in members if isinstance(m, dict)}
+    for i, m in enumerate(members):
+        # 16k walk 2 P4/D7: a piece hung on another member (a lantern on its
+        # barrel, a board on its post) names it; the compile parents it there
+        if isinstance(m, dict) and "host" in m:
+            if m.get("on") != "parent":
+                out.append(f"assembly[{i}]: host names the member it hangs on, so on must be 'parent'")
+            elif m["host"] == m.get("id") or m["host"] not in ids:
+                out.append(f"assembly[{i}]: host {m['host']!r} is no other member of this assembly")
+    return out
+
+
+#: 0104 decision 4: a `load` door moves the character to its cell; a
+#: `swing` door opens in place by animation and has no cell.
+DOOR_TYPES = frozenset({"load", "swing"})
+PROMISE_ID = re.compile(r"^promise\.[a-z0-9-]+\.[a-z0-9.-]+$")
+
+
+def fills_failures(record: dict) -> list[str]:
+    """`fills` on a parcel, door or socket (0104 decision 4): the promise
+    ids (`promise.<place-slug>.<slug>`) the placed thing fulfils. Shape
+    only; the promise gate matches them to the ledger."""
+    if "fills" not in record:
+        return []
+    fills = record["fills"]
+    if not isinstance(fills, list) or not fills:
+        return ["fills must be a non-empty list of promise ids"]
+    bad = [f for f in fills if not (isinstance(f, str) and PROMISE_ID.match(f))]
+    out = [f"fills {bad!r}: each must be a promise id 'promise.<place-slug>.<slug>'"] if bad else []
+    if len(set(fills)) != len(fills):
+        out.append("fills names a promise twice")
     return out
 
 
@@ -1897,6 +1932,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         if p.get("districtId") not in district_ids:
             fail(f"parcel {pid}: unknown districtId {p.get('districtId')}")
         for why in assembly_failures(p):
+            fail(f"parcel {pid}: {why}")
+        for why in fills_failures(p):
             fail(f"parcel {pid}: {why}")
         if "groundFit" in p and p["groundFit"] not in GROUND_FIT:
             fail(f"parcel {pid}: groundFit, when authored, must be one of {sorted(GROUND_FIT)}")
@@ -2295,6 +2332,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     for s in bp.get("questSockets", []):
         if s.get("kind") not in SOCKET_KINDS:
             fail(f"socket {s.get('id')}: kind must be one of {sorted(SOCKET_KINDS)}")
+        for why in fills_failures(s):
+            fail(f"socket {s.get('id')}: {why}")
 
     # Doors and interiors (owner ruling 2026-09-05: "everything intended to have
     # an interior must have one and must have a door/entrance"). What a piece
@@ -2315,6 +2354,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         if d.get("parcelId") not in parcel_ids:
             fail(f"door {d.get('id')}: unknown parcelId")
         doors_by_parcel.setdefault(d.get("parcelId"), []).append(d)
+        for why in fills_failures(d):
+            fail(f"door {d.get('id')}: {why}")
+        if "doorType" in d and d["doorType"] not in DOOR_TYPES:
+            fail(f"door {d.get('id')}: doorType must be one of {sorted(DOOR_TYPES)} "
+                 f"(0104 decision 4: load = a cell transition, swing = opens in place)")
         claim = d.get("interiorClaim", {})
         if not claim.get("sizeClass") or claim.get("culture") not in INTERIOR_CULTURES:
             fail(f"door {d.get('id')}: interiorClaim needs sizeClass + culture")

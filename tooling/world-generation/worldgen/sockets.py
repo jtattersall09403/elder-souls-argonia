@@ -60,7 +60,11 @@ OP_KEYS = {"op", "id", "kind", "at", "host", "yawDeg", "parcel", "why",
            # container
            "containerClass", "fillRule", "lootTable",
            # encounter / fauna / ambience / marker
-           "dangerBand", "zone"}
+           "dangerBand", "zone",
+           # station / sign, and the promises any socket fills (0104 decision 4)
+           "stationClass", "pointsTo", "fills",
+           # build-out slots on every socket (0104 decision 4, decision 0041)
+           "owner", "valueTier"}
 KIND_FIELDS = {
     "npc": ("rosterSlotId", "role", "schedule"),
     "idle": ("activity",),
@@ -70,7 +74,12 @@ KIND_FIELDS = {
     "fauna": ("dangerBand", "zone"),
     "ambience": ("zone",),
     "marker": ("zone",),
+    "station": ("stationClass",),
+    "sign": ("pointsTo",),
 }
+NEW_KINDS_0104 = ("station", "sign")
+"""0104 decision 4's kinds: accepted by shape here until the vocabulary
+(`socketKinds`, lane T2's file) names them; then the vocabulary decides."""
 
 
 def load_vocabulary(path: Path = VOCABULARY) -> dict:
@@ -116,8 +125,16 @@ def op_errors(op: dict, vocab: dict) -> list[str]:
     if not op.get("id"):
         out.append("socket op needs an id")
     kind = op.get("kind")
-    if kind not in vocab["socketKinds"]:
+    if kind not in vocab["socketKinds"] and kind not in NEW_KINDS_0104:
         out.append(f"socket {sid}: kind {kind!r} is not in the vocabulary {vocab['socketKinds']}")
+    if kind == "station" and not (isinstance(op.get("stationClass"), str) and op["stationClass"]):
+        out.append(f"socket {sid}: a station names its stationClass")
+    if kind == "sign" and not (isinstance(op.get("pointsTo"), list) and op["pointsTo"]
+                               and all(isinstance(t, str) and t for t in op["pointsTo"])):
+        out.append(f"socket {sid}: a sign's pointsTo lists a route or place id per arm")
+    if "fills" in op:
+        from .blueprint import fills_failures
+        out += [f"socket {sid}: {why}" for why in fills_failures(op)]
     if "at" not in op and "host" not in op:
         out.append(f"socket {sid}: needs `at` [x, z] or `host`")
     if "at" in op and not (isinstance(op["at"], list) and len(op["at"]) == 2):
@@ -321,6 +338,10 @@ def _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen,
         else:
             x, y, z = (float(v) for v in host["positionM"])
         row = {"id": op["id"], "kind": op["kind"],
+               # 0104 decision 4: the promises it keeps, and the build-out
+               # slots Phase 13 fills (null until then)
+               "fills": list(op.get("fills") or []),
+               "owner": op.get("owner"), "valueTier": op.get("valueTier"),
                "positionM": [round(x, 3), round(y, 3), round(z, 3)],
                "yawDeg": round(float(op.get("yawDeg", world_yaw_deg(host, (index or host_index(placements))[0])
                                                      if host else 0.0))
@@ -421,6 +442,17 @@ def socket_gate_errors(bp: dict, rec: dict | None, sockets: list[dict], placemen
         elif not any(s.get("parcelId") in parcels for s in npcs):
             out.append(f"sockets.service: service {service!r} has no npc socket at "
                        f"{sorted(parcels)}")
+    # stations and signs (0104 decision 4): a station class the vocabulary
+    # names, a sign arm per route or place
+    for s in sockets:
+        if s["kind"] == "station" and s.get("stationClass") not in (vocab.get("stationClasses") or {}):
+            out.append(f"sockets.vocabulary: station socket {s['id']} class "
+                       f"{s.get('stationClass')!r} is not in the vocabulary")
+        if s["kind"] == "sign":
+            for ref in s.get("pointsTo") or []:
+                if not str(ref).startswith(("route.", "place.")):
+                    out.append(f"sockets.sign: sign socket {s['id']} points to {ref!r}, which "
+                               f"is no route. or place. id")
     # item classes
     for s in sockets:
         if s["kind"] == "item" and s.get("itemClass") not in vocab["itemClasses"]:
