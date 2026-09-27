@@ -1,0 +1,1877 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.hist-heartland.greenspring",
+ "window": {
+  "centreKm": [
+   4.752,
+   1.862
+  ],
+  "halfM": 110.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "b-lodge",
+   "asset": "composite:mud/kotm-house-pod",
+   "at": [
+    4774.0,
+    1851.5
+   ],
+   "yaw": 69.4,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-herald",
+   "asset": "composite:mud/kotm-house-pod",
+   "at": [
+    4758.0,
+    1832.0
+   ],
+   "yaw": 339.3,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-minder",
+   "asset": "composite:mud/hut-with-entrance",
+   "at": [
+    4765.0,
+    1872.0
+   ],
+   "yaw": 203.4,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1",
+   "asset": "kotm:argonia/mudhuts/mudhut01",
+   "at": [
+    4721.0,
+    1886.0
+   ],
+   "yaw": 267.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2",
+   "asset": "kotm:argonia/mudhuts/mudhut01",
+   "at": [
+    4731.0,
+    1835.0
+   ],
+   "yaw": 47.3,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3",
+   "asset": "composite:mud/hut-with-entrance",
+   "at": [
+    4781.0,
+    1823.0
+   ],
+   "yaw": 104.7,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-shed",
+   "asset": "kotm:argonia/mudhuts/shed",
+   "at": [
+    4721.5,
+    1866.0
+   ],
+   "yaw": 250.7,
+   "settle": true,
+   "pad": {
+    "apronM": 1.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "hist",
+   "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+   "at": [
+    4743.0,
+    1876.0
+   ],
+   "yaw": 250.0,
+   "settle": true,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-lodge-lamp",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4766.63,
+    1851.27
+   ],
+   "yaw": 257.6,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-lodge-chair1",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    4769.67,
+    1856.85
+   ],
+   "yaw": 347.6,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-lodge-chair2",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    4766.26,
+    1854.93
+   ],
+   "yaw": 77.6,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-lodge-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    4766.56,
+    1850.06
+   ],
+   "yaw": 277.6,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-lodge-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4765.81,
+    1849.81
+   ],
+   "yaw": 257.6,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4761.3,
+    1838.6
+   ],
+   "yaw": 167.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-rack",
+   "asset": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
+   "at": [
+    4755.58,
+    1839.62
+   ],
+   "yaw": 257.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-salt",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    4757.37,
+    1840.29
+   ],
+   "yaw": 167.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    4762.16,
+    1838.73
+   ],
+   "yaw": 197.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-urn1",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4762.41,
+    1837.97
+   ],
+   "yaw": 167.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-urn2",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4762.94,
+    1837.06
+   ],
+   "yaw": 207.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-herald-full",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    4757.33,
+    1839.17
+   ],
+   "yaw": 167.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-minder-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4766.34,
+    1864.39
+   ],
+   "yaw": 355.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-minder-totem1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    4762.16,
+    1864.79
+   ],
+   "yaw": 355.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-minder-flower",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "at": [
+    4761.34,
+    1864.99
+   ],
+   "yaw": 355.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-minder-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    4767.14,
+    1864.28
+   ],
+   "yaw": 355.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4721.84,
+    1881.21
+   ],
+   "yaw": 17.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-urn1",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4718.71,
+    1880.15
+   ],
+   "yaw": 17.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-urn2",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4717.69,
+    1880.13
+   ],
+   "yaw": 47.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-table",
+   "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+   "at": [
+    4724.02,
+    1881.25
+   ],
+   "yaw": 17.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-chair",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    4724.56,
+    1880.16
+   ],
+   "yaw": 197.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam1-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    4717.06,
+    1880.58
+   ],
+   "yaw": 17.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4736.35,
+    1838.21
+   ],
+   "yaw": 157.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-oven",
+   "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
+   "at": [
+    4731.42,
+    1840.92
+   ],
+   "yaw": 247.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-stand",
+   "asset": "vanilla:clutter/woodfires/cookingstand01",
+   "at": [
+    4733.02,
+    1841.12
+   ],
+   "yaw": 157.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    4737.26,
+    1838.21
+   ],
+   "yaw": 157.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4737.41,
+    1837.32
+   ],
+   "yaw": 157.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-wood",
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "at": [
+    4729.61,
+    1840.63
+   ],
+   "yaw": 157.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4773.33,
+    1823.22
+   ],
+   "yaw": 256.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3-chair1",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    4773.01,
+    1821.95
+   ],
+   "yaw": 96.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3-chair2",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    4773.96,
+    1820.89
+   ],
+   "yaw": 56.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4773.58,
+    1826.76
+   ],
+   "yaw": 256.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam3-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    4775.3,
+    1828.81
+   ],
+   "yaw": 256.3,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-shed-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4722.22,
+    1869.12
+   ],
+   "yaw": 99.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-shed-urn1",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4723.01,
+    1864.38
+   ],
+   "yaw": 99.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-shed-urn2",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4722.77,
+    1863.51
+   ],
+   "yaw": 99.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-shed-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    4721.78,
+    1870.25
+   ],
+   "yaw": 99.5,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-circle",
+   "asset": "histtree:skyfall/sleeping tree overhaul/rune circle",
+   "at": [
+    4741.4,
+    1862.6
+   ],
+   "yaw": 0.0,
+   "settle": true,
+   "pad": {
+    "apronM": 0.5,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "sh-totem1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    4738.29,
+    1872.28
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-totem2",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    4746.68,
+    1873.25
+   ],
+   "yaw": 340.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-chime",
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "at": [
+    4748.51,
+    1874.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-flower1",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "at": [
+    4745.3,
+    1872.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-flower2",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "at": [
+    4738.28,
+    1873.65
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-candle1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4745.77,
+    1873.13
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sh-candle2",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    4738.8,
+    1871.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sp-lip2",
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+   "at": [
+    4717.93,
+    1868.81
+   ],
+   "yaw": 110.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sp-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    4717.8,
+    1871.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sp-flower",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "at": [
+    4719.8,
+    1871.2
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "ld-canoe",
+   "asset": "canoe:actors/sfss/canoe/canoe1",
+   "at": [
+    4697.8,
+    1850.4
+   ],
+   "yaw": 100.0,
+   "settle": true,
+   "beached": true
+  },
+  {
+   "op": "place",
+   "uid": "ld-plank",
+   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_01",
+   "at": [
+    4695.0,
+    1856.6
+   ],
+   "yaw": 80.0,
+   "settle": true,
+   "beached": true
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.the-way",
+   "points": [
+    [
+     4800.8,
+     1878.1
+    ],
+    [
+     4793.9,
+     1888.0
+    ],
+    [
+     4780.0,
+     1890.0
+    ],
+    [
+     4764.0,
+     1893.0
+    ],
+    [
+     4752.6,
+     1884.0
+    ],
+    [
+     4752.6,
+     1866.0
+    ],
+    [
+     4751.0,
+     1856.0
+    ],
+    [
+     4738.0,
+     1856.0
+    ],
+    [
+     4724.0,
+     1857.4
+    ],
+    [
+     4713.1,
+     1860.0
+    ],
+    [
+     4713.1,
+     1872.6
+    ],
+    [
+     4707.6,
+     1878.1
+    ]
+   ],
+   "width": 2.5,
+   "kind": "track"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.lodge-path",
+   "points": [
+    [
+     4751.0,
+     1856.0
+    ],
+    [
+     4764.37,
+     1853.61
+    ],
+    [
+     4767.21,
+     1852.99
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.herald-path",
+   "points": [
+    [
+     4751.0,
+     1856.0
+    ],
+    [
+     4758.0,
+     1847.0
+    ],
+    [
+     4760.12,
+     1841.62
+    ],
+    [
+     4759.5,
+     1838.79
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.family-path",
+   "points": [
+    [
+     4738.0,
+     1856.0
+    ],
+    [
+     4737.0,
+     1847.0
+    ],
+    [
+     4735.69,
+     1841.41
+    ],
+    [
+     4734.61,
+     1838.72
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.east-hut-path",
+   "points": [
+    [
+     4758.0,
+     1847.0
+    ],
+    [
+     4766.0,
+     1840.0
+    ],
+    [
+     4770.71,
+     1825.35
+    ],
+    [
+     4773.55,
+     1824.78
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.minder-path",
+   "points": [
+    [
+     4756.0,
+     1866.0
+    ],
+    [
+     4764.23,
+     1861.47
+    ],
+    [
+     4764.36,
+     1864.37
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.store-path",
+   "points": [
+    [
+     4724.0,
+     1858.0
+    ],
+    [
+     4725.0,
+     1864.5
+    ],
+    [
+     4725.21,
+     1865.11
+    ],
+    [
+     4722.46,
+     1866.03
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.spring-house-path",
+   "points": [
+    [
+     4725.0,
+     1864.5
+    ],
+    [
+     4722.5,
+     1872.0
+    ],
+    [
+     4721.48,
+     1878.07
+    ],
+    [
+     4720.6,
+     1880.83
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.landing-steps",
+   "points": [
+    [
+     4713.1,
+     1860.0
+    ],
+    [
+     4700.6,
+     1852.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.greenspring.shrine-path",
+   "points": [
+    [
+     4744.0,
+     1856.4
+    ],
+    [
+     4743.2,
+     1857.6
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge",
+   "kind": "parcel",
+   "id": "parcel.greenspring.lodge"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald",
+   "kind": "parcel",
+   "id": "parcel.greenspring.heralds-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-minder",
+   "kind": "parcel",
+   "id": "parcel.greenspring.minders-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1",
+   "kind": "parcel",
+   "id": "parcel.greenspring.spring-keepers-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2",
+   "kind": "parcel",
+   "id": "parcel.greenspring.family-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3",
+   "kind": "parcel",
+   "id": "parcel.greenspring.east-family-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "b-shed",
+   "kind": "parcel",
+   "id": "parcel.greenspring.spring-house"
+  },
+  {
+   "op": "bind",
+   "uid": "hist",
+   "kind": "landmark",
+   "id": "landmark.greenspring.the-hist"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge-lamp",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge-chair1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge-chair2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-lodge-urn",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-rack",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-salt",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-urn1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-urn2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-herald-full",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-minder-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-minder-totem1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-minder-flower",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-minder-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-urn1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-urn2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-table",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-chair",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam1-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-oven",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-stand",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-urn",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3-chair1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3-chair2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3-urn",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam3-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-shed-candle",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-shed-urn1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-shed-urn2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-shed-basket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-circle",
+   "kind": "parcel",
+   "id": "parcel.greenspring.hist-shrine"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-totem1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-totem2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-chime",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-flower1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-flower2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-candle1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sh-candle2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-lip2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-urn",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-flower",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ld-canoe",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ld-plank",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-n1-work",
+   "kind": "idle",
+   "host": "parcel.greenspring.lodge",
+   "activity": "stand",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The bed-keeper sells beds and rope at the lodge door."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-n1-home",
+   "kind": "idle",
+   "host": "parcel.greenspring.lodge",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The bed-keeper sleeps in the lodge."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.npc-n1",
+   "kind": "npc",
+   "at": [
+    4765.79,
+    1854.94
+   ],
+   "rosterSlotId": "n1",
+   "role": "the bed-keeper",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The bed-keeper rents the lodge beds and sells rope and stores.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.greenspring.idle-n1-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.greenspring.idle-n1-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.greenspring.idle-n1-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.greenspring.idle-n1-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.greenspring.occupant-n1",
+    "promise.greenspring.service-lodging",
+    "promise.greenspring.service-trader"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-root-herald-work",
+   "kind": "idle",
+   "host": "parcel.greenspring.heralds-house",
+   "activity": "work-at",
+   "parcel": "parcel.greenspring.heralds-house",
+   "why": "The root-herald trades at the door of the house."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-root-herald-home",
+   "kind": "idle",
+   "host": "parcel.greenspring.heralds-house",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.heralds-house",
+   "why": "The root-herald sleeps in the house."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.npc-root-herald",
+   "kind": "npc",
+   "at": [
+    4758.57,
+    1841.05
+   ],
+   "rosterSlotId": "root-herald",
+   "role": "the root-herald",
+   "parcel": "parcel.greenspring.heralds-house",
+   "why": "The root-herald trades with Helstrom and buys from travellers.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.greenspring.idle-root-herald-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.greenspring.idle-root-herald-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.greenspring.idle-root-herald-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.greenspring.idle-root-herald-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.greenspring.occupant-root-herald"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-tree-minder-work",
+   "kind": "idle",
+   "host": "parcel.greenspring.hist-shrine",
+   "activity": "tend",
+   "parcel": "parcel.greenspring.hist-shrine",
+   "why": "The tree-minder tends the Hist and its shrine."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-tree-minder-home",
+   "kind": "idle",
+   "host": "parcel.greenspring.minders-house",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.minders-house",
+   "why": "The tree-minder sleeps in the house beside the tree."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.npc-tree-minder",
+   "kind": "npc",
+   "at": [
+    4741.0,
+    1858.6
+   ],
+   "rosterSlotId": "tree-minder",
+   "role": "the tree-minder",
+   "parcel": "parcel.greenspring.hist-shrine",
+   "why": "The tree-minder speaks for the Hist and keeps its shrine.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.greenspring.idle-tree-minder-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.greenspring.idle-tree-minder-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.greenspring.idle-tree-minder-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.greenspring.idle-tree-minder-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.greenspring.occupant-tree-minder",
+    "promise.greenspring.service-shrine"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-spring-keeper-work",
+   "kind": "idle",
+   "host": "parcel.greenspring.spring-house",
+   "activity": "tend",
+   "parcel": "parcel.greenspring.spring-house",
+   "why": "The spring-keeper pours water for travellers at the stone lip."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-spring-keeper-home",
+   "kind": "idle",
+   "host": "parcel.greenspring.spring-keepers-house",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.spring-keepers-house",
+   "why": "The spring-keeper sleeps in the house above the spring."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.npc-spring-keeper",
+   "kind": "npc",
+   "at": [
+    4708.8,
+    1869.4
+   ],
+   "rosterSlotId": "spring-keeper",
+   "role": "the spring-keeper",
+   "parcel": "parcel.greenspring.spring-house",
+   "why": "The spring-keeper keeps the spring clean and pours it for anyone who asks.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.greenspring.idle-spring-keeper-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.greenspring.idle-spring-keeper-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.greenspring.idle-spring-keeper-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.greenspring.idle-spring-keeper-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.greenspring.occupant-spring-keeper"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-n2-work",
+   "kind": "idle",
+   "host": "parcel.greenspring.family-hut",
+   "activity": "cook",
+   "parcel": "parcel.greenspring.family-hut",
+   "why": "The family cooks at the oven in front of the hut."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-n2-home",
+   "kind": "idle",
+   "host": "parcel.greenspring.family-hut",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.family-hut",
+   "why": "The family sleeps in the hut."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.npc-n2",
+   "kind": "npc",
+   "at": [
+    4733.3,
+    1842.3
+   ],
+   "rosterSlotId": "n2",
+   "role": "a spring family",
+   "parcel": "parcel.greenspring.family-hut",
+   "why": "A family of the village lives and cooks at the hut.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.greenspring.idle-n2-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.greenspring.idle-n2-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.greenspring.idle-n2-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.greenspring.idle-n2-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.greenspring.occupant-n2"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.container-lodge-urn",
+   "kind": "container",
+   "host": "b-lodge-urn",
+   "containerClass": "urn",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "food",
+     "misc-household"
+    ],
+    "valueBand": "low",
+    "storyNote": "Dried food kept for guests the house half trusts."
+   },
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The lodge keeps plain food for its guests."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.container-herald-urn",
+   "kind": "container",
+   "host": "b-herald-urn1",
+   "containerClass": "urn",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "ingredient",
+     "misc-household"
+    ],
+    "valueBand": "low",
+    "storyNote": "Salt bought from upriver traders, which the village blames for the sick root."
+   },
+   "parcel": "parcel.greenspring.heralds-house",
+   "why": "The root-herald keeps the salt the village blames for the Hist's sickness."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.container-spring-urn",
+   "kind": "container",
+   "host": "sp-urn",
+   "containerClass": "urn",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "drink"
+    ],
+    "valueBand": "trivial",
+    "storyNote": "Spring water, poured free."
+   },
+   "parcel": "parcel.greenspring.spring-house",
+   "why": "The water jar at the spring lip."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.container-lodge-basket",
+   "kind": "container",
+   "host": "b-lodge-basket",
+   "containerClass": "basket",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "tool",
+     "misc-household"
+    ],
+    "valueBand": "low",
+    "storyNote": "Coils of rope and pegs, sold dear."
+   },
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The bed-keeper's rope for sale."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.container-herald-salt",
+   "kind": "container",
+   "host": "b-herald-salt",
+   "containerClass": "sack",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "ingredient"
+    ],
+    "valueBand": "trivial",
+    "storyNote": "A sack of upriver salt, opened to show the traders."
+   },
+   "parcel": "parcel.greenspring.heralds-house",
+   "why": "The sack of upriver salt by the herald's door."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.item-family-fish",
+   "kind": "item",
+   "host": "b-fam1-urn1",
+   "itemClass": "fish",
+   "valueBand": "trivial",
+   "parcel": "parcel.greenspring.spring-keepers-house",
+   "why": "Smoked fish in the jar by the spring-keeper's door."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.marker-sick-root",
+   "kind": "marker",
+   "host": "parcel.greenspring.hist-shrine",
+   "zone": "evidence",
+   "parcel": "parcel.greenspring.hist-shrine",
+   "why": "The Hist's roots where the sickness shows, where MR01 starts.",
+   "fills": [
+    "promise.greenspring.provision-mr01-anchor"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.marker-lodge-door",
+   "kind": "marker",
+   "at": [
+    4766.62,
+    1853.12
+   ],
+   "zone": "entrance",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The lodge door, the village's lived-in entrance."
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.marker-fork-market",
+   "kind": "marker",
+   "at": [
+    4752.0,
+    1855.0
+   ],
+   "zone": "scene",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "The common where travellers and the village trade.",
+   "fills": [
+    "promise.greenspring.scene-greenspring-fork-market"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.marker-river-landing",
+   "kind": "marker",
+   "at": [
+    4701.0,
+    1852.0
+   ],
+   "zone": "post",
+   "parcel": "parcel.greenspring.spring-house",
+   "why": "The landing on the bank, where the boats are drawn up.",
+   "fills": [
+    "promise.greenspring.post-greenspring-river-landing"
+   ]
+  }
+ ]
+}
