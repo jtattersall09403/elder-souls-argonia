@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "rule": "The class of a base object whose master we do not hold (Creation Club, HearthFires, Dawnguard, Dragonborn and the SE resource pack are never sourced; planner ruling 2026-09-27). Read by worldgen/export_interior_bundle.py piece_class. A row names a written source: a UESP page listing the form, or, where no record lists it, the planner ruling that fish, poles, racks and curios are clutter with the reference's position in the cell as the evidence (tooling/.reports/16k/walk2/place-diag.md P9). A form with no row is unclassed and keeps its cell from fitting.",
+  "forms": {
+    "ccBGSSSE001-Fish.esm:0000089C": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C"
+    },
+    "ccBGSSSE001-Fish.esm:00000897": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Food: Catfish xx000897"
+    },
+    "ccBGSSSE001-Fish.esm:00000891": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Food: Pogfish xx000891"
+    },
+    "ccBGSSSE001-Fish.esm:00000F25": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Food: Slaughterfish xx000F25"
+    },
+    "ccBGSSSE001-Fish.esm:0000087C": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Cooked Food: Cooked Brook Bass xx00087C"
+    },
+    "ccBGSSSE001-Fish.esm:00000D6A": {
+      "class": "clutter",
+      "source": "planner ruling 2026-09-27; no UESP row; hung by the fence and window in KeebaHouseFisher (place-diag P9)"
+    },
+    "ccBGSSSE001-Fish.esm:00000D71": {
+      "class": "clutter",
+      "source": "planner ruling 2026-09-27; no UESP row; hung by the fence and window in KeebaHouseFisher (place-diag P9)"
+    },
+    "ccBGSSSE001-Fish.esm:00000D6E": {
+      "class": "clutter",
+      "source": "planner ruling 2026-09-27; no UESP row; stands on the floor of KeebaHouseFisher (place-diag P9)"
+    },
+    "ccBGSSSE001-Fish.esm:00000D6F": {
+      "class": "clutter",
+      "source": "planner ruling 2026-09-27; no UESP row; stands on the floor of KeebaHouseFisher (place-diag P9)"
+    },
+    "ccBGSSSE037-Curios.esl:00000814": {
+      "class": "clutter",
+      "source": "planner ruling 2026-09-27; no UESP row; sits on a rustic shelf in KeebaHouseFisher (place-diag P9)"
+    },
+    "HearthFires.esm:00003043": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)"
+    },
+    "HearthFires.esm:0000353F": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Steamed Mudcrab Legs xx00353F (Hearthfire)"
+    },
+    "Dawnguard.esm:000185FB": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients: Poison Bloom xx0185FB (Dawnguard)"
+    }
+  }
+}

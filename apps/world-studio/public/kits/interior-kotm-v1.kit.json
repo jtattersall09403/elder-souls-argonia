@@ -22,7 +22,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cuirass.dds",
@@ -102,7 +102,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "ash01.dds",
@@ -128,6 +128,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0468
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -142,12 +147,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.376,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.047,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0468
-   }
+   "pivotAboveBaseM": 0.047
   },
   {
    "id": "kotm:argonia/clutter/doll_atronachamber",
@@ -188,6 +188,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0584
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -202,12 +207,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0584
-   }
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilehuge01",
@@ -230,7 +230,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -253,6 +253,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0235
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -267,12 +272,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0235
-   }
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilelarge01",
@@ -295,7 +295,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -318,6 +318,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.019
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -332,12 +337,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.019
-   }
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "kotm:argonia/clutter/firewoodpilesmall01",
@@ -360,7 +360,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "baldcypressbark01_d.dds",
@@ -383,6 +383,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0165
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -397,12 +402,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0165
-   }
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "kotm:argonia/clutter/hangingfeathers01",
@@ -450,6 +450,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.6059
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -464,12 +469,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.772,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.269,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.6059
-   }
+   "pivotAboveBaseM": 1.269
   },
   {
    "id": "kotm:argonia/clutter/saxhleelfence01",
@@ -492,7 +492,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dryoakpost01.dds",
@@ -512,6 +512,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.014
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -526,12 +531,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.727,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.014,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.014
-   }
+   "pivotAboveBaseM": 0.014
   },
   {
    "id": "kotm:argonia/clutter/saxhleeltapestry01",
@@ -670,7 +670,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "whwoodbasetrim.dds"
@@ -688,6 +688,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -702,12 +707,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.327,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0046
-   }
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:argonia/clutter/tamwindchime01",
@@ -730,7 +730,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "flatbow_red.dds",
@@ -763,6 +763,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.6352
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -777,12 +782,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.988,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.635,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.6352
-   }
+   "pivotAboveBaseM": 0.635
   },
   {
    "id": "kotm:argonia/clutter/urn01",
@@ -823,6 +823,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0017
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -837,12 +842,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0017
-   }
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "kotm:argonia/clutter/urn02",
@@ -883,6 +883,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -897,12 +902,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   }
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/clutter/vase01",
@@ -925,7 +925,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "honeypot01.dds"
@@ -943,6 +943,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0088
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -957,12 +962,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0088
-   }
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "kotm:argonia/clutter/vase03",
@@ -985,7 +985,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "honeypot01.dds"
@@ -1003,6 +1003,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0068
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1017,12 +1022,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.754,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.007,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0068
-   }
+   "pivotAboveBaseM": 0.007
   },
   {
    "id": "kotm:argonia/clutter/vase05",
@@ -1063,6 +1063,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0004
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1077,12 +1082,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0004
-   }
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/clutter/vase06",
@@ -1123,6 +1123,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0003
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1137,12 +1142,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.934,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0003
-   }
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:argonia/clutter/wallbasket01",
@@ -1183,6 +1183,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1197,12 +1202,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3471
-   }
+   "pivotAboveBaseM": 0.347
   },
   {
    "id": "kotm:argonia/clutter/wallbasket03",
@@ -1243,6 +1243,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1257,12 +1262,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3471
-   }
+   "pivotAboveBaseM": 0.347
   },
   {
    "id": "kotm:argonia/clutter/wallbasket04",
@@ -1303,6 +1303,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1317,12 +1322,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.0862
-   }
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/clutter/wallbasket05",
@@ -1363,6 +1363,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1377,12 +1382,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.0862
-   }
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/clutter/wallbasket06",
@@ -1423,6 +1423,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0862
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1437,12 +1442,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.326,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.0862
-   }
+   "pivotAboveBaseM": 0.326
   },
   {
    "id": "kotm:argonia/food/flatbread",
@@ -1483,6 +1483,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0084
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1497,12 +1502,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.008,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0084
-   }
+   "pivotAboveBaseM": 0.008
   },
   {
    "id": "kotm:argonia/food/sakebottle02",
@@ -1545,6 +1545,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0009
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1559,12 +1564,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0009
-   }
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "kotm:argonia/furniture/rusticbed",
@@ -1634,6 +1634,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.005
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1648,12 +1653,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.005
-   }
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:argonia/furniture/rusticchair01",
@@ -1710,6 +1710,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.009
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1724,12 +1729,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.009,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.009
-   }
+   "pivotAboveBaseM": -0.009
   },
   {
    "id": "kotm:argonia/furniture/rusticchair02",
@@ -1786,6 +1786,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.018
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1800,12 +1805,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.861,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.018,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.018
-   }
+   "pivotAboveBaseM": -0.018
   },
   {
    "id": "kotm:argonia/furniture/rusticchair04",
@@ -1862,6 +1862,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.006
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1876,12 +1881,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.006,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.006
-   }
+   "pivotAboveBaseM": -0.006
   },
   {
    "id": "kotm:argonia/furniture/rusticchest",
@@ -1941,6 +1941,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2796
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1955,12 +1960,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.28,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2796
-   }
+   "pivotAboveBaseM": 0.28
   },
   {
    "id": "kotm:argonia/furniture/rusticcupboard",
@@ -2019,6 +2019,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9001
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2033,12 +2038,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.9,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.9001
-   }
+   "pivotAboveBaseM": 0.9
   },
   {
    "id": "kotm:argonia/furniture/rusticshelf",
@@ -2095,6 +2095,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8055
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2109,12 +2114,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.853,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.806,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.8055
-   }
+   "pivotAboveBaseM": 0.806
   },
   {
    "id": "kotm:argonia/furniture/rustictable01",
@@ -2171,6 +2171,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.396
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2185,12 +2190,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.963,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.396,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.396
-   }
+   "pivotAboveBaseM": 0.396
   },
   {
    "id": "kotm:argonia/furniture/rustictable02",
@@ -2247,6 +2247,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.396
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2261,12 +2266,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.396,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.396
-   }
+   "pivotAboveBaseM": 0.396
   },
   {
    "id": "kotm:argonia/furniture/rustictable03",
@@ -2323,6 +2323,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4101
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2337,12 +2342,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.923,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.41,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4101
-   }
+   "pivotAboveBaseM": 0.41
   },
   {
    "id": "kotm:argonia/mudhuts/floor02",
@@ -2385,6 +2385,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5547
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2399,12 +2404,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.905,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.555,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.5547
-   }
+   "pivotAboveBaseM": 0.555
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutintfloor01",
@@ -2427,7 +2427,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dryoakpost01.dds",
@@ -2450,6 +2450,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4585
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2464,12 +2469,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.721,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.458,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4585
-   }
+   "pivotAboveBaseM": 0.458
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutintstairs",
@@ -2492,7 +2492,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dryoakpost01.dds",
@@ -2550,7 +2550,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "desertcracked01light_d.dds",
@@ -2572,6 +2572,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -4.1058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2586,12 +2591,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.887,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -4.1058
-   }
+   "pivotAboveBaseM": 4.887
   },
   {
    "id": "kotm:argonia/mudhuts/smpodint02",
@@ -2614,7 +2614,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "desertcracked01light_d.dds",
@@ -2693,6 +2693,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2707,12 +2712,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   }
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "kotm:loliceptresource/barrel/miscbarrelopen01",
@@ -2735,7 +2735,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "broom01.dds",
@@ -2768,6 +2768,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0042
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2782,12 +2787,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.833,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0042
-   }
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat",
@@ -2828,6 +2828,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2842,12 +2847,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.335,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0046
-   }
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:mihail monsters and animals/rabbit/frog/frogmeat2",
@@ -2888,6 +2888,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0046
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2902,12 +2907,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.335,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0046
-   }
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "kotm:oaristys/clutter/rugs",
@@ -2930,7 +2930,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rug01.dds",
@@ -2954,6 +2954,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0034
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2968,12 +2973,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.703,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0034
-   }
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
@@ -3014,6 +3014,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0377
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3028,12 +3033,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.038,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0377
-   }
+   "pivotAboveBaseM": 0.038
   },
   {
    "id": "vanilla:architecture/riften/clutter/rtchimney01",
@@ -3076,6 +3076,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4127
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3090,12 +3095,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.413,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.4127
-   }
+   "pivotAboveBaseM": 0.413
   },
   {
    "id": "vanilla:clutter/books/basicbook01",
@@ -3139,6 +3139,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3153,12 +3158,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0285
-   }
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook03",
@@ -3202,6 +3202,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3216,12 +3221,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0285
-   }
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook04",
@@ -3265,6 +3265,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3279,12 +3284,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0285
-   }
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook04a",
@@ -3328,6 +3328,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0285
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3342,12 +3347,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0285
-   }
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "vanilla:clutter/books/basicbook06",
@@ -3391,6 +3391,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0272
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3405,12 +3410,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0272
-   }
+   "pivotAboveBaseM": 0.027
   },
   {
    "id": "vanilla:clutter/books/book02lowpoly",
@@ -3454,6 +3454,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0458
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3468,12 +3473,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0458
-   }
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "vanilla:clutter/common/fishingpolecollection01",
@@ -3496,7 +3496,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fishingpole.dds",
@@ -3571,6 +3571,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0205
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3585,12 +3590,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.864,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.02,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0205
-   }
+   "pivotAboveBaseM": 0.02
   },
   {
    "id": "vanilla:clutter/common/rug03",
@@ -3636,6 +3636,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0019
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3650,12 +3655,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0019
-   }
+   "pivotAboveBaseM": -0.002
   },
   {
    "id": "vanilla:clutter/common/rug07",
@@ -3701,6 +3701,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3715,12 +3720,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   }
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedmudcrab01",
@@ -3743,7 +3743,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "mountedheadbase01.dds",
@@ -3766,6 +3766,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3763
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3780,12 +3785,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.376,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3763
-   }
+   "pivotAboveBaseM": 0.376
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
@@ -3808,7 +3808,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "slaughterfish.dds",
@@ -3828,6 +3828,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2472
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3842,12 +3847,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2472
-   }
+   "pivotAboveBaseM": 0.247
   },
   {
    "id": "vanilla:clutter/dining set/basicwoodenbowl01",
@@ -3888,6 +3888,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3902,12 +3907,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   }
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/dining set/basicwoodenplate01",
@@ -3948,6 +3948,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3962,12 +3967,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   }
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/giant/giantspit01",
@@ -3990,7 +3990,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "tundradriftwoodbark01.dds"
@@ -4008,6 +4008,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.2389
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4022,12 +4027,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.146,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.239,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -1.2389
-   }
+   "pivotAboveBaseM": 1.239
   },
   {
    "id": "vanilla:clutter/glazedcandles01",
@@ -4073,6 +4073,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4087,12 +4092,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   }
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/ingredients/mudcrabchitin",
@@ -4136,6 +4136,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1394
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4150,12 +4155,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.713,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.139,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1394
-   }
+   "pivotAboveBaseM": 0.139
   },
   {
    "id": "vanilla:clutter/wallbaskethex02",
@@ -4205,6 +4205,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.0098
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4219,12 +4224,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.582,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.01,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.0098
-   }
+   "pivotAboveBaseM": 1.01
   },
   {
    "id": "vanilla:clutter/wallbaskethex03",
@@ -4274,6 +4274,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.0098
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4288,12 +4293,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.54,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.01,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.0098
-   }
+   "pivotAboveBaseM": 1.01
   },
   {
    "id": "vanilla:furniture/smallcookingpotnohandle",
@@ -4349,6 +4349,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.6036
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4363,12 +4368,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.85,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.604,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.6036
-   }
+   "pivotAboveBaseM": -0.604
   },
   {
    "id": "vanilla:plants/mushroom01",
@@ -4409,6 +4409,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1902
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4423,12 +4428,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.19,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1902
-   }
+   "pivotAboveBaseM": 0.19
   },
   {
    "id": "vanilla:plants/slaughterfishegg01",
@@ -4469,6 +4469,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0525
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4483,12 +4488,487 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.053,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0525
-   }
+   "pivotAboveBaseM": 0.053
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadpondfish01",
+   "node": "es|d2b3c1d080|illa__clutter_deadanimals_deadpondfish01",
+   "category": "clutter",
+   "sizeM": [
+    0.113,
+    0.281,
+    0.041
+   ],
+   "originOffsetM": [
+    0.046,
+    0.147,
+    0.01
+   ],
+   "triangles": 136,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pondfish01.dds"
+   ],
+   "materials": [
+    "DeadPondFish01:0.Mat",
+    "DeadPondFish01:1.Mat",
+    "DeadPondFish01:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadPondFish01:1.Mat": 0.784,
+    "DeadPondFish01:2.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.618,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadpondfish02",
+   "node": "es|aa4653d044|illa__clutter_deadanimals_deadpondfish02",
+   "category": "clutter",
+   "sizeM": [
+    0.113,
+    0.281,
+    0.041
+   ],
+   "originOffsetM": [
+    0.046,
+    0.147,
+    0.01
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pondfish01.dds"
+   ],
+   "materials": [
+    "DeadPondFish02:0.Mat",
+    "DeadPondFish02:1.Mat",
+    "DeadPondFish02:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadPondFish02:1.Mat": 0.784,
+    "DeadPondFish02:2.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.618,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadpondfish03",
+   "node": "es|0618388a68|illa__clutter_deadanimals_deadpondfish03",
+   "category": "clutter",
+   "sizeM": [
+    0.113,
+    0.281,
+    0.041
+   ],
+   "originOffsetM": [
+    0.046,
+    0.147,
+    0.01
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pondfish01.dds"
+   ],
+   "materials": [
+    "DeadPondFish03:0.Mat",
+    "DeadPondFish03:1.Mat",
+    "DeadPondFish03:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadPondFish03:1.Mat": 0.784,
+    "DeadPondFish03:2.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.618,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadpondfish04",
+   "node": "es|d965fe8ec3|illa__clutter_deadanimals_deadpondfish04",
+   "category": "clutter",
+   "sizeM": [
+    0.113,
+    0.281,
+    0.041
+   ],
+   "originOffsetM": [
+    0.046,
+    0.147,
+    0.01
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pondfish01.dds"
+   ],
+   "materials": [
+    "DeadPondFish04:0.Mat",
+    "DeadPondFish04:1.Mat",
+    "DeadPondFish04:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadPondFish04:1.Mat": 0.784,
+    "DeadPondFish04:2.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.618,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadpondfish05",
+   "node": "es|e48f89bf48|illa__clutter_deadanimals_deadpondfish05",
+   "category": "clutter",
+   "sizeM": [
+    0.113,
+    0.281,
+    0.041
+   ],
+   "originOffsetM": [
+    0.046,
+    0.147,
+    0.01
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pondfish01.dds"
+   ],
+   "materials": [
+    "DeadPondFish05:0.Mat",
+    "DeadPondFish05:1.Mat",
+    "DeadPondFish05:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadPondFish05:1.Mat": 0.784,
+    "DeadPondFish05:2.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.01,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.618,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadsalmon01",
+   "node": "es|708b8e2882|anilla__clutter_deadanimals_deadsalmon01",
+   "category": "clutter",
+   "sizeM": [
+    0.092,
+    0.212,
+    0.745
+   ],
+   "originOffsetM": [
+    0.046,
+    0.103,
+    0.693
+   ],
+   "triangles": 256,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "salmon01.dds"
+   ],
+   "materials": [
+    "DeadSalmon01:0.Mat",
+    "DeadSalmon01:1.Mat",
+    "Nail.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "DeadSalmon01:1.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.693,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.818,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.693
+  },
+  {
+   "id": "vanilla:clutter/deadanimals/deadsalmon02",
+   "node": "es|7d4e915627|anilla__clutter_deadanimals_deadsalmon02",
+   "category": "clutter",
+   "sizeM": [
+    0.092,
+    0.238,
+    0.64
+   ],
+   "originOffsetM": [
+    0.053,
+    0.131,
+    0.587
+   ],
+   "triangles": 254,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "salmon01.dds"
+   ],
+   "materials": [
+    "Fish:0.Mat",
+    "Fish:1.Mat",
+    "Nail.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Fish:1.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.587,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.961,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.587
+  },
+  {
+   "id": "vanilla:clutter/food/cookedslaughterfishsteak01",
+   "node": "es|a7e67e8d6d|_clutter_food_cookedslaughterfishsteak01",
+   "category": "clutter",
+   "sizeM": [
+    0.195,
+    0.263,
+    0.03
+   ],
+   "originOffsetM": [
+    0.114,
+    0.124,
+    0.015
+   ],
+   "triangles": 174,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cookedslaughterfishsteak01.dds"
+   ],
+   "materials": [
+    "CookedSlaughterfishSteak01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.015,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.594,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.015
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-kotm-v1.glb",
@@ -4510,8 +4990,8 @@
   "textures/_resourcepack/landscape/trees/baldcypressbark01_d.dds": "textures/lod/baldcypressbark01_dlod.dds"
  },
  "alphaModes": {
-  "MASK": 30,
-  "OPAQUE": 146,
+  "MASK": 42,
+  "OPAQUE": 156,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -4545,16 +5025,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 25217968,
-  "bytesAfter": 4956852,
-  "images": 66,
-  "imageBytesAfter": 3309623,
+  "bytesBefore": 25569444,
+  "bytesAfter": 5084488,
+  "images": 69,
+  "imageBytesAfter": 3364834,
   "warnings": [],
-  "sha256": "274b59cb2a3e02e95c479f8a747f387494a6983b35e2befd66d661f7d0874222",
+  "sha256": "bac4d008f353198bd456a57fcf127cd1378f987afd7400c16ace2a16a23f4a3e",
   "sidecarBytes": {
-   "connectors": 45471,
-   "footprints": 98353,
-   "interiors": 39148
+   "connectors": 49045,
+   "footprints": 107369,
+   "interiors": 36389
   }
  }
 }

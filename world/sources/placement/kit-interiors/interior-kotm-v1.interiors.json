@@ -648,6 +648,69 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "vanilla:clutter/deadanimals/deadpondfish01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadpondfish02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadpondfish03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadpondfish04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadpondfish05": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadsalmon01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/deadanimals/deadsalmon02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "vanilla:clutter/deadanimals/wallmountedmudcrab01": {
    "category": "clutter",
    "entrance": null,
@@ -686,6 +749,15 @@
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
   "vanilla:clutter/dining set/basicwoodenplate01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/food/cookedslaughterfishsteak01": {
    "category": "clutter",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",

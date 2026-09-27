@@ -464,3 +464,26 @@ def test_an_unlinked_shell_why_states_the_link_fact_only():
     lib = {"kotm:argonia/mudhuts/mudhut01": {"planAreaM2": 99.0}}
     got = bi.claim_for_parcel(parcel, lib, {}, lambda *a: None)
     assert got["why"] == "no plugin links kotm:argonia/mudhuts/mudhut01 to a furnished cell"
+
+
+# Planner ruling 2026-09-27 (16k walk 2 lane I): missing pieces count over
+# clutter only. KotM's KeebaHouseElder misses HearthFires and Dragonborn bases
+# (place-diag-kotm-cells.txt); unclassed or architecture misses make a cell unfit.
+def test_a_cell_missing_architecture_or_unclassed_pieces_does_not_fit():
+    for cls in ("architecture", "unclassed", "container"):
+        gaps = {"Home": {"unsourced": ["x"], "misses": {cls: 1}, "gate": []}}
+        bp = _bp(["lodging"])
+        rows = bi.claim_doors(bp, LIB, LINKS, PROFILE, sourcing=_sourcing(gaps))
+        assert bp["doors"][0]["interiorClaim"]["cellId"] == "Home2", cls
+        home = next(c for c in rows[0]["candidates"] if c["cellId"] == "Home")
+        assert any("no stand-in may replace" in f for f in home["fails"]), cls
+
+
+def test_clutter_misses_rank_by_count():
+    # every linked cell misses clutter; the one missing least is taken
+    table = {row["interiorCell"]: {"unsourced": ["a", "b"], "misses": {"clutter": 2}, "gate": []}
+             for row in LINKS["test:shell"]}
+    table["Home2"] = {"unsourced": ["a"], "misses": {"clutter": 1}, "gate": []}
+    bp = _bp(["lodging"])
+    bi.claim_doors(bp, LIB, LINKS, PROFILE, sourcing=_sourcing(table))
+    assert bp["doors"][0]["interiorClaim"]["cellId"] == "Home2"

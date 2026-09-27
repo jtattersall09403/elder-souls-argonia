@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "cellId": "KeebaHouseFisher",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing Creation Club clutter (planner ruling 2026-09-27; place-diag P9). Each stand-in is a vault piece of the same class, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "080A5B7B",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish01",
+      "why": "A brook bass lies in the basket; a dead pond fish takes its place."
+    },
+    {
+      "refId": "080A5B7C",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
+      "why": "A brook bass lies in the basket; a dead pond fish takes its place."
+    },
+    {
+      "refId": "080A5B7D",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish03",
+      "why": "A brook bass lies in the basket; a dead pond fish takes its place."
+    },
+    {
+      "refId": "080A5B7E",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish04",
+      "why": "A catfish lies in the basket; a dead pond fish takes its place."
+    },
+    {
+      "refId": "080A5B7F",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+      "why": "A catfish lies in the basket; a dead pond fish takes its place."
+    },
+    {
+      "refId": "080A5B80",
+      "standInAsset": "vanilla:clutter/deadanimals/deadsalmon01",
+      "why": "A raw pogfish sits on the shelf; a dead salmon takes its place."
+    },
+    {
+      "refId": "080A5B81",
+      "standInAsset": "vanilla:clutter/deadanimals/deadsalmon02",
+      "why": "A raw slaughterfish sits on the shelf; a dead salmon takes its place."
+    },
+    {
+      "refId": "080A5B87",
+      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+      "why": "A Curios piece sits on the shelf; a mounted slaughterfish takes its place."
+    },
+    {
+      "refId": "080A5B42",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear hangs by the fence; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "080A5B43",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+      "why": "Fishing gear hangs by the window; a fish rack takes its place."
+    },
+    {
+      "refId": "080A5B4A",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear stands on the floor; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "080A5B4B",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack01",
+      "why": "Fishing gear stands on the floor; a fish rack takes its place."
+    },
+    {
+      "refId": "080A5B9C",
+      "standInAsset": "vanilla:clutter/food/cookedslaughterfishsteak01",
+      "why": "A cooked brook bass lies by the spit; a cooked slaughterfish steak takes its place."
+    }
+  ]
+}

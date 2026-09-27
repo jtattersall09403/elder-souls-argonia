@@ -41,6 +41,7 @@ import argparse
 import json
 import math
 import sys
+from collections import Counter
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -527,13 +528,15 @@ def vault_holds_mesh(model: str, registry: dict, manifest: set[str]) -> bool:
 
 
 def bundle_sourcing(plugin: str, cell: str) -> dict:
-    """``{unsourced, gate}`` for one cell, from its bundle as
-    `export_interior_bundle` builds it against the published kits: the models
-    of the references whose mesh the vault holds nowhere (``vault_holds_mesh``),
-    and the acceptance gate's findings (every reference placed or dropped,
-    `export_interior_bundle.check`, and no ``no-kit-asset`` drop:
-    test_export_interior_bundle.test_bundle_accounts_for_every_reference).
-    Read once per cell."""
+    """``{unsourced, misses, gate}`` for one cell, from its bundle as
+    `export_interior_bundle` builds it against the published kits and its
+    recorded stand-ins: ``unsourced`` the missing pieces we hold nowhere (a
+    mesh ``vault_holds_mesh`` does not find, or a base in a master we do not
+    hold), ``misses`` their count by class (the planner's asset rule
+    2026-09-27: only clutter and furniture may be stood in), and the
+    acceptance gate's findings (`export_interior_bundle.check`: every
+    reference placed, dropped or stood in, no missing architecture piece; and
+    no ``no-kit-asset`` drop). Read once per cell."""
     from . import export_interior_bundle as ex
     key = (plugin, cell)
     if key in _SOURCING_ENV:
@@ -552,8 +555,11 @@ def bundle_sourcing(plugin: str, cell: str) -> dict:
     if gaps:
         models = sorted({d.get("model") or "?" for d in gaps})
         gate.append(f"{len(gaps)} references need a mesh no published kit holds: {', '.join(models)}")
-    out = {"unsourced": [d["model"] for d in gaps
-                         if d.get("model") and not vault_holds_mesh(d["model"], registry, manifest)],
+    missing = [d for d in bundle["drops"] if d["reason"] == "unresolved-base"
+               or (d["reason"] == "no-kit-asset" and d.get("model")
+                   and not vault_holds_mesh(d["model"], registry, manifest))]
+    out = {"unsourced": [d.get("model") or d.get("baseForm") or "?" for d in missing],
+           "misses": dict(sorted(Counter(d.get("class", "unclassed") for d in missing).items())),
            "gate": gate}
     _SOURCING_ENV[key] = out
     return out
@@ -573,7 +579,11 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
     {unsourced, gate}` (``bundle_sourcing``; injected, None skips it) makes
     the rule asset-aware (16k interiors r8, owner rule): a cell whose bundle
     fails the acceptance gate does not fit, and a cell needing a mesh the vault
-    holds nowhere ranks below every fitting cell whose meshes all resolve."""
+    holds nowhere ranks below every fitting cell whose meshes all resolve.
+    The missing pieces are counted over clutter only (planner ruling
+    2026-09-27): a cell missing a piece of any other class (architecture, a
+    container, a light, an unclassed base in an absent master) does not fit,
+    and fitting cells rank by how many clutter pieces still lack a stand-in."""
     from .interior_cells import pair_doors
     ref = parcel.get("assetRef")
     record = lib.get(ref) if isinstance(ref, str) else None
@@ -631,6 +641,11 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
         src = sourcing(row["plugin"], row["interiorCell"]) if sourcing else {}
         if src.get("gate"):
             fails.append(f"its bundle fails the acceptance gate: {'; '.join(src['gate'])}")
+        hard = {c: n for c, n in (src.get("misses") or {}).items()
+                if c not in SUBSTITUTABLE_CLASSES}
+        if hard:
+            fails.append("it misses pieces no stand-in may replace: "
+                         + ", ".join(f"{n} {c}" for c, n in sorted(hard.items())))
         candidates.append({
             "cellId": row["interiorCell"], "plugin": row["plugin"],
             "ratio": ratio, "structuralPlanM": plan_m, "storeys": storeys,
@@ -642,7 +657,8 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                             if pairing is not None else []),
             "useClass": cls, "furniture": evidence, "served": served,
             "placements": int(row.get("placements") or 0), "fails": fails,
-            **({"unsourced": list(src.get("unsourced") or [])} if sourcing else {}),
+            **({"unsourced": list(src.get("unsourced") or []),
+                "misses": dict(src.get("misses") or {})} if sourcing else {}),
         })
     fit = [c for c in candidates if not c["fails"]]
     if not fit:
@@ -654,7 +670,7 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
                         f"an exterior load door for every entrance, use class"
                         f"{', the acceptance gate' if sourcing else ''})"),
                 "candidates": candidates}
-    fit.sort(key=lambda c: (bool(c.get("unsourced")), -len(c["served"]), -c["placements"],
+    fit.sort(key=lambda c: (len(c.get("unsourced") or []), -len(c["served"]), -c["placements"],
                             c["cellId"]))
     chosen = next((c for c in fit if prefer and c["cellId"] == prefer[0]), None)
     free = [c for c in fit if c["cellId"] not in used]
@@ -684,6 +700,7 @@ def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[d
             "doors": best["doors"], "closedDoors": best["closedDoors"], "candidates": candidates}
 
 
+from .export_interior_bundle import SUBSTITUTABLE_CLASSES  # noqa: E402
 from .interior_cells import game_marker  # noqa: E402
 
 _PROFILE_PATHS: dict[str, Path] | None = None

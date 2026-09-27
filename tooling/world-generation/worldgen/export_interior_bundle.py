@@ -11,10 +11,23 @@ plugin's masters, and each lands in exactly one of two lists:
   ``marker`` (editor markers and invisible furniture markers), ``light-source``
   (a mesh-less light, realised in ``lights[]``), ``sound``, ``levelled-item``,
   ``no-model``, ``unresolved-base``, and ``no-kit-asset`` (a gap: the mesh is
-  in no published kit; never faked).
+  in no published kit; never faked);
+* ``substitutions[]`` — a MISSING piece (``unresolved-base``: its master is not
+  ours; ``no-kit-asset``) drawn by a same-class stand-in we hold (planner ruling
+  2026-09-27, lane I): ``{refId, originalPath, baseForm, class, standInAsset,
+  kit, standInCategory, why, id, positionM, rotationDeg, scale}``, from the
+  tracked record ``world/sources/placement/kit-interiors/substitutions/<cell>.json``.
+
+Every missing piece carries its ``class``: the base record's type and model
+(``piece_class``), or, when its master is absent (Creation Club, HearthFires,
+Dawnguard, Dragonborn: never sourced), the sourced row in
+``kit-interiors/absent-master-classes.json``; ``unclassed`` when neither exists.
 
 Acceptance (the gate ``--check`` and the test run): ``len(placements) +
-len(drops) == refCount``.
+len(drops) + len(substitutions) == refCount``; a stand-in's published kit
+category equals the missing piece's class and that class is clutter or
+furniture; a missing ARCHITECTURE piece (``ARCHITECTURE_CLASSES``) fails the
+export outright: such a cell is never claimed.
 
 Alongside: ``lights[]`` from each light reference's LIGH record (radius with
 the reference's XRDS override, colour, flicker flags) and the cell's
@@ -67,6 +80,16 @@ FRAME = ("game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] ap
          "Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)")
 FIXTURE = (REPO_ROOT / "packages" / "game-core" / "src" / "interior" / "__fixtures__"
            / "interior.fixture.json")
+
+KIT_INTERIORS = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
+SUBSTITUTIONS_DIR = KIT_INTERIORS / "substitutions"
+ABSENT_MASTER_CLASSES = KIT_INTERIORS / "absent-master-classes.json"
+#: drop reasons that mean "the author drew something here we cannot draw"
+MISSING_REASONS = ("unresolved-base", "no-kit-asset")
+#: classes (kit manifest categories) a stand-in may replace (planner ruling
+#: 2026-09-27: clutter and furniture only) and the ones that make a cell unfit
+SUBSTITUTABLE_CLASSES = frozenset({"clutter", "furniture"})
+ARCHITECTURE_CLASSES = frozenset({"architecture", "ruin", "dungeon-kit", "door", "bridge"})
 
 REF_TYPES = (b"REFR", b"ACHR")
 ACTOR_BASES = {"NPC_", "LVLN", "LVLC"}
@@ -234,6 +257,9 @@ def decode_lighting(payload: bytes) -> dict:
         "ambientRGB": _rgb(v[0:4]), "directionalRGB": _rgb(v[4:8]),
         "fogNearRGB": _rgb(v[8:12]),
         "fogNearM": round(v[12] / UNITS_PER_METRE, 3), "fogFarM": round(v[13] / UNITS_PER_METRE, 3),
+        # XCLL rotation XY / Z (UESP Skyrim_Mod:Mod_File_Format/CELL: int32
+        # degrees): where the cell's directional light comes from
+        "directionalRotXYDeg": int(v[14]), "directionalRotZDeg": int(v[15]),
         "directionalFade": round(v[16], 3), "fogClipM": round(v[17] / UNITS_PER_METRE, 3),
         "fogPower": round(v[18], 3),
     }
@@ -247,7 +273,8 @@ def decode_lighting(payload: bytes) -> dict:
 
 #: XCLL inherit bits -> the fields the template supplies (UESP Skyrim:CELL).
 INHERIT_BITS = {0: ("ambientRGB",), 1: ("directionalRGB",), 2: ("fogNearRGB", "fogFarRGB"),
-                3: ("fogNearM",), 4: ("fogFarM",), 6: ("directionalFade",), 7: ("fogClipM",),
+                3: ("fogNearM",), 4: ("fogFarM",),
+                5: ("directionalRotXYDeg", "directionalRotZDeg"), 6: ("directionalFade",), 7: ("fogClipM",),
                 8: ("fogPower",), 9: ("fogMax",)}
 
 
@@ -269,6 +296,47 @@ def value_band(value: int | None) -> str | None:
         if value < cap:
             return band
     return "rare"
+
+
+def absent_master_classes(path: Path = ABSENT_MASTER_CLASSES) -> dict[str, dict]:
+    """``"<master>:<local id>" -> {class, source}``: the class of a base object
+    whose master we do not hold, from a written source (UESP, or the planner's
+    ruling with the reference's position as evidence)."""
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text()).get("forms", {})
+
+
+def load_substitutions(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> dict[str, dict]:
+    """refId -> ``{standInAsset, why}`` for one cell (empty when it has none)."""
+    path = directory / f"{cell_edid}.json"
+    if not path.exists():
+        return {}
+    doc = json.loads(path.read_text())
+    if doc.get("cellId") != cell_edid:
+        raise ValueError(f"{path.name}: cellId {doc.get('cellId')!r} is not {cell_edid}")
+    return {row["refId"]: row for row in doc.get("substitutions", [])}
+
+
+def piece_class(base: dict | None, base_form: str | None, model: str | None,
+                absent: dict[str, dict]) -> tuple[str, str]:
+    """``(class, source)`` of a missing piece, in the kit-manifest category
+    vocabulary: the base record's type (FURN furniture, CONT container, LIGH
+    light, DOOR door, a carried item clutter), else the model path's taxonomy
+    category; a base in an absent master takes its sourced row, else
+    ``unclassed``. Never guessed from a name."""
+    if base is None:
+        row = absent.get(base_form or "")
+        return (row["class"], row["source"]) if row else ("unclassed", "master absent, no sourced row")
+    btype = base["type"]
+    fixed = {"FURN": "furniture", "CONT": "container", "LIGH": "light", "DOOR": "door"}
+    if btype in fixed:
+        return fixed[btype], f"base record {btype}"
+    if btype in ITEM_BASES:
+        return "clutter", f"base record {btype} (a carried item)"
+    if model:
+        return classify(model).category, f"base record {btype}, model taxonomy"
+    return "unclassed", f"base record {btype} with no model"
 
 
 def published_kit_assets(kits_dir: Path = KITS_DIR) -> dict[str, tuple[str, str | None]]:
@@ -364,7 +432,9 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
     bases = {k: _base_info(r) for k, r in records.items() if r.type != b"LGTM"}
 
     pool = pool_of(plugin_name)
+    absent = absent_master_classes()
     placements, drops, lights, sockets = [], [], [], []
+    poses: dict[str, tuple] = {}
     load_doors: dict[str, dict] = {}
     for ref in sorted(refs, key=lambda r: r["formId"]):
         rid = f"{ref['formId']:08X}"
@@ -373,6 +443,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         rot = game_rotation_deg(ref.get("rot", (0, 0, 0)))
         # compass yaw: Skyrim's z rotation is clockwise from above (the miners' convention)
         yaw = round(math.degrees(float(ref.get("rot", (0, 0, 0))[2])) % 360.0, 3)
+        poses[rid] = (pos, rot, round(float(ref.get("scale", 1.0)), 4))
 
         def drop(reason, **more):
             drops.append({"refId": rid, "reason": reason,
@@ -381,7 +452,9 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
 
         if base is None:
             key = ref.get("baseKey")
-            drop("unresolved-base", **({"baseForm": f"{key[0]}:{key[1]:08X}"} if key else {}))
+            form = f"{key[0]}:{key[1]:08X}" if key else None
+            cls, why = piece_class(None, form, None, absent)
+            drop("unresolved-base", **({"baseForm": form} if form else {}), **{"class": cls, "classSource": why})
             continue
         btype = base["type"]
         name = f"{base.get('editorId') or ''} {base.get('model') or ''}"
@@ -447,7 +520,8 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         asset_id = asset_id_for(model, registry, pool)
         hit = kit_assets.get(asset_id) if asset_id else None
         if hit is None:
-            drop("no-kit-asset", model=model, assetId=asset_id)
+            cls, why = piece_class(base, None, model, absent)
+            drop("no-kit-asset", model=model, assetId=asset_id, **{"class": cls, "classSource": why})
             continue
         kit, kit_category = hit
         if btype == "CONT":
@@ -482,6 +556,23 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                             "valueBand": value_band(base.get("value")),
                             "contentPending": btype == "BOOK",
                             "why": f"{base.get('editorId')} placed by the cell's author"})
+
+    substitutions = []
+    for rid, row in sorted(load_substitutions(cell_edid).items()):
+        miss = next((d for d in drops if d["refId"] == rid and d["reason"] in MISSING_REASONS), None)
+        if miss is None:
+            raise ValueError(f"{cell_edid}: substitution for {rid}, which is not a missing piece of the cell")
+        hit = kit_assets.get(row["standInAsset"])
+        if hit is None:
+            raise ValueError(f"{cell_edid}: stand-in {row['standInAsset']} is in no published kit")
+        drops.remove(miss)
+        pos, rot, scale = poses[rid]
+        substitutions.append({
+            "id": f"{cell_edid}.{rid}", "refId": rid, "originalPath": miss.get("model"),
+            "baseForm": miss.get("baseForm"), "class": miss["class"],
+            "classSource": miss["classSource"], "standInAsset": row["standInAsset"],
+            "kit": hit[0], "standInCategory": hit[1], "why": row["why"],
+            "positionM": pos, "rotationDeg": rot, "scale": scale})
 
     lighting = decode_lighting(xcll) if xcll else {}
     template = None
@@ -525,7 +616,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         next(iter(sorted(load_doors.values(), key=lambda d: d["refId"])), None))
     arrival = (pairs[0]["arrivalMarker"] if pairs else
                ({"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None))
-    kits = sorted({p["kit"] for p in placements})
+    kits = sorted({p["kit"] for p in placements} | {s["kit"] for s in substitutions})
     return {
         "schemaVersion": SCHEMA_VERSION,
         "cellId": cell_edid,
@@ -547,8 +638,12 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         "lights": lights,
         "sockets": sockets,
         "drops": drops,
+        "substitutions": substitutions,
         "counts": {
             "placements": len(placements), "drops": len(drops), "lights": len(lights),
+            "substitutions": len(substitutions),
+            "missingByClass": dict(sorted(Counter(d["class"] for d in drops
+                                                  if d["reason"] in MISSING_REASONS).items())),
             "dropsByReason": dict(sorted(Counter(d["reason"] for d in drops).items())),
             "socketsByKind": dict(sorted(Counter(s["kind"] for s in sockets).items())),
         },
@@ -556,13 +651,29 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
 
 
 def check(bundle: dict) -> list[str]:
-    """The acceptance gate: every reference is placed or listed as a drop."""
+    """The acceptance gate: every reference is placed, listed as a drop or
+    drawn by a same-class stand-in; no architecture piece is missing."""
     problems = []
-    n = len(bundle["placements"]) + len(bundle["drops"])
+    subs = bundle.get("substitutions") or []
+    n = len(bundle["placements"]) + len(bundle["drops"]) + len(subs)
     if n != bundle["refCount"]:
         problems.append(f"{bundle['cellId']}: {len(bundle['placements'])} placements + "
-                        f"{len(bundle['drops'])} drops = {n}, the cell has {bundle['refCount']} references")
-    ids = [p["id"] for p in bundle["placements"]]
+                        f"{len(bundle['drops'])} drops + {len(subs)} substitutions = {n}, "
+                        f"the cell has {bundle['refCount']} references")
+    arch = [d for d in bundle["drops"] if d.get("reason") in MISSING_REASONS
+            and d.get("class") in ARCHITECTURE_CLASSES]
+    if arch:
+        problems.append(f"{bundle['cellId']}: {len(arch)} missing architecture pieces "
+                        f"({', '.join(sorted({d.get('model') or d.get('baseForm') or '?' for d in arch}))}); "
+                        f"the cell does not fit and is never claimed")
+    for s in subs:
+        if s.get("class") not in SUBSTITUTABLE_CLASSES:
+            problems.append(f"{bundle['cellId']}: {s.get('refId')} is class {s.get('class')!r}; "
+                            f"only clutter or furniture takes a stand-in")
+        elif s.get("standInCategory") != s.get("class"):
+            problems.append(f"{bundle['cellId']}: stand-in {s.get('standInAsset')} is "
+                            f"{s.get('standInCategory')!r}, the missing piece is {s.get('class')!r}")
+    ids = [p["id"] for p in bundle["placements"]] + [s["id"] for s in subs]
     if len(ids) != len(set(ids)):
         problems.append(f"{bundle['cellId']}: duplicate placement ids")
     return problems
@@ -617,6 +728,12 @@ def validate_bundle(b: dict) -> list[str]:
             bad.append(f"{p.get('id')}: kit {p.get('kit')!r} is not in the bundle's kits")
         if not (_vec3(p.get("positionM")) and _vec3(p.get("rotationDeg")) and _num(p.get("scale"))):
             bad.append(f"{p.get('id')}: bad transform")
+    for s in b.get("substitutions") or []:
+        if s.get("kit") not in kits:
+            bad.append(f"{s.get('id')}: kit {s.get('kit')!r} is not in the bundle's kits")
+        if not (_vec3(s.get("positionM")) and _vec3(s.get("rotationDeg")) and _num(s.get("scale"))
+                and isinstance(s.get("standInAsset"), str)):
+            bad.append(f"{s.get('id')}: bad substitution")
     for i, lt in enumerate(b.get("lights") or []):
         if not (_vec3(lt.get("positionM")) and _num(lt.get("radiusM")) and lt["radiusM"] > 0
                 and _is_rgb(lt.get("colorRGB"))):

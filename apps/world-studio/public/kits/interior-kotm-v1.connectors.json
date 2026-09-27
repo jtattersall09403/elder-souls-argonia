@@ -2380,6 +2380,174 @@
     "widthM": 2.9
    }
   ],
+  "vanilla:clutter/deadanimals/deadpondfish01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.15
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadpondfish02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.15
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadpondfish03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.15
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadpondfish04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.15
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadpondfish05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.15
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadsalmon01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/deadanimals/deadsalmon02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.11
+    ],
+    "widthM": 0.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.13
+    ],
+    "widthM": 0.09
+   }
+  ],
   "vanilla:clutter/deadanimals/wallmountedmudcrab01": [
    {
     "evidence": "bounds",
@@ -2496,6 +2664,52 @@
      0.0
     ],
     "widthM": 0.3
+   }
+  ],
+  "vanilla:clutter/food/cookedslaughterfishsteak01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.14
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -0.01
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.12
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     -0.01
+    ],
+    "widthM": 0.26
    }
   ],
   "vanilla:clutter/giant/giantspit01": [
@@ -2802,8 +3016,8 @@
   ]
  },
  "counts": {
-  "assets": 69,
-  "bounds": 242,
+  "assets": 77,
+  "bounds": 260,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

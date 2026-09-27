@@ -1,6 +1,6 @@
 {
   "id": "interior-kotm-v1",
-  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher and KeebaHouseCrafter, the cells linked to the smpodext02 pod (interiors round 7). A later claim adds its gaps here and rebuilds.",
+  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher and KeebaHouseCrafter, the cells linked to the smpodext02 pod (interiors round 7). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27).",
   "culture": "argonian",
   "output": "tooling/asset-pipeline/output/kits/interior-kotm-v1.glb",
   "lodRatios": [
@@ -220,6 +220,30 @@
     },
     {
       "asset": "vanilla:plants/slaughterfishegg01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadpondfish01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadpondfish02"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadpondfish03"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadpondfish04"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadpondfish05"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadsalmon01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/deadsalmon02"
+    },
+    {
+      "asset": "vanilla:clutter/food/cookedslaughterfishsteak01"
     }
   ],
   "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle.",

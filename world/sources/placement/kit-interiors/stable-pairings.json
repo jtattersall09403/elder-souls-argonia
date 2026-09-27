@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "rule": "Stable and stablemaster-house cells and the exterior shells their plugins link them to (exterior-interior-links.json, read through blueprint_interiors.linked_shells), so a type sheet can name a stable pairing. No shell here is in a published kit on 2026-09-27; placing one is a kit-build job first. Nothing is placed from this record.",
+  "cells": [
+    {
+      "plugin": "King of the Murkmire.esp",
+      "interiorCell": "LilmothStablesInt",
+      "role": "stable",
+      "linkedShells": [
+        "kotm:argonia/imperialruins/redruin1",
+        "kotm:argonia/imperialruins/ruinedwall01"
+      ],
+      "shellsPublished": false,
+      "missingNote": "52 references, none in a master we lack"
+    },
+    {
+      "plugin": "King of the Murkmire.esp",
+      "interiorCell": "LilmothStablemasterHouseInt",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "kotm:argonia/blackwood/hausneu01"
+      ],
+      "shellsPublished": false,
+      "missingNote": "121 references, 6 in masters or archives we lack (place-diag-kotm-cells.txt, 16k walk 2)"
+    },
+    {
+      "plugin": "Skyrim.esm",
+      "interiorCell": "WhiterunStables",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "vanilla:architecture/whiterun/wrbuildings/wrhousestables01"
+      ],
+      "shellsPublished": false
+    },
+    {
+      "plugin": "Skyrim.esm",
+      "interiorCell": "SolitudeStables",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "vanilla:architecture/solitude/farms/sfarmhouse01"
+      ],
+      "shellsPublished": false
+    },
+    {
+      "plugin": "Skyrim.esm",
+      "interiorCell": "RiftenStables",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "vanilla:architecture/riften/rtfarmhouse01"
+      ],
+      "shellsPublished": false
+    },
+    {
+      "plugin": "Skyrim.esm",
+      "interiorCell": "WindhelmStables",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "vanilla:architecture/windhelm/whstables"
+      ],
+      "shellsPublished": false
+    },
+    {
+      "plugin": "Skyrim.esm",
+      "interiorCell": "MarkarthStableHouse",
+      "role": "stablemaster-house",
+      "linkedShells": [
+        "vanilla:dungeons/dwemer/clutter/mrkstablesmiddoorway01"
+      ],
+      "shellsPublished": false
+    }
+  ]
+}

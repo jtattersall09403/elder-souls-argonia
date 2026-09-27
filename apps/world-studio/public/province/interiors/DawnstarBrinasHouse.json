@@ -117,6 +117,8 @@
   ],
   "fogNearM": 1.422,
   "fogFarM": 56.896,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
   "directionalFade": 0.0,
   "fogClipM": 0.0,
   "fogPower": 1.0,
@@ -3957,10 +3959,13 @@
    "baseType": "STAT"
   }
  ],
+ "substitutions": [],
  "counts": {
   "placements": 129,
   "drops": 12,
   "lights": 5,
+  "substitutions": 0,
+  "missingByClass": {},
   "dropsByReason": {
    "actor": 2,
    "light-source": 5,

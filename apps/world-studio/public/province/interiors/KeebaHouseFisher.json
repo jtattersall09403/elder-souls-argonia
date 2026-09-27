@@ -117,6 +117,8 @@
   ],
   "fogNearM": 4.836,
   "fogFarM": 71.12,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
   "directionalFade": 0.0,
   "fogClipM": 71.12,
   "fogPower": 0.6,
@@ -2748,101 +2750,10 @@
    "baseType": "LIGH"
   },
   {
-   "refId": "080A5B42",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000D6A"
-  },
-  {
-   "refId": "080A5B43",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000D71"
-  },
-  {
-   "refId": "080A5B4A",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000D6E"
-  },
-  {
-   "refId": "080A5B4B",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000D6F"
-  },
-  {
-   "refId": "080A5B7B",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:0000089C"
-  },
-  {
-   "refId": "080A5B7C",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:0000089C"
-  },
-  {
-   "refId": "080A5B7D",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:0000089C"
-  },
-  {
-   "refId": "080A5B7E",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000897"
-  },
-  {
-   "refId": "080A5B7F",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000897"
-  },
-  {
-   "refId": "080A5B80",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000891"
-  },
-  {
-   "refId": "080A5B81",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:00000F25"
-  },
-  {
-   "refId": "080A5B87",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE037-Curios.esl:00000814"
-  },
-  {
    "refId": "080A5B95",
    "reason": "light-source",
    "base": "SolitudeInnFiretDefault",
    "baseType": "LIGH"
-  },
-  {
-   "refId": "080A5B9C",
-   "reason": "unresolved-base",
-   "base": null,
-   "baseType": null,
-   "baseForm": "ccBGSSSE001-Fish.esm:0000087C"
   },
   {
    "refId": "080A5B9E",
@@ -2875,15 +2786,317 @@
    "baseType": "NPC_"
   }
  ],
+ "substitutions": [
+  {
+   "id": "KeebaHouseFisher.080A5B42",
+   "refId": "080A5B42",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000D6A",
+   "class": "clutter",
+   "classSource": "planner ruling 2026-09-27; no UESP row; hung by the fence and window in KeebaHouseFisher (place-diag P9)",
+   "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "Fishing gear hangs by the fence; a bundle of fishing poles takes its place.",
+   "positionM": [
+    103.0409,
+    84.5619,
+    62.6853
+   ],
+   "rotationDeg": [
+    0.0,
+    201.649,
+    0.0
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B43",
+   "refId": "080A5B43",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000D71",
+   "class": "clutter",
+   "classSource": "planner ruling 2026-09-27; no UESP row; hung by the fence and window in KeebaHouseFisher (place-diag P9)",
+   "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+   "kit": "works-v1",
+   "standInCategory": "clutter",
+   "why": "Fishing gear hangs by the window; a fish rack takes its place.",
+   "positionM": [
+    106.4716,
+    85.3486,
+    61.907
+   ],
+   "rotationDeg": [
+    0.0,
+    132.894,
+    0.0
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B4A",
+   "refId": "080A5B4A",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000D6E",
+   "class": "clutter",
+   "classSource": "planner ruling 2026-09-27; no UESP row; stands on the floor of KeebaHouseFisher (place-diag P9)",
+   "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "Fishing gear stands on the floor; a bundle of fishing poles takes its place.",
+   "positionM": [
+    107.6359,
+    82.7577,
+    62.7891
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B4B",
+   "refId": "080A5B4B",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000D6F",
+   "class": "clutter",
+   "classSource": "planner ruling 2026-09-27; no UESP row; stands on the floor of KeebaHouseFisher (place-diag P9)",
+   "standInAsset": "vanilla:clutter/deadanimals/fishrack01",
+   "kit": "works-v1",
+   "standInCategory": "clutter",
+   "why": "Fishing gear stands on the floor; a fish rack takes its place.",
+   "positionM": [
+    106.9587,
+    82.7577,
+    63.1379
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B7B",
+   "refId": "080A5B7B",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000089C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A brook bass lies in the basket; a dead pond fish takes its place.",
+   "positionM": [
+    105.2529,
+    83.1194,
+    62.9601
+   ],
+   "rotationDeg": [
+    56.576,
+    91.038,
+    92.91
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B7C",
+   "refId": "080A5B7C",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000089C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A brook bass lies in the basket; a dead pond fish takes its place.",
+   "positionM": [
+    105.3402,
+    83.116,
+    62.8579
+   ],
+   "rotationDeg": [
+    30.925,
+    102.382,
+    88.049
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B7D",
+   "refId": "080A5B7D",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000089C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish03",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A brook bass lies in the basket; a dead pond fish takes its place.",
+   "positionM": [
+    105.1679,
+    83.1084,
+    62.868
+   ],
+   "rotationDeg": [
+    -38.983,
+    95.996,
+    85.175
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B7E",
+   "refId": "080A5B7E",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000897",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Catfish xx000897",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish04",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A catfish lies in the basket; a dead pond fish takes its place.",
+   "positionM": [
+    104.6514,
+    83.079,
+    62.9179
+   ],
+   "rotationDeg": [
+    -59.904,
+    351.806,
+    -22.785
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B7F",
+   "refId": "080A5B7F",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000897",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Catfish xx000897",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A catfish lies in the basket; a dead pond fish takes its place.",
+   "positionM": [
+    104.7517,
+    83.1085,
+    62.7617
+   ],
+   "rotationDeg": [
+    -65.34,
+    341.091,
+    15.974
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B80",
+   "refId": "080A5B80",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000891",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Pogfish xx000891",
+   "standInAsset": "vanilla:clutter/deadanimals/deadsalmon01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A raw pogfish sits on the shelf; a dead salmon takes its place.",
+   "positionM": [
+    109.6231,
+    83.846,
+    60.7243
+   ],
+   "rotationDeg": [
+    -47.481,
+    269.106,
+    173.476
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B81",
+   "refId": "080A5B81",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:00000F25",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Slaughterfish xx000F25",
+   "standInAsset": "vanilla:clutter/deadanimals/deadsalmon02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A raw slaughterfish sits on the shelf; a dead salmon takes its place.",
+   "positionM": [
+    109.5439,
+    83.2718,
+    60.5405
+   ],
+   "rotationDeg": [
+    -0.272,
+    307.967,
+    -0.201
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B87",
+   "refId": "080A5B87",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "planner ruling 2026-09-27; no UESP row; sits on a rustic shelf in KeebaHouseFisher (place-diag P9)",
+   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A Curios piece sits on the shelf; a mounted slaughterfish takes its place.",
+   "positionM": [
+    105.4506,
+    83.7528,
+    56.2005
+   ],
+   "rotationDeg": [
+    0.0,
+    359.915,
+    0.154
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseFisher.080A5B9C",
+   "refId": "080A5B9C",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000087C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Cooked Food: Cooked Brook Bass xx00087C",
+   "standInAsset": "vanilla:clutter/food/cookedslaughterfishsteak01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A cooked brook bass lies by the spit; a cooked slaughterfish steak takes its place.",
+   "positionM": [
+    110.1983,
+    83.9808,
+    58.312
+   ],
+   "rotationDeg": [
+    -9.782,
+    109.506,
+    91.698
+   ],
+   "scale": 1.0
+  }
+ ],
  "counts": {
   "placements": 105,
-  "drops": 21,
+  "drops": 8,
   "lights": 3,
+  "substitutions": 13,
+  "missingByClass": {},
   "dropsByReason": {
    "actor": 2,
    "light-source": 3,
-   "marker": 3,
-   "unresolved-base": 13
+   "marker": 3
   },
   "socketsByKind": {
    "container": 8,
