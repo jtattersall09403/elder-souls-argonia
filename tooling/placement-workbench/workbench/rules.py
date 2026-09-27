@@ -44,6 +44,8 @@ WADE_MAX_M = 0.7             # walkRule: a wet cell is walkable at most this dee
                              # padded ground (decision 0093: grounded under 0.77 m); deeper
                              # is "wading" (planner ruling 7, 2026-09-26)
 SEAL_M = 0.5                 # walkRule: a doorway with a placed piece within this in front
+HEAD_CLEARANCE_M = 1.9       # walkRule: a piece whose lowest point stands this far or more over
+                             # the ground is walked under, never an obstacle (r5 review)
                              # of it is sealed and not a target (planner ruling 8, 2026-09-26)
 SET_SPACING_TOL_M = 0.5      # propSeatRule: a yard-set member off its declared offset
 UNEVEN_SINK_CAP_M = 0.15     # propSeatRule: a no-evidence prop may sink up to the ground's rise
@@ -83,6 +85,15 @@ def _ground(cat, scene):
 
 def _world_mesh(cat, p):
     return cat.mesh(p.asset).copy().apply_transform(measure._transform4(p))
+
+
+def _lowest_m(cat, p) -> float | None:
+    """The piece's lowest point (its world mesh's least height), or None
+    without a pose."""
+    if p.y is None:
+        return None
+    t = measure._transform4(p)
+    return float((cat.mesh(p.asset).vertices @ t[2, :3]).min() + t[2, 3])
 
 
 def _bearing_vec(deg: float) -> tuple[float, float]:
@@ -143,15 +154,41 @@ def sealed_by(cat, scene, target: dict) -> str | None:
     dx, dz = _bearing_vec(target["facingDeg"])
     tx, tz = target["thresholdM"]
     line = LineString([(tx + dx * 0.05, tz + dz * 0.05), (tx + dx * SEAL_M, tz + dz * SEAL_M)])
+    ground = _ground(cat, scene)
     for q in scene.pieces:
         if q.uid in own or q.y is None:
             continue
         if (q.role or {}).get("kind") in NO_OBSTACLE_KINDS or \
                 cat.row(q.asset).get("category") in NO_OBSTACLE_KINDS:
             continue
-        if Polygon(measure.footprint_province(cat, q)).intersects(line):
-            return q.uid
+        if not Polygon(measure.footprint_province(cat, q)).intersects(line):
+            continue
+        low = _lowest_m(cat, q)
+        if low is not None and low - max(_surface_m(cat, scene, ground, x, z)
+                                         for x, z in line.coords) >= HEAD_CLEARANCE_M:
+            continue                 # hung over the doorway's approach, walked under
+        return q.uid
     return None
+
+
+def _surface_m(cat, scene, ground, x: float, z: float) -> float:
+    """The walk surface at (x, z), as WalkGrid reads it: the padded ground,
+    or the top of a walkable deck there where one stands higher (a head
+    clearance is measured from what the player stands on; r5 review)."""
+    from shapely.geometry import Point, Polygon
+    h = float(ground.chunk_height(x, z))
+    for p in scene.pieces:
+        if not (getattr(p, "walkable", False) and p.y is not None):
+            continue
+        if not Polygon(measure.footprint_province(cat, p)).contains(Point(x, z)):
+            continue
+        mesh = _world_mesh(cat, p)
+        top = float(mesh.bounds[1][2]) + 1.0
+        locs, _r, _t = mesh.ray.intersects_location([[x, -z, top]], [[0.0, 0.0, -1.0]],
+                                                    multiple_hits=False)
+        if len(locs):
+            h = max(h, float(locs[0][2]))
+    return h
 
 
 def openings(cat, scene) -> list[dict]:
@@ -297,6 +334,7 @@ class WalkGrid:
         self.block = np.full(self.X.shape, -1, int)
         self.uids = [p.uid for p in scene.pieces]
         self.decks = []
+        obstacles = []
         for i, p in enumerate(scene.pieces):
             row = cat.row(p.asset)
             if (p.role or {}).get("kind") in NO_OBSTACLE_KINDS or row.get("category") in NO_OBSTACLE_KINDS:
@@ -305,7 +343,16 @@ class WalkGrid:
             if getattr(p, "walkable", False) and p.y is not None:
                 self._deck(cat, p, i, poly)
                 continue
+            obstacles.append((i, p, poly))
+        # every deck is laid before any obstacle is judged: a head clearance
+        # is read over the final walk surface, whatever the pieces' order
+        for i, p, poly in obstacles:
             inside = contains_xy(poly.buffer(self.radius_m), self.X, self.Z)
+            low = _lowest_m(cat, p)
+            if low is not None:
+                # a piece hung at or above head height over a cell is walked
+                # under there (a lantern under an eave; r5 review)
+                inside &= ~((low - self.H) >= HEAD_CLEARANCE_M)   # no ground: blocked
             self.block[inside & (self.block < 0)] = i
         with np.errstate(invalid="ignore"):
             self.depth = np.where(np.isnan(self.level), 0.0, np.maximum(0.0, self.level - self.H))
@@ -937,9 +984,7 @@ def measured(check: dict) -> dict[str, str]:
     out: dict[str, list[str]] = {}
     add = lambda uid, text: out.setdefault(uid, []).append(text)
     for t in (check.get("walk") or {}).get("targets", []):
-        which = "walk" if t.get("bound", True) else f"walk doorway {t['doorway']}"
-        add(t["uid"], f"{which} {t['routeM']} m / {t['steepestDeg']} deg / step "
-                      f"{t['largestStepM']} m" if t.get("ok") else f"{which} FAIL")
+        add(t["uid"], _walk_text(t))
     for uid, r in (check.get("floorEdge") or {}).get("pieces", {}).items():
         if r.get("worst"):
             add(uid, f"floorEdge worst {r['worst']['gapM']} m"
@@ -954,6 +999,22 @@ def measured(check: dict) -> dict[str, str]:
                      + (f", off seat {r['offSeatM']} m" if "offSeatM" in r else "")
                      + (f", off set {r['offDeclaredM']} m" if "offDeclaredM" in r else ""))
     return {uid: "; ".join(v) for uid, v in out.items()}
+
+
+def _walk_text(t: dict) -> str:
+    which = "walk" if t.get("bound", True) else f"walk doorway {t['doorway']}"
+    return (f"{which} {t['routeM']} m / {t['steepestDeg']} deg / step {t['largestStepM']} m"
+            if t.get("ok") else f"{which} FAIL")
+
+
+def door_walk(check: dict, uid: str) -> str:
+    """The measured walk of the door the compile binds on piece ``uid`` (its
+    own target, `door:<uid>`, never another doorway of the piece; r5
+    review), or "-"."""
+    for t in (check.get("walk") or {}).get("targets", []):
+        if t.get("id") == f"door:{uid}":
+            return _walk_text(t)
+    return "-"
 
 
 def bundle_uid(scene, placement_id: str, site_id: str) -> str | None:

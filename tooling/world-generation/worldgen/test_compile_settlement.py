@@ -1165,3 +1165,46 @@ def test_a_smoke_column_is_never_an_entrance_light():
     smoke = {"id": "s", "parcelId": "p", "assetId": "fx:smoke-column", "objectKind": "effect",
              "layer": "light", "positionM": [0.5, 0.0, 0.5], "yawDeg": 0.0}
     assert cs.unlit_entrance_errors([door], [smoke], lambda a: {}) != []
+
+
+def test_the_kit_index_ships_the_places_preferred_kit(tmp_path):
+    """r5 review (CONFIRMED): ring dressing shipped `kit_index`'s first kit
+    alphabetically while every check read the preferred kit's row; the
+    index follows the same place kit order `locate` and `by_asset` use."""
+    kits, cfg = tmp_path / "kits", tmp_path / "cfg"
+    kits.mkdir(), cfg.mkdir()
+    row = {"id": "x:barrel", "lodRatios": [0.3, 0.1], "sizeM": [1, 1, 1]}
+    for name in ("a-int", "z-ext"):
+        (kits / f"{name}.kit.json").write_text(json.dumps({"assets": [row]}))
+    shelf = cs.KitShelf(kits, cfg)
+    assert shelf.kit_index()[0]["x:barrel"] == "a-int"
+    shelf.preferred_kits = ("z-ext",)
+    first, rows = shelf.kit_index()
+    assert first["x:barrel"] == "z-ext" == shelf.locate("x:barrel")["kit"]
+    assert set(rows) == {("a-int", "x:barrel"), ("z-ext", "x:barrel")}
+
+
+class _UvSurvey:
+    extent_m = 1000.0
+
+    def uv_to_m(self, u, v):
+        return u * self.extent_m, v * self.extent_m
+
+
+def test_a_door_with_no_measured_doorway_is_still_judged_for_light():
+    """r5 review (CONFIRMED): a door on a shell with no mined doorway kept no
+    `thresholdM` and the lit-entrance check skipped it. The door keeps its
+    authored threshold (where the export puts it) and is judged there."""
+    door = {"id": "d", "parcelId": "p", "thresholdUV": [0.1, 0.2]}
+    shell = {"id": "bp.p.building", "parcelId": "p", "objectKind": "parcel",
+             "assetId": "x:no-doorway", "positionM": [100.0, 0.0, 200.0], "yawDeg": 0.0}
+    errors = cs.bind_doors_to_doorways({}, [door], [shell], _UvSurvey(), {}, {})
+    assert errors == [] and door["doorwaySource"] == "none-measured"
+    assert door["thresholdM"] == [100.0, 200.0]
+    unlit = cs.unlit_entrance_errors([door], [shell], lambda aid: None)
+    assert len(unlit) == 1 and "entrance unlit" in unlit[0]
+
+
+def test_a_door_with_no_threshold_fails_loudly():
+    unlit = cs.unlit_entrance_errors([{"id": "d", "parcelId": "p"}], [], lambda aid: None)
+    assert len(unlit) == 1 and "no bound threshold" in unlit[0]

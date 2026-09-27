@@ -164,3 +164,47 @@ def test_a_one_metre_retaining_piece_on_a_steep_edge_skips_b3_but_not_r1(monkeyp
     assert cs.fit_slope_failure({**row, "id": "vanilla:clutter/barrel01"}, slope)
     got = pads.pad_fit(_Cat(), scene, house, pads.resolve(_Cat(), scene.ground(), house))
     assert got["padRule"] and got["unretainedEdges"]
+
+
+def test_ground_for_reads_its_memo_before_rescanning(monkeypatch):
+    """r5 review (CONFIRMED): every call built each live pad's overlay id (a
+    scan of every piece and a patch build) before looking at its memo. A
+    repeat call on an unchanged scene builds nothing."""
+    house = Piece("b1", HOUSE, 0.0, 0.0, pad={"datumM": 9.0})
+    scene = _Scene([house, Piece("p", HOUSE, 11.0, 0.0)])
+    first = pads.ground_for(_Cat(), scene, house)
+    calls = []
+    real = pads.overlay_id
+    monkeypatch.setattr(pads, "overlay_id", lambda sc, uid: calls.append(uid) or real(sc, uid))
+    for p in scene.pieces:
+        assert pads.ground_for(_Cat(), scene, p) is first
+    assert calls == []
+    house.pad = {"datumM": 8.5}                     # a changed pad is read live
+    assert pads.ground_for(_Cat(), scene, house).chunk_height(5.0, 3.0) == 8.5
+    assert calls == ["b1"]
+
+
+def test_the_padded_chunk_heights_are_one_vectorised_pass(monkeypatch):
+    """r5 review (CONFIRMED): cells an overlay reaches were sampled one
+    Python call each. The array sampler never calls the point sampler and
+    gives exactly the point sampler's heights."""
+    import numpy as np
+    from worldgen import pad_overlay
+
+    class _Arr(_Ground):
+        def chunk_heights(self, X, Z):
+            return 10.0 - self.fall * np.asarray(X, float)
+
+    house = Piece("b1", HOUSE, 0.0, 0.0, pad={"datumM": 9.0})
+    g = _Arr()
+    pad = pads.resolve(_Cat(), g, house)
+    run = pad_overlay.building_overlay("run.r", [[14.0, 0.0], [20.0, 0.0], [20.0, 1.0], [14.0, 1.0]],
+                                       11.0, 2.0)
+    run.update(kind="run", hardM=0.5)
+    padded = pads.PaddedGround(g, [{"id": "pad.b1", **pad}], [run])
+    X, Z = np.meshgrid(np.arange(-8.0, 30.0, 0.5), np.arange(-8.0, 14.0, 0.5))
+    want = np.array([[padded.chunk_height(float(x), float(z)) for x, z in zip(rx, rz)]
+                     for rx, rz in zip(X, Z)])
+    monkeypatch.setattr(padded, "_chunks", lambda x, z: (_ for _ in ()).throw(AssertionError))
+    got = padded.chunk_heights(X, Z)
+    assert got.tobytes() == want.tobytes()

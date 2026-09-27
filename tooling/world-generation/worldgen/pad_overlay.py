@@ -171,6 +171,81 @@ def ground(height_at, overlays: list[dict]):
     return at
 
 
+def _inside_many(X: np.ndarray, Z: np.ndarray, polygon: list) -> np.ndarray:
+    """`_inside` over arrays, the same crossing test operation for operation."""
+    inside = np.zeros(X.shape, bool)
+    ax, az = polygon[-1]
+    for bx, bz in polygon:
+        ax, az, bx, bz = float(ax), float(az), float(bx), float(bz)
+        span = (bz > Z) != (az > Z)
+        x_cross = (ax - bx) * (Z - bz) / (az - bz + 1e-300) + bx
+        inside ^= span & (X < x_cross)
+        ax, az = bx, bz
+    return inside
+
+
+def _segment_distance_many(X: np.ndarray, Z: np.ndarray, polygon: list) -> np.ndarray:
+    """`_segment_distance` over arrays, operation for operation."""
+    best = np.full(X.shape, math.inf)
+    ax, az = polygon[-1]
+    for bx, bz in polygon:
+        ax, az, bx, bz = float(ax), float(az), float(bx), float(bz)
+        dx, dz = bx - ax, bz - az
+        length2 = dx * dx + dz * dz
+        if length2 == 0:
+            d2 = (X - ax) ** 2 + (Z - az) ** 2
+        else:
+            t = np.minimum(1.0, np.maximum(0.0, ((X - ax) * dx + (Z - az) * dz) / length2))
+            d2 = (X - (ax + t * dx)) ** 2 + (Z - (az + t * dz)) ** 2
+        best = np.minimum(best, d2)
+        ax, az = bx, bz
+    return np.sqrt(best)
+
+
+def overlay_many(base: np.ndarray, X: np.ndarray, Z: np.ndarray, overlay: dict,
+                 yield_to=()) -> np.ndarray:
+    """`overlay_one` over arrays (a new array; every point outside the
+    overlay's reach keeps ``base``)."""
+    out = np.array(base, dtype=np.float64, copy=True)
+    hard = float(overlay["hardM"])
+    blend = float(overlay["blendM"])
+    reach = hard + blend
+    x0, z0, x1, z1 = overlay["bboxM"]
+    near = ~((X < x0 - reach) | (X > x1 + reach) | (Z < z0 - reach) | (Z > z1 + reach))
+    if yield_to and not is_building(overlay):
+        for poly in yield_to:
+            near &= ~_inside_many(X, Z, poly)
+    if not near.any():
+        return out
+    x, z, b = X[near], Z[near], out[near]
+    hard_target = np.full(x.shape, -math.inf)
+    pull = np.zeros(x.shape)
+    for piece in overlay["pieces"]:
+        target = float(piece["datumM"])
+        poly = piece["polygonM"]
+        d = np.where(_inside_many(x, z, poly), 0.0, _segment_distance_many(x, z, poly))
+        hard_target = np.where(d <= hard, np.maximum(hard_target, target), hard_target)
+        t = np.minimum(1.0, np.maximum(0.0, (d - hard) / max(blend, 1e-6)))
+        w = 1.0 - t * t * (3.0 - 2.0 * t)
+        step = (target - b) * w
+        pull = np.where(np.abs(step) > np.abs(pull), step, pull)
+    out[near] = np.where(np.isfinite(hard_target), hard_target, b + pull)
+    return out
+
+
+def ground_many(base: np.ndarray, X: np.ndarray, Z: np.ndarray, overlays: list[dict]) -> np.ndarray:
+    """`ground` over arrays: ``base`` (the unpatched heights at X, Z) with
+    every overlay applied in `apply_order`, each point equal to the point
+    sampler's (the workbench's walk grid; r5 review)."""
+    out = np.array(base, dtype=np.float64, copy=True)
+    if not overlays:
+        return out
+    yield_to = _yield_polygons(overlays)
+    for overlay in apply_order(overlays):
+        out = overlay_many(out, X, Z, overlay, yield_to)
+    return out
+
+
 def building_overlay(overlay_id: str, polygon, datum: float, blend_m: float) -> dict:
     """The overlay of one building pad (its apron polygon at one datum,
     ``hardM`` 0), as `overlay_from_patch` builds it from the bundle's patch."""

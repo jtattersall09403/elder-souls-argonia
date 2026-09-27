@@ -327,8 +327,13 @@ def kit_sidecar_errors(name: str, kits_dir: Path) -> list[str]:
 
 def _kit_assets(names: set[str], kits_dir: Path,
                 used: set[tuple[str, str]] | None = None,
+                effect_rows: dict[str, dict] | None = None,
                 ) -> tuple[dict, dict[tuple[str, str], dict]]:
     """Referenced kits and their validated assets.
+
+    ``effect_rows``, when given, is filled with each kit's `effectTextures`
+    from the same single read of its manifest (`effect_contract` reads it
+    there, never the file again per effect; r5 review).
 
     16h K14 (owner 2026-09-24): the shipped-kit contract
     (``_validated_asset_placement``) is checked on the ``used`` ``(kit,
@@ -351,6 +356,8 @@ def _kit_assets(names: set[str], kits_dir: Path,
             raise ValueError("referenced kit GLB is not a readable glTF 2 binary: "
                              + "; ".join(glb_errors))
         manifest = _read(path)
+        if effect_rows is not None:
+            effect_rows[name] = manifest.get("effectTextures") or {}
         kits[name] = {
             "id": name,
             "glb": f"kits/{name}.glb",
@@ -1093,7 +1100,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         used |= {(kit, raw["assetId"]) for doc in route_docs
                  for raw in doc.get("placements", [])
                  for kit in ("route-structures-v1", "route-spans-v1")}
-    kits, assets = _kit_assets(kit_names, kits_dir, used)
+    effect_rows: dict[str, dict] = {}
+    kits, assets = _kit_assets(kit_names, kits_dir, used, effect_rows)
 
     settlements = []
     obligation_receipts = []
@@ -1181,7 +1189,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     f"{raw.get('id', doc['id'])}: compiled physical placement has no built kit"
                 )
             if raw.get("objectKind") == "effect":
-                placement = effect_contract(doc["id"], raw, kits_dir)
+                placement = effect_contract(doc["id"], raw, effect_rows=effect_rows)
                 ids.append(placement["id"])
                 all_placements.append(placement)
                 continue
@@ -1367,13 +1375,19 @@ EFFECT_ANCHOR = {"mode": "streamed-origin", "groundFit": "direct", "originOffset
                  "buryM": 0, "buryCapM": 0, "slopeBuryPerM": 0}
 
 
-def effect_contract(source_id: str, raw: dict, kits_dir: Path = KITS) -> dict:
+def effect_contract(source_id: str, raw: dict, kits_dir: Path = KITS,
+                    effect_rows: dict[str, dict] | None = None) -> dict:
     """A compiled `effect` placement (an `fx:*` asset mounted on its shell,
     fix2-effects-r3 rec 2) as the runtime reads it: no kit mesh, so it is
     exempt from the kit-asset check but its kit must publish its texture
-    (`effectTextures`); no footprint, no collision, mounted only."""
-    manifest = kits_dir / f"{raw['kit']}.kit.json"
-    rows = (_read(manifest).get("effectTextures") or {}) if manifest.exists() else {}
+    (`effectTextures`); no footprint, no collision, mounted only.
+    ``effect_rows`` (kit -> its `effectTextures`, `_kit_assets`) is what the
+    export passes; without it the kit manifest is read (a lone call)."""
+    if effect_rows is None:
+        manifest = kits_dir / f"{raw['kit']}.kit.json"
+        rows = (_read(manifest).get("effectTextures") or {}) if manifest.exists() else {}
+    else:
+        rows = effect_rows.get(raw["kit"]) or {}
     if raw["assetId"] not in rows:
         raise ValueError(f"{raw['id']}: effect {raw['assetId']} has no effectTextures row in "
                          f"{raw['kit']}.kit.json")

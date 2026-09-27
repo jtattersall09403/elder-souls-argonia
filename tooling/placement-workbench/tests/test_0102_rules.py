@@ -462,3 +462,53 @@ def test_the_padded_ground_carries_the_run_pads_the_runtime_applies(cat, scene):
     pts = [tuple(v) for r in runs for piece in r["pieces"] for v in piece["polygonM"]]
     assert max(abs(both(x, z) - only_buildings(x, z)) for x, z in pts) > 0.05
     assert max(abs(wb_ground.chunk_height(x, z) - both(x, z)) for x, z in pts) < 1e-9
+
+
+def test_the_walktable_door_row_reads_its_own_doorways_walk():
+    """r5 review (CONFIRMED): the door row took the first `walk` cell of its
+    building, which is an unbound doorway's when that record comes first.
+    The row reads the bound door's own target (`door:<uid>`)."""
+    check = {"walk": {"targets": [
+        {"id": "door:b1.0", "uid": "b1", "bound": False, "doorway": 0, "ok": False},
+        {"id": "door:b1", "uid": "b1", "bound": True, "doorway": 1, "ok": True,
+         "routeM": 12.0, "steepestDeg": 4.0, "largestStepM": 0.1}]}}
+    assert rules.door_walk(check, "b1") == "walk 12.0 m / 4.0 deg / step 0.1 m"
+    assert rules.door_walk(check, "b9") == "-"
+
+
+def test_a_piece_hung_above_head_height_is_no_obstacle(cat, scene):
+    """r5 review (CONFIRMED): WalkGrid blocked every footprint whatever its
+    height. A piece whose lowest point stands HEAD_CLEARANCE_M or more over
+    the ground is walked under; the same piece lower still blocks."""
+    door = next(d for d in rules.doors(cat, scene) if d["uid"] == "b4")
+    dx, dz = rules._bearing_vec(door["facingDeg"])
+    x, z = door["thresholdM"][0] + dx * 0.3, door["thresholdM"][1] + dz * 0.3
+    wall = scene.add(Piece("blocker", WALL, x, z, door["facingDeg"]))
+    wall.y = measure.seat(cat, scene.ground(), wall)["y"]
+    ground = rules._ground(cat, scene).chunk_height(*door["thresholdM"])
+    lift = ground + rules.HEAD_CLEARANCE_M - rules._lowest_m(cat, wall)
+    wall.y += lift - 0.2                     # its lowest point 1.7 m up: in the way
+    assert rules.sealed_by(cat, scene, door) == "blocker"
+    assert not _target_id(rules.walk(cat, scene), "door:b4")["ok"]
+    wall.y += 0.4                            # 2.1 m up: walked under
+    assert rules.sealed_by(cat, scene, door) is None
+    assert _target_id(rules.walk(cat, scene), "door:b4")["ok"]
+
+
+def test_head_clearance_is_read_over_a_deck_whatever_the_order(cat, scene):
+    """r5 review 2 (CONFIRMED): the clearance was read over the bare ground
+    (sealed_by) or over whatever the loop had laid so far (WalkGrid). A piece
+    2 m over the ground but low over a walkable deck under it is in the way,
+    even when it comes before the deck in the scene."""
+    door = next(d for d in rules.doors(cat, scene) if d["uid"] == "b4")
+    dx, dz = rules._bearing_vec(door["facingDeg"])
+    x, z = door["thresholdM"][0] + dx * 0.3, door["thresholdM"][1] + dz * 0.3
+    hung = scene.add(Piece("hung", WALL, x, z, door["facingDeg"]))
+    deck = scene.add(Piece("deck", WALL, x, z, door["facingDeg"], walkable=True))
+    deck.y = hung.y = measure.seat(cat, scene.ground(), deck)["y"]
+    ground = rules._ground(cat, scene).chunk_height(x, z)
+    hung.y += ground + rules.HEAD_CLEARANCE_M + 0.1 - rules._lowest_m(cat, hung)
+    assert rules._surface_m(cat, scene, rules._ground(cat, scene), x, z) > ground + 0.5
+    assert rules.sealed_by(cat, scene, door) == "hung"
+    grid = rules.WalkGrid(cat, scene)
+    assert grid.uids[grid.block[grid.cell(x, z)]] == "hung"

@@ -86,3 +86,28 @@ def test_a_mounted_glow_piece_is_judged_on_its_world_bearing():
     rows = {"x:window": {"glowMaterials": ["g"], "glowFacingsDeg": [0.0]}}
     door = {"id": "d", "parcelId": "p", "thresholdM": [50.0, 50.0], "facingDeg": 170.0}
     assert cs.unlit_entrance_errors([door], [shell, window], rows.get) == []
+
+
+def test_the_effect_contract_reads_no_manifest_per_effect(monkeypatch):
+    """r5 review (CONFIRMED): `effect_contract` re-read the kit manifest for
+    every effect placement; the export reads each manifest once
+    (`_kit_assets`) and hands the effect rows in."""
+    brazier = _claywater_brazier()
+    fx = cs.socket_effect_placements("bp", "seed", [brazier], _Shelf(),
+                                     {"fire": {BRAZIER: {"offsetM": [0.0, 1.0, 0.0], "n": 3}}},
+                                     [])[0]
+    fx["provenance"] = {"sourceBlueprintId": "bp"}
+    monkeypatch.setattr(ex, "_read", lambda path: (_ for _ in ()).throw(AssertionError(path)))
+    out = ex.effect_contract("bp", fx, effect_rows={"works-v1": {"fx:smoke-column": {}}})
+    assert out["kind"] == "effect"
+
+
+def test_kit_assets_hands_back_each_kits_effect_rows(tmp_path, monkeypatch):
+    (tmp_path / "k.kit.json").write_text(json.dumps(
+        {"assets": [], "effectTextures": {"fx:smoke-column": {"uri": "t.ktx2"}}}))
+    monkeypatch.setattr(ex, "kit_sidecar_errors", lambda name, d: [])
+    monkeypatch.setattr(ex, "glb_structure_errors", lambda path: [])
+    (tmp_path / "k.glb").write_bytes(b"")
+    effect_rows: dict = {}
+    ex._kit_assets({"k"}, tmp_path, set(), effect_rows=effect_rows)
+    assert effect_rows == {"k": {"fx:smoke-column": {"uri": "t.ktx2"}}}

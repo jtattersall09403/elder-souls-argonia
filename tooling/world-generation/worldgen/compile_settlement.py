@@ -543,14 +543,22 @@ class KitShelf:
             for asset in self._rows_by_kit.get(kit, []):
                 self.by_asset.setdefault(asset["id"], asset)
 
+    def _kit_order(self, preferred_kits: tuple[str, ...] = ()) -> list[str]:
+        """The one kit order an asset id resolves in: the caller's kits, the
+        place's own (`preferred_kits`), then the rest by name."""
+        return list(dict.fromkeys([*preferred_kits, *self._preferred_kits,
+                                   *sorted(self.assets_by_kit)]))
+
     def kit_index(self) -> tuple[dict[str, str], dict[tuple[str, str], list[dict]]]:
-        """(asset id -> the first kit holding it, in kit-name order;
-        (kit, asset id) -> that kit's rows for the id), built from the shelf
-        as it stands, once per compile rather than scanned per placement."""
+        """(asset id -> the kit it ships from, in `locate`'s order (the
+        place's preferred kits first, r5 review); (kit, asset id) -> that
+        kit's rows for the id), built from the shelf as it stands, once per
+        compile rather than scanned per placement. Read it after the place's
+        `preferred_kits` is set."""
         first: dict[str, str] = {}
         rows: dict[tuple[str, str], list[dict]] = {}
-        for kit, assets in self.assets_by_kit.items():
-            for a in assets:
+        for kit in self._kit_order():
+            for a in self.assets_by_kit.get(kit, []):
                 first.setdefault(a["id"], kit)
                 rows.setdefault((kit, a["id"]), []).append(a)
         return first, rows
@@ -594,9 +602,7 @@ class KitShelf:
         remains the identity; choosing a manifest only tells the runtime which
         packaged GLB to load.
         """
-        order = list(dict.fromkeys([*preferred_kits, *self.preferred_kits,
-                                    *sorted(self.assets_by_kit)]))
-        for kit in order:
+        for kit in self._kit_order(preferred_kits):
             for asset in self.assets_by_kit.get(kit, []):
                 if asset["id"] == asset_ref:
                     return {"kit": kit, **asset}
@@ -1275,7 +1281,12 @@ def bind_doors_to_doorways(bp: dict, doors_out: list[dict], placements: list[dic
             continue           # a door on a parcel that failed to place is already an error
         doorways = piece_doorways(placement["assetId"], interiors, assemblies)
         if not doorways:
+            # the door stands where it was authored (the export places it at
+            # thresholdUV), and every check that reads thresholdM judges it
+            # there: no door leaves the compile without one (r5 review)
             door["doorwaySource"] = "none-measured"
+            tx, tz = survey.uv_to_m(*door["thresholdUV"])
+            door["thresholdM"] = [round(tx, 3), round(tz, 3)]
             continue
         cx, _cy, cz = placement["positionM"]
         yaw = float(placement.get("yawDeg", 0.0))
@@ -1337,6 +1348,10 @@ def unlit_entrance_errors(doors_out: list[dict], placements: list[dict],
     for door in doors_out:
         threshold, facing = door.get("thresholdM"), door.get("facingDeg")
         if threshold is None:
+            # `bind_doors_to_doorways` gives every door on a placed parcel
+            # one; a door without it cannot be judged, so it is not passed
+            errors.append(f"{door['id']}: 0102 decision 7 — entrance light cannot be judged: "
+                          f"the door has no bound threshold (see its doorway or parcel error)")
             continue
         tx, tz = float(threshold[0]), float(threshold[1])
         nearest = min((math.hypot(float(p["positionM"][0]) - tx, float(p["positionM"][2]) - tz)
@@ -2338,10 +2353,11 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     dressing_report: dict[str, int] = {}
     ring_off = ring_is_off(bp)          # once per compile (it reads files)
     dropped_no_host: dict[str, int] = {}
-    kit_of_asset, kit_rows = shelf.kit_index()
     # an authored asset ref resolves in the place's own culture kits first,
-    # exactly as the workbench seated it (`place_kit_preference`)
+    # exactly as the workbench seated it (`place_kit_preference`); the index
+    # is read after, so ring dressing ships the same kit (r5 review)
     shelf.preferred_kits = place_kit_preference(bp_id)
+    kit_of_asset, kit_rows = shelf.kit_index()
 
     culture_of = {d["id"]: d["cultureKit"] for d in bp["districts"]}
     kind_of = pk_mod.kinds_of(bp)

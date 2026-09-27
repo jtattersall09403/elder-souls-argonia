@@ -999,7 +999,7 @@ def cmd_walktable(a, scene, cat):
     site = next(s for s in bundle["settlements"] if s["id"] == a.place)
     ids = set(site["placementIds"])
     summary_path = paths.OUTPUT / "apply" / f"{a.place}.json"
-    cells, applied = {}, None
+    cells, applied, full = {}, None, {}
     if summary_path.exists():
         summary = json.loads(summary_path.read_text())
         full = (summary.get("check") or {}).get("full") or {}
@@ -1023,7 +1023,7 @@ def cmd_walktable(a, scene, cat):
     for d in sorted((d for d in bundle["doors"] if d["settlementId"] == site["id"]),
                     key=lambda d: d["id"]):
         uid = by_parcel.get(d["parcelId"])
-        walk = next((c for c in cells.get(uid, "").split("; ") if c.startswith("walk")), "-")
+        walk = rules.door_walk(full, uid) if uid else "-"
         rows.append((d["id"] + " threshold", d["thresholdM"][0] / 1000, d["thresholdM"][1] / 1000,
                      "door", d["parcelId"].rsplit(".", 1)[-1], f"facing {d['facingDeg']:.1f}", walk))
     table = ["item | E km | S km | kind | piece | fit | measured | studio URL"]

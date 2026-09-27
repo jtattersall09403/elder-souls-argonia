@@ -82,20 +82,14 @@ class PaddedGround:
         return self._chunks(x, z)
 
     def chunk_heights(self, X, Z):
-        """`chunk_height` over arrays: the frozen ground vectorised, then the
-        overlays point by point only where one reaches (outside its bbox and
-        reach an overlay leaves the ground as it is, `overlay_one`)."""
+        """`chunk_height` over arrays in one vectorised pass: the frozen
+        ground's array sampler, then every overlay over the arrays
+        (`pad_overlay.ground_many`, the point maths operation for operation,
+        so each height equals `chunk_height` at that point; r5 review)."""
         import numpy as np
+        from worldgen import pad_overlay
         X, Z = np.asarray(X, float), np.asarray(Z, float)
-        out = self._g.chunk_heights(X, Z)
-        near = np.zeros(X.shape, bool)
-        for o in self.overlays:
-            x0, z0, x1, z1 = o["bboxM"]
-            r = float(o["hardM"]) + float(o["blendM"])
-            near |= (X >= x0 - r) & (X <= x1 + r) & (Z >= z0 - r) & (Z <= z1 + r)
-        for idx in zip(*np.nonzero(near)):
-            out[idx] = self._chunks(float(X[idx]), float(Z[idx]))
-        return out
+        return pad_overlay.ground_many(self._g.chunk_heights(X, Z), X, Z, self.overlays)
 
     def survey_height(self, x: float, z: float) -> float:
         return self._survey(x, z)
@@ -152,14 +146,18 @@ def scene_pads(cat, scene) -> dict:
     return memo["pads"]
 
 
+def _pad_owner(piece) -> str:
+    """The parcel id a piece's pad overlay is named for (its uid when unbound)."""
+    role = getattr(piece, "role", None) or {}
+    return role["id"] if role.get("kind") == "parcel" and role.get("id") else piece.uid
+
+
 def overlay_id(scene, uid: str) -> str:
     """The id the bundle export gives this piece's pad overlay
     (`settlement_run_pads.pad_patch`: patch.pad.settlement.<place>.<parcel
     id>), so the workbench applies pads in the runtime's id order (16k fix 2
     round 3); an unbound piece takes its uid as the parcel id."""
-    piece = next(p for p in scene.pieces if p.uid == uid)
-    role = getattr(piece, "role", None) or {}
-    owner = role["id"] if role.get("kind") == "parcel" and role.get("id") else uid
+    owner = _pad_owner(next(p for p in scene.pieces if p.uid == uid))
     return _srp().pad_patch(getattr(scene, "placeId", "") or "scene", owner, [{"placementId": uid, "targetM": 0.0,
                                                     "footprintM": [[0.0, 0.0]]}],
                             owner="building")["id"]
@@ -223,22 +221,28 @@ def ground_for(cat, scene, piece, resolved: dict | None = None):
     callers' signature."""
     g = scene.ground()
     resolved = scene_pads(cat, scene) if resolved is None else resolved
-    live = [{"id": overlay_id(scene, uid), "polygonM": r["polygonM"], "datumM": r["datumM"]}
-            for uid, r in resolved.items() if r["error"] is None]
     memo = scene.__dict__.setdefault("_padMemo", {})
-    run_key = (getattr(scene, "groundStem", ""), _run_key(scene))
+    stem = getattr(scene, "groundStem", "")
+    run_key = (stem, _run_key(scene))
+    ok = [(uid, r) for uid, r in resolved.items() if r["error"] is None]
+    # `scene.ground()` hands a new window object per call over the same
+    # ground: the key is the ground's stem and the overlay set, never an id.
+    # It is built from what the overlays are made of (the pad's owner, outline
+    # and datum; the runs' poses), so a repeat call builds no overlay (r5 review)
+    owners = {p.uid: _pad_owner(p) for p in scene.pieces} if ok else {}
+    key = (stem, getattr(scene, "placeId", ""),
+           tuple((uid, owners.get(uid), tuple(map(tuple, r["polygonM"])), r["datumM"])
+                 for uid, r in ok), run_key[1])
+    if memo.get("groundKey") == key:
+        return memo["ground"]
     if memo.get("runKey") != run_key:
         memo.update(runKey=run_key, runs=run_overlays(cat, scene, g) if run_key[1] else [])
     runs = memo["runs"]
+    live = [{"id": overlay_id(scene, uid), "polygonM": r["polygonM"], "datumM": r["datumM"]}
+            for uid, r in ok]
     if not live and not runs:
         return g
-    # `scene.ground()` hands a new window object per call over the same
-    # ground: the key is the ground's stem and the overlay set, never an id
-    key = (getattr(scene, "groundStem", ""),
-           tuple((r["id"], tuple(map(tuple, r["polygonM"])), r["datumM"]) for r in live),
-           run_key[1])
-    if memo.get("groundKey") != key:           # one PaddedGround per overlay set, not per piece
-        memo.update(groundKey=key, ground=PaddedGround(g, live, runs))
+    memo.update(groundKey=key, ground=PaddedGround(g, live, runs))   # one per overlay set
     return memo["ground"]
 
 
