@@ -40,8 +40,8 @@ def test_claywater_c6_is_the_union_of_its_district_hulls_and_passes():
     assert one_hull < 8.0
     _, band, buffer_m = B.density_column(bp, kinds, B.size_class(bp))
     area, per = B.district_hull_area_ha(bp, parcels, buffer_m)
-    assert set(per) == {"district.claywater-station.the-well", "district.claywater-station.the-landing",
-                        "district.claywater-station.the-landing-stage"}
+    # the landing stage folded into the-landing (walk-2 residual, L73)
+    assert set(per) == {"district.claywater-station.the-well", "district.claywater-station.the-landing"}
     assert area <= sum(a for _, a in per.values()) + 1e-9               # a union, never a span
     assert band[0] <= len(parcels) / area <= band[1]
     assert not [w for w in B._placement_warnings(bp) if "97 C6" in w]

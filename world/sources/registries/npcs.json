@@ -6012,7 +6012,7 @@
       "home": {
         "placeId": "place.hist-heartland.greenspring",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "socket.greenspring.npc-root-herald"
       },
       "role": "the root-herald who trades with Helstrom",
       "archetype": null,
@@ -6048,7 +6048,7 @@
       "home": {
         "placeId": "place.hist-heartland.greenspring",
         "slotIndex": 2,
-        "socketId": null
+        "socketId": "socket.greenspring.npc-spring-keeper"
       },
       "role": "the spring-keeper",
       "archetype": null,
@@ -6084,7 +6084,7 @@
       "home": {
         "placeId": "place.hist-heartland.greenspring",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "socket.greenspring.npc-tree-minder"
       },
       "role": "the tree-minder",
       "archetype": null,

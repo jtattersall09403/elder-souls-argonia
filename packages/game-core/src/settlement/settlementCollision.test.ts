@@ -55,14 +55,38 @@ const bundle: SettlementBundle = readPublishedSettlements(
   resolve(ROOT, "apps/world-studio/public/province"));
 const gate = bundle.placements.find((p) => p.assetId.endsWith(GATE_ASSET))!;
 
-/** kit id -> asset id -> its material list (one entry per LOD0 primitive). */
-const manifestAssets = new Map<string, Map<string, string[]>>(Object.keys(bundle.kits).map((id) => [
-  id,
-  new Map((JSON.parse(readFileSync(
-    resolve(ROOT, `apps/world-studio/public/kits/${id}.kit.json`), "utf8",
-  ) as string).assets as { id: string; materials?: string[] }[])
-    .map((asset) => [asset.id, asset.materials ?? []])),
-]));
+
+/** kit id -> asset id -> its LOD0 glTF primitive count, read from the GLB's JSON
+ * chunk alone (no geometry decode): three.js builds one Mesh, so one collision
+ * part, per primitive, and only LOD0 collides. The exporter's lod0_part_counts
+ * reads the same chunk the same way. A manifest's material list is not this
+ * count (horsetrough01: three materials, four primitives). */
+const lod0Cache = new Map<string, Map<string, number>>();
+function lod0Primitives(kit: string): Map<string, number> {
+  const hit = lod0Cache.get(kit);
+  if (hit) return hit;
+  const glb = readFileSync(resolve(ROOT, `apps/world-studio/public/kits/${kit}.glb`));
+  const jsonLength = glb.readUInt32LE(12);
+  type Node = { mesh?: number; children?: number[]; extras?: { lod?: number; assetId?: string } };
+  const doc = JSON.parse(glb.subarray(20, 20 + jsonLength).toString("utf8")) as {
+    nodes?: Node[]; meshes?: { primitives?: unknown[] }[]; scene?: number;
+    scenes: { nodes?: number[] }[] };
+  const nodes = doc.nodes ?? [];
+  const walk = (index: number): number => {
+    const node = nodes[index];
+    let total = node.mesh !== undefined && (node.extras?.lod ?? 0) === 0
+      ? (doc.meshes?.[node.mesh]?.primitives?.length ?? 0) : 0;
+    for (const child of node.children ?? []) total += walk(child);
+    return total;
+  };
+  const counts = new Map<string, number>();
+  for (const index of doc.scenes[doc.scene ?? 0].nodes ?? []) {
+    const assetId = nodes[index].extras?.assetId;
+    if (typeof assetId === "string") counts.set(assetId, walk(index));
+  }
+  lod0Cache.set(kit, counts);
+  return counts;
+}
 
 /** The solid's parts as world-space three.js meshes, for an honest ray test. */
 function worldMesh(solid: SettlementSolid): THREE.Mesh[] {
@@ -128,18 +152,18 @@ describe("settlement collision is the real shape", () => {
   it("never gives a mesh piece a box, and keeps the measured part budget honest", () => {
     const meshPlacements = bundle.placements.filter((p) => p.collision.kind === "mesh");
     expect(meshPlacements.length).toBeGreaterThan(0);
-    // `solidFrom` makes one trimesh per LOD0 primitive, and a kit manifest
-    // lists one material per primitive (checked above against the gate: six
-    // materials, six trimeshes), so the manifest counts the parts the runtime
-    // will build without loading 21 GLBs here.
+    // `solidFrom` makes one trimesh per LOD0 primitive; `lod0Primitives`
+    // counts them from each kit's GLB JSON chunk, without decoding geometry.
     const parts = (placement: SettlementPlacement): number => {
       // `solidFrom` returns null for kind "none": it builds no part and is no
       // residency candidate (the exporter's resident_collision_parts agrees).
       if (placement.collision.kind === "none") return 0;
-      if (placement.collision.kind === "mesh") {
-        return Math.max(1, manifestAssets.get(placement.kit)?.get(placement.assetId)?.length ?? 1);
-      }
-      return Math.max(1, placement.collision.parts?.length ?? 1);
+      // `mesh` and `convex` both collide as one trimesh per LOD0 primitive
+      // (SettlementLayer TRIMESH_COLLISION_KINDS), whatever `parts` they carry;
+      // a box-kind piece builds its measured parts, else one box per primitive.
+      const primitives = Math.max(1, lod0Primitives(placement.kit).get(placement.assetId) ?? 1);
+      if (placement.collision.kind === "mesh" || placement.collision.kind === "convex") return primitives;
+      return placement.collision.parts?.length ? placement.collision.parts.length : primitives;
     };
     const byId = new Map(bundle.placements.map((p) => [p.id, p]));
     // a bound run of mesh pieces is ONE joined part (runColliders.ts, 0101 rule 9)

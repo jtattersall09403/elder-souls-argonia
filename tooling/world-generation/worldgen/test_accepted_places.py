@@ -41,7 +41,8 @@ def _yard_compile() -> dict:
     path = ap.SETTLEMENTS_DIR / f"{YARD}.settlement.json"
     if path.exists():
         return json.loads(path.read_text())
-    bundle = json.loads(ex.OUT.read_text())
+    from .settlement_bundles import read_published
+    bundle = read_published()
     return {"id": YARD, "settlement": next(s for s in bundle["settlements"] if s["id"] == YARD)}
 
 

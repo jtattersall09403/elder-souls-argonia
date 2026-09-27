@@ -613,7 +613,11 @@ def resident_collision_parts(
             if (placement.get("run") or {}).get("id") in joined:
                 continue
             parts = collision.get("parts")
-            if parts:
+            # a mesh or convex piece collides as one trimesh per LOD0 primitive
+            # whatever measured `parts` it carries (SettlementLayer solidFrom:
+            # TRIMESH_COLLISION_KINDS never read them); only a box-kind piece
+            # builds its measured parts
+            if parts and collision.get("kind") not in TRIMESH_COLLISION_KINDS:
                 total += max(1, len(parts))
                 continue
             kit = placement["kit"]

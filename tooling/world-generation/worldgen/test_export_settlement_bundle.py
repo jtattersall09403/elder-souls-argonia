@@ -832,8 +832,11 @@ def _budget_fixture(tmp_path):
          "collision": {"kind": "mesh"}},
         {"id": "p.small", "kit": "kit-a", "assetId": "asset:small",
          "collision": {"kind": "mesh"}},
+        # a box-kind piece builds its measured parts; a mesh or convex piece
+        # is one trimesh per LOD0 primitive whatever parts it carries
+        # (SettlementLayer solidFrom), so as convex it would count 7
         {"id": "p.proxy", "kit": "kit-a", "assetId": "asset:big",
-         "collision": {"kind": "convex", "parts": [{}, {}]}},
+         "collision": {"kind": "box", "parts": [{}, {}]}},
         {"id": "p.none", "kit": "kit-a", "assetId": "asset:big",
          "collision": {"kind": "none"}},
     ]
@@ -844,9 +847,13 @@ def _budget_fixture(tmp_path):
 
 def test_resident_collision_parts_counts_real_parts_not_placements(tmp_path):
     settlements, placements = _budget_fixture(tmp_path)
-    # 7 (mesh LOD0) + 1 (mesh LOD0) + 2 (measured proxy) + 0 (no collision).
+    # 7 (mesh LOD0) + 1 (mesh LOD0) + 2 (measured box proxy) + 0 (no collision).
     assert ex.resident_collision_parts(settlements, placements, tmp_path) == {
         "place.test.big": 10}
+    # a convex piece's measured parts are never read: it is its LOD0 trimeshes
+    placements[2]["collision"]["kind"] = "convex"
+    assert ex.resident_collision_parts(settlements, placements, tmp_path) == {
+        "place.test.big": 15}
 
 
 def test_collider_budget_gate_fails_below_the_requirement_and_passes_above(tmp_path):

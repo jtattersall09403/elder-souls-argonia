@@ -3339,6 +3339,2305 @@
     {
       "approaches": [
         {
+          "firstSeen": "landmark.greenspring.the-hist",
+          "fromDirection": null,
+          "fromRouteId": "track.hist-heartland.greenspring",
+          "id": "approach.greenspring.helstrom-track",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming down the track from the Border road, the Hist crown shows first over the trees, then the lodge roof and the smoke from the common.",
+          "wayfinding": "The track ends at the top of the village; the way runs down past the tree-minder's house to the common."
+        },
+        {
+          "firstSeen": "parcel.greenspring.spring-house",
+          "fromDirection": null,
+          "fromRouteId": "track.hist-heartland.hist-less-refuge-wild",
+          "id": "approach.greenspring.refuge-footpath",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Walking up the footpath from the south-west, the spring house and the jars at its lip show first, then the Hist above it and the canoes on the bank beyond.",
+          "wayfinding": "The footpath passes the spring house; the way up to the common leaves it just past the spring."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          4707.6,
+          1878.1
+        ],
+        [
+          4692.0,
+          1868.0
+        ],
+        [
+          4692.0,
+          1840.0
+        ],
+        [
+          4712.0,
+          1814.0
+        ],
+        [
+          4803.0,
+          1814.0
+        ],
+        [
+          4803.0,
+          1876.0
+        ],
+        [
+          4800.8,
+          1878.1
+        ],
+        [
+          4790.0,
+          1904.0
+        ],
+        [
+          4740.0,
+          1904.0
+        ],
+        [
+          4712.0,
+          1896.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 200,
+        "maxInstances": 200,
+        "maxTextureMB": 64,
+        "maxUniqueMaterials": 180
+      },
+      "causalModel": {
+        "founding": "Founded at the Panther fork on springs that can be drunk unboiled.",
+        "occupantsMotive": "The tribe is the interior's last friendly stop. Water is free; beds and rope are sold at high prices.",
+        "pressures": "The Hist is sick and the village blames salt from upstream. Traffic on the Helstrom track brings cult couriers and factors whom the tribe distrusts.",
+        "siteAdvantages": "Firm ground where clean water rises at a stone lip, at the last dry footing before the Helstrom approach.",
+        "wouldChangeIf": "If the spring soured, the village would move within a season."
+      },
+      "clearance": {
+        "hardClear": [
+          [
+            [
+              4707.6,
+              1878.1
+            ],
+            [
+              4692.0,
+              1868.0
+            ],
+            [
+              4692.0,
+              1840.0
+            ],
+            [
+              4712.0,
+              1814.0
+            ],
+            [
+              4803.0,
+              1814.0
+            ],
+            [
+              4803.0,
+              1876.0
+            ],
+            [
+              4800.8,
+              1878.1
+            ],
+            [
+              4790.0,
+              1904.0
+            ],
+            [
+              4740.0,
+              1904.0
+            ],
+            [
+              4712.0,
+              1896.0
+            ]
+          ]
+        ],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.greenspring.the-common",
+          "notes": null,
+          "polygon": [
+            [
+              4723.334,
+              1853.447
+            ],
+            [
+              4709.94,
+              1856.642
+            ],
+            [
+              4704.107,
+              1875.838
+            ],
+            [
+              4707.6,
+              1878.1
+            ],
+            [
+              4708.688,
+              1882.525
+            ],
+            [
+              4763.811,
+              1897.087
+            ],
+            [
+              4795.062,
+              1891.861
+            ],
+            [
+              4800.8,
+              1878.1
+            ],
+            [
+              4803.0,
+              1876.0
+            ],
+            [
+              4803.0,
+              1874.7
+            ],
+            [
+              4751.848,
+              1852.0
+            ],
+            [
+              4737.8,
+              1852.0
+            ]
+          ],
+          "why": "The open common between the huts, where any fight in the village takes place."
+        }
+      ],
+      "contextM": {
+        "x0": 3132.0,
+        "x1": 6363.0,
+        "z0": 243.5,
+        "z1": 3474.5
+      },
+      "districts": [
+        {
+          "centreM": [
+            4746.697,
+            1856.115
+          ],
+          "cultureKit": "argonian-mud",
+          "id": "district.greenspring.the-common",
+          "kind": "hist-village",
+          "notes": "One common with the Hist, the spring and the landing.",
+          "polygon": [
+            [
+              4729.52,
+              1825.165
+            ],
+            [
+              4728.312,
+              1825.68
+            ],
+            [
+              4727.165,
+              1826.47
+            ],
+            [
+              4726.317,
+              1827.368
+            ],
+            [
+              4725.643,
+              1828.271
+            ],
+            [
+              4725.118,
+              1829.248
+            ],
+            [
+              4723.414,
+              1833.345
+            ],
+            [
+              4713.887,
+              1864.648
+            ],
+            [
+              4710.151,
+              1882.974
+            ],
+            [
+              4709.68,
+              1885.662
+            ],
+            [
+              4709.647,
+              1886.428
+            ],
+            [
+              4710.565,
+              1890.164
+            ],
+            [
+              4713.577,
+              1893.089
+            ],
+            [
+              4714.598,
+              1893.883
+            ],
+            [
+              4715.816,
+              1894.5
+            ],
+            [
+              4717.115,
+              1894.888
+            ],
+            [
+              4718.501,
+              1895.013
+            ],
+            [
+              4719.728,
+              1894.863
+            ],
+            [
+              4720.579,
+              1894.658
+            ],
+            [
+              4769.327,
+              1881.771
+            ],
+            [
+              4770.113,
+              1881.207
+            ],
+            [
+              4771.843,
+              1879.725
+            ],
+            [
+              4773.753,
+              1877.556
+            ],
+            [
+              4774.796,
+              1875.146
+            ],
+            [
+              4783.959,
+              1853.587
+            ],
+            [
+              4784.377,
+              1851.988
+            ],
+            [
+              4791.315,
+              1824.001
+            ],
+            [
+              4791.145,
+              1821.04
+            ],
+            [
+              4790.505,
+              1818.517
+            ],
+            [
+              4790.189,
+              1817.434
+            ],
+            [
+              4789.328,
+              1816.553
+            ],
+            [
+              4787.601,
+              1815.067
+            ],
+            [
+              4785.937,
+              1814.0
+            ],
+            [
+              4774.166,
+              1814.0
+            ]
+          ],
+          "wealth": "modest",
+          "why": {
+            "microGeography": "A slope falling west to the channel; the huts sit on mud pads and the Hist on a mound.",
+            "playerPurpose": "Beds and rope, free water, a trader and the shrine; the quests of the spring and the sick root start here.",
+            "what": "A Hist village of seven buildings round an open common, with the spring house and the landing on the bank.",
+            "whyHere": "Clean water rises here at the last dry ground before Helstrom.",
+            "whyNeighbours": "It is the last friendly stop on the track to Helstrom; the refuge footpath runs along its bank."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 257.6,
+          "id": "door.hist-heartland.greenspring.1",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the bed-keeper",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.greenspring.lodge",
+          "thresholdM": [
+            4767.792,
+            1852.861
+          ]
+        },
+        {
+          "facingDeg": 167.5,
+          "id": "door.hist-heartland.greenspring.2",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the root-herald",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.greenspring.heralds-house",
+          "thresholdM": [
+            4759.372,
+            1838.206
+          ]
+        },
+        {
+          "facingDeg": 355.0,
+          "id": "door.hist-heartland.greenspring.3",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the tree-minder",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.greenspring.minders-house",
+          "thresholdM": [
+            4764.392,
+            1864.97
+          ]
+        },
+        {
+          "facingDeg": 17.0,
+          "id": "door.hist-heartland.greenspring.4",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the spring-keeper",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.greenspring.spring-keepers-house",
+          "thresholdM": [
+            4720.419,
+            1881.404
+          ]
+        },
+        {
+          "facingDeg": 157.3,
+          "id": "door.hist-heartland.greenspring.5",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "a spring family",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.greenspring.family-hut",
+          "thresholdM": [
+            4734.383,
+            1838.165
+          ]
+        },
+        {
+          "facingDeg": 256.3,
+          "id": "door.hist-heartland.greenspring.6",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "a spring family",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.greenspring.east-family-hut",
+          "thresholdM": [
+            4774.143,
+            1824.665
+          ]
+        }
+      ],
+      "id": "place.hist-heartland.greenspring",
+      "landmarks": [
+        {
+          "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+          "id": "landmark.greenspring.the-hist",
+          "kind": "hist-tree",
+          "notes": "The village's tribal Hist, ailing (MR01); hist-placement R2 tribal, R3 state sick.",
+          "positionM": [
+            4743.0,
+            1876.0
+          ],
+          "why": {
+            "microGeography": "A raised mound of mud round its roots, on the slope above the channel.",
+            "playerPurpose": "The landmark seen from the track; its sick root is the subject of MR01.",
+            "what": "The village's Hist, a broad old tree whose roots are sickening.",
+            "whyHere": "Most Argonian tribes build round their Hist; this village was founded at the spring and its tree.",
+            "whyNeighbours": "The shrine is at its foot and the tree-minder's house beside it.",
+            "whySpot": "On the mound above the common, where the slope levels before it falls to the water."
+          }
+        }
+      ],
+      "networkTerminals": [
+        {
+          "id": "terminal.greenspring.helstrom-track",
+          "kind": "footpath",
+          "positionM": [
+            4800.8,
+            1878.1
+          ],
+          "routeId": "track.hist-heartland.greenspring",
+          "wayId": "route.greenspring.the-way",
+          "why": "The track from the Border road comes down the ridge and turns into the village at its east corner."
+        },
+        {
+          "id": "terminal.greenspring.refuge-footpath",
+          "kind": "footpath",
+          "positionM": [
+            4707.6,
+            1878.1
+          ],
+          "routeId": "track.hist-heartland.hist-less-refuge-wild",
+          "wayId": "route.greenspring.the-way",
+          "why": "The footpath from the refuge comes up the channel bank and enters at the spring house."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "composite:mud/hut-with-entrance",
+          "buildingFamily": "mud-hut",
+          "centreM": [
+            4781.0,
+            1823.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 256.3,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "assembly",
+            "worldM": [
+              4774.683,
+              1824.537
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.east-family-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns west toward the common and the herald's path.",
+          "polygon": [
+            [
+              4783.541,
+              1817.215
+            ],
+            [
+              4785.205,
+              1818.283
+            ],
+            [
+              4786.588,
+              1819.473
+            ],
+            [
+              4786.629,
+              1819.514
+            ],
+            [
+              4786.645,
+              1819.57
+            ],
+            [
+              4787.174,
+              1821.653
+            ],
+            [
+              4787.287,
+              1823.626
+            ],
+            [
+              4786.785,
+              1825.541
+            ],
+            [
+              4785.717,
+              1827.205
+            ],
+            [
+              4784.518,
+              1828.544
+            ],
+            [
+              4784.477,
+              1828.585
+            ],
+            [
+              4784.418,
+              1828.611
+            ],
+            [
+              4782.347,
+              1829.174
+            ],
+            [
+              4780.374,
+              1829.287
+            ],
+            [
+              4778.459,
+              1828.785
+            ],
+            [
+              4776.795,
+              1827.717
+            ],
+            [
+              4774.171,
+              1825.861
+            ],
+            [
+              4774.161,
+              1825.858
+            ],
+            [
+              4774.05,
+              1825.767
+            ],
+            [
+              4773.969,
+              1825.684
+            ],
+            [
+              4773.953,
+              1825.628
+            ],
+            [
+              4773.609,
+              1823.904
+            ],
+            [
+              4773.586,
+              1823.795
+            ],
+            [
+              4773.679,
+              1823.519
+            ],
+            [
+              4773.684,
+              1823.5
+            ],
+            [
+              4775.215,
+              1820.459
+            ],
+            [
+              4776.283,
+              1818.795
+            ],
+            [
+              4777.795,
+              1817.248
+            ],
+            [
+              4777.836,
+              1817.208
+            ],
+            [
+              4777.892,
+              1817.191
+            ],
+            [
+              4779.653,
+              1816.826
+            ],
+            [
+              4781.626,
+              1816.713
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad cut into the upper slope above the lodge.",
+            "playerPurpose": "A family who can say who came down the track and when.",
+            "what": "A family hut on the north-east edge, by the track.",
+            "whyHere": "The village has grown up the slope toward the track.",
+            "whyNeighbours": "It looks down the path to the common and the herald's house.",
+            "whySpot": "North of the lodge on a dry shelf beside the track."
+          },
+          "yawDeg": 104.7
+        },
+        {
+          "assetRef": "kotm:argonia/mudhuts/mudhut01",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            4731.0,
+            1835.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": 0.84,
+            "bearingDeg": 157.3,
+            "interiorRef": null,
+            "kind": "leaf",
+            "worldM": [
+              4734.383,
+              1838.165
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.family-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns south-east to the common.",
+          "polygon": [
+            [
+              4729.783,
+              1829.523
+            ],
+            [
+              4730.249,
+              1829.202
+            ],
+            [
+              4730.796,
+              1828.969
+            ],
+            [
+              4731.403,
+              1828.831
+            ],
+            [
+              4732.091,
+              1828.809
+            ],
+            [
+              4735.449,
+              1829.071
+            ],
+            [
+              4735.817,
+              1829.235
+            ],
+            [
+              4736.584,
+              1830.242
+            ],
+            [
+              4737.78,
+              1832.335
+            ],
+            [
+              4737.739,
+              1832.85
+            ],
+            [
+              4737.531,
+              1833.967
+            ],
+            [
+              4736.961,
+              1835.65
+            ],
+            [
+              4736.644,
+              1836.133
+            ],
+            [
+              4735.969,
+              1837.082
+            ],
+            [
+              4734.564,
+              1838.066
+            ],
+            [
+              4733.514,
+              1838.491
+            ],
+            [
+              4732.094,
+              1838.957
+            ],
+            [
+              4730.358,
+              1839.348
+            ],
+            [
+              4729.755,
+              1839.387
+            ],
+            [
+              4729.229,
+              1839.274
+            ],
+            [
+              4727.014,
+              1836.977
+            ],
+            [
+              4726.863,
+              1836.327
+            ],
+            [
+              4726.885,
+              1835.79
+            ],
+            [
+              4727.018,
+              1835.3
+            ],
+            [
+              4727.184,
+              1834.698
+            ],
+            [
+              4728.499,
+              1831.538
+            ],
+            [
+              4728.735,
+              1830.967
+            ],
+            [
+              4729.025,
+              1830.427
+            ],
+            [
+              4729.384,
+              1829.946
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad on the gentle slope above the bank.",
+            "playerPurpose": "A home to enter, where the family talks of the delegations that camped elsewhere.",
+            "what": "A family hut on the west side of the common.",
+            "whyHere": "The families of the village live round the common.",
+            "whyNeighbours": "It faces the common with the herald's house to the east.",
+            "whySpot": "West of the herald's house, where the ground runs down to the water."
+          },
+          "yawDeg": 47.3
+        },
+        {
+          "assetRef": "composite:mud/kotm-house-pod",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            4758.0,
+            1832.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 167.5,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
+            "worldM": [
+              4759.372,
+              1838.206
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.heralds-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns south onto the common.",
+          "polygon": [
+            [
+              4749.922,
+              1833.171
+            ],
+            [
+              4749.65,
+              1831.799
+            ],
+            [
+              4749.506,
+              1830.174
+            ],
+            [
+              4749.67,
+              1829.418
+            ],
+            [
+              4751.347,
+              1827.181
+            ],
+            [
+              4753.369,
+              1825.657
+            ],
+            [
+              4754.064,
+              1825.234
+            ],
+            [
+              4755.963,
+              1825.223
+            ],
+            [
+              4757.49,
+              1825.501
+            ],
+            [
+              4758.782,
+              1825.836
+            ],
+            [
+              4761.234,
+              1827.122
+            ],
+            [
+              4761.779,
+              1827.686
+            ],
+            [
+              4762.758,
+              1828.919
+            ],
+            [
+              4763.487,
+              1830.536
+            ],
+            [
+              4763.703,
+              1831.534
+            ],
+            [
+              4763.456,
+              1833.594
+            ],
+            [
+              4763.218,
+              1834.379
+            ],
+            [
+              4762.646,
+              1835.44
+            ],
+            [
+              4760.754,
+              1838.496
+            ],
+            [
+              4760.43,
+              1838.714
+            ],
+            [
+              4759.877,
+              1838.977
+            ],
+            [
+              4759.137,
+              1839.139
+            ],
+            [
+              4758.483,
+              1839.162
+            ],
+            [
+              4758.122,
+              1839.084
+            ],
+            [
+              4755.811,
+              1838.429
+            ],
+            [
+              4753.617,
+              1837.686
+            ],
+            [
+              4752.863,
+              1837.191
+            ],
+            [
+              4751.441,
+              1835.719
+            ],
+            [
+              4750.474,
+              1834.32
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad on the north shelf, above the wet ground by the water.",
+            "playerPurpose": "A trader who keeps the salt that starts the argument over the sick root.",
+            "what": "The root-herald's house, where the village trades with Helstrom.",
+            "whyHere": "The root-herald carries the village's trade to Helstrom and back.",
+            "whyNeighbours": "It looks across the common to the lodge and the Hist.",
+            "whySpot": "The north edge of the common, on the widest flat ground."
+          },
+          "yawDeg": 339.3
+        },
+        {
+          "assetRef": "histtree:skyfall/sleeping tree overhaul/rune circle",
+          "buildingFamily": "argonian-shrine",
+          "centreM": [
+            4741.4,
+            1862.6
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.hist-shrine",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The totems face the common, in front of the Hist.",
+          "polygon": [
+            [
+              4736.912,
+              1864.701
+            ],
+            [
+              4737.066,
+              1860.554
+            ],
+            [
+              4737.077,
+              1860.466
+            ],
+            [
+              4737.297,
+              1860.037
+            ],
+            [
+              4737.308,
+              1860.026
+            ],
+            [
+              4741.18,
+              1857.661
+            ],
+            [
+              4741.246,
+              1857.628
+            ],
+            [
+              4741.543,
+              1857.595
+            ],
+            [
+              4741.653,
+              1857.606
+            ],
+            [
+              4745.338,
+              1859.509
+            ],
+            [
+              4745.591,
+              1859.784
+            ],
+            [
+              4745.69,
+              1859.982
+            ],
+            [
+              4745.822,
+              1860.312
+            ],
+            [
+              4745.833,
+              1860.367
+            ],
+            [
+              4745.723,
+              1864.657
+            ],
+            [
+              4745.69,
+              1864.745
+            ],
+            [
+              4745.459,
+              1865.295
+            ],
+            [
+              4745.393,
+              1865.361
+            ],
+            [
+              4745.14,
+              1865.592
+            ],
+            [
+              4741.906,
+              1867.374
+            ],
+            [
+              4741.719,
+              1867.462
+            ],
+            [
+              4741.499,
+              1867.506
+            ],
+            [
+              4741.191,
+              1867.506
+            ],
+            [
+              4740.971,
+              1867.495
+            ],
+            [
+              4740.751,
+              1867.407
+            ],
+            [
+              4737.737,
+              1866.01
+            ],
+            [
+              4737.517,
+              1865.911
+            ],
+            [
+              4737.484,
+              1865.878
+            ],
+            [
+              4737.253,
+              1865.713
+            ],
+            [
+              4737.066,
+              1865.57
+            ],
+            [
+              4736.978,
+              1865.35
+            ],
+            [
+              4736.978,
+              1865.339
+            ],
+            [
+              4736.956,
+              1865.086
+            ]
+          ],
+          "spans": null,
+          "use": "hist",
+          "why": {
+            "microGeography": "The Hist's mound, levelled round its roots.",
+            "playerPurpose": "The shrine service and the start of MR01 at the sick root.",
+            "what": "The shrine at the foot of the Hist: totems, candles and flowers.",
+            "whyHere": "Argonian villages keep a shrine at the Hist rather than a temple.",
+            "whyNeighbours": "The Hist is behind it; the tree-minder's house is across the path to the east.",
+            "whySpot": "On the flat ground round the Hist's roots, facing the common."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "composite:mud/kotm-house-pod",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            4774.0,
+            1851.5
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 257.6,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
+            "worldM": [
+              4767.792,
+              1852.861
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.lodge",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns west to the common and the way down to the spring.",
+          "polygon": [
+            [
+              4772.843,
+              1843.42
+            ],
+            [
+              4774.216,
+              1843.15
+            ],
+            [
+              4775.84,
+              1843.01
+            ],
+            [
+              4776.597,
+              1843.174
+            ],
+            [
+              4778.831,
+              1844.855
+            ],
+            [
+              4780.351,
+              1846.88
+            ],
+            [
+              4780.773,
+              1847.576
+            ],
+            [
+              4780.781,
+              1849.475
+            ],
+            [
+              4780.5,
+              1851.001
+            ],
+            [
+              4780.163,
+              1852.292
+            ],
+            [
+              4778.873,
+              1854.743
+            ],
+            [
+              4778.308,
+              1855.286
+            ],
+            [
+              4777.072,
+              1856.264
+            ],
+            [
+              4775.454,
+              1856.989
+            ],
+            [
+              4774.456,
+              1857.204
+            ],
+            [
+              4772.396,
+              1856.953
+            ],
+            [
+              4771.612,
+              1856.714
+            ],
+            [
+              4770.552,
+              1856.14
+            ],
+            [
+              4767.499,
+              1854.243
+            ],
+            [
+              4767.281,
+              1853.919
+            ],
+            [
+              4767.02,
+              1853.365
+            ],
+            [
+              4766.859,
+              1852.624
+            ],
+            [
+              4766.837,
+              1851.97
+            ],
+            [
+              4766.916,
+              1851.61
+            ],
+            [
+              4767.575,
+              1849.3
+            ],
+            [
+              4768.321,
+              1847.107
+            ],
+            [
+              4768.818,
+              1846.354
+            ],
+            [
+              4770.293,
+              1844.934
+            ],
+            [
+              4771.693,
+              1843.97
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad cut into the slope, graded down to the common.",
+            "playerPurpose": "A bed for the night in a safe room; rope for the road.",
+            "what": "The lodge, where the bed-keeper rents beds and sells rope.",
+            "whyHere": "The village lives by being the last friendly stop before Helstrom; its income is the rent on its beds.",
+            "whyNeighbours": "It faces the common across from the Hist shrine; the root-herald's house stands to the north.",
+            "whySpot": "The first dry shelf a traveller reaches from the track, on the east side of the common."
+          },
+          "yawDeg": 69.4
+        },
+        {
+          "assetRef": "composite:mud/hut-with-entrance",
+          "buildingFamily": "mud-hut",
+          "centreM": [
+            4765.0,
+            1872.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 355.0,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "assembly",
+            "worldM": [
+              4764.436,
+              1865.523
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.minders-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns north-west to the Hist and the shrine.",
+          "polygon": [
+            [
+              4770.334,
+              1875.387
+            ],
+            [
+              4769.027,
+              1876.87
+            ],
+            [
+              4767.642,
+              1878.057
+            ],
+            [
+              4767.594,
+              1878.091
+            ],
+            [
+              4767.536,
+              1878.099
+            ],
+            [
+              4765.398,
+              1878.307
+            ],
+            [
+              4763.43,
+              1878.12
+            ],
+            [
+              4761.613,
+              1877.334
+            ],
+            [
+              4760.13,
+              1876.027
+            ],
+            [
+              4758.987,
+              1874.639
+            ],
+            [
+              4758.953,
+              1874.592
+            ],
+            [
+              4758.937,
+              1874.53
+            ],
+            [
+              4758.693,
+              1872.398
+            ],
+            [
+              4758.88,
+              1870.43
+            ],
+            [
+              4759.666,
+              1868.613
+            ],
+            [
+              4760.973,
+              1867.13
+            ],
+            [
+              4763.205,
+              1864.816
+            ],
+            [
+              4763.209,
+              1864.807
+            ],
+            [
+              4763.316,
+              1864.712
+            ],
+            [
+              4763.411,
+              1864.644
+            ],
+            [
+              4763.469,
+              1864.636
+            ],
+            [
+              4765.224,
+              1864.557
+            ],
+            [
+              4765.336,
+              1864.551
+            ],
+            [
+              4765.594,
+              1864.684
+            ],
+            [
+              4765.613,
+              1864.692
+            ],
+            [
+              4768.387,
+              1866.666
+            ],
+            [
+              4769.87,
+              1867.973
+            ],
+            [
+              4771.17,
+              1869.701
+            ],
+            [
+              4771.204,
+              1869.749
+            ],
+            [
+              4771.212,
+              1869.807
+            ],
+            [
+              4771.307,
+              1871.602
+            ],
+            [
+              4771.12,
+              1873.57
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad cut into the side of the Hist's rise.",
+            "playerPurpose": "The person who speaks for the Hist and can start MR01.",
+            "what": "The tree-minder's house beside the Hist.",
+            "whyHere": "A Hist village keeps its tree-minder close to the tree.",
+            "whyNeighbours": "The Hist and its shrine are across the path to the west; the lodge is to the north.",
+            "whySpot": "On the rise east of the Hist, the nearest dry pad to its roots."
+          },
+          "yawDeg": 203.4
+        },
+        {
+          "assetRef": "kotm:argonia/mudhuts/shed",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            4721.5,
+            1866.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": 2.07,
+            "bearingDeg": 99.5,
+            "interiorRef": null,
+            "kind": "open-front",
+            "worldM": [
+              4721.896,
+              1866.222
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.spring-house",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front turns east to the path from the common.",
+          "polygon": [
+            [
+              4721.085,
+              1868.657
+            ],
+            [
+              4719.928,
+              1868.712
+            ],
+            [
+              4718.589,
+              1867.973
+            ],
+            [
+              4717.829,
+              1866.925
+            ],
+            [
+              4717.769,
+              1865.633
+            ],
+            [
+              4718.447,
+              1864.484
+            ],
+            [
+              4721.114,
+              1863.656
+            ],
+            [
+              4721.238,
+              1863.708
+            ],
+            [
+              4721.352,
+              1863.763
+            ],
+            [
+              4722.716,
+              1867.81
+            ],
+            [
+              4722.558,
+              1868.024
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "Low ground above the channel bank, on a mud pad.",
+            "playerPurpose": "Clean water poured free; LH37 and LH38 both turn on this spring.",
+            "what": "The spring house, a roofed shelter over the stone lip where the water rises.",
+            "whyHere": "The village was founded on water that can be drunk unboiled.",
+            "whyNeighbours": "The spring-keeper's house is just south; the landing is north along the bank.",
+            "whySpot": "On the bank where the spring rises, beside the footpath along the water."
+          },
+          "yawDeg": 250.7
+        },
+        {
+          "assetRef": "kotm:argonia/mudhuts/mudhut01",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            4721.0,
+            1886.0
+          ],
+          "districtId": "district.greenspring.the-common",
+          "entrance": {
+            "arcM": 0.84,
+            "bearingDeg": 17.0,
+            "interiorRef": null,
+            "kind": "leaf",
+            "worldM": [
+              4720.419,
+              1881.404
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.greenspring.spring-keepers-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns north to the spring house.",
+          "polygon": [
+            [
+              4718.438,
+              1890.991
+            ],
+            [
+              4717.874,
+              1890.94
+            ],
+            [
+              4717.305,
+              1890.77
+            ],
+            [
+              4716.749,
+              1890.489
+            ],
+            [
+              4716.206,
+              1890.066
+            ],
+            [
+              4713.79,
+              1887.72
+            ],
+            [
+              4713.611,
+              1887.359
+            ],
+            [
+              4713.665,
+              1886.094
+            ],
+            [
+              4714.081,
+              1883.719
+            ],
+            [
+              4714.442,
+              1883.35
+            ],
+            [
+              4715.315,
+              1882.623
+            ],
+            [
+              4716.829,
+              1881.692
+            ],
+            [
+              4717.381,
+              1881.523
+            ],
+            [
+              4718.507,
+              1881.224
+            ],
+            [
+              4720.216,
+              1881.365
+            ],
+            [
+              4721.296,
+              1881.709
+            ],
+            [
+              4722.686,
+              1882.257
+            ],
+            [
+              4724.271,
+              1883.065
+            ],
+            [
+              4724.76,
+              1883.42
+            ],
+            [
+              4725.093,
+              1883.843
+            ],
+            [
+              4725.33,
+              1887.025
+            ],
+            [
+              4725.03,
+              1887.621
+            ],
+            [
+              4724.671,
+              1888.021
+            ],
+            [
+              4724.256,
+              1888.313
+            ],
+            [
+              4723.743,
+              1888.67
+            ],
+            [
+              4720.713,
+              1890.261
+            ],
+            [
+              4720.167,
+              1890.55
+            ],
+            [
+              4719.598,
+              1890.78
+            ],
+            [
+              4719.015,
+              1890.921
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "A mud pad on the low slope above the channel bank.",
+            "playerPurpose": "A home to enter and a witness for LH38.",
+            "what": "The spring-keeper's house, above the spring.",
+            "whyHere": "The spring-keeper and her family live beside the water they keep.",
+            "whyNeighbours": "The spring house is below it to the north; the Hist stands up the slope to the east.",
+            "whySpot": "South of the spring house, on the last dry ground before the bank."
+          },
+          "yawDeg": 267.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.greenspring.fork-market",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            4752.0,
+            1855.0
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.greenspring.mr01-anchor",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            4742.0,
+            1870.5
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.greenspring.river-landing",
+          "kind": "post",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            4701.0,
+            1852.0
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 7,
+        "households": 5,
+        "loreSource": "settlement-register row Greenspring (M3, a freshwater village at the fork); record npcs merchant (single) and family (band); notable slots tree-minder, root-herald, spring-keeper",
+        "npcsPlanned": 5,
+        "population": "14-22",
+        "why": "Five households and the lodge's guests. Seven buildings stand: six houses and the spring house, round one common with the Hist and the landing."
+      },
+      "seed": "place.hist-heartland.greenspring",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": true,
+            "id": "candidate.greenspring.fork-bank",
+            "positionM": [
+              4752.0,
+              1860.0
+            ],
+            "rejectedBecause": null,
+            "why": "The west-facing slope between the track's end and the channel bank: dry ground above the water, the refuge footpath along the bank."
+          },
+          {
+            "chosen": false,
+            "id": "candidate.greenspring.plotted-anchor",
+            "positionM": [
+              4778.9,
+              1900.0
+            ],
+            "rejectedBecause": "Slopes of 6 to 10 degrees and 90 m from the water; no room for a landing or the spring.",
+            "why": "The plotted anchor, at the end of the track from the Border road."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/greenspring.json"
+      },
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 1,
+        "docks": 0,
+        "doors": 6,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 1,
+        "networkTerminals": 2,
+        "parcels": 8,
+        "questSockets": 3,
+        "sitingCandidates": 2,
+        "ways": 10
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.east-family-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.east-hut-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4758.0,
+              1847.0
+            ],
+            [
+              4766.0,
+              1840.0
+            ],
+            [
+              4770.71,
+              1825.35
+            ],
+            [
+              4774.143,
+              1824.665
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4758.0,
+              1847.0
+            ],
+            [
+              4766.0,
+              1840.0
+            ],
+            [
+              4770.71,
+              1825.35
+            ],
+            [
+              4773.55,
+              1824.78
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the herald's path to the east family hut.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.family-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.family-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4738.0,
+              1856.0
+            ],
+            [
+              4737.0,
+              1847.0
+            ],
+            [
+              4734.383,
+              1838.165
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4738.0,
+              1856.0
+            ],
+            [
+              4737.0,
+              1847.0
+            ],
+            [
+              4735.69,
+              1841.41
+            ],
+            [
+              4734.61,
+              1838.72
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the way to the family hut.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.heralds-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.herald-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4758.0,
+              1847.0
+            ],
+            [
+              4760.12,
+              1841.62
+            ],
+            [
+              4759.372,
+              1838.206
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4758.0,
+              1847.0
+            ],
+            [
+              4760.12,
+              1841.62
+            ],
+            [
+              4759.5,
+              1838.79
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the common to the root-herald's door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.landing-steps",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4713.1,
+              1860.0
+            ],
+            [
+              4700.6,
+              1852.0
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4713.1,
+              1860.0
+            ],
+            [
+              4700.6,
+              1852.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the bank footpath down to the boats.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.lodge"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.lodge-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4767.792,
+              1852.861
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4764.37,
+              1853.61
+            ],
+            [
+              4767.21,
+              1852.99
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the common to the lodge door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.minders-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.minder-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4756.0,
+              1866.0
+            ],
+            [
+              4764.23,
+              1861.47
+            ],
+            [
+              4764.392,
+              1864.97
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4756.0,
+              1866.0
+            ],
+            [
+              4764.23,
+              1861.47
+            ],
+            [
+              4764.36,
+              1864.37
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the way to the tree-minder's door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.hist-shrine"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.shrine-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4744.0,
+              1856.4
+            ],
+            [
+              4742.872,
+              1858.235
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4744.0,
+              1856.4
+            ],
+            [
+              4743.2,
+              1857.6
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the common to the shrine at the Hist.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.spring-keepers-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.spring-house-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4725.0,
+              1864.5
+            ],
+            [
+              4720.419,
+              1881.404
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4725.0,
+              1864.5
+            ],
+            [
+              4722.5,
+              1872.0
+            ],
+            [
+              4721.48,
+              1878.07
+            ],
+            [
+              4720.6,
+              1880.83
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the spring house up to the spring-keeper's door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.greenspring.spring-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.store-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4724.0,
+              1858.0
+            ],
+            [
+              4725.21,
+              1865.11
+            ],
+            [
+              4722.152,
+              1866.134
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4724.0,
+              1858.0
+            ],
+            [
+              4725.0,
+              1864.5
+            ],
+            [
+              4725.21,
+              1865.11
+            ],
+            [
+              4722.46,
+              1866.03
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the way to the spring house.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.greenspring.the-way",
+          "kind": "track",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4800.8,
+              1878.1
+            ],
+            [
+              4793.9,
+              1888.0
+            ],
+            [
+              4764.0,
+              1893.0
+            ],
+            [
+              4752.6,
+              1884.0
+            ],
+            [
+              4752.6,
+              1866.0
+            ],
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4738.0,
+              1856.0
+            ],
+            [
+              4724.0,
+              1857.4
+            ],
+            [
+              4713.1,
+              1860.0
+            ],
+            [
+              4713.1,
+              1872.6
+            ],
+            [
+              4707.6,
+              1878.1
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4800.8,
+              1878.1
+            ],
+            [
+              4793.9,
+              1888.0
+            ],
+            [
+              4780.0,
+              1890.0
+            ],
+            [
+              4764.0,
+              1893.0
+            ],
+            [
+              4752.6,
+              1884.0
+            ],
+            [
+              4752.6,
+              1866.0
+            ],
+            [
+              4751.0,
+              1856.0
+            ],
+            [
+              4738.0,
+              1856.0
+            ],
+            [
+              4724.0,
+              1857.4
+            ],
+            [
+              4713.1,
+              1860.0
+            ],
+            [
+              4713.1,
+              1872.6
+            ],
+            [
+              4707.6,
+              1878.1
+            ]
+          ],
+          "waterOk": null,
+          "why": "The way from the track's end down through the common to the footpath on the bank.",
+          "widthM": 2.5
+        }
+      ]
+    },
+    {
+      "approaches": [
+        {
           "firstSeen": "parcel.claywater-station.polers-hut",
           "fromDirection": null,
           "fromRouteId": "route.road.gideon-blackwood-road",
@@ -3363,19 +5662,19 @@
       "boundary": [
         [
           250.0,
-          2983.0
+          2945.716
         ],
         [
-          358.0,
-          2983.0
+          387.109,
+          2945.716
         ],
         [
-          358.0,
-          3102.0
+          387.109,
+          3117.519
         ],
         [
           250.0,
-          3102.0
+          3117.519
         ]
       ],
       "budget": {
@@ -3446,16 +5745,16 @@
         }
       ],
       "contextM": {
-        "x0": -1315.5,
-        "x1": 1923.5,
-        "z0": 1423.0,
-        "z1": 4662.0
+        "x0": -1327.347,
+        "x1": 1964.456,
+        "z0": 1385.716,
+        "z1": 4677.519
       },
       "districts": [
         {
           "centreM": [
-            290.971,
-            2998.736
+            331.825,
+            2984.573
           ],
           "cultureKit": "argonian-mud",
           "id": "district.claywater-station.the-landing",
@@ -3463,104 +5762,92 @@
           "notes": "The Argonian half on the north strip; no Hist (see siting).",
           "polygon": [
             [
-              261.878,
-              2985.737
+              335.978,
+              2956.535
             ],
             [
-              260.601,
-              2985.942
+              332.813,
+              2957.46
             ],
             [
-              259.319,
-              2986.412
+              329.392,
+              2959.634
             ],
             [
-              258.149,
-              2987.097
+              303.858,
+              2992.319
             ],
             [
-              257.113,
-              2988.026
+              303.012,
+              2993.628
             ],
             [
-              256.385,
-              2989.025
+              302.35,
+              2995.989
             ],
             [
-              255.831,
-              2990.007
+              302.001,
+              2998.081
             ],
             [
-              255.434,
-              2991.042
+              302.182,
+              3000.169
             ],
             [
-              254.251,
-              2995.374
+              302.668,
+              3002.125
             ],
             [
-              254.127,
-              2996.248
+              308.622,
+              3025.989
             ],
             [
-              253.995,
-              2997.206
+              351.594,
+              3013.634
             ],
             [
-              254.128,
-              2998.728
+              352.823,
+              3012.364
             ],
             [
-              254.932,
-              3000.896
+              353.369,
+              3011.375
             ],
             [
-              258.741,
-              3003.952
+              354.193,
+              3009.737
             ],
             [
-              310.484,
-              3024.904
+              354.979,
+              3008.035
             ],
             [
-              315.955,
-              3025.588
+              348.445,
+              2965.879
             ],
             [
-              352.913,
-              3012.262
+              347.811,
+              2963.896
             ],
             [
-              353.853,
-              3009.975
+              347.169,
+              2962.405
             ],
             [
-              353.995,
-              3008.855
+              344.594,
+              2959.509
             ],
             [
-              354.155,
-              3007.028
+              343.008,
+              2958.388
             ],
             [
-              354.276,
-              3004.785
+              341.231,
+              2957.32
             ],
             [
-              352.774,
-              3002.996
-            ],
-            [
-              351.772,
-              3002.441
-            ],
-            [
-              313.536,
-              2988.321
-            ],
-            [
-              265.676,
-              2985.548
+              338.062,
+              2956.144
             ]
           ],
           "wealth": "poor",
@@ -3574,8 +5861,8 @@
         },
         {
           "centreM": [
-            314.887,
-            3064.993
+            327.496,
+            3072.992
           ],
           "cultureKit": "imperial",
           "id": "district.claywater-station.the-well",
@@ -3623,24 +5910,48 @@
               3069.227
             ],
             [
-              298.356,
-              3073.279
+              298.363,
+              3073.288
             ],
             [
-              328.438,
-              3102.0
+              325.183,
+              3098.586
             ],
             [
-              343.736,
-              3102.0
+              333.432,
+              3105.301
             ],
             [
-              358.0,
-              3093.446
+              335.093,
+              3105.719
             ],
             [
-              358.0,
-              3071.778
+              371.509,
+              3106.28
+            ],
+            [
+              377.577,
+              3106.28
+            ],
+            [
+              378.934,
+              3104.923
+            ],
+            [
+              380.54,
+              3103.281
+            ],
+            [
+              380.54,
+              3096.816
+            ],
+            [
+              365.571,
+              3080.175
+            ],
+            [
+              331.736,
+              3043.782
             ],
             [
               330.949,
@@ -3696,17 +6007,17 @@
           ]
         },
         {
-          "facingDeg": 180.0,
+          "facingDeg": 188.2,
           "id": "door.imperial-fringe.claywater-station.3",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "the landing family",
-            "sizeClass": "medium"
+            "sizeClass": "large"
           },
           "parcelId": "parcel.claywater-station.family-hut",
           "thresholdM": [
-            290.9,
-            3001.225
+            338.09,
+            2974.29
           ]
         },
         {
@@ -3714,13 +6025,27 @@
           "id": "door.imperial-fringe.claywater-station.4",
           "interiorClaim": {
             "culture": "imperial",
-            "owner": null,
+            "owner": "the stablemaster",
             "sizeClass": "large"
           },
           "parcelId": "parcel.claywater-station.stable-barn",
           "thresholdM": [
             337.123,
             3086.072
+          ]
+        },
+        {
+          "facingDeg": 98.2,
+          "id": "door.imperial-fringe.claywater-station.5",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the landing's crafter",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.claywater-station.store-hut",
+          "thresholdM": [
+            335.29,
+            2982.91
           ]
         }
       ],
@@ -3752,21 +6077,21 @@
       ],
       "parcels": [
         {
-          "assetRef": "kotm:argonia/mudhuts/mudhut01",
-          "buildingFamily": "mud-hut",
+          "assetRef": "composite:mud/kotm-house-pod",
+          "buildingFamily": "kotm-mudhut",
           "centreM": [
-            289.0,
-            2997.0
+            339.0,
+            2968.0
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": {
-            "arcM": 0.84,
-            "bearingDeg": 180.0,
-            "interiorRef": null,
-            "kind": "leaf",
+            "arcM": null,
+            "bearingDeg": 188.2,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
             "worldM": [
-              290.9,
-              3001.225
+              338.09,
+              2974.29
             ]
           },
           "front": null,
@@ -3776,123 +6101,123 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its entrance turns south-east to the common.",
+          "orientationWhy": "Its door turns north-east to the Blackwood Road, which bends round it.",
           "polygon": [
             [
-              289.991,
-              2991.478
+              331.03,
+              2966.24
             ],
             [
-              290.545,
-              2991.362
+              331.26,
+              2964.86
             ],
             [
-              291.139,
-              2991.358
+              331.7,
+              2963.29
             ],
             [
-              291.753,
-              2991.465
+              332.12,
+              2962.64
             ],
             [
-              292.395,
-              2991.71
+              334.48,
+              2961.14
             ],
             [
-              295.392,
-              2993.247
+              336.91,
+              2960.43
             ],
             [
-              295.669,
-              2993.54
+              337.71,
+              2960.28
             ],
             [
-              295.987,
-              2994.766
+              339.49,
+              2960.94
             ],
             [
-              296.283,
-              2997.158
+              340.82,
+              2961.74
             ],
             [
-              296.046,
-              2997.617
+              341.91,
+              2962.51
             ],
             [
-              295.424,
-              2998.568
+              343.75,
+              2964.58
             ],
             [
-              294.248,
-              2999.9
+              344.06,
+              2965.3
             ],
             [
-              293.77,
-              3000.223
+              344.54,
+              2966.8
             ],
             [
-              292.781,
-              3000.838
+              344.65,
+              2968.57
             ],
             [
-              291.105,
-              3001.204
+              344.5,
+              2969.58
             ],
             [
-              289.972,
-              3001.19
+              343.54,
+              2971.42
             ],
             [
-              288.482,
-              3001.073
+              343.04,
+              2972.07
             ],
             [
-              286.73,
-              3000.763
+              342.13,
+              2972.86
             ],
             [
-              286.159,
-              3000.567
+              339.28,
+              2975.05
             ],
             [
-              285.717,
-              3000.259
+              338.9,
+              2975.14
             ],
             [
-              284.56,
-              2997.286
+              338.29,
+              2975.19
             ],
             [
-              284.672,
-              2996.628
+              337.54,
+              2975.08
             ],
             [
-              284.899,
-              2996.141
+              336.92,
+              2974.87
             ],
             [
-              285.211,
-              2995.74
+              336.61,
+              2974.67
             ],
             [
-              285.596,
-              2995.249
+              334.68,
+              2973.24
             ],
             [
-              288.029,
-              2992.841
+              332.89,
+              2971.77
             ],
             [
-              288.466,
-              2992.405
+              332.36,
+              2971.04
             ],
             [
-              288.943,
-              2992.019
+              331.55,
+              2969.16
             ],
             [
-              289.46,
-              2991.714
+              331.14,
+              2967.51
             ]
           ],
           "spans": null,
@@ -3902,17 +6227,17 @@
             "playerPurpose": "A home to enter and people to talk to about the well and the landing.",
             "what": "The family hut of the landing, where one household of the landing lives.",
             "whyHere": "The landing's families live on the dry point by the channel.",
-            "whyNeighbours": "It faces the common with the poler's hut across the road and the store hut to the west.",
-            "whySpot": "West of the road on the north strip, on the widest dry cell."
+            "whyNeighbours": "The road runs past its door; the landing and the poler's pod are across the road to the east.",
+            "whySpot": "West of the road on the inside of its bend, the driest ground on the north bank."
           },
-          "yawDeg": 70.0
+          "yawDeg": 0.0
         },
         {
           "assetRef": "ferryraft:snt/ferry/ferryraft01",
           "buildingFamily": "native-craft",
           "centreM": [
-            348.0,
-            3007.5
+            348.3,
+            3007.9
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": null,
@@ -3926,92 +6251,92 @@
           "orientationWhy": "The raft lies with its long side to the bank for boarding.",
           "polygon": [
             [
-              350.071,
-              3006.085
+              350.748,
+              3007.351
             ],
             [
-              350.101,
-              3006.088
+              350.774,
+              3007.365
             ],
             [
-              350.12,
-              3006.099
+              350.788,
+              3007.383
             ],
             [
-              350.187,
-              3006.135
+              350.837,
+              3007.441
             ],
             [
-              350.196,
-              3006.146
+              350.841,
+              3007.454
             ],
             [
-              350.164,
-              3006.746
+              350.59,
+              3007.999
             ],
             [
-              350.017,
-              3008.429
+              349.83,
+              3009.509
             ],
             [
-              349.951,
-              3008.946
+              349.579,
+              3009.965
             ],
             [
-              349.888,
-              3009.101
+              349.462,
+              3010.085
             ],
             [
-              349.611,
-              3009.167
+              349.18,
+              3010.044
             ],
             [
-              346.013,
-              3008.982
+              345.906,
+              3008.543
             ],
             [
-              345.973,
-              3008.979
+              345.87,
+              3008.525
             ],
             [
-              345.954,
-              3008.967
+              345.857,
+              3008.507
             ],
             [
-              345.924,
-              3008.965
+              345.83,
+              3008.493
             ],
             [
-              345.858,
-              3008.919
+              345.785,
+              3008.426
             ],
             [
-              345.849,
-              3008.908
+              345.781,
+              3008.413
             ],
             [
-              346.133,
-              3006.584
+              346.904,
+              3006.358
             ],
             [
-              346.188,
-              3006.067
+              347.146,
+              3005.898
             ],
             [
-              346.262,
-              3005.912
+              347.272,
+              3005.782
             ],
             [
-              346.431,
-              3005.817
+              347.464,
+              3005.756
             ],
             [
-              346.62,
-              3005.833
+              347.634,
+              3005.841
             ],
             [
-              350.031,
-              3006.082
+              350.712,
+              3007.333
             ]
           ],
           "spans": null,
@@ -4024,14 +6349,93 @@
             "whyNeighbours": "The cleats on the bank hold it; the landing path runs to it.",
             "whySpot": "The nearest water that floats it: at least a metre all round, east of the road."
           },
-          "yawDeg": 95.0
+          "yawDeg": 116.7
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-docks",
+          "centreM": [
+            336.76,
+            3001.89
+          ],
+          "districtId": "district.claywater-station.the-landing",
+          "entrance": null,
+          "front": null,
+          "groundFit": "stilt",
+          "id": "parcel.claywater-station.landing-stage",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The two dock spans run from the dry bank straight out to the raft's berth.",
+          "polygon": [
+            [
+              334.64,
+              2998.294
+            ],
+            [
+              334.478,
+              2998.347
+            ],
+            [
+              332.565,
+              3002.153
+            ],
+            [
+              332.613,
+              3002.323
+            ],
+            [
+              339.242,
+              3005.746
+            ],
+            [
+              342.49,
+              3007.145
+            ],
+            [
+              344.683,
+              3008.013
+            ],
+            [
+              344.849,
+              3007.951
+            ],
+            [
+              344.926,
+              3007.799
+            ],
+            [
+              344.077,
+              3003.544
+            ],
+            [
+              344.019,
+              3003.369
+            ],
+            [
+              341.268,
+              3001.717
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "The deck stands a hand's breadth over the flood water; its piles go down into the bed.",
+            "playerPurpose": "The way from the bank to the ferry raft.",
+            "what": "The landing stage: two plank dock spans on piles from the bank out over the flood water.",
+            "whyHere": "The ferry raft needs a dry way out to water deep enough to float it.",
+            "whyNeighbours": "The raft lies at its end; the cleats and the canoe are at its foot.",
+            "whySpot": "From the bank east of the poler's pod, the shortest way to a metre of water."
+          },
+          "yawDeg": 116.7
         },
         {
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-fence",
           "centreM": [
-            357.5,
-            3087.0
+            363.6,
+            3084.55
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -4042,79 +6446,43 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The fence runs north to south along the paddock's west side.",
+          "orientationWhy": "The fence runs along the road's east verge, with a gap at the paddock path.",
           "polygon": [
             [
-              357.41,
-              3088.95
+              362.503,
+              3082.842
             ],
             [
-              357.47,
-              3089.06
+              362.478,
+              3082.858
             ],
             [
-              357.52,
-              3089.07
+              362.476,
+              3082.967
             ],
             [
-              357.58,
-              3088.98
+              366.274,
+              3088.877
             ],
             [
-              357.59,
-              3085.083
+              367.837,
+              3091.284
             ],
             [
-              357.603,
-              3085.06
+              367.947,
+              3091.344
             ],
             [
-              357.607,
-              3081.163
+              367.994,
+              3091.325
             ],
             [
-              357.62,
-              3081.139
+              367.995,
+              3091.217
             ],
             [
-              357.616,
-              3077.22
-            ],
-            [
-              357.536,
-              3077.13
-            ],
-            [
-              357.506,
-              3077.13
-            ],
-            [
-              357.446,
-              3077.221
-            ],
-            [
-              357.451,
-              3081.115
-            ],
-            [
-              357.437,
-              3081.14
-            ],
-            [
-              357.428,
-              3082.16
-            ],
-            [
-              357.435,
-              3085.035
-            ],
-            [
-              357.42,
-              3085.06
-            ],
-            [
-              357.41,
-              3086.08
+              362.619,
+              3082.874
             ]
           ],
           "spans": null,
@@ -4122,12 +6490,12 @@
           "why": {
             "microGeography": "It stands on the last dry ground above the channel.",
             "playerPurpose": "It keeps the station's horses and the player's in the paddock overnight.",
-            "what": "A woven fence of three panels round the stable paddock.",
+            "what": "A woven fence of two panels along the paddock's road side, with a gap.",
             "whyHere": "Imperial stations fence the paddock where the animals stand.",
-            "whyNeighbours": "It holds the paddock between the barn and the channel bank.",
-            "whySpot": "West of the stable barn, where the bench ends."
+            "whyNeighbours": "It holds the paddock between the road and the water; the open stalls stand at its south end.",
+            "whySpot": "East of the road, on the flat ground between the verge and the flood water."
           },
-          "yawDeg": 90.0
+          "yawDeg": 57.0
         },
         {
           "assetRef": "composite:mud/kotm-house-pod",
@@ -4995,6 +7363,78 @@
           "yawDeg": 122.0
         },
         {
+          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
+          "buildingFamily": "mw-imperial-stables",
+          "centreM": [
+            377.0,
+            3100.0
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": {
+            "arcM": 2.11,
+            "bearingDeg": 267.5,
+            "interiorRef": "vanilla-imperial-int",
+            "kind": "opening",
+            "worldM": [
+              372.01,
+              3099.87
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The open stalls face west to the road, their backs to the flood water.",
+          "polygon": [
+            [
+              371.54,
+              3097.27
+            ],
+            [
+              375.92,
+              3097.72
+            ],
+            [
+              376.09,
+              3097.89
+            ],
+            [
+              376.54,
+              3098.35
+            ],
+            [
+              376.54,
+              3101.65
+            ],
+            [
+              376.09,
+              3102.11
+            ],
+            [
+              375.92,
+              3102.28
+            ],
+            [
+              371.54,
+              3102.28
+            ]
+          ],
+          "spans": null,
+          "use": "storage",
+          "why": {
+            "microGeography": "Flat ground half a metre above the flood water.",
+            "playerPurpose": "A stable where the player's horse is kept for the night.",
+            "what": "Two open stalls where travellers' horses stand for the night.",
+            "whyHere": "A road station keeps a stable for animals that cannot come inside.",
+            "whyNeighbours": "The paddock fence runs north of it; the stablemaster's house faces it across the road.",
+            "whySpot": "East of the road on the flat ground by the water, the only level ground beside the paddock."
+          },
+          "yawDeg": 90.0
+        },
+        {
           "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
           "buildingFamily": "vanilla-farmhouse",
           "centreM": [
@@ -5015,10 +7455,10 @@
           "groundFit": null,
           "id": "parcel.claywater-station.stable-barn",
           "interior": {
-            "kind": "none"
+            "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its open front faces the stable path and the paddock fence, away from the hillside.",
+          "orientationWhy": "Its deck door faces north-east over the road to the paddock; the stair climbs to the deck at its west corner.",
           "polygon": [
             [
               335.548,
@@ -5054,261 +7494,14 @@
             ]
           ],
           "spans": null,
-          "use": "storage",
+          "use": "dwelling",
           "why": {
-            "microGeography": "The ground falls to the north; the barn stands on a pad with a retaining wall on its low side.",
-            "playerPurpose": "A stable where the player's horse is kept for the night.",
-            "what": "The stable barn, where horses and the handcart stand for the night.",
-            "whyHere": "A road station keeps a stable for animals that cannot come inside.",
-            "whyNeighbours": "The paddock fence runs along its west side; the stable path joins it to the well.",
-            "whySpot": "West of the station house, the last level ground before the bench drops to the channel."
-          },
-          "yawDeg": 238.0
-        },
-        {
-          "assetRef": null,
-          "buildingFamily": "vanilla-farmhouse-stonewall",
-          "centreM": [
-            347.42,
-            3090.32
-          ],
-          "districtId": "district.claywater-station.the-well",
-          "entrance": null,
-          "front": null,
-          "groundFit": null,
-          "id": "parcel.claywater-station.stable-wall-east",
-          "interior": {
-            "kind": "none"
-          },
-          "notes": null,
-          "orientationWhy": "The wall runs the whole east side of the barn's pad, square to it.",
-          "polygon": [
-            [
-              338.44,
-              3077.194
-            ],
-            [
-              338.593,
-              3077.912
-            ],
-            [
-              338.672,
-              3078.17
-            ],
-            [
-              338.783,
-              3078.348
-            ],
-            [
-              340.095,
-              3079.924
-            ],
-            [
-              340.118,
-              3080.144
-            ],
-            [
-              340.59,
-              3081.239
-            ],
-            [
-              340.701,
-              3081.417
-            ],
-            [
-              342.019,
-              3083.0
-            ],
-            [
-              342.041,
-              3083.222
-            ],
-            [
-              342.514,
-              3084.318
-            ],
-            [
-              342.625,
-              3084.496
-            ],
-            [
-              343.942,
-              3086.078
-            ],
-            [
-              343.965,
-              3086.3
-            ],
-            [
-              344.437,
-              3087.396
-            ],
-            [
-              344.549,
-              3087.575
-            ],
-            [
-              345.861,
-              3089.151
-            ],
-            [
-              345.883,
-              3089.37
-            ],
-            [
-              346.356,
-              3090.466
-            ],
-            [
-              346.467,
-              3090.644
-            ],
-            [
-              346.733,
-              3090.938
-            ],
-            [
-              347.148,
-              3091.28
-            ],
-            [
-              347.514,
-              3091.452
-            ],
-            [
-              347.789,
-              3091.552
-            ],
-            [
-              348.122,
-              3091.462
-            ],
-            [
-              348.308,
-              3091.251
-            ],
-            [
-              348.396,
-              3090.901
-            ],
-            [
-              348.36,
-              3090.522
-            ],
-            [
-              348.277,
-              3089.974
-            ],
-            [
-              348.129,
-              3089.606
-            ],
-            [
-              348.018,
-              3089.427
-            ],
-            [
-              347.24,
-              3088.522
-            ],
-            [
-              347.052,
-              3088.406
-            ],
-            [
-              346.211,
-              3086.536
-            ],
-            [
-              346.1,
-              3086.358
-            ],
-            [
-              345.322,
-              3085.453
-            ],
-            [
-              345.132,
-              3085.335
-            ],
-            [
-              344.287,
-              3083.457
-            ],
-            [
-              344.176,
-              3083.279
-            ],
-            [
-              343.398,
-              3082.374
-            ],
-            [
-              343.209,
-              3082.257
-            ],
-            [
-              342.364,
-              3080.379
-            ],
-            [
-              342.252,
-              3080.201
-            ],
-            [
-              341.475,
-              3079.296
-            ],
-            [
-              341.287,
-              3079.179
-            ],
-            [
-              340.446,
-              3077.309
-            ],
-            [
-              340.334,
-              3077.131
-            ],
-            [
-              340.137,
-              3076.947
-            ],
-            [
-              339.525,
-              3076.516
-            ],
-            [
-              339.307,
-              3076.487
-            ],
-            [
-              339.074,
-              3076.492
-            ],
-            [
-              338.821,
-              3076.614
-            ],
-            [
-              338.651,
-              3076.72
-            ],
-            [
-              338.527,
-              3076.881
-            ]
-          ],
-          "spans": null,
-          "use": "wall",
-          "why": {
-            "microGeography": "The ground falls away toward the paddock along the whole of this edge.",
-            "playerPurpose": "From the paddock it reads as the barn's raised stone base, with no way up on this side.",
-            "what": "A dry-stone retaining wall along the whole east side of the stable barn's pad.",
-            "whyHere": "The pad stands up to 1.2 m above the paddock on this side; the wall holds the full length of that edge.",
-            "whyNeighbours": "It meets the south wall at one corner and ends at the north-east corner, at a gap about 2.8 m wide where the stable path comes up onto the pad and runs on between the barn and this wall to the barn door.",
-            "whySpot": "From the pad's south-east corner to its north-east corner, a pace out from the barn."
+            "microGeography": "The ground falls to the north; the house stands on a pad with a retaining wall on its low side.",
+            "playerPurpose": "The house of the man who takes the player's horse for the night.",
+            "what": "The stablemaster's house: the well-keeper's hand lives upstairs, reached by the outside stair to the deck.",
+            "whyHere": "A road station keeps someone by the horses at night.",
+            "whyNeighbours": "The paddock and the open stalls stand across the road; the stable path joins the house to the well.",
+            "whySpot": "West of the road, facing the paddock across it, the last level ground before the bench drops to the channel."
           },
           "yawDeg": 238.0
         },
@@ -5531,8 +7724,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            337.03,
-            3100.22
+            336.2,
+            3100.75
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -5546,188 +7739,188 @@
           "orientationWhy": "The wall runs along the barn's long south side, square to the pad.",
           "polygon": [
             [
-              335.798,
-              3100.589
+              334.968,
+              3101.119
             ],
             [
-              335.889,
-              3100.922
+              335.059,
+              3101.452
             ],
             [
-              336.099,
-              3101.108
+              335.269,
+              3101.638
             ],
             [
-              336.449,
-              3101.196
+              335.619,
+              3101.726
             ],
             [
-              336.828,
-              3101.16
+              335.998,
+              3101.69
             ],
             [
-              337.376,
-              3101.077
+              336.546,
+              3101.607
             ],
             [
-              337.745,
-              3100.929
+              336.915,
+              3101.459
             ],
             [
-              337.923,
-              3100.818
+              337.093,
+              3101.348
             ],
             [
-              338.828,
-              3100.04
+              337.998,
+              3100.57
             ],
             [
-              338.944,
-              3099.852
+              338.114,
+              3100.382
             ],
             [
-              340.814,
-              3099.011
+              339.984,
+              3099.541
             ],
             [
-              340.992,
-              3098.9
+              340.162,
+              3099.43
             ],
             [
-              341.897,
-              3098.122
+              341.067,
+              3098.652
             ],
             [
-              342.015,
-              3097.932
+              341.185,
+              3098.462
             ],
             [
-              343.893,
-              3097.087
+              343.063,
+              3097.617
             ],
             [
-              344.071,
-              3096.976
+              343.241,
+              3097.506
             ],
             [
-              344.976,
-              3096.198
+              344.146,
+              3096.728
             ],
             [
-              345.092,
-              3096.011
+              344.262,
+              3096.541
             ],
             [
-              346.962,
-              3095.169
+              346.132,
+              3095.699
             ],
             [
-              347.141,
-              3095.058
+              346.311,
+              3095.588
             ],
             [
-              347.324,
-              3094.86
+              346.494,
+              3095.39
             ],
             [
-              347.756,
-              3094.249
+              346.926,
+              3094.779
             ],
             [
-              347.784,
-              3094.031
+              346.954,
+              3094.561
             ],
             [
-              347.78,
-              3093.797
+              346.95,
+              3094.327
             ],
             [
-              347.657,
-              3093.544
+              346.827,
+              3094.074
             ],
             [
-              347.551,
-              3093.374
+              346.721,
+              3093.904
             ],
             [
-              347.391,
-              3093.25
+              346.561,
+              3093.78
             ],
             [
-              347.077,
-              3093.164
+              346.247,
+              3093.694
             ],
             [
-              346.36,
-              3093.317
+              345.53,
+              3093.847
             ],
             [
-              346.102,
-              3093.396
+              345.272,
+              3093.926
             ],
             [
-              345.924,
-              3093.507
+              345.094,
+              3094.037
             ],
             [
-              344.348,
-              3094.819
+              343.518,
+              3095.349
             ],
             [
-              344.128,
-              3094.841
+              343.298,
+              3095.371
             ],
             [
-              343.032,
-              3095.314
+              342.202,
+              3095.844
             ],
             [
-              342.854,
-              3095.425
+              342.024,
+              3095.955
             ],
             [
-              341.272,
-              3096.742
+              340.442,
+              3097.272
             ],
             [
-              341.05,
-              3096.765
+              340.22,
+              3097.295
             ],
             [
-              339.954,
-              3097.237
+              339.124,
+              3097.767
             ],
             [
-              339.775,
-              3097.349
+              338.945,
+              3097.879
             ],
             [
-              338.199,
-              3098.661
+              337.369,
+              3099.191
             ],
             [
-              337.98,
-              3098.683
+              337.15,
+              3099.213
             ],
             [
-              336.884,
-              3099.156
+              336.054,
+              3099.686
             ],
             [
-              336.706,
-              3099.267
+              335.876,
+              3099.797
             ],
             [
-              336.412,
-              3099.533
+              335.582,
+              3100.063
             ],
             [
-              336.07,
-              3099.948
+              335.24,
+              3100.478
             ],
             [
-              335.898,
-              3100.314
+              335.068,
+              3100.844
             ]
           ],
           "spans": null,
@@ -5746,8 +7939,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            325.07,
-            3086.83
+            323.8,
+            3087.63
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -5761,220 +7954,136 @@
           "orientationWhy": "The wall runs across the barn's west end, square to the pad.",
           "polygon": [
             [
-              324.094,
-              3086.249
+              322.824,
+              3087.049
             ],
             [
-              324.13,
-              3086.628
+              322.86,
+              3087.428
             ],
             [
-              324.213,
-              3087.176
+              322.943,
+              3087.976
             ],
             [
-              324.361,
-              3087.545
+              323.091,
+              3088.344
             ],
             [
-              324.472,
-              3087.723
+              323.202,
+              3088.523
             ],
             [
-              325.25,
-              3088.628
+              323.98,
+              3089.428
             ],
             [
-              325.438,
-              3088.744
+              324.168,
+              3089.544
             ],
             [
-              326.279,
-              3090.614
+              325.009,
+              3091.414
             ],
             [
-              326.39,
-              3090.792
+              325.12,
+              3091.592
             ],
             [
-              327.168,
-              3091.697
+              325.898,
+              3092.497
             ],
             [
-              327.358,
-              3091.815
+              326.088,
+              3092.615
             ],
             [
-              328.203,
-              3093.693
+              326.933,
+              3094.492
             ],
             [
-              328.314,
-              3093.871
+              327.044,
+              3094.671
             ],
             [
-              329.092,
-              3094.776
+              327.822,
+              3095.576
             ],
             [
-              329.281,
-              3094.893
+              328.013,
+              3095.693
             ],
             [
-              330.126,
-              3096.771
+              329.2,
+              3094.951
             ],
             [
-              330.238,
-              3096.949
+              329.179,
+              3094.728
             ],
             [
-              331.015,
-              3097.854
+              328.706,
+              3093.632
             ],
             [
-              331.203,
-              3097.971
+              328.595,
+              3093.454
             ],
             [
-              332.044,
-              3099.841
+              327.278,
+              3091.872
             ],
             [
-              332.156,
-              3100.019
+              327.255,
+              3091.65
             ],
             [
-              332.353,
-              3100.203
+              326.783,
+              3090.554
             ],
             [
-              332.965,
-              3100.634
+              326.671,
+              3090.375
             ],
             [
-              333.183,
-              3100.663
+              325.359,
+              3088.799
             ],
             [
-              333.416,
-              3100.658
+              325.337,
+              3088.58
             ],
             [
-              333.669,
-              3100.536
+              324.864,
+              3087.484
             ],
             [
-              333.839,
-              3100.43
+              324.753,
+              3087.306
             ],
             [
-              333.963,
-              3100.269
+              324.487,
+              3087.012
             ],
             [
-              334.05,
-              3099.956
+              324.073,
+              3086.67
             ],
             [
-              333.897,
-              3099.238
+              323.706,
+              3086.498
             ],
             [
-              333.818,
-              3098.981
+              323.431,
+              3086.398
             ],
             [
-              333.707,
-              3098.802
+              323.098,
+              3086.488
             ],
             [
-              332.395,
-              3097.226
-            ],
-            [
-              332.372,
-              3097.006
-            ],
-            [
-              331.9,
-              3095.911
-            ],
-            [
-              331.789,
-              3095.733
-            ],
-            [
-              330.471,
-              3094.15
-            ],
-            [
-              330.449,
-              3093.928
-            ],
-            [
-              329.976,
-              3092.832
-            ],
-            [
-              329.865,
-              3092.654
-            ],
-            [
-              328.548,
-              3091.072
-            ],
-            [
-              328.525,
-              3090.85
-            ],
-            [
-              328.053,
-              3089.754
-            ],
-            [
-              327.941,
-              3089.575
-            ],
-            [
-              326.629,
-              3087.999
-            ],
-            [
-              326.607,
-              3087.78
-            ],
-            [
-              326.134,
-              3086.684
-            ],
-            [
-              326.023,
-              3086.506
-            ],
-            [
-              325.757,
-              3086.212
-            ],
-            [
-              325.343,
-              3085.87
-            ],
-            [
-              324.976,
-              3085.698
-            ],
-            [
-              324.701,
-              3085.598
-            ],
-            [
-              324.368,
-              3085.689
-            ],
-            [
-              324.182,
-              3085.899
+              322.912,
+              3086.699
             ]
           ],
           "spans": null,
@@ -6134,160 +8243,160 @@
           "yawDeg": 212.0
         },
         {
-          "assetRef": "kotm:argonia/mudhuts/mudhut01",
-          "buildingFamily": "mud-hut",
+          "assetRef": "composite:mud/kotm-house-pod",
+          "buildingFamily": "kotm-mudhut",
           "centreM": [
-            262.0,
-            2996.0
+            329.0,
+            2982.0
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": {
-            "arcM": 0.84,
-            "bearingDeg": 150.0,
-            "interiorRef": null,
-            "kind": "leaf",
+            "arcM": null,
+            "bearingDeg": 98.2,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
             "worldM": [
-              265.758,
-              2998.709
+              335.29,
+              2982.91
             ]
           },
           "front": null,
           "groundFit": null,
           "id": "parcel.claywater-station.store-hut",
           "interior": {
-            "kind": "none"
+            "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its open side faces the common and the fish racks.",
+          "orientationWhy": "Its door faces east onto the store path, a few metres above the landing's dock where the catch comes ashore.",
           "polygon": [
             [
-              260.097,
-              2990.722
+              327.24,
+              2989.97
             ],
             [
-              260.519,
-              2990.345
+              325.86,
+              2989.74
             ],
             [
-              261.032,
-              2990.044
+              324.29,
+              2989.3
             ],
             [
-              261.616,
-              2989.83
+              323.64,
+              2988.88
             ],
             [
-              262.295,
-              2989.721
+              322.14,
+              2986.52
             ],
             [
-              265.659,
-              2989.554
+              321.43,
+              2984.09
             ],
             [
-              266.046,
-              2989.669
+              321.28,
+              2983.29
             ],
             [
-              266.934,
-              2990.571
+              321.94,
+              2981.51
             ],
             [
-              268.387,
-              2992.496
+              322.74,
+              2980.18
             ],
             [
-              268.411,
-              2993.012
+              323.51,
+              2979.09
             ],
             [
-              268.347,
-              2994.146
+              325.58,
+              2977.25
             ],
             [
-              267.995,
-              2995.887
+              326.3,
+              2976.94
             ],
             [
-              267.742,
-              2996.406
+              327.8,
+              2976.46
             ],
             [
-              267.193,
-              2997.434
+              329.57,
+              2976.35
             ],
             [
-              265.925,
-              2998.588
+              330.58,
+              2976.5
             ],
             [
-              264.937,
-              2999.143
+              332.42,
+              2977.46
             ],
             [
-              263.588,
-              2999.786
+              333.07,
+              2977.96
             ],
             [
-              261.916,
-              3000.394
+              333.86,
+              2978.87
             ],
             [
-              261.323,
-              3000.51
+              336.05,
+              2981.72
             ],
             [
-              260.786,
-              3000.464
+              336.14,
+              2982.1
             ],
             [
-              258.298,
-              2998.468
+              336.19,
+              2982.71
             ],
             [
-              258.066,
-              2997.842
+              336.08,
+              2983.46
             ],
             [
-              258.019,
-              2997.307
+              335.87,
+              2984.08
             ],
             [
-              258.088,
-              2996.804
+              335.67,
+              2984.39
             ],
             [
-              258.176,
-              2996.185
+              334.24,
+              2986.32
             ],
             [
-              259.08,
-              2992.884
+              332.77,
+              2988.11
             ],
             [
-              259.241,
-              2992.288
+              332.04,
+              2988.64
             ],
             [
-              259.46,
-              2991.715
+              330.16,
+              2989.45
             ],
             [
-              259.755,
-              2991.192
+              328.51,
+              2989.86
             ]
           ],
           "spans": null,
-          "use": "storage",
+          "use": "dwelling",
           "why": {
-            "microGeography": "The lowest hut on the strip, its pad raised furthest to clear the high water.",
-            "playerPurpose": "None beyond the look of a working landing.",
-            "what": "The landing's fish store and smokehouse.",
-            "whyHere": "The catch from the channel is dried and stored here.",
-            "whyNeighbours": "The fish racks stand between it and the common.",
-            "whySpot": "The west end of the north strip, beside the family hut."
+            "microGeography": "Dry bank a metre above the flood water, its pad raised to clear the high water.",
+            "playerPurpose": "A household on the landing whose door the player can open.",
+            "what": "The landing's net and basket maker lives and works in this pod, beside the stored catch.",
+            "whyHere": "A landing needs its nets mended and its baskets woven close to the boats.",
+            "whyNeighbours": "The landing steps run past its door; the poler's pod stands to the south-west.",
+            "whySpot": "North of the landing steps on the dry bank, clear of the road."
           },
-          "yawDeg": 40.0
+          "yawDeg": 270.0
         },
         {
           "assetRef": "vanilla:dungeons/mines/clutter/genericwell01",
@@ -6598,189 +8707,6 @@
             "whySpot": "South of the lean-to along the road verge, leaving the well junction open."
           },
           "yawDeg": 212.0
-        },
-        {
-          "assetRef": null,
-          "buildingFamily": "vanilla-farmhouse-stonewall",
-          "centreM": [
-            328.61,
-            3067.68
-          ],
-          "districtId": "district.claywater-station.the-well",
-          "entrance": null,
-          "front": null,
-          "groundFit": null,
-          "id": "parcel.claywater-station.yard-wall-north",
-          "interior": {
-            "kind": "none"
-          },
-          "notes": null,
-          "orientationWhy": "The wall runs along the road side of the pad, north of the door gap.",
-          "polygon": [
-            [
-              320.882,
-              3063.346
-            ],
-            [
-              320.942,
-              3063.667
-            ],
-            [
-              321.394,
-              3064.244
-            ],
-            [
-              321.578,
-              3064.441
-            ],
-            [
-              321.756,
-              3064.553
-            ],
-            [
-              323.626,
-              3065.394
-            ],
-            [
-              323.743,
-              3065.582
-            ],
-            [
-              324.647,
-              3066.36
-            ],
-            [
-              324.825,
-              3066.471
-            ],
-            [
-              326.696,
-              3067.312
-            ],
-            [
-              326.812,
-              3067.5
-            ],
-            [
-              327.717,
-              3068.278
-            ],
-            [
-              327.895,
-              3068.389
-            ],
-            [
-              328.264,
-              3068.537
-            ],
-            [
-              328.786,
-              3068.663
-            ],
-            [
-              329.191,
-              3068.656
-            ],
-            [
-              329.481,
-              3068.625
-            ],
-            [
-              329.741,
-              3068.399
-            ],
-            [
-              329.816,
-              3068.127
-            ],
-            [
-              329.742,
-              3067.774
-            ],
-            [
-              329.544,
-              3067.45
-            ],
-            [
-              329.228,
-              3066.993
-            ],
-            [
-              328.934,
-              3066.727
-            ],
-            [
-              328.756,
-              3066.616
-            ],
-            [
-              327.66,
-              3066.143
-            ],
-            [
-              327.441,
-              3066.121
-            ],
-            [
-              325.865,
-              3064.809
-            ],
-            [
-              325.686,
-              3064.697
-            ],
-            [
-              324.59,
-              3064.225
-            ],
-            [
-              324.371,
-              3064.203
-            ],
-            [
-              322.795,
-              3062.891
-            ],
-            [
-              322.616,
-              3062.779
-            ],
-            [
-              322.358,
-              3062.701
-            ],
-            [
-              321.62,
-              3062.581
-            ],
-            [
-              321.411,
-              3062.651
-            ],
-            [
-              321.203,
-              3062.757
-            ],
-            [
-              321.03,
-              3062.978
-            ],
-            [
-              320.924,
-              3063.148
-            ]
-          ],
-          "spans": null,
-          "use": "wall",
-          "why": {
-            "microGeography": "The pad edge stands a little above the road verge here.",
-            "playerPurpose": "It marks the way into the station house through the gap.",
-            "what": "A short dry-stone wall on the road side of the station house's pad, north of the door.",
-            "whyHere": "Imperial yards are walled on the road side; this length also holds the pad's edge.",
-            "whyNeighbours": "With the yard wall south of the gap, it frames the path from the well junction to the door.",
-            "whySpot": "Between the pad's north-east corner and the gap left for the door path."
-          },
-          "yawDeg": 212.0
         }
       ],
       "provision": {},
@@ -6873,7 +8799,7 @@
         "combatSpaces": 1,
         "districts": 2,
         "docks": 0,
-        "doors": 4,
+        "doors": 5,
         "fences": 0,
         "keptTrees": 0,
         "landmarks": 0,
@@ -6902,8 +8828,12 @@
               3019.15
             ],
             [
-              313.5,
-              3016.5
+              315.5,
+              3014.216
+            ],
+            [
+              313.6,
+              3012.5
             ],
             [
               313.09,
@@ -6943,59 +8873,27 @@
           "notes": null,
           "points": [
             [
-              313.6,
-              3012.5
+              338.8,
+              2983.4
             ],
             [
-              307.5,
-              3012.5
-            ],
-            [
-              299.5,
-              3004.5
-            ],
-            [
-              295.5,
-              3004.5
-            ],
-            [
-              293.5,
-              3002.5
-            ],
-            [
-              291.5,
-              3002.5
-            ],
-            [
-              291.0,
-              3004.0
-            ],
-            [
-              290.9,
-              3001.225
+              338.09,
+              2974.29
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              313.6,
-              3012.5
+              338.8,
+              2983.4
             ],
             [
-              304.0,
-              3009.6
+              338.4,
+              2980.0
             ],
             [
-              295.5,
-              3004.5
-            ],
-            [
-              291.0,
-              3004.0
-            ],
-            [
-              290.9,
-              3002.0
+              338.1,
+              2975.1
             ]
           ],
           "waterOk": null,
@@ -7020,24 +8918,52 @@
               3021.0
             ],
             [
-              315.5,
-              3021.5
+              313.5,
+              3019.216
             ],
             [
-              322.5,
-              3013.5
+              317.5,
+              3019.216
             ],
             [
-              330.0,
-              3014.0
+              322.8,
+              3014.5
             ],
             [
-              335.5,
-              3008.5
+              328.5,
+              3008.216
             ],
             [
-              345.849,
-              3008.908
+              328.5,
+              3004.5
+            ],
+            [
+              331.5,
+              3003.216
+            ],
+            [
+              331.5,
+              3001.216
+            ],
+            [
+              334.5,
+              2997.216
+            ],
+            [
+              339.5,
+              2997.216
+            ],
+            [
+              345.5,
+              3003.216
+            ],
+            [
+              345.5,
+              3007.216
+            ],
+            [
+              346.423,
+              3007.237
             ]
           ],
           "routing": "terrain",
@@ -7047,16 +8973,20 @@
               3021.0
             ],
             [
-              318.0,
-              3018.0
+              315.5,
+              3019.15
             ],
             [
-              330.0,
-              3014.0
+              322.8,
+              3014.5
             ],
             [
-              338.5,
-              3013.0
+              328.5,
+              3004.5
+            ],
+            [
+              331.9,
+              2999.3
             ]
           ],
           "waterOk": null,
@@ -7081,12 +9011,32 @@
               3070.5
             ],
             [
-              336.5,
-              3075.5
+              344.5,
+              3073.216
             ],
             [
-              340.5,
-              3083.5
+              344.5,
+              3075.216
+            ],
+            [
+              343.5,
+              3076.216
+            ],
+            [
+              342.0,
+              3076.0
+            ],
+            [
+              343.5,
+              3077.216
+            ],
+            [
+              343.5,
+              3082.1
+            ],
+            [
+              341.5,
+              3082.216
             ],
             [
               337.123,
@@ -7100,24 +9050,16 @@
               3070.5
             ],
             [
-              338.4,
-              3073.6
+              342.0,
+              3076.0
             ],
             [
-              336.9,
-              3077.0
+              343.5,
+              3082.1
             ],
             [
-              337.9,
-              3079.6
-            ],
-            [
-              339.6,
-              3082.3
-            ],
-            [
-              337.9,
-              3085.5
+              337.6,
+              3085.7
             ]
           ],
           "waterOk": null,
@@ -7143,15 +9085,11 @@
             ],
             [
               320.5,
-              3054.5
+              3054.216
             ],
             [
-              320.6,
-              3061.4
-            ],
-            [
-              317.5,
-              3063.5
+              320.5,
+              3063.216
             ],
             [
               317.43,
@@ -7191,51 +9129,67 @@
           "notes": null,
           "points": [
             [
-              295.5,
+              328.5,
               3004.5
             ],
             [
-              293.5,
-              3006.5
+              327.5,
+              3003.216
             ],
             [
-              284.5,
-              3006.5
+              327.5,
+              3000.216
             ],
             [
-              282.0,
-              3005.0
+              331.5,
+              2996.5
             ],
             [
-              280.5,
-              3002.5
+              331.5,
+              2994.216
             ],
             [
-              269.5,
-              3002.5
+              337.6,
+              2988.0
             ],
             [
-              265.787,
-              2998.665
+              337.5,
+              2984.216
+            ],
+            [
+              338.8,
+              2983.4
+            ],
+            [
+              336.5,
+              2984.216
+            ],
+            [
+              335.29,
+              2982.91
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              295.5,
+              328.5,
               3004.5
             ],
             [
-              282.0,
-              3005.0
+              331.5,
+              2996.5
             ],
             [
-              270.0,
-              3002.5
+              337.6,
+              2988.0
             ],
             [
-              266.2,
-              2999.4
+              338.8,
+              2983.4
+            ],
+            [
+              336.2,
+              2983.0
             ]
           ],
           "waterOk": null,
