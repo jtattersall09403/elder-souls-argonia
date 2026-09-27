@@ -40,7 +40,7 @@ import {
  */
 export const CROUCHED_HEIGHT_SHARE = 2 / 3;
 
-/** Where the standing capsule's crown sits above the ground. Unchanged. */
+/** Where the standing capsule's crown sits above the ground (1.89 m since walk 2 D5). */
 export const STANDING_CROWN_HEIGHT =
   CHARACTER_BODY_CENTER_HEIGHT + CHARACTER_CAPSULE_HALF_HEIGHT + CHARACTER_CAPSULE_RADIUS;
 export const CROUCHED_CROWN_HEIGHT = STANDING_CROWN_HEIGHT * CROUCHED_HEIGHT_SHARE;

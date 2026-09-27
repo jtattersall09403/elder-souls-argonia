@@ -59,7 +59,8 @@ import { useBoundaryMessage } from "@elder-souls/game-core/boundary/useBoundaryM
 import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
-import { InteriorDoors } from "./InteriorDoors";
+import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
+import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
@@ -237,6 +238,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [doors, setDoors] = useState<readonly SettlementDoor[]>([]);
   const [insideInterior, setInsideInterior] = useState(false);
   const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
+  // Black from the first frame when a cell is opened directly (the fade lifts once it is resident).
+  const doorOverlay = useMemo(() => createDoorOverlayChannel(directInterior ? 1 : 0), [directInterior]);
+  const interiorProbeRef = useRef<(() => InteriorDoorsProbe) | null>(null);
   // One activate press, one answer (doors, travel operators): the arbiter
   // the providers offer to and the driver resolves each frame; and the one
   // kit cache the settlement layer and the interior loader share.
@@ -599,6 +603,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               onInside={setInsideInterior}
               interaction={interaction}
               kitCache={kitCache}
+              overlay={doorOverlay}
+              probeRef={interiorProbeRef}
             />
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they
@@ -658,6 +664,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               playerModelRef={playerModelRef}
               settlementRebuildRef={settlementRebuildRef}
               interaction={interaction}
+              interiorProbeRef={interiorProbeRef}
             />
           </Physics>
           </Suspense>
@@ -671,6 +678,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           Loading terrain around the spawn…
         </div>
       )}
+      {/* Only over the canvas: a direct `?interior=` starts black, which must not hide the loading line. */}
+      {manifest && spawn && <DoorOverlay channel={doorOverlay} />}
       <div style={{
         // Stop short of the fixed time panel (top-right) — it was covering
         // the tail of this bar (compass unreadable, owner round 6).
@@ -1343,6 +1352,11 @@ declare global {
       cameraCast: (from: [number, number, number], to: [number, number, number]) => number | null;
       /** Force one settlement rebuild (flash probe). */
       settlementRebuild: () => boolean;
+      /** Drawn camera position and the body's position this frame (interior probe). */
+      camera: () => [number, number, number];
+      player: () => [number, number, number] | null;
+      /** The door transition and the shown cell (InteriorDoors probe state). */
+      interior: () => InteriorDoorsProbe | null;
     };
   }
 }
@@ -1360,7 +1374,7 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction, interiorProbeRef }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
@@ -1383,6 +1397,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   settlementRebuildRef?: React.MutableRefObject<(() => void) | null>;
   /** Resolved once per frame after the input update (interaction/arbiter.ts). */
   interaction: InteractionArbiter;
+  /** The interior doors' probe state, exposed on the debug hook. */
+  interiorProbeRef?: { current: (() => InteriorDoorsProbe) | null };
 }) {
   const rapier = useRapier();
   // depend on the map, not the context: a new adapter re-arms the spawn teleport (owner 2026-09-22: reset every 3 s)
@@ -1455,9 +1471,16 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         rebuild?.();
         return Boolean(rebuild);
       },
+      camera: () => [camera.position.x, camera.position.y, camera.position.z],
+      player: () => {
+        if (!adapter.ready) return null;
+        const p = adapter.position(new THREE.Vector3());
+        return [p.x, p.y, p.z];
+      },
+      interior: () => interiorProbeRef?.current?.() ?? null,
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef, camera, interiorProbeRef]);
 
   useEffect(() => {
     const detach = input.attach();
@@ -1559,7 +1582,17 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       return;
     }
     if (position.distanceToSquared(lastPosition.current) > 1600) {
-      camera3P.reset(visualPos, camera3P.yaw - Math.PI);
+      // A teleport (a door, `?interior=`, the safety net) that landed after
+      // this frame's steps: the interpolated pose still holds the old place,
+      // kilometres away (walk 2 D2). Reseat the drawn pose on the body and
+      // put the camera behind the player, looking the way it now faces.
+      adapter.readPose(currPos, currQuat);
+      prevPos.copy(currPos);
+      prevQuat.copy(currQuat);
+      visualPos.copy(currPos);
+      visualQuat.copy(currQuat);
+      adapter.applyVisualPose(visualPos, visualQuat);
+      camera3P.reset(visualPos, yawOf(currQuat));
     }
     lastPosition.current.copy(position);
     locomotion.update(adapter, intent, camera3P.yaw, delta);
@@ -1644,4 +1677,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   }, [adapter, spawn]);
 
   return null;
+}
+
+/** Heading of a body's +z axis about world up, radians (the FollowCamera `reset` convention). */
+function yawOf(q: THREE.Quaternion): number {
+  const z = new THREE.Vector3(0, 0, 1).applyQuaternion(q);
+  return Math.atan2(z.x, z.z);
 }

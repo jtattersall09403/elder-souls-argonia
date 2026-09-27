@@ -44,6 +44,8 @@ export interface InteriorLight {
   fade: number | null;
   /** The LIGH base record's editor id. */
   base: string;
+  /** The LIGH record's falloff exponent, when the exporter read one (walk 2 D2). */
+  falloffExponent?: number;
   /** Plugin units as read, for audit: the reference's XRDS override and the base radius. */
   raw: { xrdsUnits: number | null; baseRadiusUnits: number };
 }
@@ -110,6 +112,11 @@ export interface InteriorBundle {
   lights: InteriorLight[];
   ambient: { colorRGB: ColorRGB; intensity: number };
   fog: { colorRGB: ColorRGB; nearM: number; farM: number };
+  /**
+   * The cell's XCLL/LGTM lighting as the plugin records it; the runtime reads
+   * `directionalRGB` (the cell's directional light). Absent on older bundles.
+   */
+  lighting?: { directionalRGB?: ColorRGB; directionalFade?: number; [field: string]: unknown };
   /** Socket records (0103 decision 5); the interior runtime does not read them. */
   sockets: unknown[];
   /** References the exporter dropped, each with its reason. */
@@ -166,6 +173,13 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
       || !(l.raw?.xrdsUnits === null || isNum(l.raw?.xrdsUnits)) || !isNum(l.raw?.baseRadiusUnits)) {
       fail(`light ${i} malformed`);
     }
+    if (l.falloffExponent !== undefined && !(isNum(l.falloffExponent) && l.falloffExponent > 0)) {
+      fail(`light ${i} falloffExponent malformed`);
+    }
+  }
+  if (b!.lighting !== undefined && (typeof b!.lighting !== "object" || b!.lighting === null
+    || (b!.lighting.directionalRGB !== undefined && !isRgb(b!.lighting.directionalRGB)))) {
+    fail("bad lighting");
   }
   if (!isRgb(b!.ambient?.colorRGB) || !isNum(b!.ambient?.intensity)) fail("bad ambient");
   if (!isRgb(b!.fog?.colorRGB) || !isNum(b!.fog?.nearM) || !isNum(b!.fog?.farM)) fail("bad fog");

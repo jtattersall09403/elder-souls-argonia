@@ -7,6 +7,7 @@ import { DEFAULT_ARROW } from "@elder-souls/game-core/equipment/arrows";
 import type { RangedStats } from "@elder-souls/game-core/equipment/types";
 import type { AnimationState } from "@elder-souls/game-core/core/types";
 import * as THREE from "three";
+import { CHARACTER_BODY_CENTER_HEIGHT } from "@elder-souls/game-core/physics/characterPhysics";
 import { ARROW_SPAWN_AHEAD_METERS } from "./aimRig";
 import { EnemyRuntime } from "./enemyRuntime";
 
@@ -83,8 +84,12 @@ export function aimEnemyBow(
   runtime.aimDirection.current.set(direction.x, direction.y, direction.z);
 }
 
-/** Where on the player an archer aims, above the capsule centre, metres. */
-export const ARCHER_AIM_ABOVE_CENTRE = 0.25;
+/**
+ * Where on the player an archer aims, above the capsule centre, metres: the
+ * chest, 1.15 m over the feet, however high the float puts the body centre
+ * (walk 2 D5 raised it from 0.90 to 1.17 m).
+ */
+export const ARCHER_AIM_ABOVE_CENTRE = 1.15 - CHARACTER_BODY_CENTER_HEIGHT;
 export const COMMITTED_BOW_FOOTWORK: ReadonlySet<AnimationState> = new Set<AnimationState>([
   "BOW_DRAW", "BOW_RELEASE", "BOW_EQUIP", "BOW_UNEQUIP",
 ]);

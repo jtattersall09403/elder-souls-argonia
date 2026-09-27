@@ -13,17 +13,26 @@ import {
  * reads is a GPU-only judgement (decision 0102 decision 3b), so it is this
  * one constant, set on a walk, and nothing else.
  *
- * Why π to start: TES lights are "lit colour at the source, fading to
- * nothing at the radius", not physical candela. With `decay = 0` three.js
- * keeps only its smooth range window, and a Lambert surface under a light of
- * intensity π reflects its albedo times the light's colour, which is the
- * plugin's own meaning; the LIGH record's FNAM fade (unitless) scales that.
- * The record's colours, radii and fades are never touched.
+ * Why π to start: a Lambert surface under a light of intensity π reflects
+ * its albedo times the light's colour at a metre, which is the plugin's
+ * "lit colour at the source"; the LIGH record's FNAM fade (unitless) scales
+ * that. The record's colours, radii and fades are never touched.
  */
 export const INTERIOR_LIGHT_INTENSITY_PER_FADE = Math.PI;
-export const INTERIOR_LIGHT_DECAY = 0;
+/**
+ * Inverse-square fall-off inside the record's radius (three.js still applies
+ * its smooth window to zero at `distance`). Walk 2 D2: `decay = 0` lit every
+ * surface within the radius at one level, so the rooms read flat. The LIGH
+ * falloff exponent, when the bundle carries it, scales this (1 = vanilla).
+ */
+export const INTERIOR_LIGHT_DECAY = 2;
 /** The cell ambient's scale, on the same reasoning as the lights. */
 export const INTERIOR_AMBIENT_SCALE = Math.PI;
+
+/** A record light's three.js decay: `INTERIOR_LIGHT_DECAY` times its falloff exponent (absent reads 1). */
+export function interiorLightDecay(light: Pick<InteriorLight, "falloffExponent">): number {
+  return INTERIOR_LIGHT_DECAY * (light.falloffExponent ?? 1);
+}
 
 /** A record light's runtime intensity (see `INTERIOR_LIGHT_INTENSITY_PER_FADE`). */
 export function interiorLightIntensity(light: Pick<InteriorLight, "fade">): number {
@@ -74,7 +83,8 @@ export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
 /**
  * Build the cell: one InstancedMesh per (asset, LOD0 part) holding every
  * placement of that asset, a point light per record light, the cell's
- * ambient, its fog. No terrain, sky or water: none exists inside.
+ * ambient and directional light, its fog. Nothing casts or receives shadows
+ * (no shadow-casting light exists inside). No terrain, sky or water: none exists inside.
  * A placement whose asset is not in its kit is a named error, never a gap
  * drawn as nothing (the exporter lists gaps; the bundle carries none).
  */
@@ -114,12 +124,25 @@ export function instantiateInterior(
   }
   for (const light of bundle.lights) {
     const point = new THREE.PointLight(colorFromRGB(light.colorRGB), interiorLightIntensity(light),
-      light.radiusM, INTERIOR_LIGHT_DECAY);
+      light.radiusM, interiorLightDecay(light));
+    point.castShadow = false;
     point.position.set(...light.positionM);
     group.add(point);
   }
   group.add(new THREE.AmbientLight(colorFromRGB(bundle.ambient.colorRGB),
     bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE));
+  const directionalRGB = bundle.lighting?.directionalRGB;
+  if (directionalRGB) {
+    // From straight above: the bundle's directionalRotXYDeg/ZDeg (0/0 in both
+    // shipped cells, inherited from the lighting template) are not mapped to a
+    // direction yet (walk 2 RB report). The target is in the group so the
+    // direction holds wherever the cell stands.
+    const directional = new THREE.DirectionalLight(colorFromRGB(directionalRGB), INTERIOR_AMBIENT_SCALE);
+    directional.castShadow = false;
+    directional.position.set(0, 1, 0);
+    directional.target.position.set(0, 0, 0);
+    group.add(directional, directional.target);
+  }
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
     bundle, group, solids, background,

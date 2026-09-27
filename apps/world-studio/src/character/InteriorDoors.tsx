@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
-import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { buildArchitectureKit } from "@elder-souls/game-core/settlement/kit";
@@ -13,25 +11,42 @@ import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
-import { DoorTransition, type DoorPrompt } from "@elder-souls/game-core/interior/doorTransition";
+import { DoorTransition } from "@elder-souls/game-core/interior/doorTransition";
 import { InteriorEnvironment } from "@elder-souls/game-core/interior/interiorEnvironment";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
 import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
-import { input } from "@elder-souls/game-core/io/input";
 import { settlementColliderDesc } from "./SettlementColliders";
+import type { DoorOverlayChannel } from "./doorOverlay";
 
 type Shown = { interior: LoadedInterior; originM: Vec3 };
+
+/** What the headless interior probe reads each frame (dev hook, CharacterMode's debug object). */
+export interface InteriorDoorsProbe {
+  cellId: string | null;
+  originM: Vec3 | null;
+  meshes: number;
+  /** The shown cell's drawn bounds, world metres: [min, max]. */
+  boundsM: [Vec3, Vec3] | null;
+  candidate: string | null;
+  focused: boolean;
+  prompt: string | null;
+  fade: number;
+  error: string | null;
+}
 
 /**
  * Studio wiring for the interior runtime (0103 decision 4): the door
  * prompt (offered to the interaction arbiter, shown only when it is the
- * focus, tappable as the touch button), the fade, the cell's draw and colliders, and
- * `?interior=<cellId>` opening a cell directly. Everything that decides
- * lives in `game-core/interior`; this only mounts it. Inside <Physics>.
+ * focus), the fade, the cell's draw and colliders, and `?interior=<cellId>`
+ * opening a cell directly. Everything that decides lives in
+ * `game-core/interior`; this only mounts it. Inside <Physics>; the prompt,
+ * fade and error line are drawn outside the canvas by `DoorOverlay`, fed
+ * through `overlay` (walk 2 D2).
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, onInside, interaction, kitCache,
+  overlay, probeRef,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -46,15 +61,16 @@ export function InteriorDoors({
   interaction: InteractionArbiter;
   /** The kit cache the settlement layer shares: a kit resident outside is not loaded again. */
   kitCache: KitCache;
+  /** The DOM overlay the prompt, fade and error line are drawn on. */
+  overlay: DoorOverlayChannel;
+  /** Dev hook for the headless probe: a getter, so nothing is measured unless a probe asks. */
+  probeRef?: { current: (() => InteriorDoorsProbe) | null };
 }) {
   const decoders = useKitDecoders(baseUrl);
   const { world, rapier } = useRapier();
   const scene = useThree((s) => s.scene);
   const gl = useThree((s) => s.gl);
   const [shown, setShown] = useState<Shown | null>(null);
-  const [prompt, setPrompt] = useState<DoorPrompt | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const fadeEl = useRef<HTMLDivElement>(null);
   const resident = useRef(false);
   const opened = useRef(false);
 
@@ -113,50 +129,46 @@ export function InteriorDoors({
   useFrame((_, delta) => {
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;
-      const p = controller.position(new THREE.Vector3());
+      // The body's own pose: `position()` is the controller's per-frame copy,
+      // still (0, 0, 0) on the first frame, which put the cell over the world
+      // origin, 3 km from the door it belongs to (walk 2 D2 probe).
+      const p = new THREE.Vector3();
+      controller.readPose(p, new THREE.Quaternion());
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z });
     }
     transition.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
     if (transition.candidate) interaction.offer(transition.candidate);
     environment.current?.frame();
-    if (fadeEl.current) {
-      fadeEl.current.style.opacity = String(directCellId && !opened.current ? 1 : transition.fade);
-    }
-    const next = transition.prompt && interaction.isFocused(transition.prompt.doorId) ? transition.prompt : null;
-    if (next?.textId !== prompt?.textId || next?.doorId !== prompt?.doorId) setPrompt(next);
-    const failed = transition.lastError?.message ?? null;
-    if (failed !== error) setError(failed);
+    overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);
+    const prompt = transition.prompt;
+    overlay.setPrompt(prompt && interaction.isFocused(prompt.doorId) ? prompt : null);
+    overlay.setError(transition.lastError?.message ?? null);
   });
 
-  return (
-    <>
-      {shown && <primitive object={shown.interior.group} position={shown.originM} />}
-      <Html fullscreen zIndexRange={[30, 20]} style={{ pointerEvents: "none" }}>
-        <div ref={fadeEl} style={{ position: "absolute", inset: 0, background: "#000",
-          opacity: directCellId ? 1 : 0 }} />
-        {prompt && (
-          <div data-door-prompt={prompt.kind} data-ui-capture
-            // The prompt is the touch button: pressing it is `activate`.
-            onPointerDown={(e) => { e.preventDefault(); input.setVirtual("activate", true); }}
-            onPointerUp={() => input.setVirtual("activate", false)}
-            onPointerCancel={() => input.setVirtual("activate", false)}
-            onPointerLeave={() => input.setVirtual("activate", false)}
-            style={{
-              position: "absolute", bottom: "22%", left: "50%", transform: "translateX(-50%)",
-              background: "rgba(10,14,20,0.8)", padding: "8px 18px", borderRadius: 8,
-              font: "18px system-ui", color: "#ffd9a0", whiteSpace: "nowrap",
-              pointerEvents: "auto", touchAction: "none", cursor: "pointer",
-            }}>
-            {text(CATALOGUE, prompt.textId)}
-            {prompt.kind !== "closed" && <span style={{ opacity: 0.7 }}> [E]</span>}
-          </div>
-        )}
-        {error && (
-          <div style={{ position: "absolute", top: 140, left: 12, color: "#ff9a9a", font: "12px system-ui" }}>
-            interior: {error}
-          </div>
-        )}
-      </Html>
-    </>
-  );
+  useEffect(() => {
+    if (!probeRef) return undefined;
+    probeRef.current = () => probeState(shown, transition,
+      transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay);
+    return () => { probeRef.current = null; };
+  }, [probeRef, shown, transition, interaction, overlay]);
+
+  return shown ? <primitive object={shown.interior.group} position={shown.originM} /> : null;
+}
+
+const probeBox = new THREE.Box3();
+
+function probeState(
+  shown: Shown | null, transition: DoorTransition, focused: boolean, overlay: DoorOverlayChannel,
+): InteriorDoorsProbe {
+  let boundsM: InteriorDoorsProbe["boundsM"] = null;
+  if (shown) {
+    shown.interior.group.updateMatrixWorld(true);
+    probeBox.setFromObject(shown.interior.group);
+    if (!probeBox.isEmpty()) boundsM = [probeBox.min.toArray() as Vec3, probeBox.max.toArray() as Vec3];
+  }
+  return {
+    cellId: transition.cellId, originM: shown?.originM ?? null, meshes: shown?.interior.counts.meshes ?? 0,
+    boundsM, candidate: transition.candidate?.id ?? null, focused,
+    prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
+  };
 }

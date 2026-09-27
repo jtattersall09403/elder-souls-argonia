@@ -125,6 +125,37 @@ describe("InteriorLoader", () => {
     expect(points[1].intensity).toBeCloseTo(INTERIOR_LIGHT_INTENSITY_PER_FADE);
   });
 
+  it("lights like the cell (walk 2 D2): radius as distance, decay 2 × the plugin falloff, the bundle's directional, no shadows", async () => {
+    // KeebaHouseFisher's shipped lighting block and falloff, as published 2026-09-26.
+    const keeba = structuredClone(fixture) as typeof fixture & Record<string, unknown>;
+    keeba.lighting = {
+      ambientRGB: [44, 33, 27], directionalRGB: [77, 62, 55], fogNearRGB: [89, 95, 102], fogNearM: 4.836,
+      fogFarM: 71.12, directionalFade: 0.0, fogClipM: 71.12, fogPower: 0.6, fogFarRGB: [23, 33, 22], fogMax: 1.0,
+    };
+    (keeba.lights[0] as Record<string, unknown>).falloffExponent = 1.0;
+    (keeba.lights[1] as Record<string, unknown>).falloffExponent = 1.5;
+    const { loader } = fixtureLoader(keeba);
+    const cell = await loader.request("fixture.hut-int");
+    const points = cell.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
+    expect(points.map((l) => l.distance)).toEqual([6, 3]);
+    expect(points.map((l) => l.decay)).toEqual([2, 3]);
+    expect(points.every((l) => !l.castShadow)).toBe(true);
+    const dirs = cell.group.children.filter((c) => (c as THREE.DirectionalLight).isDirectionalLight) as THREE.DirectionalLight[];
+    expect(dirs.length).toBe(1);
+    expect(dirs[0].castShadow).toBe(false);
+    expect(dirs[0].color.getHexString(THREE.SRGBColorSpace)).toBe("4d3e37");
+    // the target travels with the cell, so the light points down wherever the cell is lifted to
+    expect(dirs[0].target.parent).toBe(cell.group);
+    expect(cell.group.children.some((c) => (c as THREE.HemisphereLight).isHemisphereLight)).toBe(false);
+    const meshes = cell.group.children.filter((c) => (c as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
+    expect(meshes.every((m) => !m.receiveShadow && !m.castShadow)).toBe(true);
+    // a bundle with no lighting block and no falloff keeps decay 2 and adds no directional
+    const plain = await fixtureLoader().loader.request("fixture.hut-int");
+    const plainPoints = plain.group.children.filter((c) => (c as THREE.PointLight).isPointLight) as THREE.PointLight[];
+    expect(plainPoints.map((l) => l.decay)).toEqual([2, 2]);
+    expect(plain.group.children.some((c) => (c as THREE.DirectionalLight).isDirectionalLight)).toBe(false);
+  });
+
   it("instantiates the fixture: 6 placements over 4 assets, 2 point lights, ambient and fog", async () => {
     const { loader, fetched, kitsLoaded } = fixtureLoader();
     const cell = await loader.request("fixture.hut-int");

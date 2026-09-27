@@ -26,10 +26,13 @@ export function rapierCameraObstruction({ world, rapier }: RapierContext): Camer
     let ball = balls.get(radius);
     if (!ball) { ball = new rapier.Ball(radius); balls.set(radius, ball); }
     // Unit direction as the velocity, so time of impact is a distance.
+    // stopAtPenetration: a pivot ball that already overlaps a lintel, an eave
+    // or a wall hits at 0 (walk 2 D3); with it off, a sweep moving out of the
+    // overlap ignored it and the arm passed through the shell.
     const hit = world.castShape(
       { x: from.x, y: from.y, z: from.z }, identity,
       { x: dx / length, y: dy / length, z: dz / length },
-      ball, 0, length, false, flags, CAMERA_QUERY_GROUPS,
+      ball, 0, length, true, flags, CAMERA_QUERY_GROUPS,
     );
     return hit ? hit.time_of_impact : null;
   };

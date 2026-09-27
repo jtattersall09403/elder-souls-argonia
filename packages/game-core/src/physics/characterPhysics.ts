@@ -1,15 +1,25 @@
 export const CHARACTER_CAPSULE_HALF_HEIGHT = 0.42;
 export const CHARACTER_CAPSULE_RADIUS = 0.3;
-export const CHARACTER_FLOAT_HEIGHT = 0.18;
+/**
+ * The suspension's gap under the capsule (walk 2 D4/D5, was 0.18): at 0.45 the
+ * capsule spans 0.45–1.89 m over the feet, covering a 1.85 m actor's head, and
+ * anything below knee height passes under it, so a 0.45 m ledge is stepped
+ * without a jump (autoStep.test.ts). Ecctrl's float distance is then
+ * rayRadius + float = 0.60 m, inside its default ray length of 1.3 m.
+ */
+export const CHARACTER_FLOAT_HEIGHT = 0.45;
 export const CHARACTER_BODY_CENTER_HEIGHT = CHARACTER_CAPSULE_HALF_HEIGHT + CHARACTER_CAPSULE_RADIUS + CHARACTER_FLOAT_HEIGHT;
 export const CHARACTER_MODEL_OFFSET = -CHARACTER_BODY_CENTER_HEIGHT;
 
 /**
  * Chest height above the body centre, metres (1.25 m above the feet): where an
  * observer's sight ray aims (stealth, decision 0092) and the point a swimmer
- * floats with at the water surface (decision 0093).
+ * floats with at the water surface (decision 0093). Derived from the feet, so
+ * a float or capsule change (walk 2 D5 moved the body centre 0.90 -> 1.17 m)
+ * never moves the chest.
  */
-export const CHARACTER_CHEST_ABOVE_BODY_CENTRE = 0.35;
+export const CHARACTER_CHEST_HEIGHT = 1.25;
+export const CHARACTER_CHEST_ABOVE_BODY_CENTRE = CHARACTER_CHEST_HEIGHT - CHARACTER_BODY_CENTER_HEIGHT;
 
 export const CHARACTER_RAY_RADIUS = CHARACTER_CAPSULE_RADIUS / 2;
 

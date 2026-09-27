@@ -23,6 +23,16 @@ function settled(camera: FollowCamera, frames = 240, input = still) {
 }
 
 describe("follow camera collision", () => {
+  it("the ball covers the near plane's corners, and the shortest arm keeps that clearance (walk 2 D3)", () => {
+    // The studio's camera: near 0.3 m (CharacterMode), 16:9 at the follow camera's fov.
+    const near = 0.3;
+    const halfH = near * Math.tan(THREE.MathUtils.degToRad(FOLLOW_CAMERA.fieldOfView / 2));
+    const corner = Math.hypot(near, halfH, halfH * 16 / 9);
+    expect(corner).toBeCloseTo(0.405, 3);
+    expect(FOLLOW_CAMERA.collisionRadius).toBeGreaterThanOrEqual(corner);
+    expect(FOLLOW_CAMERA.minArm).toBeGreaterThanOrEqual(FOLLOW_CAMERA.collisionRadius);
+  });
+
   it("is the plain orbit when no query is injected", () => {
     const camera = new FollowCamera();
     camera.reset(player, Math.PI); // yaw 2π: the camera sits on +z
@@ -72,7 +82,7 @@ function viewPitchDeg(camera: FollowCamera): number {
 
 describe("follow camera view pitch under obstruction", () => {
   for (const pitch of [0.34, 0.06]) {
-    it(`holds the view pitch while a wall sweeps the arm 5.8 -> 0.25 m (pitch ${pitch})`, () => {
+    it(`holds the view pitch while a wall sweeps the arm 5.8 m -> minArm (pitch ${pitch})`, () => {
       let hit: number | null = null;
       const camera = new FollowCamera({ initialPitch: pitch });
       camera.setObstruction(() => hit);
@@ -85,7 +95,7 @@ describe("follow camera view pitch under obstruction", () => {
         camera.update(still, player, 1 / 60);
         seen.push(viewPitchDeg(camera));
       }
-      expect(camera.arm).toBeCloseTo(0.25, 5);
+      expect(camera.arm).toBeCloseTo(FOLLOW_CAMERA.minArm, 5);
       expect(Math.max(...seen) - Math.min(...seen)).toBeLessThan(0.5);
       expect(Math.abs(seen[0] - clear)).toBeLessThan(0.5);
     });

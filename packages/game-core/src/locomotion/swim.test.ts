@@ -14,6 +14,7 @@ import {
   swimVelocity,
   swimVerticalStep,
 } from "./swim";
+import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
 
 describe("swimStateFor (hysteresis, decision 0093)", () => {
   it("enters at immersion 0.62 and not below", () => {
@@ -24,7 +25,7 @@ describe("swimStateFor (hysteresis, decision 0093)", () => {
   });
 
   it("samples at the top of the 1.7 m body column: 0.62 is water 1.05 m deep, 0.45 is 0.765 m", () => {
-    expect(SWIM_SAMPLE_ABOVE_BODY_CENTRE).toBeCloseTo(0.8, 10);
+    expect(SWIM_SAMPLE_ABOVE_BODY_CENTRE + CHARACTER_BODY_CENTER_HEIGHT).toBeCloseTo(1.7, 10);
     // WaterWorld's immersion at the column top, feet at 0: (depth − 1.7) / 1.7 + 1 = depth / 1.7.
     expect(1.054 / 1.7).toBeCloseTo(SWIM_ENTER_IMMERSION, 3);
     expect(0.765 / 1.7).toBeCloseTo(SWIM_LEAVE_IMMERSION, 3);
@@ -91,14 +92,16 @@ describe("swimClipFor (dominant direction in body space)", () => {
 });
 
 describe("swimBodyTarget", () => {
-  it("holds the chest (0.35 m above the body centre) at the surface over deep water", () => {
-    expect(swimBodyTarget(-0.2, null)).toBeCloseTo(-0.55, 10);
-    expect(swimBodyTarget(-0.2, -2.4)).toBeCloseTo(-0.55, 10);
+  // Heights below are the FEET (body target − body-centre height): the rule is
+  // "chest 1.25 m over the feet at the surface", whatever the float height.
+  it("holds the chest (1.25 m above the feet) at the surface over deep water", () => {
+    expect(swimBodyTarget(-0.2, null) - CHARACTER_BODY_CENTER_HEIGHT).toBeCloseTo(-1.45, 10);
+    expect(swimBodyTarget(-0.2, -2.4) - CHARACTER_BODY_CENTER_HEIGHT).toBeCloseTo(-1.45, 10);
   });
 
   it("stands the body on ground the feet reach rather than pulling it through", () => {
-    // Ground 0.5 m under the surface: the standing body centre (0.9 m up) is higher.
-    expect(swimBodyTarget(-0.2, -0.7)).toBeCloseTo(0.2, 10);
+    // Ground 0.5 m under the surface: standing (feet on it) is higher than floating.
+    expect(swimBodyTarget(-0.2, -0.7) - CHARACTER_BODY_CENTER_HEIGHT).toBeCloseTo(-0.7, 10);
   });
 });
 
@@ -152,14 +155,15 @@ describe("swimVerticalStep", () => {
   });
 
   it("stands at once on ground the feet reach, with no lag up a ramp", () => {
-    // Ground 0.4 m under the surface: standing height (0.9 m) is above the float target.
-    const step = swimVerticalStep({ bodyY: 0.35, surfaceHeight: -0.2, groundHeight: -0.6, floatVelocity: 0, dt });
-    expect(step.velocity).toBeCloseTo((0.3 - 0.35) / dt, 10);
+    // Ground 0.4 m under the surface: standing height is above the float target.
+    const bodyY = -0.55 + CHARACTER_BODY_CENTER_HEIGHT; // feet 5 cm over the ground
+    const step = swimVerticalStep({ bodyY, surfaceHeight: -0.2, groundHeight: -0.6, floatVelocity: 0, dt });
+    expect(step.velocity).toBeCloseTo(-0.05 / dt, 10);
     expect(step.nextVelocity).toBeCloseTo(step.velocity, 10);
   });
 
   it("keeps floating where the ground is too deep to stand on", () => {
-    const step = swimVerticalStep({ bodyY: -0.55, surfaceHeight: -0.2, groundHeight: -1.5, floatVelocity: 0, dt });
+    const step = swimVerticalStep({ bodyY: swimBodyTarget(-0.2, null), surfaceHeight: -0.2, groundHeight: -1.5, floatVelocity: 0, dt });
     expect(step.velocity).toBeCloseTo(0, 10);
   });
 });

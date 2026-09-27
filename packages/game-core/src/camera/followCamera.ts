@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import type { Vec2 } from "../core/types";
-import { BASE_FIELD_OF_VIEW } from "../physics/characterPhysics";
+import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
+
+/** The follow camera's pivot and look target over the FEET, metres. */
+const PIVOT_ABOVE_FEET_M = 2.05;
+const LOOK_ABOVE_FEET_M = 1.45;
 
 /**
  * The third-person free-orbit follow camera, extracted from the combat
@@ -25,17 +29,21 @@ export const FOLLOW_CAMERA = {
   maxPitch: 0.78,
   minPosPitch: 0.06,
   initialPitch: 0.34,
-  heightOffset: 1.15,
-  lookHeightOffset: 0.55,
+  /** Pivot and look target over the body centre, derived from the feet so a
+   * float change (walk 2 D5) never moves the eye. */
+  heightOffset: PIVOT_ABOVE_FEET_M - CHARACTER_BODY_CENTER_HEIGHT,
+  lookHeightOffset: LOOK_ABOVE_FEET_M - CHARACTER_BODY_CENTER_HEIGHT,
   positionSmoothing: 9,
   lookSmoothing: 12,
   fieldOfView: BASE_FIELD_OF_VIEW,
-  /** Radius of the ball the arm is swept with: at least the near plane's
-   * half-diagonal (0.27 m at fov 48, near 0.3, 16:9), so the near plane
-   * never enters a wall the ball stopped at (16h check-in 2 item 3). */
-  collisionRadius: 0.3,
-  /** Shortest arm an obstruction may pull the camera to. */
-  minArm: 0.25,
+  /** Radius of the ball the arm is swept with: at least the distance from
+   * the eye to the near plane's CORNERS (0.405 m at fov 48, near 0.3, 16:9;
+   * the half-diagonal alone, 0.27 m, let an oblique wall cut the near plane,
+   * walk 2 D3), so the near plane never enters a wall the ball stopped at. */
+  collisionRadius: 0.42,
+  /** Shortest arm an obstruction may pull the camera to: never inside the
+   * ball's own clearance. */
+  minArm: 0.42,
   /** Speed (m/s) the arm grows back once clear, and only while the player
    * gives input (Tears of the Kingdom: no snap back, a gradual return in
    * response to input; research camera.md §b). */

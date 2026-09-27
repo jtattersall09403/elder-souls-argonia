@@ -1,5 +1,6 @@
 import { bowSight } from "@elder-souls/game-core/combat/bowSight";
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
+import { FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
@@ -1499,13 +1500,13 @@ export function CombatRuntime({
       const initialHorizontal = Math.cos(cameraPitch.current) * initialDistance;
       cameraPosition.current.set(
         playerStart.x + Math.sin(cameraYaw.current) * initialHorizontal,
-        playerStart.y + 1.15 + Math.sin(cameraPitch.current) * initialDistance,
+        playerStart.y + FOLLOW_CAMERA.heightOffset + Math.sin(cameraPitch.current) * initialDistance,
         playerStart.z + Math.cos(cameraYaw.current) * initialHorizontal,
       );
-      cameraLook.current.set(playerStart.x, playerStart.y + 0.55, playerStart.z);
+      cameraLook.current.set(playerStart.x, playerStart.y + FOLLOW_CAMERA.lookHeightOffset, playerStart.z);
     } else {
       cameraPosition.current.set(0, 3.4, 10);
-      cameraLook.current.set(0, playerStart.y + 0.55, playerStart.z);
+      cameraLook.current.set(0, playerStart.y + FOLLOW_CAMERA.lookHeightOffset, playerStart.z);
     }
     camera.position.copy(cameraPosition.current);
     camera.lookAt(cameraLook.current);
@@ -3116,8 +3117,9 @@ export function CombatRuntime({
         .copy(tmp.current.flat)
         .addScaledVector(tmp.current.cameraRight, sideDistance)
         .addScaledVector(tmp.current.forward, -0.65)
-        .setY(playerPos.y + 2.65);
-      tmp.current.desiredLook.copy(tmp.current.flat).setY(playerPos.y + 0.72);
+        // Over the feet, so the shot holds when the body centre moves (walk 2 D5).
+        .setY(playerPos.y - CHARACTER_BODY_CENTER_HEIGHT + 3.55);
+      tmp.current.desiredLook.copy(tmp.current.flat).setY(playerPos.y - CHARACTER_BODY_CENTER_HEIGHT + 1.62);
     } else if (aimBlendAmount.current > 0) {
       // First person, blended in over the raise. Both ends of the blend are
       // ordinary camera/look targets, so the existing smoothing does the zoom
@@ -3128,7 +3130,7 @@ export function CombatRuntime({
       const horizontal = Math.cos(cameraPitch.current) * camDistance;
       tmp.current.desiredCamera.set(
         playerPos.x + Math.sin(cameraYaw.current) * horizontal,
-        playerPos.y + 1.15 + Math.sin(cameraPitch.current) * camDistance,
+        playerPos.y + FOLLOW_CAMERA.heightOffset + Math.sin(cameraPitch.current) * camDistance,
         playerPos.z + Math.cos(cameraYaw.current) * horizontal,
       );
       // A fixed eye, not the head bone.
@@ -3188,13 +3190,13 @@ export function CombatRuntime({
       const horizontal = Math.cos(posPitch) * camDistance;
       tmp.current.desiredCamera.set(
         playerPos.x + Math.sin(cameraYaw.current) * horizontal,
-        playerPos.y + 1.15 + Math.sin(posPitch) * camDistance,
+        playerPos.y + FOLLOW_CAMERA.heightOffset + Math.sin(posPitch) * camDistance,
         playerPos.z + Math.cos(cameraYaw.current) * horizontal,
       );
       const skyPitch = Math.max(0, posPitch - cameraPitch.current);
       const lookRise = Math.tan(Math.min(skyPitch, 1.35)) * camDistance * 1.5;
-      tmp.current.desiredLook.set(playerPos.x, playerPos.y + 0.55 + lookRise, playerPos.z);
-      if (lockTargetActive && lockTarget) tmp.current.desiredLook.lerp(lockTarget.position, 0.62).setY(playerPos.y + 0.55);
+      tmp.current.desiredLook.set(playerPos.x, playerPos.y + FOLLOW_CAMERA.lookHeightOffset + lookRise, playerPos.z);
+      if (lockTargetActive && lockTarget) tmp.current.desiredLook.lerp(lockTarget.position, 0.62).setY(playerPos.y + FOLLOW_CAMERA.lookHeightOffset);
     }
     // An aimed camera has to answer the stick immediately: the smoothing that
     // makes a third-person follow feel weighty makes a crosshair feel broken.
