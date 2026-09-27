@@ -1030,7 +1030,7 @@ CLAYWATER = (Path(__file__).resolve().parents[3] / "world" / "sources" / "bluepr
 
 def test_a_place_whose_layout_authors_yard_sets_gets_no_ring_dressing():
     bp = json.loads(CLAYWATER.read_text())["blueprint"]
-    assert cs.sk_mod.authors_yard_sets(bp)
+    assert cs.sk_mod.authors_dressing(bp)
     dwelling = next(p for p in bp["parcels"] if cs.dressing_count(bp["seed"], p) > 0)
     assert cs.ring_dressing_count(bp, bp["seed"], dwelling) == 0
 
@@ -1038,13 +1038,40 @@ def test_a_place_whose_layout_authors_yard_sets_gets_no_ring_dressing():
 def test_a_place_without_yard_sets_keeps_its_ring(tmp_path):
     parcel = {"id": "parcel.x.house", "use": "dwelling"}
     bp = {"id": "place.x", "seed": "s", "parcels": [parcel]}
-    assert not cs.sk_mod.authors_yard_sets(bp)
+    assert not cs.sk_mod.authors_dressing(bp)
     assert cs.ring_dressing_count(bp, "s", parcel) == cs.dressing_count("s", parcel) > 0
     layout = tmp_path / "x.layout.json"
     layout.write_text(json.dumps({"ops": [{"op": "group", "action": "place",
                                            "name": "not-a-yard-set", "at": [0, 0]}]}))
     bp["authoredOn"] = {"layout": {"path": str(layout)}}
-    assert not cs.sk_mod.authors_yard_sets(bp)
+    assert not cs.sk_mod.authors_dressing(bp)
+
+
+def test_a_layout_that_binds_assemblies_gets_no_ring_dressing(tmp_path):
+    """Greenspring (16k slice 2) authors its dressing as `place` ops bound
+    with `kind: assembly`, no yard-set group: the ring is off all the same."""
+    parcel = {"id": "parcel.x.house", "use": "dwelling"}
+    layout = tmp_path / "x.layout.json"
+    layout.write_text(json.dumps({"ops": [
+        {"op": "bind", "uid": "b-house", "kind": "parcel", "id": "parcel.x.house"},
+        {"op": "bind", "uid": "u-crate", "kind": "assembly",
+         "id": "place.x.parcel.x.house.assembly.crate"}]}))
+    bp = {"id": "place.x", "seed": "s", "parcels": [parcel],
+          "authoredOn": {"layout": {"path": str(layout)}}}
+    assert cs.ring_is_off(bp)
+    assert cs.ring_dressing_count(bp, "s", parcel) == 0
+
+
+def test_a_layout_that_groups_a_yard_set_alone_gets_no_ring_dressing(tmp_path):
+    """The yard-set branch on its own (Claywater also binds assemblies)."""
+    parcel = {"id": "parcel.x.house", "use": "dwelling"}
+    layout = tmp_path / "x.layout.json"
+    layout.write_text(json.dumps({"ops": [{"op": "group", "action": "place",
+                                           "name": "imperial-station-yard", "at": [0, 0]}]}))
+    bp = {"id": "place.x", "seed": "s", "parcels": [parcel],
+          "authoredOn": {"layout": {"path": str(layout)}}}
+    assert "imperial-station-yard" in cs.sk_mod.load_yard_sets()
+    assert cs.ring_is_off(bp)
 
 
 # --- 16k fix 2 ruling 4: walkRule's route is the one door-reach gate for a

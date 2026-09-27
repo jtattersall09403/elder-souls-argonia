@@ -381,10 +381,11 @@ def mined_offset_to_parent_frame(offset) -> list[float]:
 
 def ring_is_off(bp: dict) -> bool:
     """No ring dressing for a fixture (16h K7) or a place whose layout
-    authors yard sets (lesson L33, 16k fix 2 ruling 1: the yard sets are
-    that place's dressing, placed and checked in the workbench). Read once
-    per compile: it reads the layout and every yard-set file."""
-    return bp_mod.is_fixture(bp) or sk_mod.authors_yard_sets(bp)
+    authors its own dressing, as yard sets or as assembly-bound pieces
+    (lesson L33, 16k fix 2 ruling 1: that dressing is placed and checked in
+    the workbench). Read once per compile: it reads the layout and every
+    yard-set file."""
+    return bp_mod.is_fixture(bp) or sk_mod.authors_dressing(bp)
 
 
 def ring_dressing_count(bp: dict, seed: str, parcel: dict, off: bool | None = None) -> int:

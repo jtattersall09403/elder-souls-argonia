@@ -195,11 +195,13 @@ def layout_of(bp: dict) -> tuple[dict | None, str | None]:
     return json.loads(blob), None
 
 
-def authors_yard_sets(bp: dict, yard_sets: dict[str, dict] | None = None) -> bool:
-    """Does the layout the blueprint names (``authoredOn.layout``) lay any
-    yard set (a `group place` op naming one)? Read whatever the file holds:
-    a stale hash is `layout_of`'s error, not a reason to bring the retired
-    ring back (lesson L33)."""
+def authors_dressing(bp: dict, yard_sets: dict[str, dict] | None = None) -> bool:
+    """Does the layout the blueprint names (``authoredOn.layout``) author its
+    own dressing, in either form: a `group place` op naming a tracked yard
+    set, or any `bind` op of `kind: "assembly"` (dressing placed piece by
+    piece, 16k slice 2 Greenspring)? Read whatever the file holds: a stale
+    hash is `layout_of`'s error, not a reason to bring the retired ring back
+    (lesson L33)."""
     ref = (bp.get("authoredOn") or {}).get("layout") or {}
     if not ref.get("path"):
         return False
@@ -207,9 +209,12 @@ def authors_yard_sets(bp: dict, yard_sets: dict[str, dict] | None = None) -> boo
     path = path if path.is_absolute() else REPO_ROOT / path
     if not path.exists():
         return False
+    ops = json.loads(path.read_text()).get("ops") or []
+    if any(op.get("op") == "bind" and op.get("kind") == "assembly" for op in ops):
+        return True
     sets = load_yard_sets() if yard_sets is None else yard_sets
     return any(op.get("op") == "group" and op.get("action") == "place" and op.get("name") in sets
-               for op in json.loads(path.read_text()).get("ops") or [])
+               for op in ops)
 
 
 def merge_ops(authored: list[dict], auto: list[dict]) -> list[dict]:
