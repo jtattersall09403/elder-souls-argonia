@@ -54,6 +54,9 @@ them when a comment lands.
   with its links made absolute, and where to look (`$ES_TUNNEL_URL` when set,
   the PROGRESS link). Each story carries `<!-- waiting-hash: ... -->`;
   `--if-changed` skips the post when the last comment has the same hash.
+- `--list` prints each comment's id, UTC date and title (a folded one reads
+  `[collapsed]` with its heading); `--collapse ID [--reason <text>]` folds a
+  superseded comment (a long walk packet) behind a one-line summary, idempotent.
 - The post-commit hook runs `--from-progress --if-changed` in the background
   whenever a commit touches `docs/PROGRESS.md`.
 - The issue and its label are created on first use and the issue is pinned.

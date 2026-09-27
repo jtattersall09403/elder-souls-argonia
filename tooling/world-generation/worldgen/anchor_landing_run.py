@@ -26,6 +26,13 @@ piece's walking floor is its manifest `groundLineTell.valueM` (the mesh
 floor-plane tell; no per-piece `walkSurface` field exists: that name is the
 route-structure record's).
 
+Scale (decision 0103, like interiors): the pieces are laid at the plugin's
+placed scale, the step piece's manifest `placedScaleMedian` (BM&V steps02 and
+bridge01 at 2.0, `placedScaleEvidence` n 12 / n 23), 1.0 when the manifest
+has none; `scale=` overrides it. The mined pairs are in the parent's unit
+frame at relative scale 1.0, so every offset, rise, extent and footprint
+sample is multiplied by the one scale.
+
 Coordinates: x east, z south, metres. A piece's mesh +y is the run's
 forward direction; yaws are the `blueprint_footprints.lay_pieces` / runtime
 convention (world offset = `rotate_m((x, -y), yaw)`).
@@ -66,9 +73,17 @@ def survey_ground(survey):
     return survey.height_at
 
 
-def chain_local(assets: list[str], abuts: dict) -> tuple[list[dict], list[str]]:
+def placed_scale(row: dict) -> float:
+    """The plugin's placed scale for a manifest row (`placedScaleMedian`), 1.0
+    when the manifest records none."""
+    v = row.get("placedScaleMedian")
+    return float(v) if isinstance(v, (int, float)) and v > 0 else 1.0
+
+
+def chain_local(assets: list[str], abuts: dict, scale: float = 1.0) -> tuple[list[dict], list[str]]:
     """Each piece's pivot in the run's frame (x right, y forward), with its
-    cumulative rise and the pair that placed it; errors name a missing pair."""
+    cumulative rise and the pair that placed it, every piece at `scale` (the
+    unit-frame pair offsets times it); errors name a missing pair."""
     out = [{"asset": assets[0], "x": 0.0, "y": 0.0, "rise": 0.0, "pair": None}]
     for i, asset in enumerate(assets[1:], start=1):
         prev = out[-1]
@@ -78,8 +93,9 @@ def chain_local(assets: list[str], abuts: dict) -> tuple[list[dict], list[str]]:
             return out, [f"pieces[{i}] {asset} has no mined forward run pair from "
                          f"pieces[{i - 1}] {prev['asset']}"]
         s = max(steps, key=lambda s: (s["count"], s["kind"] == "piece"))
-        out.append({"asset": asset, "x": prev["x"] + s["offset"][0],
-                    "y": prev["y"] + s["offset"][1], "rise": prev["rise"] + s["rise"],
+        out.append({"asset": asset, "x": prev["x"] + s["offset"][0] * scale,
+                    "y": prev["y"] + s["offset"][1] * scale,
+                    "rise": prev["rise"] + s["rise"] * scale,
                     "pair": f"{s['kind']}:{s['pair']} n{s['count']}"})
     return out, []
 
@@ -114,12 +130,14 @@ def _foot_samples(outline: list[list[float]]) -> list[tuple[float, float]]:
 
 def lay_landing_run(start_xz, berth_xz, step_asset: str, deck_asset: str, ground,
                     water_m: float, rows: dict, feet: dict, abuts: dict | None = None,
-                    *, deck_counts=None, reach_m: float = REACH_M) -> dict:
+                    *, deck_counts=None, reach_m: float = REACH_M,
+                    scale: float | None = None) -> dict:
     """The fewest-piece landing run from `start_xz` toward `berth_xz` that
     passes the gate, or the nearest failure when none does. Result:
     ``{ok, deckPieces, shiftM, yawDeg, pieces[{asset, xM, zM, yawDeg, pair,
     deckM?}], tipXZ, endXZ, endToBerthM, footMinGroundM, needGroundM,
-    openEnds, why}``; `shiftM` < 0 moves the run landward of the start point."""
+    openEnds, why, scale}``; `shiftM` < 0 moves the run landward of the
+    start point. `scale` None = the step piece's `placedScaleMedian` (else 1.0)."""
     abuts = abuts_record() if abuts is None else abuts
     sx, sz = map(float, start_xz)
     bx, bz = map(float, berth_xz)
@@ -127,10 +145,11 @@ def lay_landing_run(start_xz, berth_xz, step_asset: str, deck_asset: str, ground
     dx, dz = (bx - sx) / span, (bz - sz) / span
     need = water_m + DRY_MARGIN_M
     step_row, deck_row = rows[step_asset], rows[deck_asset]
-    tip_y = -float(step_row["originOffsetM"][1])
-    deck_far = float(deck_row["sizeM"][1]) - float(deck_row["originOffsetM"][1])
-    deck_floor = float((deck_row.get("groundLineTell") or {}).get("valueM", 0.0))
-    foot = _foot_samples(feet[step_asset]["footprintM"])
+    s = float(placed_scale(step_row) if scale is None else scale)
+    tip_y = -float(step_row["originOffsetM"][1]) * s
+    deck_far = (float(deck_row["sizeM"][1]) - float(deck_row["originOffsetM"][1])) * s
+    deck_floor = float((deck_row.get("groundLineTell") or {}).get("valueM", 0.0)) * s
+    foot = [(x * s, z * s) for x, z in _foot_samples(feet[step_asset]["footprintM"])]
 
     def world(px: float, pz: float, lx: float, ly: float, yaw: float) -> tuple[float, float]:
         ox, oz = rotate_m([(lx, -ly)], yaw)[0]
@@ -138,11 +157,11 @@ def lay_landing_run(start_xz, berth_xz, step_asset: str, deck_asset: str, ground
 
     best = None
     for n in (deck_counts or range(0, MAX_DECK_PIECES + 1)):
-        chain, errors = chain_local([step_asset] + [deck_asset] * n, abuts)
+        chain, errors = chain_local([step_asset] + [deck_asset] * n, abuts, s)
         if errors:
-            return {"ok": False, "deckPieces": n, "why": errors[0]}
+            return {"ok": False, "deckPieces": n, "why": errors[0], "scale": s}
         last = chain[-1]
-        far_y = last["y"] + (deck_far if n else float(step_row["sizeM"][1]) + tip_y)
+        far_y = last["y"] + (deck_far if n else float(step_row["sizeM"][1]) * s + tip_y)
         length = math.hypot(last["x"], far_y - tip_y)
         ideal = span - length
         # turn the run so the line from its tip to its far end (the pairs'
@@ -167,13 +186,14 @@ def lay_landing_run(start_xz, berth_xz, step_asset: str, deck_asset: str, ground
                     "endToBerthM": round(reach, 3), "tipGroundM": round(tip_g, 3),
                     "footMinGroundM": round(min(fg), 3), "needGroundM": round(need, 3),
                     "_px": px, "_pz": pz, "_yaw": yaw, "_chain": chain, "_foot_top": max(fg + [tip_g])}
+            cand["scale"] = s
             if dry:
                 return _finish(cand, step_row, deck_floor, abuts, world, water_m)
             if best is None or cand["footMinGroundM"] > best["footMinGroundM"]:
                 best = cand
     if best is None:
-        return {"ok": False, "deckPieces": None, "why": f"no piece count ends within "
-                f"{reach_m} m of the berth ({span:.2f} m from the start)"}
+        return {"ok": False, "deckPieces": None, "scale": s, "why": f"no piece count ends "
+                f"within {reach_m} m of the berth ({span:.2f} m from the start)"}
     out = _finish(best, step_row, deck_floor, abuts, world, water_m)
     out["ok"] = False
     out["why"] = (f"the step piece's foot stands on ground {best['footMinGroundM']} m "
@@ -186,12 +206,13 @@ def _finish(cand: dict, step_row: dict, deck_floor: float, abuts: dict, world,
             water_m: float) -> dict:
     chain = cand.pop("_chain")
     px, pz, yaw = cand.pop("_px"), cand.pop("_pz"), cand.pop("_yaw")
-    pivot0 = cand.pop("_foot_top") + float(step_row.get("pivotAboveBaseM") or 0.0)
+    pivot0 = cand.pop("_foot_top") + float(step_row.get("pivotAboveBaseM") or 0.0) * cand["scale"]
     pieces = []
     for i, c in enumerate(chain):
         x, z = world(px, pz, c["x"], c["y"], yaw)
         row = {"asset": c["asset"], "xM": round(x, 3), "zM": round(z, 3),
-               "yawDeg": cand["yawDeg"], "pivotYM": round(pivot0 + c["rise"], 3),
+               "yawDeg": cand["yawDeg"], "scale": cand["scale"],
+               "pivotYM": round(pivot0 + c["rise"], 3),
                "pair": c["pair"]}
         if i:
             row["deckM"] = round(pivot0 + c["rise"] + deck_floor, 3)

@@ -1318,7 +1318,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -1380,7 +1380,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -1436,7 +1436,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1454,6 +1454,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "placeUse": "hanging-only",
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1475,8 +1476,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.52,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.627,
-   "placeUse": "hanging-only"
+   "pivotAboveBaseM": 2.627
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -1499,7 +1499,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1564,7 +1564,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [
     {
      "shape": "EditorMarker",
@@ -1707,7 +1707,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cluste_col.dds",
@@ -1779,7 +1779,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sanguinerose.dds"
@@ -1853,7 +1853,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sanguinerose.dds"
@@ -1927,7 +1927,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -1994,7 +1994,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2061,7 +2061,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2121,7 +2121,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2181,7 +2181,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2457,6 +2457,11 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4728
+   },
    "designedWaterlineM": 0.0,
    "placement": {
     "schemaVersion": 1,
@@ -2472,12 +2477,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4728
-   }
+   "pivotAboveBaseM": 0.473
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
@@ -2866,7 +2866,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wicker01.dds"
@@ -4294,11 +4294,1116 @@
    "undersideCoverage": 0.865,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.018
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway01",
+   "node": "es|72c4021a95|kotm__argonia_blackwood_walkway01",
+   "category": "misc",
+   "sizeM": [
+    5.257,
+    18.909,
+    7.356
+   ],
+   "originOffsetM": [
+    -2.189,
+    7.716,
+    5.591
+   ],
+   "triangles": 2660,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_RTCanalsL01Lower01.Mat",
+    "RTCanalsL01Lower01:11 - L2_RTCanalsL01Lower01:11.Mat",
+    "RTCanalsL01Lower01:12 - L2_RTCanalsL01Lower01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.591,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.591
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway02",
+   "node": "es|5f0c0c7880|kotm__argonia_blackwood_walkway02",
+   "category": "misc",
+   "sizeM": [
+    6.205,
+    11.849,
+    7.237
+   ],
+   "originOffsetM": [
+    7.447,
+    0.491,
+    5.536
+   ],
+   "triangles": 1726,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_RTCanalsL01Lower02.Mat",
+    "RTCanalsL01Lower02:11 - L2_RTCanalsL01Lower02:11.Mat",
+    "RTCanalsL01Lower02:12 - L2_RTCanalsL01Lower02:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.536,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.536
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway03",
+   "node": "es|0ffad113ee|kotm__argonia_blackwood_walkway03",
+   "category": "misc",
+   "sizeM": [
+    20.4,
+    13.444,
+    7.236
+   ],
+   "originOffsetM": [
+    17.63,
+    9.574,
+    5.527
+   ],
+   "triangles": 2896,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_RTCanalsPlazaC01Lower01.Mat",
+    "RTCanalsPlazaC01Lower01:11 - L2_RTCanalsPlazaC01Lower01:11.Mat",
+    "RTCanalsPlazaC01Lower01:12 - L2_RTCanalsPlazaC01Lower01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.527,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.527
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway04",
+   "node": "es|fc4935bf7b|kotm__argonia_blackwood_walkway04",
+   "category": "misc",
+   "sizeM": [
+    27.423,
+    12.704,
+    7.232
+   ],
+   "originOffsetM": [
+    12.112,
+    9.424,
+    5.584
+   ],
+   "triangles": 3196,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_RTCanalsPlazaL01Lower01.Mat",
+    "RTCanalsPlazaL01Lower01:11 - L2_RTCanalsPlazaL01Lower01:11.Mat",
+    "RTCanalsPlazaL01Lower01:12 - L2_RTCanalsPlazaL01Lower01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.584,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.584
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway05",
+   "node": "es|d2687c6749|kotm__argonia_blackwood_walkway05",
+   "category": "misc",
+   "sizeM": [
+    5.321,
+    16.354,
+    7.275
+   ],
+   "originOffsetM": [
+    5.69,
+    7.552,
+    5.53
+   ],
+   "triangles": 1802,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_RTCanalsPlazaR01Lower01.Mat",
+    "RTCanalsPlazaR01Lower01:11 - L2_RTCanalsPlazaR01Lower01:11.Mat",
+    "RTCanalsPlazaR01Lower01:12 - L2_RTCanalsPlazaR01Lower01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.53,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.53
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway06",
+   "node": "es|82ca582579|kotm__argonia_blackwood_walkway06",
+   "category": "misc",
+   "sizeM": [
+    6.139,
+    9.574,
+    7.111
+   ],
+   "originOffsetM": [
+    -3.13,
+    4.075,
+    5.356
+   ],
+   "triangles": 1420,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "L2_L2_RTCanalsPlazaR01Lower02.Mat",
+    "RTCanalsPlazaR01Lower02:11 - L2_L2_RTCanalsPlazaR01Lower02:11.M",
+    "RTCanalsPlazaR01Lower02:12 - L2_L2_RTCanalsPlazaR01Lower02:12.M"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.356,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.356
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkway07",
+   "node": "es|bcb81d4ac4|kotm__argonia_blackwood_walkway07",
+   "category": "misc",
+   "sizeM": [
+    19.707,
+    10.39,
+    5.441
+   ],
+   "originOffsetM": [
+    8.815,
+    -5.309,
+    0.431
+   ],
+   "triangles": 2896,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "RTSnowShodDeck02:1.Mat",
+    "RTSnowShodDeck02:11 - L2_Rails14:11.Mat",
+    "RTSnowShodDeck02:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.431,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.431
+  },
+  {
+   "id": "kotm:argonia/blackwood/walkwaystairs",
+   "node": "es|8a4083a9b0|kotm__argonia_blackwood_walkwaystairs",
+   "category": "misc",
+   "sizeM": [
+    3.039,
+    11.811,
+    12.767
+   ],
+   "originOffsetM": [
+    0.355,
+    6.245,
+    5.462
+   ],
+   "triangles": 1178,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "riftencanalwood01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "RTCanalsStairs01:1.Mat",
+    "RTCanalsStairs01:11.Mat",
+    "RTCanalsStairs01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.462,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.462
+  },
+  {
+   "id": "kotm:argonia/blackwood/docks3way",
+   "node": "es|1b7ba5a6f7|kotm__argonia_blackwood_docks3way",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    3.723,
+    9.163
+   ],
+   "originOffsetM": [
+    1.821,
+    1.821,
+    7.313
+   ],
+   "triangles": 744,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt03:0.Mat",
+    "Objekt03:1.Mat",
+    "Objekt03:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.907,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/docks4way",
+   "node": "es|4fcc703bf4|kotm__argonia_blackwood_docks4way",
+   "category": "misc",
+   "sizeM": [
+    3.662,
+    3.696,
+    9.163
+   ],
+   "originOffsetM": [
+    1.842,
+    1.821,
+    7.313
+   ],
+   "triangles": 900,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat",
+    "Objekt07:3.Mat",
+    "Objekt07:4.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.909,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockscentre",
+   "node": "es|dcae9be701|kotm__argonia_blackwood_dockscentre",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    3.714,
+    9.163
+   ],
+   "originOffsetM": [
+    1.821,
+    1.815,
+    7.313
+   ],
+   "triangles": 492,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat.001",
+    "Objekt07:3.Mat.001",
+    "Objekt07:4.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.886,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockscentrealt",
+   "node": "es|e7234084fc|kotm__argonia_blackwood_dockscentrealt",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    3.693,
+    9.149
+   ],
+   "originOffsetM": [
+    1.821,
+    1.815,
+    7.313
+   ],
+   "triangles": 480,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat.002",
+    "Objekt07:3.Mat.002",
+    "Objekt07:5.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.773,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockscentrenopost",
+   "node": "es|2c1467049d|otm__argonia_blackwood_dockscentrenopost",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    3.709,
+    7.551
+   ],
+   "originOffsetM": [
+    1.821,
+    1.811,
+    7.313
+   ],
+   "triangles": 300,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds",
+    "woodpostend03.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat.003",
+    "Objekt07:1.Mat",
+    "Objekt07:5.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockscentresmall",
+   "node": "es|b92739b4fb|kotm__argonia_blackwood_dockscentresmall",
+   "category": "misc",
+   "sizeM": [
+    1.821,
+    3.663,
+    7.551
+   ],
+   "originOffsetM": [
+    -0.0,
+    1.804,
+    7.313
+   ],
+   "triangles": 252,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat.004",
+    "Objekt07:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.751,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockscorner",
+   "node": "es|bca1ef3f79|kotm__argonia_blackwood_dockscorner",
+   "category": "misc",
+   "sizeM": [
+    3.619,
+    3.696,
+    9.163
+   ],
+   "originOffsetM": [
+    1.842,
+    1.821,
+    7.313
+   ],
+   "triangles": 948,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Objekt07:0.Mat.005",
+    "Objekt07:2.Mat.001",
+    "Objekt07:3.Mat.003"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/docksend",
+   "node": "es|224d9e94bb|kotm__argonia_blackwood_docksend",
+   "category": "misc",
+   "sizeM": [
+    2.505,
+    3.69,
+    9.163
+   ],
+   "originOffsetM": [
+    0.684,
+    1.815,
+    7.313
+   ],
+   "triangles": 492,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Quader05:0.Mat",
+    "Quader05:2.Mat",
+    "Quader05:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.886,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/docksendnopost",
+   "node": "es|c5590c094a|kotm__argonia_blackwood_docksendnopost",
+   "category": "misc",
+   "sizeM": [
+    2.505,
+    3.674,
+    7.551
+   ],
+   "originOffsetM": [
+    0.684,
+    1.815,
+    7.313
+   ],
+   "triangles": 300,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "whwoodboards02.dds"
+   ],
+   "materials": [
+    "Quader05:0.Mat.001",
+    "Quader05:2.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.313,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.917,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockspilings",
+   "node": "es|568a6bcd64|kotm__argonia_blackwood_dockspilings",
+   "category": "misc",
+   "sizeM": [
+    0.741,
+    0.746,
+    8.24
+   ],
+   "originOffsetM": [
+    0.371,
+    0.373,
+    4.12
+   ],
+   "triangles": 208,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "rope01.dds"
+   ],
+   "materials": [
+    "Zylinder01:1.Mat",
+    "Zylinder01:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.12,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.29,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.12
+  },
+  {
+   "id": "kotm:argonia/blackwood/dockspilingsdamage",
+   "node": "es|457e9a0499|tm__argonia_blackwood_dockspilingsdamage",
+   "category": "misc",
+   "sizeM": [
+    0.388,
+    0.39,
+    8.4
+   ],
+   "originOffsetM": [
+    0.194,
+    0.195,
+    4.2
+   ],
+   "triangles": 174,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds"
+   ],
+   "materials": [
+    "Zylinder01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.2,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.2
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
+  "textures/architecture/riften/riftencanalwood01_p.dds",
   "textures/cubemaps/shinydull.dds"
  ],
  "texturesSubstituted": {
@@ -4307,11 +5412,14 @@
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
   "textures/stroti/stilthouse/iron01.dds": "textures/architecture/stilthouse/iron01.dds",
-  "textures/stroti/stilthouse/iron01_n.dds": "textures/architecture/stilthouse/iron01_n.dds"
+  "textures/stroti/stilthouse/iron01_n.dds": "textures/architecture/stilthouse/iron01_n.dds",
+  "textures/architecture/windhelm/whwoodboards02.dds": "textures/lod/whwoodboards02lod.dds",
+  "textures/architecture/farmhouse/rope01.dds": "textures/architecture/sheogorad/dagon fel/rope01.dds",
+  "textures/architecture/farmhouse/rope01_n.dds": "textures/architecture/sheogorad/dagon fel/rope01_n.dds"
  },
  "alphaModes": {
   "MASK": 17,
-  "OPAQUE": 246,
+  "OPAQUE": 298,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -4345,16 +5453,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 38045244,
-  "bytesAfter": 15598884,
-  "images": 51,
-  "imageBytesAfter": 11094672,
+  "bytesBefore": 41465864,
+  "bytesAfter": 16740152,
+  "images": 55,
+  "imageBytesAfter": 11568596,
   "warnings": [],
-  "sha256": "21da6a442a52bcfb8c9cd88b5947e67018e0831a6ef5861ebf583b94a3fb63fe",
+  "sha256": "372e3b44b2004819fc502f182d5d1fa83b5cfa4c990ba0e3a4da44868a2442a1",
   "sidecarBytes": {
-   "connectors": 60454,
-   "footprints": 89019,
-   "interiors": 54124
+   "connectors": 74052,
+   "footprints": 107794,
+   "interiors": 68764
   }
  }
 }

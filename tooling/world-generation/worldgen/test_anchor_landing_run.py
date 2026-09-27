@@ -3,7 +3,9 @@ start (337, 3002) on the bank, berth (348, 3007.5) at the ferry raft, water
 surface 35.24 (body.221-1650), depth 1.53 m at 1 m out, 3.03 at 2 m,
 2.4-2.96 to 5 m, then 1.5-1.7 to the raft. Landward ground along the
 bearing is the frozen survey sampled 2026-09-27 (/tmp/t3/claywater-profile.txt):
-35.414 within 2 m of the start, 35.263 to 5 m, 35.043 to 9 m."""
+35.414 within 2 m of the start, 35.263 to 5 m, 35.043 to 9 m.
+The pieces are laid at the plugins' placed scale (steps02 and bridge01 at 2.0,
+`placedScaleMedian`; decision 0103): a 9.7 m pitch."""
 
 import json
 import math
@@ -52,25 +54,38 @@ def test_todays_bank_fails_the_dry_ground_gate(kit):
     assert "gate needs 35.44" in r["why"]
 
 
-def test_steps02_and_three_bridge01_reach_the_berth_from_a_dry_bank(kit):
+def test_steps02_and_two_bridge01_at_placed_scale_reach_the_berth_from_a_dry_bank(kit):
     r = lay_landing_run(START, BERTH, STEP, DECK, claywater_ground(levelled), WATER, *kit)
     assert r["ok"] is True, r["why"]
-    assert r["deckPieces"] == 3
-    assert [p["asset"] for p in r["pieces"]] == [STEP] + [DECK] * 3
+    assert r["scale"] == 2.0 and all(p["scale"] == 2.0 for p in r["pieces"])
+    assert r["deckPieces"] == 2
+    assert [p["asset"] for p in r["pieces"]] == [STEP] + [DECK] * 2
+    # the mined pitch (4.85 m in the unit frame) times the placed scale
+    (x0, z0), (x1, z1) = [(p["xM"], p["zM"]) for p in r["pieces"][1:3]]
+    assert math.hypot(x1 - x0, z1 - z0) == pytest.approx(9.7, abs=0.02)
     assert r["endToBerthM"] <= 1.0
     assert r["openEnds"] == []
     assert r["tipGroundM"] >= WATER + DRY_MARGIN_M
     assert all(p["pair"].startswith("piece:") for p in r["pieces"][1:])
     # the run is shifted landward so the whole step piece stands on the bank
-    assert r["shiftM"] == pytest.approx(-7.2, abs=0.1)
+    assert r["shiftM"] == pytest.approx(-17.0, abs=0.1)
     assert all(p["deckOverWaterM"] > 0 for p in r["pieces"][1:])
 
 
-def test_two_deck_pieces_would_stand_the_step_piece_in_water(kit):
+def test_one_deck_piece_would_stand_the_step_piece_in_water(kit):
     r = lay_landing_run(START, BERTH, STEP, DECK, claywater_ground(levelled), WATER, *kit,
-                        deck_counts=[2])
+                        deck_counts=[1])
     assert r["ok"] is False
     assert r["footMinGroundM"] < WATER
+
+
+def test_scale_override_lays_at_kit_scale(kit):
+    """`scale=1.0` lays the kit-scale run (4.85 m pitch): steps02 + 3 bridge01."""
+    r = lay_landing_run(START, BERTH, STEP, DECK, claywater_ground(levelled), WATER, *kit,
+                        scale=1.0)
+    assert r["ok"] is True, r["why"]
+    assert r["deckPieces"] == 3
+    assert r["shiftM"] == pytest.approx(-7.2, abs=0.1)
 
 
 def test_sideways_pair_offsets_still_end_on_the_berth(kit):

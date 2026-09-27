@@ -204,12 +204,40 @@ def run_steps(prev_asset: str, next_asset: str, abuts: dict) -> list[dict]:
                     continue
                 step = invert_pair(ox, oy, rise, yaw) if flip else (ox, oy, rise, yaw)
                 span = (pair["riseMinM"], pair["riseMaxM"])
+                faces = (pair.get("childFace"), pair.get("parentFace")) if flip else \
+                    (pair.get("parentFace"), pair.get("childFace"))
                 out.append({"offset": step[:2], "rise": step[2], "yaw": step[3],
                             "riseRangeM": [-span[1], -span[0]] if flip else list(span),
                             "count": pair["count"], "kind": kind,
+                            "prevFace": faces[0], "nextFace": faces[1],
                             "pair": f"{pair['parentPiece']}{pair['parentFace']}>"
                                     f"{pair['childPiece']}{pair['childFace']}"})
     return out
+
+
+# A face's outward normal in the piece's plan frame (x east, z south at yaw 0;
+# the unit frame's +y is north, so -z).
+FACE_NORMAL_PLAN = {"+x": (1.0, 0.0), "-x": (-1.0, 0.0), "+y": (0.0, -1.0), "-y": (0.0, 1.0)}
+
+
+def _is_run_joint(step: dict) -> bool:
+    """The two joint faces lie on one axis with opposite signs (+y>-y): a run,
+    not a back-to-back or corner pair."""
+    a, b = step.get("prevFace"), step.get("nextFace")
+    return (a in FACE_NORMAL_PLAN and b in FACE_NORMAL_PLAN
+            and a[1] == b[1] and a[0] != b[0])
+
+
+def seed_direction(prev_yaw: float, steps: list[dict]) -> tuple[float, float] | None:
+    """The run direction for the first step: the outward normal (at the first
+    piece's yaw) of the first piece's joint face in the mined run pair. The
+    +x face wins when a run pair joins there (the frame wall runs were laid in
+    before ±y runs could lay); otherwise the run pair with the most evidence."""
+    runs = [s for s in steps if _is_run_joint(s)]
+    if not runs:
+        return None
+    best = max(runs, key=lambda s: (s["prevFace"] == "+x", s["count"], s["kind"] == "piece"))
+    return rotate_m([FACE_NORMAL_PLAN[best["prevFace"]]], prev_yaw)[0]
 
 
 def is_plan_point(value) -> bool:
@@ -221,7 +249,9 @@ def is_plan_point(value) -> bool:
 
 def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], list[str]]:
     """16h K9 B: a `pieces` parcel laid as the plugins lay the run. The first
-    piece stands at the parcel's pivot turned to `yawDeg` + its own `yaw`; each
+    piece stands at the parcel's pivot turned to `yawDeg` + its own `yaw`; the
+    run direction is seeded from the first pair's joint face (`seed_direction`:
+    +x for wall runs, ±y for steps/walkway runs); each
     next piece is snapped to the one before by the mined abuts pair (the
     step with the most evidence among those that carry the run on along its
     direction and match the piece's `yaw` when given). Returns per piece
@@ -254,11 +284,13 @@ def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], lis
             yaw = (base + float(want or 0.0)) % 360.0
             out.append({"asset": asset, "xM": 0.0, "zM": 0.0, "yawDeg": round(yaw, 3),
                         "riseM": 0.0, "pair": None})
-            direction = rotate_m([(1.0, 0.0)], yaw)[0]
             continue
         prev = out[-1]
         best = None
-        for step in run_steps(prev["asset"], asset, abuts):
+        steps = run_steps(prev["asset"], asset, abuts)
+        if direction is None:
+            direction = seed_direction(prev["yawDeg"], steps) or rotate_m([(1.0, 0.0)], prev["yawDeg"])[0]
+        for step in steps:
             yaw = (prev["yawDeg"] + step["yaw"]) % 360.0
             if want is not None and abs(((yaw - base - float(want)) + 180.0) % 360.0 - 180.0) > 1.0:
                 continue

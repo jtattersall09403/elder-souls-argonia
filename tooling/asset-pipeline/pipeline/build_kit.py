@@ -397,6 +397,12 @@ def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
             DirSource(vault / "skyrim-source/mod-sources" / dir_pools[s] / "extracted")
             for s in siblings.get(pool, ())
         ]
+        # King of the Murkmire's `argonia/blackwood` docks are BM&V's Dagon Fel
+        # jetty meshes re-pathed, and they still name BM&V's
+        # `textures/sheogorad/dagon fel/*` (woodpostend03), which KotM does not
+        # ship; BM&V's texture archive is their sibling (16k walk 2, 2026-09-27).
+        if pool == "kotm":
+            extra.append(RarSource(bmv / "Data2.rar", bmv / "manifest.txt"))
         return PoolSources(meshes=source, textures=[source, *extra, *fallback])
     raise KeyError(f"unknown asset pool: {pool}")
 

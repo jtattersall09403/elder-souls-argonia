@@ -1,6 +1,6 @@
 {
   "id": "settlement-stilt-v1",
-  "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: vanilla-backed textures resolve through Tropical Skyrim (vanilla filenames, texture-only \u2014 it ships no architecture meshes), so the vanilla-backed pieces read hot and wet instead of Nordic grey. That is the PIPELINE DEFAULT for every kit since 2026-09-09, not a key this config sets; a kit keeps the un-tropicalised vanilla art only by declaring `untropicalisedReason`.",
+  "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: vanilla-backed textures resolve through Tropical Skyrim (vanilla filenames, texture-only \u2014 it ships no architecture meshes), so the vanilla-backed pieces read hot and wet instead of Nordic grey. That is the PIPELINE DEFAULT for every kit since 2026-09-09, not a key this config sets; a kit keeps the un-tropicalised vanilla art only by declaring `untropicalisedReason`. 16k walk 2 (kit plan item 33.3) adds King of the Murkmire's `argonia/blackwood` walkway and dock family (walkway01\u201307, walkwaystairs, the eleven docks platform, end, corner and piling pieces): wooden stilt walkways joining platforms over water, as Murkmire builds (world/sources/lore/topics/material-culture.md, Murkmire), laid by the plugin's own abuts pairs.",
   "culture": "argonian-stilt",
   "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
   "lodRatios": [
@@ -290,6 +290,82 @@
     },
     {
       "asset": "vanilla:architecture/shackkit/shackframerend02",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway01",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway02",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway03",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway04",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway05",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway06",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkway07",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walkwaystairs",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/docks3way",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/docks4way",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockscentre",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockscentrealt",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockscentrenopost",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockscentresmall",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockscorner",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/docksend",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/docksendnopost",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockspilings",
+      "collision": "mesh"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/dockspilingsdamage",
       "collision": "mesh"
     }
   ]

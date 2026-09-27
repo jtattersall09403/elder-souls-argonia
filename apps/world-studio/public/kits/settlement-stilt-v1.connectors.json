@@ -2516,6 +2516,821 @@
     "widthM": 0.23
    }
   ],
+  "kotm:argonia/blackwood/docks3way": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   }
+  ],
+  "kotm:argonia/blackwood/docks4way": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.88
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.82
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "kotm:argonia/blackwood/dockscentre": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   }
+  ],
+  "kotm:argonia/blackwood/dockscentrealt": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.88
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "kotm:argonia/blackwood/dockscentrenopost": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.81
+    ],
+    "widthM": 3.64
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.55,
+    "normalDeg": 270.0,
+    "pairedWith": "kotm:argonia/blackwood/dockscentresmall",
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "template": "kotm:t0140",
+    "widthM": 3.66
+   }
+  ],
+  "kotm:argonia/blackwood/dockscentresmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -1.86
+    ],
+    "widthM": 1.82
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 7.55,
+    "normalDeg": 90.0,
+    "pairedWith": "kotm:argonia/blackwood/dockscentrenopost",
+    "positionInPiece": [
+     1.82,
+     -0.0
+    ],
+    "template": "kotm:t0140",
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.8
+    ],
+    "widthM": 1.82
+   }
+  ],
+  "kotm:argonia/blackwood/dockscorner": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -1.88
+    ],
+    "widthM": 3.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.78,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     1.82
+    ],
+    "widthM": 3.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "kotm:argonia/blackwood/docksend": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -1.88
+    ],
+    "widthM": 2.5
+   },
+   {
+    "count": 15,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 9.16,
+    "normalDeg": 90.2,
+    "pairedWith": "kotm:argonia/blackwood/docksend",
+    "positionInPiece": [
+     1.81,
+     0.01
+    ],
+    "template": "kotm:t0003",
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     1.82
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "kotm:argonia/blackwood/docksendnopost": [
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "pairedWith": "kotm:argonia/blackwood/docksendnopost",
+    "positionInPiece": [
+     -0.0,
+     -1.83
+    ],
+    "template": "kotm:t0008",
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -1.86
+    ],
+    "widthM": 2.5
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 7.55,
+    "normalDeg": 89.8,
+    "pairedWith": "kotm:argonia/blackwood/docksendnopost",
+    "positionInPiece": [
+     1.79,
+     -0.01
+    ],
+    "template": "kotm:t0142",
+    "widthM": 3.68
+   },
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "pairedWith": "kotm:argonia/blackwood/docksendnopost",
+    "positionInPiece": [
+     0.0,
+     1.83
+    ],
+    "template": "kotm:t0008",
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     1.82
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     -0.02
+    ],
+    "widthM": 3.68
+   }
+  ],
+  "kotm:argonia/blackwood/dockspilings": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "kotm:argonia/blackwood/dockspilingsdamage": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.2
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.0
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.2
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.0
+    ],
+    "widthM": 0.4
+   }
+  ],
+  "kotm:argonia/blackwood/walkway01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.82,
+     -11.19
+    ],
+    "widthM": 5.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.82,
+     7.72
+    ],
+    "widthM": 5.26
+   }
+  ],
+  "kotm:argonia/blackwood/walkway02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.34,
+     -11.36
+    ],
+    "widthM": 6.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.24,
+     -5.43
+    ],
+    "widthM": 11.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.34,
+     0.49
+    ],
+    "widthM": 6.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.45,
+     -5.43
+    ],
+    "widthM": 11.85
+   }
+  ],
+  "kotm:argonia/blackwood/walkway03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -7.43,
+     -3.94
+    ],
+    "widthM": 20.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.77,
+     2.82
+    ],
+    "widthM": 13.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -7.43,
+     9.57
+    ],
+    "widthM": 20.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -17.63,
+     2.82
+    ],
+    "widthM": 13.51
+   }
+  ],
+  "kotm:argonia/blackwood/walkway04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     15.31,
+     3.07
+    ],
+    "widthM": 12.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.11,
+     3.07
+    ],
+    "widthM": 12.7
+   }
+  ],
+  "kotm:argonia/blackwood/walkway05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.03,
+     -8.8
+    ],
+    "widthM": 5.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.03,
+     7.55
+    ],
+    "widthM": 5.32
+   }
+  ],
+  "kotm:argonia/blackwood/walkway06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.2,
+     -5.5
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.27,
+     -0.71
+    ],
+    "widthM": 9.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.2,
+     4.08
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     3.13,
+     -0.71
+    ],
+    "widthM": 9.58
+   }
+  ],
+  "kotm:argonia/blackwood/walkway07": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.04,
+     -15.7
+    ],
+    "widthM": 19.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.89,
+     -10.5
+    ],
+    "widthM": 10.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.04,
+     -5.31
+    ],
+    "widthM": 19.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.81,
+     -10.5
+    ],
+    "widthM": 10.39
+   }
+  ],
+  "kotm:argonia/blackwood/walkwaystairs": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.16,
+     -5.57
+    ],
+    "widthM": 3.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.16,
+     6.24
+    ],
+    "widthM": 3.04
+   }
+  ],
   "mudmother:gv_meshes/argoniannest/argonianlanterns02": [
    {
     "evidence": "bounds",
@@ -3294,9 +4109,9 @@
   ]
  },
  "counts": {
-  "assets": 64,
-  "bounds": 224,
-  "co-placement": 50
+  "assets": 83,
+  "bounds": 287,
+  "co-placement": 56
  },
  "elongationRatio": 2.0,
  "kit": "settlement-stilt-v1",

@@ -225,7 +225,11 @@ asset registry.
   with the author's permission (held by the owner, 2026-09-24): its mud-house
   set behind the `settlement-mud-v1` kit (eight shells, a doorway piece, two
   doors, two windows, a chimney, two stairs and two awnings from
-  `argonia/mudhuts/`, the author's own meshwork), and its plugin's placement
+  `argonia/mudhuts/`, the author's own meshwork), its `argonia/blackwood`
+  stilt walkways, walkway stairs and jetty platforms behind the
+  `settlement-stilt-v1` kit (the jetty platforms are Black Marsh &
+  Valenwood's Dagon Fel dock meshes re-pathed, textured from that mod's
+  archive), and its plugin's placement
   of the Morrowind Imperial Keep Set, read as statistics to learn how the
   set's walls join. Archive
   `King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z`,
