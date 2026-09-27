@@ -13,8 +13,7 @@ from __future__ import annotations
 from . import measure, paths
 
 PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter")
-BATTER_MAX_M = 1.2        # planner ruling 2026-09-27 (0101 R1 amendment): a graded earth
-BATTER_RUN = 2.0          # batter holds an edge up to this high when the apron is this x its height
+
 RETAIN_REACH_M = 1.0      # a wall piece's outline within this of a pad edge retains it
 RETAIN_COVER = 0.9        # ... over at least this share of the edge's length
 
@@ -61,7 +60,9 @@ def resolve(cat, g, piece) -> dict | None:
     got = srp.resolve_pad([g.chunk_height(x, z) for x, z in samples], piece.pad.get("datumM"),
                           piece.pad.get("floorMinM"),
                           also=[g.survey_height(x, z) for x, z in samples])
-    return {**got, "apronM": apron, "polygonM": polygon}
+    blend = (srp.batter_blend_m(polygon, got["datumM"], g.chunk_height)
+             if piece.pad.get("batter") and got["datumM"] is not None else srp.PAD_BLEND_M)
+    return {**got, "apronM": apron, "polygonM": polygon, "blendM": blend}
 
 
 class PaddedGround:
@@ -77,8 +78,15 @@ class PaddedGround:
         self._g = g
         self.pad_index = srp.PadIndex([p["polygonM"] for p in pads])
         overlays = [pad_overlay.building_overlay(p["id"], p["polygonM"], float(p["datumM"]),
-                                                 srp.PAD_BLEND_M) for p in pads] + list(runs or [])
+                                                 float(p.get("blendM", srp.PAD_BLEND_M)))
+                    for p in pads] + list(runs or [])
         self.overlays = overlays
+        # a building pad's reach (its polygon grown by its blend ramp): the
+        # ground a dressing prop seated there stands on is the padded surface
+        from shapely.geometry import Polygon
+        from shapely.ops import unary_union
+        self._reach = unary_union([Polygon(p["polygonM"]).buffer(float(p.get("blendM", srp.PAD_BLEND_M)))
+                                   for p in pads]) if pads else None
         self._chunks = pad_overlay.ground(g.chunk_height, overlays)
         self._survey = pad_overlay.ground(g.survey_height, overlays)
 
@@ -103,6 +111,16 @@ class PaddedGround:
 
     def height(self, x: float, z: float, source: str = "chunks") -> float:
         return self.chunk_height(x, z) if source == "chunks" else self.survey_height(x, z)
+
+    def dressing_slope_deg(self, polygon_m) -> float | None:
+        """A dressing prop's footing slope inside a building pad's reach (pad
+        + blend) read on the padded surface itself (0.5 m probes, never the
+        5.48 m grid cells, which read the frozen ground: planner ruling
+        2026-09-27, walk 2 round 3); None outside every reach."""
+        from shapely.geometry import Polygon
+        if self._reach is None or not self._reach.contains(Polygon(polygon_m)):
+            return None
+        return _srp().surface_slope_deg(self._survey, polygon_m)
 
     def footprint_max_slope_deg(self, polygon_m) -> float:
         """Over a pad the patched surface's own slope (the grid's 5.48 m cells
@@ -238,15 +256,15 @@ def ground_for(cat, scene, piece, resolved: dict | None = None):
     # and datum; the runs' poses), so a repeat call builds no overlay (r5 review)
     owners = {p.uid: _pad_owner(p) for p in scene.pieces} if ok else {}
     key = (stem, getattr(scene, "placeId", ""),
-           tuple((uid, owners.get(uid), tuple(map(tuple, r["polygonM"])), r["datumM"])
-                 for uid, r in ok), run_key[1])
+           tuple((uid, owners.get(uid), tuple(map(tuple, r["polygonM"])), r["datumM"],
+                  r.get("blendM")) for uid, r in ok), run_key[1])
     if memo.get("groundKey") == key:
         return memo["ground"]
     if memo.get("runKey") != run_key:
         memo.update(runKey=run_key, runs=run_overlays(cat, scene, g) if run_key[1] else [])
     runs = memo["runs"]
-    live = [{"id": overlay_id(scene, uid), "polygonM": r["polygonM"], "datumM": r["datumM"]}
-            for uid, r in ok]
+    live = [{"id": overlay_id(scene, uid), "polygonM": r["polygonM"], "datumM": r["datumM"],
+             "blendM": r.get("blendM", _srp().PAD_BLEND_M)} for uid, r in ok]
     if not live and not runs:
         return g
     memo.update(groundKey=key, ground=PaddedGround(g, live, runs))   # one per overlay set
@@ -280,14 +298,12 @@ def pad_fit(cat, scene, piece, pad: dict) -> dict:
         if cover < RETAIN_COVER:
             unretained.append(e)
     if not family and (piece.pad or {}).get("batter"):
-        # 0101 R1 amendment (planner ruling 2026-09-27): a culture with no
-        # retaining-wall family (Argonian mud) takes a graded earth batter:
-        # an edge up to BATTER_MAX_M is legal when the apron is at least
-        # BATTER_RUN x its height (slope 1:2); higher stays illegal
-        apron = float(pad["apronM"])
+        # 0101 R1 amendment (planner ruling 2026-09-27, round 3): a kit with
+        # no retaining-wall family (Argonian mud) grades an edge up to
+        # BATTER_MAX_M over a blend ramp BATTER_RUN x its height wide
+        # (`srp.batter_blend_m`, the ramp the overlay draws); higher stays illegal
         for e in unretained:
-            h = max(e["fillM"], e["cutM"])
-            e["batter"] = h <= BATTER_MAX_M and apron + 1e-6 >= BATTER_RUN * h
+            e["batter"] = max(e["fillM"], e["cutM"]) <= srp.BATTER_MAX_M
         unretained = [e for e in unretained if not e["batter"]]
     why = refusal(cat, g, piece, pad)
     if why is None and unretained:
@@ -296,8 +312,10 @@ def pad_fit(cat, scene, piece, pad: dict) -> dict:
                f"(> {srp.RETAIN_BAR_M} m) with no retaining wall"
                + (f" of {kit}'s family ({', '.join(family)}) along them" if family else
                   f"; {kit} has no retaining-wall family, so its pad stays within "
-                  f"{srp.RETAIN_BAR_M} m, or up to {BATTER_MAX_M} m as a graded batter "
-                  f"(`batter: true`, apron >= {BATTER_RUN:g} x the edge): move the piece or change it"))
+                  f"{srp.RETAIN_BAR_M} m, or up to {srp.BATTER_MAX_M} m as a graded batter "
+                  f"(`batter: true`: a blend ramp {srp.BATTER_RUN:g} x the edge wide): "
+                  f"move the piece or change it"))
     return {"datumM": pad["datumM"], "how": pad["how"], "fillM": pad["fillM"],
+            "blendM": pad.get("blendM"),
             "cutM": pad["cutM"], "edges": edges,
             "unretainedEdges": [e["edge"] for e in unretained], "padRule": why}

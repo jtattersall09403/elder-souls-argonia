@@ -210,23 +210,52 @@ def test_the_padded_chunk_heights_are_one_vectorised_pass(monkeypatch):
     assert got.tobytes() == want.tobytes()
 
 
-def test_a_mud_pad_edge_up_to_1_2_m_is_a_graded_batter_when_its_apron_is_twice_its_height():
-    """0101 R1 amendment (planner ruling 2026-09-27, walk 2 lane P): a kit with
-    no retaining-wall family takes a graded earth batter (`batter: true`): an
-    edge over 0.6 m and up to 1.2 m is legal when the apron is >= 2 x its
-    height; narrower, or higher than 1.2 m, stays red; without `batter` the
-    0.6 m bar holds."""
+def test_a_mud_pad_edge_up_to_1_2_m_is_a_graded_batter_over_a_ramp_twice_its_height():
+    """0101 R1 amendment (planner ruling 2026-09-27, round 3): a kit with no
+    retaining-wall family takes a graded earth batter (`batter: true`): an
+    edge up to 1.2 m is legal and the pad's blend ramp is 2 x the edge height
+    wide (never under 3 m); higher than 1.2 m stays red; without `batter` the
+    0.6 m bar holds. The apron stays as authored."""
     def fit(fall, **pad):
         hut = Piece("b5", HUT, 0.0, 0.0, pad=dict(pad))
         s = _Scene([hut], fall=fall)
-        return pads.pad_fit(_Cat(), s, hut, pads.resolve(_Cat(), s.ground(), hut))
-    assert fit(0.12, apronM=2.0)["padRule"]                     # ~0.84 m edges, no batter
-    assert fit(0.12, apronM=1.5, batter=True)["padRule"]        # apron 1.5 < 2 x 0.78
-    assert fit(0.12, apronM=2.0, batter=True)["padRule"] is None
-    assert "1.2 m as a graded batter" in fit(0.2, apronM=3.0, batter=True)["padRule"]  # 1.6 m edges
+        got = pads.resolve(_Cat(), s.ground(), hut)
+        return got, pads.pad_fit(_Cat(), s, hut, got)
+    _, plain = fit(0.12, apronM=1.0)
+    assert plain["padRule"]                                        # ~0.8 m edges, no batter
+    got, bat = fit(0.12, apronM=1.0, batter=True)
+    worst = max(max(e["fillM"], e["cutM"]) for e in bat["edges"])
+    assert bat["padRule"] is None and 0.6 < worst <= 1.2
+    assert got["blendM"] == pytest.approx(max(3.0, 2 * worst), abs=0.01)
+    assert plain["blendM"] == 3.0
+    assert "1.2 m as a graded batter" in fit(0.2, apronM=3.0, batter=True)[1]["padRule"]
+    # the compile's judge grades the same ramp from the exported `batter` flag
+    srp = pads._srp()
+    g = _Ground(0.12)
+    foot = _outline(Piece("b5", HUT, 0.0, 0.0))
+    spec = {"datumM": got["datumM"], "apronM": 1.0, "batter": True}
+    pad, why = srp.building_pad(spec, foot, g.chunk_height, lambda x, z: False)
+    assert why is None and pad["blendM"] == pytest.approx(got["blendM"], abs=0.01)
+    assert srp.building_pad({**spec, "batter": False}, foot, g.chunk_height,
+                            lambda x, z: False)[0]["blendM"] == 3.0
     ap = wb.parser()
     op = {"op": "place", "uid": "b5", "asset": HUT, "at": [1.0, 2.0], "yaw": 0.0,
           "pad": {"apronM": 2.0, "batter": True}}
     assert layout.argv_to_op(layout.op_to_argv(op, ap), ap)["pad"] == {"apronM": 2.0, "batter": True}
     with pytest.raises(ValueError):
         pads.parse(["batter=ture"])
+
+
+def test_dressing_inside_a_pads_reach_reads_the_padded_surface():
+    """Planner ruling 2026-09-27 (walk 2 round 3): a prop inside a building
+    pad's polygon grown by its blend reads its slope on the padded surface
+    (0.5 m probes), never the 5.48 m grid cells over the frozen ground; a
+    prop outside every reach keeps the grid."""
+    g = _Ground(0.2)
+    g.chunk_heights = None
+    pg = pads.PaddedGround(g, [{"id": "pad.a", "polygonM": [(0, 0), (10, 0), (10, 6), (0, 6)],
+                                "datumM": 8.0, "blendM": 3.0}])
+    on = [(4.0, 2.0), (5.0, 2.0), (5.0, 3.0), (4.0, 3.0)]
+    assert pg.dressing_slope_deg(on) == pytest.approx(0.0, abs=0.01)
+    assert pg.footprint_max_slope_deg([(20, 20), (21, 20), (21, 21), (20, 21)]) == 11.3
+    assert pg.dressing_slope_deg([(20, 20), (21, 20), (21, 21), (20, 21)]) is None

@@ -185,6 +185,19 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
             "runtimeGapM": max(0.0, y - pivot_to_base - lo)}
 
 
+def footing_slope_deg(ground, piece, poly) -> float:
+    """The 97 B3 footing slope of a pose: a dressing piece (not a parcel's
+    building or a run member) inside a building pad's reach (pad + blend)
+    reads the padded surface (`PaddedGround.dressing_slope_deg`, planner
+    ruling 2026-09-27 walk 2 round 3); everything else the analysis grid.
+    The one reader for `check`'s slopeRule and `measure`/`describe`."""
+    if (piece.role or {}).get("kind") not in ("parcel", "run") and hasattr(ground, "dressing_slope_deg"):
+        got = ground.dressing_slope_deg(poly)
+        if got is not None:
+            return got
+    return ground.footprint_max_slope_deg(poly)
+
+
 def ground_report(cat: Catalogue, ground, piece: Piece) -> dict:
     """Ground under the footprint: heights (both samplers), delta, the
     compile's slope over touched cells (97 B3), wet share, and the float of
@@ -197,7 +210,7 @@ def ground_report(cat: Catalogue, ground, piece: Piece) -> dict:
            "chunks": {"min": min(ch), "max": max(ch), "mean": sum(ch) / len(ch)},
            "survey": {"min": min(sv), "max": max(sv), "mean": sum(sv) / len(sv)},
            "deltaM": max(ch) - min(ch),
-           "maxSlopeDeg": ground.footprint_max_slope_deg(poly),
+           "maxSlopeDeg": footing_slope_deg(ground, piece, poly),
            "wetVertices": wet}
     if piece.y is not None:
         out.update(float_under(cat, ground, piece))

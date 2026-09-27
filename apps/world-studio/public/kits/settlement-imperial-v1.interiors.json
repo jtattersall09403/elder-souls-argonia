@@ -87,12 +87,18 @@
    "closedShellPromotedBy": "own-geometry-door",
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "heightM": -0.01,
     "kind": "esp-door",
+    "offsetM": [
+     0.0,
+     3.11
+    ],
     "placements": 34,
-    "radial": true,
-    "radiusM": 3.67
+    "radiusM": 3.11,
+    "sideDeg": 179.98,
+    "yawDeg": 0.0
    },
-   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (34 placements)",
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior stands on any bearing across the plugin's placements; this composite hangs it at 180 deg in its own frame, so the entrance is fixed there",
    "espLink": {
     "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "interiorCell": "DawnstarBarracks",
@@ -131,18 +137,6 @@
      "sideDeg": 179.98
     },
     {
-     "count": 6,
-     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
-     "doorwaySource": "assembly",
-     "kind": "assembly",
-     "offsetM": [
-      -0.02,
-      3.67
-     ],
-     "radiusM": 3.67,
-     "sideDeg": 180.33
-    },
-    {
      "arcM": 0.9,
      "heightM": 2.7,
      "kind": "leaf",
@@ -170,30 +164,86 @@
     -1.33,
     7.17
    ],
-   "entrance": null,
-   "entranceWhy": "not an enclosure, so no doorway is derived",
-   "floorOffsetM": 1.0,
-   "front": {
-    "deg": 162.3,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 162\u00b0 in the piece's own frame carries 1.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   "entrance": {
+    "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "heightM": 3.18,
+    "kind": "esp-door",
+    "offsetM": [
+     -0.02,
+     3.67
+    ],
+    "placements": 34,
+    "radiusM": 3.67,
+    "sideDeg": 180.33,
+    "yawDeg": 0.0
    },
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior stands on any bearing across the plugin's placements; this composite hangs it at 180 deg in its own frame, so the entrance is fixed there",
+   "espLink": {
+    "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "interiorCell": "DawnstarBarracks",
+    "interiorFamily": "vanilla:architecture/farmhouse/interior",
+    "interiorSizeM": {
+     "heightM": 11.46,
+     "planXM": 12.05,
+     "planYM": 18.03
+    },
+    "placements": 4,
+    "plugin": "Skyrim.esm"
+   },
+   "floorOffsetM": 1.0,
    "frontFaceFraction": 0.25,
    "headroomM": 12.53,
    "heightM": 16.05,
-   "interior": "none",
+   "interior": "tileset",
+   "interiorSource": "esp-door",
    "medianWallM": 3.27,
    "planAreaM2": 259.74,
    "planCentreM": [
     -2.36,
     2.4
    ],
-   "provenance": [],
+   "provenance": [
+    {
+     "count": 6,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      -0.02,
+      3.67
+     ],
+     "radiusM": 3.67,
+     "sideDeg": 180.33
+    },
+    {
+     "arcM": 2.0,
+     "kind": "opening",
+     "offsetM": [
+      1.78,
+      8.15
+     ],
+     "sideDeg": 144.24
+    },
+    {
+     "arcM": 2.49,
+     "kind": "opening",
+     "offsetM": [
+      -0.34,
+      9.57
+     ],
+     "sideDeg": 164.24
+    }
+   ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
+   "storeyLevelsM": [
+    1.0,
+    3.2
+   ],
+   "storeys": 1,
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
   "composite:farmhouse/stonewall-run-3": {
    "category": "architecture",

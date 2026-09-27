@@ -331,7 +331,7 @@ def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
     `ok` is False exactly when the compile or the gate would refuse the pose."""
     row = cat.row(p.asset)
     poly = measure.footprint_province(cat, p)
-    slope = g.footprint_max_slope_deg(poly)
+    slope = measure.footing_slope_deg(g, p, poly)
     heights = [g.survey_height(x, z) for x, z in poly] + [g.survey_height(p.x, p.z)]
     delta = max(heights) - min(heights)
     fit = authored_fit or cs.record_ground_fit(row)

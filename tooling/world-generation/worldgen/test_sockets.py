@@ -278,3 +278,19 @@ def test_a_quest_socket_realising_a_catalogue_socket_puts_the_promise_in_its_par
 def test_a_post_catalogue_socket_id_is_a_legal_quest_socket_id():
     from worldgen import blueprint as bpm
     assert bpm.CATALOGUE_SOCKET_RE.match("post.claywater-station.poler")
+
+
+def test_a_socket_that_fills_a_promise_realises_it_wherever_it_stands():
+    """Planner ruling 2026-09-27 (walk 2 round 3): `fills` names the 0104 row;
+    that socket meets the build-ledger row with the same subject in any
+    parcel (the poler's npc socket on the landing deck fills the ferry)."""
+    row = bpr.Promise("promise.service.ferry", "service", "ferry", "s", "r",
+                      socketKinds=["npc"], parcels=["parcel.p.raft"])
+    record = {"promises": [{"id": "promise.p.service-ferry",
+                            "source": {"path": "places[place.x.p].services[ferry]"}}]}
+    subjects = bpr.fill_subjects(record)
+    deck = {"id": "socket.p.npc-poler", "kind": "npc", "parcelId": "parcel.p.landing",
+            "fills": ["promise.p.service-ferry"]}
+    assert bpr.socket_promise_errors([row], [deck]) != []           # no fills map: parcel rule
+    assert bpr.socket_promise_errors([row], [deck], subjects) == []
+    assert bpr.socket_promise_errors([row], [{**deck, "kind": "idle"}], subjects) != []

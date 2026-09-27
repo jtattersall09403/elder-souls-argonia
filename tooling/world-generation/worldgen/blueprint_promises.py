@@ -452,7 +452,20 @@ def check_promises(bp: dict, rec: dict | None = None) -> tuple[list[str], list[s
     return (errors, msgs, ledger)
 
 
-def socket_promise_errors(ledger: list[Promise], sockets: list[dict]) -> list[str]:
+def fill_subjects(record: dict | None) -> dict[str, str]:
+    """{0104 ledger row id: its subject}: the last bracketed key of the row's
+    source path (the catalogue socket id, the service id), which is the
+    subject `socket_promise_errors` names a build-ledger row by."""
+    out = {}
+    for row in (record or {}).get("promises", []) or []:
+        path = str((row.get("source") or {}).get("path", ""))
+        if path.endswith("]") and "[" in path:
+            out[row["id"]] = path[path.rindex("[") + 1:-1]
+    return out
+
+
+def socket_promise_errors(ledger: list[Promise], sockets: list[dict],
+                          subjects: dict[str, str] | None = None) -> list[str]:
     """Planner ruling 4 (16k round 5) and ruling 3 (16k round 6): every
     ledger row's Socket kinds column (what the design brief's § Sockets
     table is checked against) is met by a compiled socket of one of those
@@ -464,9 +477,15 @@ def socket_promise_errors(ledger: list[Promise], sockets: list[dict]) -> list[st
         if not p.socketKinds:
             continue
         ids = {p.id, p.id.removeprefix(f"promise.{p.kind}.")}
-        if any(s["kind"] in p.socketKinds
-               and (s["id"] in ids or (p.parcels and s.get("parcelId") in p.parcels))
-               for s in sockets):
+        subject = p.id.removeprefix(f"promise.{p.kind}.")
+        # planner ruling 2026-09-27 (walk 2 round 3): a socket whose `fills`
+        # names the 0104 row of this promise realises it wherever it stands;
+        # the parcel match is the fallback for a socket that names no fills
+        filled = [s for s in sockets if s["kind"] in p.socketKinds
+                  and any((subjects or {}).get(f) == subject for f in s.get("fills") or [])]
+        if filled or any(s["kind"] in p.socketKinds
+                         and (s["id"] in ids or (p.parcels and s.get("parcelId") in p.parcels))
+                         for s in sockets):
             continue
         where = (f"standing in {' or '.join(p.parcels)}, or with id {p.id}" if p.parcels
                  else f"with id {p.id} or {p.id.removeprefix(f'promise.{p.kind}.')}")

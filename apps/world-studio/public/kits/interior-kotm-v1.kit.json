@@ -4526,12 +4526,12 @@
     "DeadPondFish01:2.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0096,
+    "p50": -0.0096,
+    "p75": -0.0096,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4549,7 +4549,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish02",
@@ -4587,12 +4592,12 @@
     "DeadPondFish02:2.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0096,
+    "p50": -0.0096,
+    "p75": -0.0096,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4610,7 +4615,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish03",
@@ -4648,12 +4658,12 @@
     "DeadPondFish03:2.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0096,
+    "p50": -0.0096,
+    "p75": -0.0096,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4671,7 +4681,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish04",
@@ -4709,12 +4724,12 @@
     "DeadPondFish04:2.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0096,
+    "p50": -0.0096,
+    "p75": -0.0096,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4732,7 +4747,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadpondfish05",
@@ -4770,12 +4790,12 @@
     "DeadPondFish05:2.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0096,
+    "p50": -0.0096,
+    "p75": -0.0096,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4793,7 +4813,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.618,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadsalmon01",
@@ -4830,12 +4855,12 @@
     "DeadSalmon01:1.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.2707,
+    "p50": -0.2707,
+    "p75": -0.2707,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4853,7 +4878,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.693
+   "pivotAboveBaseM": 0.693,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.2707
+   }
   },
   {
    "id": "vanilla:clutter/deadanimals/deadsalmon02",
@@ -4890,12 +4920,12 @@
     "Fish:1.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.2237,
+    "p50": -0.2237,
+    "p75": -0.2237,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4913,7 +4943,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.587
+   "pivotAboveBaseM": 0.587,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.2237
+   }
   },
   {
    "id": "vanilla:clutter/food/cookedslaughterfishsteak01",
@@ -4945,12 +4980,12 @@
     "CookedSlaughterfishSteak01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0151,
+    "p50": -0.0151,
+    "p75": -0.0151,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4968,7 +5003,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.594,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.015
+   "pivotAboveBaseM": 0.015,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0151
+   }
   },
   {
    "id": "kotm:argonia/clutter/wallbasket02",
@@ -5000,12 +5040,12 @@
     "WallBasketLarge01:0.Mat.002"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.3471,
+    "p50": -0.3471,
+    "p75": -0.3471,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5023,7 +5063,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.347
+   "pivotAboveBaseM": 0.347,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   }
   },
   {
    "id": "vanilla:clutter/wallbasketlarge01",
@@ -5064,12 +5109,12 @@
     "WallBasketLarge01:3.Mat.001": 0.502
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -1.269,
+    "p50": -1.269,
+    "p75": -1.269,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5087,7 +5132,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.493,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.269
+   "pivotAboveBaseM": 1.269,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.269
+   }
   },
   {
    "id": "vanilla:clutter/wallbasket03",
@@ -5124,12 +5174,12 @@
     "WallBasket03:3.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.3628,
+    "p50": -0.3628,
+    "p75": -0.3628,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5147,7 +5197,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.363
+   "pivotAboveBaseM": 0.363,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3628
+   }
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/shell",
@@ -5179,12 +5234,12 @@
     "Shell.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.1659,
+    "p50": 0.1659,
+    "p75": 0.1659,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5202,7 +5257,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.954,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.166
+   "pivotAboveBaseM": -0.166,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.1659
+   }
   },
   {
    "id": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
@@ -5247,7 +5307,7 @@
     "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5265,7 +5325,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
@@ -5298,12 +5363,12 @@
     "TongsBottom:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0086,
+    "p50": -0.0086,
+    "p75": -0.0086,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5321,7 +5386,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.409,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.009
+   "pivotAboveBaseM": 0.009,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0086
+   }
   },
   {
    "id": "vanilla:clutter/bucket02a",
@@ -5353,12 +5423,12 @@
     "Bucket02a:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5376,7 +5446,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
   },
   {
    "id": "kotm:argonia/furniture/rusticbench01",
@@ -5424,12 +5499,12 @@
     ]
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.0161,
+    "p50": 0.0161,
+    "p75": 0.0161,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5447,7 +5522,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.948,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016
+   "pivotAboveBaseM": -0.016,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0161
+   }
   },
   {
    "id": "kotm:argonia/clutter/amberbee",
@@ -5479,12 +5559,12 @@
     "BeeStatue:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0956,
+    "p50": -0.0956,
+    "p75": -0.0956,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5502,7 +5582,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.787,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.096
+   "pivotAboveBaseM": 0.096,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0956
+   }
   },
   {
    "id": "vanilla:critters/bee/beehoneycomb",
@@ -5539,12 +5624,12 @@
     "HoneyComb:1.Mat": 0.5
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1617,
+    "p50": -0.1617,
+    "p75": -0.1617,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5562,7 +5647,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.162
+   "pivotAboveBaseM": 0.162,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1617
+   }
   },
   {
    "id": "vanilla:plants/giantlichen01",
@@ -5594,12 +5684,12 @@
     "GiantLichen01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.0203,
+    "p50": 0.0203,
+    "p75": 0.0203,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5617,7 +5707,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.624,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.14
+   "pivotAboveBaseM": 0.14,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.0203
+   }
   },
   {
    "id": "kotm:argonia/food/sakebottle",
@@ -5651,12 +5746,12 @@
     "sakebottle_for_pail.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0034,
+    "p50": -0.0034,
+    "p75": -0.0034,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5674,7 +5769,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0034
+   }
   },
   {
    "id": "vanilla:clothes/monk/monkrobesgnd",
@@ -5706,12 +5806,12 @@
     "robesGND:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0052,
+    "p50": -0.0052,
+    "p75": -0.0052,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5729,7 +5829,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.966,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0052
+   }
   },
   {
    "id": "vanilla:clutter/woodfires/cookingstand02",
@@ -5761,12 +5866,12 @@
     "CookingStand02:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0003,
+    "p50": -0.0003,
+    "p75": -0.0003,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5784,7 +5889,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.187,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0003
+   }
   },
   {
    "id": "vanilla:clutter/wine/winebottle02a",
@@ -5817,12 +5927,12 @@
     "WineBottle02A:1.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5840,7 +5950,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.898,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
   },
   {
    "id": "vanilla:clutter/common/rug01",
@@ -5877,7 +5992,7 @@
     "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5895,7 +6010,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "vanilla:clutter/common/rug02",
@@ -5935,7 +6055,7 @@
     "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5953,7 +6073,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "vanilla:clutter/common/flute01",
@@ -5985,12 +6110,12 @@
     "Flute01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0317,
+    "p50": -0.0317,
+    "p75": -0.0317,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -6008,7 +6133,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.032
+   "pivotAboveBaseM": 0.032,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0317
+   }
   },
   {
    "id": "vanilla:clutter/ingredients/scalypholiotabits01",
@@ -6042,12 +6172,12 @@
     "ScalyPholiotaBits03:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0472,
+    "p50": -0.0472,
+    "p75": -0.0472,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -6065,7 +6195,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.047
+   "pivotAboveBaseM": 0.047,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0472
+   }
   },
   {
    "id": "vanilla:clutter/ingredients/trollfat01",
@@ -6099,12 +6234,12 @@
     "TrollFat01:5.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.0619,
+    "p50": -0.0619,
+    "p75": -0.0619,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -6122,7 +6257,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062
+   "pivotAboveBaseM": 0.062,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0619
+   }
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-kotm-v1.glb",

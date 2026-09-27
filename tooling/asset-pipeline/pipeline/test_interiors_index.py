@@ -286,6 +286,26 @@ def test_only_a_building_category_can_be_a_building_however_it_measures(category
     assert "never a building" in record["why"]
 
 
+def test_a_composite_is_banned_by_its_anchor_name_not_its_own_id():
+    """Walk 2 lane P (planner 2026-09-27): `farmhouse02-with-walkway` is the
+    farmhouse with its deck walkway, so the name ban reads its ANCHOR piece
+    (part 0, `farmhouse02`), never the composite id's `walkway` token."""
+    tris = room()
+    record = ix.classify_asset(
+        {"id": "composite:farmhouse/farmhouse02-with-walkway", "category": "architecture"},
+        "settlement-imperial-v1", _verts(tris), tris, {},
+        anchor_id="vanilla:architecture/farmhouse/farmhouse02")
+    assert record["interior"] == "tileset"
+    assert record["tileset"] == "vanilla-farmhouse-int"
+    # and an anchor whose own name is a non-building still bans the composite
+    record = ix.classify_asset(
+        {"id": "composite:docks/quay-run-2", "category": "architecture"},
+        "settlement-imperial-v1", _verts(tris), tris, {},
+        anchor_id="pool:architecture/docks/walkwaystr01")
+    assert record["interior"] == "none"
+    assert "name token" in record["why"]
+
+
 @pytest.mark.parametrize("asset_id", [
     "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
     "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs",
@@ -966,3 +986,81 @@ def test_every_tracked_fixed_esp_door_offset_lies_on_its_side():
                     bad.append(f"{path.name} {asset_id}: sideDeg {d['sideDeg']} vs {bearing:.1f}")
     assert checked
     assert bad == [], f"{len(bad)} of {checked}: {bad[:5]}"
+
+
+def _farmhouse02_mined() -> dict:
+    """farmhouse02's two mined doors, one piece: the porch door (vanilla:t0335,
+    7) and the deck door 3.18 m up (vanilla:t0420, 6)."""
+    door = "vanilla:architecture/farmhouse/farmhouseldoor01"
+    return {"vanilla:architecture/farmhouse/farmhouse02": [
+        {"kind": "fixed", "doorAsset": door, "offsetLocalM": [0.0, -3.11, -0.01],
+         "radiusM": 3.11, "riseM": -0.01, "yawDeg": 0.0, "sideDeg": 179.98, "count": 7},
+        {"kind": "fixed", "doorAsset": door, "offsetLocalM": [-0.02, -3.67, 3.18],
+         "radiusM": 3.67, "riseM": 3.18, "yawDeg": 0.0, "sideDeg": 180.33, "count": 6}]}
+
+
+def test_a_composite_carries_only_the_mined_door_its_part_stands_at():
+    """Walk 2 lane P (planner 2026-09-27): farmhouse02-with-walkway hangs the
+    load door on the deck (t0420); the porch door of the same piece (t0335,
+    3.24 m away) is not in the composite and is no doorway of it."""
+    rows = [{"asset": "vanilla:architecture/farmhouse/farmhouse02"},
+            {"asset": "vanilla:architecture/farmhouse/farmhouse02walkway",
+             "offsetM": [-0.04, -8.23, -0.01]},
+            {"asset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+             "offsetM": [-0.02, -3.67, 3.18]}]
+    doors = ix.composite_doorways([r["asset"] for r in rows], _farmhouse02_mined(), None, rows)
+    assert [(d["offsetLocalM"], d.get("carried")) for d in doors] == [([-0.02, -3.67, 3.18], True)]
+
+
+def test_a_radial_plugin_door_is_fixed_at_the_mined_door_the_composite_carries():
+    esp = {"kind": "esp-door", "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+           "placements": 34, "radiusM": 3.67, "radial": True}
+    deck = {**_farmhouse02_mined()["vanilla:architecture/farmhouse/farmhouse02"][1],
+            "carried": True}
+    record = {"doorways": [dict(esp)]}
+    ix.fix_radial_esp_door(record, [deck])
+    door = record["doorways"][0]
+    assert "radial" not in door
+    assert (door["offsetM"], door["heightM"], door["sideDeg"]) == ([-0.02, 3.67], 3.18, 180.33)
+    # two carried rows of one piece: no single bearing, the door stays radial
+    record = {"doorways": [dict(esp)]}
+    ix.fix_radial_esp_door(record, [deck, {**deck, "offsetLocalM": [0.0, -3.11, -0.01]}])
+    assert record["doorways"][0]["radial"] is True
+
+
+def _stall() -> np.ndarray:
+    """A stable stall in the GLB frame (x east, y up, z south): walls north and
+    west, the east end open to the roof (the run continues), and the south
+    face an arched mouth 2.4 m wide under a lintel from 3.0 m (keep stables)."""
+    h, top = 2.5, 5.4
+    tris: list = []
+    tris += _wall(-h, -h, h, -h, 0.0, top)                  # north
+    tris += _wall(-h, h, -h, -h, 0.0, top)                  # west
+    tris += _wall(-h, h, -1.2, h, 0.0, top)                 # south, west of the mouth
+    tris += _wall(1.2, h, h, h, 0.0, top)                   # south, east of the mouth
+    tris += _wall(-1.2, h, 1.2, h, 3.0, top)                # the lintel over the mouth
+    tris += _slab(top, h)
+    return np.asarray(tris, dtype=np.float64)
+
+
+def test_a_floorless_raised_storey_takes_its_entrance_at_the_ground():
+    """Walk 2 lane P (planner 2026-09-27): the keep stable stalls' ring closes
+    only at the 2 m rung, where the open run end is the one gap, so the old
+    record called the run end the front. Below that storey the arched mouth
+    reads as an opening under its lintel and outranks the open run end."""
+    tris = _stall()
+    high, _ = ix.doorways_from_probe(tris, (0.0, 0.0), 2.0, 3.4)
+    assert [round(d["sideDeg"]) for d in high] == [90]          # the run end only
+    low = ix.ground_doorways(tris, (0.0, 0.0), 0.0, 5.4, 2.0)
+    assert low[0]["kind"] == "opening" and abs(low[0]["sideDeg"] - 180.0) <= 5.0
+    assert any(d["kind"] == "open-front" and abs(d["sideDeg"] - 90.0) <= 5.0 for d in low)
+
+
+def test_the_keep_stable_stalls_open_on_their_arched_south_face():
+    """The tracked record: each stall's entrance is the -y (south) mouth."""
+    path = ix.REPO_ROOT / "world/sources/placement/kit-interiors/imperial-keep.interiors.json"
+    assets = json.loads(path.read_text())["assets"]
+    stall = "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/"
+    for name in ("mwimparchstableendl01", "mwimparchstableendr01", "mwimparchstablestraight01"):
+        e = assets[stall + name]["entrance"]
+        assert abs(float(e["sideDeg"]) - 180.0) <= 10.0, (name, e)

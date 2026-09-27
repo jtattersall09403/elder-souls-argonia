@@ -3538,12 +3538,12 @@
     "dim_smallcorkpod2.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
+    "p25": 1.0168,
+    "p50": 1.6468,
+    "p75": 1.915,
+    "n": 7,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "base:kotm:argonia/mudhuts/smpodext02"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3603,12 +3603,12 @@
     "dim_smallcorkpod5.Mat"
    ],
    "designedSinkM": {
-    "p25": 1.9922,
-    "p50": 1.9922,
-    "p75": 1.9922,
-    "n": 0,
+    "p25": 1.0168,
+    "p50": 1.6468,
+    "p75": 1.915,
+    "n": 7,
     "slopeTermMPerDeg": null,
-    "evidence": "policy"
+    "evidence": "base:kotm:argonia/mudhuts/smpodext02"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",

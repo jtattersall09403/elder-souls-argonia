@@ -88,9 +88,9 @@
   ]
  },
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS",
- "method": "designedSinkM = groundZ - pivotZ (metres, z-up, positive = pivot below the ground line) per exterior reference at unit scale; terrain from esp_index.height_at (bilinear on the cell LAND); a reference with mesh contact from below on a static or kit piece (worldgen/mine_mounts.py contact) is left out, and so is one whose bounds bottom stands more than 0.10 m above the highest LAND under its corners and pivot with no contact seen (refsDroppedPluginUnsupported); percentiles over n >= 3 references; slopeTermMPerDeg = least-squares gradient of sink on local terrain slope in degrees; designedWaterlineM from the cell water height on the same sign convention (the defining file's references only when it has 3 or more). Assets without n >= 3 samples: a composite whose bounds and origin equal its base piece's (compose.parts[0]) takes the base piece's plugin sink (evidence base:<id>), else a measured twin shipping the same mesh (evidence swap:<id>), else the mesh-sill ground-line tell of the raw kit GLB (pipeline/mesh_ground_line.py, evidence mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' when the left-out references are what left it short, 'mesh-sill (plugin-unsupported)' when the unsupported ones are); a structure piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR exceeds 1.0 m with n < 6 or over half its mesh height takes its mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin percentiles kept in pluginSpread); a stilt-fit asset's mesh tell is its deck top minus the stilt policy's deckClearanceM (tell deck-top); neither: no p50 (policy fallback at write time). worldgen/mine_designed_sink.py",
+ "method": "designedSinkM = groundZ - pivotZ (metres, z-up, positive = pivot below the ground line) per exterior reference at unit scale; terrain from esp_index.height_at (bilinear on the cell LAND); a reference with mesh contact from below on a static or kit piece (worldgen/mine_mounts.py contact) is left out, and so is one whose bounds bottom stands more than 0.10 m above the highest LAND under its corners and pivot with no contact seen (refsDroppedPluginUnsupported); percentiles over n >= 3 references; slopeTermMPerDeg = least-squares gradient of sink on local terrain slope in degrees; designedWaterlineM from the cell water height on the same sign convention (the defining file's references only when it has 3 or more). Assets without n >= 3 samples: a composite whose bounds and origin equal its base piece's (compose.parts[0]) takes the base piece's plugin sink (evidence base:<id>; so does one whose part 0 carries the plugin's pitch/roll, the pose its references hold), else a measured twin shipping the same mesh (evidence swap:<id>), else the mesh-sill ground-line tell of the raw kit GLB (pipeline/mesh_ground_line.py, evidence mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' when the left-out references are what left it short, 'mesh-sill (plugin-unsupported)' when the unsupported ones are); a structure piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR exceeds 1.0 m with n < 6 or over half its mesh height takes its mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin percentiles kept in pluginSpread); a stilt-fit asset's mesh tell is its deck top minus the stilt policy's deckClearanceM (tell deck-top); neither: no p50 (policy fallback at write time). worldgen/mine_designed_sink.py",
  "kitAssetsConsidered": 1498,
- "assetsMeasured": 1385,
+ "assetsMeasured": 1435,
  "refsJoined": 64403,
  "refsJoinedMasterBase": 32437,
  "refsStaticSupported": 7557,
@@ -2134,7 +2134,12 @@
    ],
    "plugins": [
     "King of the Murkmire.esp"
-   ]
+   ],
+   "wholePopulation": {
+    "n": 7,
+    "minSamples": 3,
+    "ruling": "planner ruling 2026-09-27 walk 2 lane P: the pod's 7 King of the Murkmire refs are its whole population"
+   }
   },
   "kotm:argonia/mudhuts/smpodextdoor": {
    "p25": 0.6921,
@@ -23590,18 +23595,13 @@
    }
   },
   "composite:mud/kotm-house-pod": {
-   "p25": 4.1984,
-   "p50": 4.1984,
-   "p75": 4.1984,
-   "n": 0,
-   "iqrM": 0.0,
+   "p25": 1.0168,
+   "p50": 1.6468,
+   "p75": 1.915,
+   "n": 7,
+   "iqrM": 0.8982,
    "slopeTermMPerDeg": null,
-   "evidence": "mesh-sill",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 4.1984
-   }
+   "evidence": "base:kotm:argonia/mudhuts/smpodext02"
   },
   "kotm:argonia/clutter/burner02": {
    "p25": -0.0468,
@@ -24483,6 +24483,733 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0525
+   }
+  },
+  "composite:farmhouse/farmhouse02-with-walkway": {
+   "p25": -3.6513,
+   "p50": -3.6513,
+   "p75": -3.6513,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.6513
+   }
+  },
+  "composite:mud/pod-as-placed": {
+   "p25": 1.0168,
+   "p50": 1.6468,
+   "p75": 1.915,
+   "n": 7,
+   "iqrM": 0.8982,
+   "slopeTermMPerDeg": null,
+   "evidence": "base:kotm:argonia/mudhuts/smpodext02"
+  },
+  "kotm:argonia/blackwood/docks3way": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/docks4way": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockscentre": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockscentrealt": {
+   "p25": -0.1117,
+   "p50": -0.1117,
+   "p75": -0.1117,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1117,
+    "deckTopM": 0.2383,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockscentrenopost": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockscentresmall": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockscorner": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/docksend": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/docksendnopost": {
+   "p25": -0.1125,
+   "p50": -0.1125,
+   "p75": -0.1125,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/dockspilings": {
+   "p25": -4.12,
+   "p50": -4.12,
+   "p75": -4.12,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.12
+   }
+  },
+  "kotm:argonia/blackwood/dockspilingsdamage": {
+   "p25": -4.1998,
+   "p50": -4.1998,
+   "p75": -4.1998,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.1998
+   }
+  },
+  "kotm:argonia/blackwood/walkway01": {
+   "p25": 0.5665,
+   "p50": 0.5665,
+   "p75": 0.5665,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5665,
+    "deckTopM": 0.9165,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway02": {
+   "p25": 0.5603,
+   "p50": 0.5603,
+   "p75": 0.5603,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5603,
+    "deckTopM": 0.9103,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway03": {
+   "p25": 0.5717,
+   "p50": 0.5717,
+   "p75": 0.5717,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5717,
+    "deckTopM": 0.9217,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway04": {
+   "p25": 0.5779,
+   "p50": 0.5779,
+   "p75": 0.5779,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5779,
+    "deckTopM": 0.9279,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway05": {
+   "p25": 0.2285,
+   "p50": 0.2285,
+   "p75": 0.2285,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2285,
+    "deckTopM": 0.5785,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway06": {
+   "p25": 0.2285,
+   "p50": 0.2285,
+   "p75": 0.2285,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2285,
+    "deckTopM": 0.5785,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkway07": {
+   "p25": 3.3017,
+   "p50": 3.3017,
+   "p75": 3.3017,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 3.3017,
+    "deckTopM": 3.6517,
+    "deckClearanceM": 0.35
+   }
+  },
+  "kotm:argonia/blackwood/walkwaystairs": {
+   "p25": -5.4622,
+   "p50": -5.4622,
+   "p75": -5.4622,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -5.4622
+   }
+  },
+  "kotm:argonia/clutter/amberbee": {
+   "p25": -0.0956,
+   "p50": -0.0956,
+   "p75": -0.0956,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0956
+   }
+  },
+  "kotm:argonia/clutter/wallbasket02": {
+   "p25": -0.3471,
+   "p50": -0.3471,
+   "p75": -0.3471,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3471
+   }
+  },
+  "kotm:argonia/food/sakebottle": {
+   "p25": -0.0034,
+   "p50": -0.0034,
+   "p75": -0.0034,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0034
+   }
+  },
+  "kotm:argonia/furniture/rusticbench01": {
+   "p25": 0.0161,
+   "p50": 0.0161,
+   "p75": 0.0161,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0161
+   }
+  },
+  "kotm:skinwalker21 creatures/horker/giant snail/shell": {
+   "p25": 0.1659,
+   "p50": 0.1659,
+   "p75": 0.1659,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.1659
+   }
+  },
+  "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": {
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  "vanilla:architecture/farmhouse/farmhouse02walkway": {
+   "p25": -3.6413,
+   "p50": -3.6413,
+   "p75": -3.6413,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.6413
+   }
+  },
+  "vanilla:clothes/monk/monkrobesgnd": {
+   "p25": -0.0052,
+   "p50": -0.0052,
+   "p75": -0.0052,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0052
+   }
+  },
+  "vanilla:clutter/blacksmith/blacksmithnovicetongs01": {
+   "p25": -0.0086,
+   "p50": -0.0086,
+   "p75": -0.0086,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0086
+   }
+  },
+  "vanilla:clutter/bucket02a": {
+   "p25": -0.0,
+   "p50": -0.0,
+   "p75": -0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  "vanilla:clutter/common/flute01": {
+   "p25": -0.0317,
+   "p50": -0.0317,
+   "p75": -0.0317,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0317
+   }
+  },
+  "vanilla:clutter/common/rug01": {
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  "vanilla:clutter/common/rug02": {
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
+  },
+  "vanilla:clutter/deadanimals/deadpondfish01": {
+   "p25": -0.0096,
+   "p50": -0.0096,
+   "p75": -0.0096,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
+  },
+  "vanilla:clutter/deadanimals/deadpondfish02": {
+   "p25": -0.0096,
+   "p50": -0.0096,
+   "p75": -0.0096,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
+  },
+  "vanilla:clutter/deadanimals/deadpondfish03": {
+   "p25": -0.0096,
+   "p50": -0.0096,
+   "p75": -0.0096,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
+  },
+  "vanilla:clutter/deadanimals/deadpondfish04": {
+   "p25": -0.0096,
+   "p50": -0.0096,
+   "p75": -0.0096,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
+  },
+  "vanilla:clutter/deadanimals/deadpondfish05": {
+   "p25": -0.0096,
+   "p50": -0.0096,
+   "p75": -0.0096,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0096
+   }
+  },
+  "vanilla:clutter/deadanimals/deadsalmon01": {
+   "p25": -0.2707,
+   "p50": -0.2707,
+   "p75": -0.2707,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.2707
+   }
+  },
+  "vanilla:clutter/deadanimals/deadsalmon02": {
+   "p25": -0.2237,
+   "p50": -0.2237,
+   "p75": -0.2237,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.2237
+   }
+  },
+  "vanilla:clutter/food/cookedslaughterfishsteak01": {
+   "p25": -0.0151,
+   "p50": -0.0151,
+   "p75": -0.0151,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0151
+   }
+  },
+  "vanilla:clutter/ingredients/scalypholiotabits01": {
+   "p25": -0.0472,
+   "p50": -0.0472,
+   "p75": -0.0472,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0472
+   }
+  },
+  "vanilla:clutter/ingredients/trollfat01": {
+   "p25": -0.0619,
+   "p50": -0.0619,
+   "p75": -0.0619,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0619
+   }
+  },
+  "vanilla:clutter/wallbasket03": {
+   "p25": -0.3628,
+   "p50": -0.3628,
+   "p75": -0.3628,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3628
+   }
+  },
+  "vanilla:clutter/wallbasketlarge01": {
+   "p25": -1.269,
+   "p50": -1.269,
+   "p75": -1.269,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.269
+   }
+  },
+  "vanilla:clutter/wine/winebottle02a": {
+   "p25": -0.0,
+   "p50": -0.0,
+   "p75": -0.0,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   }
+  },
+  "vanilla:clutter/woodfires/cookingstand02": {
+   "p25": -0.0003,
+   "p50": -0.0003,
+   "p75": -0.0003,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0003
+   }
+  },
+  "vanilla:critters/bee/beehoneycomb": {
+   "p25": -0.1617,
+   "p50": -0.1617,
+   "p75": -0.1617,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1617
+   }
+  },
+  "vanilla:plants/giantlichen01": {
+   "p25": 0.0203,
+   "p50": 0.0203,
+   "p75": 0.0203,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.0203
    }
   }
  }

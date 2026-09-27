@@ -944,14 +944,15 @@
   },
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": {
    "category": "architecture",
+   "doorwaysMeasuredBelowM": 2.0,
    "entrance": {
-    "arcM": 1.45,
-    "kind": "open-front",
+    "arcM": 2.11,
+    "kind": "opening",
     "offsetM": [
-     1.62,
-     2.71
+     -0.13,
+     4.99
     ],
-    "sideDeg": 87.5
+    "sideDeg": 177.5
    },
    "floorOffsetM": 2.0,
    "frontFaceFraction": 1.0,
@@ -964,7 +965,17 @@
     -0.23,
     2.79
    ],
-   "provenance": [],
+   "provenance": [
+    {
+     "arcM": 2.87,
+     "kind": "open-front",
+     "offsetM": [
+      2.3,
+      2.68
+     ],
+     "sideDeg": 87.5
+    }
+   ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
@@ -977,14 +988,15 @@
   },
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": {
    "category": "architecture",
+   "doorwaysMeasuredBelowM": 2.0,
    "entrance": {
-    "arcM": 1.45,
-    "kind": "open-front",
+    "arcM": 2.11,
+    "kind": "opening",
     "offsetM": [
-     -1.62,
-     2.71
+     0.13,
+     4.99
     ],
-    "sideDeg": 272.5
+    "sideDeg": 182.5
    },
    "floorOffsetM": 2.0,
    "frontFaceFraction": 1.0,
@@ -997,7 +1009,17 @@
     0.23,
     2.79
    ],
-   "provenance": [],
+   "provenance": [
+    {
+     "arcM": 2.87,
+     "kind": "open-front",
+     "offsetM": [
+      -2.3,
+      2.68
+     ],
+     "sideDeg": 272.5
+    }
+   ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
@@ -1010,14 +1032,15 @@
   },
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01": {
    "category": "architecture",
+   "doorwaysMeasuredBelowM": 2.0,
    "entrance": {
-    "arcM": 1.66,
-    "kind": "open-front",
+    "arcM": 2.31,
+    "kind": "opening",
     "offsetM": [
-     1.9,
-     2.79
+     0.0,
+     4.99
     ],
-    "sideDeg": 90.0
+    "sideDeg": 180.0
    },
    "floorOffsetM": 2.0,
    "frontFaceFraction": 1.0,
@@ -1030,17 +1053,7 @@
     0.0,
     2.79
    ],
-   "provenance": [
-    {
-     "arcM": 1.66,
-     "kind": "open-front",
-     "offsetM": [
-      -1.9,
-      2.79
-     ],
-     "sideDeg": 270.0
-    }
-   ],
+   "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
@@ -1565,6 +1578,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 3.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,
@@ -1691,6 +1705,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 3.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,
@@ -1796,6 +1811,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 6.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
@@ -1819,6 +1835,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 6.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 6.0,
@@ -1869,6 +1886,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 4.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 4.0,
@@ -1897,6 +1915,7 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 3.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,

@@ -1,5 +1,6 @@
 """The designed sink miner reads only terrain-supported references (16h round 10)."""
 
+import json
 from pathlib import Path
 
 import pytest
@@ -110,3 +111,39 @@ def test_a_structure_whose_plugin_sink_spreads_takes_its_mesh_tell():
     assert assets["a:trunk"]["pluginSpread"]["iqrM"] == 41.6
     complete_record(assets, kits, tells, bases={})
     assert {aid: (row["evidence"], row["p50"]) for aid, row in assets.items()} == got
+
+
+def test_a_composite_that_poses_its_base_as_placed_takes_the_base_plugin_sink():
+    """Walk 2 lane P (planner 2026-09-27): `composite:mud/kotm-house-pod` turns
+    its pod over as the plugin places it (part 0 pitch 180, roll 8.11, no
+    offset) and adds the porch and door, so its bounds are its own; its pivot
+    is still the pod's pivot and the pod's plugin references ARE its
+    placements, so it takes the pod's sink (base:<id>). An upright composite
+    with bounds of its own (a quay run) keeps its tell (round 14)."""
+    plugin = {"p25": 1.0168, "p50": 1.6468, "p75": 1.915, "n": 7, "iqrM": 0.8982,
+              "slopeTermMPerDeg": None, "evidence": "plugin"}
+    kits = {"k:pod": {"sizeM": [13.557, 13.918, 13.877], "originOffsetM": [7.445, 7.724, 7.179]},
+            "composite:pod-house": {"sizeM": [13.621, 14.914, 13.747],
+                                    "originOffsetM": [7.967, 7.19, 6.725]},
+            "k:deck": {"sizeM": [7.0, 4.0, 3.0], "originOffsetM": [3.5, 2.0, 2.0]},
+            "composite:quay": {"sizeM": [7.0, 11.0, 3.0], "originOffsetM": [3.5, 9.0, 2.0]}}
+    assets = {"k:pod": dict(plugin), "k:deck": dict(plugin)}
+    tells = {"composite:pod-house": {"tell": "foundation-top", "valueM": 4.1984},
+             "composite:quay": {"tell": "deck-top", "valueM": -0.31}}
+    counts = complete_record(assets, kits, tells,
+                             bases={"composite:pod-house": "k:pod", "composite:quay": "k:deck"},
+                             posed={"composite:pod-house"})
+    assert counts["base"] == 1 and counts["mesh-sill"] == 1
+    house = assets["composite:pod-house"]
+    assert (house["p50"], house["n"], house["evidence"]) == (1.6468, 7, "base:k:pod")
+    assert assets["composite:quay"]["evidence"] == "mesh-sill"
+
+
+def test_composite_posed_bases_reads_part_zero_pitch_and_roll(tmp_path):
+    (tmp_path / "k.json").write_text(json.dumps({"assets": [
+        {"asset": "composite:a", "compose": {"parts": [
+            {"asset": "k:pod", "scale": 1.0, "pitchDeg": 180.0, "rollDeg": 8.11}, {"asset": "k:x"}]}},
+        {"asset": "composite:b", "compose": {"parts": [{"asset": "k:deck"}, {"asset": "k:deck"}]}},
+    ]}))
+    from .mine_designed_sink import composite_posed_bases
+    assert composite_posed_bases(tmp_path) == {"composite:a"}

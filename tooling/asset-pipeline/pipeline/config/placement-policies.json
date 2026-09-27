@@ -387,10 +387,6 @@
    "deckClearanceM": 0.672,
    "why": "Two vanilla dock decks (dockstrent01 and dockstrent02) on pilings reaching 6.3 m under the deck top. The vanilla and BM&V placements of those two pieces hold their decks a median 0.672 m above the water or ground under them (258 references; dockstrent01 0.547 m, n 83; dockstrent02 0.711 m, n 175), so the deck stands 0.672 m above the water and the pilings bury. No plugin places the composite itself."
   },
-  "composite:mud/kotm-house-pod": {
-   "designedSinkM": 1.9922,
-   "why": "The pod house seats by its porch, the piece the door stands on: smpodextdoor's plugin sink is p50 0.7693 m (n 4) and the composite stands the porch 1.2229 m above the pod's pivot (the plugin's exact pair), so the pod's pivot is 1.9922 m under the ground line. That lies inside the spread of the pod's own 7 references (p25 1.0168, p75 1.915). The mesh-sill tell (foundation-top, 4.1984 m) reads the turned-over pod's shoulder and would bury the porch 2.2 m."
-  },
   "composite:stilt/stilthouse-with-door": {
    "anchorClass": "ground",
    "deckClearanceM": 3.462,

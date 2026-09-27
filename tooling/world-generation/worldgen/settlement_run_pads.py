@@ -51,6 +51,9 @@ import numpy as np
 
 SEAT_BAR_M = 0.05          # a run member whose ground line stands this far over the ground gets a pad
 PAD_BLEND_M = 3.0          # the pad tapers back to the natural ground over this
+BATTER_MAX_M = 1.2         # 0101 R1 amendment (planner ruling 2026-09-27 r3): a kit with no
+BATTER_RUN = 2.0           # wall family grades an edge up to BATTER_MAX_M over a blend ramp
+                           # BATTER_RUN x the edge height wide (never under PAD_BLEND_M)
 PAD_HARD_RADIUS_PX = 1.5   # every sample within this many samples of the footprint takes the target,
                            # so any sampler (nearest pixel or bilinear) at a footprint point reads it
 MAX_PAD_DELTA_M = 2.0      # = grade_settlement_pads.MAX_PAD_DELTA_M: a pad is a small engineered base
@@ -150,6 +153,7 @@ def building_pad_patches(rows: list[dict], place_id: str) -> list[dict]:
             "footprintM": [[round(float(x), 3), round(float(z), 3)] for x, z in pad["polygonM"]]}],
             owner="building")
         patch["hardM"] = 0.0
+        patch["blendM"] = float(pad.get("blendM", PAD_BLEND_M))    # a batter's graded ramp
         out.append(patch)
     return sorted(out, key=lambda q: q["id"])
 
@@ -163,6 +167,13 @@ def depth_is_wet(depth: np.ndarray, extent_m: float):
         col = min(max(int(x // px), 0), depth.shape[1] - 1)
         return float(depth[row, col]) > 0.0
     return is_wet
+
+
+def batter_blend_m(polygon, datum: float, height_at) -> float:
+    """The blend width a battered pad grades its edges over: BATTER_RUN x
+    its highest edge (fill or cut, `pad_edges`), never under PAD_BLEND_M."""
+    h = max((max(e["fillM"], e["cutM"]) for e in pad_edges(polygon, datum, height_at)), default=0.0)
+    return round(max(PAD_BLEND_M, BATTER_RUN * h), 3)
 
 
 def building_pad(spec, foot_m, height_at, is_wet) -> tuple[dict | None, str | None]:
@@ -188,8 +199,9 @@ def building_pad(spec, foot_m, height_at, is_wet) -> tuple[dict | None, str | No
     floor = spec.get("floorMinM")
     if isinstance(floor, (int, float)) and datum < float(floor) - 1e-6:
         return None, f"pad: datum {datum:.2f} m is below its flood floor {float(floor):.2f} m"
-    patched = pad_ground(height_at, [{"polygonM": polygon, "datumM": datum}])
-    return {"datumM": round(datum, 3), "apronM": apron,
+    blend = batter_blend_m(polygon, datum, height_at) if spec.get("batter") else PAD_BLEND_M
+    patched = pad_ground(height_at, [{"polygonM": polygon, "datumM": datum, "blendM": blend}])
+    return {"datumM": round(datum, 3), "apronM": apron, "blendM": blend,
             "polygonM": [[round(x, 3), round(z, 3)] for x, z in polygon],
             "fillM": got["fillM"], "cutM": got["cutM"],
             "slopeDeg": surface_slope_deg(patched, foot_m)}, None
@@ -361,7 +373,7 @@ def pad_ground(height_at, pads: list[dict]):
         return height_at
     from . import pad_overlay
     overlays = [pad_overlay.building_overlay(str(p.get("id", f"pad.{i:04d}")), p["polygonM"],
-                                             float(p["datumM"]), PAD_BLEND_M)
+                                             float(p["datumM"]), float(p.get("blendM", PAD_BLEND_M)))
                 for i, p in enumerate(pads)]
     return pad_overlay.ground(height_at, overlays)
 

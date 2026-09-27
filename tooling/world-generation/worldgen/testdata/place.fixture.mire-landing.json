@@ -918,8 +918,8 @@
             0.605817594
           ],
           [
-            0.713997694,
-            0.605221927
+            0.714073428,
+            0.605216233
           ]
         ]
       },
@@ -1355,8 +1355,8 @@
         "parcelId": "parcel.mire-landing.factor-house",
         "facingDeg": 265.7,
         "thresholdUV": [
-          0.713997694,
-          0.605221927
+          0.714073428,
+          0.605216233
         ],
         "interiorClaim": {
           "sizeClass": "large",

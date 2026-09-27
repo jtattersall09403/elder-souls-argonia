@@ -609,6 +609,26 @@ def composite_bases(config_dir: Path = KIT_CONFIG_DIR) -> dict[str, str]:
     return bases
 
 
+def composite_posed_bases(config_dir: Path = KIT_CONFIG_DIR) -> set[str]:
+    """Composites whose part 0 turns its base piece into the plugin's own pose
+    (``pitchDeg``/``rollDeg`` on part 0, no offset: the KotM pod turned over
+    as its references place it, walk 2 lane P, planner 2026-09-27). The pivot
+    is the base's pivot and the base's plugin references are these placements,
+    so the base's plugin sink is the composite's whatever parts it adds."""
+    posed: set[str] = set()
+    for path in sorted(config_dir.glob("*.json")):
+        try:
+            entries = json.loads(path.read_text()).get("assets", [])
+        except (OSError, ValueError):
+            continue
+        for entry in entries:
+            parts = (entry.get("compose") or {}).get("parts") or []
+            if (isinstance(entry.get("asset"), str) and parts and "offsetM" not in parts[0]
+                    and any(float(parts[0].get(k) or 0.0) for k in ("pitchDeg", "rollDeg"))):
+                posed.add(entry["asset"])
+    return posed
+
+
 def same_shape(a: dict, b: dict) -> bool:
     """Equal measured bounds and origin (``sizeM``, ``originOffsetM``)."""
     for key in ("sizeM", "originOffsetM"):
@@ -650,17 +670,20 @@ def is_plugin_spread(record: dict, kit: dict | None) -> bool:
 
 def complete_record(assets: dict[str, dict], kits: dict[str, dict],
                     tells: dict[str, dict],
-                    bases: dict[str, str] | None = None) -> dict[str, int]:
+                    bases: dict[str, str] | None = None,
+                    posed: set[str] | None = None) -> dict[str, int]:
     """Give every kit asset without plugin samples the best other evidence, IN
     the record, so every manifest writer reads one value (16h round 6: two
     writers disagreed, the kit build falling back to policy where the refresh
     used the mesh tell). Order: a composite whose bounds and origin equal its
     base piece's takes the base piece's plugin sink (``base:<id>``, round 14:
     the farmhouse with its door leaf is the farmhouse; a composite with bounds
-    of its own, a quay run, keeps its own tell); a measured twin shipping the
+    of its own, a quay run, keeps its own tell, unless its part 0 carries the
+    plugin's pose, ``composite_posed_bases``); a measured twin shipping the
     same mesh (``swap:<id>``); then the mesh-sill tell (``mesh-sill``, n 0).
     Assets with none keep no p50 and take the policy fallback at write time."""
     bases = composite_bases() if bases is None else bases
+    posed = composite_posed_bases() if posed is None else posed
     for record in assets.values():
         # Idempotent: a spread row keeps its plugin measurement in pluginSpread.
         if record.get("evidence") == PLUGIN_SPREAD_SILL and "pluginSpread" in record:
@@ -696,7 +719,7 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
         twin = twins.get(asset_id.partition(":")[2].casefold())
         base = bases.get(asset_id)
         inherits = (base in plugin and asset_id in kits and base in kits
-                    and same_shape(kits[asset_id], kits[base]))
+                    and (asset_id in posed or same_shape(kits[asset_id], kits[base])))
         fallback = (STATIC_SUPPORTED_SILL if record.get("staticSupportedFallback")
                     else PLUGIN_UNSUPPORTED_SILL if record.get("pluginUnsupportedFallback")
                     else None)
@@ -757,7 +780,8 @@ METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "references only when it has 3 or more). Assets without "
           "n >= 3 samples: a composite whose bounds and origin equal its "
           "base piece's (compose.parts[0]) takes the base piece's plugin "
-          "sink (evidence base:<id>), else a measured twin shipping the same mesh "
+          "sink (evidence base:<id>; so does one whose part 0 carries the "
+          "plugin's pitch/roll, the pose its references hold), else a measured twin shipping the same mesh "
           "(evidence swap:<id>), else the mesh-sill ground-line tell of "
           "the raw kit GLB (pipeline/mesh_ground_line.py, evidence "
           "mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' "

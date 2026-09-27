@@ -954,6 +954,32 @@ def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
     return out[:MAX_DOORWAYS], None
 
 
+def ground_doorways(triangles, centre: tuple[float, float], base_y: float,
+                    height_m: float, storey_m: float) -> list[dict]:
+    """The doorways of a piece whose ring closes only at a raised storey with no
+    floor under it (``best_floor`` climbed past the ground to find its walls):
+    every floor-ladder rung BELOW that storey is probed and the finds pooled,
+    an opening under a lintel ahead of an open front (``ENTRANCE_RANK``), then
+    the wider. A stable stall's arched mouth reads as an opening once the eye
+    stands below its crown; its open run end stays an open front at every
+    rung, so the mouth wins."""
+    pooled: list[dict] = []
+    for offset in FLOOR_LADDER_M:
+        if offset >= storey_m:
+            break
+        found, _why = doorways_from_probe(triangles, centre, base_y + offset, height_m - offset)
+        for door in found:
+            same = next((d for d in pooled if abs((d["sideDeg"] - door["sideDeg"] + 180.0)
+                                                  % 360.0 - 180.0) <= 15.0), None)
+            if same is None:
+                pooled.append(door)
+            elif (ENTRANCE_RANK.index(door["kind"]), -door["arcM"]) < (
+                    ENTRANCE_RANK.index(same["kind"]), -same["arcM"]):
+                pooled[pooled.index(same)] = door
+    pooled.sort(key=lambda d: (ENTRANCE_RANK.index(d["kind"]), -d["arcM"], d["sideDeg"]))
+    return pooled[:MAX_DOORWAYS]
+
+
 #: the retry probe stands on a lattice this many metres apart (at least), and
 #: never uses more than RETRY_MAX_POINTS of them, so a big plan costs the same.
 RETRY_STEP_M = 1.0
@@ -1283,9 +1309,17 @@ def posed_bounds_glb(pose: dict | None, lo, hi) -> tuple:
     return arr.min(axis=0), arr.max(axis=0)
 
 
+#: A mined door is one the composite carries when a part of its door piece
+#: stands within this of the door's posed offset (composite-author §3 audit
+#: tolerance): farmhouse02-with-walkway hangs `farmhouseldoor01` on the deck
+#: (vanilla:t0420) and not at the porch (t0335), the same piece 3.24 m away.
+COMPOSITE_DOOR_MATCH_M = 0.3
+
+
 def composite_doorways(parts: list[str],
                        mined: dict[str, list[dict]],
-                       pose: dict | None = None) -> list[dict]:
+                       pose: dict | None = None,
+                       part_rows: list[dict] | None = None) -> list[dict]:
     """The mined doors of a composite's ANCHOR that this composite actually
     contains, in the composite's own frame.
 
@@ -1295,13 +1329,28 @@ def composite_doorways(parts: list[str],
     A composite that stacks blocks or chains deck sections has none, and gets
     none. The mine measures each door in the anchor's unscaled frame, so
     ``pose`` (``composite_anchor_poses``) carries it to where the composite
-    stands the anchor.
+    stands the anchor. With ``part_rows`` (the authored ``compose.parts``) a
+    fixed door is kept only where a part of its piece stands at its posed
+    offset (``COMPOSITE_DOOR_MATCH_M``), and is marked ``carried``; a radial
+    door has no offset to match and is kept on the piece alone.
     """
     if not parts:
         return []
     present = set(parts[1:])
-    return [posed_mined_door(d, pose) for d in mined.get(parts[0], ())
-            if d.get("doorAsset") in present]
+    out = []
+    for door in mined.get(parts[0], ()):
+        if door.get("doorAsset") not in present:
+            continue
+        posed = posed_mined_door(door, pose)
+        at = posed.get("offsetLocalM")
+        if part_rows is not None and at is not None:
+            if not any(row["asset"] == door["doorAsset"] and row.get("offsetM") is not None
+                       and math.dist([float(v) for v in row["offsetM"]], at)
+                       <= COMPOSITE_DOOR_MATCH_M for row in part_rows[1:]):
+                continue
+            posed = {**posed, "carried": True}
+        out.append(posed)
+    return out
 
 
 #: basename fragments of a door LEAF part (a frame ring is not a leaf).
@@ -1410,8 +1459,15 @@ def fix_radial_esp_door(record: dict, assembly_doors: list[dict] | None) -> None
     (a ``composite-leaf`` row of the esp link's door model) is fixed there:
     the composite chose the bearing the plugin varied (16k fix 2,
     ``composite:mud/kotm-house-pod``: door01 on the porch, 6.36 m out)."""
-    leaves = {d.get("doorAsset"): d for d in assembly_doors or ()
-              if d.get("doorwaySource") == "composite-leaf" and d.get("offsetLocalM")}
+    # ... or a mined door the composite carries at its one offset
+    # (``composite_doorways`` ``carried``; walk 2 lane P, planner 2026-09-27:
+    # farmhouse02-with-walkway's deck door, vanilla:t0420). Two carried rows of
+    # one piece leave the door radial: the composite chose no single bearing.
+    rows = [d for d in assembly_doors or ()
+            if (d.get("doorwaySource") == "composite-leaf" or d.get("carried"))
+            and d.get("offsetLocalM")]
+    pieces = [d.get("doorAsset") for d in rows]
+    leaves = {d.get("doorAsset"): d for d in rows if pieces.count(d.get("doorAsset")) == 1}
     for door in record.get("doorways") or ():
         leaf = leaves.get(door.get("doorAsset"))
         if door.get("kind") != "esp-door" or not door.get("radial") or leaf is None:
@@ -1732,14 +1788,17 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
     record["sizeClass"] = size_class(area)
 
     big_enough = area >= MIN_BUILDING_AREA_M2 and height >= MIN_BUILDING_HEIGHT_M
-    stem = _tail(asset_id)[1]
+    # A composite is named by its ANCHOR (part 0): `farmhouse02-with-walkway`
+    # is the farmhouse, so its own id's `walkway` never bans it (walk 2 lane P,
+    # planner 2026-09-27); an anchor that is itself a walkway still does.
+    stem = _tail(anchor_id or asset_id)[1]
     import re as _re
     _segs = [x for x in _re.split(r"[\d_\-]+", stem.lower()) if x]
     # A compound segment names its head noun last (`trgm`+`bridge`,
     # `cover`+`stairs`), so a token that ENDS a segment bans it as surely as
     # one that starts it. An authored rule row naming this exact piece
     # (TILESET_RULES, e.g. the hollow Hist trunk) outranks the name heuristic.
-    exact_rule = any(prefix == asset_id for prefix, _kit, _why in TILESET_RULES)
+    exact_rule = any(prefix in (asset_id, anchor_id) for prefix, _kit, _why in TILESET_RULES)
     banned = None if exact_rule else next((t for t in NON_BUILDING_NAME_TOKENS
                    if any(seg == t or (len(t) >= 4 and t in seg and (seg.endswith(t) or seg.startswith((t, "walkway", "stone", "wood", "tamu", "mwimparch")))) for seg in _segs)), None)
     category_ok = asset.get("category") in BUILDING_CATEGORIES and banned is None
@@ -1765,6 +1824,16 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
         closed_shell = encloses_shape(probe) and not faces_inward(probe)
         if encloses or closed_shell:
             doors, why_not = doorways_from_probe(triangles, (cx, cz), floor_y, room_h)
+            if probe["floorOffsetM"] > 0 and not probe["floor"]:
+                # Nothing to stand on at the storey the ring closed at: the way
+                # in is at the ground, where a player walks (walk 2 lane P,
+                # planner 2026-09-27: the keep stable stalls closed at 2 m, where
+                # only their open run end escaped, and recorded it as the front).
+                low = ground_doorways(triangles, (cx, cz), base_y, height,
+                                      probe["floorOffsetM"])
+                if low:
+                    doors, why_not = low, None
+                    record["doorwaysMeasuredBelowM"] = probe["floorOffsetM"]
             if not doors:
                 # the leaf pass: a door modelled shut into the shell
                 doors = leaf_doorways(triangles, (cx, cz), floor_y, room_h)
@@ -1968,7 +2037,8 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         # A composite has an id of its own that the mine has never seen, so its
         # doors come from its ANCHOR part's mined record, filtered to the door
         # pieces the composite actually carries.
-        doors = (composite_doorways(parts_of[asset["id"]], mined_doors, poses.get(asset["id"]))
+        doors = (composite_doorways(parts_of[asset["id"]], mined_doors, poses.get(asset["id"]),
+                                    part_rows.get(asset["id"]))
                  if asset["id"] in parts_of else mined_doors.get(asset["id"]))
         if asset["id"] in part_rows:
             doors = (doors or []) + composite_leaf_doorways(part_rows[asset["id"]], doors or [],

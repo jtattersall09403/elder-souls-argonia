@@ -4328,12 +4328,12 @@
     "RTCanalsL01Lower01:12 - L2_RTCanalsL01Lower01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.5665,
+    "p50": 0.5665,
+    "p75": 0.5665,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4351,7 +4351,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.591
+   "pivotAboveBaseM": 5.591,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5665,
+    "deckTopM": 0.9165,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway02",
@@ -4386,12 +4393,12 @@
     "RTCanalsL01Lower02:12 - L2_RTCanalsL01Lower02:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.5603,
+    "p50": 0.5603,
+    "p75": 0.5603,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4409,7 +4416,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.536
+   "pivotAboveBaseM": 5.536,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5603,
+    "deckTopM": 0.9103,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway03",
@@ -4444,12 +4458,12 @@
     "RTCanalsPlazaC01Lower01:12 - L2_RTCanalsPlazaC01Lower01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.5717,
+    "p50": 0.5717,
+    "p75": 0.5717,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4467,7 +4481,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.527
+   "pivotAboveBaseM": 5.527,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5717,
+    "deckTopM": 0.9217,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway04",
@@ -4502,12 +4523,12 @@
     "RTCanalsPlazaL01Lower01:12 - L2_RTCanalsPlazaL01Lower01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.5779,
+    "p50": 0.5779,
+    "p75": 0.5779,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4525,7 +4546,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.584
+   "pivotAboveBaseM": 5.584,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.5779,
+    "deckTopM": 0.9279,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway05",
@@ -4560,12 +4588,12 @@
     "RTCanalsPlazaR01Lower01:12 - L2_RTCanalsPlazaR01Lower01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.2285,
+    "p50": 0.2285,
+    "p75": 0.2285,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4583,7 +4611,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.53
+   "pivotAboveBaseM": 5.53,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2285,
+    "deckTopM": 0.5785,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway06",
@@ -4618,12 +4653,12 @@
     "RTCanalsPlazaR01Lower02:12 - L2_L2_RTCanalsPlazaR01Lower02:12.M"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 0.2285,
+    "p50": 0.2285,
+    "p75": 0.2285,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4641,7 +4676,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.356
+   "pivotAboveBaseM": 5.356,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2285,
+    "deckTopM": 0.5785,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkway07",
@@ -4676,12 +4718,12 @@
     "RTSnowShodDeck02:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": 3.3017,
+    "p50": 3.3017,
+    "p75": 3.3017,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4699,7 +4741,14 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.431
+   "pivotAboveBaseM": 0.431,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 3.3017,
+    "deckTopM": 3.6517,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/walkwaystairs",
@@ -4735,12 +4784,12 @@
     "RTCanalsStairs01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -5.4622,
+    "p50": -5.4622,
+    "p75": -5.4622,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4758,7 +4807,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.462
+   "pivotAboveBaseM": 5.462,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -5.4622
+   }
   },
   {
    "id": "kotm:argonia/blackwood/docks3way",
@@ -4794,12 +4848,12 @@
     "Objekt03:3.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4817,7 +4871,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.907,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/docks4way",
@@ -4853,12 +4914,12 @@
     "Objekt07:4.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4876,7 +4937,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockscentre",
@@ -4912,12 +4980,12 @@
     "Objekt07:4.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4935,7 +5003,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrealt",
@@ -4971,12 +5046,12 @@
     "Objekt07:5.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1117,
+    "p50": -0.1117,
+    "p75": -0.1117,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4994,7 +5069,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1117,
+    "deckTopM": 0.2383,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrenopost",
@@ -5030,12 +5112,12 @@
     "Objekt07:5.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5053,7 +5135,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockscentresmall",
@@ -5087,12 +5176,12 @@
     "Objekt07:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5110,7 +5199,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.751,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockscorner",
@@ -5146,12 +5242,12 @@
     "Objekt07:3.Mat.003"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5169,7 +5265,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/docksend",
@@ -5205,12 +5308,12 @@
     "Quader05:3.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5228,7 +5331,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/docksendnopost",
@@ -5262,12 +5372,12 @@
     "Quader05:2.Mat.001"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5285,7 +5395,14 @@
    "undersideClosed": true,
    "undersideCoverage": 0.917,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.313
+   "pivotAboveBaseM": 7.313,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockspilings",
@@ -5319,12 +5436,12 @@
     "Zylinder01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -4.12,
+    "p50": -4.12,
+    "p75": -4.12,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5342,7 +5459,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.29,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.12
+   "pivotAboveBaseM": 4.12,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.12
+   }
   },
   {
    "id": "kotm:argonia/blackwood/dockspilingsdamage",
@@ -5374,12 +5496,12 @@
     "Zylinder01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
+    "p25": -4.1998,
+    "p50": -4.1998,
+    "p75": -4.1998,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5397,7 +5519,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.2
+   "pivotAboveBaseM": 4.2,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.1998
+   }
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",

@@ -902,11 +902,25 @@ Planner rulings (2026-09-24):
   walls; R2 enclosure; R3 cook fire and forge glow; R4 crops and fish
   parks; R5 boats pulled up and moorings; R6 wet and worn ground; R7
   lit at range and skyline.
-- **Speed (S):** S1 make `test:placement` (3.5 min) and `test:pipeline`
-  (2.8 min) scoped to the paths touched; S2 cache kit builds by input
-  hash; S3 the miners' batch mode (sample runs by default); S4 review
-  once per logical change including docs, then the fixed hunks only;
-  S5 the fixed-cost audit of preflight (5.0–9.5 min per run).
+- **Speed (S), re-based on the 2026-09-27 deep dive**
+  (`tooling/.reports/16k/walk2/speed-deep-dive.md`: lanes split 48 %
+  tool waits / 52 % model turns; the place lane is turn-bound; our own
+  6-core pin plus the watchdog pausing single pytest workers is the
+  contention; placement is 101 s alone, pipeline 78 s at `-n 4`). In
+  priority order, "speed lane 2": S1 **batch the loop**: a `wb round`
+  wrapper runs apply + check + walktable + shots in one call, and the
+  skill rule is one layout diff per batch of findings (12–18 min per
+  place); S2 the watchdog never pauses a lone test worker, pause
+  threshold 95 %, heavy jobs on cores 1–7 (3–6 min per loaded
+  preflight); S3 `--paths` selects the tests a change touches, not the
+  whole 3,233-test placement suite (3–5 min); S4 preflight labels a red
+  already present on HEAD as pre-existing, with one owner lane (2–5 min
+  per lane); S5 pipeline suite at `-n auto` with the Blender test marked
+  slow, street routes cached on disk by input hash (A* is 66 % of a
+  compile), shared workbench fixtures, a parsed-plugin cache in the
+  interior exporter, `family_of` memoised, `build_kit` input-hash skip
+  (1–2 min each); S6 the miners' batch mode; S7 review once per logical
+  change. The old S1–S5 figures were contention, not tool cost.
 
 ## Acceptance (the exit bar, signed by the owner 2026-09-25, hand-off ruling 2)
 

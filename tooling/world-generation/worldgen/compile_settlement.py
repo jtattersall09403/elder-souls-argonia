@@ -71,7 +71,7 @@ from . import player_purpose as pp_mod
 from . import terrain_requests
 from . import vegetation_patches as sc_mod
 from . import sockets as sk_mod
-from .blueprint_promises import _service_parcels, socket_promise_errors
+from .blueprint_promises import _service_parcels, fill_subjects, socket_promise_errors
 from .promise_gate import fills_index, load_ledger, promise_gate_errors  # 0104 (lane T2)
 
 SCHEMA_VERSION = 1
@@ -2630,7 +2630,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
             **({"shoreAnchorShiftM": quay_shift} if quay_shift is not None else {}),
             **({"pad": {"parcelId": pid,
-                        **{k: pad[k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")}}}
+                        **{k: pad[k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")},
+                        "blendM": pad.get("blendM", srp_mod.PAD_BLEND_M)}}
                if pad is not None else {}),
         })
         placements.extend(assembly_placements(bp_id, seed, parcel, placements[-1], shelf, survey,
@@ -2842,8 +2843,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         socket_errors.insert(0, layout_error)
     socket_errors += sk_mod.socket_gate_errors(bp, macro_record, sockets, placements,
                                                category_of, _service_parcels(bp), vocab)
-    socket_errors += socket_promise_errors(ledger, sockets)
-    socket_errors += promise_gate_errors(bp, load_ledger(bp_id), sockets)  # 0104 decision 5
+    record = load_ledger(bp_id)
+    socket_errors += socket_promise_errors(ledger, sockets, fill_subjects(record))
+    socket_errors += promise_gate_errors(bp, record, sockets)  # 0104 decision 5
     if bp_mod.is_fixture(bp):
         warns += socket_errors          # a proving yard carries no roster or loot
     else:

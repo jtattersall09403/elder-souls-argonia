@@ -163,8 +163,9 @@ pad the export derives, through the same writer (`pad_patch`).
 
 A kit with no wall family (the Argonian mud kits, `route-spans-v1`) holds an
 edge over 0.6 m and up to 1.2 m as a graded earth batter instead: the pad op
-carries `batter: true` and an apron at least twice the edge height (slope
-1:2); over 1.2 m, re-site (planner ruling 2026-09-27, lessons L64).
+carries `batter: true` and the pad blends over a ramp twice the edge height
+wide, at least 3 m (`settlement_run_pads.batter_blend_m`); over 1.2 m,
+re-site (planner rulings 2026-09-27, lessons L64).
 
 ## H. Piled platforms seat by their deck
 
