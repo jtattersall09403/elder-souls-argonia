@@ -13,40 +13,46 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-27, slice 1c: Claywater rebuilt under 0102/0103 and walk packet 2 posted; the closing agent of each slice replaces this section)
+## Starting state (2026-09-27 late, slices 1c and 2 with the owner: Claywater walk 3 and Greenspring walk 1 in one packet; the closing agent of each slice replaces this section)
 
-- **Claywater Station** (`place.imperial-fringe.claywater-station`) is
-  rebuilt under [0102](../../decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md)
-  and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
-  and walk packet 2 is posted to issue #1
-  (`tooling/.reports/16k/claywater-walk-2.md`, pictures in
-  `docs/phases/16-foundation-and-places/walks/claywater-walk-2/`): `wb.py
-  check` 0 failures, compile 0 errors/0 warnings, the reader 0 NOs after
-  a planner-authorised fifth render round (lantern stands at the plank
-  boat and the fish rack). The `--places` publish carries 18 ground
-  overlays, 41 walk routes and 39 sockets, colliderEstimate 103 of 200.
-- **Interiors** (0103): B1 tier A `DawnstarBrinasHouse`; B4 tier A
-  `KeebaHouseFisher` (a KotM house pod with a porch, plugin-posed
-  furniture); B5 reserved as `kotm` — its fitting cells need Creation
-  Club/HearthFires assets, an owner archive question is in the walk
-  packet, sourcing-log row 208 is OPEN; the barn is reserved (stable);
-  the store has no door.
-- **Lanes landed on `dev`** in seven grouped commits after `acc3a06a`:
-  runtime overlays, the `wb.py check` rules, sockets, the interior
-  runtime and pipeline, kit fixes, re-mined records with a provenance
-  test, kit lock, and the speed items (Blender cache, lazy normals,
-  `kit_compress` skip).
-- **Review:** open findings from the r4 review are being closed by the
-  review lane (`tooling/.reports/16k/review-close.md`).
-- **Owner calls:** none open. The owner's walk-2 reply is in and its
-  fix round is under way (lane P, stopped mid round 5:
-  `tooling/.reports/16k/walk2/P-handoff.md`). **Next:**
-  "continue 16k slice 1c after owner walk 2".
-- **Speed:** speed lane 2 is landing in the working tree; speed lane 3
-  and S8–S12 (below) are queued. **Queued, not this slice:** the farmhouse+walkway
-  composite backlog row; the `designer_yaw` and `grow_clearance`
-  MultiPolygon questions; `dump_meshes` for shell candidates before the
-  next door-link re-mine; cell eviction (Phase 14).
+- **Claywater Station** (`place.imperial-fringe.claywater-station`,
+  type 1): the walk-2 fix round is done (11 rounds across two agents,
+  `tooling/.reports/16k/walk2/P-final.md`, `P-residual.md`): check 0
+  failures, compile 0 errors, `place_gates` 14/14 before the breadth
+  gates landed, promises 14/14, three tier A rooms behind four doors
+  (DawnstarBrinasHouse, KeebaHouseFisher, KeebaHouseCrafter for doors 3
+  and 5), the 0098 top-shell exception in `variety.exceptions[]` (the
+  three pods; S26 removes it). Collider parts 298 against the 250 warn.
+- **Greenspring** (`place.hist-heartland.greenspring`, type 2, the first
+  Hist village): built and published (7027bec1, c1b4b4f4, f30acd06):
+  check 0, compile 0 errors, promises 12/12, tier A KeebaHouseCrafter
+  (lodge) and KeebaHouseFisher (herald), four doors reserved for Phase 12;
+  the type-2 sheet is `references/types/02-hist-village.md`.
+- **Breadth gates (2026-09-27 close-out):** four of the seven breadth
+  bars are gated in `place_gates` and both places are red on them:
+  dressing per dwelling within 12 m p50 5 (Claywater, bar 15) and 5.5
+  (Greenspring, bar 20); Greenspring's light kinds 1 (bar 2). The counting
+  rule (dressing layers only, or every piece as 0098's vanilla numbers
+  did) is a planner ruling before the fix round; the other three bars are
+  S28.
+- **Packet:** one packet for both places, `tooling/.reports/16k/walk2/packet-3.md`,
+  pictures in `tooling/.reports/16k/{claywater-walk-3,greenspring-walk-1}/`,
+  on issue #1 with three owner calls (type 10, the hanging-lantern rule,
+  the Phase 15 walk sample rate).
+- **Ledger** (`build_ledger.py --report`, 2026-09-27):
+
+  | Run | Path | Minutes | Target |
+  |---|---|---|---|
+  | `place.hist-heartland.greenspring#1` | new type | 64.0 (hand row) | 40 (over: S27) |
+  | `place.imperial-fringe.claywater-station#1` | new type | 1.1 (walk-2 gates rows only) | 40 |
+  | `place.imperial-fringe.claywater-station#2` | fix round | 3.4 (`wb round` process time of 18 rounds; agent wall not recorded) | 10 |
+
+  Stage events (`build_ledger.py stage`, SKILL steps 0-7) time every
+  stage from the next run on.
+- **S-list:** S19-S28 queued (below); S12's manifest now carries the
+  dossier and the promise ledger; the legacy whole `settlements.json` is
+  gone (the index and the per-place bundles are the published form).
+- **Next:** "continue 16k slices 1c and 2 after owner walk".
 
 ## Read (fresh agent: this is your whole map)
 
@@ -993,6 +999,38 @@ Planner rulings (2026-09-24):
   measurement: round 4 is the timing of place 2 of type 1 through
   S8–S18; a read-only round only reopens if that timing exceeds the
   17-minute proven-type target.
+- **Speed and tool rows from walk 2 and slice 2** (2026-09-27, the close-out lane; S19 from the Claywater residual, S20-S25 from Greenspring, S26 on):
+  - S19 (from Claywater walk-2 residual, planner ruling 2026-09-27): a deck seat in the workbench, `wb.py settle --on <walkable deck>`, that stands a piece on a piled deck's top by support from below (0085), with a fail-first test; `mine_mounts` makes no pair for a deck-standing reference (mine_mounts.py:1517-1519), none of fishrack01's 58 vanilla references stands on a dockstrent deck, and the Claywater fish rack stands on the ground beside the landing until this exists.
+  - S20 (Greenspring rec 2): `wb scan` dressing mode: seat every dressing piece by search on the padded ground (slope and delta, overlap, path paint, a 3.5 m door apron); prior art `tooling/.reports/16k/place.hist-heartland.greenspring/seat_dressing.py` (31 of 43 pieces failed the first apply on a 5-8 deg slope; the search seated all but 3 in 3 s).
+  - S21 (Greenspring rec 3): `wb scan` judges overlapping pads (the padded slope falls back to the frozen grid under an overlap; scan passed b-lodge while check read 8.0 deg).
+  - S22 (Greenspring rec 5): claim_signature's COUNTED_USES (tooling/world-generation/worldgen/claim_signature.py:43) buckets uses as blueprint.USE_BUCKET does (a `shrine`-use spring house counted as no building).
+  - S23 (Greenspring rec 6): claim_signature and place_gates take the scene the layout was applied to (`wb apply --scene NAME` left both on a missing default scene).
+  - S24 (Greenspring rec 7): 0098 counts shells by base mesh, not composite id (a second composite of the same pod would pass as a new shell; the Argonian pool's 3 tier A cells all stand on smpodext02).
+  - S25 (Greenspring): the mounts miner groups scaled placements by placement scale as the sink miner does since 62466305 (mine_mounts.py:849 skips them; hutexterior reads `unplaced`, n 0, though Black Marsh places it 11 times at scale 1.30).
+  - S26 (Claywater residual, composite-author job): a KotM `mudhut02` + KotM stairs composite as the source plugin places it, so the upper-storey door (sill 4.72-4.82 m above the walk surface at all 20 scanned poses) is reached by its own stair; then the 0098 top-shell exception in Claywater's `variety.exceptions[]` can go and KeebaHouseElder becomes a usable tier A cell for type 1 and type 2 places.
+  - S27 (build ledger, over target): Greenspring, run `place.hist-heartland.greenspring#1`, new type, 64 min wall against the 40 min target (orient and dossier 12, survey and scans 15, layout to compile 22, rounds 7, readers 6, gates 2; hand row, 2026-09-27). The layout-to-compile (22) and survey (15) stages are over their share; S20 (dressing seated by search: 31 of 43 pieces failed the first apply) and S21 (overlapping pads found only at check) are the tool tasks that cut them. The next run is timed by the stage events (`build_ledger.py stage`, SKILL steps 0-6), never a hand row.
+  - S28 (breadth bars, 2026-09-27 close-out): three of the seven breadth bars still have no gate (`place_gates.NOT_MEASURED`): `clutterPiecesMin` needs a personal-clutter marker (a `clutter-personal` layer on yard-set members, or a rule that clutter on the dwelling's own parcel within N m of its door counts); `groundKindsMin` needs a surface-material record on the compiled place (only route kinds exist); `enclosureKindsMin` needs a record of which parcels or pieces are an enclosure kind. Each is a planner ruling, then a gate with a fail-first test (`tooling/.reports/16k/walk2/closeout-D.md`).
+
+## Build cost is measured as data (owner 2026-09-27)
+
+Three paths, each with a target: **new type** (the first place of a type,
+no template: ~40 min wall), **template** (a later place of a proven
+type: ~17 min), **fix round** (after a walk: ~10 min). Every place-build
+run appends one row to `docs/phases/16-foundation-and-places/build-ledger.jsonl`,
+written by the tools (`wb round`, `place_gates`, `close_place.py`), never
+by hand: place id, type, path, the skill and tool versions (the git shas
+of `place-build/SKILL.md` and `tooling/placement-workbench`), wall minutes
+per stage from `rounds.jsonl`, Opus and cheap-agent turns, CPU minutes,
+rounds, and, filled at the walk, the owner's defect count. `build_ledger.py
+--report` prints the trend per path and per skill version and lists every
+run over its target; a run over target files a tooling task (S-list row)
+the same day. Method reviews (`tooling/.reports/16k/walk2/method-review*.md`,
+rounds 1–3 on 2026-09-27, ~3,500 s per place saved, exited on
+measurement) are indexed in `docs/research/phase16/method-reviews.md`
+(round, date, savings, exit reason); a read-only review round reopens
+only when the ledger shows a run over target. Each slice's Starting state
+quotes the last ledger rows, so a new session sees the numbers. Phase 15
+inherits the ledger and the targets per region packet.
 
 ## Acceptance (the exit bar, signed by the owner 2026-09-25, hand-off ruling 2)
 

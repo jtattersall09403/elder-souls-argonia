@@ -16,9 +16,34 @@
    "signature": "genericwell01 | clutter:barrel01, clutter:barrel02, clutter:bmv:roadsignmedium01l, clutter:bucket01, clutter:cratesmall01, clutter:farmbench01, clutter:handcart01, clutter:horsetrough01, clutter:roadsignpost, light:candlelanternwithcandle01, light:impbrazier01"
   },
   {
+   "claimedAt": "2026-09-27T21:14:45Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "hut-with-entrance | clutter:argoniantotem01, clutter:basketsmall01, clutter:histflower02, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:14:45Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "hut-with-entrance | clutter:basketsmall01, clutter:paintedurn01, clutter:wovenchair01, clutter:wovenchair01, light:argoniancandle01"
+  },
+  {
    "claimedAt": "2026-09-27T19:34:00Z",
    "placeId": "place.imperial-fringe.claywater-station",
    "signature": "kotm-house-pod | clutter:basketclosed01, clutter:basketfull, clutter:basketsmall01, clutter:canoe1, clutter:carapaceoven, clutter:cleat, clutter:cleat, clutter:fishnet01, clutter:fishrack01, clutter:fishracksmall, clutter:miscsacklarge, clutter:paintedurn01, clutter:plank_ferry_swamp_01, clutter:shipoar01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01, light:argoniancandle01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:25:27Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "kotm-house-pod | clutter:basketfull, clutter:basketsmall01, clutter:miscsacklarge, clutter:paintedurn01, clutter:paintedurn01, clutter:wrherbdryingrack01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:14:45Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "kotm-house-pod | clutter:basketfull, clutter:paintedurn01, clutter:wovenchair01, clutter:wovenchair01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:14:45Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "mudhut01 | clutter:basketfull, clutter:carapaceoven, clutter:cookingstand01, clutter:firewoodpilesmall01, clutter:paintedurn01, light:argoniancandle01"
   },
   {
    "claimedAt": "2026-09-27T19:34:00Z",
@@ -29,6 +54,16 @@
    "claimedAt": "2026-09-27T19:34:00Z",
    "placeId": "place.imperial-fringe.claywater-station",
    "signature": "mudhut01 | clutter:basketsmall01, clutter:cookingstand01, clutter:miscsacklarge, clutter:paintedurn01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:14:45Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "mudhut01 | clutter:basketsmall01, clutter:paintedurn01, clutter:paintedurn01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T21:19:00Z",
+   "placeId": "place.hist-heartland.greenspring",
+   "signature": "shed | clutter:basketfull, clutter:canoe1, clutter:histflower01, clutter:paintedurn01, clutter:paintedurn01, clutter:paintedurn01, clutter:plank_ferry_swamp_01, clutter:rockcairn03, light:argoniancandle01"
   }
  ],
  "schemaVersion": 1

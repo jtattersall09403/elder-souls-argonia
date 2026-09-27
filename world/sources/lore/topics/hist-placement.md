@@ -164,6 +164,7 @@ Binding owner decisions (2026-08-24) applied.
 | **Zuuk** | **None** — Kothringi | — | `CANON_DERIVED` |
 | **Blackrose Prison**, **White Rose Prison**, **Fort Swampmoth**, **Castle Giovesse**, **Hereguard Plantation**, **Slough Point** | **None** — foreign foundations | — | `CANON_DERIVED` under R4. Note the canon hook: Argonians who die in stone prisons "such as White Rose" can still return to the Hist **if their bones are brought to the dirt**. |
 | **Xanmeers generally** (Xul-Thuxis, Vakka-Bok, Ixtaxh, Lakemire, Teeth of Sithis, Xi-Tsei, Rockgrove, Silent Halls, Xal Ithix, Xal Thak, Atanaz, Chid-Moska, Deep Graves, Forsaken Hamlet, Hatchling's Crown, Sunscale Strand, Xal Irasotl, Xi-Tsei) | Each **had** a Hist chamber. `EXTRAPOLATED`: most are empty — the tree died with the tribe or was never replaced — but **a small number still hold a living, sealed, utterly isolated tree**, and finding one is a genuine event. Recommend **no more than two or three in the whole province**, hand-placed. | mixed | `CANON_EXPLICIT` (the chamber rule) + `EXTRAPOLATED` (how many survive) |
+| **Greenspring** (hist-heartland) | A tribal Hist at the Panther fork, the village's own tree | **Sick** (R3): its roots are failing and the village blames salt from upstream (quest MR01) | `EXTRAPOLATED` under R1-R3: canon names the village and its springs (Lore:Panther River); the tree and its state come from MR01 |
 
 ### The interior tribes
 

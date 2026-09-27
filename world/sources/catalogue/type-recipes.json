@@ -1067,7 +1067,7 @@
         5
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation recipe)",
-      "footprintRadiusM": 95,
+      "footprintRadiusM": 100,
       "footprintSource": "built-ground",
       "services": [
         "stable"
@@ -3321,7 +3321,7 @@
         14
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band",
-      "footprintRadiusM": 105,
+      "footprintRadiusM": 55,
       "footprintSource": "built-ground"
     },
     {

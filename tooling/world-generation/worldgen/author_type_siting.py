@@ -53,7 +53,6 @@ BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
 CARRIED_BUILT_GROUND_M = {
     "rebuilt-stilt-city": 225,      # place.mercantile-coast.lilmoth
     "heretic-stone-village": 105,   # place.dunmer-north.mazzatun
-    "hist-village": 105,            # place.hist-heartland.nine-trunks
     "sap-tapping-camp": 25,         # place.hist-heartland.sap-tapping-licensed
     "wamasu-pond": 175,             # place.naga-kur-deeps.wamasu-pond-adult
 }

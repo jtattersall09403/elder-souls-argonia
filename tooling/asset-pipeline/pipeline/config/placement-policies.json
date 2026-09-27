@@ -276,7 +276,17 @@
   "vanilla:landscape/plants/kelpshortstatic01": "water-zero",
   "vanilla:landscape/plants/kelptallstatic01": "water-zero",
   "vanilla:plants/chickennest01": "plinth",
-  "bmv:architecture/phitt/aldredanyia/signpost": "direct"
+  "bmv:architecture/phitt/aldredanyia/signpost": "direct",
+  "histtree:skyfall/sleeping tree overhaul/histflower02": "pad",
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": "pad",
+  "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": "direct",
+  "vanilla:clutter/firewood/firewoodpilesmall01": "direct",
+  "bmv:roadsignmedium01r": "direct",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": "pad",
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "plinth",
+  "kotm:argonia/mudhuts/shed": "pad",
+  "vanilla:architecture/docks/dockstrent02": "stilt",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "pad"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -362,7 +372,17 @@
   "vanilla:landscape/plants/kelpshortstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "vanilla:landscape/plants/kelptallstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "vanilla:plants/chickennest01": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): no sink record",
-  "bmv:architecture/phitt/aldredanyia/signpost": "16k fix 2 round 6 ruling K1: BM&V's freestanding signpost, its foot planted in the ground; the plugins hang candlelanternwithcandle01 from its arm (46 wall refs in the round-3 run), so it joins the imperial kit as the lantern's parent. direct: a small freestanding post on the terrain."
+  "bmv:architecture/phitt/aldredanyia/signpost": "16k fix 2 round 6 ruling K1: BM&V's freestanding signpost, its foot planted in the ground; the plugins hang candlelanternwithcandle01 from its arm (46 wall refs in the round-3 run), so it joins the imperial kit as the lantern's parent. direct: a small freestanding post on the terrain.",
+  "histtree:skyfall/sleeping tree overhaul/histflower02": "frozen from the settlement-mud-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 6.0086 m, n 0, evidence mesh-sill",
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": "frozen from the settlement-mud-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 -1.2576 m, n 0, evidence mesh-sill",
+  "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 -0.0581 m, n 0, evidence mesh-sill",
+  "vanilla:clutter/firewood/firewoodpilesmall01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Greenspring's dressing 2026-09-27): designed-sink p50 0.036 m, n 104, evidence plugin",
+  "bmv:roadsignmedium01r": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.155 m, n 0, evidence policy-fallback",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill",
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.1422 m, n 39, evidence plugin",
+  "kotm:argonia/mudhuts/shed": "Argonian mud shed on a declared pad (0101), same contact family as kotm:argonia/mudhuts/mudhut01; frozen from the settlement-mud-v1 manifest's fit (policy pad, designed-sink p50 0.0 m, n 0, evidence policy-fallback)",
+  "vanilla:architecture/docks/dockstrent02": "frozen from the docks-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.35 m, n 0, evidence mesh-sill (plugin-spread); a piled deck (piledDecks)",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill"
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
