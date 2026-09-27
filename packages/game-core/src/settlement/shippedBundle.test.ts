@@ -1,7 +1,8 @@
 /**
  * The shipped bundle is the gate (16h item 3 and item 5).
  *
- * `apps/world-studio/public/province/settlements.json` is read once as a
+ * The published place bundles (`apps/world-studio/public/province/settlements/`,
+ * reassembled as the runtime does, S8) are read once as a
  * fixture: every placement the published kit manifests describe is put through
  * the runtime's own `Matrix4` and compared with the corners the export wrote
  * for it. Before the rotation sign was fixed this failed on 691 of the 733
@@ -16,11 +17,13 @@ import { ladderLevelAt, settlementLadder } from "./lod";
 import { cellRungs } from "../vegetation/cellBuild";
 import { BAYER4_THRESHOLDS, lodFadeFactors, lodPixelKept } from "../fx/lodFade";
 import type { SettlementBundle, SettlementPlacement } from "./types";
+import { readPublishedSettlements } from "./publishedBundles.testHelper";
 
 const ROOT = resolve(import.meta.dirname, "../../../..");
 const read = (path: string) => JSON.parse(readFileSync(resolve(ROOT, path), "utf8"));
 
-const bundle: SettlementBundle = read("apps/world-studio/public/province/settlements.json");
+const bundle: SettlementBundle = readPublishedSettlements(
+  resolve(ROOT, "apps/world-studio/public/province"));
 
 interface KitAsset { id: string; sizeM?: [number, number, number];
   originOffsetM?: [number, number, number]; }

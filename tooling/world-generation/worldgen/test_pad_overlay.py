@@ -7,10 +7,11 @@ from pathlib import Path
 import numpy as np
 
 from . import pad_overlay as po
+from .settlement_bundles import load_published
 
 REPO = Path(__file__).resolve().parents[3]
 FIXTURE = REPO / "packages/game-core/src/terrain/__fixtures__/ground-overlays-claywater.json"
-BUNDLE = REPO / "apps/world-studio/public/province/settlements.json"
+PROVINCE_DIR = REPO / "apps/world-studio/public/province"   # the place bundles (S8)
 
 
 def test_the_grid_form_holds_the_golden_points():
@@ -63,7 +64,7 @@ def test_a_declared_pad_without_an_overlay_is_named():
 
 def test_the_published_bundle_carries_every_declared_pad():
     """The real defect 0102 names: Claywater's pads waited for the chain."""
-    bundle = json.loads(BUNDLE.read_text())
+    bundle = load_published(PROVINCE_DIR)
     by_id = {p["id"]: p for p in bundle["placements"]}
     missing = [(s["id"], pid) for s in bundle["settlements"]
                for pid in po.missing_overlays(s, by_id)]

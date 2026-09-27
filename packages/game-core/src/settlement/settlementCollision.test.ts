@@ -15,6 +15,7 @@ import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.j
 import { buildArchitectureKit } from "./kit";
 import { solidFrom } from "./SettlementLayer";
 import { placementTransform } from "./anchoring";
+import { readPublishedSettlements } from "./publishedBundles.testHelper";
 import { selectCollisionResidency } from "./collisionResidency";
 import {
   SETTLEMENT_COLLISION_FRAME,
@@ -50,8 +51,8 @@ async function loadPublishedKit(kit: string) {
   return new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(JSON.stringify(json), "");
 }
 
-const bundle: SettlementBundle = JSON.parse(readFileSync(
-  resolve(ROOT, "apps/world-studio/public/province/settlements.json"), "utf8"));
+const bundle: SettlementBundle = readPublishedSettlements(
+  resolve(ROOT, "apps/world-studio/public/province"));
 const gate = bundle.placements.find((p) => p.assetId.endsWith(GATE_ASSET))!;
 
 /** kit id -> asset id -> its material list (one entry per LOD0 primitive). */

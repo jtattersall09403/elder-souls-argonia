@@ -12,8 +12,10 @@ from pathlib import Path
 import pytest
 
 from . import export_settlement_bundle as E
+from .settlement_bundles import load_published
 
-PUBLISHED = Path(__file__).resolve().parents[3] / "apps" / "world-studio" / "public" / "province" / "settlements.json"
+PROVINCE_DIR = Path(__file__).resolve().parents[3] / "apps" / "world-studio" / "public" / "province"
+PUBLISHED = PROVINCE_DIR / "settlements" / "index.json"   # the place bundles (S8)
 
 
 def _row(pid, run=None, kind="mesh", parts=None):
@@ -35,7 +37,7 @@ def test_a_mesh_run_is_one_part_and_a_box_run_is_not(monkeypatch):
 
 @pytest.mark.skipif(not PUBLISHED.exists(), reason="no published bundle")
 def test_claywater_fits_the_ceiling_once_its_runs_are_joined():
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = load_published(PROVINCE_DIR)
     site = next((s for s in bundle["settlements"]
                  if s["id"] == "place.imperial-fringe.claywater-station"), None)
     if site is None:

@@ -698,7 +698,8 @@ READS: dict[str, list[Check]] = {
         P(npy, CURRENT, 2, "float32", True),
     ],
     "settlement_ground_control": [
-        P(json_doc, PROVINCE / "settlements.json", ("compiledObjects", "groundTreatments"), 1),
+        # the published place bundles' index (S8); the stage reassembles them
+        P(json_doc, PROVINCE / "settlements" / "index.json", ("places",), 1),
         P(png, REFINED / "ground-control.png"),
         P(png, WATER / "water-surface.png"),
         P(json_doc, WATER / "water-meta.json", ("surface",), 3),
@@ -776,7 +777,10 @@ WRITES: dict[str, list[Path]] = {
     "build_border_apron": [],
     "rederive_blueprints": [],
     "compile_settlement": [],
-    "export_settlement_bundle": [PROVINCE / "settlements.json"],
+    # the per-place bundles' index (S8) and the legacy whole file
+    # (export_settlement_bundle.LEGACY_WHOLE_FILE)
+    "export_settlement_bundle": [PROVINCE / "settlements" / "index.json",
+                                 PROVINCE / "settlements.json"],
     "settlement_ground_control": [],
     "compile_scatter": [PROVINCE / "vegetation" / "vegetation-index.json",
                         WATER / "bed-rocks.json"],

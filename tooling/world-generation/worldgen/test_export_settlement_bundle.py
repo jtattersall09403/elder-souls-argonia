@@ -19,6 +19,12 @@ from .blueprint_files import blueprint_paths
 REAL_REGISTER = ex.WARNING_KNOWN_RED
 
 
+def _published() -> dict:
+    """The published settlements, whole-file shape, from the place bundles (S8)."""
+    from .settlement_bundles import load_published
+    return load_published(ex.OUT.parent)
+
+
 @pytest.fixture(autouse=True)
 def _no_register(tmp_path, monkeypatch):
     """Fixture places are not in the real known-red register; start empty."""
@@ -876,7 +882,7 @@ def test_collider_ceiling_is_400_with_a_warning_at_250():
 
 def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
     """The gate on the real data: Lilmoth is the settlement that broke this."""
-    bundle = json.loads(ex.OUT.read_text())
+    bundle = _published()
     totals = ex.resident_collision_parts(
         bundle["settlements"], bundle["placements"], ex.PUBLIC_KITS)
     assert totals, "published bundle has no settlements"
@@ -928,7 +934,7 @@ def test_lod_gate_passes_a_real_three_tier_chain(tmp_path):
 
 def test_shipped_bundle_assets_all_satisfy_the_runtime_lod_contract():
     """Every placed asset in the published bundle, measured from the shipped GLBs."""
-    bundle = json.loads(ex.OUT.read_text())
+    bundle = _published()
     assert ex.lod_contract_errors(
         bundle["placements"], bundle["lod"], ex.PUBLIC_KITS) == []
 
@@ -970,7 +976,7 @@ def test_texture_cap_gate_measures_the_published_image_not_a_manifest_claim(tmp_
 
 
 def test_shipped_kit_textures_are_inside_the_runtime_cap():
-    bundle = json.loads(ex.OUT.read_text())
+    bundle = _published()
     assert ex.texture_cap_errors(bundle["kits"], bundle["lod"], ex.PUBLIC_KITS) == []
 
 
@@ -1390,6 +1396,72 @@ def test_places_names_only_authored_compiled_places(tmp_path, monkeypatch):
         ex.merge_bundle({"schemaVersion": 2}, build(places=["place.a"]), {"place.a"})
 
 
+def _export_into(tmp_path, monkeypatch, build, places=None):
+    """`ex.export` over the two-place fixture into tmp_path/province (S8)."""
+    real = getattr(ex.build_bundle, "real", ex.build_bundle)
+
+    def fixture_build(**kw):
+        with monkeypatch.context() as inner:
+            inner.setattr(ex, "build_bundle", real)
+            return build(places=kw.get("places"))
+    fixture_build.real = real
+    monkeypatch.setattr(ex, "build_bundle", fixture_build)
+    monkeypatch.setattr(ex, "KITS", tmp_path / "kits")
+    return ex.export(tmp_path / "province" / "settlements.json", places=places,
+                     report_path=tmp_path / "report.json",
+                     manifest_root=tmp_path / "manifests")
+
+
+def test_a_places_publish_touches_only_its_bundle_and_the_index(tmp_path, monkeypatch):
+    """S8: a --places publish rewrites the named place's bundle and the index;
+    every other bundle keeps its bytes and its mtime, and the bundles
+    reassemble into the whole record the full export wrote."""
+    from . import settlement_bundles as sb
+    build = _two_places(tmp_path, monkeypatch)
+    full = _export_into(tmp_path, monkeypatch, build)
+    root = tmp_path / "province"
+    folder = root / "settlements"
+    others = [folder / "place.b.json", folder / "routes/route.a.json"]
+    mine, index = folder / "place.a.json", folder / "index.json"
+    for path in others + [mine, index]:
+        os.utime(path, ns=(1_000_000_000, 1_000_000_000))
+    before = {path: path.read_bytes() for path in others}
+    moved = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    moved["placements"][0]["positionM"] = [21, 4, 30]
+    moved["compiledObjects"], errors = cs.compiled_blueprint_objects(
+        json.loads((tmp_path / "bp/place.a.json").read_text())["blueprint"],
+        moved["placements"], [], _MetreSurvey())
+    assert errors == []
+    _write(tmp_path / "sett/place.a.settlement.json", moved)
+    merged = _export_into(tmp_path, monkeypatch, build, places=["place.a"])
+    for path in others:
+        assert path.read_bytes() == before[path], f"{path.name} bytes changed"
+        assert path.stat().st_mtime_ns == 1_000_000_000, f"{path.name} was rewritten"
+    assert mine.stat().st_mtime_ns != 1_000_000_000 and index.stat().st_mtime_ns != 1_000_000_000
+    assert sb.load_published(root) == merged == json.loads((root / "settlements.json").read_text())
+    assert sb.load_published(root) != full
+    entry = {e["id"]: e for e in sb.read_index(root)["places"]}["place.a"]
+    assert entry["bundle"] == "settlements/place.a.json"
+    assert entry["sha256"] == hashlib.sha256(mine.read_bytes()).hexdigest()
+    manifest = json.loads((tmp_path / "manifests/place.a/manifest.json").read_text())
+    assert manifest["files"][0] == "apps/world-studio/public/province/settlements/place.a.json"
+    assert manifest["writtenBy"] == "export_settlement_bundle"
+
+
+def test_the_bundles_reassemble_the_published_whole_file_exactly():
+    """contract 2: load_published() is the whole file's shape, row for row."""
+    from . import settlement_bundles as sb
+    if not (_PUBLIC / "settlements/index.json").exists():
+        pytest.skip("no published bundles")
+    whole = sb.load_published(_PUBLIC)
+    if ex.LEGACY_WHOLE_FILE:
+        assert whole == json.loads((_PUBLIC / "settlements.json").read_text())
+    index = sb.read_index(_PUBLIC)
+    assert [e["id"] for e in index["places"]] == sorted(s["id"] for s in whole["settlements"])
+    for entry in index["places"]:
+        assert entry["radiusM"] > 0 and len(entry["positionM"]) == 2
+
+
 def test_a_gate_added_after_acceptance_reports_and_does_not_fail(tmp_path, monkeypatch):
     """0100 decision 6: a place gate newer than the place's acceptance lists
     its finding in report mode; the same finding on a place accepted after
@@ -1497,7 +1569,7 @@ def test_every_published_place_clears_every_placement_footprint_and_floor_treatm
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
     from .vegetation_patches import treatment_clearance_polygons
-    bundle = json.loads((_PUBLIC / "settlements.json").read_text())
+    bundle = _published()
     side = {s["id"]: s for s in json.loads(
         (_PUBLIC / "settlements/ground-overlays.json").read_text())["settlements"]}
     by_id = {p["id"]: p for p in bundle["placements"]}
@@ -1525,7 +1597,7 @@ def test_the_published_ground_sidecar_is_the_bundle_s_ground_and_clears_the_fami
     clearance per place, and Claywater's clearance covers its family-hut pad
     (the pad's south strip reaches past the compiled box)."""
     from shapely.geometry import Point, Polygon
-    bundle = json.loads((_PUBLIC / "settlements.json").read_text())
+    bundle = _published()
     side = json.loads((_PUBLIC / "settlements/ground-overlays.json").read_text())
     assert side["schemaVersion"] == 1
     assert side == ex.ground_sidecar(bundle)

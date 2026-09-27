@@ -63,6 +63,10 @@ import {
 } from "./lighting";
 import { mergeRunColliders } from "./runColliders";
 import {
+  SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
+  type AssembledSettlementBundle, type SettlementBundleSource,
+} from "./settlementIndex";
+import {
   effectTextureFile, isSmokeColumnPlacement, SMOKE_CALM_WIND, SMOKE_COLUMN_ASSET_ID,
   SMOKE_MAX_DISTANCE_M, SmokeColumns, type SmokeAnchor,
 } from "./smokeColumn";
@@ -197,16 +201,22 @@ const emptyCollisionProof = () => ({
   parts: 0, requiredResidentParts: 0, partBudget: 0, coveredRadiusM: 0,
 });
 
-export async function loadSettlementBundle(baseUrl: string): Promise<SettlementBundle> {
-  const response = await fetch(`${baseUrl}province/settlements.json`);
-  if (!response.ok) throw new Error(`settlement bundle HTTP ${response.status}`);
-  const bundle = await response.json() as SettlementBundle;
+/**
+ * The published settlements in range of `at` (S8: the per-place bundles the
+ * index names, `settlementIndex.ts`), refused unless the schema and the
+ * collision frame are the ones this layer draws.
+ */
+export async function loadSettlementBundle(
+  source: SettlementBundleSource, at: { x: number; z: number } | null, rangeM?: number,
+): Promise<AssembledSettlementBundle> {
+  const bundle = await source.load(at, rangeM);
   // 16h item 5: schema 2 carried anchorClass, parentPlacementId,
   // mountOffsetM and the water fields; schema 3 adds the run record every
   // modular-run piece is seated on (check-in 3 §2) and the treatment kind
   // and aprons (§5). An older bundle is refused rather than drawn with its
   // runs stepped at every joint. Schema 4 adds the optional `yFinal` flag
   // (16k walk 2); a schema-3 bundle is read as "no placement is final".
+  if (bundle.bundleIds.length === 0) return bundle;   // nothing published in range
   if (bundle.schemaVersion !== 3 && bundle.schemaVersion !== 4) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
   if (bundle.collisionFrame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`unsupported settlement collision frame ${bundle.collisionFrame}`);
@@ -339,6 +349,12 @@ export function SettlementLayer({
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
+  // The app's settlement source (SettlementBundleSourceContext), else the
+  // layer's own; `queriedAt` is where the bundles in range were last picked.
+  const bundleSource = useSettlementBundleSource(baseUrl);
+  const queriedAt = useRef<{ x: number; z: number } | null>(null);
+  const loadedBundle = useRef<AssembledSettlementBundle | null>(null);
+  const [queryRevision, setQueryRevision] = useState(0);
   const [fatalError, setFatalError] = useState<Error | null>(null);
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
   // Per-asset kit truth (designed sink, waterline, anchor class): the runtime
@@ -414,19 +430,34 @@ export function SettlementLayer({
 
   useEffect(() => {
     let cancelled = false;
-    loadSettlementBundle(baseUrl).then((data) => {
-      if (cancelled) return;
+    const at = { x: focusRef.current.x, z: focusRef.current.z };
+    queriedAt.current = at;
+    // The pick reaches everything this layer can draw before the next
+    // re-pick: the far-LOD draw distance at this quality, plus the move
+    // that triggers the re-pick (S8 review round).
+    const rangeM = MAX_RENDER_DISTANCE_M * (quality?.architectureDrawScale ?? 1) + SETTLEMENT_REQUERY_MOVE_M;
+    loadSettlementBundle(bundleSource, at, rangeM).then((data) => {
+      if (cancelled) return;   // a newer pick (or unmount) owns the layer now
+      // Only the validated set is handed to the followers (groundcover,
+      // sockets, navigation), and a set with an unchanged content key
+      // does not rebuild.
+      bundleSource.publish(data);
+      if (data.key === loadedBundle.current?.key) return;
+      loadedBundle.current = data;
       setBundle(data);
       // The door interaction hook (0103 decision 4): the door records go to
       // whoever runs the doors; the layer itself draws no door.
       onDoors?.(data.doors ?? []);
     }).catch((error: unknown) => {
-      if (!cancelled) setFatalError(error instanceof Error ? error : new Error(String(error)));
+      if (cancelled) return;
+      const failure = error instanceof Error ? error : new Error(String(error));
+      bundleSource.fail(failure);
+      setFatalError(failure);
     });
     return () => { cancelled = true; };
     // onDoors is read once per bundle load, like the bundle itself.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseUrl]);
+  }, [bundleSource, queryRevision]);
 
   // Stream kit GLBs by the references in visual range. The complete exemplar
   // shelf is hundreds of MB; loading it province-wide would undo instancing's
@@ -476,15 +507,25 @@ export function SettlementLayer({
   }, [gltfs]);
 
   // The smoke texture: read from the effect placement's kit manifest
-  // (`effectTextures`, build_kit.publish_effect_textures), loaded once.
-  useEffect(() => {
+  // (`effectTextures`, build_kit.publish_effect_textures), loaded once per
+  // manifest: keyed on the manifest path, not the set in range, so a re-pick
+  // (S8) neither blinks the columns nor re-fetches the texture.
+  const smokeSource = useMemo(() => {
     const placement = bundle?.placements.find(isSmokeColumnPlacement);
-    if (!bundle || !placement) return undefined;
+    if (!bundle || !placement) return null;
     const kit = bundle.kits[placement.kit];
-    if (!kit) {
-      setFatalError(new Error(`settlement effect ${placement.id} names missing kit ${placement.kit}`));
+    return kit ? { manifest: kit.manifest, missing: "" }
+      : { manifest: "", missing: `settlement effect ${placement.id} names missing kit ${placement.kit}` };
+  }, [bundle]);
+  const smokeManifest = smokeSource?.manifest ?? null;
+  const smokeMissing = smokeSource?.missing ?? "";
+  useEffect(() => {
+    if (smokeMissing) {
+      setFatalError(new Error(smokeMissing));
       return undefined;
     }
+    if (!smokeManifest) return undefined;
+    const kit = { manifest: smokeManifest };
     let cancelled = false;
     let made: SmokeColumns | null = null;
     const manifestUrl = `${baseUrl}${kit.manifest}`;
@@ -509,16 +550,18 @@ export function SettlementLayer({
       made?.dispose();
       setSmoke(null);
     };
-  }, [baseUrl, bundle]);
+  }, [baseUrl, smokeManifest, smokeMissing, uniforms]);
 
   // The billboard flame texture: vanilla's candle flame, published by the
   // works-v1 build (`effectTextures`), loaded once per bundle. A fixture is
   // known only after a build (a LIGH record can make one on any layer), and
   // the file is one small PNG, so every bundle with placements loads it.
+  const flameManifest = useMemo(
+    () => (bundle?.placements.length ? flameManifestPath(bundle.kits) : null), [bundle]);
   useEffect(() => {
-    if (!bundle?.placements.length) return undefined;
+    if (!flameManifest) return undefined;
     let cancelled = false;
-    const manifestUrl = `${baseUrl}${flameManifestPath(bundle.kits)}`;
+    const manifestUrl = `${baseUrl}${flameManifest}`;
     fetch(manifestUrl).then((response) => {
       if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
       return response.json();
@@ -534,7 +577,7 @@ export function SettlementLayer({
         + `${error instanceof Error ? error.message : String(error)}`));
     });
     return () => { cancelled = true; };
-  }, [baseUrl, bundle, lightFixtures]);
+  }, [baseUrl, flameManifest, lightFixtures]);
 
   useFrame(({ camera, clock }) => {
     if (fatalError) return;
@@ -554,6 +597,12 @@ export function SettlementLayer({
     const rebuildMoveM = at ? Math.min(REBUILD_MOVE_M, Math.max(1, at.coveredRadiusM * 0.5)) : REBUILD_MOVE_M;
     if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
       builtAt.current = null; setRevision((v) => v + 1);
+    }
+    // S8: the bundles in range are re-picked once the player has moved
+    // SETTLEMENT_REQUERY_MOVE_M from where they were last picked.
+    const queried = queriedAt.current;
+    if (queried && Math.hypot(focus.x - queried.x, focus.z - queried.z) > SETTLEMENT_REQUERY_MOVE_M) {
+      queriedAt.current = null; setQueryRevision((v) => v + 1);
     }
     if (incomplete.current && performance.now() - retryAt.current > 2000) {
       retryAt.current = performance.now();
@@ -943,7 +992,9 @@ export function SettlementLayer({
       placementById]);
 
   // The live group and the depth twins go with the world: on unmount, a new
-  // baseUrl or bundle, or the fatal sentinel replacing the layer.
+  // baseUrl, or the fatal sentinel replacing the layer. A new set of bundles
+  // in range (S8) is NOT a reason: the next build swaps in over the live
+  // group, so the buildings on screen never blink while the player walks.
   useEffect(() => {
     // Captured now: when the sentinel replaces the layer, React has already
     // detached the ref by the time this cleanup runs.
@@ -956,7 +1007,7 @@ export function SettlementLayer({
       twins.forEach((material) => material?.dispose());
       twins.clear();
     };
-  }, [baseUrl, bundle, fatalError]);
+  }, [baseUrl, fatalError]);
 
   // A conspicuous runtime sentinel makes missing settlement data visible in
   // both production and development even when the host has no ErrorBoundary.

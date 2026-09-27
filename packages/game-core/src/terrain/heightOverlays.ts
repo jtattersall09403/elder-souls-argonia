@@ -2,7 +2,8 @@
  * A place's levelled ground as a runtime overlay (decision 0102 decision 1).
  *
  * A place's pads never reach the frozen terrain: they travel in its bundle
- * (`settlements.json` → `settlements[i].groundOverlays`, schemaVersion 1) and
+ * (`settlements/<place-id>.json` → `settlement.groundOverlays`, schemaVersion 1;
+ * the studio reads them from `settlements/ground-overlays.json`) and
  * the chunk store applies them to every decoded LOD, so the mesh, the height
  * sampler and the vegetation's ground all read one surface.
  *

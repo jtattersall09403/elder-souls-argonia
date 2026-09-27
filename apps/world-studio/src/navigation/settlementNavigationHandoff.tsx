@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
+import {
+  useSettlementBundle, useSettlementBundleSource,
+} from "@elder-souls/game-core/settlement/settlementIndex";
 
 interface NavmeshCut {
   id: string;
@@ -94,26 +97,17 @@ export function SettlementNavigationHandoff({
   baseUrl: string;
   visible: boolean;
 }) {
-  const [result, setResult] = useState<SettlementNavigationHandoffStatus>(LOADING);
-
-  useEffect(() => {
-    if (!visible) return;   // a 10 MB bundle, read only when the toast can show
-    let cancelled = false;
-    fetch(`${baseUrl}province/settlements.json`)
-      .then((response) => response.ok
-        ? response.json()
-        : Promise.reject(new Error(`settlements.json returned ${response.status}`)))
-      .then((bundle: SettlementNavigationExport) => {
-        if (!cancelled) setResult(inspectSettlementNavigation(bundle));
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) setResult({
-          status: "missing-export", cuts: 0, links: 0,
-          errors: [error instanceof Error ? error.message : "settlements.json could not be read"],
-        });
-      });
-    return () => { cancelled = true; };
-  }, [visible, baseUrl]);
+  // The places the settlement layer has in range (the app's settlement
+  // source, S8): this toast has no position of its own, so it only follows
+  // the layer's sets and loads nothing itself; read only while it can show.
+  const source = useSettlementBundleSource(baseUrl);
+  const { bundle, error } = useSettlementBundle(source, undefined, visible);
+  const result = useMemo<SettlementNavigationHandoffStatus>(() => {
+    if (error) {
+      return { status: "missing-export", cuts: 0, links: 0, errors: [error.message] };
+    }
+    return bundle ? inspectSettlementNavigation(bundle as SettlementNavigationExport) : LOADING;
+  }, [bundle, error]);
 
   useEffect(() => {
     window.__STUDIO_SETTLEMENT_NAVIGATION__ = result;

@@ -51,7 +51,10 @@ EDGE_BLEND_M = 1.83
 BUILT_GROUND_MATERIAL_ID = PATH
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_BUNDLE = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
+# The published place bundles' index (S8): the stage reassembles the bundles
+# it names (settlement_bundles), and hashes the index, which names each
+# bundle's sha256. A whole settlements.json path is still read as one file.
+DEFAULT_BUNDLE = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements" / "index.json"
 DEFAULT_CONTROL = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "ground-control.png"
 # The water RECORD directory (0066). This module names no raster file of its
 # own: `water_report.ShippedWater` is the only reader of those PNGs, and the
@@ -302,7 +305,11 @@ def process_files(bundle_path: Path, control_path: Path, water_dir: Path,
     inside it is read only through ``water_report.ShippedWater`` (0066).
     """
     bundle_bytes = _read_bytes(bundle_path, "settlement bundle")
-    bundle = _json_bytes(bundle_bytes, "settlement bundle")
+    if Path(bundle_path).name == "index.json":
+        from .settlement_bundles import load_published
+        bundle = load_published(Path(bundle_path).parent.parent)
+    else:
+        bundle = _json_bytes(bundle_bytes, "settlement bundle")
     polygons = _validated_treatments(bundle)
     if expected_bundle is not None and _canonical(bundle) != _canonical(expected_bundle):
         raise ValueError("stale settlement bundle: it differs from the current compiler projection")

@@ -345,7 +345,8 @@ def main() -> None:
     ap.add_argument("--fixture", action="store_true", required=True)
     ap.parse_args()
     from .street_router import default_survey
-    bundle = json.loads((repo / "apps/world-studio/public/province/settlements.json").read_text())
+    from .settlement_bundles import load_published
+    bundle = load_published()
     doc = golden_fixture(bundle, default_survey().height_at)
     out = repo / "packages/game-core/src/terrain/__fixtures__/ground-overlays-claywater.json"
     out.parent.mkdir(parents=True, exist_ok=True)

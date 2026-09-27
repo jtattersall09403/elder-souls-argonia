@@ -10,8 +10,11 @@ Run from ``tooling/world-generation``::
 
     python3 -m worldgen.export_settlement_bundle --copy-assets
 
-Writes ``apps/world-studio/public/province/settlements.json`` atomically and,
-when requested, copies only referenced kit GLBs/manifests to ``public/kits``.
+Writes one minified bundle per place and per route plus their index under
+``apps/world-studio/public/province/settlements/`` (``settlement_bundles``,
+S8), the legacy whole file ``province/settlements.json`` while
+``LEGACY_WHOLE_FILE`` holds, atomically, and, when requested, copies only
+referenced kit GLBs/manifests to ``public/kits``.
 """
 
 from __future__ import annotations
@@ -37,6 +40,7 @@ from . import blueprint as bp_mod
 from . import blueprint_footprints as fp_mod
 from . import accepted_places, catalogue, place_obligations
 from .atomic_write import atomic_write_bytes, atomic_write_json, publish_copy
+from . import settlement_bundles
 
 _ASSET_PIPELINE = Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
 if str(_ASSET_PIPELINE) not in sys.path:
@@ -122,6 +126,18 @@ WARNING_KNOWN_RED = (REPO_ROOT / "world" / "sources" / "settlements"
                      / "settlement-warning-known-red.json")
 OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
 PUBLIC_KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
+PLACE_MANIFESTS = REPO_ROOT / "tooling" / ".reports" / "16k"   # contract 1: <place-id>/manifest.json
+
+# S8: the runtime reads settlements/index.json and the per-place bundles. The
+# whole file OUT is still written for the readers outside this lane that read
+# it whole: tooling/placement-workbench/wb.py (walk table) and its tests
+# test_0102_rules.py, test_proving_ground_b.py, test_walk2_rules.py,
+# test_workbench.py; tooling/asset-pipeline/pipeline/placement_metadata.py;
+# tooling/pages-site/compose.mjs (site layer record);
+# tooling/studio-loop/yard-publish.sh (its --base and the file it installs).
+# Setting this to False is the removal: move those readers to
+# settlement_bundles.load_published() / settlements/index.json first.
+LEGACY_WHOLE_FILE = True
 
 GROUND_FITS = {"direct", "plinth", "pad", "stilt", "dug-in"}
 # A piece can be deliberately used in more than one authored ground treatment.
@@ -1800,9 +1816,35 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
     return sum(len((s.get("groundOverlays") or {}).get("pads") or []) for s in bundle["settlements"])
 
 
+def place_budgets(bundle: dict, kits_dir: Path | None = None) -> dict[str, int]:
+    """Each place's own collider part budget (decision 0052's formula on its
+    own residents); the published budget is their max."""
+    parts = resident_collision_parts(bundle["settlements"], bundle["placements"], kits_dir or KITS)
+    return {pid: round(n * COLLIDER_PART_HEADROOM) for pid, n in parts.items()}
+
+
+def published_base(base: Path | None, out: Path) -> dict:
+    """The published record a --places publish merges into, whole-file shape:
+    `base` when given (a whole file, or a province folder / index.json that
+    holds the bundles), else the bundles beside `out`, else the legacy whole
+    file at `out`."""
+    if base is not None:
+        if Path(base).exists():
+            return settlement_bundles.read_published(base)
+        raise ValueError(f"--places needs a published bundle to publish into; {base} does not exist")
+    if (out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME).exists():
+        return settlement_bundles.load_published(out.parent)
+    if out.exists():
+        return _read(out)
+    raise ValueError(f"--places needs a published bundle to publish into; neither "
+                     f"{out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME} "
+                     f"nor {out} exists (run one full export)")
+
+
 def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None = None,
            report_path: Path = accepted_places.REPORT_PATH, fixtures_ok: bool = False,
-           all_kit_assets: bool = False, overlays: bool = False) -> dict:
+           all_kit_assets: bool = False, overlays: bool = False,
+           manifest_root: Path | None = PLACE_MANIFESTS) -> dict:
     """Build, optionally copy the kits, and publish atomically.
 
     With `overlays` (the CLI sets it), every exported place carries its pads
@@ -1816,11 +1858,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     bundle = build_bundle(fixtures_ok=fixtures_ok, all_kit_assets=all_kit_assets,
                           places=places, report=report)
     if places is not None:
-        base_path = base or out
-        if not base_path.exists():
-            raise ValueError(f"--places needs a published bundle to publish into; "
-                             f"{base_path} does not exist (run one full export)")
-        bundle = merge_bundle(_read(base_path), bundle, _place_scope(places))
+        bundle = merge_bundle(published_base(base, out), bundle, _place_scope(places))
         # the budget is the MERGED set's (decision 0052): the part's own worst
         # case says nothing about the places carried from the base
         budget, ceiling_errors = collider_part_budget(
@@ -1847,7 +1885,18 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     # compact: runtime data every studio load fetches before its first terrain decode
     atomic_write_bytes(out.parent / GROUND_SIDECAR, json.dumps(
         ground_sidecar(bundle), separators=(",", ":"), sort_keys=True).encode("utf-8") + b"\n")
-    _atomic_json(out, bundle)
+    # S8: the place bundles, then the index (the runtime's marker); a --places
+    # publish writes only its places' bundles and the index.
+    wrote = settlement_bundles.write_published(bundle, place_budgets(bundle), out.parent,
+                                               None if places is None else _place_scope(places))
+    print(f"settlement bundles: {len(wrote['index']['places'])} place(s), "
+          f"{len(wrote['index']['routes'])} route(s) in the index; wrote "
+          f"{', '.join(wrote['written']) or 'no bundle'}"
+          + (f"; removed {', '.join(wrote['removed'])}" if wrote["removed"] else ""))
+    if places is not None and manifest_root is not None:
+        settlement_bundles.write_manifests(_place_scope(places), bundle, manifest_root)
+    if LEGACY_WHOLE_FILE:
+        _atomic_json(out, bundle)
     _atomic_json(report_path, {"schemaVersion": 1, "kind": "accepted-place-report",
                                "about": "report-mode gate findings on accepted places "
                                         "(0100 decision 6); queue each to the polish backlog",
@@ -1872,13 +1921,18 @@ def main() -> int:
                          "carrying every other place and the routes from --base "
                          "unchanged (0100 decision 6)")
     ap.add_argument("--base", type=Path, default=None,
-                    help="the bundle a --places publish merges into (default: --out)")
+                    help="what a --places publish merges into: a whole settlements.json, "
+                         "or a province folder / settlements/index.json holding the "
+                         "bundles (default: the bundles beside --out, else --out)")
+    ap.add_argument("--manifest-dir", type=Path, default=PLACE_MANIFESTS,
+                    help="where a --places publish writes <place-id>/manifest.json "
+                         "(contract 1; default tooling/.reports/16k)")
     args = ap.parse_args()
     places = None if args.places is None else [p.strip() for p in args.places.split(",")]
     try:
         bundle = export(args.out, args.copy_assets, places=places, base=args.base,
                         fixtures_ok=args.fixtures_ok, all_kit_assets=args.all_kit_assets,
-                        overlays=True)
+                        overlays=True, manifest_root=args.manifest_dir)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1

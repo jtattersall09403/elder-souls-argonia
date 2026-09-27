@@ -406,7 +406,8 @@ def test_the_settlement_patches_match_the_published_treatments():
     (`python3 -m worldgen.vegetation_patches <settlements.json>`): a moved
     door would keep a stale apron."""
     import json
-    bundle = json.loads((sc.PROVINCE / "settlements.json").read_text())
+    from .settlement_bundles import load_published
+    bundle = load_published(sc.PROVINCE)
     sidecar = json.loads((sc.PROVINCE / "settlements" / "ground-overlays.json").read_text())
     doc = json.loads(sc.PATCHES_PATH.read_text())
     assert settlement_patch_drift(doc, bundle, sidecar) == []

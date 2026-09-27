@@ -23,7 +23,7 @@ const GLOBAL = [
 // modules); the DATA inputs are what each suite opened under strace on
 // 2026-09-26 (strace openat over a whole run; the per-folder counts are in
 // tooling/.reports/16k/speed-1.md), widened to the folder. A place change (a blueprint, the published
-// settlements.json, a placement record) therefore runs placement, pipeline
+// place bundles under settlements/ or the legacy settlements.json, a placement record) therefore runs placement, pipeline
 // and workbench, never water. A suite that starts reading a new folder must
 // add it here (tooling/.reports/16k/speed-1.md has the method).
 const PY_CODE = ["tooling/world-generation/", "tooling/asset-pipeline/"];

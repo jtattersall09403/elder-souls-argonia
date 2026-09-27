@@ -13,11 +13,11 @@ import { describe, expect, it } from "vitest";
 import { createPlacementResolver } from "./anchoring";
 import { kitAssetMetaFromManifest, kitAssetMetaOf } from "./kit";
 import type { SettlementBundle, SettlementKitAssetMeta } from "./types";
+import { readPublishedSettlements } from "./publishedBundles.testHelper";
 
 const ROOT = resolve(import.meta.dirname, "../../../..");
 const PUBLIC = resolve(ROOT, "apps/world-studio/public");
-const bundle: SettlementBundle = JSON.parse(
-  readFileSync(resolve(PUBLIC, "province/settlements.json"), "utf8"));
+const bundle: SettlementBundle = readPublishedSettlements(resolve(PUBLIC, "province"));
 const manifests = new Map<string, Map<string, SettlementKitAssetMeta>>(
   Object.entries(bundle.kits).map(([id, kit]) => [id, kitAssetMetaFromManifest(
     JSON.parse(readFileSync(resolve(PUBLIC, kit.manifest.replace(/^\//, "")), "utf8")), id)]),

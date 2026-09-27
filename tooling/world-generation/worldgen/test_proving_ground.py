@@ -3,7 +3,7 @@ is shown on before it is used on a real place.
 
 Checks the authored yard (`world/sources/blueprints/place.fixture.proving-ground.json`),
 its site record (`world/sources/sites/proving-ground.json`) and what the studio
-publishes of it (`apps/world-studio/public/province/settlements.json`):
+publishes of it (the place bundles under `apps/world-studio/public/province/settlements/`):
 
 * rule 2 (16h round 5): a parcel whose manifest policy is direct/pad sits on
   footprint cells under 2.0°, a stilt fit on cells under 3.0° (it stands on
@@ -38,8 +38,14 @@ from .blueprint_integration import ROAD_WATER_MAX_M, _water_at
 REPO_ROOT = Path(__file__).resolve().parents[3]
 BLUEPRINT = REPO_ROOT / "world/sources/blueprints/place.fixture.proving-ground.json"
 KITS = REPO_ROOT / "apps/world-studio/public/kits"
-PUBLISHED = REPO_ROOT / "apps/world-studio/public/province/settlements.json"
+PROVINCE_DIR = REPO_ROOT / "apps/world-studio/public/province"
 YARD = "place.fixture.proving-ground"
+
+
+def _published() -> dict:
+    """The published settlements, whole-file shape (settlement_bundles.load_published)."""
+    from .settlement_bundles import load_published
+    return load_published(PROVINCE_DIR)
 
 HULL_HALO_M = 2.5
 HULL_MIN_DEPTH_M = 1.0
@@ -191,14 +197,14 @@ def door_doorway_gaps(bundle: dict, interiors: dict[str, dict], place: str = YAR
 def test_every_yard_composite_door_stands_on_its_doorway(place):
     """K6 (brief § Part 1 state, cause 3): for every composite in the yard the
     published door threshold equals the doorway within 0.5 m."""
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     gaps = door_doorway_gaps(bundle, cs.kit_interiors(), place)
     assert set(gaps) == set(DOOR_COMPOSITES), gaps
     assert all(gap <= DOOR_DOORWAY_M for gap in gaps.values()), gaps
 
 
 def test_the_door_check_fails_on_a_door_moved_off_its_doorway():
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     moved = json.loads(json.dumps(bundle))
     for door in moved["doors"]:
         if door.get("settlementId") == YARD:
@@ -277,10 +283,10 @@ def test_the_landing_stage_starts_at_the_shore_and_ends_at_the_hull(survey):
     line (the survey's wet edge) and its seaward tip within 0.5 m of the
     hull's outline."""
     from .blueprint_integration import runtime_world_xz
-    placements, _doors = _published_yard(json.loads(PUBLISHED.read_text()))
+    placements, _doors = _published_yard(_published())
     stage = next(row for row in placements if row["id"].endswith("landing-stage.building"))
     hull = next(row for row in placements if row["id"].endswith("hull-berth.building"))
-    kits = _published_kits(json.loads(PUBLISHED.read_text()))
+    kits = _published_kits(_published())
     asset = kits[stage["kit"]][stage["assetId"]]
     landward, seaward = cs.quay_run_ends_local(asset)
     centre = (stage["positionM"][0], stage["positionM"][2])
@@ -303,7 +309,7 @@ def test_the_landing_stage_starts_at_the_shore_and_ends_at_the_hull(survey):
 def test_no_yard_dressing_stands_over_water(survey):
     """K6 cause 4: a ring dressing prop with no dry ground under it has no
     host and is dropped (the chairs round the hull and the landing stage)."""
-    placements, _doors = _published_yard(json.loads(PUBLISHED.read_text()))
+    placements, _doors = _published_yard(_published())
     dressing = [row for row in placements if row.get("kind") == "dressing"]
     assert dressing or not any(".dressing." in row["id"] for row in placements)
     wet = [row["id"] for row in dressing
@@ -350,7 +356,7 @@ def test_the_part_two_test_sites_are_present_and_empty():
 
 @pytest.mark.parametrize("asset_id", [SCONCE, SIGN])
 def test_the_mounted_children_are_published_hanging_off_a_parent(asset_id):
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     rows = [p for p in bundle["placements"]
             if p["id"].startswith(YARD + ".") and p.get("assetId") == asset_id]
     assert rows, f"{asset_id} is not placed in the published yard"
@@ -360,7 +366,7 @@ def test_the_mounted_children_are_published_hanging_off_a_parent(asset_id):
 
 def _published_kits(bundle: dict) -> dict[str, dict[str, dict]]:
     """kit id -> asset id -> manifest row (the runtime's `kitAssetMetaOf`)."""
-    public = PUBLISHED.parent.parent
+    public = PROVINCE_DIR.parent
     return {kit_id: {a["id"]: a for a in json.loads((public / kit["manifest"]).read_text())["assets"]}
             for kit_id, kit in bundle["kits"].items() if (public / kit["manifest"]).exists()}
 
@@ -379,7 +385,7 @@ def place_pads(place: str, bundle: dict | None = None) -> list[dict]:
     """The place's levelled ground as its bundle carries it (`groundOverlays`,
     decision 0102): the gates read the ground with it applied, in memory, as
     the runtime does when it decodes a chunk."""
-    bundle = json.loads(PUBLISHED.read_text()) if bundle is None else bundle
+    bundle = _published() if bundle is None else bundle
     site = next(s for s in bundle["settlements"] if s["id"] == place)
     return list((site.get("groundOverlays") or {}).get("pads") or [])
 
@@ -467,7 +473,7 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD,
 
 @pytest.mark.parametrize("place", ("place.fixture.proving-ground", "place.fixture.proving-ground-b"))
 def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey, place):
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     assert bundle["schemaVersion"] in (3, 4)          # 4 adds yFinal (16k walk 2)
     rows = ground_audit(bundle, survey, _published_kits(bundle), place)
     assert rows
@@ -491,7 +497,7 @@ def test_yard_b_wall_run_floats_without_its_pads_and_the_export_emits_them(surve
     run-pad overlay in the bundle (0102) is what seats them."""
     from .settlement_run_pads import run_pad_patches
     place = "place.fixture.proving-ground-b"
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     bare = ground_audit(bundle, survey, _published_kits(bundle), place, pads=[])
     assert any(r["floatM"] > FLOAT_LIMIT_M and not (r["slopeExempt"] or r["dockExempt"])
                for r in bare)
@@ -515,7 +521,7 @@ def buried_pieces(rows: list[dict]) -> list[dict]:
 def test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates(survey, place):
     """Headless: the published mesh's top, seated as the runtime seats it
     (`ground_audit`), stands >= VISIBLE_MIN_M over the highest ground sample."""
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     rows = ground_audit(bundle, survey, _published_kits(bundle), place)
     assert rows
     hidden = buried_pieces(rows)
@@ -524,7 +530,7 @@ def test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates(su
 
 
 def test_the_visibility_probe_fails_on_a_piece_sunk_below_its_top(survey):
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     kits = _published_kits(bundle)
     victim = next(p for p in bundle["placements"] if p["id"] == f"{YARD}.parcel.proving-ground.boardwalk.building")
     asset = kits[victim["kit"]][victim["assetId"]]
@@ -615,14 +621,14 @@ def yard_truth_mismatches(truth: dict, kits_dir: Path, mounts: dict,
 def test_the_yard_truth_table_covers_every_published_yard_asset():
     truth = json.loads(TRUTH.read_text())
     listed = {row["assetId"] for row in truth["assets"]}
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     used = {p["assetId"] for p in bundle["placements"] if p["id"].startswith(YARD + ".")}
     assert used and used <= listed, sorted(used - listed)
 
 
 def test_the_published_yard_assets_match_the_truth_table():
     truth = json.loads(TRUTH.read_text())
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     placements = [p for p in bundle["placements"] if p["id"].startswith(YARD + ".")]
     found = yard_truth_mismatches(truth, KITS, json.loads(MOUNTS_RECORD.read_text()),
                                   placements, frozenset(_row_classes()))
@@ -632,7 +638,7 @@ def test_the_published_yard_assets_match_the_truth_table():
 
 def test_the_truth_table_check_can_fail():
     truth = json.loads(TRUTH.read_text())
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     placements = [p for p in bundle["placements"] if p["id"].startswith(YARD + ".")]
     mounts = json.loads(MOUNTS_RECORD.read_text())
     mounts["anchors"] = dict(mounts["anchors"])
@@ -649,7 +655,7 @@ def test_the_truth_table_check_can_fail():
 # table in the 16h brief § Part 1 state, "Check-in 1-3 defects as gates".
 YARD_B = "place.fixture.proving-ground-b"
 YARDS = (YARD, YARD_B)
-VEGETATION = PUBLISHED.parent / "vegetation"
+VEGETATION = PROVINCE_DIR / "vegetation"
 #: The runtime's joint tolerance (`anchoring.ts` RUN_JOINT_TOLERANCE_M).
 RUN_JOINT_TOLERANCE_M = 0.005
 #: The door apron the exporter writes (`export_settlement_bundle._attach_door_apron`).
@@ -699,13 +705,13 @@ def run_contract_failures(bundle: dict, place: str) -> list[str]:
 
 @pytest.mark.parametrize("place", YARDS)
 def test_every_yard_run_piece_carries_its_run_contract(place):
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     assert any(".piece." in p["id"] for p in _place_rows(bundle, place)), place
     assert run_contract_failures(bundle, place) == []
 
 
 def test_the_run_contract_check_fails_on_the_pre_fix_export_and_on_a_wrong_rise():
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     wrong = json.loads(json.dumps(bundle))
     piece = next(p for p in wrong["placements"] if p["id"].startswith(YARD + ".") and p.get("run"))
     piece["run"]["riseM"] = float(piece["run"]["riseM"]) + 0.3
@@ -729,14 +735,14 @@ def _sidecar_clearance(place: str) -> dict | None:
     (`export_settlement_bundle.GROUND_SIDECAR`, decision 0102 decision 1), or
     None for a place whose sidecar row carries none (or that has no row)."""
     from .export_settlement_bundle import GROUND_SIDECAR
-    sidecar = json.loads((PUBLISHED.parent / GROUND_SIDECAR).read_text())
+    sidecar = json.loads((PROVINCE_DIR / GROUND_SIDECAR).read_text())
     row = next((s for s in sidecar["settlements"] if s["id"] == place), None)
     return (row or {}).get("vegetationClearance")
 
 
 def _sidecar_places() -> set[str]:
     from .export_settlement_bundle import GROUND_SIDECAR
-    return {s["id"] for s in json.loads((PUBLISHED.parent / GROUND_SIDECAR).read_text())["settlements"]
+    return {s["id"] for s in json.loads((PROVINCE_DIR / GROUND_SIDECAR).read_text())["settlements"]
             if "vegetationClearance" in s}
 
 
@@ -757,7 +763,7 @@ def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None 
     from .scatter import decode
     from .vegetation_patches import CHUNK_M, SETTLEMENT_PATCH_PREFIX, affected_chunks
     if patches is None:
-        patches = json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
+        patches = json.loads((PROVINCE_DIR / "vegetation-patches.json").read_text())["patches"]
     if clearance == "sidecar":
         clearance = _sidecar_clearance(place)
     if clearance is not None or place in _sidecar_places():
@@ -793,7 +799,7 @@ def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None 
 
 @pytest.mark.parametrize("place", YARDS)
 def test_no_scatter_stands_in_a_yard_door_apron(place):
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     assert any(d.get("settlementId") == place for d in bundle["doors"]), place
     assert _sidecar_clearance(place) is not None, f"{place}: no ground-overlays sidecar row"
     assert scatter_in_door_aprons(bundle, place) == []
@@ -814,7 +820,7 @@ def test_the_apron_check_fails_on_a_plant_in_a_door_apron():
     `hardClear` rings that reach the door are taken out: the gate reads the
     sidecar, and a sidecar that leaves a plant in an apron fails it."""
     from shapely.geometry import Point, Polygon
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = _published()
     doors = [d for d in bundle["doors"] if d.get("settlementId") == YARD]
     probe = dict(doors[0], thresholdM=CHECKIN3_FARMHOUSE_THRESHOLD_M)
     bundle = dict(bundle, doors=[probe])
@@ -841,7 +847,7 @@ def undecaled_materials(bundle: dict, place: str) -> list[str]:
     material extra `decal: true`, the field the settlement runtime biases
     (`materials.ts applySettlementDecal`). The skirting flicker was
     impfreewall01's ImpDirt overlay z-fighting its band with no flag."""
-    public = PUBLISHED.parent.parent
+    public = PROVINCE_DIR.parent
     kits = {p["kit"] for p in _place_rows(bundle, place)}
     out = []
     for kit_id in sorted(kits):
@@ -856,8 +862,8 @@ def undecaled_materials(bundle: dict, place: str) -> list[str]:
 
 @pytest.mark.parametrize("place", YARDS)
 def test_every_yard_decal_material_ships_flagged(place):
-    bundle = json.loads(PUBLISHED.read_text())
-    manifest = json.loads((PUBLISHED.parent.parent / bundle["kits"]["settlement-imperial-v1"]["manifest"]).read_text())
+    bundle = _published()
+    manifest = json.loads((PROVINCE_DIR.parent / bundle["kits"]["settlement-imperial-v1"]["manifest"]).read_text())
     wall = next(a for a in manifest["assets"] if a["id"] == "vanilla:dungeons/imperial/clutterkits/impfreewall01")
     assert wall.get("decalMaterials"), "impfreewall01's ImpDirt overlay is not recorded as a decal"
     assert undecaled_materials(bundle, place) == []

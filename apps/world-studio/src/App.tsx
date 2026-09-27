@@ -1,4 +1,4 @@
-import { Fragment, Suspense, lazy, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
@@ -31,6 +31,9 @@ import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 import { setWetSeasonOverride, sharedWaterAssets, type WaterAssets } from "./water/waterAssets";
 import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
 import { SettlementNavigationHandoff } from "./navigation/settlementNavigationHandoff";
+import {
+  SettlementBundleSource, SettlementBundleSourceContext,
+} from "@elder-souls/game-core/settlement/settlementIndex";
 
 /** One probe site for `window.__STUDIO_GOTO__` (x/z in km, as the URL uses;
  * `t` the HH:MM clock string; `wet` +1 wet season, -1 dry, 0/absent calendar). */
@@ -120,6 +123,9 @@ function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclud
 
 
 export function App() {
+  // The one settlement source every settlement reader shares (S8): the
+  // index and each place bundle are fetched once per studio session.
+  const settlementSource = useMemo(() => new SettlementBundleSource(import.meta.env.BASE_URL), []);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapViewportRef = useRef<HTMLDivElement>(null);
   const map = useMapZoom(mapViewportRef);
@@ -853,6 +859,7 @@ export function App() {
   ) : null;
 
   return (
+    <SettlementBundleSourceContext.Provider value={settlementSource}>
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
@@ -1052,5 +1059,6 @@ export function App() {
         the URL captures the view for sharing.
       </p>
     </div>
+    </SettlementBundleSourceContext.Provider>
   );
 }

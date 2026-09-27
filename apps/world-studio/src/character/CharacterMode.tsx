@@ -545,7 +545,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt} />}
+          {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt}
+            startAt={focusRef.current} />}
           </group>
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads

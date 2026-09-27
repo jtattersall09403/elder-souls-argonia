@@ -220,10 +220,11 @@ def test_budget_shape():
     assert any("budget" in e for e in errs)
 
 
-#: The published settlement bundle: tracked, so every checkout (CI included)
-#: sees each site's `fixtureReplay` / `fixtureWaived` (export_settlement_bundle).
-SETTLEMENT_BUNDLE = (Path(__file__).resolve().parents[3]
-                     / "apps" / "world-studio" / "public" / "province" / "settlements.json")
+#: The published settlement bundles' index: tracked, so every checkout (CI
+#: included) sees each site's `fixtureReplay` / `fixtureWaived`
+#: (export_settlement_bundle, S8 place bundles).
+SETTLEMENT_BUNDLE = (Path(__file__).resolve().parents[3] / "apps" / "world-studio"
+                     / "public" / "province" / "settlements" / "index.json")
 #: Where `compile_settlement --all` writes each place's compile (its receipt).
 SETTLEMENTS_DIR = Path(__file__).resolve().parents[1] / "output" / "settlements"
 
@@ -236,9 +237,10 @@ def _replay_receipts(bundle_path=SETTLEMENT_BUNDLE, settlements_dir=SETTLEMENTS_
     so the local compiles under output/settlements are read instead. The
     moment any site in the bundle carries `fixtureWaived`, the bundle alone is
     the truth and the local compiles are never consulted."""
+    from .settlement_bundles import read_published
     bundle = Path(bundle_path)
     if bundle.is_file():
-        sites = json.loads(bundle.read_text()).get("settlements") or []
+        sites = read_published(bundle).get("settlements") or []
         if any("fixtureWaived" in site for site in sites):
             return [(site.get("id"), site) for site in sites]
     return [(doc.get("id"), doc) for doc in

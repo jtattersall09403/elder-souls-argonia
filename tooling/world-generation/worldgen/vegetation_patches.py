@@ -566,7 +566,8 @@ def write_settlement_patches(bundle: dict, path: Path | None = None) -> list[dic
     return patches
 
 
-if __name__ == "__main__":             # python3 -m worldgen.vegetation_patches <settlements.json>
+if __name__ == "__main__":   # python3 -m worldgen.vegetation_patches [province dir | index.json | whole file]
     import sys
-    written = write_settlement_patches(json.loads(Path(sys.argv[1]).read_text()))
+    from .settlement_bundles import read_published
+    written = write_settlement_patches(read_published(Path(sys.argv[1]) if len(sys.argv) > 1 else None))
     print(f"{len(written)} settlement clearance patches written to {PATCHES_PATH}")

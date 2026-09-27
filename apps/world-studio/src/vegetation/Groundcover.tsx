@@ -85,6 +85,9 @@ import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { treatmentClearancePolygons } from "@elder-souls/game-core/settlement/groundTreatment";
 import type { GroundTreatment } from "@elder-souls/game-core/settlement/types";
+import {
+  useSettlementBundle, useSettlementBundleSource,
+} from "@elder-souls/game-core/settlement/settlementIndex";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
 import { STUDIO_TOOLS } from "../studioTools";
@@ -1201,29 +1204,26 @@ export function Groundcover({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
 
-  // The settlement bundle (10 MB) feeds only the building footprints the
-  // grass keeps out of. While the ladder
-  // hides the settlement layer (16f) there is nothing to keep out of, so the
-  // fetch waits for the layer to be shown (16f round 4: it was 9.7 MB of
-  // pure waste on every start-up).
+  // The places in range (the app's settlement source, S8) feed only the
+  // building footprints the grass keeps out of. While the ladder hides the
+  // settlement layer (16f) there is nothing to keep out of, so nothing loads
+  // until the layer is shown (16f round 4). The set follows the settlement
+  // layer's re-picks as the player walks; before the layer's first pick it
+  // loads at the start position.
+  const settlementSource = useSettlementBundleSource(baseUrl);
+  const { bundle: settlementBundle, error: settlementError } = useSettlementBundle(
+    settlementSource, focusRef.current, settlementsVisible);
   useEffect(() => {
-    if (!settlementsVisible) { setExclusions([]); return; }
-    let cancelled = false;
-    fetch(`${baseUrl}province/settlements.json`)
-      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
-      .then((b: { groundTreatments?: GroundTreatment[] }) => {
-        // A floor keeps the grass out of its footprint, a raised deck only
-        // out of its leg/stair contacts, and both out of their door aprons
-        // (16h check-in 3 §5; owner 2026-09-25). No dressing is placed at a
-        // building's foot (check-in 2 ruling 1).
-        if (!cancelled) {
-          setExclusions((b.groundTreatments ?? [])
-            .filter((t) => Array.isArray(t.footprintM)).flatMap(treatmentClearancePolygons));
-        }
-      })
-      .catch((e) => { if (!cancelled) console.warn("groundcover: settlements fetch failed", e); });
-    return () => { cancelled = true; };
-  }, [baseUrl, settlementsVisible]);
+    if (settlementError) console.warn("groundcover: settlements fetch failed", settlementError);
+  }, [settlementError]);
+  useEffect(() => {
+    // A floor keeps the grass out of its footprint, a raised deck only
+    // out of its leg/stair contacts, and both out of their door aprons
+    // (16h check-in 3 §5; owner 2026-09-25). No dressing is placed at a
+    // building's foot (check-in 2 ruling 1).
+    setExclusions(((settlementBundle?.groundTreatments ?? []) as GroundTreatment[])
+      .filter((t) => Array.isArray(t.footprintM)).flatMap(treatmentClearancePolygons));
+  }, [settlementBundle]);
 
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));
@@ -1666,7 +1666,7 @@ export function Groundcover({
 
   // The inputs must have SETTLED before a tile is cached: otherwise the
   // tile is built from defaults and has to be thrown away (0084 round 11).
-  // `exclusions` is NOT a gate: settlements.json is ~10 MB and optional, so
+  // `exclusions` is NOT a gate: the settlement bundles are optional and fetched, so
   // waiting for it would hold the whole layer behind the slowest fetch on
   // the page. It arrives through the targeted invalidation below instead.
   // The small inputs still gate the first build (a tile built from their

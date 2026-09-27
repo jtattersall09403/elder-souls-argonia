@@ -54779,7 +54779,7 @@
       "yawDeg": -45.0
     }
   ],
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "settlements": [
     {
       "boundaryM": [
@@ -55743,6 +55743,7 @@
         "place.fixture.proving-ground-b.landmark.proving-ground-b.huntsman-sign",
         "place.fixture.proving-ground-b.landmark.proving-ground-b.sconce"
       ],
+      "promiseFills": {},
       "sockets": [],
       "socketsSchemaVersion": 1,
       "variants": [
@@ -57166,6 +57167,7 @@
         "place.fixture.proving-ground.landmark.proving-ground.huntsman-sign",
         "place.fixture.proving-ground.landmark.proving-ground.sconce"
       ],
+      "promiseFills": {},
       "sockets": [],
       "socketsSchemaVersion": 1,
       "variants": [
