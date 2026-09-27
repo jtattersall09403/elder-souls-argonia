@@ -42,7 +42,9 @@ import { jobsCap, pinPrefix } from "./jobs.mjs";
 import { loadWorkspaces, selectGates } from "./preflight_select.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const outDir = "/tmp/preflight";
+// Runner mode keeps its logs apart: a working-tree preflight in another lane
+// would otherwise overwrite them mid-read (2026-09-27).
+const outDir = process.argv.includes("--runner") ? "/tmp/preflight/runner" : "/tmp/preflight";
 mkdirSync(outDir, { recursive: true });
 
 // name -> [command, the regexes whose matching lines are worth showing]
