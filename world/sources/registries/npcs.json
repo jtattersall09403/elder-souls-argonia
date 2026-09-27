@@ -8460,7 +8460,7 @@
       "home": {
         "placeId": "place.imperial-fringe.claywater-station",
         "slotIndex": 1,
-        "socketId": "post.claywater-station.poler"
+        "socketId": "socket.claywater-station.npc-poler"
       },
       "role": "the landing's poler",
       "archetype": null,
@@ -8496,7 +8496,7 @@
       "home": {
         "placeId": "place.imperial-fringe.claywater-station",
         "slotIndex": 0,
-        "socketId": "post.claywater-station.well-keeper"
+        "socketId": "socket.claywater-station.npc-well-keeper"
       },
       "role": "the well-keeper",
       "archetype": null,

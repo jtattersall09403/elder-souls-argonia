@@ -107,10 +107,15 @@ def integrity_errors(root: Path = ws.REPO_ROOT) -> dict:
         pid, sid = home.get("placeId"), home.get("socketId")
         if pid and pid not in places:
             refs.append(f"npc {e['id']}: home.placeId {pid!r} is no place")
-        if sid and sid not in placed.get(pid, set()) and sid not in (
-                (places.get(pid) or {}).get("sockets") or {}).get("post", []):
-            refs.append(f"npc {e['id']}: home.socketId {sid!r} is neither a placed socket nor a "
-                        f"sockets.post id of {pid}")
+        # a laid-out place is the home of its interactables (0104 decision
+        # 2): its npcs stand on placed sockets only; a catalogue post id is
+        # the promise, allowed only until the place is laid out
+        if sid and pid in placed:
+            if sid not in placed[pid]:
+                refs.append(f"npc {e['id']}: home.socketId {sid!r} is not a placed socket of "
+                            f"{pid}, which is laid out (npc_roster.slot_socket reads the layout)")
+        elif sid and sid not in ((places.get(pid) or {}).get("sockets") or {}).get("post", []):
+            refs.append(f"npc {e['id']}: home.socketId {sid!r} is not a sockets.post id of {pid}")
     route_ids = set()
     registry = root / "world/sources/routes/registry.json"
     if registry.exists():

@@ -31,6 +31,17 @@ describe("parseSettlementSockets", () => {
     expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [{ ...base, id: "x", kind: "loot" }] })).toThrow(/not a socket kind/);
   });
 
+  it("reads the 0104 station and sign sockets and refuses them malformed", () => {
+    const forge = { ...base, id: "station.forge", kind: "station", stationClass: "forge" };
+    const sign = { ...base, id: "sign.p1", kind: "sign", pointsTo: ["route.a-b", "place.r.q"] };
+    const got = parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [forge, sign] });
+    expect(got.map((s) => s.kind)).toEqual(["station", "sign"]);
+    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [{ ...forge, stationClass: undefined }] }))
+      .toThrow(/no stationClass/);
+    expect(() => parseSettlementSockets({ id: "s", socketsSchemaVersion: 1, sockets: [{ ...sign, pointsTo: ["north"] }] }))
+      .toThrow(/pointsTo/);
+  });
+
   it("keeps the socket kinds equal to the vocabulary record", () => {
     const vocab = JSON.parse(readFileSync(fileURLToPath(new URL(
       "../../../../world/sources/vocab/socket-vocabulary.json", import.meta.url)), "utf8"));

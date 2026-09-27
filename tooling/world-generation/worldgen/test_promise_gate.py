@@ -96,6 +96,39 @@ def test_door_type_reads_the_xtel_record():
     assert door_types.door_type({}, "kotm:argonia/mudhuts/mudhut01", shells) == "swing"
 
 
+def test_door_type_reads_the_claim_before_the_shell():
+    """Planner ruling 2026-09-27 (T2 rec 4): tier A or a reserved load pool is
+    `load` whatever the shell; an open-fronted building with no interior (the
+    stable's reserved pool) has no door; no claim falls to the XTEL record.
+    Failing first: Claywater's door 4 (open stable on farmhouse02, which has an
+    XTEL elsewhere) read `load`, door 3 (mudhut reserved for Phase 12) `swing`."""
+    shells = frozenset({"vanilla:architecture/farmhouse/farmhouse02"})
+    stable = {"interiorClaim": {"tier": "reserved", "pool": "stable"}}
+    assert door_types.door_type(stable, "vanilla:architecture/farmhouse/farmhouse02", shells) is None
+    hut = {"interiorClaim": {"tier": "reserved", "pool": "kotm-mudhut"}}
+    assert door_types.door_type(hut, "kotm:argonia/mudhuts/mudhut01", shells) == "load"
+    tier_a = {"interiorClaim": {"tier": "A", "cellId": "KeebaHouseFisher"}}
+    assert door_types.door_type(tier_a, "kotm:argonia/mudhuts/mudhut01", shells) == "load"
+    assert door_types.door_type({}, "kotm:argonia/mudhuts/mudhut01", shells) == "swing"
+
+
+def test_claim_stamps_door_type_and_drops_an_open_front_door(monkeypatch):
+    from worldgen import blueprint_interiors as bi
+    results = {"p-a": {"tier": "A", "cellId": "C", "plugin": "P", "why": "w",
+                       "doors": [{"refId": "0001", "arrivalMarker": {"positionM": [0, 0, 0], "yawDeg": 0}}]},
+               "p-hut": {"tier": "reserved", "pool": "kotm-mudhut", "why": "w"},
+               "p-stable": {"tier": "reserved", "pool": "stable", "why": "open stable"}}
+    monkeypatch.setattr(bi, "claim_for_parcel", lambda parcel, *a, **k: results[parcel["id"]])
+    monkeypatch.setattr(bi, "game_marker", lambda m: m)
+    bp = {"parcels": [{"id": pid, "assetRef": "x:shell"} for pid in results],
+          "doors": [{"id": f"door.{pid}", "parcelId": pid} for pid in results]}
+    rows = bi.claim_doors(bp, lib={}, links={})
+    assert {r["door"]: r["doorType"] for r in rows} == {
+        "door.p-a": "load", "door.p-hut": "load", "door.p-stable": None}
+    assert [d["id"] for d in bp["doors"]] == ["door.p-a", "door.p-hut"]
+    assert all(d["doorType"] == "load" for d in bp["doors"])
+
+
 def test_the_write_lock_serialises_writers(tmp_path, monkeypatch):
     import subprocess
     import sys

@@ -722,8 +722,9 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
     """Write `interiorClaim` onto every door of a blueprint: tier A with
     cellId/plugin/why, the paired `interiorLoadDoorRef` and this door's
     `arrivalMarker` (the bundle's cell frame: game y-up metres),
-    or tier reserved/pool/why; returns one report row per door with the
-    candidates. Doors of one parcel take the paired load doors in order
+    or tier reserved/pool/why, and its `doorType` (door_types: load or
+    swing; a door of an open-fronted building with no interior is dropped);
+    returns one report row per door with the candidates. Doors of one parcel take the paired load doors in order
     (entrance i -> the door paired to it). Existing claim fields
     (interiorRef, sizeClass, owner, culture) are kept."""
     lib = lib if lib is not None else library()
@@ -755,6 +756,8 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
                                       sourcing=sourcing)
         if cache[pid]["tier"] == "A":
             held.add(cache[pid]["cellId"])
+    from .door_types import door_type
+    dropped: set[int] = set()
     for door in doors:
         pid = door.get("parcelId")
         parcel = parcels.get(pid) or {}
@@ -785,8 +788,18 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
             claim["pool"] = result["pool"]
             claim["why"] = result["why"]
         door["interiorClaim"] = claim
+        # the door's type from its claim first (door_types; planner ruling
+        # 2026-09-27): None = no interior and an open front, so no door
+        kind = door_type(door, parcel.get("assetRef"))
+        if kind is None:
+            door.pop("doorType", None)
+            dropped.add(id(door))
+        else:
+            door["doorType"] = kind
         out.append({"door": door.get("id"), "parcel": parcel.get("id"),
-                    "assetRef": parcel.get("assetRef"), **result})
+                    "assetRef": parcel.get("assetRef"), "doorType": kind, **result})
+    if dropped:
+        bp["doors"] = [d for d in doors if id(d) not in dropped]
     return out
 
 

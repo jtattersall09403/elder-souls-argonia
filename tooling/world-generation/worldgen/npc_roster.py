@@ -769,9 +769,25 @@ def _existing_entries() -> dict[str, dict]:
     return {e["id"]: e for e in json.loads(REGISTRY.read_text()).get("entries", [])}
 
 
-def slot_socket(place: dict, slot_id: str) -> str | None:
-    """The ONE slot -> post-socket rule (rule 7). Returns the socket id
-    from the home record's `sockets.post` (0104: renamed from `station`), or None."""
+def _layouts() -> dict[str, dict]:
+    from .promise_gate import layouts
+    return layouts()
+
+
+def slot_socket(place: dict, slot_id: str, layouts: dict[str, dict] | None = None) -> str | None:
+    """The ONE slot -> post-socket rule (rule 7). A laid-out place (its
+    `*.layout.json` exists) is the home of its interactables (0104 decision
+    2): the placed `npc` socket whose `rosterSlotId` is the slot, the
+    lexicographically first when one person has several posts (the bare
+    `npc-<role>` socket the others extend), or None. Otherwise the id from
+    the home record's `sockets.post` (the promise; 0104 renamed it from
+    `station`), or None. Pass ``layouts`` to read the layout folder once."""
+    lay = (_layouts() if layouts is None else layouts).get(place.get("id") or "")
+    if lay is not None:
+        from .promise_gate import layout_sockets
+        ids = sorted(op["id"] for op in layout_sockets(lay)
+                     if op.get("kind") == "npc" and op.get("rosterSlotId") == slot_id and op.get("id"))
+        return ids[0] if ids else None
     declared = list((place.get("sockets") or {}).get("post") or [])
     renamed = SOCKET_RENAMES.get((place["id"], slot_id))
     if renamed is not None:
@@ -803,6 +819,7 @@ def unmatched_sockets(entries: list[dict], places: list[dict] | None = None) -> 
 
 def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
     places = live_places(places)
+    lays = _layouts()                   # read once: slot_socket's laid-out places
     priors = json.loads(PRIORS.read_text())
     place_names = {p["name"] for p in load_places()}
     picker = NamePicker(place_names)
@@ -865,7 +882,7 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
                 "sex": sex,
                 "factionIds": pick_factions(place, text),
                 "home": {"placeId": place["id"], "slotIndex": index,
-                         "socketId": slot_socket(place, slot["slotId"])},
+                         "socketId": slot_socket(place, slot["slotId"], lays)},
                 "role": text,
                 "archetype": None,
                 "statblock": None,
@@ -955,7 +972,7 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
             "sex": sex,
             "factionIds": pick_factions(place, text),
             "home": {"placeId": place["id"], "slotIndex": index,
-                     "socketId": None if index is None else slot_socket(place, slots[index]["slotId"])},
+                     "socketId": None if index is None else slot_socket(place, slots[index]["slotId"], lays)},
             "role": text,
             "archetype": None, "statblock": None, "hostility": None,
             "fightFleeAlarm": None, "marks": [], "schedules": [], "patrols": [],

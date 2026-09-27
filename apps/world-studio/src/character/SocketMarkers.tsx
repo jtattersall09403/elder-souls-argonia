@@ -17,6 +17,7 @@ export function socketsOverlayEnabled(search: string = window.location.search): 
 
 const KIND_COLOUR: Record<SettlementSocket["kind"], string> = {
   npc: "#ff4fd8", idle: "#4fd2ff", item: "#ffd24f", container: "#ff9a3c",
+  station: "#c8a064", sign: "#9cffd8",
   encounter: "#ff3c3c", fauna: "#8cff4f", ambience: "#b89cff", marker: "#ffffff",
 };
 const POST_M = 1.8;

@@ -1,13 +1,19 @@
-"""A door's type, mined from the door-links record (decision 0104 decision 4).
+"""A door's type (decision 0104 decision 4; planner ruling 2026-09-27, walk 2
+T2 rec 4): the claim first, then the plugin data, never the piece's name.
 
-`load` is a cell transition; `swing` opens in place by animation and has no
-cell. The rule reads the plugin data, never the piece's name: the door-links
-record (`world/sources/placement/exterior-interior-links.json`, mined by
-`worldgen.mine_door_links`) holds exactly the exterior doors that carry an
-XTEL (a teleport to an interior door), keyed by the shell they open. So a
-door is `load` when its claim carries the XTEL target (`interiorClaim.
-interiorLoadDoorRef`, copied from that record by `blueprint_interiors
---claim`) or its shell has a row in the record; otherwise `swing`.
+1. A door whose `interiorClaim` is tier A, or `reserved` to a load pool (a
+   Phase 12 interior will be cut for it), is `load`: a cell transition.
+2. A building with no interior and an open front (a claim reserved to a
+   `NO_INTERIOR_SERVICES` pool, e.g. the open stable) has NO door record:
+   `door_type` returns None and `blueprint_interiors --claim` drops the door.
+3. With no claim, the door-links record decides
+   (`world/sources/placement/exterior-interior-links.json`, mined by
+   `worldgen.mine_door_links`, holds exactly the exterior doors that carry an
+   XTEL, keyed by the shell they open): a shell with a row is `load`; a shell
+   whose plugin door reference has no XTEL is `swing` (opens in place by
+   animation, no cell).
+
+`blueprint_interiors --claim` stamps the result as the door's `doorType`.
 
     python3 -m worldgen.door_types --blueprint <place-id>     # prints each door's type
 """
@@ -32,17 +38,23 @@ def linked_shells(path: Path = LINKS) -> frozenset[str]:
                      if any(r.get("interiorCell") for r in rows or []))
 
 
-def door_type(door: dict, shell_asset: str | None, shells: frozenset[str] | None = None) -> str:
-    """`load` when the door-links record gives the door an XTEL, else `swing`."""
-    if (door.get("interiorClaim") or {}).get("interiorLoadDoorRef"):
+def door_type(door: dict, shell_asset: str | None,
+              shells: frozenset[str] | None = None) -> str | None:
+    """`load`, `swing`, or None (no door record: no interior, open front);
+    the rule order is the module docstring's."""
+    claim = door.get("interiorClaim") or {}
+    if claim.get("tier") == "A" or claim.get("interiorLoadDoorRef"):
         return "load"
+    if claim.get("tier") == "reserved":
+        from .blueprint_interiors import NO_INTERIOR_SERVICES
+        return None if claim.get("pool") in NO_INTERIOR_SERVICES else "load"
     shells = linked_shells() if shells is None else shells
     return "load" if shell_asset and shell_asset in shells else "swing"
 
 
-def blueprint_door_types(bp: dict, shells: frozenset[str] | None = None) -> dict[str, str]:
-    """door id -> its type, for every door of a blueprint (the shell is the
-    door's parcel `assetRef`)."""
+def blueprint_door_types(bp: dict, shells: frozenset[str] | None = None) -> dict[str, str | None]:
+    """door id -> its type (None: the door should not exist), for every door
+    of a blueprint (the shell is the door's parcel `assetRef`)."""
     parcels = {p["id"]: p for p in bp.get("parcels") or []}
     return {d["id"]: door_type(d, (parcels.get(d.get("parcelId")) or {}).get("assetRef"), shells)
             for d in sorted(bp.get("doors") or [], key=lambda d: d["id"])}

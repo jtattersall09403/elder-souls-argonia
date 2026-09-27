@@ -369,12 +369,18 @@ def test_a_deleted_slots_name_is_free_again(tmp_path, monkeypatch):
 def test_claywater_npcs_stand_at_their_station_sockets(generated):
     entries, _ = generated
     homes = {e["id"]: e["home"]["socketId"] for e in entries}
-    assert homes["npc.imperial-fringe.claywater-station.well-keeper"] == "post.claywater-station.well-keeper"
-    assert homes["npc.imperial-fringe.claywater-station.landing-s-poler"] == "post.claywater-station.poler"
+    # a laid-out place: the placed npc socket by rosterSlotId (0104 decision 2;
+    # T2 rec 1), the first of a person's several posts
+    assert homes["npc.imperial-fringe.claywater-station.well-keeper"] == \
+        "socket.claywater-station.npc-well-keeper"
+    assert homes["npc.imperial-fringe.claywater-station.landing-s-poler"] == \
+        "socket.claywater-station.npc-poler"
 
 
 def test_no_socketless_npc_escapes_the_unmatched_list(live, generated):
+    from worldgen.promise_gate import layout_sockets, layouts
     entries, _ = generated
+    lays = layouts()
     listed = {row["npcId"] for row in nr.unmatched_sockets(entries, live)}
     by_id = {p["id"]: p for p in live}
     for e in entries:
@@ -384,7 +390,10 @@ def test_no_socketless_npc_escapes_the_unmatched_list(live, generated):
         if (place.get("sockets") or {}).get("post") and e["home"]["socketId"] is None:
             assert e["id"] in listed, e["id"]
         if e["home"]["socketId"] is not None:
-            assert e["home"]["socketId"] in place["sockets"]["post"], e["id"]
+            # a laid-out place's placed npc socket, else a catalogue post id
+            placed = {op["id"] for op in layout_sockets(lays.get(place["id"]))}
+            home_table = placed if place["id"] in lays else set(place["sockets"]["post"])
+            assert e["home"]["socketId"] in home_table, e["id"]
 
 
 def test_slot_socket_rule():
@@ -393,3 +402,14 @@ def test_slot_socket_rule():
     assert nr.slot_socket(place, "well-keeper") == "post.p.well-keeper"
     assert nr.slot_socket(place, "keeper") is None
     assert nr.slot_socket({"id": "place.r.q", "sockets": {"post": []}}, "poler") is None
+
+
+def test_a_laid_out_place_resolves_the_placed_socket_by_roster_slot():
+    place = {"id": "place.r.p", "sockets": {"post": ["post.p.poler"]}}
+    lay = {"placeId": "place.r.p", "ops": [
+        {"op": "socket", "id": "socket.p.npc-poler-nets", "kind": "npc", "rosterSlotId": "landing-s-poler"},
+        {"op": "socket", "id": "socket.p.npc-poler", "kind": "npc", "rosterSlotId": "landing-s-poler"},
+        {"op": "socket", "id": "socket.p.idle-poler", "kind": "idle"}]}
+    layouts = {"place.r.p": lay}
+    assert nr.slot_socket(place, "landing-s-poler", layouts) == "socket.p.npc-poler"
+    assert nr.slot_socket(place, "keeper", layouts) is None       # no post socket for it

@@ -107,3 +107,21 @@ def test_the_ferry_poler_fixed_passes(tmp_path):
     out = integrity.integrity_errors(_root(tmp_path, fixed=True))
     assert out["duplicates"] == [] and out["references"] == [] and out["schema"] == [], out
     assert out["promises"] == {CLAYWATER: []}
+
+
+def test_an_npc_of_a_laid_out_place_must_stand_on_a_placed_socket(tmp_path):
+    """T2 rec 1 (planner ruling 2026-09-27): once a place is laid out its
+    npcs' home.socketId is a placed npc socket; the catalogue post id (the
+    promise) is no longer accepted. Failing first: the gate allowed
+    post.claywater-station.poler for the poler."""
+    root = _root(tmp_path, fixed=True)
+    npc = {"id": "npc.imperial-fringe.claywater-station.landing-s-poler",
+           "home": {"placeId": CLAYWATER, "slotIndex": 1, "socketId": "post.claywater-station.poler"}}
+    reg = root / "world/sources/registries/npcs.json"
+    reg.parent.mkdir(parents=True, exist_ok=True)
+    reg.write_text(json.dumps({"schemaVersion": 1, "entries": [npc]}))
+    out = integrity.integrity_errors(root)
+    assert any("is not a placed socket" in e and npc["id"] in e for e in out["references"]), out
+    npc["home"]["socketId"] = "socket.claywater-station.npc-poler"
+    reg.write_text(json.dumps({"schemaVersion": 1, "entries": [npc]}))
+    assert integrity.integrity_errors(root)["references"] == []

@@ -40,6 +40,10 @@ export interface SettlementPlacement {
    * place in the run, and the cumulative mined rise (m) the compile laid it
    * at. The runtime seats the whole run as one rigid chain on it. */
   run?: SettlementRun;
+  /** Bundle schema 4 (16k walk 2 ruling yFinal): positionM[1] is the
+   * workbench's measured pivot height, applied verbatim (anchorPlacement never
+   * re-anchors it). Absent (every schema-3 row) means "seat on the terrain". */
+  yFinal?: true;
   collision: {
     frame: string;
     kind: string;
@@ -85,8 +89,10 @@ export interface GroundTreatment {
 export const SETTLEMENT_SOCKETS_SCHEMA_VERSION = 1;
 
 /** Socket kinds, as in world/sources/vocab/socket-vocabulary.json. */
+/** Equal to `world/sources/vocab/socket-vocabulary.json` `socketKinds`, in its
+ * order (sockets.test.ts); `station` and `sign` came with decision 0104. */
 export const SETTLEMENT_SOCKET_KINDS = [
-  "npc", "idle", "item", "container", "encounter", "fauna", "ambience", "marker",
+  "npc", "idle", "item", "container", "station", "sign", "encounter", "fauna", "ambience", "marker",
 ] as const;
 export type SettlementSocketKind = (typeof SETTLEMENT_SOCKET_KINDS)[number];
 
@@ -114,6 +120,10 @@ export type SettlementSocket =
       kind: "npc"; rosterSlotId: string; role?: string; schedule: SettlementScheduleEntry[];
     })
   | (SettlementSocketBase & { kind: "idle"; activity: string })
+  /** A work station (0104): `stationClass` is a vocabulary `stationClasses` key. */
+  | (SettlementSocketBase & { kind: "station"; stationClass: string })
+  /** A signpost (0104): one `route.` or `place.` id per arm. */
+  | (SettlementSocketBase & { kind: "sign"; pointsTo: string[] })
   | (SettlementSocketBase & {
       kind: "item"; itemClass: string; valueBand: string; contentPending?: boolean;
     })
@@ -126,7 +136,8 @@ export type SettlementSocket =
     });
 
 export interface SettlementBundle {
-  schemaVersion: 3;
+  /** 3, or 4 when placements may carry `yFinal` (additive: a 3 reads as none final). */
+  schemaVersion: 3 | 4;
   collisionFrame: string;
   lod: {
     tiers: number;
@@ -383,6 +394,9 @@ export interface SettlementKitLight {
   flicker?: { frequency: number; intensityAmplitude: number; movementAmplitude: number };
   flags: string[];
   offsetM?: [number, number, number];
+  /** What the fixture is (kit config, mined with the record): brazier, cook-fire,
+   * forge and campfire burn by day too (lighting.ts `ALWAYS_LIT_KINDS`). */
+  fixtureKind?: string;
 }
 
 /**

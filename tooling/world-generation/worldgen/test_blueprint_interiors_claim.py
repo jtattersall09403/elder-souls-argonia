@@ -341,10 +341,16 @@ def test_the_band_holds_the_measured_pod_pairs():
 
 
 def test_a_stable_is_reserved_to_the_stable_pool_and_claims_no_house():
-    """Ruling 4 (round 4): no plugin authors a stable interior."""
-    claim, row = _claim(_bp(["stable"], use="storage"))
+    """Ruling 4 (round 4): no plugin authors a stable interior; and an
+    open-fronted building with no interior has no door record (door-type
+    ruling 2026-09-27), so the claim drops its door."""
+    bp = _bp(["stable"], use="storage")
+    door = bp["doors"][0]
+    rows = bi.claim_doors(bp, LIB, LINKS, PROFILE)
+    claim, row = door["interiorClaim"], rows[0]
     assert claim["tier"] == "reserved" and claim["pool"] == "stable"
     assert "cellId" not in claim and row["candidates"] == []
+    assert row["doorType"] is None and bp["doors"] == []
 
 
 def test_the_linked_shell_itself_is_never_part_of_the_room():

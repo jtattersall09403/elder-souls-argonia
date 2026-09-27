@@ -53,6 +53,14 @@ export function socketErrors(raw: unknown): string[] {
     case "item":
       if (typeof s.itemClass !== "string") out.push(`${id}: item socket has no itemClass`);
       break;
+    case "station":
+      if (typeof s.stationClass !== "string") out.push(`${id}: station socket has no stationClass`);
+      break;
+    case "sign":
+      if (!Array.isArray(s.pointsTo) || !s.pointsTo.length
+        || !s.pointsTo.every((t) => typeof t === "string" && /^(route|place)\./.test(t)))
+        out.push(`${id}: sign socket's pointsTo is not one route. or place. id per arm`);
+      break;
     case "container":
       if (typeof s.containerClass !== "string") out.push(`${id}: container socket has no containerClass`);
       if (!isStrOrNull(s.fillRule)) out.push(`${id}: fillRule is not a string or null`);

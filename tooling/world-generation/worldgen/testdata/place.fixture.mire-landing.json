@@ -1298,7 +1298,7 @@
       },
       {
         "id": "socket.mire-landing.factor",
-        "kind": "station",
+        "kind": "post",
         "parcelId": "parcel.mire-landing.factor-house",
         "ownerQuestTier": 3,
         "notes": "The factor at home, where the landing's quest begins.",
