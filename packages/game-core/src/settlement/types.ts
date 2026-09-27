@@ -394,6 +394,10 @@ export interface SettlementKitLight {
   flicker?: { frequency: number; intensityAmplitude: number; movementAmplitude: number };
   flags: string[];
   offsetM?: [number, number, number];
+  /** Where the flame seats (the wick, glTF Y-up metres from the pivot), measured
+   * on the piece's mesh (kit config `flameEvidence`); absent, the flame sits on
+   * the top of the piece's bounds. `offsetM` places the point light only. */
+  flameOffsetM?: [number, number, number];
   /** What the fixture is (kit config, mined with the record): brazier, cook-fire,
    * forge and campfire burn by day too (lighting.ts `ALWAYS_LIT_KINDS`). */
   fixtureKind?: string;

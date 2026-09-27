@@ -19,9 +19,9 @@
  *   vanilla's candle flame (works-v1 `effectTextures`, fx:flame-billboard).
  * - A window-glow facing of an architecture piece is a fixture too: one light
  *   0.5 m inside the wall.
- * - The flame and the light stand at the LIGH record's `offsetM` (the
- *   placed light's median offset in the piece frame) where recorded, else on
- *   the top of the piece's bounds.
+ * - The light stands at the LIGH record's `offsetM` (the placed light's
+ *   median offset in the piece frame), the flame at its `flameOffsetM` (the
+ *   wick measured on the mesh); each absent, on the top of the piece's bounds.
  * - `SettlementLightFixtures` owns a FIXED pool of `LIGHT_BUDGET` point
  *   lights, re-assigned to the nearest fixtures once a second; the pool is
  *   visible only while one of them burns (lamps by night, fires always) and
@@ -150,8 +150,10 @@ function srgbColour(rgb: readonly [number, number, number]): THREE.Color {
  * The point light stands at the LIGH record's `offsetM` (glTF Y-up metres from
  * the pivot) where recorded: vanilla places that light BESIDE and above the
  * piece (lantern median 0.61 m off, brazier 1.3 m up), so it is never the
- * flame's position. The flame billboard always sits on the top of the
- * piece's own bounds; with no offset the light shares the flame's point.
+ * flame's position. The flame billboard seats on the record's `flameOffsetM`
+ * (the wick measured on the mesh: the lantern's candle top, 0.103 m) where
+ * recorded, else on the top of the piece's own bounds; with no `offsetM` the
+ * light shares the flame's point.
  */
 export function fixtureFromPiece(
   id: string,
@@ -162,7 +164,10 @@ export function fixtureFromPiece(
   const { radiusM, colour } = fixtureLightOf(meta?.light);
   const offset = meta?.light?.offsetM;
   const centre = localBox.getCenter(new THREE.Vector3());
-  const flameAt = new THREE.Vector3(centre.x, localBox.max.y + FLAME_SIZE_M * 0.4, centre.z)
+  const seat = meta?.light?.flameOffsetM;
+  const flameAt = (seat
+    ? new THREE.Vector3(seat[0], seat[1] + FLAME_SIZE_M * 0.4, seat[2])
+    : new THREE.Vector3(centre.x, localBox.max.y + FLAME_SIZE_M * 0.4, centre.z))
     .applyMatrix4(matrix);
   const lightAt = offset ? new THREE.Vector3(...offset).applyMatrix4(matrix) : flameAt.clone();
   const ownFlame = (meta?.additiveMaterials?.length ?? 0) > 0;

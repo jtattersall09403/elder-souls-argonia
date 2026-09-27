@@ -186,20 +186,21 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
 });
 
 describe("the recorded LIGH offset places the light, never the flame", () => {
-  it("the lantern's light sits at its recorded offset and its flame on its own bounds", () => {
+  it("the lantern's light sits at its recorded offset and its flame on its candle's wick", () => {
     // settlement-imperial-v1 candlelanternwithcandle01 (DefaultCandleLight01NSDesat, n 246)
     const lantern: SettlementKitAssetMeta = { light: { formId: "00088241", burnSeconds: -1,
       radiusUnits: 256, colourRgb: [242, 240, 223], flags: ["dynamic", "flicker", "portalStrict"],
-      offsetM: [0.03, 0.63, 0.05], fixtureKind: "lantern" } };
+      offsetM: [0.03, 0.63, 0.05], flameOffsetM: [0.0037, 0.103, -0.0015], fixtureKind: "lantern" } };
     const bounds = new THREE.Box3(new THREE.Vector3(-0.129, -0.024, -0.12), new THREE.Vector3(0.131, 0.591, 0.127));
     const at = new THREE.Matrix4().makeTranslation(10, 2, 5);
     const fixture = fixtureFromPiece("l", lantern, at, bounds);
     // vanilla stands the LIGH beside and above the piece (review: a brazier's
     // offset [-0.09, 1.3, -0.18] floated its flame 0.8 m over the bowl)
     expect(fixture.position.toArray().map((v) => +v.toFixed(6))).toEqual([10.03, 2.63, 5.05]);
-    const top = 0.591 + 0.4 * (fixture.flame?.sizeM ?? 0);
+    // the flame seats on the candle submesh top (0.103 m), not the frame top (0.591 m)
+    const wick = 0.103 + 0.4 * (fixture.flame?.sizeM ?? 0);
     expect(fixture.flame?.position.toArray().map((v) => +v.toFixed(6)))
-      .toEqual([10.001, +(2 + top).toFixed(6), 5.0035]);
+      .toEqual([10.0037, +(2 + wick).toFixed(6), 4.9985]);
     expect(fixture.radiusM).toBeCloseTo(256 * 0.01428, 6);
     const srgb = fixture.colour.clone().convertLinearToSRGB();
     expect([srgb.r, srgb.g, srgb.b].map((v) => Math.round(v * 255))).toEqual([242, 240, 223]);
