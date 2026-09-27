@@ -65,7 +65,7 @@ import {
   type KitSpecies,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
-import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { placeGround, sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 import {
   applyWindSway,
@@ -94,7 +94,9 @@ import {
   patchEntriesNear,
   survivesPatchesIn,
   type IndexedPatch,
+  type VegetationPatchesDoc,
 } from "@elder-souls/game-core/vegetation/vegetationPatches";
+import { clearancesOfBundle, withPlaceClearances } from "@elder-souls/game-core/vegetation/clearanceFilter";
 import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 
@@ -1155,10 +1157,17 @@ export function Groundcover({
       })
       .catch(() => undefined);
     // The typed clearance patches, published beside the vegetation bundles —
-    // the same list the patch stage applied to them (16f, decision 0070).
-    fetch(`${baseUrl}province/vegetation-patches.json`)
-      .then((r) => r.ok ? r.json() : Promise.reject(new Error("no patches")))
-      .then((b) => { if (!cancelled) setClearanceIndex(indexPatches(b)); })
+    // the same list the patch stage applied to them (16f, decision 0070) —
+    // plus every place's clearance from the shared ground sidecar, the list
+    // the vegetation cells filter on (decision 0102).
+    Promise.all([
+      fetch(`${baseUrl}province/vegetation-patches.json`)
+        .then((r) => r.ok ? r.json() as Promise<VegetationPatchesDoc> : Promise.reject(new Error("no patches"))),
+      placeGround(baseUrl),
+    ])
+      .then(([b, ground]) => {
+        if (!cancelled) setClearanceIndex(indexPatches(withPlaceClearances(b, clearancesOfBundle(ground))));
+      })
       .catch((e) => { if (!cancelled) settleInput("patches", e); })
       .finally(() => { if (!cancelled) settleInput("patches"); });
     sharedControlRaster(baseUrl)

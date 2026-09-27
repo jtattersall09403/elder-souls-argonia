@@ -43,7 +43,7 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
     surface: "system",
     text: "You have reached the edge of Black Marsh. You can go no further.",
     note:
-      "Shown once at the invisible wall on the province border (16d). The land visible beyond the border is scenery, so the line states the stop and promises nothing else. Reviewed 2026-09-15: text unchanged.",
+      "Shown once at the invisible wall on the province border. The land visible beyond the border is scenery, so the line states the stop and promises nothing else. Reviewed 2026-09-15: text unchanged.",
   },
   {
     id: "text.system.player-died",
@@ -323,22 +323,22 @@ export const FERRY_TEXT: readonly TextEntry[] = [
   {
     id: "text.ferry.drowning-gate.name",
     surface: "descriptive",
-    text: "The gate ferry",
-    note: "The seasonal crossing at the Drowning Gate, on the Blackwood Road.",
+    text: "The Claywater ford ferry",
+    note: "The wet-season plank ferry over the flooded ford at Claywater Station, on the Blackwood Road. Run by the landing's poler (roster: Varro Draco, on `station.claywater-station.poler`); the id keeps its old Drowning Gate name (stable ids).",
   },
   {
     id: "text.ferry.drowning-gate.hail",
     surface: "dialogue",
     text:
-      "The gate is down until the rains stop. Fifteen drakes to go round it by water. My brother takes the arguments.",
+      "The ford is under water until the rains stop. 15 drakes and I pole you across the ford. The well-keeper charges her own fee.",
     note:
-      "One of the two families Gideon pays to swing the monsoon barrier. The fare is a monopoly price and he knows it; the dry wit is structural (style guide §2.2): arguing is an established part of the service, handled by the brother. Reviewed 2026-09-09.",
+      "Claywater Station's poler (roster: Varro Draco), who runs the plank ferry while the ford is flooded. The fare is a monopoly price. The last line points at LF83: the well and the landing charge the same travellers separately.",
   },
   {
     id: "text.ferry.drowning-gate.refusal",
     surface: "dialogue",
-    text: "Gate is open. In the dry season there is no fare to take.",
-    note: "Dry season, when the reach is a ford and the service does not run.",
+    text: "The ford is low. Walk it. Nobody pays me to watch them wade.",
+    note: "Dry season, when the ford is shallow enough to wade and the ferry lies pulled up on the bank.",
   },
   {
     id: "text.ferry.blackrose-lake.name",
@@ -546,13 +546,13 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.rootworm.underground-express.name",
     surface: "descriptive",
     text: "The Underground Express",
-    note: "Service-menu label for the rootworm network. Placeholder until the stations are re-authored in 16g.",
+    note: "Service-menu label for the rootworm network. Placeholder until the rootworm stations are re-authored.",
   },
   {
     id: "text.rootworm.underground-express.hail",
     surface: "dialogue",
     text: "The worm is awake. Say where you are going and stand in the mouth.",
-    note: "The Waykeeper at a root node. Placeholder line until the hero Hist nodes are authored in 16g.",
+    note: "The Waykeeper at a root node. Placeholder line until the hero Hist nodes are authored.",
   },
   {
     id: "text.canoe.slough-point-quinrawl-anchorage.name",
@@ -675,6 +675,32 @@ export const TRAVEL_UI_TEXT: readonly TextEntry[] = [
 ];
 
 /**
+ * Doors (0081 decision 4, 0103 decision 4): the prompt at a door the player
+ * can use, and the line a closed door gives. Register: the game talking to
+ * the player, one or two words for the prompts.
+ */
+export const DOOR_UI_TEXT: readonly TextEntry[] = [
+  {
+    id: "text.door.prompt-enter",
+    surface: "system",
+    text: "Enter",
+    note: "Shown within 1.5 m of a door that opens onto a furnished interior. The action key label follows it.",
+  },
+  {
+    id: "text.door.prompt-leave",
+    surface: "system",
+    text: "Leave",
+    note: "Shown within 1.5 m of an interior's exit door. The action key label follows it.",
+  },
+  {
+    id: "text.door.closed",
+    surface: "system",
+    text: "The door will not open.",
+    note: "Shown within 1.5 m of a door whose interior is not built yet, or a building nobody enters. Pressing the action key does nothing more.",
+  },
+];
+
+/**
  * The inventory screen and the items with hand-written names (combat-sandbox
  * lane round 3, decision 0091). Labels are chrome; the rejection lines tell
  * the player why a click did nothing, so they state the rule and stop.
@@ -773,6 +799,7 @@ export const CATALOGUE = buildCatalogue([
   ...FERRY_TEXT,
   ...TRAVEL_TEXT,
   ...TRAVEL_UI_TEXT,
+  ...DOOR_UI_TEXT,
   ...HYDROLOGY_NAME_TEXT,
   ...PLACE_NAME_TEXT,
   ...QUEST_TITLE_TEXT,

@@ -55,6 +55,11 @@ import {
 import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
 import { isSolid, type FloraCollider, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import {
+  clearancesOfBundle,
+  makeClearanceFilter,
+  type ClearanceFilter,
+} from "@elder-souls/game-core/vegetation/clearanceFilter";
+import {
   buildCellJob,
   cellRungs,
   copiesPerKey,
@@ -103,6 +108,7 @@ import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { groundHeightM } from "./terrainHeight";
 import { STUDIO_TOOLS } from "../studioTools";
+import { placeGround } from "../character/chunkStore";
 import {
   ANCHOR_PIVOT_TERRAIN,
   decodeVegetationBundle,
@@ -527,6 +533,21 @@ export function Vegetation({
   const gateDirty = useRef(true);
   const fps = useRef({ sum: 0, count: 0, value: 0, last: 0 });
   const [revision, setRevision] = useState(0);
+  // The places' vegetation clearance travels with the place (0102), read from
+  // the shared ground sidecar: no cell builds until it is read (an unreadable
+  // sidecar clears nothing), so no plant is ever drawn on a place's built
+  // ground and then taken away.
+  const [clearance, setClearance] = useState<ClearanceFilter | null>(null);
+  useEffect(() => {
+    let live = true;
+    placeGround(baseUrl)
+      .then((doc) => { if (live) setClearance(makeClearanceFilter(clearancesOfBundle(doc))); })
+      .catch((error: unknown) => {
+        console.warn("[vegetation-cells] no place clearance", error);
+        if (live) setClearance(makeClearanceFilter([]));
+      });
+    return () => { live = false; };
+  }, [baseUrl]);
   /** 32 m cells that hold at least one instance, and how many — recomputed
    * when a cell is built or dropped, never per frame. `occupiedList` is the
    * same set as a flat (cellX, cellZ) array for the mask sweep. */
@@ -616,9 +637,13 @@ export function Vegetation({
     const out = new Map<string, CellSpeciesParams>();
     if (!kit || !index) return out;
     const reach = new Map<string, number>();
+    // half the footprint's longer side, land kit first: the reach a place's
+    // clearance judges (`apply_vegetation_patches.species_radii`)
+    const clearRadius = new Map<string, number>();
     for (const a of [...(manifest?.assets ?? []), ...(underwaterManifest?.assets ?? [])]) {
       if (!reach.has(a.id)) {
         reach.set(a.id, Math.hypot(a.sizeM[2], Math.max(a.sizeM[0], a.sizeM[1]) / 2));
+        clearRadius.set(a.id, Math.max(a.sizeM[0], a.sizeM[1]) / 2);
       }
     }
     // Land manifest wins on a shared id: the underwater band's copies carry
@@ -649,6 +674,7 @@ export function Vegetation({
         cardLevel: entry.billboardIndex,
         reachM: reach.get(id) ?? entry.heightM,
         heightM: entry.heightM,
+        clearRadiusM: clearRadius.get(id) ?? 0,
         stiffness: (scale: number) =>
           trunkRadius === null ? 0 : windStiffness(trunkRadius, scale) - 1,
       });
@@ -1017,7 +1043,7 @@ export function Vegetation({
         registry.current.terrainLod(cell.key, lod);
       }
     }
-    if (kit && speciesParams.size > 0) {
+    if (kit && speciesParams.size > 0 && clearance) {
       const dirty = registry.current.dirty()
         .filter((d) => !jobs.current.has(d.key))
         .sort((a, b) => cellDistance(a.key) - cellDistance(b.key));
@@ -1280,7 +1306,8 @@ export function Vegetation({
     const cell = cells.current.get(key);
     const liveKit = kit;
     const liveIndex = index;
-    if (!cell || !liveKit || !liveIndex) return;
+    const liveClearance = clearance;
+    if (!cell || !liveKit || !liveIndex || !liveClearance) return;
     const reason = registry.current.reason(key);
     const lod = cell.lod;
     const started = performance.now();
@@ -1312,7 +1339,7 @@ export function Vegetation({
     const inner = buildCellJob(
       sources, speciesParams, sampleGround, verticalScale, MAX_PER_DRAW,
       (build) => { finish(build); },
-      cell.originX, cell.originZ, liveIndex.chunkMetres);
+      cell.originX, cell.originZ, liveIndex.chunkMetres, liveClearance);
 
     // The new copies are built and filled FIRST and the old ones deleted at
     // the end, so nothing blinks while a cell is re-grounded. `filled` holds

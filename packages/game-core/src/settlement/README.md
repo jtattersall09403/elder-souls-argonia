@@ -66,6 +66,14 @@ Load-bearing contracts:
   If resident buildings alone exceed the hard budget, the layer fails visibly
   instead of publishing a partial solid settlement. The app consumes the
   stable set with an imperative fixed-body diff;
+- a placement of kind `effect`, assetId `fx:smoke-column` (anchor class `fx`)
+  draws no kit mesh and loads no GLB: it must be a mounted child
+  (`parentPlacementId` + `mountOffsetM` at the chimney top), and
+  `smokeColumn.ts` draws every such column as one camera-facing quad buffer
+  (16/12/8 puffs on 40/90/150 m rungs, alpha ramp over the last 30 m, off
+  beyond 150 m) with the vanilla puff atlas its kit manifest's
+  `effectTextures` row names, drifting on the injected environment's wind
+  (`windDirXZ`/`windSpeedMS`, else `SMOKE_CALM_WIND`) and the frame clock;
 - a failed bundle or kit load produces a conspicuous magenta failure sentinel;
   it cannot silently degrade into a settlement-free landscape;
 - materials carry aerial, rain wetness and all-tier window emission state in

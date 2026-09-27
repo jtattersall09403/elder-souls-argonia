@@ -674,10 +674,14 @@ export function WorldSky({
   mode,
   extentM,
   verticalScale = 1,
+  hidden = false,
   children,
 }: {
   mode: "fly" | "character";
   extentM: number;
+  /** Inside an interior cell (0103 decision 4): the sky, its lights, rain and
+   * air are not drawn; the rig keeps running so the return is instant. */
+  hidden?: boolean;
   /** Live vertical exaggeration — converts camera height back to true metres
    * for the weather machine (whiteout belt, elevation expression). */
   verticalScale?: number;
@@ -1512,6 +1516,7 @@ void main() {
 
   return (
     <SkyContext.Provider value={{ csm }}>
+      <group visible={!hidden}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer
           radius — so star fragments behind a disc fail the depth test and
@@ -1554,6 +1559,7 @@ void main() {
           by ref — they change every frame, and props would re-render the
           React tree at frame rate. */}
       <AmbientAir conditions={airRef} water={airWater} />
+      </group>
       {children}
     </SkyContext.Provider>
   );

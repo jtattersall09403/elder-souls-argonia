@@ -8,6 +8,33 @@ export interface ArchitectureLodContract {
   farMergeDistanceM: number;
 }
 
+/** What the LOD gate needs to know about a placed piece (0102 decision 6). */
+export interface LodPieceSize {
+  /** Longest side of the placed piece, metres (kit `sizeM` times its scale). */
+  longestSideM: number;
+  /** The placement kind (`SettlementPlacement.kind`) or `clutter`. */
+  kind: string;
+}
+
+/** A piece shorter than this on every side may ship LOD0 only when its kind allows. */
+export const SINGLE_TIER_MAX_SIDE_M = 1.5;
+
+/** Kinds that may ship one tier under the size bar; architecture never does. */
+export const SINGLE_TIER_KINDS: readonly string[] = ["dressing", "clutter"];
+
+/**
+ * Tiers a piece must carry (decision 0102 decision 6): one for dressing or
+ * clutter whose longest side is under 1.5 m, since the distance bands (0071
+ * decision 3, 0075) already cull it by size; three for everything else,
+ * architecture shells included. No piece given = three (the old rule).
+ */
+export function requiredLodTiers(piece?: LodPieceSize): 1 | 3 {
+  return piece
+    && SINGLE_TIER_KINDS.includes(piece.kind)
+    && Number.isFinite(piece.longestSideM)
+    && piece.longestSideM < SINGLE_TIER_MAX_SIDE_M ? 1 : 3;
+}
+
 /**
  * The rung ladder of one placed building, stepped from the camera (0075).
  *
@@ -24,8 +51,11 @@ export function settlementLadder(
   contract: ArchitectureLodContract,
   maxDrawM: number,
   drawScale = 1,
+  piece?: LodPieceSize,
 ): LodRung[] {
-  if (availableLevels < 3) throw new Error("architecture asset is missing a three-tier LOD chain");
+  if (availableLevels < requiredLodTiers(piece)) {
+    throw new Error("architecture asset is missing a three-tier LOD chain");
+  }
   const rings = contract.distancePerFootprintDiagonal.map((k, i) =>
     Math.max(i === 0 ? 55 : 180, footprintDiagonalM * k) * drawScale);
   return lodLadder(rings, availableLevels, SETTLEMENT_CARD_LEVEL, maxDrawM * drawScale);
@@ -54,8 +84,10 @@ export function architectureLod(
   contract: ArchitectureLodContract,
   drawScale = 1,
   maxDrawM = 5000,
+  piece?: LodPieceSize,
 ): { level: number; farMerged: boolean } {
-  const ladder = settlementLadder(footprintDiagonalM, availableLevels, contract, maxDrawM, drawScale);
+  const ladder = settlementLadder(footprintDiagonalM, availableLevels, contract, maxDrawM,
+    drawScale, piece);
   return {
     level: ladderLevelAt(ladder, distanceM),
     farMerged: distanceM >= contract.farMergeDistanceM * drawScale,
@@ -65,8 +97,13 @@ export function architectureLod(
 export function validateLodTriangles(
   triangles: readonly number[],
   contract: ArchitectureLodContract,
+  piece?: LodPieceSize,
 ): void {
-  if (triangles.length < 3) throw new Error("architecture asset is missing a three-tier LOD chain");
+  if (triangles.length < requiredLodTiers(piece)) {
+    throw new Error("architecture asset is missing a three-tier LOD chain");
+  }
+  // A one-tier piece has no decimated tier to hold to a floor.
+  if (triangles.length < 3) return;
   // A six-triangle prop cannot have a 120-triangle decimation floor. The
   // absolute floor is capped by the source mesh, but never expressed only as
   // a percentage (the architecture failure the contract prevents).

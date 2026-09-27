@@ -1,0 +1,254 @@
+{
+ "schemaVersion": 1,
+ "cellId": "fixture.hut-int",
+ "plugin": "Fixture.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": "fixture:shell/hut01",
+ "refCount": 9,
+ "kits": {
+  "fixture-int-v1": {
+   "id": "fixture-int-v1",
+   "glb": "kits/fixture-int-v1.glb",
+   "manifest": "kits/fixture-int-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   0,
+   0,
+   2.5
+  ],
+  "yawDeg": 0
+ },
+ "exitDoor": {
+  "id": "fixture.hut-int.exit",
+  "refId": "00000A01",
+  "positionM": [
+   0,
+   0,
+   3.5
+  ],
+  "yawDeg": 180
+ },
+ "doors": [
+  {
+   "exteriorDoorId": "door.fixture.1",
+   "interiorLoadDoorRef": "00000A01",
+   "arrivalMarker": {
+    "positionM": [
+     0,
+     0,
+     2.5
+    ],
+    "yawDeg": 0
+   },
+   "loadDoor": {
+    "positionM": [
+     0,
+     0,
+     3.5
+    ],
+    "yawDeg": 180
+   }
+  }
+ ],
+ "placements": [
+  {
+   "id": "ref.floor",
+   "assetId": "fixture:floor",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    0,
+    0,
+    0
+   ],
+   "rotationDeg": [
+    0,
+    0,
+    0
+   ],
+   "scale": 1,
+   "category": "structure"
+  },
+  {
+   "id": "ref.wall-n",
+   "assetId": "fixture:wall",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    0,
+    1.5,
+    -4
+   ],
+   "rotationDeg": [
+    0,
+    0,
+    0
+   ],
+   "scale": 1,
+   "category": "structure"
+  },
+  {
+   "id": "ref.wall-s",
+   "assetId": "fixture:wall",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    0,
+    1.5,
+    4
+   ],
+   "rotationDeg": [
+    0,
+    180,
+    0
+   ],
+   "scale": 1,
+   "category": "structure"
+  },
+  {
+   "id": "ref.bench",
+   "assetId": "fixture:bench",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    -2,
+    0,
+    -2
+   ],
+   "rotationDeg": [
+    0,
+    90,
+    0
+   ],
+   "scale": 1,
+   "category": "furniture"
+  },
+  {
+   "id": "ref.barrel-1",
+   "assetId": "fixture:barrel",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    2.5,
+    0,
+    -3
+   ],
+   "rotationDeg": [
+    0,
+    0,
+    0
+   ],
+   "scale": 1,
+   "category": "container"
+  },
+  {
+   "id": "ref.barrel-2",
+   "assetId": "fixture:barrel",
+   "kit": "fixture-int-v1",
+   "positionM": [
+    2.5,
+    0,
+    -2
+   ],
+   "rotationDeg": [
+    0,
+    35,
+    0
+   ],
+   "scale": 0.9,
+   "category": "container"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "00000B01",
+   "positionM": [
+    0,
+    2.4,
+    0
+   ],
+   "radiusM": 6,
+   "colorRGB": [
+    255,
+    190,
+    120
+   ],
+   "fade": 1.5,
+   "base": "FixtureCandle",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 420
+   }
+  },
+  {
+   "refId": "00000B02",
+   "positionM": [
+    -2.5,
+    1.2,
+    -3
+   ],
+   "radiusM": 3,
+   "colorRGB": [
+    230,
+    150,
+    80
+   ],
+   "fade": 1.0,
+   "base": "FixtureHearth",
+   "raw": {
+    "xrdsUnits": -120.5,
+    "baseRadiusUnits": 210
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   40,
+   34,
+   28
+  ],
+  "intensity": 1
+ },
+ "fog": {
+  "colorRGB": [
+   18,
+   14,
+   10
+  ],
+  "nearM": 4,
+  "farM": 30
+ },
+ "sockets": [
+  {
+   "id": "socket.fixture.hut-int.ref.barrel-1",
+   "kind": "container",
+   "positionM": [
+    2.5,
+    0,
+    -3
+   ],
+   "yawDeg": 0,
+   "host": "ref.barrel-1",
+   "containerClass": "barrel",
+   "fillRule": "blanket.household-barrel",
+   "why": "fixture"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "00000C01",
+   "reason": "actor",
+   "base": "FixtureNPC",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "00000B01",
+   "reason": "light-source",
+   "base": "FixtureCandle",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "00000B02",
+   "reason": "light-source",
+   "base": "FixtureHearth",
+   "baseType": "LIGH"
+  }
+ ]
+}

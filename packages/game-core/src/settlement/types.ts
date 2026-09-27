@@ -16,7 +16,8 @@ export type SettlementAnchorClass = "ground" | "wall" | "hanging" | "deck" | "wa
 export interface SettlementPlacement {
   id: string;
   sourceId: string;
-  kind: "settlement" | "dressing" | "landmark" | "fence" | "dock" | "route-structure";
+  /** `effect`: a runtime effect, no kit mesh (`fx:smoke-column`, smokeColumn.ts). */
+  kind: "settlement" | "dressing" | "landmark" | "fence" | "dock" | "route-structure" | "effect";
   assetId: string;
   kit: string;
   positionM: [number, number, number];
@@ -74,6 +75,50 @@ export interface GroundTreatment {
   apronsM?: [number, number, number][];
 }
 
+/** The sockets record's version (0103 decision 5; worldgen/sockets.py). */
+export const SETTLEMENT_SOCKETS_SCHEMA_VERSION = 1;
+
+/** Socket kinds, as in world/sources/vocab/socket-vocabulary.json. */
+export const SETTLEMENT_SOCKET_KINDS = [
+  "npc", "idle", "item", "container", "encounter", "fauna", "ambience", "marker",
+] as const;
+export type SettlementSocketKind = (typeof SETTLEMENT_SOCKET_KINDS)[number];
+
+interface SettlementSocketBase {
+  id: string;
+  positionM: [number, number, number];
+  yawDeg: number;
+  parcelId: string | null;
+  /** null outside; a tier A cell id inside. */
+  interiorCell: string | null;
+  /** The placement the socket sits on or in. */
+  host: string | null;
+  why: string;
+}
+
+/** One `npc` schedule entry: at `dayPhase` the person is at idle socket `socketId`. */
+export interface SettlementScheduleEntry {
+  dayPhase: string;
+  socketId: string;
+  purpose: "work" | "home" | "evening" | "leisure";
+}
+
+export type SettlementSocket =
+  | (SettlementSocketBase & {
+      kind: "npc"; rosterSlotId: string; role?: string; schedule: SettlementScheduleEntry[];
+    })
+  | (SettlementSocketBase & { kind: "idle"; activity: string })
+  | (SettlementSocketBase & {
+      kind: "item"; itemClass: string; valueBand: string; contentPending?: boolean;
+    })
+  | (SettlementSocketBase & {
+      kind: "container"; containerClass: string; fillRule: string | null;
+      lootTable?: { itemClasses: string[]; valueBand?: string; storyNote: string };
+    })
+  | (SettlementSocketBase & {
+      kind: "encounter" | "fauna" | "ambience" | "marker"; dangerBand?: string; zone?: string;
+    });
+
 export interface SettlementBundle {
   schemaVersion: 3;
   collisionFrame: string;
@@ -94,10 +139,40 @@ export interface SettlementBundle {
     budgetReport: Record<string, unknown> | null;
     floodBandReport: Record<string, unknown>;
     variants: Record<string, unknown>[];
+    /** 0103 decision 5; parse with `parseSettlementSockets` (sockets.ts). */
+    socketsSchemaVersion?: typeof SETTLEMENT_SOCKETS_SCHEMA_VERSION;
+    sockets?: SettlementSocket[];
   }[];
   placements: SettlementPlacement[];
   groundTreatments: GroundTreatment[];
+  /** One record per door (0081 decision 4); older bundles may omit it. */
+  doors?: SettlementDoor[];
   stats: { settlements: number; settlementPlacements: number; routeStructurePlacements: number };
+}
+
+/**
+ * A door record as the compile publishes it (0081 decision 4, 0103). Only a
+ * claim with `tier: "A"` and a `cellId` opens (interior/doorAccess.ts);
+ * every other door is closed and shows the reserved line.
+ */
+export interface SettlementDoor {
+  id: string;
+  settlementId: string;
+  parcelId: string;
+  /** The threshold in world metres [x, z]. */
+  thresholdM: [number, number];
+  /** Outward bearing of the doorway, compass degrees (0 = -z, 90 = +x). */
+  facingDeg?: number;
+  interiorClaim?: {
+    tier?: string;
+    cellId?: string;
+    /** The cell's load door this exterior door pairs with (owner ruling B, 0103 decision 2). */
+    interiorLoadDoorRef?: string;
+    /** Where entering by this door arrives, in the bundle's cell frame. */
+    arrivalMarker?: { positionM: [number, number, number]; yawDeg: number };
+    [field: string]: unknown;
+  } | null;
+  interiorStatus?: string;
 }
 
 export type TerrainHeight = (x: number, z: number) => number | null;
@@ -246,7 +321,12 @@ export interface SettlementLayerProps {
   /** Injected world state; no app singleton leaks into the reusable layer. */
   /** `epochMinutes` is the Module 55 world clock; the layer reads the sun's
    * altitude from it (the night windows ramp on twilight, not a clock hour). */
-  environment?: () => { rainIntensity: number; epochMinutes: number } | null;
+  /** `windDirXZ`/`windSpeedMS` (the weather sample's wind) drive the chimney
+   * smoke's drift; absent, the smoke drifts on `SMOKE_CALM_WIND`. */
+  environment?: () => {
+    rainIntensity: number; epochMinutes: number;
+    windDirXZ?: readonly [number, number]; windSpeedMS?: number;
+  } | null;
   onSolids?: (solids: SettlementSolid[]) => void;
   onStats?: (stats: SettlementRenderStats) => void;
   materialPatch?: (material: THREE.Material) => void;
@@ -254,6 +334,10 @@ export interface SettlementLayerProps {
    * now" function here, so the flash probe can force a rebuild without a
    * global. No control reaches the layer any other way. */
   rebuildRef?: React.MutableRefObject<(() => void) | null>;
+  /** Receives the bundle's door records once it loads (0103 decision 4). */
+  onDoors?: (doors: SettlementDoor[]) => void;
+  /** The scene's shared kit cache (`kitCache.ts`); absent, the layer keeps its own. */
+  kitCache?: import("./kitCache").KitCache;
 }
 
 /** What the runtime reads off a published kit manifest, per asset (16h item 1). */
@@ -279,6 +363,8 @@ export interface SettlementKitAssetMeta {
  */
 export interface SettlementKitMaterialExtras {
   decal?: true;
+  /** Still water held in a piece (NIF water shader), build_kit extras. */
+  water?: boolean;
 }
 
 /** kit id -> asset id -> manifest metadata. */

@@ -231,3 +231,23 @@ describe("GameSir controls", () => {
     expect(SWITCH_GAMEPAD.L_STICK_CROUCH).toBe(10);
   });
 });
+
+describe("activate", () => {
+  it("rides the standard bottom face button, shared with dodge (the context-action precedent)", () => {
+    expect(SWITCH_GAMEPAD.B_BOTTOM_ACTIVATE).toBe(0);
+    expect(SWITCH_GAMEPAD.B_BOTTOM_ACTIVATE).toBe(SWITCH_GAMEPAD.B_BOTTOM_DODGE);
+  });
+
+  it("is edge-triggered: one press per touch, not one per frame held", () => {
+    const controller = new InputController();
+    controller.setVirtual("activate", true);
+    controller.update(0);
+    expect(controller.pressed("activate")).toBe(true);
+    controller.update(16);
+    expect(controller.pressed("activate")).toBe(false);
+    expect(controller.held("activate")).toBe(true);
+    controller.setVirtual("activate", false);
+    controller.update(32);
+    expect(controller.released("activate")).toBe(true);
+  });
+});

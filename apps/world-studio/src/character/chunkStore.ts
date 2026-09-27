@@ -2,12 +2,103 @@ export { ChunkStore } from "@elder-souls/game-core/terrain/chunkStore";
 export type { ChunkLodMeta, ChunkMeta, ChunksManifest, ChunkGrid } from "@elder-souls/game-core/terrain/chunkStore";
 import type { ChunkMeta, ChunksManifest } from "@elder-souls/game-core/terrain/chunkStore";
 import { ChunkStore } from "@elder-souls/game-core/terrain/chunkStore";
+import { GroundOverlayRegistry, overlaysOfBundle, type GroundOverlaysDoc } from "@elder-souls/game-core/terrain/heightOverlays";
+import type { BundleClearance } from "@elder-souls/game-core/vegetation/clearanceFilter";
+import { loadLadder, type Ladder } from "../ladder";
 
-/** App-owned cache shared by fly/walk terrain, colliders and vegetation. */
+/** `province/settlements/ground-overlays.json` (schemaVersion 1), written by
+ * `worldgen.export_settlement_bundle` beside the bundle: each place's
+ * levelled ground and vegetation clearance (decision 0102), under the
+ * bundle's own `settlements` key so `overlaysOfBundle` and
+ * `clearancesOfBundle` read it as they read the bundle. */
+export interface PlaceGroundDoc {
+  readonly schemaVersion: number;
+  readonly settlements: readonly {
+    readonly id: string;
+    readonly groundOverlays?: GroundOverlaysDoc;
+    readonly vegetationClearance?: BundleClearance;
+  }[];
+}
+export const PLACE_GROUND_SCHEMA_VERSION = 1;
+
+/** App-owned cache shared by fly/walk terrain, colliders and vegetation. It
+ * carries the places' ground overlays (decision 0102), read from the ground
+ * sidecar once when the ladder shows the settlements layer
+ * (`installPlaceOverlays`), so every reader of the store sees the padded
+ * ground. */
 let shared: ChunkStore | null = null;
 export function sharedChunkStore(baseUrl: string): ChunkStore {
-  if (!shared || shared.baseUrl !== baseUrl) shared = new ChunkStore(baseUrl);
+  if (!shared || shared.baseUrl !== baseUrl) {
+    const overlays = new GroundOverlayRegistry();
+    shared = new ChunkStore(baseUrl, { overlays });
+    void installPlaceOverlays(overlays, loadLadder(baseUrl), () => placeGround(baseUrl));
+  }
   return shared;
+}
+
+/** Fill the store's overlay registry with the places' pads, only when the
+ * ladder shows the `settlements` layer (16k fix 2 round 3): a build whose
+ * ladder hides the places draws the frozen ground, with no pad under a
+ * building that is not drawn and no wait on the ground sidecar. */
+export async function installPlaceOverlays(
+  overlays: GroundOverlayRegistry,
+  ladder: Promise<Ladder | null>,
+  doc: () => Promise<PlaceGroundDoc>,
+): Promise<void> {
+  const l = await ladder;
+  if (l && l.hiddenLayers.includes("settlements")) {
+    overlays.settleEmpty();
+    return;
+  }
+  try {
+    overlays.set(overlaysOfBundle(await doc()));
+  } catch (error: unknown) {
+    console.warn("[terrain] no place ground overlays", error);
+    overlays.settleEmpty();
+  }
+}
+
+/** The places' ground sidecar, fetched ONCE per base URL and shared by the
+ * terrain store, the vegetation cells and the groundcover, and only when the
+ * ladder shows the `settlements` layer (`ladderGatedPlaceGround`, 16k fix 2
+ * round 4 ruling W4): a build whose ladder hides the places gets no pads and
+ * no vegetation clearance. An unreadable or unknown-version file resolves to
+ * no places (the frozen ground and no clearance), never a stalled terrain. */
+let groundDoc: { baseUrl: string; doc: Promise<PlaceGroundDoc> } | null = null;
+export function placeGround(baseUrl: string): Promise<PlaceGroundDoc> {
+  if (!groundDoc || groundDoc.baseUrl !== baseUrl) {
+    groundDoc = { baseUrl, doc: ladderGatedPlaceGround(loadLadder(baseUrl), () => fetchPlaceGround(baseUrl)) };
+  }
+  return groundDoc.doc;
+}
+
+const NO_PLACES: PlaceGroundDoc = { schemaVersion: PLACE_GROUND_SCHEMA_VERSION, settlements: [] };
+
+/** The place ground doc when the ladder shows settlements (or there is no
+ * ladder record); no places, and no read of the sidecar, when it hides
+ * them. The one gate for the pads and the clearance alike. */
+export async function ladderGatedPlaceGround(
+  ladder: Promise<Ladder | null>,
+  doc: () => Promise<PlaceGroundDoc>,
+): Promise<PlaceGroundDoc> {
+  const l = await ladder;
+  if (l && l.hiddenLayers.includes("settlements")) return NO_PLACES;
+  return doc();
+}
+
+function fetchPlaceGround(baseUrl: string): Promise<PlaceGroundDoc> {
+  return fetch(`${baseUrl}province/settlements/ground-overlays.json`)
+    .then((r) => (r.ok ? r.json() as Promise<PlaceGroundDoc> : Promise.reject(new Error(`HTTP ${r.status}`))))
+    .then((d) => {
+      if (d.schemaVersion !== PLACE_GROUND_SCHEMA_VERSION) {
+        throw new Error(`schemaVersion ${String(d.schemaVersion)}, expected ${PLACE_GROUND_SCHEMA_VERSION}`);
+      }
+      return d;
+    })
+    .catch((error: unknown): PlaceGroundDoc => {
+      console.warn("[terrain] place ground sidecar unreadable: no pads, no clearance", error);
+      return NO_PLACES;
+    });
 }
 
 /** Terrain LOD ladder: the band a rectangle of ground is drawn at, by the

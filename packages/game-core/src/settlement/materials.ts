@@ -45,6 +45,35 @@ export function isSettlementDecalMaterial(material: THREE.Material): boolean {
   return (material.userData as SettlementKitMaterialExtras | undefined)?.decal === true;
 }
 
+/**
+ * Still water held in a kit piece (a trough, a basin): the NIF's water
+ * shader, carried by the kit build as extras `{ "water": true }` with no
+ * texture. Selected by that flag, never by name.
+ */
+export function isSettlementStillWaterMaterial(material: THREE.Material): boolean {
+  return (material.userData as SettlementKitMaterialExtras | undefined)?.water === true;
+}
+
+/** Fresh still water in a trough (linear RGB): the field water's clear
+ * tint at zero salinity (waterMaterial.ts), lifted so a thin layer reads
+ * dark green rather than black; a glossy translucent surface, no
+ * reflection (planner water call, 2026-09-26; the owner judges the look). */
+const STILL_WATER_RGB = new THREE.Color(0.06, 0.13, 0.115);
+const STILL_WATER_OPACITY = 0.6;
+
+/** Give a still-water material its look. Returns whether it was one. Idempotent. */
+export function applySettlementStillWater(material: THREE.Material): boolean {
+  if (!isSettlementStillWaterMaterial(material)) return false;
+  const m = material as THREE.MeshStandardMaterial;
+  m.color?.copy(STILL_WATER_RGB);
+  m.transparent = true;
+  m.opacity = STILL_WATER_OPACITY;
+  m.roughness = 0.05;
+  m.metalness = 0;
+  m.depthWrite = false;
+  return true;
+}
+
 /** Draw order of a decal relative to the opaque surface it overlays. */
 export const SETTLEMENT_DECAL_RENDER_ORDER = 1;
 

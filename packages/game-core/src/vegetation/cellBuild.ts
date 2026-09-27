@@ -18,6 +18,7 @@ import {
   type LodRung,
 } from "../fx/lodFade";
 import type { SolidInstance } from "../physics/floraSolids";
+import type { ClearanceFilter } from "./clearanceFilter";
 
 /** One instance as the bundle reader hands it over (`readInstance`). */
 export interface CellInstance {
@@ -61,6 +62,10 @@ export interface CellSpeciesParams {
   heightM: number;
   /** Per-instance wind stiffness − 1, given the instance scale. */
   stiffness(scale: number): number;
+  /** Half the kit footprint's longer side, metres: the reach a place's
+   * clearance judges the plant over (`apply_vegetation_patches.species_radii`).
+   * Absent = 0, the origin alone. */
+  clearRadiusM?: number;
 }
 
 /** One rung of one species in one cell: the same band for every instance. */
@@ -197,26 +202,30 @@ function buildSpecies(
   originX: number,
   originZ: number,
   chunkMetres: number,
+  clearance?: ClearanceFilter,
 ): CellSpeciesBuild | null {
-  const count = Math.min(source.count, maxPerSpecies);
-  if (count === 0) return null;
+  const wanted = Math.min(source.count, maxPerSpecies);
+  if (wanted === 0) return null;
   const rungs = cellRungs(params.ladder, params.vanishes);
   if (rungs.length === 0) return null;
   const tiles = CELL_TILES * CELL_TILES;
-  const read = new Float32Array(count * PLACEMENT_STRIDE);
-  const readWind = new Float32Array(count * 2);
-  const tileOf = new Uint16Array(count);
+  const read = new Float32Array(wanted * PLACEMENT_STRIDE);
+  const readWind = new Float32Array(wanted * 2);
+  const tileOf = new Uint16Array(wanted);
   const tileOffsets = new Uint32Array(tiles + 1);
-  const placements = new Float32Array(count * PLACEMENT_STRIDE);
-  const windTune = new Float32Array(count * 2);
   const tileBounds = new Float32Array(tiles * TILE_BOUNDS_STRIDE);
   const inst: CellInstance = {
     x: 0, y: 0, z: 0, yaw: 0, scale: 1, tiltX: 0, tiltZ: 0, sink: 0,
   };
   let minX = Infinity, minY = Infinity, minZ = Infinity;
   let maxX = -Infinity, maxY = -Infinity, maxZ = -Infinity, maxScale = 0;
-  for (let i = 0; i < count; i++) {
-    source.read(i, inst);
+  const clearRadius = params.clearRadiusM ?? 0;
+  let count = 0;
+  for (let k = 0; k < wanted; k++) {
+    source.read(k, inst);
+    // A place's clearance (0102): a plant on its built ground is never placed.
+    if (clearance && !clearance.survives(inst.x, inst.z, clearRadius)) continue;
+    const i = count++;
     // Anchor per the mined authoring conventions: terrain species put their
     // PIVOT on the live streamed ground minus the baked sink; water-surface
     // and attached species keep their baked absolute Y.
@@ -259,6 +268,9 @@ function buildSpecies(
       });
     }
   }
+  if (count === 0) return null;
+  const placements = new Float32Array(count * PLACEMENT_STRIDE);
+  const windTune = new Float32Array(count * 2);
   // Counting sort into tile order: the gate switches a TILE on and off, so a
   // tile's copies must be one contiguous run of batch instances.
   for (let t = 0; t < tiles; t++) tileOffsets[t + 1] += tileOffsets[t];
@@ -307,11 +319,12 @@ export function buildCell(
   originX = 0,
   originZ = 0,
   chunkMetres = 468,
+  clearance?: ClearanceFilter,
 ): CellBuild {
   let out: CellBuild | null = null;
   const job = buildCellJob(
     sources, params, ground, verticalScale, maxPerSpecies, (b) => { out = b; },
-    originX, originZ, chunkMetres);
+    originX, originZ, chunkMetres, clearance);
   while (!job.next().done) { /* run to completion */ }
   return out!;
 }
@@ -335,6 +348,7 @@ export function* buildCellJob(
   originX = 0,
   originZ = 0,
   chunkMetres = 468,
+  clearance?: ClearanceFilter,
 ): Generator<CellSpeciesBuild | null> {
   const species: CellSpeciesBuild[] = [];
   const solids: SolidInstance[] = [];
@@ -353,7 +367,7 @@ export function* buildCellJob(
     }
     const built = buildSpecies(
       source, p, ground, verticalScale, maxPerSpecies, solids,
-      originX, originZ, chunkMetres);
+      originX, originZ, chunkMetres, clearance);
     if (built) {
       species.push(built);
       copies += built.count * built.rungs.length;

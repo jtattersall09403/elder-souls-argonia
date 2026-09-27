@@ -28,6 +28,8 @@ import {
   type TravelGraphIndex,
   type TravelServiceGraph,
 } from "@elder-souls/game-core/travel/travelServices";
+import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
+import { input } from "@elder-souls/game-core/io/input";
 import { createStudioWorldState } from "./studioWorldState";
 import { nearestSocket, TALK_RADIUS_M, type SocketPoint } from "./nearestSocket";
 
@@ -36,6 +38,10 @@ const STUDIO_PURSE_GOLD = 100;
 /** Sockets beyond this are not drawn: their ground is not loaded anyway. */
 const DRAW_RADIUS_M = 3000;
 const ARRIVED_MS = 3000;
+const TALK_TEXT_ID = "text.travel.prompt-talk";
+
+/** The socket's id as the interaction arbiter knows it. */
+const candidateId = (s: SocketPoint) => `travel:${s.serviceId}:${s.stationId}`;
 
 /** Catalogue lookup that survives a record naming a string nobody wrote:
  * this is a debug seam, so a missing id shows as the id. */
@@ -56,7 +62,7 @@ interface Placed extends SocketPoint {
   y: number;
 }
 
-export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl }: {
+export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, interaction, offering }: {
   /** Live character position in world metres (east, south). */
   positionRef: React.MutableRefObject<{ x: number; z: number }>;
   /** Terrain height at a world point, or null where no chunk is loaded. */
@@ -64,6 +70,10 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl }: {
   /** Move the character to a world point (the app owns the body). */
   teleportTo: (xM: number, zM: number) => void;
   baseUrl: string;
+  /** The scene's one arbiter: a socket answers `activate` only when it is the focus. */
+  interaction: InteractionArbiter;
+  /** False while nothing here can be reached (the player is inside a cell). */
+  offering: boolean;
 }) {
   const [index, setIndex] = useState<TravelGraphIndex | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -84,12 +94,24 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl }: {
   const [placed, setPlaced] = useState<Placed[]>([]);
   const [near, setNear] = useState<SocketPoint | null>(null);
   const reseat = useRef(0);
+  const menuRef = useRef(false);
+  const [focused, setFocused] = useState(false);
   useFrame((_, delta) => {
     const { x, z } = positionRef.current;
-    setNear((prev) => {
-      const next = nearestSocket(sockets, x, z, TALK_RADIUS_M);
-      return next?.serviceId === prev?.serviceId ? prev : next;
-    });
+    const next = offering ? nearestSocket(sockets, x, z, TALK_RADIUS_M) : null;
+    setNear((prev) => (next?.serviceId === prev?.serviceId ? prev : next));
+    if (next) {
+      const id = candidateId(next);
+      if (interaction.answers(id)) {
+        if (menuRef.current) setMenu(null);
+        else openMenu(next);
+      }
+      interaction.offer({ id, kind: "travel", positionM: next.positionM, reachM: TALK_RADIUS_M, promptTextId: TALK_TEXT_ID });
+      const isFocus = interaction.isFocused(id);
+      setFocused((prev) => (prev === isFocus ? prev : isFocus));
+    } else {
+      setFocused((prev) => (prev ? false : prev));
+    }
     reseat.current -= delta;
     if (reseat.current > 0) return;
     reseat.current = 1;
@@ -120,17 +142,14 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl }: {
     }
   };
 
+  // `activate` (E, the pad's bottom face button, the tapped prompt) opens and
+  // closes the menu through the arbiter above; Escape still closes it.
+  menuRef.current = menu !== null;
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.code === "Escape") { setMenu(null); return; }
-      if (e.code !== "KeyE") return;
-      if (menu) { setMenu(null); return; }
-      if (near) { e.preventDefault(); openMenu(near); }
-    };
+    const onKey = (e: KeyboardEvent) => { if (e.code === "Escape") setMenu(null); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [near, menu, index, world]);
+  }, []);
 
   useEffect(() => {
     if (!notice) return;
@@ -188,13 +207,20 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl }: {
             travel sockets: {loadError}
           </div>
         )}
-        {near && !menu && (
-          <div data-travel-prompt style={{
-            position: "absolute", bottom: "26%", left: "50%", transform: "translateX(-50%)",
-            background: "rgba(10,14,20,0.8)", padding: "8px 18px", borderRadius: 8,
-            font: "18px system-ui", color: "#ffd9a0", whiteSpace: "nowrap",
-          }}>
-            {fill(text(CATALOGUE, "text.travel.prompt-talk"), { role: near.role })} <span style={{ opacity: 0.7 }}>[E]</span>
+        {near && focused && !menu && (
+          <div data-travel-prompt data-ui-capture
+            // The prompt is the touch button: pressing it is `activate`.
+            onPointerDown={(e) => { e.preventDefault(); input.setVirtual("activate", true); }}
+            onPointerUp={() => input.setVirtual("activate", false)}
+            onPointerCancel={() => input.setVirtual("activate", false)}
+            onPointerLeave={() => input.setVirtual("activate", false)}
+            style={{
+              position: "absolute", bottom: "26%", left: "50%", transform: "translateX(-50%)",
+              background: "rgba(10,14,20,0.8)", padding: "8px 18px", borderRadius: 8,
+              font: "18px system-ui", color: "#ffd9a0", whiteSpace: "nowrap",
+              pointerEvents: "auto", touchAction: "none", cursor: "pointer",
+            }}>
+            {fill(text(CATALOGUE, TALK_TEXT_ID), { role: near.role })} <span style={{ opacity: 0.7 }}>[E]</span>
           </div>
         )}
         {notice && !menu && (

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   anchorPlacement,
@@ -250,6 +252,35 @@ describe("settlement placement contract", () => {
     expect(() => validateLodTriangles([1000, 119, 90], contract)).toThrow(/floor/);
     expect(() => validateLodTriangles([6, 6, 6], contract)).not.toThrow();
     expect(() => architectureLod(1, 1, 2, contract)).toThrow(/three-tier/);
+  });
+
+  it("lets small dressing ship one tier and keeps three for architecture (0102 decision 6)", () => {
+    const contract = { absoluteTriangleFloor: [120, 80] as const,
+      distancePerFootprintDiagonal: [4, 12] as const, farMergeDistanceM: 900 };
+    // chickennest01 as published: the imperial kit GLB carries LOD0 only
+    // (no `__lod1`/`__lod2` nodes), and its measured size is read here.
+    const nest = (JSON.parse(readFileSync(resolve(import.meta.dirname,
+      "../../../../apps/world-studio/public/kits/settlement-imperial-v1.kit.json"), "utf8"))
+      .assets as { id: string; sizeM: number[] }[])
+      .find((asset) => asset.id === "vanilla:plants/chickennest01")!;
+    const nestPiece = { longestSideM: Math.max(...nest.sizeM), kind: "dressing" };
+    expect(nestPiece.longestSideM).toBeLessThan(1.5);
+    expect(() => validateLodTriangles([1088], contract, nestPiece)).not.toThrow();
+    expect(architectureLod(20, 1.3, 1, contract, 1, 350, nestPiece).level).toBe(0);
+    expect(architectureLod(300, 1.3, 1, contract, 1, 350, nestPiece).level).toBe(0);
+    // Clutter under the bar may too; the kind is what the placement says it is.
+    expect(() => architectureLod(5, 1, 1, contract, 1, 350,
+      { longestSideM: 0.4, kind: "clutter" })).not.toThrow();
+    // Size alone is not enough: a small architecture piece keeps three tiers.
+    expect(() => architectureLod(5, 1, 1, contract, 1, 350,
+      { longestSideM: 0.9, kind: "settlement" })).toThrow(/three-tier/);
+    expect(() => validateLodTriangles([1088], contract,
+      { longestSideM: 0.9, kind: "fence" })).toThrow(/three-tier/);
+    // Kind alone is not enough: dressing at or over 1.5 m keeps three tiers.
+    expect(() => architectureLod(5, 2, 1, contract, 1, 350,
+      { longestSideM: 1.5, kind: "dressing" })).toThrow(/three-tier/);
+    expect(() => validateLodTriangles([1088], contract,
+      { longestSideM: 2.1, kind: "dressing" })).toThrow(/three-tier/);
   });
 });
 

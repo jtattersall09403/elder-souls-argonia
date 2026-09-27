@@ -360,7 +360,7 @@ export interface ResolvedPlacement {
  * The one anchor-class rule (16h item 2), shared by the layer and the tests.
  *
  *  - `water`   — sits at the berth's recorded level minus its designed waterline.
- *  - `wall` / `hanging` — REQUIRE a placed parent (from a mined mount pair);
+ *  - `wall` / `hanging` / `fx` — REQUIRE a placed parent (from a mined mount pair);
  *    with none, a named error, never a drop onto the ground.
  *  - `deck`    — with a parent, seated on that parent's final transform plus
  *    the mined/derived `mountOffsetM`; with none (the compile found no placed
@@ -393,7 +393,7 @@ export function resolvePlacement(
     if (!parent) return null;
     return { matrix: mountedTransform(parent, placement), anchored: null };
   }
-  if (anchorClass === "wall" || anchorClass === "hanging") {
+  if (anchorClass === "wall" || anchorClass === "hanging" || anchorClass === "fx") {
     throw new Error(`${placement.id}: ${anchorClass} placement names no parentPlacementId`);
   }
   const anchored = anchorPlacement(placement, lookup.groundAt, lookup.designedSinkM, lookup.fit);

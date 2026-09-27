@@ -59,6 +59,11 @@ import { useBoundaryMessage } from "@elder-souls/game-core/boundary/useBoundaryM
 import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
+import { InteriorDoors } from "./InteriorDoors";
+import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
+import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
+import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
+import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { FrameWorkProvider } from "./FrameWorkProvider";
 import { lastWeatherSample } from "../weather/weatherState";
 import { headingOf } from "../compass";
@@ -72,6 +77,9 @@ import {
   type QualitySettings,
 } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
+
+/** `?sockets=1`: the place sockets as labelled posts (0103 decision 6). */
+const SOCKETS_OVERLAY = socketsOverlayEnabled();
 
 // Module-level so a CharacterMode render does not create a new array and
 // invalidate the rapier context (owner 2026-09-22: re-armed the spawn teleport).
@@ -222,6 +230,17 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }, []);
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
+  // Interiors (0103 decision 4): the published door records, whether the
+  // player is inside a cell (the exterior's drawn layers hide, nothing
+  // unloads), and `?interior=<cellId>` opening a cell directly.
+  const [doors, setDoors] = useState<readonly SettlementDoor[]>([]);
+  const [insideInterior, setInsideInterior] = useState(false);
+  const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
+  // One activate press, one answer (doors, travel operators): the arbiter
+  // the providers offer to and the driver resolves each frame; and the one
+  // kit cache the settlement layer and the interior loader share.
+  const interaction = useMemo(() => new InteractionArbiter(), []);
+  const kitCache = useMemo(() => new KitCache(), []);
   // Travel sockets (16e deliverable 7): the studio owns the body, so it
   // hands the sockets component a teleport instead of a handle. The adapter
   // is the controller boundary — nothing here touches ecctrl directly.
@@ -250,7 +269,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const settlementSolidsRef = useRef<SettlementSolid[]>([]);
   const settlementEnvironment = useCallback(() => {
     const sample = lastWeatherSample();
-    return sample ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes() } : null;
+    return sample
+      ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes(),
+        windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS }
+      : null;
   }, []);
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
     settlementSolidsRef.current = solids;
@@ -450,7 +472,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
-          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale}>
+          <WorldSky mode="character" extentM={authoredExtentM} verticalScale={verticalScale} hidden={insideInterior}>
+          <group visible={!insideInterior}>
           <Suspense fallback={null}>
             <ApronTerrain
               store={store}
@@ -499,6 +522,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 environment={settlementEnvironment}
                 onSolids={handleSettlementSolids}
                 rebuildRef={settlementRebuildRef}
+                onDoors={setDoors}
+                kitCache={kitCache}
               />
             )}
           </Suspense>
@@ -513,6 +538,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
+          {SOCKETS_OVERLAY && <SocketMarkers baseUrl={base} groundAt={markerGroundAt} />}
+          </group>
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -561,6 +588,17 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               />
             )}
             <SettlementColliders solidsRef={settlementSolidsRef} focusRef={focusRef} />
+            <InteriorDoors
+              baseUrl={base}
+              controller={travelAdapter}
+              doors={doors}
+              groundAt={settlementGroundAt}
+              bodyCentreHeightM={CHARACTER_BODY_CENTER_HEIGHT}
+              directCellId={directInterior}
+              onInside={setInsideInterior}
+              interaction={interaction}
+              kitCache={kitCache}
+            />
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they
                 are not mounted while the ladder hides the services layer —
@@ -570,6 +608,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               groundAt={settlementGroundAt}
               teleportTo={teleportTo}
               baseUrl={base}
+              interaction={interaction}
+              offering={!insideInterior}
             />}
             {/* The edge of the world (16d): four invisible walls on the border
                 of the built ground, and the one line the player gets there. */}
@@ -616,6 +656,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               onPositionKm={onPositionKm}
               playerModelRef={playerModelRef}
               settlementRebuildRef={settlementRebuildRef}
+              interaction={interaction}
             />
           </Physics>
           </Suspense>
@@ -1313,7 +1354,7 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef, interaction }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
@@ -1334,6 +1375,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   playerModelRef?: React.RefObject<THREE.Group | null>;
   /** The settlement layer's probe rebuild handle, exposed on the debug hook. */
   settlementRebuildRef?: React.MutableRefObject<(() => void) | null>;
+  /** Resolved once per frame after the input update (interaction/arbiter.ts). */
+  interaction: InteractionArbiter;
 }) {
   const rapier = useRapier();
   // depend on the map, not the context: a new adapter re-arms the spawn teleport (owner 2026-09-22: reset every 3 s)
@@ -1477,6 +1520,11 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     const intent = inputToIntent(input);
     if (!adapter.ready) return;
     adapter.position(position);
+    interaction.resolve({ x: position.x, z: position.z }, input.pressed("activate"));
+    // `activate` shares the pad's bottom face button with dodge (io/input.ts):
+    // a press that used something is swallowed until released, so it never
+    // becomes a sprint or a roll.
+    if (interaction.activated) input.suppressHeld();
     // The drawn pose for THIS frame: `prev`→`curr` at the leftover fraction of
     // a fixed step. Written straight onto the Object3D @react-three/rapier
     // syncs from the body, AFTER its own (stale, un-interpolated) write and

@@ -1,0 +1,240 @@
+import * as THREE from "three";
+import type { ArchitectureAsset } from "../settlement/kit";
+import { SETTLEMENT_COLLISION_FRAME, type SettlementSolid } from "../settlement/types";
+import { trimeshFromGeometry } from "../physics/floraSolids";
+import {
+  interiorBundleUrl, parseInteriorBundle,
+  type ColorRGB, type InteriorBundle, type InteriorKitRef, type InteriorLight, type InteriorPlacement, type Vec3,
+} from "./bundle";
+
+/**
+ * THE NUMBER THE OWNER TUNES IN THE STUDIO: a point light's intensity is
+ * `(light.fade ?? 1) × INTERIOR_LIGHT_INTENSITY_PER_FADE`. How bright a cell
+ * reads is a GPU-only judgement (decision 0102 decision 3b), so it is this
+ * one constant, set on a walk, and nothing else.
+ *
+ * Why π to start: TES lights are "lit colour at the source, fading to
+ * nothing at the radius", not physical candela. With `decay = 0` three.js
+ * keeps only its smooth range window, and a Lambert surface under a light of
+ * intensity π reflects its albedo times the light's colour, which is the
+ * plugin's own meaning; the LIGH record's FNAM fade (unitless) scales that.
+ * The record's colours, radii and fades are never touched.
+ */
+export const INTERIOR_LIGHT_INTENSITY_PER_FADE = Math.PI;
+export const INTERIOR_LIGHT_DECAY = 0;
+/** The cell ambient's scale, on the same reasoning as the lights. */
+export const INTERIOR_AMBIENT_SCALE = Math.PI;
+
+/** A record light's runtime intensity (see `INTERIOR_LIGHT_INTENSITY_PER_FADE`). */
+export function interiorLightIntensity(light: Pick<InteriorLight, "fade">): number {
+  return (light.fade ?? 1) * INTERIOR_LIGHT_INTENSITY_PER_FADE;
+}
+
+/**
+ * The injected hosts: how JSON arrives and how a published kit GLB becomes
+ * its asset index. The studio passes the settlement layer's `KitCache`
+ * (settlement/kitCache.ts) with its `createKitLoader(decoders).loadAsync`,
+ * then `buildArchitectureKit`, so a kit already resident outside is not
+ * loaded a second time.
+ */
+export interface InteriorLoaderHosts {
+  fetchJson(url: string): Promise<unknown>;
+  loadKit(kit: InteriorKitRef, glbUrl: string): Promise<Map<string, ArchitectureAsset>>;
+}
+
+/** An instantiated cell, in its own frame; the caller positions `group`. */
+export interface LoadedInterior {
+  bundle: InteriorBundle;
+  group: THREE.Group;
+  /** Colliders in the cell's own frame; `solidsAt` moves them to the lift. */
+  solids: SettlementSolid[];
+  fog: THREE.Fog;
+  background: THREE.Color;
+  counts: { placements: number; meshes: number; lights: number; solids: number };
+}
+
+/** sRGB bytes to a linear three.js colour. */
+export function colorFromRGB(rgb: ColorRGB): THREE.Color {
+  return new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace);
+}
+
+/** The one rotation for an interior placement (see `InteriorPlacement.rotationDeg`). */
+export function interiorQuaternion(rotationDeg: Vec3): THREE.Quaternion {
+  const d = THREE.MathUtils.degToRad;
+  return new THREE.Quaternion().setFromEuler(
+    new THREE.Euler(d(rotationDeg[0]), -d(rotationDeg[1]), d(rotationDeg[2]), "YXZ"));
+}
+
+export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
+  return new THREE.Matrix4().compose(
+    new THREE.Vector3(...p.positionM), interiorQuaternion(p.rotationDeg),
+    new THREE.Vector3(p.scale, p.scale, p.scale));
+}
+
+/**
+ * Build the cell: one InstancedMesh per (asset, LOD0 part) holding every
+ * placement of that asset, a point light per record light, the cell's
+ * ambient, its fog. No terrain, sky or water: none exists inside.
+ * A placement whose asset is not in its kit is a named error, never a gap
+ * drawn as nothing (the exporter lists gaps; the bundle carries none).
+ */
+export function instantiateInterior(
+  bundle: InteriorBundle, kits: ReadonlyMap<string, ReadonlyMap<string, ArchitectureAsset>>,
+): LoadedInterior {
+  const group = new THREE.Group();
+  group.name = `interior:${bundle.cellId}`;
+  const byAsset = new Map<string, { asset: ArchitectureAsset; placements: InteriorPlacement[] }>();
+  for (const p of bundle.placements) {
+    const asset = kits.get(p.kit)?.get(p.assetId);
+    if (!asset) throw new Error(`interior ${bundle.cellId}: ${p.id} names ${p.kit}/${p.assetId}, not in the loaded kit`);
+    const key = `${p.kit}|${p.assetId}`;
+    const row = byAsset.get(key) ?? { asset, placements: [] };
+    row.placements.push(p);
+    byAsset.set(key, row);
+  }
+  let meshes = 0;
+  const solids: SettlementSolid[] = [];
+  const m = new THREE.Matrix4();
+  for (const { asset, placements } of byAsset.values()) {
+    const parts = asset.levels[0] ?? [];
+    for (const part of parts) {
+      const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
+      placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.computeBoundingSphere();
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
+      group.add(mesh);
+      meshes += 1;
+    }
+    for (const p of placements) {
+      const solid = interiorSolid(p, parts);
+      if (solid) solids.push(solid);
+    }
+  }
+  for (const light of bundle.lights) {
+    const point = new THREE.PointLight(colorFromRGB(light.colorRGB), interiorLightIntensity(light),
+      light.radiusM, INTERIOR_LIGHT_DECAY);
+    point.position.set(...light.positionM);
+    group.add(point);
+  }
+  group.add(new THREE.AmbientLight(colorFromRGB(bundle.ambient.colorRGB),
+    bundle.ambient.intensity * INTERIOR_AMBIENT_SCALE));
+  const background = colorFromRGB(bundle.fog.colorRGB);
+  return {
+    bundle, group, solids, background,
+    fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
+    counts: { placements: bundle.placements.length, meshes, lights: bundle.lights.length, solids: solids.length },
+  };
+}
+
+/**
+ * A placement's colliders: its LOD0 triangles, baked through each part's
+ * local matrix and the scale, the body carrying position and rotation, as
+ * settlement mesh pieces collide (0071 §5). A part with no index buffer
+ * does not collide; the camera pull-in (16h item 24) casts against the rest.
+ */
+function interiorSolid(p: InteriorPlacement, parts: ArchitectureAsset["levels"][number]): SettlementSolid | null {
+  const scale = new THREE.Matrix4().makeScale(p.scale, p.scale, p.scale);
+  const shapes = parts.flatMap((part) => {
+    const position = part.geometry.getAttribute("position");
+    const index = part.geometry.index;
+    if (!position || !index) return [];
+    const matrix = part.localMatrix.clone().premultiply(scale);
+    const vertices = new Float32Array(position.count * 3);
+    const v = new THREE.Vector3();
+    for (let i = 0; i < position.count; i++) {
+      v.fromBufferAttribute(position, i).applyMatrix4(matrix);
+      vertices[i * 3] = v.x; vertices[i * 3 + 1] = v.y; vertices[i * 3 + 2] = v.z;
+    }
+    const mesh = trimeshFromGeometry(vertices, index.array);
+    return [{ kind: "trimesh" as const, vertices: mesh.vertices, indices: mesh.indices }];
+  });
+  if (!shapes.length) return null;
+  const q = interiorQuaternion(p.rotationDeg);
+  return {
+    id: p.id, frame: SETTLEMENT_COLLISION_FRAME,
+    position: [...p.positionM], rotation: [q.x, q.y, q.z, q.w], scale: p.scale, parts: shapes,
+  };
+}
+
+/** The cell's colliders moved to where its group stands. */
+export function solidsAt(solids: readonly SettlementSolid[], originM: Vec3): SettlementSolid[] {
+  return solids.map((s) => ({
+    ...s,
+    id: `interior:${s.id}`,
+    position: [s.position[0] + originM[0], s.position[1] + originM[1], s.position[2] + originM[2]],
+  }));
+}
+
+type Entry =
+  | { state: "loading"; promise: Promise<LoadedInterior> }
+  | { state: "ready"; interior: LoadedInterior }
+  | { state: "failed"; error: Error };
+
+/**
+ * Fetches, validates and instantiates cells; one entry per cellId, kept for
+ * the loader's life (a cell visited is re-entered instantly). Kits are
+ * loaded once per kit id and shared by every cell that uses them. Owned by
+ * whoever constructs it: no module state.
+ */
+export class InteriorLoader {
+  private readonly entries = new Map<string, Entry>();
+  private readonly kits = new Map<string, Promise<Map<string, ArchitectureAsset>>>();
+
+  constructor(private readonly baseUrl: string, private readonly hosts: InteriorLoaderHosts) {}
+
+  /** Start loading a cell if nothing has; the streaming and the doors call this. */
+  request(cellId: string): Promise<LoadedInterior> {
+    const entry = this.entries.get(cellId);
+    if (entry?.state === "ready") return Promise.resolve(entry.interior);
+    if (entry?.state === "loading") return entry.promise;
+    if (entry?.state === "failed") return Promise.reject(entry.error);
+    const promise = this.load(cellId).then((interior) => {
+      this.entries.set(cellId, { state: "ready", interior });
+      return interior;
+    }, (error: unknown) => {
+      const err = error instanceof Error ? error : new Error(String(error));
+      this.entries.set(cellId, { state: "failed", error: err });
+      throw err;
+    });
+    promise.catch(() => undefined);
+    this.entries.set(cellId, { state: "loading", promise });
+    return promise;
+  }
+
+  ready(cellId: string): LoadedInterior | undefined {
+    const entry = this.entries.get(cellId);
+    return entry?.state === "ready" ? entry.interior : undefined;
+  }
+
+  failure(cellId: string): Error | undefined {
+    const entry = this.entries.get(cellId);
+    return entry?.state === "failed" ? entry.error : undefined;
+  }
+
+  /** Cells requested so far (loading, ready or failed). */
+  get cellIds(): string[] { return [...this.entries.keys()]; }
+
+  private async load(cellId: string): Promise<LoadedInterior> {
+    const url = interiorBundleUrl(this.baseUrl, cellId);
+    const bundle = parseInteriorBundle(await this.hosts.fetchJson(url), url);
+    if (bundle.cellId !== cellId) throw new Error(`interior bundle ${url} carries cellId ${bundle.cellId}`);
+    const used = new Set(bundle.placements.map((p) => p.kit));
+    const kits = new Map<string, Map<string, ArchitectureAsset>>();
+    await Promise.all([...used].map(async (id) => {
+      kits.set(id, await this.kit(bundle.kits[id]));
+    }));
+    return instantiateInterior(bundle, kits);
+  }
+
+  private kit(ref: InteriorKitRef): Promise<Map<string, ArchitectureAsset>> {
+    let promise = this.kits.get(ref.id);
+    if (!promise) {
+      promise = this.hosts.loadKit(ref, `${this.baseUrl}${ref.glb}`);
+      promise.catch(() => this.kits.delete(ref.id));
+      this.kits.set(ref.id, promise);
+    }
+    return promise;
+  }
+}

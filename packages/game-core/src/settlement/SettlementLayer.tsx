@@ -6,6 +6,7 @@ import { createKitLoader } from "../assets/kitLoader";
 import { useFrameWork } from "../scheduling/frameWorkContext";
 import type { FrameJobHandle } from "../scheduling/frameWork";
 import { useKitDecoders } from "../assets/useKitDecoders";
+import { KitCache } from "./kitCache";
 import {
   footprintDiagonalM,
   createPlacementResolver,
@@ -30,6 +31,7 @@ import {
 } from "./collisionResidency";
 import {
   applySettlementDecal,
+  applySettlementStillWater,
   applySettlementSurface,
   applySettlementSurfaceWithShadow,
   isSettlementGlowMaterial,
@@ -54,6 +56,13 @@ import {
 } from "./types";
 import { trimeshFromGeometry } from "../physics/floraSolids";
 import { mergeRunColliders } from "./runColliders";
+import {
+  effectTextureFile, isSmokeColumnPlacement, SMOKE_CALM_WIND, SMOKE_COLUMN_ASSET_ID,
+  SMOKE_MAX_DISTANCE_M, SmokeColumns, type SmokeAnchor,
+} from "./smokeColumn";
+
+/** Manifest meta for an effect placement: it has no kit row; it mounts. */
+const SMOKE_COLUMN_META: SettlementKitAssetMeta = { anchorClass: "fx" };
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -282,7 +291,7 @@ export function solidFrom(
 
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
-  rebuildRef,
+  rebuildRef, onDoors, kitCache: sharedKitCache,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -295,6 +304,10 @@ export function SettlementLayer({
   const pendingKits = useRef(new Set<string>());
   const pendingManifests = useRef(new Set<string>());
   const decoders = useKitDecoders(baseUrl);
+  // The scene's shared cache when one is injected (the interior loader reads
+  // the same one), else the layer's own.
+  const ownKitCache = useMemo(() => new KitCache(), []);
+  const kitCache = sharedKitCache ?? ownKitCache;
   const [revision, setRevision] = useState(0);
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
   const incomplete = useRef(false);
@@ -322,6 +335,10 @@ export function SettlementLayer({
   const uniforms = useMemo<SettlementMaterialUniforms>(() => ({
     esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 },
   }), []);
+  // Chimney smoke (smokeColumn.ts): one draw for every anchored column, made
+  // once the effect texture named by its kit manifest has loaded.
+  const [smoke, setSmoke] = useState<SmokeColumns | null>(null);
+  const smokeAnchors = useRef<SmokeAnchor[]>([]);
 
   useEffect(() => {
     collisionFailure.current = null;
@@ -340,11 +357,17 @@ export function SettlementLayer({
   useEffect(() => {
     let cancelled = false;
     loadSettlementBundle(baseUrl).then((data) => {
-      if (!cancelled) setBundle(data);
+      if (cancelled) return;
+      setBundle(data);
+      // The door interaction hook (0103 decision 4): the door records go to
+      // whoever runs the doors; the layer itself draws no door.
+      onDoors?.(data.doors ?? []);
     }).catch((error: unknown) => {
       if (!cancelled) setFatalError(error instanceof Error ? error : new Error(String(error)));
     });
     return () => { cancelled = true; };
+    // onDoors is read once per bundle load, like the bundle itself.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
 
   // Stream kit GLBs by the references in visual range. The complete exemplar
@@ -357,6 +380,7 @@ export function SettlementLayer({
     const residents = residentPlacementIdsAt(bundle.settlements, focus);
     const drawScale = quality?.architectureDrawScale ?? 1;
     const wanted = new Set(bundle.placements.filter((p) => {
+      if (isSmokeColumnPlacement(p)) return false;
       const cap = p.kind === "dressing" ? 350 : p.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
       return residents.has(p.id)
         || Math.hypot(p.positionM[0] - focus.x, p.positionM[2] - focus.z) <= cap * drawScale;
@@ -380,23 +404,64 @@ export function SettlementLayer({
       }
       if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
-      loader.loadAsync(`${baseUrl}${kit.glb}`).then((gltf) => {
+      kitCache.load(id, `${baseUrl}${kit.glb}`, (url) => loader.loadAsync(url)).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
       }).catch((error: unknown) => setFatalError(new Error(
         `settlement kit ${id} failed: ${error instanceof Error ? error.message : String(error)}`)))
         .finally(() => pendingKits.current.delete(id));
     }
   }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
-      decoders]);
+      decoders, kitCache]);
 
   const kits = useMemo(() => {
     return new Map([...gltfs].map(([id, gltf]) => [id, buildArchitectureKit(gltf)]));
   }, [gltfs]);
 
-  useFrame(() => {
+  // The smoke texture: read from the effect placement's kit manifest
+  // (`effectTextures`, build_kit.publish_effect_textures), loaded once.
+  useEffect(() => {
+    const placement = bundle?.placements.find(isSmokeColumnPlacement);
+    if (!bundle || !placement) return undefined;
+    const kit = bundle.kits[placement.kit];
+    if (!kit) {
+      setFatalError(new Error(`settlement effect ${placement.id} names missing kit ${placement.kit}`));
+      return undefined;
+    }
+    let cancelled = false;
+    let made: SmokeColumns | null = null;
+    const manifestUrl = `${baseUrl}${kit.manifest}`;
+    fetch(manifestUrl).then((response) => {
+      if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
+      return response.json();
+    }).then((manifest: unknown) => {
+      const file = effectTextureFile(manifest, SMOKE_COLUMN_ASSET_ID, manifestUrl);
+      return new THREE.TextureLoader().loadAsync(`${manifestUrl.replace(/[^/]*$/, "")}${file}`);
+    }).then((texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      if (cancelled) { texture.dispose(); return; }
+      made = new SmokeColumns(texture, uniforms.esSettlementNight);
+      made.setAnchors(smokeAnchors.current);
+      setSmoke(made);
+    }).catch((error: unknown) => {
+      if (!cancelled) setFatalError(new Error(`settlement smoke texture failed: `
+        + `${error instanceof Error ? error.message : String(error)}`));
+    });
+    return () => {
+      cancelled = true;
+      made?.dispose();
+      setSmoke(null);
+    };
+  }, [baseUrl, bundle]);
+
+  useFrame(({ camera, clock }) => {
     if (fatalError) return;
     const env = environment?.();
     if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes);
+    if (smoke) {
+      smoke.setAnchors(smokeAnchors.current);
+      smoke.update(clock.elapsedTime, camera, env?.windDirXZ && env.windSpeedMS !== undefined
+        ? { dirXZ: env.windDirXZ, speedMS: env.windSpeedMS } : SMOKE_CALM_WIND);
+    }
     const liveChildren = root.current?.children.length ?? 0;
     frames.frames += 1;
     frames.liveChildren = liveChildren;
@@ -458,12 +523,31 @@ export function SettlementLayer({
       const placementGrounding: SettlementPlacementGroundAudit[] = [];
       const runJoints: RunJointSample[] = [];
       const runOfPlacement = new Map<string, string>();
+      // Longest side of each asset's LOD0 geometry in its own metres, measured
+      // once per build from the loaded parts (0102 decision 6: the LOD gate is
+      // size-aware; the manifest meta carries no size).
+      const longestSideOf = new Map<string, number>();
+      const assetLongestSideM = (key: string, parts: readonly ArchitecturePart[]): number => {
+        const cached = longestSideOf.get(key);
+        if (cached !== undefined) return cached;
+        const box = new THREE.Box3();
+        for (const part of parts) {
+          if (!part.geometry.boundingBox) part.geometry.computeBoundingBox();
+          box.union(part.geometry.boundingBox!.clone().applyMatrix4(part.localMatrix));
+        }
+        const size = box.isEmpty() ? new THREE.Vector3() : box.getSize(new THREE.Vector3());
+        const side = Math.max(size.x, size.y, size.z);
+        longestSideOf.set(key, side);
+        return side;
+      };
       let placementCount = 0;
       incomplete.current = false;
       let sinceYield = 0;
 
       const resolvePlaced = createPlacementResolver(bundle.placements,
-        (p) => kitAssetMetaOf(manifests, p), groundAt);
+        (p) => (isSmokeColumnPlacement(p) ? SMOKE_COLUMN_META : kitAssetMetaOf(manifests, p)),
+        groundAt);
+      const smokeHere: SmokeAnchor[] = [];
 
       for (const placement of bundle.placements) {
         if (++sinceYield >= 64) { sinceYield = 0; yield; }
@@ -476,6 +560,16 @@ export function SettlementLayer({
         // Audit every physical place reference the layer can reach, route
         // structures included (they were 85 % of the bundle and excluded).
         if (!inDrawRange && !collisionResident) continue;
+        if (isSmokeColumnPlacement(placement)) {
+          // An effect draws no kit mesh and has no collider: its pose is the
+          // mounted child's final transform (the chimney top).
+          if (distance > SMOKE_MAX_DISTANCE_M + REBUILD_MOVE_M) continue;
+          const at = resolvePlaced(placement);
+          if (!at) { incomplete.current = true; continue; }
+          smokeHere.push({ id: placement.id,
+            position: new THREE.Vector3().setFromMatrixPosition(at.matrix) });
+          continue;
+        }
         const asset = kits.get(placement.kit)?.get(placement.assetId);
         if (!asset) continue;
         const here = resolvePlaced(placement);
@@ -489,11 +583,16 @@ export function SettlementLayer({
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         if (inDrawRange) {
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
-          validateLodTriangles(triangles, bundle.lod);
+          const piece = {
+            longestSideM: assetLongestSideM(`${placement.kit}|${placement.assetId}`, asset.levels[0])
+              * placement.scale,
+            kind: placement.kind,
+          };
+          validateLodTriangles(triangles, bundle.lod, piece);
           // One rung per kit level, hard steps, no card (0075): the ladder is
           // the same helper the vegetation cell build uses.
           const ladder = settlementLadder(footprintDiagonalM(placement), asset.levels.length,
-            bundle.lod, cap, drawScaleHere);
+            bundle.lod, cap, drawScaleHere, piece);
           const level = ladderLevelAt(ladder, distance);
           const farMerged = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
           asset.levels[level].forEach((part, partIndex) => {
@@ -565,6 +664,7 @@ export function SettlementLayer({
         const glowMaterial = isSettlementGlowMaterial(material);
         materialPatch?.(material);
         applySettlementDecal(material);
+        applySettlementStillWater(material);
         const drawFlags = settlementMeshDrawFlags(material);
         let depthMaterial: THREE.MeshDepthMaterial | undefined;
         if (depthTwins.current.has(material)) {
@@ -632,6 +732,7 @@ export function SettlementLayer({
       // the wall-foot skirt is cut; the seam is the height-blend shader
       // (16h part 2 item 25).
       const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
+      smokeAnchors.current = smokeHere;
       // Final step: the finished build replaces the live one atomically, in
       // one synchronous step, so no frame draws an empty layer.
       if (!reuseLive) {
@@ -678,6 +779,7 @@ export function SettlementLayer({
         finalTransformEvidence, collision: collisionAudit });
       const drawScale = quality?.architectureDrawScale ?? 1;
       const allVisibleKitsReady = bundle.placements.every((placement) => {
+        if (isSmokeColumnPlacement(placement)) return true;
         const cap = placement.kind === "dressing" ? 350
           : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
         const distance = Math.hypot(placement.positionM[0] - focus.x,
@@ -759,5 +861,10 @@ export function SettlementLayer({
       </mesh>
     </group>
   );
-  return <group key="settlement-layer" ref={root} name="settlement-layer" />;
+  return (
+    <>
+      <group key="settlement-layer" ref={root} name="settlement-layer" />
+      {smoke && <primitive key="settlement-smoke" object={smoke.mesh} />}
+    </>
+  );
 }

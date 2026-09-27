@@ -34,12 +34,27 @@ export type InputAction =
   | "zoomIn"
   | "zoomOut"
   | "targetLeft"
-  | "targetRight";
+  | "targetRight"
+  /**
+   * Use the thing in front of you: a door, a travel operator, later an NPC
+   * or a container (0103 decision 4). Edge-triggered: read `pressed`. Only
+   * the one candidate the interaction arbiter picks answers it
+   * (`interaction/arbiter.ts`). E on a keyboard; on a pad the bottom face
+   * button (standard button 0: A on an Xbox pad, X on a PlayStation pad),
+   * which it shares with `dodge` on the zoom precedent above: a context
+   * action rides a button whose other use the context makes moot, and the
+   * host swallows the held button (`suppressHeld`) when an activation lands,
+   * so the press never becomes a roll or a sprint. On touch the prompt itself
+   * is the button (`setVirtual("activate", …)`).
+   */
+  | "activate";
 
 // Gamepad API indices describe physical positions. These labels match the
 // Nintendo-layout face caps on the GameSir X2s Type-C.
 export const SWITCH_GAMEPAD = {
   B_BOTTOM_DODGE: 0,
+  /** The same bottom face button: `activate` shares it with dodge (see InputAction). */
+  B_BOTTOM_ACTIVATE: 0,
   A_RIGHT_JUMP: 1,
   Y_LEFT_TWO_HAND: 2,
   X_TOP_ITEM: 3,
@@ -334,6 +349,8 @@ export class InputController {
       || button(SWITCH_GAMEPAD.A_RIGHT_JUMP));
     this.current.set("zoomIn", active("zoomIn") || button(SWITCH_GAMEPAD.ZR_HEAVY));
     this.current.set("zoomOut", active("zoomOut") || button(SWITCH_GAMEPAD.ZL_PARRY));
+    this.current.set("activate", active("activate") || this.keys.has("KeyE")
+      || button(SWITCH_GAMEPAD.B_BOTTOM_ACTIVATE));
     this.current.set("crouch", active("crouch") || this.keys.has("KeyC") || button(SWITCH_GAMEPAD.L_STICK_CROUCH));
     // When locked on, the right stick switches targets for melee. A raised bow
     // also reads it as aim input after the initial centring; `pressed` still

@@ -5,8 +5,13 @@
  * Heights decode to **true metres** (sea level y = 0); the vertical scale of
  * decision 0006 is applied only where data becomes geometry/collision (see
  * `chunks-web-manifest.json`.verticalScaleAtGeometry). Decoded grids are the
- * raw exported terrain: no overlay, no topology repair (decision 0046).
+ * exported terrain with the places' ground overlays applied (decision 0102:
+ * a place's pads travel in its bundle, never in the frozen tiles), and no
+ * topology repair (decision 0046). With an overlay registry injected, every
+ * decode waits for it, so no reader ever sees a chunk without its pads.
  */
+import { applyGroundOverlays, type GroundOverlayRegistry } from "./heightOverlays";
+
 export interface ChunkLodMeta {
   file: string;
   shape: [number, number]; // [ny, nx] samples (includes +1 overlap edge)
@@ -49,13 +54,26 @@ export interface ChunkGrid {
   metresPerSample: number;
 }
 
+export interface ChunkStoreOptions {
+  /** The places' ground overlays (decision 0102), applied to every LOD. */
+  overlays?: GroundOverlayRegistry;
+  /** The raster decoder; the browser's `decodeHeightPng` unless a test injects one. */
+  decodeHeights?: (blob: Blob, lodMeta: ChunkLodMeta) => Promise<Float32Array>;
+}
+
 export class ChunkStore {
   private manifestPromise: Promise<ChunksManifest> | null = null;
   private readonly byCell = new Map<string, ChunkMeta>();
   private readonly grids = new Map<string, ChunkGrid>();
   private readonly pending = new Map<string, Promise<ChunkGrid>>();
 
-  constructor(readonly baseUrl: string) {}
+  readonly overlays: GroundOverlayRegistry | undefined;
+  private readonly decodeHeights: (blob: Blob, lodMeta: ChunkLodMeta) => Promise<Float32Array>;
+
+  constructor(readonly baseUrl: string, options: ChunkStoreOptions = {}) {
+    this.overlays = options.overlays;
+    this.decodeHeights = options.decodeHeights ?? decodeHeightPng;
+  }
 
   manifest(): Promise<ChunksManifest> {
     this.manifestPromise ??= fetch(`${this.baseUrl}province/chunks/chunks-web-manifest.json`)
@@ -115,7 +133,15 @@ export class ChunkStore {
     const dir = meta.dir ?? "province/chunks/";
     const response = await fetch(`${this.baseUrl}${dir}${lodMeta.file}`);
     if (!response.ok) throw new Error(`Terrain chunk ${lodMeta.file}: HTTP ${response.status}`);
-    const heights = await decodeHeightPng(await response.blob(), lodMeta);
+    const raw = await this.decodeHeights(await response.blob(), lodMeta);
+    let heights = raw;
+    if (this.overlays) {
+      await this.overlays.ready;
+      heights = applyGroundOverlays(raw, {
+        originM: meta.originM, metresPerSample: lodMeta.metresPerSample,
+        nx: lodMeta.shape[1], ny: lodMeta.shape[0],
+      }, this.overlays.overlays());
+    }
     return { meta, lod, heights, nx: lodMeta.shape[1], ny: lodMeta.shape[0], metresPerSample: lodMeta.metresPerSample };
   }
 
