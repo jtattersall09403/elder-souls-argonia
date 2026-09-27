@@ -245,5 +245,6 @@ describe("gateSpecies", () => {
         }
       }
     }
-  });
+  // 1.4 s alone; ~6 s under four concurrent preflight gates (2026-09-26/27).
+  }, 30_000);
 });

@@ -125,5 +125,6 @@ describe("the shipped bundle through the runtime transform", () => {
         .toEqual([...new Set(ladder.map((rung) => rung.level))]);
       expect(ladderLevelAt(ladder, 0)).toBe(ladder[0].level);
     }
-  });
+  // 1.7 s alone; times out at 5 s under preflight load (2026-09-27).
+  }, 30_000);
 });

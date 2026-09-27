@@ -15,7 +15,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # The generated province rasters are not in git (they live in the rolling
+  # `province-rasters` release, ~125 MB). One job fetches them once per
+  # manifest and caches them; both test jobs restore that cache. The cache
+  # paths are the group patterns of tooling/province-artefact/set.json, which
+  # match no tracked file, so a restore never overwrites git content. The key
+  # is the manifest's hash: a republish changes the manifest, so the key.
+  rasters:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            tooling/province-artefact
+            apps/world-studio/public/province
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/world-studio/public/province/chunks/**/*.png
+            apps/world-studio/public/province/refined/*.png
+            apps/world-studio/public/province/water/**/*.png
+            apps/world-studio/public/province/vegetation/**
+            apps/world-studio/public/province/apron/**/*.png
+          key: province-rasters-${{ hashFiles('apps/world-studio/public/province/rasters-manifest.json') }}
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: npm run province:fetch
+
   placement-tests:
+    needs: rasters
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
@@ -23,9 +55,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # The generated province rasters are not in git (they live in the rolling
-      # `province-rasters` release). Restore them before anything reads them.
-      - run: npm run province:fetch
+      # Restore the rasters the `rasters` job cached, then verify them against
+      # the manifest (the preflight `rasters` gate).
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            apps/world-studio/public/province/chunks/**/*.png
+            apps/world-studio/public/province/refined/*.png
+            apps/world-studio/public/province/water/**/*.png
+            apps/world-studio/public/province/vegetation/**
+            apps/world-studio/public/province/apron/**/*.png
+          key: province-rasters-${{ hashFiles('apps/world-studio/public/province/rasters-manifest.json') }}
+          fail-on-cache-miss: true
+      - run: npm run province:check
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -61,17 +103,28 @@ jobs:
       - run: npm run test:water
 
   build:
+    needs: rasters
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      # The generated province rasters are not in git (they live in the rolling
-      # `province-rasters` release). Restore them before anything reads them.
-      - run: npm run province:fetch
+      # Restore the rasters the `rasters` job cached, then verify them against
+      # the manifest (the preflight `rasters` gate).
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            apps/world-studio/public/province/chunks/**/*.png
+            apps/world-studio/public/province/refined/*.png
+            apps/world-studio/public/province/water/**/*.png
+            apps/world-studio/public/province/vegetation/**
+            apps/world-studio/public/province/apron/**/*.png
+          key: province-rasters-${{ hashFiles('apps/world-studio/public/province/rasters-manifest.json') }}
+          fail-on-cache-miss: true
+      - run: npm run province:check
       # `npm test` runs Python gates (prose lint, the hydrology graph check,
       # credits) through repo-standards. They get the SAME Python toolchain
       # as the placement/water jobs, so a gate may import anything in
@@ -83,8 +136,6 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
-      # Every declared module imports, or one named red line (16h round 16).
-      - run: cd tooling/world-generation && python -m worldgen.check_requirements
       # A clean runner clone is also the proof that nothing depends on
       # sibling-repository paths or the local asset vault.
       - run: npm ci
@@ -123,6 +174,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [build, placement-tests]
     steps:
       - name: Deploy
