@@ -256,6 +256,7 @@ def test_annotate_clamps_an_off_frame_ground_line_with_a_label(tmp_path):
          and Path(os.path.expanduser(ra.TOOLCHAIN["wine"])).exists()),
     reason="wine/blender toolchain absent")
 @needs_raw_kits
+@pytest.mark.slow   # 74 s of Blender: skipped under `preflight --paths` unless its inputs changed
 def test_the_two_legibility_fixtures_render(tmp_path):
     """One kit-sheet piece and one mined mount pair from the published kits,
     rendered here at 64 px so the test owns its frames (it used to read a

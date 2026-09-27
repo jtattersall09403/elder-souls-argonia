@@ -25,6 +25,7 @@ python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
 
 python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb (raw), republishes a published kit
 python3 -m pipeline.build_kit --kits a,b,c --jobs N      # whole kits side by side, one Wine+Blender each (default N below)
+#   skipped when <kit>.inputs.sha256 beside the GLB matches its inputs (sources, config, records, code) and every output exists; --force rebuilds
 python3 -m pipeline.kit_compress --kit settlement-mud-v1 # publish: KTX2/UASTC + meshopt -> apps/world-studio/public/kits/
 python3 -m pipeline.kit_compress --kit settlement-mud-v1 --check   # verify the published kit
 python3 -m pipeline.texture_quality --source output/kits/x.glb --packed ../../apps/world-studio/public/kits/x.glb

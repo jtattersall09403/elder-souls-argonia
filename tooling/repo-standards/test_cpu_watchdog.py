@@ -64,15 +64,15 @@ class World:
             dog.step()
 
 
-def P(pid, rate, args, comm=None, ppid=100, age=10.0, state="S"):
+def P(pid, rate, args, comm=None, ppid=100, age=10.0, state="S", pgid=0):
     return wd.Proc(pid=pid, ppid=ppid, start=pid * 10, ticks=rate, age=age,
-                   comm=comm or args.split()[0].rsplit("/", 1)[-1], args=args, state=state)
+                   comm=comm or args.split()[0].rsplit("/", 1)[-1], args=args, state=state, pgid=pgid)
 
 
 def test_stop_heaviest_one_per_sample_then_continue_oldest_first():
     w = World([90, 95, 90, 88, 65] + [50] * 12,
               [P(10, 150, "yes"), P(11, 190, "node vitest"), P(12, 5, "bash")])
-    dog = w.dog()
+    dog = w.dog(high=85)
     w.run(dog, 3)
     assert w.signals == [(11, "SIGSTOP")]            # third high sample, heaviest first
     w.run(dog, 1)
@@ -89,6 +89,80 @@ def test_stop_heaviest_one_per_sample_then_continue_oldest_first():
     assert w.signals[-1] == (10, "SIGCONT")
     assert dog.stopped == []
     assert any(l.startswith("STOP pid 11 ") and "machine 90%" in l for l in w.logs)
+
+
+def test_default_threshold_is_95():
+    w = World([94] * 6 + [96] * 3, [P(10, 150, "yes")])
+    dog = w.dog()
+    w.run(dog, 6)
+    assert w.signals == []                           # 94 % is under the 95 % bar
+    w.run(dog, 3)
+    assert w.signals == [(10, "SIGSTOP")]
+
+
+def _suite():
+    # preflight gate -> sh -c "... python3 -m pytest -n 4" -> xdist workers (execnet bootstrap)
+    return [
+        P(60, 1, "node tooling/repo-standards/preflight.mjs --paths x", ppid=1),
+        P(61, 1, "sh -c cd tooling/world-generation && python3 -m pytest -q -n=auto worldgen/test_a.py", ppid=60),
+        P(62, 5, "python3 -m pytest -q -n=auto worldgen/test_a.py", ppid=61),
+        P(63, 300, 'python3 -c import sys;exec(eval(sys.stdin.readline()))', ppid=62),
+        P(64, 280, 'python3 -c import sys;exec(eval(sys.stdin.readline()))', ppid=62),
+    ]
+
+
+def test_pick_target_takes_a_test_worker_with_its_whole_run():
+    procs = {p.pid: p for p in _suite() + [P(70, 400, "yes")]}
+    dog = wd.Watchdog(wd.Config(), None, None, None, None, None, self_pids={999}, last_dt=2.0)
+    deltas = {pid: p.ticks for pid, p in procs.items()}
+    members, label, ticks = dog.pick_target(procs, deltas, set())
+    # the run (61 + 62 + 63 + 64 = 586 ticks) outweighs the lone 400-tick process
+    assert [m.pid for m in members] == [61, 62, 63, 64]
+    assert "under runner pid 61" in label and ticks == 586
+    # a lone worker is never the target, even when it alone is the heaviest process
+    deltas[70] = 1000
+    members, label, _ = dog.pick_target(procs, deltas, set())
+    assert [m.pid for m in members] == [70] and label == "process"
+
+
+def test_pick_target_never_stops_a_process_that_frees_nothing():
+    # 2026-09-27: still above 70 % from exempt work, the throttle stopped tmux,
+    # wineserver and memwatch at 0-3 % of a core; under MIN_PCT (25 %) is never a target
+    procs = {p.pid: p for p in [P(80, 20, "tmux start-server", comm="tmux: server"),
+                                P(81, 10, "/opt/wine/bin/wineserver"), P(82, 3, "bash memwatch.sh x")]}
+    dog = wd.Watchdog(wd.Config(), None, None, None, None, None, self_pids={999}, last_dt=2.0)
+    deltas = {pid: p.ticks for pid, p in procs.items()}   # 10 ticks in 2 s = 5 % at CLK_TCK 100
+    assert dog.pick_target(procs, deltas, set()) is None
+    deltas[81] = 100                                        # 50 % of a core: worth stopping
+    assert [m.pid for m in dog.pick_target(procs, deltas, set())[0]] == [81]
+    assert not dog.throttleable(procs[80], procs)           # tmux (the sessions' host) is exempt
+
+
+def test_pick_target_all_or_nothing():
+    procs = {p.pid: p for p in _suite()}
+    dog = wd.Watchdog(wd.Config(), None, None, None, None, None, self_pids={999}, last_dt=2.0)
+    deltas = {pid: p.ticks for pid, p in procs.items()}
+    run = {61, 62, 63, 64}
+    deltas[60] = 100                                               # the preflight node, outside the run
+    # a member already stopped: only the preflight node (60), outside the run, is left
+    assert [m.pid for m in dog.pick_target(procs, deltas, {63})[0]] == [60]
+    procs[64] = P(64, 280, "claude --x", comm="claude", ppid=62)  # an exempt member
+    assert not run & {m.pid for m in dog.pick_target(procs, deltas, set())[0]}
+
+
+def test_a_test_run_is_stopped_and_continued_together_and_logged():
+    w = World([96, 96, 96, 65] + [50] * 8, _suite())
+    dog = w.dog()
+    w.run(dog, 3)
+    assert sorted(pid for pid, s in w.signals if s == "SIGSTOP") == [61, 62, 63, 64]
+    w.run(dog, 1 + 6)
+    conts = [pid for pid, s in w.signals if s == "SIGCONT"]
+    assert sorted(conts) == [61, 62, 63, 64] and conts[-1] == 61   # workers first, the runner last
+    assert dog.stopped == []
+    stop = next(l for l in w.logs if l.startswith("STOP"))
+    cont = next(l for l in w.logs if l.startswith("CONT"))
+    assert "target test run of 4 processes under runner pid 61" in stop
+    assert "paused 14 s" in cont
 
 
 def test_two_high_samples_do_nothing():
@@ -124,6 +198,23 @@ def test_job_guard_and_its_descendants_are_never_touched():
     assert {pid for pid, s in w.signals if s == "SIGSTOP"} == {52}
     assert 50 not in [pid for pid, _ in w.signals]
     assert 51 not in [pid for pid, _ in w.signals]
+
+
+def test_a_job_guard_jobs_process_group_is_never_stopped():
+    # method review C2 (2026-09-27): six `wb.py scan` pool workers were frozen.
+    # A worker that shares the admitted job's process group is exempt even when
+    # its parent chain no longer reaches job_guard (reparented to init).
+    w = World([99] * 8, [
+        P(90, 1, "bash tooling/repo-standards/job_guard.sh P -- python3 wb.py scan", ppid=1, pgid=90),
+        P(91, 100, "python3 wb.py scan", ppid=90, pgid=90),
+        P(92, 300, "python3 wb.py scan", ppid=1, pgid=90),          # pool worker, parent gone
+        P(93, 200, "python3 -c from multiprocessing.spawn import spawn_main", ppid=1, pgid=93),
+    ])
+    dog = w.dog()
+    w.run(dog, 8)
+    stopped = {pid for pid, s in w.signals if s == "SIGSTOP"}
+    assert stopped == {93}
+    assert dog.guard_pgids == {90}
 
 
 def test_job_guard_orphan_is_never_swept():
@@ -170,7 +261,7 @@ def test_orphaned_workers_killed_after_ten_minutes():
 
 def test_stopped_process_that_exits_is_dropped():
     w = World([95] * 3 + [95], [P(10, 150, "yes"), P(11, 1, "sleepy")])
-    dog = w.dog()
+    dog = w.dog(high=85)
     w.run(dog, 3)
     assert [s.pid for s in dog.stopped] == [10]
     del w.procs[10]
@@ -193,7 +284,7 @@ def test_daemon_through_env_hooks(tmp_path):
         "import json,sys\n"
         f"n=int(open({str(counter)!r}).read())+1; open({str(counter)!r},'w').write(str(n))\n"
         "print(json.dumps([dict(pid=4242,ppid=100,start=1,ticks=100*n,age=5,comm='yes',args='yes',state='S')]))\n")
-    env = {**os.environ, "ES_WD_DIR": str(tmp_path), "ES_WD_SAMPLER": str(sampler),
+    env = {**os.environ, "ES_WD_DIR": str(tmp_path), "ES_WD_HIGH": "85", "ES_WD_SAMPLER": str(sampler),
            "ES_WD_PROCS": f"{sys.executable} {procs}", "ES_WD_DRY_RUN": "1", "ES_WD_FAKE_CLOCK": "1",
            "ES_WD_SLEEP": "0", "ES_WD_MAX_SAMPLES": "12"}
     subprocess.run([sys.executable, str(HERE / "cpu_watchdog.py")], env=env, check=True, timeout=60)

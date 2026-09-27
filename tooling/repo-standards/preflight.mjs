@@ -22,7 +22,16 @@
  * run, npm test only in the touched workspaces and their dependents
  * (preflight_select.mjs holds the map; the skipped gates are printed by name).
  * No --paths runs every gate: the once-before-merge full run. A lane
- * preflights its own commit this way.
+ * preflights its own commit this way. Within a selected pytest gate
+ * (placement, water, pipeline, workbench) only the test files the changed
+ * files reach run (speed lane 2 S3: static import graph plus the tests'
+ * literal paths, tooling/world-generation/scripts/select_tests.py, handed the
+ * files in ES_TEST_CHANGED); a gate none of whose tests they reach is skipped.
+ *
+ * A failing pytest test is re-run once on a clean clone of HEAD and labelled
+ * NEW or PRE-EXISTING (red on HEAD too, with the sha it was first seen red on
+ * and "the lane that changed <file>"); results are cached per HEAD sha under
+ * tooling/.reports/preflight/ (preflight_heads.mjs). The gate still fails.
  *
  * Parallelism is capped by jobs.mjs (ES_JOBS, else half the cores): at most
  * that many gates at once, pytest workers and vitest workers likewise, so a
@@ -33,13 +42,14 @@
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
 import { spawn, execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { availableParallelism } from "node:os";
 import { basename, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { jobsCap, pinPrefix } from "./jobs.mjs";
 import { loadWorkspaces, selectGates } from "./preflight_select.mjs";
+import { PYTEST_CWD, byFile, failedIds, headOutcomes, readRecord, writeRecord, unchecked, label } from "./preflight_heads.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 // Runner mode keeps its logs apart: a working-tree preflight in another lane
@@ -127,7 +137,10 @@ const gateCwd = (name) => (runnerTree && name !== "workbench" ? runnerTree : rep
 function run(name, cmd, extraEnv = {}) {
   return new Promise((resolve) => {
     const t0 = Date.now();
-    const child = spawn(cmd, { cwd: gateCwd(name), shell: true, env: { ...process.env, FORCE_COLOR: "0", ...extraEnv } });
+    // PY_COLORS=0: pytest reads FORCE_COLOR's mere presence as "force colour",
+    // and coloured "FAILED" lines matched neither the summary filter nor the
+    // pre-existing-red parser (2026-09-27)
+    const child = spawn(cmd, { cwd: gateCwd(name), shell: true, env: { ...process.env, FORCE_COLOR: "0", PY_COLORS: "0", ...extraEnv } });
     let out = "";
     child.stdout.on("data", (d) => (out += d));
     child.stderr.on("data", (d) => (out += d));
@@ -136,6 +149,38 @@ function run(name, cmd, extraEnv = {}) {
       resolve({ name, code, seconds: Math.round((Date.now() - t0) / 1000), out });
     });
   });
+}
+
+function runIn(cwd, cmd) {
+  return new Promise((resolve) => {
+    const child = spawn(cmd, { cwd, shell: true, env: { ...process.env, FORCE_COLOR: "0", PY_COLORS: "0", ...env } });
+    let out = "";
+    child.stdout.on("data", (d) => (out += d));
+    child.stderr.on("data", (d) => (out += d));
+    child.on("close", (code) => resolve({ code, out }));
+  });
+}
+
+// A clean clone of HEAD with every gitignored path of this tree (built kits,
+// survey caches, outputs, node_modules; not bytecode) symlinked in at the
+// same place, so a test differs from the working tree only by the committed
+// code and data. Removed on exit.
+function headTreeWithArtefacts(head) {
+  const parent = mkdtempSync(join(tmpdir(), "preflight-head-"));
+  scratch.push(parent);
+  const tree = join(parent, basename(repoRoot));
+  execFileSync("git", ["clone", "--quiet", "--shared", "--no-checkout", repoRoot, tree]);
+  execFileSync("git", ["-c", "advice.detachedHead=false", "checkout", "--quiet", "--detach", head], { cwd: tree });
+  const ignored = execFileSync("git", ["ls-files", "-o", "-i", "--exclude-standard", "--directory", "-z"], { cwd: repoRoot, encoding: "utf8" })
+    .split("\0").filter((p) => p && !/(^|\/)__pycache__\/?$|\.pyc$|^\.pytest_cache/.test(p));
+  for (const p of ignored) {
+    const rel = p.replace(/\/$/, "");
+    const dst = join(tree, rel);
+    if (existsSync(dst)) continue;
+    mkdirSync(dirname(dst), { recursive: true });
+    symlinkSync(join(repoRoot, rel), dst);
+  }
+  return tree;
 }
 
 // MEMORY BUDGET (2026-09-16). Six gates at once, two of them pytest suites
@@ -187,7 +232,9 @@ const budget = capBytes - usedBytes;
 // memwatch.sh, which kills THE GATE if the unreclaimable memory passes the
 // ceiling, never the session.
 const jobs = jobsCap();
-const pyWorkers = Math.max(1, Math.min(4, availableParallelism(), jobs,
+// Under job_guard, the slot's core share (ES_JOB_CORES, method review C1) caps it too.
+const slotCores = Number(process.env.ES_JOB_CORES) > 0 ? Number(process.env.ES_JOB_CORES) : Infinity;
+const pyWorkers = Math.max(1, Math.min(4, availableParallelism(), jobs, slotCores,
   Math.floor((budget - 1.5 * GIB) / (1.5 * GIB))));
 const wsJobs = Math.min(4, jobs);
 // Under an outer memwatch (job_guard), each gate's ceiling sits 0.25 GiB below
@@ -217,6 +264,33 @@ if (!selection.all) {
   console.log(`preflight: scoped to ${reviewPaths.join(" ")}: running ${selection.gates.join(", ") || "no gates"}` +
     (selection.gates.includes("npm-test") ? ` (npm test in ${selection.workspaces.join(", ")}${selection.weapons ? " + weapons reach" : ""})` : ""));
   console.log(`preflight: skipped (inputs untouched): ${selection.skipped.join(", ") || "none"}`);
+}
+// TEST SELECTION inside the pytest gates (S3): each selected suite runs only
+// the test files the changed files reach; a suite with none is skipped.
+if (!selection.all) {
+  const changed = changedFiles(reviewPaths);
+  for (const gate of Object.keys(PYTEST_CWD)) {
+    if (!selection.gates.includes(gate)) continue;
+    const suiteEnv = { ...env, ES_TEST_CHANGED: changed.join("\n") };
+    let sum;
+    try {
+      sum = JSON.parse(execFileSync("python3", ["tooling/world-generation/scripts/select_tests.py", gate, "--summary"],
+        { cwd: repoRoot, encoding: "utf8", env: { ...process.env, ES_TEST_CHANGED: suiteEnv.ES_TEST_CHANGED } }));
+    } catch (e) {
+      console.log(`preflight: ${gate}: test selection failed (${String(e.message).split("\n")[0]}); running the whole suite`);
+      continue;
+    }
+    if (!sum.selected.length) {
+      selection.gates = selection.gates.filter((g) => g !== gate);
+      selection.skipped.push(gate);
+      console.log(`preflight: ${gate}: no test reaches the changed files; skipped`);
+      continue;
+    }
+    gateEnv[gate] = suiteEnv;
+    console.log(`preflight: ${gate}: ${sum.selected.length} of ${sum.total} test files` +
+      (sum.all ? ` (whole suite: ${sum.reasons["*"]})` : "") +
+      (sum.deselect.length ? `; slow deselected: ${sum.deselect.join(", ")}` : ""));
+  }
 }
 const runnerTree = runnerMode ? exportCommittedTree() : null;
 console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), watchdog ceiling ${ceilingGib} GiB`);
@@ -249,6 +323,44 @@ for (const wave of WAVES) {
     }
   }));
 }
+// PRE-EXISTING REDS (S4): the failing pytest ids of each red gate, re-run once
+// per HEAD sha on a clean clone of HEAD with this tree's ignored artefacts
+// linked in; the outcome is cached in tooling/.reports/preflight/head-<sha>.json.
+const headDir = join(repoRoot, "tooling", ".reports", "preflight");
+const labels = {};
+if (!runnerMode) {
+  const reds = results.filter((r) => r.code !== 0 && PYTEST_CWD[r.name]).map((r) => [r.name, failedIds(r.out)]).filter(([, ids]) => ids.length);
+  if (reds.length) {
+    const git = (...a) => execFileSync("git", a, { cwd: repoRoot, encoding: "utf8" }).trim();
+    const head = git("rev-parse", "HEAD");
+    const record = readRecord(headDir, head);
+    const todo = reds.map(([g, ids]) => [g, unchecked(record, g, ids)]).filter(([, ids]) => ids.length);
+    if (todo.length) {
+      let tree = null;
+      try {
+        tree = headTreeWithArtefacts(head);
+        for (const [g, ids] of todo) {
+          const present = ids.filter((id) => existsSync(join(tree, PYTEST_CWD[g], id.split("::")[0])));
+          const outcomes = Object.fromEntries(ids.filter((id) => !present.includes(id)).map((id) => [id, "absent"]));
+          const t0 = Date.now();
+          for (const batch of byFile(present)) {   // one run per file: a bad id never condemns another file's
+            const r = await runIn(join(tree, PYTEST_CWD[g]),
+              `${pinPrefix()}timeout 600 python3 -m pytest -q -p no:cacheprovider -p no:randomly ${batch.map((id) => `'${id.replace(/'/g, "'\\''")}'`).join(" ")}`);
+            Object.assign(outcomes, headOutcomes(batch, r.out, r.code));
+          }
+          if (present.length) console.log(`preflight: re-ran ${present.length} failing ${g} test(s) on HEAD ${head.slice(0, 8)} in ${Math.round((Date.now() - t0) / 1000)}s`);
+          record.gates[g] = { ...record.gates[g], ...outcomes };
+        }
+        writeRecord(headDir, record);
+      } catch (e) {
+        console.log(`preflight: could not check the reds on HEAD (${String(e.message).split("\n")[0]})`);
+      }
+    }
+    const owner = (file) => { try { return git("log", "-1", "--format=%h %s", "--", file).slice(0, 90) || "no commit"; } catch { return "unknown"; } };
+    for (const [g, ids] of reds) labels[g] = label(g, ids, record, headDir, repoRoot, owner);
+  }
+}
+
 let failed = 0;
 console.log("\npreflight — every deploy gate, run together\n");
 for (const r of results) {
@@ -262,7 +374,20 @@ for (const r of results) {
   if (!ok) {
     const patterns = GATES[r.name][1];
     const lines = r.out.split("\n").filter((l) => patterns.some((p) => p.test(l)));
-    for (const l of [...new Set(lines)].slice(0, 25)) console.log("      " + l.trim().slice(0, 200));
+    const tagged = new Map((labels[r.name] ?? []).map((x) => [x.id, x]));
+    // the failing test ids first (they carry the NEW / PRE-EXISTING label), then the rest
+    const uniq = [...new Set(lines.map((l) => l.replace(/\x1b\[[0-9;]*m/g, "")))];
+    const ordered = [...uniq.filter((l) => failedIds(l).length), ...uniq.filter((l) => !failedIds(l).length)];
+    for (const l of ordered.slice(0, 25)) {
+      const id = failedIds(l)[0];
+      const x = id && tagged.get(id);
+      const tag = !x ? "" : x.label === "PRE-EXISTING"
+        ? `PRE-EXISTING (red on HEAD, first seen ${x.firstSeen.slice(0, 8)}; owner: ${x.owner}) `
+        : x.label === "NEW" ? "NEW " : "";
+      console.log("      " + (tag + l.trim()).slice(0, 320));
+    }
+    const pre = (labels[r.name] ?? []).filter((x) => x.label === "PRE-EXISTING").length;
+    if (pre) console.log(`      ${pre} of ${labels[r.name].length} failing tests are PRE-EXISTING on HEAD: leave them to their owner, do not re-run for them`);
   }
 }
 console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(0, ...results.map((r) => r.seconds))}s` +

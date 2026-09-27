@@ -17,10 +17,11 @@ export function jobsCap(env = process.env, cores = cpus().length) {
 
 // The caps multiply (gates x pytest workers, workspaces x vitest workers), so
 // the CPU bound is the pin: a shell prefix that runs a child at nice 10 on
-// job_guard.sh's heavy-job pool, cores 2..nproc-1, leaving cores 0-1 to the
-// planner, the agents, the editor tunnel and the dev server. Empty when this process is already
+// job_guard.sh's heavy-job pool, cores 1..nproc-1 (2..nproc-1 until speed
+// lane 2, 2026-09-27), leaving core 0 to the planner, the agents, the editor
+// tunnel and the dev server. Empty when this process is already
 // confined (under job_guard, or a nested runner), on one core, or without taskset.
 export function pinPrefix(cores = cpus().length, allowed = availableParallelism()) {
   if (allowed < cores || cores < 2 || !existsSync("/usr/bin/taskset")) return "";
-  return `nice -n 10 taskset -c ${cores >= 4 ? `2-${cores - 1}` : cores - 1} `;
+  return `nice -n 10 taskset -c ${cores >= 4 ? `1-${cores - 1}` : cores - 1} `;
 }

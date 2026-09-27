@@ -150,6 +150,37 @@ class PluginSet:
         return owner.source_of(form_id), form_id & 0xFFFFFF
 
 
+_PLUGIN_SETS: dict = {}
+_PLUGIN_SETS_MAX = 4
+
+
+def _file_stamp(path: Path) -> tuple[str, int, int]:
+    st = path.stat()
+    return str(path.resolve()), st.st_mtime_ns, st.st_size
+
+
+def plugin_set(plugin: Path, paths: dict[str, Path]) -> PluginSet:
+    """`PluginSet(plugin, paths)`, parsed once per process. The key is the
+    plugin file (resolved path, mtime, size); a hit is reused only while every
+    master it loaded still resolves through `paths` to the same unchanged file
+    and no master it lacked has since appeared in `paths`. Read-only once
+    built, so sharing one between cells is safe."""
+    key = _file_stamp(Path(plugin))
+    hit = _PLUGIN_SETS.get(key)
+    if hit is not None:
+        pset, masters = hit
+        now = {m: _file_stamp(Path(paths[m])) if m in paths else None
+               for m in pset.main.masters}
+        if now == masters:
+            return pset
+    pset = PluginSet(Path(plugin), paths)
+    masters = {m: _file_stamp(Path(paths[m])) if m in paths else None for m in pset.main.masters}
+    if len(_PLUGIN_SETS) >= _PLUGIN_SETS_MAX:
+        _PLUGIN_SETS.clear()
+    _PLUGIN_SETS[key] = (pset, masters)
+    return pset
+
+
 def _ref_extras(rec) -> dict:
     out: dict = {}
     for st, payload in rec.subrecords():
@@ -408,7 +439,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
     arrivalMarker}]` (game frame), in door order."""
     from .mine_door_links import asset_id_for
 
-    pset = PluginSet(paths[plugin_name], paths)
+    pset = plugin_set(paths[plugin_name], paths)
     main = pset.main
     got = read_cell(main, cell_edid)
     if got is None:

@@ -6,10 +6,28 @@
 //   PROBE=door  X=0.31743 Z=3.065945 -> stands at an exterior door, logs the
 //     door candidate / focus / prompt, the physics floor there, then presses E
 //     and logs whether the cell opened.
-// Usage from apps/world-studio: PROBE=cell node scripts/probe-interior.mjs
+// Usage from apps/world-studio: PROBE=cell node scripts/probe-interior.mjs [--timeout <s>] [--out <file>]
+//   --timeout <s>  hard wall-clock limit (default 120): past it the browser and
+//                  vite are killed and the script exits 124 with one
+//                  "probe-interior: TIMEOUT ..." line, so a caller under the
+//                  600 s Bash cap is never left waiting (speed lane 2 item g).
+//   --out <file>   writes the full result JSON (and vite's log) there; stdout
+//                  keeps a one-line summary, so a caller never tails the log.
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import { chromium } from "playwright";
+
+function flag(name, fallback) {
+  const i = process.argv.indexOf(name);
+  if (i < 0) return fallback;
+  const v = process.argv[i + 1];
+  if (v === undefined || v.startsWith("--")) { console.error(`probe-interior: ${name} needs a value`); process.exit(2); }
+  return v;
+}
+const TIMEOUT_S = Number(flag("--timeout", "120"));
+if (!(TIMEOUT_S > 0)) { console.error("probe-interior: --timeout must be a positive number of seconds"); process.exit(2); }
+const OUT_FILE = flag("--out", null) && resolve(flag("--out", null));
 
 const PORT = Number(process.env.HARNESS_PORT ?? 8094);
 const PROBE = process.env.PROBE ?? "cell";
@@ -63,6 +81,38 @@ const result = { probe: PROBE, x: X, z: Z, stage: "boot" };
 let page = null;
 let browser = null;
 const errs = [];
+const started = Date.now();
+
+// Full result to --out (with vite's log), one line to stdout; plain JSON to
+// stdout when there is no --out (the old contract).
+function report(code) {
+  // the main path, unblocked by the killed browser, can get here first
+  if (result.timedOut) code = 124;
+  result.elapsedS = +((Date.now() - started) / 1000).toFixed(1);
+  if (OUT_FILE) {
+    mkdirSync(dirname(OUT_FILE), { recursive: true });
+    writeFileSync(OUT_FILE, JSON.stringify({ ...result, viteLog: log.join("").slice(-8000) }, null, 1) + "\n");
+    const verdict = result.timedOut ? "TIMEOUT" : result.failed ? "FAILED" : "ok";
+    console.log(`probe-interior: ${PROBE} ${verdict} at stage ${result.stage} in ${result.elapsedS} s -> ${OUT_FILE}`);
+  } else {
+    console.log(JSON.stringify(result));
+  }
+  process.exit(code);
+}
+
+function killVite() { try { process.kill(-vite.pid, "SIGKILL"); } catch { /* gone */ } }
+
+// The hard limit: whatever the probe is waiting on (vite, the page, a
+// 240 s waitForFunction), kill the browser and vite and exit non-zero.
+const hardTimer = setTimeout(async () => {
+  result.timedOut = true;
+  result.failed = `hard timeout ${TIMEOUT_S} s (stage ${result.stage})`;
+  console.error(`probe-interior: TIMEOUT after ${TIMEOUT_S} s at stage ${result.stage}; browser and vite killed`);
+  killVite();
+  await Promise.race([browser?.close().catch(() => undefined), new Promise((r) => setTimeout(r, 3000))]);
+  report(124);
+}, TIMEOUT_S * 1000);
+
 try {
   await ready;
   browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
@@ -111,8 +161,8 @@ try {
   }
   result.errors = errs.slice(0, 8);
 } catch (e) {
-  result.failed = String(e).slice(0, 600);
-  if (page) {
+  if (!result.timedOut) result.failed = String(e).slice(0, 600);
+  if (page && !result.timedOut) {
     result.atFailure = await debug(page, "{ frames: d.frames(), player: d.player(), camera: d.camera(), interior: d.interior() }")
       .catch((err) => String(err).slice(0, 200));
     result.errors = errs.slice(0, 8);
@@ -124,4 +174,5 @@ try {
   await browser?.close().catch(() => undefined);
   try { process.kill(-vite.pid, "SIGTERM"); } catch { /* gone */ }
 }
-console.log(JSON.stringify(result));
+clearTimeout(hardTimer);
+report(result.failed ? 1 : 0);

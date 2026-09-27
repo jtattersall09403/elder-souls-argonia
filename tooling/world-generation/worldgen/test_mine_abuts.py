@@ -178,3 +178,26 @@ def test_open_ends_skip_the_back_face_and_single_use_pieces():
         [("a", "-x", "faces-nothing"), ("b", "+x", "faces-nothing")]
     assert cs.single_use_pieces(placements, abuts) == \
         [{"placementId": "c", "assetId": "k:cave/doorcaveb"}]
+
+
+def test_family_of_memo_matches_the_plain_function():
+    """`family_of` is memoised (519 k calls in one compile): the memo must
+    return exactly what the undecorated function does, for the documented
+    examples and for every asset the mined abuts record names."""
+    import json
+
+    from . import mine_abuts
+    from .compile_settlement import ASSEMBLIES_RECORD
+
+    plain = mine_abuts.family_of.__wrapped__
+    ids = ["meshes/architecture/walls/mwimparchwall01",
+           "meshes/architecture/walls/mwimparchwall01destroyed02",
+           "meshes/architecture/walls/mwimparchwallgate01destroyed01",
+           "meshes/architecture/walls/mwimparchwalltower01", "bare_name_02", "gate"]
+    if ASSEMBLIES_RECORD.exists():
+        abuts = json.loads(ASSEMBLIES_RECORD.read_text()).get("abuts") or {}
+        ids += sorted(abuts.get("placedAssets") or {}) + sorted(abuts.get("endFaces") or {})
+    for asset in ids:
+        assert mine_abuts.family_of(asset) == plain(asset) == mine_abuts.family_of(asset)
+    assert mine_abuts.family_of("meshes/architecture/walls/mwimparchwalltower01") \
+        == "meshes/architecture/walls/mwimparchwall"

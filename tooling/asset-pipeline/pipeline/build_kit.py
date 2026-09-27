@@ -19,11 +19,17 @@ whole point (a 32 m cypress must stay 32 m). This builder:
 
 Usage:
     python -m pipeline.build_kit --kit flora-marsh-probe
+    python -m pipeline.build_kit --kit flora-marsh-probe --force   # rebuild even if unchanged
+
+A kit whose inputs hash (`kit_input_hashes`) matches the stamp beside its
+output (`<kit>.inputs.sha256`) and whose outputs all exist is skipped.
 """
 
 from __future__ import annotations
 
 import argparse
+import functools
+import hashlib
 import json
 import os
 import shutil
@@ -1156,14 +1162,180 @@ def read_gltf_json(glb: Path) -> dict:
     return json.loads(data[20:20 + length])
 
 
-def build(kit_id: str, vault: Path) -> dict:
+# --- input-hash skip (speed lane 2 item f) -----------------------------------
+#
+# A kit build is skipped when a digest of everything it reads matches the stamp
+# the last successful build wrote beside its GLB, and every output it wrote is
+# still there. The digest covers:
+#   * the extracted source meshes and textures, by CONTENT (sha256): `assemble`
+#     re-extracts them into a fresh data root on every run, so (size, mtime_ns)
+#     would change every time; hashing the bytes is the only stable identity and
+#     costs well under a second next to Blender's minutes;
+#   * the kit config, the asset registries, the interior kit configs and the
+#     placement records the post-passes read, and the toolchain config, by
+#     content;
+#   * the code version: this file, the Blender scripts it runs and the
+#     post-pass modules that write into the GLB, the manifest or the sidecars;
+#   * the options: the Blender plan (every config-derived setting) and --vault.
+# Extraction still runs on a skip (the texture set is only known after the
+# NIFs are read); it is the cheap half.
+
+PIPELINE_DIR = Path(__file__).resolve().parent
+
+#: The code whose change must rebuild a kit: build_kit, the Blender half and
+#: the helper it imports, and every post-pass `_build` runs on the result.
+KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
+    "build_kit.py", "build.py", "blender/build_kit.py",
+    "blender/effect_materials.py", "placement_metadata.py", "trunk_solids.py",
+    "vet_kit.py", "measure_footprints.py", "interiors_index.py",
+    "measure_connectors.py", "piece_front.py",
+    "kit_compress.py"))
+
+#: Records the post-passes read (placement_metadata, interiors_index,
+#: measure_connectors), plus the toolchain.
+KIT_RECORD_FILES = (
+    PIPELINE_DIR / "config" / "toolchain.json",
+    PIPELINE_DIR / "config" / "placement-policies.json",
+    REPO_ROOT / "world" / "sources" / "placement" / "kit-designed-sink.json",
+    REPO_ROOT / "world" / "sources" / "placement" / "kit-mounts-mined.json",
+    REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json",
+    REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json",
+)
+
+
+def _file_sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for block in iter(lambda: fh.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def input_hashes(files: Iterable[tuple[str, Path]], options: dict) -> dict[str, str]:
+    """{label: sha256 of the file's content} for every file, plus `(options)`:
+    the sha256 of the canonical JSON of `options`. A missing file hashes as
+    MISSING, so its arrival or removal changes the digest."""
+    hashes = {label: _file_sha256(path) if path.is_file() else "MISSING"
+              for label, path in files}
+    hashes["(options)"] = hashlib.sha256(
+        json.dumps(options, sort_keys=True, default=str).encode()).hexdigest()
+    return hashes
+
+
+def digest_of(hashes: dict[str, str]) -> str:
+    h = hashlib.sha256()
+    for label in sorted(hashes):
+        h.update(f"{label}\0{hashes[label]}\n".encode())
+    return h.hexdigest()
+
+
+def inputs_digest(files: Iterable[tuple[str, Path]], options: dict) -> str:
+    """One sha256 over every input file's content and the options, order-free."""
+    return digest_of(input_hashes(files, options))
+
+
+def _repo_label(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> dict[str, str]:
+    """Every input one kit build reads, hashed (see the block above)."""
+    from .interiors_index import INTERIOR_KITS
+    files = [(f"data-root/{p.relative_to(data_root).as_posix()}", p)
+             for p in sorted(data_root.rglob("*")) if p.is_file()]
+    repo_files = [CONFIG / f"{kit_id}.json", *KIT_CODE_FILES, *KIT_RECORD_FILES,
+                  *(CONFIG / f"{name}.json" for name in INTERIOR_KITS),
+                  *sorted(REGISTRY_DIR.glob("registry-*.jsonl"))]
+    files += [(_repo_label(p), p) for p in dict.fromkeys(repo_files)]
+    return input_hashes(files, {"plan": plan, "vault": str(vault)})
+
+
+def output_files(kit_id: str, output_glb: Path) -> list[Path]:
+    """Every file a build of `kit_id` leaves: the raw GLB, manifest and
+    sidecars beside it, the published copy under public/kits, and the
+    `<kit>-cards` / `<kit>-fx` folders in either place (not the stamp)."""
+    from .kit_compress import PUBLIC_KITS
+    out = []
+    for root in dict.fromkeys([output_glb.parent, PUBLIC_KITS]):
+        out += [f for f in root.glob(f"{kit_id}.*") if f.is_file() and not f.name.endswith(".inputs.sha256")]
+        for d in root.glob(f"{kit_id}-*"):
+            if d.is_dir():
+                out += [f for f in d.rglob("*") if f.is_file()]
+    return sorted(out)
+
+
+def outputs_digest(kit_id: str, output_glb: Path) -> str:
+    """sha256 over every output's name and content: a skip vouches for
+    outputs that are still exactly what this build wrote (a restored older
+    published GLB, a deleted card folder or sidecar forces a rebuild)."""
+    h = hashlib.sha256()
+    for f in output_files(kit_id, output_glb):
+        h.update(f.as_posix().encode("utf-8") + b"\0" + hashlib.sha256(f.read_bytes()).digest())
+    return h.hexdigest()
+
+
+def write_inputs_stamp(output_glb: Path, hashes: dict[str, str], sidecars: list[str] = (),
+                       kit_id: str | None = None) -> None:
+    """The digest on line 1, the sidecars this build wrote on line 2
+    (`# sidecars: a b c`; the manifest on disk does not carry them), the
+    outputs' digest on line 3, then one `<sha256> <label>` line per input, so
+    a rebuild can say which inputs moved."""
+    kit_id = kit_id or output_glb.stem
+    lines = ([digest_of(hashes), "# sidecars: " + " ".join(sidecars),
+              "# outputs: " + outputs_digest(kit_id, output_glb)]
+             + [f"{hashes[k]} {k}" for k in sorted(hashes)])
+    inputs_stamp_path(output_glb).write_text("\n".join(lines) + "\n")
+
+
+def changed_inputs(output_glb: Path, hashes: dict[str, str]) -> list[str]:
+    """Labels whose hash differs from the stamp's listing (added, removed or
+    changed); every label when there is no stamp."""
+    stamp = inputs_stamp_path(output_glb)
+    if not stamp.is_file():
+        return sorted(hashes)
+    old = dict(reversed(line.split(" ", 1))
+               for line in stamp.read_text().splitlines()[1:] if " " in line and not line.startswith("#"))
+    return sorted(k for k in set(old) | set(hashes) if old.get(k) != hashes.get(k))
+
+
+def inputs_stamp_path(output_glb: Path) -> Path:
+    """`<output dir>/<kit>.inputs.sha256`, beside the GLB it vouches for."""
+    return output_glb.with_suffix(".inputs.sha256")
+
+
+def unchanged_outputs(output_glb: Path, digest: str) -> dict | None:
+    """The last build's manifest when its stamp equals `digest` and the GLB,
+    the manifest and every sidecar the stamp lists are on disk; else None (a
+    stamp without the sidecar line is from before it existed: rebuild)."""
+    stamp = inputs_stamp_path(output_glb)
+    manifest_path = output_glb.with_suffix(".kit.json")
+    if not (stamp.is_file() and output_glb.is_file() and manifest_path.is_file()):
+        return None
+    lines = stamp.read_text().split("\n")
+    if (lines[0].strip() != digest or len(lines) < 3 or not lines[1].startswith("# sidecars:")
+            or not lines[2].startswith("# outputs:")):
+        return None
+    sidecars = lines[1].removeprefix("# sidecars:").split()
+    if not all((output_glb.parent / name).is_file() for name in sidecars):
+        return None
+    if lines[2].removeprefix("# outputs:").strip() != outputs_digest(output_glb.stem, output_glb):
+        return None
+    summary = json.loads(manifest_path.read_text())
+    summary["sidecars"] = sidecars
+    return summary
+
+
+def build(kit_id: str, vault: Path, force: bool = False) -> dict:
     """Build one kit holding the kit-list lock EXCLUSIVE (16k r8 rule 4)."""
     from .kit_lock import kit_list_lock
     with kit_list_lock("exclusive", f"build_kit {kit_id}"):
-        return _build(kit_id, vault)
+        return _build(kit_id, vault, force)
 
 
-def _build(kit_id: str, vault: Path) -> dict:
+def _build(kit_id: str, vault: Path, force: bool = False) -> dict:
     kit = json.loads((CONFIG / f"{kit_id}.json").read_text())
     work, assets, notes = assemble(kit, vault)
     errors = unresolved_diffuse_errors(kit, notes["texturesMissing"])
@@ -1206,6 +1378,22 @@ def _build(kit_id: str, vault: Path) -> dict:
         "output_glb": to_windows(output_glb),
         "summary_json": to_windows(summary_json),
     }
+    hashes = kit_input_hashes(kit_id, work / "data-root", plan, vault)
+    digest = digest_of(hashes)
+    stamp = inputs_stamp_path(output_glb)
+    if not force:
+        previous = unchanged_outputs(output_glb, digest)
+        if previous is not None:
+            print(f"build_kit: {kit_id} unchanged (inputs {digest[:8]}), "
+                  "skipped; --force to rebuild")
+            return previous
+        moved = changed_inputs(output_glb, hashes)
+        if stamp.is_file():
+            print(f"build_kit: {kit_id} rebuilding, {len(moved)} input(s) changed: "
+                  + ", ".join(moved[:8]) + (" ..." if len(moved) > 8 else ""))
+    # the outputs are about to be rewritten: a stamp left from the last build
+    # must not vouch for a half-written one if this build fails
+    stamp.unlink(missing_ok=True)
     plan_path = work / "kit-plan.json"
     plan_path.write_text(json.dumps(plan, indent=2))
 
@@ -1217,6 +1405,10 @@ def _build(kit_id: str, vault: Path) -> dict:
         str(_expand(TOOLCHAIN["wine"])),
         str(_expand(TOOLCHAIN["blender"])),
         "--background",
+        # under job_guard, all concurrent Blender builds together stay inside
+        # the slot's core share (ES_JOB_CORES, method review C1); the thread
+        # count does not change the build
+        *(["--threads", str(blender_threads())] if blender_threads() else []),
         "--python", to_windows(KIT_SCRIPT),
     ]
     proc = subprocess.run(cmd, env=env, capture_output=True, text=True,
@@ -1277,6 +1469,7 @@ def _build(kit_id: str, vault: Path) -> dict:
     from . import kit_compress
     if kit.get("publish", (kit_compress.PUBLIC_KITS / f"{kit_id}.glb").exists()):
         summary["compression"] = kit_compress.publish(kit_id)
+    write_inputs_stamp(output_glb, hashes, summary["sidecars"], kit_id)
     return summary
 
 
@@ -1459,10 +1652,36 @@ def measure_sidecars(kit_id: str, kits_dir: Path) -> list[str]:
 DEFAULT_KIT_JOBS = 3
 
 
+def slot_cores() -> int:
+    """job_guard's per-slot core share (ES_JOB_CORES), 0 outside job_guard."""
+    try:
+        return max(0, int(os.environ.get("ES_JOB_CORES", "0")))
+    except ValueError:
+        return 0
+
+
+def blender_threads() -> int:
+    """Threads per Blender: the slot's share split over the builds running at
+    once (`_build_many` sets ES_KIT_CONCURRENT); 0 outside job_guard."""
+    cores = slot_cores()
+    if not cores:
+        return 0
+    try:
+        running = max(1, int(os.environ.get("ES_KIT_CONCURRENT", "1")))
+    except ValueError:
+        running = 1
+    return max(1, cores // running)
+
+
+def default_kit_jobs() -> int:
+    """Kits built at once: DEFAULT_KIT_JOBS, capped by the slot's core share."""
+    return min(DEFAULT_KIT_JOBS, slot_cores()) if slot_cores() else DEFAULT_KIT_JOBS
+
+
 def build_many(kit_ids: list[str], vault: Path, jobs: int = DEFAULT_KIT_JOBS,
-               builder=None) -> list[dict]:
+               builder=None, force: bool = False) -> list[dict]:
     """Build every kit in `kit_ids`, up to `jobs` at once; summaries in order."""
-    builder = builder or build
+    builder = builder or functools.partial(build, force=force)
     kit_ids = list(dict.fromkeys(kit_ids))
     # one exclusive kit-list lock for the batch (16k r8 rule 4): the forked
     # builders inherit it, so they run side by side instead of in turn
@@ -1476,10 +1695,15 @@ def _build_many(kit_ids: list[str], vault: Path, jobs: int, builder) -> list[dic
         return [builder(kit_id, vault) for kit_id in kit_ids]
     import multiprocessing
     from concurrent.futures import ProcessPoolExecutor
-    with ProcessPoolExecutor(max_workers=min(jobs, len(kit_ids)),
-                             mp_context=multiprocessing.get_context("fork")) as pool:
-        futures = [pool.submit(builder, kit_id, vault) for kit_id in kit_ids]
-        return [f.result() for f in futures]
+    # the forked workers inherit it: blender_threads() splits the slot's cores
+    os.environ["ES_KIT_CONCURRENT"] = str(min(jobs, len(kit_ids)))
+    try:
+        with ProcessPoolExecutor(max_workers=min(jobs, len(kit_ids)),
+                                 mp_context=multiprocessing.get_context("fork")) as pool:
+            futures = [pool.submit(builder, kit_id, vault) for kit_id in kit_ids]
+            return [f.result() for f in futures]
+    finally:
+        os.environ.pop("ES_KIT_CONCURRENT", None)
 
 
 def main() -> None:
@@ -1487,14 +1711,18 @@ def main() -> None:
     kits = ap.add_mutually_exclusive_group(required=True)
     kits.add_argument("--kit", help="one kit id")
     kits.add_argument("--kits", help="comma-separated kit ids, built concurrently")
-    ap.add_argument("--jobs", type=int, default=DEFAULT_KIT_JOBS,
+    ap.add_argument("--jobs", type=int, default=default_kit_jobs(),
                     help=f"kits built at once with --kits (default {DEFAULT_KIT_JOBS})")
     ap.add_argument("--vault", default=str(DEFAULT_VAULT))
+    ap.add_argument("--force", action="store_true",
+                    help="rebuild even when the inputs hash matches the "
+                         "<kit>.inputs.sha256 stamp beside the output")
     args = ap.parse_args()
     if args.kit:
-        build(args.kit, Path(args.vault))
+        build(args.kit, Path(args.vault), force=args.force)
         return
-    build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs)
+    build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
+               force=args.force)
 
 
 if __name__ == "__main__":

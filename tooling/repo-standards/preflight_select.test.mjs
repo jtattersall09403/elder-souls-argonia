@@ -81,7 +81,7 @@ test("jobs cap: ES_JOBS, else half the cores, at least one", () => {
 });
 
 test("pin: upper half of the cores unless already confined", () => {
-  assert.equal(pinPrefix(4, 4), "nice -n 10 taskset -c 2-3 ");
+  assert.equal(pinPrefix(4, 4), "nice -n 10 taskset -c 1-3 ");
   assert.equal(pinPrefix(4, 2), "");
   assert.equal(pinPrefix(1, 1), "");
 });

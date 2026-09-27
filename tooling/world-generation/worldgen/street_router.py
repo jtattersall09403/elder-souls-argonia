@@ -119,7 +119,9 @@ import hashlib
 import heapq
 import json
 import math
+import os
 import sys
+import uuid
 from pathlib import Path
 
 import numpy as np
@@ -813,6 +815,38 @@ class LocalField:
 
     # ----------------------------------------------------------------- A* --
     def astar(self, start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+        """Least-cost cell path (`_astar_search`), read from the on-disk route
+        cache when this exact search has run before in any process (see
+        `_route_disk_path`)."""
+        if start == goal:
+            return [start]
+        path_file = _route_disk_path(self, start, goal)
+        if path_file is not None:
+            hit = _route_disk_read(path_file)
+            if hit is not None:
+                return hit
+        path = self._astar_search(start, goal)
+        if path_file is not None:
+            _route_disk_write(path_file, path)
+        return path
+
+    def search_digest(self) -> bytes:
+        """sha256 of everything `_astar_search` reads from this field: the
+        grid size, the cell size, the fence flag and contour, and the height
+        and multiplier grids byte for byte. The field is read-only after
+        construction, so the digest is taken once."""
+        digest = getattr(self, "_search_digest", None)
+        if digest is None:
+            h = hashlib.sha256()
+            h.update(json.dumps([self.h, self.w, repr(float(self.cell_m)), self.is_fence,
+                                 repr(float(self.profile["contour"])) if self.is_fence else None]
+                                ).encode("ascii"))
+            h.update(np.asarray(self._hflat, dtype=np.float64).tobytes())
+            h.update(np.asarray(self._mflat, dtype=np.float64).tobytes())
+            digest = self._search_digest = h.digest()
+        return digest
+
+    def _astar_search(self, start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
         """Least-cost cell path. The inner loop reads flat row-major lists
         (`_hflat`, `_mflat`) with `height_rc`'s clamp inlined, and keys states
         by one int; the arithmetic, the heap tuples and so the tie-breaking
@@ -897,6 +931,83 @@ class LocalField:
 
 
 _DIR_ANGLE = {i: math.atan2(dr, dc) for i, (dr, dc) in enumerate(_OFFSETS)}
+
+
+# --------------------------------------------------------------------------- #
+# on-disk route cache (the second level under `_ROUTE_CACHE`)
+# --------------------------------------------------------------------------- #
+#: Bump when `_astar_search` changes what path it returns for the same field.
+#: The key also hashes this module's source, so an edit that forgets the bump
+#: still misses; the constant is the explicit lever.
+ROUTE_CACHE_VERSION = 1
+#: One small JSON per search, beside the other derived output (gitignored).
+ROUTE_CACHE_DIR = Path(__file__).resolve().parents[1] / "output" / "cache" / "street-routes"
+_CODE_DIGEST: list = []
+
+
+def _code_digest() -> str:
+    """sha256 of this module's whole source (and the Python minor version).
+    Any edit to street_router.py misses the cache: bytecode alone missed a
+    swap of two global names (co_names) and module tables such as `_OFFSETS`
+    (review 2026-09-27), and no list of "the constants the search reads" can
+    be trusted to stay complete; a comment edit costing one cold compile is
+    the price."""
+    if not _CODE_DIGEST:
+        h = hashlib.sha256(Path(__file__).read_bytes())
+        h.update(repr(sys.version_info[:2]).encode("ascii"))
+        _CODE_DIGEST.append(h.hexdigest())
+    return _CODE_DIGEST[0]
+
+
+def _route_disk_path(field: "LocalField", start, goal) -> Path | None:
+    """The cache file for one search, or None when the disk level is off
+    (`ES_ROUTE_CACHE=0`). The key is the field's `search_digest`, the two
+    end cells, the cost constants, the module-source digest and
+    `ROUTE_CACHE_VERSION`: any change to the ground, the obstacles, the
+    terminals or the algorithm is a different file."""
+    if os.environ.get("ES_ROUTE_CACHE", "1") == "0":
+        return None
+    try:
+        params = json.dumps({
+            "v": ROUTE_CACHE_VERSION, "code": _code_digest(),
+            "start": [int(start[0]), int(start[1])], "goal": [int(goal[0]), int(goal[1])],
+            "k": [repr(float(x)) for x in (K_SLOPE, K_CROSS, TURN_M, FENCE_TURN_M,
+                                           K_FENCE_CONTOUR, FENCE_BAND_M)],
+        }, sort_keys=True).encode("ascii")
+        key = hashlib.sha256(field.search_digest() + params).hexdigest()
+    except (TypeError, ValueError, AttributeError):     # an uncacheable fixture field
+        return None
+    return ROUTE_CACHE_DIR / key[:2] / f"{key}.json"
+
+
+def _route_disk_read(path: Path) -> list[tuple[int, int]] | None:
+    """The cached cell path, or None on a miss or an unreadable file."""
+    try:
+        data = json.loads(path.read_text())
+        cells = [(int(r), int(c)) for r, c in data["path"]]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    return cells if cells else None
+
+
+def _route_disk_write(path: Path, cells: list[tuple[int, int]]) -> None:
+    """Write atomically (a unique temp file, then `os.replace`), so parallel
+    workers writing the same key each land a whole file. A failed write only
+    loses the cache entry."""
+    tmp = None
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.parent / f".{path.stem}.{os.getpid()}.{uuid.uuid4().hex}.tmp"
+        tmp.write_text(json.dumps({"v": ROUTE_CACHE_VERSION,
+                                   "path": [[int(r), int(c)] for r, c in cells]},
+                                  separators=(",", ":")))
+        os.replace(tmp, path)
+    except OSError:
+        if tmp is not None:
+            try:
+                tmp.unlink(missing_ok=True)
+            except OSError:
+                pass
 
 
 def _turn_table(turn_m: float) -> list[list[float]]:

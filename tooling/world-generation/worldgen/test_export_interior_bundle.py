@@ -203,7 +203,7 @@ def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin, cell):
         pytest.skip(f"{plugin} not in the local vault")
     bundle = ex.export_cell(plugin, cell, paths, registry, ex.published_kit_assets(),
                             lambda n: pools.get(n))
-    pset = ex.PluginSet(paths[plugin], paths)
+    pset = ex.plugin_set(paths[plugin], paths)
     cell_rec, refs = ex.read_cell(pset.main, cell)
     base_of = {}
     for rec in refs:

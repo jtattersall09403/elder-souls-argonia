@@ -89,6 +89,7 @@ restricts the run to some of them):
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import math
 import pickle
@@ -238,6 +239,7 @@ def face_band(points: np.ndarray, box, band: float) -> str | None:
     return None
 
 
+@functools.lru_cache(maxsize=None)
 def family_of(asset_id: str) -> str:
     """K9 ruling A3: the family key, the model directory plus the base name
     with its variant suffixes stripped (trailing digits and the words in

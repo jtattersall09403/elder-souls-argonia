@@ -3,7 +3,7 @@
 #
 # The machine's CPU watchdog (owner ruling 2026-09-25, after the second
 # codespace crash at 100 % CPU): a daemon that pauses the heaviest processes
-# while the whole machine is above 85 % CPU, continues them one at a time once
+# while the whole machine is above 95 % CPU, continues them one at a time once
 # it has calmed, and kills stale `rtk` filters and orphaned Blender / miner /
 # kit-build / test workers, with no agent involved. The logic and every
 # threshold are in cpu_watchdog.py (its docstring); this wrapper starts it.
