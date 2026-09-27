@@ -924,8 +924,8 @@ Planner rulings (2026-09-24):
   contention; placement is 101 s alone, pipeline 78 s at `-n 4`). In
   priority order, "speed lane 2": S1 **batch the loop**: a `wb round`
   wrapper runs apply + check + walktable + shots in one call, `check
-  --only <uids>` re-measures the named ops' pairs only (the graph
-  rules rerun in `wb round`), and `wb.py scan`
+  --only <uids>` judges the named pieces' rows, pairs and per-piece
+  rules; the graph rules rerun in `wb round`, and `wb.py scan`
   (site feasibility per candidate pose: pad legality with batter,
   road-paint overlap, water depth on a bearing, designed sinks, porch
   and stair reach) runs before any edit; the skill rules are one layout

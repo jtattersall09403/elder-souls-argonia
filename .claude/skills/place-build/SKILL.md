@@ -79,9 +79,9 @@ the owner, batched into the next walk packet.
   scan gap, fixed first.
 - **One round, one batch, one apply.** Every finding of a round is one
   layout edit and one `wb round` (apply + check + walktable + shots);
-  `check --only <uids>` re-measures the named ops' pairs only; the graph
-  rules (`walkRule`, `pathReachRule`, `berthReachRule`) rerun in `wb
-  round`.
+  `check --only <uids>` judges the named pieces' rows, pairs and
+  per-piece rules; the graph rules (`walkRule`, `pathReachRule`,
+  `berthReachRule`) rerun in `wb round`.
 - **A fresh agent per round.** A round ends with the WIP layout, the
   check list and the brief on disk (`wb round --report-dir
   tooling/.reports/16k/<place>/round-N/`: `summary.json`, `rounds.jsonl`,
