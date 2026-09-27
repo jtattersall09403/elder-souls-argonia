@@ -1,0 +1,35 @@
+{
+ "claims": [
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "farmhouse01-with-door | clutter:barrel02, clutter:farmbench01, clutter:firewoodpilemedium01, clutter:miscsacklarge, light:candlelanternwithcandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "farmhouse02 | clutter:barrel02, clutter:firewoodpilelarge01, clutter:haymound01, clutter:horsetrough01, light:candlelanternwithcandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "genericwell01 | clutter:barrel01, clutter:barrel02, clutter:bmv:roadsignmedium01l, clutter:bucket01, clutter:cratesmall01, clutter:farmbench01, clutter:handcart01, clutter:horsetrough01, clutter:roadsignpost, light:candlelanternwithcandle01, light:impbrazier01"
+  },
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "kotm-house-pod | clutter:basketclosed01, clutter:basketfull, clutter:basketsmall01, clutter:canoe1, clutter:carapaceoven, clutter:cleat, clutter:cleat, clutter:fishnet01, clutter:fishrack01, clutter:fishracksmall, clutter:miscsacklarge, clutter:paintedurn01, clutter:plank_ferry_swamp_01, clutter:shipoar01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01, light:argoniancandle01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "mudhut01 | clutter:basketfull, clutter:paintedurn01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-27T19:34:00Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "mudhut01 | clutter:basketsmall01, clutter:cookingstand01, clutter:miscsacklarge, clutter:paintedurn01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01"
+  }
+ ],
+ "schemaVersion": 1
+}

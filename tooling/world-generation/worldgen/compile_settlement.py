@@ -2449,6 +2449,16 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     bp_id = bp["id"]
     seed = str(bp["seed"])
     warns: list[str] = list(warnings or [])
+    # Stable gate ids beside the messages (reader-checklist `rule:compile.<gate>`;
+    # 16k S14 `place_gates` reads them): the messages and the rule loops are
+    # untouched, each tagged list is also recorded here as it is appended.
+    gate_failures: list[dict] = []
+
+    def gate(gate_id: str, grade: str, messages) -> None:
+        gate_failures.extend({"gate": gate_id, "grade": grade, "message": str(m)}
+                             for m in messages)
+
+    gate("compile.cultureKit", "warn", [w for w in warns if _CULTURE_KIT_MARK.search(w)])
     placements: list[dict] = []
     grades: list[dict] = []
     dressing_report: dict[str, int] = {}
@@ -2503,6 +2513,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             laid, run_errors = fp_mod.lay_pieces(parcel)
             if run_errors:
                 errors.extend(run_errors)
+                gate("compile.modularRuns", "error", run_errors)
                 continue
             base_y = max(heights) - BURY_M
             if fit == "pad":
@@ -2786,6 +2797,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 + (f", stands on {water_here['entityId']} "
                    f"({water_here.get('kind')})" if water_here else "") + ")"
             )
+            if not cleared:
+                gate("compile.clearance", "error", errors[-1:])
         doors_out.append({**door, "reachable": reachable,
                           "access": "boardwalk" if boardwalk_access else "land",
                           "waterEntityId": (water_here or {}).get("entityId"),
@@ -2794,7 +2807,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
 
     # --- layer integration (owner 2026-09-05): ways vs buildings, gates across
     # roads, doors onto ways, ways in the right medium ------------------------
-    errors += check_integration(bp, survey)
+    integration = check_integration(bp, survey)
+    errors += integration
+    gate("compile.spacing", "error", [e for e in integration if _SPACING_MARK.search(e)])
 
     # --- the promise ledger (97 E9): everything the catalogue record promised
     # the player, against the objects that realise it. HARD from M3 up.
@@ -2821,6 +2836,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         warns += unlit
     else:
         errors += unlit
+    gate("compile.litEntrance", "warn" if bp_mod.is_fixture(bp) else "error", unlit)
 
     compiled_objects, compiled_object_errors = compiled_blueprint_objects(
         bp, placements, doors_out, survey,
@@ -2866,7 +2882,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         errors += obligation_errors
 
     # --- 97 B6/D2: does the first-seen object actually read from the approach?
-    warns += _first_seen_warnings(bp, survey, shelf)
+    first_seen = _first_seen_warnings(bp, survey, shelf)
+    warns += first_seen
+    gate("compile.firstSeen", "warn", first_seen)
 
     # --- 97 B4/G8: horizontal relationship to the final water/flood section.
     # WARN only: this is design evidence, not a reason to suppress a compile.
@@ -2903,6 +2921,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     if open_ends and not bp_mod.is_fixture(bp):
         warns.append(f"16h K7 open modular ends: {len(open_ends)} "
                      f"({', '.join(sorted({r['placementId'] for r in open_ends})[:6])})")
+        gate("compile.openModularEnds", "warn", warns[-1:])
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -2939,6 +2958,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing
         "warnings": warns,
+        # {gate, grade, message} per tagged error or warning, in append order
+        "gateFailures": gate_failures,
     }
 
 
@@ -2973,6 +2994,14 @@ def resolve_out(arg: str | None, bp_id: str) -> tuple[Path, Path]:
         return target / f"{bp_id}.settlement.json", target
     return target, target.parent
 
+
+# The messages two gates arrive in from other modules (the validator's 97 C1
+# warning, blueprint_integration's 97 C5 error); "97 C1" never matches "97 C10".
+_CULTURE_KIT_MARK = re.compile(r"\b97 C1\b")
+_SPACING_MARK = re.compile(r"\b97 C5\b")
+COMPILE_GATE_IDS = ("compile.spacing", "compile.litEntrance", "compile.cultureKit",
+                    "compile.firstSeen", "compile.openModularEnds", "compile.modularRuns",
+                    "compile.clearance")
 
 _RULE_97 = re.compile(r"\b97 ([A-Z][A-Za-z0-9-]*(?:/[A-Z][A-Za-z0-9-]*)*)")
 
