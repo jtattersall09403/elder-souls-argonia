@@ -22,23 +22,11 @@ def _places() -> dict:
     return out
 
 
-# 97 A7: lived-in classes sit within +-1 band of their ground (tier 0 exempt,
-# as in macro_plot.score). The plot's relaxed stages allow one more band
-# (macro_plot.py:1182, :1982); these records were placed there.
-DANGER_PINNED = {
-    "place.dunmer-north.channel-cross-village",
-    "place.dunmer-north.the-diggings-ladder",
-    "place.hist-heartland.platform-ladder-tower-watch",
-    "place.imperial-fringe.long-causeway",
-    "place.imperial-fringe.reedcutters-toll",
-    "place.imperial-fringe.the-back-kiln",
-    "place.imperial-penal-south.natural-dive-shaft",
-    "place.naga-kur-deeps.necropolis-nightbound",
-    "place.naga-kur-deeps.portage-slipway-narrows-deeps",
-    "place.pirate-freeholds.trunk-road-tradehouse",
-    "place.saxhleel-coast.pearl-lots",
-    "place.saxhleel-coast.quarantine-village-lagoon",
-}
+# 97 A7: lived-in classes sit within +-2 bands of their ground (tier 0 exempt,
+# as in macro_plot.score). The plot prefers one band and allows the second only
+# at its relaxed stages (macro_plot.py:1182, :1982); decision 0102 decision 9
+# made that practice the rule, so the twelve records placed there stand.
+A7_LIVED_BANDS = mp.DANGER_GAP_LIVED + 1
 
 
 def danger_violations(places: dict) -> set[str]:
@@ -50,23 +38,24 @@ def danger_violations(places: dict) -> set[str]:
         if rec.get("importanceTier") == 0:
             continue
         gap = abs(mp.DANGER_TIER.get(rec["dangerTier"], 3) - int(facts["dangerBand"]))
-        if gap > mp.DANGER_GAP_LIVED:
+        if gap > A7_LIVED_BANDS:
             bad.add(pid)
     return bad
 
 
-def test_lived_in_records_sit_within_one_band_of_their_ground():
+def test_lived_in_records_sit_within_two_bands_of_their_ground():
     bad = danger_violations(_places())
-    assert "place.imperial-fringe.claywater-station" not in bad
-    assert not bad - DANGER_PINNED, f"new danger-band violators: {sorted(bad - DANGER_PINNED)}"
-    assert not DANGER_PINNED - bad, f"fixed, remove from the pin: {sorted(DANGER_PINNED - bad)}"
+    assert not bad, f"lived-in records beyond 97 A7's two bands: {sorted(bad)}"
 
 
 def test_danger_rule_fails_on_a_planted_violation():
     places = _places()
     rec = json.loads(json.dumps(places["place.imperial-fringe.claywater-station"]))
-    rec["dangerTier"] = "D1"
+    rec["plotFacts"]["dangerBand"] = 4
+    rec["dangerTier"] = "D1"          # three bands off: beyond A7
     assert danger_violations({rec["id"]: rec}) == {rec["id"]}
+    rec["dangerTier"] = "D2"          # two bands off: inside A7 (0102 decision 9)
+    assert danger_violations({rec["id"]: rec}) == set()
 
 
 # A record that declares travelStation.modes promises a boarding point: the

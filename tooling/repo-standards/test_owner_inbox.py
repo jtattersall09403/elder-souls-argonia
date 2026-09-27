@@ -122,3 +122,42 @@ def test_missing_gh_exits_zero(tmp_path):
     r = subprocess.run([sys.executable, str(HERE / "owner_inbox.py"), "--from-progress"], env=env,
                        capture_output=True, text=True, timeout=60)
     assert r.returncode == 0 and "nothing posted" in r.stdout
+
+
+def test_attach_url_is_the_blob_link_with_raw():
+    url = owner_inbox.raw_image_url("tooling/.reports/16k/claywater-walk-2/plan.png", "dev")
+    assert url == ("https://github.com/jtattersall09403/elder-souls-argonia/blob/dev/"
+                   "tooling/.reports/16k/claywater-walk-2/plan.png?raw=true")
+
+
+def test_attach_rewrites_a_named_image_and_appends_the_rest():
+    text = "Plan:\n\n![plan](plan.png)\n\nOther ![x](https://example.com/x.png)\n"
+    out = owner_inbox.attach_images(
+        text, ["tooling/.reports/16k/w/plan.png", "tooling/.reports/16k/w/front.png"],
+        "dev", base_dir="tooling/.reports/16k/w")
+    blob = "https://github.com/jtattersall09403/elder-souls-argonia/blob/dev/tooling/.reports/16k/w/"
+    assert f"![plan]({blob}plan.png?raw=true)" in out
+    assert "(plan.png)" not in out and "(https://example.com/x.png)" in out
+    assert out.index("**Pictures**") < out.index(f"![front.png]({blob}front.png?raw=true)")
+    assert out.count("plan.png?raw=true") == 1
+
+
+def test_post_with_attach_links_on_the_current_branch(tmp_path):
+    repo = tmp_path / "repo"
+    shots = repo / "tooling" / ".reports" / "16k" / "w"
+    shots.mkdir(parents=True)
+    (shots / "plan.png").write_bytes(b"\x89PNG")
+    (shots / "front.png").write_bytes(b"\x89PNG")
+    git = ["git", "-C", str(repo)]
+    subprocess.run([*git, "init", "-q", "-b", "slice-1c"], check=True)
+    subprocess.run([*git, "add", "tooling/.reports/16k/w/plan.png"], check=True)
+    subprocess.run([*git, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "p"], check=True)
+    packet = shots / "packet.md"
+    packet.write_text("See ![plan](plan.png).")
+    r, st = _run(tmp_path, "--post", str(packet), "--attach", str(shots / "plan.png"), str(shots / "front.png"))
+    assert r.returncode == 0, r.stderr
+    body = st["comments"][0]["body"]
+    blob = "https://github.com/jtattersall09403/elder-souls-argonia/blob/slice-1c/tooling/.reports/16k/w/"
+    assert f"![plan]({blob}plan.png?raw=true)" in body
+    assert f"![front.png]({blob}front.png?raw=true)" in body
+    assert "front.png is not committed" in r.stdout and "plan.png is not committed" not in r.stdout

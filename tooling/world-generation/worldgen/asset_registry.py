@@ -82,6 +82,10 @@ class Pool:
     #: same paths: King of the Murkmire's copy of the `tesak1243/` keep set is
     #: the `mwkeep` pool's, `mine_assemblies.PLUGIN_PATH_POOLS`).
     exclude_prefixes: tuple[str, ...] = ()
+    #: Why a pool with no plugin in the placement miners is expected absent
+    #: from their records' ``poolsMined`` (``test_mined_provenance``), or which
+    #: plugin variant stands as its evidence and on what counts.
+    plugin_evidence: str | None = None
 
 
 POOLS: tuple[Pool, ...] = (
@@ -359,6 +363,7 @@ POOLS: tuple[Pool, ...] = (
         credit="Cyrodiil Ship and boat resource (Nexus classic 59426, Markus Liberty / "
                "Tellmann for Beyond Skyrim; collision work by Tamira and 1shoedpunk)",
         directory="{vault}/skyrim-source/mod-sources/cyrodiil-ship-boat-resource-59426/extracted",
+        plugin_evidence="no plugin evidence; placements by kit rule only",
     ),
     Pool(
         id="boatsanim",
@@ -368,6 +373,16 @@ POOLS: tuple[Pool, ...] = (
                "meshes from Vicn's resource, with DeviantKaled's ship assets credited "
                "on its page)",
         directory="{vault}/skyrim-source/mod-sources/boats-operational-animated-110882/extracted",
+        # 16k remine r2 (2026-09-26): of the nine FOMOD-option plugins,
+        # SSKMovingBoats.esp (the core every other option masters) places the
+        # most of the meshes our published kits use: 13 exterior references
+        # (docks-v1 6, settlement-imperial-v1 4, bmv-treehouse-int 2,
+        # works-v1 1) plus 4 of the watercraft-v1 config's; next is Enhanced
+        # Solitude Docks at 5 + 1, which needs a master we do not hold. Its
+        # own carrier meshes are excluded from every kit (watercraft-v1).
+        # Walked by the miners through mine_designed_sink.EXTRA_POOL_PLUGINS.
+        plugin_evidence="SSKMovingBoats.esp (FOMOD core): 13 published-kit refs + 4 "
+                        "watercraft-v1; runner-up Enhanced Solitude Docks 5 + 1",
     ),
     Pool(
         id="hlaalu",
@@ -437,6 +452,10 @@ def _plugin_facts(pool: Pool, vault: Path) -> dict[str, dict]:
                     round((z2 - z1) / UNITS_PER_METRE, 3),
                 ]
                 entry["originOffsetUnits"] = [x1, y1, z1]
+    for entry in facts.values():
+        # Deterministic whatever order the plugins yield their records in
+        # (16k fix 2 kits round 3, ruling 6: a rebuild swapped two ids).
+        entry["editorIds"].sort()
     return facts
 
 

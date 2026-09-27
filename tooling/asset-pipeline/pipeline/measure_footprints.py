@@ -27,7 +27,11 @@ Frames and conventions (the gotchas):
 What is measured, per asset:
 
   * ``footprintM`` — hull of the vertices in the lowest ``groundBandM`` (1.5 m)
-    of the piece: what actually touches the ground.
+    of the piece: what actually touches the ground. A shell (ground anchor,
+    pad fit, ``SHELL_FIT_POLICIES``) whose designed
+    sink (manifest ``designedSinkM.p50``, the pivot's depth below the ground
+    line) buries that whole band is measured in the 1.5 m above its sink
+    plane instead, recorded as ``groundPlaneM`` (pivot frame, y up).
   * ``planOutlineM`` — hull of ALL vertices projected down: the full plan
     outline. For stilt pieces the ground band is only the piles, so the plan
     outline is the silhouette a blueprint should draw; both are always recorded
@@ -196,6 +200,20 @@ def _resolve_node(asset: dict, node_names: set[str],
     return None
 
 
+#: the fit policy of a padded building shell (placement-policies.json), the
+#: pieces whose footprint is read at their designed-sink plane when it buries
+#: the band. Plinth is left out: farmhouse01walkway (plinth) is a raised deck
+#: whose sink plane band is its whole deck, which would wall off its own
+#: doorway (16k fix 2 layout r2)
+SHELL_FIT_POLICIES = frozenset({"pad"})
+
+
+def _is_shell_fit(asset: dict) -> bool:
+    placement = asset.get("placement") or {}
+    return ((asset.get("anchorClass") or "ground") == "ground"
+            and (placement.get("evidence") or {}).get("policyId") in SHELL_FIT_POLICIES)
+
+
 def measure_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> dict:
     import trimesh
 
@@ -223,7 +241,19 @@ def measure_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> dict:
         plan = convex_hull_2d([(float(v[0]), float(v[2])) for v in verts])
         low = float(verts[:, 1].min())
         high = float(verts[:, 1].max())
-        band = verts[verts[:, 1] <= low + GROUND_BAND_M]
+        # 16k fix 2 ruling 3: a piece whose designed sink buries its whole
+        # lowest band (the KotM pod: tip 8.7 m down) meets the ground at
+        # its sink plane (pivot + designedSinkM.p50, the runtime's seat), so
+        # its ground band starts there; the buried tip is not its footprint.
+        # Shells only: a ground piece on a building fit (pad, plinth); a
+        # stilt, dock or water piece keeps its piles as its footprint.
+        sink = (asset.get("designedSinkM") or {}).get("p50")
+        plane = float(sink) if isinstance(sink, (int, float)) and _is_shell_fit(asset) else None
+        if plane is not None and plane > low + GROUND_BAND_M:
+            band = verts[(verts[:, 1] >= plane) & (verts[:, 1] <= plane + GROUND_BAND_M)]
+        else:
+            plane = None
+            band = verts[verts[:, 1] <= low + GROUND_BAND_M]
         foot = convex_hull_2d([(float(v[0]), float(v[2])) for v in band])
         degenerate = len(foot) < 3 or polygon_area(foot) <= 0.0
         if degenerate:
@@ -241,6 +271,8 @@ def measure_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> dict:
         }
         if degenerate:
             record["groundBandDegenerate"] = True
+        if plane is not None:
+            record["groundPlaneM"] = round(plane, 3)
         if shared[node] > 1:
             # Export-name truncation collapsed several manifest assets onto one
             # GLB node, so this measurement cannot be attributed to one piece.

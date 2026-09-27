@@ -336,7 +336,7 @@ def _polygon_contains(poly, x: float, z: float) -> bool:
 def chosen_sitings() -> list[dict]:
     """[{id, positionM, why}] for every blueprint with a chosen candidate."""
     out = []
-    for path in sorted(bp_mod.BLUEPRINT_DIR.glob("place.*.json")):
+    for path in bp_mod.blueprint_paths(bp_mod.BLUEPRINT_DIR):
         bp = json.loads(path.read_text(encoding="utf-8"))["blueprint"]
         cands = (bp.get("siting") or {}).get("candidates") or []
         chosen = [c for c in cands if c.get("chosen")]

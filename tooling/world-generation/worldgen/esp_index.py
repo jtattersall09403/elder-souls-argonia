@@ -156,11 +156,20 @@ class ObjectRef:
 @dataclass
 class LandData:
     heights: list[list[float]] | None = None
-    normals: list[list[tuple[float, float, float]]] | None = None
     base_texture: dict[int, int] = field(default_factory=dict)
     """quadrant -> LTEX form id painted as the quadrant's base layer."""
     layers: list[tuple[int, int, dict[int, float]]] = field(default_factory=list)
     """(quadrant, LTEX form id, {vertex index within quadrant: opacity})."""
+    vnml: bytes | None = field(default=None, repr=False)
+    """The raw VNML payload; `normals` decodes it on first read (most
+    readers, the mount miner among them, never read normals)."""
+    _normals: list | None = field(default=None, init=False, repr=False, compare=False)
+
+    @property
+    def normals(self) -> list[list[tuple[float, float, float]]] | None:
+        if self._normals is None and self.vnml is not None:
+            self._normals = decode_normals(self.vnml)
+        return self._normals
 
 
 @dataclass
@@ -522,7 +531,7 @@ def decode_land(rec: Record, layers: bool = True) -> LandData:
         if st == b"VHGT":
             _, land.heights = decode_vhgt(payload)
         elif st == b"VNML" and len(payload) >= LAND_DIM * LAND_DIM * 3:
-            land.normals = decode_normals(payload)
+            land.vnml = bytes(payload[:LAND_DIM * LAND_DIM * 3])
         elif not layers:
             continue
         elif st == b"BTXT" and len(payload) >= 8:
@@ -543,15 +552,17 @@ def decode_land(rec: Record, layers: bool = True) -> LandData:
 
 def decode_normals(payload: bytes) -> list[list[tuple[float, float, float]]]:
     """VNML holds signed bytes scaled by 127 — flat ground is (0, 0, 127)."""
+    import numpy as np
+    grid = np.frombuffer(payload, dtype=np.int8, count=LAND_DIM * LAND_DIM * 3)
+    grid = (grid.astype(np.float64) / 127.0).reshape(LAND_DIM, LAND_DIM, 3).tolist()
+    return [[tuple(v) for v in row] for row in grid]
+
+
+def decode_normals_scalar(payload: bytes) -> list[list[tuple[float, float, float]]]:
+    """The reference per-byte decode `decode_normals` must equal (its test)."""
     signed = struct.unpack_from(f"<{LAND_DIM * LAND_DIM * 3}b", payload)
-    rows = []
-    for r in range(LAND_DIM):
-        row = []
-        for c in range(LAND_DIM):
-            i = (r * LAND_DIM + c) * 3
-            row.append(tuple(signed[i + k] / 127.0 for k in range(3)))
-        rows.append(row)
-    return rows
+    return [[tuple(signed[(r * LAND_DIM + c) * 3 + k] / 127.0 for k in range(3))
+             for c in range(LAND_DIM)] for r in range(LAND_DIM)]
 
 
 def decode_rdot(payload: bytes) -> list[RegionObject]:

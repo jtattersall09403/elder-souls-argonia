@@ -5,7 +5,8 @@ from __future__ import annotations
 import numpy as np
 
 from . import terrain_patches as tp
-from .settlement_run_pads import (SEAT_BAR_M, apply_settlement_pad, declare_order,
+from . import pad_overlay
+from .settlement_run_pads import (PAD_HARD_RADIUS_PX, SEAT_BAR_M, declare_order,
                                   merge_pad_patches, run_pad_patches)
 
 
@@ -54,11 +55,12 @@ def test_the_pad_seats_every_footprint_sample_and_tapers_outside():
              "blendM": 3.0, "maxDeltaM": 2.0,
              "params": {"pieces": [{"placementId": "a", "targetM": 0.5,
                                     "footprintM": [[30.0, 30.0], [38.0, 30.0], [38.0, 34.0], [30.0, 34.0]]}]}}
-    out, stats = apply_settlement_pad(h, patch, mpp, cell_offset=0.5)
+    overlay = pad_overlay.overlay_from_patch(patch, PAD_HARD_RADIUS_PX * mpp)
+    out = pad_overlay.apply_grid(h, (0.5 * mpp, 0.5 * mpp), mpp, [overlay])
     for x, z in patch["params"]["pieces"][0]["footprintM"] + [[34.0, 32.0]]:
         assert out[int(z / mpp), int(x / mpp)] == 0.5       # the nearest-pixel sampler reads the seat
     assert out[0, 0] == 0.0 and 0.0 < out[16, 12] < 0.5      # far ground untouched; a taper between
-    assert stats["maxRaiseM"] == 0.5 and stats["maxCutM"] == 0.0
+    assert out.max() == 0.5 and out.min() == 0.0
     assert "settlement-pad" in tp.KINDS and tp.SCHEMA_VERSION == 2
 
 
@@ -161,14 +163,14 @@ def test_a_building_pad_is_realised_as_pad_ground_describes_it():
     """The patch the export writes (hardM 0) grades exactly the polygon and
     blends over PAD_BLEND_M; `pad_ground` (the compile's and the workbench's
     surface) reads the same heights at the raster's samples."""
-    from .settlement_run_pads import PaddedSurvey, apply_settlement_pad
+    from .settlement_run_pads import PaddedSurvey
     mpp = 1.0
     h = np.fromfunction(lambda r, c: 20.0 - 0.2 * c, (60, 60))
     poly = pad_polygon([[20, 20], [33, 20], [33, 30], [20, 30]])
     rows = [{"id": "pl.b1", "pad": {"parcelId": "b1", "datumM": 15.0, "polygonM": poly}}]
     (patch,) = building_pad_patches(rows, "place.t")
     assert patch["hardM"] == 0.0
-    out, _ = apply_settlement_pad(h, patch, mpp)
+    out = pad_overlay.apply_grid(h, (0.0, 0.0), mpp, [pad_overlay.overlay_from_patch(patch, 0.0)])
     frozen = lambda x, z: float(h[int(round(z)), int(round(x))])  # noqa: E731
     surface = pad_ground(frozen, [{"polygonM": poly, "datumM": 15.0}])
     for x in (25, 36, 40):                       # inside, 1.5 m out, past the blend
@@ -194,40 +196,28 @@ def test_merging_a_building_pad_patch_keeps_hardm_zero():
     assert merged["hardM"] == 0.0
 
 
-class _FlatSurvey:
-    """The published ground the export measures on: flat 10 m, dry."""
-    extent_m = 100.0
-    water_signed_depth_m = np.full((10, 10), -1.0)
-
-    @staticmethod
-    def height_at(x, z):
-        return 10.0
-
-
-def _bundle(with_pad: bool) -> dict:
-    """A bundle as `export_settlement_bundle` writes it: a building placement
-    carries the compile's `pad` block and no top-level parcelId."""
-    house = {"id": "place.t.b1.building", "sourceId": "place.t", "kind": "settlement",
-             "footprintM": _HOUSE}
-    if with_pad:
-        house["pad"] = {"parcelId": "b1", "datumM": 11.0, "apronM": 1.5,
-                        "polygonM": pad_polygon(_HOUSE), "fillM": 1.0, "cutM": 0.0}
-    return {"placements": [house],
-            "settlements": [{"id": "place.t", "placementIds": [house["id"]]}]}
-
-
-def test_emit_names_a_building_pad_from_a_real_bundle_row_and_drops_it_when_removed(tmp_path):
-    """Bundle placements never carry parcelId (the pad block names its
-    parcel); a pad removed from the layout leaves the patch set on the next
-    export of its place, while another place's pad stays."""
-    from .export_settlement_bundle import emit_run_pads
-    path = tmp_path / "patches.json"
-    other = building_pad_patches([{"id": "place.u.b9.building", "pad": {
-        "parcelId": "b9", "datumM": 5.0, "polygonM": pad_polygon(_HOUSE)}}], "place.u")
-    declare_order(other)
-    tp.save(other, path)
-    emit_run_pads(_bundle(True), None, path, survey=_FlatSurvey())
-    assert sorted(p["id"] for p in tp.load(path)) == [
-        "patch.pad.settlement.place.t.b1", "patch.pad.settlement.place.u.b9"]
-    emit_run_pads(_bundle(False), ["place.t"], path, survey=_FlatSurvey())
-    assert [p["id"] for p in tp.load(path)] == ["patch.pad.settlement.place.u.b9"]
+def test_one_pad_maths_every_python_sampler_agrees_on_claywater_family_hut():
+    """Decision 0102: the workbench's `pad_ground`, the yard gates'
+    `patched_height_at` and the bundle overlay (`pad_overlay`, the runtime's
+    twin) read the same padded ground on Claywater's family-hut pad: its core,
+    blend and outside golden points, within 1e-4."""
+    import json
+    from pathlib import Path
+    from . import pad_overlay
+    from .settlement_run_pads import patched_height_at
+    fixture = json.loads((Path(__file__).resolve().parents[3] / "packages/game-core/src/terrain"
+                          / "__fixtures__/ground-overlays-claywater.json").read_text())
+    overlays = fixture["overlays"]
+    hut = next(o for o in overlays if o["id"].endswith(".family-hut"))
+    points = [p for p in fixture["points"] if p["pad"] == hut["id"]]
+    assert {p["zone"] for p in points} == {"core", "blend", "outside"}
+    for p in points:
+        base = lambda x, z, b=p["baseM"]: b  # noqa: E731  the frozen ground at the point
+        want = pad_overlay.overlay_height(p["baseM"], p["x"], p["z"], overlays)
+        assert abs(want - p["expectedM"]) < 1e-4
+        workbench = pad_ground(base, [{"id": hut["id"], "polygonM": hut["pieces"][0]["polygonM"],
+                                       "datumM": hut["pieces"][0]["datumM"]}])(p["x"], p["z"])
+        gates = patched_height_at(type("S", (), {"height_at": staticmethod(base)})(),
+                                  overlays)(p["x"], p["z"])
+        assert abs(workbench - want) < 1e-4, (p["zone"], workbench, want)
+        assert abs(gates - want) < 1e-4, (p["zone"], gates, want)

@@ -59,6 +59,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from . import catalogue
+from .blueprint_files import blueprint_paths, parcel_services  # noqa: F401 — parcel_services is re-exported
 from .catalogue import SERVICES
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -106,10 +107,38 @@ class Promise:
     source: str
     remedy: str
     realisedBy: list[str] = field(default_factory=list)
+    # the socket kinds (0103 decision 5) that satisfy this promise, so a
+    # design brief's § Sockets table can be checked against the ledger
+    socketKinds: list[str] = field(default_factory=list)
+    # the parcels its realisers stand in (`_row_parcels`): a socket meets the
+    # row only from one of them, or by carrying the row's id (planner
+    # ruling 3, 16k round 6)
+    parcels: list[str] = field(default_factory=list)
 
     @property
     def met(self) -> bool:
         return bool(self.realisedBy)
+
+
+#: promise kind -> the socket kinds that satisfy it (0103 decision 5); a
+#: quest provision's kinds follow its 20b tag (PROVISION_SOCKET_KINDS)
+SOCKET_KINDS = {
+    "service": ["npc"],
+    "npc-role": ["npc", "idle"],
+    "named-npc": ["npc", "idle"],
+    "travel": ["npc", "marker"],
+    "socket": ["marker"],
+    "reward": ["npc"],
+    "entrance": ["marker"],
+}
+PROVISION_SOCKET_KINDS = {"LOC": ["marker"], "STATE": ["marker"], "FAST": ["npc", "marker"],
+                          "BOSS": ["encounter"], "POI": ["marker", "item"]}
+
+
+def socket_kinds(promise: Promise) -> list[str]:
+    if promise.kind == "provision":
+        return PROVISION_SOCKET_KINDS.get(promise.promise.split(" ", 1)[0], ["marker"])
+    return SOCKET_KINDS.get(promise.kind, [])
 
 
 # ------------------------------------------------------------------ helpers
@@ -171,8 +200,7 @@ def _needle_words(provision: str, place_id: str) -> list[str]:
 def _service_parcels(bp: dict) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     for p in bp.get("parcels", []) or []:
-        svc = p.get("service")
-        if svc:
+        for svc in parcel_services(p):
             out.setdefault(svc, []).append(p)
         use = (p.get("use") or "").lower()
         for service, uses in USE_STANDS_FOR.items():
@@ -191,19 +219,40 @@ def _doors_by_parcel(bp: dict) -> dict[str, list[dict]]:
 # ------------------------------------------------------------------ schema
 
 def validate_promise_fields(bp: dict) -> list[str]:
-    """The two fields this module adds to the blueprint schema."""
+    """The fields this module adds to the blueprint schema: parcel
+    `services`, occupant `worksAt`/`livesAt`, and the `parcel` of a quest
+    socket with a `socketRef` and of a travel service (16k r7 rule 7)."""
     errs: list[str] = []
     parcel_ids = {p["id"] for p in bp.get("parcels", []) or []}
     for p in bp.get("parcels", []) or []:
-        svc = p.get("service")
-        if svc is not None and svc not in SERVICES:
-            errs.append(f"{p['id']}: `service` must be one of {sorted(SERVICES)} (97 E9)")
+        if "services" in p and "service" in p:
+            errs.append(f"{p['id']}: give `services` (a list, schema 2) or the schema-1 "
+                        f"`service`, never both")
+        if "services" in p and not (isinstance(p["services"], list) and p["services"]):
+            errs.append(f"{p['id']}: `services` must be a non-empty list of service ids")
+        for svc in parcel_services(p):
+            if svc not in SERVICES:
+                errs.append(f"{p['id']}: service {svc!r} must be one of {sorted(SERVICES)} (97 E9)")
     for o in bp.get("occupants", []) or []:
         for key in ("worksAt", "livesAt"):
             ref = o.get(key)
             if ref is not None and ref not in parcel_ids:
                 errs.append(f"occupant {o.get('slotId')}: `{key}` -> {ref} is not a parcel in this "
                             f"blueprint (97 E9)")
+    # 16k r7 rule 7: a quest socket that realises a catalogue socket, and a
+    # travel service, name the parcel they stand in (a ferry's is its
+    # landing), so the ledger row they realise has a parcel to be met in
+    for key, what in (("questSockets", "a quest socket realising a catalogue socket"),
+                      ("travelServices", "a travel service (its landing)")):
+        for o in bp.get(key, []) or []:
+            if key == "questSockets" and not o.get("socketRef"):
+                continue
+            ref = o.get("parcel")
+            if ref is None:
+                errs.append(f"{o.get('id')}: {what} names the parcel it stands in "
+                            f"(`parcel`: a parcel id of this blueprint)")
+            elif ref not in parcel_ids:
+                errs.append(f"{o.get('id')}: `parcel` -> {ref} is not a parcel in this blueprint")
     return errs
 
 
@@ -353,7 +402,33 @@ def build_ledger(bp: dict, rec: dict) -> list[Promise]:
                            f"add the {ent} as a landmark, parcel or socket whose id names it",
                            realised))
 
-    out.sort(key=lambda p: p.id)
+    # one row per promise id (a record may list a catalogue socket twice, or
+    # under two kinds), each realiser named once
+    rows: dict[str, Promise] = {}
+    for promise in out:
+        row = rows.setdefault(promise.id, promise)
+        if row is not promise:
+            row.realisedBy += promise.realisedBy
+    parcels_of = _row_parcels(bp)
+    for promise in rows.values():
+        promise.realisedBy = list(dict.fromkeys(promise.realisedBy))
+        promise.socketKinds = socket_kinds(promise)
+        promise.parcels = sorted({pid for r in promise.realisedBy for pid in parcels_of.get(r, ())})
+    return sorted(rows.values(), key=lambda p: p.id)
+
+
+def _row_parcels(bp: dict) -> dict[str, list[str]]:
+    """Realiser id -> the parcel(s) it stands in: a parcel itself, a door's
+    parcel, an occupant's worksAt and livesAt, and the parcel a dock, quest
+    socket or travel service names (`parcelId` or `parcel`)."""
+    out: dict[str, list[str]] = {p["id"]: [p["id"]] for p in bp.get("parcels", []) or []}
+    for key in ("doors", "docks", "questSockets", "travelServices"):
+        for o in bp.get(key, []) or []:
+            pid = o.get("parcelId") or o.get("parcel")
+            if isinstance(o, dict) and o.get("id") and isinstance(pid, str):
+                out.setdefault(o["id"], []).append(pid)
+    for o in bp.get("occupants", []) or []:
+        out[o.get("slotId")] = [v for v in (o.get("worksAt"), o.get("livesAt")) if v]
     return out
 
 
@@ -372,6 +447,29 @@ def check_promises(bp: dict, rec: dict | None = None) -> tuple[list[str], list[s
     return (errors, msgs, ledger)
 
 
+def socket_promise_errors(ledger: list[Promise], sockets: list[dict]) -> list[str]:
+    """Planner ruling 4 (16k round 5) and ruling 3 (16k round 6): every
+    ledger row's Socket kinds column (what the design brief's § Sockets
+    table is checked against) is met by a compiled socket of one of those
+    kinds that stands in one of the row's parcels, or whose id is the row's
+    id or its subject (the id past ``promise.<kind>.``: the catalogue socket
+    id, the service)."""
+    out = []
+    for p in ledger:
+        if not p.socketKinds:
+            continue
+        ids = {p.id, p.id.removeprefix(f"promise.{p.kind}.")}
+        if any(s["kind"] in p.socketKinds
+               and (s["id"] in ids or (p.parcels and s.get("parcelId") in p.parcels))
+               for s in sockets):
+            continue
+        where = (f"standing in {' or '.join(p.parcels)}, or with id {p.id}" if p.parcels
+                 else f"with id {p.id} or {p.id.removeprefix(f'promise.{p.kind}.')}")
+        out.append(f"sockets.promise: {p.id} ({p.promise}) needs a socket of kind "
+                   f"{' or '.join(p.socketKinds)} {where}; the place compiled none")
+    return out
+
+
 # ------------------------------------------------------------------ report
 
 def ledger_markdown(bp_id: str, rec: dict, ledger: list[Promise]) -> str:
@@ -382,10 +480,12 @@ def ledger_markdown(bp_id: str, rec: dict, ledger: list[Promise]) -> str:
              f"Magnitude {mag} · {len(met)} of {len(ledger)} promises met · "
              f"unmet are {'compile errors' if mag in HARD_FROM_MAGNITUDE else 'warnings'} "
              f"(97 E9, G22).", "",
-             "| Promise | Kind | From | Met by | Remedy if not |", "|---|---|---|---|---|"]
+             "| Promise | Kind | Socket kinds | From | Met by | Remedy if not |",
+             "|---|---|---|---|---|---|"]
     for p in ledger:
         realised = ", ".join(f"`{r}`" for r in p.realisedBy[:3]) if p.met else "**—**"
-        lines.append(f"| {p.promise} | {p.kind} | {p.source} | {realised} | "
+        lines.append(f"| {p.promise} | {p.kind} | {', '.join(p.socketKinds) or '—'} | "
+                     f"{p.source} | {realised} | "
                      f"{'' if p.met else p.remedy} |")
     lines.append("")
     return "\n".join(lines)
@@ -402,7 +502,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Build the promise ledger for the blueprints.")
     ap.add_argument("--id", help="one place id (default: every blueprint)")
     args = ap.parse_args()
-    paths = sorted(BLUEPRINT_DIR.glob("*.json"))
+    paths = blueprint_paths(BLUEPRINT_DIR)
     if args.id:
         paths = [p for p in paths if p.stem == args.id]
     rc = 0

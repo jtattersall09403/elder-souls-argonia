@@ -18,7 +18,7 @@ def _records():
 
 
 def _blueprints():
-    for path in sorted(bp_mod.BLUEPRINT_DIR.glob("*.json")):
+    for path in bp_mod.blueprint_paths(bp_mod.BLUEPRINT_DIR):
         bp = json.loads(path.read_text())["blueprint"]
         if not bp_mod.is_fixture(bp):
             yield bp
@@ -547,3 +547,15 @@ def test_the_primary_culture_is_owed_and_secondary_cultures_owe_nothing():
     rows, _errors = po.build_obligations(rec, {"id": rec["id"]})
     paths = {r.sourcePath.split(".", 1)[0].split("[", 1)[0] for r in rows}
     assert "culture" in paths and "secondaryCultures" not in paths
+
+
+def test_a_parcels_assembly_members_are_part_of_it_not_objects_of_their_own():
+    """0097 assembly rows carry local slug ids (`b1-barrel`); the registry
+    walks them as members of their parcel, never as blueprint objects (the
+    first real place with an assembly, Claywater, raised 49 schema errors)."""
+    bp = {"id": "place.t.p", "parcels": [{
+        "id": "parcel.p.house", "assembly": [
+            {"id": "b1-barrel", "asset": "vanilla:clutter/barrel02"},
+            {"id": "b1-lamp", "asset": "vanilla:clutter/common/candlelanternwithcandle01"}]}]}
+    registry, errors = po.blueprint_object_registry(bp)
+    assert errors == [] and set(registry) == {"parcel.p.house"}

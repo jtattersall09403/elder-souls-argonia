@@ -608,5 +608,9 @@
   {
    "asset": "vanilla:landscape/trees/treeaspenstump01"
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/landscape/trees/gkbjunglebranch10.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
+  "textures/tr_oth_mush_sm2.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ }
 }

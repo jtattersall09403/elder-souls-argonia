@@ -78,11 +78,12 @@ RUN pair meets, with counts: the piece's modular ends), ``abuts.doubleFaces``
 (placed, in no run pair), ``abuts.singleUse``. Deterministic: refs sorted by ``collect``, pairs
 sorted, numbers rounded.
 
-Usage (from ``tooling/world-generation``; same set arguments as
-``mine_assemblies``):
-  python3 -m worldgen.mine_abuts --set vanilla --plugin .../Skyrim.esm ... \\
-      --only vanilla:architecture/whiterun/wrfarmfence/   # a sample
-  python3 -m worldgen.mine_abuts ... --write              # merge into the record
+Usage (from ``tooling/world-generation``; the sets are
+``mine_assemblies.derived_sets``, one per register pool, and ``--set``
+restricts the run to some of them):
+  python3 -m worldgen.mine_abuts --set vanilla \\
+      --only vanilla:architecture/whiterun/wrfarmfence/ --out /tmp/x.json  # a sample
+  python3 -m worldgen.mine_abuts --write                  # every set, into the record
 """
 
 from __future__ import annotations
@@ -99,7 +100,8 @@ import numpy as np
 
 from .esp_index import UNITS_PER_METRE
 from .asset_taxonomy import classify
-from .mine_assemblies import (NATURAL_DIR_WORDS, Cluster, asset_ref, collect, grouped_sets,
+from .mine_assemblies import (NATURAL_DIR_WORDS, Cluster, asset_ref, collect, kit_joins,
+                              pool_index, provenance,
                               order_pair, short, unit_offset, yaw_delta)
 from .mine_mounts import (CONTACT_M, RAW_KITS_DIR, Instance, MeshLibrary, bounds_of,
                           box_gap_ok, patch_class, relative_pose)
@@ -477,9 +479,13 @@ def end_faces(pairs: list[dict], family_pairs: list[dict] = (),
 
 
 def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol: float,
-         min_count: int, only: list[str] | None = None, cache: Path | None = None) -> dict:
+         min_count: int, only: list[str] | None = None, cache: Path | None = None,
+         index=None) -> dict:
+    """``bundles``: ``mine_assemblies.derived_sets`` rows; ``index`` the pool's
+    ``LoadOrderIndex`` (built on first need when not given)."""
     boxes = {a: bounds_of(row) for a, row in kits.items() if bounds_of(row)}
     sampler = Sampler(MeshLibrary())
+    joins = None
     pairs: list[dict] = []
     fam_pairs: list[dict] = []
     all_rows: list[dict] = []
@@ -495,8 +501,12 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
         if cached and cached.exists():
             source = pickle.loads(cached.read_bytes())
         else:
-            source = collect(bundle["plugins"], set(bundle["worlds"]), bundle["names"],
-                             bundle["id"], bundle["label"] or bundle["id"], accept=keep)
+            if index is None:
+                index, _ = pool_index()
+            if joins is None:
+                joins = kit_joins()
+            source = collect(index, joins, bundle["rows"], bundle["id"], bundle["label"],
+                             accept=keep)
             if cached:
                 cached.write_bytes(pickle.dumps(source))
         refs = [r for r in source.refs if keep(r.model_key, 0.0, r.pool)
@@ -505,7 +515,8 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
             placed[asset_ref(r.pool, r.model_key)] += 1
         rows = abut_rows(refs, boxes, sampler, bundle["id"], stats)
         found = pairs_from(rows, bundle["id"], offset_tol, yaw_tol, min_count)
-        fam = family_pairs_from(rows, bundle["id"], offset_tol, yaw_tol, min_count)
+        fam = drop_loose_clutter(family_pairs_from(rows, bundle["id"], offset_tol, yaw_tol,
+                                                   min_count), kits)
         print(f"{bundle['id']}: {len(refs)} kit refs, {len(rows)} end joints, "
               f"{len(found)} piece pairs, {len(fam)} family pairs", flush=True)
         pairs += found
@@ -529,6 +540,9 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
     families = sorted({p[k] for p in fam_pairs for k in ("parent", "child")})
     return {
         "schemaVersion": SCHEMA_VERSION,
+        "provenance": provenance(__file__, [path.name for b in bundles
+                                            for _pool, path in b["rows"]],
+                                 [pool for b in bundles for pool, _path in b["rows"]]),
         "method": "worldgen.mine_abuts: kit pieces the plugins placed end to end "
                   "(real meshes, mine_mounts contact band; child pivot outside the "
                   "parent's plan; a side patch or every contact point on one side "
@@ -589,21 +603,136 @@ def derive_single_use(pairs: list[dict], family_pairs: list[dict], no_pairs: lis
     return single_use(list(no_pairs) + unplaced, pairs, family_pairs)
 
 
+FAMILY_SPREAD_LIMIT_M = 0.3
+"""K10 ruling A: a family pair whose members disagree by more than this is
+not one joint; the family key is claiming too much."""
+FAMILY_SPREAD_BARRED_LIMIT_M = 0.35
+"""16k fix 2 planner ruling: a family whose every member piece carries a
+mined run-joint bar (``runJointBars``: its joints are judged on the plugin's
+own penetration and overlap) may spread to this (stockadescaffoldtop0sided,
+0.326 m on the wider evidence)."""
+
+
+def family_spread_limit(pair: dict, bars: dict[str, dict]) -> float:
+    """The spread limit of one family pair: ``FAMILY_SPREAD_BARRED_LIMIT_M``
+    when every member piece (``members`` keys ``parent>child``, resolved in
+    the pair's parent and child family folders) has a run-joint bar, else
+    ``FAMILY_SPREAD_LIMIT_M``."""
+    pieces = set()
+    for key in pair.get("members") or {}:
+        a, _, b = key.partition(">")
+        pieces.add(pair["parent"].rsplit("/", 1)[0] + "/" + a)
+        pieces.add(pair["child"].rsplit("/", 1)[0] + "/" + b)
+    if pieces and all(p in bars for p in pieces):
+        return FAMILY_SPREAD_BARRED_LIMIT_M
+    return FAMILY_SPREAD_LIMIT_M
+
+
+LOOSE_CLUTTER_CATEGORIES = {"clutter", "container"}
+"""16k r8 rule 3: loose clutter (a barrel, a crate, a hay bale) is stacked
+beside its kind, never laid as a modular run, so it carries no family pair
+(remine r2: the barrel pairs spread 0.31 m on the wider evidence)."""
+FORTIFICATION_DIR = "clutter/stockade/"
+"""Skyrim files its stockade walls, pikes and scaffolds under clutter/: they
+are run pieces, never loose clutter."""
+
+
+def is_loose_clutter(family: str, members: list[dict]) -> bool:
+    from .mine_assemblies import STRUCTURAL_WORDS
+    name = family.split(":", 1)[-1]
+    return (bool(members)
+            and all(m.get("category") in LOOSE_CLUTTER_CATEGORIES for m in members)
+            and FORTIFICATION_DIR not in name
+            and not any(w in name.rsplit("/", 1)[-1] for w in STRUCTURAL_WORDS))
+
+
+def drop_loose_clutter(family_pairs: list[dict], kits: dict[str, dict]) -> list[dict]:
+    """The family pairs whose parent or child family is loose clutter removed."""
+    members: dict[str, list[dict]] = defaultdict(list)
+    for asset, row in kits.items():
+        members[family_of(asset)].append(row)
+    return [p for p in family_pairs
+            if not (is_loose_clutter(p["parent"], members.get(p["parent"], []))
+                    or is_loose_clutter(p["child"], members.get(p["child"], [])))]
+
+
 def rederive(section: dict, kits: dict[str, dict]) -> dict:
     """The record's derived fields from its own raw ones, with no plugin walk
-    (a rule change on the derived set, never on the mined pairs)."""
+    (a rule change on the derived set, never on the mined pairs); loose
+    clutter family pairs are dropped (16k r8 rule 3)."""
     out = dict(section)
+    out["familyPairs"] = drop_loose_clutter(section.get("familyPairs") or [], kits)
     out["singleUse"] = derive_single_use(section.get("pairs") or [],
-                                         section.get("familyPairs") or [],
+                                         out["familyPairs"],
                                          section.get("placedNoPairs") or [],
                                          section.get("placedAssets") or {}, kits)
     return out
 
 
+RUN_JOINT_QUANTILE = 0.9
+"""A run-joint bar is the count-weighted p90 of the plugin's own joints."""
+
+
+def pair_transforms(pair: dict) -> tuple[np.ndarray, np.ndarray]:
+    """(parent, child) 4x4 transforms of a mined pair in the parent's unit
+    frame (plugin axes, z up): the parent at the origin, the child at
+    ``offsetM`` turned ``yawDeg`` clockwise and scaled ``relScale``."""
+    yaw = -np.radians(float(pair["yawDeg"]))
+    c, s = np.cos(yaw), np.sin(yaw)
+    child = np.eye(4)
+    child[:3, :3] = np.array([[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]]) * float(
+        pair.get("relScale", 1.0))
+    child[:3, 3] = [float(v) for v in pair["offsetM"]]
+    return np.eye(4), child
+
+
+def run_joint_bars(section: dict, meshes) -> dict[str, dict]:
+    """16k fix 2 round 6 ruling K3: per piece, the bar its run joints are
+    judged on, from the plugin's own joints of the piece with itself (the
+    record's self-pairs, posed at their mined offset and yaw):
+    count-weighted p90 of the slide penetration and of the along-run overlap
+    (`slide_penetration`, the workbench check's own metric), with n (refs)
+    and the pairs measured. A piece with no measurable self-pair gets no row
+    (the workbench keeps its default bar)."""
+    from . import slide_penetration as sp
+    rows: dict[str, list] = {}
+    for pair in section.get("pairs") or []:
+        if pair["parent"] != pair["child"]:
+            continue
+        mesh = meshes(pair["parent"])
+        if mesh is None or not len(mesh.vertices):
+            continue
+        tp, tc = pair_transforms(pair)
+        _hit, pen, _along = sp.penetration(mesh, tc, mesh, tp)
+        overlap = sp.along_run_overlap(mesh, tp, mesh, tc)
+        if pen is None or not np.isfinite(overlap):
+            continue
+        rows.setdefault(pair["parent"], []).append((pen, overlap, int(pair["count"])))
+    out = {}
+    for asset, got in sorted(rows.items()):
+        weights = [g[2] for g in got]
+        out[asset] = {
+            "penetrationM": round(sp.weighted_quantile([g[0] for g in got], weights,
+                                                       RUN_JOINT_QUANTILE), 3),
+            "alongRunOverlapM": round(sp.weighted_quantile([g[1] for g in got], weights,
+                                                           RUN_JOINT_QUANTILE), 3),
+            "n": sum(weights), "pairs": len(got)}
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
+    """The CLI, holding the kit-list lock SHARED (16k r8 rule 4): no kit
+    build rewrites the manifests this run reads."""
+    from . import mine_designed_sink  # noqa: F401  (puts pipeline/ on the path)
+    from pipeline.kit_lock import kit_list_lock
+    with kit_list_lock("shared", "mine_abuts"):
+        return _main(argv)
+
+
+def _main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     ap = argparse.ArgumentParser(description="mine side-contact (abuts) pairs")
-    for flag in ("--set", "--label", "--plugin", "--world", "--names", "--only"):
+    for flag in ("--set", "--only"):
         ap.add_argument(flag, action="append", default=[])
     ap.add_argument("--offset-tol", type=float, default=0.3)
     ap.add_argument("--yaw-tol", type=float, default=5.0)
@@ -614,17 +743,28 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--write", action="store_true",
                     help="merge the section into kit-assemblies-mined.json")
     ap.add_argument("--rederive", action="store_true",
-                    help="recompute the record's derived fields (singleUse) in place, no walk")
+                    help="recompute the record's derived fields (singleUse, "
+                         "runJointBars) in place, no walk")
     args = ap.parse_args(argv)
     if args.rederive:
         record = json.loads(RECORD.read_text())
         before = len(record["abuts"].get("singleUse") or [])
         record["abuts"] = rederive(record["abuts"], kit_rows())
+        record["abuts"]["runJointBars"] = run_joint_bars(record["abuts"], MeshLibrary())
         RECORD.write_text(json.dumps(record, indent=1, sort_keys=False) + "\n")
         print(f"-> {RECORD} (abuts singleUse: {before} -> {len(record['abuts']['singleUse'])})")
         return 0
-    section = mine(grouped_sets(argv), kit_rows(), args.offset_tol, args.yaw_tol,
-                   args.min_count, args.only or None, args.cache)
+    index, bundles = pool_index()
+    if args.set:
+        unknown = sorted(set(args.set) - {b["id"] for b in bundles})
+        if unknown:
+            raise SystemExit(f"no derived set {unknown}; sets: {[b['id'] for b in bundles]}")
+        if args.write:
+            raise SystemExit("--set never writes the record: it would drop sets")
+        bundles = [b for b in bundles if b["id"] in args.set]
+    section = mine(bundles, kit_rows(), args.offset_tol, args.yaw_tol,
+                   args.min_count, args.only or None, args.cache, index=index)
+    section["runJointBars"] = run_joint_bars(section, MeshLibrary())
     if args.out:
         args.out.write_text(json.dumps(section, indent=1) + "\n")
         print(f"-> {args.out}")

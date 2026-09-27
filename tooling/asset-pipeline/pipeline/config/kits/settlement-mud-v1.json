@@ -17,6 +17,22 @@
  "snapLogic": {
   "assemblies": "Composites in this kit: `composite:mud/hut-with-entrance` is `hutexterior` + four `doorframe01` rings + the wood door leaf at the offsets BM&V used on all 11 of its huts (templates bmv-blackmarsh:t0089, t0090 and t0091; the hut part at the plugin's scale 1.30, the entrance pieces at 1.0 and their placed offsets). The rule is that the mud hut shell is an unbroken drum: its entrance is separate pieces, and a hut placed without them cannot be entered. The bare `hutexterior` stays in the kit for ruins and abandoned shells."
  },
+ "textureNote": "TEXTURE NOTE (16k fix round 2, planner ruling (b)): KotM's mud huts UV textures from archives the vault does not hold (SE `_ResourcePack.bsa`, Creation Club bgssse025, Dragonborn). Each is redirected to a texture King of the Murkmire itself ships or its own meshes already pair with, chosen by directory listing: cracked mud -> KotM `argonia/landscape/rivermud` (its lizardhouse already uses it), the lighter trim variant -> KotM `argonia/landscape/dirt02`, amber window glazing -> KotM `argonia/misc/vakkastone_d` (the amber-toned vakka stone), Raven Rock planks on stairs02/overhang01/03 -> `dungeons/rottingwood01`, the plank those same KotM meshes pair it with (KotM ships no plank texture of its own), Telvanni mushroom details on lizardhouse -> rivermud, the shinydull env map -> KotM's only cubemap. amber_n/amber_bl stay unresolved with their reasons in texturesMissingAccepted.",
+ "textureAliases": {
+  "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
+  "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/_resourcepack/landscape/desertcracked01light_d.dds": "textures/argonia/landscape/dirt02.dds",
+  "textures/creationclub/bgssse025/clutter/amber.dds": "textures/argonia/misc/vakkastone_d.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds": "textures/dungeons/rottingwood01.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+  "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds"
+ },
+ "texturesMissingAccepted": {
+  "textures/creationclub/bgssse025/clutter/amber_n.dds": "Creation Club archive absent from the vault; KotM ships no normal map for its amber stand-in vakkastone_d, and a missing normal renders the window pane flat, which is what a pane is",
+  "textures/creationclub/bgssse025/clutter/amber_bl.dds": "Creation Club backlight map, archive absent from the vault; KotM ships none; the pane's night glow is the kit's glow material, not this map"
+ },
  "assets": [
   {
    "asset": "mudmother:gv_meshes/argoniannest/mudhut01"
@@ -95,6 +111,9 @@
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns04"
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01"
@@ -238,6 +257,55 @@
   },
   {
    "asset": "kotm:argonia/mudhuts/smpodext02",
+   "collision": "mesh"
+  },
+  {
+   "asset": "composite:mud/pod-as-placed",
+   "compose": {
+    "note": "King of the Murkmire's small pod house, `smpodext02`, stood the way the plugin places it. The plugin places the pod 7 times, all at scale 1.0. Six of those references turn it over about its x axis (x rotation 164.6 to 198.3 deg, y rotation -14.3 to 12.3 deg), so the mesh stands the other way up from how it was modelled, with its bulge above the ground. The one upright reference stands at z 4.81 m. This part carries the median of all 7 references: pitchDeg 180.0 (x rotation) and rollDeg 8.11 (y rotation), with the yaw left to the layout. No single shell does this: a kit piece stands the way its mesh was modelled; this mesh was modelled upright. The porch, `smpodextdoor`, is a separate piece.",
+    "parts": [
+     {
+      "asset": "kotm:argonia/mudhuts/smpodext02",
+      "scale": 1.0,
+      "pitchDeg": 180.0,
+      "rollDeg": 8.11
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:mud/kotm-house-pod",
+   "compose": {
+    "note": "King of the Murkmire's pod house as the plugin builds it: the pod `smpodext02` turned over as in composite:mud/pod-as-placed (pitchDeg 180.0, rollDeg 8.11, the median of its 7 references), its porch `smpodextdoor` and the porch's load door `door01`. The porch stands where the plugin puts it at the one reference whose pod fits the median tilt exactly (fit error 0.000): 3.37 m from the pod's pivot on a bearing of 185 deg, offset [-0.2993, -3.3566, 1.2229] m, turned 3.35 deg. The other four porch references scatter on bearing (62 to 332 deg), so none of them is a template. The door stands on the porch at template kotm:t0034 (5 placements, offset [-0.44, -2.96, 1.22] m, yaw 1.4 deg), carried through the porch's pose to [-0.9115, -6.2858, 2.4429] m, yaw 4.75 deg, 6.35 m from the pod's pivot. The plugin's own load door stands at 6.31 m on any bearing across its 8 placements, so this composite fixes the entrance at the porch's door. No single piece does this: the pod mesh has no opening, and its door is on the porch.",
+    "parts": [
+     {
+      "asset": "kotm:argonia/mudhuts/smpodext02",
+      "scale": 1.0,
+      "pitchDeg": 180.0,
+      "rollDeg": 8.11
+     },
+     {
+      "asset": "kotm:argonia/mudhuts/smpodextdoor",
+      "offsetM": [
+       -0.2993,
+       -3.3566,
+       1.2229
+      ],
+      "yawDeg": 3.35,
+      "scale": 1.0
+     },
+     {
+      "asset": "kotm:argonia/mudhuts/door01",
+      "offsetM": [
+       -0.9115,
+       -6.2858,
+       2.4429
+      ],
+      "yawDeg": 4.75,
+      "scale": 1.0
+     }
+    ]
+   },
    "collision": "mesh"
   },
   {

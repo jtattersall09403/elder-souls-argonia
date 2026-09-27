@@ -52,8 +52,10 @@ owner approved on 2026-09-14 (16c ledger §4, authored by
              floats over falling ground, graded up to each member's designed
              ground line (`settlement_run_pads`; id
              `patch.pad.settlement.<placeId>.<runId>`, order 3 so it comes
-             after every other kind). Emitted by the settlement export and
-             merged cumulatively, never re-derived.
+             after every other kind). Since decision 0102 it is a place's
+             ground overlay, carried in the place's bundle and applied at
+             load (`pad_overlay`); this module keeps the kind for the record
+             shape and `apply_patch` refuses it.
 
 Dock and lane DREDGES are retired (ruling 6: a berth goes where the water
 floats the hull). Grading (16e) adds its kind here with the same contract.
@@ -340,8 +342,9 @@ def apply_kind(h: np.ndarray, patch: dict, ctx: Context, mpp: float = RAW_M) -> 
     if kind == "route-grade":
         return apply_route_grade(out, patch, ctx, mpp)
     if kind == "settlement-pad":
-        from .settlement_run_pads import apply_settlement_pad
-        return apply_settlement_pad(out, patch, mpp)
+        raise ValueError(f"{patch.get('id')}: a settlement-pad is the place's own ground "
+                         f"overlay (decision 0102 decision 1), applied at load by pad_overlay; "
+                         f"the frozen world is never graded for a place")
     raise ValueError(f"unknown kind {kind}")
 
 

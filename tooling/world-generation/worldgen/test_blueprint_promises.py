@@ -120,3 +120,58 @@ def test_a_catalogue_record_against_the_shipped_yard_builds_a_ledger():
     rec = bpr.load_record("place.mercantile-coast.lilmoth")
     ledger = bpr.build_ledger(bp, rec)
     assert ledger and all(p.remedy for p in ledger)
+
+
+def test_a_parcel_hosts_several_services_in_either_form():
+    """Schema 2: a parcel's `services` is a list (an inn is lodging and a
+    trader under one roof); the schema-1 `service` string still reads, as a
+    one-item list, through the one accessor every reader uses."""
+    inn = {"id": "parcel.tp.trader", "use": "shop", "services": ["lodging", "trader"]}
+    rec = _record(services=["lodging", "trader"])
+    ledger = _by_id(bpr.build_ledger(_blueprint(parcels=[inn]), rec))
+    assert ledger["promise.service.lodging"].met and ledger["promise.service.trader"].met
+    assert bpr.validate_promise_fields(_blueprint(parcels=[inn])) == []
+    old = {"id": "parcel.tp.trader", "use": "shop", "service": "trader"}
+    assert bpr.parcel_services(old) == ["trader"] and bpr.parcel_services(inn) == ["lodging", "trader"]
+    assert bpr.parcel_services({"id": "x"}) == []
+    bad = [{**inn, "services": ["lodging", "wizard-tower"]}, {**inn, "service": "trader"},
+           {**inn, "services": "lodging"}]
+    for parcel in bad:
+        assert bpr.validate_promise_fields(_blueprint(parcels=[parcel])), parcel
+
+
+def test_a_promise_id_is_one_ledger_row():
+    """Planner ruling 3 (16k round 6): a record that lists one catalogue
+    socket twice (or under two kinds) makes one row, and a realiser is
+    named once per row."""
+    rec = _record(sockets={"station": ["station.tp.keeper", "station.tp.keeper"],
+                           "scene": ["station.tp.keeper"]})
+    ledger = bpr.build_ledger(_blueprint(), rec)
+    ids = [p.id for p in ledger]
+    assert len(ids) == len(set(ids))
+    assert all(len(p.realisedBy) == len(set(p.realisedBy)) for p in ledger)
+
+
+def test_each_ledger_row_names_the_parcels_its_realisers_stand_in():
+    ledger = {p.id: p for p in bpr.build_ledger(_blueprint(), _record())}
+    assert ledger["promise.service.trader"].parcels == ["parcel.tp.trader"]
+
+
+def test_r7_catalogue_quest_sockets_and_travel_services_name_their_parcel():
+    """16k r7 rule 7, held on Claywater's own blueprint: every questSocket
+    that realises a catalogue socket (`socketRef`) and every travel service
+    names the parcel it stands in, and the parcel exists."""
+    import json as _json
+    from pathlib import Path as _Path
+    path = _Path(__file__).resolve().parents[3] / "world/sources/blueprints"
+    for f in sorted(path.glob("*.json")):
+        bp = _json.loads(f.read_text())
+        bp = bp.get("blueprint", bp)
+        errs = [e for e in bpr.validate_promise_fields(bp) if "`parcel`" in e]
+        assert errs == [], (f.name, errs)
+    bad = {"parcels": [{"id": "parcel.a"}],
+           "questSockets": [{"id": "s1", "socketRef": "station.x"}, {"id": "s2"},
+                            {"id": "s3", "socketRef": "scene.y", "parcel": "parcel.b"}],
+           "travelServices": [{"id": "t1", "kind": "ferry"}]}
+    errs = bpr.validate_promise_fields(bad)
+    assert [e.split(":")[0] for e in errs] == ["s1", "s3", "t1"]

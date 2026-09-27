@@ -71,3 +71,16 @@ def test_build_registers_a_pool_and_joins_plugin_and_mining_facts(tmp_path, monk
     assert reed["observedScaleP50"] == 1.6
     assert reed["category"] == "aquatic-plant"      # "reed" beats the grass folder
     assert summary["withLodVariant"] == 1 and summary["observedPlaced"] == 1
+
+
+def test_every_committed_registry_row_lists_its_editor_ids_sorted():
+    """Ruling 6 (16k fix 2 kits round 3): a rebuild with no input change
+    reordered `editorIds`; the facts pass sorts them, so the record holds."""
+    unsorted = []
+    for path in sorted(asset_registry.REGISTRY_DIR.glob("registry-*.jsonl")):
+        for line in path.read_text().splitlines():
+            row = json.loads(line)
+            ids = row.get("editorIds")
+            if ids is not None and ids != sorted(ids):
+                unsorted.append(row["id"])
+    assert not unsorted, f"{len(unsorted)} rows unsorted, e.g. {unsorted[:3]}"

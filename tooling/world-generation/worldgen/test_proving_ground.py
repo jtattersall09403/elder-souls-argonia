@@ -375,29 +375,26 @@ def support_at(survey, x: float, z: float) -> float:
     return survey.height_at(x, z) + max(0.0, float(depth[row, col]))
 
 
-def place_pads(place: str) -> list[dict]:
-    """The `settlement-pad` terrain patches the export merged for ``place``
-    (16k carried item 13): the gates read the ground with them applied, in
-    memory, as the door-apron gate reads the clearance patches; the rasters
-    carry them from the next terrain chain run on."""
-    from . import terrain_patches as tp
-    return [p for p in tp.load() if p["kind"] == "settlement-pad"
-            and p["source"]["placeId"] == place]
+def place_pads(place: str, bundle: dict | None = None) -> list[dict]:
+    """The place's levelled ground as its bundle carries it (`groundOverlays`,
+    decision 0102): the gates read the ground with it applied, in memory, as
+    the runtime does when it decodes a chunk."""
+    bundle = json.loads(PUBLISHED.read_text()) if bundle is None else bundle
+    site = next(s for s in bundle["settlements"] if s["id"] == place)
+    return list((site.get("groundOverlays") or {}).get("pads") or [])
 
 
 class _PatchedSurvey:
-    """The survey with a place's pads applied to its height raster."""
+    """The survey with a place's ground overlays applied to its heights."""
 
-    def __init__(self, survey, patches: list[dict]):
+    def __init__(self, survey, overlays: list[dict]):
         from .settlement_run_pads import PadIndex, patched_height_at
         self._survey = survey
-        self.height_at = patched_height_at(survey, patches)
-        # 97 B3 over a pad reads the patched surface, as the compile does
-        # (`footprint_max_slope_deg` reads `pad_slope_deg`); every member
-        # footprint of a settlement pad is graded ground
-        self.pad_index = PadIndex([r["footprintM"] for p in patches
-                                if p.get("kind") == "settlement-pad"
-                                for r in p["params"]["pieces"]])
+        self.height_at = patched_height_at(survey, overlays)
+        # 97 B3 over a pad reads the padded surface, as the compile does
+        # (`footprint_max_slope_deg` reads `pad_slope_deg`); every piece of an
+        # overlay is graded ground
+        self.pad_index = PadIndex([piece["polygonM"] for o in overlays for piece in o["pieces"]])
 
     def pad_slope_deg(self, polygon):
         from .settlement_run_pads import padded_slope_deg
@@ -421,7 +418,7 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD,
     sink, the deck less its designed clearance) stands from the support
     surface at the legs, the mean over the samples of the ground or the water
     surface where water covers it, never the terrain at the pivot."""
-    survey = _PatchedSurvey(survey, place_pads(place) if pads is None else pads)
+    survey = _PatchedSurvey(survey, place_pads(place, bundle) if pads is None else pads)
     site = next(s for s in bundle["settlements"] if s["id"] == place)
     ids = set(site["placementIds"])
     run_y = _run_seats(bundle, survey, place)
@@ -491,7 +488,7 @@ def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey, place):
 def test_yard_b_wall_run_floats_without_its_pads_and_the_export_emits_them(survey):
     """16k carried item 13: yard B's five-piece wall seats as one rigid chain
     and pieces 4-5 float 0.35/0.32 m on the bare ground; the export's
-    `settlement-pad` patch for that run is what seats them."""
+    run-pad overlay in the bundle (0102) is what seats them."""
     from .settlement_run_pads import run_pad_patches
     place = "place.fixture.proving-ground-b"
     bundle = json.loads(PUBLISHED.read_text())
@@ -500,8 +497,8 @@ def test_yard_b_wall_run_floats_without_its_pads_and_the_export_emits_them(surve
                for r in bare)
     emitted = run_pad_patches(_place_rows(bundle, place), place, survey.height_at)
     assert emitted, "the export emits no pad for the floating run"
-    recorded = {p["id"] for p in place_pads(place)}
-    assert {p["id"] for p in emitted} <= recorded, "the pad set lacks the emitted run pads"
+    recorded = {p["id"] for p in place_pads(place, bundle)}
+    assert {p["id"] for p in emitted} <= recorded, "the bundle's overlays lack the emitted run pads"
 
 
 VISIBLE_MIN_M = 0.5
@@ -773,10 +770,21 @@ def test_no_scatter_stands_in_a_yard_door_apron(place):
     assert scatter_in_door_aprons(bundle, place) == []
 
 
+#: the farmhouse threshold the owner walked at check-in 3, 0.52 m from the
+#: algrass03b bush. The esp-door frame fix (16k fix 2 ruling 2) moved the
+#: farmhouse's door to its true side and the yard turned the house to face its
+#: path, so the live door no longer stands by the bush; the can-fail case is
+#: held at the recorded spot.
+CHECKIN3_FARMHOUSE_THRESHOLD_M = [4274.414, 5798.733]
+
+
 def test_the_apron_check_fails_without_the_settlement_patches():
     """Without the `patch.clearance.settlement.*` set the farmhouse bush stands
     at the door, as the owner saw it at check-in 3."""
     bundle = json.loads(PUBLISHED.read_text())
+    doors = [d for d in bundle["doors"] if d.get("settlementId") == YARD]
+    probe = dict(doors[0], thresholdM=CHECKIN3_FARMHOUSE_THRESHOLD_M)
+    bundle = dict(bundle, doors=[probe])
     patches = [p for p in json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
                if not p["id"].startswith("patch.clearance.settlement.")]
     assert any("algrass03b" in hit for hit in scatter_in_door_aprons(bundle, YARD, patches))

@@ -15,9 +15,9 @@ from pathlib import Path
 
 import pytest
 
-from .kit_compress import (DEFAULT_POLICY, PUBLIC_KITS, SIDECAR_EXEMPT, check,
-                           gltfpack_args, policy_for, publish_sidecars,
-                           sidecar_problems)
+from .kit_compress import (DEFAULT_POLICY, PUBLIC_KITS, SIDECAR_EXEMPT, _sha256, check,
+                           gltfpack_args, policy_for, publish_sidecars, remember,
+                           reusable_record, sidecar_problems)
 
 STARTUP_KITS = ("flora-province-v1", "underwater-v1", "groundcover-province-v1")
 STARTUP_BUDGET_BYTES = 52_000_000  # measured 45.6 MB compressed; ~14 % headroom
@@ -99,3 +99,22 @@ def test_an_atlas_kit_is_exempt_by_name_with_its_reason(tmp_path):
         assert reason.strip()
         assert publish_sidecars(kit_id, tmp_path, tmp_path) == {}
         assert sidecar_problems(kit_id, tmp_path) == []
+
+
+def test_an_unchanged_input_reuses_the_record_and_a_change_does_not(tmp_path):
+    """S2a: gltfpack is skipped only when the input key matches the last run's
+    and the published GLB is still the bytes that run wrote."""
+    dst = tmp_path / "k.glb"
+    dst.write_bytes(b"compressed bytes")
+    record = {"sha256": _sha256(dst), "bytesAfter": 16, "sidecarBytes": {"x": 1},
+              "sidecarsExempt": "why"}
+    published = tmp_path / "k.kit.json"
+    published.write_text(json.dumps({"compression": record}))
+    cache = tmp_path / "cache"
+    remember("k", "key-1", record, cache)
+    got = reusable_record("k", "key-1", dst, published, cache)
+    assert got == {"sha256": record["sha256"], "bytesAfter": 16}
+    assert reusable_record("k", "key-2", dst, published, cache) is None
+    dst.write_bytes(b"someone else's bytes")
+    assert reusable_record("k", "key-1", dst, published, cache) is None
+    assert reusable_record("other", "key-1", dst, published, cache) is None

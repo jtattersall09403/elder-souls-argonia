@@ -53,7 +53,7 @@ def _slug(identifier: str) -> str:
 
 def build(blueprint_dir: Path = bp_mod.BLUEPRINT_DIR) -> dict:
     rows: list[dict] = []
-    for path in sorted(blueprint_dir.glob("*.json")):
+    for path in bp_mod.blueprint_paths(blueprint_dir):
         bp = json.loads(path.read_text()).get("blueprint") or {}
         place_id = bp.get("id")
         sockets = {s.get("id"): s for s in bp.get("questSockets") or []}

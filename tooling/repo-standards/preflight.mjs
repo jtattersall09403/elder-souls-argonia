@@ -7,10 +7,10 @@
  * The deploy workflow's gates, all of them (npm test, typecheck, the placement
  * suite, the water suite, the pipeline suite, the raster manifest check and the
  * credits check) — exact parity since the slow placement tier was retired on
- * 2026-09-17. `--runner` additionally hides the asset vault, the way the
- * GitHub runner has it hidden. Run one at a
- * time, each failure costs a full wait-fix-wait cycle; run here in parallel
- * the wall time is about two gates' worth (~3 min, two waves) and the report shows everything
+ * 2026-09-17 — plus the placement workbench suite, which runs here only.
+ * `--runner` additionally hides the asset vault, the way the GitHub runner
+ * has it hidden. Run one at a time, each failure costs a full wait-fix-wait cycle; run here in parallel
+ * the wall time is about two gates' worth (~3 min; one wave when memory allows, else two) and the report shows everything
  * that would have failed on CI, in one go. Nothing here changes what a gate
  * asserts; it only runs them together and reads out the failures.
  *
@@ -51,6 +51,9 @@ const GATES = {
   "placement":     ["npm run test:placement",   [/^FAILED/, /passed|failed/, /Error/]],
   "water":         ["npm run test:water",       [/^FAILED/, /passed|failed/, /Error/]],
   "pipeline":      ["npm run test:pipeline",    [/^FAILED/, /passed|failed/, /Error/]],
+  // tooling/placement-workbench/tests: preflight-only (not a deploy job yet; it
+  // needs the local raw kit builds). Collected by no gate before 2026-09-26.
+  "workbench":     ["npm run test:workbench",   [/^FAILED/, /passed|failed/, /Error/]],
   "rasters":       ["npm run province:check",   [/province rasters/]],
   "credits":       ["cd tooling/world-generation && python3 -m worldgen.check_credits", [/FAIL/, /Error/, /missing/]],
   // Every module requirements-test.txt declares must import (16h round 16:
@@ -168,7 +171,7 @@ if (!selection.all) {
   console.log(`preflight: skipped (inputs untouched): ${selection.skipped.join(", ") || "none"}`);
 }
 if (runnerMode) console.log("preflight: runner mode (no asset vault)");
-console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), two waves, watchdog ceiling ${ceilingGib} GiB`);
+console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // Two waves: the placement suite (10.2 GiB beside typecheck on 2026-09-16,
 // before the survey cache) now runs with the water, typecheck and raster gates.
@@ -176,7 +179,19 @@ const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // 3.8 GiB, water 4.4, typecheck 1.2, so wave 1 is ~10 GiB of its own under a
 // 22 GiB ceiling and needs no further serialising; the "12.7 GiB" once logged
 // for placement was the whole machine.
-const WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits", "python-deps"]];
+// ONE wave when the selected gates' own peaks fit (tool-speed review S5b):
+// the memory already used plus the sum of those peaks plus a 1.5 GiB reserve
+// must sit under memwatch's ceiling, the figure that kills a gate. The
+// peaks are memwatch's own-tree figures (2026-09-26; pipeline, npm-test from
+// tool-timings.jsonl, workbench 0.74 GiB at 4 workers on 2026-09-26, the
+// small gates rounded up); the order puts the heavy gates first.
+const GATE_PEAK_GIB = { placement: 3.8, water: 4.4, pipeline: 1.5, workbench: 1.0, typecheck: 1.2,
+  "npm-test": 2.0, rasters: 1.0, credits: 0.5, "python-deps": 0.5 };
+const TWO_WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "workbench", "npm-test", "credits", "python-deps"]];
+const plannedGib = selection.gates.reduce((sum, g) => sum + (GATE_PEAK_GIB[g] ?? 2), 0);
+const oneWave = usedBytes + (plannedGib + 1.5) * GIB <= ceilingGib * GIB;
+const WAVES = oneWave ? [Object.keys(GATE_PEAK_GIB)] : TWO_WAVES;
+console.log(`preflight: ${oneWave ? "one wave" : "two waves"} (selected gates' own peaks ${plannedGib.toFixed(1)} GiB + 1.5 reserve + ${(usedBytes / GIB).toFixed(1)} used vs ${ceilingGib} GiB ceiling)`);
 const results = [];
 for (const wave of WAVES) {
   const queue = wave.filter((name) => selection.gates.includes(name));

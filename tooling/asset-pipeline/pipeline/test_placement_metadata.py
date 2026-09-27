@@ -441,3 +441,98 @@ def test_a_per_kit_refresh_touches_one_manifest(tmp_path):
         tmp_path / "settlement-mud-v1.kit.json"]
     assert (tmp_path / "docks-v1.kit.json").read_text() == before
     assert "placement" in json.loads((tmp_path / "settlement-mud-v1.kit.json").read_text())["assets"][0]
+
+
+# --- 16k fix 2 round 4: lowest-point fallback, interior-zero precedence ------ #
+
+_POT = "vanilla:clutter/woodfires/spitpotopenloose01"
+_URN = "mudmother:gv_meshes/argoniannest/paintedurn01"
+
+
+def test_a_no_evidence_sink_lands_the_mesh_lowest_point_on_the_ground():
+    """Planner ruling W1: the spit pot's pivot is 0.099 m over its base; with
+    no evidence its sink is -0.099 so the runtime's y = ground - sink puts
+    the base, not the pivot, on the ground line."""
+    pot = {"id": _POT, "sizeM": [0.453, 0.446, 0.199], "originOffsetM": [0.227, 0.223, 0.099]}
+    asset = apply_placement_metadata({"assets": [pot]}, "works-v1", mined={},
+                                     anchors={})["assets"][0]
+    assert asset["designedSinkM"]["evidence"] == "policy-fallback"
+    assert asset["designedSinkM"]["p50"] == pytest.approx(-0.099)
+    assert validate_asset_placement(asset) == []
+
+
+def test_an_interior_zero_kit_outranks_an_unscoped_asset_row():
+    """Planner ruling W2: the urn's per-asset row (direct) was authored for
+    its exterior use; inside the interior-zero hut kit the kit's policy wins
+    and the pivot stays on the shell datum, unless a row is scoped to it."""
+    inventory = load_inventory()
+    assert inventory["assetPolicies"][_URN] == "direct"
+    urn = {"id": _URN, "sizeM": [0.5, 0.5, 0.6], "originOffsetM": [0.25, 0.25, 0.05]}
+    inside = apply_placement_metadata({"assets": [dict(urn)]}, "mudmother-hut-int",
+                                      inventory, mined={}, anchors={})["assets"][0]
+    assert inside["placement"]["evidence"]["policyId"] == "interior-zero"
+    assert inside["designedSinkM"]["p50"] == 0.0
+    outside = apply_placement_metadata({"assets": [dict(urn)]}, "settlement-mud-v1",
+                                       inventory, mined={}, anchors={})["assets"][0]
+    assert outside["placement"]["evidence"]["policyId"] == "direct"
+    scoped = {**inventory, "kitAssetPolicies": {"mudmother-hut-int": {_URN: "pad"}}}
+    assert validate_policy_inventory(scoped) == []
+    got = apply_placement_metadata({"assets": [dict(urn)]}, "mudmother-hut-int",
+                                   scoped, mined={}, anchors={})["assets"][0]
+    assert got["placement"]["evidence"]["policyId"] == "pad"
+    bad = {**inventory, "kitAssetPolicies": {"mudmother-hut-int": {_URN: "nope"}}}
+    assert any("unknown policy" in f for f in validate_policy_inventory(bad))
+
+
+def test_a_shell_carries_its_plugin_median_placed_scale():
+    """Planner ruling 1 (interiors round 4): the refresh writes the plugins'
+    median placed scale on every mined shell and clears it on the rest."""
+    scales = {"mudmother:gv_meshes/argoniannest/mudhut01": {
+        "median": 2.1, "p10": 1.92, "p90": 2.3, "n": 5}}
+    hut = {**_asset(), "id": "mudmother:gv_meshes/argoniannest/mudhut01"}
+    other = {**_asset(), "id": "mudmother:gv_meshes/argoniannest/nest01",
+             "placedScaleMedian": 3.0}
+    manifest = apply_placement_metadata({"assets": [hut, other]}, "settlement-mud-v1",
+                                        mined={}, anchors={}, scales=scales)
+    got_hut, got_other = manifest["assets"]
+    assert got_hut["placedScaleMedian"] == 2.1
+    assert got_hut["placedScaleEvidence"] == {"n": 5, "p10": 1.92, "p90": 2.3, "source": "plugin"}
+    assert "placedScaleMedian" not in got_other and "placedScaleEvidence" not in got_other
+
+
+def test_a_ruin_only_row_reaches_the_manifest_and_a_bad_use_fails():
+    """16k fix 2 pre-step (interiors r8 (a)): the bare upright KotM pod
+    `smpodext02` is marked ruin-only in its assetPlacement row, so a place
+    builds the pod the plugin's way (`composite:mud/kotm-house-pod`) and the
+    upright mesh is left to ruins."""
+    inventory = _with_rows({_MUDHUT: {"placeUse": "ruin-only", "why": "test"}})
+    assert validate_policy_inventory(inventory) == []
+    asset = apply_placement_metadata({"assets": [_asset()]}, "settlement-mud-v1",
+                                     inventory, mined={}, anchors={})["assets"][0]
+    assert asset["placeUse"] == "ruin-only"
+    plain = apply_placement_metadata({"assets": [dict(_asset(), placeUse="ruin-only")]},
+                                     "settlement-mud-v1", _with_rows({}), mined={},
+                                     anchors={})["assets"][0]
+    assert "placeUse" not in plain
+    bad = _with_rows({_MUDHUT: {"placeUse": "sometimes", "why": "x"}})
+    assert any("placeUse must be one of" in f for f in validate_policy_inventory(bad))
+
+
+def test_the_upright_pod_is_ruin_only_in_the_tracked_policies():
+    row = load_inventory()["assetPlacement"]["kotm:argonia/mudhuts/smpodext02"]
+    assert row["placeUse"] == "ruin-only" and row["why"].strip()
+
+
+def test_a_runtime_effect_placement_is_non_physical(tmp_path):
+    """16k fix 2 layout r2: the compile emits the brazier's smoke as an
+    `effect` placement carrying its texture kit (works-v1); a ref the
+    inventory lists as non-physical is not a physical asset to review."""
+    out = tmp_path / "tooling/world-generation/output/settlements"
+    out.mkdir(parents=True)
+    (out / "place.test.settlement.json").write_text(json.dumps({"placements": [
+        {"kit": "works-v1", "assetId": "fx:smoke-column", "objectKind": "effect"}]}))
+    (tmp_path / "tooling/asset-pipeline/pipeline/config/kits").mkdir(parents=True)
+    report = collect_used_asset_coverage(tmp_path, inventory={
+        "assetPolicies": {}, "expandedRefs": {},
+        "nonPhysicalCompiledRefs": {"fx:smoke-column": "runtime effect"}})
+    assert report.unresolved == {} and report.used == {}

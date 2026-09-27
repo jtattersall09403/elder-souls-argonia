@@ -55,8 +55,15 @@ Things to know before trusting a rebuild (Phase 16b, decision 0059):
   `python3 -m worldgen.author_terrain_patches`, applied by
   `apply_terrain_patches`, proved by `patch_water`). A refused patch is listed
   in `province/refined/terrain-patches-applied.json` with the invariant it
-  broke; the place adapts. Settlement pads still grade the ground below the
-  gate until the 16k slice that takes carried 16h item 13 makes them patches.
+  broke; the place adapts. A place's `settlement-pad` never enters this set:
+  it travels in the place's bundle as `groundOverlays` (`worldgen.pad_overlay`,
+  applied at load by `game-core/terrain/heightOverlays.ts`) and
+  `apply_terrain_patches` refuses the kind by name (decision 0102). The
+  export also grows the place's hard vegetation clearance by every pad
+  polygon and every building footprint plus 1.5 m, and writes the studio's
+  small reader `province/settlements/ground-overlays.json` (overlays and
+  clearance per place) beside the bundle; every Python ground sampler
+  (`settlement_run_pads.pad_ground`, `patched_height_at`) is `pad_overlay`.
 - **The freeze gate** is `python3 -m worldgen.terrain_preconditions` (also
   `test_terrain_preconditions.py`): the frozen array must keep every promise
   the hydrology graph makes; named leftovers live in
@@ -296,6 +303,10 @@ arrangement. None of it changes what any test asserts.
 - `worldgen/terrain_scour.py` — the same machinery province-wide: 24 landform
   detectors over the rasters, greedy spacing harvest, five-axis scoring, into
   `world/sources/sites/candidate-sites.json` (0041 Part 0 item 2).
+- `worldgen/blueprint_files.py` — which files in `world/sources/blueprints/` are
+  blueprints (`blueprint_paths`: `place.*.json` minus `*.layout.json`) and what a
+  parcel hosts (`parcel_services`: schema 2 `services` list, schema 1 `service`
+  string). Every loader goes through these two; never glob the folder.
 - `worldgen/render_blueprint.py` — the blueprint map: top-down annotated
   diagram (districts, ways, parcels by ground fit, docks, doors with facing,
   landmarks, sockets, water, contours) over a real terrain hillshade crop,

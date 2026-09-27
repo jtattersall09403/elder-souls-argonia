@@ -134,6 +134,18 @@ def test_an_exempt_key_is_not_linted():
     assert dict(lint_prose.iter_prose_strings(rec)) == {}
 
 
+def test_a_door_claim_and_its_preferred_cell_reason_are_linted():
+    """A door's generated `interiorClaim.why` and authored `preferCell.why`
+    are world-record prose (interiors round 7): walked, not exempt, even
+    though sibling keys (interiorRef, cellId) are identifiers."""
+    door = {"id": "door.x.1", "interiorClaim": {"interiorRef": "kit-x", "tier": "reserved",
+                                                "why": "no plugin links this shell to a cell, and the pool is empty"},
+            "preferCell": {"cellId": "KeebaHouseFisher",
+                           "why": "the landing's poler also fishes, and the house has the rods"}}
+    found = dict(lint_prose.iter_prose_strings({"blueprint": {"doors": [door]}}))
+    assert set(found) == {"/blueprint/doors/0/interiorClaim/why", "/blueprint/doors/0/preferCell/why"}
+
+
 def test_short_and_unpunctuated_values_are_not_prose():
     assert not lint_prose.looks_like_prose("marsh bank")
     assert lint_prose.looks_like_prose("A bank of marsh reed above the tide")
@@ -220,3 +232,19 @@ def test_not_x_but_y_catches_the_bare_form():
                  "The Redoran gate is not a compromise but the reading that "
                  "the record already carries.")
     assert "not-x-but-y" in {h.rule for h in res.hard_hits()}
+
+
+def test_pipeline_wording_is_hard_in_record_prose_and_off_in_file_level_notes():
+    """16k fix 2 pre-step (interiors r8 (b)): build-pipeline wording ('16g',
+    'Phase 12', 'item 22') inside a record's prose field or a player string
+    fails; a file-level provenance note (a top-level `_`/`note`) and a
+    provenance field (`sources`, `reconciliationNote`, `notes`) do not."""
+    from . import lint_prose as lp
+    res = lp.LintResult()
+    res.add_text("t", "places.json", "/places/3/whySiteWon", "The ferry stations were re-authored in 16g.")
+    res.add_text("t", "entries.ts:1", "string", "The Hist nodes are authored in 16g for the river.")
+    res.add_text("t", "places.json", "/_", "Phase 11 Part 4 step 2 wrote these rows for the catalogue.")
+    res.add_text("t", "places.json", "/places/3/sources/0", "Phase 2 gate anchor for the river station.")
+    res.add_text("t", "reg.json", "/routes/2/notes", "Re-derived in 16e from the road graph.")
+    got = [(h.fld, h.severity) for h in res.hits if h.rule == "pipeline-wording"]
+    assert got == [("/places/3/whySiteWon", "hard"), ("string", "hard")]

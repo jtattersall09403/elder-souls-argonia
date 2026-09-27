@@ -781,8 +781,13 @@ def test_a_mounted_child_hangs_off_the_nearest_mined_parent():
     assert child["mountOffsetM"] == [0.0, 2.4, 0.0]
     assert child["anchorClass"] == "wall"
     assert child["mountEvidence"] == "plugin"
-    # the child turns WITH its parent: parent yaw + the mined yaw
-    assert child["yawDeg"] == 120.0
+    # the child turns WITH its parent: the runtime composes parent x own turn
+    # (anchoring.ts mountedTransform), so the child stores the mined yaw
+    # RELATIVE to its parent and its world yaw is parent yaw + mined yaw
+    # (r4 review: an absolute yaw here was turned by the parent twice)
+    assert cs.world_yaw_deg(child, {p["id"]: p for p in placements}) == 120.0
+    assert child["yawDeg"] == 120.0 - next(
+        p for p in placements if p["id"] == "p.post.near")["yawDeg"]
 
 
 def test_a_mounted_child_with_no_mined_pair_is_a_named_compile_error():
@@ -836,7 +841,7 @@ def test_a_deck_child_seats_on_the_top_face_of_the_parcel_it_stands_on():
     assert crate["parentPlacementId"] == "p.platform"
     # top face above the parent pivot = sizeM.z - originOffsetM.z = 2.5;
     # the crate's own designed sink (0.1) drops its pivot into that face.
-    assert crate["mountOffsetM"] == [1.0, 2.4, 1.0]
+    assert crate["mountOffsetM"] == [1.0, 2.4, 1.0]   # derived in plan metres (z south)
     assert crate["mountEvidence"] == "footprint-containment"
 
 
@@ -948,3 +953,215 @@ def test_a_pieces_run_steps_along_the_family_pair_and_names_a_missing_pair():
     parcel["pieces"][1] = {"asset": "vanilla:architecture/farmhouse/farmhouse01"}
     _, errors = fp.lay_pieces(parcel, _K9_ABUTS)
     assert len(errors) == 1 and "farmhouse01" in errors[0] and "destroyed01" in errors[0]
+
+
+# --- 0102 decision 7: every entrance shows a light at night ------------------
+
+def _entrance_case(light_at=None, glow_row=None, yaw=0.0):
+    door = {"id": "door.t.1", "parcelId": "parcel.t.house",
+            "thresholdM": [100.0, 200.0], "facingDeg": 180.0}
+    placements = [{"id": "house", "parcelId": "parcel.t.house", "assetId": "house",
+                   "positionM": [100.0, 40.0, 195.0], "yawDeg": yaw}]
+    if light_at is not None:
+        placements.append({"id": "lamp", "parcelId": "parcel.t.house", "assetId": "lamp",
+                           "layer": "light", "positionM": [light_at[0], 41.5, light_at[1]]})
+    rows = {"house": glow_row or {}, "lamp": {}}
+    return cs.unlit_entrance_errors([door], placements, rows.get)
+
+
+def test_entrance_with_neither_glow_nor_light_fails():
+    errors = _entrance_case(light_at=(104.0, 200.0))
+    assert len(errors) == 1 and "0102 decision 7" in errors[0] and "4.0 m" in errors[0]
+
+
+def test_entrance_lit_by_a_light_within_two_metres():
+    assert _entrance_case(light_at=(101.5, 200.8)) == []
+
+
+def test_entrance_lit_by_a_glow_facing_the_approach():
+    row = {"glowMaterials": ["Farmhouse01:14.Mat"], "glowFacingsDeg": [150.0]}
+    assert _entrance_case(glow_row=row) == []
+    # the same glow turned away by the placement's yaw lights nothing here
+    assert len(_entrance_case(glow_row=row, yaw=180.0)) == 1
+
+
+def test_glow_without_measured_facings_is_not_assumed_to_face_the_door():
+    assert len(_entrance_case(glow_row={"glowMaterials": ["Farmhouse01:14.Mat"]})) == 1
+
+
+def test_clutter_layer_is_not_an_entrance_light():
+    door_errors = cs.unlit_entrance_errors(
+        [{"id": "d", "parcelId": "p", "thresholdM": [0.0, 0.0], "facingDeg": 0.0}],
+        [{"id": "x", "parcelId": "p", "assetId": "x", "layer": "clutter",
+          "positionM": [0.5, 0.0, 0.5]}], {}.get)
+    assert len(door_errors) == 1
+
+
+def test_an_assembly_member_mount_pair_rides_in_its_provenance():
+    """Planner ruling 4 (16k fix 2 round 3): the blueprint member's own
+    `mountPair` is copied into the placement's provenance; its `evidence`
+    string is carried unchanged."""
+    from .compile_settlement import assembly_placements
+
+    class _Shelf:
+        def locate(self, ref):
+            return {"id": ref, "kit": "works-v1"}
+
+    pair = {"kind": "unmined", "mountedOn": "b1-barrel", "unmined": "reader-approved r2"}
+    parcel = {"id": "b1", "assetRef": "shell", "assembly": [
+        {"id": "lamp", "asset": "lantern", "atM": [0.5, 0.0], "upM": 1.0, "on": "parent",
+         "layer": "light", "evidence": "measured", "mountPair": pair},
+        {"id": "sign", "asset": "sign", "atM": [0.0, 1.0], "upM": 2.0, "on": "parent",
+         "layer": "light", "evidence": "measured"}]}
+    building = {"id": "place.t.b1.building", "positionM": [10.0, 5.0, 20.0], "yawDeg": 0.0}
+    errors: list[str] = []
+    rows = assembly_placements("place.t", "seed", parcel, building, _Shelf(), None, errors)
+    assert errors == []
+    assert rows[0]["provenance"]["mountPair"] == pair and rows[0]["evidence"] == "measured"
+    assert "mountPair" not in rows[1]["provenance"]
+
+
+# --- 16k fix 2 ruling 1 (lesson L33): the compile's dressing ring is retired
+# for a place whose layout authors yard sets; its yard sets are its dressing.
+
+CLAYWATER = (Path(__file__).resolve().parents[3] / "world" / "sources" / "blueprints"
+             / "place.imperial-fringe.claywater-station.json")
+
+
+def test_a_place_whose_layout_authors_yard_sets_gets_no_ring_dressing():
+    bp = json.loads(CLAYWATER.read_text())["blueprint"]
+    assert cs.sk_mod.authors_yard_sets(bp)
+    dwelling = next(p for p in bp["parcels"] if cs.dressing_count(bp["seed"], p) > 0)
+    assert cs.ring_dressing_count(bp, bp["seed"], dwelling) == 0
+
+
+def test_a_place_without_yard_sets_keeps_its_ring(tmp_path):
+    parcel = {"id": "parcel.x.house", "use": "dwelling"}
+    bp = {"id": "place.x", "seed": "s", "parcels": [parcel]}
+    assert not cs.sk_mod.authors_yard_sets(bp)
+    assert cs.ring_dressing_count(bp, "s", parcel) == cs.dressing_count("s", parcel) > 0
+    layout = tmp_path / "x.layout.json"
+    layout.write_text(json.dumps({"ops": [{"op": "group", "action": "place",
+                                           "name": "not-a-yard-set", "at": [0, 0]}]}))
+    bp["authoredOn"] = {"layout": {"path": str(layout)}}
+    assert not cs.sk_mod.authors_yard_sets(bp)
+
+
+# --- 16k fix 2 ruling 4: walkRule's route is the one door-reach gate for a
+# place that carries walkRoutes.
+
+def test_a_door_is_reachable_when_walk_rule_routed_it_by_id():
+    """Keyed by the door's id (r4 review, planner ruling): the route names the
+    blueprint doors it reaches (`doorIds`), never just their parcel."""
+    door = {"id": "door.x.1", "parcelId": "parcel.x.barn"}
+    walked = {"routes": {"door:b2": {"parcelId": "parcel.x.barn", "doorIds": ["door.x.1"],
+                                     "routeM": 30.0}}}
+    assert cs.walk_route_reach(door, walked) is True
+    assert cs.walk_route_reach(dict(door, id="door.x.2"), walked) is False
+    assert cs.walk_route_reach(door, None) is None     # no walkRoutes: the legacy test
+
+
+def test_claywater_barn_door_passes_on_its_walk_route():
+    """r1: door.4 (the barn) failed the compile's own test
+    (boardwalkAccess=False, inHardClear=False) while walkRule reached it."""
+    bp = json.loads(CLAYWATER.read_text())["blueprint"]
+    barn = next(d for d in bp["doors"] if d["parcelId"].endswith("stable-barn"))
+    assert cs.walk_route_reach(barn, bp.get("walkRoutes")) is True
+
+
+def test_the_flood_report_names_its_own_warnings():
+    """16k fix 2 r3 ruling 1: the export tells flood warnings from the rest by
+    the report's own list, so a front or first-seen warning never joins it."""
+    bp = json.loads(CLAYWATER.read_text())["blueprint"]
+    report, warnings = cs.flood_band_report(bp, ProvinceSurvey())
+    assert report["warnings"] == warnings and report["warningCount"] == len(warnings)
+
+
+def test_a_mined_mount_offset_enters_the_parent_frame_with_north_as_minus_z():
+    """16k fix 2 r4 review (CONFIRMED): a mined pair's offset is (east,
+    north, up); the runtime's parent frame is the GLB's (x, up, z south)."""
+    assert cs.mined_offset_to_parent_frame([1.0, 2.0, 3.0]) == [1.0, 3.0, -2.0]
+
+
+def test_the_shelf_reads_the_places_preferred_kit_row(tmp_path):
+    """r4 review (CONFIRMED): `by_asset` kept the first kit alphabetically, so
+    mount_children, the lit-entrance rule and the socket category read
+    bmv-treehouse-int's barrel row while the placement shipped the imperial
+    kit's. The shelf's row follows the place's kit preference."""
+    kits, cfg = tmp_path / "kits", tmp_path / "cfg"
+    kits.mkdir(), cfg.mkdir()
+    row = {"id": "x:barrel", "lodRatios": [0.3, 0.1], "sizeM": [1, 1, 1]}
+    (kits / "a-int.kit.json").write_text(json.dumps({"assets": [dict(row, collision="convex")]}))
+    (kits / "z-ext.kit.json").write_text(json.dumps(
+        {"assets": [dict(row, collision="mesh", anchorClass="ground")]}))
+    shelf = cs.KitShelf(kits, cfg)
+    assert shelf.by_asset["x:barrel"]["collision"] == "convex"
+    shelf.preferred_kits = ("z-ext",)
+    assert shelf.by_asset["x:barrel"]["anchorClass"] == "ground"
+    assert shelf.locate("x:barrel")["kit"] == "z-ext"
+
+
+def test_an_effect_is_no_instance_and_no_collider_in_the_budget():
+    """r4 review (CONFIRMED): a smoke column has no mesh and no collider
+    (`kind: none`); the static budget counted it as both."""
+    rows = {("k", "a"): [{"materials": ["m"], "triangles": 10}]}
+    placements = [{"assetId": "a", "kit": "k"},
+                  {"assetId": "fx:smoke-column", "kit": "works-v1", "objectKind": "effect"}]
+    budget = {"maxInstances": 1, "maxUniqueMaterials": 5, "maxColliders": 1}
+    report = cs.static_budget_report(placements, rows, budget)
+    assert report["instances"] == 1 and report["colliderEstimate"] == 1
+    assert report["withinBudget"] is True
+
+
+def test_every_placement_over_recorded_water_carries_its_record_smoke_included():
+    """r4 review (CONFIRMED): the smoke columns were added after the loop
+    that stamps the water record, so a fire over water shipped smoke without
+    it (0066). The stamp runs once over the final placement list."""
+    class _S:
+        def water_entity_at(self, x, z):
+            return {"entityId": "body.1", "kind": "body", "levelM": 3.0} if x > 0 else None
+    rows = [{"positionM": [5.0, 0, 0]},
+            {"positionM": [5.0, 0, 0], "objectKind": "effect", "assetId": "fx:smoke-column"},
+            {"positionM": [-5.0, 0, 0]}]
+    cs.stamp_recorded_water(rows, _S())
+    assert [r.get("waterEntityId") for r in rows] == ["body.1", "body.1", None]
+    src = Path(cs.__file__).read_text()
+    assert src.index("socket_effect_placements(bp_id,") < src.index("    stamp_recorded_water(placements, survey)")
+
+
+def test_a_deck_child_stores_its_yaw_relative_to_its_carrier():
+    """r5 review (CONFIRMED): a footprint-contained deck child kept its world
+    yaw while the runtime composes parent x own turn."""
+    placements = _deck_placements(crate_x=11.0)
+    placements[0]["yawDeg"] = 30.0
+    placements[1]["yawDeg"] = 50.0
+    cs.mount_children("place.fixture.deck", placements, _deck_shelf(), {})
+    crate = next(row for row in placements if row["id"] == "p.crate")
+    if crate.get("parentPlacementId"):
+        assert crate["yawDeg"] == 20.0
+        assert cs.world_yaw_deg(crate, {p["id"]: p for p in placements}) == 50.0
+
+
+def test_a_hosted_socket_faces_its_hosts_world_yaw():
+    """r5 review (CONFIRMED): a socket on a mounted host copied the host's
+    relative yaw into a world-space socket."""
+    from . import sockets as sk
+    shell = {"id": "bp.p.building", "assetId": "x", "positionM": [0.0, 0.0, 0.0], "yawDeg": 90.0}
+    chair = {"id": "bp.p.assembly.chair", "assetId": "y", "positionM": [1.0, 0.0, 1.0],
+             "yawDeg": 10.0, "parentPlacementId": "bp.p.building"}
+    vocab = sk.load_vocabulary()
+    act = sorted(vocab["activities"])[0]
+    got, errs = sk.compile_sockets({"id": "bp"}, [shell, chair], lambda x, z: 0.0,
+                                   [{"op": "socket", "id": "idle.sit", "kind": "idle",
+                                     "host": "chair", "activity": act,
+                                     "why": "A chair by the door."}], vocab)
+    assert errs == [] and got[0]["yawDeg"] == 100.0
+
+
+def test_a_smoke_column_is_never_an_entrance_light():
+    """r5 review (CONFIRMED): an effect inherits its parent's layer and was
+    counted as a light at the door."""
+    door = {"id": "d", "parcelId": "p", "thresholdM": [0.0, 0.0], "facingDeg": 0.0}
+    smoke = {"id": "s", "parcelId": "p", "assetId": "fx:smoke-column", "objectKind": "effect",
+             "layer": "light", "positionM": [0.5, 0.0, 0.5], "yawDeg": 0.0}
+    assert cs.unlit_entrance_errors([door], [smoke], lambda a: {}) != []

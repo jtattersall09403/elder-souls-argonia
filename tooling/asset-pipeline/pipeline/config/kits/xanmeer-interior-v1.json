@@ -220,5 +220,16 @@
   {
    "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01"
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/creationclub/_shared/dungeons/ayleidruins/arfloor02.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/creationclub/_shared/dungeons/ayleidruins/argoldtrim01.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/creationclub/_shared/dungeons/ayleidruins/arironworkframe01.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/creationclub/_shared/dungeons/ayleidruins/arswitch01.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/creationclub/_shared/dungeons/ayleidruins/arwelkydstone01.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/creationclub/_shared/dungeons/ayleidruins/cave08.dds": "Creation Club texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc01/architecture/snowelfruins/seruinsfloor01.dds": "Dawnguard DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc01/architecture/snowelfruins/seruinsrubble01.dds": "Dawnguard DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/sarthesarai/effects/nospecnormal.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ }
 }

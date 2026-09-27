@@ -1214,3 +1214,83 @@ def test_every_published_manifest_sink_equals_the_record():
                     wrong.append((path.name, asset["id"], sink.get("p50"),
                                   record.get("p50")))
     assert wrong == []
+
+
+def test_a_minority_hanging_pair_on_a_non_kit_parent_passes_the_shape_gate():
+    """16k kits r3 ruling 1: the ground-class candle lantern's hanging pairs
+    (mountClass) on a vanilla hook named plugin-static: are legal; the old
+    gate refused both the ground child and the non-kit parent."""
+    from worldgen.mine_mounts import validate_mount_shapes
+    anchors = {"lantern": {"anchorClass": "ground"}, "barrel": {"anchorClass": "ground"}}
+    pair = {"child": "lantern", "parent": "plugin-static:clutter/hook.nif",
+            "mountClass": "hanging"}
+    assert validate_mount_shapes([pair], anchors) == []
+    assert validate_mount_shapes([{**pair, "mountClass": None}], anchors) == [
+        "lantern: a mount child must be wall or hanging"]
+
+
+def test_merge_assets_replaces_only_the_named_assets_rows():
+    from worldgen.mine_mounts import merge_assets
+    band = {"kind": "points", "n": 1, "evidence": "plugin", "offsetM": [0.0, 0.0, 1.0],
+            "yawDeg": 0.0, "points": [{"offsetM": [0.0, 0.0, 1.0], "n": 1, "yawDeg": 0.0}]}
+    record = {"anchors": {"a": {"anchorClass": "wall", "anchorClassEvidence": "plugin",
+                                "refClasses": {"wall": 3}},
+                          "p": {"anchorClass": "ground", "anchorClassEvidence": "plugin"}},
+              "pairs": [{**band, "child": "a", "parent": "p"}]}
+    run = {"anchors": {"b": {"anchorClass": "ground", "anchorClassEvidence": "plugin"}},
+           "pairs": [{**band, "child": "b", "parent": "plugin-static:x.nif",
+                      "mountClass": "hanging"}]}
+    merged = merge_assets(record, run, {"b"})
+    assert [(p["child"], p["parent"]) for p in merged["pairs"]] == [
+        ("a", "p"), ("b", "plugin-static:x.nif")]
+    assert merged["anchorClassCounts"] == {"ground": 2, "wall": 1}
+
+
+def test_a_lantern_standing_on_a_barrel_is_supported_never_hanging(tmp_path):
+    """16k fix 2 round 4 ruling K1 (candlelanternwithcandle01 on barrel01 and
+    tables, +1.13 m): the lantern's lowest surface faces UP (an open cup), so
+    its contact with the barrel's top reads as a top patch; the barrel lies
+    wholly UNDER the lantern, so it is support from below, never a hanging
+    parent."""
+    cup = trimesh.Trimesh(vertices=[(-0.1, -0.1, 0.0), (0.1, -0.1, 0.0), (0.1, 0.1, 0.0),
+                                    (-0.1, 0.1, 0.0)], faces=[(0, 1, 2), (0, 2, 3)])
+    assert cup.face_normals[0][2] > 0.99
+    _MESHES["cup"] = cup
+    _MESHES["barrel"] = _box((-0.3, -0.3, 0.0), (0.3, 0.3, 0.9))
+    _BASES["cup"] = (0x01000809, b"STAT", "Test\\Cup01.nif")
+    _BASES["barrel"] = (0x0100080A, b"STAT", "Test\\Barrel01.nif")
+    try:
+        placed = []
+        for i in range(3):
+            placed += [("barrel", (10.0 * i - 10.0, 0.0, 0.0), 0.0),
+                       ("cup", (10.0 * i - 10.0, 0.0, 0.91), 0.0)]
+        document = _mine(tmp_path, placed, mount_min_refs=1)
+    finally:
+        for name in ("cup", "barrel"):
+            del _MESHES[name], _BASES[name]
+    cup_row = document["anchors"]["vanilla:test/cup01"]
+    assert "hanging" not in (cup_row.get("refClasses") or {}), cup_row
+    assert cup_row["anchorClass"] != "hanging", cup_row
+    assert not [p for p in document["pairs"] if p["child"] == "vanilla:test/cup01"
+                and p.get("mountClass", "hanging") == "hanging"], document["pairs"]
+
+
+def test_effect_sockets_take_the_median_offset_in_the_parent_unit_frame():
+    """16k fix 2 round 4 ruling E1: a chimney smoke reference pairs with the
+    nearest farmhouse within EFFECT_SOCKET_RADIUS_M; its offset is in the
+    house's unit frame (yaw and scale removed); a far one is ignored."""
+    from .mine_assemblies import Ref
+    from .mine_mounts import mine_effect_sockets
+
+    def ref(model, x, y, z, yaw=0.0, scale=1.0):
+        return Ref(model, "vanilla", x, y, z, yaw, scale, 1.0, (0, 0), "Tamriel")
+    house = "architecture/farmhouse/farmhouse01.nif"
+    smoke = "effects/ambient/fxsmokechimney01.nif"
+    refs = [ref(house, 0, 0, 0), ref(smoke, 6, 1, 8),
+            ref(house, 100, 0, 0, yaw=90.0, scale=2.0), ref(smoke, 102, -12, 16),
+            ref(smoke, 500, 500, 0)]
+    got = mine_effect_sockets(Path("/nonexistent"), refs=refs)["sockets"]["chimney"]
+    row = got["vanilla:architecture/farmhouse/farmhouse01"]
+    assert row["n"] == 2
+    assert row["offsetM"] == [6.0, 1.0, 8.0]
+    assert got["vanilla:architecture/farmhouse/farmhouse02"] == {"n": 0}

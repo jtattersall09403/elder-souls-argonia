@@ -11,6 +11,14 @@
   "dressing": "Loose props on the chamber floor, not snapped.",
   "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/bmv-treehouse-int.kit.json."
  },
+ "texturesMissingAccepted": {
+  "textures/dlc02/architecture/telvannitower/telbigroots01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/architecture/telvannitower/telgroundinterior01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/architecture/telvannitower/telroots01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/architecture/telvannitower/telwoodsmallroots01.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)"
+ },
  "assets": [
   {"asset": "bmv:architecture/citebosmer/houses/housechampint001"},
   {"asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v001"},

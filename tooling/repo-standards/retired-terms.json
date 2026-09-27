@@ -110,8 +110,6 @@
       "exempt": [
         ".claude/skills/settlement-build/",
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
-        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
         "docs/phases/16-foundation-and-places/16g-macro-plot-places-adapt.md",
         "docs/research/phase16/16h-catalogue-wide-steps-audit.md",
         "docs/research/phase16/16h-ledger.md",
@@ -124,8 +122,6 @@
       "say": "the 16k place loop (docs/phases/16-foundation-and-places/16k-place-loop.md)",
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
-        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
         "docs/research/phase16/16k-handoff-2026-09-25.md"
       ]
     },
@@ -135,8 +131,6 @@
       "say": "the 16k place loop and its walk packet per place",
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
-        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
         "docs/phases/15-rollout/README.md"
       ]
     },
@@ -146,8 +140,6 @@
       "say": "the yard fixtures or the places accepted in the 16k loop (accepted-places.json)",
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
-        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
         "docs/research/phase16/16k-handoff-2026-09-25.md"
       ]
     }

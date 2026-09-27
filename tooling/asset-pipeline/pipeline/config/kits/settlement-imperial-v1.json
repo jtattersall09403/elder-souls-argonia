@@ -209,7 +209,8 @@
    "asset": "vanilla:dungeons/imperial/clutterkits/impfreewall01"
   },
   {
-   "asset": "vanilla:clutter/signage/whiterun/signwrpost01", "collision": "convex"
+   "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "collision": "convex"
   },
   {
    "asset": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01"
@@ -270,6 +271,9 @@
   },
   {
    "asset": "vanilla:clutter/common/candlelanternwithcandle01"
+  },
+  {
+   "asset": "bmv:architecture/phitt/aldredanyia/signpost"
   }
  ]
 }

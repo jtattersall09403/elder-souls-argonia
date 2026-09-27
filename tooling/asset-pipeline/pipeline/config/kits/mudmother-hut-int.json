@@ -208,5 +208,10 @@
   {
    "asset": "vanilla:plants/wheat01"
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/_byoh/clutter/food/dumpling01.dds": "Hearthfire DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/_byoh/furniture/oven01.dds": "Hearthfire DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/dlc02/armor/chitinheavy/chitin_heavy_armor_male_hood.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)"
+ }
 }

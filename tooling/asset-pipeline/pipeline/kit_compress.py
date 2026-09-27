@@ -50,6 +50,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUTPUT_KITS = REPO_ROOT / "tooling/asset-pipeline/output/kits"
+# Input keys of the last gltfpack run per kit (git-ignored): an unchanged raw
+# GLB under the same policy, args, gltfpack build and this file is not
+# recompressed (tool-speed review S2a, 18 s a publish); --force re-runs it.
+COMPRESS_CACHE = REPO_ROOT / "tooling/asset-pipeline/output/cache/kit-compress"
 PUBLIC_KITS = REPO_ROOT / "apps/world-studio/public/kits"
 CONFIG = Path(__file__).parent / "config" / "kits"
 TOOLCHAIN = json.loads((Path(__file__).parent / "config" / "toolchain.json").read_text())
@@ -178,6 +182,47 @@ def compress(src: Path, dst: Path, policy: dict, threads: int = 4) -> dict:
     }
 
 
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for block in iter(lambda: fh.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def input_key(raw: Path, policy: dict, threads: int) -> str:
+    """Everything the compressed GLB and its record are made from: the raw
+    GLB's bytes, the policy, the gltfpack args and build, and this module."""
+    version = subprocess.run([str(gltfpack_path()), "-v"], capture_output=True,
+                             text=True).stdout.strip() if gltfpack_path().exists() else "missing"
+    parts = {"raw": _sha256(raw), "policy": policy, "args": gltfpack_args(policy, threads),
+             "gltfpack": version, "code": _sha256(Path(__file__))}
+    return hashlib.sha256(json.dumps(parts, sort_keys=True).encode()).hexdigest()
+
+
+def reusable_record(kit_id: str, key: str, dst: Path, published: Path,
+                    cache_dir: Path | None = None) -> dict | None:
+    """The previous compression record when the last run had this input key
+    and the published GLB is still the bytes that run wrote; else None."""
+    cache = (cache_dir or COMPRESS_CACHE) / f"{kit_id}.json"
+    if not (cache.is_file() and dst.is_file() and published.is_file()):
+        return None
+    last = json.loads(cache.read_text())
+    record = json.loads(published.read_text()).get("compression") or {}
+    if last.get("inputKey") != key or record.get("sha256") != last.get("sha256"):
+        return None
+    if _sha256(dst) != last["sha256"]:
+        return None
+    return {k: v for k, v in record.items() if k not in ("sidecarBytes", "sidecarsExempt")}
+
+
+def remember(kit_id: str, key: str, record: dict, cache_dir: Path | None = None) -> None:
+    cache_dir = cache_dir or COMPRESS_CACHE
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    (cache_dir / f"{kit_id}.json").write_text(
+        json.dumps({"inputKey": key, "sha256": record["sha256"]}) + "\n")
+
+
 def sidecar_problems(kit_id: str, public_dir: Path = PUBLIC_KITS) -> list[str]:
     """Why a published kit's sidecars are not acceptable (empty list = fine)."""
     if kit_id in SIDECAR_EXEMPT:
@@ -220,10 +265,19 @@ def publish_sidecars(kit_id: str, raw_dir: Path = OUTPUT_KITS,
     return written
 
 
-def publish(kit_id: str, threads: int = 4) -> dict:
+def publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
+    """``_publish`` holding the kit-list lock EXCLUSIVE (16k r8 rule 4)."""
+    from .kit_lock import kit_list_lock
+    with kit_list_lock("exclusive", f"kit_compress {kit_id}"):
+        return _publish(kit_id, threads, force)
+
+
+def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
     """Compress output/kits/<id>.glb into public/kits/<id>.glb and copy the
     manifest across with the compression record added. Kits whose config
-    `output` already sits under public/ are compressed in place."""
+    `output` already sits under public/ are compressed in place. gltfpack is
+    skipped when the input key matches the last run's and the published GLB
+    is untouched (`reusable_record`); `force` always re-runs it."""
     kit = json.loads((CONFIG / f"{kit_id}.json").read_text())
     raw = (REPO_ROOT / kit["output"]).resolve()
     manifest_path = raw.with_suffix(".kit.json")
@@ -252,7 +306,14 @@ def publish(kit_id: str, threads: int = 4) -> dict:
                   "reason": kit.get("compressionReason", "disabled in kit config")}
         shutil.copyfile(raw, dst)
     else:
-        record = compress(raw, dst, policy, threads)
+        key = input_key(raw, policy, threads)
+        record = None if force else reusable_record(kit_id, key, dst,
+                                                    PUBLIC_KITS / f"{kit_id}.kit.json")
+        if record is not None:
+            print(f"[kit] {kit_id}: gltfpack skipped (raw GLB, policy and tool unchanged; --force re-runs)")
+        else:
+            record = compress(raw, dst, policy, threads)
+            remember(kit_id, key, record)
     published = PUBLIC_KITS / f"{kit_id}.kit.json"
     sidecars = publish_sidecars(kit_id)
     record["sidecarBytes"] = sidecars
@@ -272,7 +333,8 @@ def publish(kit_id: str, threads: int = 4) -> dict:
         print(f"[kit] {kit_id}: no sidecars ({SIDECAR_EXEMPT[kit_id]})")
     if record.get("enabled", True):
         print(f"[kit] {kit_id}: compressed {record['bytesBefore'] / 1e6:.1f} MB -> "
-              f"{record['bytesAfter'] / 1e6:.1f} MB ({record['images']} images UASTC/KTX2, meshopt) "
+              f"{record['bytesAfter'] / 1e6:.1f} MB ({record['images']} images KTX2, "
+              f"{'/'.join(f'{c} {policy[c].upper()}' for c in CLASSES)}, meshopt) "
               f"-> {dst.relative_to(REPO_ROOT)}")
     return record
 
@@ -317,6 +379,8 @@ def main() -> None:
                     help="republish the measured sidecars beside an already-compressed "
                          "kit, without re-running gltfpack")
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--force", action="store_true",
+                    help="re-run gltfpack even when the raw GLB and policy are unchanged")
     args = ap.parse_args()
     if args.check:
         problems = check(args.kit)
@@ -329,7 +393,7 @@ def main() -> None:
             f"{n} {b / 1e3:.1f} kB" for n, b in sorted(written.items()))
             or f"none ({SIDECAR_EXEMPT.get(args.kit, 'none measured')})"))
         return
-    publish(args.kit, args.threads)
+    publish(args.kit, args.threads, force=args.force)
 
 
 if __name__ == "__main__":

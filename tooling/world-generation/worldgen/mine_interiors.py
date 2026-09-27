@@ -384,7 +384,9 @@ class Adjacency:
 # --- top level ---------------------------------------------------------------
 
 
-def mine(plugins: list[Plugin], bases) -> dict:
+def mine(plugins: list[Plugin], bases, sample: int | None = None, seed: int = 0) -> dict:
+    """``sample``: profile only N interiors drawn seeded over every plugin's
+    interiors (the sample-first batch; never written over a tracked record)."""
     global_snap = SnapStats()
     kit_snap: dict[str, SnapStats] = defaultdict(SnapStats)
     kit_adj: dict[str, Adjacency] = defaultdict(Adjacency)
@@ -401,59 +403,62 @@ def mine(plugins: list[Plugin], bases) -> dict:
     all_chamber_dims: list[tuple[float, float, float]] = []
     category_totals: Counter = Counter()
 
-    for plugin in plugins:
-        for plugin_name, edid, pieces in read_interiors(plugin, bases):
-            interiors_seen += 1
-            by_plugin[plugin_name]["interiors"] += 1
-            for p in pieces:
-                category_totals[p.category] += 1
-            shell = [p for p in pieces if p.category in STRUCTURAL]
-            if len(shell) < MIN_INTERIOR_PIECES:
-                continue
-            interiors_profiled += 1
-            families = Counter(_kit_family(p.species) for p in shell)
-            family = families.most_common(1)[0][0]
-            by_plugin[plugin_name]["profiled"] += 1
-            by_plugin[plugin_name][f"kit:{family}"] += 1
-            kit_interiors[family] += 1
-            kit_pieces[family] += len(shell)
-            kit_piece_names[family].update(p.species for p in shell)
+    cells = [row for plugin in plugins for row in read_interiors(plugin, bases)]
+    if sample is not None:
+        import random
+        cells = random.Random(seed).sample(cells, min(sample, len(cells)))
+    for plugin_name, edid, pieces in cells:
+        interiors_seen += 1
+        by_plugin[plugin_name]["interiors"] += 1
+        for p in pieces:
+            category_totals[p.category] += 1
+        shell = [p for p in pieces if p.category in STRUCTURAL]
+        if len(shell) < MIN_INTERIOR_PIECES:
+            continue
+        interiors_profiled += 1
+        families = Counter(_kit_family(p.species) for p in shell)
+        family = families.most_common(1)[0][0]
+        by_plugin[plugin_name]["profiled"] += 1
+        by_plugin[plugin_name][f"kit:{family}"] += 1
+        kit_interiors[family] += 1
+        kit_pieces[family] += len(shell)
+        kit_piece_names[family].update(p.species for p in shell)
 
-            for a, b in _neighbours(shell, 512.0):
-                global_snap.add_pair(a, b)
-                kit_snap[family].add_pair(a, b)
-            for p in shell:
-                global_snap.add_piece(p)
-                kit_snap[family].add_piece(p)
+        for a, b in _neighbours(shell, 512.0):
+            global_snap.add_pair(a, b)
+            kit_snap[family].add_pair(a, b)
+        for p in shell:
+            global_snap.add_piece(p)
+            kit_snap[family].add_piece(p)
 
-            rooms = chambers(shell)
-            dressing = [p for p in pieces if p.category in DRESSING]
-            floor_m2 = 0.0
-            for room in rooms:
-                dims = _extent_m(room)
-                kit_chamber_dims[family].append(dims)
-                all_chamber_dims.append(dims)
-                floor_m2 += dims[0] * dims[1]
-                kit_adj[family].add_chamber(room)
-            if floor_m2 > 5:
-                clutter_d = sum(
-                    1 for p in dressing if p.category in {"clutter", "container", "misc"}
-                ) / floor_m2 * 100
-                furn_d = sum(
-                    1 for p in dressing if p.category in {"furniture", "light", "signage"}
-                ) / floor_m2 * 100
-                kit_clutter[family].append(clutter_d)
-                kit_furniture[family].append(furn_d)
-            ext = _extent_m(shell)
-            interior_rows.append({
-                "plugin": plugin_name, "cell": edid, "kit": family,
-                "shellPieces": len(shell), "dressingPieces": len(dressing),
-                "chambers": len(rooms),
-                "extentM": [round(v, 1) for v in ext],
-                "floorM2": round(floor_m2, 1),
-                "doors": sum(1 for p in pieces if p.category == "door"),
-                "kitMix": families.most_common(3),
-            })
+        rooms = chambers(shell)
+        dressing = [p for p in pieces if p.category in DRESSING]
+        floor_m2 = 0.0
+        for room in rooms:
+            dims = _extent_m(room)
+            kit_chamber_dims[family].append(dims)
+            all_chamber_dims.append(dims)
+            floor_m2 += dims[0] * dims[1]
+            kit_adj[family].add_chamber(room)
+        if floor_m2 > 5:
+            clutter_d = sum(
+                1 for p in dressing if p.category in {"clutter", "container", "misc"}
+            ) / floor_m2 * 100
+            furn_d = sum(
+                1 for p in dressing if p.category in {"furniture", "light", "signage"}
+            ) / floor_m2 * 100
+            kit_clutter[family].append(clutter_d)
+            kit_furniture[family].append(furn_d)
+        ext = _extent_m(shell)
+        interior_rows.append({
+            "plugin": plugin_name, "cell": edid, "kit": family,
+            "shellPieces": len(shell), "dressingPieces": len(dressing),
+            "chambers": len(rooms),
+            "extentM": [round(v, 1) for v in ext],
+            "floorM2": round(floor_m2, 1),
+            "doors": sum(1 for p in pieces if p.category == "door"),
+            "kitMix": families.most_common(3),
+        })
 
     kits = {}
     for family in sorted(kit_interiors, key=lambda f: -kit_pieces[f]):
@@ -509,13 +514,18 @@ def main() -> None:
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     ap.add_argument("--date", default="2026-08-31")
+    ap.add_argument("--sample", type=int, default=None,
+                    help="sample-first batch: profile N seeded interiors")
+    ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
     plugins = [Plugin(p) for p in args.plugin]
     names = [Plugin(p) for p in args.names]
     bases = load_bases(plugins + names)
-    report = mine(plugins, bases)
+    report = mine(plugins, bases, args.sample, args.seed)
+    from .mine_assemblies import provenance
     report = {
+        "provenance": provenance(__file__, args.plugin),
         "source": {
             "label": args.label or "interior kit-assembly mining",
             "plugins": [Path(p).name for p in args.plugin],

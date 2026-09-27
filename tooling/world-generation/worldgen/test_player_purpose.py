@@ -7,6 +7,8 @@ from pathlib import Path
 
 from . import player_purpose as pp
 
+from .blueprint_files import blueprint_paths
+
 BLUEPRINT_DIR = Path(__file__).resolve().parents[3] / "world" / "sources" / "blueprints"
 
 
@@ -81,6 +83,6 @@ def test_small_places_are_not_distribution_checked():
 
 
 def test_authored_blueprints_satisfy_the_rule():
-    for path in sorted(BLUEPRINT_DIR.glob("*.json")):
+    for path in blueprint_paths(BLUEPRINT_DIR):
         bp = json.loads(path.read_text())["blueprint"]
         assert pp.validate_player_purpose(bp) == [], path.name

@@ -217,7 +217,7 @@ def blueprint_docks() -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     if not bp_mod.BLUEPRINT_DIR.exists():
         return out
-    for path in sorted(bp_mod.BLUEPRINT_DIR.glob("*.json")):
+    for path in bp_mod.blueprint_paths(bp_mod.BLUEPRINT_DIR):
         try:
             bp = json.loads(path.read_text()).get("blueprint") or {}
         except (OSError, json.JSONDecodeError):

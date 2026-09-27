@@ -4,8 +4,13 @@
 The owner reads them on their phone (GitHub mobile app, or the email GitHub
 sends for each comment). tooling/repo-standards/README.md § Owner inbox.
 
-  owner_inbox.py --post <file.md> [--title <text>]
-      post the file as a comment headed "## <title or Update> — <UTC time>"
+  owner_inbox.py --post <file.md> [--title <text>] [--attach <png>...]
+      post the file as a comment headed "## <title or Update> — <UTC time>";
+      each --attach image becomes a markdown image linked to its repo blob on
+      the current branch (`?raw=true`): an image link in the file that names
+      the same path is rewritten in place, any other is appended under
+      "Pictures". It commits nothing: commit the images before posting
+      (decision 0102 decision 11); an untracked image is warned about.
   owner_inbox.py --from-progress [--if-changed]
       post the story built from the repo: the commit subjects on dev since the
       last inbox comment, docs/PROGRESS.md § Waiting on user (links made
@@ -28,7 +33,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(os.environ.get("ES_INBOX_REPO") or Path(__file__).resolve().parents[2])
-BLOB = "https://github.com/jtattersall09403/elder-souls-argonia/blob/dev/"
+REPO_URL = "https://github.com/jtattersall09403/elder-souls-argonia"
+BLOB = f"{REPO_URL}/blob/dev/"
 LABEL = "owner-inbox"
 TITLE = "Owner inbox: what is waiting on you"
 BODY = ("Every comment on this issue is one update from the agents working on the game. "
@@ -87,6 +93,65 @@ def post(number, title, text):
     print(f"owner_inbox: posted {out or f'to issue #{number}'}")
 
 
+def current_branch():
+    r = subprocess.run(["git", "-C", str(REPO_ROOT), "rev-parse", "--abbrev-ref", "HEAD"],
+                       capture_output=True, text=True)
+    branch = r.stdout.strip()
+    return branch if r.returncode == 0 and branch and branch != "HEAD" else "dev"
+
+
+def raw_image_url(rel_path, branch):
+    return f"{REPO_URL}/blob/{branch}/{rel_path}?raw=true"
+
+
+def repo_relative(path):
+    full = Path(path).resolve()
+    try:
+        return full.relative_to(REPO_ROOT.resolve()).as_posix()
+    except ValueError:
+        raise ValueError(f"{path}: not inside the repo ({REPO_ROOT}); only committed repo files can be linked")
+
+
+def attach_images(text, images, branch, base_dir=None):
+    """Each image (a repo-relative path) as `![name](blob link?raw=true)`.
+    An image link in `text` whose target resolves to the same path (relative
+    to `base_dir`, the packet's folder, or to the repo root) is rewritten in
+    place; the rest are appended under a "Pictures" heading."""
+    appended = []
+    for rel in images:
+        url = raw_image_url(rel, branch)
+        hit = False
+
+        def swap(m, rel=rel, url=url):
+            nonlocal hit
+            target = m.group(2)
+            if re.match(r"^(https?:|#)", target):
+                return m.group(0)
+            candidates = {posixpath.normpath(target.lstrip("/"))}
+            if base_dir is not None:
+                candidates.add(posixpath.normpath(posixpath.join(base_dir, target)))
+            if rel in candidates:
+                hit = True
+                return f"{m.group(1)}({url})"
+            return m.group(0)
+        text = re.sub(r"(!\[[^\]]*\])\(([^)\s]+)\)", swap, text)
+        if not hit:
+            appended.append(f"![{posixpath.basename(rel)}]({url})")
+    if appended:
+        text = text.rstrip() + "\n\n**Pictures**\n\n" + "\n\n".join(appended) + "\n"
+    return text
+
+
+def untracked(rel_paths):
+    out = []
+    for rel in rel_paths:
+        r = subprocess.run(["git", "-C", str(REPO_ROOT), "cat-file", "-e", f"HEAD:{rel}"],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            out.append(rel)
+    return out
+
+
 def waiting_section(progress_text):
     lines, inside = [], False
     for line in progress_text.splitlines():
@@ -142,15 +207,33 @@ def main(argv=None):
     g.add_argument("--post", metavar="FILE")
     g.add_argument("--from-progress", action="store_true")
     ap.add_argument("--title")
+    ap.add_argument("--attach", nargs="+", metavar="PNG", default=[],
+                    help="images to embed by repo blob link (with --post)")
     ap.add_argument("--if-changed", action="store_true")
     a = ap.parse_args(argv)
+    if a.attach and not a.post:
+        ap.error("--attach goes with --post")
     if not shutil.which("gh"):
         print("owner_inbox: gh is not installed; nothing posted")
         return 0
     try:
         number = ensure_issue()
         if a.post:
-            post(number, a.title, Path(a.post).read_text(encoding="utf-8"))
+            text = Path(a.post).read_text(encoding="utf-8")
+            if a.attach:
+                try:
+                    rels = [repo_relative(p) for p in a.attach]
+                except ValueError as e:
+                    print(f"owner_inbox: {e}; nothing posted")
+                    return 0
+                try:
+                    base = repo_relative(Path(a.post).resolve().parent)
+                except ValueError:
+                    base = None           # a packet outside the repo: links resolve from the root
+                for rel in untracked(rels):
+                    print(f"owner_inbox: warning: {rel} is not committed at HEAD; its link will not load until it is pushed")
+                text = attach_images(text, rels, current_branch(), base_dir=base)
+            post(number, a.title, text)
             return 0
         last = last_story(number)
         progress = (REPO_ROOT / "docs" / "PROGRESS.md").read_text(encoding="utf-8")

@@ -173,3 +173,62 @@ def test_the_run_is_deterministic_and_the_report_renders():
     report = render_report(payload)
     assert "hutdoor01" in report
     assert report == render_report(payload)
+
+
+# --- 16k remine r2: derived sets, kit-asset keys, stable ids -----------------
+
+
+def test_sets_are_derived_from_the_pool_rows_and_bmv_keeps_its_two_ids():
+    """One set per pool, in row order; BM&V's three plugins keep the two set
+    ids kit configs cite (standard 1)."""
+    from pathlib import Path
+
+    from .mine_assemblies import derived_sets
+    rows = [("vanilla", Path("Skyrim.esm")), ("vanilla", Path("Update.esm")),
+            ("bmv", Path("Black Marsh.esm")), ("bmv", Path("Black Marsh North.esp")),
+            ("bmv", Path("Valenwood.esp")), ("kotm", Path("King of the Murkmire.esp"))]
+    sets = {s["id"]: [p.name for _pool, p in s["rows"]] for s in derived_sets(rows)}
+    assert sets == {"vanilla": ["Skyrim.esm", "Update.esm"],
+                    "bmv-blackmarsh": ["Black Marsh.esm", "Black Marsh North.esp"],
+                    "bmv-valenwood": ["Valenwood.esp"],
+                    "kotm": ["King of the Murkmire.esp"]}
+
+
+def test_a_template_re_keyed_to_another_pool_keeps_its_id():
+    """The kit-asset join turns `bmv:architecture/shackkit/x` (a vanilla mesh
+    BM&V places) into `vanilla:architecture/shackkit/x`: same relation, same id."""
+    from .mine_assemblies import assign_ids
+    old = [{"id": "bmv-blackmarsh:t0007", "kind": "fixed",
+            "anchor": "bmv:architecture/shackkit/wall", "part": "bmv:architecture/shackkit/door",
+            "offsetM": [1.0, 0.0, 0.0], "yawDeg": 90.0, "anchorScale": 1.0}]
+    new = [{"id": "", "kind": "fixed",
+            "anchor": "vanilla:architecture/shackkit/wall",
+            "part": "vanilla:architecture/shackkit/door",
+            "offsetM": [1.05, 0.0, 0.0], "yawDeg": 90.5, "anchorScale": 1.0}]
+    assign_ids(new, "bmv-blackmarsh", old, 0.3, 5.0)
+    assert new[0]["id"] == "bmv-blackmarsh:t0007"
+
+
+def test_an_issued_template_survives_the_rank_cut():
+    """`max_templates` keeps the most repeated, and every template the
+    previous record issued while the plugins still show it."""
+    data = analysed()
+    from .mine_assemblies import SourceSet
+    source = SourceSet("test", "Test set", ["test.esp"], ["World"], refs=village())
+    cut = analyse(source, 12.0, 0.3, 5.0, 3, {}, max_templates=0)
+    assert len(cut["templates"]) < len(data["templates"])  # the cut can drop one
+    kept = analyse(source, 12.0, 0.3, 5.0, 3, {}, max_templates=0,
+                   previous=data["templates"])
+    assert {t["id"] for t in data["templates"]} <= {t["id"] for t in kept["templates"]}
+
+
+def test_sample_score_matches_on_the_path_and_flags_the_re_key():
+    from .mine_assemblies import sample_score
+    expected = [{"id": "s:t0001", "kind": "fixed", "anchor": "bmv:a/wall",
+                 "part": "bmv:a/door", "offsetM": [1.0, 0.0, 0.0], "radiusM": 1.0,
+                 "riseM": 0.0, "yawDeg": 0.0, "count": 4}]
+    got = [dict(expected[0], anchor="vanilla:a/wall", part="vanilla:a/door", count=6)]
+    row = sample_score(expected, got)["rows"][0]
+    assert row["pass"] and row["rekeyed"] and row["gotCount"] == 6
+    fewer = [dict(got[0], count=3)]
+    assert not sample_score(expected, fewer)["rows"][0]["pass"]

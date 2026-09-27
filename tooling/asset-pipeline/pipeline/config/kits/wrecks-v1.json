@@ -66,5 +66,12 @@
   {
    "asset": "depths:dos/boats/rowboatbrokenfront"
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/atmoranships/atmoranshipwood01.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
+  "textures/atmoranships/atmoranshipwood02.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
+  "textures/dos/ships/atmoran/atmoranshipwood01.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
+  "textures/dos/ships/atmoran/atmoranshipwood02.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
+  "textures/dos/ships/atmoran/atmshipshields.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ }
 }

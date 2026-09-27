@@ -25,6 +25,7 @@ import sys
 from dataclasses import dataclass
 from typing import Iterable, Mapping
 
+from .blueprint_files import blueprint_paths, parcel_services
 from . import blueprint_promises
 
 SCHEMA_VERSION = 2
@@ -146,7 +147,11 @@ BLUEPRINT_OBJECT_KINDS = {
     "travelServices": frozenset({"travel"}),
     "variants": frozenset({"variant"}),
 }
-NON_DELIVERY_ID_CONTAINERS = frozenset({"clearance", "siting"})
+NON_DELIVERY_ID_CONTAINERS = frozenset({"clearance", "siting", "assembly"})
+#: Lists nested inside a blueprint object whose rows are that object's own
+#: members with local ids (a parcel's 0097 `assembly`), walked as their own
+#: container so a member id is never read as a blueprint object.
+MEMBER_CONTAINERS = frozenset({"assembly"})
 
 
 @dataclass(frozen=True)
@@ -241,8 +246,8 @@ def blueprint_object_registry(bp: dict) -> tuple[dict[str, dict[str, str]], list
             if isinstance(value.get("socketRef"), str):
                 if container in {"parcels", "questSockets"}:
                     add(value["socketRef"], "quest-socket-ref")
-            for child in value.values():
-                walk(child, container)
+            for key, child in value.items():
+                walk(child, key if key in MEMBER_CONTAINERS else container)
         elif isinstance(value, list):
             for child in value:
                 walk(child, container)
@@ -391,8 +396,8 @@ def build_obligations(record: dict, bp: dict) -> tuple[list[Obligation], list[st
         refs = set(evidence.get(presence_path, ()))
         institutional = {p.get("id") for p in bp.get("parcels", []) or []
                          if p.get("use") in {"civic", "hall", "watch", "gate", "work"}
-                         or p.get("service") in {"guild-hall", "council", "court",
-                                                "licence-office"}}
+                         or set(parcel_services(p)) & {"guild-hall", "council", "court",
+                                                       "licence-office"}}
         institutional.update(l.get("id") for l in bp.get("landmarks", []) or [])
         faction_people = {o.get("slotId") for o in bp.get("occupants", []) or []
                           if o.get("ownerFaction") == faction}
@@ -935,7 +940,7 @@ def live_phase11_document() -> tuple[dict, list[str]]:
     # A blueprint file carries a `blueprint` object; the place's layout file
     # (<place>.layout.json, 0100 decision 2) sits beside it and is not one.
     docs = [json.loads(path.read_text())
-            for path in sorted(blueprint.BLUEPRINT_DIR.glob("place.*.json"))]
+            for path in blueprint_paths(blueprint.BLUEPRINT_DIR)]
     blueprints = [doc["blueprint"] for doc in docs if "blueprint" in doc]
     return obligation_document(records, blueprints,
                                expected_place_ids=live_expected_place_ids(blueprints))

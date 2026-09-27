@@ -354,3 +354,14 @@ def test_route_grade_lifts_a_hollow_its_cut_would_close():
     out, rec = tp.apply_route_grade(h, patch, ctx)
     assert rec["pocketsFilled"] > 0
     assert not any(e.startswith("water:") for e in tp.check_invariants(h, out, patch, ctx))
+
+
+def test_apply_kind_refuses_a_settlement_pad():
+    """Decision 0102 decision 1: a place's pad is its ground overlay, applied
+    at load; the chain's grid path for it is retired (16k fix 2 round 3)."""
+    patch = {"id": "patch.pad.settlement.place.t.b1", "kind": "settlement-pad",
+             "bboxM": [0.0, 0.0, 4.0, 4.0], "blendM": 3.0, "hardM": 0.0,
+             "params": {"pieces": [{"placementId": "a", "targetM": 1.0,
+                                    "footprintM": [[0, 0], [4, 0], [4, 4], [0, 4]]}]}}
+    with pytest.raises(ValueError, match="own ground overlay"):
+        tp.apply_kind(np.zeros((8, 8), np.float32), patch, None, 1.0)

@@ -94,6 +94,7 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
+from .blueprint_files import blueprint_paths
 from .authored_waterways import _inside, connected_depth  # noqa: F401 — connected_depth is re-exported for tests
 from .dock_spec import (
     BLUEPRINT_DIR,
@@ -152,7 +153,7 @@ def load_dock_promises(blueprint_dir: Path = BLUEPRINT_DIR, network=None) -> lis
     extent = float(fp.PROVINCE_EXTENT_M)
 
     rows: list[dict] = []
-    for path in sorted(Path(blueprint_dir).glob("*.json")):
+    for path in blueprint_paths(blueprint_dir):
         doc = json.loads(path.read_text())
         bp = doc.get("blueprint") if isinstance(doc, dict) and "blueprint" in doc else doc
         if not isinstance(bp, dict):

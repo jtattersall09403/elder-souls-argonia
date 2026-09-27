@@ -1,0 +1,192 @@
+{
+  "id": "interior-farmhouse-v1",
+  "description": "Tier A interior kit for vanilla farmhouse cells (decision 0103 decision 3): the interior tileset pieces, furniture, containers, clutter, carried items and light-bearing meshes that the tier A cells claimed on published places reference, and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of a claimed cell), never picked by name. First cell: Skyrim.esm DawnstarBrinasHouse, the claim on Claywater Station's station house (farmhouse01). A later claim adds its gaps here and rebuilds. The full farmhouse interior tileset (`vanilla-farmhouse-int`, 76 pieces including the basement family) stays an unbuilt config for Phase 12's assembled interiors.",
+  "culture": "imperial-colonial",
+  "output": "tooling/asset-pipeline/output/kits/interior-farmhouse-v1.glb",
+  "lodRatios": [
+    0.35,
+    0.12
+  ],
+  "textureMaxSize": 512,
+  "publish": true,
+  "compression": {
+    "color": "etc1s"
+  },
+  "compressionReason": "Interior clutter kit (planner ruling 9, interiors round 2): colour textures ETC1S, normal and attribute maps stay UASTC. Interior kits are mostly small clutter seen at arm's length under point lights, where ETC1S's block error (22-33 dB, docs/research/rendering/gpu-texture-and-mesh-compression.md) was judged acceptable against the per-cell download; foliage cards and exterior kits keep UASTC.",
+  "assets": [
+    {
+      "asset": "vanilla:architecture/farmhouse/farmhouseldoor01"
+    },
+    {
+      "asset": "vanilla:architecture/farmhouse/interior/farmintdoorway01"
+    },
+    {
+      "asset": "vanilla:architecture/farmhouse/interior/farmintend01"
+    },
+    {
+      "asset": "vanilla:architecture/farmhouse/interior/farmintend02"
+    },
+    {
+      "asset": "vanilla:architecture/farmhouse/interior/farmintwallhearth01"
+    },
+    {
+      "asset": "vanilla:clutter/basket02"
+    },
+    {
+      "asset": "vanilla:clutter/basket04"
+    },
+    {
+      "asset": "vanilla:clutter/bones/deerskullhornsstatic"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook03a"
+    },
+    {
+      "asset": "vanilla:clutter/candles/candlehornchandelier01"
+    },
+    {
+      "asset": "vanilla:clutter/candles/candlehornfloor01"
+    },
+    {
+      "asset": "vanilla:clutter/candles/candlehorntable01"
+    },
+    {
+      "asset": "vanilla:clutter/candles/candlehornwall01"
+    },
+    {
+      "asset": "vanilla:clutter/common/broom"
+    },
+    {
+      "asset": "vanilla:clutter/common/commonshelf01"
+    },
+    {
+      "asset": "vanilla:clutter/common/commontableround01"
+    },
+    {
+      "asset": "vanilla:clutter/common/cupboard01"
+    },
+    {
+      "asset": "vanilla:clutter/common/endtable01"
+    },
+    {
+      "asset": "vanilla:clutter/common/wardrobe01"
+    },
+    {
+      "asset": "vanilla:clutter/containers/chest01/chest01"
+    },
+    {
+      "asset": "vanilla:clutter/cookingspitfarmhouse01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hanginganimalsring01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hangingpheasant01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hangingpheasant02"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hangingrabbit01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hangingrabbit02"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedbear01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedhorker01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedsabrecat02"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicfork01"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicknife01"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basictankard01"
+    },
+    {
+      "asset": "vanilla:clutter/food/bread01a"
+    },
+    {
+      "asset": "vanilla:clutter/food/bread01b"
+    },
+    {
+      "asset": "vanilla:clutter/hay/hayscatter01"
+    },
+    {
+      "asset": "vanilla:clutter/hay/hayscatter02"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/mead01"
+    },
+    {
+      "asset": "vanilla:clutter/kettle01"
+    },
+    {
+      "asset": "vanilla:clutter/kitchen/castironpotsmall01"
+    },
+    {
+      "asset": "vanilla:clutter/kitchen/woodenladle01"
+    },
+    {
+      "asset": "vanilla:clutter/meadery/meadbarrel01"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfarmwall01"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfarmwall02"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfarmwall03"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfloor01"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfloor02"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/peltfloor03"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle01a"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle01b"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle02b"
+    },
+    {
+      "asset": "vanilla:clutter/woodfires/fireplacewood01burning"
+    },
+    {
+      "asset": "vanilla:furniture/common/commonbed01"
+    },
+    {
+      "asset": "vanilla:furniture/commontableonebench"
+    },
+    {
+      "asset": "vanilla:plants/hangingelvesear01"
+    },
+    {
+      "asset": "vanilla:plants/hangingfrostmirriam01"
+    },
+    {
+      "asset": "vanilla:plants/hanginggarlicbraid01"
+    },
+    {
+      "asset": "vanilla:plants/leek01"
+    },
+    {
+      "asset": "vanilla:weapons/steel/steelmace"
+    }
+  ]
+}

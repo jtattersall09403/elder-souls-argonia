@@ -52,6 +52,13 @@ CONTENT_EFFECT_PREFIXES = (
     "meshes/effects/fxsplashlargechurn",
     "meshes/effects/ambient/fxmistlow",
     "meshes/lod/waterfalls/",
+    # Settlement fire and smoke (16k fix round 2): the chimney smoke column
+    # and the brazier flame vanilla stands on its braziers (MSTT
+    # FXFireWithEmbers01, 105 of 262 impbrazier01 refs); published in
+    # works-v1 as additive effects.
+    "meshes/effects/ambient/fxsmokechimney01.nif",
+    "meshes/effects/ambient/fxsmokechimney02.nif",
+    "meshes/effects/fxfirewithembers01.nif",
 )
 
 
@@ -293,6 +300,13 @@ _FOLDER_STEM_RULES: tuple[tuple[str, tuple[str, ...], str, tuple[str, ...]], ...
      ("argonianbone0", "argonianpillow", "argonianskull", "argoniancandle",
       "basketsmall", "candle0", "clam0", "drum0", "potterycup",
       "potteryplate", "wallhanging"), "clutter", ()),
+    # King of the Murkmire `argonia/mudhuts/`: the house pods (exterior and
+    # interior room mesh, and the pod's doorway module) share the folder with
+    # windows, chimneys, stairs and docks, and filed `misc` the pod room
+    # never counted as the cell's structure, so a Keeba house cell took its
+    # family from 18 small vanilla farmhouse pieces (planner ruling 2,
+    # interiors round 5).
+    ("argonia/mudhuts", ("smpodext", "smpodint"), "architecture", ("shell",)),
     # HTBM `architecture/villages/argonian/`: the bamboo huts sit beside
     # their wicker furniture, which the `architecture` directory rule filed
     # as structure.

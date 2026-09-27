@@ -159,9 +159,16 @@ BSA beside the pool's plugins (``plugin_archives``), then vanilla. Evidence stri
 ``placement_metadata.EVIDENCE_VOCABULARY``. An asset with no placed reference is ``ground``
 with ``anchorClassEvidence: unplaced``.
 
-**Mount pairs**: for a wall (hanging) asset, every KIT parent one of its wall
+**Mount pairs**: for a wall (hanging) asset, every parent one of its wall
 (hanging) references is in side (top) contact with, offsets from exactly those
-references. Shapes (schemaVersion 3):
+references. 16k fix 2 kits round 3, ruling 1: a pair is also emitted for a
+MINORITY mounted class (wall or hanging) of any asset with at least
+``MOUNT_CLASS_MIN_REFS`` (20) references of that class over every file (the
+ground-class candle lantern hangs from 132 references); such a pair carries
+``mountClass``. A non-kit parent is named as its ``plugin-static:`` model id
+(a vanilla hook, post or beam), so the parent a kit must publish is read from
+the plugin; a kit parent must still be ground or deck. Doors keep the frame
+rule (kit frames only). Shapes (schemaVersion 3):
 
 * ``band`` — n >= 3 and, in the parent frame split into ``along`` (the
   parent's longer horizontal bounds axis, ``alongAxis`` "x" or "y"), ``out``
@@ -251,6 +258,17 @@ parent's lowest point, whose top rises above the parent's top, and whose
 contact lies on the parent's top face has its foot SET INTO the parent (the
 railing through the walkway plank): support from below (``set-into``)."""
 SET_INTO_TOP_SHARE = 0.25
+HUNG_TOP_SHARE = 0.2
+"""16k fix 2 round 6 ruling K1: a side contact whose points all lie in the top
+fifth of the child's own height, with the child below it, is the child hung
+from that parent (a pheasant on a wall hook, a chandelier on a ceiling
+chain): class ``hanging``, the parent in its mount pairs, source ``arm``
+(placement_metadata's hangingFrom vocabulary). A wall-mounted piece
+touches its wall down its back, never only at its top."""
+WATER_REACH_M = 0.25
+"""16k fix 2 round 6 ruling K1: the sink record's waterline makes a piece water
+only where that water reaches the piece's own lowest point (within this
+tolerance); a table candle 2.3 m above an interior cell's water is not in it."""
 """Share of the contact points that must lie on the parent's top face."""
 CATEGORY_REF_CLASS = {"door": "hanging"}
 """Round 16 ruling 2: the class a reference takes from its category row when
@@ -262,6 +280,9 @@ SCALE_TOLERANCE = 1e-3
 ABUTS_KEPT = 10
 MOUNTED_CLASSES = ("wall", "hanging")
 SUPPORT_CLASSES = ("ground", "deck")
+MOUNT_CLASS_MIN_REFS = 20
+"""References of one mounted class an asset needs before that class's pairs
+are emitted when it is not the asset's anchor class (16k kits r3 ruling 1)."""
 """Round 20 fix (a): the classes pooled as support before the plurality vote."""
 SHELL_CATEGORIES = ("architecture", "dungeon-kit", "ruin")
 """Kit manifest categories that are building structure (interior shells)."""
@@ -1080,6 +1101,93 @@ def footprint(vertices: np.ndarray) -> np.ndarray:
     return np.column_stack([foot, np.full(len(foot), low + CONTACT_M)])
 
 
+SUPPORT_RAY_M = 0.05
+"""K1 (16k fix 2 round 5): a ray cast straight down from a child's contact
+point that meets the parent's surface within this (metres, past the contact
+band) finds the parent UNDER the child: support from below."""
+
+
+def supported_from_below(contact_points: np.ndarray, parent_mesh,
+                         parent_scale: float) -> bool:
+    """True when rays cast straight down (the parent frame's -z: parents stand
+    upright) from at least half the child's contact points (parent frame)
+    meet an up-facing parent surface within SUPPORT_RAY_M. Each ray starts
+    CONTACT_M above its point, since a contact point may lie that far inside
+    the surface it touches."""
+    if not len(contact_points):
+        return False
+    lift = CONTACT_M / parent_scale
+    starts = contact_points + np.array([0.0, 0.0, lift])
+    down = np.tile(np.array([0.0, 0.0, -1.0]), (len(starts), 1))
+    locations, index_ray, index_tri = parent_mesh.ray.intersects_location(
+        starts, down, multiple_hits=False)
+    if not len(locations):
+        return False
+    drop = (starts[index_ray][:, 2] - locations[:, 2]) * parent_scale - CONTACT_M
+    # a support faces up at the ray (floor_gap's test): the underside a
+    # hanging child touches, met from just inside, is not one
+    facing = parent_mesh.face_normals[index_tri][:, 2] >= NORMAL_SPLIT
+    supported = np.zeros(len(starts), dtype=bool)
+    supported[index_ray[facing & (drop <= SUPPORT_RAY_M)]] = True
+    return 2 * int(supported.sum()) >= len(starts)
+
+
+def at_base(contact_points: np.ndarray, child_vertices: np.ndarray) -> bool:
+    """True when every contact point lies in the bottom HUNG_TOP_SHARE of the
+    child's own height: the child meets the parent at its foot (a candle's
+    rim on a table), never along its side (a fence end on its neighbour)."""
+    if not len(contact_points) or not len(child_vertices):
+        return False
+    top, bottom = float(child_vertices[:, 2].max()), float(child_vertices[:, 2].min())
+    return float(contact_points[:, 2].max()) <= bottom + HUNG_TOP_SHARE * (top - bottom)
+
+
+def hung_from(contact_points: np.ndarray, child_vertices: np.ndarray,
+              parent_scale: float) -> bool:
+    """True when every contact point lies in the top HUNG_TOP_SHARE of the
+    child's own height (parent frame, both upright) and the child reaches
+    more than HANGS_BELOW_M below the contact: it hangs from the parent."""
+    if not len(contact_points) or not len(child_vertices):
+        return False
+    top, bottom = float(child_vertices[:, 2].max()), float(child_vertices[:, 2].min())
+    height = top - bottom
+    lowest_contact = float(contact_points[:, 2].min())
+    return ((lowest_contact - bottom) * parent_scale > HANGS_BELOW_M
+            and lowest_contact >= top - HUNG_TOP_SHARE * height)
+
+
+HOOK_ARMS = frozenset({"bmv:architecture/phitt/aldredanyia/signpost"})
+"""16k r8 rule 2: arms made to carry a hung child whose name says post, not
+hook (the BM&V signpost's lantern arm)."""
+
+
+def is_hook_parent(parent_id: str) -> bool:
+    """16k r8 rule 2: a parent whose asset family is a hook or an arm (vanilla
+    hook01, a chain hook, Morrowind's lhook, the BM&V signpost arm): the
+    model's file name says hook, or it is a listed arm."""
+    if parent_id in HOOK_ARMS:
+        return True
+    name = parent_id.split(":", 1)[-1].rsplit("/", 1)[-1].removesuffix(".nif")
+    return "hook" in name
+
+
+def hangs_by_top_share(contact_points: np.ndarray, child_vertices: np.ndarray) -> bool:
+    """Every contact point lies in the top HUNG_TOP_SHARE (a fifth) of the
+    child's own height: the child hangs by its top (the lantern's handle)."""
+    if not len(contact_points) or not len(child_vertices):
+        return False
+    top, bottom = float(child_vertices[:, 2].max()), float(child_vertices[:, 2].min())
+    return float(contact_points[:, 2].min()) >= top - HUNG_TOP_SHARE * (top - bottom)
+
+
+def mark_hook_pairs(pairs: list[dict]) -> list[dict]:
+    """16k r8 rule 2: a pair on a hook-family parent carries ``hangingFrom: hook``."""
+    for pair in pairs:
+        if is_hook_parent(pair["parent"]):
+            pair["hangingFrom"] = "hook"
+    return pairs
+
+
 def floor_gap(origins: np.ndarray, a: np.ndarray, b: np.ndarray, parent_scale: float,
               parent_mesh) -> float | None:
     """Round 16 ruling 1b: cast a ray DOWN (the child's own -z) from each
@@ -1172,15 +1280,37 @@ def _measure_keys(keys: list, poses: dict | None = None,
             results[key] = None
             continue
         kind = patch = patch_class(normals[hit])
-        if kind != "under" and set_into(vertices @ a.T + b, low, high, parent_scale,
+        placed_vertices = vertices @ a.T + b
+        if is_hook_parent(parent_id) and hangs_by_top_share(placed[hit], placed_vertices):
+            # 16k r8 rule 2: on a hook or an arm, a child touching it only in
+            # its own top fifth hangs from it, whatever the patch reads.
+            kind = "hook"
+        elif kind != "under" and set_into(placed_vertices, low, high, parent_scale,
                                         parent_mesh.face_normals[triangles[close]]):
             # Round 16 ruling 1a: support from below, whatever the patch reads.
             kind = "set-into"
+        elif kind == "side":
+            if (at_base(placed[hit], placed_vertices)
+                    and supported_from_below(placed[hit], parent_mesh, parent_scale)):
+                # 16k fix 2 round 6 ruling K1 (0085): support from below wins
+                # whenever the down-ray from the child's foot meets the parent,
+                # whatever the patch (a fence end touching its neighbour's
+                # rail is an abut: the foot test keeps wrfencestr01 ground).
+                kind = "under"
+            elif hung_from(placed[hit], placed_vertices, parent_scale):
+                kind = "hung"
         elif kind == "top":
-            # Round 15 ruling 1: the parent must reach below the contact (the
-            # child hangs from it); a piece lying ON the child's top rests on it.
             contact_z = float(np.median(placed[hit][:, 2]))
-            if (contact_z - float(low[2])) * parent_scale <= HANGS_BELOW_M:
+            if supported_from_below(placed[hit], parent_mesh, parent_scale):
+                # 16k fix 2 round 5 ruling K1: the parent's own surface lies
+                # straight under the child's contact points (the lantern on a
+                # barrel, the pot on a raised table): support from below, never
+                # a hanging parent, whatever the child's patch normals read (an
+                # open cup's base faces up).
+                kind = "under"
+            elif (contact_z - float(low[2])) * parent_scale <= HANGS_BELOW_M:
+                # Round 15 ruling 1: the parent must reach below the contact (the
+                # child hangs from it); a piece lying ON the child's top rests on it.
                 kind = "rests-on"
         # (class, contact points, the patch's own normal class: diagnostics)
         results[key] = (kind, int(hit.sum()), patch)
@@ -1379,6 +1509,11 @@ def classify_reference(child: ChildRef, contacts: dict,
         # abut. Submerged terrain stays water (round 11).
         return ("water" if support == "water" else "ground"), [], sorted(
             {p[2] for p in patches} | set(carried)), "terrain"
+    hooked = [p for p in patches if p[0] == "hook"]
+    if hooked:
+        # 16k r8 rule 2: hung from a hook or an arm by its top fifth.
+        return ("hanging", [(p[2], p[4]) for p in hooked],
+                sorted({p[2] for p in patches if p not in hooked} | set(carried)), "hook")
     if under or support in ("ground", "deck"):
         anchor = "deck" if (any(p[3] for p in under) or support == "deck") else "ground"
         return anchor, [], sorted({p[2] for p in patches if p not in under}
@@ -1386,6 +1521,12 @@ def classify_reference(child: ChildRef, contacts: dict,
     if support == "water":
         # Round 11: standing on submerged terrain is standing in the water.
         return "water", [], sorted({p[2] for p in patches} | set(carried)), None
+    hung = [p for p in patches if p[0] == "hung"]
+    if hung:
+        # 16k fix 2 round 6 ruling K1: hung from a wall- or ceiling-mounted
+        # hook or chain (no support from below): hanging, the parent noted.
+        return ("hanging", [(p[2], p[4]) for p in hung],
+                sorted({p[2] for p in patches if p not in hung} | set(carried)), "arm")
     side = [p for p in patches if p[0] == "side"]
     top = [p for p in patches if p[0] == "top"]
     # Round 15 ruling 1: a piece lying ON the child's top is a neighbour; so is
@@ -1402,7 +1543,8 @@ def classify_reference(child: ChildRef, contacts: dict,
     use_side = bool(side)
     chosen = side if use_side else top
     others = (top if use_side else side) + resting + clutter
-    mounts = [(p[2], p[4]) for p in chosen if p[3]]
+    # 16k kits r3 ruling 1: every holding parent, kit or non-kit static.
+    mounts = [(p[2], p[4]) for p in chosen]
     source = None if use_side else ("crown" if any(p[5] for p in chosen) else "arm")
     return (("wall" if use_side else "hanging"), mounts,
             sorted({p[2] for p in others} | set(carried)), source)
@@ -1419,9 +1561,16 @@ def load_sink_record(path: Path = SINK_RECORD) -> dict[str, dict]:
     return document.get("assets", {}) if document.get("schemaVersion") == 1 else {}
 
 
-def is_water(sink: dict) -> bool:
+def is_water(sink: dict, lowest_m: float | None = None) -> bool:
+    """The sink record's waterline makes the piece water: n >= 3, a tight
+    waterline, a loose ground sink, and (``lowest_m``: the mesh's lowest point
+    under its pivot, unscaled; round 6 ruling K1) the water reaching it."""
     waterline = sink.get("waterline")
     ground_iqr = sink.get("iqrM") if sink.get("evidence") == "plugin" else None
+    if (lowest_m is not None and isinstance(waterline, dict)
+            and isinstance(waterline.get("p50"), (int, float))
+            and waterline["p50"] < lowest_m - WATER_REACH_M):
+        return False
     return (isinstance(waterline, dict) and waterline.get("n", 0) >= ANCHOR_MIN_SAMPLES
             and waterline.get("iqrM", 1e9) < 0.5
             and (ground_iqr is None or ground_iqr > 1.0))
@@ -1536,7 +1685,8 @@ def classify_anchor(ref_classes: list[str], sink: dict,
                     abuts: Counter | None = None,
                     hanging_from: Counter | None = None,
                     dropped: int = 0,
-                    policy_class: str = "ground") -> tuple[str, str, dict]:
+                    policy_class: str = "ground",
+                    lowest_m: float | None = None) -> tuple[str, str, dict]:
     """``(anchorClass, evidence, fields)`` under the rule in this docstring.
     ``free`` references (no contact) count as ground; a tie between ground and
     wall/hanging goes to wall/hanging only when no reference is supported.
@@ -1544,7 +1694,7 @@ def classify_anchor(ref_classes: list[str], sink: dict,
     n = len(ref_classes)
     thin_after_drop = dropped > 0 and n < ANCHOR_MIN_SAMPLES
     extra = {"droppedNoLand": dropped} if dropped else {}
-    if is_water(sink):
+    if is_water(sink, lowest_m):
         fields = {"n": sink["waterline"]["n"], **extra}
         if thin_after_drop:
             fields["evidence"] = "sink-waterline"
@@ -1639,8 +1789,11 @@ def validate_mount_shapes(pairs: list[dict], anchors: dict[str, dict]) -> list[s
     findings: list[str] = []
     for pair in pairs:
         child, parent = pair.get("child", "?"), pair.get("parent", "?")
-        if anchors.get(child, {}).get("anchorClass") not in MOUNTED_CLASSES:
+        if (anchors.get(child, {}).get("anchorClass") not in MOUNTED_CLASSES
+                and pair.get("mountClass") not in MOUNTED_CLASSES):
             findings.append(f"{child}: a mount child must be wall or hanging")
+        if parent.startswith(NON_KIT_PREFIX):
+            continue
         if not is_mount_parent(anchors.get(parent, {})):
             findings.append(f"{child}: mount parent {parent} is not ground or deck")
     return findings
@@ -1652,7 +1805,8 @@ def build_document(kits: dict[str, dict], vault: Path, progress: bool = False,
                    meshes: Callable[[str], object] | None = None,
                    only: set[str] | None = None,
                    sample_max: int | None = None, sample_seed: int = 0,
-                   jobs: int = CONTACT_WORKERS) -> dict:
+                   jobs: int = CONTACT_WORKERS,
+                   mount_min_refs: int = MOUNT_CLASS_MIN_REFS) -> dict:
     """The mounts record; ``only`` mines just those child assets (the golden
     and held-out batches) and records only their anchors; ``sample_max`` keeps
     at most that many references per asset (seeded) so a barrel does not pull
@@ -1660,7 +1814,15 @@ def build_document(kits: dict[str, dict], vault: Path, progress: bool = False,
     children, poses, contacts, meshes, stats = mine_contacts(
         kits, vault, progress=progress, plugins=plugins, meshes=meshes, only=only,
         sample_max=sample_max, sample_seed=sample_seed, jobs=jobs)
-    return classify_document(kits, children, contacts, meshes, stats, sink, only)
+    document = classify_document(kits, children, contacts, meshes, stats, sink, only,
+                                 mount_min_refs)
+    # 16k remine r1: the pools this run walked (test_mined_provenance.py)
+    from .mine_assemblies import provenance
+    walked = pool_plugins(vault) if plugins is None else plugins
+    return {"schemaVersion": document.pop("schemaVersion"),
+            "provenance": provenance(__file__, [path.name for _pool, path in walked],
+                                     [pool for pool, _path in walked]),
+            **document}
 
 
 def mine_contacts(kits: dict[str, dict], vault: Path, progress: bool = False,
@@ -1751,7 +1913,8 @@ def static_supported_refs(kits: dict[str, dict], vault: Path, **options) -> set[
 
 def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts: dict,
                       meshes: Callable[[str], object], stats: dict,
-                      sink: dict[str, dict] | None, only: set[str] | None) -> dict:
+                      sink: dict[str, dict] | None, only: set[str] | None,
+                      mount_min_refs: int = MOUNT_CLASS_MIN_REFS) -> dict:
     """Classes, the vote and the pairs over measured references."""
     sink = load_sink_record() if sink is None else sink
     ref_classes: dict[str, list[str]] = defaultdict(list)
@@ -1768,6 +1931,7 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
                          if child.own and not child.buried)
     outvoted: Counter = Counter()
     column_levels: dict[str, list[float]] = defaultdict(list)
+    class_refs: dict[str, Counter] = defaultdict(Counter)
     for child in children:
         if child.buried:
             # No LAND under the pivot: not evidence, never classified.
@@ -1784,6 +1948,7 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
                 # Round 17 ruling 3: cell water minus pivot (the sink's sign).
                 column_levels[child.asset_id].append(child.water_m - float(child.origin_m[2]))
         mounted[child.asset_id] += [(anchor, parent, row) for parent, row in mounts]
+        class_refs[child.asset_id][anchor] += 1
         if not child.own and own_usable[child.asset_id] >= ANCHOR_MIN_SAMPLES:
             outvoted[child.asset_id] += 1
             continue
@@ -1803,9 +1968,16 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
             continue
         policy_class = policy_anchor_class(asset_id, kits[asset_id].get("kit"), inventory)
         asset_policy, kit_policy = policy_rows(asset_id, kits[asset_id].get("kit"), inventory)
+        # the mesh's lowest point, read only where a waterline could decide
+        if "waterline" in sink.get(asset_id, {}) and asset_id not in vertex_cache:
+            mesh = meshes(asset_id)
+            vertex_cache[asset_id] = None if mesh is None else np.asarray(mesh.vertices)
+        vertices = vertex_cache.get(asset_id)
+        lowest_m = (float(vertices[:, 2].min())
+                    if vertices is not None and len(vertices) else None)
         anchor_class, evidence, fields = classify_anchor(
             ref_classes.get(asset_id, []), sink.get(asset_id, {}), abuts.get(asset_id),
-            hanging_from.get(asset_id), dropped[asset_id], policy_class)
+            hanging_from.get(asset_id), dropped[asset_id], policy_class, lowest_m)
         imposed = (policy_override(anchor_class, fields, asset_policy, kit_policy)
                    if evidence == "plugin" and fields.get("evidence", "thin") == "thin"
                    else None)
@@ -1838,16 +2010,28 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
         anchors[asset_id] = {"anchorClass": anchor_class,
                              "anchorClassEvidence": evidence, **fields}
     samples: dict[tuple[str, str], list] = defaultdict(list)
+    minority: dict[tuple[str, str], str] = {}
     for child, rows in mounted.items():
         child_class = anchors[child]["anchorClass"]
         # A parent outside an ``only`` batch has no anchor row: count it by
-        # the full record's class when there is one.
+        # the full record's class when there is one. A non-kit static parent
+        # has no anchor row at all and is named as it is (ruling 1).
         for ref_class, parent, row in rows:
-            parent_ok = (is_mount_parent(anchors[parent]) if parent in anchors
+            parent_ok = (True if parent.startswith(NON_KIT_PREFIX)
+                         else is_mount_parent(anchors[parent]) if parent in anchors
                          else only is not None)
-            if ref_class == child_class and parent_ok:
+            if not parent_ok:
+                continue
+            if ref_class == child_class:
                 samples[(child, parent)].append(row)
-    pairs = summarise(samples, kits)
+            elif (ref_class in MOUNTED_CLASSES
+                  and class_refs[child][ref_class] >= mount_min_refs):
+                samples[(child, parent)].append(row)
+                minority[(child, parent)] = ref_class
+    pairs = mark_hook_pairs(summarise(samples, kits))
+    for pair in pairs:
+        if (pair["child"], pair["parent"]) in minority:
+            pair["mountClass"] = minority[(pair["child"], pair["parent"])]
     findings = validate_pairs(pairs) + validate_anchors(anchors)
     if only is None:
         findings += validate_mount_shapes(pairs, anchors)
@@ -1942,8 +2126,11 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
                   "kit clutter never supports a shell; an interior ray-cast floor "
                   "within 0.10 m under the footprint supports; a non-kit static's "
                   "mesh comes from its pool, then the BSA beside the pool's plugins, "
-                  "then vanilla. Pairs: every kit ground/deck parent "
-                  "a wall (hanging) reference is in side (top) contact with. "
+                  "then vanilla. Pairs: every parent a wall (hanging) reference "
+                  "is in side (top) contact with (a kit parent must be ground or "
+                  "deck; a non-kit static is named plugin-static:<model>); a "
+                  "minority wall or hanging class with at least 20 references "
+                  "over every file also gets its pairs, marked mountClass. "
                   "worldgen/mine_mounts.py",
         "pairKindCounts": dict(sorted(kinds.items())),
         "cellsWalked": stats["cellsWalked"],
@@ -2086,19 +2273,196 @@ def dump_meshes(static_pool: dict[str, str], vault: Path, cache: Path = MESH_CAC
             "cached": len(index), "dumped": len(jobs)}
 
 
+SOCKET_PAIR_KEY = "twinOf"
+"""A pair `mine_effect_sockets --merge` wrote (a blank board on its post,
+measured on its vanilla twin): no plugin places its child, so no mounts run
+finds it again."""
+
+
+def carry_socket_writes(previous: dict | None, document: dict) -> dict:
+    """``document`` with what `mine_effect_sockets --merge` wrote into the
+    ``previous`` record carried over (16k r8 rule 1): its ``effectSockets``
+    block and every pair carrying ``twinOf`` whose (child, parent) the run
+    did not mine itself; the pair tally is recounted."""
+    if not previous:
+        return document
+    out = dict(document)
+    if "effectSockets" in previous and "effectSockets" not in out:
+        out["effectSockets"] = previous["effectSockets"]
+    have = {(p["child"], p["parent"]) for p in out.get("pairs", [])}
+    carried = [p for p in previous.get("pairs", [])
+               if SOCKET_PAIR_KEY in p and (p["child"], p["parent"]) not in have]
+    if carried:
+        out["pairs"] = sorted(list(out.get("pairs", [])) + carried,
+                              key=lambda p: (p["child"], p["parent"]))
+        out["pairKindCounts"] = dict(sorted(Counter(p["kind"] for p in out["pairs"]).items()))
+    return out
+
+
+def merge_assets(record: dict, document: dict, assets: set[str]) -> dict:
+    """The record with ``assets``' anchor rows and pairs replaced by a per-asset
+    run's (the kit-mining skill's "mine per kit on demand"). A kit parent is
+    judged by the record's own class; the whole merged record must pass the
+    contract, and the two tallies are recounted (the run-wide stats stay the
+    last full run's)."""
+    merged = dict(record)
+    anchors = dict(record["anchors"])
+    for asset_id in assets:
+        if asset_id in document["anchors"]:
+            anchors[asset_id] = document["anchors"][asset_id]
+    new_pairs = [p for p in document["pairs"] if p["child"] in assets
+                 and (p["parent"].startswith(NON_KIT_PREFIX)
+                      or is_mount_parent(anchors.get(p["parent"], {})))]
+    pairs = [p for p in record["pairs"] if p["child"] not in assets] + new_pairs
+    got = {(p["child"], p["parent"]) for p in pairs}
+    pairs += [p for p in record["pairs"] if SOCKET_PAIR_KEY in p   # 16k r8 rule 1
+              and (p["child"], p["parent"]) not in got]
+    pairs.sort(key=lambda p: (p["child"], p["parent"]))
+    findings = (validate_pairs(pairs) + validate_anchors(anchors)
+                + validate_mount_shapes(pairs, anchors))
+    if findings:
+        raise ValueError("merged mounts break the contract: " + "; ".join(findings[:20]))
+    merged["anchors"] = dict(sorted(anchors.items()))
+    merged["pairs"] = pairs
+    merged["pairKindCounts"] = dict(sorted(Counter(p["kind"] for p in pairs).items()))
+    merged["anchorClassCounts"] = dict(sorted(
+        Counter(a["anchorClass"] for a in anchors.values()).items()))
+    return merged
+
+
+EFFECT_SOCKETS = {
+    # socket kind -> (child models, {parent kit asset id: parent model}) (16k fix 2
+    # round 4 ruling E1: the chimney top is not in the farmhouse mesh; vanilla
+    # places the chimney smoke as its own reference over the house)
+    "chimney": (("effects/ambient/fxsmokechimney01.nif", "effects/ambient/fxsmokechimney02.nif"),
+                {"vanilla:architecture/farmhouse/farmhouse01": "architecture/farmhouse/farmhouse01.nif",
+                 "vanilla:architecture/farmhouse/farmhouse02": "architecture/farmhouse/farmhouse02.nif"}),
+    # 16k fix 2 round 6 ruling E1: vanilla places the same chimney smoke over a
+    # burning campfire (23 of 73 Skyrim.esm campfire01burning refs, 0.1-1.2 m
+    # up) and an imperial brazier (7 of 57)
+    "fire": (("effects/ambient/fxsmokechimney01.nif", "effects/ambient/fxsmokechimney02.nif"),
+             {"vanilla:clutter/woodfires/campfire01burning": "clutter/woodfires/campfire01burning.nif",
+              "vanilla:clutter/imperial/impbrazier01": "clutter/imperial/impbrazier01.nif"}),
+}
+EFFECT_SOCKET_RADIUS_M = 15.0
+"""A child effect reference pairs with the nearest listed parent whose pivot
+lies within this plan distance (a farmhouse is 20 m long)."""
+EFFECT_SOCKET_RADII_M = {"fire": 3.0}
+"""Per-kind radius where the parent is small (a campfire is 1.5 m across);
+a smoke 3 m off a fire is over that fire, not a neighbouring chimney."""
+
+
+def mine_effect_sockets(vault: Path, kinds: Iterable[str] = tuple(EFFECT_SOCKETS),
+                        sample_max: int | None = None, sample_seed: int = 0,
+                        refs: list | None = None) -> dict:
+    """Per socket kind and parent asset: the median offset of the effect
+    reference from the nearest parent reference in vanilla Tamriel, in the
+    parent's UNIT frame (plugin axes: x right, y forward, z up; the frame of
+    the pairs' ``offsetM``, `mine_assemblies.unit_offset`), with n, the
+    per-axis p25/p75 and the child model counts. ``sample_max`` draws that
+    many child references per parent (seeded) for the sample-first protocol."""
+    import random
+    from . import mine_assemblies as ma
+    kinds = list(kinds)
+    wanted = {m for k in kinds for m in EFFECT_SOCKETS[k][0]} | {
+        m for k in kinds for m in EFFECT_SOCKETS[k][1].values()}
+    if refs is None:
+        # the vanilla source set through the pool's load order (16k remine r2:
+        # every exterior worldspace Skyrim.esm places references in)
+        index, bundles = ma.pool_index(vault)
+        bundle = next(b for b in bundles if b["id"] == "vanilla")
+        refs = ma.collect(index, ma.kit_joins(), bundle["rows"], bundle["id"], bundle["label"],
+                          accept=lambda key, _vol, _pool: key in wanted).refs
+        refs = [r for r in refs if r.model_key in wanted]
+    out: dict[str, dict] = {}
+    for kind in kinds:
+        children_models, parents = EFFECT_SOCKETS[kind]
+        by_model = {model: asset for asset, model in parents.items()}
+        parent_refs = [r for r in refs if r.model_key in by_model]
+        rows: dict[str, list] = {asset: [] for asset in parents}
+        for child in (r for r in refs if r.model_key in children_models):
+            near = [(math.hypot(child.x - p.x, child.y - p.y), p) for p in parent_refs
+                    if p.world == child.world]
+            near = [t for t in near
+                    if t[0] <= EFFECT_SOCKET_RADII_M.get(kind, EFFECT_SOCKET_RADIUS_M)]
+            if not near:
+                continue
+            parent = min(near, key=lambda t: (t[0], t[1].x, t[1].y))[1]
+            lx, ly, lz, _yaw = ma.unit_offset(parent, child)
+            rows[by_model[parent.model_key]].append((lx, ly, lz, child.model_key))
+        kind_out = {}
+        for asset, got in sorted(rows.items()):
+            if sample_max:
+                rng = random.Random(f"{sample_seed}:{asset}")
+                got = rng.sample(got, min(sample_max, len(got)))
+            if not got:
+                kind_out[asset] = {"n": 0}
+                continue
+            arr = np.array([g[:3] for g in got], dtype=float)
+            kind_out[asset] = {
+                "offsetM": [round(float(v), 3) for v in np.median(arr, axis=0)],
+                "p25M": [round(float(v), 3) for v in np.percentile(arr, 25, axis=0)],
+                "p75M": [round(float(v), 3) for v in np.percentile(arr, 75, axis=0)],
+                "n": len(got),
+                "children": dict(sorted(Counter(g[3] for g in got).items())),
+            }
+        out[kind] = kind_out
+    return {"frame": "parent unit frame, plugin axes (x right, y forward, z up), metres",
+            "radiusM": EFFECT_SOCKET_RADIUS_M, "radiusByKindM": dict(EFFECT_SOCKET_RADII_M),
+            "source": "vanilla Skyrim.esm, every exterior worldspace",
+            "sockets": out}
+
+
 def main(argv: Iterable[str] | None = None) -> int:
+    """The CLI, holding the kit-list lock SHARED (16k r8 rule 4): no kit
+    build rewrites the manifests this run reads."""
+    from . import mine_designed_sink  # noqa: F401  (puts pipeline/ on the path)
+    from pipeline.kit_lock import kit_list_lock
+    with kit_list_lock("shared", "mine_mounts"):
+        return _main(argv)
+
+
+def _main(argv: Iterable[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--kits-dir", type=Path, action="append", default=None)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--vault", type=Path, default=asset_registry.DEFAULT_VAULT)
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--assets", nargs="+", default=None,
-                        help="mine only these child asset ids; print, write nothing")
+                        help="mine only these child asset ids; print, write nothing "
+                             "(with --merge: write their rows into --out)")
+    parser.add_argument("--merge", action="store_true",
+                        help="with --assets: replace those assets' anchor rows and "
+                             "pairs in the --out record (16k kits r3 ruling 1)")
     parser.add_argument("--jobs", type=int, default=CONTACT_WORKERS,
                         help="processes for the contact queries")
     parser.add_argument("--dump-meshes", action="store_true",
                         help="fill the NIF mesh cache for every candidate parent, then stop")
+    parser.add_argument("--effect-sockets", action="store_true",
+                        help="mine EFFECT_SOCKETS (the chimney smoke over its house) and, "
+                             "with --merge, write them as the record's `effectSockets`")
+    parser.add_argument("--sample-max", type=int, default=None,
+                        help="with --effect-sockets: a seeded sample per parent (print only)")
+    parser.add_argument("--sample-seed", type=int, default=0)
+    parser.add_argument("--sample", type=int, default=None,
+                        help="sample-first batch: N seeded kit assets (plus --assets) "
+                             "mined as with --assets (print, write nothing)")
+    parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args(list(argv) if argv is not None else None)
+    if args.sample is not None and args.merge:
+        raise SystemExit("--sample prints only; it never merges into the record")
+    if args.effect_sockets:
+        got = mine_effect_sockets(args.vault, sample_max=args.sample_max,
+                                  sample_seed=args.sample_seed)
+        print(json.dumps(got, indent=1))
+        if args.merge and not args.sample_max:
+            # 16k r8 rule 1: the record's effectSockets block is
+            # mine_effect_sockets' (yaw, road signs, blank-board pairs); this
+            # older offset-only writer would drop them, so it hands over.
+            from . import mine_effect_sockets
+            return mine_effect_sockets.main(["--vault", str(args.vault), "--out",
+                                             str(args.out), "--merge"])
+        return 0
     kits = kit_assets(*(args.kits_dir or []))
     if args.dump_meshes:
         _children, _poses, static_pool, stats = collect(kits, args.vault)
@@ -2108,6 +2472,17 @@ def main(argv: Iterable[str] | None = None) -> int:
               f"distinct poses, {len(needed)} non-kit meshes")
         print(dump_meshes({s: static_pool[s] for s in needed}, args.vault))
         return 0
+    if args.sample is not None:
+        from .mine_designed_sink import sample_assets
+        args.assets = sample_assets(kits, args.sample, args.seed, args.assets or [])
+    if args.assets and args.merge:
+        document = build_document(kits, args.vault, only=set(args.assets))
+        merged = merge_assets(json.loads(args.out.read_text()), document, set(args.assets))
+        args.out.write_text(json.dumps(merged, indent=1) + "\n", encoding="utf-8")
+        print(json.dumps({"pairs": [p for p in merged["pairs"] if p["child"] in args.assets],
+                          "anchors": {a: merged["anchors"].get(a) for a in args.assets}},
+                         indent=1))
+        return 0
     if args.assets:
         document = build_document(kits, args.vault, only=set(args.assets))
         print(json.dumps({"anchors": document["anchors"], "pairs": document["pairs"],
@@ -2115,6 +2490,9 @@ def main(argv: Iterable[str] | None = None) -> int:
                           "meshesMissing": document["meshesMissing"]}, indent=1))
         return 0
     document = build_document(kits, args.vault, progress=not args.quiet, jobs=args.jobs)
+    # 16k r8 rule 1: a full run never wipes what mine_effect_sockets wrote
+    previous = json.loads(args.out.read_text()) if args.out.exists() else None
+    document = carry_socket_writes(previous, document)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(document, indent=1) + "\n", encoding="utf-8")
     if not args.quiet:

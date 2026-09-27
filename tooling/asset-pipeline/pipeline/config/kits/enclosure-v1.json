@@ -229,5 +229,8 @@
     ]
    }
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/dlc02/architecture/ravenrock/redoran/redoran03.dds": "Dragonborn DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)"
+ }
 }

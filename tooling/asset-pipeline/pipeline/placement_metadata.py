@@ -36,6 +36,9 @@ PLACEMENT_FIELDS = {
 DESIGNED_SINK_DIR = REPO_ROOT / "world" / "sources" / "placement"
 DESIGNED_SINK_RECORD = DESIGNED_SINK_DIR / "kit-designed-sink.json"
 MOUNTS_RECORD = DESIGNED_SINK_DIR / "kit-mounts-mined.json"
+#: The door-link miner's record; its ``placedScales`` section is every kit
+#: shell's plugin placed scale (planner ruling 1, interiors round 4).
+DOOR_LINKS_RECORD = DESIGNED_SINK_DIR / "exterior-interior-links.json"
 ANCHOR_CLASSES = {"ground", "wall", "hanging", "deck", "water", "fx"}
 STATIC_SUPPORTED_SILL = "mesh-sill (plugin refs static-supported)"
 PLUGIN_UNSUPPORTED_SILL = "mesh-sill (plugin-unsupported)"
@@ -80,6 +83,9 @@ EVIDENCE_VOCABULARY: tuple[tuple[str, tuple[str, ...], str], ...] = (
     ("frame", ("source",), "a door hangs in the frame it touches"),
     ("crown", ("source",), "hanging from a tree crown"),
     ("arm", ("source",), "hanging from a top contact on a non-tree piece"),
+    ("hook", ("source",), "hanging from a hook parent: a piece made to carry a hung "
+     "child, a hook, chain hook or carrying arm, a sign arm included (the BM&V "
+     "signpost; worldgen mine_mounts.HOOK_ARMS, 16k r8 rule 2)"),
     ("interior-zero", ("source",), "an interior shell on the shell datum: ground"),
 )
 
@@ -132,6 +138,20 @@ GROUND_LINE_TELLS = {"door-sill", "floor-plane", "bottom-step", "foundation-top"
 # deck top minus clearance: the designed sink of a ground/deck piece, the
 # designed waterline of a water piece. The legs bury as deep as they need.
 MESH_SILL_TOLERANCE_M = 0.1
+
+
+INTERIOR_ZERO = "interior-zero"
+"""The interior kits' policy: it outranks an unscoped per-asset row."""
+
+# W1 scope (planner ruling, 16k fix 2 round 5): a policy-fallback sink lands
+# the mesh's lowest point on the ground (fallbackSinkM minus originOffsetM[2])
+# ONLY for the `direct` policy and only for pieces whose longest side is under
+# 1.5 m (loose clutter whose pivot is not at its base). Every other piece keeps
+# the policy's fallbackSinkM as authored: unscoped, the rule lifted the shipped
+# kotm mudhut01 4.379 m, a BM&V ledge 11.8 m and a root piece 43.4 m
+# (tooling/.reports/16k/r4-followups.md).
+LOWEST_POINT_POLICY = "direct"
+LOWEST_POINT_MAX_SIDE_M = 1.5
 
 
 def normalize_asset_id(asset_id: str) -> str:
@@ -207,6 +227,18 @@ def validate_policy_inventory(
             findings.append(f"asset policy {asset_id!r} is not emitted by a kit config")
         if policy_id not in policies:
             findings.append(f"asset {asset_id!r} names unknown policy {policy_id!r}")
+    scoped = inventory.get("kitAssetPolicies", {})
+    if not isinstance(scoped, dict):
+        findings.append("placement policy inventory kitAssetPolicies must be an object")
+        scoped = {}
+    for kit_id, rows in sorted(scoped.items()):
+        if kit_id not in configured_kits:
+            findings.append(f"kitAssetPolicies kit {kit_id!r} has no kit config")
+        for asset_id, policy_id in sorted((rows or {}).items()):
+            if asset_id != normalize_asset_id(asset_id):
+                findings.append(f"kitAssetPolicies key is not normalized: {asset_id!r}")
+            if policy_id not in policies:
+                findings.append(f"kitAssetPolicies {kit_id}/{asset_id} names unknown policy {policy_id!r}")
     placement_rows = inventory.get("assetPlacement", {})
     if not isinstance(placement_rows, dict):
         findings.append("placement policy inventory needs object assetPlacement")
@@ -226,7 +258,14 @@ def validate_policy_inventory(
     return findings
 
 
-ASSET_PLACEMENT_FIELDS = ("anchorClass", "designedSinkM", "designedWaterlineM", "deckClearanceM")
+ASSET_PLACEMENT_FIELDS = ("anchorClass", "designedSinkM", "designedWaterlineM", "deckClearanceM",
+                          "placeUse")
+PLACE_USES = ("ruin-only", "hanging-only")
+"""``placeUse`` (16k fix 2, interiors r8 (a)): ``ruin-only`` keeps a piece out
+of a living place (the workbench ``place`` op refuses it without ``--ruin``);
+the upright KotM pod, which the plugin places turned over as a house
+(``composite:mud/kotm-house-pod``). ``hanging-only`` (r4): a hanging lantern
+the workbench never settles on the ground; it is placed and mounted."""
 
 
 def _asset_placement_row_findings(
@@ -250,6 +289,8 @@ def _asset_placement_row_findings(
         findings.append(f"{where}: decides nothing (needs one of {list(ASSET_PLACEMENT_FIELDS)})")
     if "anchorClass" in row and row["anchorClass"] not in ANCHOR_CLASSES:
         findings.append(f"{where}: anchorClass must be one of {sorted(ANCHOR_CLASSES)}")
+    if "placeUse" in row and row["placeUse"] not in PLACE_USES:
+        findings.append(f"{where}: placeUse must be one of {list(PLACE_USES)}")
     for key in ("designedSinkM", "designedWaterlineM", "deckClearanceM"):
         if key in row and not _is_number(row[key]):
             findings.append(f"{where}: {key} must be finite metres")
@@ -280,9 +321,19 @@ def deck_support_line(asset_id: str, row: dict[str, Any], tell: dict[str, Any] |
 def _resolve_validated_policy(
     kit_id: str, asset_id: str, inventory: dict[str, Any],
 ) -> tuple[str, dict[str, Any]]:
-    policy_id = inventory["assetPolicies"].get(normalize_asset_id(asset_id))
+    key = normalize_asset_id(asset_id)
+    kit_policy = inventory["kitPolicies"].get(kit_id)
+    # A row scoped to this kit decides first; else an interior-zero kit (an
+    # interior shell on the shell datum) wins over an unscoped per-asset row,
+    # which was authored for the asset's exterior use (planner ruling W2,
+    # 16k fix 2 round 4); else the per-asset row; else the kit's policy.
+    policy_id = (inventory.get("kitAssetPolicies") or {}).get(kit_id, {}).get(key)
+    if policy_id is None and kit_policy == INTERIOR_ZERO:
+        policy_id = kit_policy
     if policy_id is None:
-        policy_id = inventory["kitPolicies"].get(kit_id)
+        policy_id = inventory["assetPolicies"].get(key)
+    if policy_id is None:
+        policy_id = kit_policy
     if policy_id is None:
         raise ValueError(f"{kit_id}/{asset_id}: no authored placement policy")
     return policy_id, inventory["policies"][policy_id]
@@ -322,11 +373,50 @@ def load_anchors(path: Path = MOUNTS_RECORD) -> dict[str, dict[str, Any]]:
     return anchors if isinstance(anchors, dict) else {}
 
 
+def load_placed_scales(path: Path = DOOR_LINKS_RECORD) -> dict[str, dict[str, Any]]:
+    """``assetId -> {median, p10, p90, n}``: the scale every plugin reference
+    placing a kit shell was set at (`worldgen.mine_door_links.placed_scales`);
+    empty when never mined."""
+    try:
+        document = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {}
+    scales = document.get("placedScales", {})
+    return scales if isinstance(scales, dict) else {}
+
+
+def apply_placed_scale(asset: dict[str, Any], scales: dict[str, dict[str, Any]]) -> None:
+    """``placedScaleMedian`` (+ ``placedScaleEvidence`` n, p10, p90) on a shell
+    its authors placed (planner ruling 1, interiors round 4: Mud Mother sets
+    its mudhut01 at 1.92-2.3, so a footprint at scale 1 is not the building
+    they built). The workbench ``place`` default and the interior fit read it."""
+    row = scales.get(asset.get("id"))
+    if isinstance(row, dict) and _is_number(row.get("median")) and row.get("n"):
+        asset["placedScaleMedian"] = row["median"]
+        asset["placedScaleEvidence"] = {"n": row["n"], "p10": row.get("p10"),
+                                        "p90": row.get("p90"), "source": "plugin"}
+    else:
+        asset.pop("placedScaleMedian", None)
+        asset.pop("placedScaleEvidence", None)
+
+
 def resolve_designed_sink(
     asset: dict[str, Any], policy: dict[str, Any], mined: dict[str, Any],
+    policy_id: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any] | None]:
     """``(designedSinkM, groundLineTell)`` from the record only; the policy
-    fallback where the record holds no value for the asset."""
+    fallback where the record holds no value for the asset.
+
+    The fallback is measured from the mesh's LOWEST point (planner ruling W1,
+    16k fix 2 round 4): the sink is pivot-relative, so a pivot
+    ``originOffsetM[2]`` above the base takes ``fallbackSinkM -
+    originOffsetM[2]`` and its base, not its pivot, lands on the ground line
+    in the runtime (`anchoring.ts` y = groundLine - sink) and the workbench
+    alike. Scope: a ``direct`` (streamed-origin dressing) asset whose longest
+    side is under LOWEST_POINT_MAX_SIDE_M (0102 decision 6's small-dressing
+    bar); a larger or architectural piece with no evidence keeps its pivot on
+    the ground line (a KotM mud hut's pivot stands 4.4 m over its buried base,
+    a BM&V ledge's 11.8 m)."""
     record = mined.get(asset["id"], {})
     if "p50" in record:
         evidence = record.get("evidence", "plugin")
@@ -335,7 +425,13 @@ def resolve_designed_sink(
             "n": record["n"], "slopeTermMPerDeg": record.get("slopeTermMPerDeg"),
             "evidence": evidence,
         }, (record.get("groundLineTell") if evidence.startswith("mesh-sill") else None)
-    fallback = round(float(policy["fallbackSinkM"]), 4)
+    offset, size = asset.get("originOffsetM"), asset.get("sizeM")
+    small = (isinstance(size, list) and len(size) == 3 and all(_is_number(v) for v in size)
+             and max(size) < LOWEST_POINT_MAX_SIDE_M)
+    pivot_to_base = (float(offset[2]) if policy_id == LOWEST_POINT_POLICY and small
+                     and isinstance(offset, list) and len(offset) == 3
+                     and _is_number(offset[2]) else 0.0)
+    fallback = round(float(policy["fallbackSinkM"]) - pivot_to_base, 4)
     return {
         "p25": fallback, "p50": fallback, "p75": fallback, "n": 0,
         "slopeTermMPerDeg": None, "evidence": "policy-fallback",
@@ -359,11 +455,13 @@ def apply_placement_metadata(
     inventory: dict[str, Any] | None = None,
     mined: dict[str, Any] | None = None,
     anchors: dict[str, dict[str, Any]] | None = None,
+    scales: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Attach the required contract to every asset, failing absent measurement."""
     inventory = inventory or load_inventory()
     mined = load_designed_sink() if mined is None else mined
     anchors = load_anchors() if anchors is None else anchors
+    scales = load_placed_scales() if scales is None else scales
     findings = validate_policy_inventory(inventory)
     if findings:
         raise ValueError("invalid placement policy inventory: " + "; ".join(findings))
@@ -380,7 +478,7 @@ def apply_placement_metadata(
         # ruling 2026-09-24): a wrong mined class or sink is fixed by a
         # reviewed row and a refresh, never a miner run. Evidence "policy".
         row = inventory.get("assetPlacement", {}).get(normalize_asset_id(asset["id"]), {})
-        sink, tell = resolve_designed_sink(asset, policy, mined)
+        sink, tell = resolve_designed_sink(asset, policy, mined, policy_id)
         if "designedSinkM" in row:
             value = round(float(row["designedSinkM"]), 4)
             sink, tell = {"p25": value, "p50": value, "p75": value, "n": 0,
@@ -398,6 +496,11 @@ def apply_placement_metadata(
                 sink, tell = {"p25": deck_line, "p50": deck_line, "p75": deck_line, "n": 0,
                               "slopeTermMPerDeg": None, "evidence": "policy"}, None
         asset["designedSinkM"] = sink
+        if "placeUse" in row:
+            asset["placeUse"] = row["placeUse"]
+        else:
+            asset.pop("placeUse", None)
+        apply_placed_scale(asset, scales)
         asset["anchorClass"] = anchor_class
         asset["anchorClassEvidence"] = anchor_evidence
         asset.pop("meshTell", None)
@@ -441,6 +544,7 @@ def refresh_built_manifests(
     mined: dict[str, Any] | None = None,
     anchors: dict[str, dict[str, Any]] | None = None,
     kits: set[str] | None = None,
+    scales: dict[str, dict[str, Any]] | None = None,
 ) -> list[Path]:
     """Refresh policy-only metadata without rebuilding unchanged geometry.
 
@@ -455,6 +559,7 @@ def refresh_built_manifests(
     inventory = inventory or load_inventory()
     mined = load_designed_sink() if mined is None else mined
     anchors = load_anchors() if anchors is None else anchors
+    scales = load_placed_scales() if scales is None else scales
     pending: list[tuple[Path, dict[str, Any]]] = []
     for path in sorted(output_dir.glob("*.kit.json")):
         document = _read_json(path)
@@ -469,7 +574,7 @@ def refresh_built_manifests(
         if kits is not None and kit_id not in kits:
             continue
         apply_placement_metadata(document, kit_id, inventory,
-                                 mined=mined, anchors=anchors)
+                                 mined=mined, anchors=anchors, scales=scales)
         pending.append((path, document))
     for path, document in pending:
         path.write_text(json.dumps(document, indent=1) + "\n", encoding="utf-8")
@@ -679,7 +784,10 @@ def collect_used_asset_coverage(
             ref = row.get("assetId")
             if not isinstance(ref, str):
                 continue
-            if not row.get("kit") and normalize_asset_id(ref) in non_physical:
+            # a kit-less debug marker, or a runtime effect (objectKind
+            # `effect`: smoke drawn from its kit's texture atlas, no mesh)
+            if normalize_asset_id(ref) in non_physical and (
+                    not row.get("kit") or row.get("objectKind") == "effect"):
                 continue
             if isinstance(ref, str):
                 _record(used, ref, f"{path.relative_to(repo_root)}:placements.{index}.assetId")

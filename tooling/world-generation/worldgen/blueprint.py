@@ -258,7 +258,13 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     (`world/sources/quests/`, validated by `worldgen.quests`).
   doors[]           {id (door.<region>.<slug>.<n>), parcelId, facingDeg,
                     thresholdUV, interiorClaim {sizeClass, culture,
-                    interiorRef, owner?}}
+                    interiorRef, owner?}, preferCell? {cellId, why}}
+                    `interiorClaim` also carries what `blueprint_interiors
+                    --claim` writes (never by hand): tier, cellId, plugin or
+                    pool, why, interiorLoadDoorRef, arrivalMarker.
+                    `preferCell` {cellId, why}: the story's cell for this
+                    door's parcel, honoured when it passes the fit rule
+                    (`blueprint_interiors.prefer_cell`; malformed is an error).
                     — Phase 12's fill points AND the interior streaming
                     boundary; reachability validated every compile.
                     `facingDeg` is checked against geometry: the validator
@@ -1723,7 +1729,14 @@ def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
 ASSEMBLY_LAYERS = frozenset({"door", "porch", "steps", "window", "shutter", "roof",
                              "chimney", "annex", "light", "clutter", "wear"})
 ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "layer",
-                           "evidence", "scale"})
+                           "evidence", "scale", "mountPair"})
+#: An assembly member's `mountPair` (0102 decision 5; written by the
+#: workbench export's `mount_pair`): the mined band or points pair it hangs
+#: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
+#: mount and the render round that approved it (`unmined`).
+MOUNT_PAIR_KINDS = {"band": "n", "points": "n", "mined": "yardSet", "unmined": "unmined"}
+MOUNT_PAIR_KEYS = frozenset({"kind", "mountedOn", "n", "yardSet", "unmined"})
+UNMINED_APPROVAL = re.compile(r"^reader-approved r[0-9]+$")
 ASSEMBLY_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 
 
@@ -1780,6 +1793,33 @@ def assembly_failures(parcel: dict) -> list[str]:
             out.append(f"{where}: scale must be 0.5-1.5")
         if not isinstance(m.get("evidence"), str) or not m["evidence"].strip():
             out.append(f"{where}: evidence must name the template, mount pair or 'measured'")
+        if "mountPair" in m:
+            out += [f"{where}: mountPair {why}" for why in mount_pair_failures(m["mountPair"])]
+    return out
+
+
+def mount_pair_failures(pair) -> list[str]:
+    """What is wrong with an assembly member's `mountPair` (MOUNT_PAIR_KINDS)."""
+    if not isinstance(pair, dict):
+        return ["must be an object"]
+    kind = pair.get("kind")
+    if kind not in MOUNT_PAIR_KINDS:
+        return [f"kind must be one of {sorted(MOUNT_PAIR_KINDS)}"]
+    out = []
+    extra = set(pair) - MOUNT_PAIR_KEYS
+    if extra:
+        out.append(f"unknown keys {sorted(extra)}")
+    need = MOUNT_PAIR_KINDS[kind]
+    if kind == "unmined":
+        if not (isinstance(pair.get("unmined"), str) and UNMINED_APPROVAL.match(pair["unmined"])):
+            out.append("unmined must name its approving render round ('reader-approved rN')")
+    elif kind == "mined":
+        if not (isinstance(pair.get("yardSet"), str) and pair["yardSet"]):
+            out.append("a mined yard-set mount names its yardSet")
+    elif need in pair and not (isinstance(pair[need], int) and not isinstance(pair[need], bool)):
+        out.append("n must be the mined pair's count")
+    if "mountedOn" in pair and not (isinstance(pair["mountedOn"], str) and pair["mountedOn"]):
+        out.append("mountedOn must name the piece it is mounted on")
     return out
 
 

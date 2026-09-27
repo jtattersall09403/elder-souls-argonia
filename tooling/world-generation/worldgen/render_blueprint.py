@@ -57,7 +57,7 @@ import numpy as np                        # noqa: E402
 from matplotlib.lines import Line2D       # noqa: E402
 from matplotlib.patches import Patch, Polygon as MplPolygon  # noqa: E402
 
-from .blueprint import SCHEMA_VERSION, validate_blueprint  # noqa: E402
+from .blueprint import READABLE_SCHEMA_VERSIONS, validate_blueprint  # noqa: E402
 from .scale import PROVINCE_EXTENT_M                       # noqa: E402
 from .site_fields import PROVINCE, REPO_ROOT               # noqa: E402
 
@@ -513,6 +513,11 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
     ax.yaxis.label.set_color("#c7ced8")
     ax.tick_params(colors="#c7ced8")
 
+    # every map label stays inside the map: a --crop render drew the labels
+    # of everything outside the crop below the axes (16k fix 2 r3 ruling 4)
+    for t in ax.texts:
+        t.set_clip_on(True)
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
     # metadata: no Software/Date keys -> byte-identical renders (standard 6).
     fig.savefig(out_path, bbox_inches="tight", facecolor=fig.get_facecolor(),
@@ -525,8 +530,8 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
 
 def load_blueprint(path: Path) -> dict:
     data = json.loads(Path(path).read_text())
-    if data.get("schemaVersion") != SCHEMA_VERSION:
-        raise ValueError(f"{path}: schemaVersion must be {SCHEMA_VERSION}")
+    if data.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS:
+        raise ValueError(f"{path}: schemaVersion must be one of {READABLE_SCHEMA_VERSIONS}")
     return data["blueprint"]
 
 

@@ -26,7 +26,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-import numpy as np
 
 from .site_fields import ProvinceSurvey, shared_survey
 from .compile_settlement import (
@@ -37,8 +36,7 @@ from .compile_settlement import (
 from . import blueprint as bp_mod
 from . import blueprint_footprints as fp_mod
 from . import accepted_places, catalogue, place_obligations
-from . import grade_settlement_pads
-from .atomic_write import atomic_write_json, publish_copy
+from .atomic_write import atomic_write_bytes, atomic_write_json, publish_copy
 
 _ASSET_PIPELINE = Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
 if str(_ASSET_PIPELINE) not in sys.path:
@@ -156,9 +154,9 @@ def _refuse(error_class: str, errors: list[str], message: str) -> None:
     There is no waiver any more (16h item 6, 2026-09-22). `shippedWithKnownErrors`
     let a defective bundle ship under a stated reason; in practice the one thing
     it ever waived was an ungraded settlement pad, and pads are local terrain
-    patches from 16h part 2, not an export concern. A pad a parcel still wants is
-    now REPORTED in the bundle receipt (`pendingPadGrades`) and blocks nothing;
-    every other error is what it always was — a reason not to publish."""
+    patches from 16h part 2, not an export concern. Since 0102 a pad travels in
+    the bundle as the place's `groundOverlays`, and a declared pad without one
+    refuses the export; every other error is what it always was — a reason not to publish."""
     if not errors:
         return
     detail = RUNTIME_FATAL_ERROR_CLASSES.get(error_class)
@@ -434,8 +432,8 @@ def lod_contract_errors(placements: list[dict], lod: dict,
     seen: set[tuple[str, str]] = set()
     for placement in sorted(placements, key=lambda row: row["id"]):
         key = (placement["kit"], placement["assetId"])
-        if key in seen:
-            continue
+        if key in seen or placement.get("kind") == "effect":
+            continue                    # an effect draws no kit mesh
         seen.add(key)
         if placement["kit"] not in chains:
             chains[placement["kit"]] = lod_chain_triangles(placement["kit"], kits_dir)
@@ -773,38 +771,14 @@ def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
             for p in poly]
 
 
-def validate_applied_pad_grades(receipt: dict | None, blueprints: list[dict],
-                                final_height: np.ndarray | None) -> list[str]:
-    """Bind current pad parcels to the exact final terrain that will ship."""
-    expected = grade_settlement_pads.pad_specs(blueprints)
-    if not expected:
-        return []
-    if not isinstance(receipt, dict):
-        return ["authored pad parcels have no applied terrain receipt"]
-    if final_height is None:
-        return ["authored pad parcels have no final heightfield evidence"]
-    errors: list[str] = []
-    if not grade_settlement_pads.already_applied(receipt, final_height, expected):
-        errors.append("settlement pad receipt does not match current blueprints and final heightfield")
-    actual_rows = receipt.get("pads")
-    if not isinstance(actual_rows, list):
-        return errors + ["settlement pad receipt has no pads list"]
-    expected_identity = [(row["id"], row["sourceBlueprintSha256"]) for row in expected]
-    actual_identity = [(row.get("id"), row.get("sourceBlueprintSha256"))
-                       for row in actual_rows if isinstance(row, dict)]
-    if actual_identity != expected_identity:
-        errors.append("settlement pad receipt does not cover the exact authored pad set")
-    for row in actual_rows:
-        if not isinstance(row, dict):
-            errors.append("settlement pad receipt contains a malformed row")
-        elif row.get("postcondition") != "pass" or row.get("maxHardSurfaceErrorM", 1) > 1e-5:
-            errors.append(f"{row.get('parcelId', 'unknown pad')}: final pad postcondition failed")
-        elif row.get("maxFillM", grade_settlement_pads.MAX_PAD_DELTA_M + 1) \
-                > grade_settlement_pads.MAX_PAD_DELTA_M \
-                or row.get("maxCutM", grade_settlement_pads.MAX_PAD_DELTA_M + 1) \
-                > grade_settlement_pads.MAX_PAD_DELTA_M:
-            errors.append(f"{row.get('parcelId', 'unknown pad')}: pad exceeded the two-metre limit")
-    return errors
+def _vegetation_clearance(place_id: str, clearance: dict, survey) -> dict:
+    """The compiled record's clearance (map UV) as the bundle carries it: world
+    metres, the patch id the thinning roll hashes (`apply_vegetation_patches`)."""
+    return {"schemaVersion": 1, "id": f"patch.clearance.bundle.{place_id}",
+            "hardClear": [_metres(poly, survey) for poly in clearance.get("hardClear") or []],
+            "thinned": [_metres(poly, survey) for poly in clearance.get("thinned") or []],
+            "kept": [{**k, "positionM": _metres([k["positionM"]], survey)[0]}
+                     if "positionM" in k else k for k in clearance.get("kept") or []]}
 
 
 def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str], dict]:
@@ -828,6 +802,28 @@ def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str
                                  "every row names its owner, its reason and where it is queued")
         rows[(row["placeId"], row["subjectId"], row["rule"])] = row
     return rows
+
+
+def _flood_warnings(doc: dict) -> list:
+    """The compile's flood warnings: the report's own list (16k fix 2 r3),
+    else, on a compile that predates it, every warning."""
+    report = doc.get("floodBandReport") or {}
+    if isinstance(report.get("warnings"), list):
+        return report["warnings"]
+    return doc.get("warnings") if isinstance(doc.get("warnings"), list) else []
+
+
+def flood_ledger_error(doc: dict) -> str | None:
+    """The warning ledger compares FLOOD warnings only (16k fix 2 r3 ruling
+    1): the report's count equals its own list, and every one of them is in
+    the compile's warnings. A front or first-seen warning is not a flood row."""
+    report = doc.get("floodBandReport") or {}
+    warnings = doc.get("warnings")
+    flood = _flood_warnings(doc)
+    if (not isinstance(warnings, list) or report.get("warningCount") != len(flood)
+            or any(w not in warnings for w in flood)):
+        return f"{doc.get('id')} warning ledger disagrees with floodBandReport"
+    return None
 
 
 def warning_keys(doc: dict) -> list[tuple[str, str, str]]:
@@ -909,8 +905,6 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  route_structures_source: Path = ROUTE_STRUCTURES_SOURCE,
                  catalogue_records_by_id: dict[str, dict] | None = None,
                  terrain_evidence: tuple[dict, dict, dict] | None = None,
-                 pad_grade_receipt: dict | None = None,
-                 final_height: np.ndarray | None = None,
                  known_red_path: Path | None = None,
                  fixtures_ok: bool = False,
                  all_kit_assets: bool = False,
@@ -923,9 +917,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     Fail-closed is the rule: a stale or simply absent place must never quietly
     vanish from the world the player receives, and no reason makes a defective
     bundle a publishable one. The one thing the old `--ship-with-errors` waiver
-    ever shipped over was an ungraded settlement pad; a pad is a local terrain
-    patch (16h part 2), so a parcel still wanting one is now reported in
-    `pendingPadGrades` and blocks nothing.
+    ever shipped over was an ungraded settlement pad; since 0102 a pad is the
+    place's own `groundOverlays`, attached and gated by `export`.
 
     `fixtures_ok` publishes fixture records (`fixture: true`, e.g. the proving
     ground) to a studio-only target. The shipped build refuses them.
@@ -956,7 +949,6 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     known_red = load_warning_known_red(known_red_path)
     if scope is not None:
         known_red = {key: row for key, row in known_red.items() if key[0] in scope}
-    pending_pads: list[str] = []
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
             record["id"]: record
@@ -970,25 +962,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if bp:
             blueprint_by_id[bp["id"]] = bp
 
-    blueprint_docs = [{"blueprint": bp} for bp in blueprint_by_id.values()]
-    # an absent groundFit is the kit record's and may be pad (0085): pad_specs resolves it
-    if any(parcel.get("groundFit", "pad") == "pad" for bp in blueprint_by_id.values()
-           for parcel in bp.get("parcels", [])):
-        if pad_grade_receipt is None:
-            try:
-                pad_grade_receipt = _read(grade_settlement_pads.PUBLIC_RECEIPT)
-            except FileNotFoundError:
-                pad_grade_receipt = None
-        if final_height is None:
-            try:
-                final_height = np.load(grade_settlement_pads.DEFAULT_HEIGHTS).astype(np.float32)
-            except FileNotFoundError:
-                final_height = None
-        pad_errors = validate_applied_pad_grades(pad_grade_receipt, blueprint_docs, final_height)
-        # A pad a parcel wants and has not got is a PENDING local terrain patch
-        # (16h part 2), reported in the receipt, never a reason to refuse and
-        # never a waiver.
-        pending_pads = sorted(pad_errors)
+    # pads are bundle overlays (0102): the export never reads a terrain pad receipt
 
     compiled = []
     # Route pieces come from TWO built kits since 2026-09-09 (decision 0051):
@@ -1039,10 +1013,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 raise ValueError(f"{doc['id']} is a fixture compile but still carries live "
                                  f"warnings or no fixtureWaived receipt; recompile it "
                                  f"(a replay with --fixture-replay)")
-        elif not isinstance(warnings, list) or flood_report.get("warningCount") != len(warnings):
-            raise ValueError(f"{doc['id']} warning ledger disagrees with floodBandReport")
-        elif len(warning_keys(doc)) != len(warnings):
-            raise ValueError(f"{doc['id']} raised {len(warnings)} warnings but only "
+        elif flood_ledger_error(doc):
+            raise ValueError(flood_ledger_error(doc))
+        elif len(warning_keys(doc)) != len(_flood_warnings(doc)):
+            raise ValueError(f"{doc['id']} raised {len(_flood_warnings(doc))} flood warnings but only "
                              f"{len(warning_keys(doc))} carry a structured floodBandReport row; "
                              "an unattributable warning cannot be explained, so it blocks export")
         bp = blueprint_by_id.get(doc["id"])
@@ -1206,6 +1180,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 raise ValueError(
                     f"{raw.get('id', doc['id'])}: compiled physical placement has no built kit"
                 )
+            if raw.get("objectKind") == "effect":
+                placement = effect_contract(doc["id"], raw, kits_dir)
+                ids.append(placement["id"])
+                all_placements.append(placement)
+                continue
             asset = assets.get((raw["kit"], raw["assetId"]))
             if asset is None:
                 raise ValueError(f"{raw['id']}: asset absent from {raw['kit']} manifest")
@@ -1240,7 +1219,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 **_mount_contract(raw),
                 **_run_contract(raw, parcel, laid_runs),
                 # a building's declared pad (0101): the compile's resolved
-                # datum and polygon, written as its patch by `emit_run_pads`
+                # datum and polygon, carried as its ground overlay by `attach_ground_overlays` (0102)
                 **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
             }
             ids.append(placement["id"])
@@ -1278,6 +1257,14 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             "budgetReport": doc.get("budgetReport"),
             "floodBandReport": doc["floodBandReport"],
             "variants": bp.get("variants", []),
+            # the compile's vegetation clearance in world metres, applied by
+            # the runtime cell build (0102 decision 1; `clearanceFilter.ts`)
+            **({"vegetationClearance": _vegetation_clearance(doc["id"], doc["clearance"], survey)}
+               if isinstance(doc.get("clearance"), dict) else {}),
+            **walk_routes_field(bp),
+            # the place's sockets (0103 decision 5), copied as compiled
+            "socketsSchemaVersion": doc.get("socketsSchemaVersion", SOCKETS_SCHEMA),
+            "sockets": list(doc.get("sockets") or []),
             **({"fixtureReplay": True} if doc.get("fixtureReplay") is True else {}),
             **({"fixtureWaived": doc["fixtureWaived"]}
                if isinstance(doc.get("fixtureWaived"), list) else {}),
@@ -1364,10 +1351,6 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "phase11ObligationReceipts": sorted(obligation_receipts,
                                               key=lambda receipt: receipt["placeId"]),
         "compiledObjects": sorted(all_compiled_objects, key=lambda row: row["id"]),
-        "settlementPadGrades": pad_grade_receipt,
-        # Parcels that still want a graded pad. A pad is a local terrain patch
-        # (16h part 2); this is the queue, not a defect that blocks publication.
-        "pendingPadGrades": pending_pads,
         # Placed assets standing on a policy-fallback designed sink (16h item 1).
         "designedSinkGaps": designed_sink_gaps,
         "placements": all_placements, "groundTreatments": treatments,
@@ -1376,6 +1359,51 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                   "settlementPlacements": sum(len(s["placementIds"]) for s in settlements),
                   "routeStructurePlacements": route_count},
     }
+
+
+WALK_ROUTES_SCHEMA = 1
+SOCKETS_SCHEMA = 1
+EFFECT_ANCHOR = {"mode": "streamed-origin", "groundFit": "direct", "originOffsetM": [0, 0, 0],
+                 "buryM": 0, "buryCapM": 0, "slopeBuryPerM": 0}
+
+
+def effect_contract(source_id: str, raw: dict, kits_dir: Path = KITS) -> dict:
+    """A compiled `effect` placement (an `fx:*` asset mounted on its shell,
+    fix2-effects-r3 rec 2) as the runtime reads it: no kit mesh, so it is
+    exempt from the kit-asset check but its kit must publish its texture
+    (`effectTextures`); no footprint, no collision, mounted only."""
+    manifest = kits_dir / f"{raw['kit']}.kit.json"
+    rows = (_read(manifest).get("effectTextures") or {}) if manifest.exists() else {}
+    if raw["assetId"] not in rows:
+        raise ValueError(f"{raw['id']}: effect {raw['assetId']} has no effectTextures row in "
+                         f"{raw['kit']}.kit.json")
+    if not raw.get("parentPlacementId"):
+        raise ValueError(f"{raw['id']}: effect {raw['assetId']} is mounted only and names no parent")
+    return {"id": raw["id"], "sourceId": source_id, "kind": "effect",
+            "assetId": raw["assetId"], "kit": raw["kit"],
+            "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
+            "scale": raw.get("scale", 1), "footprintM": [],
+            "anchor": dict(EFFECT_ANCHOR),
+            "collision": {"frame": COLLISION_FRAME, "kind": "none"},
+            "provenance": raw["provenance"],
+            **_mount_contract({**raw, "anchorClass": "fx"})}
+
+
+def walk_routes_field(bp: dict) -> dict:
+    """The place's navmesh socket data (0102 decision 2, planner ruling 1 of
+    16k fix 2 workbench round 3): the blueprint's `walkRoutes` (per walkRule
+    target the route's polyline in metres, length, steepest grade, largest
+    step and deepest water, written by `wb.py export --write`) copied
+    unchanged onto the settlement row; {} when the blueprint carries none.
+    The walk grid is never shipped. A schema this reader does not know
+    refuses."""
+    routes = bp.get("walkRoutes")
+    if routes is None:
+        return {}
+    if not isinstance(routes, dict) or routes.get("schemaVersion") != WALK_ROUTES_SCHEMA:
+        raise ValueError(f"{bp.get('id')}: walkRoutes schemaVersion "
+                         f"{(routes or {}).get('schemaVersion')!r} is not {WALK_ROUTES_SCHEMA}")
+    return {"walkRoutes": routes}
 
 
 # SHARED CONTRACT (16h): the compile decides how a piece is anchored and what
@@ -1616,8 +1644,6 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
             [o for o in base.get("compiledObjects") or [] if o.get("placeId") not in places]
             + part["compiledObjects"],
             key=lambda o: (o["id"], rank.get(o.get("placeId"), len(rank)))),
-        "settlementPadGrades": part["settlementPadGrades"],
-        "pendingPadGrades": part["pendingPadGrades"],
         "designedSinkGaps": [{"asset": key, "placements": n} for key, n in sorted(counts.items())],
         "placements": placements,
         "groundTreatments": by_place(
@@ -1632,58 +1658,94 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
     }
 
 
-def emit_run_pads(bundle: dict, places, pads_path: Path, survey=None) -> list[dict]:
-    """16k carried item 13: one `settlement-pad` terrain patch per run whose
-    rigid seat floats a member over the seat bar, measured on the published
-    ground, and one per building that declares a pad (decision 0101: the
-    compile's resolved datum over its footprint and apron, id suffix the
-    parcel id), merged CUMULATIVELY into the patch set at `pads_path` (a pad
-    already applied would measure no gap; re-deriving would drop it). One
-    writer for both (`settlement_run_pads.pad_patch`)."""
-    from . import terrain_patches as tp
-    from .settlement_run_pads import (building_pad_patches, declare_order, depth_is_wet,
-                                      merge_pad_patches, run_pad_patches)
+BUILDING_CLEAR_M = 1.5      # a building footprint's hard clearance reaches this far past it (0102)
+GROUND_SIDECAR = Path("settlements") / "ground-overlays.json"   # beside the bundle, under province/
+
+
+def grow_clearance(site: dict, rows: list[dict]) -> None:
+    """A place's hard vegetation clearance is its compiled `hardClear` plus
+    the union of every pad polygon (`groundOverlays` pieces) and every
+    building footprint buffered BUILDING_CLEAR_M (0102 round 2): no plant on
+    levelled ground or against a wall the compile's box missed. Rings of the
+    union that enclose a hole go in as their parts, since a clearance ring
+    has no holes (their union is the same ground)."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    parts = [Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
+             for piece in o["pieces"]]
+    parts += [Polygon(r["footprintM"]).buffer(BUILDING_CLEAR_M, join_style=2)
+              for r in rows if r["id"].endswith(".building") and r.get("footprintM")]
+    parts = [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
+    if not parts:
+        return
+    merged = unary_union(parts)
+    rings = []
+    for poly in getattr(merged, "geoms", [merged]):
+        if poly.interiors:
+            rings += [list(q.exterior.coords)[:-1] for q in parts if q.intersects(poly)]
+        else:
+            rings.append(list(poly.exterior.coords)[:-1])
+    clearance = site.setdefault("vegetationClearance", {
+        "schemaVersion": 1, "id": f"patch.clearance.bundle.{site['id']}",
+        "hardClear": [], "thinned": [], "kept": []})
+    clearance["hardClear"] = list(clearance.get("hardClear") or []) + [
+        [[round(float(x), 3), round(float(z), 3)] for x, z in ring] for ring in rings]
+
+
+def ground_sidecar(bundle: dict) -> dict:
+    """The small file the studio reads a place's ground from
+    (`province/settlements/ground-overlays.json`, schemaVersion 1): every
+    place's `groundOverlays` and `vegetationClearance`, the same rows the
+    bundle carries, under the bundle's own `settlements` key so one reader
+    serves both."""
+    return {"schemaVersion": 1,
+            "settlements": [{"id": s["id"], **{k: s[k] for k in ("groundOverlays", "vegetationClearance")
+                                                 if k in s}}
+                            for s in bundle["settlements"]
+                            if "groundOverlays" in s or "vegetationClearance" in s]}
+
+
+def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
+    """Decision 0102 decision 1: every exported place carries its levelled
+    ground as `groundOverlays` (schemaVersion 1, `pad_overlay`): one overlay
+    per run whose rigid seat floats a member over the seat bar, measured on
+    the frozen ground, and one per building that declares a pad (the
+    compile's resolved datum and apron polygon). Nothing is written to the
+    terrain patch set. Refuses when a declared pad of an exported place has no
+    overlay. Returns the overlay count over the whole bundle."""
+    from . import pad_overlay
+    from .settlement_run_pads import depth_is_wet
     if survey is None:
         from .street_router import default_survey
         survey = default_survey()
         if survey is None:
-            raise ValueError("run pads: the province survey rasters are unavailable")
+            raise ValueError("ground overlays: the province survey rasters are unavailable")
     is_wet = depth_is_wet(survey.water_signed_depth_m, survey.extent_m)
-
     scope = _place_scope(places) if places is not None else None
     by_id = {p["id"]: p for p in bundle["placements"]}
-    new: list[dict] = []
-    rebuilt: dict[str, dict] = {}
+    missing: list[str] = []
     for site in bundle["settlements"]:
         if scope is not None and site["id"] not in scope:
             continue
         rows = [by_id[i] for i in site["placementIds"] if i in by_id]
-        new += run_pad_patches(rows, site["id"], survey.height_at, is_wet)
-        new += building_pad_patches(rows, site["id"])
-        # what the layout holds now: a pad whose run or building left it goes
-        rebuilt[site["id"]] = {
-            "runs": {p["run"]["id"] for p in rows if isinstance(p.get("run"), dict)},
-            "buildings": {p["pad"]["parcelId"] for p in rows if isinstance(p.get("pad"), dict)},
-            "placements": {p["id"] for p in rows}}
-    existing = tp.load(pads_path)
-    merged = merge_pad_patches(existing, new, rebuilt)
-    declare_order(merged)
-    errors = tp.validate(merged)
-    if errors:
-        raise ValueError("run pads: " + "; ".join(errors))
-    if tp.ordered(merged) != tp.ordered(existing):
-        tp.save(merged, pads_path)
-    return new
+        site["groundOverlays"] = {"schemaVersion": pad_overlay.SCHEMA_VERSION,
+                                  "pads": pad_overlay.place_overlays(
+                                      rows, site["id"], survey.height_at, is_wet)}
+        missing += [f"{site['id']}: {pid}" for pid in pad_overlay.missing_overlays(site, by_id)]
+        grow_clearance(site, rows)
+    _refuse("ground overlays", missing,
+            "declared pad with no ground overlay in the bundle (0102): " + "; ".join(missing))
+    return sum(len((s.get("groundOverlays") or {}).get("pads") or []) for s in bundle["settlements"])
 
 
 def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None = None,
            report_path: Path = accepted_places.REPORT_PATH, fixtures_ok: bool = False,
-           all_kit_assets: bool = False, pads_path: Path | None = None) -> dict:
+           all_kit_assets: bool = False, overlays: bool = False) -> dict:
     """Build, optionally copy the kits, and publish atomically.
 
-    With `pads_path` (the CLI passes `terrain_patches.PATCHES_PATH`), the
-    `settlement-pad` patches under floating run members of the exported
-    places are merged into that patch set (`emit_run_pads`).
+    With `overlays` (the CLI sets it), every exported place carries its pads
+    as `groundOverlays` and the bundle their count (`attach_ground_overlays`,
+    0102); the terrain patch set is never written.
 
     With `places`, only those places are built and they replace their rows in
     `base` (default: the bundle at `out`); nothing else is read or judged.
@@ -1704,8 +1766,10 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
         _refuse("collider ceiling", ceiling_errors,
                 "settlement collider part ceiling exceeded: " + "; ".join(ceiling_errors))
         bundle["lod"] = {**bundle["lod"], "colliderPartBudget": budget}
-    if pads_path is not None:
-        emit_run_pads(bundle, places, pads_path)
+    bundle.pop("pendingPadGrades", None)       # retired by 0102: a pad is an overlay
+    bundle.pop("settlementPadGrades", None)    # nothing reads the terrain pad receipt (r4 review)
+    if overlays:
+        bundle["groundOverlayCount"] = attach_ground_overlays(bundle, places)
     if places is not None and report_path.exists():
         # A --places publish re-judges only its own places: every other
         # accepted place's report-mode rows stand as the last export left them.
@@ -1716,6 +1780,11 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
         copy_assets(bundle)
     # settlements.json is the publication marker. It can never name assets
     # that have not all been validated, staged and moved into place.
+    # the studio's ground reader (0102 round 2): written before the bundle,
+    # the publication marker, so a published bundle never outruns its sidecar
+    # compact: runtime data every studio load fetches before its first terrain decode
+    atomic_write_bytes(out.parent / GROUND_SIDECAR, json.dumps(
+        ground_sidecar(bundle), separators=(",", ":"), sort_keys=True).encode("utf-8") + b"\n")
     _atomic_json(out, bundle)
     _atomic_json(report_path, {"schemaVersion": 1, "kind": "accepted-place-report",
                                "about": "report-mode gate findings on accepted places "
@@ -1725,7 +1794,6 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
 
 
 def main() -> int:
-    from . import terrain_patches
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--copy-assets", action="store_true")
@@ -1748,16 +1816,12 @@ def main() -> int:
     try:
         bundle = export(args.out, args.copy_assets, places=places, base=args.base,
                         fixtures_ok=args.fixtures_ok, all_kit_assets=args.all_kit_assets,
-                        pads_path=terrain_patches.PATCHES_PATH)
+                        overlays=True)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1
-    pending = bundle.get("pendingPadGrades") or []
-    if pending:
-        print(f"export_settlement_bundle: {len(pending)} pad grade(s) pending "
-              f"(local terrain patches, 16h part 2):")
-        for row in pending:
-            print(f"    PENDING PAD: {row}")
+    print(f"export_settlement_bundle: {bundle.get('groundOverlayCount', 0)} ground overlay(s) "
+          f"in the bundle (0102)")
     reported = json.loads(accepted_places.REPORT_PATH.read_text())["rows"]
     for row in reported:
         print(f"    REPORT-ONLY ({row['placeId']} accepted {row['acceptedOn']}, gate "

@@ -140,6 +140,19 @@ def merged_request_documents(receipts: list[dict]) -> tuple[dict, dict, list]:
     return plan, manifest, stats
 
 
+def refuse_place_rows(patches: list[dict]) -> None:
+    """Decision 0102 decision 1: the frozen world is never rebuilt for a
+    place. A `settlement-pad` is the place's own ground overlay, carried in
+    its bundle (`worldgen.pad_overlay`) and applied at load; a row of that
+    kind here stops the chain by name."""
+    rows = sorted(p["id"] for p in patches if p.get("kind") == "settlement-pad")
+    if rows:
+        raise SystemExit(
+            f"apply_terrain_patches: {len(rows)} settlement-pad row(s) in the patch set; a place's pads "
+            f"travel in its bundle as groundOverlays (decision 0102) and never reach the chain: "
+            + ", ".join(rows))
+
+
 def main(argv: list[str] | None = None) -> None:
     import argparse
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -154,6 +167,7 @@ def main(argv: list[str] | None = None) -> None:
         raise SystemExit(f"apply_terrain_patches: {FROZEN_PATH.name} is {sha[:16]}… but the record says "
                          f"{(freeze.recorded(freeze.FROZEN) or '?')[:16]}…; the frozen base has moved")
     patches = tp.load(args.patches)
+    refuse_place_rows(patches)
     ctx = tp.context_from_vault(HEIGHTFIELD_DIR)
     h, receipts, boxes = tp.apply_all(frozen, patches, ctx)
     by_id = {p["id"]: p for p in patches}

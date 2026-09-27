@@ -83,3 +83,13 @@ def test_folder_stem_rules_split_shells_from_their_furniture():
     assert classify(village + "bamboohut01_int.nif").category == "architecture"
     # the folder must be the mesh's own, not a file named like it
     assert classify("clutter/mudhut01.nif").category == "clutter"
+
+
+def test_the_kotm_house_pods_are_architecture():
+    # planner ruling 2, interiors round 5: the pod shells and the pod room
+    # mesh are structure; the rest of the flat folder keeps its category.
+    for stem in ("smpodext01", "smpodext02", "smpodextdoor", "smpodint01", "smpodint02"):
+        got = classify(f"meshes/argonia/mudhuts/{stem}.nif")
+        assert got.category == "architecture" and "folder-stem-rule" in got.tags, stem
+    assert classify("argonia/mudhuts/window01.nif").category == "misc"
+    assert classify("clutter/smpodext02.nif").category != "architecture"

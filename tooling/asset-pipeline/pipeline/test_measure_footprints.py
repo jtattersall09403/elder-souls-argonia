@@ -57,3 +57,19 @@ def test_measured_outline_matches_the_manifest_bounds(measured):
 
 def test_measurement_is_deterministic(measured):
     assert json.dumps(mf.measure_kit(KIT), sort_keys=True) == json.dumps(measured, sort_keys=True)
+
+
+def test_a_buried_shell_is_measured_at_its_designed_sink_plane():
+    """16k fix 2 ruling 3: the KotM house pod stands 8.7 m into the ground
+    (designedSinkM 1.99 above a pivot 6.7 m over its tip). Its footprint is
+    the ring at the ground plane, not the 5.3 m2 buried tip, so the free-pose
+    search and walkRule treat the pod as solid."""
+    kit = "settlement-mud-v1"
+    if not (mf.KITS_DIR / f"{kit}.glb").exists():
+        pytest.skip("built kits unavailable")
+    rec = mf.measure_kit(kit)["assets"]["composite:mud/kotm-house-pod"]
+    xs = [p[0] for p in rec["footprintM"]]
+    zs = [p[1] for p in rec["footprintM"]]
+    assert rec["groundPlaneM"] == pytest.approx(1.99, abs=0.01)
+    assert max(xs) - min(xs) > 11.0 and max(zs) - min(zs) > 11.0
+    assert rec["areaM2"] > 100.0

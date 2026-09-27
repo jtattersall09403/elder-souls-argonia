@@ -13,6 +13,8 @@ from . import compile_settlement as cs
 from . import terrain_requests
 from . import grade_settlement_pads as pad_grades
 
+from .blueprint_files import blueprint_paths
+
 
 REAL_REGISTER = ex.WARNING_KNOWN_RED
 
@@ -312,7 +314,7 @@ def test_every_current_multi_fit_use_has_an_explicit_compatibility_rule():
             for child in value:
                 walk(child, path)
 
-    for path in sorted((ex.REPO_ROOT / "world/sources/blueprints").glob("place.*.json")):
+    for path in blueprint_paths(ex.REPO_ROOT / "world/sources/blueprints"):
         walk(json.loads(path.read_text()).get("blueprint", {}))
     route_source = json.loads(ex.ROUTE_STRUCTURES_SOURCE.read_text())
     uses.extend((row["pieceRef"], "direct") for row in route_source["structures"])
@@ -779,30 +781,6 @@ def test_atomic_writer_replaces_complete_json(tmp_path):
     assert list(tmp_path.glob(".bundle.json.*")) == []
 
 
-def test_pad_delivery_binds_current_blueprint_to_final_height():
-    document = {"schemaVersion": 1, "blueprint": {
-        "id": "place.test.pad", "parcels": [{
-            "id": "parcel.test.pad", "groundFit": "pad", "yawDeg": 12,
-            "footprint": [[0.2, 0.2], [0.3, 0.2], [0.3, 0.3], [0.2, 0.3]],
-        }],
-    }}
-    height = np.linspace(0.0, 0.2, 101, dtype=np.float32)[None, :].repeat(101, 0)
-    specs = pad_grades.pad_specs([document], extent_m=100.0)
-    result, rows = pad_grades.apply_pad_grades(height, specs, metres_per_sample=1.0)
-    receipt = pad_grades.build_receipt(height, result, rows)
-    assert ex.validate_applied_pad_grades(receipt, [document], result) == []
-
-    changed = json.loads(json.dumps(document))
-    changed["blueprint"]["parcels"][0]["yawDeg"] = 30
-    assert any("does not match" in error for error in
-               ex.validate_applied_pad_grades(receipt, [changed], result))
-    moved = result.copy()
-    moved[0, 0] += 0.1
-    assert any("does not match" in error for error in
-               ex.validate_applied_pad_grades(receipt, [document], moved))
-    assert ex.validate_applied_pad_grades(None, [document], result)
-
-
 def _fake_glb(path, assets, triangles=None):
     """Minimal GLB carrying the node/mesh graph the export's kit readers walk.
 
@@ -981,11 +959,10 @@ def test_shipped_kit_textures_are_inside_the_runtime_cap():
     assert ex.texture_cap_errors(bundle["kits"], bundle["lod"], ex.PUBLIC_KITS) == []
 
 
-def test_a_pending_pad_is_reported_not_waived_and_does_not_block(tmp_path, monkeypatch):
-    """16h item 6: the waiver is gone. A parcel that still wants a graded pad is
-    a queued local terrain patch, reported in the receipt; the export proceeds."""
-    monkeypatch.setattr(ex, "validate_applied_pad_grades",
-                        lambda *a, **k: ["place.a/parcel.1: pad not graded"])
+def test_a_pad_is_no_longer_read_off_the_terrain_and_nothing_is_waived(tmp_path, monkeypatch):
+    """16h item 6: the waiver is gone; 0102: a pad is the place's ground
+    overlay, so the export never judges the terrain for it and the retired
+    `pendingPadGrades` queue is gone."""
     monkeypatch.setattr(ex, "shared_survey", lambda: object())
     # The parcel exists only to reach the pad branch; its object set is not
     # what this test is about.
@@ -997,11 +974,53 @@ def test_a_pending_pad_is_reported_not_waived_and_does_not_block(tmp_path, monke
     doc["sourceBlueprintSha256"] = ex.blueprint_sha256(bp)
     _write(tmp_path / "sett/place.a.settlement.json", doc)
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
-                             tmp_path / "kits", _route_source(tmp_path, []),
-                             pad_grade_receipt={}, final_height=None)
-    assert bundle["pendingPadGrades"] == ["place.a/parcel.1: pad not graded"]
+                             tmp_path / "kits", _route_source(tmp_path, []))
+    assert "pendingPadGrades" not in bundle
+    # r4 review (CONFIRMED): nothing reads the terrain pad receipt any more,
+    # so the export neither loads nor ships it
+    assert "settlementPadGrades" not in bundle
+    assert not hasattr(ex, "validate_applied_pad_grades")
     assert "shippedWithKnownErrors" not in bundle
     assert not hasattr(ex.build_bundle, "ship_with_errors")
+
+
+class _FlatSurvey:
+    """Flat 10 m ground, dry: the frozen ground the overlays are measured on."""
+    extent_m = 100.0
+    water_signed_depth_m = np.full((10, 10), -1.0)
+
+    @staticmethod
+    def height_at(x, z):
+        return 10.0
+
+
+def _padded_bundle(pad: bool) -> dict:
+    foot = [[10.0, 10.0], [14.0, 10.0], [14.0, 14.0], [10.0, 14.0]]
+    house = {"id": "place.t.b1.building", "sourceId": "place.t", "kind": "settlement",
+             "footprintM": foot}
+    if pad:
+        house["pad"] = {"parcelId": "b1", "datumM": 11.0, "apronM": 1.5,
+                        "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}
+    return {"placements": [house], "settlements": [{"id": "place.t", "placementIds": [house["id"]]}]}
+
+
+def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
+    bundle = _padded_bundle(True)
+    assert ex.attach_ground_overlays(bundle, None, survey=_FlatSurvey()) == 1
+    doc = bundle["settlements"][0]["groundOverlays"]
+    assert doc["schemaVersion"] == 1
+    (pad,) = doc["pads"]
+    assert pad["id"] == "patch.pad.settlement.place.t.b1" and pad["hardM"] == 0.0
+    assert pad["pieces"] == [{"placementId": "place.t.b1.building", "datumM": 11.0,
+                              "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}]
+    assert ex.attach_ground_overlays(_padded_bundle(False), None, survey=_FlatSurvey()) == 0
+
+
+def test_a_declared_pad_with_no_overlay_refuses_the_export(monkeypatch):
+    from . import pad_overlay
+    monkeypatch.setattr(pad_overlay, "place_overlays", lambda *a, **k: [])
+    with pytest.raises(ValueError, match="place.t.b1.building"):
+        ex.attach_ground_overlays(_padded_bundle(True), None, survey=_FlatSurvey())
 
 
 def test_the_bundle_schema_version_moved_with_the_mount_fields(tmp_path):
@@ -1375,3 +1394,62 @@ def test_the_export_refuses_to_publish_a_changed_accepted_place(tmp_path, monkey
     with pytest.raises(ValueError, match="accepted places would change"):
         build(places=["place.a"])
     build(places=["place.b"])                        # another place publishes freely
+
+
+_PUBLIC = Path(__file__).resolve().parents[3] / "apps/world-studio/public/province"
+
+
+def test_the_clearance_covers_every_pad_and_every_building_footprint_grown_by_1_5_m():
+    """0102 round 2: a place's hard clearance is its compiled hardClear plus
+    the union of every pad polygon and every building footprint buffered
+    1.5 m, so no plant stands on levelled ground the compile's box missed."""
+    from shapely.geometry import Point, Polygon
+    site = {"id": "place.t", "vegetationClearance": {
+        "schemaVersion": 1, "id": "patch.clearance.bundle.place.t",
+        "hardClear": [[[0, 0], [10, 0], [10, 10], [0, 10]]], "thinned": [], "kept": []},
+        "groundOverlays": {"schemaVersion": 1, "pads": [{
+            "id": "o", "bboxM": [20, 0, 24, 4], "blendM": 3.0, "hardM": 0.0,
+            "pieces": [{"placementId": "p", "datumM": 1.0,
+                        "polygonM": [[20, 0], [24, 0], [24, 4], [20, 4]]}]}]}}
+    rows = [{"id": "place.t.b1.building", "footprintM": [[40, 0], [44, 0], [44, 4], [40, 4]]},
+            {"id": "place.t.b1.1", "footprintM": [[60, 0], [61, 0], [61, 1], [60, 1]]}]
+    ex.grow_clearance(site, rows)
+    rings = [Polygon(r) for r in site["vegetationClearance"]["hardClear"]]
+    covered = lambda x, z: any(r.buffer(1e-6).contains(Point(x, z)) for r in rings)  # noqa: E731
+    assert covered(5, 5) and covered(22, 2) and covered(24, 4)
+    assert covered(38.6, -1.4) and covered(45.4, 5.4)      # the footprint grown 1.5 m
+    assert not covered(37.0, 2) and not covered(60.5, 0.5)  # past the buffer; not a building
+
+
+def test_the_published_ground_sidecar_is_the_bundle_s_ground_and_clears_the_family_hut_pad():
+    """The studio reads a place's ground from the small sidecar, never the
+    1.5 MB bundle (0102 round 2): it carries exactly the bundle's overlays and
+    clearance per place, and Claywater's clearance covers its family-hut pad
+    (the pad's south strip reaches past the compiled box)."""
+    from shapely.geometry import Point, Polygon
+    bundle = json.loads((_PUBLIC / "settlements.json").read_text())
+    side = json.loads((_PUBLIC / "settlements/ground-overlays.json").read_text())
+    assert side["schemaVersion"] == 1
+    assert side == ex.ground_sidecar(bundle)
+    site = next(s for s in side["settlements"] if s["id"].endswith("claywater-station"))
+    assert site["groundOverlays"]["pads"]
+    hut = next(o for o in site["groundOverlays"]["pads"] if o["id"].endswith(".family-hut"))
+    rings = [Polygon(r).buffer(1e-6) for r in site["vegetationClearance"]["hardClear"]]
+    loose = [v for v in hut["pieces"][0]["polygonM"] if not any(r.contains(Point(v)) for r in rings)]
+    assert not loose, f"family-hut pad vertices outside the hard clearance: {loose[:4]}"
+
+
+# --- 16k fix 2 r3 ruling 1: the warning ledger compares FLOOD warnings only
+def test_the_flood_ledger_ignores_a_non_flood_warning():
+    front = "place.a: front — parcel x has a derived front ..."
+    doc = {"id": "place.a", "warnings": [front],
+           "floodBandReport": {"warningCount": 0, "warnings": []}}
+    assert ex.flood_ledger_error(doc) is None
+
+
+def test_the_flood_ledger_still_fails_a_lost_flood_warning():
+    doc = {"id": "place.a", "warnings": ["other"],
+           "floodBandReport": {"warningCount": 1, "warnings": ["wet civic floor"]}}
+    assert "disagrees" in ex.flood_ledger_error(doc)
+    legacy = {"id": "place.a", "warnings": ["w"], "floodBandReport": {"warningCount": 0}}
+    assert "disagrees" in ex.flood_ledger_error(legacy)

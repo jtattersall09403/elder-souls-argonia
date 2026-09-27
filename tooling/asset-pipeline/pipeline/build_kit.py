@@ -134,6 +134,7 @@ class Source:
 
 class BsaSource(Source):
     def __init__(self, path: Path):
+        self.path = path
         self.archive = BSAArchive(path)
 
     def contains(self, rel: str) -> bool:
@@ -247,10 +248,62 @@ def vanilla_texture_roots(vault: Path, tropical: bool = True) -> list[Path]:
 
 
 def _vanilla_texture_sources(vault: Path, tropical: bool = True) -> list[Source]:
-    return [
+    sources = [
         DirSource(root) if root.is_dir() else BsaSource(root)
         for root in vanilla_texture_roots(vault, tropical)
     ]
+    for source in sources:
+        source.vanilla_fallback = True
+    return sources
+
+
+def texture_tiers(textures: list[Source]) -> list[list[Source]]:
+    """The order a pool's texture sources are searched in (16k fix 2 kits
+    round 3, ruling 4). Every source ahead of the vanilla fallback (the pool's
+    own archive, its sibling pools, overlays) is ONE tier: each one's exact
+    file before any one's fuzzy match, so a sibling's exact `hana/signs/*`
+    beats Data2.rar's stem fallback `roadsignmediumcamp1`. Each vanilla
+    fallback source is a tier of its own after them, so a pool's own relocated
+    copy (basename match) still beats vanilla's exact path (the Phase 10
+    tree-LOD atlas case below)."""
+    own = [s for s in textures if not getattr(s, "vanilla_fallback", False)]
+    rest = [s for s in textures if getattr(s, "vanilla_fallback", False)]
+    return ([own] if own else []) + [[s] for s in rest]
+
+
+def resolve_textures(tiers: list[list[Source]], outstanding: set[str],
+                     data_root: Path) -> tuple[set[str], dict[str, str]]:
+    """Extract ``outstanding`` texture paths tier by tier: every source's exact
+    file in a tier, then its fuzzy (basename, then stem) matches in source
+    order. Returns (paths filled, {wanted path: substitute used})."""
+    filled: set[str] = set()
+    substituted: dict[str, str] = {}
+    outstanding = set(outstanding)
+    for tier in tiers:
+        for source in tier:
+            if not outstanding:
+                break
+            available = sorted(t for t in outstanding if source.contains(t))
+            source.extract_many(available, data_root)
+            landed = {t for t in available if (data_root / t).exists()}
+            filled |= landed
+            outstanding -= landed
+        for source in tier:
+            for rel in sorted(outstanding):
+                alternative = source.find_by_basename(rel) or source.find_by_stem(rel)
+                if not alternative:
+                    continue
+                source.extract_many([alternative], data_root)
+                origin = data_root / alternative
+                if not origin.exists():
+                    continue
+                target = data_root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(origin, target)
+                substituted[rel] = alternative
+                filled.add(rel)
+            outstanding -= set(substituted)
+    return filled, substituted
 
 
 def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
@@ -263,9 +316,21 @@ def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
     # vanilla recovers those rather than shipping untextured flora; both pools
     # are credited either way.
     if pool == "bmv":
+        # BM&V's six blank road-sign boards (`roadsign{small,medium,large}01{l,r}`)
+        # are Hanaisse's "Blank Roadsigns" resource and UV its
+        # `textures/hana/signs/*`, which Data2.rar does not ship (the build used
+        # to substitute a lettered board by basename). The resource itself
+        # (Nexus skyrim 33392, 16k fix round 2) is the sibling source. It goes
+        # beside Data2.rar in the pool's own tier (`texture_tiers`): every
+        # own source's exact file is tried before Data2.rar's stem fallback,
+        # which would answer `hana/signs/roadsignmedium` with its lettered
+        # `roadsignmediumcamp1`. The resource holds only `hana/signs/*`, so it
+        # cannot take any other exact path from BM&V.
         return PoolSources(
             meshes=RarSource(bmv / "Data1.rar", bmv / "manifest-data1.txt"),
-            textures=[RarSource(bmv / "Data2.rar", bmv / "manifest.txt"),
+            textures=[DirSource(vault / "skyrim-source/mod-sources"
+                                / "hanas-blank-roadsigns-33392" / "extracted"),
+                      RarSource(bmv / "Data2.rar", bmv / "manifest.txt"),
                       *fallback],
         )
     if pool == "vanilla":
@@ -596,38 +661,20 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         for path in sorted(contested & outstanding):
             print(f"[kit]   contested texture {path} -> {pool} "
                   f"(precedence {' > '.join(ordered_pools)})")
-        # Each source is tried FULLY (exact path, then trailing-component
-        # match) before the next source is consulted. The old two-phase order
-        # (all sources exact, then all sources fuzzy) let VANILLA's exact-path
-        # copy of a file beat the mod's own relocated one — the flora kit's
-        # `_lod_flat` cards UV against BM&V's 4096² tamrieltreelod atlas
-        # (shipped at textures/landscape/trees/), but vanilla ships a
-        # different 1024² atlas at the exact path the NIFs name, so every gkb
-        # tree card sampled the wrong picture and rendered as a grey slab
-        # (owner Phase 10 round 3). A pool's own textures win, full stop.
-        for source in sources[pool].textures:
-            if not outstanding:
-                break
-            available = sorted(t for t in outstanding if source.contains(t))
-            source.extract_many(available, data_root)
-            landed = {t for t in available if (data_root / t).exists()}
-            filled |= landed
-            outstanding -= landed
-            for rel in sorted(outstanding):
-                alternative = source.find_by_basename(rel) or source.find_by_stem(rel)
-                if not alternative:
-                    continue
-                source.extract_many([alternative], data_root)
-                origin = data_root / alternative
-                if not origin.exists():
-                    continue
-                target = data_root / rel
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(origin, target)
-                substituted[rel] = alternative
-                filled.add(rel)
-            outstanding -= set(substituted)
-        missing |= outstanding
+        # Tiers (`texture_tiers`, 16k kits r3 ruling 4): the pool's own
+        # sources as one tier (all exact, then all fuzzy), then each vanilla
+        # fallback source alone. A one-pass "all sources exact" order would
+        # let VANILLA's exact-path copy of a file beat the mod's own relocated
+        # one: the flora kit's `_lod_flat` cards UV against BM&V's 4096²
+        # tamrieltreelod atlas (shipped at textures/landscape/trees/), but
+        # vanilla ships a different 1024² atlas at the exact path the NIFs
+        # name, so every gkb tree card sampled the wrong picture and rendered
+        # as a grey slab (owner Phase 10 round 3). A pool's own textures win.
+        landed, subs = resolve_textures(texture_tiers(sources[pool].textures),
+                                        outstanding, data_root)
+        filled |= landed
+        substituted.update(subs)
+        missing |= outstanding - landed
 
     for rel, alternative in sorted(substituted.items()):
         print(f"[kit]   texture path fixed up: {rel} <- {alternative}")
@@ -916,6 +963,11 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     # plus the material extra `additive: true` for the runtime's blend mode.
     additive = {name for asset in summary["assets"]
                 for name in asset.get("additiveMaterials", [])}
+    # A NIF water-shader surface (blender/build_kit.py WATER_MATERIALS:
+    # horsetrough01's WATER.Mat) is translucent and untextured: glTF BLEND
+    # plus the material extra `water: true` (16k fix 2 round 4 ruling K4).
+    water = {name for asset in summary["assets"]
+             for name in asset.get("waterMaterials", [])}
     data = bytearray(glb.read_bytes())
     header = struct.unpack_from("<4sII", data, 0)
     chunk_length, chunk_type = struct.unpack_from("<I4s", data, 12)
@@ -926,7 +978,7 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
 
     counts = {"MASK": 0, "OPAQUE": 0, "BLEND": 0}
     for material in gltf.get("materials", []):
-        if material.get("name") in additive:
+        if material.get("name") in additive or material.get("name") in water:
             material["alphaMode"] = "BLEND"
             material.pop("alphaCutoff", None)
             counts["BLEND"] += 1
@@ -941,6 +993,9 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
         extras = material.get("extras") or {}
         extras.pop("decal", None)
         extras.pop("additive", None)
+        extras.pop("water", None)
+        if material.get("name") in water:
+            extras["water"] = True
         if material.get("name") in decals:
             extras["decal"] = True
         if material.get("name") in additive:
@@ -963,9 +1018,114 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     return counts
 
 
+# A texture the build could not resolve is a sourcing defect when it is a
+# DIFFUSE: the piece ships with no base colour (16k fix round 2: mudhut01's
+# `desertcracked01_d` lived in `_ResourcePack.bsa`, absent from the vault, and
+# the hut shipped untextured with only a printed line). Normal, specular,
+# glow, backlight, env and cube maps degrade the look but not the colour, so
+# they are not gated. Classified by the path Bethesda's naming gives each
+# slot: `textures/cubemaps/` and these stem suffixes are not diffuse.
+NON_DIFFUSE_SUFFIXES = ("_n", "_msn", "_s", "_g", "_e", "_em", "_bl", "_sk",
+                        "_m", "_p", "_rim", "_sub", "_h")
+
+
+def is_diffuse_texture(path: str) -> bool:
+    rel = path.replace("\\", "/").lower()
+    if rel.startswith("textures/cubemaps/"):
+        return False
+    return not Path(rel).stem.endswith(NON_DIFFUSE_SUFFIXES)
+
+
+def unresolved_diffuse_errors(kit: dict, missing: Iterable[str]) -> list[str]:
+    """Every unresolved diffuse the kit config does not accept by name.
+
+    `texturesMissingAccepted` maps a texture path to the written reason it may
+    ship unresolved (an archive that exists nowhere, with its register row);
+    an entry with an empty reason does not count. The fix for a listed-but-
+    findable texture is `textureAliases`, never an accepted row."""
+    accepted = {k.lower(): str(v).strip()
+                for k, v in (kit.get("texturesMissingAccepted") or {}).items()}
+    return [f"{kit['id']}: unresolved diffuse {t} (add a textureAliases row, "
+            "or a texturesMissingAccepted row with its reason)"
+            for t in sorted(missing)
+            if is_diffuse_texture(t) and not accepted.get(t.lower())]
+
+
+def untextured_material_errors(gltf: dict, summary: dict,
+                               missing: Iterable[str]) -> list[str]:
+    """16k kits r3 ruling 5: every LOD0 material with no base-colour texture
+    and no effect flag (`additive`) is a build failure: the path gate above
+    cannot see a material that names no texture (`Object10:3.Mat`, the
+    Nordic door's effect card, shipped as a grey slab). A material whose named
+    diffuse is in `missing` was judged by `unresolved_diffuse_errors`."""
+    judged = {m.replace("\\", "/").lower() for m in missing}
+    owners: dict[str, list[str]] = {}
+    for asset in summary.get("assets", []):
+        for name in asset.get("materials", []):
+            owners.setdefault(name, []).append(asset["id"])
+    materials = gltf.get("materials", [])
+    used: set[int] = set()
+    for node in gltf.get("nodes", []):
+        if "mesh" not in node or "__lod" in (node.get("name") or ""):
+            continue
+        for primitive in gltf["meshes"][node["mesh"]].get("primitives", []):
+            if primitive.get("material") is not None:
+                used.add(primitive["material"])
+    errors = []
+    for index in sorted(used):
+        material = materials[index]
+        extras = material.get("extras") or {}
+        if "baseColorTexture" in (material.get("pbrMetallicRoughness") or {}):
+            continue
+        if extras.get("additive") or extras.get("water"):
+            continue
+        named = str(extras.get("BSShaderTextureSet_Diffuse") or "")
+        if named and named.replace("\\", "/").lower() in judged:
+            continue
+        errors.append(f"{material.get('name')}: LOD0 material with no texture and no "
+                      f"effect flag ({extras.get('BS_Shader_Block_Name', '?')}; "
+                      f"{', '.join(sorted(owners.get(material.get('name'), ['?'])))})")
+    return errors
+
+
+def normalise_nif_texture(path: str) -> str:
+    """A NIF texture slot string as `textureAliases` keys it (slash, lower)."""
+    return str(path).replace("\\", "/").strip().lower()
+
+
+def nif_texture_alias_files(kit: dict, data_root: Path) -> dict[str, str]:
+    """{normalised alias key: Windows path of the alias SOURCE file} for every
+    `textureAliases` row whose source landed in the data root. Blender under
+    Wine cannot open a target name holding a control character, so the
+    Blender half loads the source file, never the copied target."""
+    out = {}
+    for target, source_path in sorted((kit.get("textureAliases") or {}).items()):
+        origin = data_root / source_path
+        if origin.exists():
+            out[normalise_nif_texture(target)] = to_windows(origin)
+    return out
+
+
+def read_gltf_json(glb: Path) -> dict:
+    data = glb.read_bytes()
+    length, = struct.unpack_from("<I", data, 12)
+    return json.loads(data[20:20 + length])
+
+
 def build(kit_id: str, vault: Path) -> dict:
+    """Build one kit holding the kit-list lock EXCLUSIVE (16k r8 rule 4)."""
+    from .kit_lock import kit_list_lock
+    with kit_list_lock("exclusive", f"build_kit {kit_id}"):
+        return _build(kit_id, vault)
+
+
+def _build(kit_id: str, vault: Path) -> dict:
     kit = json.loads((CONFIG / f"{kit_id}.json").read_text())
     work, assets, notes = assemble(kit, vault)
+    errors = unresolved_diffuse_errors(kit, notes["texturesMissing"])
+    if errors:
+        raise RuntimeError("kit build refused, untextured pieces would ship:\n  "
+                           + "\n  ".join(errors))
     output_glb = (REPO_ROOT / kit["output"]).resolve()
     output_glb.parent.mkdir(parents=True, exist_ok=True)
     summary_json = work / "summary.json"
@@ -993,6 +1153,12 @@ def build(kit_id: str, vault: Path) -> dict:
             kit.get("cardResolutionPx", CARD_RESOLUTION_PX)),
         "cardAtlasMaxPx": int(kit.get("cardAtlasMaxPx", CARD_ATLAS_MAX_PX)),
         "cardDir": to_windows(card_dir),
+        # A NIF slot naming a broken path the texture scan cannot see (the
+        # vanilla forge's `Shading.Mat` names `textures\\<0x08>ERR`, no .dds):
+        # the kit's `textureAliases` row for that path, as the file its source
+        # landed at, which the Blender half binds to the material by the
+        # slot's own string (`nif_texture_alias_files`).
+        "nifTextureAliases": nif_texture_alias_files(kit, work / "data-root"),
         "output_glb": to_windows(output_glb),
         "summary_json": to_windows(summary_json),
     }
@@ -1026,6 +1192,17 @@ def build(kit_id: str, vault: Path) -> dict:
     if lights:
         print(f"[kit] light records: {lights}")
     apply_placement_metadata(summary, kit["id"])
+    untextured = untextured_material_errors(read_gltf_json(output_glb), summary,
+                                            notes["texturesMissing"])
+    if untextured:
+        raise RuntimeError(f"kit build refused ({kit_id}), untextured LOD0 materials "
+                           "would ship:\n  " + "\n  ".join(untextured))
+    facings = apply_glow_facings(output_glb, summary)
+    if facings:
+        print(f"[kit] glow facings: {facings}")
+    fx = publish_effect_textures(kit, vault, summary)
+    if fx:
+        print(f"[kit] effect textures: {fx}")
     manifest_path = output_glb.with_suffix(".kit.json")
     manifest_path.write_text(json.dumps(summary, indent=1) + "\n")
     # Post-pass: mould tree collision to the real wood geometry (oriented
@@ -1054,6 +1231,157 @@ def build(kit_id: str, vault: Path) -> dict:
     if kit.get("publish", (kit_compress.PUBLIC_KITS / f"{kit_id}.glb").exists()):
         summary["compression"] = kit_compress.publish(kit_id)
     return summary
+
+
+# Window glow faces cluster into one bearing per wall: faces whose outward
+# bearings lie within this arc of a cluster's running mean join it; a cluster
+# under GLOW_MIN_SHARE of the piece's glow area (a sill edge, a frame return)
+# is dropped. A face within GLOW_HORIZONTAL_MIN of vertical (a skylight) has no
+# bearing and is skipped.
+GLOW_CLUSTER_ARC_DEG = 30.0
+GLOW_MIN_SHARE = 0.05
+GLOW_HORIZONTAL_MIN = 0.5
+
+
+def glow_facings_from_faces(centroids, normals, areas) -> list[float]:
+    """Outward bearings (north = 0, clockwise; x east, z south, the
+    interiors_index `sideDeg` frame) of a piece's glow faces, one per wall.
+
+    A face's normal is flipped to point away from the glow faces' plan centre
+    (kit meshes are wound inconsistently; a window card faces out of the
+    house), then area-weighted into clusters."""
+    import math
+    import numpy as np
+    c = np.asarray(centroids, float)
+    n = np.asarray(normals, float)
+    a = np.asarray(areas, float)
+    if len(c) == 0 or a.sum() <= 0:
+        return []
+    centre = (c * a[:, None]).sum(0) / a.sum()
+    horiz = n[:, [0, 2]]
+    length = np.linalg.norm(horiz, axis=1)
+    keep = length >= GLOW_HORIZONTAL_MIN
+    out_vec = c[:, [0, 2]] - centre[[0, 2]]
+    flip = (horiz * out_vec).sum(1) < 0
+    horiz = np.where(flip[:, None], -horiz, horiz)
+    items = sorted(
+        (math.degrees(math.atan2(h[0], -h[1])) % 360.0, float(w))
+        for h, w, k in zip(horiz, a, keep) if k)
+    clusters: list[list[float]] = []   # [sum sin*w, sum cos*w, weight]
+    for bearing, w in items:
+        rad = math.radians(bearing)
+        for cl in clusters:
+            mean = math.degrees(math.atan2(cl[0], cl[1])) % 360.0
+            if abs((bearing - mean + 180.0) % 360.0 - 180.0) <= GLOW_CLUSTER_ARC_DEG:
+                cl[0] += math.sin(rad) * w
+                cl[1] += math.cos(rad) * w
+                cl[2] += w
+                break
+        else:
+            clusters.append([math.sin(rad) * w, math.cos(rad) * w, w])
+    total = sum(cl[2] for cl in clusters)
+    return sorted(round(math.degrees(math.atan2(cl[0], cl[1])) % 360.0, 1)
+                  for cl in clusters if total and cl[2] / total >= GLOW_MIN_SHARE)
+
+
+def apply_glow_facings(glb_path: Path, summary: dict) -> dict[str, list[float]]:
+    """Write `glowFacingsDeg` on every manifest row with `glowMaterials`,
+    measured from that piece's LOD0 glow faces in the finished GLB (0102
+    decision 7: compile_settlement.unlit_entrance_errors reads it)."""
+    rows = [a for a in summary.get("assets", []) if a.get("glowMaterials")]
+    if not rows:
+        return {}
+    import numpy as np
+    import trimesh
+    from .measure_footprints import LOD_SUFFIXES, _resolve_node, glb_asset_id_nodes
+    scene = trimesh.load(str(glb_path), force="scene")
+    graph = scene.graph
+    names = set(graph.nodes)
+    by_id = glb_asset_id_nodes(glb_path)
+    children = graph.transforms.children
+    out: dict[str, list[float]] = {}
+    for row in rows:
+        root = _resolve_node(row, names, by_id)
+        if root is None:
+            continue
+        glow = set(row["glowMaterials"])
+        inverse = np.linalg.inv(graph.get(root)[0])
+        cents, norms, areas = [], [], []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node != root and node.endswith(LOD_SUFFIXES):
+                continue
+            stack.extend(children.get(node, []))
+            matrix, geometry = graph.get(node)
+            mesh = scene.geometry.get(geometry) if geometry else None
+            material = getattr(getattr(mesh, "visual", None), "material", None)
+            if mesh is None or getattr(material, "name", None) not in glow:
+                continue
+            local = mesh.copy()
+            local.apply_transform(inverse @ matrix)
+            cents.append(local.triangles_center)
+            norms.append(local.face_normals)
+            areas.append(local.area_faces)
+        if not cents:
+            continue
+        row["glowFacingsDeg"] = glow_facings_from_faces(
+            np.vstack(cents), np.vstack(norms), np.concatenate(areas))
+        out[row["id"]] = row["glowFacingsDeg"]
+    return out
+
+
+def publish_effect_textures(kit: dict, vault: Path, summary: dict,
+                            public_dir: Path | None = None) -> dict[str, str]:
+    """Publish the kit config's `effectTextures` (a runtime effect's texture,
+    no mesh: game-core settlement/smokeColumn.ts) and record each on the
+    manifest as `summary["effectTextures"][assetId]`.
+
+    Each texture resolves through the same texture sources the kit's meshes
+    use (vanilla pool, tropicalised by default), is written once as RGBA PNG to
+    `<public kits>/<kit>-fx/<stem>.png` (the waterfall-fx-textures route: the
+    runtime blends it itself), and carries its source path, archive and the
+    DDS hash. An unresolved texture refuses the build: no substitute art."""
+    rows = kit.get("effectTextures") or {}
+    if not rows:
+        return {}
+    import hashlib
+    import io
+    import tempfile
+    from PIL import Image
+    from . import kit_compress
+    out_dir = (public_dir or kit_compress.PUBLIC_KITS) / f"{kit['id']}-fx"
+    sources = pool_sources("vanilla", vault, tropical=tropicalised(kit)).textures
+    records: dict[str, dict] = {}
+    published: dict[str, str] = {}
+    for asset_id, row in sorted(rows.items()):
+        rel = row["texture"].lower().replace("\\", "/")
+        source = next((src for src in sources if src.contains(rel)), None)
+        if source is None:
+            raise FileNotFoundError(f"{kit['id']}: effect texture {rel} for {asset_id} "
+                                    f"is in no texture source")
+        with tempfile.TemporaryDirectory() as tmp:
+            source.extract_many([rel], Path(tmp))
+            raw = (Path(tmp) / rel).read_bytes()
+        image = Image.open(io.BytesIO(raw))
+        image.load()
+        out_dir.mkdir(parents=True, exist_ok=True)
+        name = Path(rel).stem + ".png"
+        image.convert("RGBA").save(out_dir / name, optimize=True)
+        os.chmod(out_dir / name, 0o644)
+        records[asset_id] = {
+            "file": f"{out_dir.name}/{name}",
+            "sourcePath": rel,
+            "sourceArchive": (source.path if isinstance(source, BsaSource)
+                              else source.root).name,
+            "sha256Dds": hashlib.sha256(raw).hexdigest(),
+            "px": list(image.size),
+            "pngBytes": (out_dir / name).stat().st_size,
+            **({"atlas": row["atlas"]} if row.get("atlas") else {}),
+        }
+        published[asset_id] = records[asset_id]["file"]
+    summary["effectTextures"] = records
+    return published
 
 
 def measure_sidecars(kit_id: str, kits_dir: Path) -> list[str]:
@@ -1089,6 +1417,14 @@ def build_many(kit_ids: list[str], vault: Path, jobs: int = DEFAULT_KIT_JOBS,
     """Build every kit in `kit_ids`, up to `jobs` at once; summaries in order."""
     builder = builder or build
     kit_ids = list(dict.fromkeys(kit_ids))
+    # one exclusive kit-list lock for the batch (16k r8 rule 4): the forked
+    # builders inherit it, so they run side by side instead of in turn
+    from .kit_lock import kit_list_lock
+    with kit_list_lock("exclusive", f"build_kit {','.join(kit_ids)}"):
+        return _build_many(kit_ids, vault, jobs, builder)
+
+
+def _build_many(kit_ids: list[str], vault: Path, jobs: int, builder) -> list[dict]:
     if jobs <= 1 or len(kit_ids) <= 1:
         return [builder(kit_id, vault) for kit_id in kit_ids]
     import multiprocessing

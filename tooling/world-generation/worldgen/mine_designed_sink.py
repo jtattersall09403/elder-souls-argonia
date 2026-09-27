@@ -179,7 +179,10 @@ class PoolJoin:
 #: worldspaces, so they are evidence here. Pools left out deliberately:
 #: ``xanmeer``, ``sailboats`` (resource-only plugins, zero exterior
 #: references) and ``hlaalu``/``rowboats``/``sbot``/``sirenroot``/
-#: ``shores``/``hoddminir``/``drjacopo``/``composite`` (no plugin at all).
+#: ``shores``/``hoddminir``/``drjacopo``/``impships``/``composite`` (no
+#: plugin at all; impships' register row says so, ``plugin_evidence``).
+#: ``boatsanim`` ships nine FOMOD-option plugins; its register row names the
+#: variant that stands as evidence and the counts that chose it.
 EXTRA_POOL_PLUGINS: dict[str, list[str]] = {
     "htbm": ["{vault}/skyrim-source/mod-sources/here-there-be-monsters-cipactli-35933"
              "/extracted/Here There Be Monsters - Curse of Cipactli.esp"],
@@ -193,6 +196,13 @@ EXTRA_POOL_PLUGINS: dict[str, list[str]] = {
                   "/extracted/SNT ferry.esp"],
     "canoe": ["{vault}/skyrim-source/mod-sources/script-free-ship-sailing-67727"
               "/extracted/Script free ship sailing 2.3/Scriptfreeshipsailing.esp"],
+    # player homes that place their own meshes (16k remine r1; the door-link
+    # miner already walks both by directory)
+    "xalfek": ["{vault}/skyrim-source/mod-sources/xalfek-55595/extracted/DMArgonianHaus.esp"],
+    "darkwater": ["{vault}/skyrim-source/mod-sources/darkwater-den-52630/extracted"
+                  "/DarkwaterDen.esp"],
+    "boatsanim": ["{vault}/skyrim-source/mod-sources/boats-operational-animated-110882"
+                  "/fomod-source/Boats - Operational Animated Travel/SSKMovingBoats.esp"],
 }
 
 
@@ -521,6 +531,14 @@ def summarise(samples: dict[str, AssetSamples],
                 "slopeTermMPerDeg": None if gradient is None else round(gradient, 5),
                 "evidence": "plugin",
             })
+            # 16k r8 rule 3: the spread check reads only references standing
+            # on their ground (genericwell01's Skyrim.esm reference 10.77 m
+            # above LAND made its IQR 10.77 m).
+            grounded = [v for v in entry.sink if v >= -CLEAR_OF_GROUND_M]
+            if len(grounded) != len(entry.sink):
+                g25, _g50, g75 = (percentiles(grounded) if grounded else (0.0, 0.0, 0.0))
+                record["spreadIqrM"] = round(g75 - g25, 4)
+                record["spreadN"] = len(grounded)
         # Round 11: like the mounts vote, the defining file's waterline samples
         # decide while it has MIN_SAMPLES of them; else every file's.
         waterline = (entry.waterline_own if len(entry.waterline_own) >= min_samples
@@ -559,7 +577,10 @@ RAW_KITS_DIR = Path(__file__).resolve().parents[3] / "tooling/asset-pipeline/out
 
 
 def raw_mesh_tells(raw_kits: Path = RAW_KITS_DIR) -> dict[str, dict]:
-    """The mesh-sill tells of the raw kit GLBs (``pipeline.mesh_ground_line``)."""
+    """The mesh-sill tells of the raw kit GLBs (``pipeline.mesh_ground_line``).
+    Every tell is kept: the r8 4 % floor-share rule rejected five real pieces
+    and was dropped (16k fix 2 layout pre-step); the grounded-spread fix is
+    what seats genericwell01."""
     import sys
     sys.path.insert(0, str(raw_kits.parents[1]))
     from pipeline.mesh_ground_line import measure_mesh_tells
@@ -598,6 +619,9 @@ def same_shape(a: dict, b: dict) -> bool:
     return True
 
 
+CLEAR_OF_GROUND_M = 1.0
+"""16k r8 rule 3: a reference whose pivot stands more than this above its
+LAND stands clear of the ground; the spread check ignores it."""
 SPREAD_IQR_M = 1.0
 """A plugin sink sample wider than this (IQR) is a candidate spread row."""
 SPREAD_MAX_N = 6
@@ -605,7 +629,7 @@ SPREAD_MAX_N = 6
 to outvote the mesh."""
 SPREAD_HEIGHT_SHARE = 0.5
 """Round 20 fix (b): a spread over this share of the mesh height is no sink."""
-PLUGIN_FIELDS = ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg")
+PLUGIN_FIELDS = ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg", "spreadIqrM", "spreadN")
 
 
 def is_plugin_spread(record: dict, kit: dict | None) -> bool:
@@ -617,7 +641,8 @@ def is_plugin_spread(record: dict, kit: dict | None) -> bool:
     keep their plugin rows (0075 rock seating)."""
     if kit is None or kit.get("category") not in STRUCTURAL_CATEGORIES:
         return False
-    iqr, n = record.get("iqrM", 0.0), record.get("n", 0)
+    iqr = record.get("spreadIqrM", record.get("iqrM", 0.0))
+    n = record.get("spreadN", record.get("n", 0))
     size = kit.get("sizeM")
     height = float(size[2]) if isinstance(size, list) and len(size) == 3 else 0.0
     return iqr > SPREAD_IQR_M and (n < SPREAD_MAX_N or iqr > SPREAD_HEIGHT_SHARE * height)
@@ -654,7 +679,9 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
         record = assets.get(asset_id, {})
         if asset_id in spread:
             value = tells[asset_id]["valueM"]
-            record["pluginSpread"] = {key: record[key] for key in PLUGIN_FIELDS}
+            record["pluginSpread"] = {key: record[key] for key in PLUGIN_FIELDS if key in record}
+            for key in ("spreadIqrM", "spreadN"):
+                record.pop(key, None)
             record.update({"p25": value, "p50": value, "p75": value, "n": 0,
                            "iqrM": 0.0, "slopeTermMPerDeg": None,
                            "evidence": PLUGIN_SPREAD_SILL,
@@ -664,7 +691,7 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
         if record.get("evidence") == "plugin":
             continue
         for key in ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg",
-                    "evidence", "groundLineTell"):
+                    "evidence", "groundLineTell", "spreadIqrM", "spreadN"):
             record.pop(key, None)
         twin = twins.get(asset_id.partition(":")[2].casefold())
         base = bases.get(asset_id)
@@ -758,9 +785,15 @@ def build_document(kits: dict[str, dict], vault: Path,
     samples, stats = measure(kits, vault, progress=progress, plugins=plugins,
                              supported=supported)
     assets = summarise(samples)
-    complete_record(assets, kits, raw_mesh_tells() if tells is None else tells)
+    if tells is None:
+        tells = raw_mesh_tells()
+    complete_record(assets, kits, tells)
+    from .mine_assemblies import provenance
+    walked = pool_plugins(vault) if plugins is None else plugins
     return {
         "schemaVersion": 1,
+        "provenance": provenance(__file__, [path.name for _pool, path in walked],
+                                 [pool for pool, _path in walked]),
         "source": "vanilla Skyrim.esm plus every source-mod plugin named by "
                   "worldgen.asset_registry.POOLS",
         "method": METHOD,
@@ -774,7 +807,26 @@ def build_document(kits: dict[str, dict], vault: Path,
     }
 
 
+def sample_assets(kits: dict[str, dict], n: int, seed: int,
+                  always: Iterable[str] = ()) -> list[str]:
+    """``--sample N --seed S``: N kit asset ids drawn seeded from the sorted
+    ids, plus the named ones (write their expected p50 first, kit-mining §3)."""
+    import random
+    named = [a for a in always if a in kits]
+    rest = sorted(set(kits) - set(named))
+    return sorted(named + random.Random(seed).sample(rest, min(n, len(rest))))
+
+
 def main(argv: Iterable[str] | None = None) -> int:
+    """The CLI, holding the kit-list lock SHARED (16k r8 rule 4): no kit
+    build rewrites the manifests this run reads."""
+    from . import mine_designed_sink  # noqa: F401  (puts pipeline/ on the path)
+    from pipeline.kit_lock import kit_list_lock
+    with kit_list_lock("shared", "mine_designed_sink"):
+        return _main(argv)
+
+
+def _main(argv: Iterable[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--kits-dir", type=Path, action="append", default=None,
                         help="kit manifest directory; repeatable "
@@ -785,12 +837,47 @@ def main(argv: Iterable[str] | None = None) -> int:
     parser.add_argument("--complete-only", action="store_true",
                         help="keep the mined plugin samples in --out and only "
                              "re-derive the swap and mesh-sill entries")
+    parser.add_argument("--sample", type=int, default=None,
+                        help="sample-first batch: measure N seeded kit assets (plus "
+                             "--assets) and write them to --out, never the record")
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--assets", nargs="+", default=[],
+                        help="with --sample: always include these asset ids")
+    parser.add_argument("--merge", action="store_true",
+                        help="per-asset sink run (16k r7 rule 4): measure only --assets "
+                             "and replace their rows in the tracked record (--out)")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     kits = kit_assets(*(args.kits_dir or []))
+    if args.merge:
+        if args.sample is not None or args.complete_only or not args.assets:
+            raise SystemExit("--merge takes --assets only (no --sample, no --complete-only)")
+        missing = [a for a in args.assets if a not in kits]
+        if missing:
+            raise SystemExit(f"not a kit asset: {missing}")
+        got = build_document({a: kits[a] for a in args.assets}, args.vault,
+                             progress=not args.quiet)["assets"]
+        record = json.loads(args.out.read_text())
+        for asset in args.assets:
+            if asset not in got:
+                raise SystemExit(f"{asset}: the run measured no row")
+            record["assets"][asset] = got[asset]
+        record["assetsMeasured"] = len(record["assets"])
+        findings = evidence_findings(record["assets"])
+        if findings:
+            raise ValueError("; ".join(findings[:20]))
+        args.out.write_text(json.dumps(record, indent=1, sort_keys=False) + "\n", encoding="utf-8")
+        print(json.dumps({a: record["assets"][a] for a in args.assets}, indent=1))
+        return 0
+    if args.sample is not None:
+        if args.out.resolve() == DEFAULT_OUT.resolve():
+            raise SystemExit("--sample never writes the tracked record")
+        kits = {a: kits[a] for a in sample_assets(kits, args.sample, args.seed, args.assets)}
     if args.complete_only:
         document = json.loads(args.out.read_text())
-        counts = complete_record(document["assets"], kits, raw_mesh_tells())
+        tells = raw_mesh_tells()
+        document.pop("floorTellsRejected", None)
+        counts = complete_record(document["assets"], kits, tells)
         document["assetsMeasured"] = len(document["assets"])
         document["method"] = METHOD
         print(f"completed the record: {counts}")

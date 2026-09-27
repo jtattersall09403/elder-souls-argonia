@@ -6,7 +6,8 @@
 // once-before-merge full run). The inputs below are what each gate's suite
 // reads, found by reading the suites (2026-09-25), and err wide: the Python
 // suites read world data, kit configs and the studio's published files, so
-// those count as their inputs too.
+// those count as their inputs too; since 2026-09-26 each suite has its own
+// set (PY_INPUTS).
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -17,19 +18,45 @@ const GLOBAL = [
   "tooling/repo-standards/run-workspaces.mjs", "tooling/repo-standards/memwatch.sh",
   "tooling/repo-standards/jobs.mjs",
 ];
-// The three Python suites import each other's modules and read each other's
-// data (placement imports pipeline.placement_metadata; the pipeline suite reads
-// the published kits under apps/world-studio/public), so they share one input set.
-const PY_SUITES = [
-  "world/", "tooling/world-generation/", "tooling/asset-pipeline/",
-  "apps/world-studio/public/", "packages/text-catalogue/",
-];
+// The Python suites, each with its own inputs (tool-speed review S5a,
+// 2026-09-26). Code folders stay wide (the suites import each other's
+// modules); the DATA inputs are what each suite opened under strace on
+// 2026-09-26 (strace openat over a whole run; the per-folder counts are in
+// tooling/.reports/16k/speed-1.md), widened to the folder. A place change (a blueprint, the published
+// settlements.json, a placement record) therefore runs placement, pipeline
+// and workbench, never water. A suite that starts reading a new folder must
+// add it here (tooling/.reports/16k/speed-1.md has the method).
+const PY_CODE = ["tooling/world-generation/", "tooling/asset-pipeline/"];
+// what a place publish writes under public/province (water opened none of it)
+const PLACE_ONLY_PROVINCE = /^apps\/world-studio\/public\/province\/(settlements\.json|settlements\/|blueprints\.json|interiors\/)/;
+const WATER_PROVINCE = { test: (f) => (f.startsWith("apps/world-studio/public/province/")
+  || "apps/world-studio/public/province/".startsWith(f.replace(/\/?$/, "/"))) && !PLACE_ONLY_PROVINCE.test(f) };
+export const PY_INPUTS = {
+  // the widest reader: every worldgen module but water's, over all world data
+  placement: [...PY_CODE, "world/", "apps/world-studio/public/", "packages/text-catalogue/",
+    "tooling/placement-workbench/"],
+  // opened: world/sources/{hydrology,terrain,routes,regions}, public/province/{water,
+  // refined, ladder, waterways*, routes*, route-structures}
+  water: ["tooling/world-generation/", "world/sources/hydrology/", "world/sources/terrain/",
+    "world/sources/routes/", "world/sources/regions/", WATER_PROVINCE],
+  // opened: world/sources/{placement,blueprints,routes}, public/kits, public/province/
+  // {settlements,ladder}.json; the trace stopped at 77 % (a Wine Blender test
+  // hangs under strace), so every path the suite's modules name is added:
+  // world/sources/assets (vault_inventory), game-core's generated weapon records
+  // (test_weapon_records)
+  pipeline: [...PY_CODE, "world/sources/placement/", "world/sources/blueprints/",
+    "world/sources/routes/", "world/sources/assets/", "apps/world-studio/public/kits/",
+    "apps/world-studio/public/province/", "packages/game-core/src/equipment/generated/"],
+  // the placement workbench's own tests (tooling/placement-workbench/tests): it
+  // bridges into worldgen and pipeline and reads placement records, blueprints,
+  // yard sets, the published kits and game-core's physics constants
+  workbench: [...PY_CODE, "tooling/placement-workbench/", "world/", "apps/world-studio/public/",
+    "packages/game-core/src/physics/"],
+};
 // gate -> path prefixes (or a RegExp) it reads. npm-test is per workspace, below.
 export const GATE_INPUTS = {
   typecheck: [/\.(ts|tsx|mts|cts)$/, /(^|\/)tsconfig[^/]*\.json$/, /^(apps|packages)\/[^/]+\/package\.json$/],
-  placement: PY_SUITES,
-  water: PY_SUITES,
-  pipeline: PY_SUITES,
+  ...PY_INPUTS,
   rasters: ["tooling/province-artefact/", "apps/world-studio/public/province/"],
   credits: ["README.md", "world/sources/assets/", "tooling/asset-pipeline/pipeline/config/kits/",
     "tooling/world-generation/worldgen/check_credits.py"],
@@ -47,7 +74,7 @@ const ALWAYS_WORKSPACES = ["tooling/repo-standards"];
 const WEAPONS_INPUTS = ["packages/game-core/", "tooling/asset-pipeline/"];
 
 function hits(file, input) {
-  if (input instanceof RegExp) return input.test(file);
+  if (input instanceof RegExp || typeof input.test === "function") return input.test(file);
   // a pathspec directory ("tooling/bootstrap") contains an input, or an input dir contains the file
   return file === input || file.startsWith(input) || input.startsWith(file.replace(/\/?$/, "/"));
 }

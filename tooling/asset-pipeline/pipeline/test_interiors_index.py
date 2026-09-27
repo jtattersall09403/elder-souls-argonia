@@ -521,6 +521,53 @@ def test_the_mud_hut_entrance_reads_where_its_frames_stand():
         assert 6.3 <= door["radiusM"] <= 7.2, door
 
 
+def _plugin_rotation(pitch_deg: float, roll_deg: float, yaw_deg: float) -> np.ndarray:
+    """The plugin's REFR rotation as `worldgen.mine_mounts.rotation` reads it:
+    clockwise angles, x then y then z (written out here, independently)."""
+    ax, ay, az = (-math.radians(v) for v in (pitch_deg, roll_deg, yaw_deg))
+    rx = np.array([[1, 0, 0], [0, math.cos(ax), -math.sin(ax)], [0, math.sin(ax), math.cos(ax)]])
+    ry = np.array([[math.cos(ay), 0, math.sin(ay)], [0, 1, 0], [-math.sin(ay), 0, math.cos(ay)]])
+    rz = np.array([[math.cos(az), -math.sin(az), 0], [math.sin(az), math.cos(az), 0], [0, 0, 1]])
+    return rz @ ry @ rx
+
+
+def test_a_part_pitched_and_rolled_as_the_plugin_places_it_carries_its_points():
+    """16k interiors r8 (1): King of the Murkmire places 6 of its 7 smpodext02
+    pods at x-rotation 164-198 deg. A composite part carries `pitchDeg` (the
+    plugin's x rotation) and `rollDeg` (its y rotation) in the plugin's own
+    convention, applied x then y then z like the REFR, so a mined point on the
+    anchor lands where the plugin's placement puts it."""
+    pose = {"scale": 1.0, "offsetM": [0.5, -1.0, 2.0], "yawDeg": 30.0,
+            "pitchDeg": 180.0, "rollDeg": 8.1}
+    point = (1.2, -3.4, 0.7)
+    want = _plugin_rotation(180.0, 8.1, 30.0) @ np.array(point) + np.array([0.5, -1.0, 2.0])
+    assert ix.pose_point_zup(pose, point) == pytest.approx(list(want), abs=1e-9)
+    # pitch 180 alone turns the pod over: up becomes down, forward becomes back
+    flip = {"scale": 1.0, "offsetM": [0.0, 0.0, 0.0], "yawDeg": 0.0, "pitchDeg": 180.0}
+    assert ix.pose_point_zup(flip, (1.0, 2.0, 3.0)) == pytest.approx([1.0, -2.0, -3.0])
+    # a tilted pose is never the identity, and a door's facing turns with it:
+    # a door facing bearing 20 on a pod turned over about x faces 160
+    assert not ix._is_identity_pose(flip)
+    assert ix.pose_yaw_deg(flip, 20.0) == pytest.approx(160.0)
+    assert ix.pose_yaw_deg({"scale": 1.0, "offsetM": [0, 0, 0], "yawDeg": 90.0}, 120.0) \
+        == pytest.approx(210.0)
+
+
+def test_the_part_rotation_is_identical_in_the_blender_half():
+    """The Blender importer cannot import this package, so the pure rotation
+    is duplicated there (the card-packing precedent); drift would stand a
+    pitched part one way in the GLB and its doors another way in the sidecar."""
+    import re
+    from pathlib import Path
+    here = Path(__file__).resolve().parent
+    pattern = re.compile(r"\ndef part_rotation_zup.*?\n    return rows\n", re.S)
+    host = pattern.search((here / "interiors_index.py").read_text())
+    blender = pattern.search((here / "blender" / "build_kit.py").read_text())
+    assert host and blender
+    assert host.group(0) == blender.group(0)
+    assert "part_rotation_zup(part" in (here / "blender" / "build_kit.py").read_text()
+
+
 # --------------------------------------------------------------------------- #
 # criterion 5: a closed prop is not a room (front faces)
 # --------------------------------------------------------------------------- #
@@ -822,3 +869,100 @@ def test_a_promised_building_says_why_and_only_the_promise_table_makes_one():
         got = ix.promise_or_shell(record, asset_id)
         assert got["interior"] == expected
         assert bool(got.get("promiseReason")) == (expected == "promised")
+
+
+def test_storeys_from_the_shells_own_floor_and_door_heights():
+    """Planner ruling 3 (interiors round 2): a shell's storeys cluster its
+    floor and esp-door heights by STOREY_GAP_M; a non-building has none."""
+    from pipeline import interiors_index as ii
+    one = {"interior": "tileset", "floorOffsetM": 0.0,
+           "entrance": {"kind": "esp-door", "heightM": -0.04}}
+    ii.set_storeys(one)
+    assert one["storeys"] == 1
+    two = {"interior": "tileset", "floorOffsetM": 0.0, "entrance": {"kind": "leaf", "heightM": 1.8},
+           "provenance": [{"kind": "esp-door", "heightM": 3.4}]}
+    ii.set_storeys(two)
+    assert two["storeys"] == 2 and two["storeyLevelsM"] == [0.0, 3.4]
+    prop = {"interior": "none", "floorOffsetM": 0.0}
+    ii.set_storeys(prop)
+    assert "storeys" not in prop
+
+
+def test_a_porch_that_carries_its_own_mined_door_is_no_leaf():
+    """16k fix 2 (kotm-house-pod): the KotM porch `smpodextdoor` has "door" in
+    its name but is the doorway module the plugin hangs `door01` on
+    (kotm:t0034); only the leaf `door01` is a composite-leaf doorway."""
+    parts = [{"asset": "kotm:argonia/mudhuts/smpodext02"},
+             {"asset": "kotm:argonia/mudhuts/smpodextdoor", "offsetM": [-0.3, -3.36, 1.22],
+              "yawDeg": 3.35},
+             {"asset": "kotm:argonia/mudhuts/door01", "offsetM": [-0.91, -6.29, 2.44],
+              "yawDeg": 4.75}]
+    frames = {"kotm:argonia/mudhuts/smpodextdoor"}
+    got = ix.composite_leaf_doorways(parts, [], frames)
+    assert [d["doorAsset"] for d in got] == ["kotm:argonia/mudhuts/door01"]
+    assert len(ix.composite_leaf_doorways(parts, [])) == 2      # the old rule took the porch
+
+
+def test_a_radial_plugin_door_is_fixed_where_the_composite_hangs_it():
+    """16k fix 2: the pod's plugin load door `door01` stands at 6.3 m on any
+    bearing across the plugin's placements (radial); a composite that hangs
+    door01 at one offset fixes the entrance there. A leaf of another model
+    leaves the radial door alone."""
+    esp = {"kind": "esp-door", "doorAsset": "kotm:argonia/mudhuts/door01", "placements": 8,
+           "radiusM": 6.3, "radial": True}
+    leaf = {"doorwaySource": "composite-leaf", "doorAsset": "kotm:argonia/mudhuts/door01",
+            "offsetLocalM": [-0.91, -6.29, 2.44], "radiusM": 6.355, "sideDeg": 188.23,
+            "yawDeg": 4.75, "count": 1}
+    record = {"doorways": [dict(esp)]}
+    ix.fix_radial_esp_door(record, [leaf])
+    door = record["doorways"][0]
+    assert "radial" not in door and door["sideDeg"] == 188.23
+    # the plan frame the doorways use (x, -y: south positive), as the mined rows
+    assert door["offsetM"] == [-0.91, 6.29] and door["heightM"] == 2.44 and door["yawDeg"] == 4.75
+    other = {"doorways": [dict(esp)]}
+    ix.fix_radial_esp_door(other, [dict(leaf, doorAsset="kotm:argonia/mudhuts/door02")])
+    assert other["doorways"][0]["radial"] is True
+
+
+# --- 16k fix 2 ruling 2: an esp-door's offsetM is in the z-south plan frame
+def test_apply_esp_link_writes_the_door_offset_in_the_z_south_frame():
+    """The plugin's door offset is x east, y north; every reader of
+    `offsetM` (piece_doorways, blueprint_interiors) reads x east, z south,
+    so the record carries [x, -y]. mudmother mudhut01 read sideDeg 181.66
+    (south) with its offset 19.5 m north of the hut."""
+    record: dict = {"doorways": []}
+    link = {"plugin": "p.esp", "interiorCell": "C", "placements": 3, "doorModel": "d.nif",
+            "doorOffsetInShell": {"xM": 0.4, "yM": -5.0, "zM": 0.1, "sideDeg": 175.4,
+                                  "yawDeg": 180.0, "radiusM": 5.02}}
+    ix.apply_esp_link(record, link, "interior-x")
+    door = record["doorways"][-1]
+    assert door["offsetM"] == [0.4, 5.0]
+    bearing = ix._bearing_deg(*door["offsetM"])
+    assert abs((door["sideDeg"] - bearing + 180.0) % 360.0 - 180.0) < 1.0
+
+
+#: a link whose placements spread 7.58 m: the miner's per-field medians give a
+#: sideDeg that is no offset's bearing (backlog row "mine_door_links.consolidate")
+SPREAD_LINK_EXEMPT = {"bmv:architecture/citebosmer/houses/housegland001"}
+
+
+def test_every_tracked_fixed_esp_door_offset_lies_on_its_side():
+    """The tracked records after the re-index: a fixed esp-door's offsetM
+    bearing from the shell pivot agrees with its sideDeg within 30 deg."""
+    tracked = ix.REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
+    checked, bad = 0, []
+    for path in sorted(tracked.glob("*.interiors.json")):
+        for asset_id, record in json.loads(path.read_text())["assets"].items():
+            for d in (record.get("doorways") or []) + [record.get("entrance") or {}]:
+                if d.get("kind") != "esp-door" or d.get("radial") or not d.get("offsetM"):
+                    continue
+                if (math.hypot(*d["offsetM"]) < 0.5 or d.get("sideDeg") is None
+                        or asset_id in SPREAD_LINK_EXEMPT):
+                    continue
+                bearing = ix._bearing_deg(*d["offsetM"])
+                off = abs((float(d["sideDeg"]) - bearing + 180.0) % 360.0 - 180.0)
+                checked += 1
+                if off > SIDE_AGREEMENT_DEG:
+                    bad.append(f"{path.name} {asset_id}: sideDeg {d['sideDeg']} vs {bearing:.1f}")
+    assert checked
+    assert bad == [], f"{len(bad)} of {checked}: {bad[:5]}"

@@ -23,6 +23,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
+from .blueprint_files import blueprint_paths
 from . import catalogue, lint_prose
 
 REGISTRIES = catalogue.REPO_ROOT / "world" / "sources" / "registries"
@@ -137,7 +138,7 @@ def load_entities(records: list[dict] | None = None,
 
     if blueprints is None:
         blueprints = [json.loads(path.read_text(encoding="utf-8")).get("blueprint", {})
-                      for path in sorted(BLUEPRINTS.glob("place.*.json"))]
+                      for path in blueprint_paths(BLUEPRINTS)]
     socket_ids: set[str] = set()
     for place in records:
         for values in (place.get("sockets") or {}).values():
@@ -579,7 +580,7 @@ def check_all(records: list[dict] | None = None, blueprints: list[dict] | None =
     ]
     if blueprints is None:
         blueprints = [json.loads(path.read_text(encoding="utf-8")).get("blueprint", {})
-                      for path in sorted(BLUEPRINTS.glob("place.*.json"))]
+                      for path in blueprint_paths(BLUEPRINTS)]
     entities = load_entities(records, blueprints)
     index = _entity_index(entities)
     result = Result([], Counter(), 0)
@@ -678,7 +679,7 @@ def build_migration_plan() -> list[MigrationFile]:
     ]
     blueprint_docs = [
         (path, json.loads(path.read_text(encoding="utf-8")))
-        for path in sorted(BLUEPRINTS.glob("place.*.json"))
+        for path in blueprint_paths(BLUEPRINTS)
     ]
     records = [
         record for _path, document in catalogue_docs

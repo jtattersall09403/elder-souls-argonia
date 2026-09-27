@@ -245,10 +245,11 @@ SPAN_SYSTEMS: dict[str, dict] = {
         "authoredSet": "vanilla:clutter/stockade",
         "deck": {"asset": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
                  # sizeM [3.535, 3.739, 0.957]: a railed plate, rail 0.679 m
-                 # over the 0.278 m plate. Plates tile at 3.64 m (t0100, n=14).
+                 # over the 0.278 m plate. Plates tile at 3.63 m (t2456, n=16;
+                 # remine r2 re-clustered t0100 into it, same offset).
                  "runM": 3.641, "widthM": 3.535, "anchor": DECK_LINE,
                  "thicknessM": 0.278,
-                 "connector": "vanilla:t0100", "connectorCount": 14},
+                 "connector": "vanilla:t2456", "connectorCount": 16},
         "pier": {"asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
                  # sizeM [3.704, 3.843, 2.731], originOffsetM z 0 — foot-
                  # anchored and stacked in 2.731 m storeys (t0019, n=28); the

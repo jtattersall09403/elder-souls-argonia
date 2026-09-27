@@ -425,14 +425,24 @@ def _fake_build(kit_id, vault):
     return {"kit": kit_id, "pid": os.getpid()}
 
 
+def _slow_fake_build(kit_id, vault):
+    import os
+    import time
+    time.sleep(1.0)
+    return {"kit": kit_id, "pid": os.getpid()}
+
+
 def test_build_many_runs_kits_concurrently_in_input_order():
+    """Two 1.0 s builds under a 1.5 s bar (16k fix 2 pre-step: the 0.55 s bar
+    over two 0.3 s sleeps flaked under xdist load); serial takes 2.0 s and
+    fails it."""
     import time
     t = time.perf_counter()
     out = build_kit.build_many(["a", "b", "a"], Path("/vault"), jobs=2,
-                               builder=_fake_build)
+                               builder=_slow_fake_build)
     assert [s["kit"] for s in out] == ["a", "b"]           # deduplicated, in order
     assert out[0]["pid"] != out[1]["pid"]                  # one process per kit
-    assert time.perf_counter() - t < 0.55                  # the two overlapped
+    assert time.perf_counter() - t < 1.5                   # the two overlapped
 
 
 def test_build_many_serial_when_jobs_is_one():
@@ -555,3 +565,208 @@ def test_light_records_copy_the_config_block_and_refuse_a_partial_one():
         apply_light_records({"assets": [{"id": "a"}]},
                             {"assets": [{"asset": "a", "light": {"formId": "x", "burnSeconds": -1,
                                                           "colourRgb": [1, 1, 1], "flags": []}}]})
+
+
+# --- 16k fix round 2: unresolved diffuse gate and glow facings -------------
+
+PUBLIC_KITS = Path(__file__).resolve().parents[3] / "apps/world-studio/public/kits"
+
+
+def test_diffuse_classification_reads_the_slot_suffix():
+    from pipeline.build_kit import is_diffuse_texture
+    assert is_diffuse_texture("textures/_resourcepack/landscape/desertcracked01_d.dds")
+    assert is_diffuse_texture("textures/creationclub/bgssse025/clutter/amber.dds")
+    assert not is_diffuse_texture("textures/creationclub/bgssse025/clutter/amber_n.dds")
+    assert not is_diffuse_texture("textures/creationclub/bgssse025/clutter/amber_bl.dds")
+    assert not is_diffuse_texture("textures/cubemaps/shinydull.dds")
+
+
+def test_unresolved_diffuse_fails_unless_accepted_with_a_reason():
+    from pipeline.build_kit import unresolved_diffuse_errors
+    missing = ["textures/a/wall_d.dds", "textures/a/wall_n.dds", "textures/b/roof.dds"]
+    kit = {"id": "k", "texturesMissingAccepted": {"textures/b/roof.dds": "archive absent"}}
+    assert [e.split()[3] for e in unresolved_diffuse_errors(kit, missing)] == [
+        "textures/a/wall_d.dds"]
+    kit["texturesMissingAccepted"]["textures/a/wall_d.dds"] = " "
+    assert len(unresolved_diffuse_errors(kit, missing)) == 1   # a blank reason is no reason
+
+
+def test_every_published_kit_has_no_unaccepted_unresolved_diffuse():
+    # The build gate, held on what ships: a published manifest's
+    # texturesMissing may carry a diffuse only if its kit config accepts it.
+    from pipeline.build_kit import CONFIG, unresolved_diffuse_errors
+    errors = []
+    for manifest in sorted(PUBLIC_KITS.glob("*.kit.json")):
+        config = CONFIG / manifest.name.replace(".kit.json", ".json")
+        if not config.exists():
+            continue
+        kit = json.loads(config.read_text())
+        missing = json.loads(manifest.read_text()).get("texturesMissing") or []
+        errors += unresolved_diffuse_errors(kit, missing)
+    assert errors == []
+
+
+def test_glow_facings_cluster_one_bearing_per_wall():
+    from pipeline.build_kit import glow_facings_from_faces
+    # two window cards on the east wall (+x), one on the west, one wound
+    # inward; a skylight (vertical normal) carries no bearing.
+    cents = [[7, 3, -1], [7, 3, 1], [-7, 3, 0], [-7, 3, 1], [0, 5, 0]]
+    norms = [[1, 0, 0], [1, 0, 0], [-1, 0, 0], [1, 0, 0], [0, 1, 0]]
+    assert glow_facings_from_faces(cents, norms, [1, 1, 1, 1, 1]) == [90.0, 270.0]
+    # north wall (-z) -> bearing 0
+    assert glow_facings_from_faces([[0, 3, -5], [0, 3, 5]], [[0, 0, -1], [0, 0, 1]],
+                                   [1, 1]) == [0.0, 180.0]
+
+
+def test_farmhouse01_glow_faces_its_long_axis_ends():
+    # Measured 2026-09-26 on the raw build: the Farmhouse01:14 glow cards sit
+    # at x = +-7.2 m with normals +-x, so the windows face east and west.
+    glb = Path(__file__).resolve().parents[1] / "output/kits/settlement-imperial-v1.glb"
+    manifest = glb.with_suffix(".kit.json")
+    if not glb.exists():
+        pytest.skip("raw imperial kit not built on this machine")
+    from pipeline.build_kit import apply_glow_facings
+    summary = json.loads(manifest.read_text())
+    facings = apply_glow_facings(glb, summary)
+    assert facings["vanilla:architecture/farmhouse/farmhouse01"] == [90.0, 270.0]
+
+
+class _FakeTextures(build_kit.Source):
+    """An in-memory texture source: {path: bytes}."""
+
+    def __init__(self, files: dict, fallback: bool = False):
+        self.files = {k.lower(): v for k, v in files.items()}
+        if fallback:
+            self.vanilla_fallback = True
+
+    def contains(self, rel):
+        return rel.lower() in self.files
+
+    def extract_many(self, rels, dest):
+        for rel in rels:
+            target = dest / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(self.files[rel.lower()])
+
+    def names_available(self):
+        return self.files.keys()
+
+
+def test_every_own_source_exact_file_beats_any_stem_fallback(tmp_path):
+    """16k kits r3 ruling 4: Data2.rar's stem fallback `roadsignmediumcamp1`
+    answered `roadsignmedium` before the Hana resource's exact file was asked
+    whenever Data2 came first; the pool's own sources are one tier now."""
+    wanted = "textures/hana/signs/roadsignmedium.dds"
+    data2 = _FakeTextures({"textures/hana/signs/roadsignmediumcamp1.dds": b"lettered"})
+    hana = _FakeTextures({wanted: b"blank"})
+    tiers = build_kit.texture_tiers([data2, hana])
+    filled, substituted = build_kit.resolve_textures(tiers, {wanted}, tmp_path)
+    assert filled == {wanted} and substituted == {}
+    assert (tmp_path / wanted).read_bytes() == b"blank"
+
+
+def test_a_pools_own_relocated_copy_still_beats_vanillas_exact_path(tmp_path):
+    """Phase 10 round 3 (kept by ruling 4): BM&V's tree-LOD atlas at another
+    folder wins over vanilla's different atlas at the exact path."""
+    wanted = "textures/lod/tamrieltreelod.dds"
+    own = _FakeTextures({"textures/landscape/trees/tamrieltreelod.dds": b"bmv"})
+    vanilla = _FakeTextures({wanted: b"vanilla"}, fallback=True)
+    filled, substituted = build_kit.resolve_textures(
+        build_kit.texture_tiers([own, vanilla]), {wanted}, tmp_path)
+    assert filled == {wanted}
+    assert substituted == {wanted: "textures/landscape/trees/tamrieltreelod.dds"}
+    assert (tmp_path / wanted).read_bytes() == b"bmv"
+
+
+@pytest.mark.parametrize("kit_id", ["settlement-mud-v1", "settlement-imperial-v1"])
+def test_published_kit_has_no_untextured_lod0_material(kit_id):
+    """16k kits r3 ruling 5 on the shipped file: the mud kit's hut composite
+    carried `Object10:3.Mat` (the Nordic door's untextured effect card)."""
+    glb = build_kit.REPO_ROOT / "apps/world-studio/public/kits" / f"{kit_id}.glb"
+    manifest = json.loads(glb.with_suffix(".kit.json").read_text())
+    errors = build_kit.untextured_material_errors(
+        build_kit.read_gltf_json(glb), manifest, manifest.get("texturesMissing", []))
+    assert errors == []
+
+
+def test_untextured_gate_passes_textured_additive_and_judged_materials():
+    gltf = {"materials": [
+        {"name": "wood", "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}}},
+        {"name": "flame", "extras": {"additive": True}},
+        {"name": "amber", "extras": {"BSShaderTextureSet_Diffuse": "textures\\x\\amber.dds"}},
+        {"name": "card", "extras": {"BS_Shader_Block_Name": "BSEffectShaderProperty"}},
+        {"name": "far", "extras": {}}],
+        "meshes": [{"primitives": [{"material": i}]} for i in range(5)],
+        "nodes": [{"name": "es|a", "mesh": 0}, {"name": "es|b", "mesh": 1},
+                  {"name": "es|c", "mesh": 2}, {"name": "es|d", "mesh": 3},
+                  {"name": "es|e__lod1", "mesh": 4}]}
+    summary = {"assets": [{"id": "kit:door", "materials": ["card"]}]}
+    errors = build_kit.untextured_material_errors(gltf, summary, ["textures/x/amber.dds"])
+    assert errors == ["card: LOD0 material with no texture and no effect flag "
+                      "(BSEffectShaderProperty; kit:door)"]
+
+
+# ── effect textures (16k fix round 2, lane effects: chimney smoke) ──────────
+
+def _effect_pool(monkeypatch, tmp_path):
+    from PIL import Image
+    tex = tmp_path / "src" / "textures" / "effects"
+    tex.mkdir(parents=True)
+    Image.new("RGBA", (8, 8), (200, 200, 200, 90)).save(tex / "smokeparticles01.dds", format="PNG")
+    monkeypatch.setattr(build_kit, "pool_sources", lambda pool, vault, tropical=True:
+                        build_kit.PoolSources(meshes=None,
+                                              textures=[build_kit.DirSource(tmp_path / "src")]))
+
+
+def test_effect_texture_is_published_and_recorded(monkeypatch, tmp_path):
+    _effect_pool(monkeypatch, tmp_path)
+    kit = {"id": "works-v1", "effectTextures": {"fx:smoke-column": {
+        "texture": "textures\\effects\\SmokeParticles01.dds", "atlas": [4, 4]}}}
+    summary = {"assets": []}
+    out = build_kit.publish_effect_textures(kit, tmp_path, summary, public_dir=tmp_path / "pub")
+    assert out == {"fx:smoke-column": "works-v1-fx/smokeparticles01.png"}
+    row = summary["effectTextures"]["fx:smoke-column"]
+    assert (tmp_path / "pub" / row["file"]).is_file()
+    assert row["px"] == [8, 8] and row["atlas"] == [4, 4] and row["sourceArchive"] == "src"
+    assert len(row["sha256Dds"]) == 64
+
+
+def test_unresolved_effect_texture_refuses_the_build(monkeypatch, tmp_path):
+    _effect_pool(monkeypatch, tmp_path)
+    kit = {"id": "works-v1", "effectTextures": {"fx:smoke-column": {
+        "texture": "textures/effects/nosuchsmoke.dds"}}}
+    with pytest.raises(FileNotFoundError, match="nosuchsmoke.dds for fx:smoke-column"):
+        build_kit.publish_effect_textures(kit, tmp_path, {}, public_dir=tmp_path / "pub")
+
+
+def test_published_works_kit_carries_the_smoke_texture():
+    """The shipped manifest names the smoke atlas and the file is beside it
+    (game-core settlement/smokeColumn.ts reads `effectTextures`)."""
+    kits = build_kit.REPO_ROOT / "apps/world-studio/public/kits"
+    manifest = json.loads((kits / "works-v1.kit.json").read_text())
+    row = (manifest.get("effectTextures") or {}).get("fx:smoke-column")
+    assert row, "works-v1.kit.json has no effectTextures row for fx:smoke-column"
+    assert row["sourcePath"] == "textures/effects/smokeparticles01.dds"
+    assert (kits / row["file"]).is_file()
+
+
+def test_a_nif_water_surface_ships_translucent_and_flagged_water(tmp_path):
+    """16k fix 2 round 4 ruling K4: horsetrough01's `WATER.Mat`
+    (BSWaterShaderProperty, no texture) is listed in `waterMaterials`; it
+    ships BLEND with `water: true`, and the untextured gate passes it."""
+    glb = tmp_path / "kit.glb"
+    _make_glb(glb, {"asset": {"version": "2.0"}, "materials": [
+        {"name": "WATER.Mat"}, {"name": "Wood.Mat"}]})
+    summary = {"assets": [{"id": "vanilla:clutter/horsetrough/horsetrough01", "alphaTest": False,
+                           "materials": ["WATER.Mat", "Wood.Mat"],
+                           "waterMaterials": ["WATER.Mat"]}]}
+    assert set_alpha_modes(glb, summary) == {"MASK": 0, "OPAQUE": 1, "BLEND": 1}
+    gltf = build_kit.read_gltf_json(glb)
+    materials = {m["name"]: m for m in gltf["materials"]}
+    assert materials["WATER.Mat"]["alphaMode"] == "BLEND"
+    assert materials["WATER.Mat"]["extras"] == {"water": True}
+    gltf["meshes"] = [{"primitives": [{"material": 0}]}]
+    gltf["nodes"] = [{"name": "es|trough", "mesh": 0}]
+    assert build_kit.untextured_material_errors(gltf, summary, []) == []
+    materials["WATER.Mat"].pop("extras")
+    assert build_kit.untextured_material_errors(gltf, summary, []) != []

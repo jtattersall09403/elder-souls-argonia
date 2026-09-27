@@ -102,3 +102,23 @@ def test_layout_input_refuses_a_layout_changed_since_apply(tmp_path):
     layout.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.x", "ops": [1]}))
     with pytest.raises(ValueError, match="changed since the last apply"):
         render_blueprint.applied_blueprint(layout, out)
+
+
+def test_a_cropped_plan_clips_its_labels_to_the_map(tmp_path, monkeypatch):
+    """16k fix 2 r3 ruling 4: a `--crop` render drew every label outside the
+    crop below the map axes. Every label is clipped to the map."""
+    import matplotlib.figure
+    seen = []
+    real = matplotlib.figure.Figure.savefig
+
+    def spy(fig, *a, **k):
+        seen.extend(t for ax in fig.axes[:1] for t in ax.texts)
+        return real(fig, *a, **k)
+    monkeypatch.setattr(matplotlib.figure.Figure, "savefig", spy)
+    bp = render_blueprint.load_blueprint(FIXTURE)
+    box = render_blueprint.render(bp, tmp_path / "full.png", terrain=False, seed=6)["cropM"]
+    x0, z0, x1, z1 = box
+    seen.clear()
+    render_blueprint.render(bp, tmp_path / "c.png", terrain=False, seed=6, plan=True,
+                            crop_m=(x0, z0, (x0 + x1) / 2, (z0 + z1) / 2))
+    assert seen and all(t.get_clip_on() for t in seen)

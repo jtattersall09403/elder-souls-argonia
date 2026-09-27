@@ -70,6 +70,8 @@ from . import settlement_run_pads as srp_mod
 from . import player_purpose as pp_mod
 from . import terrain_requests
 from . import vegetation_patches as sc_mod
+from . import sockets as sk_mod
+from .blueprint_promises import _service_parcels, socket_promise_errors
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -368,6 +370,42 @@ def dressing_count(seed: str, parcel: dict) -> int:
     return lo + _seed_int(seed, parcel.get("id", ""), "dressing-count") % (hi - lo + 1)
 
 
+def mined_offset_to_parent_frame(offset) -> list[float]:
+    """A mined offset (plugin axes: x east/right, y north/forward, z up) in
+    the runtime parent's local frame, the kit GLB's (x, up, z south): north
+    is -z (the frame `interiors_index.apply_esp_link` writes, 16k fix 2)."""
+    x, y, z = (float(v) for v in offset)
+    return [x, z, 0.0 - y]
+
+
+def ring_is_off(bp: dict) -> bool:
+    """No ring dressing for a fixture (16h K7) or a place whose layout
+    authors yard sets (lesson L33, 16k fix 2 ruling 1: the yard sets are
+    that place's dressing, placed and checked in the workbench). Read once
+    per compile: it reads the layout and every yard-set file."""
+    return bp_mod.is_fixture(bp) or sk_mod.authors_yard_sets(bp)
+
+
+def ring_dressing_count(bp: dict, seed: str, parcel: dict, off: bool | None = None) -> int:
+    """The compile's ring dressing at a parcel: none when `ring_is_off`
+    (pass `off` computed once per compile); else `dressing_count`."""
+    if ring_is_off(bp) if off is None else off:
+        return 0
+    return dressing_count(seed, parcel)
+
+
+def walk_route_reach(door: dict, walk_routes: dict | None) -> bool | None:
+    """16k fix 2 ruling 4: for a place that carries `walkRoutes` (the
+    workbench's walkRule, exported), a door is reachable when a walked route
+    names it by id (the route's `doorIds`, written by the export; r4 review:
+    a parcel match let a second door pass unwalked); None when the place
+    carries no walkRoutes, where the compile's own test stands."""
+    if not walk_routes:
+        return None
+    return any(door.get("id") in (r.get("doorIds") or [])
+               for r in (walk_routes.get("routes") or {}).values())
+
+
 def dressing_host_at(survey, x: float, z: float) -> bool:
     """Is there dry ground for a ring dressing prop to stand on here? The ring
     places ground props on the terrain (97 decision 4); a point the survey
@@ -408,6 +446,42 @@ def _door_has_boardwalk_access(door: dict, bp: dict, survey: ProvinceSurvey) -> 
     return False
 
 
+CULTURE_KITS_PATH = REPO_ROOT / "world" / "sources" / "placement" / "culture-kits.json"
+PLACEMENT_POLICIES_PATH = KIT_CONFIG_DIR.parent / "placement-policies.json"
+
+
+def interior_kits() -> frozenset[str]:
+    """The kits placement-policies.json seats on the shell datum
+    (`kitPolicies` = interior-zero): interior shells, not exterior dressing."""
+    rows = json.loads(PLACEMENT_POLICIES_PATH.read_text()).get("kitPolicies") or {}
+    return frozenset(k for k, v in rows.items() if v == "interior-zero")
+
+
+def place_kit_preference(place_id: str) -> tuple[str, ...]:
+    """The kits of a place's own cultures, in `blueprint.KIT_SETS` order: every
+    kit set whose culture is the record's `culture`, one of its
+    `secondaryCultures`, or a family culture culture-kits.json admits for
+    them (the `neutral` common layer), interior-zero kits last. Empty for a
+    place with no record."""
+    record = load_record(place_id) or {}
+    cultures = [c for c in [record.get("culture"), *(record.get("secondaryCultures") or [])] if c]
+    if not cultures:
+        return ()
+    rows = json.loads(CULTURE_KITS_PATH.read_text())["cultures"]
+    admitted = set(cultures)
+    for c in cultures:
+        admitted.update((rows.get(c) or {}).get("familyCultures") or [])
+    # the record's own cultures first, then the admitted common layer
+    rank = {c: i for i, c in enumerate([*cultures, *sorted(admitted - set(cultures))])}
+    sets = sorted((s for s in bp_mod.KIT_SETS.values() if s["culture"] in admitted),
+                  key=lambda s: rank[s["culture"]])
+    kits = list(dict.fromkeys(k for s in sets for k in s["kits"]))
+    # planner ruling 4 (16k fix 2 round 6): interior kits come last, so an
+    # exterior prop also held by an interior kit reads its exterior row
+    inner = interior_kits()
+    return tuple([k for k in kits if k not in inner] + [k for k in kits if k in inner])
+
+
 class KitShelf:
     """Loads the built kit manifests and picks assets for building families."""
 
@@ -418,6 +492,13 @@ class KitShelf:
         # because the canopy the first-seen object has to clear lives there
         self.by_asset: dict[str, dict] = {}
         self.dressing_by_kit: dict[str, list[str]] = {}
+        self.effect_kit: dict[str, str] = {}
+        # the place's own culture kits, tried before the alphabetical rest by
+        # `locate` (`place_kit_preference`; planner ruling 16k fix 2 round 5:
+        # an exterior barrel read bmv-treehouse-int's row before the imperial
+        # kit's). Empty until a caller that knows the place sets it.
+        self._preferred_kits: tuple[str, ...] = ()
+        self._rows_by_kit: dict[str, list[dict]] = {}
         for name, path in sorted((p.stem.removesuffix(".kit"), p) for p in kits_dir.glob("*.kit.json")):
             data = json.loads(path.read_text())
             # Only assets that can satisfy the runtime's three-tier LOD contract
@@ -432,13 +513,35 @@ class KitShelf:
                                         if len(asset.get("lodRatios") or []) >= 2]
             # by_asset stays complete: it is measurement (canopy heights, sizes),
             # not selection, and a probe kit is a legitimate measurement source.
+            self._rows_by_kit[name] = list(data["assets"])
             for asset in data["assets"]:
                 self.by_asset.setdefault(asset["id"], asset)
+            # a runtime effect (`fx:*`) has no mesh row: its kit is the one
+            # whose manifest publishes its texture (build_kit.publish_effect_textures)
+            for fx_id in sorted(data.get("effectTextures") or {}):
+                self.effect_kit.setdefault(fx_id, name)
         for path in sorted(config_dir.glob("*.json")):
             data = json.loads(path.read_text())
             vocab = data.get("dressing") or []
             if vocab:
                 self.dressing_by_kit[data["id"]] = [str(v) for v in vocab]
+
+    @property
+    def preferred_kits(self) -> tuple[str, ...]:
+        return self._preferred_kits
+
+    @preferred_kits.setter
+    def preferred_kits(self, kits) -> None:
+        """Setting the place's kit order also re-reads `by_asset` in that
+        order (r4 review): every row a check reads for an asset is the row of
+        the kit the placement ships from (`locate`'s order), never the first
+        kit alphabetically."""
+        self._preferred_kits = tuple(kits)
+        order = list(dict.fromkeys([*self._preferred_kits, *sorted(self._rows_by_kit)]))
+        self.by_asset = {}
+        for kit in order:
+            for asset in self._rows_by_kit.get(kit, []):
+                self.by_asset.setdefault(asset["id"], asset)
 
     def kit_index(self) -> tuple[dict[str, str], dict[tuple[str, str], list[dict]]]:
         """(asset id -> the first kit holding it, in kit-name order;
@@ -491,7 +594,8 @@ class KitShelf:
         remains the identity; choosing a manifest only tells the runtime which
         packaged GLB to load.
         """
-        order = list(dict.fromkeys([*preferred_kits, *sorted(self.assets_by_kit)]))
+        order = list(dict.fromkeys([*preferred_kits, *self.preferred_kits,
+                                    *sorted(self.assets_by_kit)]))
         for kit in order:
             for asset in self.assets_by_kit.get(kit, []):
                 if asset["id"] == asset_ref:
@@ -635,8 +739,9 @@ def piece_doorways(asset_id: str, interiors: dict[str, dict],
     (`<kit>.interiors.json`: `entrance.offsetM` first, then
     `provenance[].offsetM` and the probe centre) and
     the assemblies mining (`kit-assemblies-mined.json`
-    `doorwaysFromAssemblies[].doorways[].offsetLocalM`, whose first two
-    components are the same plan offset). Deduplicated to a centimetre.
+    `doorwaysFromAssemblies[].doorways[].offsetLocalM`, measured in the
+    shell's z-up frame (x east, y NORTH, z up; `mine_assemblies.local_offset`),
+    so its plan z (south) is the negated y). Deduplicated to a centimetre.
     """
     out: list[dict] = []
     seen: set[tuple[int, int]] = set()
@@ -662,7 +767,9 @@ def piece_doorways(asset_id: str, interiors: dict[str, dict],
             row.get("doorAsset"))
     add(record.get("doorwayProbeCentreM"), None, "interiors/probe-centre")
     for row in ((assemblies or {}).get(asset_id) or {}).get("doorways") or []:
-        add(row.get("offsetLocalM"), row.get("sideDeg"), "assembly", row.get("doorAsset"))
+        off = row.get("offsetLocalM")
+        add(None if off is None or len(off) < 2 else [off[0], -float(off[1])],
+            row.get("sideDeg"), "assembly", row.get("doorAsset"))
     return out
 
 
@@ -850,6 +957,11 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
     yaw = float(building["yawDeg"])
     scale = float(building.get("scale", 1.0))
     for n, member in enumerate(parcel.get("assembly") or []):
+        if str(member["asset"]).startswith(EFFECT_PREFIX):
+            row = effect_placement(bp_id, seed, parcel, building, member, shelf, errors)
+            if row is not None:
+                out.append(row)
+            continue
         asset = shelf.locate(member["asset"])
         if asset is None:
             errors.append(f"{parcel['id']}: assembly[{n}] {member['asset']} is in no built kit")
@@ -866,6 +978,9 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
                "layer": member["layer"], "evidence": member["evidence"],
                "provenance": _provenance(bp_id, seed, f"parcel-assembly/{member['layer']}",
                                          asset["id"], [])}
+        if "mountPair" in member:
+            # the mount the workbench seated it by (0102 decision 5), machine-readable
+            row["provenance"]["mountPair"] = dict(member["mountPair"])
         if member["on"] == "parent":
             up = float(member["upM"])
             row.update({"positionM": [round(wx, 3), round(building["positionM"][1] + up, 3),
@@ -885,6 +1000,145 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
         if "pitch" in member:
             row["pitchDeg"] = float(member["pitch"])
         out.append(row)
+    return out
+
+
+EFFECT_PREFIX = "fx:"
+
+
+def effect_placement(bp_id: str, seed: str, parcel: dict, building: dict, member: dict,
+                     shelf: "KitShelf", errors: list[str]) -> dict | None:
+    """An `fx:*` assembly member (fix2-effects-r3 rec 2): a runtime effect
+    mounted on its shell, with no mesh, no footprint and no collision; its
+    kit is the manifest that publishes its texture (`effectTextures`), so it
+    is exempt from the kit-asset check. Mounted only: an effect on the ground
+    is refused (the runtime's `fx` anchor class needs a parent)."""
+    where = f"{parcel['id']}: assembly {member.get('id')} {member['asset']}"
+    kit = shelf.effect_kit.get(member["asset"])
+    if kit is None:
+        errors.append(f"{where}: no built kit publishes an effectTextures row for it")
+        return None
+    if member.get("on") != "parent" or member.get("upM") is None:
+        errors.append(f"{where}: an effect is mounted only (on: parent with upM)")
+        return None
+    scale = float(building.get("scale", 1.0))
+    lx, lz = (float(v) for v in member["atM"])
+    (dx, dz), = fp_mod.rotate_m([(lx, lz)], float(building["yawDeg"]))
+    up = float(member["upM"])
+    return {"id": f"{bp_id}.{parcel['id']}.assembly.{member['id']}", "parcelId": parcel["id"],
+            "objectKind": "effect", "assetId": member["asset"], "kit": kit,
+            "anchorClass": "fx", "scale": scale, "groundFit": "direct",
+            "layer": member.get("layer"), "evidence": member.get("evidence"),
+            "positionM": [round(building["positionM"][0] + dx, 3),
+                          round(building["positionM"][1] + up, 3),
+                          round(building["positionM"][2] + dz, 3)],
+            "yawDeg": round(float(member.get("yaw", 0.0)) % 360.0, 3),
+            "parentPlacementId": building["id"],
+            "mountOffsetM": [round(lx / scale, 4), round(up / scale, 4), round(lz / scale, 4)],
+            "footprintM": [],
+            "provenance": _provenance(bp_id, seed, "parcel-effect/mounted", member["asset"], [])}
+
+
+#: Effect socket kinds the compile realises on its own (16k r7 rule 3): the
+#: socket kind in `kit-mounts-mined.json` `effectSockets.sockets` -> the
+#: runtime effect placed there. Chimney smoke stays an authored assembly
+#: member (fix2-effects-r3), so only the fire socket is automatic.
+AUTO_EFFECT_SOCKETS = {"fire": "fx:smoke-column"}
+
+
+def effect_sockets(path: Path | None = None) -> dict[str, dict[str, dict]]:
+    """`{socket kind: {parent asset id: row}}` from the mounts record's
+    `effectSockets` (worldgen.mine_mounts --effect-sockets); rows with n 0
+    dropped. Missing record or block: empty."""
+    path = MOUNTS_RECORD if path is None else Path(path)
+    if not path.exists():
+        return {}
+    sockets = ((json.loads(path.read_text()).get("effectSockets") or {}).get("sockets") or {})
+    return {kind: {asset: row for asset, row in rows.items() if row.get("n") and row.get("offsetM")}
+            for kind, rows in sockets.items()}
+
+
+def stamp_recorded_water(placements: list[dict], survey) -> None:
+    """Every placement that stands on recorded water carries the record it
+    stands on: the runtime seats a hull or a stilt foot against the recorded
+    LEVEL, never against a terrain sample (0066, 16h runtime contract). Run
+    once over the final placement list, effects included."""
+    for placement in placements:
+        px, _py, pz = placement["positionM"]
+        water = survey.water_entity_at(float(px), float(pz))
+        if water is not None:
+            placement["waterEntityId"] = water["entityId"]
+            placement["waterEntityKind"] = water.get("kind")
+            placement["waterLevelM"] = water.get("levelM")
+
+
+def static_budget_report(placements: list[dict], kit_rows: dict, budget: dict) -> dict:
+    """The 0041 perf contract's static budget over the placements that draw a
+    mesh: a runtime effect (objectKind `effect`, `kind: none`) is no
+    instance and no collider (r4 review)."""
+    meshed = [p for p in placements if p.get("objectKind") != "effect"]
+    unique_assets = sorted({p["assetId"] for p in meshed})
+    materials: set[str] = set()
+    tris = 0
+    for p in meshed:
+        for a in (kit_rows.get((p["kit"], p["assetId"]), []) if p.get("kit") else []):
+            materials.update(a.get("materials", []))
+            tris += a.get("triangles", 0)
+    return {
+        "instances": len(meshed),
+        "uniqueAssets": len(unique_assets),
+        "uniqueMaterials": len(materials),
+        "triangles": tris,
+        "colliderEstimate": len(meshed),  # skeleton: one collider per placement
+        "declared": budget,
+        "withinBudget": (
+            len(meshed) <= budget["maxInstances"]
+            and len(materials) <= budget["maxUniqueMaterials"]
+            and len(meshed) <= budget["maxColliders"]
+        ),
+    }
+
+
+world_yaw_deg = sk_mod.world_yaw_deg
+
+
+def socket_effect_placements(bp_id: str, seed: str, placements: list[dict], shelf: "KitShelf",
+                             sockets: dict[str, dict[str, dict]], errors: list[str]) -> list[dict]:
+    """One mounted effect per placement whose asset carries an automatic
+    effect socket (AUTO_EFFECT_SOCKETS; a burning campfire or a brazier
+    smokes, 16k r7 rule 3): at the socket's mined median offset (the parent's
+    unit frame, plugin axes x right, y forward, z up, as a mount pair's
+    ``offsetM``, so it enters the runtime frame (x, up, z) the way
+    `mount_children` enters it), parented to the fire."""
+    out = []
+    by_id = {p["id"]: p for p in placements}
+    for kind, effect in sorted(AUTO_EFFECT_SOCKETS.items()):
+        rows = sockets.get(kind) or {}
+        for parent in sorted(placements, key=lambda r: r["id"]):
+            row = rows.get(parent.get("assetId") or "")
+            if row is None or parent.get("objectKind") == "effect":
+                continue
+            where = f"{parent['id']}: {kind} socket of {parent['assetId']}"
+            kit = shelf.effect_kit.get(effect)
+            if kit is None:
+                errors.append(f"{where}: no built kit publishes an effectTextures row for {effect}")
+                continue
+            ox, oy, oz = (float(v) for v in row["offsetM"])
+            scale = float(parent.get("scale", 1.0))
+            # plan z runs south: the mined north offset enters as -oy
+            (dx, dz), = fp_mod.rotate_m([(ox * scale, -oy * scale)], world_yaw_deg(parent, by_id))
+            px, py, pz = (float(v) for v in parent["positionM"])
+            out.append({
+                "id": f"{parent['id']}.socket.{kind}", "parcelId": parent.get("parcelId"),
+                "objectKind": "effect", "assetId": effect, "kit": kit,
+                "anchorClass": "fx", "scale": scale, "groundFit": "direct",
+                "layer": parent.get("layer"),
+                "evidence": f"effectSockets.{kind} n {row['n']} (vanilla Skyrim.esm)",
+                "positionM": [round(px + dx, 3), round(py + oz * scale, 3), round(pz + dz, 3)],
+                "yawDeg": 0.0, "parentPlacementId": parent["id"],
+                "mountOffsetM": [round(v, 4) for v in mined_offset_to_parent_frame((ox, oy, oz))],
+                "footprintM": [],
+                "provenance": _provenance(bp_id, seed, f"effect-socket/{kind}", effect, [])})
     return out
 
 
@@ -968,6 +1222,9 @@ def mount_children(bp_id: str, placements: list[dict], shelf: "KitShelf",
             placement["mountOffsetM"] = _parent_local_offset(
                 parent, parent_asset, placement, asset)
             placement["mountEvidence"] = "footprint-containment"
+            # RELATIVE to the carrier, as the runtime composes it (r5 review)
+            placement["yawDeg"] = round((float(placement.get("yawDeg") or 0.0)
+                                         - float(parent.get("yawDeg") or 0.0)) % 360.0, 3)
             continue
         pairs = mounts.get(placement["assetId"]) or []
         parents_by_asset: dict[str, list[dict]] = {}
@@ -987,12 +1244,11 @@ def mount_children(bp_id: str, placements: list[dict], shelf: "KitShelf",
             math.hypot(cp[1]["positionM"][0] - px, cp[1]["positionM"][2] - pz), cp[1]["id"]))
         offset = [float(v) for v in (pair.get("offsetM") or [0.0, 0.0, 0.0])]
         placement["parentPlacementId"] = parent["id"]
-        # mined (east, north, up) -> runtime (x, up, z)
-        placement["mountOffsetM"] = [round(offset[0], 3), round(offset[2], 3),
-                                     round(offset[1], 3)]
+        placement["mountOffsetM"] = [round(v, 3) for v in mined_offset_to_parent_frame(offset)]
         placement["mountEvidence"] = pair.get("evidence", "plugin")
-        placement["yawDeg"] = round((float(parent.get("yawDeg", 0.0))
-                                     + float(pair.get("yawDeg", 0.0))) % 360.0, 1)
+        # RELATIVE to the parent: the runtime composes parent x own turn
+        # (anchoring.ts mountedTransform); `world_yaw_deg` gives the world yaw
+        placement["yawDeg"] = round(float(pair.get("yawDeg", 0.0)) % 360.0, 1)
     return errors
 
 
@@ -1046,6 +1302,65 @@ def bind_doors_to_doorways(bp: dict, doors_out: list[dict], placements: list[dic
         door["doorwaySource"] = doorway["source"]
         if doorway.get("sideDeg") is not None:
             door["facingDeg"] = round((yaw + float(doorway["sideDeg"])) % 360.0, 1)
+    return errors
+
+
+# 0102 decision 7: every entrance shows a light at night.
+ENTRANCE_LIGHT_REACH_M = 2.0      # a mounted light within this of the threshold (plan)
+ENTRANCE_GLOW_ARC_DEG = 90.0      # a window glow facing within this of the door's bearing
+ENTRANCE_LIGHT_LAYERS = {"light"}  # the assembly layer lanterns, sconces, braziers and fires carry
+
+
+def _bearing_gap_deg(a: float, b: float) -> float:
+    return abs((a - b + 180.0) % 360.0 - 180.0)
+
+
+def unlit_entrance_errors(doors_out: list[dict], placements: list[dict],
+                          asset_row) -> list[str]:
+    """A door with neither a window glow facing its approach nor a light at
+    its threshold is dark at night (0102 decision 7).
+
+    Glow: a placement on the door's parcel whose kit row carries
+    `glowMaterials` AND `glowFacingsDeg` (the glow's outward bearings in the
+    piece frame, written by the kit build), one of which, turned by the
+    placement's yaw, lies within ENTRANCE_GLOW_ARC_DEG of the door's
+    `facingDeg`. A row with glow materials but no recorded facings shows no
+    glow here: the facing is measured, never assumed.
+    Light: any placement whose `layer` is in ENTRANCE_LIGHT_LAYERS with its
+    plan position within ENTRANCE_LIGHT_REACH_M of the threshold.
+    `asset_row(asset_id)` returns the kit manifest row or None."""
+    errors: list[str] = []
+    # an effect (smoke) inherits its parent's layer but gives no light (r5 review)
+    lights = [p for p in placements if p.get("layer") in ENTRANCE_LIGHT_LAYERS
+              and p.get("objectKind") != "effect"]
+    by_id = {p["id"]: p for p in placements}
+    for door in doors_out:
+        threshold, facing = door.get("thresholdM"), door.get("facingDeg")
+        if threshold is None:
+            continue
+        tx, tz = float(threshold[0]), float(threshold[1])
+        nearest = min((math.hypot(float(p["positionM"][0]) - tx, float(p["positionM"][2]) - tz)
+                       for p in lights), default=math.inf)
+        if nearest <= ENTRANCE_LIGHT_REACH_M:
+            continue
+        glow_gap = math.inf
+        for p in placements:
+            if p.get("parcelId") != door.get("parcelId"):
+                continue
+            row = asset_row(p["assetId"]) or {}
+            if not row.get("glowMaterials"):
+                continue
+            for b in row.get("glowFacingsDeg") or []:
+                if facing is not None:
+                    glow_gap = min(glow_gap, _bearing_gap_deg(
+                        (world_yaw_deg(p, by_id) + float(b)) % 360.0, float(facing)))
+        if glow_gap <= ENTRANCE_GLOW_ARC_DEG:
+            continue
+        light_why = "no light placement" if nearest == math.inf else f"nearest light {nearest:.1f} m"
+        glow_why = ("no window glow facing within "
+                    f"{ENTRANCE_GLOW_ARC_DEG:g} degrees of the door's {facing} bearing")
+        errors.append(f"{door['id']}: 0102 decision 7 — entrance unlit at night: {glow_why}, "
+                      f"{light_why} (limit {ENTRANCE_LIGHT_REACH_M:g} m from the threshold)")
     return errors
 
 
@@ -1407,6 +1722,9 @@ def flood_band_report(bp: dict, survey: ProvinceSurvey,
         "parcels": evidence,
         "sectionRules": section_rules,
         "warningCount": len(warnings),
+        # the flood warnings themselves: the export's ledger compares these,
+        # never the compile's other WARN rows (front, first-seen, open ends)
+        "warnings": list(warnings),
     }
     return report, warnings
 
@@ -2018,8 +2336,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     placements: list[dict] = []
     grades: list[dict] = []
     dressing_report: dict[str, int] = {}
+    ring_off = ring_is_off(bp)          # once per compile (it reads files)
     dropped_no_host: dict[str, int] = {}
     kit_of_asset, kit_rows = shelf.kit_index()
+    # an authored asset ref resolves in the place's own culture kits first,
+    # exactly as the workbench seated it (`place_kit_preference`)
+    shelf.preferred_kits = place_kit_preference(bp_id)
 
     culture_of = {d["id"]: d["cultureKit"] for d in bp["districts"]}
     kind_of = pk_mod.kinds_of(bp)
@@ -2191,10 +2513,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         # finished place until its use leaves visible objects around it.  The
         # vocabulary belongs to the district's kit, while count/position are
         # deterministic functions of the blueprint seed and parcel id.
-        # 16h K7 (planner ruling C): a fixture proves one mechanism per
-        # piece and carries no ring dressing; its only dressing is the mount
-        # exemplars its blueprint places. Province places keep the ring.
-        count = 0 if bp_mod.is_fixture(bp) else dressing_count(seed, parcel)
+        # 16h K7: a fixture carries no ring; L33: nor does a place whose
+        # layout authors yard sets. Other province places keep the ring.
+        count = ring_dressing_count(bp, seed, parcel, ring_off)
         if count:
             vocabulary = shelf.dressing(culture)
             if not vocabulary:
@@ -2322,8 +2643,13 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         ok_slope = graded or slope <= DOOR_MAX_SLOPE_DEG
         cleared = _point_in_any(door["thresholdUV"], bp["clearance"].get("hardClear", []))
         boardwalk_access = _door_has_boardwalk_access(door, bp, survey)
-        reachable = cleared and ((on_land and ok_slope) or boardwalk_access)
-        if not reachable:
+        walked = walk_route_reach(door, bp.get("walkRoutes"))
+        reachable = walked if walked is not None else (
+            cleared and ((on_land and ok_slope) or boardwalk_access))
+        if not reachable and walked is not None:
+            errors.append(f"{door['id']}: unreachable (walkRoutes has no route to the door "
+                          f"{door['parcelId']} binds; `wb.py check` walkRule names what blocks it)")
+        elif not reachable:
             errors.append(
                 f"{door['id']}: unreachable (land={on_land}, slopeOk={ok_slope} "
                 f"[{slope:.0f}°], boardwalkAccess={boardwalk_access}, inHardClear={cleared}"
@@ -2346,24 +2672,25 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     errors += promise_errors
     warns += promise_warnings
 
-    # Every placement that stands on recorded water carries the record it
-    # stands on: the runtime seats a hull or a stilt foot against the recorded
-    # LEVEL, never against a terrain sample (0066, 16h runtime contract).
-    for placement in placements:
-        px, _py, pz = placement["positionM"]
-        water = survey.water_entity_at(float(px), float(pz))
-        if water is not None:
-            placement["waterEntityId"] = water["entityId"]
-            placement["waterEntityKind"] = water.get("kind")
-            placement["waterLevelM"] = water.get("levelM")
-
     # Mounted children (wall/hanging/deck) hang off their mined parent, and
     # every door binds to the doorway of the mesh it opens (16h item 7).
     errors += mount_children(bp_id, placements, shelf, mined_mounts())
+    # a fire smokes where vanilla smokes it (16k r7 rule 3)
+    placements.extend(socket_effect_placements(bp_id, seed, placements, shelf,
+                                               effect_sockets(), errors))
+    # then the water record, over the final list (smoke included; r4 review)
+    stamp_recorded_water(placements, survey)
     interiors_index = kit_interiors()
     doorways = assembly_doorways()
     errors += bind_doors_to_doorways(bp, doors_out, placements, survey,
                                      interiors_index, doorways)
+    # 0102 decision 7: HARD for a place; the proving-ground fixtures (a test
+    # yard nobody walks at night) carry it as a WARN, waived into fixtureWaived.
+    unlit = unlit_entrance_errors(doors_out, placements, shelf.by_asset.get)
+    if bp_mod.is_fixture(bp):
+        warns += unlit
+    else:
+        errors += unlit
 
     compiled_objects, compiled_object_errors = compiled_blueprint_objects(
         bp, placements, doors_out, survey,
@@ -2372,6 +2699,26 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     errors += compiled_object_errors
 
     macro_record = load_record(bp_id)
+
+    # --- sockets (0103 decisions 5 and 6): what the place promises a later
+    # phase, placed; the layout's socket ops and its yard sets' containers
+    # and furniture, resolved on the compiled placements and padded ground
+    vocab = sk_mod.load_vocabulary()
+    category_of = lambda aid: (shelf.by_asset.get(aid) or {}).get("category")  # noqa: E731
+    layout_doc, layout_error = sk_mod.layout_of(bp)
+    sockets, socket_errors = sk_mod.compile_sockets(
+        bp, placements, survey.height_at,
+        sk_mod.socket_ops(layout_doc, category_of, vocab), vocab, category_of)
+    if layout_error:
+        socket_errors.insert(0, layout_error)
+    socket_errors += sk_mod.socket_gate_errors(bp, macro_record, sockets, placements,
+                                               category_of, _service_parcels(bp), vocab)
+    socket_errors += socket_promise_errors(ledger, sockets)
+    if bp_mod.is_fixture(bp):
+        warns += socket_errors          # a proving yard carries no roster or loot
+    else:
+        errors += socket_errors
+
     obligation_receipt = None
     if macro_record is not None:
         terrain_notes: list[str] = []
@@ -2411,27 +2758,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     affected = set(sc_mod.affected_chunks(metre_clearance))
 
     # --- static budget report (0041 perf contract) ----------------------
-    unique_assets = sorted({p["assetId"] for p in placements})
-    materials: set[str] = set()
-    tris = 0
-    for p in placements:
-        for a in (kit_rows.get((p["kit"], p["assetId"]), []) if p["kit"] else []):
-            materials.update(a.get("materials", []))
-            tris += a.get("triangles", 0)
-    budget = bp["budget"]
-    report = {
-        "instances": len(placements),
-        "uniqueAssets": len(unique_assets),
-        "uniqueMaterials": len(materials),
-        "triangles": tris,
-        "colliderEstimate": len(placements),  # skeleton: one collider per placement
-        "declared": budget,
-        "withinBudget": (
-            len(placements) <= budget["maxInstances"]
-            and len(materials) <= budget["maxUniqueMaterials"]
-            and len(placements) <= budget["maxColliders"]
-        ),
-    }
+    report = static_budget_report(placements, kit_rows, bp["budget"])
     if not report["withinBudget"]:
         errors.append(f"budget exceeded: {report}")
 
@@ -2452,6 +2779,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         "seed": seed,
         "generator": {"id": GENERATOR_ID, "version": GENERATOR_VERSION},
         "placements": placements,
+        "socketsSchemaVersion": sk_mod.SOCKET_SCHEMA_VERSION,
+        "sockets": sockets,
         "compiledObjects": compiled_objects,
         "doors": doors_out,
         "grades": grades,

@@ -361,7 +361,7 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
 # Kits that ARE interiors: their modules are the inside, so they never claim one.
 INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1", "vanilla-farmhouse-int",
                  "vanilla-imperial-int", "htbm-hut-int", "mudmother-hut-int",
-                 "bmv-treehouse-int")
+                 "bmv-treehouse-int", "interior-kotm-v1")
 
 # --- rule (0): the plugin's own load door, which beats every rule below ----- #
 # The manifest names the interior CELL a shell's door teleports to and the
@@ -372,6 +372,10 @@ INTERIOR_FAMILY_KITS: tuple[tuple[str, str], ...] = (
     ("htbm:here there be monsters - curse of cipactli/architecture/villages/",
      "htbm-hut-int"),
     ("mudmother:gv_meshes/argoniannest", "mudmother-hut-int"),
+    # King of the Murkmire's house pods (Keeba): the pod room smpodint02 is
+    # the cell's family once building geometry is weighted by plan area
+    # (planner ruling 2, interiors round 5).
+    ("kotm:argonia/mudhuts", "interior-kotm-v1"),
     ("bmv:architecture/citebosmer/houses", "bmv-treehouse-int"),
     ("bmv:telvanni", "bmv-treehouse-int"),
     ("vanilla:architecture/farmhouse/interior", "vanilla-farmhouse-int"),
@@ -1146,8 +1150,9 @@ def composite_part_rows(kit_name: str, config_dir: Path = KIT_CONFIG_DIR) -> dic
 def composite_anchor_poses(kit_name: str,
                            config_dir: Path = KIT_CONFIG_DIR) -> dict[str, dict]:
     """composite asset id -> part 0's pose in the composite: ``scale``,
-    ``offsetM`` ([x, y, z], z-up) and ``yawDeg``, as the Blender importer
-    applies them (offset, then yaw, then the part's own scale;
+    ``offsetM`` ([x, y, z], z-up), ``yawDeg`` and the plugin tilt ``pitchDeg``
+    / ``rollDeg``, as the Blender importer applies them (offset, then the
+    rotation ``part_rotation_zup``, then the part's own scale;
     ``blender/build_kit.py`` ``import_composite``).
 
     Everything mined against the anchor (its assembly doorways, its plugin
@@ -1168,26 +1173,56 @@ def composite_anchor_poses(kit_name: str,
                 "scale": float(first.get("scale", 1.0)),
                 "offsetM": [float(v) for v in first.get("offsetM", [0.0, 0.0, 0.0])],
                 "yawDeg": float(first.get("yawDeg", 0.0)),
+                "pitchDeg": float(first.get("pitchDeg", 0.0)),
+                "rollDeg": float(first.get("rollDeg", 0.0)),
             }
     return out
 
 
+def part_rotation_zup(yaw_deg, pitch_deg=0.0, roll_deg=0.0):
+    """A composite part's rotation as three z-up rows: the plugin's REFR
+    convention (`worldgen.mine_mounts.rotation`), clockwise angles applied x
+    (`pitchDeg`) then y (`rollDeg`) then z (`yawDeg`). Duplicated verbatim in
+    `blender/build_kit.py` (test_the_part_rotation_is_identical_in_the_blender_half)."""
+    ax, ay, az = (-math.radians(float(v)) for v in (pitch_deg, roll_deg, yaw_deg))
+    cx, sx, cy, sy = math.cos(ax), math.sin(ax), math.cos(ay), math.sin(ay)
+    cz, sz = math.cos(az), math.sin(az)
+    # Rz @ Ry @ Rx, written out
+    rows = [[cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx],
+            [sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx],
+            [-sy, cy * sx, cy * cx]]
+    return rows
+
+
 def pose_point_zup(pose: dict | None, point) -> list[float]:
-    """A z-up point in the anchor's own frame, placed by the anchor's pose."""
+    """A z-up point in the anchor's own frame, placed by the anchor's pose:
+    offset + rotation (``part_rotation_zup``: pitch, roll, then the clockwise
+    yaw the Blender importer converts once) x scale x point."""
     x, y, z = (float(v) for v in point)
     if not pose:
         return [x, y, z]
     k = pose["scale"]
-    # `yawDeg` is clockwise seen from above, the mined convention the Blender
-    # importer converts once (blender/build_kit.py `import_composite`).
-    yaw = math.radians(pose["yawDeg"])
-    c, s = math.cos(yaw), math.sin(yaw)
+    rows = part_rotation_zup(pose["yawDeg"], pose.get("pitchDeg", 0.0), pose.get("rollDeg", 0.0))
     ox, oy, oz = pose["offsetM"]
-    return [ox + k * (x * c + y * s), oy + k * (-x * s + y * c), oz + k * z]
+    return [o + k * (r[0] * x + r[1] * y + r[2] * z) for o, r in zip((ox, oy, oz), rows)]
+
+
+def pose_yaw_deg(pose: dict, yaw_deg: float) -> float:
+    """A clockwise facing on the anchor carried through the pose's rotation
+    (its horizontal direction after the tilt); with no tilt this is
+    ``yaw_deg + yawDeg``."""
+    if not (pose.get("pitchDeg") or pose.get("rollDeg")):
+        return (float(yaw_deg) + pose["yawDeg"]) % 360.0
+    rad = math.radians(float(yaw_deg))
+    fx, fy = math.sin(rad), math.cos(rad)
+    rows = part_rotation_zup(pose["yawDeg"], pose.get("pitchDeg", 0.0), pose.get("rollDeg", 0.0))
+    wx, wy = (r[0] * fx + r[1] * fy for r in rows[:2])
+    return math.degrees(math.atan2(wx, wy)) % 360.0
 
 
 def _is_identity_pose(pose: dict | None) -> bool:
     return (not pose or (pose["scale"] == 1.0 and pose["yawDeg"] == 0.0
+                         and not pose.get("pitchDeg") and not pose.get("rollDeg")
                          and not any(pose["offsetM"])))
 
 
@@ -1208,7 +1243,7 @@ def posed_mined_door(door: dict, pose: dict | None) -> dict:
         # radial: a constant radius about the anchor pivot on no fixed bearing
         out["radiusM"] = round(float(door["radiusM"]) * k, 3)
     if door.get("yawDeg") is not None:
-        out["yawDeg"] = round((float(door["yawDeg"]) + pose["yawDeg"]) % 360.0, 2)
+        out["yawDeg"] = round(pose_yaw_deg(pose, door["yawDeg"]), 2)
     return out
 
 
@@ -1225,7 +1260,7 @@ def posed_link(row: dict, pose: dict | None) -> dict:
         **offset, "xM": round(x, 3), "yM": round(y, 3), "zM": round(z, 3),
         "radiusM": round(math.hypot(x, y), 3),
         "sideDeg": round(math.degrees(math.atan2(x, y)) % 360.0, 2),
-        "yawDeg": round((float(offset.get("yawDeg", 0.0)) + pose["yawDeg"]) % 360.0, 2),
+        "yawDeg": round(pose_yaw_deg(pose, offset.get("yawDeg", 0.0)), 2),
     }
     return out
 
@@ -1274,7 +1309,8 @@ LEAF_TOKENS = ("door",)
 LEAF_EXCLUDE_TOKENS = ("frame",)
 
 
-def composite_leaf_doorways(parts: list[dict], mined: list[dict]) -> list[dict]:
+def composite_leaf_doorways(parts: list[dict], mined: list[dict],
+                            frames: set[str] | frozenset = frozenset()) -> list[dict]:
     """The door leaves a composite hangs at an authored offset that no mined
     door of its anchor already accounts for, as mined-door rows in the
     composite's own z-up frame (``doorwaySource: "composite-leaf"``).
@@ -1288,7 +1324,10 @@ def composite_leaf_doorways(parts: list[dict], mined: list[dict]) -> list[dict]:
     for part in parts[1:]:
         base = part["asset"].rsplit("/", 1)[-1].lower()
         offset = part.get("offsetM")
-        if (not offset or part["asset"] in covered
+        # ``frames``: pieces the plugins hang a door of their own on (a
+        # ``doorwaysFromAssemblies`` shell, the KotM porch smpodextdoor) are
+        # doorway modules, never the leaf, whatever their name says
+        if (not offset or part["asset"] in covered or part["asset"] in frames
                 or not any(t in base for t in LEAF_TOKENS)
                 or any(t in base for t in LEAF_EXCLUDE_TOKENS)):
             continue
@@ -1363,6 +1402,29 @@ def _door_piece_names(doors: list[dict]) -> str:
         if piece not in seen:
             seen.append(piece)
     return ", ".join(seen)
+
+
+def fix_radial_esp_door(record: dict, assembly_doors: list[dict] | None) -> None:
+    """A radial plugin door (the load door turned to any bearing across the
+    plugin's placements) that a composite hangs at ONE offset as its own leaf
+    (a ``composite-leaf`` row of the esp link's door model) is fixed there:
+    the composite chose the bearing the plugin varied (16k fix 2,
+    ``composite:mud/kotm-house-pod``: door01 on the porch, 6.36 m out)."""
+    leaves = {d.get("doorAsset"): d for d in assembly_doors or ()
+              if d.get("doorwaySource") == "composite-leaf" and d.get("offsetLocalM")}
+    for door in record.get("doorways") or ():
+        leaf = leaves.get(door.get("doorAsset"))
+        if door.get("kind") != "esp-door" or not door.get("radial") or leaf is None:
+            continue
+        x, y, z = (float(v) for v in leaf["offsetLocalM"])
+        door.pop("radial")
+        # offsetM is the GLB plan frame (x, -y), as assembly_doorway_entries writes it
+        door.update(sideDeg=leaf["sideDeg"], offsetM=[round(x, 2), round(-y, 2)], heightM=z,
+                    yawDeg=leaf["yawDeg"], radiusM=leaf["radiusM"])
+        record["doorwaysWhy"] = (
+            f"the exterior door {door['doorAsset']} that opens this interior stands on any "
+            f"bearing across the plugin's placements; this composite hangs it at "
+            f"{leaf['sideDeg']:.0f} deg in its own frame, so the entrance is fixed there")
 
 
 def apply_assembly_doorways(record: dict, doors: list[dict]) -> None:
@@ -1521,6 +1583,7 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
         shell_links = ([posed_link(r, anchor_pose) for r in links.get(anchor_id) or ()]
                        if anchor_link is not None else None) or links.get(asset["id"]) or [row]
         apply_esp_link(record, row, interior_kit, shell_links)
+        fix_radial_esp_door(record, assembly_doors)
         if assembly_doors:
             # The plugin's door leads, but a shell the source authors ALSO hung
             # a separate door piece on has both ways in; dropping the mined one
@@ -1618,7 +1681,7 @@ def apply_esp_link(record: dict, link: dict, kit: str,
             door["radial"] = True
         else:
             door.update(sideDeg=offset.get("sideDeg"),
-                        offsetM=[offset.get("xM"), offset.get("yM")],
+                        offsetM=[offset.get("xM"), 0.0 - float(offset.get("yM") or 0.0)],  # z south
                         heightM=offset.get("zM"),
                         yawDeg=offset.get("yawDeg"))
         # A mesh with two ways in has two ways in: the shell's own measured
@@ -1849,6 +1912,35 @@ def finalise_entrance(record: dict) -> None:
         record["entranceWhy"] = why
 
 
+#: Levels further apart than this are separate storeys (planner ruling 3,
+#: interiors round 2; the cell side is worldgen/interior_cells.STOREY_GAP_M).
+STOREY_GAP_M = 2.4
+def storeys_from_levels(levels: list[float], gap_m: float = STOREY_GAP_M) -> int:
+    ordered = sorted(levels)
+    return (1 + sum(1 for a, b in zip(ordered, ordered[1:]) if b - a > gap_m)) if ordered else 0
+
+
+def set_storeys(record: dict) -> None:
+    """`storeys` of a building (planner ruling 3): its own floor and door
+    heights from the kit record (the probe's `floorOffsetM`, the esp door's
+    `heightM` over the base, for the canonical entrance and the losing
+    esp-door evidence), clustered by STOREY_GAP_M. Only buildings (an
+    interior) carry it. The shell's triangles are not read: an exterior
+    mesh's porches, wall tops and eaves are upward faces that are no storey
+    (measured 2026-09-26: farmhouse01 read 2 storeys from them)."""
+    levels: list[float] = []
+    if record.get("interior") in (None, "none"):
+        return
+    if isinstance(record.get("floorOffsetM"), (int, float)):
+        levels.append(float(record["floorOffsetM"]))
+    for way in [record.get("entrance") or {}] + list(record.get("provenance") or []):
+        if way.get("kind") == "esp-door" and isinstance(way.get("heightM"), (int, float)):
+            levels.append(float(way["heightM"]))
+    if levels:
+        record["storeys"] = storeys_from_levels(levels)
+        record["storeyLevelsM"] = sorted({round(v, 1) for v in levels})
+
+
 def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
               registry_dir: Path = REGISTRY_DIR) -> dict:
     import trimesh
@@ -1879,7 +1971,8 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         doors = (composite_doorways(parts_of[asset["id"]], mined_doors, poses.get(asset["id"]))
                  if asset["id"] in parts_of else mined_doors.get(asset["id"]))
         if asset["id"] in part_rows:
-            doors = (doors or []) + composite_leaf_doorways(part_rows[asset["id"]], doors or [])
+            doors = (doors or []) + composite_leaf_doorways(part_rows[asset["id"]], doors or [],
+                                                            frozenset(mined_doors))
         anchor = parts_of[asset["id"]][0] if asset["id"] in parts_of and parts_of[asset["id"]] else None
         assets[asset["id"]] = classify_asset(
             asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor,
@@ -1911,6 +2004,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     for asset_id, record in assets.items():
         record.pop("_probe", None)
         finalise_entrance(record)
+        set_storeys(record)
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
             record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
@@ -1919,6 +2013,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     return {
         "schemaVersion": SCHEMA_VERSION,
         "kit": manifest.get("kit", kit_name),
+        "provenance": upstream_provenance(),
         "assets": assets,
         "rules": {
             "enclosureMinRing": ENCLOSURE_MIN_RING,
@@ -1938,6 +2033,18 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
                               "density: the detailed, outward face)"],
         },
     }
+
+
+def upstream_provenance(paths: tuple[Path, ...] = (LINKS_PATH, ASSEMBLIES_PATH)) -> dict:
+    """The mined records this index reads, each with the ``provenance`` block
+    its miner wrote (None where the record carries none yet), so
+    ``worldgen/test_mined_provenance.py`` can see which pools a kit-interiors
+    file was derived from (16k remine r2)."""
+    out: dict[str, dict | None] = {}
+    for path in paths:
+        record = json.loads(path.read_text()) if path.is_file() else {}
+        out[path.name] = record.get("provenance")
+    return out
 
 
 def write_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> Path:

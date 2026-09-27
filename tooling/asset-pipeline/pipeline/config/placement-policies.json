@@ -1,31 +1,31 @@
 {
  "schemaVersion": 1,
- "_": "Ground contact is measured: per-asset designedSinkM comes from the makers' own placements (world/sources/placement/kit-designed-sink.json) or, failing that, from the mesh tell. What survives here is the anchor mode and the buryCapM ceiling per class, plus the policy-fallback sink for assets with neither kind of evidence. assetPolicyEvidence: why an asset row overrides its kit's policy where the mined contact vote is ambiguous (16h round 12). deckClearanceM (stilt policy): the deck top's height above the support surface where the plugins give no evidence (16h round 13). fallbackWaterlineM (16h round 18): the pivot's depth under the water surface a water-class asset takes when no plugin gives it a waterline (evidence policy in the mounts record); only rows that seat water-class assets carry it (water-zero watercraft 0.0, stilt plank ferry 0.12, pad rubble 0.18, dug-in wrecks 0.35), never read from fallbackSinkM. assetPlacement (planner ruling 2026-09-24): a reviewed per-asset row that decides the asset's anchorClass, designedSinkM and/or designedWaterlineM (metres, pivot-relative as in the manifests) ahead of the mined records when the manifests are refreshed (placement_metadata.py --refresh-built-manifests [--kit ID]); evidence policy; every row carries its why and a field it leaves out keeps the mined value.",
+ "_": "Ground contact is measured: per-asset designedSinkM comes from the makers' own placements (world/sources/placement/kit-designed-sink.json) or, failing that, from the mesh tell. What survives here is the anchor mode and the buryCapM ceiling per class, plus the policy-fallback sink for assets with neither kind of evidence: 0 in every policy, contact (planner ruling 4, 2026-09-26, decision 0102: a burial with no evidence buried the Claywater props 0.08 to 0.39 m); a measured sink always wins over it. assetPolicyEvidence: why an asset row overrides its kit's policy where the mined contact vote is ambiguous (16h round 12). deckClearanceM (stilt policy): the deck top's height above the support surface where the plugins give no evidence (16h round 13). fallbackWaterlineM (16h round 18): the pivot's depth under the water surface a water-class asset takes when no plugin gives it a waterline (evidence policy in the mounts record); only rows that seat water-class assets carry it (water-zero watercraft 0.0, stilt plank ferry 0.12, pad rubble 0.18, dug-in wrecks 0.35), never read from fallbackSinkM. assetPlacement (planner ruling 2026-09-24): a reviewed per-asset row that decides the asset's anchorClass, designedSinkM and/or designedWaterlineM (metres, pivot-relative as in the manifests) ahead of the mined records when the manifests are refreshed (placement_metadata.py --refresh-built-manifests [--kit ID]); evidence policy; every row carries its why and a field it leaves out keeps the mined value. kitAssetPolicies (planner ruling W2, 16k fix 2 round 4): a per-asset row scoped to one kit, deciding first for that kit; an interior-zero kit otherwise outranks an unscoped assetPolicies row (authored for the asset's exterior use). The rows here are the assets that live only in interior-zero kits, whose unscoped row can only have meant that kit; they stay in assetPolicies too because mine_mounts and mesh_ground_line read that section.",
  "policies": {
   "direct": {
    "anchorMode": "streamed-origin",
    "buryCapM": 0.25,
    "evidence": "Reviewed direct-ground policy matching the Phase 11 settlement grounding contract.",
-   "fallbackSinkM": 0.08
+   "fallbackSinkM": 0.0
   },
   "plinth": {
    "anchorMode": "streamed-perimeter",
    "buryCapM": 0.9,
    "evidence": "Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
-   "fallbackSinkM": 0.25
+   "fallbackSinkM": 0.0
   },
   "pad": {
    "anchorMode": "streamed-perimeter",
    "buryCapM": 0.5,
    "evidence": "Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
-   "fallbackSinkM": 0.18,
+   "fallbackSinkM": 0.0,
    "fallbackWaterlineM": 0.18
   },
   "stilt": {
    "anchorMode": "streamed-perimeter",
    "buryCapM": 0.25,
    "evidence": "Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py).",
-   "fallbackSinkM": 0.12,
+   "fallbackSinkM": 0.0,
    "deckClearanceM": 0.35,
    "fallbackWaterlineM": 0.12
   },
@@ -33,14 +33,14 @@
    "anchorMode": "streamed-perimeter",
    "buryCapM": 0.75,
    "evidence": "Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
-   "fallbackSinkM": 0.35,
+   "fallbackSinkM": 0.0,
    "fallbackWaterlineM": 0.35
   },
   "route-structure": {
    "anchorMode": "streamed-origin",
    "buryCapM": 0.15,
    "evidence": "Reviewed route deck/landing policy matching the compiled route-structure grounding contract.",
-   "fallbackSinkM": 0.06
+   "fallbackSinkM": 0.0
   },
   "interior-zero": {
    "anchorMode": "streamed-origin",
@@ -71,6 +71,8 @@
   "groundcover-province-v1": "direct",
   "hlaalu-domestic": "plinth",
   "htbm-hut-int": "interior-zero",
+  "interior-farmhouse-v1": "interior-zero",
+  "interior-kotm-v1": "interior-zero",
   "imperial-keep": "pad",
   "mudmother-hut-int": "interior-zero",
   "probe-cards": "direct",
@@ -143,6 +145,7 @@
   "composite:farmhouse/farmhouse02-with-door": "plinth",
   "composite:farmhouse/stonewall-run-5": "pad",
   "composite:mud/hut-with-entrance": "pad",
+  "composite:mud/kotm-house-pod": "pad",
   "composite:stilt/bamboohut01-with-door": "stilt",
   "composite:stilt/bamboohut02-with-door": "stilt",
   "composite:stilt/kiosk-with-access": "stilt",
@@ -240,6 +243,7 @@
   "vanilla:clutter/horsetrough/horsetrough01": "pad",
   "vanilla:clutter/imperial/impbrazier01": "direct",
   "vanilla:clutter/imperial/impwallsconcecandle01": "direct",
+  "bmv:roadsignmedium01l": "direct",
   "vanilla:clutter/signage/roadsigns/roadsignpost": "direct",
   "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": "direct",
   "vanilla:clutter/signage/whiterun/signwrpost01": "direct",
@@ -271,13 +275,29 @@
   "vanilla:landscape/grass/waterkelpshort01": "water-zero",
   "vanilla:landscape/plants/kelpshortstatic01": "water-zero",
   "vanilla:landscape/plants/kelptallstatic01": "water-zero",
-  "vanilla:plants/chickennest01": "plinth"
+  "vanilla:plants/chickennest01": "plinth",
+  "bmv:architecture/phitt/aldredanyia/signpost": "direct"
+ },
+ "kitAssetPolicies": {
+  "dungeon-root-v1": {
+   "bmv:architecture/philscaves/small/doorcaveb": "dug-in",
+   "bmv:telvanni/tel_int_connector_01": "deck",
+   "htbm:here there be monsters - curse of cipactli/trees/histtree": "direct"
+  },
+  "bmv-treehouse-int": {
+   "bmv:telvanni/tel_int_connector_01": "deck"
+  },
+  "xanmeer-interior-v1": {
+   "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03": "dug-in",
+   "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01": "dug-in"
+  }
  },
  "expandedRefs": {
   "dungeon-root-v1": "parcel.interior.assetRef is a kit-family claim expanded by worldgen.interiors_index, not a renderable asset identity"
  },
  "nonPhysicalCompiledRefs": {
-  "dock-placeholder": "kit-less compiler debug marker explicitly omitted by export_settlement_bundle"
+  "dock-placeholder": "kit-less compiler debug marker explicitly omitted by export_settlement_bundle",
+  "fx:smoke-column": "runtime smoke effect (game-core settlement/smokeColumn.ts) at a mined fire socket, drawn from the works-v1 manifest's effectTextures puff atlas; no mesh, no ground contact"
  },
  "assetPolicyEvidence": {
   "bmv:architecture/ships/imperialship01base": "hull sections rest on each other over water, so contact reads deck/hanging; the hull floats",
@@ -341,7 +361,8 @@
   "vanilla:landscape/grass/waterkelpshort01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "vanilla:landscape/plants/kelpshortstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "vanilla:landscape/plants/kelptallstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
-  "vanilla:plants/chickennest01": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): no sink record"
+  "vanilla:plants/chickennest01": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): no sink record",
+  "bmv:architecture/phitt/aldredanyia/signpost": "16k fix 2 round 6 ruling K1: BM&V's freestanding signpost, its foot planted in the ground; the plugins hang candlelanternwithcandle01 from its arm (46 wall refs in the round-3 run), so it joins the imperial kit as the lantern's parent. direct: a small freestanding post on the terrain."
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
@@ -366,6 +387,10 @@
    "deckClearanceM": 0.672,
    "why": "Two vanilla dock decks (dockstrent01 and dockstrent02) on pilings reaching 6.3 m under the deck top. The vanilla and BM&V placements of those two pieces hold their decks a median 0.672 m above the water or ground under them (258 references; dockstrent01 0.547 m, n 83; dockstrent02 0.711 m, n 175), so the deck stands 0.672 m above the water and the pilings bury. No plugin places the composite itself."
   },
+  "composite:mud/kotm-house-pod": {
+   "designedSinkM": 1.9922,
+   "why": "The pod house seats by its porch, the piece the door stands on: smpodextdoor's plugin sink is p50 0.7693 m (n 4) and the composite stands the porch 1.2229 m above the pod's pivot (the plugin's exact pair), so the pod's pivot is 1.9922 m under the ground line. That lies inside the spread of the pod's own 7 references (p25 1.0168, p75 1.915). The mesh-sill tell (foundation-top, 4.1984 m) reads the turned-over pod's shoulder and would bury the porch 2.2 m."
+  },
   "composite:stilt/stilthouse-with-door": {
    "anchorClass": "ground",
    "deckClearanceM": 3.462,
@@ -374,6 +399,14 @@
   "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": {
    "deckClearanceM": 1.14,
    "why": "HTBM places this Kothringi dock 35 times, always at scale 2.0, with its deck 2.28 m above the ground or water under it (median; 1.14 m in asset metres, p25 1.14, p75 1.165). The 0.35 m default buried all but the rail."
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "placeUse": "hanging-only",
+   "why": "A cage lantern with a hanging ring on top; no plugin places it (mounts record n 0). Stood on the ground at Claywater, its chain rendered as a rigid rod. The night reader saw it as floating (16k fix 2 layout r3). It is hung from a mined parent, never settled."
+  },
+  "kotm:argonia/mudhuts/smpodext02": {
+   "placeUse": "ruin-only",
+   "why": "King of the Murkmire places this pod 7 times, 6 of them turned over (x rotation 164.6 to 198.3 deg) with its porch smpodextdoor beside it; the one upright reference stands 4.81 m up. A lived-in place builds it as the plugin does, composite:mud/kotm-house-pod; the upright mesh stays for ruins (16k fix 2, interiors r8 (a))."
   },
   "vanilla:architecture/docks/dockstrent01": {
    "anchorClass": "water",

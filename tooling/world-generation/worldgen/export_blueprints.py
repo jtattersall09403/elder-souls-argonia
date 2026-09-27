@@ -42,6 +42,7 @@ import argparse
 import json
 from pathlib import Path
 
+from .blueprint_files import blueprint_paths
 from . import blueprint_interiors as bi
 from .blueprint import BLUEPRINT_DIR
 from .render_blueprint import crop_box
@@ -442,7 +443,7 @@ def project(doc: dict, extent_m: float) -> dict:
 # --------------------------------------------------------------------------- #
 def load_docs(src_dir: Path) -> list[dict]:
     docs = []
-    for path in sorted(src_dir.glob("place.*.json")):
+    for path in blueprint_paths(src_dir):
         doc = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(doc, dict) and isinstance(doc.get("blueprint"), dict):
             docs.append(doc)

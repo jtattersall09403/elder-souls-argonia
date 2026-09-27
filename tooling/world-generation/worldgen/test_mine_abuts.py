@@ -8,19 +8,19 @@ from types import SimpleNamespace
 import pytest
 
 from . import compile_settlement as cs
-from .mine_abuts import (RECORD, derive_single_use, joint_kind, kit_rows, rederive,
-                         single_use, terminal_faces)
-
-#: K10 ruling A: a family pair whose members disagree by more than this is
-#: not one joint; the family key is claiming too much.
-FAMILY_SPREAD_LIMIT_M = 0.3
+from .mine_abuts import (RECORD, derive_single_use, family_spread_limit, joint_kind,
+                         kit_rows, rederive, single_use, terminal_faces)
 _KEEP = "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/"
 
 
-def family_spread_violations(section: dict, limit: float = FAMILY_SPREAD_LIMIT_M) -> list[str]:
+def family_spread_violations(section: dict) -> list[str]:
+    """K10 ruling A: a family pair whose members disagree by more than the
+    limit is not one joint (``mine_abuts.family_spread_limit``)."""
+    bars = section.get("runJointBars") or {}
     return [f"{p['parentPiece']}{p['parentFace']}>{p['childPiece']}{p['childFace']} "
             f"spread {p['offsetSpreadM']}"
-            for p in section.get("familyPairs") or [] if p["offsetSpreadM"] > limit]
+            for p in section.get("familyPairs") or []
+            if p["offsetSpreadM"] > family_spread_limit(p, bars)]
 
 
 def test_joint_kind_splits_a_run_from_a_back_to_back_wall():
@@ -104,6 +104,22 @@ def test_the_family_spread_check_can_fail():
     assert family_spread_violations(bad) == ["a+x>b-x spread 0.31"]
 
 
+def test_a_family_whose_joints_carry_run_joint_bars_may_spread_to_0_35():
+    """Planner ruling (16k fix 2 layout pre-step): stockadescaffoldtop0sided
+    spreads 0.326 m on the wider evidence; its joints are judged on their
+    mined run-joint bars, so its family limit is 0.35 m."""
+    fam = "vanilla:clutter/stockade/stockadescaffoldtop0sided"
+    pair = {"parent": fam, "child": fam, "parentPiece": "stockadescaffoldtop0sided",
+            "childPiece": "stockadescaffoldtop0sided", "parentFace": "+y", "childFace": "-y",
+            "offsetSpreadM": 0.326,
+            "members": {"stockadescaffoldtop0sided01>stockadescaffoldtop0sided01": 12}}
+    barred = {fam + "01": {"penetrationM": 0.267, "alongRunOverlapM": 1.465, "n": 139}}
+    assert family_spread_violations({"familyPairs": [pair], "runJointBars": barred}) == []
+    assert family_spread_violations({"familyPairs": [pair]}) != []
+    wide = dict(pair, offsetSpreadM=0.36)
+    assert family_spread_violations({"familyPairs": [wide], "runJointBars": barred}) != []
+
+
 def test_no_family_pair_in_the_record_spreads_past_the_limit():
     section = json.loads(RECORD.read_text()).get("abuts") or {}
     if not section:
@@ -122,9 +138,13 @@ def test_record_pairs_carry_their_joint_kind():
     # the Whiterun farm fence rail set face to face along y (-x/-x, 3.64 m, n 17)
     # is a double joint, never a run (brief 16h miner lane item 5)
     rail = "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01"
+    # (16k remine r2: Valenwood's placements of the same vanilla rail now key
+    # to it too and add two more face-to-face pairs; none is a run)
     self_pairs = [p for p in section["pairs"] if p["parent"] == p["child"] == rail]
-    assert [(p["parentFace"], p["childFace"], p["joint"]) for p in self_pairs] == [
-        ("-x", "-x", "double")]
+    assert {p["joint"] for p in self_pairs} == {"double"}
+    assert ("-x", "-x", "double", 17, "vanilla") in [
+        (p["parentFace"], p["childFace"], p["joint"], p["count"], p.get("sourceSet"))
+        for p in self_pairs]
     assert "-x" in section["doubleFaces"][rail]
 
 

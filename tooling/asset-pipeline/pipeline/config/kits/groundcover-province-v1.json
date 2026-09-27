@@ -249,5 +249,8 @@
   {
    "asset": "depths:landscape/grass/tbprockgrasswater03"
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/leaves44.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ }
 }

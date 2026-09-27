@@ -9,7 +9,12 @@ decision 0036).
 
 Method, in short:
 
-1. Walk the requested exterior worldspaces of each source plugin set and keep
+1. The source sets are derived from the register (16k remine r2): one per
+   pool that declares a plugin (``mine_designed_sink.pool_plugins``; BM&V
+   split in two by ``SET_OF_PLUGIN``), every exterior worldspace walked, and
+   each reference keyed as a kit asset through the designed-sink join
+   (``LoadOrderIndex.kit_asset``), so a mod placing a vanilla mesh counts as
+   that vanilla asset. Keep
    the STRUCTURAL references only — architecture, ruin, dungeon-kit and bridge
    categories, plus anything whose file name says door, dock, quay, stair,
    ramp, scaffold or walkway, and minus anything filed under a trees/plants/
@@ -51,15 +56,11 @@ Statistics and relations only; no authored layout is reproduced (00-core rule
 6). Deterministic: refs sorted by form id before clustering, metres and degrees
 rounded to 2 dp, no timestamps.
 
-Usage:
+Usage (from tooling/world-generation):
   python3 -m worldgen.mine_assemblies \\
-      --set vanilla --label "Vanilla Skyrim" \\
-      --plugin "<vault>/Data/Skyrim.esm" --world Tamriel \\
-      --set bmv-blackmarsh --label "BM&V Black Marsh" \\
-      --plugin ".../Black Marsh.esm" --world BlackMarsh \\
-      --names "<vault>/Data/Skyrim.esm" \\
-      --out world/sources/placement/kit-assemblies-mined.json \\
-      --report docs/research/placement-settlements/kit-assemblies-evidence.md
+      --out ../../world/sources/placement/kit-assemblies-mined.json \\
+      --report ../../docs/research/placement-settlements/kit-assemblies-evidence.md
+  (--set <id> restricts the run to derived sets, for a sample batch only)
 """
 
 from __future__ import annotations
@@ -141,6 +142,77 @@ def pool_for(plugin_name: str, model_key: str = "") -> str:
     return PLUGIN_POOLS.get(name, "?")
 
 
+# --- provenance (16k remine r1, owner 2026-09-26) ------------------------------
+#: Every mined record under world/sources/placement/ carries a `provenance`
+#: block written by its miner on every run: the register pools it walked, the
+#: register as it stood, the miner and its source hash, the run date.
+#: `test_mined_provenance.py` compares `poolsMined` with the pools that declare
+#: a plugin NOW and names the ones a record never saw (a pool that joined after
+#: the run is a stale record: nothing may be cut on it).
+
+
+def declared_plugin_pools() -> dict[str, set[str]]:
+    """``pool id -> plugin file names (lower case)`` for every register pool
+    that declares a plugin: ``asset_registry.POOLS`` rows plus
+    ``mine_designed_sink.EXTRA_POOL_PLUGINS`` and ``PLUGIN_POOLS``. Read from
+    the declarations only (no vault), so CI can evaluate it."""
+    from . import asset_registry
+    from .mine_designed_sink import EXTRA_POOL_PLUGINS
+    out: dict[str, set[str]] = defaultdict(set)
+    for pool in asset_registry.POOLS:
+        for template in pool.plugins:
+            out[pool.id].add(Path(template).name.lower())
+    for pool_id, templates in EXTRA_POOL_PLUGINS.items():
+        for template in templates:
+            out[pool_id].add(Path(template).name.lower())
+    for name, pool_id in PLUGIN_POOLS.items():
+        out[pool_id].add(name)
+    for name, splits in PLUGIN_PATH_POOLS.items():
+        for _prefix, pool_id in splits:
+            out[pool_id].add(name)
+    return dict(out)
+
+
+def plugin_pools(plugin_name: str) -> set[str]:
+    """Every register pool a plugin file mines evidence for (King of the
+    Murkmire: ``kotm`` and the ``mwkeep`` keep set it places)."""
+    name = Path(plugin_name).name.lower()
+    return {pool for pool, names in declared_plugin_pools().items() if name in names}
+
+
+def provenance(miner_file: str, plugin_names, pools=()) -> dict:
+    """The block a miner writes into its record on every run."""
+    import datetime
+    import hashlib
+    import subprocess
+    from . import asset_registry
+    names = sorted({Path(n).name for n in plugin_names})
+    mined = set(pools)
+    for name in names:
+        mined |= plugin_pools(name)
+    registry_file = Path(asset_registry.__file__)
+
+    def git(*args: str) -> str:
+        try:
+            return subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True,
+                                  text=True, check=False).stdout.strip()
+        except OSError:
+            return ""
+    return {
+        "miner": f"worldgen.{Path(miner_file).stem}",
+        "minerVersion": hashlib.sha256(Path(miner_file).read_bytes()).hexdigest()[:12],
+        "runDate": datetime.date.today().isoformat(),
+        "poolRegister": {
+            "source": "worldgen.asset_registry.POOLS",
+            "date": git("log", "-1", "--format=%cs", "--", str(registry_file)) or None,
+            "uncommittedChanges": bool(git("status", "--porcelain", "--", str(registry_file))),
+            "pools": [pool.id for pool in asset_registry.POOLS],
+        },
+        "poolsMined": sorted(mined),
+        "plugins": names,
+    }
+
+
 def asset_ref(pool: str, model_key: str) -> str:
     path = model_key[:-4] if model_key.lower().endswith(".nif") else model_key
     return f"{pool}:{path}"
@@ -206,67 +278,123 @@ def wanted(model_key: str, volume_m3: float) -> bool:
     return door or any(w in name for w in STRUCTURAL_WORDS)
 
 
-def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
-            set_id: str, label: str, accept=None) -> SourceSet:
-    """`accept(model_key, volume_m3, pool)` replaces the structural filter
-    (`mine_abuts` keeps every kit piece, whatever its size)."""
-    plugins = [Plugin(p) for p in plugin_paths]
-    names = [Plugin(p) for p in name_paths]
-    bases: dict[tuple[str, int], object] = {}
-    for plugin in plugins + names:
-        for form_id, base in plugin.base_objects().items():
-            if base.model:
-                bases.setdefault(
-                    (plugin.source_of(form_id).lower(), form_id & 0xFFFFFF), base)
+#: Source-set ids that are not the pool id: BM&V ships one pool in three
+#: plugins that build two separate lands, and kit configs and route
+#: structures cite their template ids (`bmv-blackmarsh:t0012`,
+#: `bmv-valenwood:t0003`; standard 1), so the split and the ids stay. Every
+#: other plugin row of `mine_designed_sink.pool_plugins` is a set named after
+#: its pool. Keyed by plugin file name (lower case).
+SET_OF_PLUGIN = {
+    "black marsh.esm": ("bmv-blackmarsh", "Black Marsh & Valenwood \u2014 Black Marsh worldspaces"),
+    "black marsh north.esp": ("bmv-blackmarsh",
+                              "Black Marsh & Valenwood \u2014 Black Marsh worldspaces"),
+    "valenwood.esp": ("bmv-valenwood", "Black Marsh & Valenwood \u2014 Valenwood worldspace"),
+}
 
-    out = SourceSet(set_id, label, [Path(p).name for p in plugin_paths],
-                    sorted(worlds))
+
+def derived_sets(rows) -> list[dict]:
+    """The source sets, one per register pool (``SET_OF_PLUGIN`` splits BM&V),
+    from the plugin rows ``mine_designed_sink.pool_plugins`` gives, in load
+    order: ``{"id", "label", "rows": [(pool, path), ...]}``. No hand-written
+    plugin or worldspace list: a pool that declares a plugin is mined, every
+    exterior worldspace it places references in is walked (16k remine r2)."""
+    from . import asset_registry
+    labels = {pool.id: pool.label for pool in asset_registry.POOLS}
+    sets: dict[str, dict] = {}
+    for pool, path in rows:
+        set_id, label = SET_OF_PLUGIN.get(path.name.lower(), (pool, labels.get(pool, pool)))
+        sets.setdefault(set_id, {"id": set_id, "label": label, "rows": []})["rows"].append(
+            (pool, path))
+    return list(sets.values())
+
+
+def kit_joins() -> dict:
+    """``pool -> PoolJoin`` over every kit manifest (published and raw build),
+    the join the designed-sink miner keys its references through."""
+    from .mine_designed_sink import PoolJoin, kit_assets
+    by_pool: dict[str, list[str]] = defaultdict(list)
+    for asset_id in kit_assets():
+        by_pool[asset_id.partition(":")[0]].append(asset_id)
+    return {pool: PoolJoin(ids) for pool, ids in by_pool.items()}
+
+
+def collect(index, joins: dict, rows, set_id: str, label: str,
+            accept=None) -> SourceSet:
+    """Every placed exterior reference of the set's plugins, keyed as a kit
+    asset through ``LoadOrderIndex.kit_asset`` (16k remine r2): a reference to
+    a base another file defines (a mod placing a vanilla mesh) takes the kit
+    asset id that mesh has, never the placing plugin's pool. A model no kit
+    carries keeps the pool of the file that defines its base (path-split for
+    ``PLUGIN_PATH_POOLS``). `accept(model_key, volume_m3, pool)` replaces the
+    structural filter (`mine_abuts` keeps every kit piece, whatever its size).
+    `index`: a ``mine_designed_sink.LoadOrderIndex`` over the whole pool."""
+    out = SourceSet(set_id, label, [path.name for _pool, path in rows], [])
     seen_worlds: set[str] = set()
-    for plugin in plugins:
-        plugin_name = Path(plugin.path).name
+    for pool, path in rows:
+        name = path.name.casefold()
+        visible = index.visible(name)
+        keyed: dict[int, tuple[str, str, object]] = {}
+        for gid, (base, source) in visible.items():
+            key = base.model_key or ""
+            if not key:
+                continue
+            asset_id = index.kit_asset(joins, pool, source, key, name)
+            if asset_id is not None:
+                ref_pool, _, tail = asset_id.partition(":")
+                keyed[gid] = (ref_pool, tail.lower() + ".nif", base)
+            else:
+                own = index.model_pool(source, key, index.pool_of.get(source, pool))
+                keyed[gid] = (own or pool, key, base)
+        plugin = Plugin(path)
+        resolve = index.resolver.of(plugin)
         spaces = plugin.worldspaces()
-        keep = {fid for fid, ws in spaces.items()
-                if not worlds or ws.editor_id in worlds}
-        if not keep:
-            continue
         for cell in plugin.exterior_cells(with_land=False):
-            if cell.world not in keep or cell.grid is None:
+            if cell.grid is None:
                 continue
             out.cells_walked += 1
-            world_name = spaces[cell.world].editor_id or f"0x{cell.world:06x}"
+            world = spaces.get(cell.world) or index.worlds.get(
+                resolve(cell.world), (None,))[0]
+            world_name = (world.editor_id if world is not None and world.editor_id
+                          else f"0x{cell.world:06x}")
             seen_worlds.add(world_name)
             for ref in cell.refs:
                 if ref.distant:
                     continue
-                base = bases.get(
-                    (plugin.source_of(ref.base).lower(), ref.base & 0xFFFFFF))
-                if base is None or not base.model:
+                hit = keyed.get(resolve(ref.base))
+                if hit is None:
                     out.unresolved += 1
                     continue
-                key = base.model_key or ""
-                pool = pool_for(plugin_name, key)
+                ref_pool, key, base = hit
                 volume = 0.0
                 if base.bounds:
                     x1, y1, z1, x2, y2, z2 = base.bounds
                     volume = abs((x2 - x1) * (y2 - y1) * (z2 - z1)) \
                         * ref.scale ** 3 / UNITS_PER_METRE ** 3
                 if not (wanted(key, volume) if accept is None
-                        else accept(key, volume, pool)):
+                        else accept(key, volume, ref_pool)):
                     out.skipped += 1
                     continue
                 out.refs.append(Ref(
-                    key, pool,
+                    key, ref_pool,
                     ref.pos[0] / UNITS_PER_METRE,
                     ref.pos[1] / UNITS_PER_METRE,
                     ref.pos[2] / UNITS_PER_METRE,
                     math.degrees(ref.rot[2]) % 360.0,
                     ref.scale, volume, cell.grid, world_name,
                     ref.rot[0], ref.rot[1]))
+        del plugin
     out.refs.sort(key=lambda r: (r.world, r.cell, r.model_key,
-                                 round(r.x, 3), round(r.y, 3), round(r.z, 3)))
-    if not out.worldspaces:
-        out.worldspaces = sorted(seen_worlds)
+                                 round(r.x, 3), round(r.y, 3), round(r.z, 3), r.pool))
+    out.worldspaces = sorted(seen_worlds)
     return out
+
+
+def pool_index(vault: Path | None = None):
+    """``(LoadOrderIndex, derived sets)`` over the register pool."""
+    from . import asset_registry
+    from .mine_designed_sink import LoadOrderIndex, pool_plugins
+    index = LoadOrderIndex(pool_plugins(vault or asset_registry.DEFAULT_VAULT))
+    return index, derived_sets(index.rows)
 
 
 # --- relative transforms -----------------------------------------------------
@@ -498,17 +626,22 @@ def assign_ids(templates: list[dict], set_id: str, previous: list[dict],
         div = 1.0 if "anchorScale" in t else scale
         return [v / div for v in off]
 
+    def tail(ref: str) -> str:
+        # the path without its pool: a reference re-keyed from the placing
+        # plugin's pool to the kit asset (16k remine r2) keeps its id
+        return ref.partition(":")[2].lower()
+
     by_key: dict[tuple, list[dict]] = defaultdict(list)
     used_numbers = [-1]
     for old in previous:
-        by_key[(old["kind"], old["anchor"], old["part"])].append(old)
+        by_key[(old["kind"], tail(old["anchor"]), tail(old["part"]))].append(old)
         used_numbers.append(int(old["id"].rsplit(":t", 1)[1]))
     claimed: set[str] = set()
     for t in templates:
         scale = t.get("anchorScale") or 1.0
         mine = unit(t, 1.0)
         best = None
-        for old in by_key.get((t["kind"], t["anchor"], t["part"]), ()):
+        for old in by_key.get((t["kind"], tail(t["anchor"]), tail(t["part"])), ()):
             if old["id"] in claimed:
                 continue
             theirs = unit(old, scale)
@@ -585,6 +718,7 @@ def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
     templates.sort(key=lambda t: (-t["count"], t["kind"], t["anchor"], t["part"],
                                   t["offsetM"] or [t["radiusM"]], t["yawDeg"]))
     assign_ids(templates, source.set_id, previous or [], offset_tol, yaw_tol)
+    issued = {t["id"] for t in previous or []}
 
     # groups: templates that fire on the same anchor instance
     by_anchor: dict[int, set[str]] = defaultdict(set)
@@ -650,9 +784,15 @@ def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
     # Keep the most-repeated `max_templates` per set, plus anything a group
     # cites, and say how many were dropped rather than pretending they never
     # existed.
+    # Standard 1: a template the previous record issued is kept while the
+    # plugins still show it, whatever its rank, because kit configs, route
+    # structures and tests cite template ids (16k remine r2: walking every
+    # vanilla worldspace doubled the found set and the rank cut alone dropped
+    # six cited ids).
     found = len(templates)
     keep = {t["id"] for t in templates[:max_templates]}
     keep.update(i for g in groups for i in g["templates"])
+    keep.update(t["id"] for t in templates if t["id"] in issued)
     templates = [t for t in templates if t["id"] in keep]
 
     families: dict[str, dict] = defaultdict(
@@ -1082,11 +1222,8 @@ def render_report(payload: dict, top: int = 10) -> str:
 def parse_sets(argv: list[str] | None):
     ap = argparse.ArgumentParser(description="mine co-placement templates")
     ap.add_argument("--set", action="append", default=[],
-                    help="start a new source set with this id")
-    ap.add_argument("--label", action="append", default=[])
-    ap.add_argument("--plugin", action="append", default=[])
-    ap.add_argument("--world", action="append", default=[])
-    ap.add_argument("--names", action="append", default=[])
+                    help="restrict the run to these DERIVED set ids (sample batches)")
+    ap.add_argument("--vault", type=Path, default=None)
     ap.add_argument("--out", default=None)
     ap.add_argument("--report", default=None)
     ap.add_argument("--input", default=None,
@@ -1098,34 +1235,70 @@ def parse_sets(argv: list[str] | None):
     ap.add_argument("--top", type=int, default=10)
     ap.add_argument("--max-templates", type=int, default=600,
                     help="templates kept per set, most-repeated first")
+    ap.add_argument("--sample", type=int, default=None,
+                    help="sample-first batch: per set, walk only the pieces of N "
+                         "seeded templates from the tracked record (N seeded pieces "
+                         "for a set it lacks) and report which templates came back; "
+                         "--out must not be the tracked record")
+    ap.add_argument("--seed", type=int, default=0)
     return ap
 
 
-def grouped_sets(argv: list[str]) -> list[dict]:
-    """Split the argv into one bundle per `--set`, so several sets can be
-    mined in one deterministic run."""
-    bundles: list[dict] = []
-    current: dict | None = None
-    i = 0
-    while i < len(argv):
-        arg = argv[i]
-        if arg == "--set":
-            current = {"id": argv[i + 1], "label": "", "plugins": [],
-                       "worlds": [], "names": []}
-            bundles.append(current)
-            i += 2
-            continue
-        if current is not None and arg in ("--label", "--plugin", "--world", "--names"):
-            key = {"--label": "label", "--plugin": "plugins",
-                   "--world": "worlds", "--names": "names"}[arg]
-            if key == "label":
-                current["label"] = argv[i + 1]
-            else:
-                current[key].append(argv[i + 1])
-            i += 2
-            continue
-        i += 1
-    return bundles
+#: The tracked record this miner writes.
+RECORD = REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json"
+
+
+def sample_templates(record: dict, set_id: str, n: int, seed: int) -> list[dict]:
+    """The N templates of one set a `--sample N --seed S` batch expects back
+    (seeded draw over the record's templates sorted by id): write them out as
+    the expectations BEFORE the run."""
+    import random
+    rows = sorted((record.get("sets", {}).get(set_id, {}).get("templates") or []),
+                  key=lambda t: t["id"])
+    return random.Random(seed).sample(rows, min(n, len(rows)))
+
+
+def sample_refs(source: SourceSet, expected: list[dict], n: int, seed: int) -> None:
+    """Keep only the references of the sampled pieces (in place)."""
+    import random
+    def tail(ref: str) -> str:
+        return ref.partition(":")[2].lower()
+
+    keep = {tail(t[k]) for t in expected for k in ("anchor", "part")}
+    if not keep:
+        pieces = sorted({tail(asset_ref(r.pool, r.model_key)) for r in source.refs})
+        keep = set(random.Random(seed).sample(pieces, min(n, len(pieces))))
+    source.refs = [r for r in source.refs if tail(asset_ref(r.pool, r.model_key)) in keep]
+
+
+def sample_score(expected: list[dict], got: list[dict]) -> dict:
+    """Each expected template found again (same anchor and part PATH, kind,
+    offset within 0.05 m (a radial one: radius and rise), yaw within 1 deg) or
+    missed, with the count and the keyed ids either side. A pass also needs
+    at least the record's count: since 16k remine r2 every worldspace and
+    every register pool is walked, so a relation can gain members, never lose
+    them. ``rekeyed``: the kit-asset join gave it another pool prefix."""
+    def place(t: dict) -> list[float]:
+        return list(t["offsetM"]) if t.get("offsetM") else [t["radiusM"], t["riseM"]]
+
+    def tail(ref: str) -> str:
+        return ref.partition(":")[2].lower()
+
+    rows = []
+    for t in expected:
+        match = [g for g in got if tail(g["anchor"]) == tail(t["anchor"])
+                 and tail(g["part"]) == tail(t["part"])
+                 and g["kind"] == t["kind"]
+                 and max(abs(a - b) for a, b in zip(place(g), place(t))) <= 0.05
+                 and abs(yaw_delta(g["yawDeg"], t["yawDeg"])) <= 1.0]
+        rows.append({"id": t["id"], "anchor": t["anchor"], "part": t["part"],
+                     "expectedCount": t["count"],
+                     "gotCount": match[0]["count"] if match else None,
+                     "gotId": match[0]["id"] if match else None,
+                     "rekeyed": bool(match) and (match[0]["anchor"], match[0]["part"])
+                     != (t["anchor"], t["part"]),
+                     "pass": bool(match) and match[0]["count"] >= t["count"]})
+    return {"pass": sum(r["pass"] for r in rows), "of": len(rows), "rows": rows}
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -1137,25 +1310,49 @@ def main(argv: list[str] | None = None) -> None:
     if args.input:
         payload = json.loads(Path(args.input).read_text())
     else:
-        bundles = grouped_sets(argv)
+        index, bundles = pool_index(args.vault)
+        if args.set:
+            unknown = sorted(set(args.set) - {b["id"] for b in bundles})
+            if unknown:
+                raise SystemExit(f"no derived set {unknown}; sets: "
+                                 f"{[b['id'] for b in bundles]}")
+            bundles = [b for b in bundles if b["id"] in args.set]
+        joins = kit_joins()
         sets: dict[str, dict] = {}
-        prior = (json.loads(Path(args.out).read_text()).get("sets", {})
+        sampling = args.sample is not None
+        if sampling and args.out and Path(args.out).resolve() == RECORD.resolve():
+            raise SystemExit("--sample never writes the tracked record")
+        if not sampling and args.set and args.out \
+                and Path(args.out).resolve() == RECORD.resolve():
+            raise SystemExit("--set never writes the tracked record: it would drop sets")
+        tracked = json.loads(RECORD.read_text()) if sampling else {}
+        prior = (tracked.get("sets", {}) if sampling else
+                 json.loads(Path(args.out).read_text()).get("sets", {})
                  if args.out and Path(args.out).is_file() else {})
+        scores: dict[str, dict] = {}
         for bundle in bundles:
-            source = collect(bundle["plugins"], set(bundle["worlds"]),
-                             bundle["names"], bundle["id"],
-                             bundle["label"] or bundle["id"])
+            source = collect(index, joins, bundle["rows"], bundle["id"], bundle["label"])
+            if sampling:
+                expected = sample_templates(tracked, bundle["id"], args.sample, args.seed)
+                sample_refs(source, expected, args.sample, args.seed)
             sets[bundle["id"]] = analyse(source, args.radius, args.offset_tol,
                                          args.yaw_tol, args.min_count, kits,
                                          args.max_templates,
                                          prior.get(bundle["id"], {}).get("templates"))
             m = sets[bundle["id"]]["macro"]
             print(f"{bundle['id']}: {m['structuralRefs']} structural refs, "
-                  f"{m['templates']} templates, {m['groups']} groups")
+                  f"{m['templates']} templates, {m['groups']} groups", flush=True)
+            if sampling and expected:
+                scores[bundle["id"]] = sample_score(expected, sets[bundle["id"]]["templates"])
+                print(f"{bundle['id']} sample: {scores[bundle['id']]['pass']}"
+                      f"/{scores[bundle['id']]['of']} templates back")
         interiors = interior_records()
         doorways = doorways_from(sets, interiors)
         payload = {
             "schemaVersion": SCHEMA_VERSION,
+            "provenance": provenance(__file__, [path.name for b in bundles
+                                                for _pool, path in b["rows"]],
+                                     [pool for b in bundles for pool, _path in b["rows"]]),
             "source": {
                 "method": "worldgen.mine_assemblies — co-placement templates: "
                           "pairs and groups of pieces the source authors placed "
@@ -1177,7 +1374,9 @@ def main(argv: list[str] | None = None) -> None:
             "doorwaysFromAssemblies": doorways,
             "gaps": {"shellsWithoutDoor": gaps_from(doorways, interiors)},
         }
-        if args.out and Path(args.out).is_file():
+        if sampling:
+            payload["sample"] = {"n": args.sample, "seed": args.seed, "scores": scores}
+        if args.out and Path(args.out).is_file() and not sampling:
             # `mine_abuts` owns this section; a template re-mine keeps it.
             kept = json.loads(Path(args.out).read_text()).get("abuts")
             if kept is not None:

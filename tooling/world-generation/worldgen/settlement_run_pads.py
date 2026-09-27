@@ -30,11 +30,12 @@ RETAIN_BAR_M needs a retaining wall of the building kit's wall family
 (`RETAINING_WALLS`, rule R1); a kit with no wall family keeps every edge
 within RETAIN_BAR_M.
 
-`apply_settlement_pad` is the one realisation, used by `terrain_patches`
-(frozen base, samples at i * mpp) and in memory by the yard float gate on the
-published survey raster (nearest pixel, cell i covers [i, i + 1) * px);
-`pad_ground` is the same surface point by point for building pads (the
-workbench and the compile's seat and slope rules on patched ground). A
+`pad_overlay` is the one pad maths (decision 0102): the runtime overlay the
+bundle carries, `pad_ground` (the workbench and the compile's seat and slope
+rules on padded ground) and `patched_height_at` (the yard gates over the
+bundle's `groundOverlays`) all apply it point by point; `pad_overlay.apply_grid`
+is its grid form (the terrain patch code refuses the `settlement-pad` kind
+since 0102). A
 building pad's patch carries ``hardM`` 0: its polygon already holds the
 apron, so the graded area is exactly footprint + apron (0101), where a run
 member's hard zone reaches PAD_HARD_RADIUS_PX samples past its footprint.
@@ -351,37 +352,18 @@ def pad_delta(datum: float, heights) -> dict:
 
 
 def pad_ground(height_at, pads: list[dict]):
-    """``height_at`` with building pads applied point by point: inside a
-    pad's polygon its datum, beyond it a smoothstep back to the ground over
-    PAD_BLEND_M (the pull of `apply_settlement_pad`; the larger pull wins).
-    ``pads``: [{polygonM, datumM}]."""
+    """``height_at`` with building pads applied point by point, through the
+    overlay maths (`pad_overlay.ground`, decision 0102: one pad surface for
+    the workbench, the compile, the gates and the runtime). ``pads``:
+    [{polygonM, datumM, id?}]; each is one overlay (``hardM`` 0, blend
+    PAD_BLEND_M), applied in id order (a pad without an id takes its index)."""
     if not pads:
         return height_at
-    from shapely.geometry import Point, Polygon
-    shapes = []
-    for p in pads:
-        poly = Polygon(p["polygonM"])
-        x0, z0, x1, z1 = poly.bounds
-        shapes.append((poly, float(p["datumM"]),
-                       (x0 - PAD_BLEND_M, z0 - PAD_BLEND_M, x1 + PAD_BLEND_M, z1 + PAD_BLEND_M)))
-
-    def at(x: float, z: float) -> float:
-        base = height_at(x, z)
-        pt = Point(x, z)
-        pull = 0.0
-        for poly, datum, reach in shapes:
-            if not (reach[0] <= x <= reach[2] and reach[1] <= z <= reach[3]):
-                continue                 # beyond the blend: no pull
-            d = poly.distance(pt)
-            if d <= 0.0:
-                return datum
-            if d < PAD_BLEND_M:
-                t = d / PAD_BLEND_M
-                step = (datum - base) * (1.0 - t * t * (3.0 - 2.0 * t))
-                if abs(step) > abs(pull):
-                    pull = step
-        return base + pull
-    return at
+    from . import pad_overlay
+    overlays = [pad_overlay.building_overlay(str(p.get("id", f"pad.{i:04d}")), p["polygonM"],
+                                             float(p["datumM"]), PAD_BLEND_M)
+                for i, p in enumerate(pads)]
+    return pad_overlay.ground(height_at, overlays)
 
 
 def surface_slope_deg(height_at, polygon, step: float = PAD_SAMPLE_STEP_M,
@@ -532,70 +514,9 @@ def declare_order(patches: list[dict], shape=(4033, 4033)) -> None:
         p["after"] = sorted(q["id"] for q in ranked[:i] if tp._intersects(boxes[q["id"]], boxes[p["id"]]))
 
 
-def _distance_to_polygon(x: np.ndarray, z: np.ndarray, polygon: list) -> np.ndarray:
-    """Metres from each point to the footprint; 0 inside (the pad module's own
-    polygon helpers, reused)."""
-    from .grade_settlement_pads import _distance_to_polygon as edge_distance, _points_in_polygon
-    return np.where(_points_in_polygon(x, z, polygon), 0.0, edge_distance(x, z, polygon))
-
-
-def apply_settlement_pad(h: np.ndarray, patch: dict, mpp: float,
-                         cell_offset: float = 0.0) -> tuple[np.ndarray, dict]:
-    """Grade a COPY of ``h``: every sample within the patch's ``hardM``
-    (default PAD_HARD_RADIUS_PX samples) of a member's footprint takes that
-    member's target; beyond, a smoothstep
-    back to the ground over ``blendM``. Sample (r, c) stands at
-    ((c + cell_offset) * mpp, (r + cell_offset) * mpp). Where two members
-    reach one sample, the larger pull wins and a hard zone outranks a blend,
-    so the order of the members never matters."""
-    blend = float(patch.get("blendM", PAD_BLEND_M))
-    hard = float(patch.get("hardM", PAD_HARD_RADIUS_PX * mpp))
-    reach = hard + blend
-    x0, z0, x1, z1 = (float(v) for v in patch["bboxM"])
-    c0 = max(int(math.floor((x0 - reach) / mpp - cell_offset)) - 1, 0)
-    c1 = min(int(math.ceil((x1 + reach) / mpp - cell_offset)) + 2, h.shape[1])
-    r0 = max(int(math.floor((z0 - reach) / mpp - cell_offset)) - 1, 0)
-    r1 = min(int(math.ceil((z1 + reach) / mpp - cell_offset)) + 2, h.shape[0])
-    out = h.astype(np.float32, copy=True)
-    if c0 >= c1 or r0 >= r1:
-        return out, {"samplesChanged": 0, "maxRaiseM": 0.0, "maxCutM": 0.0}
-    win = out[r0:r1, c0:c1].astype(np.float64)
-    xs = (np.arange(c0, c1) + cell_offset) * mpp
-    zs = (np.arange(r0, r1) + cell_offset) * mpp
-    hard_target = np.full(win.shape, -np.inf)
-    pull = np.zeros(win.shape)
-    for piece in patch["params"]["pieces"]:
-        poly = [(float(x), float(z)) for x, z in piece["footprintM"]]
-        target = float(piece["targetM"])
-        dist = _distance_to_polygon(xs[None, :], zs[:, None], poly)
-        hard_target = np.where(dist <= hard, np.maximum(hard_target, target), hard_target)
-        t = np.clip((dist - hard) / max(blend, 1e-6), 0.0, 1.0)
-        w = 1.0 - t * t * (3.0 - 2.0 * t)
-        step = (target - win) * w
-        pull = np.where(np.abs(step) > np.abs(pull), step, pull)
-    new = np.where(np.isfinite(hard_target), hard_target, win + pull)
-    delta = new - win
-    out[r0:r1, c0:c1] = new.astype(np.float32)
-    return out, {"samplesChanged": int((np.abs(delta) > 1e-6).sum()),
-                 "maxRaiseM": round(float(max(delta.max(), 0.0)), 3),
-                 "maxCutM": round(float(max(-delta.min(), 0.0)), 3)}
-
-
-def patched_height_at(survey, patches: list[dict]):
-    """The survey's `height_at` over its published raster with ``patches``
-    applied in memory (the yard float gate; `ProvinceSurvey.height_at` is the
-    nearest pixel, cell i covering [i, i + 1) * px, hence cell_offset 0.5)."""
-    if not patches:
-        return survey.height_at
-    base = survey.fields.height_m
-    px = float(survey.height_px_m)
-    heights = base
-    for patch in sorted(patches, key=lambda p: (int(p.get("order", 0)), p["id"])):
-        heights, _ = apply_settlement_pad(heights, patch, px, cell_offset=0.5)
-    n = heights.shape[0]
-
-    def height_at(x: float, z: float) -> float:
-        row = min(max(int(z / px), 0), n - 1)
-        col = min(max(int(x / px), 0), heights.shape[1] - 1)
-        return float(heights[row, col])
-    return height_at
+def patched_height_at(survey, overlays: list[dict]):
+    """The survey's `height_at` with a place's bundle ``groundOverlays`` pads
+    applied (the yard gates; decision 0102): the overlay maths at the exact
+    point, the surface the runtime draws."""
+    from . import pad_overlay
+    return pad_overlay.ground(survey.height_at, overlays)

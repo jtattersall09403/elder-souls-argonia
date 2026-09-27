@@ -26,6 +26,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from .blueprint_files import blueprint_paths
 from .catalogue import REPO_ROOT
 
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
@@ -36,7 +37,7 @@ PASSES = (("street_router", ["--apply"]),
 
 
 def main(argv: list[str] | None = None) -> int:
-    paths = sorted(BLUEPRINT_DIR.glob("place.*.json"))
+    paths = blueprint_paths(BLUEPRINT_DIR)
     if not paths:
         print("rederive_blueprints: no blueprints found", file=sys.stderr)
         return 1

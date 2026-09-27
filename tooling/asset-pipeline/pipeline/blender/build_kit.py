@@ -69,6 +69,16 @@ REFRACTION_SHADER_FLAGS = ("REFRACTION", "FIRE_REFRACTION")
 #: smoke came out as solid cards (16k kits lane, 2026-09-26).
 ADDITIVE_MATERIALS = set()
 
+#: Water-shader materials (BSWaterShaderProperty: horsetrough01's `WATER.Mat`).
+#: The NIF names no texture; the game shades the surface from the cell's
+#: water type. Rebuilt as an untextured translucent surface (glTF BLEND,
+#: alpha WATER_ALPHA) and shipped with the material extra `water: true`, so
+#: the untextured gate knows it is an effect and a runtime can shade it as
+#: water (16k fix 2 round 4 ruling K4: flag it, never drop it).
+WATER_MATERIALS = set()
+WATER_SHADER_BLOCK = "BSWaterShaderProperty"
+WATER_ALPHA = 0.6
+
 #: NiAlphaProperty flag bits (Gamebryo): bit 0 blend enable, bit 9 test enable.
 NI_ALPHA_BLEND = 0x001
 NI_ALPHA_TEST = 0x200
@@ -152,6 +162,35 @@ def ni_alpha(mat):
     return True, 0.5
 
 
+def effect_textured(mat):
+    """The material names or holds any texture (PyNifly: an image node, or a
+    `BSShaderTextureSet_*` / source-texture property)."""
+    if mat.use_nodes and any(n.type == "TEX_IMAGE" and n.image
+                             for n in mat.node_tree.nodes):
+        return True
+    return any(str(key).startswith(("BSShaderTextureSet", "Source_Texture"))
+               and mat.get(key) for key in mat.keys())
+
+
+NIF_TEXTURE_ALIASES = PLAN.get("nifTextureAliases") or {}
+
+
+def bind_nif_texture_alias(mat):
+    """A material whose NIF diffuse slot names a path the kit config aliases
+    (`textureAliases`, e.g. the vanilla forge's broken `textures\\<0x08>ERR`)
+    and that PyNifly could not load gets the alias's image as its diffuse,
+    so it ships textured instead of grey (16k fix 2 round 5 ruling 6)."""
+    named = str(mat.get("BSShaderTextureSet_Diffuse") or "")
+    path = NIF_TEXTURE_ALIASES.get(named.replace("\\", "/").strip().lower())
+    if not path or not mat.use_nodes:
+        return
+    if any(n.type == "TEX_IMAGE" and n.image for n in mat.node_tree.nodes):
+        return
+    node = mat.node_tree.nodes.new("ShaderNodeTexImage")
+    node.image = bpy.data.images.load(path, check_existing=True)
+    print(f"[kit]   {mat.name}: NIF diffuse {named!r} bound to alias {path}")
+
+
 def rebuild_material(mat, double_sided, effect=None):
     """Diffuse Principled BSDF with alpha linked, and the glow map on Emission.
 
@@ -165,6 +204,14 @@ def rebuild_material(mat, double_sided, effect=None):
     piece's kit config) an effect-shader material takes the shared effect
     path instead (ADDITIVE_MATERIALS).
     """
+    if mat.get("BS_Shader_Block_Name") == WATER_SHADER_BLOCK:
+        rebuild_effect_material(mat, [], is_diffuse)
+        for node in mat.node_tree.nodes:
+            if node.type == "BSDF_PRINCIPLED":
+                node.inputs["Alpha"].default_value = WATER_ALPHA
+        mat.use_backface_culling = False
+        WATER_MATERIALS.add(mat.name)
+        return None
     if effect == "additive" and is_effect_material(mat):
         images = [n.image for n in mat.node_tree.nodes
                   if n.type == "TEX_IMAGE" and n.image] if mat.use_nodes else []
@@ -172,6 +219,7 @@ def rebuild_material(mat, double_sided, effect=None):
         mat.use_backface_culling = False
         ADDITIVE_MATERIALS.add(mat.name)
         return source.name if source else None
+    bind_nif_texture_alias(mat)
     glow = glow_image(mat)
     alpha_wanted, alpha_cutoff = ni_alpha(mat)
     if shader_flags1(mat) & set(DECAL_SHADER_FLAGS):
@@ -324,6 +372,21 @@ def import_nif_meshes(filepath):
     return meshes
 
 
+def part_rotation_zup(yaw_deg, pitch_deg=0.0, roll_deg=0.0):
+    """A composite part's rotation as three z-up rows: the plugin's REFR
+    convention (`worldgen.mine_mounts.rotation`), clockwise angles applied x
+    (`pitchDeg`) then y (`rollDeg`) then z (`yawDeg`). Duplicated verbatim in
+    `blender/build_kit.py` (test_the_part_rotation_is_identical_in_the_blender_half)."""
+    ax, ay, az = (-math.radians(float(v)) for v in (pitch_deg, roll_deg, yaw_deg))
+    cx, sx, cy, sy = math.cos(ax), math.sin(ax), math.cos(ay), math.sin(ay)
+    cz, sz = math.cos(az), math.sin(az)
+    # Rz @ Ry @ Rx, written out
+    rows = [[cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx],
+            [sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx],
+            [-sy, cy * sx, cy * cx]]
+    return rows
+
+
 def import_composite(parts):
     """Assemble one asset out of several source NIFs.
 
@@ -357,9 +420,14 @@ def import_composite(parts):
         # rotation); Blender turns counter-clockwise, so the sign is converted
         # here, once, and nowhere else (16h check-in 3 item 2: the bamboo hut
         # leaf copied mined 120 and turned the other way).
-        yaw = -math.radians(part.get("yawDeg", 0.0))
+        # `pitchDeg` / `rollDeg` are the plugin's x / y rotation in the same
+        # clockwise REFR convention, applied x then y then z (16k interiors
+        # r8: King of the Murkmire hangs its smpodext02 pods turned over,
+        # x-rotation 164-198 deg on 6 of 7 refs).
+        rotation = Matrix(part_rotation_zup(part.get("yawDeg", 0.0), part.get("pitchDeg", 0.0),
+                                            part.get("rollDeg", 0.0))).to_4x4()
         transform = (Matrix.Translation(offset)
-                     @ Matrix.Rotation(yaw, 4, "Z")
+                     @ rotation
                      @ Matrix.Scale(scale, 4))
         for obj in meshes:
             # Single-user copy FIRST. Importing the same NIF twice (the canopy
@@ -947,6 +1015,22 @@ for asset in PLAN["assets"]:
                     solid_meshes.remove(obj)
                 bpy.data.objects.remove(obj, do_unlink=True)
 
+    # 16k kits r3 ruling 5: a shape whose every material is an effect shader
+    # (BSEffectShaderProperty) naming no texture at all draws nothing in the
+    # game (the Nordic load door's `Object10:3` card: Environment_Map effect,
+    # no source texture), but exports as an opaque grey card. The NIF's own
+    # shader block says so; the shape is dropped (`droppedShapes`), and the
+    # Python half fails the build on any untextured LOD0 material left.
+    for obj in list(meshes):
+        slots = [slot.material for slot in obj.material_slots if slot.material]
+        if slots and all(is_effect_material(m) and not effect_textured(m) for m in slots):
+            refraction.append({"shape": obj.name, "reason": "effect-no-texture"})
+            print("[kit]   dropped untextured effect shape %s" % obj.name)
+            meshes.remove(obj)
+            if solid_meshes and obj in solid_meshes:
+                solid_meshes.remove(obj)
+            bpy.data.objects.remove(obj, do_unlink=True)
+
     textures = set()
     materials = set()
     for obj in meshes:
@@ -1138,6 +1222,9 @@ for asset in PLAN["assets"]:
     additive = sorted(materials & ADDITIVE_MATERIALS)
     if additive:
         record["additiveMaterials"] = additive
+    water = sorted(materials & WATER_MATERIALS)
+    if water:
+        record["waterMaterials"] = water
     if billboard_materials:
         record["billboard"] = True
         record["billboardMaterials"] = sorted(billboard_materials)

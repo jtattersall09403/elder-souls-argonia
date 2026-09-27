@@ -1,0 +1,236 @@
+{
+  "id": "interior-kotm-v1",
+  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher and KeebaHouseCrafter, the cells linked to the smpodext02 pod (interiors round 7). A later claim adds its gaps here and rebuilds.",
+  "culture": "argonian",
+  "output": "tooling/asset-pipeline/output/kits/interior-kotm-v1.glb",
+  "lodRatios": [
+    0.35,
+    0.12
+  ],
+  "textureMaxSize": 512,
+  "publish": true,
+  "compression": {
+    "color": "etc1s"
+  },
+  "compressionReason": "Interior clutter kit (planner ruling 9, interiors round 2, as interior-farmhouse-v1): colour textures ETC1S, normal and attribute maps stay UASTC.",
+  "assets": [
+    {
+      "asset": "kotm:argonia/clutter/buntingline01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/burner02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/doll_atronachamber"
+    },
+    {
+      "asset": "kotm:argonia/clutter/firewoodpilehuge01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/firewoodpilelarge01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/firewoodpilesmall01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/hangingfeathers01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/saxhleelfence01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/saxhleeltapestry01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/saxhleeltapestry02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/spinningwheel"
+    },
+    {
+      "asset": "kotm:argonia/clutter/tamwindchime01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/urn01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/urn02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vase01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vase03"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vase05"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vase06"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket03"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket04"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket05"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket06"
+    },
+    {
+      "asset": "kotm:argonia/food/flatbread"
+    },
+    {
+      "asset": "kotm:argonia/food/sakebottle02"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticbed"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticchair01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticchair02"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticchair04"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticchest"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticcupboard"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticshelf"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rustictable01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rustictable02"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rustictable03"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/floor02"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/mudhutintfloor01"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/mudhutintstairs"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/smpodint01"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/smpodint02"
+    },
+    {
+      "asset": "kotm:argonia/mudhuts/tamu_woodpole01"
+    },
+    {
+      "asset": "kotm:loliceptresource/barrel/miscbarrelopen01"
+    },
+    {
+      "asset": "kotm:mihail monsters and animals/rabbit/frog/frogmeat"
+    },
+    {
+      "asset": "kotm:mihail monsters and animals/rabbit/frog/frogmeat2"
+    },
+    {
+      "asset": "kotm:oaristys/clutter/rugs"
+    },
+    {
+      "asset": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat"
+    },
+    {
+      "asset": "vanilla:architecture/riften/clutter/rtchimney01"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook01"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook03"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook04"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook04a"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook06"
+    },
+    {
+      "asset": "vanilla:clutter/books/book02lowpoly"
+    },
+    {
+      "asset": "vanilla:clutter/common/fishingpolecollection01"
+    },
+    {
+      "asset": "vanilla:clutter/common/rag01"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug03"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug07"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedmudcrab01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicwoodenbowl01"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicwoodenplate01"
+    },
+    {
+      "asset": "vanilla:clutter/giant/giantspit01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedcandles01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/mudcrabchitin"
+    },
+    {
+      "asset": "vanilla:clutter/wallbaskethex02"
+    },
+    {
+      "asset": "vanilla:clutter/wallbaskethex03"
+    },
+    {
+      "asset": "vanilla:furniture/smallcookingpotnohandle"
+    },
+    {
+      "asset": "vanilla:plants/mushroom01"
+    },
+    {
+      "asset": "vanilla:plants/slaughterfishegg01"
+    }
+  ],
+  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle.",
+  "textureAliases": {
+    "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
+    "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+    "textures/_resourcepack/landscape/desertcracked01light_d.dds": "textures/argonia/landscape/dirt02.dds",
+    "textures/creationclub/bgssse025/clutter/amber.dds": "textures/argonia/misc/vakkastone_d.dds",
+    "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds": "textures/dungeons/rottingwood01.dds",
+    "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
+    "textures/_resourcepack/landscape/desertcracked02light_d.dds": "textures/argonia/landscape/dirt02.dds",
+    "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds"
+  }
+}

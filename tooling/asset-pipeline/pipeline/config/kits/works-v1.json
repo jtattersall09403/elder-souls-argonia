@@ -8,6 +8,16 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "effectTextures": {
+  "fx:smoke-column": {
+   "texture": "textures/effects/smokeparticles01.dds",
+   "atlas": [
+    4,
+    4
+   ],
+   "why": "The puff atlas vanilla's chimney smoke particle system (mps/mpssmokechimney01.nif, the addon node of effects/ambient/fxsmokechimney01.nif) draws; game-core settlement/smokeColumn.ts billboards it."
+  }
+ },
  "dressing": [
   "vanilla:clutter/barrel01",
   "vanilla:clutter/common/cratesmall01",
@@ -19,7 +29,11 @@
   "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
-  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
+  "textures/\bERR": "textures/clutter/blacksmith/blacksmithforge01.dds"
+ },
+ "textureAliasReasons": {
+  "textures/\bERR": "vanilla clutter/blacksmith/blacksmithforge01.nif `Shading.Mat` (BSLightingShaderProperty, DECAL + vertex colours: the soot shading over the forge's floor stones) names the broken diffuse `\\x08ERR` (4 bytes, no folder, no .dds; its normal slot is `\\x08NOR`). The forge's own texture in the same vanilla folder (textures/clutter/blacksmith/ holds anvil, bellows, forge01, novice*, sharpeningwheel, stone, workbench*) is blacksmithforge01.dds, which the same NIF's L2_FloorStones.Mat already UVs, so the decal takes it (16k fix 2 round 5 ruling 6: resolve, never drop)."
  },
  "snapLogic": {
   "grid": "None — these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
@@ -30,7 +44,8 @@
   "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length.",
   "assemblies": "Composites in this kit: `composite:works/stockade-scaffold-2stage` and `-3stage` freeze the one rule the vanilla scaffold family actually has — a base carries the next stage 2.73 m above itself, unrotated (template vanilla:t0019, 28 placements). Nothing else here is composited: bridges, ramps, stairs and props join platforms, and what they join is a site decision. Every single piece stays in the kit.",
   "fire": "`campfire01burning` is vanilla's lit campfire: logs, ash and stones with its ember and flame-glow cards (effect shaders). Its config sets `\"effect\": \"additive\"`, so those cards export see-through (glTF BLEND, material extra `additive: true`, manifest `additiveMaterials`) and its heat-shimmer plane (a refraction-only quad) is dropped; vanilla's flame particles are not imported. `cookingstand01` (a pot stand) and `spit01` (a spit frame) stand over it; `impbrazier01` is a low brazier bowl, cold (its flame in vanilla is the separate FXFireWithEmbers01 effect). The campfire and the brazier carry a `light` block in their manifest record: the Skyrim LIGH record the plugin places with them (LightCampFire01, DefaultTorch01NS), in the carriedLight `LightRecord` shape plus `offsetM` (glTF Y-up metres from the pivot) and the evidence; for the settlement runtime to turn into a point light by night (16h item 22; the runtime does not read it yet).",
-  "road-sign": "`roadsignpost` is vanilla's bare road-sign post (0.26 x 0.24 x 3.64 m; plugin: every directional board in Skyrim hangs on it, sourcing log § signs on posts). Every vanilla board is lettered with a Skyrim town, so no board ships here: a Black Marsh board is a recorded sourcing gap and the post stands alone until one is sourced.",
+  "smoke-and-flame": "Added 16k fix round 2: `effects/fxfirewithembers01` (MSTT FXFireWithEmbers01) is the flame vanilla stands in `impbrazier01` (105 of 262 brazier refs): its flame and coal cards import as `\"effect\": \"additive\"`, its refraction plane is dropped and its ember particle systems are not imported (PyNifly imports no NiParticleSystem). Chimney smoke is NOT here: `effects/ambient/fxsmokechimney01`/`02` hold only an editor-marker shape and a BSValueNode naming an addon-node particle effect, so the kit build yields a marker and no smoke; they stay registered for a runtime particle effect.",
+  "road-sign": "`roadsignpost` is vanilla's bare road-sign post (0.26 x 0.24 x 3.64 m; plugin: every directional board in Skyrim hangs on it, sourcing log § signs on posts). The boards are BM&V's six BLANK boards `roadsign{small,medium,large}01{l,r}` (left- and right-pointing), which are Hanaisse's Blank Roadsigns resource (Nexus skyrim 33392) made for nailing to any vanilla signpost; their `textures/hana/signs/*` come from that resource (the bmv pool's texture sibling, 16k fix round 2), so they ship unlettered. No mined pair hangs them on `roadsignpost` yet.",
   "dressing-2026-09-26": "Landing and hut-yard dressing added 2026-09-26 (16k kits lane 2), all plain ground-standers: `shores:shoresofskyrim/fishnet01` (a coiled fishing net, Shores of Skyrim), the cook pots `spitpotopen01` (hangs from `cookingstand01`'s hook), `spitpotopenloose01` and `kitchen/castironpotmedium01` (vanilla), `kotm:argonia/clutter/saxhleelmetalpot01` (King of the Murkmire), and baskets `basket05`, `basket06` (vanilla), `kotm:argonia/clutter/basket01`, `basket02` and `basketcontainer` (a lidded storage jar-basket)."
  },
  "assets": [
@@ -329,6 +344,28 @@
    }
   },
   {
+   "asset": "bmv:roadsignsmall01l"
+  },
+  {
+   "asset": "bmv:roadsignsmall01r"
+  },
+  {
+   "asset": "bmv:roadsignmedium01l"
+  },
+  {
+   "asset": "bmv:roadsignmedium01r"
+  },
+  {
+   "asset": "bmv:roadsignlarge01l"
+  },
+  {
+   "asset": "bmv:roadsignlarge01r"
+  },
+  {
+   "asset": "vanilla:effects/fxfirewithembers01",
+   "effect": "additive"
+  },
+  {
    "asset": "vanilla:clutter/woodfires/campfire01burning",
    "effect": "additive",
    "light": {
@@ -444,5 +481,10 @@
     ]
    }
   }
- ]
+ ],
+ "texturesMissingAccepted": {
+  "textures/_byoh/clutter/food/dumpling01.dds": "Hearthfire DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/_byoh/furniture/oven01.dds": "Hearthfire DLC texture: archive absent from the vault, whose Data/ holds only the 2011 Skyrim BSAs; owner question on the SE/AE archives is open (settlement-kit-sourcing-log.md row 208)",
+  "textures/shoresofskyrim/limpets01.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ }
 }

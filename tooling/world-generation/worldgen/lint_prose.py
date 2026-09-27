@@ -66,6 +66,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .blueprint_files import blueprint_paths
 from . import catalogue
 
 REPORT_PATH = catalogue.REPO_ROOT / "world" / "sources" / "sites" / "prose-lint.md"
@@ -116,6 +117,28 @@ class Rule:
     pattern: re.Pattern
     why: str
     fields: tuple = ()       # empty = every prose field; else only these field names
+    scope: object = None     # a predicate on the field; None = every field
+
+
+PROVENANCE_KEYS = {"note", "notes", "description", "sources", "reconciliationNote", "retired",
+                   "method", "provenance", "$schema"}
+"""Keys whose value records where a thing came from, not what it is in the
+world: the pipeline-wording rule does not read under them (16k fix 2)."""
+
+
+def is_record_prose_field(fld: str) -> bool:
+    """A field the pipeline-wording rule reads (16k fix 2 pre-step, interiors
+    r8 (b)): a player string from a code file (``string``) or a prose field
+    INSIDE a record (a JSON pointer two keys deep or more) that is not under a
+    provenance key (``PROVENANCE_KEYS``, or any ``_``-prefixed key). A
+    file-level note (``/_``, ``/note``) and markdown (the design briefs cite
+    the build steps they answer in their rule column) are out of scope."""
+    if fld == "string":
+        return True
+    if not fld.startswith("/"):
+        return False
+    keys = [k for k in fld.split("/") if k and not k.isdigit()]
+    return len(keys) >= 2 and not any(k in PROVENANCE_KEYS or k.startswith("_") for k in keys)
 
 
 def _r(p: str) -> re.Pattern:
@@ -163,6 +186,10 @@ RULES: list[Rule] = [
          fields=tuple(".".join(p) for p in PROSE_PATHS)),
     Rule("turn-on-reader", "hard", _r(r"\bSo (?:is|are|was|were|do|does|did|will|can|would|have|has) (?:you|the player|anyone|whoever)\b|\byou will be next\b"),
          "the tag-line turn on the reader ('So are you.'); style guide §2.8 rule 2"),
+    Rule("pipeline-wording", "hard", _r(r"\bphase \d+[a-z]?\b|\btier [abc]\b|\b16[a-k]\b|\bitem \d+\b"),
+         "build-pipeline wording ('Phase N', 'tier A/B/C', '16k', 'item N') inside world-record prose: "
+         "say what the thing is in the world, never which build step made it (16k interiors r8)",
+         scope=lambda fld: is_record_prose_field(fld)),
     # ---- SOFT: density and candidates for the reviewer --------------------
     Rule("generaliser", "soft", _r(r"\b(?:anyone|anybody|everyone|everybody|nobody|no one|no-one|nothing|everything|anything|always|all of them|none of them|the only|the one|whole province|in the province)\b"),
          "lazy generalisation (owner 2026-09-04): tie it to the place — a role, a name, a number, a direction"),
@@ -270,6 +297,8 @@ class LintResult:
             if rule.id in DESIGN_EXEMPT_RULES and is_design_field(fld):
                 continue
             if rule.fields and fld not in rule.fields:
+                continue
+            if rule.scope is not None and not rule.scope(fld):
                 continue
             for m in rule.pattern.finditer(text):
                 s = max(0, m.start() - 30)
@@ -492,7 +521,7 @@ def lint_blueprints(res: LintResult) -> None:
     """Prose inside settlement blueprints (Part 6+): the causal model, every
     orientationWhy, notes and siting reasons. A building's stated reason is a
     world record and is held to the place-record register."""
-    for p in sorted(BLUEPRINT_DIR.glob("place.*.json")):
+    for p in blueprint_paths(BLUEPRINT_DIR):
         bp = json.loads(p.read_text(encoding="utf-8")).get("blueprint", {})
         scope = "blueprints"
         bid = bp.get("id", p.stem)

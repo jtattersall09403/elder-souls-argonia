@@ -115,8 +115,10 @@ HARD_REGION_CLASSES = {"settlement", "works", "transit"}   # a village's region 
 
 # --- owner feedback round (Part 4 step 2, 2026-09-03) ---------------------
 # Danger is a HARD fit now: a quiet village never sits in deep peril (the
-# semantic audit found six D2 villages in band 5). Lived-in classes tolerate a
-# one-band gap, everything else two (three once the homeless stages relax).
+# semantic audit found six D2 villages in band 5). The strict stages hold
+# lived-in classes to a one-band gap, everything else to two; the relaxed
+# stages allow one more. 97 A7's bar for lived-in classes is the relaxed
+# one, two bands (0102 decision 9; test_record_services asserts it).
 LIVED_IN_CLASSES = {"settlement", "civic", "works", "transit"}
 DANGER_GAP_LIVED = 1
 DANGER_GAP_OTHER = 2

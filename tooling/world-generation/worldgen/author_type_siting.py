@@ -34,6 +34,7 @@ import math
 import sys
 from pathlib import Path
 
+from .blueprint_files import blueprint_paths
 from . import catalogue
 from . import travel_cost
 from .scale import PROVINCE_EXTENT_M
@@ -179,7 +180,7 @@ def built_ground_radii() -> dict[str, float]:
     for rf in catalogue.load_region_files():
         for rec in rf.places:
             records[rec["id"]] = rec
-    for path in sorted(BLUEPRINT_DIR.glob("place.*.json")):
+    for path in blueprint_paths(BLUEPRINT_DIR):
         bp = json.loads(path.read_text()).get("blueprint") or {}
         rec = records.get(bp.get("id"))
         pts = built_ground_points(bp) if rec is not None else []

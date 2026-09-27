@@ -37,6 +37,9 @@ def main(argv=None) -> int:
     parser.add_argument("--sample-max", type=int, default=40, help="0: every reference")
     parser.add_argument("--sample-seed", type=int, default=20260923)
     parser.add_argument("--jobs", type=int, default=5)
+    parser.add_argument("--mount-min-refs", type=int, default=None,
+                        help="minority-class pair threshold for a SAMPLE run "
+                             "(default the record's MOUNT_CLASS_MIN_REFS)")
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args(argv)
     fixture = json.loads(FIXTURE.read_text())
@@ -57,7 +60,9 @@ def main(argv=None) -> int:
     started = time.time()
     doc = build_document(kits, asset_registry.DEFAULT_VAULT, only=only,
                          sample_max=args.sample_max or None, sample_seed=args.sample_seed,
-                         jobs=args.jobs)
+                         jobs=args.jobs,
+                         **({"mount_min_refs": args.mount_min_refs}
+                            if args.mount_min_refs is not None else {}))
     pairs = {(p["child"], p["parent"]) for p in doc["pairs"]}
     out = {"secs": round(time.time() - started), "meshesMissing": doc["meshesMissing"],
            "distinctPoses": doc["distinctPoses"], "meshesMissingIds": doc["meshesMissingIds"], "sets": {}, "extra": {}}
