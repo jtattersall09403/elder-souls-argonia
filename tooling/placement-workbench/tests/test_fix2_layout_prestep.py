@@ -308,3 +308,41 @@ def test_a_night_light_follows_the_pieces_pitch():
     (x, y, z, *_), = render.night_lights(_L(), scene)
     # pitched 90 about its own x: the flame 1 m up now points 1 m south
     assert abs(x - 10.0) < 1e-6 and abs(y + 21.0) < 1e-6 and abs(z - 5.0) < 1e-6
+
+
+def test_a_shot_draws_the_levelled_pad_not_the_raw_terrain(applied_layout):
+    """16k slice 2 round 6 (planner 2026-09-27): a render draws the ground the
+    runtime shows, the frozen ground patched by the scene's pads, so a piece
+    seated on a cut pad stands on the drawn slab, never below it."""
+    from workbench import pads, render
+    from workbench.kits import Catalogue
+    scene = applied_layout(Path(__file__).resolve().parent.parent / "fixtures"
+                           / "claywater-walk2.layout.json")
+    cat = Catalogue()
+    resolved = {u: r for u, r in pads.scene_pads(cat, scene).items() if r["error"] is None}
+    raw, drawn = scene.ground(), render.render_ground(cat, scene)
+    cut = []
+    for uid, r in resolved.items():
+        p = scene.piece(uid)
+        if abs(raw.chunk_height(p.x, p.z) - r["datumM"]) > 0.1:
+            cut.append((p, r))
+    assert cut, "the fixture holds a pad that cuts or fills the frozen ground"
+    for p, r in cut:
+        assert abs(drawn.chunk_height(p.x, p.z) - r["datumM"]) < 0.02
+
+
+def test_a_landmarks_pad_is_exported_like_a_parcels(applied_layout):
+    """16k slice 2 round 6 (planner 2026-09-27): export writes a padded
+    landmark's pad (datum resolved on its pose) into the blueprint's landmark
+    record, as it does a parcel's, so the compile seats it and the bundle
+    ships its ground overlay."""
+    from workbench import export
+    scene = applied_layout(Path(__file__).resolve().parent.parent / "fixtures"
+                           / "claywater-walk2.layout.json").view()
+    padded = next(p for p in scene.pieces if p.pad is not None and (p.role or {}).get("kind") == "parcel")
+    rid = padded.role["id"]
+    # the landmark alone: its assembly members bound to nothing else here
+    scene.pieces = [q for q in scene.pieces if (q.role or {}).get("id") != rid or q is padded]
+    padded.role = {"kind": "landmark", "id": "landmark.t.mound"}
+    got = export.poses(scene, 7373.50656)["landmarks"]["landmark.t.mound"]
+    assert isinstance(got.get("pad"), dict) and isinstance(got["pad"]["datumM"], float)

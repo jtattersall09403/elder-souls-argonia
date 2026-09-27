@@ -148,7 +148,8 @@ def building_pad_patches(rows: list[dict], place_id: str) -> list[dict]:
             continue
         # the pad block names its parcel (the compile writes it; a bundle
         # placement carries no parcelId of its own)
-        patch = pad_patch(place_id, pad["parcelId"], [{
+        # a landmark's mound pad names its landmark (16k slice 2)
+        patch = pad_patch(place_id, pad.get("parcelId") or pad["landmarkId"], [{
             "placementId": p["id"], "targetM": round(float(pad["datumM"]), 3), "gapM": None,
             "footprintM": [[round(float(x), 3), round(float(z), 3)] for x, z in pad["polygonM"]]}],
             owner="building")

@@ -117,6 +117,19 @@ def poses(scene: Scene, extent: float) -> dict:
         elif kind == "landmark":
             out["landmarks"][rid] = {"assetRef": p.asset, "position": _uv(p.x, p.z, extent),
                                      "yawDeg": yaw, **_y_measured(p)}
+            if cat is None:
+                from .kits import Catalogue
+                cat = Catalogue()
+            if p.scale != 1.0 or _has_median(cat, p.asset):
+                # the scale the pad was resolved on, as for a parcel (review 24463f6a)
+                out["landmarks"][rid]["scale"] = p.scale
+            if p.pad is not None:
+                # a landmark on a mound pad (a Hist) carries it as a parcel
+                # does: the compile resolves and seats it, the bundle ships it
+                if cat is None:
+                    from .kits import Catalogue
+                    cat = Catalogue()
+                out["landmarks"][rid]["pad"] = _pad_record(cat, scene, p)
         elif kind == "run":
             runs.setdefault(rid, []).append((int(p.role.get("index", 0)), p))
     for rid, members in runs.items():
@@ -354,6 +367,14 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             unknown.append(lid)
             continue
         mark.update({"position": fields["position"], "yawDeg": fields["yawDeg"]})
+        if "scale" in fields:
+            mark["scale"] = fields["scale"]
+        else:
+            mark.pop("scale", None)        # scale 1.0 is written as no scale
+        if "pad" in fields:
+            mark["pad"] = fields["pad"]
+        else:
+            mark.pop("pad", None)          # the piece declares no pad now
         changed.append(lid)
     routes = {r["id"]: r for r in bp.get("routes", [])}
     for rid, fields in got["routes"].items():

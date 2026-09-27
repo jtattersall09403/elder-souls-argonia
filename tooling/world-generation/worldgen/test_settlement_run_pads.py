@@ -246,3 +246,29 @@ def test_footprint_samples_are_the_per_point_grid_in_the_same_order():
     for polygon in (quad, ell):
         assert footprint_samples(polygon) == reference(polygon)
         assert footprint_samples(polygon, 0.7) == reference(polygon, 0.7)
+
+
+def test_a_landmarks_mound_pad_ships_as_its_own_ground_overlay():
+    """16k slice 2 round 6 (planner 2026-09-27): a landmark on a mound pad (the
+    Hist) carries a pad block naming its landmark; the one writer turns it
+    into a settlement-pad patch as it does a building's."""
+    rows = [{"id": "place.t.landmark.the-hist",
+             "pad": {"landmarkId": "landmark.t.the-hist", "datumM": 5.75,
+                     "polygonM": pad_polygon(_HOUSE)}}]
+    (patch,) = building_pad_patches(rows, "place.t")
+    assert patch["id"] == "patch.pad.settlement.place.t.landmark.t.the-hist"
+    assert patch["params"]["pieces"][0]["targetM"] == 5.75
+
+
+def test_the_compile_pads_the_survey_as_the_bundle_ships_it():
+    """Review 24463f6a: the compile's padded survey takes each pad's overlay
+    id and blend, so a battered pad's ramp and the apply order match the
+    bundle's ground overlays."""
+    from .compile_settlement import pad_overlay_specs
+    pads = {"landmark.t.the-hist": {"polygonM": pad_polygon(_HOUSE), "datumM": 5.0, "blendM": 4.2},
+            "parcel.t.b1": {"polygonM": pad_polygon(_HOUSE), "datumM": 6.0}}
+    rows = [{"id": f"x.{k}", "pad": {("landmarkId" if k.startswith("landmark") else "parcelId"): k, **v}}
+            for k, v in pads.items()]
+    shipped = {p["id"]: p["blendM"] for p in building_pad_patches(rows, "place.t")}
+    got = {s["id"]: s["blendM"] for s in pad_overlay_specs("place.t", pads)}
+    assert got == shipped

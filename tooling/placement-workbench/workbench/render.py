@@ -74,6 +74,15 @@ def _frame(cat: Catalogue, scene: Scene, focus: list[str]) -> tuple[np.ndarray, 
     return np.min(lows, axis=0), np.max(highs, axis=0)
 
 
+def render_ground(cat, scene: Scene):
+    """The ground a shot draws: the frozen ground patched by every overlay the
+    runtime applies for the scene (building and run pads, `pads.ground_for`),
+    so a piece seated on a cut pad reads on the slab the game shows, never
+    below the raw terrain (16k slice 2 round 6)."""
+    from . import pads
+    return pads.ground_for(cat, scene, None)
+
+
 def _ground_arrays(ground, centre_wb, half: float, out: Path) -> None:
     step = float(min(2.0, max(0.5, half / 90.0)))
     n = int(2 * half / step) + 1
@@ -194,7 +203,7 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
     from PIL import Image
     work = Path(tempfile.mkdtemp(prefix="wb-render-", dir=paths.OUTPUT))
     try:
-        _ground_arrays(scene.ground(), ground_centre, ground_half, work / "ground.npz")
+        _ground_arrays(render_ground(cat, scene), ground_centre, ground_half, work / "ground.npz")
         pieces = []
         for p in scene.pieces:
             got = cat.raw_glb(p.asset)
@@ -265,7 +274,7 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
     out.parent.mkdir(parents=True, exist_ok=True)
     (images,), warnings = _launch(cat, scene, [plan], res, samples, highlight, plan["centre"],
                                   plan["groundHalf"])
-    ground = scene.ground()
+    ground = render_ground(cat, scene)
     for s, img in zip(plan["shots"], images):
         _annotate(img, cat, scene, plan, s, ground, pitch)
     rx, ry = plan["res"]
@@ -419,7 +428,7 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
     out_dir = base / f"round-{n}"
     out_dir.mkdir(parents=True, exist_ok=True)
     images, warnings = _launch(cat, scene, plans, res, samples, None, gc, half)
-    ground = scene.ground()
+    ground = render_ground(cat, scene)
     shots = []
     for k, (w, plan, imgs) in enumerate(zip(wanted, plans, images)):
         shot, img = plan["shots"][0], imgs[0]

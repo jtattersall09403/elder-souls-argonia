@@ -2399,10 +2399,51 @@ def building_pad(parcel: dict, foot_m, survey) -> tuple[dict | None, str | None]
                             srp.depth_is_wet(survey.water_signed_depth_m, survey.extent_m))
 
 
+def landmark_footprints(bp: dict, lib=None) -> dict[str, list]:
+    """{landmark id: UV footprint} for every landmark that declares a pad:
+    the asset's measured outline at the landmark's position, yaw and scale
+    (a landmark carries no derived `footprint` field of its own)."""
+    out = {}
+    for lm in bp.get("landmarks", []) or []:
+        if lm.get("pad") is None:
+            continue
+        fp = fp_mod.parcel_footprint({"assetRef": lm.get("assetRef"), "centreUV": lm.get("position"),
+                                      "yawDeg": float(lm.get("yawDeg", 0.0)),
+                                      "scale": float(lm.get("scale", 1.0))}, lib)
+        if fp:
+            out[lm["id"]] = fp
+    return out
+
+
+def pad_overlay_specs(bp_id: str, pads: dict) -> list[dict]:
+    """Each resolved pad as the bundle ships it (`settlement_run_pads.
+    building_pad_patches`): its overlay id, which is the runtime's apply
+    order, and its blend (a batter's graded ramp), so the compile seats every
+    piece on the surface the runtime draws (review 24463f6a)."""
+    from . import settlement_run_pads as srp
+    return [{"id": f"patch.pad.settlement.{bp_id}.{oid}", "polygonM": p["polygonM"],
+             "datumM": p["datumM"], "blendM": p.get("blendM", srp.PAD_BLEND_M)}
+            for oid, p in pads.items()]
+
+
 def resolve_building_pads(bp: dict, survey) -> tuple[dict, list[str]]:
-    """{parcel id: pad} for every building that declares one, and the
-    refusals; judged on the frozen survey before any piece is seated."""
+    """{parcel or landmark id: pad} for every building, and every landmark
+    (a Hist on its mound, 16k slice 2), that declares one, and the refusals;
+    judged on the frozen survey before any piece is seated."""
     pads, errors = {}, []
+    lm_feet = landmark_footprints(bp)
+    for lm in bp.get("landmarks", []) or []:
+        if lm.get("pad") is None:
+            continue
+        if lm["id"] not in lm_feet:
+            errors.append(f"{lm['id']}: pad: no measured footprint for {lm.get('assetRef')!r}")
+            continue
+        foot_m = [list(survey.uv_to_m(u, v)) for u, v in lm_feet[lm["id"]]]
+        pad, why = building_pad(lm, foot_m, survey)
+        if why:
+            errors.append(f"{lm['id']}: {why}")
+        else:
+            pads[lm["id"]] = pad
     for parcel in bp["parcels"]:
         if parcel.get("pad") is None or not parcel.get("footprint"):
             continue
@@ -2478,8 +2519,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     # PATCHED ground the export will write; the frozen terrain is never edited
     pads, pad_errors = resolve_building_pads(bp, survey)
     errors.extend(pad_errors)
-    survey = srp_mod.PaddedSurvey(survey, [{"polygonM": p["polygonM"], "datumM": p["datumM"]}
-                                           for p in pads.values()])
+    survey = srp_mod.PaddedSurvey(survey, pad_overlay_specs(bp["id"], pads))
 
     for parcel in sorted(bp["parcels"], key=lambda p: p["id"]):
         pid = parcel["id"]
@@ -2717,6 +2757,10 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "groundFit": landmark.get("groundFit", "direct"),
             **final,
             "provenance": _provenance(bp_id, seed, "landmark/authored", asset["id"], []),
+            **({"pad": {"landmarkId": landmark["id"],
+                        **{k: pads[landmark["id"]][k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")},
+                        "blendM": pads[landmark["id"]].get("blendM", srp_mod.PAD_BLEND_M)}}
+               if landmark["id"] in pads else {}),
         })
 
     for fence in sorted(bp.get("fences", []), key=lambda row: row["id"]):
