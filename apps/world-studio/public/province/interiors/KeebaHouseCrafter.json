@@ -3,7 +3,7 @@
  "cellId": "KeebaHouseCrafter",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": null,
+ "shellAssetId": "composite:mud/kotm-house-pod",
  "refCount": 168,
  "kits": {
   "interior-farmhouse-v1": {
@@ -55,7 +55,48 @@
   ],
   "yawDeg": 354.27
  },
- "doors": [],
+ "doors": [
+  {
+   "exteriorDoorId": "door.imperial-fringe.claywater-station.3",
+   "interiorLoadDoorRef": "0809B4BD",
+   "arrivalMarker": {
+    "positionM": [
+     106.4963,
+     86.2485,
+     54.4948
+    ],
+    "yawDeg": 182.383
+   },
+   "loadDoor": {
+    "positionM": [
+     106.3737,
+     86.2704,
+     52.9487
+    ],
+    "yawDeg": 354.27
+   }
+  },
+  {
+   "exteriorDoorId": "door.imperial-fringe.claywater-station.5",
+   "interiorLoadDoorRef": "0809B4BD",
+   "arrivalMarker": {
+    "positionM": [
+     106.4963,
+     86.2485,
+     54.4948
+    ],
+    "yawDeg": 182.383
+   },
+   "loadDoor": {
+    "positionM": [
+     106.3737,
+     86.2704,
+     52.9487
+    ],
+    "yawDeg": 354.27
+   }
+  }
+ ],
  "ambient": {
   "colorRGB": [
    44,
