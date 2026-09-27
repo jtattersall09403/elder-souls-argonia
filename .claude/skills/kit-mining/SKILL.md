@@ -19,9 +19,16 @@ Plugins live in the vault (the whole vault is local on the EC2 box at `../elder-
 
 | Miner | Record | Sample tool | Tests |
 |---|---|---|---|
-| sink | `kit-designed-sink.json` | none (full run or `--complete-only`) | `test_mine_designed_sink.py` |
-| mounts | `kit-mounts-mined.json` | `run_mount_batches.py` | `test_mine_mounts.py` |
+| sink | `kit-designed-sink.json` | `--sample N --seed S [--assets …] --out /tmp/…` (N seeded kit assets plus the named; ~3.5 min for 28) | `test_mine_designed_sink.py` |
+| mounts | `kit-mounts-mined.json` | `run_mount_batches.py`; `--sample N --seed S` (N seeded assets as `--assets`: prints, writes nothing) | `test_mine_mounts.py` |
 | abuts | `kit-assemblies-mined.json` `abuts` | `mine_abuts --only … --out /tmp/…` | `test_mine_abuts.py` |
+| templates | `kit-assemblies-mined.json` `sets` | `mine_assemblies <sets> --sample N --seed S --out /tmp/…` (per set, the pieces of N seeded record templates; prints `k/N templates back`; ~45 s) | `test_mine_assemblies.py` |
+| interiors | `bmv-interior-assembly.json` etc. | `mine_interiors … --sample N --seed S` (N seeded interior cells) | — |
+
+Every run writes a `provenance` block (`mine_assemblies.provenance`: pools
+mined, the register's pools and date, miner source hash, run date);
+`test_mined_provenance.py` fails naming each pool that declares a plugin now
+and that a record never mined. `--sample` never writes a tracked record.
 
 ## 1. Read the record before touching code
 
@@ -66,8 +73,9 @@ Plugins live in the vault (the whole vault is local on the EC2 box at `../elder-
    /tmp/<lane>/sample.json` (set args as in `mine_assemblies` Usage; the
    record's `sets` names them; KotM via `mine_assemblies.PLUGIN_POOLS`). K8:
    6 s. Never `--write` on a sample.
-9. Sink: no sample mode. Write the named assets' expected p50/tell in
-   `/tmp/<lane>/sink_expected.txt` first (M13 wrote them after: flagged).
+9. Sink: `--sample N --seed S --assets <named>`. Write the drawn and named
+   assets' expected p50/tell in `/tmp/<lane>/sink_expected.json` first
+   (`sample_assets` gives the draw; M13 wrote them after: flagged).
 10. Bar: golden 25/25 and every existing test green except the known reds
     the ledger names. Below it: fix and re-run golden only.
 
@@ -133,7 +141,8 @@ under memwatch; run from `$W`).
     consumers read the record (`modular-runs`, `composite-author`).
 23. `cd $W && python3 -m worldgen.check_requirements && python3 -m pytest -q
     worldgen/test_mine_mounts.py worldgen/test_mine_designed_sink.py
-    worldgen/test_mine_abuts.py worldgen/test_check_requirements.py`, then
+    worldgen/test_mine_abuts.py worldgen/test_check_requirements.py
+    worldgen/test_mined_provenance.py`, then
     `kit-build` §5. `test_the_record_holds_the_golden_set` replays golden on
     the written record; the two manifest-vs-record tests stay red until step 22.
 24. Stale if skipped: published manifests disagree with the record (M13:

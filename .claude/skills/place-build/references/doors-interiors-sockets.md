@@ -61,10 +61,15 @@ run) and 5 (the gates).
    `stable` is `reserved` with pool `stable` (no plugin authors a stable
    interior; Phase 12 tier B). Ties break on the plugin's own most-used
    cell for that shell. A claim outside the ratio, with too few storeys
-   or doors fails a test.
+   or doors fails a test. The rule is asset-aware (16k interiors r8,
+   `bundle_sourcing`): a cell whose bundle fails the acceptance gate does
+   not fit, and one needing a mesh the vault holds nowhere ranks last.
+   A door's `preferCell {cellId, why}` names the story's cell; it wins when
+   it fits, and a later parcel of the same shell takes the next free cell.
 3. `blueprint_interiors.py --claim <blueprint>` writes the pick and its
-   `why` on the door record (`interiorClaim`, `tier: "A"`, cell id,
-   plugin); the claim is never written by hand.
+   `why` on the door record (`interiorClaim`: `tier`, `cellId`, `plugin`
+   or `pool`, `why`, `interiorLoadDoorRef`, `arrivalMarker`); the claim is
+   never written by hand.
 4. A kit's `interior: matched` (a sibling interior *mesh*) is not tier A.
    A shell with a matched mesh and no furnished cell keeps its door
    `reserved` with `interiorShell: <mesh>` so Phase 12 furnishes it;

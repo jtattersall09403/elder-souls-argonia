@@ -338,6 +338,12 @@ asset registry.
   https://www.nexusmods.com/skyrimspecialedition/mods/140081) — eleven shore
   stones and three large shells in the sea-bed kit. Archive SHA-256
   `44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934`.
+- **Hanas Blank Roadsigns - Resource** (Nexus Skyrim mod 33392, Hanaisse —
+  https://www.nexusmods.com/skyrim/mods/33392) — the blank road-sign board
+  textures for the six road-sign boards in the works kit (the boards themselves
+  reach us through Black Marsh & Valenwood). Licence: a resource, "use it freely
+  in your mods and please give credit". Archive SHA-256
+  `52858bd11e775a30b2468f38d17269dde77801a385fb7d263f1efd0213582f84`.
 ### Planned (recorded before ingestion; move up when used)
 
 - **Narrative asset pool** — 25 mods (A01–A25) and 12 vanilla families

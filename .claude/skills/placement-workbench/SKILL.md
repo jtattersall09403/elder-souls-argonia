@@ -108,9 +108,33 @@ for trying a pose by hand:
   fit is a `modular-runs` question, not a nudge.
 - Mounted children (sconce on a wall, sign on a post):
   `$W mount <child> <parent> [--along M]`, which uses the mined band/points.
+  A road board on its post (pair `yawBy: designer`) takes height and face from the pair and its bearing from you: `mount <board> <post> --yaw D` (world yaw toward the road). With no mined pair, a child whose longest PLAN side is under 0.6 m and
+  whose height is under 1.0 m (0102 decision 5 as amended 2026-09-26) may
+  stand on its parent's top where it is placed when the op names the render
+  round that approved it: `--unmined "reader-approved r2"` (layout
+  `"unmined": "reader-approved r2"`). A yard-set member may carry the same
+  `"unmined"` field on its `mount`ed row. The pose records
+  `mountPair.kind: unmined` and the approval; `check` lists every unmined
+  mount under `info`, that render round must shoot it, and `export` writes
+  the member's own `mountPair` field (`{kind, mountedOn, n | yardSet |
+  unmined}`, e.g. `{"kind": "unmined", "mountedOn": "b1-barrel", "unmined":
+  "reader-approved r2"}`; `blueprint.assembly_failures` validates it), which
+  the compile copies into the placement's `provenance.mountPair`; the
+  member's `evidence` stays as authored.
+- A walkable deck (ramp, stair, boardwalk, bridge): `place --walkable`;
+  walkRule walks its top instead of routing round it.
 - A part the plugins place on this shell at a fixed offset (a door, a
   window, a chimney): `$W attach <part> <shell> [--template ID]`, which uses
   the mined template (offset, turn, part scale).
+- Chimney smoke is a runtime effect, not a kit piece: a placement of kind
+  `"effect"`, assetId `"fx:smoke-column"`, kit `works-v1` (its manifest's
+  `effectTextures` row names the vanilla puff atlas), mounted on its shell
+  with `parentPlacementId` and a `mountOffsetM` at the chimney top in the
+  shell's local frame (anchor class `fx`: no parent is a named runtime
+  error; game-core `settlement/smokeColumn.ts` draws it). Not usable yet:
+  farmhouse01/02 have no chimney in their mesh, so no shell carries a
+  `chimney` socket, and the compile does not emit `effect` placements
+  (lane effects r3 report, tooling/.reports/16k/fix2-effects-r3.md).
 - Roll and mirror exist for trying a fit; export refuses both (the runtime
   turns a piece by yaw and pitch only).
 - Water pieces (`anchorClass water`) settle on the recorded level; a
@@ -131,6 +155,76 @@ Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
 building; `padRule` null for every padded building (0101 R1);
 `yOffRuntimeM` 0 after `settle` (the workbench seat IS the
 runtime's `anchorPlacement`); doors within 4 m of a path.
+
+The walk-packet rules (0102 decision 2, `workbench/rules.py`), all on the
+PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
+
+- Footprints (`measure_footprints`): the hull of a piece's lowest 1.5 m.
+  A ground-anchored **pad**-fit shell whose designed sink buries that
+  whole band (the KotM pod: tip 8.7 m down) is measured over the 1.5 m
+  above its sink plane instead (`groundPlaneM`), so walkRule and
+  `site --free` treat its ground ring as solid. Plinth shells are left
+  out (planner ruling, 16k fix 2 r3): the farmhouses change by 5 %. A
+  plinth deck (farmhouse01walkway) measured there becomes its whole
+  deck (7 to 54 m2), which walls off its own doorway.
+- `walkRule`: a 0.5 m grid over the place; every piece's footprint grown by
+  the capsule radius (0.3 m) blocks, except `path`/`paint` pieces and
+  `--walkable` decks (their top is the surface). Every edge walks at <= 30
+  deg (97 C14). The step limit, <= 0.18 m (ecctrl `floatHeight`, read from
+  `packages/game-core/src/physics/characterPhysics.ts`), applies ONLY where
+  ground meets a walkable deck or deck meets deck; ground to ground is
+  governed by the slope alone (planner ruling 1, 2026-09-26: 0.18 m over a
+  0.5 m cell is 19.8 deg, so a step bar on every edge could never bind). A
+  wet cell walks when its water stands at most 0.7 m over the padded ground
+  or deck (0093: grounded under 0.77 m); deeper fails as `wading`. One
+  search from the road terminal (the-street's first point, else
+  `networkTerminals[0]`) to every doorway record of every placed building
+  (the first free cell out along its facing) and every doorless parcel (a
+  free cell within 1 m of its outline). The bound doorway is `door:<uid>`
+  and is always a target; any other is `door:<uid>.<k>` (k its index in
+  the record) and is skipped as `sealed` when a placed piece (not its own
+  building, door, porch or steps; not a path) stands within 0.5 m in front
+  of it; an unsealed doorway nobody can reach FAILS. Per target: `routeM`,
+  `steepestDeg`, `largestStepM`, `wetCells`, `deepestWadeM`; a failure
+  names the blocking cell and why (obstacle uid, slope deg, step m, wading
+  m). The bound doorway is never exempted by sealing: a piece in front
+  of it fails the walk. `export --write` writes the navmesh socket's data
+  as the blueprint's `walkRoutes` (`rules.walk_routes`: schemaVersion 1,
+  per reached target the route's polyline in province metres, `routeM`,
+  `steepestDeg`, `largestStepM`, `deepestWadeM`; collinear cell steps
+  dropped); the bundle export copies it onto the place. The walk grid is
+  never written (planner ruling 1, 16k fix 2 round 3).
+- `floorEdgeRule`: every building (a parcel with a doorway or a pad; not a
+  retaining wall): every 0.25 m round its outline, the lowest mesh within
+  0.3 m inside it over the ground below; over the fit's band (direct 0.15,
+  plinth 0.60, pad 0.10 m) fails unless a retaining-wall piece stands under
+  the sample. Only underside geometry within 1.0 m over the piece's own
+  base is judged (planner ruling 2, 2026-09-26): a sample whose lowest mesh
+  is higher (an eave, a lean-to roof, a dome's bulge) counts as `overhang`
+  and is not a floor edge. `aboveBaseM` is that height for the worst
+  sample.
+- `pathReachRule`: a path END within 1.0 m of every bound door, its last
+  leg within 45 deg of the door's facing; a path end within 1.0 m of every
+  doorless parcel's outline (a declared opening). Every other unsealed
+  doorway is walkRule's alone: it must be reachable, it needs no path end
+  (planner ruling 6, 16k fix 2 round 3).
+- `propSeatRule`: every dressing item (assembly members, unbound pieces):
+  mounted, its exact gap to the parent <= 0.03 m; on the ground, its lowest
+  foot point <= 0.03 m over the ground, its pose within 0.03 m of the
+  runtime's seat, and a burial deeper than 0.03 m only on a sink with
+  evidence (a `policy-fallback` sink is none) or, with no evidence, up to
+  the ground's rise under its foot (`groundRiseM`: highest minus lowest
+  ground at the foot samples; `burialAllowM` = that, capped at 0.15 m;
+  planner ruling 3, round 3); deeper fails `uneven ground: move it`; a
+  no-evidence sink over 0.03 m fails by name; a yard-set
+  member within 0.5 m of its declared offset from the set's anchor. The
+  tolerances are fixed (planner ruling 4, 2026-09-26): 0.03 m on every seat
+  (the miner's contact) and 0.5 m on a yard-set member's stand. The
+  no-evidence sink (`fallbackSinkM` in
+  `tooling/asset-pipeline/pipeline/config/placement-policies.json`) is 0,
+  contact, in every policy; a measured sink keeps its value. It reaches the
+  seat only when the kit manifests are refreshed (`kit-build` step 4).
+- `beachedRule` (R5) also reports `beachedProfile`: keel gap and bow height.
 
 ## 6. Render and look (Sonnet reader)
 
@@ -205,7 +299,10 @@ commands, per building:
 `place-build` steps 5-6 (export, compile, publish this place only, the
 walk packet); for the yard, `bash tooling/studio-loop/yard-publish.sh`.
 `python3 tooling/placement-workbench/wb.py - walktable <place-id>` prints
-the owner-walk table (every item, every time). Prose goes through
+the owner-walk table (every item, every time) with a `measured` column: the
+rule numbers per item from the place's last `apply` (walk route m / steepest
+deg / step m, floor-edge worst gap, keel gap and bow height, prop seat gap).
+The packet reports these numbers; it never asks the owner to judge them. Prose goes through
 `text-review` in a separate agent.
 
 ## Record as you go

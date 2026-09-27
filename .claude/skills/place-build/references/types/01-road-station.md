@@ -110,7 +110,11 @@ The tracked sets are `world/sources/placement/yard-sets/01-road-station.json`
 
 ## Pieces that worked, pieces that failed
 
-Written from Claywater in slice 1c.
+Written from Claywater in slice 1c. Cut from the yard sets (16k fix 2, one line each):
+
+- `sty-cart` (handcart01, pad fit under 2 degrees): no free pose within 16 m of the stable yard on the padded ground (`wb.py site --free`, 2026-09-26); the station yard keeps its cart (`isy-cart`).
+- The chicken nest (`vanilla:plants/chickennest01`): at its plugin seat (designed sink -0.026 m) its lowest point stands 0.12 m over flat ground, so it fails the 0.03 m ground seat; the plugins seat it on floors (anchor class `deck`, 63 of 68 references) and no mined pair hangs it on a hay mound or deck piece. Cut from B1's yard (16k fix 2 layout r2).
+- The two bone chimes (`argonianbonechime01/02`, 2.18 m wide): no plugin mounts them (`mountsAsChild` empty) and they are over the 0.6 m small-mount bar, so no legal hanging exists.
 
 ## Known failure modes
 
