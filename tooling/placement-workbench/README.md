@@ -73,7 +73,7 @@ full apply, including after a one-op edit and after a pad move
 ## Round
 
     python3 tooling/placement-workbench/wb.py round [SCENE] LAYOUT [--plan | --no-shots]
-        [--walktable] [--full | --cache]
+        [--walktable] [--full | --cache] [--report-dir DIR]
 
 `apply` + `check` + `compile`, then `render --shots auto` (or with
 `--plan` the 2D plan render of the blueprint this apply derived,
@@ -85,8 +85,9 @@ timings; failed op and op warnings; `byRule` (count, the rule's fix hint
 from `layout.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
 compile's errors and warnings; the plan PNGs or the shot manifest. Each
 round appends one line to `output/apply/<scene>/rounds.jsonl` (load,
-apply ops, check, compile, plan, shots, total seconds; failures). The
-apply summary `output/apply/<placeId>.json` is still written.
+apply ops, check, compile, plan, shots, total seconds; failures);
+`--report-dir` copies both into the round's report folder. The apply
+summary `output/apply/<placeId>.json` is still written.
 
 ## Edit
 

@@ -1729,6 +1729,9 @@ def round_parser() -> argparse.ArgumentParser:
     ap.add_argument("--cache", action="store_true", help="restore unchanged ops from the op cache")
     ap.add_argument("--allow-stale-ground", action="store_true")
     ap.add_argument("--owner-guided", default=None, metavar="REASON")
+    ap.add_argument("--report-dir", type=Path, default=None,
+                    help="also copy summary.json and rounds.jsonl here (the round's folder "
+                         "under tooling/.reports/16k/<place>/round-N/, place-build)")
     return ap
 
 
@@ -1845,6 +1848,11 @@ def run_round(argv) -> int:
             "opsRestored": (t.get("ops") or {}).get("restored"), "checkS": t.get("checkS"),
             "compileS": t.get("compileS"), "planS": t.get("planS"), "shotsS": t.get("shotsS"),
             "totalS": t.get("totalS")}) + "\n")
+    if a.report_dir is not None:
+        import shutil
+        a.report_dir.mkdir(parents=True, exist_ok=True)
+        for f in (path, path.parent / "rounds.jsonl"):
+            shutil.copy(f, a.report_dir / f.name)
     lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]
     lines = [x for x in lines if not x.startswith("summary:")]
     lines.append("by rule: " + ", ".join(f"{k} {v['count']}" for k, v in out["byRule"].items()))
