@@ -199,3 +199,85 @@ def test_an_unrelated_miner_rewrite_does_not_rebuild_the_kit(tmp_path, monkeypat
     assert moved != before
     _edit(policies, lambda d: d["policies"]["direct"].update(note="a shared policy moved"))
     assert digest() != moved
+
+
+def _stamp_fixture(tmp_path, monkeypatch):
+    """A kit `k` already built and published in scratch dirs, with `assemble`
+    and Blender stubbed: Blender raises if a build ever reaches it."""
+    from . import kit_compress
+    config, raw, pub = tmp_path / "config", tmp_path / "raw", tmp_path / "public"
+    for d in (config, raw, pub):
+        d.mkdir()
+    (config / "k.json").write_text(json.dumps(
+        {"id": "k", "output": str(raw / "k.glb"), "assets": [{"asset": "pool:a/b"}]}))
+    monkeypatch.setattr(build_kit, "CONFIG", config)
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", pub)
+    work = tmp_path / "work"
+    (work / "data-root" / "meshes").mkdir(parents=True)
+    (work / "data-root" / "meshes" / "b.nif").write_bytes(b"NIF" * 9)
+    monkeypatch.setattr(build_kit, "assemble", lambda kit, vault: (
+        work, [], {"texturesMissing": [], "texturesSubstituted": []}))
+
+    def no_blender(*a, **k):
+        raise AssertionError("Blender ran")
+    monkeypatch.setattr(build_kit.subprocess, "run", no_blender)
+    (raw / "k.glb").write_bytes(b"glTF raw")
+    (raw / "k.kit.json").write_text('{"assets": []}\n')
+    for kind in ("footprints", "interiors", "connectors"):
+        (raw / f"k.{kind}.json").write_text("{}\n")
+    (pub / "k.glb").write_bytes(b"glTF compressed")
+    (pub / "k.kit.json").write_text('{"assets": [], "compression": {}}\n')
+    return raw, pub
+
+
+def _tree(*roots):
+    return {f: f.read_bytes() for root in roots for f in sorted(root.rglob("*")) if f.is_file()}
+
+
+def test_stamp_only_stamps_an_existing_build_and_touches_nothing_else(tmp_path, monkeypatch):
+    # speed lane 3A rec 2: no published kit carried a stamp, so none could skip
+    raw, pub = _stamp_fixture(tmp_path, monkeypatch)
+    before = _tree(raw, pub)
+    summary = build_kit._build("k", tmp_path, stamp_only=True)
+    after = _tree(raw, pub)
+    stamp = inputs_stamp_path(raw / "k.glb")
+    assert set(after) - set(before) == {stamp}
+    assert {f: after[f] for f in before} == before           # every output byte-identical
+    assert summary["sidecars"] == ["k.footprints.json", "k.interiors.json", "k.connectors.json"]
+    # the next normal build of unchanged inputs skips (Blender would raise)
+    assert build_kit._build("k", tmp_path) == summary
+    assert _tree(raw, pub) == after
+    # a moved input still rebuilds: the stamp does not freeze the kit
+    (tmp_path / "work" / "data-root" / "meshes" / "b.nif").write_bytes(b"NIF2")
+    with pytest.raises(AssertionError, match="Blender ran"):
+        build_kit._build("k", tmp_path)
+
+
+def test_stamp_only_refuses_a_kit_that_was_never_built(tmp_path, monkeypatch):
+    raw, _ = _stamp_fixture(tmp_path, monkeypatch)
+    (raw / "k.connectors.json").unlink()
+    with pytest.raises(FileNotFoundError, match="k.connectors.json"):
+        build_kit._build("k", tmp_path, stamp_only=True)
+    (raw / "k.glb").unlink()
+    with pytest.raises(FileNotFoundError, match="k.glb"):
+        build_kit._build("k", tmp_path, stamp_only=True)
+    assert not inputs_stamp_path(raw / "k.glb").exists()
+
+
+def test_a_published_folder_build_stamps_outside_the_site(tmp_path, monkeypatch):
+    # a stamp lists local paths: a kit built straight into public/kits
+    # (waterfall-fx-v1) keeps its stamp under STAMP_DIR, and still skips
+    from . import kit_compress
+    pub, stamps = tmp_path / "public", tmp_path / "stamps"
+    pub.mkdir()
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", pub)
+    monkeypatch.setattr(build_kit, "STAMP_DIR", stamps)
+    glb = pub / "k.glb"
+    glb.write_bytes(b"glTF")
+    glb.with_suffix(".kit.json").write_text("{}")
+    assert inputs_stamp_path(glb) == stamps / "k.inputs.sha256"
+    write_inputs_stamp(glb, {"x": "1"}, [], "k")
+    assert not list(pub.glob("*.inputs.sha256"))
+    digest = (stamps / "k.inputs.sha256").read_text().split("\n", 1)[0]
+    assert unchanged_outputs(glb, digest) is not None
+    assert inputs_stamp_path(tmp_path / "raw" / "k.glb") == tmp_path / "raw" / "k.inputs.sha256"

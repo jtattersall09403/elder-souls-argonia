@@ -100,3 +100,20 @@ def test_nothing_changed_is_not_an_error(repo, capsys):
     _manifest(repo, [])
     assert cp.main(["--place", PID, "--repo", str(repo)]) == 0
     assert "nothing to commit" in capsys.readouterr().out
+
+
+def test_the_manifest_lists_the_site_dossier_and_the_promise_ledger(repo):
+    """SKILL § A place's files: the dossier (<slug>.json/.md, whichever exist)
+    and the promise ledger (<place-id>.json) are the place's own files
+    (REQUEST row 16, Greenspring)."""
+    from worldgen import settlement_bundles as sb
+    own = ["world/sources/sites/dossiers/alpha.json", "world/sources/sites/dossiers/alpha.md",
+           f"world/sources/placement/promises/{PID}.json"]
+    for rel in own + [f"apps/world-studio/public/province/settlements/{PID}.json"]:
+        _write(repo, rel)
+    files = sb.place_manifest(PID, {}, repo)["files"]
+    assert set(own) <= set(files)
+    assert "world/sources/sites/dossiers/beta.json" not in files
+    _manifest(repo, files)
+    chosen, refusals = cp.plan(PID, [], repo)
+    assert refusals == [] and set(own) <= set(chosen)

@@ -20,13 +20,17 @@ from workbench import describe, ground, measure, paths, snap  # noqa: E402
 from workbench.kits import Catalogue  # noqa: E402
 from workbench.scene import Piece, Scene  # noqa: E402
 
+paths.bridge()
+from worldgen import settlement_bundles as sb  # noqa: E402
+
 pytestmark = pytest.mark.skipif(not paths.RAW_KITS.exists(), reason="raw kit builds absent")
 
 FENCE = "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01"
 WALL = "vanilla:dungeons/imperial/clutterkits/impfreewall01"
 SCONCE = "vanilla:clutter/imperial/impwallsconcecandle01"
 KEEP = "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/"
-PUBLISHED = paths.PROVINCE / "settlements.json"
+# the published settlements (per-place bundles + index), whole-file shape (S8)
+PUBLISHED = paths.PROVINCE
 YARD = "place.fixture.proving-ground."
 
 
@@ -46,7 +50,7 @@ def scene(tmp_path_factory):
 
 @pytest.fixture(scope="session")
 def published():
-    bundle = json.loads(PUBLISHED.read_text())
+    bundle = sb.read_published(PUBLISHED)
     return {p["id"].rsplit("proving-ground.", 1)[1]: p for p in bundle["placements"]
             if p["id"].startswith(YARD)}
 

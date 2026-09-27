@@ -113,8 +113,9 @@ water. The evidence and the numbers are in the
    chain, goes with them. The build fails on an unknown ladder layer, a named
    kit missing from the build, a surviving reference to an excluded file, a
    chain-only raster something now reads, or a site over 900 MB (a warning
-   over 750 MB). When 16h un-hides `settlements` the record stops being dark
-   and every kit it names ships again with nothing to edit. Composed size:
+   over 750 MB). When 16h un-hides `settlements` the settlements index and
+   its bundles stop being dark and every kit they name ships again with
+   nothing to edit. Composed size:
    999 MB → 564 MB. **This is a reprieve, not a fix** — those kits return at
    16h and the site would stand at ~965 MB on today's sizes, which is why the
    owner pulled item 7b forward.

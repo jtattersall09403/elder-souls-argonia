@@ -20,9 +20,13 @@ whole point (a 32 m cypress must stay 32 m). This builder:
 Usage:
     python -m pipeline.build_kit --kit flora-marsh-probe
     python -m pipeline.build_kit --kit flora-marsh-probe --force   # rebuild even if unchanged
+    python -m pipeline.build_kit --kits a,b --stamp-only   # stamp existing builds, no Blender
 
 A kit whose inputs hash (`kit_input_hashes`) matches the stamp beside its
 output (`<kit>.inputs.sha256`) and whose outputs all exist is skipped.
+`--stamp-only` writes that stamp beside an existing build without running
+Blender or touching any output: it vouches that the build on disk is what the
+current inputs would produce, so run it only where that is known.
 """
 
 from __future__ import annotations
@@ -1349,7 +1353,9 @@ def write_inputs_stamp(output_glb: Path, hashes: dict[str, str], sidecars: list[
     lines = ([digest_of(hashes), "# sidecars: " + " ".join(sidecars),
               "# outputs: " + outputs_digest(kit_id, output_glb)]
              + [f"{hashes[k]} {k}" for k in sorted(hashes)])
-    inputs_stamp_path(output_glb).write_text("\n".join(lines) + "\n")
+    stamp = inputs_stamp_path(output_glb)
+    stamp.parent.mkdir(parents=True, exist_ok=True)
+    stamp.write_text("\n".join(lines) + "\n")
 
 
 def changed_inputs(output_glb: Path, hashes: dict[str, str]) -> list[str]:
@@ -1363,8 +1369,18 @@ def changed_inputs(output_glb: Path, hashes: dict[str, str]) -> list[str]:
     return sorted(k for k in set(old) | set(hashes) if old.get(k) != hashes.get(k))
 
 
+#: Where a stamp goes when the kit builds straight into the published folder
+#: (waterfall-fx-v1): a stamp lists local paths and must never ship.
+STAMP_DIR = PIPELINE_DIR.parent / "output" / "kits"
+
+
 def inputs_stamp_path(output_glb: Path) -> Path:
-    """`<output dir>/<kit>.inputs.sha256`, beside the GLB it vouches for."""
+    """`<output dir>/<kit>.inputs.sha256`, beside the GLB it vouches for; under
+    `STAMP_DIR` when that dir is the published kits folder (never shipped)."""
+    from .kit_compress import PUBLIC_KITS
+    name = output_glb.with_suffix(".inputs.sha256").name
+    if output_glb.parent.resolve() == Path(PUBLIC_KITS).resolve():
+        return STAMP_DIR / name
     return output_glb.with_suffix(".inputs.sha256")
 
 
@@ -1390,14 +1406,28 @@ def unchanged_outputs(output_glb: Path, digest: str) -> dict | None:
     return summary
 
 
-def build(kit_id: str, vault: Path, force: bool = False) -> dict:
+def build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = False) -> dict:
     """Build one kit holding the kit-list lock EXCLUSIVE (16k r8 rule 4)."""
     from .kit_lock import kit_list_lock
     with kit_list_lock("exclusive", f"build_kit {kit_id}"):
-        return _build(kit_id, vault, force)
+        return _build(kit_id, vault, force, stamp_only)
 
 
-def _build(kit_id: str, vault: Path, force: bool = False) -> dict:
+def expected_sidecars(kit_id: str, kits_dir: Path) -> list[str]:
+    """The sidecar names `measure_sidecars` writes for `kit_id`, without
+    measuring; a missing one refuses a stamp-only run (nothing to vouch for)."""
+    from .measure_footprints import SKIP_PREFIXES
+    if kit_id.startswith(SKIP_PREFIXES):
+        return []
+    names = [f"{kit_id}.{kind}.json" for kind in ("footprints", "interiors", "connectors")]
+    missing = [n for n in names if not (kits_dir / n).is_file()]
+    if missing:
+        raise FileNotFoundError(f"{kit_id}: stamp-only needs the built sidecars, missing "
+                                + ", ".join(missing))
+    return names
+
+
+def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = False) -> dict:
     kit = json.loads((CONFIG / f"{kit_id}.json").read_text())
     work, assets, notes = assemble(kit, vault)
     errors = unresolved_diffuse_errors(kit, notes["texturesMissing"])
@@ -1408,8 +1438,6 @@ def _build(kit_id: str, vault: Path, force: bool = False) -> dict:
     output_glb.parent.mkdir(parents=True, exist_ok=True)
     summary_json = work / "summary.json"
     card_dir = output_glb.parent / f"{kit['id']}-cards"
-    if kit.get("bakeCards"):
-        card_dir.mkdir(parents=True, exist_ok=True)
 
     plan = {
         "kit": kit["id"],
@@ -1443,6 +1471,18 @@ def _build(kit_id: str, vault: Path, force: bool = False) -> dict:
     hashes = kit_input_hashes(kit_id, work / "data-root", plan, vault)
     digest = digest_of(hashes)
     stamp = inputs_stamp_path(output_glb)
+    if stamp_only:
+        # an existing build, stamped as it stands: no Blender, no output touched
+        manifest_path = output_glb.with_suffix(".kit.json")
+        if not (output_glb.is_file() and manifest_path.is_file()):
+            raise FileNotFoundError(f"{kit_id}: stamp-only needs a built {output_glb.name} "
+                                    f"and {manifest_path.name}")
+        sidecars = expected_sidecars(kit_id, output_glb.parent)
+        write_inputs_stamp(output_glb, hashes, sidecars, kit_id)
+        print(f"build_kit: {kit_id} stamped (inputs {digest[:8]}), no build")
+        summary = json.loads(manifest_path.read_text())
+        summary["sidecars"] = sidecars
+        return summary
     if not force:
         previous = unchanged_outputs(output_glb, digest)
         if previous is not None:
@@ -1456,6 +1496,8 @@ def _build(kit_id: str, vault: Path, force: bool = False) -> dict:
     # the outputs are about to be rewritten: a stamp left from the last build
     # must not vouch for a half-written one if this build fails
     stamp.unlink(missing_ok=True)
+    if kit.get("bakeCards"):
+        card_dir.mkdir(parents=True, exist_ok=True)
     plan_path = work / "kit-plan.json"
     plan_path.write_text(json.dumps(plan, indent=2))
 
@@ -1741,9 +1783,9 @@ def default_kit_jobs() -> int:
 
 
 def build_many(kit_ids: list[str], vault: Path, jobs: int = DEFAULT_KIT_JOBS,
-               builder=None, force: bool = False) -> list[dict]:
+               builder=None, force: bool = False, stamp_only: bool = False) -> list[dict]:
     """Build every kit in `kit_ids`, up to `jobs` at once; summaries in order."""
-    builder = builder or functools.partial(build, force=force)
+    builder = builder or functools.partial(build, force=force, stamp_only=stamp_only)
     kit_ids = list(dict.fromkeys(kit_ids))
     # one exclusive kit-list lock for the batch (16k r8 rule 4): the forked
     # builders inherit it, so they run side by side instead of in turn
@@ -1779,12 +1821,18 @@ def main() -> None:
     ap.add_argument("--force", action="store_true",
                     help="rebuild even when the inputs hash matches the "
                          "<kit>.inputs.sha256 stamp beside the output")
+    ap.add_argument("--stamp-only", action="store_true",
+                    help="write the inputs stamp beside the existing build and "
+                         "publish (no Blender, no output touched), so the next "
+                         "build of unchanged inputs skips")
     args = ap.parse_args()
+    if args.force and args.stamp_only:
+        ap.error("--force and --stamp-only contradict each other")
     if args.kit:
-        build(args.kit, Path(args.vault), force=args.force)
+        build(args.kit, Path(args.vault), force=args.force, stamp_only=args.stamp_only)
         return
     build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
-               force=args.force)
+               force=args.force, stamp_only=args.stamp_only)
 
 
 if __name__ == "__main__":

@@ -5,18 +5,36 @@ measured as data, owner 2026-09-27).
 One JSON row per line in docs/phases/16-foundation-and-places/build-ledger.jsonl,
 written by the tools, never by hand:
 
-    build_ledger.py append --from-rounds <rounds.jsonl> --place <id> [--path P] [--type T] [--start-run]
+    build_ledger.py append --from-rounds <rounds.jsonl> [--place <id>] [--path P] [--type T] [--start-run]
+    build_ledger.py stage --place <id> --stage <name> --start|--end [--path P] [--start-run]
     build_ledger.py append --from-gates <place-gates.json>      # place_gates calls this
     build_ledger.py append --from-close <close.json>            # close_place calls this
     build_ledger.py --report                                    # trend + runs over target
 
-Row: schemaVersion, source (rounds|gates|close), placeId, type, path
+Row: schemaVersion, source (rounds|gates|close|stage|hand), placeId, type, path
 (new-type|template|fix-round), skillSha and workbenchSha (the last commit of
 .claude/skills/place-build/SKILL.md and of tooling/placement-workbench),
 recordedAt, wallMin (minutes per stage; a rounds row counts only the rounds
 not yet recorded for the place, keyed by roundKeys = at|layoutSha256), turns and cpuMin (null until a tool
 measures them), rounds, defects (null until the owner's walk), sourceSha256
-(the input file's hash: the same input is never appended twice).
+(the input file's hash: the same input is never appended twice). A rounds
+row takes its place from the rows' own `placeId` (wb.py writes it since
+2026-09-27); `--place` is needed only for older rows without one.
+
+Stage events: the place-build skill's non-round stages (orient,
+dossier-and-brief, survey-and-scans, layout-to-compile, readers, publish)
+each run `stage --start` when they begin; `--start` first ends the place's
+open stage, `--end` ends the named one. The open stage is a per-place clock
+file (tooling/.reports/16k/<place>/stage-clock.json); ending it appends one
+`stage` row, wallMin {<stage>: minutes}, joined to the place's run like any
+row (`--start-run --path fix-round` on a fix round's first stage start is
+carried to that stage's row). Stages are wall clock, so a rounds row whose
+last round, or a gates row whose recordedAt, falls inside one of the run's
+stage windows is already counted there and is not added again. A run's
+minutes are the sum of its stage minutes and its rounds totals and gates
+walls outside the stages; a `hand` row (a planner's stopwatch
+row, written before stage events existed) is the whole run's stopwatch, so
+a run holding one counts the hand rows' `total` and nothing else.
 
 A run is one build pass of one place on one path, judged alone against its
 path's target. Every row carries its runId (`<place>#<n>`): it joins the
@@ -114,13 +132,13 @@ def file_sha(path: str) -> str:
         return hashlib.sha256(f.read()).hexdigest()
 
 
-def base_row(source: str, place_id: str, src_path: str) -> dict:
+def base_row(source: str, place_id: str, src_path: str | None, sha: str | None = None) -> dict:
     return {"schemaVersion": SCHEMA_VERSION, "source": source, "placeId": place_id,
             "type": None, "path": None,
             "skillSha": git_sha(SKILL_PATH), "workbenchSha": git_sha(WORKBENCH_PATH),
             "recordedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "wallMin": None, "turns": None, "cpuMin": None, "rounds": None, "defects": None,
-            "sourceSha256": file_sha(src_path)}
+            "sourceSha256": sha or file_sha(src_path)}
 
 
 def round_key(r: dict) -> str:
@@ -128,13 +146,21 @@ def round_key(r: dict) -> str:
     return f"{r.get('at')}|{r.get('layoutSha256')}"
 
 
-def row_from_rounds(src: str, place_id: str) -> dict:
+def row_from_rounds(src: str, place_id: str | None = None) -> dict:
     """A rounds row over every round in `src`; `append` keeps only the rounds
     the ledger has not yet recorded for the place (wb.py appends to one
     rounds.jsonl for a scene's whole life, so a later append would otherwise
-    count the earlier rounds again)."""
+    count the earlier rounds again). The place is the rows' own `placeId`;
+    `place_id` stands in for older rows without one and must agree."""
     with open(src) as f:
         rounds = [json.loads(line) for line in f if line.strip()]
+    ids = {r["placeId"] for r in rounds if r.get("placeId")}
+    if len(ids) > 1 or (ids and place_id and ids != {place_id}):
+        raise SystemExit(f"build_ledger: {src} holds rounds of {sorted(ids)}"
+                         + (f", not {place_id}" if place_id else "; one place per append"))
+    place_id = place_id or next(iter(ids), None)
+    if not place_id:
+        raise SystemExit(f"build_ledger: {src}'s rows carry no placeId; pass --place")
     row = base_row("rounds", place_id, src)
     row["_rounds"] = rounds
     return row
@@ -184,6 +210,58 @@ def row_from_close(src: str) -> dict:
     return row
 
 
+def parse_at(at: str | None) -> float:
+    return time.time() if at is None else float(
+        __import__("calendar").timegm(time.strptime(at, "%Y-%m-%dT%H:%M:%SZ")))
+
+
+def iso(t: float) -> str:
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(t))
+
+
+def clock_path(clock_dir: str, place_id: str) -> str:
+    return os.path.join(clock_dir, place_id, "stage-clock.json")
+
+
+def end_stage(clock_dir: str, place_id: str, stage: str | None, at: float, ledger: str,
+              place_type_of=None) -> dict | None:
+    """End the place's open stage (it must be `stage` when one is named):
+    append its `stage` row and drop the clock. None when no stage is open."""
+    path = clock_path(clock_dir, place_id)
+    if not os.path.exists(path):
+        return None
+    with open(path) as f:
+        clock = json.load(f)
+    if stage is not None and clock["stage"] != stage:
+        raise SystemExit(f"build_ledger: {place_id}'s open stage is {clock['stage']}, not {stage}")
+    minutes = round((at - parse_at(clock["startedAt"])) / 60.0, 3)
+    ended = iso(at)
+    sha = hashlib.sha256(json.dumps([clock, ended], sort_keys=True).encode()).hexdigest()
+    row = base_row("stage", place_id, None, sha)
+    row.update({"stage": clock["stage"], "startedAt": clock["startedAt"], "endedAt": ended,
+                "wallMin": {clock["stage"]: minutes}})
+    for k in ("path", "type"):
+        if clock.get(k):
+            row[k] = clock[k]
+    append(row, ledger, **({"place_type_of": place_type_of} if place_type_of else {}),
+           start_run=bool(clock.get("startRun")))
+    os.remove(path)
+    return row
+
+
+def start_stage(clock_dir: str, place_id: str, stage: str, at: float, ledger: str,
+                path: str | None = None, ptype: str | None = None, start_run: bool = False,
+                place_type_of=None) -> dict | None:
+    """End the open stage, then open `stage` at `at`. Returns the ended row."""
+    ended = end_stage(clock_dir, place_id, None, at, ledger, place_type_of)
+    target = clock_path(clock_dir, place_id)
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    with open(target, "w") as f:
+        json.dump({"placeId": place_id, "stage": stage, "startedAt": iso(at), "path": path,
+                   "type": ptype, "startRun": start_run}, f, sort_keys=True)
+    return ended
+
+
 def append(row: dict, ledger: str = LEDGER, place_type_of=place_type, start_run: bool = False) -> bool:
     """Append `row` under the lock; False (nothing written) when a row with the
     same source and input hash is already there."""
@@ -219,30 +297,55 @@ def append(row: dict, ledger: str = LEDGER, place_type_of=place_type, start_run:
 
 
 def run_minutes(row: dict) -> float | None:
-    """A row's tool wall minutes: the rounds' total, or the gates' wall."""
+    """A row's wall minutes: the rounds' or hand row's total, the gates'
+    wall, or the stage's minutes."""
     wall = row.get("wallMin") or {}
-    if row.get("source") == "rounds":
+    if row.get("source") in ("rounds", "hand"):
         return wall.get("total")
     if row.get("source") == "gates":
         return wall.get("gates")
+    if row.get("source") == "stage":
+        return sum(v for v in wall.values() if isinstance(v, (int, float)))
     return None
 
 
 def runs(rows: list[dict]) -> list[dict]:
-    """One entry per run (runId): its rounds and gates minutes summed, judged
-    alone against its own path's target; the run's last skill sha."""
+    """One entry per run (runId): its rounds, gates and stage minutes summed
+    (or, when it holds a hand row, the hand rows' totals alone: the hand
+    stopwatch already covers the tool rows), judged alone against its own
+    path's target; the run's last skill sha."""
     by = {}
+    hand_runs = {r["runId"] for r in rows if r.get("source") == "hand" and r.get("runId")}
+    windows = {}
+    for r in rows:
+        if r.get("source") == "stage" and r.get("runId"):
+            windows.setdefault(r["runId"], []).append((r["startedAt"], r["endedAt"]))
     for r in rows:
         m = run_minutes(r)
         if m is None or not r.get("runId"):
             continue
         run = by.setdefault(r["runId"], {"runId": r["runId"], "placeId": r["placeId"],
                                          "path": r.get("path") or "unknown", "minutes": 0.0,
-                                         "rounds": 0, "skillSha": None})
+                                         "rounds": 0, "skillSha": None,
+                                         "hand": r["runId"] in hand_runs})
+        if run["hand"] and r.get("source") != "hand":
+            continue
+        when = row_time(r)
+        if when and any(a <= when <= b for a, b in windows.get(r["runId"], ())):
+            continue                              # inside a stage: its wall already counts it
         run["minutes"] += m
         run["rounds"] += r.get("rounds") or 0
         run["skillSha"] = r.get("skillSha") or run["skillSha"]
     return [by[k] for k in sorted(by)]
+
+
+def row_time(row: dict) -> str | None:
+    """When a tool row's work ended: a rounds row's last round, a gates row's recordedAt."""
+    if row.get("source") == "rounds":
+        return max((k.split("|", 1)[0] for k in row.get("roundKeys") or []), default=None)
+    if row.get("source") == "gates":
+        return row.get("recordedAt")
+    return None
 
 
 def over_target(run: dict) -> bool:
@@ -252,8 +355,20 @@ def over_target(run: dict) -> bool:
 
 def report(rows: list[dict]) -> str:
     rs = runs(rows)
-    lines = [f"build ledger: {len(rows)} row(s), {len(rs)} run(s); tool wall minutes "
+    by_source = {}
+    for r in rows:
+        by_source[r.get("source")] = by_source.get(r.get("source"), 0) + 1
+    lines = [f"build ledger: {len(rows)} row(s) ("
+             + ", ".join(f"{k} {v}" for k, v in sorted(by_source.items(), key=lambda kv: str(kv[0])))
+             + f"), {len(rs)} run(s); wall minutes "
              f"(targets: {', '.join(f'{k} {v:g}' for k, v in TARGET_MIN.items())})"]
+    lines.append("runs:")
+    for r in rs:
+        t = TARGET_MIN.get(r["path"])
+        verdict = ("no target" if t is None else
+                   f"over by {r['minutes'] - t:.1f}" if r["minutes"] > t else f"under by {t - r['minutes']:.1f}")
+        lines.append(f"  {r['runId']} {r['path']} {r['minutes']:.1f} min target "
+                     f"{'-' if t is None else f'{t:g}'} {verdict}" + (" (hand)" if r["hand"] else ""))
 
     def trend(label, key):
         groups = {}
@@ -278,7 +393,7 @@ def report(rows: list[dict]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("cmd", nargs="?", choices=["append"])
+    ap.add_argument("cmd", nargs="?", choices=["append", "stage"])
     ap.add_argument("--from-rounds")
     ap.add_argument("--from-gates")
     ap.add_argument("--from-close")
@@ -287,11 +402,36 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--type")
     ap.add_argument("--start-run", action="store_true",
                     help="this row starts a new run (a walk's fix round: --start-run --path fix-round)")
+    ap.add_argument("--stage", help="stage: the stage name (orient, dossier-and-brief, "
+                    "survey-and-scans, layout-to-compile, readers, publish)")
+    ap.add_argument("--start", action="store_true", help="stage: open it (ends the open stage)")
+    ap.add_argument("--end", action="store_true", help="stage: end it")
+    ap.add_argument("--at", help="stage: the event time, %%Y-%%m-%%dT%%H:%%M:%%SZ (default now)")
+    ap.add_argument("--clock-dir", default=os.path.join(ROOT, "tooling", ".reports", "16k"),
+                    help=argparse.SUPPRESS)
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--ledger", default=LEDGER)
     a = ap.parse_args(argv)
     if a.report:
         print(report(read_rows(a.ledger)))
+        return 0
+    if a.cmd == "stage":
+        if not (a.place and a.stage) or a.start == a.end:
+            ap.error("stage --place <id> --stage <name> --start|--end")
+        at = parse_at(a.at)
+        if a.start:
+            ended = start_stage(a.clock_dir, a.place, a.stage, at, a.ledger, a.path, a.type,
+                                a.start_run)
+        else:
+            ended = end_stage(a.clock_dir, a.place, a.stage, at, a.ledger)
+            if ended is None:
+                print(f"build_ledger: no open stage for {a.place}", file=sys.stderr)
+                return 2
+        if ended:
+            print(f"build_ledger: stage {ended['stage']} of {a.place}: "
+                  f"{ended['wallMin'][ended['stage']]:.1f} min")
+        if a.start:
+            print(f"build_ledger: stage {a.stage} of {a.place} started")
         return 0
     if a.cmd != "append":
         ap.error("append --from-rounds|--from-gates|--from-close, or --report")
@@ -299,8 +439,6 @@ def main(argv: list[str] | None = None) -> int:
     if len(sources) != 1:
         ap.error("append takes exactly one of --from-rounds, --from-gates, --from-close")
     if a.from_rounds:
-        if not a.place:
-            ap.error("--from-rounds needs --place (rounds.jsonl rows carry no place id)")
         row = row_from_rounds(a.from_rounds, a.place)
     elif a.from_gates:
         row = row_from_gates(a.from_gates)

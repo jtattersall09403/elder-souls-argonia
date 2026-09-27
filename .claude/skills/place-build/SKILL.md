@@ -156,6 +156,12 @@ the owner, batched into the next walk packet.
 
 ## 0. Orient (unattended)
 
+The stage clock (16k § Build cost is measured as data; rounds and gates
+record themselves): each `--start` below ends the stage before it, and a
+fix round's first start adds `--start-run --path fix-round` (step 7).
+
+    python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage orient --start
+
 1. Read the site packet (the lessons rows for this type come in it),
    the type sheet, and the rows of `references/design-index.md` for this
    type, culture and step. A stale or contradicting lesson row is fixed
@@ -171,6 +177,7 @@ the owner, batched into the next walk packet.
    recounts.
 3. Pull the record and its promises:
 
+        python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage dossier-and-brief --start
         python3 -m worldgen.blueprint_promises --id <place-id> --write   # (worldgen)
         python3 -m worldgen.site_dossier --id <slug> --x <positionM x> --z <positionM z> --radius 400   # (worldgen)
 
@@ -361,7 +368,9 @@ every door an Interiors row, every promise row a fulfilment or an
    `group save` in the layout.
 3. Apply:
 
+        python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
         python3 tooling/placement-workbench/wb.py <scene> scan <place>.scan.json --out tooling/.reports/16k/<place>/round-N/scan.json   # site feasibility first
+        python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage layout-to-compile --start
         python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots --report-dir tooling/.reports/16k/<place>/round-N/
 
    It rebuilds the scene from a fresh window in one process, runs `check`
@@ -398,6 +407,7 @@ Ends when: every Plan row is YES.
 
 ## 4. Render rounds (at most four; 0102 decision 4)
 
+    python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
 
 One Blender launch: the top view, one front per building, two isos, and a
@@ -424,10 +434,12 @@ without that is an escalation to the planner, never a packet.
 
 ## 5. Export, patches, compile, publish, gates
 
+    python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage publish --start
     python3 tooling/placement-workbench/wb.py <scene> export world/sources/blueprints/<place-id>.json --write
     python3 -m worldgen.compile_settlement --blueprint ../../world/sources/blueprints/<place-id>.json --out output/settlements   # (worldgen)
     python3 -m worldgen.export_interior_bundle --blueprint ../../world/sources/blueprints/<place-id>.json   # (worldgen)
     python3 -m worldgen.export_settlement_bundle --copy-assets --places <place-id>   # (worldgen)
+    python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage publish --end
 
 - Export writes the poses (0097) and the ground and kit provenance.
 - Patches are the place's own typed ones only (0081 decision 3: pad,
@@ -523,6 +535,8 @@ per-item tables are collapsed with `owner_inbox.py --collapse <comment-id>`
 so the issue stays readable.
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
+
+    python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage orient --start --start-run --path fix-round
 
 1. Group every "wrong" in the reply by cause across the whole reply.
 2. Per cause: a REQUEST row for `references/lessons.md` (an edit of the

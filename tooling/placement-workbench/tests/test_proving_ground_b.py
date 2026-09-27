@@ -27,12 +27,14 @@ from workbench.scene import Piece, Scene  # noqa: E402
 paths.bridge()
 from shapely.geometry import LineString, Point, Polygon  # noqa: E402
 from worldgen import compile_settlement as cs  # noqa: E402
+from worldgen import settlement_bundles as sb  # noqa: E402
 from worldgen import test_proving_ground as tpg  # noqa: E402
 
 PLACE = "place.fixture.proving-ground-b"
 BLUEPRINT = paths.BLUEPRINTS / f"{PLACE}.json"
 SITE = paths.REPO_ROOT / "world/sources/sites/proving-ground-b.json"
-PUBLISHED = paths.PROVINCE / "settlements.json"
+# the published settlements (per-place bundles + index), whole-file shape (S8)
+PUBLISHED = paths.PROVINCE
 SCENE = paths.OUTPUT / "scenes" / "yard-b.json"
 JOINT_GAP_M = 0.03
 JOINT_PENETRATION_M = 0.05
@@ -57,7 +59,7 @@ def bp():
 
 @pytest.fixture(scope="module")
 def bundle():
-    return json.loads(PUBLISHED.read_text())
+    return sb.read_published(PUBLISHED)
 
 
 def _mine(bundle):

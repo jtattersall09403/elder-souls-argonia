@@ -12,8 +12,8 @@ Run from ``tooling/world-generation``::
 
 Writes one minified bundle per place and per route plus their index under
 ``apps/world-studio/public/province/settlements/`` (``settlement_bundles``,
-S8), the legacy whole file ``province/settlements.json`` while
-``LEGACY_WHOLE_FILE`` holds, atomically, and, when requested, copies only
+S8), atomically (the old whole ``province/settlements.json`` is retired,
+16k close-out 2026-09-27), and, when requested, copies only
 referenced kit GLBs/manifests to ``public/kits``.
 """
 
@@ -124,20 +124,16 @@ BLUEPRINTS = REPO_ROOT / "world" / "sources" / "blueprints"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 WARNING_KNOWN_RED = (REPO_ROOT / "world" / "sources" / "settlements"
                      / "settlement-warning-known-red.json")
+# `out` names the province folder by its parent (bundles, index and ground
+# sidecar go under out.parent/settlements/); nothing is written at `out` itself.
 OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
 PUBLIC_KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 PLACE_MANIFESTS = REPO_ROOT / "tooling" / ".reports" / "16k"   # contract 1: <place-id>/manifest.json
 
-# S8: the runtime reads settlements/index.json and the per-place bundles. The
-# whole file OUT is still written for the readers outside this lane that read
-# it whole: tooling/placement-workbench/wb.py (walk table) and its tests
-# test_0102_rules.py, test_proving_ground_b.py, test_walk2_rules.py,
-# test_workbench.py; tooling/asset-pipeline/pipeline/placement_metadata.py;
-# tooling/pages-site/compose.mjs (site layer record);
-# tooling/studio-loop/yard-publish.sh (its --base and the file it installs).
-# Setting this to False is the removal: move those readers to
-# settlement_bundles.load_published() / settlements/index.json first.
-LEGACY_WHOLE_FILE = True
+# S8: every reader reads settlements/index.json and the per-place bundles
+# (settlement_bundles.read_published / load_published in Python, the index in
+# compose.mjs and yard-publish.sh, settlementIndex.ts in the browser); the
+# whole file OUT is retired (16k close-out, 2026-09-27).
 
 GROUND_FITS = {"direct", "plinth", "pad", "stilt", "dug-in"}
 # A piece can be deliberately used in more than one authored ground treatment.
@@ -1825,20 +1821,17 @@ def place_budgets(bundle: dict, kits_dir: Path | None = None) -> dict[str, int]:
 
 def published_base(base: Path | None, out: Path) -> dict:
     """The published record a --places publish merges into, whole-file shape:
-    `base` when given (a whole file, or a province folder / index.json that
-    holds the bundles), else the bundles beside `out`, else the legacy whole
-    file at `out`."""
+    `base` when given (a province folder or index.json holding the bundles;
+    `settlement_bundles.read_published`), else the bundles beside `out`."""
     if base is not None:
         if Path(base).exists():
             return settlement_bundles.read_published(base)
         raise ValueError(f"--places needs a published bundle to publish into; {base} does not exist")
     if (out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME).exists():
         return settlement_bundles.load_published(out.parent)
-    if out.exists():
-        return _read(out)
-    raise ValueError(f"--places needs a published bundle to publish into; neither "
+    raise ValueError(f"--places needs a published bundle to publish into; "
                      f"{out.parent / settlement_bundles.BUNDLE_DIR / settlement_bundles.INDEX_NAME} "
-                     f"nor {out} exists (run one full export)")
+                     f"does not exist (run one full export)")
 
 
 def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None = None,
@@ -1878,8 +1871,8 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
                   if row.get("placeId") not in scope] + report
     if copy:
         copy_assets(bundle)
-    # settlements.json is the publication marker. It can never name assets
-    # that have not all been validated, staged and moved into place.
+    # settlements/index.json is the publication marker. It can never name
+    # assets that have not all been validated, staged and moved into place.
     # the studio's ground reader (0102 round 2): written before the bundle,
     # the publication marker, so a published bundle never outruns its sidecar
     # compact: runtime data every studio load fetches before its first terrain decode
@@ -1895,8 +1888,6 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
           + (f"; removed {', '.join(wrote['removed'])}" if wrote["removed"] else ""))
     if places is not None and manifest_root is not None:
         settlement_bundles.write_manifests(_place_scope(places), bundle, manifest_root)
-    if LEGACY_WHOLE_FILE:
-        _atomic_json(out, bundle)
     _atomic_json(report_path, {"schemaVersion": 1, "kind": "accepted-place-report",
                                "about": "report-mode gate findings on accepted places "
                                         "(0100 decision 6); queue each to the polish backlog",
@@ -1921,9 +1912,9 @@ def main() -> int:
                          "carrying every other place and the routes from --base "
                          "unchanged (0100 decision 6)")
     ap.add_argument("--base", type=Path, default=None,
-                    help="what a --places publish merges into: a whole settlements.json, "
-                         "or a province folder / settlements/index.json holding the "
-                         "bundles (default: the bundles beside --out, else --out)")
+                    help="what a --places publish merges into: a province folder or "
+                         "settlements/index.json holding the bundles (default: the "
+                         "bundles beside --out)")
     ap.add_argument("--manifest-dir", type=Path, default=PLACE_MANIFESTS,
                     help="where a --places publish writes <place-id>/manifest.json "
                          "(contract 1; default tooling/.reports/16k)")

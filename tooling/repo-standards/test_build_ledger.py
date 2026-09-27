@@ -5,6 +5,8 @@ import multiprocessing as mp
 import os
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_ledger as bl  # noqa: E402
 
@@ -139,3 +141,103 @@ def test_a_runs_path_is_fixed_when_it_starts(tmp_path):
     [run] = [r for r in bl.runs(bl.read_rows(str(ledger))) if r["placeId"] == "place.b"]
     assert (run["path"], run["minutes"]) == ("new-type", 50.0)
     assert "place.b#1 new-type 50.0 min > 40" in bl.report(bl.read_rows(str(ledger)))
+
+
+def _rows_with_place(path, place, totals):
+    path.write_text("".join(json.dumps({"at": f"p{i}", "layoutSha256": "L", "placeId": place,
+                                        "totalS": t}) + "\n" for i, t in enumerate(totals)))
+    return str(path)
+
+
+def test_rounds_rows_carry_the_place_so_append_needs_no_place(tmp_path):
+    """wb.py writes placeId on every rounds row (speed-lane-3A rec 8); an old
+    row without one still takes --place."""
+    ledger = tmp_path / "ledger.jsonl"
+    src = _rows_with_place(tmp_path / "r.jsonl", "place.a", [600.0])
+    assert bl.main(["append", "--from-rounds", src, "--ledger", str(ledger), "--type", "t"]) == 0
+    [row] = bl.read_rows(str(ledger))
+    assert row["placeId"] == "place.a" and row["wallMin"]["total"] == 10.0
+    old = _rounds(tmp_path / "old.jsonl", [60.0])
+    with pytest.raises(SystemExit):
+        bl.main(["append", "--from-rounds", old, "--ledger", str(ledger)])
+    assert bl.main(["append", "--from-rounds", old, "--place", "place.b", "--type", "t",
+                    "--ledger", str(ledger)]) == 0
+    mixed = tmp_path / "mixed.jsonl"
+    mixed.write_text(open(src).read() + json.dumps({"at": "z", "layoutSha256": "L",
+                                                    "placeId": "place.c", "totalS": 1.0}) + "\n")
+    with pytest.raises(SystemExit):
+        bl.main(["append", "--from-rounds", str(mixed), "--ledger", str(ledger)])
+
+
+def _stage(tmp_path, *args):
+    return bl.main(["stage", "--ledger", str(tmp_path / "ledger.jsonl"),
+                    "--clock-dir", str(tmp_path / "clocks"), "--type", "road-station", *args])
+
+
+def test_stage_events_record_wall_minutes_per_stage(tmp_path):
+    """start/end pairs become one `stage` row each; starting a stage ends the
+    open one; the run's minutes add stages, rounds and gates."""
+    assert _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start",
+                  "--at", "2026-09-27T10:00:00Z") == 0
+    assert _stage(tmp_path, "--place", "place.a", "--stage", "survey-and-scans", "--start",
+                  "--at", "2026-09-27T10:12:00Z") == 0                      # ends orient: 12
+    assert _stage(tmp_path, "--place", "place.a", "--stage", "survey-and-scans", "--end",
+                  "--at", "2026-09-27T10:27:00Z") == 0                      # 15
+    assert _stage(tmp_path, "--place", "place.a", "--stage", "readers", "--end") == 2   # none open
+    rows = bl.read_rows(str(tmp_path / "ledger.jsonl"))
+    assert [(r["source"], r["stage"], r["wallMin"]) for r in rows] == [
+        ("stage", "orient", {"orient": 12.0}), ("stage", "survey-and-scans", {"survey-and-scans": 15.0})]
+    assert {r["runId"] for r in rows} == {"place.a#1"} and rows[0]["path"] == "new-type"
+    [run] = bl.runs(rows)
+    assert run["minutes"] == 27.0
+
+
+def test_a_fix_round_stage_starts_its_own_run(tmp_path):
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--at", "2026-09-27T10:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-27T10:30:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--start-run",
+           "--path", "fix-round", "--at", "2026-09-28T09:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-28T09:04:00Z")
+    rs = bl.runs(bl.read_rows(str(tmp_path / "ledger.jsonl")))
+    assert [(r["runId"], r["path"], r["minutes"]) for r in rs] == [
+        ("place.a#1", "new-type", 30.0), ("place.a#2", "fix-round", 4.0)]
+
+
+def test_report_counts_a_hand_row_as_the_runs_stopwatch(tmp_path):
+    """Greenspring's hand row (total 64, gates 2 inside it) is the run's
+    minutes; its gates rows are not added on top."""
+    ledger = tmp_path / "ledger.jsonl"
+    g = tmp_path / "place-gates.json"
+    g.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.a", "wallS": 12.0, "ok": True,
+                             "gates": []}))
+    _append(bl.row_from_gates(str(g)), ledger)
+    hand = {"schemaVersion": 1, "source": "hand", "placeId": "place.a", "runId": "place.a#1",
+            "path": "new-type", "type": "road-station", "wallMin": {"gates": 2, "total": 64}}
+    with open(ledger, "a") as f:
+        f.write(json.dumps(hand) + "\n")
+    rows = bl.read_rows(str(ledger))
+    [run] = bl.runs(rows)
+    assert run["minutes"] == 64.0 and run["hand"]
+    out = bl.report(rows)
+    assert "place.a#1 new-type 64.0 min > 40" in out
+    assert "place.a#1 new-type 64.0 min target 40 over by 24.0 (hand)" in out
+
+
+def test_rounds_inside_a_stage_are_not_counted_twice(tmp_path):
+    """A round run inside layout-to-compile is part of that stage's wall; one
+    after the stages still counts."""
+    _stage(tmp_path, "--place", "place.a", "--stage", "layout-to-compile", "--start",
+           "--at", "2026-09-27T10:00:00Z")
+    ledger = tmp_path / "ledger.jsonl"
+    inside = tmp_path / "in.jsonl"
+    inside.write_text(json.dumps({"at": "2026-09-27T10:05:00Z", "layoutSha256": "L", "placeId": "place.a",
+                                  "totalS": 120.0}) + "\n")
+    bl.main(["append", "--from-rounds", str(inside), "--ledger", str(ledger), "--type", "t"])
+    _stage(tmp_path, "--place", "place.a", "--stage", "layout-to-compile", "--end",
+           "--at", "2026-09-27T10:20:00Z")
+    after = tmp_path / "after.jsonl"
+    after.write_text(json.dumps({"at": "2026-09-27T10:30:00Z", "layoutSha256": "L2", "placeId": "place.a",
+                                 "totalS": 60.0}) + "\n")
+    bl.main(["append", "--from-rounds", str(after), "--ledger", str(ledger), "--type", "t"])
+    [run] = bl.runs(bl.read_rows(str(ledger)))
+    assert run["minutes"] == 21.0

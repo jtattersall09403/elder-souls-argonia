@@ -318,7 +318,8 @@ def write_published(whole: dict, budgets: dict[str, int], province_dir: Path,
 
 def place_manifest(place_id: str, whole: dict, repo_root: Path = REPO_ROOT) -> dict:
     """Contract 1: the files a --places publish of `place_id` owns (its bundle,
-    its interior cells claimed by no other place, its own source files)."""
+    its interior cells claimed by no other place, its own source files: the
+    blueprints, the site dossier and the promise ledger)."""
     files = {f"apps/world-studio/public/province/{place_bundle_path(place_id)}"}
     claims: dict[str, set[str]] = {}
     for door in whole.get("doors") or []:
@@ -336,6 +337,11 @@ def place_manifest(place_id: str, whole: dict, repo_root: Path = REPO_ROOT) -> d
             if path.is_file() and (path.name.startswith(stem + ".")
                                    or path.name.startswith(place_id + ".")):
                 files.add(path.relative_to(repo_root).as_posix())
+    # the site dossier and the promise ledger (place-build SKILL § A place's files)
+    for rel in (f"world/sources/sites/dossiers/{stem}.json", f"world/sources/sites/dossiers/{stem}.md",
+                f"world/sources/placement/promises/{place_id}.json"):
+        if (repo_root / rel).is_file():
+            files.add(rel)
     return {"schemaVersion": 1, "placeId": place_id, "writtenBy": "export_settlement_bundle",
             "files": sorted(files)}
 

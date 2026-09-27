@@ -17,6 +17,7 @@ from .placement_metadata import (
     load_anchors,
     load_inventory,
     normalize_asset_id,
+    published_rows,
     refresh_built_manifests,
     resolve_anchor_class,
     shipped_contract_findings,
@@ -133,9 +134,8 @@ def test_repository_used_asset_coverage_is_dynamic_and_explicit():
     # bundle's compiled objects claim (read from the product, not from the
     # source walk the report makes), so the set follows the shipped places:
     # empty on the yard alone, dungeon-root-v1 when a root dungeon ships.
-    bundle = json.loads(SETTLEMENT_BUNDLE.read_text())
     claimed = {normalize_asset_id(ref)
-               for obj in bundle.get("compiledObjects", [])
+               for obj in published_rows("compiledObjects", SETTLEMENT_BUNDLE)
                for ref in [((obj.get("spec") or {}).get("interior") or {}).get("assetRef")]
                if isinstance(ref, str)}
     assert set(report.expanded) == claimed

@@ -21,7 +21,11 @@ Runs, for one place and without the yard regression gates:
   (dwelling signature ratio, distinct shells, top shell share) against
   ``breadth-bars.json`` for the column the place is built under;
 * ``0098.province`` - ``claim_signature.province_errors``: other places'
-  claims count toward the province cap and the 2 km rule.
+  claims count toward the province cap and the 2 km rule;
+* ``breadth.<bar>`` - the within-place breadth bars measured on the compiled
+  settlement's placements (see ``breadth_measure``): dressing pieces within
+  12 m per dwelling (p50), dressing asset kinds, one dressing asset's share,
+  light fixture kinds.
 
 Writes ``tooling/.reports/16k/<place-id>/place-gates.json`` (contract 3:
 schemaVersion, placeId, startedAt, wallS, ok, gates[{id, ok, seconds,
@@ -39,7 +43,6 @@ import subprocess
 import sys
 import time
 from collections import Counter
-from datetime import datetime, timezone
 from pathlib import Path
 
 from .atomic_write import atomic_write_bytes
@@ -62,10 +65,27 @@ REPORTS = REPO_ROOT / "tooling" / ".reports" / "16k"
 INTERIORS = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
 LEDGER_TOOL = REPO_ROOT / "tooling" / "repo-standards" / "build_ledger.py"
 SCHEMA_VERSION = 1
-#: breadth-bars.json fields no gate measures yet (reported, never passed)
-NOT_MEASURED = ("dressingPiecesPerDwellingWithin12mMin", "clutterPiecesMin",
-                "dressingAssetKindsMin", "dressingAssetShareMax", "groundKindsMin",
-                "lightKindsMin", "enclosureKindsMin")
+#: breadth-bars.json fields no gate measures yet (reported, never passed):
+#: clutterPiecesMin (the compile's `clutter` layer does not tell personal
+#: clutter at the door from town clutter, building-depth-and-variety.md §2
+#: layers 9/10), groundKindsMin (no surface-material record in the compiled
+#: settlement or scene), enclosureKindsMin (no record says which parcels or
+#: pieces are an enclosure kind)
+NOT_MEASURED = ("clutterPiecesMin", "groundKindsMin", "enclosureKindsMin")
+#: the breadth bars ``breadth_gates`` measures, in gate order
+BREADTH_BARS = ("dressingPiecesPerDwellingWithin12mMin", "dressingAssetKindsMin",
+                "dressingAssetShareMax", "lightKindsMin")
+#: dressing = the assembly layers building-depth-and-variety.md §2 calls
+#: dressing (layer 8 lantern or light, layers 9-10 clutter); the compile
+#: carries them as each assembly member's `layer`
+DRESSING_LAYERS = ("clutter", "light")
+#: a light fixture: the layer the compile's lit-entrance gate reads
+#: (compile_settlement.ENTRANCE_LIGHT_LAYERS); an `effect` (smoke) is no fixture
+LIGHT_LAYERS = ("light",)
+#: the vanilla house-surroundings method (building-depth-and-variety.md §2):
+#: every piece within 12 m horizontal and 15 m vertical of the house anchor
+DWELLING_REACH_M = 12.0
+DWELLING_REACH_UP_M = 15.0
 
 
 class Gates:
@@ -178,10 +198,114 @@ def variety_exceptions(bp: dict, bars: list[tuple[str, str]]) -> tuple[list[str]
     return failures, warnings
 
 
-def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene: Path,
-                  bp_source: str) -> None:
+def breadth_measure(placements: list[dict], dwelling_parcels: set[str]) -> dict:
+    """The within-place breadth numbers of one compiled settlement.
+
+    Dressing is every `assembly` placement whose `layer` is in DRESSING_LAYERS;
+    a light fixture every `assembly` placement whose layer is in LIGHT_LAYERS.
+    A dwelling's anchor is its parcel's `.building` placement; its count is
+    the dressing within DWELLING_REACH_M in plan and DWELLING_REACH_UP_M in
+    height of that anchor (0098 row "pieces within 12 m per dwelling", p50).
+    """
+    from statistics import median
+    dressing = [p for p in placements
+                if p.get("objectKind") == "assembly" and p.get("layer") in DRESSING_LAYERS]
+    lights = {p["assetId"] for p in placements
+              if p.get("objectKind") == "assembly" and p.get("layer") in LIGHT_LAYERS}
+    anchors = {p["parcelId"]: p["positionM"] for p in placements
+               if p.get("objectKind") == "parcel" and p.get("parcelId") in dwelling_parcels
+               and str(p.get("id", "")).endswith(".building")}
+    per_dwelling = {}
+    for pid in sorted(anchors):
+        ax, ay, az = anchors[pid]
+        per_dwelling[pid] = sum(
+            1 for d in dressing
+            if ((d["positionM"][0] - ax) ** 2 + (d["positionM"][2] - az) ** 2) ** 0.5 <= DWELLING_REACH_M
+            and abs(d["positionM"][1] - ay) <= DWELLING_REACH_UP_M)
+    kinds = Counter(d["assetId"] for d in dressing)
+    top_asset, top_n = min(kinds.items(), key=lambda kv: (-kv[1], kv[0])) if kinds else (None, 0)
+    return {
+        "dressingPieces": len(dressing),
+        "dressingPerDwelling": per_dwelling,
+        "dwellingsWithoutAnchor": sorted(dwelling_parcels - set(anchors)),
+        "dressingPerDwellingP50": median(per_dwelling.values()) if per_dwelling else None,
+        "dressingAssetKinds": len(kinds),
+        "topDressingAsset": top_asset,
+        "topDressingAssetShare": round(top_n / len(dressing), 3) if dressing else 0.0,
+        "lightKinds": sorted(lights),
+    }
+
+
+def breadth_failures(m: dict, row: dict, column: str) -> dict[str, list[str]]:
+    """{bar: failures} for BREADTH_BARS against one bars row."""
+    out = {bar: [] for bar in BREADTH_BARS}
+    bar = row["dressingPiecesPerDwellingWithin12mMin"]
+    if m["dwellingsWithoutAnchor"]:
+        out["dressingPiecesPerDwellingWithin12mMin"].append(
+            f"breadth: dwelling(s) with no .building placement to measure from: {m['dwellingsWithoutAnchor']}")
+    if m["dressingPerDwellingP50"] is not None and m["dressingPerDwellingP50"] < bar:
+        out["dressingPiecesPerDwellingWithin12mMin"].append(
+            f"breadth: dressing pieces within {DWELLING_REACH_M:g} m per dwelling p50 "
+            f"{m['dressingPerDwellingP50']:g} < {bar} ({column})")
+    if m["dressingAssetKinds"] < row["dressingAssetKindsMin"]:
+        out["dressingAssetKindsMin"].append(
+            f"breadth: dressing asset kinds {m['dressingAssetKinds']} < {row['dressingAssetKindsMin']} ({column})")
+    if m["topDressingAssetShare"] > row["dressingAssetShareMax"]:
+        out["dressingAssetShareMax"].append(
+            f"breadth: {m['topDressingAsset']} is {m['topDressingAssetShare']:.2f} of the dressing "
+            f"> {row['dressingAssetShareMax']} ({column})")
+    if len(m["lightKinds"]) < row["lightKindsMin"]:
+        out["lightKindsMin"].append(
+            f"breadth: light fixture kinds {len(m['lightKinds'])} < {row['lightKindsMin']} ({column})")
+    return out
+
+
+def breadth_gates(g: Gates, settlement: dict | None, dwelling_parcels: set[str],
+                  column: str | None, row: dict | None) -> None:
+    t = time.perf_counter()
+    if settlement is None:
+        for bar in BREADTH_BARS:
+            g.add(f"breadth.{bar}", 0.0, ["the compile did not run: no placements to measure"])
+        return
+    m = breadth_measure(settlement.get("placements") or [], dwelling_parcels)
+    if column is None:
+        for bar in BREADTH_BARS:
+            g.add(f"breadth.{bar}", 0.0, [], ["below every breadth-bars column"], measured=m)
+        return
+    fails = breadth_failures(m, row, column)
+    seconds = time.perf_counter() - t
+    for bar in BREADTH_BARS:
+        g.add(f"breadth.{bar}", seconds, fails[bar], column=column, bar=row[bar], measured=m)
+
+
+def place_bars(record: dict | None, n_counted: int) -> tuple[str | None, int | None, dict | None]:
+    """(column, type number, flat bars row) for the column the place is built under."""
     from . import breadth_bars as bb
+    record_bars = bb.load()
+    column = bb.built_column(n_counted, record_bars)
+    if column is None:
+        return None, None, None
+    from .site_packet import type_sheet
+    type_no = type_sheet(((record or {}).get("classification") or {}).get("type"))["number"]
+    if type_no is None:        # no type sheet names the record's type: tier bars only
+        return column, None, {f: record_bars["tiers"][column][f]["value"] for f in bb.TIER_FIELDS}
+    # bars_for resolves the type's overrides; its culture only picks the
+    # enclosure bar, which no gate reads yet (NOT_MEASURED)
+    enclosure = record_bars["enclosureKindsMin"]
+    culture = (record or {}).get("culture")
+    return column, type_no, bb.bars_for(column, culture if culture in enclosure else sorted(enclosure)[0],
+                                        type_no, record_bars)
+
+
+def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene: Path,
+                  bp_source: str, settlement: dict | None = None) -> None:
     from . import claim_signature as cl
+    from . import parcel_kinds as pk
+    use = {p["id"]: p.get("use") for p in bp.get("parcels") or []}
+    # the parcels the compile's density column counts (blueprint.density_column)
+    counted = {p["id"] for p in pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))}
+    column, type_no, row = place_bars(record, len(counted))
+    breadth_gates(g, settlement, {pid for pid in counted if use.get(pid) == "dwelling"}, column, row)
     t = time.perf_counter()
     try:
         sigs = cl.place_signatures(place_id, scene, env=wb_env(place_id), blueprint=bp)
@@ -189,30 +313,13 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
         g.add("0098.place", time.perf_counter() - t, [f"no signature: {exc}"])
         g.add("0098.province", 0.0, [f"no signature: {exc}"])
         return
-    from . import parcel_kinds as pk
-    use = {p["id"]: p.get("use") for p in bp.get("parcels") or []}
-    # the parcels the compile's density column counts (blueprint.density_column)
-    counted = {p["id"] for p in pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))}
     buildings = [(s, pid) for s, pids in sigs.items() for pid in pids if pid in counted]
     dwellings = [(s, pid) for s, pid in buildings if use.get(pid) == "dwelling"]
-    record_bars = bb.load()
-    column = bb.built_column(len(counted), record_bars)
     failures = []
     if column is None:
         g.add("0098.place", time.perf_counter() - t, [],
               [f"{len(buildings)} counted buildings: below every breadth-bars column"])
     else:
-        from .site_packet import type_sheet
-        type_no = type_sheet(((record or {}).get("classification") or {}).get("type"))["number"]
-        if type_no is None:        # no type sheet names the record's type: tier bars only
-            row = {f: record_bars["tiers"][column][f]["value"] for f in bb.TIER_FIELDS}
-        else:
-            # bars_for resolves the type's overrides; its culture only picks the
-            # enclosure bar, which this gate does not read
-            enclosure = record_bars["enclosureKindsMin"]
-            culture = (record or {}).get("culture")
-            row = bb.bars_for(column, culture if culture in enclosure else sorted(enclosure)[0],
-                              type_no, record_bars)
         shells = Counter(s.split(" | ", 1)[0] for s, _ in buildings)
         dwell_shells = Counter(s.split(" | ", 1)[0] for s, _ in dwellings)
         ratio = len({s for s, _ in dwellings}) / len(dwellings) if dwellings else 1.0
@@ -244,9 +351,11 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
            f"(claim_signature --from-scene)"] if unclaimed else None)
 
 
-def run(place_id: str, scene_name: str | None = None) -> dict:
+def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
+    """All gates for one place. ``now`` is the report's ``startedAt`` stamp,
+    injected by the CLI (standard 6: no wall clock below the boundary)."""
     t0 = time.perf_counter()
-    started = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    started = now
     g = Gates()
     layout = _layout_path(place_id)
     scene = scene_name or place_id.removeprefix("place.").replace(".", "-") + "-gates"
@@ -300,7 +409,7 @@ def run(place_id: str, scene_name: str | None = None) -> dict:
     g.rows[-1]["blueprint"] = bp_source
     from .blueprint_promises import load_record
     variety_gates(g, place_id, bp, load_record(place_id),
-                  gates_output(place_id) / "scenes" / f"{scene}.json", bp_source)
+                  gates_output(place_id) / "scenes" / f"{scene}.json", bp_source, settlement)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),
@@ -314,7 +423,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--scene", default=None, help="workbench scene name (default <place>-gates)")
     ap.add_argument("--no-ledger", action="store_true", help="a trial run: no build-ledger row")
     a = ap.parse_args(argv)
-    doc = run(a.id, a.scene)
+    # the one wall-clock read: the report's startedAt stamp, at the CLI boundary
+    doc = run(a.id, a.scene, now=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
     out = REPORTS / a.id / "place-gates.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     atomic_write_bytes(out, (json.dumps(doc, indent=1, sort_keys=True) + "\n").encode("utf-8"), 0o644)

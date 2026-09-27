@@ -734,14 +734,30 @@ def _designed_contact_findings(asset: dict[str, Any]) -> list[str]:
     return findings
 
 
-SETTLEMENT_BUNDLE = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
+# The published settlements: one bundle per place and per route, named by this
+# index (worldgen.settlement_bundles, S8); the whole settlements.json is retired.
+SETTLEMENT_BUNDLE = (REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+                     / "settlements" / "index.json")
+
+
+def published_rows(field: str, index_path: Path = SETTLEMENT_BUNDLE) -> list[dict]:
+    """Every ``field`` row (``placements``, ``compiledObjects``...) of every
+    bundle the published settlements index names, in index order. A path that
+    is not an index is read as one whole-file record (fixtures)."""
+    document = json.loads(Path(index_path).read_text())
+    if "places" not in document:
+        return list(document.get(field, []))
+    root = Path(index_path).parent.parent
+    rows: list[dict] = []
+    for entry in document["places"] + document.get("routes", []):
+        rows += json.loads((root / entry["bundle"]).read_text()).get(field, [])
+    return rows
 
 
 def bundle_used_assets(bundle_path: Path = SETTLEMENT_BUNDLE) -> set[tuple[str, str]]:
-    """``(kit, assetId)`` of every placement the published settlement bundle
-    carries: the scope of the shipped-kit contract for a publish (16h K14)."""
-    document = json.loads(bundle_path.read_text())
-    return {(row["kit"], row["assetId"]) for row in document.get("placements", [])}
+    """``(kit, assetId)`` of every placement the published settlements carry:
+    the scope of the shipped-kit contract for a publish (16h K14)."""
+    return {(row["kit"], row["assetId"]) for row in published_rows("placements", bundle_path)}
 
 
 def shipped_contract_findings(

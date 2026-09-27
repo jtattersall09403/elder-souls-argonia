@@ -1438,7 +1438,7 @@ def test_a_places_publish_touches_only_its_bundle_and_the_index(tmp_path, monkey
         assert path.read_bytes() == before[path], f"{path.name} bytes changed"
         assert path.stat().st_mtime_ns == 1_000_000_000, f"{path.name} was rewritten"
     assert mine.stat().st_mtime_ns != 1_000_000_000 and index.stat().st_mtime_ns != 1_000_000_000
-    assert sb.load_published(root) == merged == json.loads((root / "settlements.json").read_text())
+    assert sb.load_published(root) == merged
     assert sb.load_published(root) != full
     entry = {e["id"]: e for e in sb.read_index(root)["places"]}["place.a"]
     assert entry["bundle"] == "settlements/place.a.json"
@@ -1454,12 +1454,24 @@ def test_the_bundles_reassemble_the_published_whole_file_exactly():
     if not (_PUBLIC / "settlements/index.json").exists():
         pytest.skip("no published bundles")
     whole = sb.load_published(_PUBLIC)
-    if ex.LEGACY_WHOLE_FILE:
-        assert whole == json.loads((_PUBLIC / "settlements.json").read_text())
     index = sb.read_index(_PUBLIC)
     assert [e["id"] for e in index["places"]] == sorted(s["id"] for s in whole["settlements"])
     for entry in index["places"]:
         assert entry["radiusM"] > 0 and len(entry["positionM"]) == 2
+
+
+def test_the_export_no_longer_writes_the_whole_settlements_file(tmp_path, monkeypatch):
+    """16k close-out: the bundles and the index are the published form; a full
+    export and a --places export leave no whole settlements.json behind."""
+    from . import settlement_bundles as sb
+    build = _two_places(tmp_path, monkeypatch)
+    root = tmp_path / "province"
+    full = _export_into(tmp_path, monkeypatch, build)
+    assert not (root / "settlements.json").exists()
+    assert sb.load_published(root) == full
+    merged = _export_into(tmp_path, monkeypatch, build, places=["place.a"])
+    assert not (root / "settlements.json").exists()
+    assert sb.read_published(root / "settlements" / "index.json") == merged
 
 
 def test_a_gate_added_after_acceptance_reports_and_does_not_fail(tmp_path, monkeypatch):

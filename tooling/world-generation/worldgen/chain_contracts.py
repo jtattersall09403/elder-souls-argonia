@@ -777,10 +777,8 @@ WRITES: dict[str, list[Path]] = {
     "build_border_apron": [],
     "rederive_blueprints": [],
     "compile_settlement": [],
-    # the per-place bundles' index (S8) and the legacy whole file
-    # (export_settlement_bundle.LEGACY_WHOLE_FILE)
-    "export_settlement_bundle": [PROVINCE / "settlements" / "index.json",
-                                 PROVINCE / "settlements.json"],
+    # the per-place bundles' index (S8); the whole settlements.json is retired
+    "export_settlement_bundle": [PROVINCE / "settlements" / "index.json"],
     "settlement_ground_control": [],
     "compile_scatter": [PROVINCE / "vegetation" / "vegetation-index.json",
                         WATER / "bed-rocks.json"],

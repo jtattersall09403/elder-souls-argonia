@@ -1313,7 +1313,9 @@ def cmd_walktable(a, scene, cat):
     numbers per item from the place's last `apply` (output/apply/<place>.json);
     each row links the deployed studio (`walktable_base_url`)."""
     from workbench import paths, rules
-    bundle = json.loads((paths.PROVINCE / "settlements.json").read_text())
+    paths.bridge()
+    from worldgen import settlement_bundles
+    bundle = settlement_bundles.read_published(paths.PROVINCE)
     site = next(s for s in bundle["settlements"] if s["id"] == a.place)
     ids = set(site["placementIds"])
     summary_path = paths.OUTPUT / "apply" / f"{a.place}.json"
@@ -1874,7 +1876,7 @@ def write_ledger(path: Path, out: dict, report_dir: Path | None = None) -> None:
     and the same ONE row appended to that folder's own `rounds.jsonl`."""
     t = out["timings"]
     row = json.dumps({
-        "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "placeId": out.get("placeId"),
         "layoutSha256": out.get("layoutSha256"), "failures": out.get("failures"),
         "compileErrors": len((out.get("compile") or {}).get("errors") or []),
         "loadS": t.get("loadS"), "applyOpsS": (t.get("ops") or {}).get("s"),

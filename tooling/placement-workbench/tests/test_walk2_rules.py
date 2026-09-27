@@ -23,10 +23,12 @@ from workbench.scene import Scene  # noqa: E402
 
 paths.bridge()
 from worldgen import compile_settlement as cs  # noqa: E402
+from worldgen import settlement_bundles as sb  # noqa: E402
 
 LAYOUT = HERE.parent / "fixtures" / "claywater-walk2.layout.json"
 PLACE = "place.imperial-fringe.claywater-station"
-PUBLISHED = paths.PROVINCE / "settlements.json"
+# the published settlements (per-place bundles + index), whole-file shape (S8)
+PUBLISHED = paths.PROVINCE
 PUBLISHED_WALK2 = HERE.parent / "fixtures" / "claywater-walk2.placements.json"
 """Claywater's placements as published at walk 2 (settlements.json at
 00e0e14b), frozen: the walk-2 comparisons never read the live bundle."""
@@ -337,7 +339,7 @@ def test_the_live_export_stands_where_the_workbench_measured():
         if "yMeasured" in lm:
             measured[f"{PLACE}.{lm['id']}"] = lm["yMeasured"]
     assert measured, "the live Claywater export carries no yMeasured: re-export the place"
-    pub = {p["id"]: p for p in json.loads(PUBLISHED.read_text())["placements"]}
+    pub = {p["id"]: p for p in sb.read_published(PUBLISHED)["placements"]}
     bad = {k: (pub.get(k, {}).get("positionM", [None, None])[1], y) for k, y in measured.items()
            if k not in pub or pub[k].get("yFinal") is not True
            or abs(pub[k]["positionM"][1] - y) > 0.02}

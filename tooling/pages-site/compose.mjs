@@ -23,12 +23,12 @@
  *   2. A kit under `kits/` ships iff some shipped text file (JS, HTML, CSS,
  *      JSON) that is not dark and not itself under `kits/` names `kits/<id>`.
  *      Kits the app names in code (flora, groundcover, underwater, waterfall)
- *      are therefore always kept, even though the settlement record also
- *      lists flora; kits named only by a dark record, or by nothing at all
+ *      are therefore always kept, even though the settlements index and
+ *      its bundles also list flora; kits named only by a dark record, or by nothing at all
  *      (a build-side product no runtime reads yet), are excluded.
- *   3. When 16h un-hides `settlements`, the record stops being dark, its kit
- *      table becomes a root and every kit it names ships again. Nothing to
- *      edit.
+ *   3. When 16h un-hides `settlements`, the settlements index and its
+ *      bundles stop being dark, their kit tables become roots and every kit
+ *      they name ships again. Nothing to edit.
  *
  * GATES (each exits non-zero; a wrong derivation must fail the build, never
  * ship a site that 404s):
@@ -68,10 +68,13 @@ const MB = 1_000_000;
  * apps/world-studio/src/{Fly3D,character/CharacterMode}.tsx: the settlement
  * bundle (and the route-structure placements that ride in it) mounts only
  * when `settlements` is shown. Add a row when a new layer gets its own record
- * whose kits nothing else names.
+ * whose kits nothing else names. A row with `index` names a bundle index
+ * (`{places, routes: [{bundle}]}`, bundle paths relative to the index's
+ * parent's parent): the index and every bundle it names are the layer's
+ * records (the per-place settlement bundles, worldgen/settlement_bundles.py).
  */
 const LAYER_RECORDS = [
-  { layer: "settlements", record: "province/settlements.json" },
+  { layer: "settlements", index: "province/settlements/index.json" },
 ];
 /** Every layer the ladder may hide — a copy of LADDER_LAYERS in ladder.ts; an unknown name fails. */
 const KNOWN_LAYERS = new Set(["apron", "settlements", "vegetation", "water", "route-structures", "places", "waterways", "services"]);
@@ -122,7 +125,17 @@ if (existsSync(ladderPath)) {
 } else {
   console.warn("compose: no province/ladder.json — nothing hidden, every named kit ships");
 }
-const dark = new Set(LAYER_RECORDS.filter((r) => hidden.includes(r.layer)).map((r) => r.record));
+/** The records a LAYER_RECORDS row stands for (an index expands to itself plus its bundles). */
+function layerRecords(row) {
+  if (!row.index) return [row.record];
+  const at = join(studio, row.index);
+  if (!existsSync(at)) return [row.index];
+  const index = JSON.parse(readFileSync(at, "utf8"));
+  if (index.schemaVersion !== 1) fail(`${row.index} schemaVersion ${index.schemaVersion}: this script reads schema 1`);
+  const base = row.index.split("/").slice(0, -2).join("/");
+  return [row.index, ...[...(index.places ?? []), ...(index.routes ?? [])].map((e) => `${base}/${e.bundle}`)];
+}
+const dark = new Set(LAYER_RECORDS.filter((r) => hidden.includes(r.layer)).flatMap(layerRecords));
 for (const r of dark) if (!existsSync(join(studio, r))) fail(`dark record ${r} is hidden by the ladder but missing from the build`);
 
 // 2. Kit reachability from every shipped text file that is not dark and not a kit file.

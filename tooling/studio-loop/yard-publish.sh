@@ -6,8 +6,11 @@
 #      --fixtures-ok to a staging file (no --copy-assets: the kits are already published; the
 #      exporter still CHECKS them, it copies nothing), so each carries its ground overlays in
 #      the bundle (decision 0102)
-#   3. copy that file and its ground sidecar (settlements/ground-overlays.json, 0102 round 2)
-#      over apps/world-studio/public/province/, the only two files the yard publish changes
+#   3. install the two yards' place bundles (settlements/<yard>.json), their ground sidecar
+#      (settlements/ground-overlays.json, 0102 round 2) and settlements/index.json (last: the
+#      marker) under apps/world-studio/public/province/, the only files the yard publish
+#      changes; any other staged bundle must be byte-identical to the published one (the
+#      carry-over of --places), else nothing is installed
 #   4. print the walk table: every yard placement, the three door thresholds, a studio URL each
 #
 # No tests, no site compose, no province:publish. `npm run studio` serves public/ from disk
@@ -27,8 +30,9 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WG="$REPO/tooling/world-generation"
 BLUEPRINT="$REPO/world/sources/blueprints/place.fixture.proving-ground.json"
 COMPILED="$WG/output/settlements"
-PUBLIC="$REPO/apps/world-studio/public/province/settlements.json"
-SIDECAR="$REPO/apps/world-studio/public/province/settlements/ground-overlays.json"
+PROVINCE="$REPO/apps/world-studio/public/province"
+PUBLIC="$PROVINCE/settlements"          # the per-place bundles + index.json (S8)
+SIDECAR="$PUBLIC/ground-overlays.json"
 YARDS="place.fixture.proving-ground,place.fixture.proving-ground-b"
 STAGE="$(mktemp -d /tmp/yard-publish.XXXXXX)"
 trap 'rm -rf "$STAGE"' EXIT
@@ -47,14 +51,31 @@ T1=$(now)
 
 echo "[2/4] export both yards into the bundle (--places, --fixtures-ok, no asset copy)"
 if ! (cd "$WG" && python3 -m worldgen.export_settlement_bundle --fixtures-ok \
-        --places "$YARDS" --base "$PUBLIC" --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
+        --places "$YARDS" --base "$PROVINCE" --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
   tail -20 "$STAGE/export.log"; echo "yard-publish: export FAILED"; exit 1
 fi
 grep -E "ground overlay|KNOWN-RED|settlement \+" "$STAGE/export.log" | sed 's/^/      /'
 T2=$(now)
 
-echo "[3/4] publish settlements.json and its ground sidecar"
-publish() {   # staged file, public target; the sidecar first, the bundle (the marker) last
+echo "[3/4] publish the yard bundles, their ground sidecar and the index"
+# the staged index names every bundle by sha256: each one that is not a yard must already
+# be published byte for byte, or the installed index would name bytes that are not there
+python3 - "$STAGE/settlements/index.json" "$PUBLIC" "$YARDS" <<'PY' || { echo "yard-publish: FAILED, nothing installed"; exit 1; }
+import hashlib, json, sys
+from pathlib import Path
+index, public, yards = json.load(open(sys.argv[1])), Path(sys.argv[2]), sys.argv[3].split(",")
+bad = []
+for e in index["places"] + index.get("routes", []):
+    if e["id"] in yards:
+        continue
+    target = public.parent / e["bundle"]
+    if not target.exists() or hashlib.sha256(target.read_bytes()).hexdigest() != e["sha256"]:
+        bad.append(e["bundle"])
+if bad:
+    print("      carried bundles differ from the published ones: " + ", ".join(bad))
+    sys.exit(1)
+PY
+publish() {   # staged file, public target; the sidecar and bundles first, the index (the marker) last
   if cmp -s "$1" "$2"; then
     echo "      unchanged: $2"
   else
@@ -65,14 +86,17 @@ publish() {   # staged file, public target; the sidecar first, the bundle (the m
   fi
 }
 publish "$STAGE/settlements/ground-overlays.json" "$SIDECAR"
-publish "$STAGE/settlements.json" "$PUBLIC"
+for yard in ${YARDS//,/ }; do publish "$STAGE/settlements/$yard.json" "$PUBLIC/$yard.json"; done
+publish "$STAGE/settlements/index.json" "$PUBLIC/index.json"
 T3=$(now)
 
 echo "[4/4] walk table"
-python3 - "$PUBLIC" "${ES_TUNNEL_URL:-<ES_TUNNEL_URL>}" "${YARD_TABLE_OUT:-}" <<'PY'
-import json, sys
+python3 - "$PROVINCE" "${ES_TUNNEL_URL:-<ES_TUNNEL_URL>}" "${YARD_TABLE_OUT:-}" "$WG" <<'PY'
+import sys
 bundle_path, base, table_out = sys.argv[1], sys.argv[2], sys.argv[3]
-d = json.load(open(bundle_path))
+sys.path.insert(0, sys.argv[4])
+from worldgen.settlement_bundles import read_published
+d = read_published(bundle_path)
 site = next(s for s in d["settlements"] if s["id"] == "place.fixture.proving-ground")
 ids = set(site["placementIds"])
 url = lambda e, s: f"{base}?view=character&x={e:.3f}&z={s:.3f}&t=12"
