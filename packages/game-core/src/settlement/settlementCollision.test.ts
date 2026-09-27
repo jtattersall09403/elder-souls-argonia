@@ -2,15 +2,16 @@
  * Real collision (16h item 4, 0071 §5).
  *
  * A `mesh` piece collides as its own LOD0 triangles, not as a box: the gate
- * arch at Lilmoth has a road through it. The kit GLB is read from the RAW
- * build (`tooling/asset-pipeline/output/kits`): the published pair is
- * UASTC/meshopt and needs the browser's decoders.
+ * arch at Lilmoth has a road through it. The kit GLB is the PUBLISHED one
+ * (`apps/world-studio/public/kits`, meshopt geometry decoded here; its UASTC
+ * textures are stripped), so the test reads what ships, on CI too.
  */
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { buildArchitectureKit } from "./kit";
 import { solidFrom } from "./SettlementLayer";
 import { placementTransform } from "./anchoring";
@@ -29,17 +30,24 @@ const GATE_ASSET = "mwimparchwallgate01";
 (globalThis as { ProgressEvent?: unknown }).ProgressEvent ??=
   class { constructor(public type: string, public options: unknown) {} };
 
-async function loadRawKit(kit: string) {
-  const bytes = readFileSync(resolve(ROOT, `tooling/asset-pipeline/output/kits/${kit}.glb`));
+/** The PUBLISHED kit (the tracked copy that ships, so the runner and CI read
+ * the same bytes; raw builds are never tracked): meshopt-decoded geometry,
+ * textures and materials stripped (no KTX2 decode in node). */
+async function loadPublishedKit(kit: string) {
+  const bytes = readFileSync(resolve(ROOT, `apps/world-studio/public/kits/${kit}.glb`));
   const length = bytes.readUInt32LE(12);
   const json = JSON.parse(bytes.subarray(20, 20 + length).toString());
   const binary = bytes.subarray(28 + length);
   json.images = []; json.textures = []; json.materials = [];
+  const drop = new Set(["KHR_texture_basisu"]);
+  json.extensionsRequired = (json.extensionsRequired ?? []).filter((e: string) => !drop.has(e));
+  json.extensionsUsed = (json.extensionsUsed ?? []).filter((e: string) => !drop.has(e));
   for (const mesh of json.meshes ?? []) for (const primitive of mesh.primitives) {
     delete primitive.material;
   }
   json.buffers[0].uri = `data:application/octet-stream;base64,${binary.toString("base64")}`;
-  return new GLTFLoader().parseAsync(JSON.stringify(json), "");
+  await MeshoptDecoder.ready;
+  return new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(JSON.stringify(json), "");
 }
 
 const bundle: SettlementBundle = JSON.parse(readFileSync(
@@ -74,7 +82,7 @@ function worldMesh(solid: SettlementSolid): THREE.Mesh[] {
 
 describe("settlement collision is the real shape", () => {
   it("collides Lilmoth's gate arch as triangles, with the road still open", async () => {
-    const gltf = await loadRawKit(gate.kit);
+    const gltf = await loadPublishedKit(gate.kit);
     const asset = buildArchitectureKit(gltf).get(gate.assetId)!;
     expect(asset).toBeTruthy();
     const transform = placementTransform(gate, gate.positionM[1]);

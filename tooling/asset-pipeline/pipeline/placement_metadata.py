@@ -545,6 +545,7 @@ def refresh_built_manifests(
     anchors: dict[str, dict[str, Any]] | None = None,
     kits: set[str] | None = None,
     scales: dict[str, dict[str, Any]] | None = None,
+    kit_config_dir: Path = KIT_CONFIG_DIR,
 ) -> list[Path]:
     """Refresh policy-only metadata without rebuilding unchanged geometry.
 
@@ -575,6 +576,13 @@ def refresh_built_manifests(
             continue
         apply_placement_metadata(document, kit_id, inventory,
                                  mined=mined, anchors=anchors, scales=scales)
+        # A kit config `light` block (mined LIGH record) is policy-only too:
+        # the same copy build_kit makes, so a newly mined block reaches the
+        # manifests without a Blender rebuild (walk 2 integrate-lighting).
+        config_path = kit_config_dir / f"{kit_id}.json"
+        if config_path.exists():
+            from .build_kit import apply_light_records
+            apply_light_records(document, _read_json(config_path))
         pending.append((path, document))
     for path, document in pending:
         path.write_text(json.dumps(document, indent=1) + "\n", encoding="utf-8")

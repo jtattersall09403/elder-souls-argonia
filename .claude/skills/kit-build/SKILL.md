@@ -48,6 +48,11 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   The settlement runtime reads both (game-core `settlement/lighting.ts`,
   walk 2 D7): `light` sets a fixture's point-light radius and colour, and
   the `additiveMaterials` of a fixture glow by night instead of a billboard.
+  `light.fixtureKind` (brazier, cook-fire, forge, campfire, lantern, candle,
+  sconce, torch) names what burns: the first four are always lit (half light
+  by day), the rest follow the clock; absent, the manifest `category` is read.
+  `placement_metadata --refresh-built-manifests` copies `light` blocks too
+  (`apply_light_records`), so a mined light needs no Blender rebuild.
 - Collision default: the category table (`_COLLISION_BY_CATEGORY`), then the
   size rule (`apply_size_collision`, planner 2026-09-27): a non-foliage piece
   left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets

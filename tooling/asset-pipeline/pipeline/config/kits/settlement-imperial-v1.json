@@ -270,7 +270,35 @@
    "asset": "vanilla:plants/chickennest01"
   },
   {
-   "asset": "vanilla:clutter/common/candlelanternwithcandle01"
+   "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+   "light": {
+    "formId": "00088241",
+    "editorId": "DefaultCandleLight01NSDesat",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     242,
+     240,
+     223
+    ],
+    "flicker": {
+     "frequency": 0.1667,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "offsetM": [
+     0.03,
+     0.63,
+     0.05
+    ],
+    "fixtureKind": "lantern",
+    "evidence": "Skyrim.esm: DefaultCandleLight01NSDesat is the nearest LIGH ref (< 200 units, same cell) to 246 of 1393 CandleLanternwithCandle01 (STAT 0002d847) refs (next: DefaultCandleLight01NS 172, BleakFallsCandleLight01NS 75, DefaultCandleLight01 64; none 392); offset is the per-axis median of those 246 in the piece's frame, glTF Y-up metres (horizontal median distance 0.61 m: vanilla places the light beside and just above the lantern, not in it). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
+   }
   },
   {
    "asset": "bmv:architecture/phitt/aldredanyia/signpost"

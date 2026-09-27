@@ -5532,7 +5532,8 @@
      1.3,
      -0.18
     ],
-    "evidence": "Skyrim.esm: DefaultTorch01NS is the nearest LIGH ref (< 200 units) to 35 of 262 ImpBrazier01 refs (next: DefaultTorch01 15; none 137); offset is the median of those 35 in the piece's frame, glTF Y-up metres (horizontal median 0.76 m). The flame vanilla stands in the bowl is a separate effect (FXFireWithEmbers01, 105 of 262)."
+    "evidence": "Skyrim.esm: DefaultTorch01NS is the nearest LIGH ref (< 200 units) to 35 of 262 ImpBrazier01 refs (next: DefaultTorch01 15; none 137); offset is the median of those 35 in the piece's frame, glTF Y-up metres (horizontal median 0.76 m). The flame vanilla stands in the bowl is a separate effect (FXFireWithEmbers01, 105 of 262).",
+    "fixtureKind": "brazier"
    },
    "designedSinkM": {
     "p25": 0.021,
@@ -6060,7 +6061,8 @@
      1.17,
      0.04
     ],
-    "evidence": "Skyrim.esm: LightCampFire01 is the nearest LIGH ref (< 200 units) to 60 of 145 Campfire01Burning refs (next: DefaultTorch01NS_Fast 9; none 31); offset is the median of those 60 in the piece's frame, glTF Y-up metres (horizontal median 0.13 m)."
+    "evidence": "Skyrim.esm: LightCampFire01 is the nearest LIGH ref (< 200 units) to 60 of 145 Campfire01Burning refs (next: DefaultTorch01NS_Fast 9; none 31); offset is the median of those 60 in the piece's frame, glTF Y-up metres (horizontal median 0.13 m).",
+    "fixtureKind": "campfire"
    },
    "designedSinkM": {
     "p25": -0.0543,

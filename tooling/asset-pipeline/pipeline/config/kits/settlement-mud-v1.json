@@ -116,7 +116,34 @@
    "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns04"
   },
   {
-   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01"
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "light": {
+    "formId": "00094e65",
+    "editorId": "Alikr_OrangeFlicker",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     142,
+     104,
+     79
+    ],
+    "flicker": {
+     "frequency": 0.4545,
+     "intensityAmplitude": 0.5,
+     "movementAmplitude": 32.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "offsetM": [
+     0.17,
+     1.7,
+     -0.1
+    ],
+    "fixtureKind": "candle",
+    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): Alikr_OrangeFlicker (Skyrim.esm LIGH 00094e65) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 2 00GV_ArgonianCandle01 (STAT) refs the mod places (none 1); offset is that ref's in the piece's frame, glTF Y-up metres (n 1: the mod's only evidence). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
+   }
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/sithisshrine"

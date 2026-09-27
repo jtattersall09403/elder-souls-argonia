@@ -3,10 +3,14 @@
  * every artificial light, light fixtures derived from the placed pieces, and
  * a budget of real point lights nearest the camera.
  *
- * - `artificialLightFactor` is the ONE clock: lamps, candles, braziers and
- *   window glow are lit from 17:30 to 06:30 world time, out from 06:50 to
- *   17:10, with linear 20-minute ramps between. It feeds the settlement
- *   night uniform (materials.ts `updateSettlementEnvironment`).
+ * - `artificialLightFactor` is the ONE clock: lamps, candles, sconces,
+ *   torches and window glow are lit from 17:30 to 06:30 world time, out from
+ *   06:50 to 17:10, with linear 20-minute ramps between. It feeds the
+ *   settlement night uniform (materials.ts `updateSettlementEnvironment`).
+ * - Fires burn by day too (planner ruling, walk 2): a brazier, cook-fire,
+ *   forge or campfire fixture (`fixtureKind` of its LIGH block, else its kit
+ *   category) and every fire socket keep flame and light on all day, at
+ *   `ALWAYS_LIT_DAY_FACTOR` by day rising with the clock to 1 at night.
  * - A fixture is a "light" layer placement (the compile's assembly layer,
  *   carried by the export), a piece whose kit manifest carries a mined LIGH
  *   record, or a fire socket (`effect-socket/fire`) that does not sit on a
@@ -15,12 +19,16 @@
  *   vanilla's candle flame (works-v1 `effectTextures`, fx:flame-billboard).
  * - A window-glow facing of an architecture piece is a fixture too: one light
  *   0.5 m inside the wall.
+ * - The flame and the light stand at the LIGH record's `offsetM` (the
+ *   placed light's median offset in the piece frame) where recorded, else on
+ *   the top of the piece's bounds.
  * - `SettlementLightFixtures` owns a FIXED pool of `LIGHT_BUDGET` point
  *   lights, re-assigned to the nearest fixtures once a second; the pool is
- *   visible only while the lamps burn and a fixture is within
- *   `LIGHTS_ACTIVE_M`, so it switches between two light counts (0 and 8)
- *   and never costs a lit material anything by day or outside a place. It
- *   is made by the layer (or injected into it), never a module singleton.
+ *   visible only while one of them burns (lamps by night, fires always) and
+ *   a fixture is within `LIGHTS_ACTIVE_M`, so it switches between two light
+ *   counts (0 and 8) and never costs a lit material anything in a lamp-only
+ *   place by day or outside a place. It is made by the layer (or injected
+ *   into it), never a module singleton.
  */
 import * as THREE from "three";
 import { MINUTES_PER_DAY } from "@elder-souls/world-time";
@@ -74,6 +82,10 @@ export const FIRE_SOCKET_RULE = "effect-socket/fire";
 /** Where the billboard flame's texture is published (build_kit effectTextures). */
 export const FLAME_TEXTURE_KIT = "works-v1";
 export const FLAME_TEXTURE_ASSET_ID = "fx:flame-billboard";
+/** Fixture kinds that burn by day as well as by night (planner ruling, walk 2). */
+export const ALWAYS_LIT_KINDS: ReadonlySet<string> = new Set(["brazier", "cook-fire", "forge", "campfire"]);
+/** An always-lit fixture's strength at the clock's 0 (day); it rises with the clock to 1. */
+export const ALWAYS_LIT_DAY_FACTOR = 0.5;
 
 export interface LightFixture {
   id: string;
@@ -85,6 +97,19 @@ export interface LightFixture {
   colour: THREE.Color;
   /** The billboard flame, or null (the kit's own flame submesh glows, or a window). */
   flame: { position: THREE.Vector3; sizeM: number } | null;
+  /** A fire that burns by day too (`ALWAYS_LIT_KINDS`, fire sockets). */
+  alwaysLit: boolean;
+}
+
+/** A fixture's kind: its LIGH block's `fixtureKind`, else its kit category. */
+export function isAlwaysLitFixture(meta: SettlementKitAssetMeta | undefined): boolean {
+  const kind = meta?.light?.fixtureKind ?? meta?.category;
+  return kind !== undefined && ALWAYS_LIT_KINDS.has(kind);
+}
+
+/** Strength of a fixture at clock factor `clock`: the clock, or for a fire lerp(0.5, 1, clock). */
+export function fixtureFactor(clock: number, alwaysLit: boolean): number {
+  return alwaysLit ? ALWAYS_LIT_DAY_FACTOR + (1 - ALWAYS_LIT_DAY_FACTOR) * clock : clock;
 }
 
 export function isFireSocket(placement: Pick<SettlementPlacement, "provenance">): boolean {
@@ -122,8 +147,11 @@ function srgbColour(rgb: readonly [number, number, number]): THREE.Color {
 /**
  * The fixture of one placed piece. `matrix` is its final draw transform
  * (placement scale included); `localBox` its LOD0 bounds in its own frame.
- * The light stands at the LIGH record's emitter offset where recorded, else
- * at the flame; the flame sits on the top of the piece's bounds.
+ * The point light stands at the LIGH record's `offsetM` (glTF Y-up metres from
+ * the pivot) where recorded: vanilla places that light BESIDE and above the
+ * piece (lantern median 0.61 m off, brazier 1.3 m up), so it is never the
+ * flame's position. The flame billboard always sits on the top of the
+ * piece's own bounds; with no offset the light shares the flame's point.
  */
 export function fixtureFromPiece(
   id: string,
@@ -132,20 +160,21 @@ export function fixtureFromPiece(
   localBox: THREE.Box3,
 ): LightFixture {
   const { radiusM, colour } = fixtureLightOf(meta?.light);
+  const offset = meta?.light?.offsetM;
   const centre = localBox.getCenter(new THREE.Vector3());
   const flameAt = new THREE.Vector3(centre.x, localBox.max.y + FLAME_SIZE_M * 0.4, centre.z)
     .applyMatrix4(matrix);
-  const offset = meta?.light?.offsetM;
-  const position = offset ? new THREE.Vector3(...offset).applyMatrix4(matrix) : flameAt.clone();
+  const lightAt = offset ? new THREE.Vector3(...offset).applyMatrix4(matrix) : flameAt.clone();
   const ownFlame = (meta?.additiveMaterials?.length ?? 0) > 0;
-  return { id, kind: "fixture", position, radiusM, colour,
+  return { id, kind: "fixture", position: lightAt, radiusM, colour,
+    alwaysLit: isAlwaysLitFixture(meta),
     flame: ownFlame ? null : { position: flameAt, sizeM: FLAME_SIZE_M } };
 }
 
-/** A fire socket's fixture: flame at the socket, light just above it. */
+/** A fire socket's fixture (always lit): flame at the socket, light just above it. */
 export function fixtureFromFireSocket(id: string, socketAt: THREE.Vector3): LightFixture {
   const { radiusM, colour } = fixtureLightOf(undefined);
-  return { id, kind: "fixture", radiusM, colour,
+  return { id, kind: "fixture", radiusM, colour, alwaysLit: true,
     position: socketAt.clone().add(new THREE.Vector3(0, 0.3, 0)),
     flame: { position: socketAt.clone(), sizeM: FLAME_SIZE_M } };
 }
@@ -172,7 +201,8 @@ export function windowFixturesFromPiece(
     const at = new THREE.Vector3(centre.x + dx * Math.max(0, reach), y, centre.z + dz * Math.max(0, reach))
       .applyMatrix4(matrix);
     return { id: `${id}#window${i}`, kind: "window" as const, position: at,
-      radiusM: WINDOW_LIGHT_RADIUS_M, colour: srgbColour(FIXTURE_DEFAULT_RGB), flame: null };
+      radiusM: WINDOW_LIGHT_RADIUS_M, colour: srgbColour(FIXTURE_DEFAULT_RGB), flame: null,
+      alwaysLit: false };
   });
 }
 
@@ -207,6 +237,7 @@ export class SettlementLightFixtures {
   private readonly flameGeometry = new THREE.BufferGeometry();
   private flameCapacity = 0;
   private drawnQuads = 0;
+  private alwaysLitFlames = 0;
   private readonly right = new THREE.Vector3();
   private readonly up = new THREE.Vector3();
   private readonly cameraAt = new THREE.Vector3();
@@ -246,6 +277,7 @@ export class SettlementLightFixtures {
     this.fixtures = fixtures;
     this.refreshAt = -Infinity;
     const flames = fixtures.filter((f) => f.flame).length;
+    this.alwaysLitFlames = fixtures.filter((f) => f.flame && f.alwaysLit).length;
     if (flames > this.flameCapacity) this.allocate(flames);
   }
 
@@ -267,15 +299,18 @@ export class SettlementLightFixtures {
         light.distance = fixture.radiusM;
         light.color.copy(fixture.colour);
         light.userData.candela = fixture.kind === "window" ? WINDOW_CANDELA : FIXTURE_CANDELA;
+        light.userData.alwaysLit = fixture.alwaysLit;
       });
     }
     const factor = this.factor.value;
     const nearest = this.fixtures[this.assigned[0]];
-    const poolOn = factor > 0 && nearest !== undefined
+    const burning = factor > 0 || this.assigned.some((i) => this.fixtures[i]?.alwaysLit);
+    const poolOn = burning && nearest !== undefined
       && nearest.position.distanceTo(this.cameraAt) <= LIGHTS_ACTIVE_M;
     this.lights.forEach((light, slot) => {
       light.visible = poolOn;
-      light.intensity = this.assigned[slot] === undefined ? 0 : (light.userData.candela ?? 0) * factor;
+      light.intensity = this.assigned[slot] === undefined ? 0
+        : (light.userData.candela ?? 0) * fixtureFactor(factor, light.userData.alwaysLit === true);
     });
     this.updateFlames(factor);
   }
@@ -295,13 +330,14 @@ export class SettlementLightFixtures {
     const color = this.flameGeometry.getAttribute("color") as THREE.BufferAttribute;
     const uv = this.flameGeometry.getAttribute("uv") as THREE.BufferAttribute;
     let quad = 0;
-    if (factor > 0) {
+    if (factor > 0 || this.alwaysLitFlames > 0) {
       for (const fixture of this.fixtures) {
         const flame = fixture.flame;
-        if (!flame) continue;
+        const strength = fixtureFactor(factor, fixture.alwaysLit);
+        if (!flame || strength <= 0) continue;
         const distance = this.cameraAt.distanceTo(flame.position);
         if (distance > FLAME_MAX_DISTANCE_M) continue;
-        const fade = Math.min(1, (FLAME_MAX_DISTANCE_M - distance) / FLAME_FADE_M) * factor;
+        const fade = Math.min(1, (FLAME_MAX_DISTANCE_M - distance) / FLAME_FADE_M) * strength;
         for (let c = 0; c < 4; c++) {
           const [sx, sy] = CORNERS[c];
           const v = quad * 4 + c;
@@ -316,7 +352,7 @@ export class SettlementLightFixtures {
       }
     }
     this.flameGeometry.setDrawRange(0, quad * 6);
-    // Nothing drawn now or last frame (day, or no flame in range): no upload.
+    // Nothing drawn now or last frame (lamps out, or no flame in range): no upload.
     if (quad > 0 || this.drawnQuads > 0) {
       position.needsUpdate = true; uv.needsUpdate = true; color.needsUpdate = true;
     }
