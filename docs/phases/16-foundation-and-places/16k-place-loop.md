@@ -13,71 +13,40 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-26, fix round 4: Claywater rebuilt under 0102 and 0103; the closing agent of each slice replaces this section)
+## Starting state (2026-09-27, slice 1c: Claywater rebuilt under 0102/0103 and walk packet 2 posted; the closing agent of each slice replaces this section)
 
 - **Claywater Station** (`place.imperial-fringe.claywater-station`) is
-  built and published (1a329fdf, f0c7f5a6; the 0101 rules). Walk packet 1
-  was withdrawn on the owner's feedback (issue #1). The place is being
   rebuilt under [0102](../../decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md)
-  (the place carries its own ground as a runtime overlay; every
-  measurable check is a `wb.py check` rule; no unfinished work in a
-  hand-off) and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
-  (shells chosen for their interiors; tier A cells copied verbatim and
-  enterable in the studio; every promise a placed socket). The procedure
-  is in the place-build skill (steps 1, 2, 5, 6 and
-  `references/doors-interiors-sockets.md`).
-- **Lanes and their reports** (`tooling/.reports/16k/`, gitignored; the
-  work is uncommitted in the tree at writing, commit by pathspec):
-  - fix round 2, rounds 1–3: terrain (`fix2-terrain.md`,
-    `fix2-terrain-r2.md`: the pad and clearance overlay,
-    `worldgen/pad_overlay.py`, `game-core/src/terrain/heightOverlays.ts`,
-    `vegetation/clearanceFilter.ts`, the bundle's
-    `province/settlements/ground-overlays.json` sidecar); workbench
-    (`fix2-workbench.md`, `-r2`, `-r3`: the 0102 rules in
-    `workbench/rules.py`, `walkRoutes` on export; Claywater's last apply
-    had 28 check failures and 2 compile errors); kits (`fix2-kits.md`,
-    `-r2`, `-r3`: texture tiers and the untextured-material gate); effects
-    (`fix2-effects-r3.md`: chimney smoke columns; the farmhouse shells
-    carry no chimney); docs (`fix2-docs.md`); the layout brief
-    (`fix2-layout-brief.md`);
-  - orientation for 0103: `orient-interiors.md`, `orient-sockets.md`
-    (and the other `orient-*.md`);
-  - fix round 4: one report per lane, `r4-<lane>.md` (this brief's docs
-    lane is `r4-docs.md`). In the tree at writing: the interior runtime
-    (`packages/game-core/src/interior/`, the studio's `InteriorDoors.tsx`),
-    `worldgen/export_interior_bundle.py`, the claim in
-    `blueprint_interiors.py --claim`, the `interior-farmhouse-v1` kit. The
-    socket vocabulary record (`world/sources/vocab/socket-vocabulary.json`)
-    does not exist yet.
-- **Open for the rebuild** (the walk-1 list; the lanes above worked on
-  most of it, read their reports): the woven fence run fw1–fw3 joints;
-  B4 `kotm:argonia/mudhuts/mudhut01` untextured; the dropped yard pieces
-  (sty-cart, al-rack1, ahy-table, b1-nest, two chimes); a lit entrance at
-  every door (97 C16) and the B1/B2 kit reading (reader Iso 27); the plain
-  sign board is an OPEN sourcing row (ca311b6e); Blender in the shared
-  devcontainer image; the export should refuse a parentless wall-anchored
-  piece.
-- **Carried from slices 1a/1b:** KotM per-kit miners cannot write
-  records yet; `mine_mounts --assets` prints but writes nothing and
-  `mine_designed_sink` has no per-kit selector (speed item S3); the
-  navmesh chunk has no pickup line; report-mode gate rows are printed,
-  not yet queued to the backlog automatically.
-- **Known reds:** `test_boat_stations_are_channelled_or_explained`
-  (backlog row 479, in `known_red.py`); the full preflight has not run
-  since the slice-1c lanes.
-- **Lessons this slice (write the rows at the close):** the ground
-  refused every brief shell until pads existed for buildings (item 13 was
-  the blocker, not the design); a wrong number (13 GiB) held the slot
-  count at 3 for a day; a measured-then-ruled loop (agent measures legal
-  poses, planner rules) worked, but Opus making design calls through
-  nested agents did not (0079); walk packet 1 handed the owner measurable
-  checks and unfinished work (0102).
-- **Owner calls:** none open. The halves-along-the-road reading is a
-  look-and-feel line in walk packet 2.
-- **Next step:** the layout rebuild (design brief § Interiors and
-  § Sockets, the step-1 inner loop to zero `check` failures and zero
-  reader NOs, the interior bundles and the socket gates), then walk
-  packet 2 (`tooling/.reports/16k/claywater-walk-2/`).
+  and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
+  and walk packet 2 is posted to issue #1
+  (`tooling/.reports/16k/claywater-walk-2.md`, pictures in
+  `docs/phases/16-foundation-and-places/walks/claywater-walk-2/`): `wb.py
+  check` 0 failures, compile 0 errors/0 warnings, the reader 0 NOs after
+  a planner-authorised fifth render round (lantern stands at the plank
+  boat and the fish rack). The `--places` publish carries 18 ground
+  overlays, 41 walk routes and 39 sockets, colliderEstimate 103 of 200.
+- **Interiors** (0103): B1 tier A `DawnstarBrinasHouse`; B4 tier A
+  `KeebaHouseFisher` (a KotM house pod with a porch, plugin-posed
+  furniture); B5 reserved as `kotm` — its fitting cells need Creation
+  Club/HearthFires assets, an owner archive question is in the walk
+  packet, sourcing-log row 208 is OPEN; the barn is reserved (stable);
+  the store has no door.
+- **Lanes landed on `dev`** in seven grouped commits after `acc3a06a`:
+  runtime overlays, the `wb.py check` rules, sockets, the interior
+  runtime and pipeline, kit fixes, re-mined records with a provenance
+  test, kit lock, and the speed items (Blender cache, lazy normals,
+  `kit_compress` skip).
+- **Review:** open findings from the r4 review are being closed by the
+  review lane (`tooling/.reports/16k/review-close.md`).
+- **Owner calls:** none open. Reply is awaited on walk packet 2 (issue
+  #1), including the Skyrim SE/AE archive question in it. **Next:**
+  "continue 16k slice 1c after owner walk 2".
+- **Queued, not this slice:** speed lane 2 (workbench in-process R3–R7,
+  `build_kit` input-hash skip, a preflight wave cap by CPU, the
+  shot-quality trade on a reader sample); the farmhouse+walkway
+  composite backlog row; the `designer_yaw` and `grow_clearance`
+  MultiPolygon questions; `dump_meshes` for shell candidates before the
+  next door-link re-mine; cell eviction (Phase 14).
 
 ## Read (fresh agent: this is your whole map)
 
