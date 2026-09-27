@@ -163,3 +163,29 @@ def test_scan_verify_judges_the_pair_child_on_its_anchors_pad(scene, cat):
     off = scan.verify(cat, scene, spec, {"at": [373.0, 3101.0], "yaw": 345.0}, fit, judge)
     assert not off["childFit"]["stall-1"]["ok"]
     assert off["passes"] is False
+
+
+def test_scan_cheap_pass_keeps_a_padded_pairs_child_on_the_anchors_pad(scene, cat):
+    """Planner ruling 2026-09-27: in the cheap pass a padded pair is legal
+    only when the child's footprint lies inside the anchor's resolved pad +
+    its blend. The three poses the scan ranked top on cw-scratch (the child
+    off the pad, all failing verify) are not legal; the layout's own pose is."""
+    from workbench import scan
+    spec = {"id": "stall", "asset": STALL_L, "centre": [375.0, 3098.0], "skip": ["st1", "st2"],
+            "pad": {"apronM": 0.5, "batter": True, "apronBySide": {"s": 6.0}},
+            "pair": {"asset": STALL_R, "childFace": "west", "parentFace": "east",
+                     "by": "geometry"}}
+    spec["_join"] = scan.pair_join(cat, spec)
+    from shapely.geometry import box
+    g0 = scene.ground()
+    wx, wz = g0.meta["centreM"]
+    half = g0.meta["halfM"]
+    ctx = {"others": None, "ways": None, "othersP": None, "waysP": None, "frozen": g0,
+           "window": box(wx - half, wz - half, wx + half, wz + half),
+           "fit_rules": lambda c, g, p: {"ok": True}, "dressing_slope_max": 2.0}
+    g = scan.local_ground(cat, scene, spec)
+    for x, z, yaw in ((373.0, 3101.0, 345.0), (373.0, 3101.0, 330.0), (374.0, 3101.0, 345.0)):
+        got = scan.measure_pose(cat, scene, g, spec, ctx, x, z, yaw)
+        assert got["padLegal"] and not got["legalGround"], (x, z, yaw, got)
+    own = scan.measure_pose(cat, scene, g, spec, ctx, 375.0, 3098.0, 120.0)
+    assert own["pairOnPad"] and own["legalGround"], own

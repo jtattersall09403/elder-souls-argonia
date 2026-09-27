@@ -146,13 +146,19 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
             out["legalGround"] = out["padLegal"]
             out["rank"] = worst
             if len(pieces) > 1:
-                # a padded pair's child: no outline vertex on wet ground here;
-                # its fit rules need the anchor's candidate pad under it, so
-                # `verify` judges them on the trial scene's padded ground
+                # a padded pair's child: no outline vertex on wet ground, and
+                # its whole footprint inside the anchor's resolved pad + its
+                # blend (the pad is its ground, `pads.fit_ground`; planner
+                # ruling 2026-09-27); `verify` then judges its fit rules
                 wet = any(g.wet(a, b) for poly in polys[1:]
                           for a, b in list(poly.exterior.coords)[:-1])
+                on_pad = False
+                if not pad.get("error"):
+                    reach = Polygon(pad["polygonM"]).buffer(float(pad["blendM"]) + 1e-6)
+                    on_pad = all(reach.contains(poly) for poly in polys[1:])
                 out["pairWetVertex"] = wet
-                out["legalGround"] = out["padLegal"] and not wet
+                out["pairOnPad"] = on_pad
+                out["legalGround"] = out["padLegal"] and not wet and on_pad
         else:
             worst_slope, wet = 0.0, False
             for p, poly in zip(pieces, polys):
