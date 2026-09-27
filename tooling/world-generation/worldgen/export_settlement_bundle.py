@@ -1673,32 +1673,51 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
 
 
 BUILDING_CLEAR_M = 1.5      # a building footprint's hard clearance reaches this far past it (0102)
+OTHER_CLEAR_M = 0.5         # every other placement's footprint (runs, walls, dressing, yard items)
 GROUND_SIDECAR = Path("settlements") / "ground-overlays.json"   # beside the bundle, under province/
 
 
-def grow_clearance(site: dict, rows: list[dict]) -> None:
+def _hole_free(poly) -> list:
+    """`poly` cut into pieces with no holes (a clearance ring has none): split
+    on the vertical line through the first hole's centroid until none is left,
+    so a walled yard stays a few rings, not one per wall piece."""
+    from shapely.geometry import LineString, Polygon
+    from shapely.ops import split
+    if not poly.interiors:
+        return [poly]
+    x = Polygon(poly.interiors[0]).centroid.x
+    _, z0, _, z1 = poly.bounds
+    pieces = split(poly, LineString([(x, z0 - 1.0), (x, z1 + 1.0)])).geoms
+    return [q for piece in pieces if piece.geom_type == "Polygon" for q in _hole_free(piece)]
+
+
+def grow_clearance(site: dict, rows: list[dict], treatments: list[dict] = ()) -> None:
     """A place's hard vegetation clearance is its compiled `hardClear` plus
-    the union of every pad polygon (`groundOverlays` pieces) and every
-    building footprint buffered BUILDING_CLEAR_M (0102 round 2): no plant on
-    levelled ground or against a wall the compile's box missed. Rings of the
-    union that enclose a hole go in as their parts, since a clearance ring
-    has no holes (their union is the same ground)."""
+    the union of every pad polygon (`groundOverlays` pieces), every
+    treatment's clearance polygons (a floor's footprint, a deck's contacts,
+    every door apron: `treatment_clearance_polygons`) and every placement
+    footprint, a building's buffered BUILDING_CLEAR_M and every other one
+    (runs, walls, dressing, yard items) OTHER_CLEAR_M (0102 round 2): no
+    plant on levelled ground, on a floor or against a wall the compile's box
+    missed. A placement with a deck treatment is raised on legs and adds only
+    its treatment's polygons, so the ground cover under it stays (owner
+    2026-09-25). The union is written as hole-free rings (`_hole_free`)."""
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
+    from .vegetation_patches import treatment_clearance_polygons
+    decks = {t["id"].removeprefix("treatment.") for t in treatments if t.get("kind") == "deck"}
     parts = [Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
              for piece in o["pieces"]]
-    parts += [Polygon(r["footprintM"]).buffer(BUILDING_CLEAR_M, join_style=2)
-              for r in rows if r["id"].endswith(".building") and r.get("footprintM")]
+    parts += [Polygon(p) for t in treatments for p in treatment_clearance_polygons(t)]
+    parts += [Polygon(r["footprintM"]).buffer(
+        BUILDING_CLEAR_M if r["id"].endswith(".building") else OTHER_CLEAR_M, join_style=2)
+        for r in rows if r.get("footprintM") and r["id"] not in decks]
     parts = [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
     if not parts:
         return
     merged = unary_union(parts)
-    rings = []
-    for poly in getattr(merged, "geoms", [merged]):
-        if poly.interiors:
-            rings += [list(q.exterior.coords)[:-1] for q in parts if q.intersects(poly)]
-        else:
-            rings.append(list(poly.exterior.coords)[:-1])
+    rings = [list(q.exterior.coords)[:-1] for poly in getattr(merged, "geoms", [merged])
+             for q in _hole_free(poly)]
     clearance = site.setdefault("vegetationClearance", {
         "schemaVersion": 1, "id": f"patch.clearance.bundle.{site['id']}",
         "hardClear": [], "thinned": [], "kept": []})
@@ -1746,7 +1765,9 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
                                   "pads": pad_overlay.place_overlays(
                                       rows, site["id"], survey.height_at, is_wet)}
         missing += [f"{site['id']}: {pid}" for pid in pad_overlay.missing_overlays(site, by_id)]
-        grow_clearance(site, rows)
+        ids = set(site["placementIds"])
+        grow_clearance(site, rows, [t for t in bundle.get("groundTreatments") or []
+                                    if t["id"].removeprefix("treatment.") in ids])
     _refuse("ground overlays", missing,
             "declared pad with no ground overlay in the bundle (0102): " + "; ".join(missing))
     return sum(len((s.get("groundOverlays") or {}).get("pads") or []) for s in bundle["settlements"])

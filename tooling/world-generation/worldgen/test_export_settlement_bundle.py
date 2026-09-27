@@ -1399,10 +1399,11 @@ def test_the_export_refuses_to_publish_a_changed_accepted_place(tmp_path, monkey
 _PUBLIC = Path(__file__).resolve().parents[3] / "apps/world-studio/public/province"
 
 
-def test_the_clearance_covers_every_pad_and_every_building_footprint_grown_by_1_5_m():
+def test_the_clearance_covers_every_pad_and_every_footprint_buildings_grown_1_5_m_others_0_5_m():
     """0102 round 2: a place's hard clearance is its compiled hardClear plus
-    the union of every pad polygon and every building footprint buffered
-    1.5 m, so no plant stands on levelled ground the compile's box missed."""
+    the union of every pad polygon, every building footprint buffered 1.5 m
+    and every other placement footprint buffered 0.5 m, so no plant stands on
+    levelled ground or a floor the compile's box missed."""
     from shapely.geometry import Point, Polygon
     site = {"id": "place.t", "vegetationClearance": {
         "schemaVersion": 1, "id": "patch.clearance.bundle.place.t",
@@ -1418,7 +1419,63 @@ def test_the_clearance_covers_every_pad_and_every_building_footprint_grown_by_1_
     covered = lambda x, z: any(r.buffer(1e-6).contains(Point(x, z)) for r in rings)  # noqa: E731
     assert covered(5, 5) and covered(22, 2) and covered(24, 4)
     assert covered(38.6, -1.4) and covered(45.4, 5.4)      # the footprint grown 1.5 m
-    assert not covered(37.0, 2) and not covered(60.5, 0.5)  # past the buffer; not a building
+    assert covered(60.5, 0.5) and covered(59.6, -0.4)       # a dressing piece grown 0.5 m
+    assert not covered(37.0, 2) and not covered(59.0, 0.5)  # past each buffer
+
+
+def test_the_clearance_keeps_ground_cover_under_a_deck_and_writes_hole_free_rings():
+    """A deck is raised on legs (owner 2026-09-25): its contacts and door
+    apron clear, its footprint does not. A ring of fence pieces round a
+    courtyard leaves the courtyard wild and comes out as a few hole-free
+    rings, not one per piece."""
+    from shapely.geometry import Point, Polygon
+    site = {"id": "place.t"}
+    rows = [{"id": "place.t.dock.building", "footprintM": [[0, 0], [10, 0], [10, 4], [0, 4]]}]
+    rows += [{"id": f"place.t.fence.piece.{i}", "footprintM": fp} for i, fp in enumerate([
+        [[20, 0], [40, 0], [40, 1], [20, 1]], [[20, 19], [40, 19], [40, 20], [20, 20]],
+        [[20, 0], [21, 0], [21, 20], [20, 20]], [[39, 0], [40, 0], [40, 20], [39, 20]]])]
+    treatments = [{"id": "treatment.place.t.dock.building", "kind": "deck",
+                   "footprintM": rows[0]["footprintM"], "apronsM": [[5.0, 6.0, 1.0]],
+                   "contactsM": [[[1, 1], [2, 1], [2, 2], [1, 2]]]}]
+    ex.grow_clearance(site, rows, treatments)
+    rings = [Polygon(r) for r in site["vegetationClearance"]["hardClear"]]
+    assert all(r.is_valid for r in rings)
+    covered = lambda x, z: any(r.buffer(1e-6).contains(Point(x, z)) for r in rings)  # noqa: E731
+    assert covered(1.5, 1.5) and covered(5.0, 6.0)      # a contact, the door apron
+    assert not covered(7.0, 2.0)                        # under the deck: ground cover stays
+    assert covered(19.6, 10) and covered(30, 0.5) and not covered(30, 10)   # courtyard stays wild
+    assert len(rings) == 4, len(rings)          # contact, apron, the fence ring in two halves
+
+
+def test_every_published_place_clears_every_placement_footprint_and_floor_treatment():
+    """0102 round 2: trees read only the sidecar clearance, so every
+    placement's footprint (buildings, runs, walls, dressing, yard items) and
+    every treatment's clearance polygons (a deck's contacts and aprons, never
+    its footprint) of a published place lie inside its hard clearance (Claywater's sty-wood, sty-hay and stable-wall-east piece.4
+    stood outside it before the rule covered every placement)."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    from .vegetation_patches import treatment_clearance_polygons
+    bundle = json.loads((_PUBLIC / "settlements.json").read_text())
+    side = {s["id"]: s for s in json.loads(
+        (_PUBLIC / "settlements/ground-overlays.json").read_text())["settlements"]}
+    by_id = {p["id"]: p for p in bundle["placements"]}
+    treat = {t["id"].removeprefix("treatment."): t for t in bundle.get("groundTreatments") or []}
+    loose = []
+    for site in bundle["settlements"]:
+        clear = unary_union([Polygon(r).buffer(0) for r in
+                             side[site["id"]]["vegetationClearance"]["hardClear"]]).buffer(1e-3)
+        for pid in site["placementIds"]:
+            t = treat.get(pid)
+            # a deck is raised on legs: its contacts and aprons, never its footprint
+            polys = [] if t is None else treatment_clearance_polygons(t)
+            if (t or {}).get("kind") != "deck" and (by_id.get(pid) or {}).get("footprintM"):
+                polys.append(by_id[pid]["footprintM"])
+            for poly in polys:
+                out = Polygon(poly).buffer(0).difference(clear).area
+                if out > 1e-3:
+                    loose.append(f"{pid} {out:.2f} m2")
+    assert not loose, f"footprints outside the hard clearance: {loose[:6]}"
 
 
 def test_the_published_ground_sidecar_is_the_bundle_s_ground_and_clears_the_family_hut_pad():

@@ -514,22 +514,36 @@ def apron_polygon(x: float, z: float, radius_m: float) -> list[list[float]]:
             for i in range(APRON_SIDES)]
 
 
+def treatment_clearance_polygons(t: dict) -> list[list[list[float]]]:
+    """The ground a treatment clears, the runtime's `treatmentClearancePolygons`:
+    a floor its footprint and door aprons; a deck (raised on legs) its contact
+    polygons and aprons only, so the ground cover under it stays (owner
+    2026-09-25)."""
+    kind = t.get("kind", "floor")
+    polys = [list(p) for p in t.get("contactsM") or []] if kind == "deck" else [t["footprintM"]]
+    return polys + [apron_polygon(*a) for a in t.get("apronsM") or []]
+
+
 def settlement_clearance_patches(bundle: dict) -> list[dict]:
     """One `vegetation-clearance` patch per ground treatment of a published
     settlement bundle. A floor clears its footprint and its door aprons; a
     deck (raised on legs) clears its contact polygons and aprons only, so the
     ground cover under the deck stays (owner 2026-09-25), the same split as
-    the runtime ring (`treatmentClearancePolygons`)."""
+    the runtime ring (`treatmentClearancePolygons`). A place that carries its
+    clearance in its own bundle (`vegetationClearance`, the ground-overlays
+    sidecar row, decision 0102 decision 1) gets no rows here: the flora file
+    holds no row for it, as the terrain file holds no place rows."""
+    carried = {s["id"] for s in bundle.get("settlements") or [] if "vegetationClearance" in s}
     out = []
     for t in sorted(bundle.get("groundTreatments") or [], key=lambda r: r["id"]):
         kind = t.get("kind", "floor")
-        polys = [] if kind == "deck" else [t["footprintM"]]
-        polys += [list(p) for p in t.get("contactsM") or []] if kind == "deck" else []
-        polys += [apron_polygon(*a) for a in t.get("apronsM") or []]
+        polys = treatment_clearance_polygons(t)
         if not polys:
             continue
         tid = t["id"].removeprefix("treatment.")
         place = tid.split(".parcel.")[0]
+        if place in carried:
+            continue
         out.append({"id": SETTLEMENT_PATCH_PREFIX + tid, "kind": PATCH_KIND,
                     "owner": {"record": place, "chunk": "16h"},
                     "why": SETTLEMENT_WHY[kind], "treatmentKind": kind,

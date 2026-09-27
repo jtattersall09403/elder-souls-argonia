@@ -8,7 +8,6 @@ tested where the exporter applies it (test_export_settlement_bundle.py
 `test_a_gate_added_after_acceptance_reports_and_does_not_fail`)."""
 
 import json
-import shutil
 
 import pytest
 
@@ -49,7 +48,13 @@ def _yard_compile() -> dict:
 def test_the_freeze_fails_when_an_accepted_yard_changes(tmp_path):
     doc = _yard_compile()
     patches = tmp_path / "vegetation-patches.json"
-    shutil.copy(ap.PATCH_FILES[0], patches)
+    # the yard carries its clearance in its bundle (0102), so the flora file
+    # holds no row of its own: plant one for the freeze to hash
+    veg = json.loads(ap.PATCH_FILES[0].read_text())
+    veg["patches"].append({"id": f"patch.clearance.settlement.{YARD}.parcel.probe",
+                           "kind": "vegetation-clearance", "owner": {"record": YARD},
+                           "why": "probe", "hardClear": [[[0, 0], [1, 0], [1, 1]]]})
+    patches.write_text(json.dumps(veg))
     assert ap.own_patches(YARD, (patches,)), "the yard owns clearance patches"
     row = {"placeId": YARD, "acceptedOn": "2026-09-25", "authoredOn": "2026-09-25",
            "compiledHash": ap.compiled_hash(doc), "patchesHash": ap.patches_hash(YARD, (patches,))}

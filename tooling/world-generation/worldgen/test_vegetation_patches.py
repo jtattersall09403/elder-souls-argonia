@@ -353,6 +353,25 @@ def test_settlement_patches_clear_a_floor_and_only_the_aprons_of_a_deck(tmp_path
     vp.write_settlement_patches(bundle, path)
     ids = [p["id"] for p in json.loads(path.read_text())["patches"]]
     assert ids[0] == "patch.clearance.track.keep-me" and "patch.clearance.settlement.stale" not in ids
+    # a place carrying its clearance in its bundle (0102) gets no flora row
+    carried = {**bundle, "settlements": [{"id": "place.x", "vegetationClearance": {"hardClear": []}}]}
+    vp.write_settlement_patches(carried, path)
+    ids = [p["id"] for p in json.loads(path.read_text())["patches"]]
+    assert ids == ["patch.clearance.track.keep-me"]
+
+
+def test_no_place_has_both_a_sidecar_clearance_and_flora_settlement_rows():
+    """Decision 0102 decision 1: a place with a ground-overlays sidecar row
+    carries its clearance in its bundle; the flora patch file holds no
+    `patch.clearance.settlement.*` row for it (drop them with
+    `python3 -m worldgen.vegetation_patches <settlements.json>`)."""
+    import json
+    sidecar = json.loads((sc.PROVINCE / "settlements" / "ground-overlays.json").read_text())
+    carried = {s["id"] for s in sidecar["settlements"]}
+    both = sorted({p["owner"]["record"] for p in json.loads(sc.PATCHES_PATH.read_text())["patches"]
+                   if p["id"].startswith(sc.SETTLEMENT_PATCH_PREFIX)
+                   and p["owner"]["record"] in carried})
+    assert both == [], f"places with both a sidecar clearance and flora rows: {both}"
 
 
 SIDECAR_KEYS = ("groundOverlays", "vegetationClearance")
