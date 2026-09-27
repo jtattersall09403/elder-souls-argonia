@@ -724,21 +724,49 @@ def _run_seats(bundle: dict, survey, place: str) -> dict[str, float]:
     return run_seats(_place_rows(bundle, place), survey.height_at)
 
 
+def _sidecar_clearance(place: str) -> dict | None:
+    """The place's own vegetation clearance from the ground-overlays sidecar
+    (`export_settlement_bundle.GROUND_SIDECAR`, decision 0102 decision 1), or
+    None for a place whose sidecar row carries none (or that has no row)."""
+    from .export_settlement_bundle import GROUND_SIDECAR
+    sidecar = json.loads((PUBLISHED.parent / GROUND_SIDECAR).read_text())
+    row = next((s for s in sidecar["settlements"] if s["id"] == place), None)
+    return (row or {}).get("vegetationClearance")
+
+
+def _sidecar_places() -> set[str]:
+    from .export_settlement_bundle import GROUND_SIDECAR
+    return {s["id"] for s in json.loads((PUBLISHED.parent / GROUND_SIDECAR).read_text())["settlements"]
+            if "vegetationClearance" in s}
+
+
 def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None = None,
-                           radius_m: float = DOOR_APRON_M) -> list[str]:
+                           radius_m: float = DOOR_APRON_M,
+                           clearance: dict | None | str = "sidecar") -> list[str]:
     """C3-5: no scatter instance stands within the door apron of a yard door
     (the algrass03b bush 0.52 m from the farmhouse threshold) once the
-    published clearance patches are applied to the published bundle, in
-    memory, exactly as `apply_vegetation_patches` applies them. The bundles
-    on disk carry the patches from the next province publish on (standard 6
-    holds them to the release); this gate proves the patch record clears the
-    door, whatever the publish state."""
+    clearance the runtime applies is applied to the frozen chunks, in memory,
+    exactly as `apply_vegetation_patches` applies it: the published flora
+    patches, plus the place's own sidecar clearance (hardClear, thinned and
+    kept, the whole row the runtime reads) when it carries one. Such a place's `patch.clearance.settlement.*` rows are left
+    out (0102: the flora source holds none for it; a published copy is stale),
+    so the sidecar alone must clear the door. `clearance=None` applies no
+    sidecar (the can-fail case); a dict stands in for the sidecar row."""
     from .apply_vegetation_patches import _prune_decoded, species_radii
     from .compile_scatter import DEFAULT_SEED
     from .scatter import decode
-    from .vegetation_patches import CHUNK_M, affected_chunks
+    from .vegetation_patches import CHUNK_M, SETTLEMENT_PATCH_PREFIX, affected_chunks
     if patches is None:
         patches = json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
+    if clearance == "sidecar":
+        clearance = _sidecar_clearance(place)
+    if clearance is not None or place in _sidecar_places():
+        # the place's clearance is its sidecar: a published flora row for it
+        # is stale (the next province publish drops it) and never the proof
+        patches = [p for p in patches if not (p["id"].startswith(SETTLEMENT_PATCH_PREFIX)
+                                              and p["owner"]["record"] == place)]
+    if clearance is not None:
+        patches = patches + [clearance]     # the whole row, as the runtime applies it
     index = json.loads((VEGETATION / "vegetation-index.json").read_text())
     species = index.get("speciesOrder", [])
     radii = species_radii()
@@ -767,6 +795,7 @@ def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None 
 def test_no_scatter_stands_in_a_yard_door_apron(place):
     bundle = json.loads(PUBLISHED.read_text())
     assert any(d.get("settlementId") == place for d in bundle["doors"]), place
+    assert _sidecar_clearance(place) is not None, f"{place}: no ground-overlays sidecar row"
     assert scatter_in_door_aprons(bundle, place) == []
 
 
@@ -778,16 +807,25 @@ def test_no_scatter_stands_in_a_yard_door_apron(place):
 CHECKIN3_FARMHOUSE_THRESHOLD_M = [4274.414, 5798.733]
 
 
-def test_the_apron_check_fails_without_the_settlement_patches():
-    """Without the `patch.clearance.settlement.*` set the farmhouse bush stands
-    at the door, as the owner saw it at check-in 3."""
+def test_the_apron_check_fails_on_a_plant_in_a_door_apron():
+    """The farmhouse bush stands at the check-in-3 door with no clearance
+    applied (the flora file holds no settlement row for the yard, 0102), and
+    still stands there with the yard's sidecar applied once the sidecar's
+    `hardClear` rings that reach the door are taken out: the gate reads the
+    sidecar, and a sidecar that leaves a plant in an apron fails it."""
+    from shapely.geometry import Point, Polygon
     bundle = json.loads(PUBLISHED.read_text())
     doors = [d for d in bundle["doors"] if d.get("settlementId") == YARD]
     probe = dict(doors[0], thresholdM=CHECKIN3_FARMHOUSE_THRESHOLD_M)
     bundle = dict(bundle, doors=[probe])
-    patches = [p for p in json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
-               if not p["id"].startswith("patch.clearance.settlement.")]
-    assert any("algrass03b" in hit for hit in scatter_in_door_aprons(bundle, YARD, patches))
+    assert any("algrass03b" in hit for hit in scatter_in_door_aprons(bundle, YARD, clearance=None))
+    assert scatter_in_door_aprons(bundle, YARD) == [], "the yard sidecar clears the check-in-3 door"
+    sidecar = _sidecar_clearance(YARD)
+    apron = Point(*CHECKIN3_FARMHOUSE_THRESHOLD_M).buffer(DOOR_APRON_M)
+    holed = dict(sidecar, hardClear=[r for r in sidecar["hardClear"]
+                                     if not Polygon(r).buffer(0).intersects(apron)])
+    assert len(holed["hardClear"]) < len(sidecar["hardClear"])
+    assert any("algrass03b" in hit for hit in scatter_in_door_aprons(bundle, YARD, clearance=holed))
 
 
 def _glb_json(path: Path) -> dict:

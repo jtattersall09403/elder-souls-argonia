@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { isSmokeColumnPlacement } from "./smokeColumn";
 import type { SettlementKitAssetMeta, SettlementKitManifests, SettlementPlacement } from "./types";
 
 export interface ArchitecturePart {
@@ -78,9 +79,18 @@ export function kitAssetMetaFromManifest(
   return out;
 }
 
-/** The manifest metadata a placement resolves against: its kit, then its asset id. */
+/** Meta for a runtime effect placement: it has no kit row; it mounts on its host. */
+const EFFECT_META: SettlementKitAssetMeta = { anchorClass: "fx" };
+
+/**
+ * The metadata a placement resolves against: a runtime effect
+ * (`fx:smoke-column`) mounts with no kit row; anything else is its kit, then
+ * its asset id. The ONE lookup the layer and the published-bundle gate share.
+ */
 export function kitAssetMetaOf(
-  manifests: SettlementKitManifests, placement: Pick<SettlementPlacement, "kit" | "assetId">,
+  manifests: SettlementKitManifests,
+  placement: Pick<SettlementPlacement, "kit" | "assetId" | "kind">,
 ): SettlementKitAssetMeta | undefined {
+  if (isSmokeColumnPlacement(placement)) return EFFECT_META;
   return manifests.get(placement.kit)?.get(placement.assetId);
 }

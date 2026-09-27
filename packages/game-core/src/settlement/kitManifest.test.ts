@@ -25,7 +25,8 @@ describe("kit manifest asset metadata", () => {
   });
 
   it("resolves a placement's kit and asset id to its anchor class and designed sink", () => {
-    const found = kitAssetMetaOf(new Map([[KIT, meta]]), { kit: KIT, assetId: first.id });
+    const found = kitAssetMetaOf(new Map([[KIT, meta]]),
+      { kit: KIT, assetId: first.id, kind: "settlement" });
     expect(found?.anchorClass).toBe(first.anchorClass);
     expect(found?.designedSinkM?.p50).toBe(first.designedSinkM.p50);
     expect(typeof found?.designedSinkM?.p50).toBe("number");

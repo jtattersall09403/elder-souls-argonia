@@ -61,9 +61,6 @@ import {
   SMOKE_MAX_DISTANCE_M, SmokeColumns, type SmokeAnchor,
 } from "./smokeColumn";
 
-/** Manifest meta for an effect placement: it has no kit row; it mounts. */
-const SMOKE_COLUMN_META: SettlementKitAssetMeta = { anchorClass: "fx" };
-
 interface DrawBucket {
   part: ArchitecturePart;
   transforms: THREE.Matrix4[];
@@ -545,7 +542,7 @@ export function SettlementLayer({
       let sinceYield = 0;
 
       const resolvePlaced = createPlacementResolver(bundle.placements,
-        (p) => (isSmokeColumnPlacement(p) ? SMOKE_COLUMN_META : kitAssetMetaOf(manifests, p)),
+        (p) => kitAssetMetaOf(manifests, p),
         groundAt);
       const smokeHere: SmokeAnchor[] = [];
 
