@@ -870,8 +870,16 @@ def test_mined_sink_record_carries_its_method_and_samples():
     document = _record(SINK_RECORD)
     assert document["schemaVersion"] == 1
     assert "designedSinkM = groundZ - pivotZ" in document["method"]
-    assert all(row["n"] >= 3 for row in document["assets"].values()
-               if row.get("evidence") == "plugin")
+    # a plugin row under MIN_SAMPLES is the record only as a whole-population
+    # ruling (`mine_designed_sink --whole-population RULING`, 16k walk 2 T1):
+    # every placement the plugins make, none dropped, with its provenance
+    for asset, row in document["assets"].items():
+        if row.get("evidence") != "plugin" or row["n"] >= 3:
+            continue
+        whole = row.get("wholePopulation") or {}
+        assert whole.get("n") == row["n"] and whole.get("minSamples") == 3, asset
+        assert isinstance(whole.get("ruling"), str) and whole["ruling"].strip(), asset
+        assert row.get("plugins"), asset
 
 
 def test_the_record_carries_the_mesh_sill_so_both_writers_agree():

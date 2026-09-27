@@ -46,6 +46,9 @@ def test_claywater_fits_the_ceiling_once_its_runs_are_joined():
     unjoined = E.resident_collision_parts(
         [site], [{k: v for k, v in p.items() if k != "run"} for p in bundle["placements"]],
         E.PUBLIC_KITS)[site["id"]]
+    # joining a run into one part saves parts, and the joined place fits the
+    # ceiling (400 since walk 2 lane RA, bb5661d5: every prop over 0.3 m now
+    # collides) with the export's headroom
     assert joined < unjoined
-    assert round(joined * E.COLLIDER_PART_HEADROOM) <= E.COLLIDER_PART_CEILING < round(
-        unjoined * E.COLLIDER_PART_HEADROOM)
+    assert round(joined * E.COLLIDER_PART_HEADROOM) <= E.COLLIDER_PART_CEILING
+    assert E.COLLIDER_PART_WARNING < E.COLLIDER_PART_CEILING
