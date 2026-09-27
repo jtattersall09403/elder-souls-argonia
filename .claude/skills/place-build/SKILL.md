@@ -19,11 +19,12 @@ This skill holds the procedure; its `references/` hold the grounding:
 
 | File | What it is | Read |
 |---|---|---|
-| [references/lessons.md](references/lessons.md) | every lesson still in force, each with the gate that enforces it | step 0, in full |
+| [references/lessons.md](references/lessons.md) | every lesson still in force, each with the gate that enforces it | step 0, the rows for this type as the site packet lists them; edited in the fix round |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
 | [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) | door records, shells chosen for their interiors, the fit rule, the tier A export, the interior runtime contract, the socket kinds and gates, the approach checklist | steps 1, 2 and 5 |
+| [references/round-recipe.md](references/round-recipe.md) | the timetable of one round: what fans out, what the builder does itself, what is never done in a round | steps 2–4 and 7, before the first edit |
 | [references/creative-register.md](references/creative-register.md) | one row per built place: the creative calls made above its promises, so the next place makes different ones | step 1 § Creative register; appended at step 8 |
 | [references/rollout-packet-template.md](references/rollout-packet-template.md) | the spec the Phase 15 packet template meets (16j item 8) | at the loop's exit only |
 
@@ -52,16 +53,94 @@ the owner, batched into the next walk packet.
 | `apps/world-studio/public/province/interiors/<cellId>.json` | step 5 (`export_interior_bundle`) | one tier A cell, copied verbatim (0103 decision 3) |
 | `references/types/<n>-<type>.md` | step 8 | the type sheet |
 
+## How the builder works (owner 2026-09-27, after the walk-2 round took five rounds)
+
+- **Recommend and do.** A rule, gate, tool or record fix the builder
+  finds it needs, and that sits under an existing decision (0097–0104,
+  0081), is filed to the tooling sub-lane (below) with its fail-first
+  test and its lessons row, never written inside a round; it is
+  reported, never asked. The
+  builder stops for a ruling only on an owner-level call (a place moved
+  or cut, a quest premise changed, a new type, a world-level rule) or
+  when a check cannot be met with any asset we hold after a completed
+  search.
+- **Fan out inside the lane.** Kit rebuilds, bundle exports, pose and
+  yard scans, plugin mines and every render read run as parallel
+  sub-agents (`run` for jobs, `find` for look-ups, a Sonnet reader per
+  image) while the builder edits; nothing that can run beside the edit
+  runs after it. Interior kits are the exception: every interior kit a
+  batch needs is built in one pre-pass before its builders start, and a
+  builder never builds one.
+- **Scan before editing.** Step 2 starts with `wb.py scan` (the site
+  feasibility scan: for every building's candidate poses, pad legality
+  with batter, road-paint overlap, water depth along a landing bearing,
+  the pieces' designed sinks and porch or stair reach), so a pose that
+  cannot pass is never authored. A defect the scan could have shown is a
+  scan gap, fixed first.
+- **One round, one batch, one apply.** Every finding of a round is one
+  layout edit and one `wb round` (apply + check + walktable + shots);
+  `check --only <uids>` re-measures the named ops plus the graph rules
+  that touch them.
+- **A fresh agent per round.** A round ends with the WIP layout, the
+  check list and the brief on disk (`tooling/.reports/16k/<place>/`);
+  the next round starts a fresh agent from them, never a context that
+  has grown past one round.
+- **Tool work never rides in a place round** (method review 2026-09-27
+  finding 6: four hour-long rounds went on writing rules). A rule, gate
+  or tool gap found in a round is filed as a tooling task and built by a
+  `deliver` sub-agent in parallel; the place round continues on the
+  rules that exist and takes the new rule at its next round. During
+  the Phase 15 rollout builders never edit tools at all: one tooling
+  lane owns every gap. The round ceiling (four) counts apply rounds too.
+- **The builder writes the brief** from slice 2 on (0100 decision 8 as
+  amended 2026-09-27: the planner writes the brief only for owner-guided
+  types 8 and 9); the planner reads the brief with the packet.
+- **Reads are digests, never every brief.** Step 0 reads a generated
+  site packet (`site_packet.py`: the record, promises, dossier facts,
+  route seams, neighbours within 2 km for the 0098 rules and within
+  500 m for the seams, the type sheet, the lessons rows for this type)
+  and the register digest (one line per built
+  place, generated from the briefs), never every `design.md` or every
+  register row. Anything the builder must know is in the packet or is a
+  packet gap.
+- **A proven type is cheap.** Once a type has passed two walks
+  (`type-recipes.json` `proven: true`), a place of that type takes the
+  fast path: site packet → the type's layout template
+  (`layout_template.py`, 16k S10: emits the layout from the packet and
+  the type sheet's yard sets; hand edits only where the packet's seams
+  demand) → one `wb round --no-shots` to zero check failures → gates by
+  `place_gates` (one command, about a minute: the 0102 rules, the
+  promise and socket gates, the interior bundle gate, the 0098 bars) →
+  publish. The chain runs as a `Workflow` of `run` agents; the Opus
+  builder is woken only for the brief's deltas and for failures the
+  chain leaves. No plan read, no render round (the type sheet may ask
+  for a sampled one in N places), no per-place preflight, review,
+  text-review or deploy: those run once per batch of places (per walk
+  packet in 16k, per region packet in Phase 15), which is the owner's
+  standing ruling for the deploy (16k step 3) applied to the batch.
+- **Six at once.** Builders run as parallel lanes on disjoint places;
+  the box takes about six (the Workflow cap binds before CPU). What
+  serialises them is a defect: a whole-file writer without a lock, a
+  shared output folder, a pool sized to the machine instead of its
+  job-guard slot, a watchdog that freezes an admitted job, a review
+  stamp written without a lock (16k S9). Each place publishes its own
+  bundle file (`settlements/<place-id>.json` plus `settlements/index.json`;
+  the runtime reads the index and the bundles within range, 16k S8) so
+  publishes never contend, and commits its own files with
+  `commit_place.py --place <id>` (16k S12), which stages them from the
+  place's manifest, so lanes never race on git.
+
 ## 0. Orient (unattended)
 
-1. Read `references/lessons.md` in full, the type sheet, and the rows of
-   `references/design-index.md` for this type, culture and step. A stale or
-   contradicting lesson row is fixed now (edit the row), never worked round.
-2. Read the register of built places: every row of
-   `world/sources/placement/accepted-places.json` and every
-   `world/sources/blueprints/*.design.md` (type, culture, shells,
-   signature assemblies), so this place repeats none of them (0098
-   province-wide rows; 97 A6 spacing, :130–134).
+1. Read the site packet (the lessons rows for this type come in it),
+   the type sheet, and the rows of `references/design-index.md` for this
+   type, culture and step. A stale or contradicting lesson row is fixed
+   now (edit the row), never worked round.
+2. Read the register digest (one line per built place: type, culture,
+   shells, signature assemblies; never every `design.md`), so this place
+   keeps 0098's province-wide rule (one signature at most 3 times in the
+   province, never twice within 2 km) and is not the same signature as
+   a place of its type within its region (97 A6 spacing, :130–134).
 3. Pull the record and its promises:
 
         python3 -m worldgen.blueprint_promises --id <place-id> --write   # (worldgen)
@@ -93,7 +172,7 @@ the owner, batched into the next walk packet.
    the culture forbids, an interior no plugin furnishes) is not left
    hanging and not faked: you edit the source record (the quest provision
    in `world/sources/quests/`, the catalogue field) to the nearest thing
-   the world can keep, send the prose through `text-review`, regenerate
+   the world can keep, list the prose for the batch's one `text-review`, regenerate
    the ledger, and log the change in the brief's § Record corrections with
    the reason. Use judgement: the quest's intent survives, its object
    changes. A change that alters a quest's premise or a place's purpose
@@ -103,7 +182,7 @@ the owner, batched into the next walk packet.
    leg it sits on, every minor route ending at it, the ferry crossing and
    its berths in `travel-services.json`), the painted road polygon and
    width from the routes record, and the neighbours within 500 m along
-   each route (the register of step 0.2). Decide and write in § Seams:
+   each route (the site packet). Decide and write in § Seams:
    **on the road** (the painted, frozen road is the spine the layout is
    built around: buildings face it, nothing but ways, crossings and verge
    signs touch its surface) or **off the road** (an authored minor route
@@ -197,11 +276,13 @@ per building, enclosure, path, light, water edge and dressing group:
   spots a place gets, and where, is the builder's call above the
   promises (the promises are the floor, never the ceiling), sized to the
   place's occupants and trade. So that fresh agents do not make the same
-  "creative" calls every time, read `references/creative-register.md`
-  (one row per built place: its signature dressing ideas, container
-  mix, idle spots, lights, the small stories told by clutter) and make
-  at least three calls this place that no row already has; append this
-  place's row at the slice close.
+  "creative" calls every time, read the rows of
+  `references/creative-register.md` for this type and region (one row
+  per built place: its signature dressing ideas, container mix, idle
+  spots, lights, the small stories told by clutter) and make at least
+  three calls this place within 0098's rules that are not the same
+  signature as any of those rows; `close_place.py` appends this place's
+  row at the slice close.
 - § Sockets (0103 decisions 5–6; `references/doors-interiors-sockets.md`
   §5): one row per authored socket: kind, host (the placement it sits on
   or in, or the cell), data (roster slot and schedule, activity, item
@@ -219,7 +300,8 @@ per building, enclosure, path, light, water edge and dressing group:
   record correction). The D0 safe interior the settlement owes (quests
   20 §12) is a promise filled by a door's `fills`; its cell's
   `acousticProfile` and `lightingProfile` slots stay typed and empty.
-  Prose through `text-review`.
+  Prose goes through one `text-review` per batch, over the batch's
+  briefs and record corrections.
 - § Seams (step 0.3b): on-road or off-road, the route ids and terminals
   every internal way joins, the berths and the landing that reaches
   each from dry ground, the sign arms and what they point to.
@@ -246,7 +328,8 @@ every door an Interiors row, every promise row a fulfilment or an
    added there, never only as a `group save` in the layout.
 3. Apply:
 
-        python3 tooling/placement-workbench/wb.py <scene> apply world/sources/blueprints/<place>.layout.json
+        python3 tooling/placement-workbench/wb.py <scene> scan <place>.scan.json --out /tmp/<place>-scan.json   # site feasibility first
+        python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots
 
    It rebuilds the scene from a fresh window in one process, runs `check`
    and `compile`, and writes one summary. The scene file is derived state;
@@ -264,7 +347,7 @@ Ends when: `apply` reports 0 compile errors, `check` has ZERO
 failures (placement-workbench § 5) and every lived-in door has a tier A
 claim or a `reserved` state naming its pool.
 
-## 3. The plan read (seconds per round)
+## 3. The plan read (only when the compile gates are red, or the type is unproven and its sheet asks)
 
     python3 -m worldgen.render_blueprint --layout ../../world/sources/blueprints/<place>.layout.json --out output/plan   # (worldgen)
 
@@ -274,25 +357,29 @@ claim or a `reserved` state naming its pool.
 Hand the PNG to one Sonnet reader (read-only `general-purpose` agent)
 with the **Plan** rows of `references/reader-checklist.md` and the brief's
 expectations written first. Fix footprint, spacing, path and door-facing
-findings in the layout file; `apply`; render again. No Blender render
-until the plan read is clean (0100 decision 3).
+findings in the layout file; `apply`; render again. When the plan read
+runs, no Blender render until it is clean (0100 decision 3 as amended
+2026-09-27).
 
 Ends when: every Plan row is YES.
 
 ## 4. Render rounds (at most four; 0102 decision 4)
 
-    python3 tooling/placement-workbench/wb.py <scene> render --shots auto
+    python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
 
 One Blender launch: the top view, one front per building, two isos, and a
-shot of every `unmined` mount (0102 decision 5). One Sonnet reader per
-round, given the Top, Front and Iso rows of
-`references/reader-checklist.md`; UNSURE or a black image means a closer
-or lit re-render of that shot, never a guess. Memory: `anon` in
-`/sys/fs/cgroup/memory.stat` under 7 GiB before a render.
+shot of every `unmined` mount (0102 decision 5). The readers run as one
+`Workflow`, one Sonnet reader per image, one merged NO list, one wake
+(`references/round-recipe.md` step 3); each reader gets only the
+`reader`-tagged rows of `references/reader-checklist.md` for its view
+(a row tagged with a `check` or compile rule is measured, never read);
+UNSURE or a black image means a closer or lit re-render of that shot in
+the next round's launch, never a guess. Memory: the job guard's slot
+governs memory.
 
 **A round is one batch.** Gather every reader NO and every `check`
-failure, edit the layout ONCE for all of them, run one `apply`, one plan
-render (step 3), then at most one Blender round. Nothing is fixed one item
+failure, edit the layout ONCE for all of them, run one `apply`, the plan
+render only when step 3 applies, then at most one Blender round. Nothing is fixed one item
 at a time. A round never touches a kit build or the frozen world. A
 finding that comes back after it was fixed escalates to the planner (no
 third fix of the same thing). A small mount not in the mined pairs (child
@@ -395,10 +482,12 @@ so the issue stays readable.
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
 1. Group every "wrong" in the reply by cause across the whole reply.
-2. Per cause: a rule (world 97 §C, the type sheet or this skill), a gate
-   or `check` rule **shown failing first on the defect**, and a row in
-   `references/lessons.md` (edit the existing row if one covers it). If
-   the row is visual, add or edit its line in `reader-checklist.md`.
+2. Per cause: a row in `references/lessons.md` (edit the existing row
+   if one covers it); a rule, gate or `check` rule the cause needs (world
+   97 §C, the type sheet or this skill) goes to the tooling sub-lane,
+   which shows it **failing first on the defect**; the place round takes
+   it at its next round and never writes it. If the row is visual, add
+   or edit its line in `reader-checklist.md`.
 3. **Edit the place; never rebuild it** (owner 2026-09-27). A walked
    place is mostly right; the round changes only what the causes name.
    The layout file is edited in place: every op keeps its `uid`, ops
@@ -411,14 +500,23 @@ so the issue stays readable.
    from scratch, re-running the site dossier or the promise ledger from
    nothing, or re-choosing shells the owner did not fault, is forbidden
    without a planner ruling naming the cause that needs it. The inner
-   loop of steps 3–4 then runs to zero `check` failures and zero reader
+   loop of steps 2–4 then runs to zero `check` failures and zero reader
    NOs on the edited layout; a reader NO on something the owner called
    right is reported to the planner, not fixed.
-4. Step 5, one preflight, the deploy (16k step 3), the next walk packet.
+4. The layout is edited by `uid`, then `place_gates`, then the place
+   joins the next **batch** deploy (16k step 3; in 16k a batch is one
+   walk packet, which may hold several places; in Phase 15 a region
+   packet) and its walk packet. Never a preflight and deploy per place.
 
-Ends when: every "wrong" is a lessons row with its gate; the packet is out.
+Ends when: every "wrong" is a lessons row with its gate or its tooling
+task; the packet is out.
 
 ## 8. Slice close (on the owner's "looks right")
+
+`close_place.py --place <id>` (16k S11) does the mechanics: the receipt
+(item 3), the `type-recipes.json` row (item 4), the register digest row,
+the creative-register row (item 5) and the Starting state stub (item 7).
+The builder writes the lessons, the type sheet and the judgements.
 
 1. **Lessons this slice** (mandatory): a `<place>.design.md` § Lessons
    this slice, and a row in `references/lessons.md` for every finding that
@@ -426,7 +524,10 @@ Ends when: every "wrong" is a lessons row with its gate; the packet is out.
    needs a written reason.
 2. The type sheet `references/types/<n>-<type>.md`: written by the first
    slice of the type, edited by every later one (yard sets, pieces that
-   worked, known failure modes).
+   worked, known failure modes). The first slice close of a type also
+   writes the type's layout template generator (`layout_template.py`,
+   16k S10) from this place's layout (Claywater writes type 1's) and
+   names it in the type sheet.
 3. The acceptance receipt: a row in
    `world/sources/placement/accepted-places.json` (place id, the owner's
    date, the hashes of the compiled record and of the place's patches, the
@@ -453,6 +554,9 @@ Ends when: every "wrong" is a lessons row with its gate; the packet is out.
    the shells**: a house shell used by a built place is not the next
    place's main shell while the culture's pool (`references/types/`
    shell lists, 0098 bars) holds an unused one with a usable interior.
+   Two or three slices of different types run at once while walks are
+   pending (16k § The loop step 6), so the next slice may start before
+   this one closes.
 7. Replace the 16k brief's Starting state with the next slice's; add the
    slice's row to the ledger.
 

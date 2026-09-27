@@ -172,3 +172,21 @@ already accepted.
   close by the contrast rule.
 - World 96 §3's exit bar, 97 C12 and E5, and the stale 16i/16j pointers
   across the docs are brought in line in the same slice.
+
+## Addendum (2026-09-27, planner ruling on method review round 2)
+
+- **Decision 8 amended:** the builder writes the design brief from
+  slice 2 on; the planner writes it only for owner-guided types 8 and 9
+  and reads every brief with its packet.
+- **Decisions 2 and 3: the loop's rounds are batched.** A round is one
+  layout edit, one `wb round`, one reader `Workflow`; the plan read runs
+  only when the compile gates are red or an unproven type's sheet asks;
+  preflight, review, text-review and deploy run once per batch (a walk
+  packet in 16k, a region packet in Phase 15), never per place. Decision
+  2's "residuals listed in the packet" is superseded by 0102 decision 3
+  (none).
+- **Tool work is a separate lane.** A rule, gate or tool gap found in a
+  round goes to the tooling sub-lane; a place round never writes one.
+- Evidence: `tooling/.reports/16k/walk2/method-review.md` and
+  `method-review-r2.md`; the procedure is `place-build` SKILL § How the
+  builder works and the 16k brief § The loop.

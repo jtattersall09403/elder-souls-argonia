@@ -29,9 +29,8 @@ step numbers are cited below. The mined records
 province metres, x east / z south (studio km x 1000). Faces are
 east/west/north/south in the piece's own frame at yaw 0 (= +x/-x/+y/-y).
 Every call prints JSON and a `[wb] <cmd> <s>` line; a place-and-check cycle
-is 1-2 s; a Blender launch costs 40-50 s (measured, yard B: each kit it
-uses is imported), so a render round is ONE launch (`render --shots`: 205 s
-for yard B's 11 shots at 1024 px on the two job_guard cores).
+is 1-2 s; a render round is ONE Blender launch (`render --shots`) under
+the job guard, whose slot governs its cores and memory.
 
 ## 1. Read before you place
 
@@ -39,8 +38,8 @@ for yard B's 11 shots at 1024 px on the two job_guard cores).
   index) is `place-build` step 0; the kit list and the piece per use come
   from its design brief (step 1). A fixture reads its
   `world/sources/sites/<slug>.json`.
-- Memory: `grep '^anon' /sys/fs/cgroup/memory.stat` under 7 GiB before a
-  render (one Blender at a time).
+- Memory: the job guard's slot governs memory; there is no manual check
+  and no one-Blender-at-a-time rule.
 
 ## 2. Open the ground and site the place
 
@@ -77,8 +76,13 @@ step 2). Each op is one mutating command below as JSON with the CLI's
 argument names; the standing example is
 `tooling/placement-workbench/fixtures/yard-b.layout.json`.
 
+    python3 tooling/placement-workbench/wb.py round [SCENE] <place>.layout.json [--no-shots] [--full]
+        # apply + check + compile + walktable + render --shots auto in ONE process;
+        # output/apply/<scene>/summary.json: failures by rule (count, fix hint) and by uid
     python3 tooling/placement-workbench/wb.py apply <place>.layout.json [--scene NAME]
-        [--no-compile] [--allow-stale-ground]   # fresh scene, every op, check + compile: 12 s (yard B)
+        [--no-compile] [--allow-stale-ground] [--full]   # unchanged ops restored from the op cache
+    $W scan <spec>.json --out <file>   # every candidate pose ranked: pad legality, paint, water, apron room
+    $W check [--only UID,..] [--serial] [--full]   # pooled; unchanged pairs from the pair cache
     python3 tooling/placement-workbench/wb.py replay --scene NAME --out <place>.layout.json
     cd tooling/world-generation && python3 -m worldgen.render_blueprint --layout <layout>   # plan, 3 s
 

@@ -38,12 +38,12 @@ walks as it needs; it closes only on the owner's "looks right".
   `kit_compress` skip).
 - **Review:** open findings from the r4 review are being closed by the
   review lane (`tooling/.reports/16k/review-close.md`).
-- **Owner calls:** none open. Reply is awaited on walk packet 2 (issue
-  #1), including the Skyrim SE/AE archive question in it. **Next:**
+- **Owner calls:** none open. The owner's walk-2 reply is in and its
+  fix round is under way (lane P, stopped mid round 5:
+  `tooling/.reports/16k/walk2/P-handoff.md`). **Next:**
   "continue 16k slice 1c after owner walk 2".
-- **Queued, not this slice:** speed lane 2 (workbench in-process R3–R7,
-  `build_kit` input-hash skip, a preflight wave cap by CPU, the
-  shot-quality trade on a reader sample); the farmhouse+walkway
+- **Speed:** speed lane 2 is landing in the working tree; speed lane 3
+  and S8–S12 (below) are queued. **Queued, not this slice:** the farmhouse+walkway
   composite backlog row; the `designer_yaw` and `grow_clearance`
   MultiPolygon questions; `dump_meshes` for shell candidates before the
   next door-link re-mine; cell eviction (Phase 14).
@@ -66,11 +66,13 @@ walks as it needs; it closes only on the owner's "looks right".
 ## The loop (every slice)
 
 1. **Design as one whole layout (unattended; `place-build` skill, 0100
-   decisions 2–3, 7).** Step 0: read `references/lessons.md`, then the
-   register (the 16g catalogue record, its promises and quest provisions,
-   the macro plot, every place already built in the loop: type, culture,
-   shells, signature assemblies), so the new place repeats none of them
-   (0098's one-assembly bars, 97:130–134 spacing); write the site dossier
+   decisions 2–3, 7).** Step 0: read the site packet (the 16g catalogue
+   record, its promises and quest provisions, the macro plot, the
+   lessons rows for this type, neighbours within 2 km) and the register
+   digest (one line per built place: type, culture, shells, signature
+   assemblies), never every `design.md`, so the new place keeps 0098's
+   rules and is not the same signature within its region and type
+   (97:130–134 spacing); write the site dossier
    (97 B1) and fix any record defect found there as a rule gap with a
    test, before design. Then write the **design brief**
    (`world/sources/blueprints/<place>.design.md`: the causal answer for
@@ -82,14 +84,16 @@ walks as it needs; it closes only on the owner's "looks right".
    file** (`<place>.layout.json`, the ordered workbench operations for the
    whole place, `socket` ops included). `wb.py apply <layout>` rebuilds
    the scene, runs `check` and `compile` and writes one summary;
-   `blueprint_interiors.py --claim` writes each door's tier A claim. **The plan is read first:** the
-   2.5 s plan render (`render_blueprint.py`, item 19) and a reader pass
-   before any Blender render; footprint, spacing, path and door-facing
-   errors are fixed there. Then **render rounds** (0102 decision 4): one
-   Blender launch (top view, one front per building, two isos) read by
-   one Sonnet reader against the reader checklist; each round gathers
-   every reader NO and every `check` failure into ONE layout edit, one
-   `apply`, one plan render and at most one Blender round; **at most four
+   `blueprint_interiors.py --claim` writes each door's tier A claim. **The
+   plan read** (the 2.5 s plan render, `render_blueprint.py`, item 19,
+   and a reader pass before any Blender render) runs only when the
+   compile gates are red, or the type is unproven and its type sheet
+   asks. Then **render rounds** (0102 decision 4): one Blender launch
+   (top view, one front per building, two isos) read by one `Workflow`
+   of Sonnet readers, one per image, returning one NO list; each round
+   gathers every reader NO and every `check` failure into ONE layout
+   edit, one `apply`, the plan render only when it applies, and at most
+   one Blender round; **at most four
    rounds**; a finding that returns after its fix escalates to the
    planner. The inner loop ends at zero `check` failures and zero reader
    NOs; there are no residuals. Export the pose record with its ground
@@ -102,27 +106,32 @@ walks as it needs; it closes only on the owner's "looks right".
    item 7b), the automatic gates: every essential checklist row below, the
    0102 `check` rules and the lit-entrance compile rule (97 C16), the
    socket gates and the interior bundle gate (0103), the 0098
-   bars, the yard regression gates, `preflight --paths`.
+   bars, the yard regression gates, all per place by `place_gates`; preflight, review,
+   text-review and deploy run once per batch.
 3. **Walk packet** (Owner check-ins below) → the owner walks **the
    deployed studio** (owner 2026-09-27): before posting, merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
    use the deployed URL, never `$ES_TUNNEL_URL`. The packet
-   reports the measured numbers per item and asks only look and feel; it
+   gives the measured numbers in one line (no per-item table) and asks
+   only look and feel; it
    lists the interiors to enter (door, cell, `?interior=<cellId>` URL)
    and the `?sockets=1` overlay; a
    `§ Gaps` row carries one of 0102 decision 3's four reasons; the plan
    render and up to four shots are embedded (`owner_inbox.py --attach`).
 4. **One fix round** (`continue 16k slice N after owner walk`): group the
-   owner's defects by cause across the whole reply; each cause becomes a
-   rule (97 §C or the skill), a test or gate shown failing first on the
-   defect, and a skill edit; each cause is also a row in
+   owner's defects by cause across the whole reply; a cause that needs a
+   rule (97 §C or the skill), a test or a gate goes to the tooling
+   sub-lane, which shows it failing first on the defect (never written
+   inside a round); each cause is also a row in
    `place-build/references/lessons.md` (0100 decision 4: rule, defect and
    cause, the gate that now enforces it, source), merged into an existing
    row where it restates one. The rebuild runs the step-1 inner loop to
    zero `check` failures and zero reader NOs (0102 decisions 3–4); a
    finding the owner raises that a tool could have measured becomes a
-   `check` rule first. One preflight, one republish, the next walk
-   packet.
+   `check` rule first. The layout is edited by `uid`, then
+   `place_gates`, then the next **batch** deploy (a batch is one walk
+   packet, which may hold several places; in Phase 15 a region packet)
+   and the walk packet; never a preflight and deploy per place.
 5. **Repeat 3–4** until the owner says it looks right. Then close the
    slice: the acceptance receipt in
    `world/sources/placement/accepted-places.json` (0100 decision 6: the
@@ -134,9 +143,10 @@ walks as it needs; it closes only on the owner's "looks right".
    written by the first slice of a type and edited by every later one; the
    slice's ledger row, the next slice's Starting state, and the next slice:
    a fresh place of a different type in a contrasting region.
-6. **While the owner walks,** the agent does the work the walk cannot
-   change: the next slice's register reads, research and sourcing,
-   speed items (S below), template studies. Never an idle wait.
+6. **While the owner walks,** two or three slices of different types
+   run at once (each at its own step; a walk packet may carry several
+   places), beside research and sourcing, speed items (S below) and
+   template studies. Never an idle wait.
 
 ## The checklist ("good enough" for a place)
 
@@ -908,9 +918,17 @@ Planner rulings (2026-09-24):
   6-core pin plus the watchdog pausing single pytest workers is the
   contention; placement is 101 s alone, pipeline 78 s at `-n 4`). In
   priority order, "speed lane 2": S1 **batch the loop**: a `wb round`
-  wrapper runs apply + check + walktable + shots in one call, and the
-  skill rule is one layout diff per batch of findings (12–18 min per
-  place); S2 the watchdog never pauses a lone test worker, pause
+  wrapper runs apply + check + walktable + shots in one call, `check
+  --only <uids>` re-measures the named ops plus the graph rules that
+  touch them, and `wb.py scan`
+  (site feasibility per candidate pose: pad legality with batter,
+  road-paint overlap, water depth on a bearing, designed sinks, porch
+  and stair reach) runs before any edit; the skill rules are one layout
+  diff per batch of findings, recommend-and-do, fan-out inside the
+  lane, a fresh agent per round (SKILL § How the builder works; the
+  walk-2 round took five rounds of ~1 h, mostly waits for rulings and
+  serial sub-jobs) (12–18 min per place, more on the first place of a
+  type); S2 the watchdog never pauses a lone test worker, pause
   threshold 95 %, heavy jobs on cores 1–7 (3–6 min per loaded
   preflight); S3 `--paths` selects the tests a change touches, not the
   whole 3,233-test placement suite (3–5 min); S4 preflight labels a red
@@ -921,6 +939,23 @@ Planner rulings (2026-09-24):
   interior exporter, `family_of` memoised, `build_kit` input-hash skip
   (1–2 min each); S6 the miners' batch mode; S7 review once per logical
   change. The old S1–S5 figures were contention, not tool cost.
+- **Speed, method review round 2** (`tooling/.reports/16k/walk2/method-review-r2.md`):
+  - S8 (speed lane 3, rollout blocker): the runtime reads
+    `settlements/index.json` and the per-place bundles within range, one
+    game-core loader the four whole-file readers subscribe to
+    (settlements.json is 1.96 MB for 3 places; ~775 MB composed site at
+    580 places, over the 750 MB warn).
+  - S9: a lock on the review stamp's read-modify-write
+    (`review_gate.py` `write_stamp`), so parallel preflights keep their
+    stamps.
+  - S10: `layout_template.py` per type, written at the first slice close
+    of the type from that place's layout (Claywater writes type 1's) and
+    named in the type sheet.
+  - S11: `close_place.py` does the slice close mechanics (receipt,
+    type-recipes row, register digest, creative-register row, Starting
+    state stub).
+  - S12: `commit_place.py --place <id>` stages a place's own files from
+    its manifest, so parallel lanes never race on git.
 
 ## Acceptance (the exit bar, signed by the owner 2026-09-25, hand-off ruling 2)
 
@@ -940,16 +975,20 @@ Planner rulings (2026-09-24):
 - **Once, before slice 1's place is designed:** signed 2026-09-25 (the
   type list with type 9, the exit bar, the Gate column; Claywater Station
   confirmed).
-- **Every walk.** The packet lists every thing in the place with a
-  studio link (`$ES_TUNNEL_URL/?view=character&x=..&z=..&t=..`) and one
-  check per line, plus "what changed since the last walk".
-  **How to reply.** One message. For each row, give the item name and
-  "right" or "wrong: what you see". Skip a row you could not reach and
-  say so. A "wrong" becomes a fix to a rule or a record, never a nudge
-  to one piece. End with "looks right" when the place is done.
+- **Every walk** (owner 2026-09-27; the packet form is `place-build`
+  SKILL step 6): short, plain English, no per-item tables, every
+  in-world thing introduced, deployed-studio links only (the anchor,
+  each interior, the sockets view), "what changed since the last walk",
+  one line of numbers, at most eight look-and-feel checks.
+  **How to reply.** Walk it and say what looks wrong, in one message;
+  "looks right" when the place is done. A "wrong" becomes a fix to a
+  rule or a record, never a nudge to one piece.
 - **World-level calls** (a place moved or cut, a new type, a city
   choice) are asked as they arise, batched into the next walk packet.
   Queued: none (the 97 A7 call was closed 2026-09-26, 0102 decision 9).
+- **Phase 15 walk sampling:** the rollout's walk sample rate (every
+  major place; 1 in N template-built minor places, N proposed 10) is an
+  owner call, asked in the next packet.
 - **What the owner is never asked** (0102 decisions 2–3): anything a
   `check` rule measures (can you walk in, does a floor hang over a drop,
   is the craft beached, does the path reach the door, does a prop stand
