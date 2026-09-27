@@ -117,11 +117,26 @@ def git_date(path: Path) -> str | None:
 
 def receipt(place_id: str, accepted_on: str, compiled: dict, layout: Path | None) -> dict:
     authored = (git_date(layout) if layout else None) or accepted_on
-    return {"placeId": place_id, "acceptedOn": accepted_on, "authoredOn": authored,
-            "compiledHash": accepted_places.compiled_hash(compiled),
-            "patchesHash": accepted_places.patches_hash(place_id),
-            "provenance": {"sourceBlueprintSha256": compiled.get("sourceBlueprintSha256"),
-                           "layout": str(layout.relative_to(REPO_ROOT)) if layout else None}}
+    row = {"placeId": place_id, "acceptedOn": accepted_on, "authoredOn": authored,
+           "compiledHash": accepted_places.compiled_hash(compiled),
+           "patchesHash": accepted_places.patches_hash(place_id),
+           "provenance": {"sourceBlueprintSha256": compiled.get("sourceBlueprintSha256"),
+                          "layout": str(layout.relative_to(REPO_ROOT)) if layout else None}}
+    # the blueprint's 0098 exceptions travel into the receipt (place_gates
+    # variety_exceptions; Claywater residual ruling 2)
+    exceptions = variety_exceptions_of(place_id)
+    if exceptions:
+        row["exceptions"] = exceptions
+    return row
+
+
+def variety_exceptions_of(place_id: str, blueprints: Path = BLUEPRINTS) -> list[dict]:
+    """The blueprint's `variety.exceptions[]`, [] without a blueprint or slot."""
+    path = blueprints / f"{place_id}.json"
+    if not path.exists():
+        return []
+    bp = json.loads(path.read_text(encoding="utf-8")).get("blueprint") or {}
+    return list((bp.get("variety") or {}).get("exceptions") or [])
 
 
 def yard_sets(layout_doc: dict) -> list[str]:

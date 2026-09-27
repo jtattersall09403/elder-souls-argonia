@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import time
@@ -140,6 +141,43 @@ def interior_gate(g: Gates, bp: dict) -> None:
     g.add("interiors", time.perf_counter() - t, failures, cells=sorted(set(cells)))
 
 
+VARIETY_BARS = ("signatureRatioMin", "shellsMin", "topShellShareMax")
+EXCEPTION_FIELDS = ("bar", "reason", "on", "planner")
+
+
+def variety_exceptions(bp: dict, bars: list[tuple[str, str]]) -> tuple[list[str], list[str]]:
+    """(failures, warnings) of the 0098 place bars after the blueprint's
+    `variety.exceptions[]` (Claywater residual ruling 2, 2026-09-27): each
+    {bar, reason, on (YYYY-MM-DD), planner} excuses that one bar's failure,
+    which is then reported as a warning naming the reason; the slot is copied
+    to the acceptance receipt at close. A malformed exception, one naming no
+    0098 bar, or one excusing a bar that passes (stale) is a failure, so an
+    exception can never outlive its cause silently."""
+    got = ((bp.get("variety") or {}).get("exceptions")) or []
+    failures, warnings, excused = [], [], {}
+    for i, ex in enumerate(got):
+        missing = [f for f in EXCEPTION_FIELDS if not isinstance(ex.get(f), str) or not ex[f].strip()]
+        if missing:
+            failures.append(f"0098: variety.exceptions[{i}] lacks {missing}")
+        elif ex["bar"] not in VARIETY_BARS:
+            failures.append(f"0098: variety.exceptions[{i}] names {ex['bar']!r}, not a 0098 bar "
+                            f"{list(VARIETY_BARS)}")
+        elif not re.fullmatch(r"\d{4}-\d{2}-\d{2}", ex["on"]):
+            failures.append(f"0098: variety.exceptions[{i}] date {ex['on']!r} is not YYYY-MM-DD")
+        else:
+            excused[ex["bar"]] = ex
+    failing = {bar for bar, _ in bars}
+    for bar, msg in bars:
+        if bar in excused:
+            ex = excused[bar]
+            warnings.append(f"{msg} — excepted ({ex['planner']}, {ex['on']}): {ex['reason']}")
+        else:
+            failures.append(msg)
+    for bar in sorted(set(excused) - failing):
+        failures.append(f"0098: variety.exceptions excuses {bar}, which passes: remove the stale exception")
+    return failures, warnings
+
+
 def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene: Path,
                   bp_source: str) -> None:
     from . import breadth_bars as bb
@@ -179,15 +217,18 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
         dwell_shells = Counter(s.split(" | ", 1)[0] for s, _ in dwellings)
         ratio = len({s for s, _ in dwellings}) / len(dwellings) if dwellings else 1.0
         top = max(dwell_shells.values()) / len(dwellings) if dwellings else 0.0
+        bars = []
         if ratio < row["signatureRatioMin"]:
-            failures.append(f"0098: dwelling signatures / dwellings {ratio:.2f} < "
-                            f"{row['signatureRatioMin']} ({column})")
+            bars.append(("signatureRatioMin", f"0098: dwelling signatures / dwellings {ratio:.2f} < "
+                                              f"{row['signatureRatioMin']} ({column})"))
         if len(shells) < row["shellsMin"]:
-            failures.append(f"0098: distinct shells {len(shells)} < {row['shellsMin']} ({column})")
+            bars.append(("shellsMin", f"0098: distinct shells {len(shells)} < {row['shellsMin']} ({column})"))
         if top > row["topShellShareMax"]:
-            failures.append(f"0098: top shell share {top:.2f} > {row['topShellShareMax']} ({column})")
-        g.add("0098.place", time.perf_counter() - t, failures, column=column, typeNumber=type_no,
-              blueprint=bp_source,
+            bars.append(("topShellShareMax",
+                         f"0098: top shell share {top:.2f} > {row['topShellShareMax']} ({column})"))
+        failures, excepted = variety_exceptions(bp, bars)
+        g.add("0098.place", time.perf_counter() - t, failures, excepted, column=column,
+              typeNumber=type_no, blueprint=bp_source,
               measured={"buildings": len(buildings), "dwellings": len(dwellings),
                         "signatureRatio": round(ratio, 3), "shells": len(shells),
                         "topShellShare": round(top, 3)})

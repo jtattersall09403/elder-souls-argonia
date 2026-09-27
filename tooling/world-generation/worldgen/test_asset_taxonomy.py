@@ -93,3 +93,17 @@ def test_the_kotm_house_pods_are_architecture():
         assert got.category == "architecture" and "folder-stem-rule" in got.tags, stem
     assert classify("argonia/mudhuts/window01.nif").category == "misc"
     assert classify("clutter/smpodext02.nif").category != "architecture"
+
+
+def test_room_shell_meshes_class_as_architecture():
+    """Claywater residual ruling 3: King of the Murkmire's room shells
+    (`argonia/mudhuts/*int*`) and vanilla interior shells class as
+    architecture, so a missing room shell fails the interior export's
+    ARCHITECTURE_CLASSES gate. Failing first on manorint and mudhutint*."""
+    for path in ("argonia/mudhuts/manorint.nif", "argonia/mudhuts/mudhutint01.nif",
+                 "argonia/mudhuts/mudhutintfloor01.nif", "argonia/mudhuts/mudhutintstairs.nif",
+                 "argonia/mudhuts/smpodint01.nif",
+                 "architecture/farmhouse/farmhouseint01.nif",
+                 "architecture/solitude/interior/sinteriorroom01.nif"):
+        assert classify(path).category == "architecture", path
+    assert classify("argonia/mudhuts/window01.nif").category != "architecture"

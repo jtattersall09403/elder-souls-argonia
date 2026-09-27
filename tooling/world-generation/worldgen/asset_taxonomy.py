@@ -306,7 +306,12 @@ _FOLDER_STEM_RULES: tuple[tuple[str, tuple[str, ...], str, tuple[str, ...]], ...
     # never counted as the cell's structure, so a Keeba house cell took its
     # family from 18 small vanilla farmhouse pieces (planner ruling 2,
     # interiors round 5).
-    ("argonia/mudhuts", ("smpodext", "smpodint"), "architecture", ("shell",)),
+    # The room-shell meshes of the big huts (`manorint`, the `mudhutint*`
+    # rooms, floor and stairs) are the structure of their Keeba cells: filed
+    # `misc`, a missing one never tripped the interior exporter's
+    # ARCHITECTURE_CLASSES gate (Claywater residual ruling 3, 2026-09-27).
+    ("argonia/mudhuts", ("smpodext", "smpodint", "manorint", "mudhutint"),
+     "architecture", ("shell",)),
     # HTBM `architecture/villages/argonian/`: the bamboo huts sit beside
     # their wicker furniture, which the `architecture` directory rule filed
     # as structure.
