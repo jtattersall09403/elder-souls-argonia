@@ -40,9 +40,12 @@ def test_claywater_fits_the_ceiling_once_its_runs_are_joined():
                  if s["id"] == "place.imperial-fringe.claywater-station"), None)
     if site is None:
         pytest.skip("Claywater is not published")
-    joined = E.resident_collision_parts([site], bundle["placements"])[site["id"]]
+    # The published bundle is judged on the published kits, the GLBs the runtime
+    # builds its parts from (tracked; the raw build under output/kits is local).
+    joined = E.resident_collision_parts([site], bundle["placements"], E.PUBLIC_KITS)[site["id"]]
     unjoined = E.resident_collision_parts(
-        [site], [{k: v for k, v in p.items() if k != "run"} for p in bundle["placements"]])[site["id"]]
+        [site], [{k: v for k, v in p.items() if k != "run"} for p in bundle["placements"]],
+        E.PUBLIC_KITS)[site["id"]]
     assert joined < unjoined
     assert round(joined * E.COLLIDER_PART_HEADROOM) <= E.COLLIDER_PART_CEILING < round(
         unjoined * E.COLLIDER_PART_HEADROOM)

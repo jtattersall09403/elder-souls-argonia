@@ -6,12 +6,15 @@ import pytest
 from audio_pipeline import loops
 
 SR = 48000
-rng = np.random.default_rng(7)
 
 
-def _periodic_noise(n: int) -> np.ndarray:
+def _periodic_noise(n: int, seed: int = 7) -> np.ndarray:
     # Noise rolled off above 3 kHz like a real bed (rain, insects, water), exactly periodic
-    # over n samples because it is built in the frequency domain.
+    # over n samples because it is built in the frequency domain. Each call draws from its
+    # own seeded generator: a shared module generator made every test's signal depend on
+    # which tests ran first (test_codec draws from it only where ffmpeg is installed, so
+    # CI, without ffmpeg, judged a different signal from the dev machine; run 36327676173).
+    rng = np.random.default_rng(seed)
     spec = np.zeros(n // 2 + 1, complex)
     k = np.arange(1, n // 2 + 1)
     hz = k * SR / n

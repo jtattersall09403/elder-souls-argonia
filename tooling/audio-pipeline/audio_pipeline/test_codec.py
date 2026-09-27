@@ -13,7 +13,7 @@ pytestmark = pytest.mark.skipif(shutil.which("ffmpeg") is None, reason="ffmpeg n
 
 
 def test_runtime_crossfade_is_seamless_after_encoding_and_the_hard_loop_is_not(tmp_path):
-    x = np.stack([_periodic_noise(48000 * 2), _periodic_noise(48000 * 2)], axis=1)
+    x = np.stack([_periodic_noise(48000 * 2, 1), _periodic_noise(48000 * 2, 2)], axis=1)
     padded, ls, le = loops.pad_periodic(x, codec.SAMPLE_RATE)
     out = tmp_path / "bed.webm"
     codec.encode_opus_webm(padded, out, 64)

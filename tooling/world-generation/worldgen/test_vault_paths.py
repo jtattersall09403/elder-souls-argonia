@@ -39,19 +39,32 @@ def test_es_asset_pipeline_root_moves_the_vault(monkeypatch, tmp_path):
     assert v.heightfield_dir() == (tmp_path / v.HEIGHTFIELD_REL).resolve()
 
 
-def test_unset_it_resolves_to_a_real_checkout_even_from_a_worktree(monkeypatch):
-    """The fallback that fixes worktrees: the sibling first, then the dev root.
+def test_unset_it_resolves_to_a_real_checkout_even_from_a_worktree(monkeypatch, tmp_path):
+    """The fallback that fixes worktrees: the sibling first, then the sibling of
+    the checkout that owns the worktree.
 
     A worktree's `REPO_ROOT.parent` holds no asset pipeline, so resolving it
-    blindly is the bug. Either the sibling exists and wins, or the canonical
-    location under the dev root does.
+    blindly is the bug. Built on a scratch layout, so it runs the same on the
+    CI runner (a plain clone, no vault) as on a dev machine.
     """
     v = _reload_with(monkeypatch)
-    root = v.asset_pipeline_root()
-    assert root.name == "elder-scrolls-asset-pipeline"
-    sibling = v.REPO_ROOT.parent / "elder-scrolls-asset-pipeline"
-    if not sibling.is_dir():
-        assert root != sibling, "a worktree must not resolve to its own parent"
+    main = tmp_path / "dev" / "elder-souls-argonia"
+    (main / ".git" / "worktrees" / "lane").mkdir(parents=True)
+    vault_dir = tmp_path / "dev" / "elder-scrolls-asset-pipeline"
+    vault_dir.mkdir()
+    worktree = tmp_path / "scratch" / "lane"
+    worktree.mkdir(parents=True)
+    (worktree / ".git").write_text(f"gitdir: {main / '.git' / 'worktrees' / 'lane'}\n")
+    assert v.main_checkout(worktree) == main.resolve()
+    root = v.asset_pipeline_root(worktree)
+    assert root == vault_dir.resolve()
+    assert root != (worktree.parent / "elder-scrolls-asset-pipeline").resolve(), \
+        "a worktree must not resolve to its own parent"
+    # a plain clone with no vault anywhere names its own sibling (the CI runner)
+    clone = tmp_path / "runner" / "elder-souls-argonia"
+    (clone / ".git").mkdir(parents=True)
+    assert v.main_checkout(clone) == clone
+    assert v.asset_pipeline_root(clone) == (clone.parent / "elder-scrolls-asset-pipeline").resolve()
 
 
 def teardown_module(_module):

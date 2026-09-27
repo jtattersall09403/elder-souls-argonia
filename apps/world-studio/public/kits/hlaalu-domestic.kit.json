@@ -1,0 +1,4647 @@
+{
+ "kit": "hlaalu-domestic",
+ "assets": [
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/house01",
+   "node": "es|7e59f18f45|laalu__hlaaluarchitecture_custom_house01",
+   "category": "misc",
+   "sizeM": [
+    11.929,
+    11.339,
+    14.715
+   ],
+   "originOffsetM": [
+    8.644,
+    4.553,
+    8.038
+   ],
+   "triangles": 7754,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    ".005.Mat",
+    "Plane.024.Mat",
+    "__PrenotatoPerDuplicare_75.Mat",
+    "__PrenotatoPerDuplicare_76.Mat",
+    "group4_Plane.023.00.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -8.0377,
+    "p50": -8.0377,
+    "p75": -8.0377,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -8.0377
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 8.038,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.098,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 8.038
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/house01base",
+   "node": "es|74d5f81069|u__hlaaluarchitecture_custom_house01base",
+   "category": "misc",
+   "sizeM": [
+    7.048,
+    11.339,
+    6.62
+   ],
+   "originOffsetM": [
+    4.764,
+    4.553,
+    0.219
+   ],
+   "triangles": 2692,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_12.Mat",
+    "__PrenotatoPerDuplicare_72.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.219,
+    "p50": -0.219,
+    "p75": -0.219,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.219
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.219,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/housebase00",
+   "node": "es|116ecb2c28|u__hlaaluarchitecture_custom_housebase00",
+   "category": "misc",
+   "sizeM": [
+    7.046,
+    7.046,
+    6.62
+   ],
+   "originOffsetM": [
+    3.005,
+    0.259,
+    0.219
+   ],
+   "triangles": 2300,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_36.Mat",
+    "__PrenotatoPerDuplicare_41.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.219,
+    "p50": -0.219,
+    "p75": -0.219,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.219
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.219,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/housebase01",
+   "node": "es|eb433ed2f0|u__hlaaluarchitecture_custom_housebase01",
+   "category": "misc",
+   "sizeM": [
+    7.048,
+    7.047,
+    6.62
+   ],
+   "originOffsetM": [
+    3.008,
+    0.261,
+    0.219
+   ],
+   "triangles": 3587,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_36.Mat.001",
+    "__PrenotatoPerDuplicare_41.Mat.001",
+    "windowbase00_group5_Plane.023.00.Mat",
+    "windowbase00_group7_Plane.007.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.219,
+    "p50": -0.219,
+    "p75": -0.219,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.219
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.219,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/housetall01",
+   "node": "es|cc879c16f7|u__hlaaluarchitecture_custom_housetall01",
+   "category": "misc",
+   "sizeM": [
+    7.888,
+    7.86,
+    5.522
+   ],
+   "originOffsetM": [
+    3.886,
+    3.952,
+    -7.624
+   ],
+   "triangles": 304,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Objekt01:4.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 7.6241,
+    "p50": 7.6241,
+    "p75": 7.6241,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 7.6241
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -7.624,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -7.624
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/entrance00",
+   "node": "es|8bfa60719c|lu__hlaaluarchitecture_custom_entrance00",
+   "category": "misc",
+   "sizeM": [
+    5.69,
+    3.572,
+    11.142
+   ],
+   "originOffsetM": [
+    -2.088,
+    1.308,
+    7.455
+   ],
+   "triangles": 1492,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat",
+    "__PrenotatoPerDuplicare_1.Mat",
+    "__PrenotatoPerDuplicare_177.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -7.4554,
+    "p50": -7.4554,
+    "p75": -7.4554,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -7.4554
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.455,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.158,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.455
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/baseentrance00",
+   "node": "es|ed3da97762|hlaaluarchitecture_custom_baseentrance00",
+   "category": "misc",
+   "sizeM": [
+    7.793,
+    7.047,
+    7.027
+   ],
+   "originOffsetM": [
+    3.008,
+    0.261,
+    0.626
+   ],
+   "triangles": 4116,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat.001",
+    "__PrenotatoPerDuplicare_1.Mat.001",
+    "__PrenotatoPerDuplicare_2.Mat",
+    "windowbase00_group5_Plane.023.00.Mat.001",
+    "windowbase00_group7_Plane.007.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.6259,
+    "p50": -0.6259,
+    "p75": -0.6259,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.6259
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.626,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.389,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.626
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/baseentrance01",
+   "node": "es|746380e6fa|hlaaluarchitecture_custom_baseentrance01",
+   "category": "misc",
+   "sizeM": [
+    7.791,
+    7.046,
+    7.027
+   ],
+   "originOffsetM": [
+    3.005,
+    0.259,
+    0.626
+   ],
+   "triangles": 2829,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat.002",
+    "__PrenotatoPerDuplicare_1.Mat.002",
+    "__PrenotatoPerDuplicare_2.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.6259,
+    "p50": -0.6259,
+    "p75": -0.6259,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.6259
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.626,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.389,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.626
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/largewindow00",
+   "node": "es|bdcf1c8ad9|_hlaaluarchitecture_custom_largewindow00",
+   "category": "misc",
+   "sizeM": [
+    0.943,
+    0.267,
+    3.598
+   ],
+   "originOffsetM": [
+    1.737,
+    -6.517,
+    -4.401
+   ],
+   "triangles": 143,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Plane.023.03.Mat",
+    "Plane.026.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 4.4006,
+    "p50": 4.4006,
+    "p75": 4.4006,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 4.4006
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -4.401,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 0.0,
+   "pivotAboveBaseM": -4.401
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/roof",
+   "node": "es|3f6f9614c6|hlaalu__hlaaluarchitecture_custom_roof",
+   "category": "misc",
+   "sizeM": [
+    7.005,
+    6.784,
+    2.385
+   ],
+   "originOffsetM": [
+    3.503,
+    2.093,
+    -6.818
+   ],
+   "triangles": 94,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coppergreen02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "polySurface29.Mat",
+    "polySurface79.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 6.8184,
+    "p50": 6.8184,
+    "p75": 6.8184,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 6.8184
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -6.818,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.121,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -6.818
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/dome",
+   "node": "es|6d889fa629|hlaalu__hlaaluarchitecture_custom_dome",
+   "category": "misc",
+   "sizeM": [
+    16.955,
+    16.955,
+    8.307
+   ],
+   "originOffsetM": [
+    8.478,
+    8.478,
+    3.641
+   ],
+   "triangles": 1188,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Objekt01:0.Mat",
+    "Objekt01:1.Mat",
+    "Objekt01:2.Mat",
+    "Objekt01:3.Mat",
+    "Objekt01:4.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.6413
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.078,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/basetower00",
+   "node": "es|0118e9a111|u__hlaaluarchitecture_custom_basetower00",
+   "category": "misc",
+   "sizeM": [
+    7.046,
+    7.046,
+    6.436
+   ],
+   "originOffsetM": [
+    2.952,
+    3.027,
+    0.159
+   ],
+   "triangles": 1428,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat",
+    "__PrenotatoPerDuplicare_113.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/basetower01",
+   "node": "es|afb30e58dd|u__hlaaluarchitecture_custom_basetower01",
+   "category": "misc",
+   "sizeM": [
+    7.046,
+    7.047,
+    6.436
+   ],
+   "originOffsetM": [
+    2.953,
+    3.029,
+    0.159
+   ],
+   "triangles": 2715,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.001",
+    "__PrenotatoPerDuplicare_113.Mat.001",
+    "basewindow_group5_Plane.023.00.Mat",
+    "basewindow_group7_Plane.007.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.029,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/middletower00",
+   "node": "es|06c49e645a|_hlaaluarchitecture_custom_middletower00",
+   "category": "misc",
+   "sizeM": [
+    6.844,
+    6.844,
+    6.34
+   ],
+   "originOffsetM": [
+    2.852,
+    2.927,
+    -6.035
+   ],
+   "triangles": 1168,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_118.Mat",
+    "__PrenotatoPerDuplicare_119.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 6.0352,
+    "p50": 6.0352,
+    "p75": 6.0352,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 6.0352
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -6.035,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -6.035
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/middletower01",
+   "node": "es|8606c36c14|_hlaaluarchitecture_custom_middletower01",
+   "category": "misc",
+   "sizeM": [
+    7.059,
+    7.028,
+    6.34
+   ],
+   "originOffsetM": [
+    2.949,
+    3.029,
+    -6.035
+   ],
+   "triangles": 2884,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_118.Mat.001",
+    "__PrenotatoPerDuplicare_119.Mat.001",
+    "middelwindow_group8_Plane.007.Mat",
+    "middelwindow_group8_Plane.023.01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 6.0352,
+    "p50": 6.0352,
+    "p75": 6.0352,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 6.0352
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -6.035,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.041,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -6.035
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/toptower00",
+   "node": "es|23ab9a59d9|lu__hlaaluarchitecture_custom_toptower00",
+   "category": "misc",
+   "sizeM": [
+    7.046,
+    7.046,
+    6.62
+   ],
+   "originOffsetM": [
+    2.954,
+    3.027,
+    -12.116
+   ],
+   "triangles": 2300,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_135.Mat",
+    "__PrenotatoPerDuplicare_138.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 12.1157,
+    "p50": 12.1157,
+    "p75": 12.1157,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 12.1157
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -12.116,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -12.116
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/toptower01",
+   "node": "es|fe241affa9|lu__hlaaluarchitecture_custom_toptower01",
+   "category": "misc",
+   "sizeM": [
+    7.064,
+    7.047,
+    6.62
+   ],
+   "originOffsetM": [
+    2.954,
+    3.029,
+    -12.116
+   ],
+   "triangles": 4016,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_135.Mat.001",
+    "__PrenotatoPerDuplicare_138.Mat.001",
+    "group5_Plane.025.Mat",
+    "topwindow_group8_Plane.023.00.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 12.1157,
+    "p50": 12.1157,
+    "p75": 12.1157,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 12.1157
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -12.116,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.094,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -12.116
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower00",
+   "node": "es|370f94d362|laalu__hlaaluarchitecture_custom_tower00",
+   "category": "misc",
+   "sizeM": [
+    7.047,
+    7.046,
+    18.894
+   ],
+   "originOffsetM": [
+    2.954,
+    3.806,
+    0.159
+   ],
+   "triangles": 4896,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.002",
+    "__PrenotatoPerDuplicare_113.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower01",
+   "node": "es|b199b56a99|laalu__hlaaluarchitecture_custom_tower01",
+   "category": "misc",
+   "sizeM": [
+    10.732,
+    7.047,
+    26.191
+   ],
+   "originOffsetM": [
+    2.954,
+    14.832,
+    7.455
+   ],
+   "triangles": 8104,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat.003",
+    "__PrenotatoPerDuplicare_1.Mat.003",
+    "__PrenotatoPerDuplicare_113.Mat.003",
+    "group5_Plane.025.Mat.001",
+    "topwindow_group8_Plane.023.00.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -7.4554,
+    "p50": -7.4554,
+    "p75": -7.4554,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -7.4554
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.455,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.129,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.455
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower02",
+   "node": "es|3e0aa7aee2|laalu__hlaaluarchitecture_custom_tower02",
+   "category": "misc",
+   "sizeM": [
+    7.064,
+    7.047,
+    18.894
+   ],
+   "originOffsetM": [
+    2.954,
+    3.486,
+    0.159
+   ],
+   "triangles": 6612,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.003",
+    "__PrenotatoPerDuplicare_113.Mat.004",
+    "group5_Plane.025.Mat.002",
+    "topwindow_group8_Plane.023.00.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower03",
+   "node": "es|776ffc9509|laalu__hlaaluarchitecture_custom_tower03",
+   "category": "misc",
+   "sizeM": [
+    7.064,
+    7.047,
+    18.894
+   ],
+   "originOffsetM": [
+    2.954,
+    3.599,
+    0.159
+   ],
+   "triangles": 8328,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.004",
+    "__PrenotatoPerDuplicare_113.Mat.005",
+    "group5_Plane.025.Mat.003",
+    "middelwindow_group8_Plane.023.01.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower04",
+   "node": "es|505dc89b7f|laalu__hlaaluarchitecture_custom_tower04",
+   "category": "misc",
+   "sizeM": [
+    10.732,
+    7.047,
+    20.085
+   ],
+   "originOffsetM": [
+    2.954,
+    3.039,
+    7.455
+   ],
+   "triangles": 6936,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat.004",
+    "__PrenotatoPerDuplicare_1.Mat.004",
+    "__PrenotatoPerDuplicare_113.Mat.006",
+    "group5_Plane.025.Mat.004",
+    "topwindow_group8_Plane.023.00.Mat.003"
+   ],
+   "designedSinkM": {
+    "p25": -7.4554,
+    "p50": -7.4554,
+    "p75": -7.4554,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -7.4554
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.455,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.129,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.455
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower05",
+   "node": "es|96f5c083a3|laalu__hlaaluarchitecture_custom_tower05",
+   "category": "misc",
+   "sizeM": [
+    7.047,
+    7.046,
+    12.789
+   ],
+   "originOffsetM": [
+    2.954,
+    4.102,
+    0.159
+   ],
+   "triangles": 3728,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.005",
+    "__PrenotatoPerDuplicare_113.Mat.007"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower06",
+   "node": "es|bee17bda21|laalu__hlaaluarchitecture_custom_tower06",
+   "category": "misc",
+   "sizeM": [
+    7.064,
+    7.047,
+    12.789
+   ],
+   "originOffsetM": [
+    2.954,
+    3.341,
+    0.159
+   ],
+   "triangles": 5444,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.006",
+    "__PrenotatoPerDuplicare_113.Mat.008",
+    "group5_Plane.025.Mat.005",
+    "topwindow_group8_Plane.023.00.Mat.004"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.086,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower07",
+   "node": "es|47e6455d47|laalu__hlaaluarchitecture_custom_tower07",
+   "category": "misc",
+   "sizeM": [
+    7.064,
+    7.047,
+    12.789
+   ],
+   "originOffsetM": [
+    2.954,
+    14.832,
+    0.159
+   ],
+   "triangles": 7160,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_107.Mat.007",
+    "__PrenotatoPerDuplicare_113.Mat.009",
+    "group5_Plane.025.Mat.006",
+    "middelwindow_group8_Plane.023.01.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -0.159,
+    "p50": -0.159,
+    "p75": -0.159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.159,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.094,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.159
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/custom/tower08",
+   "node": "es|da2c7a5cf3|laalu__hlaaluarchitecture_custom_tower08",
+   "category": "misc",
+   "sizeM": [
+    10.732,
+    7.047,
+    26.191
+   ],
+   "originOffsetM": [
+    2.954,
+    3.029,
+    7.455
+   ],
+   "triangles": 11107,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bronzecopper03.dds",
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "__PrenotatoPerDuplicare_0.Mat.005",
+    "__PrenotatoPerDuplicare_1.Mat.005",
+    "__PrenotatoPerDuplicare_113.Mat.010",
+    "basewindow_group5_Plane.023.00.Mat.001",
+    "group5_Plane.025.Mat.007"
+   ],
+   "designedSinkM": {
+    "p25": -7.4554,
+    "p50": -7.4554,
+    "p75": -7.4554,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -7.4554
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.455,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.129,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.455
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/miniwall",
+   "node": "es|109214ec02|__hlaaluarchitecture_hammerfell_miniwall",
+   "category": "misc",
+   "sizeM": [
+    5.773,
+    0.091,
+    1.116
+   ],
+   "originOffsetM": [
+    2.892,
+    0.045,
+    -0.063
+   ],
+   "triangles": 4272,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tilewall.dds"
+   ],
+   "materials": [
+    "Sphere02.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0632,
+    "p50": 0.0632,
+    "p75": 0.0632,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0632
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.063,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.296,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.063
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001",
+   "node": "es|8d8154bffa|cture_hammerfell_misc walls_stonewall001",
+   "category": "misc",
+   "sizeM": [
+    4.552,
+    1.707,
+    6.828
+   ],
+   "originOffsetM": [
+    2.276,
+    0.853,
+    3.04
+   ],
+   "triangles": 36,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002",
+   "node": "es|fac4c4d572|cture_hammerfell_misc walls_stonewall002",
+   "category": "misc",
+   "sizeM": [
+    6.828,
+    1.707,
+    6.828
+   ],
+   "originOffsetM": [
+    3.414,
+    0.853,
+    3.04
+   ],
+   "triangles": 54,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.003.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003",
+   "node": "es|a7f467ab9f|cture_hammerfell_misc walls_stonewall003",
+   "category": "misc",
+   "sizeM": [
+    9.103,
+    1.707,
+    7.067
+   ],
+   "originOffsetM": [
+    4.552,
+    0.853,
+    3.04
+   ],
+   "triangles": 54,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.004.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001",
+   "node": "es|ea2c85d420|hammerfell_misc walls_stonewallcorner001",
+   "category": "misc",
+   "sizeM": [
+    3.129,
+    3.129,
+    6.828
+   ],
+   "originOffsetM": [
+    0.0,
+    0.0,
+    3.04
+   ],
+   "triangles": 90,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.005.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -3.0402,
+    "p50": -3.0402,
+    "p75": -3.0402,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.0402
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001",
+   "node": "es|4aa39cca32|_hammerfell_misc walls_stonewallcurve001",
+   "category": "misc",
+   "sizeM": [
+    7.681,
+    7.681,
+    6.828
+   ],
+   "originOffsetM": [
+    7.681,
+    0.0,
+    3.04
+   ],
+   "triangles": 126,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.002.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -3.0402,
+    "p50": -3.0402,
+    "p75": -3.0402,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.0402
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001",
+   "node": "es|4d81ea33b5|merfell_misc walls_stonewallendpillar001",
+   "category": "misc",
+   "sizeM": [
+    2.025,
+    2.025,
+    8.278
+   ],
+   "originOffsetM": [
+    1.013,
+    1.013,
+    3.679
+   ],
+   "triangles": 136,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Cube.012.Mat",
+    "Tri Cube.016.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -2.4562,
+    "p50": -2.4562,
+    "p75": -2.4562,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -2.4562
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.679,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.125,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.679
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001",
+   "node": "es|4939f3b56d|ammerfell_misc walls_stonewallgatearc001",
+   "category": "misc",
+   "sizeM": [
+    9.103,
+    1.707,
+    8.004
+   ],
+   "originOffsetM": [
+    4.552,
+    0.853,
+    3.04
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Tri Cube.001.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -3.0402,
+    "p50": -3.0402,
+    "p75": -3.0402,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.0402
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.04,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.352,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.04
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall",
+   "node": "es|71b3a7756c|hlaaluarchitecture_hammerfell_trgmlcwall",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 22,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Wall01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a",
+   "node": "es|8071cd84a0|aluarchitecture_hammerfell_trgmlcwall90a",
+   "category": "misc",
+   "sizeM": [
+    2.225,
+    2.225,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 66,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Wall90.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.2845,
+    "p50": 0.2845,
+    "p75": 0.2845,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.2845
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena",
+   "node": "es|f83c03f209|rchitecture_hammerfell_trgmlcwallbrokena",
+   "category": "misc",
+   "sizeM": [
+    2.94,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.12,
+    0.404,
+    0.313
+   ],
+   "triangles": 446,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallBroken01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3129
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.277,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb",
+   "node": "es|aeb003289e|rchitecture_hammerfell_trgmlcwallbrokenb",
+   "category": "misc",
+   "sizeM": [
+    2.523,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    0.702,
+    0.404,
+    0.313
+   ],
+   "triangles": 430,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallBroken05.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3129
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.402,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc",
+   "node": "es|fa05aa5751|rchitecture_hammerfell_trgmlcwallbrokenc",
+   "category": "misc",
+   "sizeM": [
+    2.52,
+    0.808,
+    1.01
+   ],
+   "originOffsetM": [
+    1.559,
+    0.404,
+    0.313
+   ],
+   "triangles": 268,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallBroken.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3129
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.158,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend",
+   "node": "es|4209cb33be|aluarchitecture_hammerfell_trgmlcwallend",
+   "category": "misc",
+   "sizeM": [
+    1.911,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    -0.0,
+    0.404,
+    0.313
+   ],
+   "triangles": 50,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallEnd.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera",
+   "node": "es|3dc764dd0b|architecture_hammerfell_trgmlcwallentera",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 152,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallHole01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3129
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.277,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb",
+   "node": "es|fed48d71ac|architecture_hammerfell_trgmlcwallenterb",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.808,
+    3.727
+   ],
+   "originOffsetM": [
+    1.821,
+    0.404,
+    0.313
+   ],
+   "triangles": 215,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "WallHole02.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3129
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.313,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.559,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
+   "node": "es|9c8dffe281|__hlaaluarchitecture_hammerfell_stairs01",
+   "category": "misc",
+   "sizeM": [
+    7.35,
+    6.064,
+    2.283
+   ],
+   "originOffsetM": [
+    3.588,
+    3.418,
+    0.15
+   ],
+   "triangles": 948,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box01:1.Mat",
+    "Box01:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1496,
+    "p50": -0.1496,
+    "p75": -0.1496,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.1496
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.15,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.018,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.15
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
+   "node": "es|14a1413638|aaluarchitecture_hammerfell_trgmstairs01",
+   "category": "misc",
+   "sizeM": [
+    4.478,
+    3.444,
+    3.728
+   ],
+   "originOffsetM": [
+    0.042,
+    1.816,
+    0.251
+   ],
+   "triangles": 251,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "StraightS02.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.251,
+    "p50": -0.251,
+    "p75": -0.251,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.251
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.251,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.251
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs",
+   "node": "es|49e9f01992|architecture_hammerfell_skavenclaystairs",
+   "category": "misc",
+   "sizeM": [
+    1.351,
+    0.899,
+    0.852
+   ],
+   "originOffsetM": [
+    0.679,
+    0.366,
+    0.476
+   ],
+   "triangles": 144,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Object01:1:1.Mat",
+    "Object01:1:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.476,
+    "p50": -0.476,
+    "p75": -0.476,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.476
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.476,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.476
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1",
+   "node": "es|6638a7597d|hlaaluarchitecture_hammerfell_trgmcover1",
+   "category": "misc",
+   "sizeM": [
+    3.579,
+    3.808,
+    3.872
+   ],
+   "originOffsetM": [
+    1.604,
+    1.628,
+    0.264
+   ],
+   "triangles": 502,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Arch01.Mat",
+    "Arch02.Mat",
+    "ChamferBo0.Mat",
+    "ChamferBox.Mat",
+    "Very good2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.2642,
+    "p50": -0.2642,
+    "p75": -0.2642,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2642
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.264,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.995,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.264
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2",
+   "node": "es|c12b0c1111|hlaaluarchitecture_hammerfell_trgmcover2",
+   "category": "misc",
+   "sizeM": [
+    4.029,
+    3.808,
+    3.872
+   ],
+   "originOffsetM": [
+    2.012,
+    1.83,
+    0.26
+   ],
+   "triangles": 792,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Arch.Mat",
+    "Arch04.Mat",
+    "Arch08.Mat",
+    "ChamferBo1.Mat",
+    "ChamferBo2.Mat",
+    "Object05.Mat",
+    "Very good1.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.2599,
+    "p50": -0.2599,
+    "p75": -0.2599,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2599
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.26,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.26
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs",
+   "node": "es|c3994890f3|uarchitecture_hammerfell_trgmcoverstairs",
+   "category": "misc",
+   "sizeM": [
+    7.894,
+    3.808,
+    3.872
+   ],
+   "originOffsetM": [
+    2.171,
+    1.83,
+    0.266
+   ],
+   "triangles": 897,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Arch06.Mat",
+    "Arch07.Mat",
+    "ChamferBo3.Mat",
+    "ChamferBo4.Mat",
+    "Object01.Mat",
+    "StraightS1.Mat",
+    "Very good0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.2663,
+    "p50": -0.2663,
+    "p75": -0.2663,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.2663
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.266,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.125,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.266
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence",
+   "node": "es|9629451e6a|_hlaaluarchitecture_hammerfell_trgmfence",
+   "category": "misc",
+   "sizeM": [
+    3.641,
+    0.654,
+    1.849
+   ],
+   "originOffsetM": [
+    1.821,
+    0.327,
+    0.142
+   ],
+   "triangles": 46,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box06.Mat",
+    "Object02.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.5417,
+    "p50": 0.5417,
+    "p75": 0.5417,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5417
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.142,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.142
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend",
+   "node": "es|87658dd41b|aaluarchitecture_hammerfell_trgmfenceend",
+   "category": "misc",
+   "sizeM": [
+    1.966,
+    0.654,
+    1.849
+   ],
+   "originOffsetM": [
+    -0.0,
+    0.327,
+    0.142
+   ],
+   "triangles": 206,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "FenceSafecopy.Mat",
+    "Object04.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.1422,
+    "p50": -0.1422,
+    "p75": -0.1422,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1422
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.142,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.061,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.142
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost",
+   "node": "es|b330da0b1b|aluarchitecture_hammerfell_trgmfencepost",
+   "category": "misc",
+   "sizeM": [
+    0.853,
+    0.853,
+    2.023
+   ],
+   "originOffsetM": [
+    0.427,
+    0.427,
+    0.142
+   ],
+   "triangles": 134,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Box08.Mat",
+    "Object03.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 1.7533,
+    "p50": 1.7533,
+    "p75": 1.7533,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.7533
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.142,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.215,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.142
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01",
+   "node": "es|3e6b1560f1|architecture_hammerfell_trgmstoneblock01",
+   "category": "misc",
+   "sizeM": [
+    6.543,
+    6.543,
+    1.979
+   ],
+   "originOffsetM": [
+    3.272,
+    3.272,
+    1.811
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Box01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.8109,
+    "p50": -1.8109,
+    "p75": -1.8109,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.8109
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.811,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.811
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02",
+   "node": "es|fb2d44b953|architecture_hammerfell_trgmstoneblock02",
+   "category": "misc",
+   "sizeM": [
+    3.414,
+    6.543,
+    1.979
+   ],
+   "originOffsetM": [
+    1.707,
+    3.272,
+    1.811
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Box02.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.8109,
+    "p50": -1.8109,
+    "p75": -1.8109,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.8109
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.811,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.811
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03",
+   "node": "es|b87570fa40|architecture_hammerfell_trgmstoneblock03",
+   "category": "misc",
+   "sizeM": [
+    3.414,
+    3.414,
+    1.979
+   ],
+   "originOffsetM": [
+    1.707,
+    1.707,
+    1.811
+   ],
+   "triangles": 30,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds"
+   ],
+   "materials": [
+    "Box03.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.8109,
+    "p50": -1.8109,
+    "p75": -1.8109,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.8109
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.811,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.811
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
+   "node": "es|08dcf93e81|aaluarchitecture_hammerfell_trgmbridge01",
+   "category": "misc",
+   "sizeM": [
+    6.654,
+    3.03,
+    3.124
+   ],
+   "originOffsetM": [
+    3.327,
+    1.515,
+    0.411
+   ],
+   "triangles": 1248,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Circle.003.Mat",
+    "Circle.004.Mat",
+    "Circle.006.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.4109,
+    "p50": -0.4109,
+    "p75": -0.4109,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4109
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.411,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.411
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
+   "node": "es|3b507a3a90|aaluarchitecture_hammerfell_trgmbridge02",
+   "category": "misc",
+   "sizeM": [
+    13.312,
+    3.11,
+    5.485
+   ],
+   "originOffsetM": [
+    6.656,
+    1.553,
+    2.772
+   ],
+   "triangles": 2302,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dlc2rrbulwark02.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Circle.001.Mat",
+    "Circle.002.Mat",
+    "Circle.003.Mat.001",
+    "Circle.004.Mat.001",
+    "Cube.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -2.7718,
+    "p50": -2.7718,
+    "p75": -2.7718,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -2.7718
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.772,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.772
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/tradehome",
+   "node": "es|828ec52172|_hlaaluarchitecture_hammerfell_tradehome",
+   "category": "misc",
+   "sizeM": [
+    5.563,
+    4.347,
+    3.696
+   ],
+   "originOffsetM": [
+    3.038,
+    -0.087,
+    -0.0
+   ],
+   "triangles": 260,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtwood14.dds"
+   ],
+   "materials": [
+    "Box01:1.Mat.001",
+    "Box01:2.Mat.001",
+    "Box01:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.486,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00",
+   "node": "es|200533d19c|uarchitecture_hammerfell_multi_barrels00",
+   "category": "misc",
+   "sizeM": [
+    3.622,
+    1.785,
+    2.077
+   ],
+   "originOffsetM": [
+    1.936,
+    0.446,
+    0.004
+   ],
+   "triangles": 11244,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "doorwood.dds",
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "MiddleBarrelToppe 1.Mat",
+    "MiddleBarrelToppe.001 2.Mat",
+    "MiddleBarrelToppe.002 1.Mat",
+    "MiddleBarrelToppe.003 2.Mat",
+    "MiddleBarrelToppe.004 2.Mat",
+    "MiddleBarrelToppe.005 1.Mat",
+    "MiddleBarrelToppe.006 0.Mat",
+    "MiddleBarrelToppe.007 0.Mat",
+    "MiddleBarrelToppe.008 1.Mat",
+    "MiddleBarrelToppe.009 2.Mat",
+    "MiddleBarrelToppe.010 2.Mat",
+    "MiddleBarrelToppe.011 1.Mat",
+    "MiddleBarrelToppe.012 0.Mat",
+    "MiddleBarrelToppe.013 0.Mat",
+    "MiddleBarrelToppe.014 1.Mat",
+    "MiddleBarrelToppe.015 2.Mat",
+    "MiddleBarrelToppe.016 2.Mat",
+    "MiddleBarrelToppe.017 1.Mat",
+    "MiddleBarrelToppe.018 0.Mat",
+    "MiddleBarrelToppe.019 2.Mat",
+    "MiddleBarrelToppe.020 1.Mat",
+    "MiddleBarrelToppe.021 0.Mat",
+    "MiddleBarrelToppe.022 0.Mat",
+    "MiddleBarrelToppe.023 1.Mat",
+    "MiddleBarrelToppe.024 2.Mat",
+    "MiddleBarrelToppe.025 2.Mat",
+    "MiddleBarrelToppe.026 1.Mat",
+    "MiddleBarrelToppe.027 0.Mat",
+    "MiddleBarrelTopped05 0.Mat",
+    "MiddleBarrelTopped06 0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0043,
+    "p50": -0.0043,
+    "p75": -0.0043,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0043
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.004,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.625,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.004
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00",
+   "node": "es|c3997f492e|aluarchitecture_hammerfell_multi_crate00",
+   "category": "misc",
+   "sizeM": [
+    3.566,
+    2.327,
+    2.387
+   ],
+   "originOffsetM": [
+    2.404,
+    3.128,
+    0.101
+   ],
+   "triangles": 1208,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "redcrate01.dds"
+   ],
+   "materials": [
+    "MiddleCrate04.001.Mat",
+    "MiddleCrate04.Mat",
+    "MiddleCrate05.003.Mat",
+    "MiddleCrate05.Mat",
+    "MiddleCrate06.002.Mat",
+    "MiddleCrate06.007.Mat",
+    "MiddleCrate06.009.Mat",
+    "MiddleCrate06.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.101,
+    "p50": -0.101,
+    "p75": -0.101,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.101
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.101,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.677,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.101
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base",
+   "node": "es|f6fd307978|aluarchitecture_hammerfell_trcrane02base",
+   "category": "misc",
+   "sizeM": [
+    3.397,
+    3.299,
+    2.395
+   ],
+   "originOffsetM": [
+    1.716,
+    1.661,
+    1.195
+   ],
+   "triangles": 720,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtwood14.dds"
+   ],
+   "materials": [
+    "Crane Base.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.1948,
+    "p50": -1.1948,
+    "p75": -1.1948,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.1948
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.195,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.686,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.195
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/crane01",
+   "node": "es|340f0c7fc0|aalu__hlaaluarchitecture_objects_crane01",
+   "category": "misc",
+   "sizeM": [
+    11.896,
+    2.731,
+    10.402
+   ],
+   "originOffsetM": [
+    4.328,
+    1.195,
+    1.032
+   ],
+   "triangles": 5184,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "prisonercarriage01.dds",
+    "riftencanalplanks01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "sstonewall02.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Beam.Mat",
+    "Blocks.Mat",
+    "Cranerope.Mat",
+    "Dockcrane:37.Mat",
+    "Frame.Mat",
+    "Frameplates.Mat",
+    "Ironwork.Mat",
+    "Plinth.Mat",
+    "Rocks.Mat",
+    "Rope.Mat",
+    "Shiprope.Mat",
+    "Tri BucketRope 2.Mat",
+    "Turntable.Mat",
+    "Weight.Mat",
+    "Weightbox.Mat",
+    "Wheelsright.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.032,
+    "p50": -1.032,
+    "p75": -1.032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.032
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.032,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.547,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.032
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/crane02",
+   "node": "es|3086b1e35e|aalu__hlaaluarchitecture_objects_crane02",
+   "category": "misc",
+   "sizeM": [
+    12.001,
+    2.731,
+    10.402
+   ],
+   "originOffsetM": [
+    4.328,
+    1.195,
+    1.032
+   ],
+   "triangles": 4788,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "cavebaseground01.dds",
+    "prisonercarriage01.dds",
+    "riftencanalplanks01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "sstonewall02.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Beam.Mat.001",
+    "Blocks01.Mat",
+    "Cranerope01.Mat",
+    "Dockcrane:37.Mat.001",
+    "Frame.Mat.001",
+    "Frameplates.Mat.001",
+    "Ironwork.Mat.001",
+    "Plinth.Mat.001",
+    "Rocks.Mat.001",
+    "Shiprope.Mat.001",
+    "Turntable.Mat.001",
+    "Weight.Mat.001",
+    "Weightbox.Mat.001",
+    "Wheelsright.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -1.032,
+    "p50": -1.032,
+    "p75": -1.032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.032
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.032,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.547,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.032
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/crane03",
+   "node": "es|46c20f7123|aalu__hlaaluarchitecture_objects_crane03",
+   "category": "misc",
+   "sizeM": [
+    12.179,
+    2.731,
+    10.402
+   ],
+   "originOffsetM": [
+    4.328,
+    1.195,
+    1.032
+   ],
+   "triangles": 5264,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "barrel01.dds",
+    "cavebaseground01.dds",
+    "prisonercarriage01.dds",
+    "riftencanalplanks01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "sstonewall02.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Beam.Mat.002",
+    "Blocks01.Mat.001",
+    "Cargobarrel.Mat",
+    "Cranerope01.Mat.001",
+    "Dockcrane:37.Mat.002",
+    "Frame.Mat.002",
+    "Frameplates.Mat.002",
+    "Ironwork.Mat.002",
+    "Plinth.Mat.002",
+    "Rocks.Mat.002",
+    "Shiprope.Mat.002",
+    "Turntable.Mat.002",
+    "Weight.Mat.002",
+    "Weightbox.Mat.002",
+    "Wheelsright.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": -1.032,
+    "p50": -1.032,
+    "p75": -1.032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.032
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.032,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.547,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.032
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/trlanternpostbase",
+   "node": "es|d5508c29a9|luarchitecture_objects_trlanternpostbase",
+   "category": "misc",
+   "sizeM": [
+    0.533,
+    0.533,
+    0.472
+   ],
+   "originOffsetM": [
+    0.267,
+    0.267,
+    0.213
+   ],
+   "triangles": 94,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Plane01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.2134,
+    "p50": -0.2134,
+    "p75": -0.2134,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2134
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.213,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.213
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm",
+   "node": "es|fea7e91842|luarchitecture_objects_trlanternpost1arm",
+   "category": "misc",
+   "sizeM": [
+    0.339,
+    1.286,
+    3.281
+   ],
+   "originOffsetM": [
+    0.17,
+    1.114,
+    1.633
+   ],
+   "triangles": 1595,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Cylinder06.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.633,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.236,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.633
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm",
+   "node": "es|b29be972df|luarchitecture_objects_trlanternpost2arm",
+   "category": "misc",
+   "sizeM": [
+    0.34,
+    2.242,
+    3.293
+   ],
+   "originOffsetM": [
+    0.17,
+    1.121,
+    1.64
+   ],
+   "triangles": 1944,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Cylinder06.00.00.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.64,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.262,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.64
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm",
+   "node": "es|3fd0477f03|luarchitecture_objects_trlanternpost4arm",
+   "category": "misc",
+   "sizeM": [
+    2.244,
+    2.244,
+    3.297
+   ],
+   "originOffsetM": [
+    1.122,
+    1.122,
+    1.646
+   ],
+   "triangles": 2642,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dtceiling02.dds"
+   ],
+   "materials": [
+    "Cylinder06.00.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 1.2595,
+    "p50": 1.2595,
+    "p75": 1.2595,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.2595
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.646,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.312,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.646
+  },
+  {
+   "id": "hlaalu:hlaaluarchitecture/objects/sbigplanter02t",
+   "node": "es|b2bcf0387b|laaluarchitecture_objects_sbigplanter02t",
+   "category": "misc",
+   "sizeM": [
+    0.375,
+    0.375,
+    0.413
+   ],
+   "originOffsetM": [
+    0.187,
+    0.187,
+    -0.0
+   ],
+   "triangles": 204,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dlc2rrbulwark01.dds",
+    "dtceiling02.dds",
+    "sdirt01.dds"
+   ],
+   "materials": [
+    "SBigPlanter02:0.Mat",
+    "SBigPlanter02:1.Mat",
+    "SBigPlanter02:2.Mat",
+    "SBigPlanter02:22.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "bmv:architecture/phitt/aldredanyia/house03",
+   "node": "es|f8a14232d2|__architecture_phitt_aldredanyia_house03",
+   "category": "architecture",
+   "sizeM": [
+    9.616,
+    9.042,
+    5.144
+   ],
+   "originOffsetM": [
+    4.808,
+    4.528,
+    3.646
+   ],
+   "triangles": 628,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stonetexture.dds",
+    "trimexterior.dds",
+    "trimexterior_dark.dds",
+    "velothialtarblue.dds"
+   ],
+   "materials": [
+    "Objekt01.Mat",
+    "Objekt03:1.Mat",
+    "Objekt03:2.Mat",
+    "Objekt03:3.Mat",
+    "Objekt03:4.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -3.4472,
+    "p50": -3.4472,
+    "p75": -3.1228,
+    "n": 24,
+    "slopeTermMPerDeg": -0.03314,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.646,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.308,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.646,
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 32,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/aldredanyia/overhang05",
+   "node": "es|88f5c1380f|rchitecture_phitt_aldredanyia_overhang05",
+   "category": "architecture",
+   "sizeM": [
+    5.585,
+    2.095,
+    3.583
+   ],
+   "originOffsetM": [
+    2.792,
+    1.047,
+    1.804
+   ],
+   "triangles": 1056,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "leather.dds",
+    "rope01.dds",
+    "woodpost02.dds",
+    "woodpostend03.dds"
+   ],
+   "materials": [
+    "Objekt02:0.Mat",
+    "Objekt02:1.Mat",
+    "Objekt02:2.Mat",
+    "Objekt02:3.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -1.8036,
+    "p50": -1.8036,
+    "p75": -1.8036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.8036
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.804,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.887,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.804,
+   "placedScaleMedian": 1.7,
+   "placedScaleEvidence": {
+    "n": 27,
+    "p10": 1.7,
+    "p90": 1.7,
+    "source": "plugin"
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/aldredanyia/window",
+   "node": "es|b37c2cbec7|v__architecture_phitt_aldredanyia_window",
+   "category": "architecture",
+   "sizeM": [
+    1.006,
+    1.115,
+    1.625
+   ],
+   "originOffsetM": [
+    0.507,
+    0.56,
+    0.796
+   ],
+   "triangles": 312,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "glassamber.dds",
+    "stonetexture.dds",
+    "trimexterior.dds"
+   ],
+   "materials": [
+    "Objekt01:0.Mat.001",
+    "Objekt01:1.Mat.001",
+    "Objekt01:2.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -0.2159,
+    "p50": -0.2159,
+    "p75": -0.2159,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.2159
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.796,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 0.796
+  },
+  {
+   "id": "composite:phitt/marsh-house-03",
+   "node": "es|a51b8b8b7a|composite__phitt_marsh-house-03",
+   "category": "architecture",
+   "sizeM": [
+    9.853,
+    11.768,
+    6.091
+   ],
+   "originOffsetM": [
+    5.045,
+    7.208,
+    4.306
+   ],
+   "triangles": 2932,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "glassamber.dds",
+    "leather.dds",
+    "rope01.dds",
+    "stonetexture.dds",
+    "trimexterior.dds",
+    "trimexterior_dark.dds",
+    "velothialtarblue.dds",
+    "woodpost02.dds",
+    "woodpostend03.dds"
+   ],
+   "materials": [
+    "Objekt01.Mat.001",
+    "Objekt01:0.Mat.002",
+    "Objekt01:0.Mat.003",
+    "Objekt01:0.Mat.004",
+    "Objekt01:0.Mat.005",
+    "Objekt01:1.Mat.002",
+    "Objekt01:1.Mat.003",
+    "Objekt01:1.Mat.004",
+    "Objekt01:1.Mat.005",
+    "Objekt01:2.Mat.002",
+    "Objekt01:2.Mat.003",
+    "Objekt01:2.Mat.004",
+    "Objekt01:2.Mat.005",
+    "Objekt02:0.Mat.001",
+    "Objekt02:1.Mat.001",
+    "Objekt02:2.Mat.001",
+    "Objekt02:3.Mat.001",
+    "Objekt03:1.Mat.001",
+    "Objekt03:2.Mat.001",
+    "Objekt03:3.Mat.001",
+    "Objekt03:4.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": -4.3062,
+    "p50": -4.3062,
+    "p75": -4.3062,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -4.3062
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.306,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.275,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.306
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\hlaalu-domestic.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/sheogorad/velothi/trimexterior_dark_n.dds"
+ ],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 0,
+  "OPAQUE": 273
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 22012348,
+  "bytesAfter": 8421372,
+  "images": 27,
+  "imageBytesAfter": 5423853,
+  "warnings": [],
+  "sha256": "fb993c256f49c7aa7761a1eed1e922f8326305013d5f46dcc48aec401727092c",
+  "sidecarBytes": {
+   "connectors": 71601,
+   "footprints": 73252,
+   "interiors": 55692
+  }
+ }
+}

@@ -1,0 +1,1137 @@
+{
+ "assets": {
+  "vanilla:architecture/farmhouse/farmhousedoor01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 297.8,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 12 times with other statics to one side; the side they left open, at 298\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/farmhouseldoor01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 289.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 289\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 47.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 47\u00b0 in the piece's own frame carries 1.82x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbcorner04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 227.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 227\u00b0 in the piece's own frame carries 1.82x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbdivider04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbicorner04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 345.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 346\u00b0 in the piece's own frame carries 2.00x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 350.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 351\u00b0 in the piece's own frame carries 41.87x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 344.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 345\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 41.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 164.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwall04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 221.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 221\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 131.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 131\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwell01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbwellent01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2basementent01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 97.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 97\u00b0 in the piece's own frame carries 5.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 73.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 73\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2doorway04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 73.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 73\u00b0 in the piece's own frame carries 2.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 41.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 42\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 105.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 105\u00b0 in the piece's own frame carries 3.15x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2end03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 40.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2hearth02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmint2wall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintcorner01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 17.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 17\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintdoorway01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 215.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 215\u00b0 in the piece's own frame carries 2.03x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 43.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 44\u00b0 in the piece's own frame carries 1.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 224.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintend03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 314.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 314\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 320.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 1.78x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 139.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 140\u00b0 in the piece's own frame carries 2.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 40.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 142.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 142\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 135.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 2.18x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnend06": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 142.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 142\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 254.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 254\u00b0 in the piece's own frame carries 2.05x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 285.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 286\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhback01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhbase01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhbase02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 38.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 38\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhend02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 217.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfirepit03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhfront01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 309.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 310\u00b0 in the piece's own frame carries 1.84x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhloft01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 106.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 19.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhloft02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 254.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 254\u00b0 in the piece's own frame carries 19.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhlofttop01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintlhmid01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 256.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 256\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 147.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 148\u00b0 in the piece's own frame carries 2.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwallhearth01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 323.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 324\u00b0 in the piece's own frame carries 2.23x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwallhearth02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 147.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 147\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwbasementent01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 142.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 142\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwooddoorway01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 286.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 287\u00b0 in the piece's own frame carries 8.01x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodend02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 75.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 76\u00b0 in the piece's own frame carries 6.12x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/farmintwoodwall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "vanilla-farmhouse-int",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "composite-leaf",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 2
+}

@@ -58,7 +58,9 @@ def test_the_export_carries_the_smoke_column():
     brazier = _claywater_brazier()
     fx, = cs.socket_effect_placements("bp", "seed", [brazier], _Shelf(), cs.effect_sockets(), [])
     fx["provenance"] = {"sourceBlueprintId": "bp"}
-    out = ex.effect_contract("bp", fx)
+    # The PUBLISHED manifest (tracked, what ships): the raw build under
+    # output/kits is local build output the CI runner never has.
+    out = ex.effect_contract("bp", fx, kits_dir=ex.PUBLIC_KITS)
     assert out["kind"] == "effect" and out["assetId"] == "fx:smoke-column"
     assert out["parentPlacementId"] == brazier["id"]
     assert out["mountOffsetM"] == fx["mountOffsetM"]

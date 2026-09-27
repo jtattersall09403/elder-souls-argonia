@@ -1,6 +1,6 @@
 # Engineering standards
 
-Seventeen standing rules that are **cheap to require now and brutal to retrofit**.
+Eighteen standing rules that are **cheap to require now and brutal to retrofit**.
 Adopted by the owner 2026-09-01 (decision
 [0042](../decisions/0042-buildout-steers-and-engineering-standards.md) §8) after
 the lesson of the renderer: the code that has to be true of *everything* must be
@@ -52,8 +52,19 @@ that shifts when a file is regenerated silently breaks saves and quests.
 `poi.murkmire.drowned-stair`, `npc.lilmoth.never-writes-twice`. No spaces, no
 capitals, ASCII only. Retired IDs go to a `retired` list, never deleted.
 
+**Registered families** (`tooling/repo-standards/id-registry.json`, 2026-09-27):
+the place catalogue (places, design groups), quests and questlines, the
+registries (factions, creatures, items, deeds, rumour pools, NPCs), the route
+registry and route structures, candidate sites, and the Claywater Station
+layout, whose socket and route ids must match
+`^(socket|route)\.claywater-station\.` (a source's `idPattern`; a layout is the
+home table of its place's sockets, decision 0104). Promise ledgers, doors,
+blueprints and travel services are checked by the integrity gate (standard
+18); each new layout joins the registry with its own row.
+
 **Enforcement.** check — `repo-standards` asserts ID shape and global
-uniqueness across every registered data file, and that no retired ID is reused.
+uniqueness across every registered data file, a source's `idPattern` and
+no id defined twice inside it, and that no retired ID is reused.
 
 **Owner.** Phase 11 onwards for placement; the check is live now.
 
@@ -371,9 +382,16 @@ shown failing on all 21 uncompressed kits and on a startup total of 118.9 MB;
 the compose gates, shown failing by planting a reference to a kit that does
 not exist and to a chain-only raster.
 
-Before merging to main run `npm run preflight -- --runner` once: it hides the
-vault and the raw kit build so a test that reaches a local-only file fails
-here, not on main (2026-09-22: two such tests reached main).
+Before merging to main, commit, then run `npm run preflight -- --runner` once:
+it runs the deploy gates from a clean clone of HEAD in a temp directory, with
+the vault emptied and only what the workflow adds (the province raster cache,
+`npm ci`'s node_modules), so an untracked or gitignored file (a raw kit build
+under `tooling/asset-pipeline/output`, an unpublished kit, an uncommitted
+edit) cannot make a gate pass here that fails on main (2026-09-22: two such
+tests reached main; 2026-09-27, run 36327676173: six more did, because runner
+mode then ran in the working tree). A test that needs a local build output that
+never ships skips with that reason; one that judges what ships reads the
+published copy under `public/`.
 
 ## 17. Saved state is versioned, serialisable data from the moment a system is written
 
@@ -395,6 +413,24 @@ system's state shape; retrofitting it means opening every system twice.
 Checked: a system's `snapshot()`/`restore()` round-trip test (in the
 pattern of the package's other unit tests); the composed contract's gate
 arrives with 10c.
+
+## 18. One home table, references by id, and an integrity gate
+
+Owner 2026-09-27 (decision 0104). Every entity kind has exactly one home
+record family, keyed by its stable id: a place in the catalogue, a placed
+interactable in its place's layout (`socket.<place-slug>.<slug>`), a door
+in the blueprint, a promise in the place's ledger
+(`world/sources/placement/promises/`), a travel service in
+`travel-services.json`, a person in the NPC registry. Any other record
+that needs the thing names its id and never copies its facts; a derived
+file (a blueprint export, a compiled bundle) is a build output and carries
+the hash of what it came from. Each family has one JSON Schema in
+`packages/world-schema` (`families.json` is the registry). Checked:
+`packages/world-schema/test_world_schema.py` in `npm test` validates every
+family and asserts that every reference resolves to the family it names, that
+no id has two homes, and that every promise is filled or excused (the open
+count is pinned per place and only falls); every family in
+`data-registry.json` names its schema or a queued owner.
 
 ## Running the checks
 

@@ -20,12 +20,21 @@ from . import render_assembly as ra
 
 ASSEMBLIES = json.loads(ra.ASSEMBLIES_PATH.read_text())
 
+# The renderer draws from the RAW kit builds (tooling/asset-pipeline/output/kits,
+# gitignored build output that never ships and never reaches the CI runner; the
+# published pair under public/kits is compressed). A test that indexes or renders
+# real kits needs them; the arithmetic tests below it do not.
+needs_raw_kits = pytest.mark.skipif(
+    not any(ra.KITS_DIR.glob("*.kit.json")),
+    reason="needs the raw kit builds under tooling/asset-pipeline/output/kits (local build output)")
+
 
 def test_kit_to_compile_matches_the_gltf_export_axes():
     # z-up (x, y, z) -> y-up (x, z, -y): the inverse is what the kit build applies.
     assert ra.kit_to_compile([1.0, 2.0, 3.0]) == [1.0, 3.0, -2.0]
 
 
+@needs_raw_kits
 def test_template_pieces_land_on_the_template_offset():
     index = ra.KitIndex.load()
     templates = [t for t in ASSEMBLIES["sets"]["vanilla"]["templates"]
@@ -68,6 +77,7 @@ def test_a_parent_cycle_is_an_error():
         ])
 
 
+@needs_raw_kits
 def test_sheet_names_every_piece_and_flags_a_missing_sink_record(tmp_path):
     index = ra.KitIndex.load()
     template = next(t for t in ASSEMBLIES["sets"]["vanilla"]["templates"]
@@ -98,6 +108,7 @@ def test_the_blender_script_parses():
     assert "JOBS" in src and "-math.radians(piece[\"worldYawDeg\"])" in src
 
 
+@needs_raw_kits
 def test_a_declared_box_collider_is_named_as_a_box_not_the_mesh(tmp_path):
     index = ra.KitIndex.load()
     boxed = next(asset_id for asset_id, kit in index.asset_kit.items()
@@ -108,6 +119,7 @@ def test_a_declared_box_collider_is_named_as_a_box_not_the_mesh(tmp_path):
     assert "| box |" in ra.write_sheet(jobs, tmp_path).read_text()
 
 
+@needs_raw_kits
 def test_flat_stands_every_root_piece_on_its_designed_ground_line(tmp_path):
     # The defect: pieces rendered at their compile heights, so the Lilmoth gate
     # sheet spread its red lines over 6.5 m and no piece could be judged.
@@ -193,6 +205,7 @@ def test_mount_pair_child_is_magenta_and_parent_ghosted_by_role():
     assert ra.render_override("template", parent) is None
 
 
+@needs_raw_kits
 def test_jobs_carry_front_bearing_ground_line_and_overrides(tmp_path):
     index = ra.KitIndex.load()
     sunk = next(asset_id for asset_id, kit in index.asset_kit.items()
@@ -242,6 +255,7 @@ def test_annotate_clamps_an_off_frame_ground_line_with_a_label(tmp_path):
     not (Path(os.path.expanduser(ra.TOOLCHAIN["blender"])).exists()
          and Path(os.path.expanduser(ra.TOOLCHAIN["wine"])).exists()),
     reason="wine/blender toolchain absent")
+@needs_raw_kits
 def test_the_two_legibility_fixtures_render(tmp_path):
     """One kit-sheet piece and one mined mount pair from the published kits,
     rendered here at 64 px so the test owns its frames (it used to read a
@@ -293,6 +307,7 @@ def test_presets_owner_is_the_default_and_sonnet_is_small():
     assert ra.DEFAULT_PRESET == "owner"
 
 
+@needs_raw_kits
 def test_jobs_and_sheet_carry_the_preset(tmp_path):
     index = ra.KitIndex.load()
     spec = _two_group_specs(index)[0]
@@ -355,6 +370,7 @@ def _fake_blender(calls):
     return fake, state
 
 
+@needs_raw_kits
 def test_overlapped_sessions_write_the_same_files_as_serial(tmp_path, monkeypatch):
     index = ra.KitIndex.load()
     specs = _two_group_specs(index)
@@ -409,6 +425,7 @@ def test_skip_existing_re_renders_a_pair_whose_offset_or_yaw_moved(tmp_path):
     assert not ra.is_current(tmp_path, assembly, owner)
 
 
+@needs_raw_kits
 def test_render_skips_only_stamped_assemblies(tmp_path, monkeypatch):
     index = ra.KitIndex.load()
     specs = _two_group_specs(index)
@@ -472,6 +489,7 @@ def test_view_axes_follow_the_camera_bearing():
     assert (right, up, toward) == ((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0))
 
 
+@needs_raw_kits
 def test_a_two_piece_job_marks_only_each_test_pieces_own_doorways(tmp_path):
     # The defect: the 61 co-placement connectors of a window (up to 5 m from
     # it) were drawn as yellow dots and blanketed the frame (t0009).
@@ -499,6 +517,7 @@ def test_inside_box_keeps_dots_on_the_piece_only():
     assert not ra.inside_box((5.1, 0.5, 1.0), lo, hi)
 
 
+@needs_raw_kits
 def test_template_anchor_is_ghosted_context_and_the_part_is_under_test(tmp_path):
     index = ra.KitIndex.load()
     spec = ra.spec_from_template(ASSEMBLIES, "vanilla", "vanilla:t0429")
@@ -508,6 +527,7 @@ def test_template_anchor_is_ghosted_context_and_the_part_is_under_test(tmp_path)
     assert part["role"] == "test" and part["override"] is None
 
 
+@needs_raw_kits
 def test_a_mounted_template_asset_gets_its_host_ghosted_behind_it():
     index = ra.KitIndex.load()
     child, parent = next((a, b) for a in index.asset_kit for b in index.asset_kit if a != b)
@@ -622,6 +642,7 @@ def test_the_blender_script_loads_the_host_module_as_blender_would():
 # --------------------------------------------------------------------------- #
 # round 6 follow-up: recommendations 1, 3, 4, 5 (planner 2026-09-23)
 # --------------------------------------------------------------------------- #
+@needs_raw_kits
 def test_flat_drops_the_whole_assembly_by_the_first_test_pieces_sink(tmp_path):
     # The defect: each root took its own sink, so t0429's roof corner lost the
     # mined rise between it and its frame.
@@ -638,6 +659,7 @@ def test_flat_drops_the_whole_assembly_by_the_first_test_pieces_sink(tmp_path):
     assert part["worldM"][1] + part["designedSinkM"] == pytest.approx(0.0)  # test piece on 0
 
 
+@needs_raw_kits
 def test_a_mount_pair_parent_carries_its_mined_scale(tmp_path):
     index = ra.KitIndex.load()
     child, parent = next((a, b) for a in index.asset_kit for b in index.asset_kit if a != b)
@@ -650,6 +672,7 @@ def test_a_mount_pair_parent_carries_its_mined_scale(tmp_path):
     assert "piece.get(\"scale\")" in ra.BLENDER_SCRIPT.read_text()
 
 
+@needs_raw_kits
 def test_a_template_asset_with_no_mount_pair_takes_its_host_from_the_template_sets():
     # t0009: a window pair with no mined mount; the same set places that window
     # as the PART against a house ANCHOR, and that anchor is the host.
@@ -671,6 +694,7 @@ def test_a_template_asset_with_no_mount_pair_takes_its_host_from_the_template_se
     assert placed[1]["worldM"] == pytest.approx(part["worldM"])
 
 
+@needs_raw_kits
 def test_sheet_md_merges_new_rows_into_the_batchs_sheet(tmp_path):
     index = ra.KitIndex.load()
     specs = ra.all_template_specs(ASSEMBLIES, index)[:3]

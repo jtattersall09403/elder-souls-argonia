@@ -8,8 +8,9 @@
  * suite, the water suite, the pipeline suite, the raster manifest check and the
  * credits check) — exact parity since the slow placement tier was retired on
  * 2026-09-17 — plus the placement workbench suite, which runs here only.
- * `--runner` additionally hides the asset vault, the way the GitHub runner
- * has it hidden. Run one at a time, each failure costs a full wait-fix-wait cycle; run here in parallel
+ * `--runner` runs the gates the way the GitHub runner does: from a clean
+ * clone of the COMMITTED tree (HEAD), with the asset vault hidden, so an
+ * untracked or gitignored artefact on this machine cannot make a gate pass. Run one at a time, each failure costs a full wait-fix-wait cycle; run here in parallel
  * the wall time is about two gates' worth (~3 min; one wave when memory allows, else two) and the report shows everything
  * that would have failed on CI, in one go. Nothing here changes what a gate
  * asserts; it only runs them together and reads out the failures.
@@ -32,10 +33,10 @@
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
 import { spawn, execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { availableParallelism } from "node:os";
-import { join, dirname } from "node:path";
+import { basename, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { jobsCap, pinPrefix } from "./jobs.mjs";
 import { loadWorkspaces, selectGates } from "./preflight_select.mjs";
@@ -61,11 +62,22 @@ const GATES = {
   "python-deps":   ["cd tooling/world-generation && python3 -m worldgen.check_requirements", [/FAIL/, /Error/]],
 };
 
-// RUNNER MODE: `npm run preflight -- --runner` points both vault overrides at
-// a fresh empty directory, so every gate runs exactly as the GitHub Pages
-// runner runs it — with no asset vault. A gate that needs the vault must
-// SKIP there, never error (2026-09-17: two apron tests errored and took the
-// deploy down).
+// RUNNER MODE: `npm run preflight -- --runner` runs every gate exactly as the
+// GitHub Pages runner runs it (2026-09-27: run 36327676173 went red on six
+// tests that read kits and outputs present only on this machine, after a
+// `--runner` preflight that ran in the working tree had passed them):
+//  * from a clean clone of HEAD in a temp directory whose parent holds nothing
+//    (the runner's checkout has no sibling vault), so untracked and gitignored
+//    files — built kits under tooling/asset-pipeline/output, local outputs,
+//    uncommitted edits — are absent;
+//  * with only what the workflow itself adds: the province raster groups the
+//    `rasters` job restores from its cache (tooling/province-artefact/set.json,
+//    copied from here and still verified by the `rasters` gate) and the
+//    node_modules trees `npm ci` would install (copied, build caches dropped,
+//    so typecheck runs cold as on CI);
+//  * with both vault overrides pointed at an empty directory. A gate that
+//    needs the vault must SKIP there, never error (2026-09-17).
+// Commit first: runner mode tests HEAD, never the working tree.
 const runnerMode = process.argv.includes("--runner");
 // `--paths` belongs to the review gate (the hook reads it from the command
 // line); preflight only reports it so the log says which review it follows.
@@ -75,11 +87,45 @@ const runnerEnv = runnerMode
   ? { ES_ASSET_PIPELINE_ROOT: mkdtempSync(join(tmpdir(), "no-vault-")), ES_VAULT_ROOT: "" }
   : {};
 if (runnerMode) runnerEnv.ES_VAULT_ROOT = runnerEnv.ES_ASSET_PIPELINE_ROOT;
+// Everything runner mode creates goes on exit, however the run ends (a throw
+// part-way through the export, Ctrl-C, a watchdog kill of this process).
+const scratch = runnerMode ? [runnerEnv.ES_ASSET_PIPELINE_ROOT] : [];
+process.on("exit", () => { for (const d of scratch) rmSync(d, { recursive: true, force: true }); });
+for (const sig of ["SIGINT", "SIGTERM", "SIGHUP"]) process.on(sig, () => process.exit(130));
+
+function exportCommittedTree() {
+  const sh = (cmd, args, cwd = repoRoot) => execFileSync(cmd, args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
+  const head = sh("git", ["rev-parse", "HEAD"]).trim();
+  const parent = mkdtempSync(join(tmpdir(), "preflight-runner-"));
+  scratch.push(parent);
+  const tree = join(parent, basename(repoRoot));
+  sh("git", ["clone", "--quiet", "--shared", "--no-checkout", repoRoot, tree]);
+  sh("git", ["-c", "advice.detachedHead=false", "checkout", "--quiet", "--detach", head], tree);
+  // The raster groups, exactly the cache paths the workflow restores. Copies
+  // are hard links (same volume; no gate writes a raster or a dependency), so
+  // an export costs seconds and next to no disk.
+  const set = JSON.parse(readFileSync(join(repoRoot, "tooling", "province-artefact", "set.json"), "utf8"));
+  const globs = Object.values(set.groups).flat().map((g) => `:(glob)${set.root}/${g}`);
+  const rasters = sh("git", ["ls-files", "-o", "-i", "--exclude-standard", "-z", "--", ...globs]).split("\0").filter(Boolean);
+  execFileSync("rsync", ["-a", `--link-dest=${repoRoot}`, "--from0", "--files-from=-", "./", tree + "/"], { cwd: repoRoot, input: rasters.join("\0") });
+  // What `npm ci` installs: every node_modules tree, without build caches.
+  const modules = ["node_modules", ...loadWorkspaces(repoRoot).map((w) => join(w.dir, "node_modules"))]
+    .filter((d, i, a) => a.indexOf(d) === i && existsSync(join(repoRoot, d)));
+  for (const d of modules) {
+    execFileSync("rsync", ["-a", `--link-dest=${join(repoRoot, d)}`, "--exclude=/.cache", "--exclude=/.vite", join(repoRoot, d) + "/", join(tree, d) + "/"]);
+  }
+  console.log(`preflight: runner mode: clean clone of ${head.slice(0, 8)} at ${tree} (+${rasters.length} rasters, ${modules.length} node_modules trees)`);
+  return tree;
+}
+
+// The workbench gate is preflight-only (no deploy job runs it, and it needs
+// the local raw kit builds), so runner mode leaves it in the working tree.
+const gateCwd = (name) => (runnerTree && name !== "workbench" ? runnerTree : repoRoot);
 
 function run(name, cmd, extraEnv = {}) {
   return new Promise((resolve) => {
     const t0 = Date.now();
-    const child = spawn(cmd, { cwd: repoRoot, shell: true, env: { ...process.env, FORCE_COLOR: "0", ...extraEnv } });
+    const child = spawn(cmd, { cwd: gateCwd(name), shell: true, env: { ...process.env, FORCE_COLOR: "0", ...extraEnv } });
     let out = "";
     child.stdout.on("data", (d) => (out += d));
     child.stderr.on("data", (d) => (out += d));
@@ -170,7 +216,7 @@ if (!selection.all) {
     (selection.gates.includes("npm-test") ? ` (npm test in ${selection.workspaces.join(", ")}${selection.weapons ? " + weapons reach" : ""})` : ""));
   console.log(`preflight: skipped (inputs untouched): ${selection.skipped.join(", ") || "none"}`);
 }
-if (runnerMode) console.log("preflight: runner mode (no asset vault)");
+const runnerTree = runnerMode ? exportCommittedTree() : null;
 console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // Two waves: the placement suite (10.2 GiB beside typecheck on 2026-09-16,

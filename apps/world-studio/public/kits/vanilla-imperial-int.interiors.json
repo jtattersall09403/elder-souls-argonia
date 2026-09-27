@@ -1,0 +1,1043 @@
+{
+ "assets": {
+  "vanilla:dungeons/imperial/door/impwooddoordouble01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 14.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 15\u00b0 in the piece's own frame carries 1.86x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/impwooddoordoubleload01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 134.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 2.76x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsingle01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 9.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 9\u00b0 in the piece's own frame carries 3.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsingleload01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 181.3,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 7 times with other statics to one side; the side they left open, at 181\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 190.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 190\u00b0 in the piece's own frame carries 3.02x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/impwooddoorsinglesmallload01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 172.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 172\u00b0 in the piece's own frame carries 5.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/door/trapdoorladder01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/jail/impjaildoor01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/jail/impjaildoorframe01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/jail/impjailwall01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largehall/implhall1way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largehall/implhall2way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largehall/implhall4way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 224.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largehall/implhalldoorl01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 71.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 71\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largehall/implhallstairs01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 315.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 315\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.73x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 135.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomcorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.76x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 46\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 223.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.50x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 133.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 133\u00b0 in the piece's own frame carries 1.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomdoor04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 135.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 136\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 135.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomicorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 315.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 316\u00b0 in the piece's own frame carries 1.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroommid01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroommid02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroompillar01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 70.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 71\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 340.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 341\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 250.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 251\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/largeroom/implroomwall04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 160.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 161\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way128d01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall1way128u01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall2way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall3way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphall4way01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphalldeadend01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 191.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 191\u00b0 in the piece's own frame carries 1.82x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphallstairs01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallhall/imphallstairs02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improombrace01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 315.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 316\u00b0 in the piece's own frame carries 2.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 223.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 223\u00b0 in the piece's own frame carries 2.28x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 134.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 2.29x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomcorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 46\u00b0 in the piece's own frame carries 2.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 12.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 13\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 337.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 337\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 247.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 247\u00b0 in the piece's own frame carries 1.60x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoor04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 23.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 24\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 66.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 67\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 336.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 337\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 246.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 247\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomdoorb04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 22.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 23\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomicorner04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improommid01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.85x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 349.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 350\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 282.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 283\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 189.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 190\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/imperial/smallroom/improomwall04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 100.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 100\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "vanilla-imperial-int is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "vanilla-imperial-int",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "composite-leaf",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 2
+}
