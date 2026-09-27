@@ -1,5 +1,51 @@
 {
  "assets": {
+  "kotm:argonia/clutter/amberbee": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
   "kotm:argonia/clutter/buntingline01": [
    {
     "evidence": "bounds",
@@ -742,6 +788,30 @@
     "widthM": 0.07
    }
   ],
+  "kotm:argonia/clutter/wallbasket02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.38,
+     -0.02
+    ],
+    "widthM": 0.07
+   }
+  ],
   "kotm:argonia/clutter/wallbasket03": [
    {
     "evidence": "bounds",
@@ -884,6 +954,52 @@
     "widthM": 0.46
    }
   ],
+  "kotm:argonia/food/sakebottle": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
   "kotm:argonia/food/sakebottle02": [
    {
     "evidence": "bounds",
@@ -974,6 +1090,30 @@
      0.0
     ],
     "widthM": 2.32
+   }
+  ],
+  "kotm:argonia/furniture/rusticbench01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.75,
+     0.0
+    ],
+    "widthM": 0.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.75,
+     0.0
+    ],
+    "widthM": 0.58
    }
   ],
   "kotm:argonia/furniture/rusticchair01": [
@@ -1874,6 +2014,98 @@
     "widthM": 0.4
    }
   ],
+  "kotm:skinwalker21 creatures/horker/giant snail/shell": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.47
+    ],
+    "widthM": 0.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.41,
+     0.29
+    ],
+    "widthM": 1.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.04
+    ],
+    "widthM": 0.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.41,
+     0.29
+    ],
+    "widthM": 1.51
+   }
+  ],
+  "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
   "vanilla:architecture/riften/clutter/rtchimney01": [
    {
     "evidence": "bounds",
@@ -1918,6 +2150,76 @@
      0.0
     ],
     "widthM": 1.66
+   }
+  ],
+  "vanilla:clothes/monk/monkrobesgnd": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.36
+    ],
+    "widthM": 0.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     0.0
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.36
+    ],
+    "widthM": 0.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.31,
+     0.0
+    ],
+    "widthM": 0.72
+   }
+  ],
+  "vanilla:clutter/blacksmith/blacksmithnovicetongs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.1
    }
   ],
   "vanilla:clutter/books/basicbook01": [
@@ -2196,6 +2498,52 @@
     "widthM": 0.44
    }
   ],
+  "vanilla:clutter/bucket02a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
   "vanilla:clutter/common/fishingpolecollection01": [
    {
     "evidence": "bounds",
@@ -2242,6 +2590,30 @@
     "widthM": 1.97
    }
   ],
+  "vanilla:clutter/common/flute01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.28
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.28
+    ],
+    "widthM": 0.06
+   }
+  ],
   "vanilla:clutter/common/rag01": [
    {
     "evidence": "bounds",
@@ -2286,6 +2658,98 @@
      0.0
     ],
     "widthM": 0.36
+   }
+  ],
+  "vanilla:clutter/common/rug01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.05
+    ],
+    "widthM": 1.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.92,
+     0.0
+    ],
+    "widthM": 2.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.05
+    ],
+    "widthM": 1.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.92,
+     0.0
+    ],
+    "widthM": 2.1
+   }
+  ],
+  "vanilla:clutter/common/rug02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.17
+    ],
+    "widthM": 1.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.93,
+     0.0
+    ],
+    "widthM": 2.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.17
+    ],
+    "widthM": 1.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.92,
+     0.0
+    ],
+    "widthM": 2.34
    }
   ],
   "vanilla:clutter/common/rug03": [
@@ -2828,6 +3292,122 @@
     "widthM": 0.38
    }
   ],
+  "vanilla:clutter/ingredients/scalypholiotabits01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/ingredients/trollfat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/wallbasket03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.42,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.42,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
   "vanilla:clutter/wallbaskethex02": [
    {
     "evidence": "bounds",
@@ -2876,6 +3456,146 @@
     "widthM": 0.11
    }
   ],
+  "vanilla:clutter/wallbasketlarge01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.59,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.59,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/wine/winebottle02a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.42,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.42,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/woodfires/cookingstand02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -0.91
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     -0.66
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     -0.41
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     -0.66
+    ],
+    "widthM": 0.5
+   }
+  ],
+  "vanilla:critters/bee/beehoneycomb": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.05
+   }
+  ],
   "vanilla:furniture/smallcookingpotnohandle": [
    {
     "evidence": "bounds",
@@ -2920,6 +3640,52 @@
      -0.66
     ],
     "widthM": 0.52
+   }
+  ],
+  "vanilla:plants/giantlichen01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.1
    }
   ],
   "vanilla:plants/mushroom01": [
@@ -3016,8 +3782,8 @@
   ]
  },
  "counts": {
-  "assets": 77,
-  "bounds": 260,
+  "assets": 97,
+  "bounds": 326,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

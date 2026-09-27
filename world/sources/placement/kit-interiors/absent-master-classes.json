@@ -40,7 +40,7 @@
     },
     "ccBGSSSE037-Curios.esl:00000814": {
       "class": "clutter",
-      "source": "planner ruling 2026-09-27; no UESP row; sits on a rustic shelf in KeebaHouseFisher (place-diag P9)"
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814"
     },
     "HearthFires.esm:00003043": {
       "class": "clutter",
@@ -53,6 +53,10 @@
     "Dawnguard.esm:000185FB": {
       "class": "clutter",
       "source": "UESP Skyrim:Ingredients: Poison Bloom xx0185FB (Dawnguard)"
+    },
+    "ccBGSSSE037-Curios.esl:00000D6C": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Bog Beacon FExxxD6C"
     }
   }
 }

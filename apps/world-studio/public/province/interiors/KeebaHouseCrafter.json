@@ -1,0 +1,3983 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseCrafter",
+ "plugin": "King of the Murkmire.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": null,
+ "refCount": 168,
+ "kits": {
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  },
+  "settlement-imperial-v1": {
+   "id": "settlement-imperial-v1",
+   "glb": "kits/settlement-imperial-v1.glb",
+   "manifest": "kits/settlement-imperial-v1.kit.json"
+  },
+  "settlement-mud-v1": {
+   "id": "settlement-mud-v1",
+   "glb": "kits/settlement-mud-v1.glb",
+   "manifest": "kits/settlement-mud-v1.kit.json"
+  },
+  "underwater-v1": {
+   "id": "underwater-v1",
+   "glb": "kits/underwater-v1.glb",
+   "manifest": "kits/underwater-v1.kit.json"
+  },
+  "works-v1": {
+   "id": "works-v1",
+   "glb": "kits/works-v1.glb",
+   "manifest": "kits/works-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   106.4963,
+   86.2485,
+   54.4948
+  ],
+  "yawDeg": 182.383
+ },
+ "exitDoor": {
+  "id": "KeebaHouseCrafter.0809B4BD",
+  "refId": "0809B4BD",
+  "positionM": [
+   106.3737,
+   86.2704,
+   52.9487
+  ],
+  "yawDeg": 354.27
+ },
+ "doors": [],
+ "ambient": {
+  "colorRGB": [
+   44,
+   33,
+   27
+  ],
+  "intensity": 1.0
+ },
+ "fog": {
+  "colorRGB": [
+   89,
+   95,
+   102
+  ],
+  "nearM": 4.836,
+  "farM": 71.12
+ },
+ "lighting": {
+  "ambientRGB": [
+   44,
+   33,
+   27
+  ],
+  "directionalRGB": [
+   77,
+   62,
+   55
+  ],
+  "fogNearRGB": [
+   89,
+   95,
+   102
+  ],
+  "fogNearM": 4.836,
+  "fogFarM": 71.12,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 71.12,
+  "fogPower": 0.6,
+  "fogFarRGB": [
+   23,
+   33,
+   22
+  ],
+  "fogMax": 1.0,
+  "inherits": 159,
+  "template": "SolitudeInteriors"
+ },
+ "placements": [
+  {
+   "id": "KeebaHouseCrafter.0809B4A4",
+   "assetId": "kotm:argonia/clutter/wallbasket04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.9144,
+    86.682,
+    56.7494
+   ],
+   "rotationDeg": [
+    0.0,
+    4.767,
+    0.0
+   ],
+   "scale": 1.14,
+   "category": "clutter",
+   "base": "ALPAWallBasket08",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B4BD",
+   "assetId": "kotm:argonia/mudhuts/door01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.3737,
+    86.2704,
+    52.9487
+   ],
+   "rotationDeg": [
+    0.0,
+    354.27,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "door",
+   "base": "MudHutLDoor01",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B4C5",
+   "assetId": "kotm:argonia/mudhuts/mudhutintstairs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.886,
+    86.4245,
+    57.8741
+   ],
+   "rotationDeg": [
+    0.0,
+    269.291,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B4C7",
+   "assetId": "kotm:argonia/mudhuts/smpodint01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.1372,
+    87.3879,
+    57.9978
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.24,
+   "category": "misc",
+   "base": "MudHut05Int",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B4DF",
+   "assetId": "kotm:argonia/mudhuts/smpodextdoor",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.5203,
+    85.0558,
+    49.844
+   ],
+   "rotationDeg": [
+    0.0,
+    354.27,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutDoorway01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B4E2",
+   "assetId": "kotm:argonia/mudhuts/floor02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0059,
+    83.2129,
+    52.7995
+   ],
+   "rotationDeg": [
+    0.0,
+    135.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B504",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.6242,
+    82.7245,
+    55.3959
+   ],
+   "rotationDeg": [
+    0.0,
+    175.692,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B513",
+   "assetId": "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.6594,
+    86.2287,
+    50.7895
+   ],
+   "rotationDeg": [
+    0.0,
+    333.862,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHut02IntFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B528",
+   "assetId": "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.1915,
+    89.4014,
+    58.3168
+   ],
+   "rotationDeg": [
+    0.0,
+    104.806,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHut02IntFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B52D",
+   "assetId": "kotm:argonia/mudhuts/floor02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.7369,
+    83.2129,
+    60.7649
+   ],
+   "rotationDeg": [
+    0.0,
+    315.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B530",
+   "assetId": "kotm:argonia/mudhuts/window02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    100.9853,
+    87.9449,
+    53.278
+   ],
+   "rotationDeg": [
+    45.185,
+    357.098,
+    -127.876
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutWindow02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B531",
+   "assetId": "kotm:argonia/mudhuts/window01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    111.3037,
+    87.9261,
+    54.8786
+   ],
+   "rotationDeg": [
+    31.907,
+    172.642,
+    126.39
+   ],
+   "scale": 0.65,
+   "category": "misc",
+   "base": "MudHutWindow01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B532",
+   "assetId": "kotm:argonia/mudhuts/window02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.431,
+    91.7967,
+    55.1648
+   ],
+   "rotationDeg": [
+    45.265,
+    294.962,
+    139.534
+   ],
+   "scale": 1.12,
+   "category": "misc",
+   "base": "MudHutWindow02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B533",
+   "assetId": "kotm:argonia/mudhuts/window02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    108.901,
+    86.5834,
+    63.323
+   ],
+   "rotationDeg": [
+    -60.838,
+    62.604,
+    97.136
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutWindow02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B534",
+   "assetId": "kotm:argonia/mudhuts/window01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    99.8314,
+    87.0632,
+    61.6435
+   ],
+   "rotationDeg": [
+    -47.738,
+    274.767,
+    -105.184
+   ],
+   "scale": 0.81,
+   "category": "misc",
+   "base": "MudHutWindow01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B536",
+   "assetId": "kotm:argonia/mudhuts/mudhutintstairs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.8741,
+    89.4855,
+    58.4659
+   ],
+   "rotationDeg": [
+    0.0,
+    103.806,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B538",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.4075,
+    82.5841,
+    53.2024
+   ],
+   "rotationDeg": [
+    0.0,
+    181.113,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B539",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.4075,
+    83.5929,
+    53.2024
+   ],
+   "rotationDeg": [
+    0.0,
+    1.113,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53A",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.4072,
+    84.6454,
+    53.1938
+   ],
+   "rotationDeg": [
+    0.0,
+    1.113,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53B",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.71,
+    82.5841,
+    51.7132
+   ],
+   "rotationDeg": [
+    0.0,
+    129.547,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53C",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.71,
+    83.5929,
+    51.7132
+   ],
+   "rotationDeg": [
+    0.0,
+    309.547,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53D",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.7031,
+    84.6454,
+    51.7081
+   ],
+   "rotationDeg": [
+    0.0,
+    309.547,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53E",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.9763,
+    82.5841,
+    51.8146
+   ],
+   "rotationDeg": [
+    0.0,
+    43.604,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B53F",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.9763,
+    83.5929,
+    51.8146
+   ],
+   "rotationDeg": [
+    0.0,
+    223.604,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B540",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.9708,
+    84.6454,
+    51.8211
+   ],
+   "rotationDeg": [
+    0.0,
+    223.604,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B541",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    101.721,
+    83.5929,
+    53.5423
+   ],
+   "rotationDeg": [
+    0.0,
+    240.792,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B542",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    101.7138,
+    84.6454,
+    53.5468
+   ],
+   "rotationDeg": [
+    0.0,
+    240.792,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B543",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    101.721,
+    82.5841,
+    53.5423
+   ],
+   "rotationDeg": [
+    0.0,
+    60.792,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B544",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    111.2699,
+    83.5929,
+    54.5832
+   ],
+   "rotationDeg": [
+    0.0,
+    315.277,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B545",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    111.2636,
+    84.6454,
+    54.5775
+   ],
+   "rotationDeg": [
+    0.0,
+    315.277,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B546",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    111.2699,
+    82.5841,
+    54.5832
+   ],
+   "rotationDeg": [
+    0.0,
+    135.277,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B547",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.6575,
+    83.5929,
+    55.8398
+   ],
+   "rotationDeg": [
+    0.0,
+    24.032,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B548",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.6575,
+    82.5841,
+    55.8398
+   ],
+   "rotationDeg": [
+    0.0,
+    204.032,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B549",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    103.6605,
+    84.6454,
+    55.8319
+   ],
+   "rotationDeg": [
+    0.0,
+    24.032,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54A",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.7227,
+    82.5235,
+    56.056
+   ],
+   "rotationDeg": [
+    0.0,
+    112.667,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54B",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.6826,
+    82.7245,
+    56.388
+   ],
+   "rotationDeg": [
+    0.0,
+    267.365,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54C",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.5653,
+    84.6454,
+    56.3934
+   ],
+   "rotationDeg": [
+    0.0,
+    161.542,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54D",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.5622,
+    83.5929,
+    56.3855
+   ],
+   "rotationDeg": [
+    0.0,
+    161.542,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54E",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.5622,
+    82.5841,
+    56.3855
+   ],
+   "rotationDeg": [
+    0.0,
+    341.542,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B54F",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.3249,
+    82.7245,
+    56.7533
+   ],
+   "rotationDeg": [
+    0.0,
+    111.703,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B550",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.5771,
+    86.1779,
+    55.8324
+   ],
+   "rotationDeg": [
+    0.0,
+    28.798,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B551",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.9976,
+    86.1779,
+    56.6351
+   ],
+   "rotationDeg": [
+    0.0,
+    5.88,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B552",
+   "assetId": "kotm:argonia/clutter/wallbasket05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.5858,
+    86.682,
+    55.9719
+   ],
+   "rotationDeg": [
+    0.0,
+    21.956,
+    0.0
+   ],
+   "scale": 1.14,
+   "category": "clutter",
+   "base": "ALPAWallBasket09",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B553",
+   "assetId": "vanilla:clutter/wallbaskethex02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.6529,
+    84.8008,
+    55.8614
+   ],
+   "rotationDeg": [
+    0.0,
+    21.956,
+    0.0
+   ],
+   "scale": 1.31,
+   "category": "clutter",
+   "base": "ALPAWallBasketHex02B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B554",
+   "assetId": "vanilla:clutter/wallbaskethex03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.5634,
+    84.8008,
+    56.4301
+   ],
+   "rotationDeg": [
+    0.0,
+    341.849,
+    0.0
+   ],
+   "scale": 1.31,
+   "category": "clutter",
+   "base": "ALPAWallBasketHex03B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B556",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.3176,
+    82.7577,
+    53.1078
+   ],
+   "rotationDeg": [
+    0.0,
+    153.736,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B557",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.0344,
+    82.7577,
+    54.6513
+   ],
+   "rotationDeg": [
+    0.0,
+    228.22,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B559",
+   "assetId": "kotm:argonia/furniture/rusticcupboard",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.6183,
+    83.9021,
+    52.6534
+   ],
+   "rotationDeg": [
+    0.0,
+    314.164,
+    0.0
+   ],
+   "scale": 1.3,
+   "category": "container",
+   "base": "ALPARusticCupboard01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55A",
+   "assetId": "kotm:argonia/furniture/rusticchest",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.9567,
+    83.0055,
+    54.3975
+   ],
+   "rotationDeg": [
+    0.0,
+    153.736,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPARusticChest01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55B",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.3554,
+    83.7409,
+    53.603
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.5,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55C",
+   "assetId": "kotm:argonia/furniture/rusticchair02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.8022,
+    82.7435,
+    52.2158
+   ],
+   "rotationDeg": [
+    0.0,
+    183.347,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair02",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55D",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.8527,
+    89.4031,
+    55.655
+   ],
+   "rotationDeg": [
+    0.0,
+    143.24,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55E",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.0042,
+    89.4031,
+    56.2888
+   ],
+   "rotationDeg": [
+    0.0,
+    143.24,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B55F",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.9885,
+    89.4027,
+    58.2708
+   ],
+   "rotationDeg": [
+    0.0,
+    274.207,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B560",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.3795,
+    89.4027,
+    60.1453
+   ],
+   "rotationDeg": [
+    0.0,
+    302.855,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B561",
+   "assetId": "kotm:argonia/furniture/rustictable03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.6447,
+    89.4028,
+    59.2267
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.3,
+   "category": "furniture",
+   "base": "ALPARusticTable03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B562",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.0606,
+    89.4028,
+    58.0169
+   ],
+   "rotationDeg": [
+    0.0,
+    193.843,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B563",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.0856,
+    89.4029,
+    60.3598
+   ],
+   "rotationDeg": [
+    0.0,
+    27.685,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B565",
+   "assetId": "kotm:argonia/furniture/rusticchest",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.8818,
+    89.6598,
+    54.696
+   ],
+   "rotationDeg": [
+    0.0,
+    28.648,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPARusticChest01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B566",
+   "assetId": "kotm:argonia/furniture/rusticchair04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.0099,
+    89.4031,
+    54.3675
+   ],
+   "rotationDeg": [
+    0.0,
+    28.648,
+    0.0
+   ],
+   "scale": 1.12,
+   "category": "furniture",
+   "base": "ALPARusticStoolSTATIC",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B567",
+   "assetId": "kotm:argonia/furniture/rustictable02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.4484,
+    83.1582,
+    57.5411
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "furniture",
+   "base": "ALPARusticTable02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B568",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.8206,
+    82.7577,
+    56.6028
+   ],
+   "rotationDeg": [
+    0.0,
+    120.321,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B569",
+   "assetId": "kotm:argonia/furniture/rustictable02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.1812,
+    83.1582,
+    57.9154
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "furniture",
+   "base": "ALPARusticTable02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56A",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.3698,
+    82.7577,
+    57.5551
+   ],
+   "rotationDeg": [
+    0.0,
+    108.862,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56B",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.8331,
+    82.7577,
+    58.7507
+   ],
+   "rotationDeg": [
+    0.0,
+    303.668,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56C",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.292,
+    82.7577,
+    57.9453
+   ],
+   "rotationDeg": [
+    0.0,
+    292.209,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56D",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.6131,
+    83.7409,
+    61.3592
+   ],
+   "rotationDeg": [
+    0.0,
+    137.51,
+    0.0
+   ],
+   "scale": 1.4,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56E",
+   "assetId": "kotm:argonia/furniture/rustictable02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7708,
+    83.1582,
+    62.9973
+   ],
+   "rotationDeg": [
+    0.0,
+    193.843,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "furniture",
+   "base": "ALPARusticTable02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B56F",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.2686,
+    83.7409,
+    62.551
+   ],
+   "rotationDeg": [
+    0.0,
+    200.535,
+    0.0
+   ],
+   "scale": 1.4,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B570",
+   "assetId": "kotm:argonia/clutter/urn01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.5593,
+    83.0976,
+    62.5906
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.09,
+   "category": "clutter",
+   "base": "ALPAClutterPottery01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B571",
+   "assetId": "kotm:argonia/clutter/urn02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.0399,
+    83.0976,
+    62.4037
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.09,
+   "category": "clutter",
+   "base": "ALPAClutterPottery02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B572",
+   "assetId": "kotm:argonia/clutter/vase05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.3372,
+    83.6532,
+    62.8594
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.16,
+   "category": "clutter",
+   "base": "ALPAClutterPottery05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B573",
+   "assetId": "kotm:argonia/clutter/vase01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.1523,
+    82.7577,
+    63.1323
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterPottery03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B574",
+   "assetId": "kotm:argonia/clutter/urn02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.6783,
+    82.7577,
+    63.1265
+   ],
+   "rotationDeg": [
+    0.0,
+    279.786,
+    0.0
+   ],
+   "scale": 1.52,
+   "category": "clutter",
+   "base": "ALPAClutterPottery02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B575",
+   "assetId": "kotm:argonia/clutter/vase06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.5905,
+    83.6462,
+    63.1115
+   ],
+   "rotationDeg": [
+    0.0,
+    51.566,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "clutter",
+   "base": "ALPAClutterPottery06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B576",
+   "assetId": "kotm:argonia/clutter/vase03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.3479,
+    82.7577,
+    62.2053
+   ],
+   "rotationDeg": [
+    0.0,
+    337.082,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterPottery04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B577",
+   "assetId": "kotm:argonia/clutter/urn01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.0177,
+    83.5998,
+    62.5261
+   ],
+   "rotationDeg": [
+    0.0,
+    245.409,
+    0.0
+   ],
+   "scale": 1.09,
+   "category": "clutter",
+   "base": "ALPAClutterPottery01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57F",
+   "assetId": "vanilla:clutter/common/rag01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.5559,
+    83.6304,
+    62.6208
+   ],
+   "rotationDeg": [
+    -0.732,
+    326.644,
+    -0.329
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rag01",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B580",
+   "assetId": "vanilla:clutter/common/rag01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.3653,
+    83.6434,
+    62.5809
+   ],
+   "rotationDeg": [
+    1.973,
+    90.411,
+    3.189
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rag01",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B581",
+   "assetId": "kotm:argonia/clutter/firewoodpilesmall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.0838,
+    82.7577,
+    56.6457
+   ],
+   "rotationDeg": [
+    0.0,
+    251.138,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FirewoodPileSmall01Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B582",
+   "assetId": "kotm:argonia/clutter/firewoodpilelarge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.9236,
+    82.7577,
+    56.2903
+   ],
+   "rotationDeg": [
+    0.0,
+    148.006,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FirewoodPileLarge01Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B583",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    111.011,
+    83.2539,
+    60.0002
+   ],
+   "rotationDeg": [
+    0.0,
+    308.434,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BasketIngredientsCommonMurkmire",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B584",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    110.3604,
+    83.2785,
+    60.5889
+   ],
+   "rotationDeg": [
+    0.0,
+    256.868,
+    0.0
+   ],
+   "scale": 1.08,
+   "category": "container",
+   "base": "BasketFish01Murkmire",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0837",
+   "assetId": "kotm:argonia/clutter/firewoodpilehuge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.2333,
+    82.7577,
+    54.8185
+   ],
+   "rotationDeg": [
+    0.0,
+    130.818,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FirewoodPileHuge1Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0838",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    99.2441,
+    83.2508,
+    57.7124
+   ],
+   "rotationDeg": [
+    0.0,
+    125.088,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BasketMarshmerrow01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0839",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    99.0825,
+    83.3295,
+    56.7902
+   ],
+   "rotationDeg": [
+    0.0,
+    73.522,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083A",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.8392,
+    83.1666,
+    61.1375
+   ],
+   "rotationDeg": [
+    -3.134,
+    335.904,
+    -4.326
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083B",
+   "assetId": "kotm:mihail monsters and animals/rabbit/frog/frogmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.5122,
+    83.1805,
+    61.3847
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FrogLegRaw",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083C",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.4748,
+    83.1118,
+    61.411
+   ],
+   "rotationDeg": [
+    -0.122,
+    328.018,
+    0.13
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083D",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.3637,
+    83.6139,
+    61.5976
+   ],
+   "rotationDeg": [
+    0.036,
+    188.061,
+    -0.124
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083E",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.7512,
+    83.6136,
+    61.2257
+   ],
+   "rotationDeg": [
+    0.024,
+    302.799,
+    0.033
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A083F",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.3578,
+    83.6859,
+    61.6434
+   ],
+   "rotationDeg": [
+    -69.093,
+    179.327,
+    162.234
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0840",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.4059,
+    83.6795,
+    61.5824
+   ],
+   "rotationDeg": [
+    -22.772,
+    288.592,
+    -41.465
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0841",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.3186,
+    83.6824,
+    61.5753
+   ],
+   "rotationDeg": [
+    -39.891,
+    341.24,
+    -60.585
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0845",
+   "assetId": "vanilla:clutter/ingredients/saltpile",
+   "kit": "works-v1",
+   "positionM": [
+    109.8392,
+    84.1346,
+    61.0248
+   ],
+   "rotationDeg": [
+    -0.053,
+    68.843,
+    0.132
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaltPile",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0846",
+   "assetId": "vanilla:clutter/ingredients/saltpile",
+   "kit": "works-v1",
+   "positionM": [
+    109.6774,
+    84.1345,
+    61.2062
+   ],
+   "rotationDeg": [
+    0.08,
+    268.18,
+    0.263
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaltPile",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0848",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.4402,
+    83.6601,
+    57.6558
+   ],
+   "rotationDeg": [
+    0.521,
+    28.65,
+    -0.117
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0849",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.5492,
+    83.6586,
+    57.2956
+   ],
+   "rotationDeg": [
+    0.036,
+    302.704,
+    0.029
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084A",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.0115,
+    83.66,
+    58.3077
+   ],
+   "rotationDeg": [
+    -0.01,
+    302.706,
+    0.011
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084B",
+   "assetId": "kotm:argonia/clutter/vase06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.9712,
+    83.6532,
+    57.6079
+   ],
+   "rotationDeg": [
+    0.0,
+    342.811,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "clutter",
+   "base": "ALPAClutterPottery06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084C",
+   "assetId": "vanilla:clutter/basket01",
+   "kit": "underwater-v1",
+   "positionM": [
+    106.0808,
+    83.601,
+    53.6625
+   ],
+   "rotationDeg": [
+    0.401,
+    1.404,
+    -2.586
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084D",
+   "assetId": "vanilla:clutter/basket06",
+   "kit": "works-v1",
+   "positionM": [
+    106.3733,
+    84.6463,
+    53.6035
+   ],
+   "rotationDeg": [
+    -0.129,
+    0.009,
+    0.016
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket06",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084E",
+   "assetId": "vanilla:clutter/basket02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.3675,
+    82.7635,
+    53.6581
+   ],
+   "rotationDeg": [
+    -0.127,
+    359.982,
+    0.038
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket02",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A084F",
+   "assetId": "vanilla:clutter/basket04",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    107.3277,
+    82.7622,
+    53.5587
+   ],
+   "rotationDeg": [
+    0.121,
+    0.181,
+    -0.07
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket04",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0850",
+   "assetId": "vanilla:clutter/basket03",
+   "kit": "works-v1",
+   "positionM": [
+    106.6176,
+    83.0661,
+    53.6716
+   ],
+   "rotationDeg": [
+    0.165,
+    0.544,
+    0.106
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Basket03",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0856",
+   "assetId": "kotm:loliceptresource/barrel/miscbarrelopen01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.3247,
+    86.2304,
+    52.7414
+   ],
+   "rotationDeg": [
+    0.0,
+    170.924,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "ALPAClutterBarrelTools01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0857",
+   "assetId": "kotm:argonia/clutter/firewoodpilelarge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.1298,
+    86.2304,
+    53.8229
+   ],
+   "rotationDeg": [
+    0.0,
+    216.761,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FirewoodPileLarge01Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0858",
+   "assetId": "kotm:argonia/clutter/urn01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.7387,
+    86.2304,
+    52.5434
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.55,
+   "category": "clutter",
+   "base": "ALPAClutterPottery01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0859",
+   "assetId": "kotm:argonia/clutter/urn02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.1208,
+    86.2304,
+    52.907
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.55,
+   "category": "clutter",
+   "base": "ALPAClutterPottery02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085A",
+   "assetId": "kotm:argonia/clutter/vase01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.3197,
+    86.2304,
+    52.3772
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.47,
+   "category": "clutter",
+   "base": "ALPAClutterPottery03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085B",
+   "assetId": "kotm:argonia/clutter/wallbasket01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    111.0794,
+    84.9147,
+    53.4048
+   ],
+   "rotationDeg": [
+    -12.322,
+    57.043,
+    -4.63
+   ],
+   "scale": 1.62,
+   "category": "clutter",
+   "base": "ALPAWallBasket05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085C",
+   "assetId": "kotm:argonia/clutter/wallbasket04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.2234,
+    84.0116,
+    52.643
+   ],
+   "rotationDeg": [
+    -13.131,
+    41.09,
+    -0.723
+   ],
+   "scale": 1.24,
+   "category": "clutter",
+   "base": "ALPAWallBasket08",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085D",
+   "assetId": "kotm:argonia/clutter/wallbasket03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.6249,
+    84.4171,
+    51.5315
+   ],
+   "rotationDeg": [
+    -4.164,
+    328.237,
+    12.485
+   ],
+   "scale": 1.62,
+   "category": "clutter",
+   "base": "ALPAWallBasket07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085E",
+   "assetId": "kotm:argonia/clutter/saxhleeltapestry01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.0933,
+    89.334,
+    63.6683
+   ],
+   "rotationDeg": [
+    0.0,
+    85.944,
+    0.0
+   ],
+   "scale": 1.25,
+   "category": "clutter",
+   "base": "ALPAClutterTapestry01",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A085F",
+   "assetId": "kotm:argonia/clutter/saxhleeltapestry02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.9729,
+    89.334,
+    62.7722
+   ],
+   "rotationDeg": [
+    0.0,
+    126.051,
+    0.0
+   ],
+   "scale": 1.25,
+   "category": "clutter",
+   "base": "ALPAClutterTapestry02",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0860",
+   "assetId": "kotm:argonia/clutter/wallbasket06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.8319,
+    84.14,
+    63.0273
+   ],
+   "rotationDeg": [
+    0.0,
+    143.239,
+    0.0
+   ],
+   "scale": 1.22,
+   "category": "clutter",
+   "base": "ALPAWallBasket10",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0861",
+   "assetId": "kotm:argonia/clutter/wallbasket05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.8552,
+    84.6926,
+    63.9463
+   ],
+   "rotationDeg": [
+    11.401,
+    166.5,
+    -1.159
+   ],
+   "scale": 1.39,
+   "category": "clutter",
+   "base": "ALPAWallBasket09",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0862",
+   "assetId": "kotm:argonia/clutter/hangingfeathers01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.0098,
+    86.2095,
+    56.7168
+   ],
+   "rotationDeg": [
+    0.0,
+    5.73,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAWallBasketHangingFeathers01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0865",
+   "assetId": "kotm:argonia/clutter/wallbasket06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.3392,
+    91.5559,
+    59.6135
+   ],
+   "rotationDeg": [
+    -35.122,
+    7.207,
+    117.486
+   ],
+   "scale": 1.37,
+   "category": "clutter",
+   "base": "ALPAWallBasket10",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0866",
+   "assetId": "kotm:argonia/clutter/wallbasket05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.3247,
+    92.0828,
+    60.6937
+   ],
+   "rotationDeg": [
+    1.571,
+    127.955,
+    112.188
+   ],
+   "scale": 1.69,
+   "category": "clutter",
+   "base": "ALPAWallBasket09",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0867",
+   "assetId": "kotm:argonia/clutter/tamwindchime01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.5661,
+    92.6678,
+    56.9598
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.19,
+   "category": "clutter",
+   "base": "ALPAClutterWindchime01Red",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0868",
+   "assetId": "kotm:argonia/clutter/wallbasket04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.2328,
+    92.215,
+    55.7896
+   ],
+   "rotationDeg": [
+    -47.789,
+    54.305,
+    -136.746
+   ],
+   "scale": 1.69,
+   "category": "clutter",
+   "base": "ALPAWallBasket08",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0869",
+   "assetId": "vanilla:clutter/common/rug03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.3049,
+    86.2304,
+    54.8491
+   ],
+   "rotationDeg": [
+    0.0,
+    274.056,
+    0.0
+   ],
+   "scale": 1.27,
+   "category": "clutter",
+   "base": "Rug03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A086A",
+   "assetId": "vanilla:clutter/common/rug07",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.7681,
+    82.7577,
+    59.0941
+   ],
+   "rotationDeg": [
+    0.0,
+    348.541,
+    0.0
+   ],
+   "scale": 1.09,
+   "category": "clutter",
+   "base": "Rug07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A086B",
+   "assetId": "vanilla:clutter/common/rug03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.2603,
+    82.7541,
+    60.5961
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.2,
+   "category": "clutter",
+   "base": "Rug03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A086D",
+   "assetId": "kotm:oaristys/clutter/rugs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.8809,
+    89.4029,
+    56.318
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterRugs",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A086E",
+   "assetId": "vanilla:clutter/common/candlelanternwithcandle01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.8237,
+    89.886,
+    59.0228
+   ],
+   "rotationDeg": [
+    0.0,
+    319.893,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleLanternwithCandle01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A086F",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.9895,
+    89.9035,
+    54.4369
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "GlazedCandlesStatic",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0870",
+   "assetId": "vanilla:clutter/common/candlelanternwithcandle01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    102.5514,
+    83.679,
+    57.9242
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleLanternwithCandle01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0875",
+   "assetId": "vanilla:furniture/smallcookingpotnohandle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.262,
+    82.7577,
+    58.3258
+   ],
+   "rotationDeg": [
+    0.0,
+    85.944,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CraftingCookingPotSmNoHandleArgonian",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0876",
+   "assetId": "vanilla:clutter/woodfires/cookingstand01",
+   "kit": "works-v1",
+   "positionM": [
+    109.2503,
+    82.7577,
+    58.3134
+   ],
+   "rotationDeg": [
+    0.0,
+    85.944,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CookingStandArgonian",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0877",
+   "assetId": "kotm:argonia/food/flatbread",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.9263,
+    82.9122,
+    58.2335
+   ],
+   "rotationDeg": [
+    -0.05,
+    338.859,
+    -0.3
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaltriceFlatbread",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5DB",
+   "assetId": "kotm:argonia/clutter/burner02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    111.9254,
+    81.8818,
+    58.4845
+   ],
+   "rotationDeg": [
+    0.0,
+    5.73,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFurnWoodBurner02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5DC",
+   "assetId": "vanilla:effects/fxfirewithembers01",
+   "kit": "works-v1",
+   "positionM": [
+    111.4299,
+    83.0089,
+    58.4421
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "effect",
+   "base": "FXfireWithEmbersHeavy",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5DD",
+   "assetId": "kotm:argonia/mudhuts/mudhutchimney",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    111.9216,
+    87.3804,
+    58.4275
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    -180.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutChimney01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5DE",
+   "assetId": "vanilla:architecture/riften/clutter/rtchimney01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    111.9285,
+    86.1743,
+    58.4391
+   ],
+   "rotationDeg": [
+    0.0,
+    3.73,
+    0.0
+   ],
+   "scale": 0.48,
+   "category": "architecture",
+   "base": "MudHutChimney02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5E6",
+   "assetId": "vanilla:architecture/riften/clutter/rtchimney01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    111.9381,
+    87.9646,
+    58.4757
+   ],
+   "rotationDeg": [
+    0.0,
+    3.73,
+    0.0
+   ],
+   "scale": 0.45,
+   "category": "architecture",
+   "base": "MudHutChimney02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.081AD5F7",
+   "assetId": "kotm:argonia/clutter/spinningwheel",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.3447,
+    82.7435,
+    61.9775
+   ],
+   "rotationDeg": [
+    0.0,
+    11.459,
+    0.0
+   ],
+   "scale": 1.15,
+   "category": "clutter",
+   "base": "ALPAClutterSpinningWheel",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BF9",
+   "assetId": "vanilla:clutter/books/basicbook01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.2771,
+    89.8777,
+    59.3463
+   ],
+   "rotationDeg": [
+    0.0,
+    342.811,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookKeshuTravels02",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BFB",
+   "assetId": "vanilla:clutter/books/basicbook06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.1188,
+    83.0771,
+    53.5201
+   ],
+   "rotationDeg": [
+    0.0,
+    285.516,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookRhymesAndChimes",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BFC",
+   "assetId": "vanilla:clutter/books/basicbook03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.1821,
+    84.1255,
+    53.5568
+   ],
+   "rotationDeg": [
+    0.0,
+    348.541,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookGiftOfLilmothiit",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BFD",
+   "assetId": "vanilla:clutter/books/basicbook03a",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.9665,
+    84.1826,
+    53.5211
+   ],
+   "rotationDeg": [
+    0.0,
+    199.572,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookBewareWitchlightsTale",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BFE",
+   "assetId": "vanilla:clutter/books/book02lowpoly",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.6087,
+    84.1433,
+    53.4776
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookLostTales02",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseCrafter.08AA3221",
+   "assetId": "vanilla:clutter/books/basicbook04a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.4463,
+    89.884,
+    58.9737
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookKeshuForeignAdventures05",
+   "baseType": "BOOK"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "0809B4AD",
+   "positionM": [
+    110.5279,
+    83.3287,
+    58.3267
+   ],
+   "radiusM": 4.624,
+   "colorRGB": [
+    225,
+    121,
+    51
+   ],
+   "fade": 3.0,
+   "flags": 12297,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesShadowSlow",
+   "raw": {
+    "xrdsUnits": 325.075,
+    "baseRadiusUnits": 384
+   }
+  },
+  {
+   "refId": "0809B4B4",
+   "positionM": [
+    103.2045,
+    84.5988,
+    57.8365
+   ],
+   "radiusM": 3.508,
+   "colorRGB": [
+    184,
+    96,
+    7
+   ],
+   "fade": 2.0,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFiretDefault",
+   "raw": {
+    "xrdsUnits": 246.638,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "0809B555",
+   "positionM": [
+    105.9487,
+    91.2933,
+    57.4255
+   ],
+   "radiusM": 0.674,
+   "colorRGB": [
+    184,
+    96,
+    7
+   ],
+   "fade": 2.0,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFiretDefault",
+   "raw": {
+    "xrdsUnits": 47.398,
+    "baseRadiusUnits": 256
+   }
+  }
+ ],
+ "sockets": [
+  {
+   "id": "socket.KeebaHouseCrafter.0809B556",
+   "kind": "idle",
+   "positionM": [
+    102.3176,
+    82.7577,
+    53.1078
+   ],
+   "yawDeg": 153.736,
+   "host": "KeebaHouseCrafter.0809B556",
+   "activity": "sleep",
+   "why": "ALPARusticBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B557",
+   "kind": "idle",
+   "positionM": [
+    110.0344,
+    82.7577,
+    54.6513
+   ],
+   "yawDeg": 228.22,
+   "host": "KeebaHouseCrafter.0809B557",
+   "activity": "sleep",
+   "why": "ALPARusticBed01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B559",
+   "kind": "container",
+   "positionM": [
+    108.6183,
+    83.9021,
+    52.6534
+   ],
+   "yawDeg": 314.164,
+   "host": "KeebaHouseCrafter.0809B559",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticCupboard01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B55A",
+   "kind": "container",
+   "positionM": [
+    102.9567,
+    83.0055,
+    54.3975
+   ],
+   "yawDeg": 153.736,
+   "host": "KeebaHouseCrafter.0809B55A",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticChest01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B55C",
+   "kind": "idle",
+   "positionM": [
+    103.8022,
+    82.7435,
+    52.2158
+   ],
+   "yawDeg": 183.347,
+   "host": "KeebaHouseCrafter.0809B55C",
+   "activity": "sit",
+   "why": "ALPARusticChair02 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B55D",
+   "kind": "idle",
+   "positionM": [
+    102.8527,
+    89.4031,
+    55.655
+   ],
+   "yawDeg": 143.24,
+   "host": "KeebaHouseCrafter.0809B55D",
+   "activity": "sleep",
+   "why": "ALPARusticBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B55E",
+   "kind": "idle",
+   "positionM": [
+    102.0042,
+    89.4031,
+    56.2888
+   ],
+   "yawDeg": 143.24,
+   "host": "KeebaHouseCrafter.0809B55E",
+   "activity": "sleep",
+   "why": "ALPARusticBed01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B562",
+   "kind": "idle",
+   "positionM": [
+    107.0606,
+    89.4028,
+    58.0169
+   ],
+   "yawDeg": 193.843,
+   "host": "KeebaHouseCrafter.0809B562",
+   "activity": "sit",
+   "why": "ALPARusticChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B563",
+   "kind": "idle",
+   "positionM": [
+    106.0856,
+    89.4029,
+    60.3598
+   ],
+   "yawDeg": 27.685,
+   "host": "KeebaHouseCrafter.0809B563",
+   "activity": "sit",
+   "why": "ALPARusticChair01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B565",
+   "kind": "container",
+   "positionM": [
+    106.8818,
+    89.6598,
+    54.696
+   ],
+   "yawDeg": 28.648,
+   "host": "KeebaHouseCrafter.0809B565",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticChest01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B568",
+   "kind": "idle",
+   "positionM": [
+    101.8206,
+    82.7577,
+    56.6028
+   ],
+   "yawDeg": 120.321,
+   "host": "KeebaHouseCrafter.0809B568",
+   "activity": "sit",
+   "why": "ALPARusticChair01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B56A",
+   "kind": "idle",
+   "positionM": [
+    101.3698,
+    82.7577,
+    57.5551
+   ],
+   "yawDeg": 108.862,
+   "host": "KeebaHouseCrafter.0809B56A",
+   "activity": "sit",
+   "why": "ALPARusticChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B56B",
+   "kind": "idle",
+   "positionM": [
+    103.8331,
+    82.7577,
+    58.7507
+   ],
+   "yawDeg": 303.668,
+   "host": "KeebaHouseCrafter.0809B56B",
+   "activity": "sit",
+   "why": "ALPARusticChair01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B56C",
+   "kind": "idle",
+   "positionM": [
+    104.292,
+    82.7577,
+    57.9453
+   ],
+   "yawDeg": 292.209,
+   "host": "KeebaHouseCrafter.0809B56C",
+   "activity": "sit",
+   "why": "ALPARusticChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B583",
+   "kind": "container",
+   "positionM": [
+    111.011,
+    83.2539,
+    60.0002
+   ],
+   "yawDeg": 308.434,
+   "host": "KeebaHouseCrafter.0809B583",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketIngredientsCommonMurkmire placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.0809B584",
+   "kind": "container",
+   "positionM": [
+    110.3604,
+    83.2785,
+    60.5889
+   ],
+   "yawDeg": 256.868,
+   "host": "KeebaHouseCrafter.0809B584",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketFish01Murkmire placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0838",
+   "kind": "container",
+   "positionM": [
+    99.2441,
+    83.2508,
+    57.7124
+   ],
+   "yawDeg": 125.088,
+   "host": "KeebaHouseCrafter.080A0838",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketMarshmerrow01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0839",
+   "kind": "container",
+   "positionM": [
+    99.0825,
+    83.3295,
+    56.7902
+   ],
+   "yawDeg": 73.522,
+   "host": "KeebaHouseCrafter.080A0839",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083A",
+   "kind": "item",
+   "positionM": [
+    109.8392,
+    83.1666,
+    61.1375
+   ],
+   "yawDeg": 336.141,
+   "host": "KeebaHouseCrafter.080A083A",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083B",
+   "kind": "item",
+   "positionM": [
+    109.5122,
+    83.1805,
+    61.3847
+   ],
+   "yawDeg": 325.623,
+   "host": "KeebaHouseCrafter.080A083B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FrogLegRaw placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083C",
+   "kind": "item",
+   "positionM": [
+    109.4748,
+    83.1118,
+    61.411
+   ],
+   "yawDeg": 328.018,
+   "host": "KeebaHouseCrafter.080A083C",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083D",
+   "kind": "item",
+   "positionM": [
+    109.3637,
+    83.6139,
+    61.5976
+   ],
+   "yawDeg": 188.061,
+   "host": "KeebaHouseCrafter.080A083D",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083E",
+   "kind": "item",
+   "positionM": [
+    109.7512,
+    83.6136,
+    61.2257
+   ],
+   "yawDeg": 302.799,
+   "host": "KeebaHouseCrafter.080A083E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A083F",
+   "kind": "item",
+   "positionM": [
+    109.3578,
+    83.6859,
+    61.6434
+   ],
+   "yawDeg": 15.99,
+   "host": "KeebaHouseCrafter.080A083F",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0840",
+   "kind": "item",
+   "positionM": [
+    109.4059,
+    83.6795,
+    61.5824
+   ],
+   "yawDeg": 307.474,
+   "host": "KeebaHouseCrafter.080A0840",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0841",
+   "kind": "item",
+   "positionM": [
+    109.3186,
+    83.6824,
+    61.5753
+   ],
+   "yawDeg": 29.92,
+   "host": "KeebaHouseCrafter.080A0841",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0845",
+   "kind": "item",
+   "positionM": [
+    109.8392,
+    84.1346,
+    61.0248
+   ],
+   "yawDeg": 68.843,
+   "host": "KeebaHouseCrafter.080A0845",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SaltPile placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0846",
+   "kind": "item",
+   "positionM": [
+    109.6774,
+    84.1345,
+    61.2062
+   ],
+   "yawDeg": 268.18,
+   "host": "KeebaHouseCrafter.080A0846",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SaltPile placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0848",
+   "kind": "item",
+   "positionM": [
+    103.4402,
+    83.6601,
+    57.6558
+   ],
+   "yawDeg": 28.649,
+   "host": "KeebaHouseCrafter.080A0848",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0849",
+   "kind": "item",
+   "positionM": [
+    102.5492,
+    83.6586,
+    57.2956
+   ],
+   "yawDeg": 302.704,
+   "host": "KeebaHouseCrafter.080A0849",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A084A",
+   "kind": "item",
+   "positionM": [
+    103.0115,
+    83.66,
+    58.3077
+   ],
+   "yawDeg": 302.706,
+   "host": "KeebaHouseCrafter.080A084A",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A084C",
+   "kind": "item",
+   "positionM": [
+    106.0808,
+    83.601,
+    53.6625
+   ],
+   "yawDeg": 1.386,
+   "host": "KeebaHouseCrafter.080A084C",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A084D",
+   "kind": "item",
+   "positionM": [
+    106.3733,
+    84.6463,
+    53.6035
+   ],
+   "yawDeg": 0.009,
+   "host": "KeebaHouseCrafter.080A084D",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket06 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A084E",
+   "kind": "item",
+   "positionM": [
+    105.3675,
+    82.7635,
+    53.6581
+   ],
+   "yawDeg": 359.981,
+   "host": "KeebaHouseCrafter.080A084E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket02 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A084F",
+   "kind": "item",
+   "positionM": [
+    107.3277,
+    82.7622,
+    53.5587
+   ],
+   "yawDeg": 0.181,
+   "host": "KeebaHouseCrafter.080A084F",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket04 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0850",
+   "kind": "item",
+   "positionM": [
+    106.6176,
+    83.0661,
+    53.6716
+   ],
+   "yawDeg": 0.545,
+   "host": "KeebaHouseCrafter.080A0850",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Basket03 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0871",
+   "kind": "idle",
+   "positionM": [
+    107.6417,
+    82.7577,
+    60.6508
+   ],
+   "yawDeg": 279.786,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0872",
+   "kind": "idle",
+   "positionM": [
+    103.2589,
+    82.7732,
+    60.5228
+   ],
+   "yawDeg": 74.485,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0873",
+   "kind": "idle",
+   "positionM": [
+    104.1606,
+    89.4092,
+    57.3704
+   ],
+   "yawDeg": 143.239,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0874",
+   "kind": "idle",
+   "positionM": [
+    105.9506,
+    82.772,
+    55.2865
+   ],
+   "yawDeg": 177.617,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0875",
+   "kind": "idle",
+   "positionM": [
+    109.262,
+    82.7577,
+    58.3258
+   ],
+   "yawDeg": 85.944,
+   "host": "KeebaHouseCrafter.080A0875",
+   "activity": "work-at",
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.080A0877",
+   "kind": "item",
+   "positionM": [
+    109.9263,
+    82.9122,
+    58.2335
+   ],
+   "yawDeg": 338.859,
+   "host": "KeebaHouseCrafter.080A0877",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SaltriceFlatbread placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08989BF9",
+   "kind": "item",
+   "positionM": [
+    106.2771,
+    89.8777,
+    59.3463
+   ],
+   "yawDeg": 342.811,
+   "host": "KeebaHouseCrafter.08989BF9",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookKeshuTravels02 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08989BFB",
+   "kind": "item",
+   "positionM": [
+    106.1188,
+    83.0771,
+    53.5201
+   ],
+   "yawDeg": 285.516,
+   "host": "KeebaHouseCrafter.08989BFB",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookRhymesAndChimes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08989BFC",
+   "kind": "item",
+   "positionM": [
+    106.1821,
+    84.1255,
+    53.5568
+   ],
+   "yawDeg": 348.541,
+   "host": "KeebaHouseCrafter.08989BFC",
+   "itemClass": "book",
+   "valueBand": "low",
+   "contentPending": true,
+   "why": "KoTMBookGiftOfLilmothiit placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08989BFD",
+   "kind": "item",
+   "positionM": [
+    105.9665,
+    84.1826,
+    53.5211
+   ],
+   "yawDeg": 199.572,
+   "host": "KeebaHouseCrafter.08989BFD",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookBewareWitchlightsTale placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08989BFE",
+   "kind": "item",
+   "positionM": [
+    106.6087,
+    84.1433,
+    53.4776
+   ],
+   "yawDeg": 274.057,
+   "host": "KeebaHouseCrafter.08989BFE",
+   "itemClass": "book",
+   "valueBand": "low",
+   "contentPending": true,
+   "why": "KoTMBookLostTales02 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseCrafter.08AA3221",
+   "kind": "item",
+   "positionM": [
+    106.4463,
+    89.884,
+    58.9737
+   ],
+   "yawDeg": 0.0,
+   "host": "KeebaHouseCrafter.08AA3221",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookKeshuForeignAdventures05 placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "0809B4AD",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesShadowSlow",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "0809B4B4",
+   "reason": "light-source",
+   "base": "SolitudeInnFiretDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "0809B555",
+   "reason": "light-source",
+   "base": "SolitudeInnFiretDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "080A0871",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "080A0872",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "080A0873",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "080A0874",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "080A0880",
+   "reason": "actor",
+   "base": "KeebaCarpenter",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "080A0881",
+   "reason": "actor",
+   "base": "KeebaCrafter",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "080A0882",
+   "reason": "actor",
+   "base": "KeebaPotter",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "080A0883",
+   "reason": "actor",
+   "base": "KeebaWeaver",
+   "baseType": "NPC_"
+  }
+ ],
+ "substitutions": [
+  {
+   "id": "KeebaHouseCrafter.0809B578",
+   "refId": "0809B578",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    105.2911,
+    83.6599,
+    63.1714
+   ],
+   "rotationDeg": [
+    -0.128,
+    274.063,
+    -0.306
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B579",
+   "refId": "0809B579",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    105.1231,
+    83.6601,
+    63.1507
+   ],
+   "rotationDeg": [
+    -0.012,
+    91.643,
+    -0.073
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57A",
+   "refId": "0809B57A",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    105.2046,
+    83.7356,
+    63.1664
+   ],
+   "rotationDeg": [
+    -0.066,
+    337.087,
+    0.4
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57B",
+   "refId": "0809B57B",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    103.5985,
+    84.0897,
+    62.6366
+   ],
+   "rotationDeg": [
+    0.034,
+    296.973,
+    -0.293
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57C",
+   "refId": "0809B57C",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    103.4301,
+    84.0901,
+    62.5737
+   ],
+   "rotationDeg": [
+    0.113,
+    111.805,
+    -0.133
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57D",
+   "refId": "0809B57D",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    103.5167,
+    84.165,
+    62.6095
+   ],
+   "rotationDeg": [
+    0.088,
+    291.28,
+    -0.206
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.0809B57E",
+   "refId": "0809B57E",
+   "originalPath": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
+   "positionM": [
+    103.1637,
+    84.0898,
+    62.4961
+   ],
+   "rotationDeg": [
+    0.247,
+    177.113,
+    0.009
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0842",
+   "refId": "080A0842",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000D6C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Bog Beacon FExxxD6C",
+   "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bog beacon cap sits here; scaly pholiota takes its place.",
+   "positionM": [
+    109.7348,
+    83.6808,
+    61.1602
+   ],
+   "rotationDeg": [
+    -63.074,
+    105.185,
+    -63.922
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0843",
+   "refId": "080A0843",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000D6C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Bog Beacon FExxxD6C",
+   "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bog beacon cap sits here; scaly pholiota takes its place.",
+   "positionM": [
+    109.7672,
+    83.6882,
+    61.3122
+   ],
+   "rotationDeg": [
+    52.793,
+    214.945,
+    81.77
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0844",
+   "refId": "080A0844",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
+   "positionM": [
+    109.4187,
+    84.0858,
+    61.4707
+   ],
+   "rotationDeg": [
+    -0.001,
+    1.926,
+    -0.005
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0863",
+   "refId": "080A0863",
+   "originalPath": "_resourcepack/clutter/modular/modularrug01.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    106.3226,
+    82.7658,
+    55.21
+   ],
+   "rotationDeg": [
+    0.0,
+    97.403,
+    0.0
+   ],
+   "scale": 1.14
+  },
+  {
+   "id": "KeebaHouseCrafter.080A0864",
+   "refId": "080A0864",
+   "originalPath": "_resourcepack/clutter/modular/modularrug01.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    104.0231,
+    89.4031,
+    57.7058
+   ],
+   "rotationDeg": [
+    0.0,
+    45.837,
+    0.0
+   ],
+   "scale": 1.14
+  },
+  {
+   "id": "KeebaHouseCrafter.08989BFA",
+   "refId": "08989BFA",
+   "originalPath": "argonia/clutter/boneflute01.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record MISC (a carried item)",
+   "standInAsset": "vanilla:clutter/common/flute01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bone flute lies here; its texture is not in the vault, so a wooden flute takes its place.",
+   "positionM": [
+    106.6151,
+    83.6451,
+    53.6129
+   ],
+   "rotationDeg": [
+    -19.098,
+    306.236,
+    -19.913
+   ],
+   "scale": 1.0
+  }
+ ],
+ "counts": {
+  "placements": 144,
+  "drops": 11,
+  "lights": 3,
+  "substitutions": 13,
+  "missingByClass": {},
+  "dropsByReason": {
+   "actor": 4,
+   "light-source": 3,
+   "marker": 4
+  },
+  "socketsByKind": {
+   "container": 7,
+   "idle": 16,
+   "item": 25
+  }
+ }
+}

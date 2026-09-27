@@ -322,7 +322,7 @@ def test_the_live_export_stands_where_the_workbench_measured():
     ground row the export measured is compiled at that y within 0.02 m and
     marked yFinal. RED until the place lane re-exports and republishes
     Claywater with yMeasured (the walk-2 export predates the ruling)."""
-    bp = json.loads((paths.BLUEPRINTS / f"{PLACE}.json").read_text())
+    bp = json.loads((paths.BLUEPRINTS / f"{PLACE}.json").read_text())["blueprint"]
     measured = {}
     for parcel in bp.get("parcels", []):
         if "yMeasured" in parcel:

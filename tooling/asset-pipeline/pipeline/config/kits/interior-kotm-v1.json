@@ -1,6 +1,6 @@
 {
   "id": "interior-kotm-v1",
-  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher and KeebaHouseCrafter, the cells linked to the smpodext02 pod (interiors round 7). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27).",
+  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher, KeebaHouseCrafter and KeebaHouseSnailMinder, the cells linked to the smpodext02 pod (interiors round 7; SnailMinder and Crafter gaps added walk 2). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27).",
   "culture": "argonian",
   "output": "tooling/asset-pipeline/output/kits/interior-kotm-v1.glb",
   "lodRatios": [
@@ -244,6 +244,66 @@
     },
     {
       "asset": "vanilla:clutter/food/cookedslaughterfishsteak01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/wallbasket02"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasketlarge01"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasket03"
+    },
+    {
+      "asset": "kotm:skinwalker21 creatures/horker/giant snail/shell"
+    },
+    {
+      "asset": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime"
+    },
+    {
+      "asset": "vanilla:clutter/blacksmith/blacksmithnovicetongs01"
+    },
+    {
+      "asset": "vanilla:clutter/bucket02a"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticbench01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/amberbee"
+    },
+    {
+      "asset": "vanilla:critters/bee/beehoneycomb"
+    },
+    {
+      "asset": "vanilla:plants/giantlichen01"
+    },
+    {
+      "asset": "kotm:argonia/food/sakebottle"
+    },
+    {
+      "asset": "vanilla:clothes/monk/monkrobesgnd"
+    },
+    {
+      "asset": "vanilla:clutter/woodfires/cookingstand02"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle02a"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug01"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug02"
+    },
+    {
+      "asset": "vanilla:clutter/common/flute01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/scalypholiotabits01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/trollfat01"
     }
   ],
   "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle.",
