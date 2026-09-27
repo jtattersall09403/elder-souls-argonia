@@ -14,6 +14,9 @@
  * shape, both of which this component only consumes.
  *
  * Mounted inside the Canvas (it draws) and behind the character view only.
+ * Its screen UI (prompt, notice, menu) is `TravelOverlay`, put in the
+ * character view's screen overlay (DOM over the canvas), never a drei
+ * full-screen `Html`: that one projected a world-origin anchor (walk 2 D2).
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
@@ -29,40 +32,25 @@ import {
   type TravelServiceGraph,
 } from "@elder-souls/game-core/travel/travelServices";
 import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
-import { input } from "@elder-souls/game-core/io/input";
 import { createStudioWorldState } from "./studioWorldState";
 import { nearestSocket, TALK_RADIUS_M, type SocketPoint } from "./nearestSocket";
+import { TALK_TEXT_ID, TravelOverlay } from "./travelOverlay";
+import type { ScreenOverlayChannel } from "../character/screenOverlay";
 
 /** Debug purse the studio traveller carries. */
 const STUDIO_PURSE_GOLD = 100;
 /** Sockets beyond this are not drawn: their ground is not loaded anyway. */
 const DRAW_RADIUS_M = 3000;
 const ARRIVED_MS = 3000;
-const TALK_TEXT_ID = "text.travel.prompt-talk";
 
 /** The socket's id as the interaction arbiter knows it. */
 const candidateId = (s: SocketPoint) => `travel:${s.serviceId}:${s.stationId}`;
-
-/** Catalogue lookup that survives a record naming a string nobody wrote:
- * this is a debug seam, so a missing id shows as the id. */
-function safeText(id: string): string {
-  try {
-    return text(CATALOGUE, id);
-  } catch {
-    return id;
-  }
-}
-
-/** `{name}` substitution. The catalogue stores the string; the caller fills it. */
-function fill(template: string, values: Record<string, string>): string {
-  return template.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);
-}
 
 interface Placed extends SocketPoint {
   y: number;
 }
 
-export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, interaction, offering }: {
+export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, interaction, offering, overlay }: {
   /** Live character position in world metres (east, south). */
   positionRef: React.MutableRefObject<{ x: number; z: number }>;
   /** Terrain height at a world point, or null where no chunk is loaded. */
@@ -74,6 +62,8 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, inte
   interaction: InteractionArbiter;
   /** False while nothing here can be reached (the player is inside a cell). */
   offering: boolean;
+  /** Where the prompt, notice and menu are drawn: DOM over the canvas. */
+  overlay: ScreenOverlayChannel;
 }) {
   const [index, setIndex] = useState<TravelGraphIndex | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -179,8 +169,16 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, inte
     setMenu(null);
   };
 
-  const panel = menu?.menu;
-  const service = panel?.service;
+  // The screen UI, handed to the DOM over the canvas whenever what it shows changes.
+  const prompt = near && focused ? near : null;
+  useEffect(() => {
+    overlay.set("travel", (
+      <TravelOverlay loadError={loadError} prompt={prompt} notice={notice} menu={menu?.menu ?? null}
+        purse={purse} onTravel={travel} onClose={() => setMenu(null)} />
+    ));
+    // `travel` closes over index, menu, purse and teleportTo: all listed.
+  }, [overlay, loadError, prompt, notice, menu, purse, index, teleportTo]);
+  useEffect(() => () => overlay.set("travel", null), [overlay]);
 
   return (
     <group>
@@ -201,72 +199,6 @@ export function TravelSockets({ positionRef, groundAt, teleportTo, baseUrl, inte
           </Html>
         </group>
       ))}
-      <Html fullscreen zIndexRange={[20, 10]} style={{ pointerEvents: "none" }}>
-        {loadError && (
-          <div style={{ position: "absolute", top: 120, left: 12, color: "#ff9a9a", font: "12px system-ui" }}>
-            travel sockets: {loadError}
-          </div>
-        )}
-        {near && focused && !menu && (
-          <div data-travel-prompt data-ui-capture
-            // The prompt is the touch button: pressing it is `activate`.
-            onPointerDown={(e) => { e.preventDefault(); input.setVirtual("activate", true); }}
-            onPointerUp={() => input.setVirtual("activate", false)}
-            onPointerCancel={() => input.setVirtual("activate", false)}
-            onPointerLeave={() => input.setVirtual("activate", false)}
-            style={{
-              position: "absolute", bottom: "26%", left: "50%", transform: "translateX(-50%)",
-              background: "rgba(10,14,20,0.8)", padding: "8px 18px", borderRadius: 8,
-              font: "18px system-ui", color: "#ffd9a0", whiteSpace: "nowrap",
-              pointerEvents: "auto", touchAction: "none", cursor: "pointer",
-            }}>
-            {fill(text(CATALOGUE, TALK_TEXT_ID), { role: near.role })} <span style={{ opacity: 0.7 }}>[E]</span>
-          </div>
-        )}
-        {notice && !menu && (
-          <div role="status" data-travel-notice style={{
-            position: "absolute", top: "34%", left: "50%", transform: "translate(-50%, -50%)",
-            background: "rgba(10,14,20,0.8)", padding: "12px 22px", borderRadius: 10,
-            font: "20px system-ui", color: "#ffd9a0", whiteSpace: "nowrap",
-          }}>
-            {notice}
-          </div>
-        )}
-        {panel && service && (
-          <div data-travel-menu style={{
-            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-            width: 380, maxHeight: "70vh", overflowY: "auto", pointerEvents: "auto",
-            background: "rgba(10,14,20,0.92)", border: "1px solid #3a4550", borderRadius: 10,
-            padding: "14px 16px", font: "14px system-ui", color: "#e6ecf5",
-          }}>
-            <div style={{ font: "600 16px system-ui", marginBottom: 6 }}>{safeText(service.text.name)}</div>
-            <div style={{ opacity: 0.9, marginBottom: 8 }}>
-              {safeText(panel.refusal ? panel.refusal.textId : service.text.hail)}
-            </div>
-            <div style={{ marginBottom: 10, opacity: 0.85 }}>
-              {panel.refusal
-                ? null
-                : panel.unavailable
-                  ? text(CATALOGUE, "text.travel.unavailable")
-                  : panel.fareGold === 0
-                    ? text(CATALOGUE, "text.travel.menu-free")
-                    : fill(text(CATALOGUE, "text.travel.menu-fare"), { gold: String(panel.fareGold) })}
-              <span style={{ float: "right", opacity: 0.7 }}>purse {purse}</span>
-            </div>
-            {panel.destinations.map((d) => (
-              <button key={d.stationId} onClick={() => travel(d.stationId)} style={{
-                display: "block", width: "100%", textAlign: "left", marginBottom: 6,
-                padding: "6px 8px", cursor: "pointer",
-              }}>
-                {d.stationId} · {Math.round(d.lengthM)} m
-              </button>
-            ))}
-            <button onClick={() => setMenu(null)} style={{ marginTop: 6, padding: "4px 10px", cursor: "pointer" }}>
-              Esc
-            </button>
-          </div>
-        )}
-      </Html>
     </group>
   );
 }

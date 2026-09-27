@@ -169,7 +169,7 @@ describe("InteriorLoader", () => {
     expect(cell.group.children.filter((c) => (c as THREE.AmbientLight).isAmbientLight).length).toBe(1);
     expect([cell.fog.near, cell.fog.far]).toEqual([4, 30]);
     expect(cell.solids.length).toBe(6);
-    expect(cell.counts).toEqual({ placements: 6, meshes: 4, lights: 2, solids: 6 });
+    expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6 });
     // cached by cellId: a second request fetches nothing
     await loader.request("fixture.hut-int");
     expect(fetched.length).toBe(1);

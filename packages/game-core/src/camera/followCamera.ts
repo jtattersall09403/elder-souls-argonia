@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import type { Vec2 } from "../core/types";
-import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
+import {
+  BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT, CHARACTER_CAPSULE_RADIUS,
+} from "../physics/characterPhysics";
 
 /** The follow camera's pivot and look target over the FEET, metres. */
 const PIVOT_ABOVE_FEET_M = 2.05;
@@ -41,6 +43,12 @@ export const FOLLOW_CAMERA = {
    * the half-diagonal alone, 0.27 m, let an oblique wall cut the near plane,
    * walk 2 D3), so the near plane never enters a wall the ball stopped at. */
   collisionRadius: 0.42,
+  /** Radius of the ball tested for a STARTING overlap at the pivot: the
+   * player's capsule radius. A pivot this close to a lintel, an eave or a
+   * wall pins the arm at once; the wider sweep ball ignores where it starts,
+   * so a player whose capsule touches a wall keeps a long arm pointing away
+   * from it (planner ruling on walk 2 RB rec 1). */
+  pivotRadius: CHARACTER_CAPSULE_RADIUS,
   /** Shortest arm an obstruction may pull the camera to: never inside the
    * ball's own clearance. */
   minArm: 0.42,
@@ -51,15 +59,17 @@ export const FOLLOW_CAMERA = {
 } as const;
 
 /**
- * The world, as the camera sees it: sweep a ball of `radius` from `from`
- * towards `to` and return the distance (m, from `from`) at which it first
- * touches a camera-blocking collider, or null when the way is clear. The
+ * The world, as the camera sees it: 0 when a ball of `pivotRadius` at `from`
+ * already overlaps a camera-blocking collider; otherwise sweep a ball of
+ * `radius` from `from` towards `to`, ignoring any overlap it starts in, and
+ * return the distance (m, from `from`) at which it first touches one, or
+ * null when the way is clear. The
  * app implements it over its physics world (the studio: a Rapier ball cast
  * against the camera-blocking group); game-core never imports a physics
  * engine (controller independence, package rule).
  */
 export type CameraObstructionQuery = (
-  from: THREE.Vector3, to: THREE.Vector3, radius: number,
+  from: THREE.Vector3, to: THREE.Vector3, radius: number, pivotRadius: number,
 ) => number | null;
 
 export class FollowCamera {
@@ -159,7 +169,7 @@ export class FollowCamera {
     if (!this.obstruction) return;
     const full = this.orbit.distanceTo(this.pivot);
     if (full < 1e-4) return;
-    const hit = this.obstruction(this.pivot, this.orbit, this.cfg.collisionRadius);
+    const hit = this.obstruction(this.pivot, this.orbit, this.cfg.collisionRadius, this.cfg.pivotRadius);
     const allowed = Math.max(this.cfg.minArm, Math.min(full, hit ?? full));
     if (allowed < this.armLimit) this.armLimit = allowed;
     else if (input) this.armLimit = Math.min(allowed, this.armLimit + this.cfg.returnRate * delta);

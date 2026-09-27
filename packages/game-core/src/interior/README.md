@@ -24,7 +24,11 @@ null), `refCount` (= placements + drops), `kits {id: {id, glb, manifest}}`,
 `placements[] {id, assetId, kit, positionM, rotationDeg, scale, category}`,
 `lights[] {refId, positionM, radiusM, colorRGB, fade (LIGH FNAM, unitless, or
 null), base, raw {xrdsUnits|null, baseRadiusUnits}}`, `ambient {colorRGB,
-intensity}`, `fog {colorRGB, nearM, farM}`, `sockets[]`, `drops[]`. Positions are metres in the
+intensity}`, `fog {colorRGB, nearM, farM}`, `sockets[]`, `drops[]`, and
+optionally `substitutions[] {id, refId, class, standInAsset, kit,
+standInCategory, positionM, rotationDeg, scale, …}` (walk 2 lane I: a piece
+the vault does not hold, drawn as a placement of its same-class stand-in
+from `kit`; absent reads as none). Positions are metres in the
 cell's frame, y up. `rotationDeg` is `[pitch, yaw, roll]`, yaw a compass
 turn, applied as Euler(pitch, −yaw, roll, "YXZ") (the settlement rotation
 authority plus roll). Colours are the plugin's sRGB bytes 0–255. Every

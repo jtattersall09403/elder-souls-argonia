@@ -4,7 +4,8 @@ import { SETTLEMENT_COLLISION_FRAME, type SettlementSolid } from "../settlement/
 import { trimeshFromGeometry } from "../physics/floraSolids";
 import {
   interiorBundleUrl, parseInteriorBundle,
-  type ColorRGB, type InteriorBundle, type InteriorKitRef, type InteriorLight, type InteriorPlacement, type Vec3,
+  type ColorRGB, type InteriorBundle, type InteriorKitRef, type InteriorLight, type InteriorPlacement,
+  type InteriorSubstitution, type Vec3,
 } from "./bundle";
 
 /**
@@ -59,7 +60,20 @@ export interface LoadedInterior {
   solids: SettlementSolid[];
   fog: THREE.Fog;
   background: THREE.Color;
-  counts: { placements: number; meshes: number; lights: number; solids: number };
+  counts: { placements: number; substitutions: number; meshes: number; lights: number; solids: number };
+}
+
+/** A stand-in drawn as a placement of its stand-in asset, with the reference's transform. */
+export function substitutionPlacement(s: InteriorSubstitution): InteriorPlacement {
+  return {
+    id: s.id, assetId: s.standInAsset, kit: s.kit,
+    positionM: s.positionM, rotationDeg: s.rotationDeg, scale: s.scale, category: s.standInCategory,
+  };
+}
+
+/** Everything the cell draws: its placements, then its stand-ins. */
+export function drawnPlacements(bundle: InteriorBundle): InteriorPlacement[] {
+  return [...bundle.placements, ...(bundle.substitutions ?? []).map(substitutionPlacement)];
 }
 
 /** sRGB bytes to a linear three.js colour. */
@@ -82,7 +96,8 @@ export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
 
 /**
  * Build the cell: one InstancedMesh per (asset, LOD0 part) holding every
- * placement of that asset, a point light per record light, the cell's
+ * placement of that asset (stand-ins from `substitutions[]` count as
+ * placements of their stand-in asset), a point light per record light, the cell's
  * ambient and directional light, its fog. Nothing casts or receives shadows
  * (no shadow-casting light exists inside). No terrain, sky or water: none exists inside.
  * A placement whose asset is not in its kit is a named error, never a gap
@@ -94,7 +109,7 @@ export function instantiateInterior(
   const group = new THREE.Group();
   group.name = `interior:${bundle.cellId}`;
   const byAsset = new Map<string, { asset: ArchitectureAsset; placements: InteriorPlacement[] }>();
-  for (const p of bundle.placements) {
+  for (const p of drawnPlacements(bundle)) {
     const asset = kits.get(p.kit)?.get(p.assetId);
     if (!asset) throw new Error(`interior ${bundle.cellId}: ${p.id} names ${p.kit}/${p.assetId}, not in the loaded kit`);
     const key = `${p.kit}|${p.assetId}`;
@@ -147,7 +162,10 @@ export function instantiateInterior(
   return {
     bundle, group, solids, background,
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
-    counts: { placements: bundle.placements.length, meshes, lights: bundle.lights.length, solids: solids.length },
+    counts: {
+      placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,
+      meshes, lights: bundle.lights.length, solids: solids.length,
+    },
   };
 }
 
@@ -243,7 +261,7 @@ export class InteriorLoader {
     const url = interiorBundleUrl(this.baseUrl, cellId);
     const bundle = parseInteriorBundle(await this.hosts.fetchJson(url), url);
     if (bundle.cellId !== cellId) throw new Error(`interior bundle ${url} carries cellId ${bundle.cellId}`);
-    const used = new Set(bundle.placements.map((p) => p.kit));
+    const used = new Set(drawnPlacements(bundle).map((p) => p.kit));
     const kits = new Map<string, Map<string, ArchitectureAsset>>();
     await Promise.all([...used].map(async (id) => {
       kits.set(id, await this.kit(bundle.kits[id]));

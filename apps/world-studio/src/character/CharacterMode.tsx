@@ -61,6 +61,7 @@ import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
+import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
 import { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { SocketMarkers, socketsOverlayEnabled } from "./SocketMarkers";
@@ -240,6 +241,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const directInterior = useMemo(() => new URLSearchParams(window.location.search).get("interior"), []);
   // Black from the first frame when a cell is opened directly (the fade lifts once it is resident).
   const doorOverlay = useMemo(() => createDoorOverlayChannel(directInterior ? 1 : 0), [directInterior]);
+  const screenOverlay = useMemo(() => createScreenOverlayChannel(), []);
   const interiorProbeRef = useRef<(() => InteriorDoorsProbe) | null>(null);
   // One activate press, one answer (doors, travel operators): the arbiter
   // the providers offer to and the driver resolves each frame; and the one
@@ -617,6 +619,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               baseUrl={base}
               interaction={interaction}
               offering={!insideInterior}
+              overlay={screenOverlay}
             />}
             {/* The edge of the world (16d): four invisible walls on the border
                 of the built ground, and the one line the player gets there. */}
@@ -679,6 +682,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         </div>
       )}
       {/* Only over the canvas: a direct `?interior=` starts black, which must not hide the loading line. */}
+      {manifest && spawn && <ScreenOverlay channel={screenOverlay} />}
       {manifest && spawn && <DoorOverlay channel={doorOverlay} />}
       <div style={{
         // Stop short of the fixed time panel (top-right) — it was covering
@@ -1465,7 +1469,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       },
       cameraArm: () => camera3P.arm,
       cameraCast: (from, to) => cameraCast(
-        new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius),
+        new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius,
+        FOLLOW_CAMERA.pivotRadius),
       settlementRebuild: () => {
         const rebuild = settlementRebuildRef?.current;
         rebuild?.();

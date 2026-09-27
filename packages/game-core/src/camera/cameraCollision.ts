@@ -27,9 +27,12 @@ export const CAMERA_QUERY_GROUPS = interactionGroups(CAMERA_BLOCKING_BIT, CAMERA
 
 /** Arm length (m) under which the player model starts to fade, and the
  * length at which it is gone: Skyrim blends the player out when the camera
- * is too close (research camera.md §b). */
+ * is too close (research camera.md §b). The end sits below the follow
+ * camera's shortest arm (minArm 0.42), at the capsule radius, so an arm
+ * pinned by a wall dims the player but never erases it (planner ruling on
+ * walk 2 RB rec 1; followCamera.test.ts holds the order). */
 export const PLAYER_FADE_START_ARM_M = 1.2;
-export const PLAYER_FADE_END_ARM_M = 0.5;
+export const PLAYER_FADE_END_ARM_M = 0.3;
 
 /** Player model opacity for an arm length: 1 at or beyond the fade start,
  * 0 at or inside the fade end, linear between. */

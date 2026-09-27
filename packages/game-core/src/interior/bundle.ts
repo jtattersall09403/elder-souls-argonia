@@ -31,6 +31,33 @@ export interface InteriorPlacement {
   category: string;
 }
 
+/**
+ * A reference whose piece the vault does not hold, drawn by a same-class
+ * stand-in from a published kit (walk 2 lane I,
+ * worldgen/export_interior_bundle.py): the runtime places `standInAsset`
+ * from `kit` with the reference's own transform, exactly as a placement.
+ */
+export interface InteriorSubstitution {
+  id: string;
+  /** The plugin reference (REFR form id). */
+  refId: string;
+  /** The missing base form, `Plugin.esm:formid`. */
+  baseForm: string | null;
+  originalPath: string | null;
+  /** The missing piece's class (only clutter and furniture may be stood in). */
+  class: string;
+  classSource: string;
+  standInAsset: string;
+  /** The published kit holding `standInAsset` (a key of the bundle's `kits`). */
+  kit: string;
+  standInCategory: string;
+  why: string;
+  positionM: Vec3;
+  /** As `InteriorPlacement.rotationDeg`. */
+  rotationDeg: Vec3;
+  scale: number;
+}
+
 export interface InteriorLight {
   /** The plugin reference (REFR form id) this light came from. */
   refId: string;
@@ -121,6 +148,8 @@ export interface InteriorBundle {
   sockets: unknown[];
   /** References the exporter dropped, each with its reason. */
   drops: unknown[];
+  /** Stand-ins for pieces the vault does not hold; absent on older bundles (read as none). */
+  substitutions?: InteriorSubstitution[];
 }
 
 const isNum = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
@@ -185,6 +214,14 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
   if (!isRgb(b!.fog?.colorRGB) || !isNum(b!.fog?.nearM) || !isNum(b!.fog?.farM)) fail("bad fog");
   if (!Array.isArray(b!.sockets)) fail("no sockets list");
   if (!Array.isArray(b!.drops)) fail("no drops list");
+  if (b!.substitutions !== undefined) {
+    if (!Array.isArray(b!.substitutions)) fail("substitutions is not a list");
+    for (const s of b!.substitutions!) {
+      if (!isStr(s?.id) || !isStr(s.standInAsset)) fail("substitution without id/standInAsset");
+      if (!b!.kits![s.kit]) fail(`substitution ${s.id}: kit ${String(s.kit)} is not in the bundle's kits`);
+      if (!isVec3(s.positionM) || !isVec3(s.rotationDeg) || !isNum(s.scale)) fail(`substitution ${s.id}: bad transform`);
+    }
+  }
   return b as InteriorBundle;
 }
 

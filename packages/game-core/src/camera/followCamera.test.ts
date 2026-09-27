@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import { FOLLOW_CAMERA, FollowCamera, type CameraObstructionQuery } from "./followCamera";
 import {
-  CAMERA_BLOCKING_GROUPS, CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS, playerOpacityForArm,
+  CAMERA_BLOCKING_GROUPS, CAMERA_QUERY_GROUPS, CAMERA_TRANSPARENT_GROUPS, PLAYER_FADE_END_ARM_M,
+  PLAYER_FADE_START_ARM_M, playerOpacityForArm,
 } from "./cameraCollision";
+import { CHARACTER_CAPSULE_RADIUS } from "../physics/characterPhysics";
 
 // 16h check-in 2 item 3: the arm collides with an injected world query.
 // A wall is a plane at z = wallZ: the ball stops `radius` short of it.
@@ -43,7 +45,7 @@ describe("follow camera collision", () => {
   it("pulls in at once when a wall is between the player and the camera", () => {
     let wall: number | null = null;
     const camera = new FollowCamera();
-    camera.setObstruction((f, t, r) => wallAt(wall)(f, t, r));
+    camera.setObstruction((f, t, r, p) => wallAt(wall)(f, t, r, p));
     camera.reset(player, Math.PI);
     settled(camera);
     expect(camera.arm).toBeCloseTo(FOLLOW_CAMERA.distance, 2);
@@ -56,7 +58,7 @@ describe("follow camera collision", () => {
   it("returns gradually, and only while the player gives input", () => {
     let wall: number | null = 2;
     const camera = new FollowCamera();
-    camera.setObstruction((f, t, r) => wallAt(wall)(f, t, r));
+    camera.setObstruction((f, t, r, p) => wallAt(wall)(f, t, r, p));
     camera.reset(player, Math.PI);
     settled(camera);
     const pulled = camera.arm;
@@ -131,10 +133,31 @@ describe("camera collision groups", () => {
     // vegetation still collides with the player (default groups)
     expect(passes(0xffffffff, CAMERA_TRANSPARENT_GROUPS)).toBe(true);
   });
-  it("fades the player between 1.2 m and 0.5 m of arm", () => {
+  it("fades the player linearly between the fade start and end arms", () => {
     expect(playerOpacityForArm(5.8)).toBe(1);
-    expect(playerOpacityForArm(1.2)).toBe(1);
-    expect(playerOpacityForArm(0.85)).toBeCloseTo(0.5, 5);
-    expect(playerOpacityForArm(0.5)).toBe(0);
+    expect(playerOpacityForArm(PLAYER_FADE_START_ARM_M)).toBe(1);
+    expect(playerOpacityForArm((PLAYER_FADE_START_ARM_M + PLAYER_FADE_END_ARM_M) / 2)).toBeCloseTo(0.5, 5);
+    expect(playerOpacityForArm(PLAYER_FADE_END_ARM_M)).toBe(0);
+  });
+});
+
+// Planner ruling on walk 2 RB rec 1: the starting overlap is tested with a
+// ball of the capsule's radius at the pivot, the arm is swept with the
+// camera's ball ignoring where it starts, and a pinned arm never erases the
+// player.
+describe("follow camera against a wall the player hugs", () => {
+  it("fades the player fully only below the shortest arm", () => {
+    expect(PLAYER_FADE_END_ARM_M).toBeLessThan(FOLLOW_CAMERA.minArm);
+    expect(playerOpacityForArm(FOLLOW_CAMERA.minArm)).toBeGreaterThan(0);
+  });
+
+  it("tests the start overlap with the capsule's radius, never the camera ball's", () => {
+    expect(FOLLOW_CAMERA.pivotRadius).toBe(CHARACTER_CAPSULE_RADIUS);
+    const seen: number[] = [];
+    const camera = new FollowCamera();
+    camera.setObstruction((_f, _t, _r, pivotRadius) => { seen.push(pivotRadius); return null; });
+    camera.reset(player, Math.PI);
+    expect(seen.length).toBeGreaterThan(0);
+    expect(seen.every((r) => r === CHARACTER_CAPSULE_RADIUS)).toBe(true);
   });
 });
