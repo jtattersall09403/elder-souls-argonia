@@ -199,6 +199,9 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     rejectedBecause?}]} — >=2 candidates, one chosen; the
                     deliberation the macro plot could not do
   landmarks[]       {id, kind, position, assetRef, groundFit?, notes}
+                    (optional yMeasured, as on single-asset parcels and
+                    assembly members on the ground: the workbench's measured
+                    pivot height, compiled verbatim as `yFinal`)
                     (optional yawDeg + scale; scale is a UNIFORM factor 0.2–5
                     for natural pieces only — the sourced anvilgianttrunk at
                     ~0.45 is the Nine-Trunks case; kit architecture stays 1.
@@ -1733,7 +1736,7 @@ def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
 ASSEMBLY_LAYERS = frozenset({"door", "porch", "steps", "window", "shutter", "roof",
                              "chimney", "annex", "light", "clutter", "wear"})
 ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "layer",
-                           "evidence", "scale", "mountPair", "host"})
+                           "evidence", "scale", "mountPair", "host", "yMeasured"})
 #: An assembly member's `mountPair` (0102 decision 5; written by the
 #: workbench export's `mount_pair`): the mined band or points pair it hangs
 #: by (`n`), the mined yard set it came from (`yardSet`), or an unmined
@@ -1786,6 +1789,11 @@ def assembly_failures(parcel: dict) -> list[str]:
             out.append(f"{where}: atM must be [x, z] metres in the parcel's frame")
         if m.get("on") not in ("parent", "ground"):
             out.append(f"{where}: on must be 'parent' or 'ground'")
+        if "yMeasured" in m:
+            if m.get("on") != "ground":
+                out.append(f"{where}: yMeasured is a ground piece's measured pivot height; "
+                           f"a piece on its parent follows the parent")
+            out += [f"{where}: {why}" for why in y_measured_failures(m)]
         if m.get("on") == "parent" and not _number(m.get("upM")):
             out.append(f"{where}: a piece on its parent needs upM (metres above the shell's pivot)")
         if m.get("layer") not in ASSEMBLY_LAYERS:
@@ -1815,6 +1823,22 @@ def assembly_failures(parcel: dict) -> list[str]:
 #: `swing` door opens in place by animation and has no cell.
 DOOR_TYPES = frozenset({"load", "swing"})
 PROMISE_ID = re.compile(r"^promise\.[a-z0-9-]+\.[a-z0-9.-]+$")
+
+
+def y_measured_failures(record: dict) -> list[str]:
+    """`yMeasured` (planner ruling yFinal, 16k walk 2): the workbench's
+    measured world pivot height for a ground piece (a parcel shell, a
+    landmark, an assembly member on the ground), written by the export and
+    compiled verbatim as the placement's y with `yFinal: true`; the runtime
+    then applies it without re-anchoring. Absent means the compile seats it."""
+    if "yMeasured" not in record:
+        return []
+    v = record["yMeasured"]
+    if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v):
+        return [f"yMeasured must be a finite number of metres, got {v!r}"]
+    if record.get("pieces"):
+        return ["yMeasured is for a single-asset parcel; a run is seated as one chain"]
+    return []
 
 
 def fills_failures(record: dict) -> list[str]:
@@ -1934,6 +1958,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         for why in assembly_failures(p):
             fail(f"parcel {pid}: {why}")
         for why in fills_failures(p):
+            fail(f"parcel {pid}: {why}")
+        for why in y_measured_failures(p):
             fail(f"parcel {pid}: {why}")
         if "groundFit" in p and p["groundFit"] not in GROUND_FIT:
             fail(f"parcel {pid}: groundFit, when authored, must be one of {sorted(GROUND_FIT)}")
@@ -2314,6 +2340,9 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 fail(f"{key} {item.get('id')}: scale must be a uniform factor in 0.2–5")
             if key == "landmarks" and "yawDeg" in item and not isinstance(item["yawDeg"], (int, float)):
                 fail(f"landmark {item.get('id')}: yawDeg must be a number")
+            if key == "landmarks":
+                for why in y_measured_failures(item):
+                    fail(f"landmark {item.get('id')}: {why}")
             if key == "landmarks" and not isinstance(item.get("assetRef"), str):
                 fail(f"landmark {item.get('id')}: assetRef is required for physical compilation")
             if key == "landmarks" and item.get("groundFit", "direct") not in GROUND_FIT:

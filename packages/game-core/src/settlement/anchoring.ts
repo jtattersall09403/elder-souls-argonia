@@ -94,7 +94,8 @@ export function anchorPlacement(
       requestedBuryM: 0, overBuryM: 0,
       terrainMinM: NaN, terrainMaxM: NaN, groundLineM: NaN,
       pivotToBaseM: pivotToBase,
-      complete: false,
+      // a final y needs no terrain to be placed
+      complete: placement.yFinal === true,
     };
   }
   const lo = Math.min(...known);
@@ -102,7 +103,11 @@ export function anchorPlacement(
   const mean = known.reduce((sum, h) => sum + h, 0) / known.length;
   const sink = designedSinkM * placement.scale;
   const groundLine = fit === "dug-in" ? lo : mean;
-  const y = groundLine - sink;
+  // A `yFinal` placement (bundle schema 4) stands at the height the workbench
+  // measured on the same padded ground the runtime streams: it is applied
+  // verbatim, never re-anchored. The terrain numbers are still reported for
+  // the ground audit.
+  const y = placement.yFinal ? placement.positionM[1] : groundLine - sink;
   return {
     // The designed sink IS the answer, so requested and applied are the same
     // number; `buryCapM` survives only as the cap on the policy fallback the

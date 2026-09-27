@@ -262,3 +262,80 @@ def test_the_0104_fields_validate():
     assert "doorType" in "".join(
         f"doorType must be one of {sorted(bpm.DOOR_TYPES)}" for _ in [0]) and \
         bpm.DOOR_TYPES == {"load", "swing"}
+
+
+# ------------------------------------------------ planner ruling yFinal
+def _ground_rows(scene, compiled):
+    """{scene uid: compiled placement} for every seated ground piece the
+    export writes a yMeasured for: single-asset parcel shells, landmarks and
+    assembly members on the ground."""
+    by_id = {r["id"]: r for r in compiled["placements"]}
+    shells = {}
+    for p in scene.pieces:
+        if p.role.get("kind") == "parcel" and not p.role.get("index"):
+            shells.setdefault(p.role["id"], p)
+    out = {}
+    for p in scene.pieces:
+        kind, rid = p.role.get("kind"), p.role.get("id")
+        if p.y is None:
+            continue
+        if kind == "parcel" and shells.get(rid) is p:
+            key = f"{PLACE}.{rid}.building"
+        elif kind == "landmark":
+            key = f"{PLACE}.{rid}"
+        elif kind == "assembly" and p.role.get("on") == "ground":
+            key = f"{PLACE}.{rid}.assembly.{export._slug(p.uid)}"
+        else:
+            continue
+        if key in by_id:
+            out[p.uid] = by_id[key]
+    return out
+
+
+def test_y_measured_is_compiled_verbatim_as_y_final(base, scratch, monkeypatch):
+    """Planner ruling yFinal (T1 rec 1, option A): the compile seated ground
+    pieces on its own padded survey, not the lod1 chunks + building and run
+    pads the workbench and the runtime seat on, so 14 Claywater ground rows
+    disagreed by up to 0.66 m (isy-trough +0.659). Failing first: the compile
+    without yMeasured; then every ground row stands at the workbench's y
+    within 0.02 m and carries yFinal."""
+    s = copy.deepcopy(base)
+    with monkeypatch.context() as mp:
+        mp.setattr(export, "_y_measured", lambda p: {})
+        old = wb.compile_scene(copy.deepcopy(s), paths.BLUEPRINTS / f"{PLACE}.json",
+                               keep_out=scratch / "compiled-no-y")
+    old_rows = _ground_rows(s, json.loads(Path(old["settlement"]).read_text()))
+    off = {u: r["positionM"][1] - s.piece(u).y for u, r in old_rows.items()
+           if abs(r["positionM"][1] - s.piece(u).y) > 0.02}
+    assert len(off) >= 10 and "isy-trough" in off, off           # the walk-2 defect
+    new = wb.compile_scene(copy.deepcopy(s), paths.BLUEPRINTS / f"{PLACE}.json",
+                           keep_out=scratch / "compiled-y")
+    rows = _ground_rows(s, json.loads(Path(new["settlement"]).read_text()))
+    assert set(off) <= set(rows)
+    bad = {u: r["positionM"][1] - s.piece(u).y for u, r in rows.items()
+           if abs(r["positionM"][1] - s.piece(u).y) > 0.02 or r.get("yFinal") is not True}
+    assert not bad, bad
+
+
+def test_the_live_export_stands_where_the_workbench_measured():
+    """The live Claywater export (whatever the blueprint holds now): every
+    ground row the export measured is compiled at that y within 0.02 m and
+    marked yFinal. RED until the place lane re-exports and republishes
+    Claywater with yMeasured (the walk-2 export predates the ruling)."""
+    bp = json.loads((paths.BLUEPRINTS / f"{PLACE}.json").read_text())
+    measured = {}
+    for parcel in bp.get("parcels", []):
+        if "yMeasured" in parcel:
+            measured[f"{PLACE}.{parcel['id']}.building"] = parcel["yMeasured"]
+        for m in parcel.get("assembly", []):
+            if "yMeasured" in m:
+                measured[f"{PLACE}.{parcel['id']}.assembly.{m['id']}"] = m["yMeasured"]
+    for lm in bp.get("landmarks", []):
+        if "yMeasured" in lm:
+            measured[f"{PLACE}.{lm['id']}"] = lm["yMeasured"]
+    assert measured, "the live Claywater export carries no yMeasured: re-export the place"
+    pub = {p["id"]: p for p in json.loads(PUBLISHED.read_text())["placements"]}
+    bad = {k: (pub.get(k, {}).get("positionM", [None, None])[1], y) for k, y in measured.items()
+           if k not in pub or pub[k].get("yFinal") is not True
+           or abs(pub[k]["positionM"][1] - y) > 0.02}
+    assert not bad, bad

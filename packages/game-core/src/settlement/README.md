@@ -39,6 +39,11 @@ Load-bearing contracts:
   dressing pieces sample their origin, and route structures are audited like
   everything else. The measured ground line, applied burial and residual gap
   are retained per placement and rolled up per settlement in `onStats`;
+- a placement with `yFinal: true` (bundle schema 4, 16k walk 2) keeps its
+  `positionM[1]` verbatim: the workbench measured it on the same padded
+  ground the runtime streams, and the compile wrote it unchanged. The terrain
+  numbers are still audited; nothing re-anchors it. A schema-3 bundle reads
+  as "no placement is final";
 - a piece that does not stand on the ground is never sampled against it: a
   `wall`/`hanging`/`deck` child is positioned from its parent placement's
   FINAL transform times `mountOffsetM` (parent's local frame) and its own

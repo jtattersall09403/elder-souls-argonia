@@ -982,6 +982,18 @@ def anchor_samples(asset: dict, position, yaw_deg: float, scale: float,
     return [(float(x), float(z)) for x, z in poly]
 
 
+def y_final(record: dict, computed_y: float) -> tuple[float, dict]:
+    """(y, fields) for a ground placement: the blueprint's `yMeasured` (the
+    workbench's measured pivot height, planner ruling yFinal, 16k walk 2)
+    verbatim with `{"yFinal": True}`, else the compile's own seat and no
+    field. The compile's survey is not the ground the workbench and the
+    runtime seat on (the lod1 chunks padded by building AND run pads), so a
+    measured y is never re-derived here or at runtime."""
+    if "yMeasured" in record:
+        return float(record["yMeasured"]), {"yFinal": True}
+    return computed_y, {}
+
+
 def seat_y(asset: dict, survey, position, yaw_deg: float, scale: float,
            footprint_m=None, explicit_sink_m: float | None = None) -> float:
     """`placement_world_y` for a compiled ground placement on ``survey`` (the
@@ -1072,9 +1084,10 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
             m_yaw = (yaw + float(member.get("yaw", 0.0))) % 360.0
             foot = [[round(x, 3), round(z, 3)] for x, z in _plan_footprint_m(
                 asset, [wx, 0.0, wz], m_yaw, m_scale)]
-            ground = seat_y(asset, survey, [wx, 0.0, wz], m_yaw, m_scale, foot)
-            row.update({"positionM": [round(wx, 3), round(ground, 3), round(wz, 3)],
-                        "yawDeg": round(m_yaw, 3), "footprintM": foot})
+            ground, final = y_final(member, seat_y(asset, survey, [wx, 0.0, wz], m_yaw,
+                                                   m_scale, foot))
+            row.update({"positionM": [round(wx, 3), round(ground, 4 if final else 3), round(wz, 3)],
+                        "yawDeg": round(m_yaw, 3), "footprintM": foot, **final})
         if "pitch" in member:
             row["pitchDeg"] = float(member["pitch"])
         by_member[member["id"]] = row
@@ -2600,16 +2613,20 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             # the ONE seat (place-diag P1): the ground line under the parcel's
             # outline, less the kit's designed sink, as the runtime applies it
             pivot_y = seat_y(asset, survey, [cx, 0.0, cz], yaw, scale, foot_m)
+        # a quay run moved to its bank (quay_shift) stands where the
+        # workbench never measured it: the compile's seat stands, not yMeasured
+        pivot_y, final = (pivot_y, {}) if quay_shift else y_final(parcel, pivot_y)
         placements.append({
             "id": f"{bp_id}.{pid}.building",
             "parcelId": pid,
             "objectKind": "parcel",
             "assetId": asset["id"],
             "kit": asset["kit"],
-            "positionM": [round(cx, 3), round(pivot_y, 3), round(cz, 3)],
+            "positionM": [round(cx, 3), round(pivot_y, 4 if final else 3), round(cz, 3)],
             "yawDeg": yaw,
             "scale": scale,
             "groundFit": fit,
+            **final,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
             **({"shoreAnchorShiftM": quay_shift} if quay_shift is not None else {}),
             **({"pad": {"parcelId": pid,
@@ -2676,16 +2693,16 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             continue
         x, z = survey.uv_to_m(*landmark["position"])
         scale = float(landmark.get("scale", 1.0))
+        lm_y, final = y_final(landmark, seat_y(asset, survey, [x, 0.0, z],
+                                               float(landmark.get("yawDeg", 0.0)), scale))
         placements.append({
             "id": f"{bp_id}.{landmark['id']}",
             "landmarkId": landmark["id"], "objectKind": "landmark",
             "assetId": asset["id"], "kit": asset["kit"],
-            "positionM": [round(x, 3),
-                          round(seat_y(asset, survey, [x, 0.0, z],
-                                       float(landmark.get("yawDeg", 0.0)), scale), 3),
-                          round(z, 3)],
+            "positionM": [round(x, 3), round(lm_y, 4 if final else 3), round(z, 3)],
             "yawDeg": float(landmark.get("yawDeg", 0.0)), "scale": scale,
             "groundFit": landmark.get("groundFit", "direct"),
+            **final,
             "provenance": _provenance(bp_id, seed, "landmark/authored", asset["id"], []),
         })
 

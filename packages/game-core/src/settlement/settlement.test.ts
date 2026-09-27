@@ -81,6 +81,22 @@ describe("settlement placement contract", () => {
     expect(anchorPlacement(placement, slope, sink).y).toBeCloseTo(direct.y);
   });
 
+  it("applies a yFinal placement's measured y verbatim and re-anchors the rest (16k walk 2)", () => {
+    // The workbench measured the pivot at 36.6375 on the padded chunks; the
+    // terrain here would seat it at 4.25. yFinal wins; without it, the anchor.
+    const measured = { ...placement, positionM: [5, 36.6375, 5] as [number, number, number], yFinal: true as const };
+    const final = anchorPlacement(measured, (x) => x / 20, -4);
+    expect(final.complete).toBe(true);
+    expect(final.y).toBe(36.6375);
+    expect(final.groundLineM).toBeCloseTo(.25);          // still audited
+    expect(anchorPlacement({ ...measured, yFinal: undefined }, (x) => x / 20, -4).y).toBeCloseTo(4.25);
+    // a final y needs no terrain to be placed
+    const noGround = anchorPlacement(measured, () => null, -4);
+    expect(noGround.complete).toBe(true);
+    expect(noGround.y).toBe(36.6375);
+    expect(anchorPlacement(placement, () => null, -4).complete).toBe(false);
+  });
+
   it("refuses to place an asset whose manifest carries no designed sink", () => {
     expect(() => anchorPlacement(placement, () => 1, NaN))
       .toThrow(/has no designedSinkM/);

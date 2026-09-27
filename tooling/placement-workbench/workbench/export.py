@@ -112,10 +112,11 @@ def poses(scene: Scene, extent: float) -> dict:
                 fields["scale"] = p.scale
             if p.pad is not None:
                 fields["pad"] = _pad_record(cat, scene, p)
+            fields.update(_y_measured(p))
             out["parcels"][rid] = fields
         elif kind == "landmark":
             out["landmarks"][rid] = {"assetRef": p.asset, "position": _uv(p.x, p.z, extent),
-                                     "yawDeg": yaw}
+                                     "yawDeg": yaw, **_y_measured(p)}
         elif kind == "run":
             runs.setdefault(rid, []).append((int(p.role.get("index", 0)), p))
     for rid, members in runs.items():
@@ -163,12 +164,23 @@ def poses(scene: Scene, extent: float) -> dict:
                 row["pitch"] = round(q.pitch, 3)
             if q.scale != 1.0 and q.role["on"] == "ground":
                 row["scale"] = q.scale
+            if q.role["on"] == "ground":
+                row.update(_y_measured(q))
             rows.append(row)
         out["parcels"][rid]["assembly"] = rows
     for path in scene.paths:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
         out["routes"][path["id"]] = {"via": pts}     # points: street_router derives them
     return out
+
+
+def _y_measured(p) -> dict:
+    """{'yMeasured': the piece's measured world pivot height} for a seated
+    ground piece (planner ruling yFinal, 16k walk 2): the compile writes it
+    verbatim as the placement's y with `yFinal: true` and the runtime applies
+    it without re-anchoring, so the walked place stands where the workbench
+    measured it. Empty for an unposed piece."""
+    return {} if p.y is None else {"yMeasured": round(float(p.y), 4)}
 
 
 def mount_host(scene: Scene, q, shell, members: set[str]):

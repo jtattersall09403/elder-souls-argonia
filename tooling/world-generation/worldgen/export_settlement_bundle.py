@@ -53,7 +53,12 @@ from pipeline.placement_metadata import (  # noqa: E402
 
 # 3 (16h check-in 3): run pieces carry `run` {id, index, riseM}; ground
 # treatments carry `kind` (floor | deck), `apronsM` and a deck's `contactsM`.
-SCHEMA_VERSION = 3
+# 4 (16k walk 2, planner ruling yFinal): a placement may carry `yFinal: true`
+# (its positionM[1] is the workbench's measured pivot height, applied verbatim
+# by the runtime, never re-anchored). Additive: a v3 bundle reads as "no
+# placement is final", so a --places publish over a v3 base upgrades it.
+SCHEMA_VERSION = 4
+READABLE_SCHEMA_VERSIONS = (3, 4)
 COLLISION_FRAME = "settlement-pivot-yup-v1"
 
 # Hard ceiling on the collision parts the runtime will build for the settlement
@@ -1231,6 +1236,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "anchor": _anchor_contract(asset, fit),
                 "collision": _collision_contract(asset, disabled=is_dressing),
                 **_layer_contract(raw),
+                **({"yFinal": True} if raw.get("yFinal") is True else {}),
                 "provenance": raw["provenance"],
                 **_mount_contract(raw),
                 **_run_contract(raw, parcel, laid_runs),
@@ -1614,10 +1620,11 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
     compiled-file order, each place's rows in its own order), so a --places
     publish of an unchanged place writes the bytes a full export would."""
     places = set(places)
-    if base.get("schemaVersion") != SCHEMA_VERSION or base.get("collisionFrame") != COLLISION_FRAME:
+    if (base.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS
+            or base.get("collisionFrame") != COLLISION_FRAME):
         raise ValueError(
             f"the published bundle is schemaVersion {base.get('schemaVersion')} / "
-            f"{base.get('collisionFrame')}, this exporter writes {SCHEMA_VERSION} / "
+            f"{base.get('collisionFrame')}, this exporter reads {READABLE_SCHEMA_VERSIONS} / "
             f"{COLLISION_FRAME}: run one full export before publishing per place")
 
     def is_place_row(p: dict) -> bool:
@@ -1662,6 +1669,8 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
     rank = {pid: i for i, pid in enumerate(order)}   # a full export's tie order
     return {
         **base,
+        # a v3 base is upgraded: v4 only adds the optional `yFinal`
+        "schemaVersion": part["schemaVersion"],
         "lod": part["lod"],
         "kits": kits,
         "settlements": settlements,

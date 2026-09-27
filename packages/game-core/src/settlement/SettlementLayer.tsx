@@ -205,8 +205,9 @@ export async function loadSettlementBundle(baseUrl: string): Promise<SettlementB
   // mountOffsetM and the water fields; schema 3 adds the run record every
   // modular-run piece is seated on (check-in 3 §2) and the treatment kind
   // and aprons (§5). An older bundle is refused rather than drawn with its
-  // runs stepped at every joint.
-  if (bundle.schemaVersion !== 3) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
+  // runs stepped at every joint. Schema 4 adds the optional `yFinal` flag
+  // (16k walk 2); a schema-3 bundle is read as "no placement is final".
+  if (bundle.schemaVersion !== 3 && bundle.schemaVersion !== 4) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
   if (bundle.collisionFrame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`unsupported settlement collision frame ${bundle.collisionFrame}`);
   }

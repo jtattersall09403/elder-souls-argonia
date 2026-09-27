@@ -1042,11 +1042,12 @@ def test_the_bundle_schema_version_moved_with_the_mount_fields(tmp_path):
     """The layer refuses a bundle it does not understand by version, so the
     version must move when the placement shape does (16h item 6: anchorClass,
     parentPlacementId, mountOffsetM, waterLevelM, waterEntityId)."""
-    assert ex.SCHEMA_VERSION == 3
+    assert ex.SCHEMA_VERSION == 4                   # 4: yFinal (16k walk 2)
+    assert ex.READABLE_SCHEMA_VERSIONS == (3, 4)
     _warned_settlement(tmp_path, conforms=True)
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, []))
-    assert bundle["schemaVersion"] == 3
+    assert bundle["schemaVersion"] == 4
 
 
 def test_the_shipped_build_refuses_a_fixture_record(tmp_path):
@@ -1358,6 +1359,24 @@ def test_a_places_publish_never_reads_or_refuses_on_another_place(tmp_path, monk
     house = next(p for p in merged["placements"] if p["id"] == "place.a.parcel.a.building")
     assert house["positionM"] == [21, 4, 30]
     assert merged["stats"] == published["stats"]
+
+
+def test_a_y_final_row_passes_through_and_a_v3_base_is_upgraded(tmp_path, monkeypatch):
+    """Planner ruling yFinal (16k walk 2): a compiled `yFinal: true` row keeps
+    its y and flag in the bundle (schema 4); a --places publish over a v3
+    published bundle (no row final) reads it and writes 4."""
+    build = _two_places(tmp_path, monkeypatch)
+    published = build()
+    old = {**published, "schemaVersion": 3}
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["placements"][0]["positionM"][1] = 4.321
+    doc["placements"][0]["yFinal"] = True
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    merged = ex.merge_bundle(old, build(places=["place.a"]), {"place.a"})
+    assert merged["schemaVersion"] == 4
+    house = next(p for p in merged["placements"] if p["id"] == "place.a.parcel.a.building")
+    assert house["yFinal"] is True and house["positionM"][1] == 4.321
+    assert not any(p.get("yFinal") for p in merged["placements"] if p["sourceId"] == "place.b")
 
 
 def test_places_names_only_authored_compiled_places(tmp_path, monkeypatch):
