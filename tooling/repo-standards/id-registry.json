@@ -165,7 +165,7 @@
   },
   {
    "path": "world/sources/registries/npcs.json",
-   "what": "world registries — NPC roster, GENERATED from the catalogue's notableNpcSlots by worldgen.npc_roster (world 92 §84)",
+   "what": "world registries \u2014 NPC roster, GENERATED from the catalogue's notableNpcSlots by worldgen.npc_roster (world 92 \u00a784)",
    "idKey": "id",
    "collectionKey": "entries",
    "idShape": "flat"
@@ -192,6 +192,16 @@
   {
    "path": "world/sources/sites/candidate-sites.json",
    "what": "Phase 11 Part 0 terrain scour \u2014 candidate landform sites (worldgen.terrain_scour)"
+  },
+  {
+   "path": "world/sources/blueprints/claywater-station.layout.json",
+   "what": "Claywater Station layout: its socket ops are the home table of the place's placed interactables (0103, 0104) and its path ops of its internal routes; parcel and place ids here are references",
+   "idKey": "id",
+   "references": [
+    "parcel",
+    "place"
+   ],
+   "idPattern": "^(socket|route)\\.claywater-station\\.[a-z0-9]+(-[a-z0-9]+)*$"
   }
  ],
  "retired": []

@@ -2143,7 +2143,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.well-keeper.work",
+   "id": "socket.claywater-station.idle-well-keeper-work",
    "kind": "idle",
    "host": "parcel.claywater-station.the-well",
    "activity": "tend",
@@ -2152,7 +2152,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.well-keeper.home",
+   "id": "socket.claywater-station.idle-well-keeper-home",
    "kind": "idle",
    "host": "parcel.claywater-station.station-house",
    "activity": "sleep",
@@ -2161,7 +2161,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.well-keeper.counter",
+   "id": "socket.claywater-station.idle-well-keeper-counter",
    "kind": "idle",
    "at": [
     318.6,
@@ -2173,7 +2173,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.well-keeper.stable",
+   "id": "socket.claywater-station.idle-well-keeper-stable",
    "kind": "idle",
    "host": "sty-hay",
    "activity": "tend",
@@ -2182,7 +2182,7 @@
   },
   {
    "op": "socket",
-   "id": "npc.well-keeper",
+   "id": "socket.claywater-station.npc-well-keeper",
    "kind": "npc",
    "at": [
     325.8,
@@ -2195,24 +2195,24 @@
    "schedule": [
     {
      "dayPhase": "morning",
-     "socketId": "idle.well-keeper.work",
+     "socketId": "socket.claywater-station.idle-well-keeper-work",
      "purpose": "work"
     },
     {
      "dayPhase": "afternoon",
-     "socketId": "idle.well-keeper.counter",
+     "socketId": "socket.claywater-station.idle-well-keeper-counter",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.well-keeper.home",
+     "socketId": "socket.claywater-station.idle-well-keeper-home",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "npc.well-keeper.station-house",
+   "id": "socket.claywater-station.npc-well-keeper-station-house",
    "kind": "npc",
    "at": [
     318.6,
@@ -2225,19 +2225,19 @@
    "schedule": [
     {
      "dayPhase": "afternoon",
-     "socketId": "idle.well-keeper.counter",
+     "socketId": "socket.claywater-station.idle-well-keeper-counter",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.well-keeper.home",
+     "socketId": "socket.claywater-station.idle-well-keeper-home",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "npc.well-keeper.stable",
+   "id": "socket.claywater-station.npc-well-keeper-stable",
    "kind": "npc",
    "at": [
     351.0,
@@ -2250,19 +2250,19 @@
    "schedule": [
     {
      "dayPhase": "dusk",
-     "socketId": "idle.well-keeper.stable",
+     "socketId": "socket.claywater-station.idle-well-keeper-stable",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.well-keeper.home",
+     "socketId": "socket.claywater-station.idle-well-keeper-home",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "idle.poler.work",
+   "id": "socket.claywater-station.idle-poler-work",
    "kind": "idle",
    "activity": "pole",
    "parcel": "parcel.claywater-station.ferry-raft",
@@ -2274,7 +2274,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.poler.home",
+   "id": "socket.claywater-station.idle-poler-home",
    "kind": "idle",
    "host": "parcel.claywater-station.polers-hut",
    "activity": "sleep",
@@ -2283,7 +2283,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.poler.nets",
+   "id": "socket.claywater-station.idle-poler-nets",
    "kind": "idle",
    "host": "al-rack1",
    "activity": "fish",
@@ -2292,7 +2292,7 @@
   },
   {
    "op": "socket",
-   "id": "npc.poler",
+   "id": "socket.claywater-station.npc-poler",
    "kind": "npc",
    "at": [
     336.0,
@@ -2305,24 +2305,24 @@
    "schedule": [
     {
      "dayPhase": "morning",
-     "socketId": "idle.poler.work",
+     "socketId": "socket.claywater-station.idle-poler-work",
      "purpose": "work"
     },
     {
      "dayPhase": "afternoon",
-     "socketId": "idle.poler.nets",
+     "socketId": "socket.claywater-station.idle-poler-nets",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.poler.home",
+     "socketId": "socket.claywater-station.idle-poler-home",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "idle.family.cook",
+   "id": "socket.claywater-station.idle-family-cook",
    "kind": "idle",
    "host": "f2",
    "activity": "cook",
@@ -2331,7 +2331,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.family.home",
+   "id": "socket.claywater-station.idle-family-home",
    "kind": "idle",
    "host": "parcel.claywater-station.family-hut",
    "activity": "sleep",
@@ -2340,7 +2340,7 @@
   },
   {
    "op": "socket",
-   "id": "npc.family",
+   "id": "socket.claywater-station.npc-family",
    "kind": "npc",
    "at": [
     296.0,
@@ -2353,19 +2353,19 @@
    "schedule": [
     {
      "dayPhase": "morning",
-     "socketId": "idle.family.cook",
+     "socketId": "socket.claywater-station.idle-family-cook",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.family.home",
+     "socketId": "socket.claywater-station.idle-family-home",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "idle.travellers.rest",
+   "id": "socket.claywater-station.idle-travellers-rest",
    "kind": "idle",
    "host": "isy-bench",
    "activity": "sit",
@@ -2374,7 +2374,7 @@
   },
   {
    "op": "socket",
-   "id": "idle.travellers.sleep",
+   "id": "socket.claywater-station.idle-travellers-sleep",
    "kind": "idle",
    "host": "parcel.claywater-station.station-house",
    "activity": "sleep",
@@ -2383,7 +2383,7 @@
   },
   {
    "op": "socket",
-   "id": "npc.travellers",
+   "id": "socket.claywater-station.npc-travellers",
    "kind": "npc",
    "at": [
     333.2,
@@ -2396,19 +2396,19 @@
    "schedule": [
     {
      "dayPhase": "afternoon",
-     "socketId": "idle.travellers.rest",
+     "socketId": "socket.claywater-station.idle-travellers-rest",
      "purpose": "work"
     },
     {
      "dayPhase": "night",
-     "socketId": "idle.travellers.sleep",
+     "socketId": "socket.claywater-station.idle-travellers-sleep",
      "purpose": "home"
     }
    ]
   },
   {
    "op": "socket",
-   "id": "container.poler-urn",
+   "id": "socket.claywater-station.container-poler-urn",
    "kind": "container",
    "host": "ahy-urn",
    "containerClass": "urn",
@@ -2426,7 +2426,7 @@
   },
   {
    "op": "socket",
-   "id": "container.family-urn",
+   "id": "socket.claywater-station.container-family-urn",
    "kind": "container",
    "host": "b5-ahy-urn",
    "containerClass": "urn",
@@ -2445,7 +2445,7 @@
   },
   {
    "op": "socket",
-   "id": "item.stable-tools",
+   "id": "socket.claywater-station.item-stable-tools",
    "kind": "item",
    "host": "sty-wood",
    "itemClass": "tool",
@@ -2455,7 +2455,7 @@
   },
   {
    "op": "socket",
-   "id": "item.landing-fish",
+   "id": "socket.claywater-station.item-landing-fish",
    "kind": "item",
    "host": "al-rack1",
    "itemClass": "fish",
@@ -2465,7 +2465,7 @@
   },
   {
    "op": "socket",
-   "id": "item.station-lantern",
+   "id": "socket.claywater-station.item-station-lantern",
    "kind": "item",
    "host": "parcel.claywater-station.station-house",
    "itemClass": "misc-household",
@@ -2475,7 +2475,7 @@
   },
   {
    "op": "socket",
-   "id": "item.station-ledger",
+   "id": "socket.claywater-station.item-station-ledger",
    "kind": "item",
    "host": "parcel.claywater-station.station-house",
    "itemClass": "book",
@@ -2486,7 +2486,7 @@
   },
   {
    "op": "socket",
-   "id": "marker.station-house-door",
+   "id": "socket.claywater-station.marker-station-house-door",
    "kind": "marker",
    "at": [
     318.2,
@@ -2498,7 +2498,7 @@
   },
   {
    "op": "socket",
-   "id": "evidence.claywater-station.the-cracked-well",
+   "id": "socket.claywater-station.evidence-the-cracked-well",
    "kind": "marker",
    "host": "parcel.claywater-station.the-well",
    "zone": "evidence",
@@ -2507,7 +2507,7 @@
   },
   {
    "op": "socket",
-   "id": "scene.claywater-station.the-street",
+   "id": "socket.claywater-station.scene-the-street",
    "kind": "marker",
    "at": [
     315.4,
@@ -2519,7 +2519,7 @@
   },
   {
    "op": "socket",
-   "id": "station.claywater-station.well-keeper",
+   "id": "socket.claywater-station.post-well-keeper",
    "kind": "marker",
    "host": "parcel.claywater-station.the-well",
    "zone": "station",
@@ -2528,7 +2528,7 @@
   },
   {
    "op": "socket",
-   "id": "station.claywater-station.poler",
+   "id": "socket.claywater-station.post-poler",
    "kind": "marker",
    "host": "parcel.claywater-station.ferry-raft",
    "zone": "station",

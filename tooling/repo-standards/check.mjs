@@ -243,8 +243,21 @@ function checkIds() {
     // lists the id domains (first segment) that are checked for shape but
     // exempt from the uniqueness test in this source.
     const references = new Set(source.references ?? []);
+    // `"idPattern"`: every id this source DEFINES (not a reference) must also
+    // match it, e.g. a layout's socket ids carry the place segment,
+    // `socket.<place-slug>.<slug>` (decision 0104 decision 2).
+    const pattern = source.idPattern ? new RegExp(source.idPattern) : null;
+    // A source with an `idPattern` is the home table of what it defines, so an
+    // id it defines twice is a defect too (not only one defined in two files).
+    const own = new Set();
     for (const id of ids) {
-      if (!shape.test(id))
+      if (pattern && !references.has(id.split(".")[0])) {
+        if (!pattern.test(id))
+          fail(2, source.path, 0, `ID \`${id}\` does not match ${source.idPattern}.`);
+        else if (own.has(id))
+          fail(2, source.path, 0, `ID \`${id}\` is defined twice in this file.`);
+        own.add(id);
+      } else if (!shape.test(id))
         fail(
           2,
           source.path,
