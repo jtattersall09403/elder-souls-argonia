@@ -67,6 +67,9 @@ BASES.update({
     5: _base("architecture/windhelm/wholdflag05red.nif", 0.7, 2.7, 1.7),     # a hanging flag
     6: _base("architecture/windhelm/whdockdoortrim.nif", 1.5, 0.29, 3.2),    # door trim
     7: _base("dungeons/imperial/exterior/impextdoorhole01.nif", 1.21, 1.88, 3.64),
+    # module-level so every test sees them in any order or xdist worker
+    8: _base("architecture/farmhouse/farmhouse01.nif", 5.0, 6.0, 9.0),      # a farmhouse
+    9: _base("argonia/stockades/walkway01.nif", 5.0, 5.0, 3.0),             # a walkway
 })
 
 
@@ -101,7 +104,6 @@ def test_placed_scales_are_the_median_and_spread_of_every_reference():
 def test_the_shell_whose_family_matches_the_cells_room_seed_wins_the_door():
     # the door stands inside a farmhouse's box; the pod 2.1 m off shares the
     # directory family of the cell's room seed (smpodint02): the pod wins.
-    BASES[8] = _base("architecture/farmhouse/farmhouse01.nif", 5.0, 6.0, 9.0)
     refs = [_ref(10, 1, 10.1, 0.0), _ref(17, 8, 3.0, 0.0)]
     assert _pick(refs) == 17
     ref, _b = M.shell_for(DOOR, refs, _Vault(BASES), None,
@@ -199,7 +201,6 @@ def test_the_candidate_whose_room_ratio_fits_takes_the_door():
 
 def test_a_box_holding_the_door_without_a_wall_at_it_gives_way_to_a_walled_one():
     # a walkway (building-class box) holds the door; the hut's wall is 1.5 m off
-    BASES[9] = _base("argonia/stockades/walkway01.nif", 5.0, 5.0, 3.0)
     refs = [_ref(18, 9, 0.0, 0.0), _ref(11, 2, 6.5, 0.0)]
     assert _pick(refs) == 18
     walls = {18: False, 11: True}
