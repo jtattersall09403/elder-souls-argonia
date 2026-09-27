@@ -893,7 +893,7 @@ def test_the_record_carries_the_mesh_sill_so_both_writers_agree():
     kits = {"a:x/plugin": {}, "b:x/plugin": {}, "a:y/sill": {}, "a:z/none": {}}
     counts = complete_record(assets, kits, {"a:y/sill": {"tell": "post-foot", "valueM": -1.5}},
                              bases={})
-    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1, "plugin-spread": 0}
+    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1, "plugin-spread": 0, "part": 0}
     assert assets["b:x/plugin"]["evidence"] == "swap:a:x/plugin"
     assert assets["a:y/sill"]["p50"] == -1.5 and "a:z/none" not in assets
 
@@ -914,7 +914,7 @@ def test_a_composite_shaped_like_its_base_piece_takes_the_base_plugin_sink():
              "composite:quay": {"tell": "deck-top", "valueM": -0.31}}
     counts = complete_record(assets, kits, tells,
                              bases={"composite:house-door": "v:house", "composite:quay": "v:deck"})
-    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1, "plugin-spread": 0}
+    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1, "plugin-spread": 0, "part": 0}
     door = assets["composite:house-door"]
     assert (door["p50"], door["n"], door["evidence"]) == (-0.05, 20, "base:v:house")
     assert (assets["composite:quay"]["p50"], assets["composite:quay"]["evidence"]) == (
@@ -1216,6 +1216,20 @@ def test_every_published_manifest_sink_equals_the_record():
             source = (evidence.partition(":")[2] if evidence.startswith(("swap:", "base:"))
                       else asset["id"])
             record = mined.get(source, {})
+            if evidence.startswith("part:"):
+                # a part-seated composite: its row must still be its part's
+                # CURRENT plugin sink plus the offset (a re-mined part alone
+                # would otherwise leave it stale behind a green gate)
+                # and its offset the kit config's CURRENT offsetM z
+                from worldgen.mine_designed_sink import composite_part_offsets
+                seat, part_row = record.get("seatedBy") or {}, mined.get(evidence[5:], {})
+                entries = (composite_part_offsets().get(asset["id"]) or {}).get(evidence[5:]) or []
+                config_dz = (float((entries[0].get("offsetM") or [0, 0, 0])[2])
+                             if len(entries) == 1 else None)
+                if not ("p50" in part_row and seat.get("partP50") == part_row["p50"]
+                        and seat.get("partOffsetZM") == config_dz
+                        and record.get("p50") == round(part_row["p50"] + seat["partOffsetZM"], 4)):
+                    wrong.append((path.name, asset["id"], record.get("p50"), part_row.get("p50")))
             if "p50" in record or evidence == "plugin" or evidence.startswith(("swap:", "base:")):
                 if not ("p50" in record and all(
                         sink.get(k) == record.get(k) for k in ("p25", "p50", "p75", "n"))):

@@ -147,3 +147,73 @@ def test_composite_posed_bases_reads_part_zero_pitch_and_roll(tmp_path):
     ]}))
     from .mine_designed_sink import composite_posed_bases
     assert composite_posed_bases(tmp_path) == {"composite:a"}
+
+
+def test_a_composite_seated_by_a_named_part_takes_its_sink_through_the_offset():
+    """Walk 2 round 5 (planner 2026-09-27): the KotM pod house is seated by its
+    porch, the entrance the plugin builds: porch p50 0.7693 + the porch's
+    offsetM z 1.2229 = 1.9922 at the pod's pivot. Fails on the base rule, which
+    gave the pod's own 1.6468."""
+    pod = {"p25": 1.0168, "p50": 1.6468, "p75": 1.915, "n": 7, "iqrM": 0.8982,
+           "slopeTermMPerDeg": None, "evidence": "plugin"}
+    porch = {"p25": 0.6921, "p50": 0.7693, "p75": 0.8191, "n": 4, "iqrM": 0.127,
+             "slopeTermMPerDeg": None, "evidence": "plugin"}
+    kits = {"k:pod": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0]},
+            "k:porch": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0]},
+            "composite:house": {"sizeM": [2, 2, 2], "originOffsetM": [0, 0, 0]}}
+    assets = {"k:pod": dict(pod), "k:porch": dict(porch)}
+    counts = complete_record(
+        assets, kits, {}, bases={"composite:house": "k:pod"}, posed={"composite:house"},
+        part_offsets={"composite:house": {"k:pod": [{"asset": "k:pod"}],
+                                          "k:porch": [{"asset": "k:porch", "offsetM": [-0.2993, -3.3566, 1.2229]}]}},
+        seated_by={"composite:house": ("k:porch", "ruling")})
+    house = assets["composite:house"]
+    assert counts["part"] == 1 and counts["base"] == 0
+    assert (house["p50"], house["p25"], house["n"], house["evidence"]) == (1.9922, 1.915, 4, "part:k:porch")
+    assert house["seatedBy"] == {"part": "k:porch", "partP50": 0.7693, "partOffsetZM": 1.2229,
+                                 "ruling": "ruling"}
+    # idempotent on a re-run
+    complete_record(assets, kits, {}, bases={"composite:house": "k:pod"}, posed={"composite:house"},
+                    part_offsets={"composite:house": {"k:porch": [{"asset": "k:porch", "offsetM": [0, 0, 1.2229]}]}},
+                    seated_by={"composite:house": ("k:porch", "ruling")})
+    assert assets["composite:house"]["p50"] == 1.9922
+
+
+def test_a_part_seat_refuses_what_a_z_offset_cannot_carry():
+    """Review 2026-09-27: a seating part placed twice, scaled, pitched or under
+    a scaled anchor, or with no plugin row, is refused, never shifted by z."""
+    import pytest
+    from .mine_designed_sink import seat_row
+    porch = {"p25": 0.6, "p50": 0.7, "p75": 0.8, "n": 4, "iqrM": 0.2,
+             "slopeTermMPerDeg": None, "evidence": "plugin"}
+    one = {"asset": "k:porch", "offsetM": [0, 0, 1.0]}
+    assert seat_row("c", "k:porch", "r", porch, [one])["p50"] == 1.7
+    for entries, source, why in (([one, one], porch, "placed 2 times"),
+                                 ([{**one, "scale": 1.3}], porch, "scale"),
+                                 ([{**one, "pitchDeg": 180.0}], porch, "pitchDeg"),
+                                 ([{**one, "_anchorScale": 1.3}], porch, "anchorScale"),
+                                 ([one], None, "no plugin sink"),
+                                 (None, porch, "not one of its parts")):
+        with pytest.raises(ValueError, match=why):
+            seat_row("c", "k:porch", "r", source, entries)
+
+
+def test_a_merge_run_of_the_composite_alone_reads_the_parts_committed_row():
+    """Review 2026-09-27: `--merge --assets <composite>` measures the composite
+    without its porch; the porch's committed plugin row (``known``) seats it."""
+    porch = {"p25": 0.6, "p50": 0.7, "p75": 0.8, "n": 4, "iqrM": 0.2,
+             "slopeTermMPerDeg": None, "evidence": "plugin"}
+    kits = {"composite:house": {"sizeM": [2, 2, 2], "originOffsetM": [0, 0, 0]}}
+    assets: dict = {}
+    complete_record(assets, kits, {}, bases={}, posed=set(),
+                    part_offsets={"composite:house": {"k:porch": [{"asset": "k:porch", "offsetM": [0, 0, 1.0]}]}},
+                    seated_by={"composite:house": ("k:porch", "r")}, known={"k:porch": porch})
+    assert assets["composite:house"]["p50"] == 1.7
+
+
+def test_the_kotm_pod_house_record_is_seated_by_its_porch():
+    from .mine_designed_sink import DEFAULT_OUT
+    row = json.loads(DEFAULT_OUT.read_text())["assets"]["composite:mud/kotm-house-pod"]
+    assert (row["p50"], row["evidence"]) == (1.9922, "part:kotm:argonia/mudhuts/smpodextdoor")
+    shell = json.loads(DEFAULT_OUT.read_text())["assets"]["kotm:argonia/mudhuts/smpodext02"]
+    assert shell["p50"] == 1.6468

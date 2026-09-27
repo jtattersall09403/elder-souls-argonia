@@ -3603,12 +3603,12 @@
     "dim_smallcorkpod5.Mat"
    ],
    "designedSinkM": {
-    "p25": 1.0168,
-    "p50": 1.6468,
-    "p75": 1.915,
-    "n": 7,
+    "p25": 1.915,
+    "p50": 1.9922,
+    "p75": 2.042,
+    "n": 4,
     "slopeTermMPerDeg": null,
-    "evidence": "base:kotm:argonia/mudhuts/smpodext02"
+    "evidence": "part:kotm:argonia/mudhuts/smpodextdoor"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",

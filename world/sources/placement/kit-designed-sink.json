@@ -90,7 +90,7 @@
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS",
  "method": "designedSinkM = groundZ - pivotZ (metres, z-up, positive = pivot below the ground line) per exterior reference at unit scale; terrain from esp_index.height_at (bilinear on the cell LAND); a reference with mesh contact from below on a static or kit piece (worldgen/mine_mounts.py contact) is left out, and so is one whose bounds bottom stands more than 0.10 m above the highest LAND under its corners and pivot with no contact seen (refsDroppedPluginUnsupported); percentiles over n >= 3 references; slopeTermMPerDeg = least-squares gradient of sink on local terrain slope in degrees; designedWaterlineM from the cell water height on the same sign convention (the defining file's references only when it has 3 or more). Assets without n >= 3 samples: a composite whose bounds and origin equal its base piece's (compose.parts[0]) takes the base piece's plugin sink (evidence base:<id>; so does one whose part 0 carries the plugin's pitch/roll, the pose its references hold), else a measured twin shipping the same mesh (evidence swap:<id>), else the mesh-sill ground-line tell of the raw kit GLB (pipeline/mesh_ground_line.py, evidence mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' when the left-out references are what left it short, 'mesh-sill (plugin-unsupported)' when the unsupported ones are); a structure piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR exceeds 1.0 m with n < 6 or over half its mesh height takes its mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin percentiles kept in pluginSpread); a stilt-fit asset's mesh tell is its deck top minus the stilt policy's deckClearanceM (tell deck-top); neither: no p50 (policy fallback at write time). worldgen/mine_designed_sink.py",
  "kitAssetsConsidered": 1498,
- "assetsMeasured": 1435,
+ "assetsMeasured": 1438,
  "refsJoined": 64403,
  "refsJoinedMasterBase": 32437,
  "refsStaticSupported": 7557,
@@ -23595,13 +23595,19 @@
    }
   },
   "composite:mud/kotm-house-pod": {
-   "p25": 1.0168,
-   "p50": 1.6468,
-   "p75": 1.915,
-   "n": 7,
-   "iqrM": 0.8982,
+   "p25": 1.915,
+   "p50": 1.9922,
+   "p75": 2.042,
+   "n": 4,
+   "iqrM": 0.127,
    "slopeTermMPerDeg": null,
-   "evidence": "base:kotm:argonia/mudhuts/smpodext02"
+   "evidence": "part:kotm:argonia/mudhuts/smpodextdoor",
+   "seatedBy": {
+    "part": "kotm:argonia/mudhuts/smpodextdoor",
+    "partP50": 0.7693,
+    "partOffsetZM": 1.2229,
+    "ruling": "planner ruling 2026-09-27 walk 2 round 5: the entrance height the plugin builds; the pod's own sink (1.6468) left the porch 0.35 m high"
+   }
   },
   "kotm:argonia/clutter/burner02": {
    "p25": -0.0468,
@@ -25210,6 +25216,48 @@
     "type": "mesh",
     "tell": "foundation-top",
     "valueM": 0.0203
+   }
+  },
+  "bmv:architecture/phitt/ashlands/tramaroot01": {
+   "p25": -0.8009,
+   "p50": -0.8009,
+   "p75": -0.8009,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.8009
+   }
+  },
+  "xanmeer:architecture/xanmeer/exterior/xanmeer_exterior_floor": {
+   "p25": -0.0089,
+   "p50": -0.0089,
+   "p75": -0.0089,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0089
+   }
+  },
+  "xanmeer:architecture/xanmeer/interior/xanmeer_hallway_2way": {
+   "p25": -0.0003,
+   "p50": -0.0003,
+   "p75": -0.0003,
+   "n": 0,
+   "iqrM": 0.0,
+   "slopeTermMPerDeg": null,
+   "evidence": "mesh-sill",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0003
    }
   }
  }

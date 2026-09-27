@@ -61,9 +61,9 @@ def test_measurement_is_deterministic(measured):
 
 def test_a_buried_shell_is_measured_at_its_designed_sink_plane():
     """16k fix 2 ruling 3: the KotM house pod stands 8.7 m into the ground
-    (designedSinkM above a pivot 6.7 m over its tip: 1.647, the base
-    smpodext02's plugin sink the composite inherits since walk 2 round 3;
-    1.99 was a policy row). Its footprint is
+    (designedSinkM above a pivot 6.7 m over its tip: 1.9922 since walk 2
+    round 5, the porch smpodextdoor's plugin sink 0.7693 carried through its
+    offsetM z 1.2229, `part:` evidence; the base pod's 1.647 before). Its footprint is
     the ring at the ground plane, not the 5.3 m2 buried tip, so the free-pose
     search and walkRule treat the pod as solid."""
     kit = "settlement-mud-v1"
@@ -72,6 +72,6 @@ def test_a_buried_shell_is_measured_at_its_designed_sink_plane():
     rec = mf.measure_kit(kit)["assets"]["composite:mud/kotm-house-pod"]
     xs = [p[0] for p in rec["footprintM"]]
     zs = [p[1] for p in rec["footprintM"]]
-    assert rec["groundPlaneM"] == pytest.approx(1.647, abs=0.01)
+    assert rec["groundPlaneM"] == pytest.approx(1.992, abs=0.01)
     assert max(xs) - min(xs) > 11.0 and max(zs) - min(zs) > 11.0
     assert rec["areaM2"] > 100.0

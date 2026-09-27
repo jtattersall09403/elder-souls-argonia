@@ -63,6 +63,8 @@ EVIDENCE_VOCABULARY: tuple[tuple[str, tuple[str, ...], str], ...] = (
      "n < 6 or over half its mesh height (plugin percentiles in pluginSpread)"),
     ("swap:", ("sink",), "the plugin sink of a measured twin shipping the same mesh"),
     ("base:", ("sink",), "the plugin sink of the base piece of a same-shape composite"),
+    ("part:", ("sink",), "a composite seated by a named part (mine_designed_sink "
+     "COMPOSITE_SEATED_BY_PART): that part's plugin sink plus its offsetM z"),
     ("policy-fallback", ("sink",), "no record value: the placement-policy row's fallbackSinkM"),
     ("unplaced", ("anchorClassEvidence",), "no plugin places it: ground"),
     ("category", ("anchorClassEvidence", "source"),

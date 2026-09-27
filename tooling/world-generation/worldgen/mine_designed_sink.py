@@ -629,6 +629,70 @@ def composite_posed_bases(config_dir: Path = KIT_CONFIG_DIR) -> set[str]:
     return posed
 
 
+COMPOSITE_SEATED_BY_PART: dict[str, tuple[str, str]] = {
+    # composite id -> (the part whose plugin sink seats it, the ruling)
+    "composite:mud/kotm-house-pod": (
+        "kotm:argonia/mudhuts/smpodextdoor",
+        "planner ruling 2026-09-27 walk 2 round 5: the entrance height the plugin "
+        "builds; the pod's own sink (1.6468) left the porch 0.35 m high"),
+}
+"""A composite seated by one of its parts: the porch the plugin builds the
+entrance on, not the base shell (walk 2 round 5). Its sink is that part's
+plugin sink carried to the composite's pivot through the part's ``offsetM``
+z (sink = ground - pivot, and the part's pivot stands offset z above the
+composite's), ``part:<id>``. It outranks the base rule."""
+
+
+def composite_part_offsets(config_dir: Path = KIT_CONFIG_DIR) -> dict[str, dict[str, list[dict]]]:
+    """``composite id -> {part asset -> [its compose part entries]}`` from the
+    kit build configs (read only). Every entry is kept, so a part placed twice
+    is seen twice and `seat_row` refuses it as ambiguous; the composite's own
+    ``anchorScale`` rides on each entry as ``_anchorScale``."""
+    offsets: dict[str, dict[str, list[dict]]] = {}
+    for path in sorted(config_dir.glob("*.json")):
+        try:
+            entries = json.loads(path.read_text()).get("assets", [])
+        except (OSError, ValueError):
+            continue
+        for entry in entries:
+            compose = entry.get("compose") or {}
+            parts = compose.get("parts") or []
+            if isinstance(entry.get("asset"), str) and parts:
+                row = offsets.setdefault(entry["asset"], {})
+                for part in parts:
+                    row.setdefault(part["asset"], []).append(
+                        {**part, "_anchorScale": compose.get("anchorScale", 1.0)})
+    return offsets
+
+
+def seat_row(asset_id: str, part: str, ruling: str, source: dict | None,
+             entries: list[dict] | None) -> dict:
+    """The record row of a composite seated by ``part`` (COMPOSITE_SEATED_BY_PART):
+    the part's plugin sink plus the part's offsetM z. Refuses what the z shift
+    does not model: no plugin row for the part, the part absent or placed more
+    than once in the composite, or a part or anchor that is scaled, pitched or
+    rolled (the part's sink would then not carry through a plain z offset)."""
+    if not source or source.get("evidence") != "plugin" or "p50" not in source:
+        raise ValueError(f"{asset_id}: seated by {part}, which has no plugin sink row")
+    if not entries:
+        raise ValueError(f"{asset_id}: seated by {part}, which is not one of its parts")
+    if len(entries) != 1:
+        raise ValueError(f"{asset_id}: seated by {part}, placed {len(entries)} times in it")
+    entry = entries[0]
+    for key, neutral in (("scale", 1.0), ("_anchorScale", 1.0), ("pitchDeg", 0.0),
+                         ("rollDeg", 0.0), ("partScaleInAnchor", 1.0)):
+        if abs(float(entry.get(key, neutral)) - neutral) > 1e-9:
+            raise ValueError(f"{asset_id}: seated by {part}, whose {key.lstrip('_')} is "
+                             f"{entry[key]}; a part-seated sink models a z offset only")
+    dz = float((entry.get("offsetM") or [0.0, 0.0, 0.0])[2])
+    row = {key: round(source[key] + dz, 4) for key in ("p25", "p50", "p75")}
+    row.update({key: source[key] for key in ("n", "iqrM", "slopeTermMPerDeg")})
+    row["evidence"] = f"part:{part}"
+    row["seatedBy"] = {"part": part, "partP50": source["p50"], "partOffsetZM": dz,
+                       "ruling": ruling}
+    return row
+
+
 def same_shape(a: dict, b: dict) -> bool:
     """Equal measured bounds and origin (``sizeM``, ``originOffsetM``)."""
     for key in ("sizeM", "originOffsetM"):
@@ -671,7 +735,10 @@ def is_plugin_spread(record: dict, kit: dict | None) -> bool:
 def complete_record(assets: dict[str, dict], kits: dict[str, dict],
                     tells: dict[str, dict],
                     bases: dict[str, str] | None = None,
-                    posed: set[str] | None = None) -> dict[str, int]:
+                    posed: set[str] | None = None,
+                    part_offsets: dict[str, dict[str, list[dict]]] | None = None,
+                    seated_by: dict[str, tuple[str, str]] | None = None,
+                    known: dict[str, dict] | None = None) -> dict[str, int]:
     """Give every kit asset without plugin samples the best other evidence, IN
     the record, so every manifest writer reads one value (16h round 6: two
     writers disagreed, the kit build falling back to policy where the refresh
@@ -679,11 +746,15 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
     base piece's takes the base piece's plugin sink (``base:<id>``, round 14:
     the farmhouse with its door leaf is the farmhouse; a composite with bounds
     of its own, a quay run, keeps its own tell, unless its part 0 carries the
-    plugin's pose, ``composite_posed_bases``); a measured twin shipping the
+    plugin's pose, ``composite_posed_bases``); ahead of that, a composite
+    named in ``COMPOSITE_SEATED_BY_PART`` takes its named part's plugin sink
+    plus the part's offsetM z (``part:<id>``); a measured twin shipping the
     same mesh (``swap:<id>``); then the mesh-sill tell (``mesh-sill``, n 0).
     Assets with none keep no p50 and take the policy fallback at write time."""
     bases = composite_bases() if bases is None else bases
     posed = composite_posed_bases() if posed is None else posed
+    part_offsets = composite_part_offsets() if part_offsets is None else part_offsets
+    seated_by = COMPOSITE_SEATED_BY_PART if seated_by is None else seated_by
     for record in assets.values():
         # Idempotent: a spread row keeps its plugin measurement in pluginSpread.
         if record.get("evidence") == PLUGIN_SPREAD_SILL and "pluginSpread" in record:
@@ -697,7 +768,7 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
     twins: dict[str, str] = {}
     for asset_id in plugin:
         twins.setdefault(asset_id.partition(":")[2].casefold(), asset_id)
-    counts = {"base": 0, "swap": 0, "mesh-sill": 0, "plugin-spread": 0}
+    counts = {"part": 0, "base": 0, "swap": 0, "mesh-sill": 0, "plugin-spread": 0}
     for asset_id in sorted(set(kits) | set(assets)):
         record = assets.get(asset_id, {})
         if asset_id in spread:
@@ -714,8 +785,19 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
         if record.get("evidence") == "plugin":
             continue
         for key in ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg",
-                    "evidence", "groundLineTell", "spreadIqrM", "spreadN"):
+                    "evidence", "groundLineTell", "spreadIqrM", "spreadN", "seatedBy"):
             record.pop(key, None)
+        seat = seated_by.get(asset_id)
+        if seat is not None and asset_id in kits:
+            part, ruling = seat
+            # a per-asset run (--merge) measures the composite without its
+            # part: the part's committed plugin row (``known``) stands in
+            source = plugin.get(part) or (known or {}).get(part)
+            record = seat_row(asset_id, part, ruling, source,
+                              (part_offsets.get(asset_id) or {}).get(part))
+            counts["part"] += 1
+            assets[asset_id] = record
+            continue
         twin = twins.get(asset_id.partition(":")[2].casefold())
         base = bases.get(asset_id)
         inherits = (base in plugin and asset_id in kits and base in kits
@@ -802,7 +884,8 @@ def build_document(kits: dict[str, dict], vault: Path,
                    tells: dict[str, dict] | None = None,
                    plugins: list[tuple[str, Path]] | None = None,
                    supported: set[int] | None = None, jobs: int = 5,
-                   min_samples: int = MIN_SAMPLES) -> dict:
+                   min_samples: int = MIN_SAMPLES,
+                   known: dict[str, dict] | None = None) -> dict:
     if supported is None:
         from .mine_mounts import static_supported_refs  # imports this module
         supported = static_supported_refs(kits, vault, plugins=plugins, jobs=jobs,
@@ -812,7 +895,7 @@ def build_document(kits: dict[str, dict], vault: Path,
     assets = summarise(samples, min_samples)
     if tells is None:
         tells = raw_mesh_tells()
-    complete_record(assets, kits, tells)
+    complete_record(assets, kits, tells, known=known)
     from .mine_assemblies import provenance
     walked = pool_plugins(vault) if plugins is None else plugins
     return {
@@ -900,16 +983,27 @@ def _main(argv: Iterable[str] | None = None) -> int:
         missing = [a for a in args.assets if a not in kits]
         if missing:
             raise SystemExit(f"not a kit asset: {missing}")
+        record = json.loads(args.out.read_text())
         got = build_document({a: kits[a] for a in args.assets}, args.vault,
                              progress=not args.quiet,
-                             min_samples=1 if args.whole_population else MIN_SAMPLES)["assets"]
-        record = json.loads(args.out.read_text())
+                             min_samples=1 if args.whole_population else MIN_SAMPLES,
+                             known=record["assets"])["assets"]
         for asset in args.assets:
             if asset not in got:
                 raise SystemExit(f"{asset}: the run measured no row")
             if args.whole_population:
                 mark_whole_population(asset, got[asset], args.whole_population)
             record["assets"][asset] = got[asset]
+        # a re-mined seating part carries its composites with it
+        offsets = composite_part_offsets()
+        for comp, (part, ruling) in sorted(COMPOSITE_SEATED_BY_PART.items()):
+            if part in args.assets and comp in record["assets"]:
+                try:
+                    record["assets"][comp] = seat_row(comp, part, ruling,
+                                                      record["assets"].get(part),
+                                                      (offsets.get(comp) or {}).get(part))
+                except ValueError as exc:
+                    raise SystemExit(f"refused, the record is unchanged: {exc}") from None
         record["assetsMeasured"] = len(record["assets"])
         findings = evidence_findings(record["assets"])
         if findings:
