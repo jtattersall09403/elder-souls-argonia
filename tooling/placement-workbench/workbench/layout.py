@@ -313,38 +313,96 @@ def check_failures(check: dict) -> list[str]:
     (97 B3 slope, the fit delta, the sill, the pad fit of 0101, foot float,
     run joints and crossings, hull depth, quay bank, doors within reach of a
     way; 0102's walkRule, floorEdgeRule, pathReachRule, propSeatRule)."""
+    return [row["text"] for row in check_failure_rows(check)]
+
+
+def check_failure_rows(check: dict) -> list[dict]:
+    """`check_failures` with each failure's rule and the piece uids it
+    names ({rule, uids, text}), in the same order: the round summary groups
+    them by rule and by uid (`wb.py round`)."""
     paths.bridge()
     from worldgen import blueprint_integration as bi
     from worldgen import test_proving_ground as tpg
     out = []
+
+    def add(rule, uids, text):
+        out.append({"rule": rule, "uids": uids, "text": text})
     for uid, r in check["pieces"].items():
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "notExportable"):
             if r.get(rule):
-                out.append(f"{uid}: {r[rule]}")
+                # the piece row's sillRule is the yard gate's ground line at the pivot
+                add("yardSillRule" if rule == "sillRule" else rule, [uid], f"{uid}: {r[rule]}")
         # a piled deck (dock, jetty, landing span) stands on its piles and
         # seats by its deck: its feet are exempt (lessons L65, round 4)
         if (r.get("anchorClass") or "ground") == "ground" and not r.get("piled") and \
                 (r.get("footFloatMaxM") or 0.0) > tpg.FLOAT_LIMIT_M:
-            out.append(f"{uid}: foot floats {r['footFloatMaxM']} m (> {tpg.FLOAT_LIMIT_M})")
+            add("footFloat", [uid], f"{uid}: foot floats {r['footFloatMaxM']} m (> {tpg.FLOAT_LIMIT_M})")
         if r.get("hullWater") and not r["hullWater"]["ok"]:
-            out.append(f"{uid}: hull water {r['hullWater']['minDepthM']} m under its halo")
+            add("hullWater", [uid], f"{uid}: hull water {r['hullWater']['minDepthM']} m under its halo")
         if (r.get("quayReach") or {}).get("bankError"):
-            out.append(f"{uid}: {r['quayReach']['bankError']}")
+            add("quayBank", [uid], f"{uid}: {r['quayReach']['bankError']}")
     for pair in check["nearPairs"]:
         if not pair.get("ok", True):
-            out.append(f"{pair.get('a')}~{pair.get('b')}: {pair['relation']} pair fails "
-                       f"(gap {pair.get('gapM')}, penetration {pair.get('penetrationM')}, "
-                       f"crossing {pair.get('intersecting')})")
+            add(f"{pair['relation']}Pair", [pair.get("a"), pair.get("b")],
+                f"{pair.get('a')}~{pair.get('b')}: {pair['relation']} pair fails "
+                f"(gap {pair.get('gapM')}, penetration {pair.get('penetrationM')}, "
+                f"crossing {pair.get('intersecting')})")
     for uid, d in check["doors"].items():
         dist = d["best"]["pathDistanceM"]
         if dist is None or dist > bi.DOOR_REACH_M:
-            out.append(f"{uid}: best doorway {dist} m from a way (> {bi.DOOR_REACH_M})")
+            add("doorReach", [uid], f"{uid}: best doorway {dist} m from a way (> {bi.DOOR_REACH_M})")
     # decision 0102 decision 2: the measured walk-packet rules
+    uids = list(check["pieces"])
     for key, rule in RULES:
-        out += [f"{rule}: {x}" for x in (check.get(key) or {}).get("failures", [])]
+        for x in (check.get(key) or {}).get("failures", []):
+            add(rule, _named_uids(x, uids), f"{rule}: {x}")
     return out
+
+
+def _named_uids(text: str, uids: list[str]) -> list[str]:
+    """The scene uids a rule's failure text leads with (`uid: ...`,
+    `door:uid[.k]: ...`, `uid~uid ...`); [] when it names none."""
+    head = text.split(": ", 1)[0].removeprefix("door:")
+    found = []
+    for part in head.replace("~", " ").replace(",", " ").split():
+        for cand in (part, part.rsplit(".", 1)[0]):
+            if cand in uids and cand not in found:
+                found.append(cand)
+                break
+    return found
 
 
 RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
          ("propSeat", "propSeatRule"), ("roadSurface", "roadSurfaceRule"), ("sill", "sillRule"),
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"))
+
+
+# The first fix to try for each rule's failure (the round summary prints it
+# beside the count; the bars and their rulings are the placement-workbench
+# skill's section 5). Tooling text for the agent, not player-facing.
+FIX_HINTS = {
+    "slopeRule": "re-site (wb.py scan / site) or give the parcel a pad or a fit made for the slope",
+    "deltaRule": "re-site, declare a pad, or author a groundFit that takes the delta, with its reason",
+    "sillRule": "bring the threshold within 0.20 m of the walk surface: re-seat, pad, or lay the "
+                "steps or porch its assembly names",
+    "yardSillRule": "the ground line stands off the ground at the pivot: re-site or pad it",
+    "padRule": "move the building (wb.py scan ranks pad legality), lay the kit's retaining wall "
+               "along the named edges, or batter a mud pad (<= 1.2 m)",
+    "beachedRule": "move the hull onto a gentler bank within 1.5 m of the water line",
+    "notExportable": "remove the roll / mirror: the runtime turns by yaw and pitch only",
+    "footFloat": "settle it, move it onto flatter ground, or pad the ground under it",
+    "hullWater": "move the hull out to at least the least depth all round its halo",
+    "quayBank": "slide the stage along its axis until its landward end meets the bank",
+    "unrelatedPair": "the two pieces cross: move one (wb.py measure A B gives the slide)",
+    "run-jointPair": "re-snap the run step by evidence (snap --by evidence --settle)",
+    "mountedPair": "re-mount the child on its parent by the mined pair",
+    "doorReach": "turn the building or move the path so the threshold is within 4 m of it",
+    "walkRule": "clear the blocking cell the failure names, or lay a walkable way over it",
+    "floorEdgeRule": "re-seat or pad the building, or lay a retaining piece under the named edge",
+    "pathReachRule": "end a path within 1 m of the door, its last leg on the door's facing",
+    "propSeatRule": "re-settle the prop, or move it off uneven ground (site --free)",
+    "roadSurfaceRule": "move the piece off the road paint (wb.py scan reports the overlap)",
+    "signRule": "turn the board's arm onto the road's bearing and mount it at 1.7-2.4 m",
+    "berthReachRule": "lay a landing or plank from dry ground to within 1 m of the hull",
+    "colliderRule": "use a piece whose kit manifest carries a collider, or source one",
+}

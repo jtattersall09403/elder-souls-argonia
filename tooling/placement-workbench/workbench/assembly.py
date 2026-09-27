@@ -14,7 +14,7 @@ from . import paths
 from .kits import Catalogue
 from .scene import Piece, Scene, plan_to_province
 
-PREFABS = paths.OUTPUT / "prefabs"
+PREFABS = paths.SHARED_OUTPUT / "prefabs"
 YARD_SETS = paths.REPO_ROOT / "world" / "sources" / "placement" / "yard-sets"
 """The tracked yard-set records (decision 0101): `group place` reads a set
 from here first; the gitignored PREFABS hold only the yard fixtures' groups."""

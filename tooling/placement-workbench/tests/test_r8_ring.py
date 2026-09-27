@@ -57,12 +57,12 @@ def test_compile_scene_keeps_the_compiled_settlement(tmp_path, monkeypatch):
     src.write_text(json.dumps({"blueprint": {"id": BP}}))
     keep_out = tmp_path / "compiled"
 
-    def fake(cmd, **_k):
-        if "worldgen.compile_settlement" in cmd:
-            out = Path(cmd[cmd.index("--out") + 1])
+    def fake(name, *args):           # the in-process pass runner (`wb._run_module`)
+        if name == "worldgen.compile_settlement":
+            out = Path(args[args.index("--out") + 1])
             (out / f"{BP}.settlement.json").write_text(json.dumps(_settlement()))
-        return subprocess.CompletedProcess(cmd, 0, "", "")
-    monkeypatch.setattr(subprocess, "run", fake)
+        return subprocess.CompletedProcess([name, *args], 0, "", "")
+    monkeypatch.setattr(wb, "_run_module", fake)
     monkeypatch.setattr(export, "export", lambda *a, **k: {})
     got = wb.compile_scene(Scene(path=tmp_path / "s.json", placeId=BP), src, keep_out=keep_out)
     assert got["settlement"] == str(keep_out / f"{BP}.settlement.json")

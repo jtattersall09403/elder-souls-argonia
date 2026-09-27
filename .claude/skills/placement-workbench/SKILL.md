@@ -76,9 +76,11 @@ step 2). Each op is one mutating command below as JSON with the CLI's
 argument names; the standing example is
 `tooling/placement-workbench/fixtures/yard-b.layout.json`.
 
-    python3 tooling/placement-workbench/wb.py round [SCENE] <place>.layout.json [--no-shots] [--full]
-        # apply + check + compile + walktable + render --shots auto in ONE process;
-        # output/apply/<scene>/summary.json: failures by rule (count, fix hint) and by uid
+    python3 tooling/placement-workbench/wb.py round [SCENE] <place>.layout.json [--plan | --no-shots]
+        [--walktable] [--full]   # apply + check + compile + shots (or the 2D plan) in ONE process;
+        # output/apply/<scene>/summary.json: failures by rule (count, fix hint) and by uid;
+        # rounds.jsonl beside it; --walktable only after publish; --full before export --write
+    python3 tooling/placement-workbench/wb.py edit <place>.layout.json --uid UID --set at=[X,Z] yaw=D
     python3 tooling/placement-workbench/wb.py apply <place>.layout.json [--scene NAME]
         [--no-compile] [--allow-stale-ground] [--full]   # unchanged ops restored from the op cache
     $W scan <spec>.json --out <file>   # every candidate pose ranked: pad legality, paint, water, apron room

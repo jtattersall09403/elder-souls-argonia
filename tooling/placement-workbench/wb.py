@@ -48,6 +48,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import shlex
 import sys
 import time
@@ -498,58 +499,64 @@ def cmd_doors(a, scene, cat):
     return {uid: r for uid, r in reports.items() if r}
 
 
-def cmd_check(a, scene, cat):
-    """Every piece: seat vs its y, foot float, slope vs its fit's limit;
-    every pair whose bounds come within 0.5 m: contact; every door: path."""
-    from workbench import pads, paths, rules
+def _check_row(cat, scene, p, declared, cs) -> dict:
+    """One piece's `check` row: seat vs its y, foot float, slope vs its fit's
+    limit, quay reach or hull water, the pad fit (0101)."""
+    from workbench import pads, rules
+    # every piece is judged on the ground the scene's pads patch (0101)
+    g = pads.ground_for(cat, scene, p, declared)
+    row = cat.row(p.asset)
+    r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
+         "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy,
+         "piled": bool(row.get("piled"))}
+    mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
+               or (p.role or {}).get("on") == "parent")
+    if not mounted:
+        seat = measure.seat(cat, g, p)
+        r["runtimeY"] = round(seat["y"], 3)
+        r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
+        if p.beached:
+            r.update(_beached(cat, g, p))
+            if p.y is not None:
+                r["beachedProfile"] = rules.beached_profile(cat, g, p)
+        elif p.role.get("kind") != "run":
+            # a run is judged by the compile on its union (`compile` command)
+            r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
+        if seat["mode"] != "water":
+            poly = measure.footprint_province(cat, p)
+            if p.role.get("kind") == "run":
+                slope = g.footprint_max_slope_deg(poly)
+                r["maxSlopeDeg"] = round(slope, 2)
+                r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
+                r.update(_sill(cat, g, p, row, cs))
+            r["deltaM"] = round(seat["deltaM"], 3)
+            r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
+    if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
+        r.update(measure.float_under(cat, g, p))
+    if cs.is_quay_run(row):
+        r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
+    elif (row.get("anchorClass") or "ground") == "water" and not row.get("piled"):
+        # a piled deck is no hull: its piles stand in the bed (lessons L65)
+        r["hullWater"] = _hull_water(cat, g, p)
+    if p.roll or p.mirror:
+        r["notExportable"] = "roll / mirror: the runtime has neither"
+    if p.uid in declared:
+        r["pad"] = pads.pad_fit(cat, scene, p, declared[p.uid])
+        r["padRule"] = r["pad"].pop("padRule")
+        r["ok"] = r.get("ok", True) and r["padRule"] is None
+    return r
+
+
+def _check_rows(cat, scene, uids: list) -> list[tuple[str, dict]]:
+    from workbench import pads, paths
     paths.bridge()
     from worldgen import compile_settlement as cs
     declared = pads.scene_pads(cat, scene)
-    rows = {}
-    for p in scene.pieces:
-        # every piece is judged on the ground the scene's pads patch (0101)
-        g = pads.ground_for(cat, scene, p, declared)
-        row = cat.row(p.asset)
-        r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
-             "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy,
-             "piled": bool(row.get("piled"))}
-        mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
-                   or (p.role or {}).get("on") == "parent")
-        if not mounted:
-            seat = measure.seat(cat, g, p)
-            r["runtimeY"] = round(seat["y"], 3)
-            r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
-            if p.beached:
-                r.update(_beached(cat, g, p))
-                if p.y is not None:
-                    r["beachedProfile"] = rules.beached_profile(cat, g, p)
-            elif p.role.get("kind") != "run":
-                # a run is judged by the compile on its union (`compile` command)
-                r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
-            if seat["mode"] != "water":
-                poly = measure.footprint_province(cat, p)
-                if p.role.get("kind") == "run":
-                    slope = g.footprint_max_slope_deg(poly)
-                    r["maxSlopeDeg"] = round(slope, 2)
-                    r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
-                    r.update(_sill(cat, g, p, row, cs))
-                r["deltaM"] = round(seat["deltaM"], 3)
-                r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
-        if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
-            r.update(measure.float_under(cat, g, p))
-        if cs.is_quay_run(row):
-            r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
-        elif (row.get("anchorClass") or "ground") == "water" and not row.get("piled"):
-            # a piled deck is no hull: its piles stand in the bed (lessons L65)
-            r["hullWater"] = _hull_water(cat, g, p)
-        if p.roll or p.mirror:
-            r["notExportable"] = "roll / mirror: the runtime has neither"
-        if p.uid in declared:
-            r["pad"] = pads.pad_fit(cat, scene, p, declared[p.uid])
-            r["padRule"] = r["pad"].pop("padRule")
-            r["ok"] = r.get("ok", True) and r["padRule"] is None
-        rows[p.uid] = r
-    pairs = []
+    return [(u, _check_row(cat, scene, scene.piece(u), declared, cs)) for u in uids]
+
+
+def _near_pairs(cat, scene) -> list[tuple[str, str]]:
+    """Every pair whose world bounds come within 0.5 m, in scene order."""
     boxes = {}
     for p in scene.pieces:
         if p.y is None:
@@ -559,33 +566,115 @@ def cmd_check(a, scene, cat):
                       for z in m.bounds[:, 2]])
         w = p.world_points(c)
         boxes[p.uid] = (w.min(axis=0), w.max(axis=0))
-    uids = list(boxes)
+    uids, out = list(boxes), []
     for i, u in enumerate(uids):
         for v in uids[i + 1:]:
             (l1, h1), (l2, h2) = boxes[u], boxes[v]
             if np.all(l1 <= h2 + 0.5) and np.all(l2 <= h1 + 0.5):
-                a_, b_ = scene.piece(u), scene.piece(v)
-                got = measure.contact(cat, a_, b_)
-                got.update(_pair_verdict(a_, b_, got, cat))
-                pairs.append(got)
-    doors = cmd_doors(a, scene, cat)
-    out = {"pieces": rows, "nearPairs": pairs, "doors": doors}
-    # 0102 decision 2: what the walk packet used to ask, measured
-    out["walk"] = rules.walk(cat, scene)
-    out["floorEdge"] = rules.floor_edge(
-        cat, scene, lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset)))
-    out["pathReach"] = rules.path_reach(cat, scene)
-    out["propSeat"] = rules.prop_seat(cat, scene)
-    # 16k walk 2 (place-diag P1-P4, runtime-diag D2/D6)
-    out["roadSurface"] = rules.road_surface(cat, scene)
-    out["sill"] = rules.sill(cat, scene)
-    out["sign"] = rules.sign(cat, scene)
-    out["berthReach"] = rules.berth_reach(cat, scene)
-    out["collider"] = rules.collider(cat, scene)
+                out.append((u, v))
+    return out
+
+
+def _check_pairs(cat, scene, pairs: list) -> list[dict]:
+    out = []
+    for u, v in pairs:
+        a_, b_ = scene.piece(u), scene.piece(v)
+        got = measure.contact(cat, a_, b_)
+        got.update(_pair_verdict(a_, b_, got, cat))
+        out.append(got)
+    return out
+
+
+def _pair_key(cat, gkey: str, a: Piece, b: Piece) -> str:
+    from workbench import opcache
+    return opcache._sha([gkey, opcache.state(a), opcache.state(b),
+                         opcache.asset_key(cat, a.asset), opcache.asset_key(cat, b.asset)])
+
+
+def _rule_task(cat, scene, key: str):
+    """One scene-level `check` rule (0102 decision 2 and 16k walk 2)."""
+    from workbench import paths, rules
+    if key == "doors":
+        return cmd_doors(None, scene, cat)
+    if key == "floorEdge":
+        paths.bridge()
+        from worldgen import compile_settlement as cs
+        return rules.floor_edge(
+            cat, scene, lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset)))
+    fn = {"walk": rules.walk, "pathReach": rules.path_reach, "propSeat": rules.prop_seat,
+          "roadSurface": rules.road_surface, "sill": rules.sill, "sign": rules.sign,
+          "berthReach": rules.berth_reach, "collider": rules.collider}[key]
+    return fn(cat, scene)
+
+
+# the scene-level rules, in the order `check` writes them (after doors);
+# the costliest first in the pool
+CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
+               "berthReach", "collider")
+
+
+def cmd_check(a, scene, cat):
+    """Every piece: seat vs its y, foot float, slope vs its fit's limit;
+    every pair whose bounds come within 0.5 m: contact; every door: path;
+    the walk-packet rules. Rows, pairs and rules run across the fork pool
+    (`workbench.parallel`); a near pair whose two pieces are unchanged since
+    the last check of this scene is restored from the scene's pair cache
+    (`workbench.opcache`). `--only UID,..` re-measures those pieces' pairs
+    even on a cache hit; `--serial` runs in-process; `--full` ignores the
+    cache. The result is the serial loop's, key for key."""
+    return check_scene(cat, scene, only=getattr(a, "only", None),
+                       serial=bool(getattr(a, "serial", False)),
+                       use_cache=not getattr(a, "full", False))
+
+
+def check_scene(cat, scene, only=None, serial: bool = False, use_cache: bool = True,
+                stats: dict | None = None) -> dict:
+    from workbench import opcache, parallel, paths
+    paths.bridge()
+    from worldgen import compile_settlement as cs  # noqa: F401 - warm before the fork
+    from workbench import pads
+    t0 = time.time()
+    pads.scene_pads(cat, scene)                     # resolve once, before the fork
+    for p in scene.pieces:
+        pads.ground_for(cat, scene, p)
+        break
+    only = set(only.split(",") if isinstance(only, str) else (only or []))
+    store = opcache.Store(opcache.cache_dir(scene.path) / "pairs.json", enabled=use_cache)
+    gkey = opcache.global_key(scene.placeId, scene.groundStem)
+    pairs = _near_pairs(cat, scene)
+    keys = [_pair_key(cat, gkey, scene.piece(u), scene.piece(v)) for u, v in pairs]
+    cached = [None if (u in only or v in only) else store.get(k)
+              for (u, v), k in zip(pairs, keys)]
+    todo = [i for i, c in enumerate(cached) if c is None]
+    n = 1 if serial else parallel.workers()
+    uids = [p.uid for p in scene.pieces]
+    row_chunks = parallel.chunks(uids, n)
+    pair_chunks = parallel.chunks(todo, max(1, 2 * n))
+    tasks = ([(_check_pairs, (cat, scene, [pairs[i] for i in c])) for c in pair_chunks]
+             + [(_rule_task, (cat, scene, k)) for k in CHECK_RULES]
+             + [(_rule_task, (cat, scene, "doors"))]
+             + [(_check_rows, (cat, scene, c)) for c in row_chunks])
+    got = parallel.run(tasks, n)
+    k = 0
+    for c in pair_chunks:
+        for i, res in zip(c, got[k]):
+            cached[i] = res
+            store.put(keys[i], res)
+        k += 1
+    rules_out = dict(zip(CHECK_RULES, got[k:k + len(CHECK_RULES)]))
+    k += len(CHECK_RULES)
+    doors = got[k]
+    rows = dict(pair for chunk in got[k + 1:] for pair in chunk)
+    store.save()                       # a --full run refreshes the cache
+    out = {"pieces": {u: rows[u] for u in uids}, "nearPairs": cached, "doors": doors}
+    out.update(rules_out)
     # 0102 decision 5: every unmined mount is listed (the render round must shoot it)
     out["info"] = [f"{p.uid}: unmined mount on {p.role.get('mountedOn')} "
                    f"({p.role['mountPair'].get('unmined')})" for p in scene.pieces
                    if ((p.role or {}).get("mountPair") or {}).get("kind") == "unmined"]
+    if stats is not None:
+        stats.update({"workers": n, "pairs": len(pairs), "pairsRestored": len(pairs) - len(todo),
+                      "pairsMeasured": len(todo), "s": round(time.time() - t0, 2)})
     return out
 
 
@@ -793,9 +882,28 @@ def wbpaths_bridge() -> None:
     wbpaths.bridge()
 
 
+def cache_staleness_refusal(scene) -> str | None:
+    """`export --write` publishes a scene only when its last `apply` derived
+    every op (`--full`): a scene restored from the op cache is re-derived
+    once before it becomes a record (method review r2, 2026-09-27). A scene
+    no `apply` built (single commands) has no sidecar and is not refused."""
+    from workbench import opcache
+    side = opcache.cache_dir(scene.path).parent / "derived.json"
+    if not side.exists():
+        return None
+    got = json.loads(side.read_text())
+    if got.get("full"):
+        return None
+    return (f"{Path(scene.path).name} was last applied from the op cache: run "
+            f"`wb.py apply <layout> --full` (or `wb.py round ... --full`) before export --write")
+
+
 def cmd_export(a, scene, cat):
     from workbench import export
     why = owner_guided_refusal(scene.placeId, getattr(a, "owner_guided", None))
+    if why:
+        raise ValueError(why)
+    why = cache_staleness_refusal(scene) if a.write else None
     if why:
         raise ValueError(why)
     return export.export(scene, Path(a.blueprint), write=a.write)
@@ -953,6 +1061,23 @@ def cmd_site(a, scene, cat):
             "best": found[:a.limit]}
 
 
+def cmd_scan(a, scene, cat):
+    """Site feasibility before editing (`workbench.scan`): every candidate
+    pose of every building in the spec, ranked, the best placed and judged."""
+    from workbench import paths as wbpaths, scan
+    wbpaths.bridge()
+    from worldgen import compile_settlement as cs
+    doc = json.loads(Path(a.spec).read_text())
+    got = scan.scan(cat, scene, doc, lambda c, g, p: _fit_rules(c, g, p, cs, None),
+                    serial=a.serial)
+    if a.out:
+        Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(a.out).write_text(json.dumps(got, indent=1, default=lambda o: round(float(o), 4)) + "\n")
+    return {"buildings": [{k: b[k] for k in ("id", "poses", "measured", "legal")}
+                          | {"best": b["top"][:3], "verified": b["verified"][:1]}
+                          for b in got["buildings"]], "out": a.out}
+
+
 def cmd_compile(a, scene, cat):
     """The real compile on the scene as it stands, without touching the
     blueprint (`compile_scene`)."""
@@ -985,6 +1110,43 @@ def load_ring(scene, settlement: dict) -> list[str]:
     return added
 
 
+def _run_module(name: str, *args: str):
+    """`python -m NAME ARGS` in this process (the derive passes and the
+    compile): the modules, the survey and the kit records are imported and
+    loaded once per process instead of once per pass (nine interpreter
+    starts per compile before). Same argv, same working directory, stdout
+    and stderr captured; `WB_COMPILE_SUBPROCESS=1` restores the subprocesses."""
+    import contextlib
+    import importlib
+    import io
+    import subprocess
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    out, err = io.StringIO(), io.StringIO()
+    old_argv, old_cwd = sys.argv, os.getcwd()
+    code = 0
+    try:
+        mod = importlib.import_module(name)
+        sys.argv = [name, *args]
+        os.chdir(wbpaths.WORLDGEN)
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            try:
+                got = mod.main()
+                code = int(got or 0)
+            except SystemExit as stop:
+                code = stop.code if isinstance(stop.code, int) else (0 if stop.code is None else 1)
+                if stop.code is not None and not isinstance(stop.code, int):
+                    print(stop.code, file=sys.stderr)
+            except Exception:                  # noqa: BLE001 - a crash is the pass's exit 1
+                import traceback
+                traceback.print_exc()
+                code = 1
+    finally:
+        sys.argv = old_argv
+        os.chdir(old_cwd)
+    return subprocess.CompletedProcess([name, *args], code, out.getvalue(), err.getvalue())
+
+
 def compile_scene(scene, src: Path, keep: Path | None = None,
                   keep_out: Path | None = None) -> dict:
     """Export into a temporary copy of the blueprint, run the settlement-build
@@ -1006,8 +1168,10 @@ def compile_scene(scene, src: Path, keep: Path | None = None,
         bp = tmp / src.name
         shutil.copy(src, bp)
         export.export(scene, bp, write=True)
-        run = lambda *args: subprocess.run(  # noqa: E731
-            [sys.executable, "-m", *args], cwd=wbpaths.WORLDGEN, capture_output=True, text=True)
+        run = (_run_module if os.environ.get("WB_COMPILE_SUBPROCESS") != "1" else
+               lambda *args: subprocess.run(  # noqa: E731
+                   [sys.executable, "-m", *args], cwd=wbpaths.WORLDGEN, capture_output=True,
+                   text=True))
         for _ in range(2):
             for args in (("worldgen.rederive_terminals", "--apply", str(bp)),
                          ("worldgen.street_router", "--apply", str(bp)),
@@ -1215,7 +1379,11 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("uid", nargs="?")
     s.add_argument("--at", type=float, nargs=2)
     sub.add_parser("doors")
-    sub.add_parser("check")
+    s = sub.add_parser("check")
+    s.add_argument("--only", default=None, metavar="UID,..",
+                   help="re-measure these pieces' near pairs even when the pair cache holds them")
+    s.add_argument("--serial", action="store_true", help="no fork pool (the reference run)")
+    s.add_argument("--full", action="store_true", help="ignore the scene's pair cache")
     s = sub.add_parser("path")
     s.add_argument("action", choices=("add", "remove"))
     s.add_argument("id")
@@ -1282,6 +1450,12 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--skip", nargs="*", default=[], help="piece uids --free ignores (the piece being moved)")
     s.add_argument("--beached", action="store_true", help="judge the pose on R5 (beached hull or cleat)")
     s.add_argument("--nearest", action="store_true", help="order by distance from --centre")
+    s = sub.add_parser("scan")
+    s.add_argument("spec", help="scan spec JSON: {buildings: [{id, asset | group, centre, "
+                                "radius, step, yaws | yawStep, pad?, landingBearing?, skip?, "
+                                "parcel?, limit?, verify?}]}")
+    s.add_argument("--out", default=None, help="write the whole ranked result here")
+    s.add_argument("--serial", action="store_true", help="no fork pool")
     s = sub.add_parser("compile")
     s.add_argument("blueprint", nargs="?", default=None,
                    help="default world/sources/blueprints/<scene placeId>.json")
@@ -1298,7 +1472,7 @@ def parser() -> argparse.ArgumentParser:
 
 READ_ONLY = {"measure", "ground", "doors", "check", "render", "export", "list", "describe",
              "evidence", "map", "walktable", "openings", "signature", "probe", "site",
-             "compile"}
+             "compile", "scan"}
 
 
 def apply_parser() -> argparse.ArgumentParser:
@@ -1311,7 +1485,24 @@ def apply_parser() -> argparse.ArgumentParser:
                     help="build even when the blueprint was authored on other chunk files")
     ap.add_argument("--owner-guided", default=None, metavar="REASON",
                     help="an ownerGuided place (catalogue record): the owner's go-ahead, named")
+    ap.add_argument("--full", action="store_true",
+                    help="re-derive every op and every near pair (ignore the scene's cache)")
+    ap.add_argument("--cache", action="store_true",
+                    help="restore unchanged ops and near pairs from the scene's cache")
     return ap
+
+
+# Whether apply and round restore from the op cache when neither --full nor
+# --cache is given (the A/B of 2026-09-27 decides it; see the README).
+APPLY_CACHE_DEFAULT = True
+
+
+def use_full(a) -> bool:
+    if getattr(a, "full", False):
+        return True
+    if getattr(a, "cache", False):
+        return False
+    return not APPLY_CACHE_DEFAULT
 
 
 def replay_parser() -> argparse.ArgumentParser:
@@ -1333,10 +1524,15 @@ def run_replay(argv) -> int:
 
 
 def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: bool = True,
-                 allow_stale_ground: bool = False, owner_guided: str | None = None) -> dict:
+                 allow_stale_ground: bool = False, owner_guided: str | None = None,
+                 full: bool = False, cat=None) -> dict:
     """`apply`: a fresh scene from the layout (0100 decision 2). Returns the
-    summary, also written to output/apply/<placeId>.json."""
-    from workbench import ground, layout, paths as wbpaths
+    summary, also written to output/apply/<placeId>.json. Each op whose
+    inputs are unchanged since the last apply of this scene is restored from
+    the scene's op cache (`workbench.opcache`) instead of re-derived;
+    `full` re-derives every op. `cat`: a catalogue already loaded for this
+    place (`wb.py round` loads it once)."""
+    from workbench import ground, layout, opcache, paths as wbpaths
     t0 = time.time()
     doc = layout.load(layout_path)
     place_id, window = doc["placeId"], doc["window"]
@@ -1355,7 +1551,7 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     scene = Scene(path=spath, placeId=place_id,
                   layout={"path": layout.repo_path(layout_path),
                           "sha256": summary["layoutSha256"]})
-    cat = place_catalogue(place_id)
+    cat = place_catalogue(place_id) if cat is None else cat
     ap = parser()
     cx, cz = window["centreKm"][0] * 1000, window["centreKm"][1] * 1000
     half = float(window["halfM"])
@@ -1370,8 +1566,29 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     summary.update({"scene": str(spath), "groundReused": reused,
                     "groundS": round(time.time() - t0, 2)})
     ops, failed = [], None
+    store = opcache.Store(opcache.cache_dir(spath) / "ops.json", enabled=not full)
+    gkey = opcache.global_key(place_id, scene.groundStem)
+    t_ops = time.time()
+    env = None                      # the pad/run overlay key, recomputed only when touched
     for i, op in enumerate(doc["ops"]):
         t1 = time.time()
+        if env is None and op.get("op") not in opcache.GROUNDLESS:
+            env = opcache.env_key(cat, scene)
+        key = opcache.op_key(cat, scene, op, gkey, env)
+        hit = store.get(key)
+        if hit is not None:
+            opcache.restore(scene, hit["diff"])
+            if opcache.touches_env(scene, hit["diff"]):
+                env = None
+            scene.log.extend(hit["log"])
+            ops.append({"index": i, "op": hit["cmd"], "uid": op.get("uid") or op.get("child")
+                        or op.get("id") or op.get("name"), "s": round(time.time() - t1, 3),
+                        "warnings": hit["warnings"], "cached": True})
+            continue
+        before_order = [p.uid for p in scene.pieces]
+        before = opcache.touched(scene, op)
+        before_paths = json.loads(json.dumps(scene.paths)) if op.get("op") == "path" else scene.paths
+        log_at = len(scene.log)
         try:
             argv = layout.op_to_argv(op, ap)
             ns = ap.parse_args(["-", *argv])
@@ -1380,9 +1597,20 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
             failed = {"index": i, "op": op, "error": f"{type(err).__name__}: {err}"}
             break
         scene.log.append(shlex.join(argv))
+        warnings = layout._warnings(out)
+        delta = opcache.diff(before_order, before, scene, before_paths)
+        if delta is None or opcache.touches_env(scene, delta):
+            env = None
+        if delta is not None:
+            store.put(key, {"uid": op.get("uid") or op.get("child"), "cmd": ns.cmd,
+                            "log": scene.log[log_at:], "warnings": warnings, "diff": delta})
         ops.append({"index": i, "op": ns.cmd, "uid": op.get("uid") or op.get("child")
                     or op.get("id") or op.get("name"), "s": round(time.time() - t1, 3),
-                    "warnings": layout._warnings(out)})
+                    "warnings": warnings})
+    store.save()
+    summary["opCache"] = {"restored": sum(1 for o in ops if o.get("cached")),
+                          "derived": sum(1 for o in ops if not o.get("cached")),
+                          "full": full, "s": round(time.time() - t_ops, 2)}
     if failed is None:
         t1 = time.time()
         moves = reseat_after_pads(cat, scene)
@@ -1412,12 +1640,20 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         elif compile_:
             summary["compile"] = {"skipped": f"no blueprint {src}"}
         t1 = time.time()
-        check = cmd_check(None, scene, cat)
+        stats = {}
+        check = check_scene(cat, scene, use_cache=not full, stats=stats)
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
-                            "full": check}
+                            "pool": stats, "full": check}
     summary["elapsedS"] = round(time.time() - t0, 2)
+    # the cache-staleness guard `export --write` reads (`derived_by_full`)
+    side = opcache.cache_dir(spath).parent / "derived.json"
+    side.parent.mkdir(parents=True, exist_ok=True)
+    restored = (summary.get("opCache") or {}).get("restored", 0)
+    side.write_text(json.dumps({"full": bool(full) or restored == 0,
+                                "opsRestored": restored, "layoutSha256": summary["layoutSha256"],
+                                "failed": failed is not None}) + "\n")
     out = wbpaths.OUTPUT / "apply" / f"{place_id}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(summary, indent=1, default=lambda o: round(float(o), 4)) + "\n")
@@ -1429,7 +1665,9 @@ def digest(summary: dict) -> list[str]:
     """At most 20 lines for the agent; the file holds everything."""
     if summary.get("refused"):
         return [f"apply {summary['placeId']}: REFUSED", summary["refused"]]
-    lines = [f"apply {summary['placeId']}: {summary['opsRun']}/{summary['opsTotal']} ops, "
+    oc = summary.get("opCache") or {}
+    lines = [f"apply {summary['placeId']}: {summary['opsRun']}/{summary['opsTotal']} ops "
+             f"({oc.get('restored', 0)} restored from the op cache), "
              f"{summary['elapsedS']} s (ground {'reused' if summary['groundReused'] else 'extracted'}"
              f" {summary['groundS']} s); scene {summary['scene']}"]
     f = summary.get("failed")
@@ -1461,7 +1699,7 @@ def digest(summary: dict) -> list[str]:
 def run_apply(argv) -> int:
     a = apply_parser().parse_args(argv)
     summary = apply_layout(a.layout, a.scene, not a.no_compile, a.allow_stale_ground,
-                           a.owner_guided)
+                           a.owner_guided, full=use_full(a))
     if "summaryPath" not in summary:
         summary["summaryPath"] = "(not written: refused)"
     print("\n".join(digest(summary)))
@@ -1471,13 +1709,162 @@ def run_apply(argv) -> int:
     return 1 if summary.get("failed") or comp.get("exitCode") or comp.get("stage") else 0
 
 
+def round_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(
+        prog="wb.py round", description="apply + check + compile + walktable + render "
+        "--shots auto in ONE process; one summary JSON (output/apply/<scene>/summary.json)")
+    ap.add_argument("args", nargs="+", metavar="[SCENE] LAYOUT",
+                    help="the layout file, optionally after a scene name")
+    ap.add_argument("--no-shots", action="store_true", help="skip the render round")
+    ap.add_argument("--plan", action="store_true",
+                    help="the 2D plan render only (worldgen.render_blueprint --layout), no Blender")
+    ap.add_argument("--walktable", action="store_true",
+                    help="also print the owner-walk table (read from the PUBLISHED bundle: "
+                         "only after the place is published)")
+    ap.add_argument("--shots", default="auto", help="the render round's list (default auto)")
+    ap.add_argument("--res", type=int, default=1024)
+    ap.add_argument("--samples", type=int, default=12)
+    ap.add_argument("--no-compile", action="store_true")
+    ap.add_argument("--full", action="store_true", help="re-derive every op and pair")
+    ap.add_argument("--cache", action="store_true", help="restore unchanged ops from the op cache")
+    ap.add_argument("--allow-stale-ground", action="store_true")
+    ap.add_argument("--owner-guided", default=None, metavar="REASON")
+    return ap
+
+
+def round_summary(apply: dict) -> dict:
+    """What the reader or editor acts on, from an apply summary: every check
+    failure grouped by rule (count, the rule's fix hint, the uids) and by uid
+    (its failures), the compile's errors and warnings."""
+    from workbench import layout
+    c = apply.get("check") or {}
+    rows = layout.check_failure_rows(c["full"]) if c.get("full") else []
+    by_rule, by_uid = {}, {}
+    for r in rows:
+        g = by_rule.setdefault(r["rule"], {"count": 0, "fixHint": layout.FIX_HINTS.get(r["rule"]),
+                                           "uids": [], "failures": []})
+        g["count"] += 1
+        g["failures"].append(r["text"])
+        for u in r["uids"] or ["(place)"]:
+            if u not in g["uids"]:
+                g["uids"].append(u)
+            by_uid.setdefault(u, []).append({"rule": r["rule"], "text": r["text"]})
+    comp = apply.get("compile") or {}
+    return {"failures": len(rows),
+            "byRule": dict(sorted(by_rule.items(), key=lambda kv: -kv[1]["count"])),
+            "byUid": dict(sorted(by_uid.items(), key=lambda kv: (-len(kv[1]), kv[0]))),
+            "info": (c.get("full") or {}).get("info", []),
+            "compile": {k: comp.get(k) for k in ("exitCode", "summary", "errors", "warnings",
+                                                  "stage", "failed", "skipped", "s")
+                        if k in comp}}
+
+
+def run_round(argv) -> int:
+    """`wb.py round [SCENE] LAYOUT`: one process, the catalogue, ground,
+    survey, road paint and kit records loaded once; writes
+    output/apply/<scene>/summary.json and prints a digest."""
+    import contextlib
+    import io
+    from workbench import layout, paths as wbpaths
+    a = round_parser().parse_args(argv)
+    if len(a.args) > 2:
+        raise SystemExit("wb.py round [SCENE] LAYOUT")
+    scene_name, layout_path = (a.args if len(a.args) == 2 else (None, a.args[0]))
+    t0 = time.time()
+    doc = layout.load(Path(layout_path))
+    cat = place_catalogue(doc["placeId"])
+    t_load = round(time.time() - t0, 2)
+    applied = apply_layout(Path(layout_path), scene_name, not a.no_compile, a.allow_stale_ground,
+                           a.owner_guided, full=use_full(a), cat=cat)
+    spath = Path(applied.get("scene") or layout.scene_path(
+        scene_name or layout.default_scene_name(doc["placeId"])))
+    out = {"schemaVersion": 1, "placeId": doc["placeId"], "layout": applied.get("layout"),
+           "layoutSha256": applied.get("layoutSha256"), "scene": applied.get("scene"),
+           "applySummary": applied.get("summaryPath")}
+    if applied.get("refused"):
+        out["refused"] = applied["refused"]
+    out["timings"] = {"loadS": t_load, "groundS": applied.get("groundS"),
+                      "ops": applied.get("opCache"), "reseatS": (applied.get("reseat") or {}).get("s"),
+                      "compileS": (applied.get("compile") or {}).get("s"),
+                      "checkS": (applied.get("check") or {}).get("s"),
+                      "checkPool": (applied.get("check") or {}).get("pool")}
+    out["failedOp"] = applied.get("failed")
+    out["opWarnings"] = [{"index": o["index"], "uid": o["uid"], "warnings": o["warnings"]}
+                         for o in applied.get("ops", []) if o["warnings"]]
+    out.update(round_summary(applied))
+    if not applied.get("refused") and not applied.get("failed"):
+        if a.walktable:
+            t1 = time.time()
+            buf = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(buf):
+                    meta = cmd_walktable(argparse.Namespace(place=doc["placeId"]), None, cat)
+                out["walktable"] = {**meta, "table": buf.getvalue().splitlines()}
+            except StopIteration:
+                out["walktable"] = {"skipped": f"{doc['placeId']} is not in the published "
+                                               "bundle (publish the place first)"}
+            out["timings"]["walktableS"] = round(time.time() - t1, 2)
+        else:
+            out["walktable"] = {"skipped": "not asked (--walktable, after publish)"}
+        if a.plan:
+            t1 = time.time()
+            plan_dir = wbpaths.OUTPUT / "plan" / spath.stem
+            # the blueprint this apply derived (what `--layout` resolves to,
+            # read from this run's OUTPUT so WB_OUTPUT lanes see their own)
+            derived = wbpaths.OUTPUT / "apply" / f"{doc['placeId']}.blueprint.json"
+            got = _run_module("worldgen.render_blueprint", "--blueprint", str(derived), "--plan",
+                              "--out", str(plan_dir))
+            out["plan"] = {"exitCode": got.returncode, "dir": str(plan_dir),
+                           "pngs": sorted(str(f) for f in plan_dir.glob("*.png")),
+                           "log": (got.stdout + got.stderr).strip().splitlines()[-5:]}
+            out["timings"]["planS"] = round(time.time() - t1, 2)
+            out["shots"] = {"skipped": "--plan"}
+        elif not a.no_shots:
+            t1 = time.time()
+            scene = Scene.load(spath)
+            try:
+                got = cmd_render(argparse.Namespace(shots=a.shots, res=a.res, samples=a.samples),
+                                 scene, cat)
+                out["shots"] = got
+            except Exception as err:          # noqa: BLE001 - the summary names it
+                out["shots"] = {"error": f"{type(err).__name__}: {err}"}
+            out["timings"]["shotsS"] = round(time.time() - t1, 2)
+        else:
+            out["shots"] = {"skipped": "--no-shots"}
+    out["timings"]["totalS"] = round(time.time() - t0, 2)
+    path = wbpaths.OUTPUT / "apply" / spath.stem / "summary.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(out, indent=1, default=lambda o: round(float(o), 4)) + "\n")
+    t = out["timings"]
+    with (path.parent / "rounds.jsonl").open("a") as log:      # one line per round
+        log.write(json.dumps({
+            "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "layoutSha256": out.get("layoutSha256"), "failures": out.get("failures"),
+            "compileErrors": len((out.get("compile") or {}).get("errors") or []),
+            "loadS": t.get("loadS"), "applyOpsS": (t.get("ops") or {}).get("s"),
+            "opsRestored": (t.get("ops") or {}).get("restored"), "checkS": t.get("checkS"),
+            "compileS": t.get("compileS"), "planS": t.get("planS"), "shotsS": t.get("shotsS"),
+            "totalS": t.get("totalS")}) + "\n")
+    lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]
+    lines = [x for x in lines if not x.startswith("summary:")]
+    lines.append("by rule: " + ", ".join(f"{k} {v['count']}" for k, v in out["byRule"].items()))
+    if isinstance(out.get("shots"), dict) and out["shots"].get("error"):
+        lines.append(f"shots: {out['shots']['error']}"[:200])
+    lines.append(f"round summary: {path}")
+    print("\n".join(lines))
+    comp = applied.get("compile") or {}
+    if applied.get("refused"):
+        return 2
+    return 1 if applied.get("failed") or comp.get("exitCode") or comp.get("stage") else 0
+
+
 def main(argv=None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
-    if args and args[0] == "-" and len(args) > 1 and args[1] in ("apply", "replay"):
+    if args and args[0] == "-" and len(args) > 1 and args[1] in TOP_LEVEL:
         args = args[1:]
-    if args and args[0] in ("apply", "replay"):
+    if args and args[0] in TOP_LEVEL:
         t0 = time.time()
-        code = (run_apply if args[0] == "apply" else run_replay)(args[1:])
+        code = TOP_LEVEL[args[0]](args[1:])
         print(f"[wb] {args[0]} {time.time() - t0:.2f} s", file=sys.stderr)
         return code
     a = parser().parse_args(argv)
@@ -1491,6 +1878,70 @@ def main(argv=None) -> int:
     _emit(out)
     print(f"[wb] {a.cmd} {time.time() - t0:.2f} s", file=sys.stderr)
     return 0
+
+
+def edit_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(
+        prog="wb.py edit", description="edit a layout op by piece id (no inline python): "
+        "the first op naming UID (as uid, child or name), or the --op kind's")
+    ap.add_argument("layout", type=Path)
+    ap.add_argument("--uid", required=True)
+    ap.add_argument("--op", default=None, help="the op kind to edit (place, move, snap, bind..)")
+    ap.add_argument("--set", nargs="*", default=[], metavar="KEY=VALUE",
+                    help="VALUE is JSON when it parses (at=[1,2], yaw=90, settle=true), else a "
+                         "string; a dotted KEY reaches into a dict (pad.apronM=1.5)")
+    ap.add_argument("--unset", nargs="*", default=[], metavar="KEY")
+    return ap
+
+
+def edit_layout(path: Path, uid: str, op_kind: str | None, sets: list, unsets: list) -> dict:
+    text = path.read_text()
+    doc = json.loads(text)
+    hits = [k for k, o in enumerate(doc["ops"])
+            if uid in (o.get("uid"), o.get("child"), o.get("name"))
+            and (op_kind is None or o.get("op") == op_kind)]
+    if not hits:
+        raise ValueError(f"no op names {uid!r}" + (f" as a {op_kind}" if op_kind else ""))
+    k = hits[0]
+    op, before = doc["ops"][k], json.loads(json.dumps(doc["ops"][k]))
+
+    def walk(key: str, create: bool):
+        parts, node = key.split("."), op
+        for part in parts[:-1]:
+            if not isinstance(node.get(part), dict):
+                if not create:
+                    return None, parts[-1]
+                node[part] = {}
+            node = node[part]
+        return node, parts[-1]
+    for item in sets:
+        if "=" not in item:
+            raise ValueError(f"--set {item!r}: KEY=VALUE")
+        key, raw = item.split("=", 1)
+        try:
+            value = json.loads(raw)
+        except ValueError:
+            value = raw
+        node, leaf = walk(key, True)
+        node[leaf] = value
+    for key in unsets:
+        node, leaf = walk(key, False)
+        if node is not None:
+            node.pop(leaf, None)
+    ensure_ascii = text.isascii()                      # keep the file's own form
+    path.write_text(json.dumps(doc, indent=1, ensure_ascii=ensure_ascii)
+                    + ("\n" if text.endswith("\n") else ""))
+    return {"layout": str(path), "index": k, "otherOpsNamingIt": hits[1:], "before": before,
+            "after": op}
+
+
+def run_edit(argv) -> int:
+    a = edit_parser().parse_args(argv)
+    _emit(edit_layout(a.layout, a.uid, a.op, a.set, a.unset))
+    return 0
+
+
+TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit}
 
 
 if __name__ == "__main__":

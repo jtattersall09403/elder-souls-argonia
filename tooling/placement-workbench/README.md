@@ -36,7 +36,94 @@ derived state. `fixtures/yard-b.layout.json` is the standing example.
 | `tests/` | The round-1 answers (`expected_round1.json`, written before the code), the round-3 fixes and yard B's gates (`test_proving_ground_b.py`: the published record is the scene's poses, every run joint is contact), and the layout tooling (`test_layout.py`: op round trips, the yard-B golden apply and replay, provenance and the stale-ground refusal, the render round with Blender mocked) as pytest. Local only: they need the raw kit builds. |
 
 Output (scenes, ground windows, mesh and descriptor caches, renders) goes to
-`output/`, which git ignores.
+`output/`, which git ignores. `WB_OUTPUT=<dir>` moves the per-run state
+(scenes, apply summaries, caches, renders, ground windows) for a parallel
+lane or an audit; the mesh and descriptor caches stay shared.
+`WB_BLUEPRINTS=<dir>` reads a trial blueprint (a WIP edit on a copy) in
+place of `world/sources/blueprints/`.
+
+## Apply cache
+
+`apply` keeps a per-scene cache under `output/apply/<scene>/cache/`
+(`workbench/opcache.py`). `ops.json`: each op's effect (pieces added or
+changed, paths, log lines, warnings) keyed by the op's JSON, the content of
+every piece it names (uid, child, parent, host) as the scene stands when it
+runs, each named asset's manifest row, footprint row and mesh (by content),
+the yard set it places, the scene's pad and run-pad overlays when the op
+seats anything, and a global key: the CONTENT of the workbench,
+world-generation and pipeline sources and of the placement records and
+yard sets, the place, and the window's chunk sha256s. No key reads an
+mtime. An op changes only the pieces it names and the pieces it adds, so
+its snapshot is O(named). An unchanged op is
+restored; an op whose input moved (its parent, a pad) is re-derived.
+`pairs.json`: `check`'s near-pair contacts keyed by both pieces' content.
+`apply --full` re-derives everything (and refreshes the cache); deleting the
+directory is always safe. `export --write` refuses a scene whose last
+apply restored any op from the cache (`output/apply/<scene>/derived.json`):
+run `apply --full` (or `round --full`) once before the export. A/B on
+Claywater, one-op edit, three runs in alternating order: cached apply
+4.8-4.9 s, `--full` 7.6-7.7 s (ops 0.5 s vs 1.7 s), so the cache
+is the default (`APPLY_CACHE_DEFAULT` in wb.py; `--cache` / `--full`). The compile's derive passes and
+`compile_settlement` run in-process (`WB_COMPILE_SUBPROCESS=1` restores the
+subprocesses). Proof (Claywater HEAD and walk-2 WIP layouts, 2026-09-27):
+scene, derived blueprint, compiled settlement and check byte-identical to a
+full apply, including after a one-op edit and after a pad move
+(`tests/test_speed.py` holds the yard-B version).
+
+## Round
+
+    python3 tooling/placement-workbench/wb.py round [SCENE] LAYOUT [--plan | --no-shots]
+        [--walktable] [--full | --cache]
+
+`apply` + `check` + `compile`, then `render --shots auto` (or with
+`--plan` the 2D plan render of the blueprint this apply derived,
+no Blender) in ONE process: catalogue, ground, survey, road paint and kit
+records load once and the compile's passes run in-process. `--walktable`
+adds the owner-walk table, which reads the PUBLISHED bundle: use it after
+publish, not per round. Writes `output/apply/<scene>/summary.json`:
+timings; failed op and op warnings; `byRule` (count, the rule's fix hint
+from `layout.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
+compile's errors and warnings; the plan PNGs or the shot manifest. Each
+round appends one line to `output/apply/<scene>/rounds.jsonl` (load,
+apply ops, check, compile, plan, shots, total seconds; failures). The
+apply summary `output/apply/<placeId>.json` is still written.
+
+## Edit
+
+    python3 tooling/placement-workbench/wb.py edit LAYOUT --uid UID [--op KIND]
+        --set at=[312.5,3001] yaw=90 pad.apronM=1.5 [--unset settle]
+
+Edits the first op naming UID (as uid, child or name; `--op` picks the
+kind) in place and prints the op before and after, keeping the file's
+form. Values are JSON when they parse; dotted keys reach into a dict.
+
+## Check
+
+`check` runs its per-piece rows, near-pair chunks and each scene rule
+(walk, floorEdge, pathReach, propSeat, roadSurface, sill, sign,
+berthReach, collider, doors) as tasks in one fork pool over every core but
+0 (`workbench/parallel.py`, `WB_WORKERS=1` for serial); results come back
+in task order, so the output is the serial loop's key for key. Near pairs
+whose two pieces are unchanged come from the pair cache. `check --only
+UID,..` re-measures those pieces' pairs even on a hit; `--serial`,
+`--full` (ignore the cache). The scene rules still run whole (they are
+scene loops in `rules.py`).
+
+## Scan
+
+    python3 tooling/placement-workbench/wb.py SCENE scan SPEC.json [--out FILE]
+
+Site feasibility before editing (`workbench/scan.py`). The spec lists
+buildings: `{id, asset | group, centre, radius, step, yaws | yawStep,
+pad?, landingBearing?, skip?, parcel?, limit?, verify?}` (`skip`: the
+building's own uids, so its old pad and pieces are not in the way). Every
+pose on the disc is measured in the pool on the scene's padded ground
+without the skipped pieces: pad legality (0101 + batter) and worst pad
+edge, or the fit rules; road-paint, path and piece overlap; water depth
+1 m past the outline along `landingBearing`; designed sink; for the listed
+poses, the free room per world side. The first `verify` legal poses are
+placed on a copy of the scene and judged by `padRule`, `roadSurfaceRule`
+and `sillRule` themselves. Prior art: `tooling/.reports/16k/walk2/P-*-scan*.py`.
 
 Dependencies beyond the world-generation set: `python-fcl` (exact
 mesh-mesh distance and crossing, used through `trimesh.collision`), listed

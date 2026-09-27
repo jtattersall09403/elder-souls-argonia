@@ -32,7 +32,7 @@ from .scene import Scene
 TIMEOUT_S = 900
 LENS_MM = 30.0
 SENSOR_MM = 36.0            # Blender's default sensor width (fit: the wider side)
-BLEND_CACHE = paths.OUTPUT / "cache" / "blend"   # one .blend per raw kit GLB (render_scene.py)
+BLEND_CACHE = paths.SHARED_OUTPUT / "cache" / "blend"   # one .blend per raw kit GLB (render_scene.py)
 FRONT = {"front": 0.0, "side": 90.0, "back": 180.0}
 
 
