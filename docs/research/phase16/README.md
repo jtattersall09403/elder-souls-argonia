@@ -36,3 +36,4 @@ ledger, the 16g plot reviews and the session hand-offs.
 | [16h-catalogue-wide-steps-audit.md](16h-catalogue-wide-steps-audit.md) | Which steps from 16h part 2 to Phase 15 run over a whole catalogue, measured counts, the sample-first shape for each, and the tools with no place selector. | evidence |
 | [16h-handoff-2026-09-25.md](16h-handoff-2026-09-25.md) | The Codespaces migration hand-off: every lane's state at the 2026-09-24 cut, what was mid-flight, the line that relaunches it; open owner calls. | hand-off (history) |
 | [16k-handoff-2026-09-25.md](16k-handoff-2026-09-25.md) | 16k hand-off at the planning session's close: the owner rulings 1–6 that 0099's addendum and the 16k brief now carry. | hand-off (history) |
+| [method-reviews.md](method-reviews.md) | Index of the place-builder method reviews (rounds 1–3, 2026-09-27): round, saving per place, exit reason, top findings; a new round opens only on a build-ledger run over target. | index |

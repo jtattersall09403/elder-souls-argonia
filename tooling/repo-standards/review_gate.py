@@ -32,7 +32,7 @@ lane's review never masks another's or the whole tree's. Findings for a
 pathspec go to .claude/review-findings-<key>.md. No --paths: whole tree, as
 before.
 """
-import hashlib, json, os, re, shlex, subprocess, sys, time
+import fcntl, hashlib, json, os, re, shlex, subprocess, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STAMP = os.path.join(ROOT, ".claude", "review-stamp.json")
@@ -242,7 +242,10 @@ def sh(*args):
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True).stdout
 
 
-EXCLUDE_SPECS = (":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock.json")
+# Design briefs are world prose that text-review owns; each is ~23 KB, so ~11
+# of them filled the 250 KB review cap (method review r3 finding D).
+EXCLUDE_SPECS = (":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock.json",
+                 ":(exclude)world/sources/blueprints/*.design.md")
 EXCLUDES = ("--", ".", *EXCLUDE_SPECS)
 
 
@@ -258,7 +261,7 @@ def current_diff(paths=None):
     spec = ("--", *paths, *EXCLUDE_SPECS) if paths else EXCLUDES
     d = sh("git", "diff", "HEAD", *spec)
     others = ("--", *paths) if paths else ()
-    for path in sh("git", "ls-files", "--others", "--exclude-standard", *others).split():
+    for path in sh("git", "ls-files", "--others", "--exclude-standard", *others, *EXCLUDE_SPECS).split():
         full = os.path.join(ROOT, path)
         if path.endswith((".py", ".ts", ".tsx", ".js", ".mjs", ".md")) and os.path.getsize(full) < 60_000:
             with open(full, errors="replace") as f:
@@ -281,12 +284,36 @@ def read_stamp(paths=None):
     return read_stamps().get(stamp_key(paths), {})
 
 
+def stamp_lock_path():
+    """The stamp's lock file: worldgen.atomic_write.write_lock_path, the one
+    convention (decision 0104 decision 9), so no untracked file appears under
+    .claude/. Imported here, not at module top: the hook runs on every Bash call."""
+    sys.path.insert(0, os.path.join(ROOT, "tooling", "world-generation"))
+    from worldgen.atomic_write import write_lock_path
+    path = write_lock_path(STAMP)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return str(path)
+
+
 def write_stamp(h, status, n, paths=None):
+    """Add or replace one stamp. The read-modify-write holds an exclusive flock
+    on the stamp's lock file and replaces the stamp file by rename, so
+    parallel preflights keep every lane's stamp and a reader never sees a
+    half-written file (16k S9: unlocked, 8 writers lost 195 of 200 stamps)."""
     os.makedirs(os.path.dirname(STAMP), exist_ok=True)
-    stamps = read_stamps()
-    stamps[stamp_key(paths)] = {"hash": h, "paths": paths or [], "time": time.time(), "status": status, "findings": n}
-    with open(STAMP, "w") as f:
-        json.dump({"stamps": stamps}, f)
+    with open(stamp_lock_path(), "a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        stamps = read_stamps()
+        stamps[stamp_key(paths)] = {"hash": h, "paths": paths or [], "time": time.time(), "status": status, "findings": n}
+        fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump({"stamps": stamps}, f)
+            os.replace(tmp, STAMP)
+        except BaseException:
+            if os.path.exists(tmp):
+                os.unlink(tmp)
+            raise
 
 
 def findings_rel(paths):

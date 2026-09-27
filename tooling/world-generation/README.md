@@ -196,6 +196,13 @@ One tier: there is no held-out split (the `slow` marker was retired on
 script uses `pytest-xdist` (`-n=auto`) when it is installed and falls back to
 a serial run when it is not, so a fresh checkout needs no extra dependency.
 
+`test:placement` shuffles test order with `pytest-randomly` (the seed is
+printed; rerun a red with `-p randomly -p "randomly_seed=<seed>"`). Other
+suites pass `-p no:randomly`. `python3 scripts/select_tests.py --record-reads`
+(with `ES_TEST_READS=1`, hook in `worldgen/conftest.py`) records which data
+files each test file opens into `output/test-reads.json`; `--paths` selection
+then picks a data change's readers from that map, else from the static rule.
+
 The suites lean on three process-lifetime caches, all keyed on the content or
 the file signature of their inputs, so editing a source file invalidates them
 and a stale result can never be served:
@@ -313,5 +320,23 @@ arrangement. None of it changes what any test asserts.
   with legend and budget title block, into `output/blueprint-maps/`
   (gitignored — renders are derived). Fixture + tests in
   `worldgen/testdata/` (0041 Part 0 item 5).
+- `worldgen/site_urls.py` — `PAGES_URL`, `STUDIO_URL` and `studio_url(local)`: links handed to the
+  owner point at the deployed studio; `ES_TUNNEL_URL` only when `local=True` (16k S18).
+- `worldgen/place_type.py` — the one reader of a place record's type (`classification.type`) for
+  tools outside the catalogue validator (close_place, build_ledger).
+- `worldgen/commit_place.py --place <id> [--dry-run] [-m MSG] [PATH...]` — a pathspec commit of the
+  files in the place's manifest (`tooling/.reports/16k/<id>/manifest.json`, written by the export);
+  refuses a path the manifest does not list and any shared file (`SHARED_PATTERNS`) (16k S12).
+- `worldgen/apply_requests.py --batch <id>,<id>... [--dry-run]` — the integrator: applies the batch's
+  REQUEST rows (`tooling/.reports/16k/<id>/requests.jsonl`; ops `json-merge`, `json-append`,
+  `json-upsert` (by a key field), `text-append`, `text-section-append` (under a heading),
+  `text-line-upsert` (by a line prefix); one file = one transaction, written once; a path element `{field: value}` selects a list item) to the shared files under
+  their write locks, in each file's own JSON style, marking rows `appliedAt`; re-runs change nothing.
+- `worldgen/close_place.py --place <id> --accepted-on DATE [--dry-run]` — the slice-close mechanics
+  (16k S11): REQUEST rows for the receipt and the `type-recipes.json` `builtPlaces` entry (upserts
+  by placeId, so a re-acceptance replaces them), the
+  creative-register row and the report-mode backlog bullets (the builder's judgements from
+  `close-input.json`); then the register digest, the ledger row and the Starting-state stub in
+  `tooling/.reports/16k/<id>/starting-state.md`.
 - `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
   `worldgen/shape_province.py` / `worldgen/carve_province.py` — the compile entry points above.
