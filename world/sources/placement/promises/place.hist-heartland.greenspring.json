@@ -1,0 +1,133 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.hist-heartland.greenspring",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-hist-heartland.json",
+   "sha256": "114691d221f5390aa6a53b965ab1197a9f0ab7c5558e6e6ef532ec3eb51a1581"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.greenspring.occupant-n1",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].contents.npcs[n1]"
+   },
+   "text": "Greenspring has single merchant occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.occupant-n2",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].contents.npcs[n2]"
+   },
+   "text": "Greenspring has band family occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.occupant-root-herald",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].notableNpcSlots[root-herald]"
+   },
+   "text": "The root-herald who trades with Helstrom lives and works at Greenspring.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.occupant-spring-keeper",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].notableNpcSlots[spring-keeper]"
+   },
+   "text": "The spring-keeper lives and works at Greenspring.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.occupant-tree-minder",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].notableNpcSlots[tree-minder]"
+   },
+   "text": "The tree-minder lives and works at Greenspring.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.post-greenspring-river-landing",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].sockets.post[post.greenspring.greenspring-river-landing]"
+   },
+   "text": "Greenspring has the post socket post.greenspring.greenspring-river-landing.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.provision-mr01-anchor",
+   "kind": "provision",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].questHooks.provisions[quest.provision.mr01-anchor]"
+   },
+   "text": "Greenspring holds what quest provision quest.provision.mr01-anchor needs.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.safe-interior",
+   "kind": "safeInterior",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].classification.class"
+   },
+   "text": "Greenspring has one safe interior (danger D0, quests 20 section 12).",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.scene-greenspring-fork-market",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].sockets.scene[scene.greenspring.greenspring-fork-market]"
+   },
+   "text": "Greenspring has the scene socket scene.greenspring.greenspring-fork-market.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.service-lodging",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].services[lodging]"
+   },
+   "text": "Greenspring offers the lodging service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.service-shrine",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].services[shrine]"
+   },
+   "text": "Greenspring offers the shrine service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.greenspring.service-trader",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-hist-heartland.json",
+    "path": "places[place.hist-heartland.greenspring].services[trader]"
+   },
+   "text": "Greenspring offers the trader service.",
+   "unfilled": null
+  }
+ ]
+}
