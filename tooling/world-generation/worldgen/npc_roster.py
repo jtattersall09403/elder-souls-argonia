@@ -770,9 +770,9 @@ def _existing_entries() -> dict[str, dict]:
 
 
 def slot_socket(place: dict, slot_id: str) -> str | None:
-    """The ONE slot -> station-socket rule (rule 7). Returns the socket id
-    from the home record's `sockets.station`, or None."""
-    declared = list((place.get("sockets") or {}).get("station") or [])
+    """The ONE slot -> post-socket rule (rule 7). Returns the socket id
+    from the home record's `sockets.post` (0104: renamed from `station`), or None."""
+    declared = list((place.get("sockets") or {}).get("post") or [])
     renamed = SOCKET_RENAMES.get((place["id"], slot_id))
     if renamed is not None:
         return renamed if renamed in declared else None
@@ -793,7 +793,7 @@ def unmatched_sockets(entries: list[dict], places: list[dict] | None = None) -> 
         place = by_id.get(home["placeId"])
         if place is None or home["socketId"] is not None or home["slotIndex"] is None:
             continue
-        declared = (place.get("sockets") or {}).get("station") or []
+        declared = (place.get("sockets") or {}).get("post") or []
         if declared:
             out.append({"npcId": e["id"], "placeId": place["id"],
                         "slotId": place["notableNpcSlots"][home["slotIndex"]]["slotId"],

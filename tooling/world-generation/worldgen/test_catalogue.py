@@ -34,7 +34,7 @@ def _record(**over):
         "complexityBudget": "simple",
         "importanceTier": 4,
         "workflow": "derived",
-        "sockets": {"scene": [], "evidence": [], "station": [], "marks": []},
+        "sockets": {"scene": [], "evidence": [], "post": [], "marks": []},
         "deedCounterKeys": [],
         # Required at 'derived' since 2026-09-02 (the ex-STRICT_REQUIRED five).
         "season": "all-year",

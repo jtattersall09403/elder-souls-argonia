@@ -69,7 +69,29 @@ import math
 import re
 from pathlib import Path
 
+from .atomic_write import locked_write_text      # 0104 decision 9
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
+
+
+def _layouts() -> dict[str, dict]:
+    from .promise_gate import layouts
+    return layouts()
+
+
+def operator_socket_ids(place_id: str | None, places: dict,
+                        layouts: dict[str, dict] | None = None) -> set[str]:
+    """The ONE rule for the socket a travel operator of ``place_id`` stands
+    on (travel_services.check and the world-schema integrity gate): a placed
+    ``npc`` socket of the place's layout once it has one (0104 decision 2;
+    the operator is a person), else a catalogue ``sockets.post`` id (the
+    promise, until the place is laid out). Pass ``layouts`` to read the
+    layout directory once per check."""
+    from .promise_gate import layout_sockets
+    lay = (_layouts() if layouts is None else layouts).get(place_id or "")
+    if lay is not None:
+        return {op["id"] for op in layout_sockets(lay) if op.get("id") and op.get("kind") == "npc"}
+    return set(((places.get(place_id) or {}).get("sockets") or {}).get("post") or [])
 SERVICES = REPO_ROOT / "world" / "sources" / "routes" / "travel-services.json"
 LEGACY_FERRIES = REPO_ROOT / "world" / "sources" / "routes" / "ferry-crossings.json"
 LEGACY_ROOT = REPO_ROOT / "world" / "sources" / "anchors" / "root-transit.json"
@@ -1135,6 +1157,7 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
 
     errs: list[str] = []
     warn = warn if warn is not None else []
+    layouts = _layouts()                        # read once per check
     if doc is None:
         doc = json.loads(SERVICES.read_text(encoding="utf-8"))
     if "schemaVersion" not in doc:
@@ -1285,12 +1308,16 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
         npid = op.get("nearestPlaceId")
         if npid and npid not in places:
             errs.append(f"service {sid}: operator.nearestPlaceId {npid!r} is not a catalogue place")
-        # operator.socketRef: the owning place's station socket the operator
-        # stands on (a crossing inside one place's footprint is that place's;
-        # worldgen/test_record_services.py).
+        # operator.socketRef: the placed socket the operator stands on (a
+        # crossing inside one place's footprint is that place's;
+        # worldgen/test_record_services.py). 0104 decision 2: a reference is
+        # to the PLACED thing, so a place with a layout is named by its layout
+        # socket id; the catalogue `sockets.post` id is only the promise, and
+        # stands in until the place is laid out.
         ref = op.get("socketRef")
-        if ref is not None and ref not in ((places.get(npid) or {}).get("sockets") or {}).get("station", []):
-            errs.append(f"service {sid}: operator.socketRef {ref!r} is not a sockets.station id "
+        if ref is not None and ref not in operator_socket_ids(npid, places, layouts):
+            errs.append(f"service {sid}: operator.socketRef {ref!r} is not "
+                        f"{'a layout npc socket' if npid in layouts else 'a sockets.post id'} "
                         f"of {npid!r}")
 
         for field in ("available", "refusedIf"):
@@ -1583,22 +1610,24 @@ def main(argv: list[str] | None = None) -> None:
 
     if a.from_legacy:
         doc = migrate()
-        SERVICES.write_text(dump(doc), encoding="utf-8")
+        locked_write_text(SERVICES, dump(doc))
         print(f"travel_services: migrated -> {SERVICES} "
               f"({len(doc['stations'])} stations, {len(doc['services'])} services)")
         return
 
-    doc = json.loads(SERVICES.read_text(encoding="utf-8"))
-    crossings = json.loads(CROSSINGS.read_text(encoding="utf-8"))["crossings"]
-    try:
-        from .water_report import ShippedWater
-        sw = ShippedWater()
-    except (FileNotFoundError, OSError) as e:
-        sw = None
-        print(f"travel_services: berths not measured, the water bundle is absent ({e})")
-    for line in derive(doc, crossings, sw):
-        print("travel_services: " + line)
-    SERVICES.write_text(dump(doc), encoding="utf-8")
+    from .atomic_write import write_lock
+    with write_lock(SERVICES):                  # the read, the derive and the write
+        doc = json.loads(SERVICES.read_text(encoding="utf-8"))
+        crossings = json.loads(CROSSINGS.read_text(encoding="utf-8"))["crossings"]
+        try:
+            from .water_report import ShippedWater
+            sw = ShippedWater()
+        except (FileNotFoundError, OSError) as e:
+            sw = None
+            print(f"travel_services: berths not measured, the water bundle is absent ({e})")
+        for line in derive(doc, crossings, sw):
+            print("travel_services: " + line)
+        locked_write_text(SERVICES, dump(doc))
 
 
 if __name__ == "__main__":

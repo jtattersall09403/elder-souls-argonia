@@ -268,7 +268,8 @@ DISCOVERY = {"sightline", "road", "rumour", "document", "none"}
 COMPLEXITY = {"trivial", "simple", "standard", "complex"}
 WORKFLOW = ("derived", "plotted", "authored", "frozen")
 MAGNITUDES = {None, "M1", "M2", "M3", "M4", "M5"}
-SOCKET_KINDS = ("scene", "evidence", "station", "marks")
+# `post` is an NPC's work post (0104 decision 2: `station` means a travel stop only)
+SOCKET_KINDS = ("scene", "evidence", "post", "marks")
 # The peoples a record's `culture` names. Which asset kits each may use is
 # world/sources/placement/culture-kits.json (test_record_services holds the
 # two in step).
@@ -410,7 +411,7 @@ COMBAT_FOOTINGS = {"dry", "wade", "swim", "mixed"}
 COMBAT_CLEARANCES = {"tight", "standard", "generous"}
 COMBAT_SPACE_LIMIT = 3
 ANCHOR_SOCKET_KINDS = {"boss", "boss-chest", "captive", "cache", "shrine", "escape",
-                       "evidence", "scene", "station"}
+                       "evidence", "scene", "post"}
 WHERE_IN_INTERIOR = {"entrance", "threshold", "main", "deep", "boss", "hidden",
                      "flooded", "above"}
 INTERIOR_LIGHTS = {"daylit", "torchlit", "bioluminescent", "dark", "mixed"}
@@ -433,9 +434,11 @@ def dump_json(path: Path, data: dict) -> None:
     different JSON encodings (`ensure_ascii` on and off), so an unrelated edit
     re-encoded every em-dash in the file and buried the real change. Standard 4
     (determinism) wants byte-stable output: indent 2, UTF-8 as itself, keys in
-    authored order, one trailing newline. Always write through this.
+    authored order, one trailing newline. Always write through this: it
+    writes under the file's lock by rename (0104 decision 9).
     """
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    from .atomic_write import locked_write_text
+    locked_write_text(Path(path), json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
 @dataclass
@@ -1051,10 +1054,10 @@ def _validate_interior_promises(rec: dict, it: dict, rid: str, errors: list[str]
         # that IS one of the record's build-out sockets keeps that id verbatim,
         # because renaming a stable id is forbidden (standard 2).
         if not isinstance(sid, str) or sid in seen or not sid.startswith(
-                ("socket.", "scene.", "evidence.", "station.", "marks.")):
+                ("socket.", "scene.", "evidence.", "post.", "marks.")):
             _fail(errors, rid, f"interior.anchorSockets[{i}].id must be a unique "
                                f"'socket.<place-slug>.<kind>' id, or one of the record's own "
-                               f"scene./evidence./station. socket ids verbatim")
+                               f"scene./evidence./post. socket ids verbatim")
         seen.add(sid if isinstance(sid, str) else f"<{i}>")
         if so.get("kind") not in ANCHOR_SOCKET_KINDS:
             _fail(errors, rid, f"interior.anchorSockets[{i}].kind must be one of {sorted(ANCHOR_SOCKET_KINDS)}")

@@ -109,7 +109,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -365,7 +365,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -597,7 +597,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -833,7 +833,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1092,7 +1092,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1373,7 +1373,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -1601,7 +1601,7 @@
         "evidence": [
           "evidence.bereaved-mnemic.mnemic-egg-chamber"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1869,7 +1869,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -2087,7 +2087,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -2336,7 +2336,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -2577,7 +2577,7 @@
         "evidence": [
           "evidence.bog-blight-ground-stakes.grave-stake-pulled"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -2854,7 +2854,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -3075,7 +3075,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -3343,7 +3343,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -3604,8 +3604,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.bubble-spire-open-helstrom.spire-east-line"
+        "post": [
+          "post.bubble-spire-open-helstrom.spire-east-line"
         ],
         "marks": []
       },
@@ -3713,8 +3713,8 @@
             "whereInInterior": "hidden"
           },
           {
-            "id": "station.bubble-spire-open-helstrom.spire-east-line",
-            "kind": "station",
+            "id": "post.bubble-spire-open-helstrom.spire-east-line",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -3858,7 +3858,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -4117,7 +4117,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -4314,7 +4314,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -4586,7 +4586,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -4769,7 +4769,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "workflow": "plotted",
@@ -5124,7 +5124,7 @@
         "evidence": [
           "evidence.cult-raid-camp-unbound.cult-raid-orders"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -5372,7 +5372,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -5620,7 +5620,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -5888,7 +5888,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6129,7 +6129,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6378,7 +6378,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6586,7 +6586,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6822,7 +6822,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7085,7 +7085,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -7330,7 +7330,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -7553,7 +7553,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -7817,7 +7817,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -8036,8 +8036,8 @@
           "scene.greenspring.greenspring-fork-market"
         ],
         "evidence": [],
-        "station": [
-          "station.greenspring.greenspring-river-landing"
+        "post": [
+          "post.greenspring.greenspring-river-landing"
         ],
         "marks": []
       },
@@ -8289,7 +8289,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8522,8 +8522,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.guide-camp-gate-side.guides-gate-side-hire"
+        "post": [
+          "post.guide-camp-gate-side.guides-gate-side-hire"
         ],
         "marks": []
       },
@@ -8743,7 +8743,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9003,7 +9003,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -9279,7 +9279,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -9527,7 +9527,7 @@
         "evidence": [
           "evidence.harmed-hist-tapped.sap-licence-board"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -9817,9 +9817,9 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.helstrom.helstrom-convoy-dock",
-          "station.helstrom.helstrom-root-hub"
+        "post": [
+          "post.helstrom.helstrom-convoy-dock",
+          "post.helstrom.helstrom-root-hub"
         ],
         "marks": []
       },
@@ -10226,7 +10226,7 @@
         "evidence": [
           "evidence.heretic-stone-restarted.heresy-masons-tally"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -10472,7 +10472,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -10695,7 +10695,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -10920,7 +10920,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "hist.agaceph.regard"
         ]
@@ -11151,7 +11151,7 @@
           "scene.hist-first-rain-trunk.hist-first-rain-drip-line"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "marks.hist-first-rain-trunk.hist-first-rain-regard"
         ]
@@ -11389,7 +11389,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -11646,7 +11646,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "hist.paatru.regard"
         ]
@@ -11872,8 +11872,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.hist-sarpa-highflower.hist-sarpa-high-platform"
+        "post": [
+          "post.hist-sarpa-highflower.hist-sarpa-high-platform"
         ],
         "marks": [
           "hist.sarpa.regard"
@@ -12104,7 +12104,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12335,7 +12335,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12607,7 +12607,7 @@
         "evidence": [
           "evidence.lost-city.accord-consent-records"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "marks.lost-city.lost-city-warden-ground"
         ]
@@ -12928,7 +12928,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -13184,7 +13184,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13401,7 +13401,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -13617,7 +13617,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -13826,7 +13826,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -14049,7 +14049,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -14305,7 +14305,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -14574,7 +14574,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -14830,7 +14830,7 @@
         "evidence": [
           "evidence.necropolis-dead-tenders.grave-stake-readable"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -15127,7 +15127,7 @@
           "scene.nightbound-lightless.nightbound-dark-lane"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -15373,7 +15373,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -15588,7 +15588,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -15818,7 +15818,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -16040,7 +16040,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -16268,7 +16268,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -16485,7 +16485,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -16692,7 +16692,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -16900,7 +16900,7 @@
         "evidence": [
           "evidence.poacher-camp-sap.sap-buyer-mark"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -17150,7 +17150,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -17412,8 +17412,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.refuge-station-interior.refuge-interior-shelter"
+        "post": [
+          "post.refuge-station-interior.refuge-interior-shelter"
         ],
         "marks": []
       },
@@ -17644,7 +17644,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -17889,7 +17889,7 @@
         "evidence": [
           "evidence.root-gallery-cult-warren.severance-cut-pattern"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -18186,7 +18186,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -18445,7 +18445,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -18729,8 +18729,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.root-gallery-helstrom-underway.underway-helstrom-mouth"
+        "post": [
+          "post.root-gallery-helstrom-underway.underway-helstrom-mouth"
         ],
         "marks": []
       },
@@ -18975,7 +18975,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -19245,7 +19245,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -19544,8 +19544,8 @@
           "scene.root-talk-ground.many-root-council-grove"
         ],
         "evidence": [],
-        "station": [
-          "station.root-talk-ground.root-talk-speaking-floor"
+        "post": [
+          "post.root-talk-ground.root-talk-speaking-floor"
         ],
         "marks": []
       },
@@ -19775,7 +19775,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -20031,7 +20031,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -20319,8 +20319,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.rootworm-station-helstrom.rootworm-helstrom"
+        "post": [
+          "post.rootworm-station-helstrom.rootworm-helstrom"
         ],
         "marks": [
           "marks.rootworm-station-helstrom.rootworm-helstrom-head"
@@ -20403,8 +20403,8 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "station.rootworm-station-helstrom.rootworm-helstrom",
-            "kind": "station",
+            "id": "post.rootworm-station-helstrom.rootworm-helstrom",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -20598,7 +20598,7 @@
         "evidence": [
           "evidence.sap-collection-facility-daedric.sap-facility-extraction-ledger"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "complex",
@@ -20898,7 +20898,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -21119,7 +21119,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -21409,7 +21409,7 @@
         "evidence": [
           "evidence.sealed-xanmeer-living.sealed-meer-chamber-seal"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -21709,7 +21709,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -21956,7 +21956,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -22221,7 +22221,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -22518,7 +22518,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -22780,7 +22780,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -23061,7 +23061,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -23326,7 +23326,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -23555,8 +23555,8 @@
           "scene.stone-calendar-hist-tsoko.tsoko-stones-reading"
         ],
         "evidence": [],
-        "station": [
-          "station.stone-calendar-hist-tsoko.tsoko-stones-jekka-wass-post"
+        "post": [
+          "post.stone-calendar-hist-tsoko.tsoko-stones-jekka-wass-post"
         ],
         "marks": []
       },
@@ -23766,7 +23766,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -24036,7 +24036,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -24288,7 +24288,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -24585,7 +24585,7 @@
           "evidence.mq18.attendance-cord",
           "evidence.mq18.sermon-text"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.mq18.under-floor-exit",
           "mark.mq18.private-chamber"
@@ -24850,7 +24850,7 @@
         "evidence": [
           "evidence.treasure-hunters-dead-camp.expedition-final-notes"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -25070,7 +25070,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -25309,7 +25309,7 @@
         "evidence": [
           "evidence.umbriel-stripped-quiet.umbriel-track-edge"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -25513,7 +25513,7 @@
         "evidence": [
           "evidence.umpholo-mission.umpholo-mission-register"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -25793,7 +25793,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -26041,7 +26041,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -26253,7 +26253,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -26441,7 +26441,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "workflow": "plotted",
@@ -26814,7 +26814,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -27016,7 +27016,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -27284,7 +27284,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -27545,7 +27545,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -27814,7 +27814,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -28049,7 +28049,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -28276,7 +28276,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -28484,7 +28484,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -28750,7 +28750,7 @@
           "evidence.xal-krona-making-ground.accord-making-record",
           "evidence.xal-krona-making-ground.warden-failed-makings"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "marks.xal-krona-making-ground.warden-stood-down"
         ]
@@ -29068,8 +29068,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.xal-meeruth-station.meeruth-road-head"
+        "post": [
+          "post.xal-meeruth-station.meeruth-road-head"
         ],
         "marks": [
           "marks.xal-meeruth-station.stronghold-site"
@@ -29309,8 +29309,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.xanmeer-fort-defences-working.xal-thuun-gate-watch"
+        "post": [
+          "post.xanmeer-fort-defences-working.xal-thuun-gate-watch"
         ],
         "marks": [
           "marks.xanmeer-fort-defences-working.xal-thuun-terrace-hold"

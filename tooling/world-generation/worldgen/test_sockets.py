@@ -250,10 +250,10 @@ def test_a_socket_meets_its_promise_row_only_from_the_rows_parcel_or_by_its_id()
     for sid in ("promise.service.trader", "trader"):     # the row's id, or its subject
         assert bpr.socket_promise_errors([row], [{**wrong[0], "id": sid}]) == []
     # a row with no parcel (a catalogue socket, a ferry) is met by its id only
-    sock = bpr.Promise("promise.socket.station.p.keeper", "socket", "station socket", "s", "r",
+    sock = bpr.Promise("promise.socket.post.p.keeper", "socket", "post socket", "s", "r",
                        socketKinds=["marker"])
     assert bpr.socket_promise_errors([sock], [{"id": "m", "kind": "marker", "parcelId": "x"}])
-    assert bpr.socket_promise_errors([sock], [{"id": "station.p.keeper", "kind": "marker"}]) == []
+    assert bpr.socket_promise_errors([sock], [{"id": "post.p.keeper", "kind": "marker"}]) == []
 
 
 def test_the_urn_class_fills_by_its_household_default():

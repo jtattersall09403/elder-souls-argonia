@@ -184,10 +184,10 @@
           "evidence.corimont.mages-hall-roll",
           "evidence.corimont.price-list"
         ],
-        "station": [
-          "station.boat.corimont-basin",
-          "station.rest.corimont-hull-hall",
-          "station.trade.corimont-list"
+        "post": [
+          "post.boat.corimont-basin",
+          "post.rest.corimont-hull-hall",
+          "post.trade.corimont-list"
         ],
         "marks": [
           "mark.corimont.port-captains-mark",
@@ -546,7 +546,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -714,8 +714,8 @@
         "evidence": [
           "evidence.carrying.destination-labels"
         ],
-        "station": [
-          "station.courier.carrying-house"
+        "post": [
+          "post.courier.carrying-house"
         ],
         "marks": []
       },
@@ -942,8 +942,8 @@
         "evidence": [
           "evidence.hard.planed-nameboards"
         ],
-        "station": [
-          "station.boat.the-hard"
+        "post": [
+          "post.boat.the-hard"
         ],
         "marks": []
       },
@@ -1190,7 +1190,7 @@
         "evidence": [
           "evidence.salt-teeth.cut-seals"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.piracy.prize-stack"
         ]
@@ -1547,8 +1547,8 @@
           "scene.chasecreek.night-arrival"
         ],
         "evidence": [],
-        "station": [
-          "station.boat.chasecreek-creek"
+        "post": [
+          "post.boat.chasecreek-creek"
         ],
         "marks": []
       },
@@ -1700,7 +1700,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "workflow": "derived",
@@ -1919,8 +1919,8 @@
         "evidence": [
           "evidence.bond.dead-consignee-manifest"
         ],
-        "station": [
-          "station.trade.broken-bond"
+        "post": [
+          "post.trade.broken-bond"
         ],
         "marks": [
           "mark.eec.sawn-seal"
@@ -2129,7 +2129,7 @@
           "scene.corimont.lookout-names-the-view"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.vantage.crosstrees"
         ]
@@ -2341,8 +2341,8 @@
         "evidence": [
           "evidence.slate.debt-wall"
         ],
-        "station": [
-          "station.vice.standing-slate"
+        "post": [
+          "post.vice.standing-slate"
         ],
         "marks": []
       },
@@ -2531,9 +2531,9 @@
         "evidence": [
           "evidence.navigation.limit-board"
         ],
-        "station": [
-          "station.portage.last-deep",
-          "station.boat.last-deep"
+        "post": [
+          "post.portage.last-deep",
+          "post.boat.last-deep"
         ],
         "marks": []
       },
@@ -2749,8 +2749,8 @@
         "evidence": [
           "evidence.owing.ledger"
         ],
-        "station": [
-          "station.labour.hiring-yard"
+        "post": [
+          "post.labour.hiring-yard"
         ],
         "marks": []
       },
@@ -3018,9 +3018,9 @@
           "scene.no-tree.empty-circle"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
-          "mark.refuge.unplanted-ring"
+          "mark.corimont-hist-less-camp.unplanted-ring"
         ]
       },
       "complexityBudget": "simple",
@@ -3240,7 +3240,7 @@
         "evidence": [
           "evidence.corimont.cut-bond-seal"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.delve.low-store"
         ]
@@ -3528,14 +3528,14 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "scene.tradehouse.contract-board"
+          "scene.corimont-tradehouse.contract-board"
         ],
         "evidence": [
           "evidence.tradehouse.four-script-guest-book"
         ],
-        "station": [
-          "station.rest.quay-room",
-          "station.contract.quay-room-board"
+        "post": [
+          "post.rest.quay-room",
+          "post.contract.quay-room-board"
         ],
         "marks": []
       },
@@ -3793,9 +3793,9 @@
         "evidence": [
           "evidence.pens.gatepost-tally"
         ],
-        "station": [],
+        "post": [],
         "marks": [
-          "mark.dres.house-mark"
+          "mark.dres-holding-pens.house-mark"
         ]
       },
       "complexityBudget": "simple",
@@ -4106,11 +4106,11 @@
           "scene.holding.ancestor-hall"
         ],
         "evidence": [],
-        "station": [
-          "station.trade.dunmer-holding"
+        "post": [
+          "post.trade.dunmer-holding"
         ],
         "marks": [
-          "mark.dres.house-mark"
+          "mark.dunmer-frontier-holding.house-mark"
         ]
       },
       "complexityBudget": "standard",
@@ -4340,7 +4340,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -4495,7 +4495,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.cairn.dated-stone"
         ]
@@ -4765,8 +4765,8 @@
           "scene.shelter.open-meeting"
         ],
         "evidence": [],
-        "station": [
-          "station.rest.freed-worker-shelter"
+        "post": [
+          "post.rest.freed-worker-shelter"
         ],
         "marks": []
       },
@@ -4937,8 +4937,8 @@
         "evidence": [
           "evidence.courier.locked-token-rail"
         ],
-        "station": [
-          "station.courier.freehold-relay"
+        "post": [
+          "post.courier.freehold-relay"
         ],
         "marks": []
       },
@@ -5114,8 +5114,8 @@
         "evidence": [
           "evidence.market.the-price-list"
         ],
-        "station": [
-          "station.trade.open-ground"
+        "post": [
+          "post.trade.open-ground"
         ],
         "marks": []
       },
@@ -5345,7 +5345,7 @@
           "scene.naga.the-taking"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -5570,8 +5570,8 @@
         "evidence": [
           "evidence.pest-house.what-worked-board"
         ],
-        "station": [
-          "station.healing.pest-house"
+        "post": [
+          "post.healing.pest-house"
         ],
         "marks": []
       },
@@ -5771,8 +5771,8 @@
         "evidence": [
           "evidence.smithy.hull-sorted-iron"
         ],
-        "station": [
-          "station.craft.freehold-forge"
+        "post": [
+          "post.craft.freehold-forge"
         ],
         "marks": []
       },
@@ -5991,8 +5991,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.portage.dragway"
+        "post": [
+          "post.portage.dragway"
         ],
         "marks": []
       },
@@ -6166,7 +6166,7 @@
           "scene.jam.crossing-the-timber"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6350,8 +6350,8 @@
           "scene.salt-teeth.hiring-on"
         ],
         "evidence": [],
-        "station": [
-          "station.boat.long-water"
+        "post": [
+          "post.boat.long-water"
         ],
         "marks": [
           "mark.piracy.careening-berth"
@@ -6627,7 +6627,7 @@
         "evidence": [
           "evidence.kothringi.house-footings"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6898,7 +6898,7 @@
           "scene.drawdown.the-dry-season"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7102,8 +7102,8 @@
           "evidence.opening.work-roll",
           "evidence.opening.courier-satchel"
         ],
-        "station": [
-          "station.labour.work-roll"
+        "post": [
+          "post.labour.work-roll"
         ],
         "marks": [
           "mark.opening.player-start",
@@ -7424,8 +7424,8 @@
         "evidence": [
           "evidence.opening.dead-clutch"
         ],
-        "station": [
-          "station.rest.gang-ground"
+        "post": [
+          "post.rest.gang-ground"
         ],
         "marks": [
           "mark.opening.hatching-shed",
@@ -7674,7 +7674,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -7840,7 +7840,7 @@
         "evidence": [
           "evidence.hermit.charcoal-ledger"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8061,7 +8061,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -8373,8 +8373,8 @@
         "evidence": [
           "evidence.fort.the-deed"
         ],
-        "station": [
-          "station.toll.the-fort"
+        "post": [
+          "post.toll.the-fort"
         ],
         "marks": []
       },
@@ -8510,8 +8510,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.toll.the-fort",
-            "kind": "station",
+            "id": "post.toll.the-fort",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -8702,7 +8702,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -8861,7 +8861,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9014,7 +9014,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -9242,8 +9242,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.rest.rim-hearth"
+        "post": [
+          "post.rest.rim-hearth"
         ],
         "marks": []
       },
@@ -9407,7 +9407,7 @@
           "scene.keystone.empty-sockets"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -9692,7 +9692,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9855,9 +9855,9 @@
         "evidence": [
           "evidence.pass.season-board"
         ],
-        "station": [
-          "station.rest.rim-pass",
-          "station.road.rim-pass"
+        "post": [
+          "post.rest.rim-pass",
+          "post.road.rim-pass"
         ],
         "marks": []
       },
@@ -10075,8 +10075,8 @@
         "evidence": [
           "evidence.porter.repack-book"
         ],
-        "station": [
-          "station.freight.rim-porter-yard"
+        "post": [
+          "post.freight.rim-porter-yard"
         ],
         "marks": []
       },
@@ -10252,7 +10252,7 @@
           "scene.works.the-cistern"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -10456,7 +10456,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -10684,8 +10684,8 @@
         "evidence": [
           "evidence.ledge.consignment-marks"
         ],
-        "station": [
-          "station.smuggle.north-traverse"
+        "post": [
+          "post.smuggle.north-traverse"
         ],
         "marks": []
       },
@@ -10771,8 +10771,8 @@
             "whereInInterior": "threshold"
           },
           {
-            "id": "station.smuggle.north-traverse",
-            "kind": "station",
+            "id": "post.smuggle.north-traverse",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -10952,7 +10952,7 @@
           "scene.hermitage.the-observance"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -11220,9 +11220,9 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
-          "mark.vista.sighting-stone"
+          "mark.rim-vista-ledge.sighting-stone"
         ]
       },
       "complexityBudget": "trivial",
@@ -11375,7 +11375,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -11545,8 +11545,8 @@
         "evidence": [
           "evidence.salvage.river-lot-book"
         ],
-        "station": [
-          "station.trade.river-salvage"
+        "post": [
+          "post.trade.river-salvage"
         ],
         "marks": []
       },
@@ -11744,8 +11744,8 @@
         "evidence": [
           "evidence.rockpoint.dredging-survey"
         ],
-        "station": [
-          "station.boat.rockpoint-landing"
+        "post": [
+          "post.boat.rockpoint-landing"
         ],
         "marks": [
           "mark.rockpoint.mooring-rings"
@@ -11981,8 +11981,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.ferry.trunk-free-stage"
+        "post": [
+          "post.ferry.trunk-free-stage"
         ],
         "marks": [
           "mark.ferry.empty-toll-bracket"
@@ -12151,10 +12151,10 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "evidence.hearth.guest-tally"
+          "evidence.trunk-hearth-house.guest-tally"
         ],
-        "station": [
-          "station.rest.trunk-hearth"
+        "post": [
+          "post.rest.trunk-hearth"
         ],
         "marks": []
       },
@@ -12323,10 +12323,10 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "evidence.tradehouse.guest-book"
+          "evidence.trunk-road-tradehouse.guest-book"
         ],
-        "station": [
-          "station.rest.trunk-tradehouse"
+        "post": [
+          "post.rest.trunk-tradehouse"
         ],
         "marks": []
       },
@@ -12558,8 +12558,8 @@
         "evidence": [
           "evidence.toll.tariff-board"
         ],
-        "station": [
-          "station.toll.trunk-span"
+        "post": [
+          "post.toll.trunk-span"
         ],
         "marks": []
       },
@@ -12792,8 +12792,8 @@
           "scene.toll.charged-twice"
         ],
         "evidence": [],
-        "station": [
-          "station.toll.upper-span"
+        "post": [
+          "post.toll.upper-span"
         ],
         "marks": []
       },
@@ -12939,7 +12939,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13164,8 +13164,8 @@
         "evidence": [
           "evidence.opening.harvest-cut"
         ],
-        "station": [
-          "station.rest.nine-bends"
+        "post": [
+          "post.rest.nine-bends"
         ],
         "marks": [
           "mark.opening.hatchery-pool",
@@ -13419,7 +13419,7 @@
           "scene.veterans.hiring-refused"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.veterans.campaign-post"
         ]

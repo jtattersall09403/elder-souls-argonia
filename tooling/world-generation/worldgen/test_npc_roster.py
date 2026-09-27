@@ -369,8 +369,8 @@ def test_a_deleted_slots_name_is_free_again(tmp_path, monkeypatch):
 def test_claywater_npcs_stand_at_their_station_sockets(generated):
     entries, _ = generated
     homes = {e["id"]: e["home"]["socketId"] for e in entries}
-    assert homes["npc.imperial-fringe.claywater-station.well-keeper"] == "station.claywater-station.well-keeper"
-    assert homes["npc.imperial-fringe.claywater-station.landing-s-poler"] == "station.claywater-station.poler"
+    assert homes["npc.imperial-fringe.claywater-station.well-keeper"] == "post.claywater-station.well-keeper"
+    assert homes["npc.imperial-fringe.claywater-station.landing-s-poler"] == "post.claywater-station.poler"
 
 
 def test_no_socketless_npc_escapes_the_unmatched_list(live, generated):
@@ -381,15 +381,15 @@ def test_no_socketless_npc_escapes_the_unmatched_list(live, generated):
         place = by_id.get(e["home"]["placeId"])
         if place is None or e["home"]["slotIndex"] is None:
             continue
-        if (place.get("sockets") or {}).get("station") and e["home"]["socketId"] is None:
+        if (place.get("sockets") or {}).get("post") and e["home"]["socketId"] is None:
             assert e["id"] in listed, e["id"]
         if e["home"]["socketId"] is not None:
-            assert e["home"]["socketId"] in place["sockets"]["station"], e["id"]
+            assert e["home"]["socketId"] in place["sockets"]["post"], e["id"]
 
 
 def test_slot_socket_rule():
-    place = {"id": "place.r.p", "sockets": {"station": ["station.p.poler", "station.p.well-keeper"]}}
-    assert nr.slot_socket(place, "landing-s-poler") == "station.p.poler"
-    assert nr.slot_socket(place, "well-keeper") == "station.p.well-keeper"
+    place = {"id": "place.r.p", "sockets": {"post": ["post.p.poler", "post.p.well-keeper"]}}
+    assert nr.slot_socket(place, "landing-s-poler") == "post.p.poler"
+    assert nr.slot_socket(place, "well-keeper") == "post.p.well-keeper"
     assert nr.slot_socket(place, "keeper") is None
-    assert nr.slot_socket({"id": "place.r.q", "sockets": {"station": []}}, "poler") is None
+    assert nr.slot_socket({"id": "place.r.q", "sockets": {"post": []}}, "poler") is None

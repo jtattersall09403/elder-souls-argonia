@@ -1102,7 +1102,7 @@
         "socket": {
           "stationId": "ferry-landing.drowning-gate.east"
         },
-        "socketRef": "station.claywater-station.poler"
+        "socketRef": "socket.claywater-station.npc-poler"
       },
       "questUse": "The province's attested western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
       "refusedIf": [],
@@ -1166,7 +1166,7 @@
         "socket": {
           "stationId": "ferry-landing.onkobra-bond.town"
         },
-        "socketRef": "station.bonded-shed-of-the-onkobra.bond-clerk"
+        "socketRef": "post.bonded-shed-of-the-onkobra.bond-clerk"
       },
       "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes a traveller to the ford and into the Owing ledger.",
       "refusedIf": [

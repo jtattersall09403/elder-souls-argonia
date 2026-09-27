@@ -58,7 +58,7 @@ out['sightline discovery, province']=f"{sl} ({sl/sum(len(v) for v in regs.values
 out['_sightline per km2']={r:round(sum(1 for x in v if x.get('discovery')=='sightline')/LAND[r],1) for r,v in regs.items()}
 # 6 socket-less tier 0/1
 out['socket-less tier-0/1 records']=sum(1 for rec in regs.values() for x in rec
-    if x.get('importanceTier',9)<=1 and not any((x.get('sockets') or {}).get(k) for k in ('scene','evidence','station','marks')))
+    if x.get('importanceTier',9)<=1 and not any((x.get('sockets') or {}).get(k) for k in ('scene','evidence','post','marks')))
 # 7 season / era coverage
 out['records missing any of the five strict fields']=sum(1 for rec in regs.values() for x in rec
     if any(x.get(f) in (None,'',[]) for f in ('season','eraLayers','densityLayer','entrance','underwaterAccess')))

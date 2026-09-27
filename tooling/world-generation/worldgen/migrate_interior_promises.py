@@ -115,10 +115,10 @@ WHERE_BY_NPC_ROLE = {
 WHERE_BY_LOOT_ROLE = {
     "hidden-cache": "hidden", "strongroom": "deep", "ledger-or-document": "main",
 }
-SOCKET_LIST_KIND = {"evidence": "evidence", "scene": "scene", "station": "station"}
+SOCKET_LIST_KIND = {"evidence": "evidence", "scene": "scene", "post": "post"}
 WHERE_BY_SOCKET_KIND = {
     "boss": "deep", "boss-chest": "deep", "captive": "deep", "cache": "hidden",
-    "shrine": "main", "scene": "main", "station": "main", "evidence": "threshold",
+    "shrine": "main", "scene": "main", "post": "main", "evidence": "threshold",
     "escape": "entrance",
 }
 SAMENESS_RADIUS_M = 2000.0

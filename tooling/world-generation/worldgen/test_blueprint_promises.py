@@ -20,7 +20,7 @@ def _record(**over):
         "culture": "argonian",
         "entrance": "door",
         "services": ["trader", "lodging"],
-        "sockets": {"scene": [], "evidence": [], "station": [], "marks": []},
+        "sockets": {"scene": [], "evidence": [], "post": [], "marks": []},
         "questHooks": {"provisions": []},
         "rewardProfile": {"kinds": ["trade-access"]},
         "contents": {"creatures": [], "loot": [], "npcs": [
@@ -144,8 +144,8 @@ def test_a_promise_id_is_one_ledger_row():
     """Planner ruling 3 (16k round 6): a record that lists one catalogue
     socket twice (or under two kinds) makes one row, and a realiser is
     named once per row."""
-    rec = _record(sockets={"station": ["station.tp.keeper", "station.tp.keeper"],
-                           "scene": ["station.tp.keeper"]})
+    rec = _record(sockets={"post": ["post.tp.keeper", "post.tp.keeper"],
+                           "scene": ["post.tp.keeper"]})
     ledger = bpr.build_ledger(_blueprint(), rec)
     ids = [p.id for p in ledger]
     assert len(ids) == len(set(ids))
@@ -170,7 +170,7 @@ def test_r7_catalogue_quest_sockets_and_travel_services_name_their_parcel():
         errs = [e for e in bpr.validate_promise_fields(bp) if "`parcel`" in e]
         assert errs == [], (f.name, errs)
     bad = {"parcels": [{"id": "parcel.a"}],
-           "questSockets": [{"id": "s1", "socketRef": "station.x"}, {"id": "s2"},
+           "questSockets": [{"id": "s1", "socketRef": "post.x"}, {"id": "s2"},
                             {"id": "s3", "socketRef": "scene.y", "parcel": "parcel.b"}],
            "travelServices": [{"id": "t1", "kind": "ferry"}]}
     errs = bpr.validate_promise_fields(bad)

@@ -514,8 +514,9 @@ def test_stilt_prose_rule_fails_on_a_planted_violation():
 # --- a crossing inside one place belongs to it (16k slice 1c, 2026-09-26) ---
 # A travel-services row whose every landing (or station) lies inside one
 # place's footprint is that place's service: its operator names the place
-# (`operator.nearestPlaceId`) and one of the place's station sockets
-# (`operator.socketRef`, a `sockets.station` id of that record). Where two
+# (`operator.nearestPlaceId`) and the socket its operator stands on
+# (`operator.socketRef`: the place's layout socket once it is laid out, else
+# a `sockets.post` id of that record; 0104 decision 2). Where two
 # footprints hold every landing, the smaller (the more specific place) owns
 # it. Claywater's ford ferry was run by the Drowning Gate's barrier family
 # 178 m away while both its landings stood inside Claywater's 65 m footprint
@@ -545,8 +546,8 @@ def footprint_owner_failures(places: dict, doc: dict) -> dict[str, str]:
             continue
         owner = owners[0][1]
         op = svc.get("operator") or {}
-        sockets = (places[owner].get("sockets") or {}).get("station") or []
-        if op.get("nearestPlaceId") != owner or op.get("socketRef") not in sockets:
+        if op.get("nearestPlaceId") != owner or op.get("socketRef") not in (
+                ts.operator_socket_ids(owner, places)):
             bad[svc["id"]] = owner
     return bad
 
@@ -568,7 +569,7 @@ def test_footprint_owner_rule_fails_on_a_planted_violation():
 def test_travel_services_check_refuses_a_socket_the_place_does_not_have():
     doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
     svc = next(s for s in doc["services"] if s["id"] == "ferry.imperial-fringe.drowning-gate")
-    svc["operator"]["socketRef"] = "station.claywater-station.nobody"
+    svc["operator"]["socketRef"] = "socket.claywater-station.nobody"
     assert any("socketRef" in e for e in ts.check(doc=doc))
 
 
@@ -625,7 +626,7 @@ def test_only_a_road_crossing_derives_ferry_from_its_operator():
     assert "place.imperial-fringe.claywater-station" in derive_services.crossing_operators(doc)
     run = next(s for s in doc["services"] if s.get("form") != "road-crossing"
                and s.get("status") == "active")
-    run["operator"]["socketRef"] = "station.x.y"
+    run["operator"]["socketRef"] = "socket.x.y"
     assert run["operator"]["nearestPlaceId"] not in derive_services.crossing_operators(
         {"services": [run]})
 

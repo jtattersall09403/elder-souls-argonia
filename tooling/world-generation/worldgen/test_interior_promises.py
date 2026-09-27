@@ -71,7 +71,7 @@ def _dungeon_record(**over):
         "traversalModes": ["walk"],
         "hostility": {"baseline": "hostile"},
         "questHooks": {"provisions": [], "tags": []},
-        "sockets": {"scene": [], "evidence": [], "station": [], "marks": []},
+        "sockets": {"scene": [], "evidence": [], "post": [], "marks": []},
         "contents": {"creatures": [], "npcs": [], "loot": []},
         "interior": {
             "kind": "delve", "family": "root-cavern", "sizeBand": "S1",

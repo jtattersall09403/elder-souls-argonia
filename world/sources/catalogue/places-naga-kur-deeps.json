@@ -114,7 +114,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -425,7 +425,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -725,7 +725,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1017,7 +1017,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -1204,7 +1204,7 @@
           "scene.bereaved-hist-less-since.since-the-tree-stump-ground"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1447,7 +1447,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -1613,7 +1613,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -1771,7 +1771,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -2055,7 +2055,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -2332,7 +2332,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -2525,7 +2525,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -2765,8 +2765,8 @@
           "scene.dead-water-village.dead-water-blue-crown"
         ],
         "evidence": [],
-        "station": [
-          "station.dead-water-village.dead-water-death-hunt-muster"
+        "post": [
+          "post.dead-water-village.dead-water-death-hunt-muster"
         ],
         "marks": []
       },
@@ -3113,8 +3113,8 @@
         "evidence": [
           "evidence.deepmire-refuge.deepmire-founding-testimony"
         ],
-        "station": [
-          "station.deepmire-refuge.deepmire-caretakers-camp"
+        "post": [
+          "post.deepmire-refuge.deepmire-caretakers-camp"
         ],
         "marks": [
           "marks.deepmire-refuge.deepmire-sheltered-here"
@@ -3222,8 +3222,8 @@
             "whereInInterior": "hidden"
           },
           {
-            "id": "station.deepmire-refuge.deepmire-caretakers-camp",
-            "kind": "station",
+            "id": "post.deepmire-refuge.deepmire-caretakers-camp",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -3452,7 +3452,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -3702,7 +3702,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -3867,7 +3867,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4167,7 +4167,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4457,7 +4457,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -4752,8 +4752,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.ferry-stage-guide-hire.deeps-hire-stage"
+        "post": [
+          "post.ferry-stage-guide-hire.deeps-hire-stage"
         ],
         "marks": []
       },
@@ -5018,7 +5018,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -5166,7 +5166,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -5439,7 +5439,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -5683,7 +5683,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -5902,7 +5902,7 @@
         "evidence": [
           "evidence.harmed-hist-enslaved.held-tree-crew-contract"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -6175,7 +6175,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -6352,7 +6352,7 @@
         "evidence": [
           "evidence.horwalli-waterworks-deeps.horwalli-cut-marks"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -6662,7 +6662,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -6815,7 +6815,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -7022,7 +7022,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -7240,8 +7240,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.leviathan-bone-field.nine-ribs-cutters-stage"
+        "post": [
+          "post.leviathan-bone-field.nine-ribs-cutters-stage"
         ],
         "marks": [
           "marks.leviathan-bone-field.nine-ribs-bone-taken"
@@ -7457,8 +7457,8 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "station.leviathan-bone-field.nine-ribs-cutters-stage",
-            "kind": "station",
+            "id": "post.leviathan-bone-field.nine-ribs-cutters-stage",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -7610,7 +7610,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7827,7 +7827,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -8066,7 +8066,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8231,7 +8231,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8497,7 +8497,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8664,7 +8664,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8906,7 +8906,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9144,7 +9144,7 @@
         "evidence": [
           "evidence.naga-highway-camp-walkway.walkway-share-ledger"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9332,7 +9332,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -9659,8 +9659,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.naga-village-settled.long-water-hold-gate"
+        "post": [
+          "post.naga-village-settled.long-water-hold-gate"
         ],
         "marks": []
       },
@@ -9981,7 +9981,7 @@
         "evidence": [
           "evidence.necropolis-nightbound.grave-stake-setters-ledger"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -10292,7 +10292,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -10542,7 +10542,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -10791,7 +10791,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -11088,7 +11088,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -11339,7 +11339,7 @@
           "scene.root-gallery-blight-warren.warren-blight-floor"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "marks.root-gallery-blight-warren.warren-cleared"
         ]
@@ -11644,7 +11644,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -11855,7 +11855,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12084,7 +12084,7 @@
         "evidence": [
           "evidence.root-whisper-village.root-whisper-remnant-account"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "marks.root-whisper-village.hist-root-whisper-regard"
         ]
@@ -12426,7 +12426,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12735,7 +12735,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -13030,7 +13030,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13305,7 +13305,7 @@
         "evidence": [
           "evidence.sithis-temple-mass-sacrifice.teeth-of-sithis-the-count"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -13625,7 +13625,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -13816,7 +13816,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13990,7 +13990,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -14172,7 +14172,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -14361,7 +14361,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -14558,7 +14558,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -14778,7 +14778,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -14952,7 +14952,7 @@
         "evidence": [
           "evidence.umbriel-stripped-undead.umbriel-containment-ring-log"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -15273,7 +15273,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -15476,7 +15476,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -15708,7 +15708,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -15958,7 +15958,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -16116,7 +16116,7 @@
         "evidence": [
           "evidence.wild-hist-rogue-deeps.hist-withdrawal-signature"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -16365,7 +16365,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",

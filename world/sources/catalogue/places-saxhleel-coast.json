@@ -88,7 +88,7 @@
         "evidence": [
           "evidence.fleet-stone.two-inscriptions"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -332,12 +332,12 @@
           "evidence.archon.company-manifest",
           "evidence.archon.harbour-authority-register"
         ],
-        "station": [
-          "station.boat.archon-outer-mooring",
-          "station.ferry.archon-quay",
-          "station.repair.archon-long-stocks",
-          "station.rest.archon-quay-room",
-          "station.watertaxi.archon-lower-town"
+        "post": [
+          "post.boat.archon-outer-mooring",
+          "post.ferry.archon-quay",
+          "post.repair.archon-long-stocks",
+          "post.rest.archon-quay-room",
+          "post.watertaxi.archon-lower-town"
         ],
         "marks": [
           "mark.archon.an-xileel-writ",
@@ -737,7 +737,7 @@
         "evidence": [
           "evidence.archon.bond-manifest"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.eec.company-seal"
         ]
@@ -997,8 +997,8 @@
           "scene.archon.submerged-byre"
         ],
         "evidence": [],
-        "station": [
-          "station.mount.archon-glowgill"
+        "post": [
+          "post.mount.archon-glowgill"
         ],
         "marks": []
       },
@@ -1076,8 +1076,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.mount.archon-glowgill",
-            "kind": "station",
+            "id": "post.mount.archon-glowgill",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -1293,8 +1293,8 @@
           "scene.archon.hist-vigil"
         ],
         "evidence": [],
-        "station": [
-          "station.hist.archon-harbour-tree"
+        "post": [
+          "post.hist.archon-harbour-tree"
         ],
         "marks": [
           "mark.hist.hero-archon"
@@ -1451,8 +1451,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.hist.archon-harbour-tree",
-            "kind": "station",
+            "id": "post.hist.archon-harbour-tree",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -1618,7 +1618,7 @@
         "evidence": [
           "evidence.archon.wreck-register"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -1821,8 +1821,8 @@
         "evidence": [
           "evidence.archon.inspection-log"
         ],
-        "station": [
-          "station.customs.archon"
+        "post": [
+          "post.customs.archon"
         ],
         "marks": []
       },
@@ -2012,7 +2012,7 @@
         "evidence": [
           "evidence.archon.date-scratched-everywhere"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -2344,7 +2344,7 @@
           "evidence.archon.birth-sign-roll",
           "evidence.archon.order-of-closure"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.archon.black-tongue-sign"
         ]
@@ -2663,8 +2663,8 @@
         "evidence": [
           "evidence.archon.build-register"
         ],
-        "station": [
-          "station.boat.archon-yard"
+        "post": [
+          "post.boat.archon-yard"
         ],
         "marks": []
       },
@@ -2855,7 +2855,7 @@
         "evidence": [
           "evidence.archon.cipher-watch-log"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -3062,7 +3062,7 @@
           "scene.archon.trial-week"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.archon.trial-stakes"
         ]
@@ -3235,7 +3235,7 @@
         "evidence": [
           "evidence.archon.whispers-cipher"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.whispers.drop-sign"
         ]
@@ -3470,8 +3470,8 @@
           "scene.stack.sea-climb"
         ],
         "evidence": [],
-        "station": [
-          "station.boat.banner-stack-ring"
+        "post": [
+          "post.boat.banner-stack-ring"
         ],
         "marks": []
       },
@@ -3695,8 +3695,8 @@
           "scene.hull-hall.feast"
         ],
         "evidence": [],
-        "station": [
-          "station.rest.hull-hall"
+        "post": [
+          "post.rest.hull-hall"
         ],
         "marks": []
       },
@@ -3858,7 +3858,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4023,8 +4023,8 @@
           "scene.boardwalk.repair-gang"
         ],
         "evidence": [],
-        "station": [
-          "station.rest.boardwalk-spine"
+        "post": [
+          "post.rest.boardwalk-spine"
         ],
         "marks": []
       },
@@ -4183,7 +4183,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4367,7 +4367,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -4503,7 +4503,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -4732,7 +4732,7 @@
         "evidence": [
           "evidence.cantemir.house-mark"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.velothi.house-sign"
         ]
@@ -5053,7 +5053,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -5249,8 +5249,8 @@
         "evidence": [
           "evidence.courier.route-carving"
         ],
-        "station": [
-          "station.courier.coast-relay"
+        "post": [
+          "post.courier.coast-relay"
         ],
         "marks": []
       },
@@ -5410,8 +5410,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.guide.coast-camp"
+        "post": [
+          "post.guide.coast-camp"
         ],
         "marks": []
       },
@@ -5595,9 +5595,9 @@
           "scene.refuge.empty-circle"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
-          "mark.refuge.unplanted-ring"
+          "mark.coast-hist-less-refuge.unplanted-ring"
         ]
       },
       "complexityBudget": "simple",
@@ -5819,10 +5819,10 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "evidence.hearth.guest-tally"
+          "evidence.coast-road-hearth-house.guest-tally"
         ],
-        "station": [
-          "station.rest.coast-road-hearth"
+        "post": [
+          "post.rest.coast-road-hearth"
         ],
         "marks": []
       },
@@ -5995,10 +5995,10 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "evidence.tradehouse.guest-book"
+          "evidence.coast-road-tradehouse.guest-book"
         ],
-        "station": [
-          "station.rest.coast-road-tradehouse"
+        "post": [
+          "post.rest.coast-road-tradehouse"
         ],
         "marks": []
       },
@@ -6140,7 +6140,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -6334,7 +6334,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -6529,7 +6529,7 @@
         "evidence": [
           "evidence.hunters.notebook"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -6698,7 +6698,7 @@
         "evidence": [
           "evidence.bank.two-marks"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -6958,8 +6958,8 @@
         "evidence": [
           "evidence.barge.debt-slate"
         ],
-        "station": [
-          "station.vice.dance-barge"
+        "post": [
+          "post.vice.dance-barge"
         ],
         "marks": []
       },
@@ -7138,7 +7138,7 @@
           "scene.becalmed.boarding"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7313,7 +7313,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -7519,8 +7519,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.boat.canoe-beach"
+        "post": [
+          "post.boat.canoe-beach"
         ],
         "marks": []
       },
@@ -7673,7 +7673,7 @@
         "evidence": [
           "evidence.narrows.tide-board"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7824,7 +7824,7 @@
         "evidence": [
           "evidence.concession.boundary-post"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7989,7 +7989,7 @@
           "scene.drake.deep-fight"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.chart.drake-symbol"
         ]
@@ -8156,7 +8156,7 @@
           "scene.colony.dusk-column"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -8402,8 +8402,8 @@
         "evidence": [
           "evidence.root.season-tally"
         ],
-        "station": [
-          "station.roottransit.east-estuary"
+        "post": [
+          "post.roottransit.east-estuary"
         ],
         "marks": []
       },
@@ -8552,8 +8552,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.roottransit.east-estuary",
-            "kind": "station",
+            "id": "post.roottransit.east-estuary",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -8696,8 +8696,8 @@
         "evidence": [
           "evidence.boom.passage-record"
         ],
-        "station": [
-          "station.toll.estuary-boom"
+        "post": [
+          "post.toll.estuary-boom"
         ],
         "marks": []
       },
@@ -8877,8 +8877,8 @@
           "scene.ferry.night-refusal"
         ],
         "evidence": [],
-        "station": [
-          "station.ferry.estuary-stage"
+        "post": [
+          "post.ferry.estuary-stage"
         ],
         "marks": []
       },
@@ -9056,7 +9056,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -9283,8 +9283,8 @@
         "evidence": [
           "evidence.market.price-board"
         ],
-        "station": [
-          "station.trade.stall-row"
+        "post": [
+          "post.trade.stall-row"
         ],
         "marks": []
       },
@@ -9429,8 +9429,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.trade.salt-store"
+        "post": [
+          "post.trade.salt-store"
         ],
         "marks": []
       },
@@ -9614,7 +9614,7 @@
         "evidence": [
           "evidence.gap-reef.safe-lane-marks"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -9904,7 +9904,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -10055,8 +10055,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.trade.shell-yard"
+        "post": [
+          "post.trade.shell-yard"
         ],
         "marks": []
       },
@@ -10221,8 +10221,8 @@
         "evidence": [
           "evidence.shelter.two-lists"
         ],
-        "station": [
-          "station.rest.headland-shelter"
+        "post": [
+          "post.rest.headland-shelter"
         ],
         "marks": []
       },
@@ -10384,8 +10384,8 @@
           "scene.fair.month-of-the-fair"
         ],
         "evidence": [],
-        "station": [
-          "station.trade.inland-fair"
+        "post": [
+          "post.trade.inland-fair"
         ],
         "marks": []
       },
@@ -10528,7 +10528,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -10711,8 +10711,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.ferry.jungle-stage"
+        "post": [
+          "post.ferry.jungle-stage"
         ],
         "marks": []
       },
@@ -10876,7 +10876,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -11151,8 +11151,8 @@
         "evidence": [
           "evidence.hearth.in-and-out-tally"
         ],
-        "station": [
-          "station.rest.jungle-track-hearth"
+        "post": [
+          "post.rest.jungle-track-hearth"
         ],
         "marks": []
       },
@@ -11237,8 +11237,8 @@
             "whereInInterior": "threshold"
           },
           {
-            "id": "station.rest.jungle-track-hearth",
-            "kind": "station",
+            "id": "post.rest.jungle-track-hearth",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -11338,7 +11338,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -11484,7 +11484,7 @@
           "scene.lagoon.night-crossing"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -11634,8 +11634,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.rest.lagoon-shelter"
+        "post": [
+          "post.rest.lagoon-shelter"
         ],
         "marks": []
       },
@@ -11823,7 +11823,7 @@
         "evidence": [
           "evidence.xanmeer.tended-until-a-date"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.xanmeer.tending-sign"
         ]
@@ -12120,7 +12120,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -12407,7 +12407,7 @@
         "evidence": [
           "evidence.mangrove.marker-key"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12573,7 +12573,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -12737,7 +12737,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12897,7 +12897,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13119,8 +13119,8 @@
         "evidence": [
           "evidence.layby.undated-tally"
         ],
-        "station": [
-          "station.contract.layby-broker"
+        "post": [
+          "post.contract.layby-broker"
         ],
         "marks": []
       },
@@ -13255,8 +13255,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.contract.layby-broker",
-            "kind": "station",
+            "id": "post.contract.layby-broker",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -13452,7 +13452,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -13726,7 +13726,7 @@
           "scene.owing.hiring-day"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -13964,7 +13964,7 @@
         "evidence": [
           "evidence.wrecker.cargo-tally"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.wrecker.beach-claim"
         ]
@@ -14239,7 +14239,7 @@
         "evidence": [
           "evidence.pearl.lot-tally"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -14465,8 +14465,8 @@
           "scene.portdun.pilot-fee"
         ],
         "evidence": [],
-        "station": [
-          "station.pilot.portdun"
+        "post": [
+          "post.pilot.portdun"
         ],
         "marks": [
           "mark.portdun.pilot-flag"
@@ -14756,8 +14756,8 @@
         "evidence": [
           "evidence.marque.letters"
         ],
-        "station": [
-          "station.boat.marque-cove"
+        "post": [
+          "post.boat.marque-cove"
         ],
         "marks": []
       },
@@ -14856,8 +14856,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.boat.marque-cove",
-            "kind": "station",
+            "id": "post.boat.marque-cove",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -15032,7 +15032,7 @@
         "evidence": [
           "evidence.cordon.missing-release-order"
         ],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.cordon.painted-stakes"
         ]
@@ -15227,7 +15227,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -15437,14 +15437,14 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "scene.tradehouse.contract-board"
+          "scene.quay-tradehouse.contract-board"
         ],
         "evidence": [
-          "evidence.tradehouse.guest-book"
+          "evidence.quay-tradehouse.guest-book"
         ],
-        "station": [
-          "station.rest.quay-tradehouse",
-          "station.contract.quay-board"
+        "post": [
+          "post.rest.quay-tradehouse",
+          "post.contract.quay-board"
         ],
         "marks": []
       },
@@ -15673,7 +15673,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -15858,7 +15858,7 @@
         "evidence": [
           "evidence.wreck.ships-papers"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -16092,9 +16092,9 @@
         "evidence": [
           "evidence.seafalls.navigable-limit-board"
         ],
-        "station": [
-          "station.portage.seafalls",
-          "station.boat.seafalls-lower"
+        "post": [
+          "post.portage.seafalls",
+          "post.boat.seafalls-lower"
         ],
         "marks": []
       },
@@ -16356,7 +16356,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.seafalls.name-wall"
         ]
@@ -16556,8 +16556,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.freight.seafalls-relay"
+        "post": [
+          "post.freight.seafalls-relay"
         ],
         "marks": []
       },
@@ -16722,7 +16722,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -16877,8 +16877,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.portage.seafalls-slip"
+        "post": [
+          "post.portage.seafalls-slip"
         ],
         "marks": []
       },
@@ -17045,7 +17045,7 @@
           "scene.xanmeer.sealed-door"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -17316,7 +17316,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -17554,7 +17554,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -17707,7 +17707,7 @@
           "scene.successor.street-into-sea"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -17906,8 +17906,8 @@
           "scene.stilt.deck-street"
         ],
         "evidence": [],
-        "station": [
-          "station.ferry.stilt-village-east"
+        "post": [
+          "post.ferry.stilt-village-east"
         ],
         "marks": []
       },
@@ -18081,7 +18081,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -18258,7 +18258,7 @@
           "scene.xanmeer.tending"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.xanmeer.clan-sign"
         ]
@@ -18482,7 +18482,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -18770,7 +18770,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -18926,8 +18926,8 @@
         "evidence": [
           "evidence.tide.body-count-post"
         ],
-        "station": [
-          "station.tide.two-hour-flat"
+        "post": [
+          "post.tide.two-hour-flat"
         ],
         "marks": []
       },
@@ -19128,8 +19128,8 @@
         "evidence": [
           "evidence.salvage.lot-book"
         ],
-        "station": [
-          "station.trade.salvage-yard"
+        "post": [
+          "post.trade.salvage-yard"
         ],
         "marks": []
       },
@@ -19318,7 +19318,7 @@
         "evidence": [
           "evidence.drowned.street-plan"
         ],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -19592,7 +19592,7 @@
           "scene.umbriel.shore-vigil"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
           "mark.umbriel.year-stone"
         ]
@@ -19857,8 +19857,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.rest.village-tradehouse"
+        "post": [
+          "post.rest.village-tradehouse"
         ],
         "marks": []
       },
@@ -19999,8 +19999,8 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [
-          "station.rest.walkway-junction"
+        "post": [
+          "post.rest.walkway-junction"
         ],
         "marks": []
       },
@@ -20161,7 +20161,7 @@
           "scene.hermit.the-favour"
         ],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -20387,8 +20387,8 @@
           "scene.village.root-talk"
         ],
         "evidence": [],
-        "station": [
-          "station.rest.wall-hist-village"
+        "post": [
+          "post.rest.wall-hist-village"
         ],
         "marks": []
       },
@@ -20562,8 +20562,8 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.rest.wall-hist-village",
-            "kind": "station",
+            "id": "post.rest.wall-hist-village",
+            "kind": "post",
             "whereInInterior": "main"
           }
         ],
@@ -20718,7 +20718,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "trivial",
@@ -20877,9 +20877,9 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": [
-          "mark.vista.sighting-stone"
+          "mark.wall-vista-ledge.sighting-stone"
         ]
       },
       "complexityBudget": "trivial",
@@ -21024,7 +21024,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -21212,7 +21212,7 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "post": [],
         "marks": []
       },
       "complexityBudget": "simple",
