@@ -1734,7 +1734,7 @@
      "misc-household"
     ],
     "valueBand": "low",
-    "storyNote": "Dried food kept for guests the house half trusts."
+    "storyNote": "Dried food set aside for paying guests."
    },
    "parcel": "parcel.greenspring.lodge",
    "why": "The lodge keeps plain food for its guests."
@@ -1755,7 +1755,7 @@
     "storyNote": "Salt bought from upriver traders, which the village blames for the sick root."
    },
    "parcel": "parcel.greenspring.heralds-house",
-   "why": "The root-herald keeps the salt the village blames for the Hist's sickness."
+   "why": "The root-herald keeps the salt that the village blames for the Hist's sickness."
   },
   {
    "op": "socket",
@@ -1787,7 +1787,7 @@
      "misc-household"
     ],
     "valueBand": "low",
-    "storyNote": "Coils of rope and pegs, sold dear."
+    "storyNote": "Coils of rope and pegs, for sale at a high price."
    },
    "parcel": "parcel.greenspring.lodge",
    "why": "The bed-keeper's rope for sale."
@@ -1841,7 +1841,7 @@
    ],
    "zone": "entrance",
    "parcel": "parcel.greenspring.lodge",
-   "why": "The lodge door, the village's lived-in entrance."
+   "why": "The lodge door, the most-used entrance in the village."
   },
   {
    "op": "socket",

@@ -170,7 +170,7 @@ item: smoked fish in the spring-keeper's jar.
 1. The spring house: a stone lip of rock cairns with water jars and Hist flowers.
 2. A sack of upriver salt and a herb-drying rack at the root-herald's door: the evidence the village argues over.
 3. The Hist shrine: rune circle, two totems, a wind chime, Hist flowers and two candles at the tree's foot.
-4. Three woven chairs outside the lodge for guests who have paid for nothing but the view.
+4. Three woven chairs outside the lodge, where guests sit.
 
 ### Sockets
 

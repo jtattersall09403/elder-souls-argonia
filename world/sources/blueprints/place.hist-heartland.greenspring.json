@@ -6,8 +6,8 @@
     "causalModel": {
       "founding": "Founded at the Panther fork on springs that can be drunk unboiled.",
       "siteAdvantages": "Firm ground where clean water rises at a stone lip, at the last dry footing before the Helstrom approach.",
-      "occupantsMotive": "The tribe is the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
-      "pressures": "The Hist is sick and the village blames salt from upstream. Helstrom traffic brings people the tribe would rather not host.",
+      "occupantsMotive": "The tribe is the interior's last friendly stop. Water is free; beds and rope are sold at high prices.",
+      "pressures": "The Hist is sick and the village blames salt from upstream. Traffic on the Helstrom track brings cult couriers and factors whom the tribe distrusts.",
       "wouldChangeIf": "If the spring soured, the village would move within a season."
     },
     "boundary": [
@@ -237,7 +237,7 @@
         ],
         "why": {
           "what": "The lodge, where the bed-keeper rents beds and sells rope.",
-          "whyHere": "The village lives by being the last friendly stop before Helstrom; it charges for beds, not water.",
+          "whyHere": "The village lives by being the last friendly stop before Helstrom; its income is the rent on its beds.",
           "whySpot": "The first dry shelf a traveller reaches from the track, on the east side of the common.",
           "whyNeighbours": "It faces the common across from the Hist shrine; the root-herald's house stands to the north.",
           "playerPurpose": "A bed for the night in a safe room; rope for the road.",
@@ -459,7 +459,7 @@
           {
             "kind": "witness",
             "tier": "medium",
-            "note": "The herald keeps the upriver salt the village blames for the sick root."
+            "note": "The herald keeps the upriver salt that the village blames for the sick root."
           }
         ],
         "why": {
@@ -1839,7 +1839,7 @@
         "orientationWhy": "The totems face the common, in front of the Hist.",
         "why": {
           "what": "The shrine at the foot of the Hist: totems, candles and flowers.",
-          "whyHere": "Every Argonian place keeps a shrine at its tree, not a temple.",
+          "whyHere": "Argonian villages keep a shrine at the Hist rather than a temple.",
           "whySpot": "On the flat ground round the Hist's roots, facing the common.",
           "whyNeighbours": "The Hist is behind it; the tree-minder's house is across the path to the east.",
           "playerPurpose": "The shrine service and the start of MR01 at the sick root.",
@@ -2837,7 +2837,7 @@
           "route.greenspring.the-way"
         ],
         "clearanceClass": "open",
-        "why": "The open common between the huts, where a fight in the village happens.",
+        "why": "The open common between the huts, where any fight in the village takes place.",
         "boundary": [
           [
             0.640581778,
@@ -3117,7 +3117,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/greenspring.layout.json",
-        "sha256": "a60f3c09e024919e113ea776794de4e4fde7d6f6c7f95e5ec5e19a18b6c87f77"
+        "sha256": "d8fdea444cd2ca490557597fb039da6e1bceda33b02a954f4a76133be32313fa"
       }
     },
     "walkRoutes": {
