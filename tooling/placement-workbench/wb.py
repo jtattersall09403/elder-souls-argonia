@@ -352,6 +352,15 @@ def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
     return out
 
 
+def judge_fit(cat, scene, p, cs, declared: dict | None = None) -> dict:
+    """`_fit_rules` on the ground the piece stands on in its scene
+    (`pads.fit_ground`: an assembly member on its parcel's pad reads the
+    pad), with the blueprint's authored fit: `check` and `scan.verify`."""
+    from workbench import pads
+    return _fit_rules(cat, pads.fit_ground(cat, scene, p, declared), p, cs,
+                      _authored_fit(scene, p))
+
+
 BEACHED_FLOAT_MAX_M = 0.3     # R5 (planner 2026-09-26): the keel or base rests on the bank
 BEACHED_SLOPE_MAX_DEG = 20.0
 BEACHED_WATER_REACH_M = 1.5   # ... and stands within this of the water line
@@ -521,7 +530,7 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
                 r["beachedProfile"] = rules.beached_profile(cat, g, p)
         elif p.role.get("kind") != "run":
             # a run is judged by the compile on its union (`compile` command)
-            r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
+            r.update(judge_fit(cat, scene, p, cs, declared))
         if seat["mode"] != "water":
             poly = measure.footprint_province(cat, p)
             if p.role.get("kind") == "run":
@@ -1102,7 +1111,7 @@ def cmd_scan(a, scene, cat):
     from worldgen import compile_settlement as cs
     doc = json.loads(Path(a.spec).read_text())
     got = scan.scan(cat, scene, doc, lambda c, g, p: _fit_rules(c, g, p, cs, None),
-                    serial=a.serial)
+                    serial=a.serial, judge=lambda c, s, p: judge_fit(c, s, p, cs))
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
         Path(a.out).write_text(json.dumps(got, indent=1, default=lambda o: round(float(o), 4)) + "\n")

@@ -140,3 +140,26 @@ def test_a_bare_scene_name_resolves_under_output_scenes(tmp_path, monkeypatch, c
         wb.main(["no-such-scene", "note", "x", "y"])
     assert os.listdir(cwd) == []
     assert not (paths.OUTPUT / "scenes" / "no-such-scene.json").exists()
+
+
+def test_scan_verify_judges_the_pair_child_on_its_anchors_pad(scene, cat):
+    """Planner ruling 2026-09-27: the snapped child (st2, an assembly member)
+    is judged on the ground it stands on, its anchor's pad where it stands
+    on it (`pads.fit_ground`, as `check` judges st2), and a failing child
+    fails `verify`. On the layout's own pose st2 stands on st1's pad and
+    fits; turned to 345 deg it leaves the pad's reach onto 9.9 deg ground."""
+    from workbench import scan
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    spec = {"id": "stall", "asset": STALL_L, "skip": ["st1", "st2"],
+            "pad": {"apronM": 0.5, "batter": True, "apronBySide": {"s": 6.0}},
+            "pair": {"asset": STALL_R, "childFace": "west", "parentFace": "east",
+                     "by": "geometry"}}
+    spec["_join"] = scan.pair_join(cat, spec)
+    judge = lambda c, s, p: wb.judge_fit(c, s, p, cs)              # noqa: E731
+    fit = lambda c, g, p: wb._fit_rules(c, g, p, cs, None)          # noqa: E731
+    on = scan.verify(cat, scene, spec, {"at": [375.0, 3098.0], "yaw": 120.0}, fit, judge)
+    assert on["childFit"]["stall-1"]["ok"], on["childFit"]
+    off = scan.verify(cat, scene, spec, {"at": [373.0, 3101.0], "yaw": 345.0}, fit, judge)
+    assert not off["childFit"]["stall-1"]["ok"]
+    assert off["passes"] is False

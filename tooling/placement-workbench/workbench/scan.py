@@ -231,7 +231,7 @@ def grid(spec: dict) -> list[tuple[float, float, float]]:
     return out
 
 
-def verify(cat, scene, spec: dict, cand: dict, fit_rules) -> dict:
+def verify(cat, scene, spec: dict, cand: dict, fit_rules, judge=None) -> dict:
     """The candidate placed on a copy of the scene (its own pad declared,
     seated on the padded ground as `settle` seats it) and judged by the
     rules themselves."""
@@ -243,6 +243,10 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules) -> dict:
         p.uid = uid if len(placed) == 1 else f"{uid}-{k}"
         if spec.get("parcel"):
             p.role = {"kind": "parcel", "id": spec["parcel"]}
+        if spec.get("pair") and k > 0:
+            # the snapped child is its anchor's assembly member (the layout's
+            # st2), judged as `check` judges it
+            p.role = {"kind": "assembly", "id": spec.get("parcel") or uid, "on": "ground"}
         trial.pieces.append(p)
     for p in placed:
         p.y = measure.seat(cat, pads.ground_for(cat, trial, p), p)["y"]
@@ -264,15 +268,19 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules) -> dict:
                       if k in ("ok", "slopeRule", "deltaRule", "sillRule", "maxSlopeDeg")}
     elif spec.get("pair"):
         # every member the anchor's pad does not judge, by the fit rules on
-        # the trial's padded ground: REPORTED, not gating (`check` judges
-        # the stall's child st2 as a member served by its parcel's pad and
-        # passes it where this reads the pad batter's slope; wb-gaps-1)
-        got["childFit"] = {p.uid: {k: v for k, v in fit_rules(cat, pads.ground_for(cat, trial, p),
-                                                         p).items()
-                              if k in ("ok", "slopeRule", "deltaRule", "sillRule", "maxSlopeDeg")}
-                      for p in placed if p.uid not in declared}
+        # the ground it stands on (`pads.fit_ground`: on the anchor's pad,
+        # the pad is its ground; planner ruling 2026-09-27): gating
+        def fit(p):
+            if judge is not None:
+                return judge(cat, trial, p)
+            return fit_rules(cat, pads.fit_ground(cat, trial, p, declared), p)
+        got["childFit"] = {p.uid: {k: v for k, v in fit(p).items()
+                                   if k in ("ok", "slopeRule", "deltaRule", "sillRule",
+                                            "maxSlopeDeg")}
+                           for p in placed if p.uid not in declared}
     got["passes"] = (not got.get("padRule") and not got["roadSurfaceRule"]
-                     and not got["sillRule"])
+                     and not got["sillRule"]
+                     and all(f["ok"] for f in (got.get("childFit") or {}).values()))
     return got
 
 
@@ -314,7 +322,7 @@ def local_ground(cat, scene, spec: dict):
     return local
 
 
-def scan(cat, scene, doc: dict, fit_rules, serial: bool = False) -> dict:
+def scan(cat, scene, doc: dict, fit_rules, serial: bool = False, judge=None) -> dict:
     """Every building in the scan spec: its candidates ranked, the top
     `limit` listed, the first `verify` legal ones placed and judged."""
     from shapely.geometry import box
@@ -345,7 +353,7 @@ def scan(cat, scene, doc: dict, fit_rules, serial: bool = False) -> dict:
         checked = []
         for cand in legal[: int(spec.get("verify", 3))]:
             checked.append({"at": cand["at"], "yaw": cand["yaw"],
-                            **verify(cat, scene, spec, cand, fit_rules)})
+                            **verify(cat, scene, spec, cand, fit_rules, judge)})
         for r in found:
             r.pop("rank", None)
         for r in found[: int(spec.get("limit", 10))]:

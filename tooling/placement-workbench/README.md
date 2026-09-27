@@ -151,8 +151,9 @@ building's own uids, so its old pad and pieces are not in the way;
 `pair: {asset, childFace, parentFace, by: evidence | geometry, pick?}`: a
 second piece snapped to `asset` by the `snap` op's own join, laid with it
 as one candidate, e.g. the stable's two stall halves; the anchor's pad
-is judged as a pad, and every other member by the fit rules on its own
-outline). Every
+is judged as a pad, and the child, an assembly member, by the fit rules
+on the ground it stands on (`pads.fit_ground`: on the anchor's pad the pad
+is its ground, as `check` judges it); a failing child fails `verify`). Every
 pose on the disc is measured in the pool on the scene's padded ground
 without the skipped pieces: pad legality (0101 + batter) and worst pad
 edge, or the fit rules; road-paint, path and piece overlap; water depth

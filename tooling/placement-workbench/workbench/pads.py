@@ -313,6 +313,18 @@ def _run_key(scene) -> tuple:
                              for i, p in m)) for rid, m in sorted(_run_members(scene).items()))
 
 
+def fit_ground(cat, scene, piece, resolved: dict | None = None):
+    """The ground a piece's fit rules (slope, delta, sill) are judged on:
+    the scene's padded ground (`ground_for`). An assembly member standing on
+    its parcel's pad is judged on that pad, the pad is its ground (planner
+    ruling 2026-09-27, wb-gaps-1): `ground_for` already carries every
+    resolved pad, so this names the rule rather than adding a surface; the
+    st2 off the pad fails on the frozen slope, on it fits (tests/test_wb_gaps_1).
+    The one reader for `check`
+    (`wb.judge_fit`), `scan.verify` and `wb._fit_rules`' scene callers."""
+    return ground_for(cat, scene, piece, resolved)
+
+
 def ground_for(cat, scene, piece, resolved: dict | None = None):
     """The ground every piece is seated and judged on: the frozen ground
     patched by every overlay the runtime applies for the scene, building pads
