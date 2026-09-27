@@ -220,11 +220,15 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
     # parent merges them before deciding what was written.
     parent_pid = os.getpid()
     audit_dir = Path(tempfile.mkdtemp(prefix="chain-audit-"))
+    # An audit hook can never be removed: once the stage ends it goes inert,
+    # or every later fork in this process (a pytest worker's next test) would
+    # write into the deleted audit_dir and die on its first open().
+    live = [True]
 
     def hook(event: str, args) -> None:
         # Fires BEFORE the open, so the mtime recorded here is the file's
         # state going in: anything whose mtime moves by the end was written.
-        if event != "open":
+        if event != "open" or not live[0]:
             return
         target = args[0]
         if not isinstance(target, (str, bytes, os.PathLike)):
@@ -237,8 +241,11 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
             return          # the second test is what stops the hook recursing
         seen_at[path] = _mtime(path)
         if os.getpid() != parent_pid:
-            with open(audit_dir / f"{os.getpid()}.txt", "a", encoding="utf-8") as fh:
-                fh.write(f"{seen_at[path]}\t{path}\n")
+            try:
+                with open(audit_dir / f"{os.getpid()}.txt", "a", encoding="utf-8") as fh:
+                    fh.write(f"{seen_at[path]}\t{path}\n")
+            except FileNotFoundError:
+                pass        # the stage has ended and its audit_dir is gone
 
     sys.addaudithook(hook)
     argv_saved = sys.argv[:]
@@ -256,8 +263,14 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
         if exc.code not in (0, None):
             elapsed = time.perf_counter() - t0
             sys.argv = argv_saved
+            live[0] = False
             shutil.rmtree(audit_dir, ignore_errors=True)
             raise
+    except BaseException:
+        # any other failure: the hook goes inert and its dir goes with it
+        live[0] = False
+        shutil.rmtree(audit_dir, ignore_errors=True)
+        raise
     finally:
         elapsed = time.perf_counter() - t0
         sys.argv = argv_saved
@@ -266,6 +279,7 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
         for line in record.read_text(encoding="utf-8").splitlines():
             was, _, name = line.partition("\t")
             seen_at.setdefault(Path(name), int(was))
+    live[0] = False
     shutil.rmtree(audit_dir, ignore_errors=True)
 
     inputs: dict[str, str] = {}

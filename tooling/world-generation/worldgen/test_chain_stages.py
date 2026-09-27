@@ -285,3 +285,41 @@ def test_a_stage_that_exits_non_zero_is_not_stamped_and_raises(tmp_path, monkeyp
     assert caught.value.code == 2
     assert not (tmp_path / "receipts" / "fake_bad_stage.json").exists()
     assert not (tmp_path / "stamps.json").exists()
+
+
+def test_a_fork_after_a_run_can_still_open_files(tmp_path, monkeypatch):
+    """The audit hook `run` adds can never be removed; after the stage it must
+    go inert, or a later fork in the same process (a pytest worker's next
+    test) dies on its first open() into the deleted audit dir (lane 3A,
+    test_apply_requests under xdist, 2026-09-27)."""
+    import multiprocessing as mp
+    _receipt_dir(tmp_path, monkeypatch)
+    monkeypatch.setattr(cs, "STAMPS", tmp_path / "chain-stamps.json")
+    monkeypatch.setattr(cs, "runpy", type("R", (), {"run_module": staticmethod(
+        lambda *a, **k: None)})())
+    cs.run("99-verify_freeze", "verify_freeze", [], force=True)
+    target = tmp_path / "child.txt"
+    child = mp.get_context("fork").Process(target=target.write_text, args=("ok",))
+    child.start()
+    child.join(30)
+    assert child.exitcode == 0 and target.read_text() == "ok"
+
+
+def test_a_stage_that_raises_leaves_the_hook_inert(tmp_path, monkeypatch):
+    """Review 2026-09-27: a stage failing with an ordinary exception (not
+    SystemExit) must also disarm the hook, or later forks die as above."""
+    import multiprocessing as mp
+    import pytest
+    _receipt_dir(tmp_path, monkeypatch)
+    monkeypatch.setattr(cs, "STAMPS", tmp_path / "chain-stamps.json")
+
+    def boom(*a, **k):
+        raise RuntimeError("stage failed")
+    monkeypatch.setattr(cs, "runpy", type("R", (), {"run_module": staticmethod(boom)})())
+    with pytest.raises(RuntimeError):
+        cs.run("99-verify_freeze", "verify_freeze", [], force=True)
+    target = tmp_path / "child.txt"
+    child = mp.get_context("fork").Process(target=target.write_text, args=("ok",))
+    child.start()
+    child.join(30)
+    assert child.exitcode == 0 and target.read_text() == "ok"

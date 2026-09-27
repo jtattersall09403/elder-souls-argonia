@@ -330,16 +330,23 @@ def pad_polygon(footprint, apron_m: float = PAD_APRON_M,
 
 
 def footprint_samples(polygon, step: float = PAD_SAMPLE_STEP_M) -> list[tuple[float, float]]:
-    """The polygon's vertices and every point of a ``step`` grid inside it."""
-    from shapely.geometry import Point, Polygon
+    """The polygon's vertices and every point of a ``step`` grid inside it
+    (row by row), the grid tested in one vectorised ``shapely.contains_xy``
+    call; the same points in the same order as the per-Point loop it replaced
+    (test_settlement_run_pads pins it)."""
+    import numpy as np
+    import shapely
+    from shapely.geometry import Polygon
     poly = Polygon(polygon)
     x0, z0, x1, z1 = poly.bounds
     pts = [(float(x), float(z)) for x, z in polygon]
-    for i in range(int((z1 - z0) // step) + 1):
-        for j in range(int((x1 - x0) // step) + 1):
-            x, z = x0 + (j + 0.5) * step, z0 + (i + 0.5) * step
-            if poly.contains(Point(x, z)):
-                pts.append((x, z))
+    ni, nj = int((z1 - z0) // step) + 1, int((x1 - x0) // step) + 1
+    gz = z0 + (np.arange(ni) + 0.5) * step
+    gx = x0 + (np.arange(nj) + 0.5) * step
+    GZ, GX = np.meshgrid(gz, gx, indexing="ij")
+    gx_flat, gz_flat = GX.ravel(), GZ.ravel()
+    inside = shapely.contains_xy(poly, gx_flat, gz_flat)
+    pts.extend(zip(gx_flat[inside].tolist(), gz_flat[inside].tolist()))
     return pts
 
 

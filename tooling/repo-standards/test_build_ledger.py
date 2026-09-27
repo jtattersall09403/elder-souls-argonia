@@ -77,7 +77,11 @@ def _writer(ledger, i, tmp):
 
 def test_concurrent_appends_keep_every_row(tmp_path):
     ledger = str(tmp_path / "ledger.jsonl")
-    ctx = mp.get_context("fork")
+    # spawn, not fork: a forked child inherits every audit hook the test process
+    # installed (sys.addaudithook cannot be undone); chain_stages.run leaves one
+    # whose audit dir is gone, so a forked child's first open() raised
+    # FileNotFoundError when test_chain_stages ran earlier in the same worker.
+    ctx = mp.get_context("spawn")
     procs = [ctx.Process(target=_writer, args=(ledger, i, tmp_path)) for i in range(6)]
     for p in procs:
         p.start()

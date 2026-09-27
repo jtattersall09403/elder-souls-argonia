@@ -221,3 +221,28 @@ def test_one_pad_maths_every_python_sampler_agrees_on_claywater_family_hut():
                                   overlays)(p["x"], p["z"])
         assert abs(workbench - want) < 1e-4, (p["zone"], workbench, want)
         assert abs(gates - want) < 1e-4, (p["zone"], gates, want)
+
+
+def test_footprint_samples_are_the_per_point_grid_in_the_same_order():
+    """The vectorised sampler returns exactly the vertices then the inside
+    grid row by row, as the per-Point loop it replaced did (0 of 300 differed
+    on the speed proof; this pins a skewed quad and a concave L)."""
+    from shapely.geometry import Point, Polygon
+    from worldgen.settlement_run_pads import PAD_SAMPLE_STEP_M, footprint_samples
+
+    def reference(polygon, step=PAD_SAMPLE_STEP_M):
+        poly = Polygon(polygon)
+        x0, z0, x1, z1 = poly.bounds
+        pts = [(float(x), float(z)) for x, z in polygon]
+        for i in range(int((z1 - z0) // step) + 1):
+            for j in range(int((x1 - x0) // step) + 1):
+                x, z = x0 + (j + 0.5) * step, z0 + (i + 0.5) * step
+                if poly.contains(Point(x, z)):
+                    pts.append((x, z))
+        return pts
+
+    quad = [(1203.37, -877.1), (1219.9, -878.4), (1221.2, -861.05), (1201.8, -863.3)]
+    ell = [(0.0, 0.0), (9.0, 0.0), (9.0, 3.0), (3.0, 3.0), (3.0, 8.0), (0.0, 8.0)]
+    for polygon in (quad, ell):
+        assert footprint_samples(polygon) == reference(polygon)
+        assert footprint_samples(polygon, 0.7) == reference(polygon, 0.7)

@@ -19,7 +19,11 @@ def _writer(stamp_path, i):
 
 def test_concurrent_writers_keep_every_stamp(tmp_path):
     stamp = str(tmp_path / "review-stamp.json")
-    ctx = mp.get_context("fork")
+    # spawn, not fork: a forked child inherits every audit hook the test process
+    # installed (sys.addaudithook cannot be undone); chain_stages.run leaves one
+    # whose audit dir is gone, so a forked child's first open() raised
+    # FileNotFoundError when test_chain_stages ran earlier in the same worker.
+    ctx = mp.get_context("spawn")
     procs = [ctx.Process(target=_writer, args=(stamp, i)) for i in range(WRITERS)]
     for p in procs:
         p.start()

@@ -90,7 +90,11 @@ def test_parallel_integrators_lose_nothing(repo):
     for pid in pids:
         _req(repo, pid, [{"file": "accepted.json", "op": "json-append", "path": ["places"],
                           "value": {"placeId": pid}}])
-    ctx = mp.get_context("fork")
+    # spawn, not fork: a forked child inherits every audit hook the test process
+    # installed (sys.addaudithook cannot be undone); chain_stages.run leaves one
+    # whose audit dir is gone, so a forked child's first open() raised
+    # FileNotFoundError when test_chain_stages ran earlier in the same worker.
+    ctx = mp.get_context("spawn")
     procs = [ctx.Process(target=_integrator, args=(repo, [pid])) for pid in pids]
     for p in procs:
         p.start()

@@ -18,7 +18,7 @@ PAGES_URL = "https://jtattersall09403.github.io/elder-souls-argonia/"
 STUDIO_URL = PAGES_URL + "studio/"
 
 
-def studio_url(local: bool) -> str:
+def studio_url(local: bool = False) -> str:
     """The deployed studio URL, or the local tunnel's when `local` and
     `ES_TUNNEL_URL` is set (falls back to the deployed URL otherwise)."""
     if local:
