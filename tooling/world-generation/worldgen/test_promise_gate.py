@@ -52,16 +52,15 @@ def test_no_ledger_no_gate():
     assert pg.promise_gate_errors(BP, None) == []
 
 
-def test_claywater_fails_today_with_no_fills():
-    """Shown failing on the real place: the ledger landed before the fills,
-    so every one of its rows is unfilled until the place lane adds them."""
+def test_claywater_fills_every_promise():
+    """The live place: since walk 2 its sockets, doors and parcels fill every
+    row of its ledger (the ledger landed first, when all 14 were unfilled)."""
     ledger = pg.load_ledger(CLAYWATER)
     bp = json.loads((pg.LAYOUT_DIR / f"{CLAYWATER}.json").read_text())["blueprint"]
     sockets = pg.layout_sockets(pg.layouts()[CLAYWATER])
+    assert len(ledger["promises"]) == 14
     errs = pg.promise_gate_errors(bp, ledger, sockets)
-    unfilled = [e for e in errs if e.startswith("promises.unfilled")]
-    assert len(unfilled) == len(ledger["promises"]) - len(pg.fills_index(bp, sockets))
-    assert unfilled, "Claywater now fills every promise: drop this test, the integrity pin is 0"
+    assert [e for e in errs if e.startswith("promises.unfilled")] == []
 
 
 def test_the_ledger_record_is_generated_deterministically():

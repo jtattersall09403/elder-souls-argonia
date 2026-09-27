@@ -16,10 +16,11 @@ import world_schema as ws  # noqa: E402
 
 REPO = ws.REPO_ROOT
 CLAYWATER = "place.imperial-fringe.claywater-station"
-#: promises no socket, door or parcel fills yet, per place. The ledger landed
-#: 2026-09-27 before the fills (lane T2); the place lane adds the fills and
-#: this count only falls, to 0 at the slice's acceptance.
-OPEN_PROMISES_PINNED = {CLAYWATER: 14}
+#: promises no socket, door or parcel fills yet, per place. A ledger that lands
+#: before its place's fills pins its open count here; the count only falls, to
+#: 0 at the slice's acceptance. Claywater fills all 14 rows since walk 2
+#: (2026-09-27), so it pins nothing.
+OPEN_PROMISES_PINNED: dict[str, int] = {}
 
 
 def test_every_schema_is_a_valid_draft_2020_12_schema():

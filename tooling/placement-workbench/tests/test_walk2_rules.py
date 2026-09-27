@@ -177,10 +177,11 @@ def test_road_surface_fails_the_fence_and_the_huts(scene, cat):
 
 
 def test_sill_fails_b1_at_its_walk2_record_height(scene, cat):
-    pub = {p["id"]: p for p in json.loads(PUBLISHED.read_text())["placements"]}
     assert "door:b1" not in {f.split(":")[0] + ":" + f.split(":")[1]
                              for f in rules.sill(cat, scene)["failures"]}
-    scene.piece("b1").y = pub[f"{PLACE}.parcel.claywater-station.station-house.building"]["positionM"][1]
+    # the walk-2 published record stood the door 4.2 m over its ground (L56);
+    # the live bundle is fixed, so the defect is replayed on the scene's seat
+    scene.piece("b1").y = scene.piece("b1").y + 4.2
     got = rules.sill(cat, scene)
     assert any(f.startswith("door:b1:") for f in got["failures"])
     assert got["doors"]["door:b1"]["offM"] > 4.0
