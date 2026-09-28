@@ -1,0 +1,25 @@
+- Added vanilla:architecture/riften/rtstables01 (stable) at [334.6, 3087.6].
+- Added bmv:architecture/phitt/aldredanyia/signpost (b1-post) at [320.4, 3065.6].
+- mount (b1-lamp): placed differently (its layout ops changed).
+- vanilla:clutter/hay/haymound01 (sty-hay): moved 49.1 m west; turned 58 degrees clockwise.
+- vanilla:clutter/horsetrough/horsetrough01 (sty-trough): moved 47.2 m west; turned 148 degrees clockwise.
+- vanilla:clutter/firewood/firewoodpilelarge01 (sty-wood): moved 17.2 m north; turned 49 degrees anticlockwise.
+- mudmother:gv_meshes/argoniannest/carapaceoven (ahy-oven): replaced mudmother:gv_meshes/argoniannest/carapaceoven with vanilla:clutter/woodfires/cookingstand01.
+- Added vanilla:clutter/bucket01 (b1-bucket) at [317.2, 3063.4].
+- Added kotm:argonia/clutter/saxhleelmetalpot01 (b5-pot) at [334.6, 2958.0].
+- vanilla:architecture/farmhouse/stonewall/stonewallendl01 (b2w-s1): moved 2.9 m north-west.
+- Added snap (b2w-w4).
+- vanilla:clutter/barrel02 (b2-barrel): moved 12.0 m west.
+- Added bmv:architecture/phitt/aldredanyia/signpost (b2-post) at [326.4, 3085.6].
+- mount (b2-lamp): placed differently (its layout ops changed).
+- Added hist-village-cookpot (hist-village-cookpot).
+- Added hist-village-stores (hist-village-stores).
+- Added imperial-station-porch (imperial-station-porch).
+- path (route.claywater-station.stable-path): placed differently (its layout ops changed).
+- Removed vanilla:architecture/farmhouse/farmhouse02 (b2).
+- Removed attach (b2-stair).
+- Removed mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01 (st1).
+- Removed snap (st2).
+- Removed vanilla:architecture/farmhouse/fencewoven01 (fw1).
+- Removed vanilla:architecture/farmhouse/fencewoven01 (fw2).
+- Removed path (route.claywater-station.paddock-path).

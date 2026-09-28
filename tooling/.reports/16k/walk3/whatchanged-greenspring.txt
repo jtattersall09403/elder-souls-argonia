@@ -1,0 +1,26 @@
+- kotm:argonia/mudhuts/mudhut01 (b-fam1): placed differently (its layout ops changed).
+- kotm:argonia/mudhuts/mudhut01 (b-fam2): placed differently (its layout ops changed).
+- kotm:argonia/mudhuts/shed (b-shed): replaced kotm:argonia/mudhuts/shed with mudmother:gv_meshes/argoniannest/argoniantent02; moved 2.1 m west; turned 180 degrees anticlockwise.
+- histtree:skyfall/sleeping tree overhaul/ancient sleeping tree (hist): replaced histtree:skyfall/sleeping tree overhaul/ancient sleeping tree with histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick; moved 1.0 m south.
+- histtree:skyfall/sleeping tree overhaul/histflower02 (b-minder-flower): replaced histtree:skyfall/sleeping tree overhaul/histflower02 with histtree:skyfall/sleeping tree overhaul/histflower02-sick.
+- mudmother:gv_meshes/argoniannest/argoniancandle01 (b-fam1-candle): moved 0.6 m north.
+- mudmother:gv_meshes/argoniannest/woventable01 (b-fam1-table): replaced mudmother:gv_meshes/argoniannest/woventable01 with kotm:argonia/clutter/basketcontainer.
+- mudmother:gv_meshes/argoniannest/basketsmall01 (b-fam1-basket): moved 0.6 m north-west.
+- vanilla:clutter/firewood/firewoodpilesmall01 (b-fam2-wood): moved 0.4 m south.
+- Added vanilla:clutter/woodfires/campfire01burning (b-fam2-fire) at [4743.0, 1842.0].
+- mudmother:gv_meshes/argoniannest/paintedurn01 (b-shed-urn1): moved 3.1 m north-west.
+- mudmother:gv_meshes/argoniannest/paintedurn01 (b-shed-urn2): moved 1.9 m north.
+- mudmother:gv_meshes/argoniannest/argoniantotem01 (sh-totem1): moved 0.4 m south-east.
+- mudmother:gv_meshes/argoniannest/argoniantotem01 (sh-totem2): moved 0.8 m south-west.
+- histtree:skyfall/sleeping tree overhaul/windchimehavok (sh-chime): moved 0.8 m south-west.
+- histtree:skyfall/sleeping tree overhaul/histflower01 (sh-flower1): replaced histtree:skyfall/sleeping tree overhaul/histflower01 with histtree:skyfall/sleeping tree overhaul/histflower02-sick; moved 1.2 m west.
+- histtree:skyfall/sleeping tree overhaul/histflower02 (sh-flower2): replaced histtree:skyfall/sleeping tree overhaul/histflower02 with histtree:skyfall/sleeping tree overhaul/histflower02-sick.
+- mudmother:gv_meshes/argoniannest/argoniancandle01 (sh-candle1): moved 0.8 m south-west.
+- mudmother:gv_meshes/argoniannest/argoniancandle01 (sh-candle2): moved 0.8 m east.
+- mudmother:gv_meshes/argoniannest/paintedurn01 (sp-urn): moved 3.7 m north-west.
+- histtree:skyfall/sleeping tree overhaul/histflower01 (sp-flower): moved 2.0 m north-east.
+- Added hist-village-stores (hist-village-stores).
+- Added hist-village-cookpot (hist-village-cookpot).
+- Added hist-village-nets (hist-village-nets).
+- Removed vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01 (b-herald-rack).
+- Removed mudmother:gv_meshes/argoniannest/carapaceoven (b-fam2-oven).
