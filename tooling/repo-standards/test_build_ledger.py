@@ -187,7 +187,8 @@ def test_stage_events_record_wall_minutes_per_stage(tmp_path):
     rows = bl.read_rows(str(tmp_path / "ledger.jsonl"))
     assert [(r["source"], r["stage"], r["wallMin"]) for r in rows] == [
         ("stage", "orient", {"orient": 12.0}), ("stage", "survey-and-scans", {"survey-and-scans": 15.0})]
-    assert {r["runId"] for r in rows} == {"place.a#1"} and rows[0]["path"] == "new-type"
+    assert {r["runId"] for r in rows} == {"place.a#walk-0"} and rows[0]["path"] == "new-type"
+    assert {r["walk"] for r in rows} == {0}
     [run] = bl.runs(rows)
     assert run["minutes"] == 27.0
 
@@ -195,12 +196,60 @@ def test_stage_events_record_wall_minutes_per_stage(tmp_path):
 def test_a_fix_round_stage_starts_its_own_run(tmp_path):
     _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--at", "2026-09-27T10:00:00Z")
     _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-27T10:30:00Z")
-    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--start-run",
-           "--path", "fix-round", "--at", "2026-09-28T09:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--walk", "1",
+           "--at", "2026-09-28T09:00:00Z")
     _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-28T09:04:00Z")
     rs = bl.runs(bl.read_rows(str(tmp_path / "ledger.jsonl")))
     assert [(r["runId"], r["path"], r["minutes"]) for r in rs] == [
-        ("place.a#1", "new-type", 30.0), ("place.a#2", "fix-round", 4.0)]
+        ("place.a#walk-0", "new-type", 30.0), ("place.a#walk-1", "fix-round", 4.0)]
+
+
+def test_an_orient_stage_never_joins_an_earlier_walks_run(tmp_path):
+    """0105 R32 (method review r5 finding D): the walk-3 orient stage joined
+    walk 2's run. An orient of a place with a run must name its walk, an
+    earlier walk is refused, and the later stages and tool rows carry the
+    walk the orient opened."""
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--walk", "2",
+           "--at", "2026-09-27T10:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-27T10:10:00Z")
+    with pytest.raises(SystemExit, match="names the walk it answers"):
+        _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start",
+               "--at", "2026-09-28T09:00:00Z")
+    with pytest.raises(SystemExit, match="earlier walk's run"):
+        _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--walk", "1",
+               "--at", "2026-09-28T09:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--walk", "3",
+           "--at", "2026-09-28T09:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "publish", "--start", "--at", "2026-09-28T09:12:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "publish", "--end", "--at", "2026-09-28T09:20:00Z")
+    g = tmp_path / "place-gates.json"
+    g.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.a", "wallS": 60.0, "ok": True,
+                             "gates": []}))
+    bl.main(["append", "--from-gates", str(g), "--ledger", str(tmp_path / "ledger.jsonl"), "--type", "t"])
+    rows = bl.read_rows(str(tmp_path / "ledger.jsonl"))
+    assert [(r["source"], r.get("stage"), r["runId"]) for r in rows] == [
+        ("stage", "orient", "place.a#walk-2"), ("stage", "orient", "place.a#walk-3"),
+        ("stage", "publish", "place.a#walk-3"), ("gates", None, "place.a#walk-3")]
+    assert {r["path"] for r in rows[1:]} == {"fix-round"}
+
+
+def test_rekey_and_hand_book_a_walks_run(tmp_path):
+    """The walk-3 re-key: rows since a time move to the walk's run, and a
+    hand row makes the run's minutes the lane report's stopwatch."""
+    ledger = tmp_path / "ledger.jsonl"
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--start", "--at", "2026-09-27T10:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "orient", "--end", "--at", "2026-09-27T10:10:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "readers", "--start", "--at", "2026-09-28T11:00:00Z")
+    _stage(tmp_path, "--place", "place.a", "--stage", "readers", "--end", "--at", "2026-09-28T11:05:00Z")
+    assert {r["runId"] for r in bl.read_rows(str(ledger))} == {"place.a#walk-0"}
+    assert bl.main(["rekey", "--ledger", str(ledger), "--place", "place.a", "--walk", "3",
+                    "--since", "2026-09-28T00:00:00Z"]) == 0
+    assert bl.main(["hand", "--ledger", str(ledger), "--place", "place.a", "--walk", "3",
+                    "--total", "95", "--note", "lane report"]) == 0
+    rs = {r["runId"]: r for r in bl.runs(bl.read_rows(str(ledger)))}
+    assert rs["place.a#walk-0"]["minutes"] == 10.0
+    assert rs["place.a#walk-3"]["minutes"] == 95.0 and rs["place.a#walk-3"]["hand"]
+    assert rs["place.a#walk-3"]["path"] == "fix-round"
 
 
 def test_report_counts_a_hand_row_as_the_runs_stopwatch(tmp_path):

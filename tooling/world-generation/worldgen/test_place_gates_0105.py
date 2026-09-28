@@ -56,6 +56,7 @@ BP = {"parcels": [{"id": "parcel.hut", "assetRef": "shell"}, {"id": "parcel.stor
 
 
 def _links(cells):
+    """``fitting_of``: the cells the fit rule accepts for the parcel."""
     return lambda parcel: list(cells)
 
 
@@ -64,13 +65,82 @@ def test_a_cell_twice_in_one_place_fails_while_the_linked_set_has_unused_cells()
     assert len(f) == 1 and "door.2 uses interior cell Crafter" in f[0] and "['Fisher', 'Minder']" in f[0]
 
 
-def test_exhausted_linked_set_is_excused_only_when_the_why_says_so():
-    f, _ = pg.interior_variety_failures("place.r.a", BP, [], _links(["Crafter"]))
-    assert f and "does not say so" in f[0]
+def test_exhausted_is_computed_from_the_fit_set_never_read_from_the_why():
+    """0105 R37 (method review r5 table 3): the escape was a string match on
+    "exhausted" in the claim's why. A why that says so while the fit set has
+    an unused cell fails; a fit set wholly used is excused with no word."""
     bp = json.loads(json.dumps(BP))
     bp["doors"][1]["interiorClaim"]["why"] = "the shell's linked set is exhausted in the region"
-    f, w = pg.interior_variety_failures("place.r.a", bp, [], _links(["Crafter"]))
-    assert f == [] and "excused" in w[0]
+    f, w = pg.interior_variety_failures("place.r.a", bp, [], _links(["Crafter", "Fisher"]))
+    assert len(f) == 1 and "['Fisher']" in f[0] and w == []
+    f, w = pg.interior_variety_failures("place.r.a", BP, [], _links(["Crafter"]))
+    assert f == [] and "excused" in w[0] and "R37" in w[0]
+    # no cell fits at all: never excused
+    f, _ = pg.interior_variety_failures("place.r.a", BP, [], _links([]))
+    assert f and "no cell fits" in f[0]
+
+
+def test_the_fit_set_comes_from_the_fit_rule(monkeypatch):
+    """``fitting_cells`` returns the candidates ``claim_for_parcel`` passes."""
+    from . import blueprint_interiors as bi
+    monkeypatch.setattr(pg, "_FIT_ENV", {"lib": {}, "links": {}, "profile": None, "sourcing": None})
+    monkeypatch.setattr(bi, "claim_for_parcel", lambda *a, **k: {"candidates": [
+        {"cellId": "B", "fails": []}, {"cellId": "A", "fails": []}, {"cellId": "C", "fails": ["x"]}]})
+    assert pg.fitting_cells({"id": "parcel.hut"}) == ["A", "B"]
+
+
+def test_lights_density_counts_the_neighbours_fixtures_within_the_band(tmp_path):
+    """0105 R38: the gate counted only this place's fixtures; a neighbour's
+    lamps within 200 m reach the same player. 10 here + 7 in a published
+    neighbour 150 m off break the cap of 16; a neighbour 900 m off, and the
+    place's own bundle, never count."""
+    here = [_lamp(i, float(i)) for i in range(10)]
+    near = [{"id": f"n{i}", "kind": "settlement", "kit": "k", "assetId": "lamp",
+             "positionM": [150.0 + i, 0.0, 0.0], "provenance": {"ruleId": "parcel-assembly/light"}}
+            for i in range(7)]
+    far = [{**p, "id": "f" + p["id"], "positionM": [900.0, 0.0, 0.0]} for p in near]
+    root = tmp_path / "settlements"
+    root.mkdir()
+    for name, pl in (("place.r.near", near), ("place.r.far", far), ("place.r.a", here)):
+        (root / f"{name}.json").write_text(json.dumps({"placements": pl}))
+    (root / "index.json").write_text(json.dumps({"places": [
+        {"id": "place.r.near", "bundle": "settlements/place.r.near.json", "positionM": [153.0, 0.0], "radiusM": 5},
+        {"id": "place.r.far", "bundle": "settlements/place.r.far.json", "positionM": [900.0, 0.0], "radiusM": 5},
+        {"id": "place.r.a", "bundle": "settlements/place.r.a.json", "positionM": [5.0, 0.0], "radiusM": 5}],
+        "routes": []}))
+    got = pg.neighbour_fixtures("place.r.a", here, 200.0, root)
+    assert len(got) == 7 and {f["place"] for f in got} == {"place.r.near"}
+    g = pg.Gates()
+    pg.lights_gate(g, {"placements": here}, rows={}, constants=(16, 200.0), neighbours=got)
+    row = g.rows[-1]
+    assert not row["ok"] and "sees 17 light fixtures" in row["failures"][0]
+    assert row["measured"]["neighbours"] == {"place.r.near": 7}
+    g = pg.Gates()
+    pg.lights_gate(g, {"placements": here}, rows={}, constants=(16, 200.0), neighbours=[])
+    assert g.rows[-1]["ok"]
+
+
+def test_sink_fallback_lists_placed_structure_and_tall_pieces():
+    """0105 R36 (method review r5 finding H): the owner found the Hist tree
+    hanging on the mesh-sill fallback; no gate listed it."""
+    rows = {("k", "tree"): {"category": "misc", "sizeM": [20.0, 20.0, 30.0]},
+            ("k", "dock"): {"category": "architecture", "sizeM": [4.0, 2.0, 1.0]},
+            ("k", "cup"): {"category": "clutter", "sizeM": [0.1, 0.1, 0.1]},
+            ("k", "raft"): {"category": "misc", "sizeM": [4.0, 4.0, 1.0], "settingClass": {"vehicle": True}}}
+
+    def pl(i, asset, ev):
+        return {"id": f"p.{i}", "kit": "k", "assetId": asset, "scale": 1.0,
+                "anchor": {"designedSinkM": {"evidence": ev}}}
+    placements = [pl(1, "tree", "mesh-sill"), pl(2, "dock", "mesh-sill (plugin-spread)"),
+                  pl(3, "cup", "mesh-sill"), pl(4, "dock", "plugin"), pl(5, "raft", "mesh-sill")]
+    f = pg.sink_fallback_failures(placements, rows)
+    assert [x.split(" ", 3)[2] for x in f] == ["p.1", "p.2"]
+    g = pg.Gates()
+    pg.sink_fallback_gate(g, {"placements": placements}, rows)
+    assert not g.rows[-1]["ok"] and g.rows[-1]["id"] == "sink.fallback"
+    g = pg.Gates()
+    pg.sink_fallback_gate(g, {"placements": placements[2:]}, rows)
+    assert g.rows[-1]["ok"]
 
 
 def test_region_repeat_counts_other_places_only_in_the_same_region():

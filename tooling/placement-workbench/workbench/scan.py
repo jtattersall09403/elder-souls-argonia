@@ -368,8 +368,13 @@ def scan(cat, scene, doc: dict, fit_rules, serial: bool = False, judge=None) -> 
     wx, wz = g0.meta["centreM"]
     half = g0.meta["halfM"]
     window = box(wx - half, wz - half, wx + half, wz + half)
+    import time
     n = 1 if serial else parallel.workers()
-    out = {"schemaVersion": 1, "buildings": []}
+    # `at` and each building's grid (radius, step, yaws) are what the
+    # scanFreshRule reads (0105 R31): an op is covered when its pose lies
+    # on a scan newer than the op
+    out = {"schemaVersion": 1, "placeId": scene.placeId,
+           "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "buildings": []}
     for spec in doc["buildings"]:
         if spec.get("pair"):
             spec = {**spec, "_join": pair_join(cat, spec)}
@@ -400,7 +405,9 @@ def scan(cat, scene, doc: dict, fit_rules, serial: bool = False, judge=None) -> 
             "id": spec.get("id"), "asset": spec.get("asset"), "group": spec.get("group"),
             "pair": ({**spec["pair"], "atM": [round(v, 4) for v in spec["_join"]["atM"]],
                       "yaw": round(spec["_join"]["yaw"], 3)} if spec.get("pair") else None),
-            "centre": spec["centre"], "poses": len(poses), "measured": len(found),
+            "centre": spec["centre"], "radius": float(spec.get("radius", 4.0)),
+            "step": float(spec.get("step", 1.0)), "yaws": sorted({y for _x, _z, y in poses}),
+            "poses": len(poses), "measured": len(found),
             "legal": len(legal), "top": found[: int(spec.get("limit", 10))],
             "verified": checked})
     return out

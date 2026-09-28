@@ -45,6 +45,11 @@ the job guard, whose slot governs its cores and memory.
 
     $W window --centre-km E S --half 150 --place-id <id>
     $W map                       # . <2 deg  + <3  o <6  # steeper  ~ wet  W deep >= 1 m  R road  r track
+    $W scan <spec>.json --out tooling/.reports/16k/<place-id>/round-N/scan.json   # before siting any building
+
+A building (a `place` with a `pad`) new or moved since HEAD fails
+`scanFreshRule` unless a scan written after HEAD's layout commit holds its
+asset and pose (0105 R31; README § Fresh scans).
 
 Buildings with fit `direct`/`pad` need footprint cells under 2 deg, `stilt`
 under 3 deg (97 B3, `compile_settlement.fit_slope_failure`); `plinth` and
@@ -257,6 +262,7 @@ Numbers first, pictures second: fix what `check` reports before rendering.
     $W bind <uid> parcel <parcel-id> | run <parcel-id> --index N | landmark <landmark-id>
     $W bind <uid> assembly <shell-parcel-id> --layer L --on parent|ground --evidence E
     $W export world/sources/blueprints/<place>.json --write
+    python3 tooling/placement-workbench/wb.py whatchanged <place>.layout.json --base <walked rev>   # packet lines (0105 R35)
 
 Export writes POSE fields only (`centreUV`, `yawDeg`, `assetRef`, run
 `pieces[{asset, atM, yaw}]`, the shell's `assembly[{asset, atM, upM, yaw,

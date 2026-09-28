@@ -30,10 +30,16 @@ Runs, for one place and without the yard regression gates:
   ground treatments and modular-run pieces;
 * ``lights.density`` - 0105 R3: no point within the place sees more than
   ``LIGHTS_CAP`` light fixtures within ``LIGHTS_ACTIVE_M`` (both read from the
-  runtime's ``lighting.ts``, one number in one home);
+  runtime's ``lighting.ts``, one number in one home); R38: the fixtures of the
+  published neighbouring places and routes within the band count too;
 * ``interiors.variety`` - 0105 R4: an interior cell used twice in one region
-  fails unless the shell's linked set is exhausted (the claim's ``why`` says
-  so), and a cell is used at most ``INTERIOR_CELL_MAX_PER_PROVINCE`` times;
+  fails unless every cell the fit rule accepts for the door's parcel is used
+  in the region (R37: computed from the claim table, never read from the
+  claim's ``why``), and a cell is used at most
+  ``INTERIOR_CELL_MAX_PER_PROVINCE`` times;
+* ``sink.fallback`` - 0105 R36: a placed tree or piece of architecture (or
+  any piece ``TALL_M`` or taller) seated on the mesh-sill fallback, not a
+  plugin-measured sink, is listed; a place with one is not green;
   other places' cells are read from ``interiorCellClaims`` in
   ``signature-claims.json`` (``--claim-cells`` writes this place's);
 * ``setting.class`` - 0105 R1: a piece stands only in the setting its own
@@ -122,6 +128,14 @@ FIRE_SOCKET_RULE = "effect-socket/fire"
 #: 0105 R4: an interior cell appears at most this many times in the province
 #: (like a signature, 0098 assemblyMaxPerProvince)
 INTERIOR_CELL_MAX_PER_PROVINCE = 3
+#: 0105 R38: the published places and routes whose fixtures a place's
+#: density count adds
+SETTLEMENTS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements"
+#: 0105 R36: the classes whose fallback sink lists the piece: the structural
+#: categories (mine_assemblies) and trees; and any piece this tall or taller
+#: (the sink miner's tree bar, R19: the Hist tree is kit category misc)
+SINK_STRUCTURE_CATEGORIES = frozenset({"architecture", "ruin", "dungeon-kit", "bridge", "tree"})
+TALL_M = 3.0
 
 
 class Gates:
@@ -511,11 +525,15 @@ def light_fixtures(placements: list[dict], rows: dict) -> list[dict]:
             continue
         row = rows.get((p.get("kit"), p.get("assetId"))) or {}
         at = (pos[0], pos[2])
-        if p.get("objectKind") == "effect":
-            if (p.get("provenance") or {}).get("ruleId") == FIRE_SOCKET_RULE:
+        rule = str((p.get("provenance") or {}).get("ruleId") or "")
+        # a published bundle drops objectKind and layer: its kind and its
+        # provenance rule (`parcel-assembly/light`) carry them
+        if p.get("objectKind") == "effect" or p.get("kind") == "effect":
+            if rule == FIRE_SOCKET_RULE:
                 out.append({"id": p["id"], "kind": "fire", "at": at})
             continue
-        if p.get("layer") in LIGHT_LAYERS or row.get("light"):
+        layer = p.get("layer") or (rule.rsplit("/", 1)[-1] if rule.startswith("parcel-assembly/") else None)
+        if layer in LIGHT_LAYERS or row.get("light"):
             out.append({"id": p["id"], "kind": "fixture", "at": at})
     return out
 
@@ -558,8 +576,58 @@ def fixture_density(placements: list[dict], fixtures: list[dict], band_m: float,
     return {"fixtures": len(fixtures), "maxSeen": best, "at": list(where)}
 
 
+def _plan_bounds(placements: list[dict]) -> tuple[float, float, float, float] | None:
+    pts = [(p["positionM"][0], p["positionM"][2]) for p in placements if p.get("positionM")]
+    if not pts:
+        return None
+    return (min(x for x, _ in pts), min(z for _, z in pts), max(x for x, _ in pts), max(z for _, z in pts))
+
+
+def _bounds_distance(b: tuple[float, float, float, float], x: float, z: float) -> float:
+    dx = max(b[0] - x, 0.0, x - b[2])
+    dz = max(b[1] - z, 0.0, z - b[3])
+    return math.hypot(dx, dz)
+
+
+def neighbour_fixtures(place_id: str, placements: list[dict], band_m: float,
+                       settlements_dir: Path = SETTLEMENTS_DIR) -> list[dict]:
+    """0105 R38 (method review r5 table 3): the fixtures of every other
+    published place and route (``settlements/index.json``) within ``band_m``
+    of this place's placements in plan, kind ``neighbour``. A place bundle
+    whose index circle lies wholly beyond the band is not read; route
+    bundles are read whole (their index radius is a stub)."""
+    bounds = _plan_bounds(placements)
+    index = settlements_dir / "index.json"
+    if bounds is None or not index.exists():
+        return []
+    doc = json.loads(index.read_text(encoding="utf-8"))
+    out, rows_cache = [], {}
+    for entry, is_place in ([(e, True) for e in doc.get("places") or []]
+                            + [(e, False) for e in doc.get("routes") or []]):
+        if entry.get("id") == place_id or not entry.get("bundle"):
+            continue
+        ex, ez = entry.get("positionM") or (None, None)
+        if is_place and ex is not None and \
+                _bounds_distance(bounds, ex, ez) > band_m + float(entry.get("radiusM") or 0.0):
+            continue
+        path = settlements_dir.parent / entry["bundle"]
+        if not path.exists():
+            continue
+        pl = json.loads(path.read_text(encoding="utf-8")).get("placements") or []
+        kits = {p.get("kit") for p in pl} - set(k for k, _ in rows_cache)
+        rows_cache.update(kit_rows(kits))
+        for f in light_fixtures(pl, rows_cache):
+            if _bounds_distance(bounds, *f["at"]) <= band_m:
+                out.append({**f, "kind": "neighbour", "place": entry["id"]})
+    return out
+
+
 def lights_gate(g: Gates, settlement: dict | None, rows: dict | None = None,
-                constants: tuple[int, float] | None = None) -> None:
+                constants: tuple[int, float] | None = None, neighbours: list[dict] | None = None,
+                place_id: str | None = None) -> None:
+    """R3 over this place's fixtures and, R38, the neighbours' within the
+    band (``neighbours``; read from the published bundles when None and
+    ``place_id`` is given)."""
     t = time.perf_counter()
     if settlement is None:
         g.add("lights.density", 0.0, ["the compile did not run: no fixtures to count"])
@@ -568,14 +636,55 @@ def lights_gate(g: Gates, settlement: dict | None, rows: dict | None = None,
     placements = settlement.get("placements") or []
     if rows is None:
         rows = kit_rows({p.get("kit") for p in placements})
-    fixtures = light_fixtures(placements, rows)
+    if neighbours is None:
+        neighbours = neighbour_fixtures(place_id, placements, band) if place_id else []
+    fixtures = light_fixtures(placements, rows) + list(neighbours)
     m = fixture_density(placements, fixtures, band)
     failures = []
     if m["maxSeen"] > cap:
         failures.append(f"0105 R3: a point at {m['at']} sees {m['maxSeen']} light fixtures within "
-                        f"{band:g} m > the cap {cap}; the runtime lights only the {cap} nearest")
+                        f"{band:g} m > the cap {cap} (R38: {len(neighbours)} of them the "
+                        f"neighbours'); the runtime lights only the {cap} nearest")
     g.add("lights.density", time.perf_counter() - t, failures, cap=cap, bandM=band,
-          measured={**m, "byKind": dict(Counter(f["kind"] for f in fixtures))})
+          measured={**m, "byKind": dict(Counter(f["kind"] for f in fixtures)),
+                    "neighbours": dict(Counter(f["place"] for f in neighbours))})
+
+
+# --- 0105 R36: fallback sinks on structure ------------------------------------
+
+def sink_fallback_failures(placements: list[dict], rows: dict) -> list[str]:
+    """Every placed tree or piece of architecture (``SINK_STRUCTURE_CATEGORIES``,
+    or any piece ``TALL_M`` or taller as placed) whose designed sink is the
+    mesh-sill fallback (R12's ``fallback: true``: the bundle's
+    ``anchor.designedSinkM.evidence``, else the manifest row's), not a
+    plugin-measured or reviewed row. Craft (R15 ``vehicle``) are exempt. The owner
+    found the Hist tree hanging on one (walk 3 item 7)."""
+    out = []
+    for p in placements:
+        row = rows.get((p.get("kit"), p.get("assetId"))) or {}
+        # the published bundle's anchor, else (the compiled settlement) the
+        # manifest row the bundle exporter reads it from
+        sink = ((p.get("anchor") or {}).get("designedSinkM")) or row.get("designedSinkM") or {}
+        ev = str(sink.get("evidence") or "")
+        # R15: a craft floats or is beached by script; its sink is no seat
+        if not ev.startswith("mesh-sill") or (row.get("settingClass") or {}).get("vehicle"):
+            continue
+        size = max((float(v) for v in row.get("sizeM") or [0.0]), default=0.0) * float(p.get("scale") or 1.0)
+        cat = row.get("category")
+        if cat in SINK_STRUCTURE_CATEGORIES or size >= TALL_M:
+            out.append(f"0105 R36: {p['id']} ({p.get('assetId')}, {cat}, {size:.1f} m) seats on the "
+                       f"sink fallback ({ev}), not a plugin-measured row: a reader shot of its foot, "
+                       f"or a measured row through the sink miner")
+    return out
+
+
+def sink_fallback_gate(g: Gates, settlement: dict | None, rows: dict) -> None:
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("sink.fallback", 0.0, ["the compile did not run: no placements to read"])
+        return
+    g.add("sink.fallback", time.perf_counter() - t,
+          sink_fallback_failures(settlement.get("placements") or [], rows))
 
 
 # --- 0105 R4: planned interior variety --------------------------------------
@@ -597,25 +706,40 @@ def door_cells(bp: dict) -> list[dict]:
     return out
 
 
-def _shell_links(parcel: dict | None) -> list[str]:
-    """The interior cells the parcel's shell (a composite's base shell) is linked to."""
+_FIT_ENV: dict = {}
+
+
+def fitting_cells(parcel: dict | None) -> list[str]:
+    """0105 R37: the cells the fit rule accepts for the parcel
+    (``blueprint_interiors.claim_for_parcel``, nothing held, no preference),
+    each cell's profile and sourcing looked up in the batch pre-pass claim
+    table (``output/claim-table.json``) as ``--claim`` does, a cell the table
+    lacks read from its plugin; no table, the plugin reads."""
+    from . import batch_prepass as bpp
     from . import blueprint_interiors as bi
-    ref = (parcel or {}).get("assetRef") or ""
-    links = bi.linked_shells()
-    rows = links.get(ref) or links.get(bi.composite_base(ref) or "") or []
-    return sorted({r.get("interiorCell") for r in rows if r.get("interiorCell")})
+    if not _FIT_ENV:
+        doc = bpp.load_table()
+        if doc is not None:
+            profile, sourcing = bi.table_or_plugin(bpp.ClaimTable(doc), bpp.TableError)
+        else:
+            profile, sourcing = bi.plugin_profile, bi.bundle_sourcing
+        _FIT_ENV.update(lib=bi.library(), links=bi.linked_shells(), profile=profile, sourcing=sourcing)
+    got = bi.claim_for_parcel(parcel or {}, _FIT_ENV["lib"], _FIT_ENV["links"], _FIT_ENV["profile"],
+                              sourcing=_FIT_ENV["sourcing"])
+    return sorted(c["cellId"] for c in got.get("candidates") or [] if not c["fails"])
 
 
 def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
-                              links_of=_shell_links,
+                              fitting_of=fitting_cells,
                               cap: int = INTERIOR_CELL_MAX_PER_PROVINCE) -> tuple[list[str], list[str]]:
     """(failures, warnings) of 0105 R4 for ``place_id`` holding ``bp``'s door
     cells. ``claims`` are ``interiorCellClaims`` rows ({placeId, doorId,
     cellId}); this place's own rows there are ignored (its blueprint is the
     truth). A cell used twice within the region (this place included) fails
-    unless every cell the door's shell is linked to is already used in the
-    region AND the claim's ``why`` says the set is exhausted (then a
-    warning); a cell used more than ``cap`` times in the province fails."""
+    unless every cell the fit rule accepts for the door's parcel
+    (``fitting_of``, R37: computed from the claim table, never the claim's
+    hand-written ``why``) is already used in the region (then a warning); a
+    cell used more than ``cap`` times in the province fails."""
     region = region_of(place_id)
     parcels = {p["id"]: p for p in bp.get("parcels") or []}
     mine = door_cells(bp)
@@ -629,18 +753,17 @@ def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
             where = ", ".join([f"{place_id} {x}" for x in before_here] + in_region)
             used = ({m["cellId"] for m in mine if m["doorId"] != d["doorId"]}
                     | {c["cellId"] for c in others if region_of(c["placeId"]) == region})
-            linked = links_of(parcels.get(d["parcelId"]))
-            exhausted = bool(linked) and set(linked) <= used
+            fit = fitting_of(parcels.get(d["parcelId"]))
+            exhausted = bool(fit) and set(fit) <= used
             msg = (f"0105 R4: {d['doorId']} uses interior cell {d['cellId']} already used in region "
                    f"{region} ({where})")
-            if exhausted and "exhausted" in d["why"].lower():
-                warnings.append(f"{msg}; excused: the shell's linked set {linked} is exhausted")
-            elif exhausted:
-                failures.append(f"{msg}; the shell's linked set {linked} is exhausted but the claim's "
-                                f"`why` does not say so")
+            if exhausted:
+                warnings.append(f"{msg}; excused: every cell the fit rule accepts for "
+                                f"{d['parcelId']} ({fit}) is used in the region (R37, claim table)")
             else:
-                unused = sorted(set(linked) - used)
-                failures.append(f"{msg}; unused cells linked to the shell: {unused or 'none'}")
+                unused = sorted(set(fit) - used)
+                failures.append(f"{msg}; cells the fit rule accepts for {d['parcelId']} and the "
+                                f"region has not used: {unused or 'none (no cell fits)'}")
     copies = Counter(c["cellId"] for c in others) + Counter(d["cellId"] for d in mine)
     for cell in sorted({d["cellId"] for d in mine}):
         if copies[cell] > cap:
@@ -1002,8 +1125,9 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     interior_variety_gate(g, place_id, bp)
     reserved_gate(g, bp)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
-    lights_gate(g, settlement, rows)
+    lights_gate(g, settlement, rows, place_id=place_id)
     setting_gate(g, settlement, record, rows)
+    sink_fallback_gate(g, settlement, rows)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),

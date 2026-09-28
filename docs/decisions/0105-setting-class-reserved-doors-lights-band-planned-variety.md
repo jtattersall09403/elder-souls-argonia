@@ -37,19 +37,16 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
 1. **R1 Setting class.** A kit piece is placed only in the setting class
    its own plugin places it in: interior or exterior, and keep-or-castle,
    town, village, camp or ruin, read from the plugin's placement cells and
-   worldspaces, never from the name. Candle sconces are interior pieces by
-   this rule; the Morrowind-keep stone stable is a keep piece and never
-   stands in a hamlet. The evidence is `settingClass` on the kit manifest
+   worldspaces, never from the name. The evidence is `settingClass` on the kit manifest
    row, mined by `worldgen.mine_setting_class` into
    `world/sources/placement/kit-setting-class.json` and refreshed onto the
    manifests through the kit-build path: `settings` names each licensed
    setting (interior, exterior) with its licensed classes (`wild` licenses
    the setting and no class), `n` and `sourceCells` are the evidence, and
-   a piece its own plugin never places is `unplaced` and licensed nowhere. A place's class comes
-   from its catalogue recipe (`type-recipes.json`): class `camp` is camp,
-   `ruin` is ruin, `martial` is keep, the `major-city` and `free-port`
-   families and `*-town` and `*-city` types are town, every other type is a
-   village (`place_gates.place_setting_class`). Gate `setting.class`; a row
+   a piece its own plugin never places is `unplaced` and licensed nowhere. A place's class is
+   its catalogue recipe's `settingClass` (`type-recipes.json`), derived from
+   its kind by R17 (`place_gates.derive_setting_class`); R17 maps the
+   martial types (keep only for forts, prisons and watchtowers). Gate `setting.class`; a row
    with no `settingClass` is reported NOT_MEASURED and passes.
 2. **R2 Reserved doors are legal only for tier B and C interiors**
    (assembled, non-plugin: dungeons, unique large interiors). A dwelling,
@@ -210,6 +207,50 @@ words were given for them).
 30. **R30 Every REQUEST row is closed.** Each row is either applied or answered
     with the rule that refuses it.
 
+## Addendum 3 (method review r5 follow-ups, 2026-09-28): planner rulings R31–R40
+
+Planner rulings on method review round 5
+(`tooling/.reports/16k/walk3/method-review-r5.md`, findings A–H and its
+table of gates that cannot fail). One line each in the place-build skill's
+`references/rulings.md`, which orient reads instead of the lane reports.
+
+31. **R31 A building op is legal only on a fresh scan.** A `place` op with a
+    `pad` that is new or whose asset, pose or pad changed since HEAD fails
+    `scanFreshRule` unless a scan output written after HEAD's commit of the
+    layout holds its asset and pose (radius plus half a step, yaw within half
+    the scanned spacing). A brief names the need, never the site.
+32. **R32 Ledger runs are keyed by place and walk.** The runId is
+    `<place>#walk-<N>`, N the owner walk the run answers (0 for the first
+    build); an orient stage of a place with a run names `--walk N`, and one
+    that would join an earlier walk's run is refused. The walk-3 rows were
+    re-keyed (Claywater walk 3, Greenspring walk 1) and booked with hand rows
+    from the lane reports.
+33. **R33 The per-dwelling dressing bar is re-derived under R6's count** from
+    the same vanilla places 0098 measured, the count rule and the bar from
+    one measurement, written with the measurement. Open: not yet measured
+    (lane L15 report).
+34. **R34 A sourcing candidate in any brief cites its record row** (setting
+    class, sink, mounts or links) or is marked UNVERIFIED; a survey by
+    filename is a lead, never a fact.
+35. **R35 The packet's "What changed" lines are generated from the layout
+    diff** (`wb.py whatchanged`), each piece named by its manifest
+    `displayName`; packet prose is under R5.
+36. **R36 A placed tree, piece of architecture, or piece 3 m or taller whose
+    sink is the mesh-sill fallback is listed by gate `sink.fallback`**, and
+    the place is not green. Craft (R15) are exempt.
+37. **R37 `interiors.variety` computes "exhausted"**: every cell the fit rule
+    accepts for the door's parcel, over the claim table, is used in the
+    region. The claim's `why` is never read.
+38. **R38 `lights.density` counts neighbouring places' fixtures** (every
+    published place and route bundle in `settlements/index.json`) within the
+    band.
+39. **R39 The place-build skill stays at most 450 lines**
+    (`test_place_build_skill.py`); rulings live as one line each in its
+    `references/rulings.md`.
+40. **R40 Decision 1 drops the sconce and keep-stable sentences** (premises,
+    not facts: no sconce was placed; the stable ends measure town) and the
+    martial mapping points to R17.
+
 ## Where each lives
 
 - Gates: `tooling/world-generation/worldgen/place_gates.py`
@@ -227,6 +268,11 @@ words were given for them).
   R20: `pipeline/build_kit.py` (`glb_lod_levels`, `apply_lod_levels`,
   also run by `placement_metadata --refresh-built-manifests`) and
   `worldgen/compile_settlement.py` (`PROBE_KIT_PREFIX`).
+- R31: `wb.py` (`scan_fresh_rule`), `workbench/scan.py` (`at`, grid);
+  R32: `tooling/repo-standards/build_ledger.py` (`orient_walk`, `rekey`,
+  `hand`); R35: `workbench/whatchanged.py`; R36–R38: `place_gates.py`
+  (`sink_fallback_gate`, `fitting_cells`, `neighbour_fixtures`); R39:
+  `tooling/repo-standards/test_place_build_skill.py`.
 - R11: `packages/game-core/src/settlement/lighting.ts`. R12: the
   designed-sink miner (`worldgen/mine_designed_sink.py`; a reference
   outside its parent cell reads the ground and the water of the cell under

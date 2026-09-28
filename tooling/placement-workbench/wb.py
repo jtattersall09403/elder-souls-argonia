@@ -1701,6 +1701,111 @@ def owner_ok_rule(layout_path: Path) -> dict:
             "accepted": sum(1 for op in head_ops if isinstance(op, dict) and op.get("ownerOk"))}
 
 
+#: 0105 R31: the op fields a site scan vouches for; a building op whose
+#: fields differ from HEAD's needs a scan newer than HEAD covering its pose
+SCAN_FIELDS = ("asset", "at", "yaw", "pad")
+
+
+def _yaw_off(a: float, b: float) -> float:
+    d = abs(float(a) - float(b)) % 360.0
+    return min(d, 360.0 - d)
+
+
+def scan_covers(building: dict, op: dict) -> bool:
+    """Does one scan output building's grid hold the op's pose: the same
+    asset, the op's plan point within the grid's radius (plus half a step)
+    of its centre, its yaw within half the scanned yaw spacing of a scanned
+    yaw."""
+    if building.get("asset") != op.get("asset") or not building.get("centre"):
+        return False
+    (cx, cz), (x, z) = building["centre"], op["at"]
+    reach = float(building.get("radius", 4.0)) + float(building.get("step", 1.0)) / 2.0
+    if math.hypot(float(x) - cx, float(z) - cz) > reach + 1e-6:
+        return False
+    yaws = sorted(float(y) % 360.0 for y in (building.get("yaws") or []))
+    if not yaws:
+        return False                        # no grid recorded: no evidence of a yaw
+    gaps = [(yaws[(i + 1) % len(yaws)] - yaws[i]) % 360.0 or 360.0 for i in range(len(yaws))]
+    tol = max(0.5, min(gaps) / 2.0) if len(yaws) > 1 else 0.5
+    return any(_yaw_off(op.get("yaw", 0.0), y) <= tol + 1e-6 for y in yaws)
+
+
+def scan_fresh_failures(head_ops: list, ops: list, scans: list[dict], since: str | None) -> list[str]:
+    """0105 R31 (method review r5 finding B): every building (a piece placed
+    with a `pad`: it claims a site) whose end state (`whatchanged.piece_states`:
+    the `place` op folded with every later `move` and `swap`) is new, or whose
+    asset, pose or pad changed since HEAD, must lie on a site scan recorded
+    after `since` (HEAD's commit of the layout; None when HEAD has no copy).
+    `scans` are scan outputs ({at, buildings[]}); a brief names the need,
+    the scan finds the site."""
+    from workbench.whatchanged import piece_states
+    old = piece_states(head_ops)
+    fresh = [sc for sc in scans if since is None or str(sc.get("at") or "") > since]
+    out = []
+    for uid, st in piece_states(ops).items():
+        if st["kind"] != "place" or st.get("pad") is None or not st.get("at"):
+            continue
+        prev = old.get(uid)
+        if prev is not None and all(prev.get(k) == st.get(k) for k in ("asset", "at", "yaw", "pad")):
+            continue
+        pose = {"asset": st["asset"], "at": st["at"], "yaw": st["yaw"]}
+        if any(scan_covers(b, pose) for sc in fresh for b in sc.get("buildings") or []):
+            continue
+        x, z = st["at"]
+        out.append(f"{uid}: {'new' if prev is None else 'changed'} since HEAD "
+                   f"({st['asset']} at [{x:.2f}, {z:.2f}] yaw {st['yaw']:.1f}) and no site scan "
+                   f"newer than {since or 'the op'} covers that pose; scan it first "
+                   f"(`wb.py <scene> scan`, 0105 R31)")
+    return out
+
+
+def scan_outputs(root: Path, place_id: str) -> list[dict]:
+    """The place's site scan outputs: `scan*.json` under `<root>/<placeId>/`
+    that `wb.py scan` wrote since R31 (they carry `at`, `placeId` and each
+    building's grid); an older scan (no `at`, no yaws) is no evidence."""
+    out = []
+    base = Path(root) / place_id
+    for path in sorted(base.rglob("scan*.json")) if base.is_dir() else []:
+        try:
+            doc = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if isinstance(doc, dict) and doc.get("at") and doc.get("placeId") == place_id:
+            doc["_path"] = str(path)
+            out.append(doc)
+    return out
+
+
+def scan_fresh_rule(layout_path: Path, root: Path | None = None) -> dict:
+    """The `scanFreshRule` check: the layout's building ops against the same
+    file at git HEAD, and the scans under the reports root."""
+    import subprocess
+    from workbench import layout, paths as wbpaths
+    rel = layout.repo_path(layout_path)
+    head_ops, since = [], None
+    if not Path(rel).is_absolute():
+        got = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=wbpaths.REPO_ROOT,
+                             capture_output=True, text=True)
+        if got.returncode == 0:
+            try:
+                head_ops = json.loads(got.stdout).get("ops") or []
+            except ValueError:
+                head_ops = []
+            when = subprocess.run(["git", "log", "-1", "--format=%ct", "HEAD", "--", rel],
+                                  cwd=wbpaths.REPO_ROOT, capture_output=True, text=True).stdout.strip()
+            if when:
+                since = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(int(when)))
+    doc = json.loads(Path(layout_path).read_text())
+    ops = doc.get("ops") or []
+    # the lane's own root and the place folders (a gates or trial run sets
+    # WB_OUTPUT, yet the builder's scans live in the real round folders)
+    roots = [root] if root else list(dict.fromkeys(
+        [reports_root(), wbpaths.REPO_ROOT / "tooling" / ".reports" / "16k"]))
+    scans = [sc for r in roots for sc in scan_outputs(r, doc.get("placeId") or "")]
+    return {"failures": scan_fresh_failures(head_ops, ops, scans, since), "baseline": since or "none",
+            "scans": len(scans)}
+
+
 def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: bool = True,
                  allow_stale_ground: bool = False, owner_guided: str | None = None,
                  full: bool = False, cat=None) -> dict:
@@ -1838,6 +1943,7 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         stats = {}
         check = check_scene(cat, scene, use_cache=not full, stats=stats)
         check["ownerOk"] = owner_ok_rule(layout_path)
+        check["scanFresh"] = scan_fresh_rule(layout_path)
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
@@ -2234,7 +2340,27 @@ def run_edit(argv) -> int:
     return 0
 
 
-TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit}
+def run_whatchanged(argv) -> int:
+    """`wb.py whatchanged LAYOUT [--base REV]`: the packet's "What changed"
+    lines from the layout diff, named from the kit manifests (0105 R35)."""
+    from workbench import paths as wbpaths, whatchanged as wc
+    ap = argparse.ArgumentParser(prog="wb.py whatchanged")
+    ap.add_argument("layout", type=Path)
+    ap.add_argument("--base", default="HEAD", help="the revision the owner walked (default HEAD)")
+    a = ap.parse_args(argv)
+    ops = json.loads(a.layout.read_text()).get("ops") or []
+    names = wc.manifest_names(wbpaths.REPO_ROOT / "apps" / "world-studio" / "public" / "kits")
+    got = wc.changes(wc.head_ops(a.layout, wbpaths.REPO_ROOT, a.base), ops, names)
+    for line in got["lines"]:
+        print(f"- {line}")
+    if got["unnamed"]:
+        print(f"unnamed (no manifest displayName; name them before the packet): {len(got['unnamed'])}",
+              file=sys.stderr)
+    return 0
+
+
+TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
+             "whatchanged": run_whatchanged}
 
 
 if __name__ == "__main__":

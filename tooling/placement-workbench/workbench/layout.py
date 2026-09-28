@@ -375,4 +375,4 @@ def _named_uids(text: str, uids: list[str]) -> list[str]:
 RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
          ("propSeat", "propSeatRule"), ("roadSurface", "roadSurfaceRule"), ("sill", "sillRule"),
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"),
-         ("ownerOk", "ownerOkRule"))
+         ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))

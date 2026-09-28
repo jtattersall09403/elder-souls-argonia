@@ -127,6 +127,22 @@ check compares the layout's ops with the same file at git HEAD: an op
 remove an accepted piece, keep its op with a `cause` and add a `remove`
 op. Socket ops take neither key (sockets move no piece).
 
+**Fresh scans** (0105 R31). The `scanFreshRule` check fails a building op
+(a `place` with a `pad`) that is new or whose asset, pose or pad changed
+since git HEAD (its end state: the `place` op folded with every later
+`move` and `swap`, `whatchanged.piece_states`) unless one of the place's
+scan outputs (`scan*.json` under `<reports root>/<placeId>/`, carrying the
+`at`, `placeId` and grid that `wb.py scan` writes since R31) written after
+HEAD's commit of the layout holds its asset and pose. An older scan is no
+evidence.
+
+**What changed** (0105 R35). `wb.py whatchanged LAYOUT [--base REV]`
+prints the walk packet's "What changed" lines from the diff against the
+walked revision (default HEAD): one line per piece added, removed, moved,
+turned or swapped (its end state across `place`, `move`, `swap` and
+`remove`), each piece named by its manifest `displayName`; pieces
+with none are counted on stderr and named by asset id.
+
 ## Edit
 
     python3 tooling/placement-workbench/wb.py edit LAYOUT --uid UID [--op KIND]
@@ -186,7 +202,9 @@ numbers as `pads.resolve`. B5 on the Claywater WIP, 1,176 poses: serial
 25.9 s -> 7.4 s, 7 workers 10.0 s -> 3.6 s (4.6 s per 1.5k poses), output
 byte-identical; half of what remains is the compile's own judge
 (`settlement_run_pads.building_pad`, its per-point `footprint_samples`).
-Prior art: `tooling/.reports/16k/walk2/P-*-scan*.py`.
+Prior art: `tooling/.reports/16k/walk2/P-*-scan*.py`. The output carries
+`placeId`, `at` and each building's grid (`radius`, `step`, `yaws`), which
+`scanFreshRule` reads.
 
 Dependencies beyond the world-generation set: `python-fcl` (exact
 mesh-mesh distance and crossing, used through `trimesh.collision`), listed

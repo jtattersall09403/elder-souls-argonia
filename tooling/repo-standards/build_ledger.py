@@ -6,7 +6,9 @@ One JSON row per line in docs/phases/16-foundation-and-places/build-ledger.jsonl
 written by the tools, never by hand:
 
     build_ledger.py append --from-rounds <rounds.jsonl> [--place <id>] [--path P] [--type T] [--start-run]
-    build_ledger.py stage --place <id> --stage <name> --start|--end [--path P] [--start-run]
+    build_ledger.py stage --place <id> --stage <name> --start|--end [--walk N] [--path P] [--start-run]
+    build_ledger.py hand --place <id> --walk N --total MIN --note TEXT [--min stage=MIN ...]
+    build_ledger.py rekey --place <id> --walk N --since <iso> [--until <iso>]
     build_ledger.py append --from-gates <place-gates.json>      # place_gates calls this
     build_ledger.py append --from-close <close.json>            # close_place calls this
     build_ledger.py --report                                    # trend + runs over target
@@ -37,7 +39,19 @@ row, written before stage events existed) is the whole run's stopwatch, so
 a run holding one counts the hand rows' `total` and nothing else.
 
 A run is one build pass of one place on one path, judged alone against its
-path's target. Every row carries its runId (`<place>#<n>`): it joins the
+path's target. Runs are keyed by place and walk (0105 R32, method review r5
+finding D): `walk` is the owner walk whose reply the run answers (0 for the
+build before the first walk), the runId is `<place>#walk-<N>`, and a row
+carrying a walk joins that walk's run, whatever run is open. An orient stage
+opens a walk: for a place that already has a run it must name `--walk N`,
+and one naming a walk older than the place's latest is refused, so a fix
+round's stages never join an earlier walk's run (the walk-3 stages that
+joined walk 2's run). Later stages carry the walk from the clock; tool rows
+(rounds, gates) join the open run. `hand` books a run's stopwatch minutes
+measured outside the stages (a lane report's wall), and `rekey` moves a
+place's rows since a time into a walk's run. Rows written before R32
+carry no walk and keep their `<place>#<n>` run ids:
+every row carries its runId: a walk-less row joins the
 place's open run, or starts a new one when there is none, when it passes
 `--start-run`, or when its `--path` differs from the open run's. The path is
 fixed when the run starts (given, else fix-round for a place that already
@@ -110,12 +124,42 @@ def infer_path(rows: list[dict], ptype: str | None, place_id: str) -> str:
 
 
 def open_run(rows: list[dict], place_id: str) -> dict | None:
-    """The place's latest run if no close row ended it: {"runId", "path"}."""
+    """The place's latest run if no close row ended it: {"runId", "path", "walk"}."""
     mine = [r for r in rows if r.get("placeId") == place_id and r.get("runId")]
     if not mine or mine[-1].get("source") == "close":
         return None
     last = mine[-1]["runId"]
-    return {"runId": last, "path": next(r["path"] for r in mine if r["runId"] == last)}
+    first = next(r for r in mine if r["runId"] == last)
+    return {"runId": last, "path": first["path"], "walk": first.get("walk")}
+
+
+def walk_run_id(place_id: str, walk: int) -> str:
+    """0105 R32: a run is keyed by its place and the walk it answers."""
+    return f"{place_id}#walk-{int(walk)}"
+
+
+def latest_walk(rows: list[dict], place_id: str) -> int | None:
+    walks = [int(r["walk"]) for r in rows if r.get("placeId") == place_id
+             and isinstance(r.get("walk"), int)]
+    return max(walks) if walks else None
+
+
+def orient_walk(rows: list[dict], place_id: str, walk: int | None) -> int:
+    """The walk an orient stage opens (0105 R32): 0 for a place with no run
+    yet; a place that has one must name it, and never an earlier walk than
+    its latest (that would join an earlier walk's run)."""
+    prior = sorted({r["runId"] for r in rows if r.get("placeId") == place_id and r.get("runId")})
+    if walk is None:
+        if prior:
+            raise SystemExit(f"build_ledger: {place_id} already has run(s) {', '.join(prior)}; an "
+                             "orient stage names the walk it answers (--walk N, the owner walk "
+                             "whose reply this fix round works; 0105 R32)")
+        return 0
+    latest = latest_walk(rows, place_id)
+    if latest is not None and int(walk) < latest:
+        raise SystemExit(f"build_ledger: {place_id} has a walk-{latest} run; an orient stage for "
+                         f"walk {walk} would join an earlier walk's run (0105 R32)")
+    return int(walk)
 
 
 def lock_path(ledger: str) -> str:
@@ -243,6 +287,8 @@ def end_stage(clock_dir: str, place_id: str, stage: str | None, at: float, ledge
     for k in ("path", "type"):
         if clock.get(k):
             row[k] = clock[k]
+    if isinstance(clock.get("walk"), int):
+        row["walk"] = clock["walk"]
     append(row, ledger, **({"place_type_of": place_type_of} if place_type_of else {}),
            start_run=bool(clock.get("startRun")))
     os.remove(path)
@@ -251,14 +297,26 @@ def end_stage(clock_dir: str, place_id: str, stage: str | None, at: float, ledge
 
 def start_stage(clock_dir: str, place_id: str, stage: str, at: float, ledger: str,
                 path: str | None = None, ptype: str | None = None, start_run: bool = False,
-                place_type_of=None) -> dict | None:
-    """End the open stage, then open `stage` at `at`. Returns the ended row."""
+                place_type_of=None, walk: int | None = None) -> dict | None:
+    """End the open stage, then open `stage` at `at`. Returns the ended row.
+    An orient stage fixes the walk (`orient_walk`, refused before anything
+    is written); a later stage carries the ended clock's walk, else the
+    open run's."""
+    rows = read_rows(ledger)
+    if stage == "orient":
+        walk = orient_walk(rows, place_id, walk)
+    path_now = clock_path(clock_dir, place_id)
+    if walk is None and os.path.exists(path_now):
+        with open(path_now) as f:
+            walk = json.load(f).get("walk")
+    if walk is None:
+        walk = (open_run(rows, place_id) or {}).get("walk")
     ended = end_stage(clock_dir, place_id, None, at, ledger, place_type_of)
     target = clock_path(clock_dir, place_id)
     os.makedirs(os.path.dirname(target), exist_ok=True)
     with open(target, "w") as f:
         json.dump({"placeId": place_id, "stage": stage, "startedAt": iso(at), "path": path,
-                   "type": ptype, "startRun": start_run}, f, sort_keys=True)
+                   "type": ptype, "startRun": start_run, "walk": walk}, f, sort_keys=True)
     return ended
 
 
@@ -283,8 +341,17 @@ def append(row: dict, ledger: str = LEDGER, place_type_of=place_type, start_run:
         # (start_run, or a --path other than the open run's).
         cur = open_run(rows, row["placeId"])
         asked = row.get("path")
-        if cur and not start_run and asked in (None, cur["path"]):
+        if isinstance(row.get("walk"), int):
+            # 0105 R32: the walk names the run; its path is fixed when it starts
+            row["runId"] = walk_run_id(row["placeId"], row["walk"])
+            first = next((r for r in rows if r.get("runId") == row["runId"]), None)
+            row["path"] = (first["path"] if first else
+                           asked or ("fix-round" if row["walk"] > 0 else
+                                     infer_path(rows, row["type"], row["placeId"])))
+        elif cur and not start_run and asked in (None, cur["path"]):
             row["runId"], row["path"] = cur["runId"], cur["path"]
+            if isinstance(cur.get("walk"), int):
+                row["walk"] = cur["walk"]
         else:
             n = len({r["runId"] for r in rows if r.get("placeId") == row["placeId"] and r.get("runId")})
             row["runId"] = f"{row['placeId']}#{n + 1}"
@@ -294,6 +361,48 @@ def append(row: dict, ledger: str = LEDGER, place_type_of=place_type, start_run:
             f.flush()
             os.fsync(f.fileno())
     return True
+
+
+def hand_row(place_id: str, walk: int, total: float, note: str,
+             stages: dict[str, float] | None = None) -> dict:
+    """A planner's stopwatch row for a walk's run (0105 R32): wall minutes a
+    lane report measured outside the stage events; the run then counts the
+    hand total alone (`runs`)."""
+    body = {"placeId": place_id, "walk": int(walk), "total": float(total), "note": note,
+            "stages": stages or {}}
+    row = base_row("hand", place_id, None,
+                   hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest())
+    row.update({"walk": int(walk), "path": "fix-round" if walk > 0 else None, "note": note,
+                "wallMin": {**(stages or {}), "total": float(total)}})
+    return row
+
+
+def rekey(ledger: str, place_id: str, walk: int, since: str, until: str | None = None) -> int:
+    """Move the place's rows recorded from `since` (to `until`) into the
+    walk's run (0105 R32: the walk-3 stages that joined walk 2's run). A row's
+    time is a stage's startedAt, else its recordedAt. Returns the rows moved."""
+    run_id = walk_run_id(place_id, walk)
+    with open(lock_path(ledger), "a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        rows = read_rows(ledger)
+        moved = 0
+        for r in rows:
+            when = r.get("startedAt") or r.get("recordedAt") or ""
+            if r.get("placeId") != place_id or r.get("source") == "close" or when < since \
+                    or (until and when > until):
+                continue
+            if r.get("runId") != run_id:
+                r["rekeyedFrom"] = r.get("runId")
+                moved += 1
+            r["runId"], r["walk"] = run_id, int(walk)
+            r["path"] = "fix-round" if walk > 0 else r.get("path")
+        tmp = ledger + ".tmp"
+        with open(tmp, "w") as f:
+            f.writelines(json.dumps(r, sort_keys=True) + "\n" for r in rows)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, ledger)
+    return moved
 
 
 def run_minutes(row: dict) -> float | None:
@@ -393,7 +502,14 @@ def report(rows: list[dict]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    ap.add_argument("cmd", nargs="?", choices=["append", "stage"])
+    ap.add_argument("cmd", nargs="?", choices=["append", "stage", "hand", "rekey"])
+    ap.add_argument("--walk", type=int, help="the owner walk this run answers (0105 R32; 0 = the "
+                    "first build); an orient stage of a place with a run must name it")
+    ap.add_argument("--total", type=float, help="hand: the run's stopwatch minutes")
+    ap.add_argument("--note", help="hand: where the minutes were measured")
+    ap.add_argument("--min", action="append", default=[], help="hand: stage=minutes (repeatable)")
+    ap.add_argument("--since", help="rekey: first row time (iso)")
+    ap.add_argument("--until", help="rekey: last row time (iso)")
     ap.add_argument("--from-rounds")
     ap.add_argument("--from-gates")
     ap.add_argument("--from-close")
@@ -415,13 +531,28 @@ def main(argv: list[str] | None = None) -> int:
     if a.report:
         print(report(read_rows(a.ledger)))
         return 0
+    if a.cmd == "hand":
+        if not (a.place and a.walk is not None and a.total is not None and a.note):
+            ap.error("hand --place <id> --walk N --total MIN --note TEXT")
+        stages = {k: float(v) for k, v in (m.split("=", 1) for m in a.min)}
+        row = hand_row(a.place, a.walk, a.total, a.note, stages)
+        wrote = append(row, a.ledger)
+        print(f"build_ledger: {'appended' if wrote else 'already recorded'} hand row "
+              f"{row['runId'] if wrote else ''} {a.total:g} min")
+        return 0
+    if a.cmd == "rekey":
+        if not (a.place and a.walk is not None and a.since):
+            ap.error("rekey --place <id> --walk N --since <iso>")
+        n = rekey(a.ledger, a.place, a.walk, a.since, a.until)
+        print(f"build_ledger: {n} row(s) of {a.place} moved to {walk_run_id(a.place, a.walk)}")
+        return 0
     if a.cmd == "stage":
         if not (a.place and a.stage) or a.start == a.end:
             ap.error("stage --place <id> --stage <name> --start|--end")
         at = parse_at(a.at)
         if a.start:
             ended = start_stage(a.clock_dir, a.place, a.stage, at, a.ledger, a.path, a.type,
-                                a.start_run)
+                                a.start_run, walk=a.walk)
         else:
             ended = end_stage(a.clock_dir, a.place, a.stage, at, a.ledger)
             if ended is None:
@@ -448,6 +579,8 @@ def main(argv: list[str] | None = None) -> int:
         row["path"] = a.path
     if a.type:
         row["type"] = a.type
+    if a.walk is not None:
+        row["walk"] = a.walk
     wrote = append(row, a.ledger, start_run=a.start_run)
     print(f"build_ledger: {'appended' if wrote else 'already recorded'} {row['source']} row "
           f"for {row['placeId']} ({row.get('path') or 'path inferred'})")
