@@ -54,3 +54,23 @@ def test_r15_the_craft_are_the_watercraft_kits_hulls_and_oars():
     flagged = {a for a, row in record["assets"].items() if row.get("vehicle")}
     assert flagged == {a for a in record["assets"] if a in craft}
     assert "vanilla:clutter/barrel01" not in flagged
+
+
+def test_r23_a_social_class_needs_two_references():
+    """0105 R23: every licensed class (wild aside) rests on at least
+    CLASS_MIN_REFS references in its setting; a piece placed once holds its
+    setting and no class (genericwell01, keep 1 at Dushnikh Yal)."""
+    record = json.loads(msc.DEFAULT_OUT.read_text())
+    assert record["classMinRefs"] == msc.CLASS_MIN_REFS == 2
+    for asset_id, row in record["assets"].items():
+        for setting, classes in row["settings"].items():
+            for cls in classes:
+                if cls != WILD:
+                    assert row[setting][cls] >= msc.CLASS_MIN_REFS, (asset_id, setting, cls)
+        for setting, under in row.get("classNotMeasured", {}).items():
+            assert setting in row["settings"], asset_id
+            assert all(k < msc.CLASS_MIN_REFS and c not in row["settings"][setting]
+                       for c, k in under.items()), asset_id
+    well = record["assets"]["vanilla:dungeons/mines/clutter/genericwell01"]
+    assert well["settings"] == {"exterior": []} and well["exterior"] == {"keep": 1}
+    assert well["classNotMeasured"] == {"exterior": {"keep": 1}}

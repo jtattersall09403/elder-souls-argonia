@@ -1455,7 +1455,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",

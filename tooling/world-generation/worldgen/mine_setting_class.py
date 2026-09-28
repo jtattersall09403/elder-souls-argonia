@@ -27,7 +27,10 @@ so a piece's row never depends on which other kits are mined beside it.
 least ``floor`` of the piece's own references and ``MIN_SHARE`` of them all;
 inside it, each class with at least ``floor`` references, ``floor`` =
 min(``MIN_REFS``, ceil(n x ``MIN_SHARE``)) (a stray reference does not
-license a class; a piece placed once or twice is licensed where it stands). ``wild`` licenses the setting but no social class: the
+license a class; a piece placed once or twice is licensed where it stands),
+except that a social class needs ``CLASS_MIN_REFS`` (2) references (0105
+R23: a piece placed once holds its setting but no class; such classes are
+written as ``classNotMeasured`` {setting: {class: n}}). ``wild`` licenses the setting but no social class: the
 mod plugins (BM&V, Mud Mother) set no locations, so their pieces carry the
 interior/exterior licence only, and a gate reads a class only when one is
 licensed. up to ``CELLS_KEPT``
@@ -73,7 +76,8 @@ SCHEMA_VERSION = 1
 #: masters, then itself), and every selected plugin's masters are loaded, so
 #: a piece's row no longer depends on which other kits are co-mined (L9 rec 3);
 #: water craft carry ``vehicle`` (0105 R15)
-MINER_VERSION = 2
+#: 3: a social class needs ``CLASS_MIN_REFS`` references (0105 R23)
+MINER_VERSION = 3
 #: 0105 R15: vehicles and water craft are exempt from the interior/exterior
 #: axis; their mods place them by script. The province's craft are the
 #: watercraft kit's hulls and oars (its config is the one list of them);
@@ -112,6 +116,10 @@ WILD = "wild"
 #: (in that setting) carry it; a stray reference does not license a class.
 MIN_SHARE = 0.1
 MIN_REFS = 3
+#: 0105 R23: a social class (axis ii) is licensed from this many references;
+#: one reference licenses the setting (axis i) but no class, and the gate
+#: reads that piece NOT_MEASURED on axis ii (the genericwell01 case, n 1)
+CLASS_MIN_REFS = 2
 CELLS_KEPT = 8
 #: Cells that are no played place: Bethesda's asset-storage warehouses and
 #: navmesh/test cells (``WarehouseFences``, ``NavMeshGenCellDUPLICATE001``) and
@@ -306,12 +314,19 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
         # A piece its makers placed fewer than MIN_REFS / MIN_SHARE times: every
         # placement they made is its evidence (the whole population).
         floor = min(MIN_REFS, max(1, math.ceil(n * MIN_SHARE)))
-        settings = {}
+        settings, thin = {}, {}
         for setting, total in (("interior", n_int), ("exterior", n_ext)):
             if total >= floor and total / n >= MIN_SHARE:
                 settings[setting] = sorted(
-                    (cls for cls, k in row[setting].items() if k >= floor),
+                    (cls for cls, k in row[setting].items()
+                     if k >= (floor if cls == WILD else max(floor, CLASS_MIN_REFS))),
                     key=lambda c: (CLASS_ORDER + (WILD,)).index(c))
+                # R23: classes the ordinary floor licensed that fall under
+                # CLASS_MIN_REFS: the gate reads them NOT_MEASURED on axis ii
+                under = {cls: k for cls, k in row[setting].items()
+                         if cls != WILD and floor <= k < CLASS_MIN_REFS}
+                if under:
+                    thin[setting] = under
 
         assets[manifest_id] = {
             "n": n,
@@ -322,6 +337,7 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
             "plugins": sorted(row["plugins"]),
             "otherFileRefs": row["otherFileRefs"],
             "evidence": "plugin" if n else "unplaced",
+            **({"classNotMeasured": thin} if thin else {}),
             **({"vehicle": True} if manifest_id in vehicles or source_id in vehicles else {}),
             **({"readFrom": source_id} if source_id != manifest_id else {}),
         }
@@ -337,6 +353,7 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
         "keywordClass": {k: v for k, v in KEYWORD_CLASS.items() if v},
         "minShare": MIN_SHARE,
         "minRefs": MIN_REFS,
+        "classMinRefs": CLASS_MIN_REFS,
         "excludedCellPrefixes": list(EXCLUDED_PREFIXES),
         "excludedCells": row_excluded[0],
         "vehicleKit": VEHICLE_KIT,

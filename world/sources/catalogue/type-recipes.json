@@ -89,7 +89,7 @@
     "slots": "the five-slot POI recipe (docs/research/placement-settlements/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
     "siting": "meso-rung siting grammar (module 40 28b). landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank, and are RANKED PREFERENCES, not requirements - enclosed-clearing (6 province-wide) and sinkhole (11) are genuinely scarce and must be budgeted. regionClasses are worldgen regions.REGION_CLASSES names.",
     "magnitude": "SETTLEMENT SCALE ONLY (M1-M5). null means 'not a settlement', not 'unset' - a reef and a grave field have no magnitude by definition. Do not treat this as a universal size axis.",
-    "settingClass": "decision 0105 R9/R17: the place's own social scale for the setting-class licence (place_gates `setting.class`): keep | town | village | camp | ruin | wild. keep is exclusive; town, village and camp are one settlement pool; ruin pieces stand only at ruins; a wild place (lairs, lone curiosities, wild shrines) admits every pool but keep's. Derived from the row's kind (class, family, type) by place_gates.derive_setting_class (R17, 2026-09-28); a row that must differ changes the rule there, never the row alone.",
+    "settingClass": "decision 0105 R9/R17: the place's own social scale for the setting-class licence (place_gates `setting.class`): keep | town | village | camp | ruin | wild. keep is exclusive; forts, prisons and watchtowers are keep (R17, R21); town, village and camp are one settlement pool; ruin pieces stand only at ruins; a wild place (lairs, lone curiosities, wild shrines) admits every pool but keep's. Derived from the row's kind (class, family, type) by place_gates.derive_setting_class (R17, 2026-09-28). To change one row's class, change the rule in derive_setting_class.",
     "cultures": "whose place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend. dunmer places build from dunmer-telvanni; khajiit, altmer and nord from the imperial/market families; lost-peoples marks the five vanished cultures whose ruins are nobody's inheritance.",
     "season": "all = present year-round; wet/dry = exists or is reachable in one half of the cycle; varies = state changes seasonally (see statuses)",
     "assetPlan": "inventory family ids. The withdrawn darkwater pool must never appear.",
@@ -98,7 +98,7 @@
     "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient",
     "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint's BUILT GROUND (parcel hulls, the districts that hold them and the landmarks standing inside those) where a blueprint exists, NOT from the outer boundary, which also encloses the approach, the water and the yard; else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
     "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class, measured in EQUIVALENT FLAT METRES of walking (Tobler travel cost, worldgen.travel_cost): on flat ground that is plan metres, while a climb counts for more, because the prose from which these floors come says the effort-to-reach is the design. Every other distance here is plan metres; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block.",
-    "builtBy": "decision 0105 R16: on a ruin row, the class whose pieces the ruin also takes (village-ruin types: village). Derived by place_gates.derive_built_by; absent = the ruin pool alone. keep never opens."
+    "builtBy": "decision 0105 R16/R22: on a ruin row, the class whose pieces the ruin also takes: village for a village ruin, keep for a ducal ruin. The keep pool opens only inside that ruin. Derived by place_gates.derive_built_by; absent means the ruin pool alone."
   },
   "types": [
     {
@@ -16638,7 +16638,7 @@
         "neighbourRelation": "far from everything, by design"
       },
       "magnitude": "M1",
-      "settingClass": "camp",
+      "settingClass": "keep",
       "cultures": [
         "imperial"
       ],
@@ -16720,7 +16720,7 @@
         "neighbourRelation": "a day's march from a city that pretends it is not there"
       },
       "magnitude": "M2",
-      "settingClass": "camp",
+      "settingClass": "keep",
       "cultures": [
         "imperial",
         "argonian"
@@ -18050,7 +18050,7 @@
         "neighbourRelation": "must see a neighbour, or it is not a watch tower"
       },
       "magnitude": "M1",
-      "settingClass": "camp",
+      "settingClass": "keep",
       "cultures": [
         "argonian",
         "imperial"
@@ -20879,7 +20879,8 @@
       ],
       "lore": "Lore:Giovesse (Arena gazetteer); module 20 §11 (imposed foreign infrastructure)",
       "footprintRadiusM": 65,
-      "footprintSource": "band"
+      "footprintSource": "band",
+      "builtBy": "keep"
     },
     {
       "type": "empty-mission",

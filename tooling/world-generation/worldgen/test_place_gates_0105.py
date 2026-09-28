@@ -152,6 +152,11 @@ def test_every_type_recipe_row_carries_a_setting_class():
     assert by["wamasu-pond"] == by["vista-ledge"] == by["wild-hist"] == "wild"
     assert by["patrol-shelter"] == by["beacon-platform"] == by["holding-pit"] == "camp"
     assert by["occupied-fort"] == "keep"
+    # 0105 R21: prisons and watchtowers are the keep's arm; R22: a ducal ruin
+    # takes the keep pool inside the ruin
+    assert by["prison-ruin"] == by["reoccupied-prison"] == by["watchtower"] == "keep"
+    built = {r["type"]: r.get("builtBy") for r in doc["types"]}
+    assert built["ducal-ruin"] == "keep" and built["drowned-village"] == "village"
 
 
 def _piece(x, **kw):
@@ -208,7 +213,29 @@ def test_r9_social_scale_pools():
         return sorted(x.split(":")[1].split()[0] for x in f)
     # R16: a village ruin takes village + ruin; keep stays exclusive
     assert red_recipe({"settingClass": "ruin", "builtBy": "village"}) == ["keeponly"]
-    assert red_recipe({"settingClass": "ruin", "builtBy": "keep"}) == ["keeponly", "townonly", "villageonly"]
+    # R22: a keep-built ruin opens the keep pool, inside the ruin place only
+    assert red_recipe({"settingClass": "ruin", "builtBy": "keep"}) == ["townonly", "villageonly"]
+    assert red_recipe({"settingClass": "village", "builtBy": "keep"}) == ["keeponly", "ruinonly"]
+
+
+def test_r23_a_class_on_one_reference_is_not_measured_on_axis_ii():
+    """genericwell01: keep-only on n 1. The miner licenses its setting and no
+    class (CLASS_MIN_REFS), so a village passes it with a NOT_MEASURED line."""
+    well = _sc(1, exterior=[])
+    well["settingClass"].update(exterior={"keep": 1}, classNotMeasured={"exterior": {"keep": 1}})
+    stable = _sc(3, exterior=["keep"])
+    stable["settingClass"]["exterior"] = {"keep": 3}
+    # a class the ordinary floor left out (village 2 of n 30) is no R23 case
+    wildish = _sc(30, exterior=["wild"])
+    wildish["settingClass"]["exterior"] = {"wild": 28, "village": 2}
+    rows = {("k", "well"): well, ("k", "stable"): stable, ("k", "mod"): _sc(1, exterior=["wild"]),
+            ("k", "wildish"): wildish}
+    f, w, _ = pg.setting_failures([_piece(x) for x in ("well", "stable", "mod", "wildish")],
+                                  rows, "village")
+    assert len(f) == 1 and "stable" in f[0], f
+    assert len(w) == 1 and "NOT_MEASURED: 1 piece" in w[0] and "well (keep 1)" in w[0], w
+    _, w, _ = pg.setting_failures([_piece("well")], rows, None)       # axis ii not judged: no line
+    assert w == []
 
 
 def test_setting_gate_warns_when_the_place_has_no_setting_class():

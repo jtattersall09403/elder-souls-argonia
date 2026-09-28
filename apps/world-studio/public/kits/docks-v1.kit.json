@@ -235,7 +235,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "town",
       "wild"
      ]
     },
@@ -249,7 +248,12 @@
      "exterior:town:SolitudeDocksLocation",
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -549,9 +553,7 @@
    "deckRiseEvidence": "deck-top tell",
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -561,7 +563,12 @@
     "sourceCells": [
      "exterior:town:SolitudeDocksLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -724,7 +731,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -738,7 +744,12 @@
      "exterior:camp:FaldarsToothLocation",
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },

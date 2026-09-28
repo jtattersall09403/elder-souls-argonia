@@ -286,9 +286,9 @@
    "designedSinkM": {
     "p25": -11.47,
     "p50": -8.8123,
-    "p75": -4.8072,
-    "n": 11,
-    "slopeTermMPerDeg": 0.03384,
+    "p75": -6.5073,
+    "n": 10,
+    "slopeTermMPerDeg": 0.02273,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

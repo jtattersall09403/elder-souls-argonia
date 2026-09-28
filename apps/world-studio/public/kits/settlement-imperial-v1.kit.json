@@ -293,8 +293,7 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "town",
-      "village"
+      "town"
      ]
     },
     "n": 8,
@@ -313,7 +312,12 @@
      "exterior:village:StonehillsLocation",
      "exterior:town:FalkreathLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -404,7 +408,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -660,9 +664,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -672,7 +674,12 @@
     "sourceCells": [
      "exterior:town:SolitudeDocksLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
@@ -755,7 +762,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -769,7 +775,12 @@
      "exterior:camp:FaldarsToothLocation",
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2769,9 +2780,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2781,7 +2790,12 @@
     "sourceCells": [
      "exterior:town:WhiterunLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
@@ -2851,9 +2865,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2863,7 +2875,12 @@
     "sourceCells": [
      "exterior:town:WhiterunLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",

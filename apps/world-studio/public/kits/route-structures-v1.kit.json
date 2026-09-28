@@ -1273,7 +1273,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "ruin",
       "wild"
      ]
     },
@@ -1287,7 +1286,12 @@
      "exterior:ruin:SaarthalLocation",
      "exterior:wild:GoldenglowEstateLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "ruin": 1
+     }
+    }
    },
    "lodLevels": 3
   },

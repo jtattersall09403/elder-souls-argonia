@@ -1782,9 +1782,7 @@
    "pivotAboveBaseM": 0.036,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "village"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -1795,6 +1793,11 @@
      "exterior:village:AbandonedShackLocation"
     ],
     "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    },
     "vehicle": true
    },
    "lodLevels": 3
@@ -1867,9 +1870,7 @@
    "pivotAboveBaseM": 1.418,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -1879,7 +1880,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2133,9 +2139,7 @@
    "pivotAboveBaseM": 0.001,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2145,7 +2149,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2217,9 +2226,7 @@
    "pivotAboveBaseM": 0.029,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2229,7 +2236,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2294,9 +2306,7 @@
    "pivotAboveBaseM": 0.077,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2306,7 +2316,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2371,9 +2386,7 @@
    "pivotAboveBaseM": 0.029,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2383,7 +2396,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2455,9 +2473,7 @@
    "pivotAboveBaseM": 0.606,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2467,7 +2483,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2553,9 +2574,7 @@
    "pivotAboveBaseM": 1.879,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2565,7 +2584,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -4656,7 +4680,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4717,8 +4741,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4737,7 +4761,8 @@
    "piled": true,
    "deckRiseM": 0.3,
    "deckRiseEvidence": "default",
-   "lodLevels": 3
+   "lodLevels": 3,
+   "designedWaterlineM": -0.4552
   },
   {
    "id": "kotm:argonia/blackwood/walkway03",
@@ -4849,7 +4874,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4918,7 +4943,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4987,7 +5012,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5126,7 +5151,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5256,7 +5281,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5319,7 +5344,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5389,7 +5414,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5458,8 +5483,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5478,7 +5503,8 @@
    "piled": true,
    "deckRiseM": 0.3,
    "deckRiseEvidence": "default",
-   "lodLevels": 3
+   "lodLevels": 3,
+   "designedWaterlineM": -0.0658
   },
   {
    "id": "kotm:argonia/blackwood/dockscentresmall",
@@ -5520,7 +5546,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5583,7 +5609,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5652,8 +5678,8 @@
     "slopeTermMPerDeg": -0.08397,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5672,7 +5698,8 @@
    "piled": true,
    "deckRiseM": 0.3,
    "deckRiseEvidence": "default",
-   "lodLevels": 3
+   "lodLevels": 3,
+   "designedWaterlineM": -0.2311
   },
   {
    "id": "kotm:argonia/blackwood/docksendnopost",
@@ -5714,7 +5741,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5775,7 +5802,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5830,8 +5857,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5852,7 +5879,8 @@
     "tell": "floor-plane",
     "valueM": -4.1998
    },
-   "lodLevels": 3
+   "lodLevels": 3,
+   "designedWaterlineM": 0.12
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",

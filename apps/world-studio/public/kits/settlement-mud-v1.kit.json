@@ -2847,9 +2847,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "village"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2860,6 +2858,11 @@
      "exterior:village:AbandonedShackLocation"
     ],
     "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    },
     "vehicle": true
    },
    "anchorClass": "ground",
@@ -2937,9 +2940,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2949,7 +2950,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3204,9 +3210,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3216,7 +3220,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3279,7 +3288,7 @@
     "p75": 6.1957,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy"
+    "evidence": "mesh-sill"
    },
    "settingClass": {
     "settings": {
@@ -3322,7 +3331,12 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -5.854,
-   "lodLevels": 3
+   "lodLevels": 3,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.1957
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
@@ -3366,7 +3380,7 @@
     "p75": 6.0086,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "policy"
+    "evidence": "mesh-sill"
    },
    "settingClass": {
     "settings": {
@@ -3409,7 +3423,12 @@
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -6.009,
-   "lodLevels": 3
+   "lodLevels": 3,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 6.0086
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -3457,9 +3476,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3469,7 +3486,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3541,9 +3563,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3553,7 +3573,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3618,9 +3643,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3630,7 +3653,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -3695,9 +3723,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3707,7 +3733,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3779,9 +3810,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3791,7 +3820,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3877,9 +3911,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -3889,7 +3921,12 @@
     "sourceCells": [
      "exterior:camp:SleepingTreeCampLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4263,9 +4300,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "village"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -4275,7 +4310,12 @@
     "sourceCells": [
      "exterior:village:KeebaHollowLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4495,9 +4535,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "village"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -4507,7 +4545,12 @@
     "sourceCells": [
      "exterior:village:KeebaHollowLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4818,9 +4861,7 @@
    },
    "settingClass": {
     "settings": {
-     "interior": [
-      "town"
-     ],
+     "interior": [],
      "exterior": [
       "wild"
      ]
@@ -4836,7 +4877,12 @@
      "interior:town:LilmothRoots",
      "exterior:wild:BlackMarshLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "town": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4967,9 +5013,7 @@
    },
    "settingClass": {
     "settings": {
-     "interior": [
-      "town"
-     ]
+     "interior": []
     },
     "n": 1,
     "interior": {
@@ -4979,7 +5023,12 @@
     "sourceCells": [
      "interior:town:AltenDockmasterHouse"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "town": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5069,7 +5118,7 @@
     ],
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -5485,9 +5534,7 @@
    },
    "settingClass": {
     "settings": {
-     "interior": [
-      "village"
-     ],
+     "interior": [],
      "exterior": [
       "village"
      ]
@@ -5503,7 +5550,12 @@
      "exterior:village:KeebaHollowLocation",
      "interior:village:KeebaHouseCrafter"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "village": 1
+     }
+    }
    },
    "anchorClass": "wall",
    "anchorClassEvidence": "plugin",
@@ -5850,9 +5902,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "village"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -5862,7 +5912,12 @@
     "sourceCells": [
      "exterior:village:KeebaHollowLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    }
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",

@@ -64,7 +64,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -128,7 +128,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -188,8 +188,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -255,7 +255,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -316,7 +316,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -382,7 +382,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -449,8 +449,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -512,8 +512,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -576,8 +576,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -635,8 +635,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -692,7 +692,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -767,8 +767,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -889,8 +889,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -950,8 +950,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1011,8 +1011,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1072,8 +1072,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1195,7 +1195,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1255,8 +1255,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1317,7 +1317,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -1377,8 +1377,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -1438,8 +1438,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -1500,7 +1500,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1563,7 +1563,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1653,7 +1653,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1725,7 +1725,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1796,8 +1796,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1874,7 +1874,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -1954,7 +1954,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2027,8 +2027,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2182,7 +2182,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2259,7 +2259,7 @@
     "evidence": "mesh-sill (plugin-unsupported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2336,7 +2336,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2398,8 +2398,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2461,8 +2461,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2522,8 +2522,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2586,8 +2586,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2846,7 +2846,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2906,8 +2906,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -2968,7 +2968,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3035,7 +3035,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3096,7 +3096,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3158,8 +3158,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -3220,10 +3220,10 @@
     "p75": -0.0285,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin refs static-supported)"
+    "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3287,7 +3287,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3346,7 +3346,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3410,7 +3410,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3468,8 +3468,8 @@
     "slopeTermMPerDeg": -0.00378,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3528,7 +3528,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3586,7 +3586,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3642,7 +3642,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3708,7 +3708,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3774,7 +3774,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3840,7 +3840,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3902,8 +3902,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -3964,7 +3964,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4020,7 +4020,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4076,7 +4076,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4137,7 +4137,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4196,7 +4196,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4265,8 +4265,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -4335,8 +4335,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -4411,8 +4411,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4473,7 +4473,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4528,8 +4528,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4596,7 +4596,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4662,8 +4662,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4730,7 +4730,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4796,8 +4796,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4863,8 +4863,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -4929,8 +4929,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -4995,8 +4995,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -5056,8 +5056,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5117,8 +5117,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5187,8 +5187,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -5253,8 +5253,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "post-foot",
@@ -5315,7 +5315,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5384,7 +5384,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5446,7 +5446,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5507,7 +5507,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5579,7 +5579,7 @@
     "evidence": "mesh-sill (plugin-unsupported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5639,8 +5639,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5705,8 +5705,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5767,7 +5767,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "foundation-top",
@@ -5830,7 +5830,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -5952,7 +5952,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -6014,7 +6014,7 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6070,7 +6070,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -6134,7 +6134,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -6195,7 +6195,7 @@
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -6258,7 +6258,7 @@
     "evidence": "mesh-sill"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
     "tell": "floor-plane",
@@ -6320,8 +6320,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",

@@ -670,7 +670,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "lodLevels": 3
   },

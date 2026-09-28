@@ -41,7 +41,9 @@ Method:
    city worldspace drawing its parent's, a cell with no LAND). The ground cell
    is the one under the pivot, not the parent cell: a worldspace's persistent
    cell can carry XCLC 0,0 (SNT ferry.esp's rafts at cell -16,22) and read
-   (0,0)'s LAND 116 m above them (``refsOutsideCell``). Every row
+   (0,0)'s LAND 116 m above them (``refsOutsideCell``); its water is that
+   cell's too (the latest file defining the cell; ``refsParentCellWater``
+   counts those left on the parent cell's water because none does). Every row
    seated by the mesh-sill tell instead of plugin ground says so
    (``fallback: true``) and the record counts them (``sinkFallback``).
    References at a scale other than 1.0 are left out of
@@ -511,22 +513,29 @@ def cell_of(pos) -> tuple[int, int]:
 
 
 def master_lands(index: "LoadOrderIndex", on_disk: dict[str, Path],
-                 needed: dict[str, set[tuple[int, int, int]]]) -> dict[tuple, object]:
+                 needed: dict[str, set[tuple[int, int, int]]]
+                 ) -> tuple[dict[tuple, object], dict[tuple, float | None]]:
     """R12: ``(file, (world, gx, gy)) -> LandData`` for exactly the cells
     ``needed`` names in each file (the placing file's masters, and the
     placing file itself for a reference standing outside its parent cell),
-    one walk per file."""
+    one walk per file; and the same cells' water heights (the cell's XCLW,
+    else its worldspace default), so a reference outside its parent cell
+    reads the water of the cell under its pivot too."""
     lands: dict[tuple, object] = {}
+    waters: dict[tuple, float | None] = {}
     for name, keys in needed.items():
         plugin = Plugin(on_disk[name])
         resolve = index.resolver.of(plugin)
         for cell in plugin.exterior_cells(with_land=True, with_refs=False,
                                           land_layers=False):
             key3 = (resolve(cell.world), *cell.grid)
-            if key3 in keys and cell.land is not None and cell.land.heights is not None:
+            if key3 not in keys:
+                continue
+            waters[(name, key3)] = cell.water_height
+            if cell.land is not None and cell.land.heights is not None:
                 lands[(name, key3)] = cell.land
         del plugin
-    return lands
+    return lands, waters
 
 
 def measure_ref(entry: "AssetSamples", stats: dict, kit: dict, land, reading: tuple,
@@ -601,7 +610,8 @@ def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
     samples: dict[str, AssetSamples] = defaultdict(AssetSamples)
     stats = {"pluginsRead": 0, "cellsWalked": 0, "refsJoined": 0,
              "refsJoinedMasterBase": 0, "refsPluginUnsupported": 0,
-             "refsMasterLand": 0, "refsNoLand": 0, "refsOutsideCell": 0}
+             "refsMasterLand": 0, "refsNoLand": 0, "refsOutsideCell": 0,
+             "refsParentCellWater": 0}
     # Round 9: a reference whose base a master defines (a Black Marsh North
     # lily pad placed from Black Marsh.esm) is measured like the plugin's own.
     index = LoadOrderIndex(pool_plugins(vault) if plugins is None else plugins)
@@ -658,16 +668,26 @@ def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
                 files = chain if grid == cell.grid else [name, *chain]
                 key3 = (world_gid, *grid)
                 deferred.append((asset_id, cell.land if grid == cell.grid else None,
-                                 key3, files, name, reading))
+                                 key3, files, name, reading, grid != cell.grid))
                 for source in files:
                     needed[source].add(key3)
         del plugin
         if progress:
             print(f"  {path.name}: {len(wanted)} kit base objects "
                   f"({len(from_master)} from masters)", flush=True)
-    lands = master_lands(index, on_disk, needed)
-    for asset_id, own_land, key3, chain, name, reading in deferred:
+    lands, waters = master_lands(index, on_disk, needed)
+    for asset_id, own_land, key3, chain, name, reading, outside in deferred:
         entry = samples[asset_id]
+        if outside:
+            # outside its parent cell: the water is the pivot cell's, from
+            # the latest file that defines that cell (the placing file, then
+            # its masters); the parent cell's water stands only where none does
+            water = next((waters[(m, key3)] for m in chain
+                          if waters.get((m, key3)) is not None), None)
+            if water is None:
+                stats["refsParentCellWater"] += 1
+            else:
+                reading = (reading[0], reading[1], water, *reading[3:])
         source = next((m for m in chain if is_real_land(lands.get((m, key3)))), None)
         land = None if source is None else lands[(source, key3)]
         if source is not None and source != name:
@@ -1138,7 +1158,8 @@ METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "pivot below the ground line) per exterior reference at unit "
           "scale; terrain from esp_index.height_at (bilinear on the "
           "LAND of the cell under the pivot, which for a reference in a "
-          "worldspace's persistent cell is not its parent cell, refsOutsideCell; "
+          "worldspace's persistent cell is not its parent cell, refsOutsideCell, "
+          "whose water it reads too, refsParentCellWater where no file defines it; "
           "where the placing file carries no real LAND there, "
           "the LAND of its last-loaded on-disk master that has one, R12, "
           "refsMasterLand; references with no LAND anywhere are counted, "
@@ -1211,6 +1232,7 @@ def build_document(kits: dict[str, dict], vault: Path,
         "refsMasterLand": stats["refsMasterLand"],
         "refsNoLand": stats["refsNoLand"],
         "refsOutsideCell": stats["refsOutsideCell"],
+        "refsParentCellWater": stats["refsParentCellWater"],
         "sinkFallback": fallback_summary(assets),
         "assets": assets,
     }

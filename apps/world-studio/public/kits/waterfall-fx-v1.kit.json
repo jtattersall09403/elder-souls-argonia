@@ -727,11 +727,11 @@
     }
    },
    "designedSinkM": {
-    "p25": -0.8159,
-    "p50": 1.5671,
+    "p25": -0.6359,
+    "p50": 1.8073,
     "p75": 3.5671,
-    "n": 35,
-    "slopeTermMPerDeg": 0.01822,
+    "n": 34,
+    "slopeTermMPerDeg": 0.01913,
     "evidence": "plugin"
    },
    "anchorClass": "fx",

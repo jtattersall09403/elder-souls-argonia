@@ -76,7 +76,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -90,7 +89,12 @@
      "exterior:wild:BlackMarshLocation",
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -267,7 +271,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -282,7 +285,12 @@
      "exterior:wild:KeelSakkaBridgeLocation",
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -840,9 +848,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "camp"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -852,7 +858,12 @@
     "sourceCells": [
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -1389,9 +1400,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -1401,7 +1410,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -1855,9 +1869,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -1867,7 +1879,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2093,9 +2110,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2105,7 +2120,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2182,7 +2202,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -2196,7 +2215,12 @@
      "exterior:camp:BlackroseRuinsLocation",
      "exterior:wild:BlackMarshLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2273,7 +2297,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -2287,7 +2310,12 @@
      "exterior:wild:BlackMarshLocation",
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2503,9 +2531,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2515,7 +2541,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2591,9 +2622,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2603,7 +2632,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2678,8 +2712,7 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "town",
-      "camp"
+      "town"
      ]
     },
     "n": 4,
@@ -2692,7 +2725,12 @@
      "exterior:town:LilmothLocation",
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -4752,9 +4790,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -4764,7 +4800,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -4839,7 +4880,6 @@
     "settings": {
      "exterior": [
       "town",
-      "camp",
       "wild"
      ]
     },
@@ -4855,7 +4895,12 @@
      "exterior:town:LilmothLocation",
      "exterior:camp:BlackroseRuinsLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5326,9 +5371,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -5338,7 +5381,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5416,9 +5464,7 @@
    },
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -5428,7 +5474,12 @@
     "sourceCells": [
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5495,9 +5546,7 @@
    "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
-     "interior": [
-      "town"
-     ],
+     "interior": [],
      "exterior": [
       "town"
      ]
@@ -5513,7 +5562,12 @@
      "exterior:town:LilmothLocation",
      "interior:town:LilmothSewersInt01"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -6206,7 +6260,6 @@
       "ruin"
      ],
      "exterior": [
-      "town",
       "wild"
      ]
     },
@@ -6226,7 +6279,12 @@
      "interior:town:LilmothSewersInt01",
      "exterior:town:LilmothLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -6298,10 +6356,7 @@
    },
    "settingClass": {
     "settings": {
-     "interior": [
-      "town",
-      "ruin"
-     ],
+     "interior": [],
      "exterior": [
       "wild"
      ]
@@ -6319,7 +6374,13 @@
      "interior:ruin:OldImpLaboratoryInt01",
      "interior:town:LilmothSewersInt02"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "ruin": 1,
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -6383,7 +6444,6 @@
    "settingClass": {
     "settings": {
      "interior": [
-      "town",
       "ruin"
      ],
      "exterior": [
@@ -6403,7 +6463,12 @@
      "interior:town:LilmothSewersInt02",
      "exterior:wild:BlackMarshLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -6769,10 +6834,7 @@
    "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
-     "interior": [
-      "town",
-      "ruin"
-     ]
+     "interior": []
     },
     "n": 2,
     "interior": {
@@ -6784,7 +6846,13 @@
      "interior:town:LilmothSewersInt01",
      "interior:ruin:OldImpLaboratoryInt01"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "town": 1,
+      "ruin": 1
+     }
+    }
    },
    "lodLevels": 3
   },

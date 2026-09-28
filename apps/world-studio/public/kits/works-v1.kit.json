@@ -102,9 +102,7 @@
    "pivotAboveBaseM": 0.626,
    "settingClass": {
     "settings": {
-     "interior": [
-      "camp"
-     ],
+     "interior": [],
      "exterior": [
       "keep",
       "camp",
@@ -130,7 +128,12 @@
      "exterior:camp:SerpentsBluffRedoubtLocation",
      "exterior:keep:FortSungardLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -1352,12 +1355,9 @@
    "pivotAboveBaseM": -0.63,
    "settingClass": {
     "settings": {
-     "interior": [
-      "ruin"
-     ],
+     "interior": [],
      "exterior": [
-      "town",
-      "village"
+      "town"
      ]
     },
     "n": 5,
@@ -1374,7 +1374,15 @@
      "exterior:town:SolitudeDocksLocation",
      "exterior:village:KatlasFarmLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "ruin": 1
+     },
+     "exterior": {
+      "village": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -1519,12 +1527,9 @@
    "pivotAboveBaseM": 0.581,
    "settingClass": {
     "settings": {
-     "interior": [
-      "village"
-     ],
+     "interior": [],
      "exterior": [
       "town",
-      "ruin",
       "wild"
      ]
     },
@@ -1544,7 +1549,15 @@
      "exterior:town:RiftenLocation",
      "exterior:town:MarkarthLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "village": 1
+     },
+     "exterior": {
+      "ruin": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -2986,9 +2999,7 @@
    "pivotAboveBaseM": 3.986,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "keep"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -2998,7 +3009,12 @@
     "sourceCells": [
      "exterior:keep:DushnikhYalLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "keep": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -3059,13 +3075,9 @@
    "settingClass": {
     "settings": {
      "interior": [
-      "keep",
-      "village",
       "camp"
      ],
-     "exterior": [
-      "ruin"
-     ]
+     "exterior": []
     },
     "n": 9,
     "interior": {
@@ -3082,7 +3094,16 @@
      "interior:keep:DushnikhYalMine",
      "exterior:ruin:AnsilvundLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "village": 1,
+      "keep": 1
+     },
+     "exterior": {
+      "ruin": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -4735,7 +4756,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "ruin",
       "wild"
      ]
     },
@@ -4749,7 +4769,12 @@
      "exterior:ruin:SaarthalLocation",
      "exterior:wild:GoldenglowEstateLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "ruin": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -4993,7 +5018,6 @@
     "settings": {
      "exterior": [
       "village",
-      "camp",
       "wild"
      ]
     },
@@ -5009,7 +5033,12 @@
      "exterior:village:BilegulchMineLocation",
      "exterior:camp:BthalftLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5385,9 +5414,7 @@
    "pivotAboveBaseM": 1.821,
    "settingClass": {
     "settings": {
-     "exterior": [
-      "town"
-     ]
+     "exterior": []
     },
     "n": 1,
     "interior": {},
@@ -5397,7 +5424,12 @@
     "sourceCells": [
      "exterior:town:FalkreathLocation"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5479,7 +5511,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "camp",
       "wild"
      ]
     },
@@ -5493,7 +5524,12 @@
      "exterior:camp:FaldarsToothLocation",
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5569,7 +5605,6 @@
    "settingClass": {
     "settings": {
      "exterior": [
-      "town",
       "wild"
      ]
     },
@@ -5583,7 +5618,12 @@
      "exterior:town:SolitudeDocksLocation",
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "town": 1
+     }
+    }
    },
    "lodLevels": 3
   },
@@ -5862,10 +5902,7 @@
    "pivotAboveBaseM": 0.0,
    "settingClass": {
     "settings": {
-     "interior": [
-      "camp",
-      "ruin"
-     ]
+     "interior": []
     },
     "n": 2,
     "interior": {
@@ -5877,7 +5914,13 @@
      "interior:ruin:LiarsRetreat01",
      "interior:camp:DruadachRedoubt01"
     ],
-    "evidence": "plugin"
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "interior": {
+      "ruin": 1,
+      "camp": 1
+     }
+    }
    },
    "lodLevels": 3
   },

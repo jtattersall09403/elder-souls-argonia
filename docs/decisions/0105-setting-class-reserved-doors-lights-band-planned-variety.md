@@ -135,7 +135,7 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
     `waiting-on.json`, and the `ownerOkRule` check fails an op accepted at
     git HEAD (`ownerOk`) that changed without a `cause`.
 
-## Addendum 2 (walk 3 wave 2 close, 2026-09-28): planner rulings R14–R20
+## Addendum 2 (walk 3 wave 2 close, 2026-09-28): planner rulings R14–R24
 
 These are planner rulings on the wave-2 lanes' recommendations (no owner
 words were given for them).
@@ -153,13 +153,14 @@ words were given for them).
     culture that built it:** a village-ruin type (burn-scar, drowned,
     plague-abandoned, Umbriel-stripped village, subsidence hamlet,
     rebuilt-elsewhere footprint) carries `builtBy: village` on its recipe
-    row and takes the village pool too. `keep` stays exclusive and never
-    opens to a ruin.
+    row and takes the village pool too. `keep` stays exclusive; R22 opens
+    it inside a keep-built ruin only.
 17. **R17 A type's `settingClass` follows its kind** (the recipe's class,
     family and type), derived by `place_gates.derive_setting_class`,
     never set by hand: lairs, lone curiosities and wild shrines are
-    `wild`; patrol shelters, beacons and holding pits `camp`; `keep` only
-    for keeps and forts (every other martial type is a `camp`); ruins
+    `wild`; patrol shelters, beacons and holding pits `camp`; keeps,
+    forts, prisons and watchtowers `keep` (the last two by R21; every
+    other martial type `camp`); ruins
     `ruin`; cities, free ports and `-town`/`-city` types `town`; the rest
     `village`. A `wild` place admits every pool but the keep's. A test
     fails when a row differs from its derivation.
@@ -178,6 +179,21 @@ words were given for them).
     probe kits out by their `probe-` kit id, never by the LOD count, so the
     222 alpha-tested rows built with one level (chickennest01 among them)
     are truthful and still placeable.
+21. **R21 Prisons, jails, watchtowers and guard towers are `keep`**. This
+    matches the setting-class miner, which already reads `LocTypeJail` and
+    `LocTypeGuardTower` as keep. The types are `prison-ruin`,
+    `reoccupied-prison` and `watchtower` (`KEEP_TYPES`).
+22. **R22 A ducal or fort ruin takes the keep pool** (`builtBy: keep`,
+    `KEEP_RUIN_TYPES`). `ducal-ruin` is the one such ruin-class type; the
+    forts themselves (`abandoned-fort`) are already `keep`. The keep pool opens only inside that
+    ruin place; everywhere else `keep` stays exclusive.
+23. **R23 A class licence on axis (ii) needs at least 2 references.** A
+    piece placed once holds its setting (axis i) but no class, and the
+    gate reports it NOT_MEASURED on axis (ii) (`CLASS_MIN_REFS`,
+    setting-class miner version 3; `genericwell01`, placed once at a keep).
+24. **R24 A hand row the miner now measures is deleted.** The
+    `histflower01/02-sick` rows in `placement-policies.json` were deleted once the
+    sink miner resolved texture variants to their base's row.
 
 ## Where each lives
 
@@ -187,7 +203,9 @@ words were given for them).
   `breadth.dressingPiecesPerDwellingWithin12mMin`), tests in
   `test_place_gates_0105.py` and `test_place_gates_breadth.py`; the place
   class in `type-recipes.json` (`settingClass`, `builtBy`, derived by
-  `derive_setting_class` / `derive_built_by`, R16–R17).
+  `derive_setting_class` / `derive_built_by`, R16–R17, R21–R22).
+- R23: `worldgen/mine_setting_class.py` (`CLASS_MIN_REFS`) and
+  `place_gates.setting_failures` (the NOT_MEASURED line).
 - R15: `worldgen/mine_setting_class.py` (`VEHICLE_KIT`, `NOT_VEHICLES`).
   R18: `pipeline/interiors_index.py` (`walk_in_open_front`). R19:
   `worldgen/mine_designed_sink.py` (`TREE_SHALLOWS_M`, `scaled_unit`).
@@ -195,7 +213,9 @@ words were given for them).
   also run by `placement_metadata --refresh-built-manifests`) and
   `worldgen/compile_settlement.py` (`PROBE_KIT_PREFIX`).
 - R11: `packages/game-core/src/settlement/lighting.ts`. R12: the
-  designed-sink miner (`worldgen/mine_designed_sink.py`). R13 (G):
+  designed-sink miner (`worldgen/mine_designed_sink.py`; a reference
+  outside its parent cell reads the ground and the water of the cell under
+  its pivot, `refsOutsideCell`, `refsParentCellWater`). R13 (G):
   `tooling/placement-workbench/wb.py` (`round`, `owner_ok_rule`), its
   README § Round.
 - Procedure: the `place-build` skill (step 1 piece choice, § Variety,

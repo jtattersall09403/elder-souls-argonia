@@ -49997,11 +49997,11 @@
    "openBackYawDeg": 281.2,
    "pivotAboveBaseM": 0.36,
    "designedSinkM": {
-    "p25": 9.195,
-    "p50": 11.3834,
+    "p25": 9.23,
+    "p50": 11.3906,
     "p75": 12.7585,
-    "n": 347,
-    "slopeTermMPerDeg": 0.10175,
+    "n": 346,
+    "slopeTermMPerDeg": 0.10306,
     "evidence": "plugin"
    },
    "anchorClass": "ground",

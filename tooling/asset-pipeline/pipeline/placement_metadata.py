@@ -454,6 +454,8 @@ def apply_setting_class(asset: dict[str, Any], rows: dict[str, dict[str, Any]]) 
         "exterior": row.get("exterior", {}),
         "sourceCells": row.get("sourceCells", []),
         "evidence": row.get("evidence", "plugin"),
+        # 0105 R23: classes under 2 references (axis ii NOT_MEASURED)
+        **({"classNotMeasured": row["classNotMeasured"]} if row.get("classNotMeasured") else {}),
         # 0105 R15: water craft their mods place by script (exempt from axis i)
         **({"vehicle": True} if row.get("vehicle") else {}),
     }

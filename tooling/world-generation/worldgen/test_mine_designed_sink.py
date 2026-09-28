@@ -395,6 +395,31 @@ def test_the_ground_is_the_cell_under_the_pivot_not_the_parent_cell(tmp_path):
     assert document["refsOutsideCell"] == 3
 
 
+def test_a_reference_outside_its_parent_cell_reads_the_pivot_cells_water(tmp_path):
+    """L12 review (PLAUSIBLE, confirmed here): a raft in the persistent cell
+    (XCLC 0,0, water 0 m) stands in cell (2, 0), whose own water is 3 m. Its
+    waterline is read against the pivot cell's 3 m, never the parent's 0 m."""
+    from .esp_index import UNITS_PER_METRE
+    deep = (_LAND_OFFSET - 4000.0) * 8 / UNITS_PER_METRE     # the bed far under the water
+    master = _plugin_file(tmp_path / "Master.esm", _ALL_BASES,
+                          {(0, 0): {"land": -400.0, "water": 0.0},
+                           (2, 0): {"land": _LAND_OFFSET - 4000.0, "water": 3.0}})
+    x0 = 2 * 4096 / UNITS_PER_METRE
+    rafts = [(0x01000C41 + i, _master_form("chair"), (x0 + 5.0 + i, 5.0, 2.5), 0.0)
+             for i in range(3)]
+    child = _plugin_file(tmp_path / "Child.esp", [], {(0, 0): {"refs": rafts, "water": 0.0}},
+                         masters=("Master.esm",), world=0x00000B00, cell_base=0x00000A00)
+    kits = {"vanilla:test/chair01": _kit(_MESHES["chair"])}
+    tells = {"vanilla:test/chair01": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    document = build_document(kits, Path("/nonexistent"), tells=tells, supported=set(),
+                              plugins=[("vanilla", child), ("vanilla", master)])
+    raft = document["assets"]["vanilla:test/chair01"]
+    assert deep < -10 and document["refsOutsideCell"] == 3
+    assert document["refsParentCellWater"] == 0
+    # water 3.0 m minus pivot 2.5 m (the parent cell's water read -2.5 m)
+    assert abs(raft["waterline"]["p50"] - 0.5) < 0.01, raft
+
+
 def test_r19_whole_population_divides_a_scaled_sample_by_its_scale():
     """0105 R19: the Skyfall tree's one reference at scale 1.40 sinks 0.941 m;
     the whole-population row reads -0.672 m at unit scale, the full run's

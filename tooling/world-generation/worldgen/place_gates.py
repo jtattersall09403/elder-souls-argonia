@@ -705,21 +705,27 @@ SMALL_DRESSING_M = 1.2
 #: ``derive_setting_class``'s class/family rule.
 WILD_TYPES = frozenset({"wild-hist", "beast-offering-shrine", "wayside-imperial-shrine"})
 CAMP_TYPES = frozenset({"patrol-shelter", "beacon-platform", "holding-pit"})
-KEEP_TYPES = frozenset({"abandoned-fort", "occupied-fort", "inhabited-xanmeer-fort"})
+#: 0105 R21: prisons, jails, watchtowers and guard towers are the keep's arm
+#: (the setting-class miner reads LocTypeJail and LocTypeGuardTower as keep)
+KEEP_TYPES = frozenset({"abandoned-fort", "occupied-fort", "inhabited-xanmeer-fort",
+                        "prison-ruin", "reoccupied-prison", "watchtower"})
 _TOWN_FAMILIES = ("major-city", "free-port")
 #: 0105 R16: ruin types a village culture built take the village pool too
-#: (``builtBy`` on the recipe row); the exclusive keep never opens
+#: (``builtBy`` on the recipe row); a keep-built ruin takes the keep pool (R22)
 VILLAGE_RUIN_TYPES = frozenset({"burn-scar-village", "drowned-village", "plague-abandoned-village",
                                 "umbriel-stripped-village", "subsidence-hamlet",
                                 "rebuilt-elsewhere-footprint"})
+#: 0105 R22: a ducal or fort ruin was built by the keep: inside the ruin place
+#: it takes the keep pool too (the keep stays exclusive everywhere else)
+KEEP_RUIN_TYPES = frozenset({"ducal-ruin"})
 
 
 def derive_setting_class(recipe: dict) -> str:
     """0105 R17: a type-recipes.json row's ``settingClass`` from its kind.
     lairs, lone curiosities and wild shrines are ``wild``; patrol shelters,
-    beacons and holding pits ``camp``; ``keep`` only for keeps and forts
-    (every other martial type is a ``camp``: a post, a ground or a prison
-    in the settlement pool); ruins ``ruin``; cities, free ports and
+    beacons and holding pits ``camp``; ``keep`` for forts, prisons and
+    watchtowers (R21; every other martial type is a ``camp``: a post, a
+    ground or a pit in the settlement pool); ruins ``ruin``; cities, free ports and
     ``-town``/``-city`` types ``town``; the rest ``village``."""
     cls, family, rtype = recipe.get("class"), recipe.get("family"), recipe.get("type") or ""
     if cls == "lair" or (cls == "lone" and family == "curiosity") or rtype in WILD_TYPES:
@@ -736,9 +742,12 @@ def derive_setting_class(recipe: dict) -> str:
 
 
 def derive_built_by(recipe: dict) -> str | None:
-    """0105 R16: the class whose pieces a ruin type adds to the ruin pool
-    (None: the ruin pool alone)."""
-    return "village" if recipe.get("type") in VILLAGE_RUIN_TYPES else None
+    """0105 R16/R22: the class whose pieces a ruin type adds to the ruin
+    pool (None: the ruin pool alone)."""
+    rtype = recipe.get("type")
+    if rtype in KEEP_RUIN_TYPES:
+        return "keep"
+    return "village" if rtype in VILLAGE_RUIN_TYPES else None
 
 
 def place_setting_class(recipe: dict | None) -> str | None:
@@ -750,13 +759,14 @@ def place_setting_class(recipe: dict | None) -> str | None:
 
 def place_pool(recipe: dict | None) -> frozenset | None:
     """The piece classes a place admits on axis ii: its class's pool, plus
-    the ``builtBy`` class's pool on a ruin (0105 R16); None: not judged."""
+    the ``builtBy`` class's pool on a ruin (0105 R16; a keep-built ruin
+    opens the keep pool inside the ruin place only, R22); None: not judged."""
     place_class = place_setting_class(recipe)
     if place_class is None:
         return None
     pool = SETTING_POOLS[place_class]
     built_by = (recipe or {}).get("builtBy")
-    if place_class == "ruin" and built_by in SETTING_POOLS and built_by != "keep":
+    if place_class == "ruin" and built_by in SETTING_POOLS:
         pool = pool | SETTING_POOLS[built_by]
     return pool
 
@@ -788,12 +798,13 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
     classes (over both settings) name some class fails when none of them is
     in ``pool`` (default the place class's ``SETTING_POOLS`` row; a ruin's
     ``builtBy`` widens it, ``place_pool``); a piece licensed only ``wild``
-    is judged on axis i alone. Rows without ``settingClass`` are
-    NOT_MEASURED."""
+    is judged on axis i alone, and so is one whose only classes the miner
+    left unlicensed for resting on fewer than 2 references (R23, the row's
+    ``classNotMeasured``: a warning names it NOT_MEASURED on axis ii). Rows without ``settingClass`` are NOT_MEASURED."""
     setting = "interior" if interior else "exterior"
     if pool is None:
         pool = SETTING_POOLS.get(place_class or "")
-    failures, warnings, unmeasured = [], [], set()
+    failures, warnings, unmeasured, thin = [], [], set(), []
     seen = set()
     for p in placements:
         if p.get("objectKind") == "effect":
@@ -816,10 +827,20 @@ def setting_failures(placements: list[dict], rows: dict, place_class: str | None
                             f"{' and '.join(where)} (n {n}; cells {cells})")
             continue
         classes = sorted({c for got in settings.values() for c in got if c in SETTING_CLASSES})
+        # 0105 R23: the miner names the classes it left unlicensed for
+        # resting on fewer than 2 references (``classNotMeasured``); with no
+        # licensed class left, axis ii is NOT_MEASURED for this piece
+        under = {c: k for got in (sc.get("classNotMeasured") or {}).values() for c, k in got.items()}
+        if pool and not classes and under:
+            thin.append(f"{p['assetId']} ({', '.join(f'{c} {k}' for c, k in sorted(under.items()))})")
         if pool and classes and not pool & set(classes):
             failures.append(f"0105 R9: {p['assetId']} stands in a {place_class}; its plugin places it "
                             f"in {classes} only, outside the {place_class} pool {sorted(pool)} "
                             f"(n {n}; cells {cells})")
+    if thin:
+        warnings.append(f"NOT_MEASURED: {len(thin)} piece(s) licensed on axis i whose social class "
+                        f"rests on fewer than 2 references (0105 R23), so axis ii is not judged: "
+                        f"{'; '.join(thin)}")
     return failures, warnings, sorted(unmeasured)
 
 

@@ -18612,6 +18612,500 @@
      ]
     }
    ]
+  },
+  {
+   "batch": "L13 held-out batch 12 (walk 3 L12: a reference more than one cell from its parent is keyed by the cell under its pivot)",
+   "seed": 20260945,
+   "date": "2026-09-28",
+   "round": "16k walk 3 L13",
+   "drawnFrom": "kit_assets() minus the golden ids, golden.left and every earlier held-out id (1325 ids), random.Random(seed).sample(sorted ids, 25); sample 40 refs per asset (sample_seed 20260923, per-asset seed)",
+   "expectationsWritten": "before the run, from names, kit and the record's placement counts; the drawing printout also showed the record's refClasses for the 5 placed ids (rockm02wet's expectation is contaminated and says so); /tmp/l13/batch12_expected.json",
+   "ids": [
+    {
+     "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+     "expected": "ground",
+     "parent": null,
+     "why": "small candle set on a floor or ledge, n 2"
+    },
+    {
+     "id": "bmv:landscape/trees/hangingvines1",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
+     "expected": "water",
+     "parent": null,
+     "why": "wet shoreline rock, bedded in shallows (n 34); refClasses were visible when this was written: contaminated"
+    },
+    {
+     "id": "tropical:landscape/trees/anvil_palm_trunk",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "vanilla:landscape/trees/treepineforestlog01",
+     "expected": "ground",
+     "parent": null,
+     "why": "fallen pine log on the land, n 81"
+    },
+    {
+     "id": "mudmother:gv_meshes/argoniannest/hangingshelf",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:architecture/citebosmer/houses/housetroncwindowet004",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "kotm:argonia/mudhuts/smpodint02",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "kotm:loliceptresource/barrel/miscbarrelopen01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:telvanni/tel_ramp_03",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02",
+     "expected": "ground",
+     "parent": null,
+     "why": "basement divider shell on the interior datum, n 1"
+    },
+    {
+     "id": "bmv:architecture/newcastle/wall/256/256wall02",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "kotm:argonia/mudhuts/overhang01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:plants/trees/banana_tree",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "vanilla:clutter/deadanimals/deadpondfish01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "vanilla:clutter/books/basicbook06",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "bmv:landscape/grass/ewplake07",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
+     "expected": "ground",
+     "parent": null,
+     "why": "never placed by its plugin in the record (n 0 or absent): unplaced ground"
+    },
+    {
+     "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
+     "expected": "water",
+     "parent": null,
+     "why": "ferry raft floats, n 1"
+    }
+   ],
+   "runs": [
+    {
+     "run": 1,
+     "date": "2026-09-28",
+     "mechanism": "contact as the M20 record plus walk-3 L12 pivot-cell keying (mine_mounts.place by_pivot)",
+     "pass": 23,
+     "of": 25,
+     "secs": 91,
+     "misses": "2, both expectation errors (discounted on the results); held-out 20260943 re-scored 24/25 with its known discounted miss; golden 25/25",
+     "results": [
+      {
+       "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": {
+        "ground": 2
+       },
+       "evidence": "thin",
+       "pass": true,
+       "abuts": {
+        "mudmother:gv_meshes/argoniannest/argonianplatform": 1
+       },
+       "share": 1.0,
+       "n": 2
+      },
+      {
+       "id": "bmv:landscape/trees/hangingvines1",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
+       "expected": "water",
+       "got": "ground",
+       "refClasses": {
+        "deck": 1,
+        "ground": 15,
+        "hanging": 1,
+        "wall": 1,
+        "water": 16
+       },
+       "evidence": null,
+       "pass": false,
+       "abuts": {
+        "vanilla:landscape/rocks/wetrocks/rockl02wet": 4,
+        "vanilla:landscape/rocks/wetrocks/rockm04wet": 3,
+        "vanilla:landscape/bridges/bridge01": 2,
+        "vanilla:landscape/rocks/rockcliff06": 2,
+        "plugin-static:landscape/volcanic/volcanicsteampool02.nif": 2,
+        "vanilla:dungeons/ship/shipwrecklarge04": 2,
+        "plugin-static:architecture/riften/rtcanalsplazal01lower01.nif": 2,
+        "plugin-static:dungeons/caves/ice/largehall/caveirhalldeadend01.nif": 1,
+        "plugin-static:dungeons/caves/ice/largeroom/caveilroommid01.nif": 1,
+        "plugin-static:dungeons/caves/ice/rocks/caveiboulderl01.nif": 1
+       },
+       "share": 0.471,
+       "n": 34,
+       "discounted": "expectation error: the expectation was written after the record's refClasses were seen (contaminated), and a wet rock is bedded on the bed or bank, not floating; the vote pools ground+deck+wall (17) over water (16), so ground is the geometry's answer"
+      },
+      {
+       "id": "tropical:landscape/trees/anvil_palm_trunk",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "vanilla:landscape/trees/treepineforestlog01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": {
+        "deck": 1,
+        "ground": 39
+       },
+       "evidence": null,
+       "pass": true,
+       "abuts": {
+        "plugin-static:landscape/trees/treepineforest05.nif": 11,
+        "plugin-static:landscape/trees/treepineforest03.nif": 10,
+        "plugin-static:landscape/trees/treepineforest02.nif": 8,
+        "plugin-static:landscape/trees/treepineforest04.nif": 7,
+        "plugin-static:plants/florathistle01.nif": 4,
+        "vanilla:landscape/plants/deadshrub01": 4,
+        "plugin-static:landscape/roads/roadcurvelong45r01.nif": 3,
+        "plugin-static:landscape/trees/treepineforest01.nif": 3,
+        "plugin-static:landscape/dirtcliffs/dirtcliffscornerout01.nif": 2,
+        "plugin-static:landscape/dirtcliffs/dirtcliffscornerin01.nif": 2
+       },
+       "share": 1.0,
+       "n": 40
+      },
+      {
+       "id": "mudmother:gv_meshes/argoniannest/hangingshelf",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "bmv:architecture/citebosmer/houses/housetroncwindowet004",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "kotm:argonia/mudhuts/smpodint02",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "kotm:loliceptresource/barrel/miscbarrelopen01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": {
+        "deck": 3,
+        "free": 2,
+        "ground": 21,
+        "hanging": 1,
+        "wall": 2
+       },
+       "evidence": null,
+       "pass": true,
+       "abuts": {
+        "kotm:argonia/furniture/rusticcupboard": 1,
+        "plugin-static:argonia/blackwood/thatchhouse06.nif": 1,
+        "plugin-static:argonia/blackwood/plankwall01b.nif": 1,
+        "plugin-static:argonia/blackwood/plankwall02b.nif": 1
+       },
+       "share": 0.897,
+       "n": 29
+      },
+      {
+       "id": "bmv:telvanni/tel_ramp_03",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": {
+        "ground": 1
+       },
+       "evidence": "thin",
+       "pass": true,
+       "abuts": {
+        "plugin-static:clutter/pelts/pelthanging01.nif": 1,
+        "plugin-static:clutter/pelts/pelthanging02.nif": 1,
+        "vanilla:architecture/farmhouse/interior/basement/farmbdivider01": 1,
+        "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02": 1
+       },
+       "share": 1.0,
+       "n": 1
+      },
+      {
+       "id": "bmv:architecture/newcastle/wall/256/256wall02",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "kotm:argonia/mudhuts/overhang01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "bmv:plants/trees/banana_tree",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "vanilla:clutter/deadanimals/deadpondfish01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": {
+        "deck": 1,
+        "wall": 1
+       },
+       "evidence": "thin",
+       "pass": true,
+       "share": 0.0,
+       "n": 2
+      },
+      {
+       "id": "vanilla:clutter/books/basicbook06",
+       "expected": "ground",
+       "got": "deck",
+       "refClasses": {
+        "deck": 19,
+        "free": 3,
+        "ground": 15,
+        "hanging": 2,
+        "wall": 1
+       },
+       "evidence": null,
+       "pass": false,
+       "restsOnOnly": 1,
+       "abuts": {
+        "vanilla:clutter/books/basicbook03": 4,
+        "vanilla:clutter/books/book02lowpoly": 3,
+        "vanilla:clutter/books/basicbook04a": 2,
+        "vanilla:clutter/books/basicbook01": 1,
+        "vanilla:architecture/farmhouse/interior/farmintlhlofttop01": 1,
+        "plugin-static:clutter/ruins/ruinshelflargefull01.nif": 1,
+        "vanilla:clutter/common/cupboard01": 1,
+        "plugin-static:furniture/noble/nobleshelf02.nif": 1
+       },
+       "share": 0.925,
+       "n": 40,
+       "discounted": "expectation error: the id is absent from the record's anchors, which was read as unplaced; the book is placed (n 40 sampled) and rests on furniture tops (deck 19): it stands on a non-kit piece (skill step 15)"
+      },
+      {
+       "id": "bmv:landscape/grass/ewplake07",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
+       "expected": "ground",
+       "got": "ground",
+       "refClasses": null,
+       "evidence": null,
+       "pass": true,
+       "n": 0
+      },
+      {
+       "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
+       "expected": "water",
+       "got": "water",
+       "refClasses": {
+        "water": 1
+       },
+       "evidence": "thin",
+       "pass": true,
+       "share": 1.0,
+       "n": 1,
+       "waterline": {
+        "p50": 0.12,
+        "n": 1,
+        "evidence": "policy",
+        "policyId": "stilt"
+       }
+      }
+     ]
+    }
+   ]
   }
  ]
 }
