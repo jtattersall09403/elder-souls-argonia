@@ -58,7 +58,8 @@
     "tell": "post-foot",
     "valueM": -0.9918
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -116,7 +117,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -174,7 +176,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -239,7 +242,8 @@
     "tell": "post-foot",
     "valueM": -4.0803
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -305,7 +309,8 @@
     "tell": "floor-plane",
     "valueM": 3.0236
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -365,7 +370,8 @@
     "tell": "post-foot",
     "valueM": 3.3952
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -425,7 +431,8 @@
     "tell": "post-foot",
     "valueM": -0.6432
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -481,7 +488,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -539,7 +547,8 @@
     "tell": "floor-plane",
     "valueM": -0.2537
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/telv_platform01",
@@ -597,7 +606,8 @@
     "tell": "floor-plane",
     "valueM": -0.3672
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/commontabletwobenches",
@@ -661,7 +671,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/common/commonbench01",
@@ -719,13 +730,14 @@
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
-    "p75": 0.0441,
-    "n": 80,
-    "slopeTermMPerDeg": 0.00261,
+    "p75": 0.0559,
+    "n": 88,
+    "slopeTermMPerDeg": 0.00366,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
@@ -781,7 +793,8 @@
     "tell": "floor-plane",
     "valueM": 0.0079
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven",
@@ -839,7 +852,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0007
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/furniture/brazier",
@@ -903,7 +917,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -959,15 +974,64 @@
     }
    },
    "designedSinkM": {
-    "p25": -0.0067,
-    "p50": 0.0048,
-    "p75": 0.1078,
-    "n": 565,
-    "slopeTermMPerDeg": -0.00128,
+    "p25": -0.0053,
+    "p50": 0.0045,
+    "p75": 0.1057,
+    "n": 569,
+    "slopeTermMPerDeg": -0.00117,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 3183,
+    "interior": {
+     "wild": 206,
+     "town": 1135,
+     "keep": 256,
+     "ruin": 303,
+     "village": 114,
+     "camp": 227
+    },
+    "exterior": {
+     "village": 76,
+     "wild": 204,
+     "camp": 122,
+     "ruin": 130,
+     "town": 344,
+     "keep": 66
+    },
+    "sourceCells": [
+     "interior:town:SolitudeRedWave",
+     "interior:town:HonningbrewMeadery01",
+     "exterior:wild:Tamriel",
+     "exterior:town:RiftenLocation",
+     "exterior:town:SolitudeLocation",
+     "exterior:town:WindhelmLocation",
+     "interior:ruin:PotemasCatacombs01",
+     "exterior:wild:EastEmpireWarehouseLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\bmv-treehouse-int.glb",

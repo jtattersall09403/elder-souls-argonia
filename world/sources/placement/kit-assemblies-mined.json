@@ -253263,12 +253263,12 @@
   "schemaVersion": 3,
   "provenance": {
    "miner": "worldgen.mine_abuts",
-   "minerVersion": "e4ac88d542d4",
-   "runDate": "2026-09-26",
+   "minerVersion": "201e4cf9f5fb",
+   "runDate": "2026-09-28",
    "poolRegister": {
     "source": "worldgen.asset_registry.POOLS",
-    "date": "2026-09-25",
-    "uncommittedChanges": true,
+    "date": "2026-09-27",
+    "uncommittedChanges": false,
     "pools": [
      "bmv",
      "vanilla",
@@ -253370,14 +253370,14 @@
    "only": []
   },
   "stats": {
-   "abutFaceBand": 950,
-   "abutSidePatch": 3812,
-   "boxPairs": 30256,
-   "candidates": 48336,
-   "contact_side": 7566,
-   "contact_top": 5940,
-   "contact_under": 2899,
-   "pivotInsideParent": 8693,
+   "abutFaceBand": 1006,
+   "abutSidePatch": 4951,
+   "boxPairs": 195847,
+   "candidates": 236008,
+   "contact_side": 35724,
+   "contact_top": 18046,
+   "contact_under": 23444,
+   "pivotInsideParent": 67439,
    "meshesMissing": 0
   },
   "pairs": [
@@ -255318,6 +255318,28 @@
     "sourceSet": "vanilla"
    },
    {
+    "parent": "vanilla:architecture/farmhouse/farmhouse02",
+    "child": "vanilla:architecture/farmhouse/farmhouse02walkway",
+    "parentPiece": "farmhouse02",
+    "childPiece": "farmhouse02walkway",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.02,
+     -8.23,
+     0.0
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.04,
+    "count": 4,
+    "offsetSpreadM": 0.049,
+    "contactPoints": 16,
+    "sourceSet": "vanilla"
+   },
+   {
     "parent": "vanilla:architecture/farmhouse/fencewoven01",
     "child": "vanilla:architecture/farmhouse/fencewoven01",
     "parentPiece": "fencewoven01",
@@ -256924,6 +256946,28 @@
     "sourceSet": "vanilla"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.97,
+     1.05,
+     0.34
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.68,
+    "yawDeg": 137.33,
+    "count": 64,
+    "offsetSpreadM": 0.119,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent01",
     "child": "vanilla:architecture/docks/dockstrent02",
     "parentPiece": "dockstrent01",
@@ -256968,6 +257012,50 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.2,
+     0.72,
+     0.36
+    ],
+    "riseMinM": -0.44,
+    "riseMaxM": 0.41,
+    "yawDeg": 39.84,
+    "count": 42,
+    "offsetSpreadM": 0.216,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.3,
+     0.02,
+     0.43
+    ],
+    "riseMinM": 0.28,
+    "riseMaxM": 0.68,
+    "yawDeg": 337.08,
+    "count": 42,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent03",
     "child": "vanilla:architecture/docks/dockstrent03",
     "parentPiece": "dockstrent03",
@@ -256987,6 +257075,94 @@
     "count": 32,
     "offsetSpreadM": 0.241,
     "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.19,
+     0.7,
+     0.36
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.41,
+    "yawDeg": 40.11,
+    "count": 30,
+    "offsetSpreadM": 0.103,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 0.8,
+    "offsetM": [
+     -2.3,
+     0.02,
+     0.34
+    ],
+    "riseMinM": 0.16,
+    "riseMaxM": 0.47,
+    "yawDeg": 337.08,
+    "count": 30,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.42,
+     0.59,
+     -0.37
+    ],
+    "riseMinM": -0.7,
+    "riseMaxM": -0.02,
+    "yawDeg": 57.3,
+    "count": 29,
+    "offsetSpreadM": 0.078,
+    "contactPoints": 17,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.18,
+     0.54,
+     0.54
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.78,
+    "yawDeg": 359.87,
+    "count": 29,
+    "offsetSpreadM": 0.164,
+    "contactPoints": 5,
     "sourceSet": "bmv-blackmarsh"
    },
    {
@@ -257034,6 +257210,28 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.1,
+    "offsetM": [
+     -1.78,
+     1.11,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 57.3,
+    "count": 24,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent03",
     "child": "vanilla:architecture/docks/dockstrent03",
     "parentPiece": "dockstrent03",
@@ -257051,6 +257249,160 @@
     "riseMaxM": 0.0,
     "yawDeg": 183.35,
     "count": 24,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.11,
+     0.72,
+     -0.28
+    ],
+    "riseMinM": -0.56,
+    "riseMaxM": 0.0,
+    "yawDeg": 34.38,
+    "count": 22,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 31,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.36
+    ],
+    "riseMinM": 0.24,
+    "riseMaxM": 0.46,
+    "yawDeg": 194.71,
+    "count": 20,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 0.9,
+    "offsetM": [
+     2.13,
+     0.87,
+     -0.23
+    ],
+    "riseMinM": -0.54,
+    "riseMaxM": 0.01,
+    "yawDeg": 314.16,
+    "count": 19,
+    "offsetSpreadM": 0.051,
+    "contactPoints": 12,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.13
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": 0.13,
+    "yawDeg": 45.84,
+    "count": 18,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 26,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.56,
+     0.79,
+     -0.6
+    ],
+    "riseMinM": -0.9,
+    "riseMaxM": -0.34,
+    "yawDeg": 57.3,
+    "count": 18,
+    "offsetSpreadM": 0.102,
+    "contactPoints": 19,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 0.9,
+    "offsetM": [
+     -2.29,
+     0.02,
+     0.34
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.58,
+    "yawDeg": 337.08,
+    "count": 18,
+    "offsetSpreadM": 0.041,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.62
+    ],
+    "riseMinM": 0.29,
+    "riseMaxM": 0.9,
+    "yawDeg": 161.39,
+    "count": 18,
     "offsetSpreadM": 0.0,
     "contactPoints": 4,
     "sourceSet": "bmv-blackmarsh"
@@ -257078,6 +257430,160 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.92,
+     0.18,
+     -0.12
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": -0.12,
+    "yawDeg": 172.85,
+    "count": 16,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 18,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.3,
+    "offsetM": [
+     -2.22,
+     1.39,
+     0.16
+    ],
+    "riseMinM": 0.16,
+    "riseMaxM": 0.16,
+    "yawDeg": 57.3,
+    "count": 16,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.14,
+     0.68,
+     0.36
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": 0.89,
+    "yawDeg": 39.35,
+    "count": 15,
+    "offsetSpreadM": 0.217,
+    "contactPoints": 15,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     0.14,
+     -0.65,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.11,
+    "yawDeg": 115.49,
+    "count": 15,
+    "offsetSpreadM": 0.096,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.2,
+    "offsetM": [
+     2.82,
+     1.16,
+     -0.03
+    ],
+    "riseMinM": -0.38,
+    "riseMaxM": 0.0,
+    "yawDeg": 314.16,
+    "count": 15,
+    "offsetSpreadM": 0.054,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.27
+    ],
+    "riseMinM": 0.19,
+    "riseMaxM": 0.36,
+    "yawDeg": 57.3,
+    "count": 14,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.34,
+     0.9,
+     -0.39
+    ],
+    "riseMinM": -0.44,
+    "riseMaxM": -0.39,
+    "yawDeg": 304.63,
+    "count": 14,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "bmv:architecture/huts/exterior/bridge01",
     "child": "bmv:architecture/huts/exterior/bridge01",
     "parentPiece": "bridge01",
@@ -257100,6 +257606,72 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 45.84,
+    "count": 12,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 25,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.27
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": -0.27,
+    "yawDeg": 103.13,
+    "count": 12,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.29
+    ],
+    "riseMinM": 0.24,
+    "riseMaxM": 0.56,
+    "yawDeg": 91.67,
+    "count": 11,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 15,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:effects/fxwaterfallthin4096x256",
     "child": "vanilla:effects/fxwaterfallthin4096x256",
     "parentPiece": "fxwaterfallthin4096x256",
@@ -257119,6 +257691,116 @@
     "count": 11,
     "offsetSpreadM": 0.257,
     "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.1,
+    "offsetM": [
+     0.44,
+     0.62,
+     -0.48
+    ],
+    "riseMinM": -0.72,
+    "riseMaxM": -0.02,
+    "yawDeg": 57.3,
+    "count": 10,
+    "offsetSpreadM": 0.06,
+    "contactPoints": 19,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     2.1,
+     1.21,
+     -0.29
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": 0.0,
+    "yawDeg": 121.28,
+    "count": 10,
+    "offsetSpreadM": 0.083,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     1.03,
+     1.97,
+     0.43
+    ],
+    "riseMinM": 0.28,
+    "riseMaxM": 0.67,
+    "yawDeg": 268.33,
+    "count": 10,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.3,
+     0.62,
+     -0.05
+    ],
+    "riseMinM": -0.05,
+    "riseMaxM": 0.0,
+    "yawDeg": 316.07,
+    "count": 10,
+    "offsetSpreadM": 0.225,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.1,
+    "offsetM": [
+     -2.25,
+     0.98,
+     0.55
+    ],
+    "riseMinM": 0.17,
+    "riseMaxM": 0.69,
+    "yawDeg": 22.92,
+    "count": 10,
+    "offsetSpreadM": 0.06,
+    "contactPoints": 8,
     "sourceSet": "bmv-blackmarsh"
    },
    {
@@ -257166,6 +257848,182 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 45.84,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 26,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     2.27,
+     0.93,
+     -0.37
+    ],
+    "riseMinM": -0.57,
+    "riseMaxM": 0.01,
+    "yawDeg": 314.16,
+    "count": 9,
+    "offsetSpreadM": 0.059,
+    "contactPoints": 10,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.37
+    ],
+    "riseMinM": 0.29,
+    "riseMaxM": 0.55,
+    "yawDeg": 137.51,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.35,
+     -0.71,
+     0.95
+    ],
+    "riseMinM": 0.95,
+    "riseMaxM": 0.95,
+    "yawDeg": 262.6,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.36
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.37,
+    "yawDeg": 114.59,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.1,
+    "offsetM": [
+     -2.25,
+     0.97,
+     0.46
+    ],
+    "riseMinM": 0.31,
+    "riseMaxM": 0.71,
+    "yawDeg": 22.92,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.06,
+     0.6,
+     0.1
+    ],
+    "riseMinM": -0.14,
+    "riseMaxM": 0.19,
+    "yawDeg": 301.85,
+    "count": 9,
+    "offsetSpreadM": 0.225,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.37
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.39,
+    "yawDeg": 253.06,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:clutter/barrel02",
     "child": "vanilla:clutter/barrel02",
     "parentPiece": "barrel02",
@@ -257210,6 +258068,138 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     1.92,
+     0.18,
+     -0.12
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": -0.12,
+    "yawDeg": 149.93,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.15,
+     -0.68,
+     0.02
+    ],
+    "riseMinM": 0.02,
+    "riseMaxM": 0.02,
+    "yawDeg": 101.21,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.2
+    ],
+    "riseMinM": 0.01,
+    "riseMaxM": 0.39,
+    "yawDeg": 194.56,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 17,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     0.08,
+     -0.57,
+     0.13
+    ],
+    "riseMinM": -0.54,
+    "riseMaxM": 0.18,
+    "yawDeg": 137.51,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.2,
+    "offsetM": [
+     -2.3,
+     0.02,
+     -0.08
+    ],
+    "riseMinM": -0.19,
+    "riseMaxM": -0.07,
+    "yawDeg": 337.08,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -1.01,
+     1.42,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 279.79,
+    "count": 8,
+    "offsetSpreadM": 0.071,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent03",
     "child": "vanilla:architecture/docks/dockstrent03",
     "parentPiece": "dockstrent03",
@@ -257229,6 +258219,270 @@
     "count": 8,
     "offsetSpreadM": 0.067,
     "contactPoints": 20,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.24,
+     0.73,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.49,
+    "yawDeg": 45.84,
+    "count": 7,
+    "offsetSpreadM": 0.168,
+    "contactPoints": 51,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     1.8,
+     1.32,
+     0.2
+    ],
+    "riseMinM": -0.1,
+    "riseMaxM": 0.56,
+    "yawDeg": 116.1,
+    "count": 7,
+    "offsetSpreadM": 0.235,
+    "contactPoints": 16,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.07,
+     0.58,
+     0.54
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.54,
+    "yawDeg": 57.3,
+    "count": 6,
+    "offsetSpreadM": 0.054,
+    "contactPoints": 13,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 45.84,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 18,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.2,
+    "offsetM": [
+     1.96,
+     1.05,
+     0.32
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.43,
+    "yawDeg": 302.7,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.17,
+     1.57,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 218.69,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     1.37,
+     2.63,
+     0.37
+    ],
+    "riseMinM": -0.25,
+    "riseMaxM": 0.89,
+    "yawDeg": 268.33,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.22,
+     0.67,
+     -0.05
+    ],
+    "riseMinM": -0.05,
+    "riseMaxM": -0.02,
+    "yawDeg": 303.35,
+    "count": 6,
+    "offsetSpreadM": 0.102,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.3,
+     0.04,
+     0.29
+    ],
+    "riseMinM": 0.28,
+    "riseMaxM": 0.54,
+    "yawDeg": 0.0,
+    "count": 6,
+    "offsetSpreadM": 0.041,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.28,
+     -0.38,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 314.16,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.17,
+     1.57,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 298.9,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -1.56,
+     -0.74,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 253.06,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
     "sourceSet": "bmv-blackmarsh"
    },
    {
@@ -257254,6 +258508,28 @@
     "sourceSet": "bmv-blackmarsh"
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.24,
+     0.67,
+     -0.37
+    ],
+    "riseMinM": -0.37,
+    "riseMaxM": -0.02,
+    "yawDeg": 280.56,
+    "count": 5,
+    "offsetSpreadM": 0.117,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
     "parent": "vanilla:clutter/barrel01",
     "child": "vanilla:clutter/barrel01",
     "parentPiece": "barrel01",
@@ -257273,6 +258549,292 @@
     "count": 5,
     "offsetSpreadM": 0.233,
     "contactPoints": 111,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.48
+    ],
+    "riseMinM": 0.43,
+    "riseMaxM": 0.48,
+    "yawDeg": 57.3,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 23,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.27,
+     0.82,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.18,
+    "yawDeg": 33.43,
+    "count": 4,
+    "offsetSpreadM": 0.2,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.19,
+     1.21,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 80.21,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     2.02,
+     1.19,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 121.28,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     2.15,
+     1.44,
+     -0.08
+    ],
+    "riseMinM": -0.08,
+    "riseMaxM": -0.08,
+    "yawDeg": 115.56,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.33,
+     0.68,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 57.3,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.33,
+     0.86,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 80.21,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     2.61,
+     1.4,
+     0.37
+    ],
+    "riseMinM": -0.01,
+    "riseMaxM": 0.37,
+    "yawDeg": 137.51,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -0.63,
+     -0.63,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 253.06,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.27
+    ],
+    "riseMinM": 0.27,
+    "riseMaxM": 0.27,
+    "yawDeg": 238.72,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.94,
+     0.73,
+     -0.02
+    ],
+    "riseMinM": -0.02,
+    "riseMaxM": -0.02,
+    "yawDeg": 172.85,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.52,
+     0.74,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 314.16,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.1,
+     0.71,
+     0.18
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": 0.18,
+    "yawDeg": 333.28,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 19,
     "sourceSet": "bmv-blackmarsh"
    },
    {
@@ -257427,6 +258989,446 @@
     "count": 3,
     "offsetSpreadM": 0.047,
     "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.22,
+     0.76,
+     0.95
+    ],
+    "riseMinM": 0.95,
+    "riseMaxM": 0.95,
+    "yawDeg": 40.11,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.9,
+    "offsetM": [
+     1.19,
+     1.21,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 80.21,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 10,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.08,
+     0.68,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 17.19,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.33
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": -0.33,
+    "yawDeg": 58.26,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     2.42,
+     1.71,
+     -0.13
+    ],
+    "riseMinM": -0.13,
+    "riseMaxM": 0.27,
+    "yawDeg": 115.56,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.03
+    ],
+    "riseMinM": 0.03,
+    "riseMaxM": 0.03,
+    "yawDeg": 218.69,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.11,
+     -0.57,
+     -0.89
+    ],
+    "riseMinM": -0.89,
+    "riseMaxM": -0.89,
+    "yawDeg": 131.78,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.23
+    ],
+    "riseMinM": 0.23,
+    "riseMaxM": 0.27,
+    "yawDeg": 158.5,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 22,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.04
+    ],
+    "riseMinM": 0.04,
+    "riseMaxM": 0.15,
+    "yawDeg": 137.51,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 12,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.23
+    ],
+    "riseMinM": 0.23,
+    "riseMaxM": 0.27,
+    "yawDeg": 158.5,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.87,
+     -0.75,
+     0.84
+    ],
+    "riseMinM": 0.84,
+    "riseMaxM": 0.84,
+    "yawDeg": 258.79,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.22
+    ],
+    "riseMinM": -0.22,
+    "riseMaxM": -0.22,
+    "yawDeg": 161.39,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 24,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.23,
+     0.77,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 298.9,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "+y",
+    "childFace": "-y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.09,
+     0.85,
+     0.22
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.22,
+    "yawDeg": 57.3,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.67,
+     0.19,
+     0.35
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.35,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.15,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -2.15,
+     0.55,
+     -0.19
+    ],
+    "riseMinM": -0.25,
+    "riseMaxM": -0.16,
+    "yawDeg": 165.19,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.27
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": -0.27,
+    "yawDeg": 325.62,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -1.44,
+     1.14,
+     0.15
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.15,
+    "yawDeg": 240.64,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 13,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -1.46,
+     1.77,
+     -0.1
+    ],
+    "riseMinM": -0.1,
+    "riseMaxM": -0.1,
+    "yawDeg": 253.06,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh"
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot01",
+    "parentPiece": "tramaroot01",
+    "childPiece": "tramaroot01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 325.62,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
     "sourceSet": "bmv-blackmarsh"
    },
    {
@@ -258090,6 +260092,28 @@
     "sourceSet": "bmv-valenwood"
    },
    {
+    "parent": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "child": "bmv:architecture/phitt/aldredanyia/signpost",
+    "parentPiece": "passl128i01",
+    "childPiece": "signpost",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     0.62,
+     -2.34,
+     2.95
+    ],
+    "riseMinM": 2.95,
+    "riseMaxM": 3.34,
+    "yawDeg": 33.38,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 88,
+    "sourceSet": "bmv-valenwood"
+   },
+   {
     "parent": "bmv:architecture/newcastle/wall/1024/1024wall01",
     "child": "bmv:architecture/newcastle/wall/1024/1024wall01",
     "parentPiece": "1024wall01",
@@ -258354,6 +260378,28 @@
     "sourceSet": "htbm"
    },
    {
+    "parent": "vanilla:clutter/books/book02lowpoly",
+    "child": "vanilla:clutter/books/basicbook06",
+    "parentPiece": "book02lowpoly",
+    "childPiece": "basicbook06",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.22,
+     -0.21,
+     0.03
+    ],
+    "riseMinM": 0.01,
+    "riseMaxM": 0.1,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.064,
+    "contactPoints": 204,
+    "sourceSet": "htbm"
+   },
+   {
     "parent": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
     "child": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
     "parentPiece": "mwimparchfoundation01",
@@ -258398,6 +260444,28 @@
     "sourceSet": "kotm"
    },
    {
+    "parent": "kotm:argonia/blackwood/docksendnopost",
+    "child": "kotm:argonia/blackwood/docksendnopost",
+    "parentPiece": "docksendnopost",
+    "childPiece": "docksendnopost",
+    "parentFace": "+y",
+    "childFace": "-y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.0,
+     3.66,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 8,
+    "offsetSpreadM": 0.018,
+    "contactPoints": 37,
+    "sourceSet": "kotm"
+   },
+   {
     "parent": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
     "child": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
     "parentPiece": "mwimparchledgemid02",
@@ -258417,6 +260485,28 @@
     "count": 8,
     "offsetSpreadM": 0.005,
     "contactPoints": 9,
+    "sourceSet": "kotm"
+   },
+   {
+    "parent": "kotm:argonia/blackwood/docksend",
+    "child": "kotm:argonia/blackwood/docksend",
+    "parentPiece": "docksend",
+    "childPiece": "docksend",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.61,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 5,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
     "sourceSet": "kotm"
    },
    {
@@ -258483,6 +260573,28 @@
     "count": 4,
     "offsetSpreadM": 0.0,
     "contactPoints": 15,
+    "sourceSet": "kotm"
+   },
+   {
+    "parent": "kotm:argonia/blackwood/docksendnopost",
+    "child": "kotm:argonia/blackwood/docksendnopost",
+    "parentPiece": "docksendnopost",
+    "childPiece": "docksendnopost",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.59,
+     0.01,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 179.95,
+    "count": 3,
+    "offsetSpreadM": 0.008,
+    "contactPoints": 8,
     "sourceSet": "kotm"
    },
    {
@@ -260566,6 +262678,31 @@
     }
    },
    {
+    "parent": "vanilla:architecture/farmhouse/farmhouse",
+    "child": "vanilla:architecture/farmhouse/farmhouse02walkway",
+    "parentPiece": "farmhouse",
+    "childPiece": "farmhouse02walkway",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.02,
+     -8.23,
+     0.0
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.04,
+    "count": 4,
+    "offsetSpreadM": 0.049,
+    "contactPoints": 16,
+    "sourceSet": "vanilla",
+    "members": {
+     "farmhouse02>farmhouse02walkway": 4
+    }
+   },
+   {
     "parent": "vanilla:architecture/farmhouse/fencewoven",
     "child": "vanilla:architecture/farmhouse/fencewoven",
     "parentPiece": "fencewoven",
@@ -262274,6 +264411,81 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.97,
+     1.05,
+     0.34
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.68,
+    "yawDeg": 137.33,
+    "count": 64,
+    "offsetSpreadM": 0.119,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 64
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.2,
+     0.72,
+     0.36
+    ],
+    "riseMinM": -0.44,
+    "riseMaxM": 0.41,
+    "yawDeg": 39.84,
+    "count": 42,
+    "offsetSpreadM": 0.216,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 42
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     2.11,
+     -0.91,
+     -0.43
+    ],
+    "riseMinM": -0.68,
+    "riseMaxM": -0.28,
+    "yawDeg": 22.92,
+    "count": 42,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 42
+    }
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent",
     "child": "vanilla:architecture/docks/dockstrent",
     "parentPiece": "dockstrent",
@@ -262296,6 +264508,106 @@
     "sourceSet": "bmv-blackmarsh",
     "members": {
      "dockstrent03>dockstrent03": 32
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.19,
+     0.7,
+     0.36
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.41,
+    "yawDeg": 40.11,
+    "count": 30,
+    "offsetSpreadM": 0.103,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 30
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.3,
+    "offsetM": [
+     2.81,
+     -1.21,
+     -0.46
+    ],
+    "riseMinM": -0.62,
+    "riseMaxM": -0.22,
+    "yawDeg": 22.92,
+    "count": 30,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 30
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.42,
+     0.59,
+     -0.37
+    ],
+    "riseMinM": -0.7,
+    "riseMaxM": -0.02,
+    "yawDeg": 57.3,
+    "count": 29,
+    "offsetSpreadM": 0.078,
+    "contactPoints": 17,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 29
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.18,
+     0.54,
+     0.54
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.78,
+    "yawDeg": 359.87,
+    "count": 29,
+    "offsetSpreadM": 0.164,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 29
     }
    },
    {
@@ -262324,6 +264636,31 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.1,
+    "offsetM": [
+     -1.78,
+     1.11,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 57.3,
+    "count": 24,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 24
+    }
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent",
     "child": "vanilla:architecture/docks/dockstrent",
     "parentPiece": "dockstrent",
@@ -262346,6 +264683,181 @@
     "sourceSet": "bmv-blackmarsh",
     "members": {
      "dockstrent03>dockstrent03": 24
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.11,
+     0.72,
+     -0.28
+    ],
+    "riseMinM": -0.56,
+    "riseMaxM": 0.0,
+    "yawDeg": 34.38,
+    "count": 22,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 31,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 22
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.36
+    ],
+    "riseMinM": 0.24,
+    "riseMaxM": 0.46,
+    "yawDeg": 194.71,
+    "count": 20,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 20
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 0.9,
+    "offsetM": [
+     2.13,
+     0.87,
+     -0.23
+    ],
+    "riseMinM": -0.54,
+    "riseMaxM": 0.01,
+    "yawDeg": 314.16,
+    "count": 19,
+    "offsetSpreadM": 0.051,
+    "contactPoints": 12,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 19
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.13
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": 0.13,
+    "yawDeg": 45.84,
+    "count": 18,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 26,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 18
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.56,
+     0.79,
+     -0.6
+    ],
+    "riseMinM": -0.9,
+    "riseMaxM": -0.34,
+    "yawDeg": 57.3,
+    "count": 18,
+    "offsetSpreadM": 0.102,
+    "contactPoints": 19,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 18
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.1,
+    "offsetM": [
+     2.24,
+     -0.97,
+     -0.37
+    ],
+    "riseMinM": -0.62,
+    "riseMaxM": 0.0,
+    "yawDeg": 22.92,
+    "count": 18,
+    "offsetSpreadM": 0.044,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 18
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.62
+    ],
+    "riseMinM": 0.29,
+    "riseMaxM": 0.9,
+    "yawDeg": 161.39,
+    "count": 18,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 18
     }
    },
    {
@@ -262374,6 +264886,181 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.92,
+     0.18,
+     -0.12
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": -0.12,
+    "yawDeg": 172.85,
+    "count": 16,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 18,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 16
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.3,
+    "offsetM": [
+     -2.22,
+     1.39,
+     0.16
+    ],
+    "riseMinM": 0.16,
+    "riseMaxM": 0.16,
+    "yawDeg": 57.3,
+    "count": 16,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 16
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.14,
+     0.68,
+     0.36
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": 0.89,
+    "yawDeg": 39.35,
+    "count": 15,
+    "offsetSpreadM": 0.217,
+    "contactPoints": 15,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 15
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.2,
+    "offsetM": [
+     2.82,
+     1.16,
+     -0.03
+    ],
+    "riseMinM": -0.38,
+    "riseMaxM": 0.0,
+    "yawDeg": 314.16,
+    "count": 15,
+    "offsetSpreadM": 0.054,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 15
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.27
+    ],
+    "riseMinM": 0.19,
+    "riseMaxM": 0.36,
+    "yawDeg": 57.3,
+    "count": 14,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 14
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.71,
+     -0.54,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 244.44,
+    "count": 14,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 14
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.34,
+     0.9,
+     -0.39
+    ],
+    "riseMinM": -0.44,
+    "riseMaxM": -0.39,
+    "yawDeg": 304.63,
+    "count": 14,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 14
+    }
+   },
+   {
     "parent": "bmv:architecture/huts/exterior/bridge",
     "child": "bmv:architecture/huts/exterior/bridge",
     "parentPiece": "bridge",
@@ -262399,6 +265086,81 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 45.84,
+    "count": 12,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 25,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 12
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.27
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": -0.27,
+    "yawDeg": 103.13,
+    "count": 12,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 12
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.29
+    ],
+    "riseMinM": 0.24,
+    "riseMaxM": 0.56,
+    "yawDeg": 91.67,
+    "count": 11,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 15,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 11
+    }
+   },
+   {
     "parent": "vanilla:effects/fxwaterfallthin4096x",
     "child": "vanilla:effects/fxwaterfallthin4096x",
     "parentPiece": "fxwaterfallthin4096x",
@@ -262421,6 +265183,131 @@
     "sourceSet": "bmv-blackmarsh",
     "members": {
      "fxwaterfallthin4096x256>fxwaterfallthin4096x256": 11
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.1,
+    "offsetM": [
+     0.44,
+     0.62,
+     -0.48
+    ],
+    "riseMinM": -0.72,
+    "riseMaxM": -0.02,
+    "yawDeg": 57.3,
+    "count": 10,
+    "offsetSpreadM": 0.06,
+    "contactPoints": 19,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 10
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     2.1,
+     1.21,
+     -0.29
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": 0.0,
+    "yawDeg": 121.28,
+    "count": 10,
+    "offsetSpreadM": 0.083,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 10
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     1.03,
+     1.97,
+     0.43
+    ],
+    "riseMinM": 0.28,
+    "riseMaxM": 0.67,
+    "yawDeg": 268.33,
+    "count": 10,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 10
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.3,
+     0.62,
+     -0.05
+    ],
+    "riseMinM": -0.05,
+    "riseMaxM": 0.0,
+    "yawDeg": 316.07,
+    "count": 10,
+    "offsetSpreadM": 0.225,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 10
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.1,
+    "offsetM": [
+     -2.25,
+     0.98,
+     0.55
+    ],
+    "riseMinM": 0.17,
+    "riseMaxM": 0.69,
+    "yawDeg": 22.92,
+    "count": 10,
+    "offsetSpreadM": 0.06,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 10
     }
    },
    {
@@ -262474,6 +265361,206 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 45.84,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 26,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.88,
+     -0.59,
+     -1.26
+    ],
+    "riseMinM": -1.26,
+    "riseMaxM": -1.26,
+    "yawDeg": 97.4,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     2.27,
+     0.93,
+     -0.37
+    ],
+    "riseMinM": -0.57,
+    "riseMaxM": 0.01,
+    "yawDeg": 314.16,
+    "count": 9,
+    "offsetSpreadM": 0.059,
+    "contactPoints": 10,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.37
+    ],
+    "riseMinM": 0.29,
+    "riseMaxM": 0.55,
+    "yawDeg": 137.51,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.36
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.37,
+    "yawDeg": 114.59,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.1,
+    "offsetM": [
+     -2.25,
+     0.97,
+     0.46
+    ],
+    "riseMinM": 0.31,
+    "riseMaxM": 0.71,
+    "yawDeg": 22.92,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.06,
+     0.6,
+     0.1
+    ],
+    "riseMinM": -0.14,
+    "riseMaxM": 0.19,
+    "yawDeg": 301.85,
+    "count": 9,
+    "offsetSpreadM": 0.225,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.37
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.39,
+    "yawDeg": 253.06,
+    "count": 9,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 9
+    }
+   },
+   {
     "parent": "vanilla:effects/fxwaterfallmistblast",
     "child": "vanilla:effects/fxwaterfallmistblast",
     "parentPiece": "fxwaterfallmistblast",
@@ -262496,6 +265583,431 @@
     "sourceSet": "bmv-blackmarsh",
     "members": {
      "fxwaterfallmistblast>fxwaterfallmistblast": 9
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     1.92,
+     0.18,
+     -0.12
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": -0.12,
+    "yawDeg": 149.93,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.2
+    ],
+    "riseMinM": 0.01,
+    "riseMaxM": 0.39,
+    "yawDeg": 194.56,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 17,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 0.8,
+    "offsetM": [
+     1.69,
+     -0.73,
+     0.07
+    ],
+    "riseMinM": 0.06,
+    "riseMaxM": 0.15,
+    "yawDeg": 22.92,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.64,
+     -0.28,
+     -0.02
+    ],
+    "riseMinM": -0.02,
+    "riseMaxM": -0.02,
+    "yawDeg": 258.79,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -0.41,
+     -0.59,
+     -0.14
+    ],
+    "riseMinM": -0.23,
+    "riseMaxM": 0.67,
+    "yawDeg": 222.49,
+    "count": 8,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -1.01,
+     1.42,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 279.79,
+    "count": 8,
+    "offsetSpreadM": 0.071,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 8
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.24,
+     0.73,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.49,
+    "yawDeg": 45.84,
+    "count": 7,
+    "offsetSpreadM": 0.168,
+    "contactPoints": 51,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 7
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     1.8,
+     1.32,
+     0.2
+    ],
+    "riseMinM": -0.1,
+    "riseMaxM": 0.56,
+    "yawDeg": 116.1,
+    "count": 7,
+    "offsetSpreadM": 0.235,
+    "contactPoints": 16,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 7
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.07,
+     0.58,
+     0.54
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.54,
+    "yawDeg": 57.3,
+    "count": 6,
+    "offsetSpreadM": 0.054,
+    "contactPoints": 13,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 45.84,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 18,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     1.86,
+     -1.37,
+     0.03
+    ],
+    "riseMinM": 0.03,
+    "riseMaxM": 0.03,
+    "yawDeg": 45.84,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.2,
+    "offsetM": [
+     1.96,
+     1.05,
+     0.32
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.43,
+    "yawDeg": 302.7,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.17,
+     1.57,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 218.69,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     1.37,
+     2.63,
+     0.37
+    ],
+    "riseMinM": -0.25,
+    "riseMaxM": 0.89,
+    "yawDeg": 268.33,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.22,
+     0.67,
+     -0.05
+    ],
+    "riseMinM": -0.05,
+    "riseMaxM": -0.02,
+    "yawDeg": 303.35,
+    "count": 6,
+    "offsetSpreadM": 0.102,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.17,
+     1.57,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 298.9,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 14,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-y",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.25,
+     -1.71,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 106.94,
+    "count": 6,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 6
     }
    },
    {
@@ -262524,6 +266036,31 @@
     }
    },
    {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.24,
+     0.67,
+     -0.37
+    ],
+    "riseMinM": -0.37,
+    "riseMaxM": -0.02,
+    "yawDeg": 280.56,
+    "count": 5,
+    "offsetSpreadM": 0.117,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 5
+    }
+   },
+   {
     "parent": "vanilla:architecture/docks/dockstrent",
     "child": "vanilla:architecture/docks/dockstrent",
     "parentPiece": "dockstrent",
@@ -262547,6 +266084,356 @@
     "members": {
      "dockstrent01>dockstrent01": 1,
      "dockstrent01>dockstrent02": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.48
+    ],
+    "riseMinM": 0.43,
+    "riseMaxM": 0.48,
+    "yawDeg": 57.3,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 23,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.27,
+     0.82,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.18,
+    "yawDeg": 33.43,
+    "count": 4,
+    "offsetSpreadM": 0.2,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     1.19,
+     1.21,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 80.21,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     2.02,
+     1.19,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 121.28,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     2.15,
+     1.44,
+     -0.08
+    ],
+    "riseMinM": -0.08,
+    "riseMaxM": -0.08,
+    "yawDeg": 115.56,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     -0.33,
+     0.68,
+     0.13
+    ],
+    "riseMinM": 0.13,
+    "riseMaxM": 0.13,
+    "yawDeg": 57.3,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.33,
+     0.86,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 80.21,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     2.61,
+     1.4,
+     0.37
+    ],
+    "riseMinM": -0.01,
+    "riseMaxM": 0.37,
+    "yawDeg": 137.51,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     0.33,
+     -0.63,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 106.94,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     2.3,
+     -0.02,
+     -0.28
+    ],
+    "riseMinM": -0.29,
+    "riseMaxM": -0.28,
+    "yawDeg": 0.0,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.27
+    ],
+    "riseMinM": 0.27,
+    "riseMaxM": 0.27,
+    "yawDeg": 238.72,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.94,
+     0.73,
+     -0.02
+    ],
+    "riseMinM": -0.02,
+    "riseMaxM": -0.02,
+    "yawDeg": 172.85,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 6,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.52,
+     0.74,
+     -0.03
+    ],
+    "riseMinM": -0.03,
+    "riseMaxM": -0.03,
+    "yawDeg": 314.16,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.1,
+     0.71,
+     0.18
+    ],
+    "riseMinM": -0.12,
+    "riseMaxM": 0.18,
+    "yawDeg": 333.28,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 19,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 4
     }
    },
    {
@@ -262647,6 +266534,481 @@
     "sourceSet": "bmv-blackmarsh",
     "members": {
      "steps02>bridge01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.22,
+     0.76,
+     0.95
+    ],
+    "riseMinM": 0.95,
+    "riseMaxM": 0.95,
+    "yawDeg": 40.11,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.9,
+    "offsetM": [
+     1.19,
+     1.21,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 80.21,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 10,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.08,
+     0.68,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 17.19,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.33
+    ],
+    "riseMinM": -0.33,
+    "riseMaxM": -0.33,
+    "yawDeg": 58.26,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     2.42,
+     1.71,
+     -0.13
+    ],
+    "riseMinM": -0.13,
+    "riseMaxM": 0.27,
+    "yawDeg": 115.56,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 3,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.25,
+     0.71,
+     0.03
+    ],
+    "riseMinM": 0.03,
+    "riseMaxM": 0.03,
+    "yawDeg": 218.69,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 11,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.56,
+     -0.99,
+     -0.84
+    ],
+    "riseMinM": -0.84,
+    "riseMaxM": -0.84,
+    "yawDeg": 101.21,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.23
+    ],
+    "riseMinM": 0.23,
+    "riseMaxM": 0.27,
+    "yawDeg": 158.5,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 22,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.27,
+     -0.35,
+     0.67
+    ],
+    "riseMinM": 0.67,
+    "riseMaxM": 0.67,
+    "yawDeg": 228.22,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.04
+    ],
+    "riseMinM": 0.04,
+    "riseMaxM": 0.15,
+    "yawDeg": 137.51,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 12,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 0.8,
+    "offsetM": [
+     -0.08,
+     0.57,
+     0.23
+    ],
+    "riseMinM": 0.23,
+    "riseMaxM": 0.27,
+    "yawDeg": 158.5,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 8,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.7,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.22
+    ],
+    "riseMinM": -0.22,
+    "riseMaxM": -0.22,
+    "yawDeg": 161.39,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 24,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.23,
+     0.77,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 298.9,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "+y",
+    "childFace": "-y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.09,
+     0.85,
+     0.22
+    ],
+    "riseMinM": 0.22,
+    "riseMaxM": 0.22,
+    "yawDeg": 57.3,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.2,
+    "offsetM": [
+     -2.15,
+     0.55,
+     -0.19
+    ],
+    "riseMinM": -0.25,
+    "riseMaxM": -0.16,
+    "yawDeg": 165.19,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "+y",
+    "joint": "double",
+    "relScale": 1.3,
+    "offsetM": [
+     0.25,
+     0.71,
+     -0.27
+    ],
+    "riseMinM": -0.27,
+    "riseMaxM": -0.27,
+    "yawDeg": 325.62,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 9,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 0.6,
+    "offsetM": [
+     -1.44,
+     1.14,
+     0.15
+    ],
+    "riseMinM": 0.15,
+    "riseMaxM": 0.15,
+    "yawDeg": 240.64,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 13,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -1.46,
+     1.77,
+     -0.1
+    ],
+    "riseMinM": -0.1,
+    "riseMaxM": -0.1,
+    "yawDeg": 253.06,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 7,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
+    }
+   },
+   {
+    "parent": "bmv:architecture/phitt/ashlands/tramaroot",
+    "child": "bmv:architecture/phitt/ashlands/tramaroot",
+    "parentPiece": "tramaroot",
+    "childPiece": "tramaroot",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.21,
+     0.89,
+     0.11
+    ],
+    "riseMinM": 0.11,
+    "riseMaxM": 0.11,
+    "yawDeg": 325.62,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 5,
+    "sourceSet": "bmv-blackmarsh",
+    "members": {
+     "tramaroot01>tramaroot01": 3
     }
    },
    {
@@ -263076,6 +267438,31 @@
     }
    },
    {
+    "parent": "bmv:architecture/citebosmer/passerelles/troncons/passl128i",
+    "child": "bmv:architecture/phitt/aldredanyia/signpost",
+    "parentPiece": "passl128i",
+    "childPiece": "signpost",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     0.62,
+     -2.34,
+     2.95
+    ],
+    "riseMinM": 2.95,
+    "riseMaxM": 3.34,
+    "yawDeg": 33.38,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 88,
+    "sourceSet": "bmv-valenwood",
+    "members": {
+     "passl128i01>signpost": 3
+    }
+   },
+   {
     "parent": "bmv:architecture/newcastle/wall/1024/1024wall",
     "child": "bmv:architecture/newcastle/wall/512/512pillar",
     "parentPiece": "1024wall",
@@ -263404,6 +267791,31 @@
     }
    },
    {
+    "parent": "kotm:argonia/blackwood/docksendnopost",
+    "child": "kotm:argonia/blackwood/docksendnopost",
+    "parentPiece": "docksendnopost",
+    "childPiece": "docksendnopost",
+    "parentFace": "+y",
+    "childFace": "-y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.0,
+     3.66,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 8,
+    "offsetSpreadM": 0.018,
+    "contactPoints": 37,
+    "sourceSet": "kotm",
+    "members": {
+     "docksendnopost>docksendnopost": 8
+    }
+   },
+   {
     "parent": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall",
     "child": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall",
     "parentPiece": "mwimparchwall",
@@ -263461,6 +267873,31 @@
     }
    },
    {
+    "parent": "kotm:argonia/blackwood/docksend",
+    "child": "kotm:argonia/blackwood/docksend",
+    "parentPiece": "docksend",
+    "childPiece": "docksend",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.61,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 5,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 4,
+    "sourceSet": "kotm",
+    "members": {
+     "docksend>docksend": 5
+    }
+   },
+   {
     "parent": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront",
     "child": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout",
     "parentPiece": "mwimparchdockplatfront",
@@ -263510,6 +267947,31 @@
      "mwimparchwall01>mwimparchwall01": 1,
      "mwimparchwall01destroyed02>mwimparchwall01destroyed01": 2,
      "mwimparchwallgate01>mwimparchwallgate01destroyed01": 1
+    }
+   },
+   {
+    "parent": "kotm:argonia/blackwood/docksendnopost",
+    "child": "kotm:argonia/blackwood/docksendnopost",
+    "parentPiece": "docksendnopost",
+    "childPiece": "docksendnopost",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.59,
+     0.01,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 179.95,
+    "count": 3,
+    "offsetSpreadM": 0.008,
+    "contactPoints": 8,
+    "sourceSet": "kotm",
+    "members": {
+     "docksendnopost>docksendnopost": 3
     }
    },
    {
@@ -263574,8 +268036,14 @@
    "bmv:architecture/phitt/aldredanyia/overhang": [
     "bmv:architecture/phitt/aldredanyia/overhang05"
    ],
+   "bmv:architecture/phitt/aldredanyia/signpost": [
+    "bmv:architecture/phitt/aldredanyia/signpost"
+   ],
    "bmv:architecture/phitt/aldredanyia/window": [
     "bmv:architecture/phitt/aldredanyia/window"
+   ],
+   "bmv:architecture/phitt/ashlands/tramaroot": [
+    "bmv:architecture/phitt/ashlands/tramaroot01"
    ],
    "bmv:telvanni/tel_int_connector": [
     "bmv:telvanni/tel_int_connector_01"
@@ -263586,6 +268054,12 @@
    ],
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort": [
     "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
+   ],
+   "kotm:argonia/blackwood/docksend": [
+    "kotm:argonia/blackwood/docksend"
+   ],
+   "kotm:argonia/blackwood/docksendnopost": [
+    "kotm:argonia/blackwood/docksendnopost"
    ],
    "kotm:argonia/mudhuts/stairs": [
     "kotm:argonia/mudhuts/stairs01",
@@ -263633,6 +268107,13 @@
    "vanilla:architecture/docks/dockstrsol": [
     "vanilla:architecture/docks/dockstrsol01",
     "vanilla:architecture/docks/dockstrsol02"
+   ],
+   "vanilla:architecture/farmhouse/farmhouse": [
+    "vanilla:architecture/farmhouse/farmhouse01",
+    "vanilla:architecture/farmhouse/farmhouse02"
+   ],
+   "vanilla:architecture/farmhouse/farmhouse02walkway": [
+    "vanilla:architecture/farmhouse/farmhouse02walkway"
    ],
    "vanilla:architecture/farmhouse/fencewoven": [
     "vanilla:architecture/farmhouse/fencewoven01",
@@ -263694,19 +268175,6 @@
    "vanilla:architecture/whiterun/wrfarmfence/wrfencestr": [
     "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
     "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01"
-   ],
-   "vanilla:clutter/barrel": [
-    "vanilla:clutter/barrel01",
-    "vanilla:clutter/barrel02"
-   ],
-   "vanilla:clutter/common/cratesmalllong": [
-    "vanilla:clutter/common/cratesmalllong01"
-   ],
-   "vanilla:clutter/firewood/firewoodpilesmall": [
-    "vanilla:clutter/firewood/firewoodpilesmall01"
-   ],
-   "vanilla:clutter/hay/haybale": [
-    "vanilla:clutter/hay/haybale01"
    ],
    "vanilla:clutter/stockade/stockade": [
     "vanilla:clutter/stockade/stockadegate01",
@@ -263771,6 +268239,9 @@
     "+x": 12,
     "-x": 12
    },
+   "bmv:architecture/citebosmer/passerelles/troncons/passl128i01": {
+    "-y": 6
+   },
    "bmv:architecture/huts/exterior/bridge01": {
     "+y": 26,
     "-y": 32
@@ -263802,6 +268273,19 @@
    },
    "bmv:architecture/newcastle/wall/512/512pillar01": {
     "+x": 6
+   },
+   "bmv:architecture/phitt/aldredanyia/signpost": {
+    "+y": 6
+   },
+   "bmv:architecture/phitt/ashlands/tramaroot01": {
+    "+x": 419,
+    "+y": 6,
+    "-x": 419,
+    "-y": 6
+   },
+   "kotm:argonia/blackwood/docksendnopost": {
+    "+y": 16,
+    "-y": 16
    },
    "kotm:argonia/mudhuts/stairs01": {
     "+x": 3,
@@ -263883,6 +268367,15 @@
     "+y": 24,
     "-y": 26
    },
+   "vanilla:architecture/farmhouse/farmhouse01": {
+    "-y": 4
+   },
+   "vanilla:architecture/farmhouse/farmhouse02": {
+    "-y": 8
+   },
+   "vanilla:architecture/farmhouse/farmhouse02walkway": {
+    "+y": 8
+   },
    "vanilla:architecture/farmhouse/fencewoven01": {
     "+x": 63,
     "-x": 63
@@ -263950,28 +268443,34 @@
     "-y": 3
    },
    "vanilla:clutter/barrel01": {
-    "+x": 137,
-    "+y": 171,
-    "-x": 137,
-    "-y": 171
+    "+x": 44,
+    "+y": 72,
+    "-x": 44,
+    "-y": 72
    },
    "vanilla:clutter/barrel02": {
-    "+x": 140,
-    "+y": 121,
-    "-x": 140,
-    "-y": 121
+    "+x": 47,
+    "+y": 22,
+    "-x": 47,
+    "-y": 22
+   },
+   "vanilla:clutter/books/basicbook06": {
+    "+x": 3
+   },
+   "vanilla:clutter/books/book02lowpoly": {
+    "-x": 3
    },
    "vanilla:clutter/common/cratesmalllong01": {
-    "+x": 6,
-    "-x": 6
+    "+x": 3,
+    "-x": 3
    },
    "vanilla:clutter/firewood/firewoodpilesmall01": {
-    "+x": 42,
-    "-x": 42
+    "+x": 20,
+    "-x": 20
    },
    "vanilla:clutter/hay/haybale01": {
-    "+x": 12,
-    "-x": 12
+    "+x": 6,
+    "-x": 6
    },
    "vanilla:clutter/stockade/stockadegate01": {
     "+x": 6,
@@ -264072,6 +268571,12 @@
    "bmv:architecture/phitt/aldredanyia/window": {
     "-y": 14
    },
+   "bmv:architecture/phitt/ashlands/tramaroot01": {
+    "+x": 1955,
+    "+y": 595,
+    "-x": 272,
+    "-y": 12
+   },
    "bmv:telvanni/tel_int_connector_01": {
     "+y": 6,
     "-x": 14
@@ -264086,6 +268591,12 @@
    },
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01": {
     "-x": 10
+   },
+   "kotm:argonia/blackwood/docksend": {
+    "+x": 20
+   },
+   "kotm:argonia/blackwood/docksendnopost": {
+    "+x": 12
    },
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01": {
     "+x": 8
@@ -264217,16 +268728,14 @@
     "-x": 79
    },
    "vanilla:clutter/barrel01": {
-    "+x": 30,
-    "+y": 66,
-    "-x": 29,
-    "-y": 19
+    "+x": 13,
+    "+y": 32,
+    "-x": 13,
+    "-y": 6
    },
    "vanilla:clutter/barrel02": {
-    "+x": 17,
-    "+y": 34,
-    "-x": 19,
-    "-y": 16
+    "-x": 3,
+    "-y": 3
    },
    "vanilla:clutter/stockade/stockadescaffoldbase0sided01": {
     "+x": 40,
@@ -264331,6 +268840,7 @@
    },
    "bmv:architecture/citebosmer/passerelles/troncons/passl128i01": {
     "+x": 1,
+    "+y": 3,
     "-x": 1,
     "-y": 1
    },
@@ -264367,6 +268877,15 @@
     "-x": 4,
     "-y": 2
    },
+   "bmv:architecture/phitt/aldredanyia/signpost": {
+    "-y": 3
+   },
+   "bmv:architecture/phitt/ashlands/tramaroot01": {
+    "+x": 32,
+    "+y": 3,
+    "-x": 133,
+    "-y": 3
+   },
    "bmv:telvanni/tel_int_connector_01": {
     "+y": 1,
     "-x": 1,
@@ -264389,8 +268908,60 @@
     "+y": 1,
     "-x": 1
    },
+   "kotm:argonia/blackwood/docks4way": {
+    "+y": 1,
+    "-x": 1
+   },
+   "kotm:argonia/blackwood/dockscentre": {
+    "+x": 1
+   },
+   "kotm:argonia/blackwood/dockscentrenopost": {
+    "+x": 4,
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/dockscentresmall": {
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/docksend": {
+    "+y": 2,
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/docksendnopost": {
+    "+y": 7,
+    "-x": 1,
+    "-y": 8
+   },
+   "kotm:argonia/blackwood/walkway01": {
+    "+y": 2,
+    "-y": 2
+   },
+   "kotm:argonia/blackwood/walkway02": {
+    "+y": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/walkway05": {
+    "+x": 1,
+    "+y": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/walkwaystairs": {
+    "-x": 1
+   },
    "kotm:argonia/clutter/basketcontainer": {
     "+y": 1,
+    "-y": 1
+   },
+   "kotm:argonia/clutter/saxhleelfence01": {
+    "+x": 1,
+    "-x": 1
+   },
+   "kotm:argonia/furniture/rusticshelf": {
+    "-x": 1
+   },
+   "kotm:argonia/furniture/rustictable03": {
     "-y": 1
    },
    "kotm:argonia/mudhuts/smpodext01": {
@@ -264529,6 +269100,12 @@
     "+x": 1,
     "-x": 1
    },
+   "vanilla:architecture/farmhouse/farmhouse02": {
+    "+y": 4
+   },
+   "vanilla:architecture/farmhouse/farmhouse02walkway": {
+    "-y": 4
+   },
    "vanilla:architecture/farmhouse/fencewoven01": {
     "+x": 31,
     "+y": 1,
@@ -264539,6 +269116,9 @@
     "+x": 40,
     "+y": 1,
     "-x": 45
+   },
+   "vanilla:architecture/farmhouse/ivy02": {
+    "+y": 1
    },
    "vanilla:architecture/farmhouse/stonewall/stonewall01": {
     "+x": 20,
@@ -264677,15 +269257,45 @@
     "-x": 1,
     "-y": 3
    },
+   "vanilla:clutter/basket06": {
+    "+x": 1
+   },
    "vanilla:clutter/basketclosed01": {
     "+x": 4,
     "+y": 2,
     "-y": 2
    },
-   "vanilla:clutter/bucket01": {
+   "vanilla:clutter/books/basicbook01": {
     "+x": 1,
     "-x": 1,
+    "-y": 1
+   },
+   "vanilla:clutter/books/basicbook03": {
+    "-x": 1
+   },
+   "vanilla:clutter/books/basicbook03a": {
+    "-x": 1
+   },
+   "vanilla:clutter/books/basicbook04a": {
+    "+x": 1,
+    "-x": 1
+   },
+   "vanilla:clutter/books/basicbook06": {
+    "+x": 1,
+    "-x": 2
+   },
+   "vanilla:clutter/books/book02lowpoly": {
+    "+x": 3,
+    "+y": 1,
+    "-x": 1
+   },
+   "vanilla:clutter/bucket01": {
+    "+x": 2,
+    "-x": 1,
     "-y": 3
+   },
+   "vanilla:clutter/bucket02a": {
+    "-x": 1
    },
    "vanilla:clutter/candles/candlehornfloor01": {
     "+x": 1
@@ -264720,6 +269330,9 @@
     "-x": 6,
     "-y": 3
    },
+   "vanilla:clutter/common/rug07": {
+    "+x": 1
+   },
    "vanilla:clutter/common/shovel01": {
     "+x": 1
    },
@@ -264734,7 +269347,7 @@
    "vanilla:clutter/containers/miscsack02largeflat": {
     "+x": 4,
     "+y": 3,
-    "-x": 3,
+    "-x": 4,
     "-y": 3
    },
    "vanilla:clutter/containers/miscsack02small": {
@@ -264751,7 +269364,7 @@
     "-y": 5
    },
    "vanilla:clutter/containers/miscsacklargeflat01": {
-    "+x": 4,
+    "+x": 5,
     "+y": 1,
     "-x": 3
    },
@@ -264760,7 +269373,11 @@
    },
    "vanilla:clutter/dining set/basictankard01": {
     "+x": 2,
-    "-x": 3
+    "-x": 5
+   },
+   "vanilla:clutter/dining set/basicwoodenbowl01": {
+    "+x": 2,
+    "-x": 1
    },
    "vanilla:clutter/firewood/firewoodpilehuge01": {
     "+y": 1,
@@ -264789,6 +269406,14 @@
    "vanilla:clutter/food/bread01b": {
     "+x": 2,
     "-x": 1,
+    "-y": 1
+   },
+   "vanilla:clutter/food/cookedslaughterfishsteak01": {
+    "+x": 3,
+    "-x": 3
+   },
+   "vanilla:clutter/giant/giantspit01": {
+    "+y": 1,
     "-y": 1
    },
    "vanilla:clutter/hay/haybale01": {
@@ -264824,6 +269449,9 @@
    },
    "vanilla:clutter/ingredients/mead01": {
     "-x": 3
+   },
+   "vanilla:clutter/ingredients/trollfat01": {
+    "-x": 1
    },
    "vanilla:clutter/kitchen/castironpotmedium01": {
     "+x": 1
@@ -265155,6 +269783,7 @@
    },
    "bmv:architecture/citebosmer/passerelles/troncons/passl128i": {
     "+x": 1,
+    "+y": 3,
     "-x": 1,
     "-y": 1
    },
@@ -265187,6 +269816,15 @@
     "-x": 4,
     "-y": 2
    },
+   "bmv:architecture/phitt/aldredanyia/signpost": {
+    "-y": 3
+   },
+   "bmv:architecture/phitt/ashlands/tramaroot": {
+    "+x": 32,
+    "+y": 3,
+    "-x": 133,
+    "-y": 3
+   },
    "bmv:telvanni/tel_int_connector": {
     "+y": 1,
     "-x": 1,
@@ -265207,8 +269845,52 @@
     "+y": 1,
     "-x": 1
    },
+   "kotm:argonia/blackwood/docks4way": {
+    "+y": 1,
+    "-x": 1
+   },
+   "kotm:argonia/blackwood/dockscentre": {
+    "+x": 1
+   },
+   "kotm:argonia/blackwood/dockscentrenopost": {
+    "+x": 4,
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/dockscentresmall": {
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/docksend": {
+    "+y": 2,
+    "-x": 1,
+    "-y": 1
+   },
+   "kotm:argonia/blackwood/docksendnopost": {
+    "+y": 7,
+    "-x": 1,
+    "-y": 8
+   },
+   "kotm:argonia/blackwood/walkway": {
+    "+x": 1,
+    "+y": 4,
+    "-y": 4
+   },
+   "kotm:argonia/blackwood/walkwaystairs": {
+    "-x": 1
+   },
    "kotm:argonia/clutter/basketcontainer": {
     "+y": 1,
+    "-y": 1
+   },
+   "kotm:argonia/clutter/saxhleelfence": {
+    "+x": 1,
+    "-x": 1
+   },
+   "kotm:argonia/furniture/rusticshelf": {
+    "-x": 1
+   },
+   "kotm:argonia/furniture/rustictable": {
     "-y": 1
    },
    "kotm:argonia/mudhuts/smpodext": {
@@ -265317,17 +269999,23 @@
     "-y": 19
    },
    "vanilla:architecture/farmhouse/farmhouse": {
-    "+y": 2
+    "+y": 6
    },
    "vanilla:architecture/farmhouse/farmhouse01walkway": {
     "+x": 1,
     "-x": 1
+   },
+   "vanilla:architecture/farmhouse/farmhouse02walkway": {
+    "-y": 4
    },
    "vanilla:architecture/farmhouse/fencewoven": {
     "+x": 71,
     "+y": 2,
     "-x": 71,
     "-y": 2
+   },
+   "vanilla:architecture/farmhouse/ivy": {
+    "+y": 1
    },
    "vanilla:architecture/farmhouse/stonewall/stonewall": {
     "+x": 28,
@@ -265428,7 +270116,7 @@
     "-y": 112
    },
    "vanilla:clutter/basket": {
-    "+x": 6,
+    "+x": 7,
     "+y": 4,
     "-x": 7,
     "-y": 5
@@ -265438,10 +270126,30 @@
     "+y": 2,
     "-y": 2
    },
-   "vanilla:clutter/bucket": {
+   "vanilla:clutter/books/basicbook": {
+    "+x": 2,
+    "-x": 4,
+    "-y": 1
+   },
+   "vanilla:clutter/books/basicbook03a": {
+    "-x": 1
+   },
+   "vanilla:clutter/books/basicbook04a": {
     "+x": 1,
+    "-x": 1
+   },
+   "vanilla:clutter/books/book02lowpoly": {
+    "+x": 3,
+    "+y": 1,
+    "-x": 1
+   },
+   "vanilla:clutter/bucket": {
+    "+x": 2,
     "-x": 1,
     "-y": 3
+   },
+   "vanilla:clutter/bucket02a": {
+    "-x": 1
    },
    "vanilla:clutter/candles/candlehornfloor": {
     "+x": 1
@@ -265473,6 +270181,9 @@
     "-x": 6,
     "-y": 3
    },
+   "vanilla:clutter/common/rug": {
+    "+x": 1
+   },
    "vanilla:clutter/common/shovel": {
     "+x": 1
    },
@@ -265487,7 +270198,7 @@
    "vanilla:clutter/containers/miscsack02largeflat": {
     "+x": 4,
     "+y": 3,
-    "-x": 3,
+    "-x": 4,
     "-y": 3
    },
    "vanilla:clutter/containers/miscsack02small": {
@@ -265504,7 +270215,7 @@
     "-y": 5
    },
    "vanilla:clutter/containers/miscsacklargeflat": {
-    "+x": 4,
+    "+x": 5,
     "+y": 1,
     "-x": 3
    },
@@ -265513,7 +270224,11 @@
    },
    "vanilla:clutter/dining set/basictankard": {
     "+x": 2,
-    "-x": 3
+    "-x": 5
+   },
+   "vanilla:clutter/dining set/basicwoodenbowl": {
+    "+x": 2,
+    "-x": 1
    },
    "vanilla:clutter/firewood/firewoodpilehuge": {
     "+y": 1,
@@ -265544,6 +270259,14 @@
     "-x": 1,
     "-y": 1
    },
+   "vanilla:clutter/food/cookedslaughterfishsteak": {
+    "+x": 3,
+    "-x": 3
+   },
+   "vanilla:clutter/giant/giantspit": {
+    "+y": 1,
+    "-y": 1
+   },
    "vanilla:clutter/hay/haybale": {
     "+x": 17,
     "+y": 7,
@@ -265564,6 +270287,9 @@
    },
    "vanilla:clutter/ingredients/mead": {
     "-x": 3
+   },
+   "vanilla:clutter/ingredients/trollfat": {
+    "-x": 1
    },
    "vanilla:clutter/kitchen/castironpotmedium": {
     "+x": 1
@@ -265847,7 +270573,9 @@
    "bmv:architecture/newcastle/wall/512/512pillar01": 27,
    "bmv:architecture/phitt/aldredanyia/house03": 32,
    "bmv:architecture/phitt/aldredanyia/overhang05": 27,
+   "bmv:architecture/phitt/aldredanyia/signpost": 141,
    "bmv:architecture/phitt/aldredanyia/window": 472,
+   "bmv:architecture/phitt/ashlands/tramaroot01": 2586,
    "bmv:architecture/ships/imperialship01base": 23,
    "bmv:architecture/ships/imperialship01masts": 22,
    "bmv:architecture/stilthouse/stilthouseext": 4,
@@ -265902,16 +270630,66 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01": 75,
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist": 6,
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit": 10,
+   "kotm:argonia/blackwood/docks4way": 5,
+   "kotm:argonia/blackwood/dockscentre": 1,
+   "kotm:argonia/blackwood/dockscentrealt": 1,
+   "kotm:argonia/blackwood/dockscentrenopost": 11,
+   "kotm:argonia/blackwood/dockscentresmall": 4,
+   "kotm:argonia/blackwood/dockscorner": 2,
+   "kotm:argonia/blackwood/docksend": 50,
+   "kotm:argonia/blackwood/docksendnopost": 33,
+   "kotm:argonia/blackwood/dockspilings": 9,
+   "kotm:argonia/blackwood/dockspilingsdamage": 1,
+   "kotm:argonia/blackwood/walkway01": 16,
+   "kotm:argonia/blackwood/walkway02": 12,
+   "kotm:argonia/blackwood/walkway04": 2,
+   "kotm:argonia/blackwood/walkway05": 4,
+   "kotm:argonia/blackwood/walkway06": 2,
+   "kotm:argonia/blackwood/walkwaystairs": 8,
    "kotm:argonia/clutter/basket01": 12,
    "kotm:argonia/clutter/basket02": 7,
    "kotm:argonia/clutter/basketcontainer": 64,
+   "kotm:argonia/clutter/buntingline01": 20,
+   "kotm:argonia/clutter/firewoodpilehuge01": 16,
+   "kotm:argonia/clutter/firewoodpilelarge01": 12,
+   "kotm:argonia/clutter/firewoodpilesmall01": 5,
+   "kotm:argonia/clutter/hangingfeathers01": 2,
+   "kotm:argonia/clutter/saxhleelfence01": 3,
    "kotm:argonia/clutter/saxhleelmetalpot01": 3,
+   "kotm:argonia/clutter/tamwindchime01": 7,
+   "kotm:argonia/clutter/urn01": 2,
+   "kotm:argonia/clutter/urn02": 3,
+   "kotm:argonia/clutter/vase01": 1,
+   "kotm:argonia/clutter/vase03": 1,
+   "kotm:argonia/clutter/vase05": 1,
+   "kotm:argonia/clutter/wallbasket01": 1,
+   "kotm:argonia/clutter/wallbasket02": 1,
+   "kotm:argonia/clutter/wallbasket03": 1,
+   "kotm:argonia/clutter/wallbasket04": 3,
+   "kotm:argonia/clutter/wallbasket05": 1,
+   "kotm:argonia/clutter/wallbasket06": 2,
+   "kotm:argonia/food/flatbread": 3,
+   "kotm:argonia/food/sakebottle": 5,
+   "kotm:argonia/food/sakebottle02": 3,
+   "kotm:argonia/furniture/rusticbed": 13,
+   "kotm:argonia/furniture/rusticbench01": 3,
+   "kotm:argonia/furniture/rusticchair01": 19,
+   "kotm:argonia/furniture/rusticchair02": 5,
+   "kotm:argonia/furniture/rusticchair04": 8,
+   "kotm:argonia/furniture/rusticchest": 15,
+   "kotm:argonia/furniture/rusticcupboard": 3,
+   "kotm:argonia/furniture/rusticshelf": 9,
+   "kotm:argonia/furniture/rustictable01": 4,
+   "kotm:argonia/furniture/rustictable02": 13,
+   "kotm:argonia/furniture/rustictable03": 7,
    "kotm:argonia/mudhuts/door01": 7,
    "kotm:argonia/mudhuts/door02": 69,
    "kotm:argonia/mudhuts/lizardhouse": 1,
    "kotm:argonia/mudhuts/mudhut01": 1,
    "kotm:argonia/mudhuts/mudhut02": 6,
    "kotm:argonia/mudhuts/mudhutchimney": 5,
+   "kotm:argonia/mudhuts/mudhutintfloor01": 1,
+   "kotm:argonia/mudhuts/mudhutintstairs": 3,
    "kotm:argonia/mudhuts/overhang01": 2,
    "kotm:argonia/mudhuts/overhang03": 1,
    "kotm:argonia/mudhuts/smpodext01": 1,
@@ -265919,8 +270697,13 @@
    "kotm:argonia/mudhuts/smpodextdoor": 6,
    "kotm:argonia/mudhuts/stairs01": 43,
    "kotm:argonia/mudhuts/stairs02": 34,
+   "kotm:argonia/mudhuts/tamu_woodpole01": 2,
    "kotm:argonia/mudhuts/window01": 10,
    "kotm:argonia/mudhuts/window02": 12,
+   "kotm:loliceptresource/barrel/miscbarrelopen01": 3,
+   "kotm:mihail monsters and animals/rabbit/frog/frogmeat2": 5,
+   "kotm:oaristys/clutter/rugs": 1,
+   "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime": 3,
    "mudmother:gv_meshes/argoniannest/archwaysticks": 1,
    "mudmother:gv_meshes/argoniannest/argoniancandle01": 2,
    "mudmother:gv_meshes/argoniannest/argonianfence01": 5,
@@ -266012,6 +270795,7 @@
    "vanilla:architecture/farmhouse/farmhouse01": 22,
    "vanilla:architecture/farmhouse/farmhouse01walkway": 12,
    "vanilla:architecture/farmhouse/farmhouse02": 10,
+   "vanilla:architecture/farmhouse/farmhouse02walkway": 8,
    "vanilla:architecture/farmhouse/farmhousedoor01": 40,
    "vanilla:architecture/farmhouse/farmhouseldoor01": 66,
    "vanilla:architecture/farmhouse/fencewoven01": 273,
@@ -266038,6 +270822,8 @@
    "vanilla:architecture/farmhouse/walkway/walkwaystairs4": 39,
    "vanilla:architecture/farmhouse/walkway/walkwaystairs8": 43,
    "vanilla:architecture/riften/clutter/rtbanneranchor01": 6,
+   "vanilla:architecture/riften/clutter/rtchimney01": 15,
+   "vanilla:architecture/riften/rtstables01": 2,
    "vanilla:architecture/shackkit/shackbrokepole01": 12,
    "vanilla:architecture/shackkit/shackframelend01": 60,
    "vanilla:architecture/shackkit/shackframelmid01": 7,
@@ -266073,6 +270859,7 @@
    "vanilla:clutter/basketclosed01": 52,
    "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01": 7,
    "vanilla:clutter/blacksmith/blacksmithnovicebellows01": 8,
+   "vanilla:clutter/blacksmith/blacksmithnovicetongs01": 3,
    "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic": 4,
    "vanilla:clutter/blacksmith/blacksmithworkbench01": 2,
    "vanilla:clutter/bones/deerskullhornsstatic": 63,
@@ -266080,8 +270867,15 @@
    "vanilla:clutter/bones/humanskull": 98,
    "vanilla:clutter/bones/mammothskull1": 86,
    "vanilla:clutter/bones/trollskull": 52,
+   "vanilla:clutter/books/basicbook01": 17,
+   "vanilla:clutter/books/basicbook03": 31,
    "vanilla:clutter/books/basicbook03a": 21,
+   "vanilla:clutter/books/basicbook04": 11,
+   "vanilla:clutter/books/basicbook04a": 19,
+   "vanilla:clutter/books/basicbook06": 36,
+   "vanilla:clutter/books/book02lowpoly": 66,
    "vanilla:clutter/bucket01": 257,
+   "vanilla:clutter/bucket02a": 30,
    "vanilla:clutter/candles/candlehornchandelier01": 1,
    "vanilla:clutter/candles/candlehornfloor01": 12,
    "vanilla:clutter/candles/candlehorntable01": 44,
@@ -266102,7 +270896,13 @@
    "vanilla:clutter/common/cratesmalllong01": 178,
    "vanilla:clutter/common/cupboard01": 9,
    "vanilla:clutter/common/endtable01": 30,
+   "vanilla:clutter/common/fishingpolecollection01": 30,
+   "vanilla:clutter/common/flute01": 13,
    "vanilla:clutter/common/pitchfork01": 8,
+   "vanilla:clutter/common/rag01": 12,
+   "vanilla:clutter/common/rug02": 3,
+   "vanilla:clutter/common/rug03": 12,
+   "vanilla:clutter/common/rug07": 12,
    "vanilla:clutter/common/shovel01": 38,
    "vanilla:clutter/common/wagonwheel01": 12,
    "vanilla:clutter/common/wardrobe01": 9,
@@ -266115,6 +270915,11 @@
    "vanilla:clutter/cookingspitfarmhouse01": 2,
    "vanilla:clutter/cookingspitsm01": 8,
    "vanilla:clutter/cookingstone01": 12,
+   "vanilla:clutter/deadanimals/deadpondfish01": 2,
+   "vanilla:clutter/deadanimals/deadpondfish02": 1,
+   "vanilla:clutter/deadanimals/deadpondfish03": 1,
+   "vanilla:clutter/deadanimals/deadsalmon01": 110,
+   "vanilla:clutter/deadanimals/deadsalmon02": 86,
    "vanilla:clutter/deadanimals/fishrack01": 59,
    "vanilla:clutter/deadanimals/fishrack02": 34,
    "vanilla:clutter/deadanimals/hanginganimalsring01": 9,
@@ -266122,16 +270927,23 @@
    "vanilla:clutter/deadanimals/hangingpheasant02": 13,
    "vanilla:clutter/deadanimals/hangingrabbit01": 38,
    "vanilla:clutter/deadanimals/hangingrabbit02": 12,
+   "vanilla:clutter/deadanimals/wallmountedmudcrab01": 2,
+   "vanilla:clutter/deadanimals/wallmountedslaughterfish01": 10,
    "vanilla:clutter/dining set/basicfork01": 28,
    "vanilla:clutter/dining set/basicknife01": 43,
    "vanilla:clutter/dining set/basictankard01": 290,
+   "vanilla:clutter/dining set/basicwoodenbowl01": 95,
+   "vanilla:clutter/dining set/basicwoodenplate01": 127,
    "vanilla:clutter/firewood/firewoodpilehuge01": 17,
    "vanilla:clutter/firewood/firewoodpilelarge01": 223,
    "vanilla:clutter/firewood/firewoodpilemedium01": 148,
    "vanilla:clutter/firewood/firewoodpilesmall01": 170,
    "vanilla:clutter/food/bread01a": 29,
    "vanilla:clutter/food/bread01b": 19,
+   "vanilla:clutter/food/cookedslaughterfishsteak01": 29,
    "vanilla:clutter/giant/giantcampfire01off": 3,
+   "vanilla:clutter/giant/giantspit01": 38,
+   "vanilla:clutter/glazedcandles01": 28,
    "vanilla:clutter/hay/haybale01": 231,
    "vanilla:clutter/hay/haymound01": 156,
    "vanilla:clutter/hay/hayscatter01": 23,
@@ -266143,7 +270955,10 @@
    "vanilla:clutter/imperial/impbrazier01": 70,
    "vanilla:clutter/imperial/impwallsconcecandle01": 5,
    "vanilla:clutter/ingredients/mead01": 114,
+   "vanilla:clutter/ingredients/mudcrabchitin": 7,
    "vanilla:clutter/ingredients/saltpile": 16,
+   "vanilla:clutter/ingredients/scalypholiotabits01": 2,
+   "vanilla:clutter/ingredients/trollfat01": 22,
    "vanilla:clutter/kettle01": 42,
    "vanilla:clutter/kitchen/castironpotmedium01": 32,
    "vanilla:clutter/kitchen/castironpotsmall01": 29,
@@ -266191,8 +271006,12 @@
    "vanilla:clutter/stockade/stockadewallcornerout01": 13,
    "vanilla:clutter/stockade/stockadewallstraight01": 179,
    "vanilla:clutter/stockade/stockadewallwalkway01": 81,
+   "vanilla:clutter/wallbasket03": 1,
+   "vanilla:clutter/wallbaskethex02": 2,
+   "vanilla:clutter/wallbaskethex03": 5,
    "vanilla:clutter/wine/winebottle01a": 9,
    "vanilla:clutter/wine/winebottle01b": 60,
+   "vanilla:clutter/wine/winebottle02a": 15,
    "vanilla:clutter/wine/winebottle02b": 79,
    "vanilla:clutter/woodfires/campfire01burning": 100,
    "vanilla:clutter/woodfires/cookingstand01": 3,
@@ -266200,6 +271019,7 @@
    "vanilla:clutter/woodfires/spit01": 53,
    "vanilla:clutter/woodfires/spitpotopen01": 25,
    "vanilla:clutter/woodfires/spitpotopenloose01": 11,
+   "vanilla:critters/bee/beehoneycomb": 1,
    "vanilla:dungeons/imperial/door/impwooddoordoubleload01": 5,
    "vanilla:dungeons/imperial/door/impwooddoorsingle01": 1,
    "vanilla:dungeons/imperial/door/impwooddoorsingleload01": 19,
@@ -266267,6 +271087,7 @@
    "vanilla:furniture/farm/farmbench01": 147,
    "vanilla:furniture/orcfurniture/orcshelf01": 14,
    "vanilla:furniture/smallcookingpot": 10,
+   "vanilla:furniture/smallcookingpotnohandle": 5,
    "vanilla:weapons/steel/steelmace": 3
   },
   "placedNoPairs": [
@@ -266284,7 +271105,6 @@
    "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01",
    "bmv:architecture/citebosmer/passerelles/troncons/passend01",
    "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
-   "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01",
    "bmv:architecture/huts/exterior/hutdecking",
@@ -266348,23 +271168,77 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
+   "kotm:argonia/blackwood/docks4way",
+   "kotm:argonia/blackwood/dockscentre",
+   "kotm:argonia/blackwood/dockscentrealt",
+   "kotm:argonia/blackwood/dockscentrenopost",
+   "kotm:argonia/blackwood/dockscentresmall",
+   "kotm:argonia/blackwood/dockscorner",
+   "kotm:argonia/blackwood/docksend",
+   "kotm:argonia/blackwood/dockspilings",
+   "kotm:argonia/blackwood/dockspilingsdamage",
+   "kotm:argonia/blackwood/walkway01",
+   "kotm:argonia/blackwood/walkway02",
+   "kotm:argonia/blackwood/walkway04",
+   "kotm:argonia/blackwood/walkway05",
+   "kotm:argonia/blackwood/walkway06",
+   "kotm:argonia/blackwood/walkwaystairs",
    "kotm:argonia/clutter/basket01",
    "kotm:argonia/clutter/basket02",
    "kotm:argonia/clutter/basketcontainer",
+   "kotm:argonia/clutter/buntingline01",
+   "kotm:argonia/clutter/firewoodpilehuge01",
+   "kotm:argonia/clutter/firewoodpilelarge01",
+   "kotm:argonia/clutter/firewoodpilesmall01",
+   "kotm:argonia/clutter/hangingfeathers01",
+   "kotm:argonia/clutter/saxhleelfence01",
    "kotm:argonia/clutter/saxhleelmetalpot01",
+   "kotm:argonia/clutter/tamwindchime01",
+   "kotm:argonia/clutter/urn01",
+   "kotm:argonia/clutter/urn02",
+   "kotm:argonia/clutter/vase01",
+   "kotm:argonia/clutter/vase03",
+   "kotm:argonia/clutter/vase05",
+   "kotm:argonia/clutter/wallbasket01",
+   "kotm:argonia/clutter/wallbasket02",
+   "kotm:argonia/clutter/wallbasket03",
+   "kotm:argonia/clutter/wallbasket04",
+   "kotm:argonia/clutter/wallbasket05",
+   "kotm:argonia/clutter/wallbasket06",
+   "kotm:argonia/food/flatbread",
+   "kotm:argonia/food/sakebottle",
+   "kotm:argonia/food/sakebottle02",
+   "kotm:argonia/furniture/rusticbed",
+   "kotm:argonia/furniture/rusticbench01",
+   "kotm:argonia/furniture/rusticchair01",
+   "kotm:argonia/furniture/rusticchair02",
+   "kotm:argonia/furniture/rusticchair04",
+   "kotm:argonia/furniture/rusticchest",
+   "kotm:argonia/furniture/rusticcupboard",
+   "kotm:argonia/furniture/rusticshelf",
+   "kotm:argonia/furniture/rustictable01",
+   "kotm:argonia/furniture/rustictable02",
+   "kotm:argonia/furniture/rustictable03",
    "kotm:argonia/mudhuts/door01",
    "kotm:argonia/mudhuts/door02",
    "kotm:argonia/mudhuts/lizardhouse",
    "kotm:argonia/mudhuts/mudhut01",
    "kotm:argonia/mudhuts/mudhut02",
    "kotm:argonia/mudhuts/mudhutchimney",
+   "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kotm:argonia/mudhuts/mudhutintstairs",
    "kotm:argonia/mudhuts/overhang01",
    "kotm:argonia/mudhuts/overhang03",
    "kotm:argonia/mudhuts/smpodext01",
    "kotm:argonia/mudhuts/smpodext02",
    "kotm:argonia/mudhuts/smpodextdoor",
+   "kotm:argonia/mudhuts/tamu_woodpole01",
    "kotm:argonia/mudhuts/window01",
    "kotm:argonia/mudhuts/window02",
+   "kotm:loliceptresource/barrel/miscbarrelopen01",
+   "kotm:mihail monsters and animals/rabbit/frog/frogmeat2",
+   "kotm:oaristys/clutter/rugs",
+   "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
    "mudmother:gv_meshes/argoniannest/archwaysticks",
    "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -266437,9 +271311,7 @@
    "vanilla:architecture/docks/dockstepsdown02",
    "vanilla:architecture/docks/dockstepsdownend01",
    "vanilla:architecture/docks/dockstr4way01",
-   "vanilla:architecture/farmhouse/farmhouse01",
    "vanilla:architecture/farmhouse/farmhouse01walkway",
-   "vanilla:architecture/farmhouse/farmhouse02",
    "vanilla:architecture/farmhouse/farmhousedoor01",
    "vanilla:architecture/farmhouse/farmhouseldoor01",
    "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -266460,6 +271332,8 @@
    "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
    "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
    "vanilla:architecture/riften/clutter/rtbanneranchor01",
+   "vanilla:architecture/riften/clutter/rtchimney01",
+   "vanilla:architecture/riften/rtstables01",
    "vanilla:architecture/shackkit/shackbrokepole01",
    "vanilla:architecture/shackkit/shackroofcorner01",
    "vanilla:architecture/shackkit/shackwallr01",
@@ -266482,6 +271356,7 @@
    "vanilla:clutter/basketclosed01",
    "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01",
    "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
+   "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
    "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic",
    "vanilla:clutter/blacksmith/blacksmithworkbench01",
    "vanilla:clutter/bones/deerskullhornsstatic",
@@ -266489,8 +271364,13 @@
    "vanilla:clutter/bones/humanskull",
    "vanilla:clutter/bones/mammothskull1",
    "vanilla:clutter/bones/trollskull",
+   "vanilla:clutter/books/basicbook01",
+   "vanilla:clutter/books/basicbook03",
    "vanilla:clutter/books/basicbook03a",
+   "vanilla:clutter/books/basicbook04",
+   "vanilla:clutter/books/basicbook04a",
    "vanilla:clutter/bucket01",
+   "vanilla:clutter/bucket02a",
    "vanilla:clutter/candles/candlehornchandelier01",
    "vanilla:clutter/candles/candlehornfloor01",
    "vanilla:clutter/candles/candlehorntable01",
@@ -266510,7 +271390,13 @@
    "vanilla:clutter/common/cratesmall01",
    "vanilla:clutter/common/cupboard01",
    "vanilla:clutter/common/endtable01",
+   "vanilla:clutter/common/fishingpolecollection01",
+   "vanilla:clutter/common/flute01",
    "vanilla:clutter/common/pitchfork01",
+   "vanilla:clutter/common/rag01",
+   "vanilla:clutter/common/rug02",
+   "vanilla:clutter/common/rug03",
+   "vanilla:clutter/common/rug07",
    "vanilla:clutter/common/shovel01",
    "vanilla:clutter/common/wagonwheel01",
    "vanilla:clutter/common/wardrobe01",
@@ -266523,6 +271409,11 @@
    "vanilla:clutter/cookingspitfarmhouse01",
    "vanilla:clutter/cookingspitsm01",
    "vanilla:clutter/cookingstone01",
+   "vanilla:clutter/deadanimals/deadpondfish01",
+   "vanilla:clutter/deadanimals/deadpondfish02",
+   "vanilla:clutter/deadanimals/deadpondfish03",
+   "vanilla:clutter/deadanimals/deadsalmon01",
+   "vanilla:clutter/deadanimals/deadsalmon02",
    "vanilla:clutter/deadanimals/fishrack01",
    "vanilla:clutter/deadanimals/fishrack02",
    "vanilla:clutter/deadanimals/hanginganimalsring01",
@@ -266530,15 +271421,22 @@
    "vanilla:clutter/deadanimals/hangingpheasant02",
    "vanilla:clutter/deadanimals/hangingrabbit01",
    "vanilla:clutter/deadanimals/hangingrabbit02",
+   "vanilla:clutter/deadanimals/wallmountedmudcrab01",
+   "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
    "vanilla:clutter/dining set/basicfork01",
    "vanilla:clutter/dining set/basicknife01",
    "vanilla:clutter/dining set/basictankard01",
+   "vanilla:clutter/dining set/basicwoodenbowl01",
+   "vanilla:clutter/dining set/basicwoodenplate01",
    "vanilla:clutter/firewood/firewoodpilehuge01",
    "vanilla:clutter/firewood/firewoodpilelarge01",
    "vanilla:clutter/firewood/firewoodpilemedium01",
    "vanilla:clutter/food/bread01a",
    "vanilla:clutter/food/bread01b",
+   "vanilla:clutter/food/cookedslaughterfishsteak01",
    "vanilla:clutter/giant/giantcampfire01off",
+   "vanilla:clutter/giant/giantspit01",
+   "vanilla:clutter/glazedcandles01",
    "vanilla:clutter/hay/haymound01",
    "vanilla:clutter/hay/hayscatter01",
    "vanilla:clutter/hay/hayscatter02",
@@ -266549,7 +271447,10 @@
    "vanilla:clutter/imperial/impbrazier01",
    "vanilla:clutter/imperial/impwallsconcecandle01",
    "vanilla:clutter/ingredients/mead01",
+   "vanilla:clutter/ingredients/mudcrabchitin",
    "vanilla:clutter/ingredients/saltpile",
+   "vanilla:clutter/ingredients/scalypholiotabits01",
+   "vanilla:clutter/ingredients/trollfat01",
    "vanilla:clutter/kettle01",
    "vanilla:clutter/kitchen/castironpotmedium01",
    "vanilla:clutter/kitchen/castironpotsmall01",
@@ -266586,8 +271487,12 @@
    "vanilla:clutter/stockade/stockadescaffoldtoppost02",
    "vanilla:clutter/stockade/stockadewallcornerin01",
    "vanilla:clutter/stockade/stockadewallcornerout01",
+   "vanilla:clutter/wallbasket03",
+   "vanilla:clutter/wallbaskethex02",
+   "vanilla:clutter/wallbaskethex03",
    "vanilla:clutter/wine/winebottle01a",
    "vanilla:clutter/wine/winebottle01b",
+   "vanilla:clutter/wine/winebottle02a",
    "vanilla:clutter/wine/winebottle02b",
    "vanilla:clutter/woodfires/campfire01burning",
    "vanilla:clutter/woodfires/cookingstand01",
@@ -266595,6 +271500,7 @@
    "vanilla:clutter/woodfires/spit01",
    "vanilla:clutter/woodfires/spitpotopen01",
    "vanilla:clutter/woodfires/spitpotopenloose01",
+   "vanilla:critters/bee/beehoneycomb",
    "vanilla:dungeons/imperial/door/impwooddoordoubleload01",
    "vanilla:dungeons/imperial/door/impwooddoorsingle01",
    "vanilla:dungeons/imperial/door/impwooddoorsingleload01",
@@ -266655,6 +271561,7 @@
    "vanilla:furniture/farm/farmbench01",
    "vanilla:furniture/orcfurniture/orcshelf01",
    "vanilla:furniture/smallcookingpot",
+   "vanilla:furniture/smallcookingpotnohandle",
    "vanilla:weapons/steel/steelmace"
   ],
   "singleUse": [
@@ -266873,7 +271780,6 @@
    "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01",
-   "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01",
    "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -266987,7 +271893,6 @@
    "bmv:architecture/philscaves/srooms/wall06",
    "bmv:architecture/phitt/aldredanyia/house03",
    "bmv:architecture/phitt/aldredanyia/overhang05",
-   "bmv:architecture/phitt/aldredanyia/signpost",
    "bmv:architecture/phitt/aldredanyia/window",
    "bmv:architecture/redoran/custom/redoranwall",
    "bmv:architecture/redoran/custom/redoranwallcorner",
@@ -267091,23 +271996,77 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
+   "kotm:argonia/blackwood/docks4way",
+   "kotm:argonia/blackwood/dockscentre",
+   "kotm:argonia/blackwood/dockscentrealt",
+   "kotm:argonia/blackwood/dockscentrenopost",
+   "kotm:argonia/blackwood/dockscentresmall",
+   "kotm:argonia/blackwood/dockscorner",
+   "kotm:argonia/blackwood/docksend",
+   "kotm:argonia/blackwood/dockspilings",
+   "kotm:argonia/blackwood/dockspilingsdamage",
+   "kotm:argonia/blackwood/walkway01",
+   "kotm:argonia/blackwood/walkway02",
+   "kotm:argonia/blackwood/walkway04",
+   "kotm:argonia/blackwood/walkway05",
+   "kotm:argonia/blackwood/walkway06",
+   "kotm:argonia/blackwood/walkwaystairs",
    "kotm:argonia/clutter/basket01",
    "kotm:argonia/clutter/basket02",
    "kotm:argonia/clutter/basketcontainer",
+   "kotm:argonia/clutter/buntingline01",
+   "kotm:argonia/clutter/firewoodpilehuge01",
+   "kotm:argonia/clutter/firewoodpilelarge01",
+   "kotm:argonia/clutter/firewoodpilesmall01",
+   "kotm:argonia/clutter/hangingfeathers01",
+   "kotm:argonia/clutter/saxhleelfence01",
    "kotm:argonia/clutter/saxhleelmetalpot01",
+   "kotm:argonia/clutter/tamwindchime01",
+   "kotm:argonia/clutter/urn01",
+   "kotm:argonia/clutter/urn02",
+   "kotm:argonia/clutter/vase01",
+   "kotm:argonia/clutter/vase03",
+   "kotm:argonia/clutter/vase05",
+   "kotm:argonia/clutter/wallbasket01",
+   "kotm:argonia/clutter/wallbasket02",
+   "kotm:argonia/clutter/wallbasket03",
+   "kotm:argonia/clutter/wallbasket04",
+   "kotm:argonia/clutter/wallbasket05",
+   "kotm:argonia/clutter/wallbasket06",
+   "kotm:argonia/food/flatbread",
+   "kotm:argonia/food/sakebottle",
+   "kotm:argonia/food/sakebottle02",
+   "kotm:argonia/furniture/rusticbed",
+   "kotm:argonia/furniture/rusticbench01",
+   "kotm:argonia/furniture/rusticchair01",
+   "kotm:argonia/furniture/rusticchair02",
+   "kotm:argonia/furniture/rusticchair04",
+   "kotm:argonia/furniture/rusticchest",
+   "kotm:argonia/furniture/rusticcupboard",
+   "kotm:argonia/furniture/rusticshelf",
+   "kotm:argonia/furniture/rustictable01",
+   "kotm:argonia/furniture/rustictable02",
+   "kotm:argonia/furniture/rustictable03",
    "kotm:argonia/mudhuts/door01",
    "kotm:argonia/mudhuts/door02",
    "kotm:argonia/mudhuts/lizardhouse",
    "kotm:argonia/mudhuts/mudhut01",
    "kotm:argonia/mudhuts/mudhut02",
    "kotm:argonia/mudhuts/mudhutchimney",
+   "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kotm:argonia/mudhuts/mudhutintstairs",
    "kotm:argonia/mudhuts/overhang01",
    "kotm:argonia/mudhuts/overhang03",
    "kotm:argonia/mudhuts/smpodext01",
    "kotm:argonia/mudhuts/smpodext02",
    "kotm:argonia/mudhuts/smpodextdoor",
+   "kotm:argonia/mudhuts/tamu_woodpole01",
    "kotm:argonia/mudhuts/window01",
    "kotm:argonia/mudhuts/window02",
+   "kotm:loliceptresource/barrel/miscbarrelopen01",
+   "kotm:mihail monsters and animals/rabbit/frog/frogmeat2",
+   "kotm:oaristys/clutter/rugs",
+   "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
    "mudmother:gv_meshes/argoniannest/archwaysticks",
    "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -267238,10 +272197,7 @@
    "vanilla:architecture/docks/dockstepsdown02",
    "vanilla:architecture/docks/dockstepsdownend01",
    "vanilla:architecture/docks/dockstr4way01",
-   "vanilla:architecture/farmhouse/farmhouse01",
    "vanilla:architecture/farmhouse/farmhouse01walkway",
-   "vanilla:architecture/farmhouse/farmhouse02",
-   "vanilla:architecture/farmhouse/farmhouse02walkway",
    "vanilla:architecture/farmhouse/farmhousedoor01",
    "vanilla:architecture/farmhouse/farmhouseldoor01",
    "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01",
@@ -267333,6 +272289,7 @@
    "vanilla:architecture/riften/clutter/rtbanneranchor01",
    "vanilla:architecture/riften/clutter/rtchimney01",
    "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01",
+   "vanilla:architecture/riften/rtstables01",
    "vanilla:architecture/shackkit/shackbrokepole01",
    "vanilla:architecture/shackkit/shackbrokewall01",
    "vanilla:architecture/shackkit/shackroofcorner01",
@@ -267360,6 +272317,7 @@
    "vanilla:clutter/basketclosed01",
    "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01",
    "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
+   "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
    "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic",
    "vanilla:clutter/blacksmith/blacksmithworkbench01",
    "vanilla:clutter/bones/deerskullhornsstatic",
@@ -267368,7 +272326,9 @@
    "vanilla:clutter/bones/mammothskull1",
    "vanilla:clutter/bones/trollskull",
    "vanilla:clutter/books/basicbook03a",
+   "vanilla:clutter/books/basicbook04a",
    "vanilla:clutter/bucket01",
+   "vanilla:clutter/bucket02a",
    "vanilla:clutter/candles/candlehornchandelier01",
    "vanilla:clutter/candles/candlehornfloor01",
    "vanilla:clutter/candles/candlehorntable01",
@@ -267388,7 +272348,13 @@
    "vanilla:clutter/common/cratesmall01",
    "vanilla:clutter/common/cupboard01",
    "vanilla:clutter/common/endtable01",
+   "vanilla:clutter/common/fishingpolecollection01",
+   "vanilla:clutter/common/flute01",
    "vanilla:clutter/common/pitchfork01",
+   "vanilla:clutter/common/rag01",
+   "vanilla:clutter/common/rug02",
+   "vanilla:clutter/common/rug03",
+   "vanilla:clutter/common/rug07",
    "vanilla:clutter/common/shovel01",
    "vanilla:clutter/common/wagonwheel01",
    "vanilla:clutter/common/wardrobe01",
@@ -267401,6 +272367,11 @@
    "vanilla:clutter/cookingspitfarmhouse01",
    "vanilla:clutter/cookingspitsm01",
    "vanilla:clutter/cookingstone01",
+   "vanilla:clutter/deadanimals/deadpondfish01",
+   "vanilla:clutter/deadanimals/deadpondfish02",
+   "vanilla:clutter/deadanimals/deadpondfish03",
+   "vanilla:clutter/deadanimals/deadsalmon01",
+   "vanilla:clutter/deadanimals/deadsalmon02",
    "vanilla:clutter/deadanimals/fishrack01",
    "vanilla:clutter/deadanimals/fishrack02",
    "vanilla:clutter/deadanimals/hanginganimalsring01",
@@ -267408,15 +272379,22 @@
    "vanilla:clutter/deadanimals/hangingpheasant02",
    "vanilla:clutter/deadanimals/hangingrabbit01",
    "vanilla:clutter/deadanimals/hangingrabbit02",
+   "vanilla:clutter/deadanimals/wallmountedmudcrab01",
+   "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
    "vanilla:clutter/dining set/basicfork01",
    "vanilla:clutter/dining set/basicknife01",
    "vanilla:clutter/dining set/basictankard01",
+   "vanilla:clutter/dining set/basicwoodenbowl01",
+   "vanilla:clutter/dining set/basicwoodenplate01",
    "vanilla:clutter/firewood/firewoodpilehuge01",
    "vanilla:clutter/firewood/firewoodpilelarge01",
    "vanilla:clutter/firewood/firewoodpilemedium01",
    "vanilla:clutter/food/bread01a",
    "vanilla:clutter/food/bread01b",
+   "vanilla:clutter/food/cookedslaughterfishsteak01",
    "vanilla:clutter/giant/giantcampfire01off",
+   "vanilla:clutter/giant/giantspit01",
+   "vanilla:clutter/glazedcandles01",
    "vanilla:clutter/hay/haymound01",
    "vanilla:clutter/hay/hayscatter01",
    "vanilla:clutter/hay/hayscatter02",
@@ -267427,7 +272405,10 @@
    "vanilla:clutter/imperial/impbrazier01",
    "vanilla:clutter/imperial/impwallsconcecandle01",
    "vanilla:clutter/ingredients/mead01",
+   "vanilla:clutter/ingredients/mudcrabchitin",
    "vanilla:clutter/ingredients/saltpile",
+   "vanilla:clutter/ingredients/scalypholiotabits01",
+   "vanilla:clutter/ingredients/trollfat01",
    "vanilla:clutter/kettle01",
    "vanilla:clutter/kitchen/castironpotmedium01",
    "vanilla:clutter/kitchen/castironpotsmall01",
@@ -267464,8 +272445,12 @@
    "vanilla:clutter/stockade/stockadescaffoldtoppost02",
    "vanilla:clutter/stockade/stockadewallcornerin01",
    "vanilla:clutter/stockade/stockadewallcornerout01",
+   "vanilla:clutter/wallbasket03",
+   "vanilla:clutter/wallbaskethex02",
+   "vanilla:clutter/wallbaskethex03",
    "vanilla:clutter/wine/winebottle01a",
    "vanilla:clutter/wine/winebottle01b",
+   "vanilla:clutter/wine/winebottle02a",
    "vanilla:clutter/wine/winebottle02b",
    "vanilla:clutter/woodfires/campfire01burning",
    "vanilla:clutter/woodfires/cookingstand01",
@@ -267473,6 +272458,7 @@
    "vanilla:clutter/woodfires/spit01",
    "vanilla:clutter/woodfires/spitpotopen01",
    "vanilla:clutter/woodfires/spitpotopenloose01",
+   "vanilla:critters/bee/beehoneycomb",
    "vanilla:dungeons/imperial/clutterkits/impfreewall01",
    "vanilla:dungeons/imperial/door/impwooddoordoubleload01",
    "vanilla:dungeons/imperial/door/impwooddoorsingle01",
@@ -267596,7 +272582,10 @@
    "vanilla:furniture/farm/farmbench01",
    "vanilla:furniture/orcfurniture/orcshelf01",
    "vanilla:furniture/smallcookingpot",
-   "vanilla:weapons/steel/steelmace"
+   "vanilla:furniture/smallcookingpotnohandle",
+   "vanilla:weapons/steel/steelmace",
+   "xanmeer:architecture/xanmeer/exterior/xanmeer_exterior_floor",
+   "xanmeer:architecture/xanmeer/interior/xanmeer_hallway_2way"
   ],
   "runJointBars": {
    "bmv:architecture/citebosmer/houses/houseglandacceslatd01": {
@@ -267623,11 +272612,29 @@
     "n": 3,
     "pairs": 1
    },
+   "bmv:architecture/phitt/ashlands/tramaroot01": {
+    "penetrationM": 0.298,
+    "alongRunOverlapM": 1.932,
+    "n": 914,
+    "pairs": 88
+   },
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": {
     "penetrationM": 0.127,
     "alongRunOverlapM": 0.405,
     "n": 6,
     "pairs": 1
+   },
+   "kotm:argonia/blackwood/docksend": {
+    "penetrationM": 0.032,
+    "alongRunOverlapM": 0.031,
+    "n": 5,
+    "pairs": 1
+   },
+   "kotm:argonia/blackwood/docksendnopost": {
+    "penetrationM": 0.053,
+    "alongRunOverlapM": 0.06,
+    "n": 11,
+    "pairs": 2
    },
    "kotm:argonia/mudhuts/stairs02": {
     "penetrationM": 0.234,

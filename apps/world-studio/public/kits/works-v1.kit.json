@@ -77,9 +77,9 @@
    ],
    "designedSinkM": {
     "p25": 0.0353,
-    "p50": 0.0641,
+    "p50": 0.0745,
     "p75": 0.0761,
-    "n": 5,
+    "n": 6,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
@@ -99,7 +99,40 @@
    "undersideClosed": false,
    "undersideCoverage": 0.138,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626
+   "pivotAboveBaseM": 0.626,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 8,
+    "interior": {
+     "camp": 1
+    },
+    "exterior": {
+     "wild": 1,
+     "keep": 4,
+     "camp": 2
+    },
+    "sourceCells": [
+     "interior:camp:DruadachRedoubt01",
+     "exterior:wild:Tamriel",
+     "exterior:keep:FortNeugradLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:camp:RedEagleRedoubtLocation",
+     "exterior:keep:FortSnowhawkLocation",
+     "exterior:camp:SerpentsBluffRedoubtLocation",
+     "exterior:keep:FortSungardLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithnovicebellows01",
@@ -154,7 +187,39 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.423
+   "pivotAboveBaseM": 0.423,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 30,
+    "interior": {
+     "town": 20,
+     "village": 2,
+     "keep": 2
+    },
+    "exterior": {
+     "camp": 5,
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:town:MarkarthVlindrelHall",
+     "interior:town:RiftenBlacksmith",
+     "interior:town:SolitudeBlackSmith",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:town:MarkarthSilverBloodInn",
+     "interior:village:SolitudeSawmill",
+     "interior:town:WindhelmBlacksmith",
+     "interior:town:MarkarthNepossHouse"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic",
@@ -216,7 +281,25 @@
    "undersideClosed": true,
    "undersideCoverage": 0.736,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "keep": 2
+    },
+    "sourceCells": [
+     "exterior:keep:FortAmolLocation",
+     "exterior:keep:FortSungardLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/blacksmith/blacksmithworkbench01",
@@ -281,7 +364,30 @@
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "camp": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:camp:FaldarsTooth01",
+     "exterior:wild:JaphetsFollyLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/smelter/smelter01",
@@ -352,7 +458,16 @@
    "undersideClosed": true,
    "undersideCoverage": 0.692,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/smelter/smelter01coal01",
@@ -420,7 +535,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/smelter/coal01",
@@ -480,7 +604,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "keep": 2
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:keep:NightcallerTemple01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/tanningrack01",
@@ -547,7 +688,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.148,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
@@ -612,7 +762,31 @@
    "undersideClosed": false,
    "undersideCoverage": 0.344,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058
+   "pivotAboveBaseM": 0.058,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 8,
+    "interior": {
+     "town": 8
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:WhiterunBreezehome",
+     "interior:town:WindhelmCandlehearthHall",
+     "interior:town:WhiterunBelethorsGeneralGoods",
+     "interior:town:WhiterunSeverioPelagiasHouse",
+     "interior:town:WhiterunAmrensHouse",
+     "interior:town:WindhelmHjerim",
+     "interior:town:WhiterunBanneredMare",
+     "interior:town:WhiterunCarlottaValentiasHouse"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack01",
@@ -646,11 +820,11 @@
     "L2_Ropes.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.3628,
-    "p50": 0.4575,
+    "p25": 0.3591,
+    "p50": 0.4084,
     "p75": 0.6433,
-    "n": 26,
-    "slopeTermMPerDeg": 0.0223,
+    "n": 27,
+    "slopeTermMPerDeg": 0.02215,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -669,7 +843,51 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 71,
+    "interior": {
+     "keep": 7,
+     "camp": 5,
+     "ruin": 6,
+     "wild": 1
+    },
+    "exterior": {
+     "camp": 14,
+     "wild": 13,
+     "ruin": 8,
+     "keep": 5,
+     "town": 7,
+     "village": 5
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:WindhelmLocation",
+     "interior:ruin:FrostflowLighthouse",
+     "exterior:camp:KarthspireLocation",
+     "interior:keep:FortSungard05",
+     "interior:camp:GallowsRock01",
+     "exterior:keep:FortNeugradLocation",
+     "exterior:ruin:BlackreachLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/fishrack02",
@@ -731,7 +949,37 @@
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.226
+   "pivotAboveBaseM": -0.226,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "village",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 10,
+    "interior": {},
+    "exterior": {
+     "wild": 3,
+     "village": 3,
+     "town": 2,
+     "ruin": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:wild:NightgateInnExteriorLocation",
+     "exterior:village:DarkwaterCrossingLocation",
+     "exterior:town:WindhelmLocation",
+     "exterior:village:KynesgroveLocation",
+     "exterior:ruin:IcerunnerLocation",
+     "exterior:town:KatariahLocation",
+     "exterior:village:StonehillsLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/handcart01",
@@ -786,7 +1034,53 @@
    "undersideClosed": false,
    "undersideCoverage": 0.529,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464
+   "pivotAboveBaseM": 0.464,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "village",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 73,
+    "interior": {
+     "ruin": 22,
+     "keep": 8,
+     "camp": 11,
+     "village": 6,
+     "wild": 2,
+     "town": 2
+    },
+    "exterior": {
+     "ruin": 4,
+     "wild": 8,
+     "village": 3,
+     "town": 3,
+     "keep": 3,
+     "camp": 1
+    },
+    "sourceCells": [
+     "interior:ruin:TolvaldsCave03",
+     "exterior:wild:Tamriel",
+     "interior:camp:FrostmereCrypt01",
+     "interior:ruin:Gloomreach01",
+     "interior:village:WhistlingMine01",
+     "interior:ruin:Ansilvund01",
+     "interior:keep:FortGreenwall01",
+     "interior:ruin:Alftand01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/handcart01wheel",
@@ -844,7 +1138,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.879,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.464
+   "pivotAboveBaseM": 0.464,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 188,
+    "interior": {
+     "keep": 23,
+     "ruin": 28,
+     "town": 17,
+     "village": 9,
+     "camp": 11,
+     "wild": 4
+    },
+    "exterior": {
+     "wild": 26,
+     "town": 30,
+     "ruin": 9,
+     "keep": 11,
+     "village": 17,
+     "camp": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:FalkreathLocation",
+     "interior:keep:CidhnaMine01",
+     "interior:keep:MorKhazgurMine",
+     "exterior:wild:GoldenglowEstateLocation",
+     "interior:camp:BrokenTowerRedoubt01",
+     "interior:ruin:Harmugstahl01",
+     "interior:ruin:Raldbthar01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/handcart02",
@@ -899,7 +1242,52 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.469
+   "pivotAboveBaseM": 0.469,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "village",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 68,
+    "interior": {
+     "ruin": 24,
+     "keep": 1,
+     "town": 7,
+     "village": 3,
+     "camp": 6,
+     "wild": 1
+    },
+    "exterior": {
+     "ruin": 3,
+     "wild": 5,
+     "keep": 2,
+     "town": 12,
+     "camp": 1,
+     "village": 3
+    },
+    "sourceCells": [
+     "interior:ruin:Pinewatch01",
+     "exterior:town:SolitudeLocation",
+     "interior:ruin:MovarthsLair01",
+     "interior:ruin:TolvaldsCave03",
+     "exterior:wild:Tamriel",
+     "interior:ruin:NorthwatchKeep01",
+     "interior:ruin:Gloomreach01",
+     "interior:town:KarthwastenFennsGulchMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/handcartcanopy",
@@ -961,7 +1349,34 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.63
+   "pivotAboveBaseM": -0.63,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "village"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "ruin": 1
+    },
+    "exterior": {
+     "town": 3,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:town:SolitudeLocation",
+     "interior:ruin:DuskglowCrevice01",
+     "exterior:town:SolitudeDocksLocation",
+     "exterior:village:KatlasFarmLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/handcartcrate",
@@ -1016,7 +1431,35 @@
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.124
+   "pivotAboveBaseM": -0.124,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 13,
+    "interior": {
+     "ruin": 1,
+     "camp": 9
+    },
+    "exterior": {
+     "village": 1,
+     "town": 2
+    },
+    "sourceCells": [
+     "interior:camp:TrevasWatch01",
+     "exterior:town:SolitudeLocation",
+     "interior:ruin:DuskglowCrevice01",
+     "interior:camp:TrevasWatch02",
+     "exterior:village:KatlasFarmLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/carts/vendorcartstatic01",
@@ -1073,7 +1516,37 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.581
+   "pivotAboveBaseM": 0.581,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "town",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 7,
+    "interior": {
+     "village": 1
+    },
+    "exterior": {
+     "wild": 3,
+     "ruin": 1,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:village:KolskeggrMine01",
+     "exterior:ruin:RefugeesRestLocation",
+     "exterior:town:RiftenLocation",
+     "exterior:town:MarkarthLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/wagonwheel01",
@@ -1107,8 +1580,8 @@
    "designedSinkM": {
     "p25": -0.6311,
     "p50": -0.6018,
-    "p75": -0.3095,
-    "n": 6,
+    "p75": -0.2115,
+    "n": 7,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
@@ -1128,7 +1601,42 @@
    "undersideClosed": true,
    "undersideCoverage": 0.961,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.689
+   "pivotAboveBaseM": 0.689,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 19,
+    "interior": {
+     "ruin": 3,
+     "town": 4,
+     "camp": 1,
+     "keep": 1
+    },
+    "exterior": {
+     "wild": 8,
+     "town": 1,
+     "keep": 1
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "interior:ruin:DuskglowCrevice01",
+     "interior:ruin:Ansilvund01",
+     "interior:town:WindhelmHouseofClanShatterShield",
+     "interior:town:WindhelmArgonianAssemblage",
+     "interior:town:WindhelmEastEmpireCompany",
+     "interior:camp:RedoransRetreat01",
+     "interior:town:WindhelmClanShatterShieldOffice"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -1188,7 +1696,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 436,
+    "interior": {
+     "town": 172,
+     "keep": 65,
+     "ruin": 44,
+     "village": 24,
+     "camp": 31,
+     "wild": 13
+    },
+    "exterior": {
+     "wild": 24,
+     "town": 27,
+     "ruin": 7,
+     "camp": 11,
+     "keep": 6,
+     "village": 12
+    },
+    "sourceCells": [
+     "interior:ruin:NorthwatchKeep01",
+     "exterior:wild:Tamriel",
+     "interior:town:SolitudeBlackSmith",
+     "interior:keep:RiftenJail01",
+     "exterior:town:FalkreathLocation",
+     "interior:keep:DriftshadeSanctuary02",
+     "interior:keep:SolitudeJail01",
+     "interior:town:DarkBrotherhoodSanctuary"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -1248,7 +1805,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 389,
+    "interior": {
+     "town": 104,
+     "keep": 58,
+     "ruin": 41,
+     "village": 18,
+     "camp": 21,
+     "wild": 8
+    },
+    "exterior": {
+     "village": 26,
+     "keep": 12,
+     "wild": 20,
+     "town": 58,
+     "ruin": 11,
+     "camp": 12
+    },
+    "sourceCells": [
+     "exterior:town:DawnstarLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:FalkreathLocation",
+     "exterior:town:RiverwoodLocation",
+     "interior:keep:DriftshadeSanctuary02",
+     "interior:town:SolitudeBlackSmith",
+     "exterior:town:MorthalLocation",
+     "exterior:town:WinterholdLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -1308,7 +1914,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019
+   "pivotAboveBaseM": 0.019,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 430,
+    "interior": {
+     "town": 74,
+     "keep": 48,
+     "ruin": 42,
+     "village": 19,
+     "camp": 34,
+     "wild": 10
+    },
+    "exterior": {
+     "camp": 27,
+     "wild": 29,
+     "keep": 14,
+     "town": 97,
+     "ruin": 15,
+     "village": 21
+    },
+    "sourceCells": [
+     "exterior:town:DawnstarLocation",
+     "exterior:town:RiverwoodLocation",
+     "exterior:town:FalkreathLocation",
+     "exterior:wild:Tamriel",
+     "exterior:town:WindhelmLocation",
+     "exterior:town:SolitudeLocation",
+     "interior:ruin:Pinewatch01",
+     "exterior:town:WhiterunLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilehuge01",
@@ -1368,7 +2023,29 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "village"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "town": 2,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:town:WinterholdLocation",
+     "exterior:village:HlaaluFarmLocation",
+     "exterior:town:MorthalLocation",
+     "exterior:village:OldHroldanLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam01",
@@ -1423,7 +2100,46 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 539,
+    "interior": {
+     "ruin": 174,
+     "keep": 32,
+     "camp": 209,
+     "village": 45,
+     "town": 25,
+     "wild": 5
+    },
+    "exterior": {
+     "wild": 27,
+     "camp": 9,
+     "keep": 1,
+     "ruin": 12
+    },
+    "sourceCells": [
+     "interior:camp:BrokenOarGrotto01",
+     "interior:camp:EmbershardMine01",
+     "interior:ruin:Yngvild01",
+     "interior:ruin:Alftand01",
+     "interior:camp:LostKnifeHideout01",
+     "interior:ruin:Ansilvund01",
+     "exterior:wild:Tamriel",
+     "interior:ruin:Yngvild02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam02",
@@ -1483,7 +2199,44 @@
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 204,
+    "interior": {
+     "ruin": 43,
+     "camp": 97,
+     "keep": 21,
+     "village": 23,
+     "town": 13,
+     "wild": 4
+    },
+    "exterior": {
+     "keep": 1,
+     "camp": 2
+    },
+    "sourceCells": [
+     "interior:camp:EmbershardMine01",
+     "interior:camp:LostKnifeHideout02",
+     "interior:camp:SilentMoonsCamp01",
+     "interior:keep:MorKhazgurMine",
+     "interior:camp:BrucasLeapRedoubt01",
+     "interior:ruin:Ansilvund01",
+     "interior:ruin:ReachcliffCave01",
+     "interior:ruin:Gloomreach01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeam03",
@@ -1543,7 +2296,42 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin"
+     ]
+    },
+    "n": 146,
+    "interior": {
+     "ruin": 35,
+     "keep": 33,
+     "camp": 43,
+     "village": 11,
+     "town": 18,
+     "wild": 1
+    },
+    "exterior": {
+     "keep": 5
+    },
+    "sourceCells": [
+     "interior:ruin:Alftand01",
+     "interior:keep:DushnikhYalMine",
+     "interior:keep:MorKhazgurMine",
+     "interior:camp:RedoransRetreat01",
+     "interior:town:DawnstarQuicksilverMine",
+     "interior:camp:TrevasWatch02",
+     "interior:village:KolskeggrMine01",
+     "interior:town:KarthwastenSanuarachMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort01",
@@ -1603,7 +2391,44 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136
+   "pivotAboveBaseM": 0.136,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 389,
+    "interior": {
+     "ruin": 134,
+     "camp": 166,
+     "village": 24,
+     "keep": 22,
+     "wild": 20,
+     "town": 21
+    },
+    "exterior": {
+     "keep": 1,
+     "camp": 1
+    },
+    "sourceCells": [
+     "interior:camp:CragslaneCavern01",
+     "interior:ruin:Yngvild01",
+     "interior:ruin:MovarthsLair01",
+     "interior:camp:SwindlersDen01",
+     "interior:camp:LostKnifeHideout02",
+     "interior:wild:DA14Interior",
+     "interior:town:DawnstarQuicksilverMine",
+     "interior:keep:MorKhazgurMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodbeamshort02",
@@ -1663,7 +2488,39 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.136
+   "pivotAboveBaseM": 0.136,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin"
+     ]
+    },
+    "n": 127,
+    "interior": {
+     "ruin": 29,
+     "keep": 25,
+     "camp": 41,
+     "village": 18,
+     "town": 14
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:DawnstarQuicksilverMine",
+     "interior:ruin:Yngvild01",
+     "interior:camp:KnifepointRidge01",
+     "interior:keep:MorKhazgurMine",
+     "interior:camp:FaldarsTooth01",
+     "interior:village:BilegulchMine",
+     "interior:camp:SwindlersDen01",
+     "interior:camp:FortFellhammer02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks01",
@@ -1718,7 +2575,52 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514
+   "pivotAboveBaseM": 0.514,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 657,
+    "interior": {
+     "ruin": 118,
+     "camp": 199,
+     "village": 89,
+     "keep": 77,
+     "town": 47,
+     "wild": 21
+    },
+    "exterior": {
+     "keep": 25,
+     "ruin": 15,
+     "camp": 15,
+     "wild": 51
+    },
+    "sourceCells": [
+     "interior:camp:KnifepointRidge01",
+     "interior:camp:EmbershardMine01",
+     "interior:camp:BrokenOarGrotto01",
+     "interior:ruin:Ansilvund01",
+     "interior:keep:BloodletThrone01",
+     "interior:village:LeftHandMine",
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "interior:town:DawnstarQuicksilverMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks02",
@@ -1773,7 +2675,52 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.51
+   "pivotAboveBaseM": 0.51,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 340,
+    "interior": {
+     "town": 8,
+     "ruin": 55,
+     "camp": 90,
+     "village": 27,
+     "keep": 61,
+     "wild": 3
+    },
+    "exterior": {
+     "ruin": 10,
+     "wild": 62,
+     "keep": 8,
+     "camp": 16
+    },
+    "sourceCells": [
+     "interior:keep:DriftshadeSanctuary02",
+     "interior:camp:KnifepointRidge01",
+     "interior:camp:LostKnifeHideout02",
+     "exterior:wild:JaphetsFollyLocation",
+     "interior:keep:MorKhazgurMine",
+     "interior:camp:LostKnifeHideout01",
+     "interior:village:KolskeggrMine01",
+     "exterior:wild:BrinewaterGrottoLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks03",
@@ -1828,7 +2775,52 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.514
+   "pivotAboveBaseM": 0.514,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 209,
+    "interior": {
+     "ruin": 33,
+     "camp": 39,
+     "village": 19,
+     "keep": 52,
+     "town": 10,
+     "wild": 4
+    },
+    "exterior": {
+     "ruin": 15,
+     "wild": 15,
+     "keep": 6,
+     "camp": 16
+    },
+    "sourceCells": [
+     "interior:keep:FortDunstad01",
+     "interior:keep:MorKhazgurMine",
+     "exterior:camp:KarthspireLocation",
+     "interior:camp:CragslaneCavern01",
+     "interior:camp:LostKnifeHideout01",
+     "interior:village:KolskeggrMine01",
+     "interior:keep:FortSnowhawk01",
+     "interior:town:KarthwastenSanuarachMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/minewoodplanks04",
@@ -1883,7 +2875,51 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.933
+   "pivotAboveBaseM": 0.933,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 364,
+    "interior": {
+     "ruin": 68,
+     "camp": 91,
+     "village": 62,
+     "keep": 67,
+     "town": 21,
+     "wild": 2
+    },
+    "exterior": {
+     "camp": 15,
+     "ruin": 11,
+     "keep": 11,
+     "wild": 16
+    },
+    "sourceCells": [
+     "interior:keep:MorKhazgurMine",
+     "interior:camp:KnifepointRidge01",
+     "interior:ruin:Gloomreach01",
+     "interior:village:LeftHandMine",
+     "interior:keep:GloomboundMine01",
+     "interior:village:KolskeggrMine01",
+     "interior:village:KynesgroveSteamscorchGullyMine",
+     "interior:town:DawnstarQuicksilverMine"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/clutter/genericwell01",
@@ -1947,7 +2983,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.704,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.986
+   "pivotAboveBaseM": 3.986,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "keep": 1
+    },
+    "sourceCells": [
+     "exterior:keep:DushnikhYalLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldsupport01",
@@ -2002,7 +3055,36 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "village",
+      "camp"
+     ],
+     "exterior": [
+      "ruin"
+     ]
+    },
+    "n": 9,
+    "interior": {
+     "village": 1,
+     "keep": 1,
+     "camp": 6
+    },
+    "exterior": {
+     "ruin": 1
+    },
+    "sourceCells": [
+     "interior:camp:LostKnifeHideout01",
+     "interior:village:DarkwaterCrossingGoldenrockMine",
+     "interior:keep:DushnikhYalMine",
+     "exterior:ruin:AnsilvundLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01",
@@ -2057,7 +3139,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01",
@@ -2118,7 +3209,41 @@
    "undersideClosed": false,
    "undersideCoverage": 0.182,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 94,
+    "interior": {
+     "ruin": 46,
+     "town": 12,
+     "camp": 15,
+     "keep": 8,
+     "village": 10,
+     "wild": 3
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:ruin:Ansilvund01",
+     "interior:ruin:MovarthsLair01",
+     "interior:camp:SwindlersDen01",
+     "interior:village:WhistlingMine01",
+     "interior:ruin:HobsFallCave01",
+     "interior:village:KolskeggrMine01",
+     "interior:camp:KnifepointRidge01",
+     "interior:ruin:NorthwindMine01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoreiron01",
@@ -2180,7 +3305,49 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725
+   "pivotAboveBaseM": 0.725,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 210,
+    "interior": {
+     "ruin": 13,
+     "camp": 20,
+     "village": 4,
+     "keep": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 134,
+     "camp": 12,
+     "ruin": 19,
+     "keep": 1,
+     "town": 2,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:camp:HaltedStreamCamp01",
+     "interior:camp:EmbershardMine01",
+     "interior:camp:KnifepointRidge01",
+     "exterior:ruin:BlindCliffCaveLocation",
+     "interior:village:LeftHandMine",
+     "interior:village:StonehillsMine",
+     "interior:camp:FortFellhammer02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/mines/ore/mineoredepleted01",
@@ -2247,7 +3414,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.725
+   "pivotAboveBaseM": 0.725,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided01",
@@ -2304,7 +3480,50 @@
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 196,
+    "interior": {
+     "ruin": 26,
+     "keep": 5,
+     "wild": 17,
+     "town": 32
+    },
+    "exterior": {
+     "camp": 36,
+     "keep": 7,
+     "ruin": 8,
+     "wild": 60,
+     "village": 5
+    },
+    "sourceCells": [
+     "interior:town:SolitudeRedWave",
+     "interior:wild:DaintySload01",
+     "exterior:wild:Tamriel",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "interior:town:Katariah01",
+     "interior:ruin:Icerunner01",
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "interior:ruin:Brinehammer01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase1sided01",
@@ -2361,7 +3580,34 @@
    "undersideClosed": false,
    "undersideCoverage": 0.333,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "ruin"
+     ]
+    },
+    "n": 21,
+    "interior": {},
+    "exterior": {
+     "ruin": 11,
+     "keep": 1,
+     "camp": 6,
+     "wild": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:ruin:SaarthalLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:village:BilegulchMineLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
@@ -2418,7 +3664,36 @@
    "undersideClosed": false,
    "undersideCoverage": 0.355,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village",
+      "camp",
+      "ruin"
+     ]
+    },
+    "n": 12,
+    "interior": {},
+    "exterior": {
+     "ruin": 2,
+     "keep": 1,
+     "camp": 6,
+     "wild": 1,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:camp:KarthspireLocation",
+     "exterior:village:BilegulchMineLocation",
+     "exterior:ruin:SaarthalLocation",
+     "exterior:keep:FortKastavLocation",
+     "exterior:ruin:DarkshadeCopseLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
@@ -2475,7 +3750,39 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "wild"
+     ]
+    },
+    "n": 15,
+    "interior": {
+     "ruin": 4
+    },
+    "exterior": {
+     "keep": 5,
+     "wild": 5,
+     "ruin": 1
+    },
+    "sourceCells": [
+     "interior:ruin:Raldbthar01",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:keep:NarzulburLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:keep:FortKastavLocation",
+     "exterior:wild:Tamriel",
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:keep:FortGreenwallLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -2532,7 +3839,39 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 111,
+    "interior": {
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 74,
+     "ruin": 2,
+     "keep": 19,
+     "camp": 13,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:wild:Tamriel",
+     "exterior:camp:RiftWatchtowerLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:keep:FortHraggstadLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:village:BilegulchMineLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbasesupport01",
@@ -2587,7 +3926,26 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 13,
+    "interior": {},
+    "exterior": {
+     "keep": 1,
+     "wild": 12
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:keep:FortAmolLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
@@ -2644,7 +4002,52 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 642,
+    "interior": {
+     "ruin": 62,
+     "keep": 5,
+     "wild": 25,
+     "camp": 7,
+     "town": 36
+    },
+    "exterior": {
+     "wild": 365,
+     "camp": 97,
+     "keep": 27,
+     "ruin": 11,
+     "village": 7
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:camp:KarthspireLocation",
+     "interior:wild:DaintySload01",
+     "exterior:wild:JaphetsFollyLocation",
+     "interior:town:SolitudeRedWave",
+     "interior:ruin:Icerunner01",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop1sided01",
@@ -2703,7 +4106,36 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 104,
+    "interior": {
+     "ruin": 2
+    },
+    "exterior": {
+     "camp": 18,
+     "wild": 82,
+     "keep": 2
+    },
+    "sourceCells": [
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:wild:EldergleamSanctuaryLocation",
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:wild:Tamriel",
+     "exterior:wild:AngisCampLocation",
+     "exterior:camp:HaltedStreamCampLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
@@ -2762,7 +4194,38 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 46,
+    "interior": {
+     "keep": 1,
+     "ruin": 1
+    },
+    "exterior": {
+     "keep": 8,
+     "camp": 17,
+     "wild": 19
+    },
+    "sourceCells": [
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:camp:GallowsRockLocation",
+     "exterior:wild:Tamriel",
+     "exterior:keep:FortAmolLocation",
+     "exterior:wild:EastEmpireWarehouseLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -2821,7 +4284,39 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219
+   "pivotAboveBaseM": 0.219,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 21,
+    "interior": {
+     "ruin": 1,
+     "keep": 1
+    },
+    "exterior": {
+     "camp": 4,
+     "keep": 1,
+     "ruin": 1,
+     "wild": 12,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:camp:HaltedStreamCampLocation",
+     "interior:ruin:Harmugstahl01",
+     "interior:keep:LargashburBasement",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:ruin:DarkshadeCopseLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:camp:KarthspireLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop4sided01",
@@ -2885,7 +4380,16 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.12
+   "pivotAboveBaseM": 0.12,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldramp01",
@@ -2944,7 +4448,41 @@
    "undersideClosed": true,
    "undersideCoverage": 0.908,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 49,
+    "interior": {
+     "ruin": 2,
+     "wild": 1,
+     "town": 1
+    },
+    "exterior": {
+     "camp": 17,
+     "wild": 9,
+     "keep": 7,
+     "ruin": 12
+    },
+    "sourceCells": [
+     "exterior:ruin:SaarthalLocation",
+     "exterior:wild:Tamriel",
+     "exterior:ruin:NorthwatchKeepLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:keep:DushnikhYalLocation",
+     "exterior:camp:RiftWatchtowerLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:camp:HaltedStreamCampLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -3003,7 +4541,40 @@
    "undersideClosed": true,
    "undersideCoverage": 0.843,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "village",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 45,
+    "interior": {
+     "ruin": 3
+    },
+    "exterior": {
+     "keep": 9,
+     "wild": 23,
+     "ruin": 2,
+     "camp": 4,
+     "village": 4
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:village:BilegulchMineLocation",
+     "interior:ruin:Raldbthar01",
+     "exterior:camp:KnifepointRidgeLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -3069,7 +4640,32 @@
    "undersideClosed": true,
    "undersideCoverage": 0.875,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.546
+   "pivotAboveBaseM": 0.546,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 11,
+    "interior": {
+     "town": 4
+    },
+    "exterior": {
+     "ruin": 1,
+     "camp": 6
+    },
+    "sourceCells": [
+     "exterior:camp:KarthspireLocation",
+     "interior:town:RiftenThievesGuildHeadquarters",
+     "exterior:ruin:SaarthalLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -3135,7 +4731,27 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.774
+   "pivotAboveBaseM": 0.774,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "ruin": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:ruin:SaarthalLocation",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -3201,7 +4817,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.8,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.877
+   "pivotAboveBaseM": 0.877,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost01",
@@ -3265,7 +4898,33 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056
+   "pivotAboveBaseM": -0.056,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 58,
+    "interior": {},
+    "exterior": {
+     "wild": 54,
+     "camp": 1,
+     "ruin": 3
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:ruin:RimerockBurrowLocation",
+     "exterior:wild:Tamriel",
+     "exterior:camp:BthalftLocation",
+     "exterior:ruin:DarkshadeCopseLocation",
+     "exterior:wild:CrabbersShantyLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtoppost02",
@@ -3329,7 +4988,30 @@
    "undersideClosed": false,
    "undersideCoverage": 0.006,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.056
+   "pivotAboveBaseM": -0.056,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "camp": 1,
+     "village": 2,
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:village:BilegulchMineLocation",
+     "exterior:camp:BthalftLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel01",
@@ -3397,7 +5079,32 @@
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92
+   "pivotAboveBaseM": 5.92,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "village"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "village": 4,
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:village:AngasMillLocation",
+     "exterior:town:RiverwoodLocation",
+     "exterior:village:MixwaterMillLocation",
+     "exterior:village:HeartwoodMillLocation",
+     "exterior:town:DragonBridgeLocation",
+     "exterior:village:HalfmoonMillLocation",
+     "exterior:town:MarkarthLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/lumbermill01waterwheel02",
@@ -3465,7 +5172,26 @@
    "undersideClosed": true,
    "undersideCoverage": 0.613,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.92
+   "pivotAboveBaseM": 5.92,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:town:IvarsteadLocation",
+     "exterior:town:MorthalLocation",
+     "exterior:town:FalkreathLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
@@ -3547,7 +5273,29 @@
    "undersideClosed": true,
    "undersideCoverage": 0.827,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 9,
+    "interior": {},
+    "exterior": {
+     "wild": 5,
+     "town": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:RiverwoodLocation",
+     "exterior:wild:HelgenLocation",
+     "exterior:town:FalkreathLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
@@ -3634,7 +5382,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.84,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821
+   "pivotAboveBaseM": 1.821,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:FalkreathLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -3707,7 +5472,30 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317
+   "pivotAboveBaseM": 6.317,
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "camp": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -3774,7 +5562,30 @@
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233
+   "pivotAboveBaseM": 6.233,
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "town": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:town:SolitudeDocksLocation",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/ingredients/saltpile",
@@ -3839,7 +5650,44 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 174,
+    "interior": {
+     "keep": 27,
+     "ruin": 39,
+     "town": 70,
+     "camp": 9,
+     "wild": 10,
+     "village": 3
+    },
+    "exterior": {
+     "ruin": 12,
+     "wild": 4
+    },
+    "sourceCells": [
+     "interior:town:WinterholdCollegeMidden01",
+     "interior:keep:FortDunstad04",
+     "interior:ruin:FellglowKeep01",
+     "exterior:ruin:LabyrinthianLocation",
+     "interior:town:WindhelmHjerim",
+     "interior:ruin:Pinewatch01",
+     "exterior:wild:Tamriel",
+     "interior:town:WindhelmCandlehearthHall"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -3884,11 +5732,11 @@
     ]
    },
    "designedSinkM": {
-    "p25": -0.0067,
-    "p50": 0.0048,
-    "p75": 0.1078,
-    "n": 565,
-    "slopeTermMPerDeg": -0.00128,
+    "p25": -0.0053,
+    "p50": 0.0045,
+    "p75": 0.1057,
+    "n": 569,
+    "slopeTermMPerDeg": -0.00117,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3907,7 +5755,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 3183,
+    "interior": {
+     "wild": 206,
+     "town": 1135,
+     "keep": 256,
+     "ruin": 303,
+     "village": 114,
+     "camp": 227
+    },
+    "exterior": {
+     "village": 76,
+     "wild": 204,
+     "camp": 122,
+     "ruin": 130,
+     "town": 344,
+     "keep": 66
+    },
+    "sourceCells": [
+     "interior:town:SolitudeRedWave",
+     "interior:town:HonningbrewMeadery01",
+     "exterior:wild:Tamriel",
+     "exterior:town:RiftenLocation",
+     "exterior:town:SolitudeLocation",
+     "exterior:town:WindhelmLocation",
+     "interior:ruin:PotemasCatacombs01",
+     "exterior:wild:EastEmpireWarehouseLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/largerainbarrel01",
@@ -3962,7 +5859,27 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp",
+      "ruin"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "ruin": 1,
+     "camp": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:ruin:LiarsRetreat01",
+     "interior:camp:DruadachRedoubt01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/cratesmall01",
@@ -4019,7 +5936,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345
+   "pivotAboveBaseM": 0.345,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 568,
+    "interior": {
+     "wild": 36,
+     "keep": 55,
+     "town": 168,
+     "ruin": 77,
+     "village": 16,
+     "camp": 47
+    },
+    "exterior": {
+     "wild": 55,
+     "ruin": 41,
+     "town": 25,
+     "camp": 22,
+     "village": 16,
+     "keep": 10
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:town:RiftenRaggedFlagon",
+     "interior:ruin:Icerunner01",
+     "interior:town:Katariah01",
+     "exterior:ruin:IcerunnerLocation",
+     "interior:ruin:PotemasCatacombs01",
+     "interior:wild:DaintySload01",
+     "interior:camp:KnifepointRidge01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/cratesmalllong01",
@@ -4053,11 +6019,11 @@
     "CrateSmallLong01:3.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.3355,
+    "p25": -0.3277,
     "p50": -0.2938,
     "p75": -0.2437,
-    "n": 58,
-    "slopeTermMPerDeg": 0.01612,
+    "n": 61,
+    "slopeTermMPerDeg": 0.01586,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4076,7 +6042,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.345
+   "pivotAboveBaseM": 0.345,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 202,
+    "interior": {
+     "keep": 11,
+     "wild": 8,
+     "town": 74,
+     "ruin": 26,
+     "village": 5,
+     "camp": 11
+    },
+    "exterior": {
+     "ruin": 14,
+     "camp": 3,
+     "wild": 32,
+     "town": 11,
+     "village": 4,
+     "keep": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:town:Katariah01",
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "interior:town:WhiterunBreezehome",
+     "interior:town:RiftenBlackBriarManor",
+     "interior:town:RiftenWarehouse",
+     "interior:town:WindhelmClanShatterShieldOffice",
+     "interior:town:WindhelmCalixtosHouseofCuriosities"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket01",
@@ -4131,7 +6146,48 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 603,
+    "interior": {
+     "keep": 71,
+     "town": 346,
+     "ruin": 41,
+     "wild": 41,
+     "camp": 39,
+     "village": 35
+    },
+    "exterior": {
+     "town": 9,
+     "ruin": 9,
+     "wild": 5,
+     "camp": 4,
+     "keep": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:town:RiftenHaelgasBunkhouse",
+     "interior:town:MarkarthTempleInnerSanctum",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:town:RiftenBlackBriarManor",
+     "interior:town:RiftenHouseofMjolltheLioness",
+     "interior:town:RiftenMercerFreyHouse",
+     "interior:keep:BloodletThrone01",
+     "interior:town:RiftenBlackBriarMeadery"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket03",
@@ -4186,7 +6242,47 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 577,
+    "interior": {
+     "keep": 68,
+     "town": 315,
+     "village": 29,
+     "camp": 28,
+     "ruin": 53,
+     "wild": 40
+    },
+    "exterior": {
+     "ruin": 8,
+     "wild": 12,
+     "camp": 3,
+     "town": 17,
+     "keep": 4
+    },
+    "sourceCells": [
+     "interior:ruin:FellglowKeep01",
+     "interior:town:RiftenBlackBriarManor",
+     "interior:town:BlackBriarLodge01",
+     "interior:town:SolitudeBardsCollege",
+     "interior:town:RiftenHouseofClanSnowShod",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:town:MarkarthAbandonedHouse",
+     "interior:town:MarkarthSilverBloodInn"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basketclosed01",
@@ -4241,7 +6337,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 472,
+    "interior": {
+     "town": 203,
+     "keep": 79,
+     "village": 26,
+     "camp": 30,
+     "ruin": 57,
+     "wild": 27
+    },
+    "exterior": {
+     "wild": 12,
+     "town": 14,
+     "camp": 11,
+     "ruin": 5,
+     "village": 4,
+     "keep": 4
+    },
+    "sourceCells": [
+     "interior:ruin:FellglowKeep02",
+     "interior:keep:BloodletThrone01",
+     "interior:town:Katariah01",
+     "interior:town:SolitudeBlackSmith",
+     "interior:keep:NightcallerTemple01",
+     "interior:town:MarkarthTempleInnerSanctum",
+     "interior:town:MarkarthVlindrelHall",
+     "interior:town:MarkarthNepossHouse"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -4296,7 +6441,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 1493,
+    "interior": {
+     "town": 519,
+     "keep": 249,
+     "ruin": 200,
+     "village": 56,
+     "camp": 133,
+     "wild": 81
+    },
+    "exterior": {
+     "wild": 60,
+     "camp": 67,
+     "keep": 39,
+     "ruin": 31,
+     "town": 46,
+     "village": 12
+    },
+    "sourceCells": [
+     "interior:ruin:FellglowKeep01",
+     "interior:town:Katariah01",
+     "exterior:wild:Tamriel",
+     "interior:keep:RiftenJail01",
+     "interior:camp:FaldarsTooth01",
+     "interior:keep:FortGreymoor01",
+     "interior:ruin:FellglowKeep02",
+     "interior:keep:SolitudeJail01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/pitchfork01",
@@ -4351,7 +6545,47 @@
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.68
+   "pivotAboveBaseM": 0.68,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 42,
+    "interior": {
+     "keep": 11,
+     "town": 17,
+     "ruin": 1,
+     "village": 3,
+     "wild": 1,
+     "camp": 1
+    },
+    "exterior": {
+     "ruin": 1,
+     "village": 3,
+     "camp": 1,
+     "keep": 2,
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:keep:FortGreenwall01",
+     "interior:town:MarkarthStableHouse",
+     "interior:keep:FortNeugrad02",
+     "interior:keep:Mistwatch01",
+     "interior:town:WindhelmStables",
+     "interior:town:MarkarthVlindrelHall",
+     "interior:ruin:NorthwatchKeep01",
+     "interior:town:WindhelmArgonianAssemblage"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/shovel01",
@@ -4406,7 +6640,55 @@
    "undersideClosed": false,
    "undersideCoverage": 0.536,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.762
+   "pivotAboveBaseM": 0.762,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 245,
+    "interior": {
+     "keep": 39,
+     "ruin": 50,
+     "town": 60,
+     "village": 21,
+     "camp": 30,
+     "wild": 8
+    },
+    "exterior": {
+     "wild": 17,
+     "village": 4,
+     "ruin": 5,
+     "town": 6,
+     "camp": 4,
+     "keep": 1
+    },
+    "sourceCells": [
+     "interior:keep:CidhnaMine01",
+     "interior:ruin:Saarthal01",
+     "interior:ruin:Ansilvund01",
+     "interior:camp:FrostmereCrypt01",
+     "interior:camp:FortFellhammer02",
+     "exterior:wild:Tamriel",
+     "interior:village:SoljundsSinkhole01",
+     "interior:keep:FortNeugrad02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -4474,7 +6756,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403
+   "pivotAboveBaseM": 0.403,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 445,
+    "interior": {
+     "keep": 84,
+     "ruin": 40,
+     "town": 90,
+     "camp": 69,
+     "wild": 22,
+     "village": 10
+    },
+    "exterior": {
+     "camp": 19,
+     "wild": 49,
+     "ruin": 24,
+     "keep": 9,
+     "town": 26,
+     "village": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:town:Katariah01",
+     "exterior:town:KatariahLocation",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:keep:RiftenJail01",
+     "interior:ruin:Icerunner01",
+     "interior:keep:SolitudeJail01",
+     "exterior:ruin:IcerunnerLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsacklargeflat01",
@@ -4542,7 +6873,55 @@
    "undersideClosed": true,
    "undersideCoverage": 0.842,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403
+   "pivotAboveBaseM": 0.403,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 393,
+    "interior": {
+     "keep": 53,
+     "town": 148,
+     "ruin": 28,
+     "wild": 43,
+     "village": 18,
+     "camp": 37
+    },
+    "exterior": {
+     "wild": 20,
+     "town": 26,
+     "ruin": 6,
+     "camp": 7,
+     "village": 2,
+     "keep": 5
+    },
+    "sourceCells": [
+     "exterior:town:SolitudeLocation",
+     "exterior:wild:Tamriel",
+     "interior:town:MarkarthAbandonedHouse",
+     "interior:wild:JaphetsFolly02",
+     "interior:keep:WhiterunDragonsreachBasement",
+     "interior:town:HonningbrewMeadery01",
+     "interior:town:MarkarthTempleInnerSanctum",
+     "interior:wild:DrelasCottage01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -4580,20 +6959,15 @@
     "WATER.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -0.0264,
+    "p50": 0.0097,
+    "p75": 0.0318,
+    "n": 27,
+    "slopeTermMPerDeg": -0.0111,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4608,7 +6982,39 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 44,
+    "interior": {
+     "camp": 10,
+     "keep": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 29,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:camp:FaldarsTooth01",
+     "interior:keep:GloomboundMine01",
+     "interior:camp:KnifepointRidge01",
+     "interior:town:RiftenFishery",
+     "interior:keep:FortDunstad01",
+     "exterior:town:MarkarthLocation",
+     "exterior:town:WhiterunLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -4670,7 +7076,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -4735,7 +7158,16 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016
+   "pivotAboveBaseM": 0.016,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -4824,7 +7256,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -4900,7 +7349,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -4960,7 +7426,24 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -5034,7 +7517,24 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -5099,7 +7599,30 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -5164,7 +7687,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence02",
@@ -5224,7 +7764,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.196
+   "pivotAboveBaseM": 0.196,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cattail",
@@ -5287,7 +7844,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.857
+   "pivotAboveBaseM": 0.857,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:advertising_board",
@@ -5361,7 +7927,16 @@
    "undersideClosed": true,
    "undersideCoverage": 0.89,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/cookingstand01",
@@ -5421,7 +7996,36 @@
    "undersideClosed": false,
    "undersideCoverage": 0.427,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "ruin"
+     ]
+    },
+    "n": 11,
+    "interior": {
+     "town": 5,
+     "ruin": 3,
+     "keep": 2,
+     "village": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:WhiterunBreezehome",
+     "interior:town:WhiterunHouseGrayMane",
+     "interior:ruin:SnaplegCave01",
+     "interior:town:SolitudeErikursHouse",
+     "interior:town:WhiterunSeverioPelagiasHouse",
+     "interior:ruin:DuskglowCrevice01",
+     "interior:keep:FortAmol01",
+     "interior:town:SolitudeBrylingsHouse"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/spit01",
@@ -5476,7 +8080,54 @@
    "undersideClosed": false,
    "undersideCoverage": 0.053,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 109,
+    "interior": {
+     "keep": 15,
+     "ruin": 19,
+     "village": 5,
+     "town": 10,
+     "camp": 5,
+     "wild": 3
+    },
+    "exterior": {
+     "camp": 13,
+     "wild": 21,
+     "town": 6,
+     "ruin": 9,
+     "keep": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:keep:FortGreenwall01",
+     "interior:town:WhiterunBelethorsGeneralGoods",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:ruin:Alftand01",
+     "interior:wild:OLDBluePalaceWing01",
+     "interior:keep:FortDunstad01",
+     "interior:town:MarkarthWizardsQuarters02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/imperial/impbrazier01",
@@ -5559,7 +8210,52 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 261,
+    "interior": {
+     "wild": 27,
+     "keep": 61,
+     "ruin": 60,
+     "camp": 24,
+     "town": 32
+    },
+    "exterior": {
+     "camp": 12,
+     "keep": 6,
+     "wild": 16,
+     "ruin": 13,
+     "town": 10
+    },
+    "sourceCells": [
+     "interior:town:DawnstarSanctuary",
+     "interior:wild:NightingaleHall01",
+     "interior:camp:GallowsRock01",
+     "interior:ruin:Harmugstahl01",
+     "interior:wild:HelgenKeep01",
+     "interior:keep:Morvunskar01",
+     "exterior:town:WindhelmPitLocation",
+     "exterior:ruin:SouthfringeSanctumLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignsmall01l",
@@ -5619,7 +8315,16 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143
+   "pivotAboveBaseM": 0.143,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignsmall01r",
@@ -5679,7 +8384,16 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157
+   "pivotAboveBaseM": 0.157,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignmedium01l",
@@ -5739,7 +8453,16 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.143
+   "pivotAboveBaseM": 0.143,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignmedium01r",
@@ -5794,7 +8517,16 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignlarge01l",
@@ -5849,7 +8581,16 @@
    "undersideClosed": false,
    "undersideCoverage": 0.501,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.164
+   "pivotAboveBaseM": 0.164,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:roadsignlarge01r",
@@ -5909,7 +8650,16 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.137
+   "pivotAboveBaseM": 0.137,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:effects/fxfirewithembers01",
@@ -5983,7 +8733,54 @@
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.337
+   "pivotAboveBaseM": 0.337,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 1246,
+    "interior": {
+     "ruin": 705,
+     "wild": 79,
+     "town": 103,
+     "keep": 70,
+     "village": 4,
+     "camp": 72
+    },
+    "exterior": {
+     "camp": 36,
+     "ruin": 58,
+     "wild": 43,
+     "keep": 21,
+     "town": 55
+    },
+    "sourceCells": [
+     "exterior:wild:HelgenLocation",
+     "interior:ruin:Volskygge01",
+     "interior:ruin:Skuldafn01",
+     "interior:town:DawnstarSanctuary",
+     "interior:ruin:YsgramorsTomb01",
+     "interior:ruin:ForsakenCave02",
+     "interior:ruin:SilverdriftLair01",
+     "interior:ruin:Volskygge02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/campfire01burning",
@@ -6068,8 +8865,8 @@
     "p25": -0.0543,
     "p50": -0.0,
     "p75": 0.0325,
-    "n": 42,
-    "slopeTermMPerDeg": 0.00056,
+    "n": 44,
+    "slopeTermMPerDeg": 0.00041,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -6088,7 +8885,51 @@
    "undersideClosed": true,
    "undersideCoverage": 0.615,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247
+   "pivotAboveBaseM": 0.247,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin"
+     ],
+     "exterior": [
+      "keep",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 141,
+    "interior": {
+     "ruin": 33,
+     "camp": 16,
+     "town": 4,
+     "keep": 14,
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 21,
+     "camp": 30,
+     "ruin": 15,
+     "village": 1,
+     "keep": 4,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:keep:FortGreenwall01",
+     "interior:ruin:SightlessPit02",
+     "exterior:camp:GallowsRockLocation",
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:camp:HagRockRedoubtLocation",
+     "exterior:camp:DeepwoodRedoubtLocation",
+     "interior:ruin:SnaplegCave01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/signage/roadsigns/roadsignpost",
@@ -6156,7 +8997,40 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 59,
+    "interior": {
+     "camp": 1
+    },
+    "exterior": {
+     "keep": 2,
+     "wild": 41,
+     "town": 7,
+     "camp": 5,
+     "ruin": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "exterior:town:RiverwoodLocation",
+     "exterior:town:WhiterunLocation",
+     "exterior:wild:GraniteHillLocation",
+     "interior:camp:RobbersGorge01",
+     "exterior:keep:FortDunstadLocation",
+     "exterior:camp:MilitaryCampFalkreathSonsLocation",
+     "exterior:town:IvarsteadLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/fishnet01",
@@ -6220,7 +9094,16 @@
    "undersideClosed": true,
    "undersideCoverage": 0.915,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.021
+   "pivotAboveBaseM": -0.021,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopen01",
@@ -6277,7 +9160,49 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.043
+   "pivotAboveBaseM": 0.043,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "ruin"
+     ],
+     "exterior": [
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 72,
+    "interior": {
+     "keep": 16,
+     "village": 5,
+     "town": 8,
+     "ruin": 15,
+     "camp": 2,
+     "wild": 1
+    },
+    "exterior": {
+     "camp": 6,
+     "wild": 12,
+     "ruin": 5,
+     "town": 2
+    },
+    "sourceCells": [
+     "interior:ruin:Alftand01",
+     "interior:keep:FortDunstad01",
+     "exterior:wild:BlackreachTowerofMzarkExteriorLocation",
+     "exterior:wild:Tamriel",
+     "interior:keep:LargashburShagrolsLonghouse",
+     "interior:town:WhiterunBelethorsGeneralGoods",
+     "interior:ruin:TowerOfMzark",
+     "interior:keep:MarkarthUnderStoneKeep"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/spitpotopenloose01",
@@ -6332,7 +9257,47 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099
+   "pivotAboveBaseM": 0.099,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 76,
+    "interior": {
+     "keep": 16,
+     "wild": 5,
+     "town": 22,
+     "village": 1,
+     "camp": 5,
+     "ruin": 16
+    },
+    "exterior": {
+     "ruin": 2,
+     "wild": 7,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:ruin:SilverdriftLair01",
+     "interior:keep:FortHraggstad02",
+     "interior:town:WindhelmArgonianAssemblage",
+     "interior:ruin:CragwallowSlope01",
+     "interior:town:WindhelmHouseofClanShatterShield",
+     "interior:town:RiftenEsbernsVault",
+     "interior:ruin:Alftand01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/kitchen/castironpotmedium01",
@@ -6364,10 +9329,10 @@
     "CastIronPotMedium01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.3635,
-    "p50": 0.0083,
-    "p75": 0.0085,
-    "n": 5,
+    "p25": 0.0083,
+    "p50": 0.0085,
+    "p75": 0.0093,
+    "n": 4,
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
@@ -6387,7 +9352,48 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 605,
+    "interior": {
+     "town": 332,
+     "keep": 75,
+     "ruin": 42,
+     "village": 40,
+     "wild": 46,
+     "camp": 38
+    },
+    "exterior": {
+     "wild": 11,
+     "ruin": 4,
+     "town": 4,
+     "camp": 7,
+     "keep": 3,
+     "village": 3
+    },
+    "sourceCells": [
+     "interior:town:MarkarthSilverBloodInn",
+     "interior:town:MarkarthArnleifandSonsTradingCompany",
+     "interior:ruin:FellglowKeep01",
+     "interior:town:MarkarthAbandonedHouse",
+     "interior:town:RiftenRaggedFlagon",
+     "interior:wild:ThalmorEmbassy01",
+     "interior:town:RiftenBeeandBarb",
+     "interior:town:MarkarthNepossHouse"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/clutter/saxhleelmetalpot01",
@@ -6447,7 +9453,40 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.099
+   "pivotAboveBaseM": 0.099,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 14,
+    "interior": {
+     "ruin": 1,
+     "village": 7,
+     "town": 3
+    },
+    "exterior": {
+     "wild": 1,
+     "village": 2
+    },
+    "sourceCells": [
+     "interior:village:SeekhatSmithyHut",
+     "exterior:village:SeekhatYolLocation",
+     "interior:ruin:TeethofSithisInt02",
+     "interior:town:LilmothPusbottomBunkhouse01",
+     "interior:town:LilmothSewersInt03Hideout",
+     "interior:village:KeebaHouseTreeminder",
+     "interior:town:LilmothBanditTavern",
+     "interior:village:RootWhisperHouseFisher"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket05",
@@ -6502,7 +9541,47 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 611,
+    "interior": {
+     "town": 272,
+     "keep": 99,
+     "ruin": 61,
+     "village": 29,
+     "wild": 51,
+     "camp": 48
+    },
+    "exterior": {
+     "wild": 24,
+     "camp": 7,
+     "keep": 4,
+     "town": 13,
+     "ruin": 3
+    },
+    "sourceCells": [
+     "interior:wild:ThalmorEmbassy02",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:keep:SolitudeJail01",
+     "interior:town:MarkarthNepossHouse",
+     "interior:town:SolitudeBardsCollege",
+     "interior:keep:SolitudeBluePalace",
+     "interior:keep:RiftenJail01",
+     "exterior:wild:EastEmpireWarehouseLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket06",
@@ -6557,7 +9636,43 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village",
+      "ruin",
+      "wild"
+     ],
+     "exterior": []
+    },
+    "n": 35,
+    "interior": {
+     "town": 13,
+     "village": 5,
+     "ruin": 9,
+     "wild": 3,
+     "keep": 1
+    },
+    "exterior": {
+     "wild": 2,
+     "town": 1,
+     "ruin": 1
+    },
+    "sourceCells": [
+     "interior:ruin:FellglowKeep02",
+     "interior:wild:ThalmorEmbassy01",
+     "interior:town:RoriksteadFrostfruitInn",
+     "interior:town:RoriksteadLemkilsFarm",
+     "interior:town:DragonBridgeFarm",
+     "interior:town:DawnstarBeitildsHouse",
+     "interior:village:HlaaluFarm",
+     "interior:ruin:Mzulft02"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/clutter/basket01",
@@ -6617,7 +9732,42 @@
    "undersideClosed": true,
    "undersideCoverage": 0.797,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262
+   "pivotAboveBaseM": 0.262,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village",
+      "ruin"
+     ],
+     "exterior": [
+      "village",
+      "wild"
+     ]
+    },
+    "n": 81,
+    "interior": {
+     "ruin": 13,
+     "village": 17,
+     "town": 39
+    },
+    "exterior": {
+     "village": 4,
+     "wild": 8
+    },
+    "sourceCells": [
+     "interior:ruin:TeethofSithisInt02",
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothGreasySleeperInt01",
+     "interior:town:LilmothPusbottomBunkhouse01",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:town:AltenGeneralStore",
+     "interior:ruin:MugsumpColdrootBurrow",
+     "interior:town:LilmothLumberworksBarracksInt"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/clutter/basket02",
@@ -6672,7 +9822,41 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.262
+   "pivotAboveBaseM": 0.262,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village",
+      "ruin"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 41,
+    "interior": {
+     "ruin": 6,
+     "village": 12,
+     "town": 16
+    },
+    "exterior": {
+     "village": 2,
+     "wild": 5
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothGreasySleeperInt01",
+     "interior:town:LilmothFishery",
+     "interior:ruin:TeethofSithisInt02",
+     "interior:ruin:TeethofSithisInt03",
+     "interior:village:RootWhisperHouseBeekeeper",
+     "interior:town:LilmothPusbottomBunkhouse03",
+     "interior:village:KeebaHouseFisher"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/clutter/basketcontainer",
@@ -6740,7 +9924,46 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.501
+   "pivotAboveBaseM": 0.501,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village",
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "village",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 251,
+    "interior": {
+     "ruin": 10,
+     "town": 135,
+     "village": 42
+    },
+    "exterior": {
+     "town": 20,
+     "wild": 19,
+     "village": 20,
+     "camp": 5
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "exterior:town:LilmothLocation",
+     "interior:ruin:TeethofSithisInt02",
+     "exterior:village:SeekhatYolLocation",
+     "interior:town:LilmothPlantationStorehouse",
+     "exterior:town:AltenMeerhleelLocation",
+     "interior:town:LilmothTaverna",
+     "interior:town:LilmothLumberworksBarracksInt"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "composite:works/stockade-scaffold-2stage",
@@ -6804,7 +10027,39 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 111,
+    "interior": {
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 74,
+     "ruin": 2,
+     "keep": 19,
+     "camp": 13,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:wild:Tamriel",
+     "exterior:camp:RiftWatchtowerLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:keep:FortHraggstadLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:village:BilegulchMineLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "composite:works/stockade-scaffold-3stage",
@@ -6870,7 +10125,39 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 111,
+    "interior": {
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 74,
+     "ruin": 2,
+     "keep": 19,
+     "camp": 13,
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:wild:GoldenglowEstateLocation",
+     "exterior:wild:Tamriel",
+     "exterior:camp:RiftWatchtowerLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:keep:FortHraggstadLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:camp:KarthspireLocation",
+     "exterior:village:BilegulchMineLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\works-v1.glb",

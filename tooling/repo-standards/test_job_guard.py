@@ -4,6 +4,7 @@ Admission is by slot, never by the 1-min load average (unless ES_JOB_MAX_LOAD
 is set), and every admitted job gets its slot's core share in ES_JOB_CORES,
 which pytest-xdist's `-n auto` follows through PYTEST_XDIST_AUTO_NUM_WORKERS.
 """
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -51,3 +52,24 @@ def test_each_slot_gets_its_core_share_and_xdist_follows_it(tmp_path):
 def test_one_core_pool_gives_one_core(tmp_path):
     r = guard(tmp_path, "echo cores=$ES_JOB_CORES", ES_JOB_CPUS="0", ES_JOB_SLOTS="3")
     assert "cores=1" in r.stdout, r.stderr
+
+
+def test_arguments_reach_the_command_unchanged(tmp_path):
+    """Walk 3 L3 rec 2: `-k "a or b"` once reached pytest as three words.
+    Several arguments keep their boundaries (spaces, quotes, `$`, `;`); one
+    argument stays a shell line (pipes and `$VAR` expand)."""
+    load = tmp_path / "loadavg"
+    load.write_text("0.00 0.00 0.00 1/1 1\n")
+    env = {**os.environ, "ES_JOB_LOCK_DIR": str(tmp_path / "locks"), "ES_JOB_LOADAVG_FILE": str(load),
+           "ES_JOB_WAIT_S": "0", "ES_JOB_POLL_S": "0", "ES_JOB_MIN_FREE_GB": "0",
+           "ES_JOB_MEM_CEILING_MIB": "100000000", "ES_JOB_CPUS": "0"}
+    args = ["python3", "-c", "import sys, json; print(json.dumps(sys.argv[1:]))",
+            "-k", "render or round", "it's", "$HOME", "a;b"]
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--", *args], env=env,
+                       capture_output=True, text=True, timeout=60)
+    assert r.returncode == 0, r.stderr
+    line = next(x for x in r.stdout.splitlines() if x.startswith("["))
+    assert json.loads(line) == ["-k", "render or round", "it's", "$HOME", "a;b"]
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--", "echo one two | tr o 0"],
+                       env=env, capture_output=True, text=True, timeout=60)
+    assert "0ne tw0" in r.stdout, r.stderr

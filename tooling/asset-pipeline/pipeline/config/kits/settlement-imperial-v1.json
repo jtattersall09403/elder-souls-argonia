@@ -318,6 +318,12 @@
    "asset": "vanilla:plants/chickennest01"
   },
   {
+   "asset": "vanilla:architecture/riften/rtstables01"
+  },
+  {
+   "asset": "vanilla:clutter/horsetrough/horsetrough01"
+  },
+  {
    "asset": "vanilla:clutter/common/candlelanternwithcandle01",
    "light": {
     "formId": "00088241",

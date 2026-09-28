@@ -160,10 +160,7 @@
   "composite:farmhouse/farmhouse02-with-walkway": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
-   "doorwayProbeCentreM": [
-    -1.33,
-    7.17
-   ],
+   "doorwaysMeasuredBelowM": 1.0,
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "heightM": 3.18,
@@ -216,22 +213,13 @@
      "sideDeg": 180.33
     },
     {
-     "arcM": 2.0,
+     "arcM": 0.85,
      "kind": "opening",
      "offsetM": [
-      1.78,
-      8.15
+      -1.85,
+      3.5
      ],
-     "sideDeg": 144.24
-    },
-    {
-     "arcM": 2.49,
-     "kind": "opening",
-     "offsetM": [
-      -0.34,
-      9.57
-     ],
-     "sideDeg": 164.24
+     "sideDeg": 155.0
     }
    ],
    "ringFraction": 1.0,
@@ -349,7 +337,7 @@
     "deg": 78.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 78\u00b0 in the piece's own frame carries 3.14x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 78\u00b0 in the piece's own frame carries 3.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.971,
    "headroomM": 1.87,
@@ -930,6 +918,45 @@
    "sizeClass": "small",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
+  "vanilla:architecture/riften/rtstables01": {
+   "category": "architecture",
+   "entrance": {
+    "arcM": 1.56,
+    "kind": "open-front",
+    "offsetM": [
+     1.07,
+     -0.96
+    ],
+    "sideDeg": 20.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 6.3,
+   "heightM": 7.72,
+   "interior": "none",
+   "medianWallM": 1.77,
+   "planAreaM2": 128.84,
+   "planCentreM": [
+    0.56,
+    0.44
+   ],
+   "provenance": [
+    {
+     "arcM": 1.5,
+     "kind": "open-front",
+     "offsetM": [
+      0.03,
+      0.66
+     ],
+     "sideDeg": 247.5
+    }
+   ],
+   "ringFraction": 0.833,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "walkedInto": true,
+   "why": "open-fronted with no door (83% of the ring at 1.6 m hits a wall, the rest is one open front) and its own plugin places it outdoors (n 2, exterior:town:RiftenLocation, exterior:town:BlackBriarLodgeLocation): it is walked into, never a shell or a promised interior (decision 0105 R18, R2)"
+  },
   "vanilla:clutter/barrel01": {
    "category": "container",
    "entrance": null,
@@ -1045,6 +1072,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (2.8 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/horsetrough/horsetrough01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 1.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.2 m\u00b2 plan, 0.5 m tall)"
   },
   "vanilla:clutter/imperial/impwallsconcecandle01": {
    "category": "clutter",

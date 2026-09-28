@@ -51,7 +51,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallbodytall02",
@@ -106,7 +107,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallbodyslope",
@@ -158,7 +160,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthin512x128",
@@ -207,7 +210,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthin2048x128",
@@ -258,7 +262,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthin2048x512",
@@ -309,7 +314,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthin4096x256",
@@ -360,7 +366,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthinsheet",
@@ -416,7 +423,8 @@
     "tell": "post-foot",
     "valueM": -11.1872
    },
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallthinspray2048",
@@ -468,7 +476,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallskirttallfront",
@@ -521,7 +530,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallskirtslope",
@@ -573,7 +583,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallskirtslopenomist",
@@ -625,7 +636,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallmistblast",
@@ -674,7 +686,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxwaterfallmistblastlite",
@@ -722,7 +735,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxrapids",
@@ -773,7 +787,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxrapidsbig01",
@@ -822,7 +837,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxrapidsfallsline01",
@@ -873,7 +889,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxrapidsfallstop",
@@ -924,7 +941,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxrapidsringheavy",
@@ -975,7 +993,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/fxsplashlargechurnnorapids",
@@ -1024,7 +1043,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodytall_lod",
@@ -1072,7 +1092,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod",
@@ -1120,7 +1141,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod",
@@ -1168,7 +1190,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01",
@@ -1216,7 +1239,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam",
@@ -1264,7 +1288,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:effects/ambient/fxmistlow01",
@@ -1313,7 +1338,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "fx",
-   "anchorClassEvidence": "category"
+   "anchorClassEvidence": "category",
+   "lodLevels": 1
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\apps\\world-studio\\public\\kits\\waterfall-fx-v1.glb",

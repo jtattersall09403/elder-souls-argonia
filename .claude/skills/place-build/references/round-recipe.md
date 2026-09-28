@@ -62,13 +62,13 @@ scan did not pass is never authored.
 - One agent carrying more than one round of context: the round ends on
   disk and the next round starts a fresh agent from that folder alone.
   `tooling/.reports/16k/<place>/round-N/` holds `summary.json` and
-  `rounds.jsonl` (written there by `wb round --report-dir`), the scan
-  output (never `/tmp`), the layout diff, the reader NOs, the fix list
-  and `waiting-on.json` (the tooling-lane task ids the round waits on,
-  each with the rule it will add). Until `--report-dir` lands (16k S17)
-  `wb round` writes to `tooling/placement-workbench/output/apply/<stem>/`
-  and the builder copies `summary.json` and `rounds.jsonl` into the
-  round folder before it ends.
+  `rounds.jsonl` (`wb round` writes them into the place's current round
+  folder by default), the scan output (never `/tmp`), the layout diff,
+  the reader NOs, the fix list and `waiting-on.json` (`wb round
+  --waiting-on TASK=RULE ...`: the tooling-lane task ids the round waits
+  on, each with the rule it will add). Ops the owner called right on a
+  walk carry `"ownerOk": "walk-N"`; changing one later needs a `cause`
+  (the `ownerOkRule` check reads the layout at git HEAD).
 - A validator test or rule written inside the slice: a record defect is
   filed to the tooling sub-lane with the failing record named, and
   design proceeds on the corrected record.

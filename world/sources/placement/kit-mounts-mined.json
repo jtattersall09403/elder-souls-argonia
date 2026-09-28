@@ -275,7 +275,7 @@
  "anchorClassCounts": {
   "deck": 68,
   "fx": 22,
-  "ground": 1306,
+  "ground": 1307,
   "hanging": 34,
   "wall": 14,
   "water": 54
@@ -10018,6 +10018,25 @@
    },
    "share": 0.989,
    "otherFileRefsNotVoting": 2
+  },
+  "vanilla:architecture/riften/rtstables01": {
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "n": 2,
+   "refClasses": {
+    "ground": 2
+   },
+   "abuts": {
+    "plugin-static:landscape/trees/treeaspen01.nif": 1,
+    "plugin-static:landscape/trees/treeaspen03.nif": 1,
+    "plugin-static:landscape/trees/treeaspen06.nif": 1,
+    "vanilla:clutter/hay/haybale01": 1,
+    "vanilla:landscape/plants/thicket01": 1,
+    "vanilla:architecture/farmhouse/stonewall/stonewall01": 1
+   },
+   "share": 1.0,
+   "evidence": "thin",
+   "terrainOverNeighbour": 1
   },
   "vanilla:architecture/shackkit/shackbrokepole01": {
    "anchorClass": "ground",

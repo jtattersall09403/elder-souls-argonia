@@ -34,7 +34,7 @@ Run (from tooling/world-generation/):
   python3 -m worldgen.blueprint_interiors --report ../../world/sources/blueprints/<place>.json
   python3 -m worldgen.blueprint_interiors --report <dir>          # every blueprint in a directory
   python3 -m worldgen.blueprint_interiors --claim <blueprint>.json  # tier A claims; a lookup in
-      the batch pre-pass table (worldgen.batch_prepass) when present, refused when it is stale
+      the batch pre-pass table (worldgen.batch_prepass) when current, else the plugin reads (warned)
 """
 
 from __future__ import annotations
@@ -852,11 +852,32 @@ def main() -> int:
     return 0
 
 
+def table_or_plugin(table, miss_error):
+    """(profile, sourcing) that look a cell up in the claim table and read it
+    from its plugin, with a warning, when the table has no entry for it."""
+    def profile(plugin, cell, shell):
+        try:
+            return table.profile(plugin, cell, shell)
+        except miss_error as err:
+            print(f"claim: WARNING {err.message}; reading it from its plugin", file=sys.stderr)
+            return plugin_profile(plugin, cell, shell)
+
+    def sourcing(plugin, cell):
+        try:
+            return table.sourcing(plugin, cell)
+        except miss_error as err:
+            print(f"claim: WARNING {err.message}; reading it from its plugin", file=sys.stderr)
+            return bundle_sourcing(plugin, cell)
+    return profile, sourcing
+
+
 def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> int:
     """`--claim`. With the batch pre-pass table present (S16), every cell's
-    profile and sourcing are looked up in it, never read from the plugins;
-    a table whose inputs moved, or that lacks a cell, refuses (exit 2) with
-    the command that rebuilds it. No table: the plugin reads, as before."""
+    profile and sourcing are looked up in it, never read from the plugins.
+    A table whose inputs moved falls back to the plugin reads (~21 s) with a
+    warning naming the rebuild command, and a cell the table lacks is read
+    from its plugin with a warning (walk 3 L8 rec 2: a commit to one input
+    code file once refused every claim, exit 2). No table: the plugin reads."""
     data = json.loads(path.read_text())
     bp = data.get("blueprint", data)
     profile, sourcing = plugin_profile, bundle_sourcing
@@ -865,16 +886,17 @@ def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> 
         try:
             table = batch_prepass.current_table()
         except batch_prepass.TableError as err:
-            print(f"claim: {err.message}", file=sys.stderr)
-            return 2
-        if table is not None:
-            profile, sourcing = table.profile, table.sourcing
-            print(f"claim: looked up in {batch_prepass._label(table.path)} "
-                  f"(inputs {table.doc['inputsDigest'][:8]}, current)", file=sys.stderr)
-        else:
-            print("claim: no batch pre-pass table, reading every cell from its plugin "
-                  "(python3 -m worldgen.batch_prepass --places <ids> makes this a lookup)",
+            print(f"claim: WARNING {err.message}; reading every cell from its plugin instead",
                   file=sys.stderr)
+        else:
+            if table is not None:
+                profile, sourcing = table_or_plugin(table, batch_prepass.TableError)
+                print(f"claim: looked up in {batch_prepass._label(table.path)} "
+                      f"(inputs {table.doc['inputsDigest'][:8]}, current)", file=sys.stderr)
+            else:
+                print("claim: no batch pre-pass table, reading every cell from its plugin "
+                      "(python3 -m worldgen.batch_prepass --places <ids> makes this a lookup)",
+                      file=sys.stderr)
     try:
         rows = claim_doors(bp, profile=profile, sourcing=sourcing)
         parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}

@@ -67,7 +67,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetronc001lianess",
@@ -125,7 +126,8 @@
     "tell": "post-foot",
     "valueM": -5.6118
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalcon15v001",
@@ -200,7 +202,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconacces15d001",
@@ -257,7 +260,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconacces15i001",
@@ -320,7 +324,8 @@
     "tell": "post-foot",
     "valueM": -4.3629
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconendl01",
@@ -382,7 +387,8 @@
     "deckTopM": 0.101,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncbalconendr01",
@@ -444,7 +450,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncdooret01",
@@ -499,7 +506,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncdoorrc01",
@@ -554,7 +562,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet001",
@@ -607,7 +616,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet002",
@@ -660,7 +670,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet003",
@@ -713,7 +724,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowet004",
@@ -766,7 +778,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc001",
@@ -819,7 +832,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc002",
@@ -872,7 +886,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncwindowrc003",
@@ -925,7 +940,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamp001",
@@ -987,7 +1003,8 @@
     "p10": 1.0,
     "p90": 1.4,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalcon45v001",
@@ -1049,7 +1066,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacces45d001",
@@ -1112,7 +1130,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacces45i001",
@@ -1174,7 +1193,8 @@
     "tell": "post-foot",
     "valueM": -9.094
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatld001",
@@ -1236,7 +1256,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatli001",
@@ -1298,7 +1319,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatrd001",
@@ -1360,7 +1382,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconacceslatri001",
@@ -1422,7 +1445,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconfinl01",
@@ -1484,7 +1508,8 @@
     "deckTopM": 0.0598,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampbalconfinr01",
@@ -1546,7 +1571,8 @@
     "deckTopM": 0.0598,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampdoor01",
@@ -1601,7 +1627,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamplianess001",
@@ -1660,7 +1687,8 @@
     "tell": "post-foot",
     "valueM": -4.5031
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechamplianestronc",
@@ -1718,7 +1746,8 @@
     "p10": 1.0,
     "p90": 1.2,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow001",
@@ -1771,7 +1800,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow002",
@@ -1824,7 +1854,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow003",
@@ -1877,7 +1908,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampwindow004",
@@ -1930,7 +1962,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housegland001",
@@ -1991,7 +2024,8 @@
     "p10": 1.0,
     "p90": 1.2,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
@@ -2060,7 +2094,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandacceslati01",
@@ -2122,7 +2157,8 @@
     "deckTopM": 0.0013,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglanddoor001",
@@ -2175,7 +2211,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandfixation001",
@@ -2233,7 +2270,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet001",
@@ -2286,7 +2324,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet002",
@@ -2339,7 +2378,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowet003",
@@ -2392,7 +2432,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandwindowrc001",
@@ -2445,7 +2486,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01",
@@ -2514,7 +2556,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0rdi01",
@@ -2576,7 +2619,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256ldi01",
@@ -2636,7 +2680,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256lid01",
@@ -2696,7 +2741,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rdi01",
@@ -2756,7 +2802,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rid01",
@@ -2823,7 +2870,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
@@ -2892,7 +2940,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128ldd01",
@@ -2952,7 +3001,8 @@
     "tell": "post-foot",
     "valueM": -1.5339
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128rdd01",
@@ -3012,7 +3062,8 @@
     "tell": "post-foot",
     "valueM": -1.5275
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01",
@@ -3074,7 +3125,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01",
@@ -3134,7 +3186,8 @@
     "tell": "post-foot",
     "valueM": -1.5385
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256ldd01",
@@ -3194,7 +3247,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256rdd01",
@@ -3254,7 +3308,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
@@ -3314,7 +3369,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -3369,7 +3425,8 @@
     "evidence": "policy"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
@@ -3438,7 +3495,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncti01",
@@ -3500,7 +3558,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01",
@@ -3562,7 +3621,8 @@
     "deckTopM": 0.0413,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxi01",
@@ -3624,7 +3684,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncydii01",
@@ -3688,7 +3749,8 @@
     "deckTopM": 0.0069,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncyidd01",
@@ -3751,7 +3813,8 @@
     "deckTopM": 0.0163,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
@@ -3819,7 +3882,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01",
@@ -3881,7 +3945,8 @@
     "deckTopM": 0.4552,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01",
@@ -3941,7 +4006,8 @@
     "tell": "post-foot",
     "valueM": -1.525
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
@@ -4001,7 +4067,8 @@
     "tell": "post-foot",
     "valueM": -1.5421
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01",
@@ -4061,7 +4128,8 @@
     "tell": "post-foot",
     "valueM": -1.5343
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
@@ -4130,7 +4198,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01",
@@ -4190,7 +4259,8 @@
     "tell": "foundation-top",
     "valueM": 0.305
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01",
@@ -4250,7 +4320,8 @@
     "tell": "post-foot",
     "valueM": -1.5156
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -4310,7 +4381,8 @@
     "tell": "floor-plane",
     "valueM": -1.5156
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64d01",
@@ -4370,7 +4442,8 @@
     "tell": "post-foot",
     "valueM": -1.984
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
@@ -4437,7 +4510,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
@@ -4497,7 +4571,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64starti01",
@@ -4557,7 +4632,8 @@
     "tell": "post-foot",
     "valueM": -1.6344
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256i01",
@@ -4619,7 +4695,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64d01",
@@ -4679,7 +4756,8 @@
     "tell": "post-foot",
     "valueM": -1.9774
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01",
@@ -4741,7 +4819,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64d01",
@@ -4801,7 +4880,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl64i01",
@@ -4863,7 +4943,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128ldi01",
@@ -4923,7 +5004,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128lid01",
@@ -4983,7 +5065,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rdi01",
@@ -5043,7 +5126,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rid01",
@@ -5103,7 +5187,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64ldi01",
@@ -5163,7 +5248,8 @@
     "tell": "post-foot",
     "valueM": -1.5223
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64lid01",
@@ -5223,7 +5309,8 @@
     "tell": "post-foot",
     "valueM": -1.5223
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rdi01",
@@ -5283,7 +5370,8 @@
     "tell": "post-foot",
     "valueM": -1.5223
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rid01",
@@ -5343,7 +5431,8 @@
     "tell": "post-foot",
     "valueM": -1.5223
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldi01",
@@ -5405,7 +5494,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldis01",
@@ -5467,7 +5557,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdi01",
@@ -5529,7 +5620,8 @@
     "deckTopM": 0.0011,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdis01",
@@ -5591,7 +5683,8 @@
     "deckTopM": 0.0731,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
@@ -5673,7 +5766,8 @@
     "p10": 1.0,
     "p90": 5.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01",
@@ -5731,7 +5825,8 @@
     "tell": "foundation-top",
     "valueM": -0.0035
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01",
@@ -5791,7 +5886,8 @@
     "tell": "floor-plane",
     "valueM": -0.3353
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarriered01",
@@ -5847,7 +5943,8 @@
     "tell": "floor-plane",
     "valueM": -0.1544
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
@@ -5903,7 +6000,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.1544
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskfixation001",
@@ -5954,7 +6052,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmurd01",
@@ -6010,7 +6109,8 @@
     "tell": "foundation-top",
     "valueM": 1.5541
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmuri01",
@@ -6066,7 +6166,8 @@
     "tell": "foundation-top",
     "valueM": 0.7375
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiant01",
@@ -6126,7 +6227,8 @@
     "p10": 1.0,
     "p90": 1.5,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche1",
@@ -6179,7 +6281,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche2",
@@ -6232,7 +6335,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche3",
@@ -6285,7 +6389,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche4",
@@ -6338,7 +6443,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche5",
@@ -6391,7 +6497,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche6",
@@ -6444,7 +6551,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche7",
@@ -6497,7 +6605,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche12",
@@ -6550,7 +6659,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbranche13",
@@ -6603,7 +6713,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves01b",
@@ -6658,7 +6769,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves03",
@@ -6722,7 +6834,8 @@
     "p10": 3.0,
     "p90": 3.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04",
@@ -6779,7 +6892,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treegiantrootbase01",
@@ -6839,7 +6953,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/trees/treemere03",
@@ -6899,7 +7014,8 @@
     "p10": 1.3,
     "p90": 1.4,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -6952,7 +7068,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
@@ -7010,7 +7127,8 @@
     "p10": 0.61,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -7068,7 +7186,8 @@
     "p10": 1.0,
     "p90": 1.18,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -7119,7 +7238,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
@@ -7175,7 +7295,8 @@
     "tell": "foundation-top",
     "valueM": 1.5541
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
@@ -7231,7 +7352,8 @@
     "tell": "foundation-top",
     "valueM": 0.7375
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
@@ -7298,7 +7420,8 @@
     "p10": 0.84,
     "p90": 0.84,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -7356,7 +7479,8 @@
     "tell": "foundation-top",
     "valueM": -3.6633
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -7415,7 +7539,24 @@
     "valueM": -2.6273
    },
    "anchorClassEvidence": "unplaced",
-   "placeUse": "hanging-only"
+   "placeUse": "hanging-only",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -7473,7 +7614,24 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -2.1494
-   }
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -7531,7 +7689,30 @@
     "tell": "floor-plane",
     "valueM": -0.8895
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -7583,7 +7764,30 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridge",
@@ -7644,7 +7848,16 @@
     "deckTopM": 0.3935,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridgestart",
@@ -7707,7 +7920,16 @@
     "deckTopM": 0.3381,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -7763,7 +7985,24 @@
     "tell": "floor-plane",
     "valueM": -0.1723
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatformsmall",
@@ -7819,7 +8058,24 @@
     "tell": "floor-plane",
     "valueM": -0.1571
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -7872,7 +8128,24 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {},
+    "exterior": {
+     "wild": 5
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -7930,7 +8203,30 @@
     "tell": "post-foot",
     "valueM": 0.0161
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -7988,7 +8284,30 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0459
-   }
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -8046,7 +8365,24 @@
     "tell": "post-foot",
     "valueM": -8.8224
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -8102,7 +8438,24 @@
     "tell": "floor-plane",
     "valueM": -0.6828
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -8160,7 +8513,24 @@
     "tell": "door-sill",
     "valueM": 3.9947
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/banner01",
@@ -8211,7 +8581,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -8279,7 +8650,24 @@
     "tell": "post-foot",
     "valueM": -0.2694
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "tropical:landscape/trees/anvilgianttrunk",
@@ -9597,7 +9985,8 @@
     "tell": "foundation-top",
     "valueM": 54.3929
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "tropical:landscape/trees/anvil_palm_trunk",
@@ -10908,7 +11297,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "tropical:landscape/trees/anvil_root01",
@@ -10977,7 +11367,8 @@
     "tell": "foundation-top",
     "valueM": 0.297
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "composite:root/kiosk-with-access",
@@ -11057,7 +11448,8 @@
     "deckTopM": 0.0092,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-root-v1.glb",

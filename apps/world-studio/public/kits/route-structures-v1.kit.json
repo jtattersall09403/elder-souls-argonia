@@ -76,7 +76,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01",
@@ -164,7 +165,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01",
@@ -232,7 +234,8 @@
     "tell": "floor-plane",
     "valueM": 0.3769
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
@@ -294,7 +297,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01",
@@ -352,7 +356,8 @@
     "tell": "foundation-top",
     "valueM": 2.2619
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01",
@@ -417,7 +422,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -477,7 +483,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -533,7 +540,8 @@
     "tell": "bottom-step",
     "valueM": -0.251
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
@@ -591,7 +599,8 @@
     "tell": "bottom-step",
     "valueM": -0.1496
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
@@ -651,7 +660,8 @@
     "tell": "floor-plane",
     "valueM": -0.4109
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
@@ -713,7 +723,8 @@
     "tell": "post-foot",
     "valueM": -2.7718
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -768,7 +779,8 @@
     "evidence": "policy"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
@@ -828,7 +840,8 @@
     "tell": "post-foot",
     "valueM": -1.5421
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
@@ -896,7 +909,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -1.5156
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -956,7 +970,8 @@
     "tell": "floor-plane",
     "valueM": -1.5156
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
@@ -1016,7 +1031,8 @@
     "tell": "post-foot",
     "valueM": -1.5289
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -1071,7 +1087,40 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "keep",
+      "village",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 45,
+    "interior": {
+     "ruin": 3
+    },
+    "exterior": {
+     "keep": 9,
+     "wild": 23,
+     "ruin": 2,
+     "camp": 4,
+     "village": 4
+    },
+    "sourceCells": [
+     "exterior:wild:EastEmpireWarehouseLocation",
+     "exterior:keep:FortAmolLocation",
+     "exterior:wild:BrinewaterGrottoLocation",
+     "exterior:village:BilegulchMineLocation",
+     "interior:ruin:Raldbthar01",
+     "exterior:camp:KnifepointRidgeLocation",
+     "exterior:keep:MorvunskarLocation",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -1133,7 +1182,32 @@
     "tell": "floor-plane",
     "valueM": -0.5462
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 11,
+    "interior": {
+     "town": 4
+    },
+    "exterior": {
+     "ruin": 1,
+     "camp": 6
+    },
+    "sourceCells": [
+     "exterior:camp:KarthspireLocation",
+     "interior:town:RiftenThievesGuildHeadquarters",
+     "exterior:ruin:SaarthalLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -1195,7 +1269,27 @@
     "tell": "floor-plane",
     "valueM": -0.7737
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "ruin": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:ruin:SaarthalLocation",
+     "exterior:wild:GoldenglowEstateLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -1257,7 +1351,24 @@
     "tell": "floor-plane",
     "valueM": -0.8768
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-structures-v1.glb",

@@ -209,6 +209,7 @@ from .mine_designed_sink import (
     FormResolver,
     LoadOrderIndex,
     PoolJoin,
+    cell_of,
     kit_assets,
     load_order,
     pool_plugins,
@@ -909,10 +910,23 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
     waters: dict[tuple[int, int, int], float | None] = {}
     planes: dict[object, dict[int, tuple]] = defaultdict(dict)
 
-    def place(store: dict, key, cell, view: PluginView, resolve) -> None:
+    def place(store: dict, key, cell, view: PluginView, resolve, by_pivot: bool = False) -> None:
         """The cell's references into the merged store: an override (same
-        resolved ref id) replaces the earlier row, wherever that stood."""
+        resolved ref id) replaces the earlier row, wherever that stood.
+        ``by_pivot`` (exterior): a reference more than one cell from its
+        parent is keyed by the cell under its pivot: a worldspace's persistent
+        cell carries XCLC 0,0 and holds references anywhere (SNT ferry.esp's 12 rafts at
+        cells -16,22 and -14,25 read (0,0)'s LAND and water; L12 probe
+        2026-09-28, the sink miner's R12 fix)."""
+        cell_key = key
         for ref in cell.refs:
+            if by_pivot:
+                pivot = cell_of(ref.pos)
+                # a reference just across its parent's border keeps its parent
+                # (its neighbours are scanned as the border); one far from it
+                # stands in a persistent cell and is keyed where it stands
+                far = max(abs(pivot[0] - cell_key[1]), abs(pivot[1] - cell_key[2])) > 1
+                key = (cell_key[0], *pivot) if far else cell_key
             gid = resolve(ref.base)
             asset_id = view.wanted.get(gid)
             kit = asset_id is not None
@@ -924,6 +938,8 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
                 old[0][old[1]].pop(ref_id, None)
             if asset_id is None or ref.scale <= 0.0:
                 continue
+            if key != cell_key:
+                stats["refsOutsideCell"] = stats.get("refsOutsideCell", 0) + 1
             x, y, z = ref.pos
             # ``own``: the file that created the reference defines its base.
             store[key][ref_id] = Instance(
@@ -960,7 +976,7 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
             # default); None falls back to the resolved worldspace below.
             waters[key3] = (None if cell.water_height is None
                             else cell.water_height / UNITS_PER_METRE)
-            place(exterior, key3, cell, view, resolve)
+            place(exterior, key3, cell, view, resolve, by_pivot=True)
         for cell in plugin.interior_cells(with_refs=True):
             stats["cellsWalked"] += 1
             key = resolve(cell.form_id)

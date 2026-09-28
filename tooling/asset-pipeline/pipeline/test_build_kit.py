@@ -812,3 +812,47 @@ def test_published_kit_obeys_the_size_collider_rule(kit_id):
                if a.get("collision", "none") == "none" and a["id"] not in authored
                and build_kit.needs_size_collider(a)]
     assert missing == [], f"{kit_id}: {len(missing)} pieces meet the size rule with no collider"
+
+
+def _glb(path, gltf):
+    import json as _json
+    import struct as _struct
+    body = _json.dumps(gltf).encode("utf-8")
+    body += b" " * (-len(body) % 4)
+    path.write_bytes(_struct.pack("<III", 0x46546C67, 2, 12 + 8 + len(body))
+                     + _struct.pack("<II", len(body), 0x4E4F534A) + body)
+
+
+def test_lod_levels_are_the_levels_the_glb_carries(tmp_path):
+    """0105 R20: `lodLevels` = highest mesh-node `extras.lod` + 1 per scene
+    root, as the runtime reads it; `lodRatios` stays the configured chain."""
+    from pipeline.build_kit import apply_lod_levels, glb_lod_levels
+    glb = tmp_path / "k.glb"
+    _glb(glb, {"scene": 0, "scenes": [{"nodes": [0, 3]}], "nodes": [
+        {"extras": {"assetId": "a:tree"}, "children": [1, 2]},
+        {"mesh": 0}, {"mesh": 1, "extras": {"lod": 2}},
+        {"extras": {"assetId": "a:nest"}, "children": [4]}, {"mesh": 2}]})
+    assert glb_lod_levels(glb) == {"a:tree": 3, "a:nest": 1}
+    manifest = {"assets": [{"id": "a:tree", "lodRatios": [0.5, 0.2]},
+                           {"id": "a:nest", "lodRatios": [0.5, 0.2]},
+                           {"id": "a:gone", "lodLevels": 9}]}
+    assert apply_lod_levels(glb, manifest) == 1
+    assert [a.get("lodLevels") for a in manifest["assets"]] == [3, 1, None]
+    assert manifest["assets"][1]["lodRatios"] == [0.5, 0.2]
+
+
+def test_every_published_manifest_lod_levels_equal_its_glb():
+    """0105 R20 on the shipped kits: no row claims a level its GLB lacks."""
+    from pipeline.build_kit import glb_lod_levels
+    from pipeline.kit_compress import PUBLIC_KITS
+    import json as _json
+    bad = []
+    for manifest in sorted(PUBLIC_KITS.glob("*.kit.json")):
+        glb = manifest.parent / manifest.name.replace(".kit.json", ".glb")
+        if not glb.exists():
+            continue
+        levels = glb_lod_levels(glb)
+        for asset in _json.loads(manifest.read_text()).get("assets", []):
+            if asset["id"] in levels and asset.get("lodLevels") != levels[asset["id"]]:
+                bad.append(f"{manifest.name}:{asset['id']} {asset.get('lodLevels')} != {levels[asset['id']]}")
+    assert not bad, f"{len(bad)} rows: {bad[:5]}"

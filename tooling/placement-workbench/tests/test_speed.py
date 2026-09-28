@@ -160,7 +160,12 @@ def test_the_pool_takes_the_job_slot_share(monkeypatch):
     monkeypatch.delenv("WB_WORKERS", raising=False)
     monkeypatch.delenv("PYTEST_XDIST_WORKER", raising=False)
     monkeypatch.setenv("ES_JOB_CORES", "2")
-    assert parallel.workers() == 2
+    monkeypatch.setattr(parallel, "idle_cores", lambda: 1)
+    assert parallel.workers() == 2                         # the share is the floor
+    monkeypatch.setattr(parallel, "idle_cores", lambda: 5)
+    assert parallel.workers() == 5                         # idle pool cores above it (L8 rec 1)
+    monkeypatch.setattr(parallel, "idle_cores", lambda: 9)
+    assert parallel.workers() == parallel.MAX_WORKERS
     # two xdist workers in a 2-core slot: one pool worker each, not two
     monkeypatch.setenv("PYTEST_XDIST_WORKER", "gw0")
     monkeypatch.setenv("PYTEST_XDIST_WORKER_COUNT", "2")
@@ -171,6 +176,13 @@ def test_the_pool_takes_the_job_slot_share(monkeypatch):
     monkeypatch.delenv("WB_WORKERS")
     monkeypatch.delenv("ES_JOB_CORES")
     assert parallel.workers() == max(1, min(parallel.MAX_WORKERS, len(parallel.cores())))
+
+
+def test_idle_cores_counts_pool_cores_from_proc_stat(monkeypatch):
+    samples = iter([{1: (0, 0), 2: (0, 0), 3: (0, 0)}, {1: (90, 100), 2: (10, 100), 3: (50, 100)}])
+    monkeypatch.setattr(parallel, "_cpu_times", lambda: next(samples))
+    monkeypatch.setattr(parallel, "cores", lambda: [1, 2, 3])
+    assert parallel.idle_cores(0.0) == 2                   # core 2 is busy
 
 
 def test_the_vectorised_pad_samples_are_the_worldgen_samples():

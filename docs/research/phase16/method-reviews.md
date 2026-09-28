@@ -25,14 +25,14 @@ what a builder waits for, per place; per-batch costs are named as such.
 
 | # | Finding | Before (s per place) | After (s per place) | Status |
 |---|---|---|---|---|
-| A | interior claim | 21.0 (`--claim --no-table`, plugin reads; Claywater's 09-26 row was 111.5) | 0.26 (table lookup, identical output) | delivered (S16); the table rebuild is 101 s per batch and is needed whenever one of its inputs moves, code files included (5 had moved in a day) |
-| B | wb pool in the slot share | `apply --full` 11.6 wall with 7 workers | 16.6 wall with the share of 2 (29.6 serial); CPU 43.7 / 42.6 / 43.8 s user | delivered (`parallel.workers()` reads `ES_JOB_CORES`); CPU per apply is unchanged, so throughput with three busy slots is unchanged and an apply on an idle machine is 5 s slower |
+| A | interior claim | 21.0 (`--claim --no-table`, plugin reads; Claywater's 09-26 row was 111.5) | 0.26 (table lookup, identical output) | delivered (S16); the table rebuild is 101 s per batch and is needed whenever one of its inputs moves, code files included (5 had moved in a day); since wave 2 (L11) a stale table or a missing cell falls back to the 21 s plugin read with a warning instead of refusing |
+| B | wb pool in the slot share | `apply --full` 11.6 wall with 7 workers | 16.6 wall with the share of 2 (29.6 serial); CPU 43.7 / 42.6 / 43.8 s user | delivered; then (wave 2, L11) the pool is the pool cores idle at fork time up to 7 with the share as the floor, so an idle machine gets its 7 workers back and a busy one keeps the share |
 | C | yard gates out of the place gates | 32.3 (`place_gates` 20.3 + `test_proving_ground` 12.0) | 20.3 | delivered (S14); the yard gates run in the placement suite, once per batch |
 | D | design briefs out of the review diff | 17.5 KB of reviewed diff (brief 15.3 + dossier 2.2): ~14 places per 250 KB review | 2.2 KB: ~110 places per review | delivered; the cap stays in bytes |
 | E | commit_place stages per-place files | whole files, shared ones included | 0.03 (7 manifest files; shared files refused, changed by REQUEST rows) | delivered (S12) |
 | F | signature claimed at the brief | check-then-act at the batch gate | 0.08 (`claim_signature --check`, locked append) | delivered |
-| G | hand-off folder | summary and rounds under `output/apply/` | `--report-dir` copies them; `waiting-on.json` and the `ownerOk` guard are not built | open (wb.py) |
-| H | text-review reads the brief's delta | 14.4 KB reviewed | unchanged: both briefs are hand-written (0 and 1 lines verbatim in the type sheet), no brief generator marks a delta | open (needs the brief generator) |
+| G | hand-off folder | summary and rounds under `output/apply/`; the builder copied them by hand | `wb round` writes the place's current round folder by default (`tooling/.reports/16k/<place>/round-N/`), `--waiting-on TASK[=RULE]` writes `waiting-on.json`, and the `ownerOkRule` check fails an op accepted at git HEAD (`ownerOk`) that changed without a `cause` | delivered (walk 3 wave 2, lane L11; 0105 R13) |
+| H | text-review reads the brief's delta | 14.4 KB reviewed | unchanged: both briefs are hand-written (0 and 1 lines verbatim in the type sheet), no brief generator marks a delta | dropped for now (0105 R13): the briefs share no lines with the type sheets |
 | I | interior kits in the site budget | not counted | `batch_prepass` lists the batch's kits and checks the total: 554.3 MB composed + 7.1 MB new = 561.4 MB against 750 / 900 | delivered in `batch_prepass`; `compose.mjs` unchanged |
 
 A cached `wb.py apply` of the same layout takes 5.5 s.

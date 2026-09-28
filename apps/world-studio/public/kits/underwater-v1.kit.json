@@ -54,7 +54,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.022
+   "pivotAboveBaseM": -0.022,
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed02",
@@ -109,7 +110,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.074,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.496
+   "pivotAboveBaseM": 0.496,
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -170,7 +172,8 @@
     "tell": "post-foot",
     "valueM": -0.9729
    },
-   "designedWaterlineM": 5.462
+   "designedWaterlineM": 5.462,
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/tbpalgae01",
@@ -230,7 +233,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.1058
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -285,7 +289,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -340,7 +345,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.801
+   "pivotAboveBaseM": 0.801,
+   "lodLevels": 1
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood01",
@@ -413,7 +419,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.4853
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood02",
@@ -486,7 +493,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.2535
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -546,7 +554,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.2344
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
@@ -608,7 +617,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03",
@@ -670,7 +680,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
@@ -732,7 +743,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
@@ -794,7 +806,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb",
@@ -856,7 +869,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -918,7 +932,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -978,7 +993,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0032
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03",
@@ -1033,7 +1049,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.149,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.006
+   "pivotAboveBaseM": -0.006,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
@@ -1093,7 +1110,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0614
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -1153,7 +1171,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.3178
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -1213,7 +1232,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.9729
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/clam01",
@@ -1270,7 +1290,8 @@
    "undersideCoverage": 0.965,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.018,
-   "designedWaterlineM": 2.5012
+   "designedWaterlineM": 2.5012,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/clamlarge01",
@@ -1327,7 +1348,8 @@
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.003,
-   "designedWaterlineM": 3.4918
+   "designedWaterlineM": 3.4918,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/clamthin01",
@@ -1384,7 +1406,8 @@
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.012,
-   "designedWaterlineM": 5.4117
+   "designedWaterlineM": 5.4117,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -1443,7 +1466,8 @@
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.028,
-   "designedWaterlineM": -0.1684
+   "designedWaterlineM": -0.1684,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -1502,7 +1526,8 @@
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.028,
-   "designedWaterlineM": 0.0
+   "designedWaterlineM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -1561,7 +1586,8 @@
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.028,
-   "designedWaterlineM": -0.0226
+   "designedWaterlineM": -0.0226,
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -1625,7 +1651,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.7638
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1689,7 +1716,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.7572
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -1745,7 +1773,8 @@
    "undersideCoverage": 0.358,
    "openBackYawDeg": 292.5,
    "pivotAboveBaseM": 0.024,
-   "designedWaterlineM": 2.6662
+   "designedWaterlineM": 2.6662,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/plants/kelptallstatic01",
@@ -1801,7 +1830,8 @@
    "undersideCoverage": 0.277,
    "openBackYawDeg": 213.8,
    "pivotAboveBaseM": 0.09,
-   "designedWaterlineM": 2.0359
+   "designedWaterlineM": 2.0359,
+   "lodLevels": 1
   },
   {
    "id": "jokerine:_seaside/coral",
@@ -1861,7 +1891,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0254
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/coral_spiky",
@@ -1921,7 +1952,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0172
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/starfish",
@@ -1981,7 +2013,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0185
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/sponge",
@@ -2041,7 +2074,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/conch",
@@ -2101,7 +2135,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0635
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/sanddollar",
@@ -2161,7 +2196,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0292
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_red",
@@ -2221,7 +2257,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_blue",
@@ -2281,7 +2318,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_yellow",
@@ -2341,7 +2379,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_greenwhite",
@@ -2401,7 +2440,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_purplewhite",
@@ -2461,7 +2501,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/scallop_slate",
@@ -2521,7 +2562,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0273
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "jokerine:_seaside/clam_large",
@@ -2581,7 +2623,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0414
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock01",
@@ -2641,7 +2684,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0121
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock02",
@@ -2701,7 +2745,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0239
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock03",
@@ -2761,7 +2806,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.002
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock04",
@@ -2821,7 +2867,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.001
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock05",
@@ -2881,7 +2928,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock06",
@@ -2941,7 +2989,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0128
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock07",
@@ -3001,7 +3050,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0145
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock08",
@@ -3061,7 +3111,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.011
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock09",
@@ -3121,7 +3172,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0133
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock10",
@@ -3181,7 +3233,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0114
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock11",
@@ -3241,7 +3294,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0113
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/shorerock12",
@@ -3301,7 +3355,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0003
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/seashell02",
@@ -3361,7 +3416,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0417
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/seashell03",
@@ -3421,7 +3477,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0063
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "shores:shoresofskyrim/snailshell01",
@@ -3481,7 +3538,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0022
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:plants/nordicbarnaclecluster01",
@@ -3538,7 +3596,8 @@
    "undersideCoverage": 0.464,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.025,
-   "designedWaterlineM": 3.0278
+   "designedWaterlineM": 3.0278,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks01wet",
@@ -3603,7 +3662,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.424,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205
+   "pivotAboveBaseM": 0.205,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks02wet",
@@ -3668,7 +3728,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.313,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks03wet",
@@ -3734,7 +3795,8 @@
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.383,
-   "designedWaterlineM": 3.1463
+   "designedWaterlineM": 3.1463,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm01wet",
@@ -3799,7 +3861,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.188
+   "pivotAboveBaseM": 0.188,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm03wet",
@@ -3864,7 +3927,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.47
+   "pivotAboveBaseM": 0.47,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm04wet",
@@ -3935,7 +3999,8 @@
     "tell": "floor-plane",
     "valueM": -0.2599
    },
-   "designedWaterlineM": 2.5515
+   "designedWaterlineM": 2.5515,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem01wet",
@@ -4004,7 +4069,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.584
+   "pivotAboveBaseM": 0.584,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem03wet",
@@ -4074,7 +4140,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockshelf01wet",
@@ -4148,7 +4215,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.5128
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood01",
@@ -4216,7 +4284,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.699,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.485
+   "pivotAboveBaseM": 0.485,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood02",
@@ -4284,7 +4353,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood03",
@@ -4352,7 +4422,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.112,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159
+   "pivotAboveBaseM": 0.159,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bones/humanskull",
@@ -4407,7 +4478,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.873,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bones/humanribcagefull",
@@ -4462,7 +4534,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.818,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142
+   "pivotAboveBaseM": 0.142,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bones/mammothskull1",
@@ -4517,7 +4590,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.178,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.379
+   "pivotAboveBaseM": 1.379,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -4562,11 +4636,11 @@
     ]
    },
    "designedSinkM": {
-    "p25": -0.0067,
-    "p50": 0.0048,
-    "p75": 0.1078,
-    "n": 565,
-    "slopeTermMPerDeg": -0.00128,
+    "p25": -0.0053,
+    "p50": 0.0045,
+    "p75": 0.1057,
+    "n": 569,
+    "slopeTermMPerDeg": -0.00117,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4585,7 +4659,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 3183,
+    "interior": {
+     "wild": 206,
+     "town": 1135,
+     "keep": 256,
+     "ruin": 303,
+     "village": 114,
+     "camp": 227
+    },
+    "exterior": {
+     "village": 76,
+     "wild": 204,
+     "camp": 122,
+     "ruin": 130,
+     "town": 344,
+     "keep": 66
+    },
+    "sourceCells": [
+     "interior:town:SolitudeRedWave",
+     "interior:town:HonningbrewMeadery01",
+     "exterior:wild:Tamriel",
+     "exterior:town:RiftenLocation",
+     "exterior:town:SolitudeLocation",
+     "exterior:town:WindhelmLocation",
+     "interior:ruin:PotemasCatacombs01",
+     "exterior:wild:EastEmpireWarehouseLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket01",
@@ -4640,7 +4763,48 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 603,
+    "interior": {
+     "keep": 71,
+     "town": 346,
+     "ruin": 41,
+     "wild": 41,
+     "camp": 39,
+     "village": 35
+    },
+    "exterior": {
+     "town": 9,
+     "ruin": 9,
+     "wild": 5,
+     "camp": 4,
+     "keep": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "interior:town:RiftenHaelgasBunkhouse",
+     "interior:town:MarkarthTempleInnerSanctum",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:town:RiftenBlackBriarManor",
+     "interior:town:RiftenHouseofMjolltheLioness",
+     "interior:town:RiftenMercerFreyHouse",
+     "interior:keep:BloodletThrone01",
+     "interior:town:RiftenBlackBriarMeadery"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -4695,7 +4859,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 1493,
+    "interior": {
+     "town": 519,
+     "keep": 249,
+     "ruin": 200,
+     "village": 56,
+     "camp": 133,
+     "wild": 81
+    },
+    "exterior": {
+     "wild": 60,
+     "camp": 67,
+     "keep": 39,
+     "ruin": 31,
+     "town": 46,
+     "village": 12
+    },
+    "sourceCells": [
+     "interior:ruin:FellglowKeep01",
+     "interior:town:Katariah01",
+     "exterior:wild:Tamriel",
+     "interior:keep:RiftenJail01",
+     "interior:camp:FaldarsTooth01",
+     "interior:keep:FortGreymoor01",
+     "interior:ruin:FellglowKeep02",
+     "interior:keep:SolitudeJail01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:landscape/grass/riverbedpebbles",
@@ -4755,7 +4968,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0798
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "bmv:landscape/grass/smallpebbles",
@@ -4815,7 +5029,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.051
-   }
+   },
+   "lodLevels": 1
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\underwater-v1.glb",

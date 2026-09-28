@@ -244,8 +244,11 @@ def sh(*args):
 
 # Design briefs are world prose that text-review owns; each is ~23 KB, so ~11
 # of them filled the 250 KB review cap (method review r3 finding D).
+# the per-place prose (design briefs, site dossiers) is text-review's, never
+# the code reviewer's (method review r3 D; walk 3 L8 rec 6)
 EXCLUDE_SPECS = (":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock.json",
-                 ":(exclude)world/sources/blueprints/*.design.md")
+                 ":(exclude)world/sources/blueprints/*.design.md",
+                 ":(exclude)world/sources/sites/dossiers/*.md")
 EXCLUDES = ("--", ".", *EXCLUDE_SPECS)
 
 
@@ -288,7 +291,8 @@ def stamp_lock_path():
     """The stamp's lock file: worldgen.atomic_write.write_lock_path, the one
     convention (decision 0104 decision 9), so no untracked file appears under
     .claude/. Imported here, not at module top: the hook runs on every Bash call."""
-    sys.path.insert(0, os.path.join(ROOT, "tooling", "world-generation"))
+    # the module beside this script, never under ROOT (tests point ROOT at a scratch repo)
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "world-generation"))
     from worldgen.atomic_write import write_lock_path
     path = write_lock_path(STAMP)
     path.parent.mkdir(parents=True, exist_ok=True)

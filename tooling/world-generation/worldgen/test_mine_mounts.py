@@ -893,7 +893,8 @@ def test_the_record_carries_the_mesh_sill_so_both_writers_agree():
     kits = {"a:x/plugin": {}, "b:x/plugin": {}, "a:y/sill": {}, "a:z/none": {}}
     counts = complete_record(assets, kits, {"a:y/sill": {"tell": "post-foot", "valueM": -1.5}},
                              bases={})
-    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1, "plugin-spread": 0, "part": 0}
+    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1, "plugin-spread": 0, "part": 0,
+                      "variant": 0}
     assert assets["b:x/plugin"]["evidence"] == "swap:a:x/plugin"
     assert assets["a:y/sill"]["p50"] == -1.5 and "a:z/none" not in assets
 
@@ -914,7 +915,8 @@ def test_a_composite_shaped_like_its_base_piece_takes_the_base_plugin_sink():
              "composite:quay": {"tell": "deck-top", "valueM": -0.31}}
     counts = complete_record(assets, kits, tells,
                              bases={"composite:house-door": "v:house", "composite:quay": "v:deck"})
-    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1, "plugin-spread": 0, "part": 0}
+    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1, "plugin-spread": 0, "part": 0,
+                      "variant": 0}
     door = assets["composite:house-door"]
     assert (door["p50"], door["n"], door["evidence"]) == (-0.05, 20, "base:v:house")
     assert (assets["composite:quay"]["p50"], assets["composite:quay"]["evidence"]) == (
@@ -1321,3 +1323,24 @@ def test_effect_sockets_take_the_median_offset_in_the_parent_unit_frame():
     assert row["n"] == 2
     assert row["offsetM"] == [6.0, 1.0, 8.0]
     assert got["vanilla:architecture/farmhouse/farmhouse02"] == {"n": 0}
+
+
+def test_a_persistent_cell_reference_is_read_where_it_stands(tmp_path):
+    """L12 step 6 (L10 rec 4): SNT ferry.esp keeps its rafts in the
+    worldspace's persistent cell (XCLC 0,0) though they stand cells away; a
+    reference more than one cell from its parent is keyed by the cell under
+    its pivot, so it meets its real neighbours and LAND (on the old keying
+    the sconces sat alone in (0,0) and never met the walls)."""
+    cell_m = 4096.0 / UNITS_PER_METRE
+    x0 = 5 * cell_m + 20.0
+    walls = [(0x01000C01 + i, _BASES["wall"][0], (x0 + 10.0 * i, 20.0, -1.14), 0.0)
+             for i in range(3)]
+    master = _plugin_file(tmp_path / "Master.esm", _ALL_BASES,
+                          {(5, 0): {"refs": walls, "land": _LAND_OFFSET}})
+    sconces = [(0x01000C11 + i, _master_form("sconce"), (x0 + 10.0 * i + 0.5, 20.25, 2.0), 0.0)
+               for i in range(3)]
+    child = _plugin_file(tmp_path / "Child.esp", [], {(0, 0): {"refs": sconces}},
+                         masters=("Master.esm",), world=0x00000B00, cell_base=0x00000A00)
+    document = _mine_files([child, master])
+    sconce = document["anchors"]["vanilla:test/sconce01"]
+    assert (sconce["anchorClass"], sconce["n"]) == ("wall", 3), sconce

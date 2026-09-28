@@ -410,7 +410,7 @@ every door an Interiors row, every promise row a fulfilment or an
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage survey-and-scans --start
         python3 tooling/placement-workbench/wb.py <scene> scan <place>.scan.json --out tooling/.reports/16k/<place>/round-N/scan.json   # site feasibility first
         python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage layout-to-compile --start
-        python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots --report-dir tooling/.reports/16k/<place>/round-N/
+        python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots   # report dir: the place's next round-N folder
 
    It rebuilds the scene from a fresh window in one process, runs `check`
    and `compile`, and writes one summary. The scene file is derived state;

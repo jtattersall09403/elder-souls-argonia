@@ -1619,6 +1619,88 @@ def run_replay(argv) -> int:
     return 0
 
 
+#: layout-only keys on an op (method review r3 finding G): never CLI arguments.
+#: `ownerOk` (true, or the walk that accepted it, "walk-3") marks an op the
+#: owner called right on a walk; `cause` says why an accepted op changed.
+LAYOUT_META_KEYS = ("ownerOk", "cause")
+
+
+def strip_op_meta(op: dict) -> dict:
+    """The op as its command reads it (and as the op cache keys it): the
+    layout-only keys dropped, so marking an op ownerOk re-derives nothing."""
+    return {k: v for k, v in op.items() if k not in LAYOUT_META_KEYS}
+
+
+def _ops_by_identity(ops: list) -> dict:
+    """{(op, action, name, nth): op}: an op's identity across two versions
+    of one layout (the nth op of that kind naming that piece)."""
+    seen, out = {}, {}
+    for op in ops:
+        if not isinstance(op, dict):
+            continue
+        base = (str(op.get("op")), str(op.get("action") or ""),
+                str(op.get("uid") or op.get("child") or op.get("id") or op.get("name") or ""))
+        n = seen.get(base, 0)
+        seen[base] = n + 1
+        out[(*base, n)] = op
+    return out
+
+
+def owner_ok_failures(head_ops: list, ops: list) -> list[str]:
+    """Every op the owner accepted in `head_ops` (`ownerOk` set) that `ops`
+    changed (the layout-only keys aside), removed, or stripped of `ownerOk`
+    without a new `cause` (one differing from the op's cause at HEAD)."""
+    now = _ops_by_identity(ops)
+    out = []
+    for key, old in _ops_by_identity(head_ops).items():
+        if not old.get("ownerOk"):
+            continue
+        kind, action, name, _ = key
+        label = f"{kind}{' ' + action if action else ''} {name}".strip()
+        new = now.get(key)
+        if new is None:
+            out.append(f"{label}: accepted by the owner (ownerOk {old['ownerOk']!r}) and removed "
+                       "since HEAD; keep the op with a `cause` and remove the piece with a later "
+                       "`remove` op")
+            continue
+        # a change, or the acceptance withdrawn, needs a cause written for
+        # it: one left over from an earlier change (the same string as at
+        # HEAD) is no cause (L12 review 2026-09-28)
+        cause = str(new.get("cause") or "").strip()
+        fresh = bool(cause) and cause != str(old.get("cause") or "").strip()
+        changed = strip_op_meta(new) != strip_op_meta(old)
+        if (changed or not new.get("ownerOk")) and not fresh:
+            keys = sorted(k for k in set(strip_op_meta(new)) | set(strip_op_meta(old))
+                          if new.get(k) != old.get(k)) or ["ownerOk"]
+            what = "changed" if changed else "had its acceptance dropped"
+            out.append(f"{label}: accepted by the owner (ownerOk {old['ownerOk']!r}) and {what} "
+                       f"since HEAD ({', '.join(keys)}) without a new `cause`")
+    return out
+
+
+def owner_ok_rule(layout_path: Path) -> dict:
+    """The `ownerOkRule` check (method review r3 finding G, deliver-L8 rec 4):
+    the layout's ops against the same file at git HEAD, the last committed
+    version the owner walked; skipped (no failures) when the layout lies
+    outside the repo or HEAD has no copy of it."""
+    import subprocess
+    from workbench import layout, paths as wbpaths
+    rel = layout.repo_path(layout_path)
+    if Path(rel).is_absolute():
+        return {"failures": [], "skipped": "the layout lies outside the repo"}
+    got = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=wbpaths.REPO_ROOT,
+                         capture_output=True, text=True)
+    if got.returncode != 0:
+        return {"failures": [], "skipped": f"HEAD has no {rel}"}
+    try:
+        head_ops = json.loads(got.stdout).get("ops") or []
+    except ValueError:
+        return {"failures": [], "skipped": f"HEAD's {rel} is not JSON"}
+    ops = json.loads(Path(layout_path).read_text()).get("ops") or []
+    return {"failures": owner_ok_failures(head_ops, ops), "baseline": "HEAD",
+            "accepted": sum(1 for op in head_ops if isinstance(op, dict) and op.get("ownerOk"))}
+
+
 def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: bool = True,
                  allow_stale_ground: bool = False, owner_guided: str | None = None,
                  full: bool = False, cat=None) -> dict:
@@ -1673,6 +1755,7 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     verified = 0
     for i, op in enumerate(doc["ops"]):
         t1 = time.time()
+        op = strip_op_meta(op)
         if env is None and op.get("op") not in opcache.GROUNDLESS:
             env = opcache.env_key(cat, scene)
         key = opcache.op_key(cat, scene, op, gkey, env)
@@ -1754,6 +1837,7 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         t1 = time.time()
         stats = {}
         check = check_scene(cat, scene, use_cache=not full, stats=stats)
+        check["ownerOk"] = owner_ok_rule(layout_path)
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
@@ -1845,9 +1929,65 @@ def round_parser() -> argparse.ArgumentParser:
     ap.add_argument("--allow-stale-ground", action="store_true")
     ap.add_argument("--owner-guided", default=None, metavar="REASON")
     ap.add_argument("--report-dir", type=Path, default=None,
-                    help="also copy summary.json and rounds.jsonl here (the round's folder "
-                         "under tooling/.reports/16k/<place>/round-N/, place-build)")
+                    help="the round's folder: summary.json and this round's rounds.jsonl row "
+                         "are copied here (default: the place's current round folder, "
+                         "`default_report_dir`)")
+    ap.add_argument("--waiting-on", nargs="+", default=None, metavar="TASK[=RULE]",
+                    help="the tooling-lane tasks this round waits on, each with the rule it "
+                         "will add: written to waiting-on.json in the report folder (merged "
+                         "with the rows already there)")
     return ap
+
+
+def reports_root() -> Path:
+    """Where the place folders live: `WB_REPORTS`; else, in a lane with its
+    own `WB_OUTPUT`, `<WB_OUTPUT>/reports` (a trial never writes the place's
+    real round folders); else tooling/.reports/16k."""
+    from workbench import paths as wbpaths
+    if os.environ.get("WB_REPORTS"):
+        return Path(os.environ["WB_REPORTS"])
+    if os.environ.get("WB_OUTPUT"):
+        return Path(os.environ["WB_OUTPUT"]) / "reports"
+    return wbpaths.REPO_ROOT / "tooling" / ".reports" / "16k"
+
+
+def default_report_dir(place_id: str, root: Path | None = None) -> Path:
+    """The place's current round folder, `<root>/<placeId>/round-N/`: the
+    highest round-N that holds no summary.json yet (the builder may have put
+    the scan output or the fix list there first), else round-(N+1)."""
+    base = (root or reports_root()) / place_id
+    rounds = sorted((int(d.name.split("-", 1)[1]), d) for d in base.glob("round-*")
+                    if d.is_dir() and d.name.split("-", 1)[1].isdigit())
+    if rounds and not (rounds[-1][1] / "summary.json").exists():
+        return rounds[-1][1]
+    return base / f"round-{rounds[-1][0] + 1 if rounds else 1}"
+
+
+def write_waiting_on(report_dir: Path, place_id: str, tasks: list[str]) -> Path:
+    """waiting-on.json in the round folder (schemaVersion 1, place, waitingOn
+    [{task, rule?, file?}], and any hand-written keys kept): a task named
+    again replaces its row's rule only when one is given; `file` is the
+    task's report `<task>.md` when the place folder holds one."""
+    path = report_dir / "waiting-on.json"
+    doc = json.loads(path.read_text()) if path.exists() else {}
+    doc = {"schemaVersion": 1, "place": place_id, **doc}
+    rows = list(doc.get("waitingOn") or [])
+    for item in tasks:
+        task, _, rule = item.partition("=")
+        task = task.strip()
+        row = next((r for r in rows if r.get("task") == task), None)
+        if row is None:
+            row = {"task": task}
+            rows.append(row)
+        if rule.strip():
+            row["rule"] = rule.strip()
+        report = report_dir.parent / f"{task}.md"
+        if report.exists() and "file" not in row:
+            row["file"] = report.name
+    doc["waitingOn"] = rows
+    report_dir.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
+    return path
 
 
 def round_summary(apply: dict) -> dict:
@@ -1980,13 +2120,16 @@ def run_round(argv) -> int:
     path = wbpaths.OUTPUT / "apply" / spath.stem / "summary.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=1, default=lambda o: round(float(o), 4)) + "\n")
-    write_ledger(path, out, a.report_dir)
+    report_dir = a.report_dir or default_report_dir(doc["placeId"])
+    write_ledger(path, out, report_dir)
+    if a.waiting_on:
+        write_waiting_on(report_dir, doc["placeId"], a.waiting_on)
     lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]
     lines = [x for x in lines if not x.startswith("summary:")]
     lines.append("by rule: " + ", ".join(f"{k} {v['count']}" for k, v in out["byRule"].items()))
     if isinstance(out.get("shots"), dict) and out["shots"].get("error"):
         lines.append(f"shots: {out['shots']['error']}"[:200])
-    lines.append(f"round summary: {path}")
+    lines.append(f"round summary: {path} (copied to {report_dir})")
     print("\n".join(lines))
     comp = applied.get("compile") or {}
     if applied.get("refused"):

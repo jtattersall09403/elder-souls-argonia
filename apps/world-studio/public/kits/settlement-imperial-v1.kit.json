@@ -67,6 +67,33 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 11,
+    "interior": {},
+    "exterior": {
+     "keep": 1,
+     "town": 7,
+     "village": 1,
+     "wild": 1,
+     "ruin": 1
+    },
+    "sourceCells": [
+     "exterior:keep:FortDunstadLocation",
+     "exterior:town:DawnstarLocation",
+     "exterior:town:WinterholdLocation",
+     "exterior:town:IvarsteadLocation",
+     "exterior:town:ShorsStoneLocation",
+     "exterior:town:KarthwastenLocation",
+     "exterior:town:RoriksteadLocation",
+     "exterior:village:StonehillsLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -88,33 +115,7 @@
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.821,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town",
-      "village"
-     ]
-    },
-    "n": 11,
-    "interior": {},
-    "exterior": {
-     "keep": 1,
-     "town": 7,
-     "village": 2,
-     "ruin": 1
-    },
-    "sourceCells": [
-     "exterior:keep:FortDunstadLocation",
-     "exterior:town:DawnstarLocation",
-     "exterior:town:WinterholdLocation",
-     "exterior:town:IvarsteadLocation",
-     "exterior:town:ShorsStoneLocation",
-     "exterior:town:KarthwastenLocation",
-     "exterior:town:RoriksteadLocation",
-     "exterior:village:StonehillsLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -190,6 +191,27 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "town": 8
+    },
+    "sourceCells": [
+     "exterior:town:DawnstarLocation",
+     "exterior:town:FalkreathLocation",
+     "exterior:town:WinterholdLocation",
+     "exterior:town:RiverwoodLocation",
+     "exterior:town:KarthwastenLocation",
+     "exterior:town:MorthalLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -211,27 +233,7 @@
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.821,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 8,
-    "interior": {},
-    "exterior": {
-     "town": 8
-    },
-    "sourceCells": [
-     "exterior:town:DawnstarLocation",
-     "exterior:town:FalkreathLocation",
-     "exterior:town:WinterholdLocation",
-     "exterior:town:RiverwoodLocation",
-     "exterior:town:KarthwastenLocation",
-     "exterior:town:MorthalLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -288,23 +290,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.641,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.897,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -329,7 +314,25 @@
      "exterior:town:FalkreathLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.897,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02walkway",
@@ -372,34 +375,12 @@
     "L2_Rope.Mat"
    ],
    "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.641,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.905,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -3.6413
+    "p25": -0.3891,
+    "p50": -0.3144,
+    "p75": -0.2109,
+    "n": 8,
+    "slopeTermMPerDeg": -0.05426,
+    "evidence": "plugin"
    },
    "settingClass": {
     "settings": {
@@ -421,7 +402,25 @@
      "exterior:town:MorthalLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.905,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol01",
@@ -464,6 +463,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 95,
@@ -471,27 +473,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5931,
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.233,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.793,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233,
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -516,7 +497,26 @@
      "exterior:ruin:IlinaltasDeepLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -1.5931,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.233,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.793,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.233,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -559,6 +559,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 7,
@@ -566,26 +569,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.218,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.756,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218,
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -604,7 +587,25 @@
      "exterior:wild:DaintySloadLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.218,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.756,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.218,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -647,12 +648,31 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 4,
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:SolitudeDocksLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
@@ -679,25 +699,7 @@
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 6.157,
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 1,
-    "interior": {},
-    "exterior": {
-     "town": 1
-    },
-    "sourceCells": [
-     "exterior:town:SolitudeDocksLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -740,12 +742,34 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-spread)"
    },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 9,
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "camp": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:camp:FaldarsToothLocation",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -771,28 +795,7 @@
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 6.317,
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "camp",
-      "wild"
-     ]
-    },
-    "n": 2,
-    "interior": {},
-    "exterior": {
-     "camp": 1,
-     "wild": 1
-    },
-    "sourceCells": [
-     "exterior:camp:FaldarsToothLocation",
-     "exterior:wild:Tamriel"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -833,24 +836,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5912,
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 10.615,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.152,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -869,7 +854,26 @@
      "exterior:wild:Tamriel"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -1.5912,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.615,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.152,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.615,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -908,23 +912,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.464,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.389,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -943,7 +930,25 @@
      "exterior:wild:Tamriel"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.464,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.389,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.464,
+   "lodLevels": 3
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -984,6 +989,15 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1006,14 +1020,7 @@
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.179,
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   }
+   "lodLevels": 3
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1052,6 +1059,15 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1074,14 +1090,7 @@
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.071,
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   }
+   "lodLevels": 3
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -1136,6 +1145,15 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1158,14 +1176,7 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.507,
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   }
+   "lodLevels": 3
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -1220,6 +1231,15 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1242,14 +1262,7 @@
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.583,
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   }
+   "lodLevels": 3
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -1295,6 +1308,15 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1317,14 +1339,7 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.402,
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven01",
@@ -1368,23 +1383,6 @@
     "slopeTermMPerDeg": 0.00467,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.382,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1417,7 +1415,25 @@
      "exterior:village:SarethiFarmLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.382,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven02",
@@ -1455,29 +1471,12 @@
    },
    "designedSinkM": {
     "p25": 0.0955,
-    "p50": 0.1489,
-    "p75": 0.1927,
-    "n": 495,
-    "slopeTermMPerDeg": -0.00169,
+    "p50": 0.1488,
+    "p75": 0.192,
+    "n": 498,
+    "slopeTermMPerDeg": -0.00166,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.363,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1512,7 +1511,25 @@
      "exterior:village:SolitudeSawmillLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.363,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall01",
@@ -1551,23 +1568,6 @@
     "slopeTermMPerDeg": 0.00894,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.05,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1598,7 +1598,25 @@
      "exterior:wild:HalloftheVigilantLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.05,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall02",
@@ -1646,23 +1664,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.001,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.011,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1690,7 +1691,25 @@
      "exterior:town:BlackBriarLodgeLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.011,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
@@ -1729,23 +1748,6 @@
     "slopeTermMPerDeg": 0.0092,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.093,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1776,7 +1778,25 @@
      "exterior:town:KarthwastenLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.093,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
@@ -1815,23 +1835,6 @@
     "slopeTermMPerDeg": 0.00318,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.04,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1862,7 +1865,25 @@
      "exterior:town:KarthwastenLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.04,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "composite:farmhouse/farmhouse01-with-door",
@@ -1925,6 +1946,33 @@
     "slopeTermMPerDeg": 0.10115,
     "evidence": "base:vanilla:architecture/farmhouse/farmhouse01"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 11,
+    "interior": {},
+    "exterior": {
+     "keep": 1,
+     "town": 7,
+     "village": 1,
+     "wild": 1,
+     "ruin": 1
+    },
+    "sourceCells": [
+     "exterior:keep:FortDunstadLocation",
+     "exterior:town:DawnstarLocation",
+     "exterior:town:WinterholdLocation",
+     "exterior:town:IvarsteadLocation",
+     "exterior:town:ShorsStoneLocation",
+     "exterior:town:KarthwastenLocation",
+     "exterior:town:RoriksteadLocation",
+     "exterior:village:StonehillsLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -1946,33 +1994,7 @@
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.821,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town",
-      "village"
-     ]
-    },
-    "n": 11,
-    "interior": {},
-    "exterior": {
-     "keep": 1,
-     "town": 7,
-     "village": 2,
-     "ruin": 1
-    },
-    "sourceCells": [
-     "exterior:keep:FortDunstadLocation",
-     "exterior:town:DawnstarLocation",
-     "exterior:town:WinterholdLocation",
-     "exterior:town:IvarsteadLocation",
-     "exterior:town:ShorsStoneLocation",
-     "exterior:town:KarthwastenLocation",
-     "exterior:town:RoriksteadLocation",
-     "exterior:village:StonehillsLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-door",
@@ -2043,6 +2065,27 @@
     "slopeTermMPerDeg": -0.09981,
     "evidence": "base:vanilla:architecture/farmhouse/farmhouse02"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "town": 8
+    },
+    "sourceCells": [
+     "exterior:town:DawnstarLocation",
+     "exterior:town:FalkreathLocation",
+     "exterior:town:WinterholdLocation",
+     "exterior:town:RiverwoodLocation",
+     "exterior:town:KarthwastenLocation",
+     "exterior:town:MorthalLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -2064,27 +2107,7 @@
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.821,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 8,
-    "interior": {},
-    "exterior": {
-     "town": 8
-    },
-    "sourceCells": [
-     "exterior:town:DawnstarLocation",
-     "exterior:town:FalkreathLocation",
-     "exterior:town:WinterholdLocation",
-     "exterior:town:RiverwoodLocation",
-     "exterior:town:KarthwastenLocation",
-     "exterior:town:MorthalLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-walkway",
@@ -2167,32 +2190,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.651,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "glowFacingsDeg": [
-    90.0,
-    270.0
-   ],
-   "undersideClosed": false,
-   "undersideCoverage": 0.527,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.651,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -3.6513
-   },
    "settingClass": {
     "settings": {
      "exterior": [
@@ -2213,7 +2210,34 @@
      "exterior:town:MorthalLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.6513
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.651,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": false,
+   "undersideCoverage": 0.527,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.651,
+   "lodLevels": 3
   },
   {
    "id": "composite:farmhouse/stonewall-run-3",
@@ -2254,28 +2278,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.044,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -2306,7 +2308,30 @@
      "exterior:wild:HalloftheVigilantLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.044,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "composite:farmhouse/stonewall-run-5",
@@ -2349,28 +2374,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.035,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -2401,7 +2404,30 @@
      "exterior:wild:HalloftheVigilantLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.035,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/imperial/impwallsconcecandle01",
@@ -2445,28 +2471,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3345
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.335,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.739,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335,
    "settingClass": {
     "settings": {
      "interior": [
@@ -2501,7 +2505,30 @@
      "interior:ruin:FellglowKeep02"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3345
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.335,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.739,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.335,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -2554,28 +2581,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3414
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.341,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.562,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.341,
    "settingClass": {
     "settings": {
      "interior": [
@@ -2606,7 +2611,30 @@
      "interior:wild:OLDBluePalaceWing01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3414
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.341,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.562,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.341,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrpost01",
@@ -2660,6 +2688,23 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "town": 8
+    },
+    "sourceCells": [
+     "exterior:town:WhiterunLocation",
+     "exterior:town:WhiterunHonningbrewMeaderyLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "policy",
    "placement": {
@@ -2677,23 +2722,7 @@
    "undersideCoverage": 0.173,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -0.0,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 8,
-    "interior": {},
-    "exterior": {
-     "town": 8
-    },
-    "sourceCells": [
-     "exterior:town:WhiterunLocation",
-     "exterior:town:WhiterunHonningbrewMeaderyLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
@@ -2738,6 +2767,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:WhiterunLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2760,22 +2805,7 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.046,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 1,
-    "interior": {},
-    "exterior": {
-     "town": 1
-    },
-    "sourceCells": [
-     "exterior:town:WhiterunLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrstables01",
@@ -2819,6 +2849,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:WhiterunLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2841,22 +2887,7 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.033,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 1,
-    "interior": {},
-    "exterior": {
-     "town": 1
-    },
-    "sourceCells": [
-     "exterior:town:WhiterunLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -2888,30 +2919,13 @@
     "Barrel01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.0067,
-    "p50": 0.0048,
-    "p75": 0.1078,
-    "n": 565,
-    "slopeTermMPerDeg": -0.00128,
+    "p25": -0.0053,
+    "p50": 0.0045,
+    "p75": 0.1057,
+    "n": 569,
+    "slopeTermMPerDeg": -0.00117,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.77,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "interior": [
@@ -2934,32 +2948,50 @@
     "n": 3183,
     "interior": {
      "wild": 206,
-     "town": 1131,
-     "keep": 260,
+     "town": 1135,
+     "keep": 256,
      "ruin": 303,
      "village": 114,
      "camp": 227
     },
     "exterior": {
      "village": 76,
-     "wild": 189,
+     "wild": 204,
      "camp": 122,
      "ruin": 130,
-     "town": 359,
+     "town": 344,
      "keep": 66
     },
     "sourceCells": [
      "interior:town:SolitudeRedWave",
-     "exterior:town:RiftenLocation",
      "interior:town:HonningbrewMeadery01",
+     "exterior:wild:Tamriel",
+     "exterior:town:RiftenLocation",
      "exterior:town:SolitudeLocation",
      "exterior:town:WindhelmLocation",
-     "exterior:wild:Tamriel",
      "interior:ruin:PotemasCatacombs01",
      "exterior:wild:EastEmpireWarehouseLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/barrel02",
@@ -2998,23 +3030,6 @@
     "slopeTermMPerDeg": -0.00084,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.77,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3036,8 +3051,8 @@
     },
     "n": 2820,
     "interior": {
-     "town": 719,
-     "keep": 529,
+     "town": 723,
+     "keep": 525,
      "ruin": 436,
      "camp": 351,
      "wild": 163,
@@ -3062,7 +3077,25 @@
      "interior:camp:BrokenTowerRedoubt01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -3106,23 +3139,6 @@
     "slopeTermMPerDeg": 0.01278,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.019,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.633,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3170,7 +3186,25 @@
      "exterior:town:WhiterunLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.019,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.633,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.019,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -3214,23 +3248,6 @@
     "slopeTermMPerDeg": 0.00727,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.024,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.753,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3278,7 +3295,25 @@
      "exterior:town:WinterholdLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.753,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -3322,23 +3357,6 @@
     "slopeTermMPerDeg": 0.01342,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.017,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.962,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3386,7 +3404,25 @@
      "interior:town:DarkBrotherhoodSanctuary"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.017,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.962,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.017,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/farm/farmbench01",
@@ -3418,30 +3454,13 @@
     "FarmBench01:5.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.001,
-    "p50": 0.0087,
-    "p75": 0.0399,
-    "n": 42,
-    "slopeTermMPerDeg": -0.01821,
+    "p25": -0.0194,
+    "p50": 0.0053,
+    "p75": 0.0462,
+    "n": 58,
+    "slopeTermMPerDeg": -0.01759,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 1.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3489,7 +3508,25 @@
      "interior:ruin:LiarsRetreat01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -3528,23 +3565,6 @@
     "slopeTermMPerDeg": -0.00742,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.775,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3566,33 +3586,51 @@
     },
     "n": 1493,
     "interior": {
-     "town": 513,
-     "keep": 255,
+     "town": 519,
+     "keep": 249,
      "ruin": 200,
      "village": 56,
      "camp": 133,
      "wild": 81
     },
     "exterior": {
-     "wild": 58,
+     "wild": 60,
      "camp": 67,
      "keep": 39,
      "ruin": 31,
-     "town": 48,
+     "town": 46,
      "village": 12
     },
     "sourceCells": [
      "interior:ruin:FellglowKeep01",
      "interior:town:Katariah01",
-     "interior:keep:RiftenJail01",
      "exterior:wild:Tamriel",
+     "interior:keep:RiftenJail01",
      "interior:camp:FaldarsTooth01",
      "interior:keep:FortGreymoor01",
      "interior:ruin:FellglowKeep02",
      "interior:keep:SolitudeJail01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.775,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/haymound01",
@@ -3640,23 +3678,6 @@
     "slopeTermMPerDeg": -0.0035,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3678,8 +3699,8 @@
     },
     "n": 529,
     "interior": {
-     "keep": 79,
-     "town": 102,
+     "keep": 78,
+     "town": 103,
      "ruin": 86,
      "village": 7,
      "camp": 71,
@@ -3704,7 +3725,25 @@
      "interior:wild:JaphetsFolly02"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
@@ -3754,23 +3793,6 @@
     "slopeTermMPerDeg": -0.01105,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.821,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.728,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3796,7 +3818,25 @@
      "exterior:village:LoreiusFarmLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.728,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
@@ -3853,23 +3893,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.821,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.816,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3895,7 +3918,25 @@
      "exterior:town:KarthwastenLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.816,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
@@ -3952,23 +3993,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.821,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.848,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3994,7 +4018,25 @@
      "exterior:village:KynesgroveLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.848,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy01",
@@ -4036,23 +4078,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.501,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.501,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -4074,7 +4099,25 @@
      "exterior:town:IvarsteadLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.501,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.501,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy02",
@@ -4116,6 +4159,27 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 20,
+    "interior": {},
+    "exterior": {
+     "town": 19,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:town:RiverwoodLocation",
+     "exterior:town:FalkreathLocation",
+     "exterior:town:DragonBridgeLocation",
+     "exterior:village:DarkwaterCrossingLocation",
+     "exterior:town:DragonBridgeFarmLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -4138,27 +4202,7 @@
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
    "pivotAboveBaseM": 1.067,
-   "settingClass": {
-    "settings": {
-     "exterior": [
-      "town"
-     ]
-    },
-    "n": 20,
-    "interior": {},
-    "exterior": {
-     "town": 19,
-     "village": 1
-    },
-    "sourceCells": [
-     "exterior:town:RiverwoodLocation",
-     "exterior:town:FalkreathLocation",
-     "exterior:town:DragonBridgeLocation",
-     "exterior:village:DarkwaterCrossingLocation",
-     "exterior:town:DragonBridgeFarmLocation"
-    ],
-    "evidence": "plugin"
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy03",
@@ -4200,23 +4244,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.067,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.0,
-   "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -4239,7 +4266,25 @@
      "exterior:town:DragonBridgeFarmLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.067,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 1.067,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:plants/chickennest01",
@@ -4283,23 +4328,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.096,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.233,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.096,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -4328,7 +4356,213 @@
      "exterior:village:DarkwaterCrossingLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.096,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.233,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.096,
+   "lodLevels": 1
+  },
+  {
+   "id": "vanilla:architecture/riften/rtstables01",
+   "node": "es|a87f63ca6f|vanilla__architecture_riften_rtstables01",
+   "category": "architecture",
+   "sizeM": [
+    13.543,
+    9.776,
+    7.718
+   ],
+   "originOffsetM": [
+    6.814,
+    4.874,
+    0.91
+   ],
+   "triangles": 1566,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "fallforestdirt01.dds",
+    "riftenhouseplanks01.dds",
+    "riftenlogdetails01.dds",
+    "riftenroofshingles01.dds",
+    "riftenstonewall02.dds",
+    "riftenstonewalledge01.dds"
+   ],
+   "materials": [
+    "Object208.Mat",
+    "RTStables01:1.Mat",
+    "RTStables01:16.Mat",
+    "RTStables01:2.Mat",
+    "RTStables01:23.Mat",
+    "RTStables01:3.Mat",
+    "RTStables01:38.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "RTStables01:16.Mat": 0.502
+   },
+   "decalMaterials": [
+    "RTStables01:16.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.9103,
+    "p50": -0.9103,
+    "p75": -0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:town:RiftenLocation",
+     "exterior:town:BlackBriarLodgeLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.91,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9103
+   },
+   "lodLevels": 3
+  },
+  {
+   "id": "vanilla:clutter/horsetrough/horsetrough01",
+   "node": "es|43fe2b81c5|nilla__clutter_horsetrough_horsetrough01",
+   "category": "clutter",
+   "sizeM": [
+    1.843,
+    0.686,
+    0.467
+   ],
+   "originOffsetM": [
+    0.907,
+    0.349,
+    0.0
+   ],
+   "triangles": 213,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "woodpost02.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "HorseTrough01:0.Mat",
+    "HorseTrough01:1.Mat",
+    "WATER.Mat"
+   ],
+   "waterMaterials": [
+    "WATER.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0264,
+    "p50": 0.0097,
+    "p75": 0.0318,
+    "n": 27,
+    "slopeTermMPerDeg": -0.0111,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "camp"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 44,
+    "interior": {
+     "camp": 10,
+     "keep": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 29,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:camp:FaldarsTooth01",
+     "interior:keep:GloomboundMine01",
+     "interior:camp:KnifepointRidge01",
+     "interior:town:RiftenFishery",
+     "interior:keep:FortDunstad01",
+     "exterior:town:MarkarthLocation",
+     "exterior:town:WhiterunLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/candlelanternwithcandle01",
@@ -4406,23 +4640,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.024,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 1.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
    "settingClass": {
     "settings": {
      "interior": [
@@ -4470,7 +4687,25 @@
      "interior:village:KolskeggrMine01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -4518,23 +4753,6 @@
     "slopeTermMPerDeg": -0.00369,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 2.884,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.609,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.884,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -4556,7 +4774,25 @@
      "interior:wild:01treeint"
     ],
     "evidence": "plugin"
-   }
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 2.884,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.609,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.884,
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
@@ -4564,9 +4800,9 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 58,
-  "OPAQUE": 107,
-  "BLEND": 0
+  "MASK": 59,
+  "OPAQUE": 115,
+  "BLEND": 1
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -4599,16 +4835,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 28255288,
-  "bytesAfter": 12399684,
-  "images": 49,
-  "imageBytesAfter": 10606008,
+  "bytesBefore": 31252944,
+  "bytesAfter": 13856716,
+  "images": 55,
+  "imageBytesAfter": 11994960,
   "warnings": [],
-  "sha256": "328b8f65e45638c3fc358761bacced64a195fc9f9485de6a36a6f7e638415862",
+  "sha256": "019f53bb6563bc9603b76e082810be3112992a3d1ce08502bf0aed84ad71b486",
   "sidecarBytes": {
-   "connectors": 35760,
-   "footprints": 59138,
-   "interiors": 39486
+   "connectors": 36912,
+   "footprints": 61143,
+   "interiors": 41839
   }
  }
 }

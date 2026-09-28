@@ -454,6 +454,8 @@ def apply_setting_class(asset: dict[str, Any], rows: dict[str, dict[str, Any]]) 
         "exterior": row.get("exterior", {}),
         "sourceCells": row.get("sourceCells", []),
         "evidence": row.get("evidence", "plugin"),
+        # 0105 R15: water craft their mods place by script (exempt from axis i)
+        **({"vehicle": True} if row.get("vehicle") else {}),
     }
 
 
@@ -672,6 +674,11 @@ def refresh_built_manifests(
             continue
         apply_placement_metadata(document, kit_id, inventory,
                                  mined=mined, anchors=anchors, scales=scales)
+        # 0105 R20: the LOD levels the GLB actually carries, read from it
+        glb = path.parent / f"{kit_id}.glb"
+        if glb.exists():
+            from .build_kit import apply_lod_levels
+            apply_lod_levels(glb, document)
         # A kit config `light` block (mined LIGH record) is policy-only too:
         # the same copy build_kit makes, so a newly mined block reaches the
         # manifests without a Blender rebuild (walk 2 integrate-lighting).

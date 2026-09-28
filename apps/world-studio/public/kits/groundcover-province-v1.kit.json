@@ -77,7 +77,8 @@
     "valueM": 0.0888
    },
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0
+   "designedWaterlineM": 0.0,
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esurosebaywillowherb01",
@@ -149,7 +150,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "tropical:landscape/grass/cattailgrass",
@@ -221,7 +223,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "tropical:landscape/grass/ferngrass01",
@@ -298,7 +301,8 @@
     "tell": "floor-plane",
     "valueM": -0.0048
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "tropical:landscape/grass/grassplant01",
@@ -375,7 +379,8 @@
     "tell": "floor-plane",
     "valueM": -0.0439
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "tropical:landscape/grass/grassfern01",
@@ -452,7 +457,8 @@
     "tell": "floor-plane",
     "valueM": -0.0439
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "tropical:landscape/grass/marshgrassobj01",
@@ -524,7 +530,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/solojunco",
@@ -596,7 +603,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_marshplant1",
@@ -668,7 +676,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewpsea03",
@@ -740,7 +749,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewpsea06",
@@ -812,7 +822,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewpshore11",
@@ -884,7 +895,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewpshore14",
@@ -956,7 +968,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewpshore03a",
@@ -1033,7 +1046,8 @@
     "tell": "floor-plane",
     "valueM": -0.0416
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "htbm:landscape/grass/ewpshore13",
@@ -1105,7 +1119,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "htbm:landscape/grass/ewpshore16",
@@ -1177,7 +1192,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ewplake07",
@@ -1249,7 +1265,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/rockgrasswater01",
@@ -1326,7 +1343,8 @@
     "tell": "floor-plane",
     "valueM": -0.0781
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_greengrass",
@@ -1398,7 +1416,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_yelgrass",
@@ -1470,7 +1489,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_bentgrass",
@@ -1547,7 +1567,8 @@
     "tell": "floor-plane",
     "valueM": -0.1439
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/mixgrass01",
@@ -1619,7 +1640,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/forestgrass01",
@@ -1691,7 +1713,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/forestgrass02",
@@ -1763,7 +1786,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover02",
@@ -1835,7 +1859,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/weedygroundcover",
@@ -1907,7 +1932,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern",
@@ -1979,7 +2005,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern2",
@@ -2051,7 +2078,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_brownplants",
@@ -2123,7 +2151,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_strangeplant",
@@ -2195,7 +2224,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_mgrass",
@@ -2267,7 +2297,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_greenyelplant",
@@ -2339,7 +2370,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/fieldgrass01",
@@ -2411,7 +2443,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_mixedplants",
@@ -2483,7 +2516,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj01",
@@ -2560,7 +2594,8 @@
     "tell": "floor-plane",
     "valueM": -0.0199
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj02",
@@ -2637,7 +2672,8 @@
     "tell": "floor-plane",
     "valueM": -0.0195
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/rockgrass01",
@@ -2714,7 +2750,8 @@
     "tell": "floor-plane",
     "valueM": -0.0798
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj01",
@@ -2786,7 +2823,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj02",
@@ -2858,7 +2896,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/fallforestgrassobj01",
@@ -2930,7 +2969,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/tundragrassobj04",
@@ -3007,7 +3047,8 @@
     "tell": "floor-plane",
     "valueM": -0.0125
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/swordfern01",
@@ -3079,7 +3120,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/swordfern05",
@@ -3144,14 +3186,15 @@
    "pivotAboveBaseM": 0.048,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0995,
-    "p75": 0.2894,
-    "n": 153,
-    "slopeTermMPerDeg": -0.00517,
+    "p50": 0.1028,
+    "p75": 0.2985,
+    "n": 155,
+    "slopeTermMPerDeg": -0.00681,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/swordfern06",
@@ -3223,7 +3266,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/reachfern01",
@@ -3288,14 +3332,15 @@
    "pivotAboveBaseM": 0.12,
    "designedSinkM": {
     "p25": -0.1841,
-    "p50": -0.0308,
-    "p75": 0.0685,
-    "n": 97,
+    "p50": -0.0205,
+    "p75": 0.0689,
+    "n": 98,
     "slopeTermMPerDeg": -0.01198,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/reachbush01",
@@ -3367,7 +3412,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esuburdock",
@@ -3439,7 +3485,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esusheepssorrel",
@@ -3511,7 +3558,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esuheather02",
@@ -3583,7 +3631,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esufoxglove02",
@@ -3655,7 +3704,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/esuclover02red",
@@ -3727,7 +3777,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_eriophorum",
@@ -3799,7 +3850,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/vurt_notlupins",
@@ -3876,7 +3928,8 @@
     "tell": "floor-plane",
     "valueM": 0.0036
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover",
@@ -3953,7 +4006,8 @@
     "tell": "floor-plane",
     "valueM": -0.0629
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/13grassobj",
@@ -4025,7 +4079,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/32grassobj",
@@ -4097,7 +4152,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/36grassobj",
@@ -4169,7 +4225,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/dandelion-1k",
@@ -4241,7 +4298,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "bmv:landscape/grass/woodanemone-white-2k",
@@ -4313,7 +4371,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/waterkelpshort01",
@@ -4378,14 +4437,15 @@
    "pivotAboveBaseM": 0.024,
    "designedSinkM": {
     "p25": -0.1138,
-    "p50": 0.1683,
-    "p75": 0.8238,
-    "n": 173,
-    "slopeTermMPerDeg": 0.04614,
+    "p50": 0.2101,
+    "p75": 0.9403,
+    "n": 185,
+    "slopeTermMPerDeg": 0.04467,
     "evidence": "swap:bmv:landscape/grass/waterkelpshort01"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/grass/watercoralgrass01",
@@ -4462,7 +4522,8 @@
     "tell": "floor-plane",
     "valueM": -0.0319
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj10",
@@ -4539,7 +4600,8 @@
     "tell": "floor-plane",
     "valueM": -0.0709
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj05",
@@ -4616,7 +4678,8 @@
     "tell": "floor-plane",
     "valueM": -0.0418
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/icelandicgrassdensedrj",
@@ -4693,7 +4756,8 @@
     "tell": "foundation-top",
     "valueM": 0.3809
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/tyroliangrasstalldrj",
@@ -4770,7 +4834,8 @@
     "tell": "floor-plane",
     "valueM": -0.1236
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01",
@@ -4847,7 +4912,8 @@
     "tell": "floor-plane",
     "valueM": -0.0825
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01_short",
@@ -4924,7 +4990,8 @@
     "tell": "floor-plane",
     "valueM": -0.0648
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/swordferndrj",
@@ -5001,7 +5068,8 @@
     "tell": "foundation-top",
     "valueM": 0.2724
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/swordfern05",
@@ -5078,7 +5146,8 @@
     "tell": "foundation-top",
     "valueM": 0.6084
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/fernbrackenclusterdrj",
@@ -5155,7 +5224,8 @@
     "tell": "foundation-top",
     "valueM": 0.5572
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/veratrumdrj",
@@ -5232,7 +5302,8 @@
     "tell": "floor-plane",
     "valueM": -0.0357
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "drjacopo:landscape/grass/nettledrj",
@@ -5309,7 +5380,8 @@
     "tell": "floor-plane",
     "valueM": -0.0251
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "hoddminir:ztree's/plants/braken",
@@ -5386,7 +5458,8 @@
     "tell": "floor-plane",
     "valueM": -0.0296
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "hoddminir:ztree's/plants/ladymantle",
@@ -5463,7 +5536,8 @@
     "tell": "floor-plane",
     "valueM": -0.0485
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "hoddminir:ztree's/plants/celandine",
@@ -5540,7 +5614,8 @@
     "tell": "floor-plane",
     "valueM": -0.0523
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:landscape/plants/swordferncluster01",
@@ -5612,7 +5687,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "vanilla:plants/floraspikygrass02",
@@ -5684,7 +5760,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 2
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -5761,7 +5838,8 @@
     "tell": "floor-plane",
     "valueM": -0.2344
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 2
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",

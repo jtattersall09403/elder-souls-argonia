@@ -244,7 +244,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
@@ -320,7 +321,8 @@
     "tell": "floor-plane",
     "valueM": -4.9645
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 1
   },
   {
    "id": "bmv:landscape/trees/cedartree3",
@@ -1660,7 +1662,8 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 1.8007
+   "designedWaterlineM": 1.8007,
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -1735,7 +1738,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:vvardenfell/flora/algrass03b",
@@ -1803,14 +1807,15 @@
    "pivotAboveBaseM": 0.058,
    "designedSinkM": {
     "p25": 0.4708,
-    "p50": 1.1041,
-    "p75": 2.6398,
-    "n": 567,
-    "slopeTermMPerDeg": 0.2707,
+    "p50": 1.104,
+    "p75": 2.6359,
+    "n": 569,
+    "slopeTermMPerDeg": 0.27076,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -2461,7 +2466,8 @@
     "tell": "foundation-top",
     "valueM": 3.2032
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/grass/vurt_reeds",
@@ -2542,7 +2548,8 @@
     "valueM": 0.0888
    },
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0
+   "designedWaterlineM": 0.0,
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkblillipad2",
@@ -2611,16 +2618,17 @@
    "openBackYawDeg": 348.8,
    "pivotAboveBaseM": 2.334,
    "designedSinkM": {
-    "p25": -0.1138,
-    "p50": 0.4751,
-    "p75": 0.941,
-    "n": 446,
-    "slopeTermMPerDeg": 0.19502,
+    "p25": -0.0847,
+    "p50": 0.6265,
+    "p75": 1.0551,
+    "n": 497,
+    "slopeTermMPerDeg": 0.19229,
     "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.8679
+   "designedWaterlineM": 0.8411,
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
@@ -3360,7 +3368,8 @@
     "tell": "foundation-top",
     "valueM": 1.4068
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/beachpalm2",
@@ -3566,7 +3575,8 @@
     "tell": "floor-plane",
     "valueM": -0.0547
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/grass/waterkelptall01",
@@ -3634,15 +3644,16 @@
    "pivotAboveBaseM": 0.09,
    "designedSinkM": {
     "p25": -0.1138,
-    "p50": 0.3464,
-    "p75": 1.2698,
-    "n": 142,
-    "slopeTermMPerDeg": 0.12865,
+    "p50": 0.4009,
+    "p75": 1.296,
+    "n": 150,
+    "slopeTermMPerDeg": 0.12734,
     "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.7668
+   "designedWaterlineM": 0.7523,
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/cypress3",
@@ -4980,15 +4991,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.941,
    "designedSinkM": {
-    "p25": -0.1016,
+    "p25": -0.0989,
     "p50": 0.4708,
     "p75": 1.1914,
-    "n": 523,
-    "slopeTermMPerDeg": 0.15383,
+    "n": 524,
+    "slopeTermMPerDeg": 0.15377,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -5064,7 +5076,8 @@
    },
    "anchorClass": "water",
    "designedWaterlineM": 1.4183,
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/cypress1",
@@ -6401,13 +6414,14 @@
    "designedSinkM": {
     "p25": -0.1093,
     "p50": 0.3912,
-    "p75": 1.1379,
-    "n": 130,
-    "slopeTermMPerDeg": 0.52842,
+    "p75": 1.1988,
+    "n": 131,
+    "slopeTermMPerDeg": 0.53264,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -6482,7 +6496,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/fernlarge03",
@@ -6562,7 +6577,8 @@
     "tell": "foundation-top",
     "valueM": 0.9047
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/braken",
@@ -6632,12 +6648,13 @@
     "p25": 1.8207,
     "p50": 2.731,
     "p75": 4.0965,
-    "n": 306,
-    "slopeTermMPerDeg": 0.29404,
+    "n": 310,
+    "slopeTermMPerDeg": 0.27023,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big1",
@@ -6720,7 +6737,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/treewillow01a",
@@ -8057,7 +8075,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
@@ -8132,7 +8151,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/tropicalplant01",
@@ -8217,7 +8237,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -8284,15 +8305,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.15,
    "designedSinkM": {
-    "p25": 1.0627,
-    "p50": 2.0394,
-    "p75": 3.0613,
-    "n": 299,
-    "slopeTermMPerDeg": 0.07527,
+    "p25": 0.9479,
+    "p50": 1.9214,
+    "p75": 2.9879,
+    "n": 317,
+    "slopeTermMPerDeg": 0.07938,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/grass/waterkelpshort01",
@@ -8360,15 +8382,16 @@
    "pivotAboveBaseM": 0.024,
    "designedSinkM": {
     "p25": -0.1138,
-    "p50": 0.1683,
-    "p75": 0.8238,
-    "n": 173,
-    "slopeTermMPerDeg": 0.04614,
+    "p50": 0.2101,
+    "p75": 0.9403,
+    "n": 185,
+    "slopeTermMPerDeg": 0.04467,
     "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.6719
+   "designedWaterlineM": 0.595,
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/treewillow02a",
@@ -9705,7 +9728,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
@@ -9772,15 +9796,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.138,
    "designedSinkM": {
-    "p25": 1.3655,
-    "p50": 2.673,
-    "p75": 4.5392,
-    "n": 292,
-    "slopeTermMPerDeg": 0.38042,
+    "p25": 1.2813,
+    "p50": 2.5695,
+    "p75": 4.4538,
+    "n": 296,
+    "slopeTermMPerDeg": 0.3816,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/fern01",
@@ -9847,15 +9872,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.103,
    "designedSinkM": {
-    "p25": 0.4007,
-    "p50": 1.0536,
-    "p75": 2.5431,
-    "n": 319,
-    "slopeTermMPerDeg": 0.26777,
+    "p25": 0.376,
+    "p50": 1.0436,
+    "p75": 2.5221,
+    "n": 322,
+    "slopeTermMPerDeg": 0.26805,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/treewillow03a",
@@ -11192,7 +11218,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/chickweed",
@@ -11262,14 +11289,15 @@
    "pivotAboveBaseM": 0.065,
    "designedSinkM": {
     "p25": 0.6717,
-    "p50": 2.2373,
+    "p50": 2.2608,
     "p75": 4.1018,
-    "n": 207,
-    "slopeTermMPerDeg": 0.02889,
+    "n": 211,
+    "slopeTermMPerDeg": 0.03184,
     "evidence": "plugin"
    },
    "anchorClass": "deck",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/beachpalm3",
@@ -11691,7 +11719,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/fanpalm1",
@@ -12344,13 +12373,14 @@
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.5019,
-    "p75": 1.0458,
-    "n": 18,
-    "slopeTermMPerDeg": 0.0386,
+    "p75": 1.4072,
+    "n": 19,
+    "slopeTermMPerDeg": 0.03257,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/bambooplant",
@@ -12435,7 +12465,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew1",
@@ -13624,7 +13655,8 @@
     "tell": "foundation-top",
     "valueM": 1.9685
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/tropicalshrub01",
@@ -13704,7 +13736,8 @@
     "tell": "floor-plane",
     "valueM": -0.0043
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -14411,7 +14444,8 @@
     "tell": "foundation-top",
     "valueM": 3.6057
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/beachpalm1",
@@ -15106,7 +15140,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/hangingvines2",
@@ -15181,7 +15216,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -15256,7 +15292,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "tropical:plants/tropical/manfern",
@@ -15365,7 +15402,8 @@
     "tell": "floor-plane",
     "valueM": -0.4221
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
@@ -16713,7 +16751,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew19v3",
@@ -17760,7 +17799,8 @@
     "tell": "foundation-top",
     "valueM": 5.7838
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew21v3",
@@ -18164,7 +18204,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/rocks/rockl04",
@@ -18229,7 +18270,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockl02",
@@ -18288,15 +18330,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.573,
    "designedSinkM": {
-    "p25": 0.4889,
-    "p50": 1.0708,
+    "p25": 0.4848,
+    "p50": 1.0643,
     "p75": 1.5251,
-    "n": 874,
-    "slopeTermMPerDeg": -0.00236,
+    "n": 875,
+    "slopeTermMPerDeg": -0.00237,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockm03",
@@ -18361,7 +18404,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockm02",
@@ -18418,15 +18462,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.336,
    "designedSinkM": {
-    "p25": 0.557,
-    "p50": 0.87,
+    "p25": 0.558,
+    "p50": 0.8723,
     "p75": 1.1358,
-    "n": 727,
+    "n": 728,
     "slopeTermMPerDeg": 0.0095,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rocks03",
@@ -18491,7 +18536,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "bmv:landscape/trees/fanpalm3",
@@ -18929,7 +18975,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/treeofwolene4",
@@ -20270,7 +20317,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew30v3",
@@ -21618,7 +21666,8 @@
     "tell": "foundation-top",
     "valueM": 7.7915
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/fanpalm4",
@@ -22009,7 +22058,8 @@
     "tell": "floor-plane",
     "valueM": -0.264
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/fanpalm6",
@@ -22707,7 +22757,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "composite:jungle/anvil-canopy-tree",
@@ -24052,7 +24103,8 @@
     "tell": "floor-plane",
     "valueM": 0.383
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -25401,7 +25453,8 @@
     "tell": "post-foot",
     "valueM": -0.5194
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/scottish-pine22",
@@ -26741,7 +26794,8 @@
    },
    "anchorClass": "water",
    "designedWaterlineM": 1.1738,
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen02jungle",
@@ -27251,7 +27305,8 @@
     "tell": "floor-plane",
     "valueM": -0.2353
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen03jungle",
@@ -27704,7 +27759,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen05jungle",
@@ -27889,7 +27945,8 @@
     "tell": "floor-plane",
     "valueM": -0.2276
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/hodalder01gkb",
@@ -28882,7 +28939,8 @@
     "tell": "foundation-top",
     "valueM": 3.6686
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/ztgorsebush02lightyellow",
@@ -28964,7 +29022,8 @@
     "tell": "foundation-top",
     "valueM": 1.5403
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/flatpalm1",
@@ -29330,7 +29389,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/flatpalm2",
@@ -29670,7 +29730,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
@@ -31021,7 +31082,8 @@
     "tell": "foundation-top",
     "valueM": 4.6362
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
@@ -31997,7 +32059,8 @@
     "tell": "foundation-top",
     "valueM": 1.5363
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/datepalm2",
@@ -32163,14 +32226,15 @@
    "pivotAboveBaseM": -0.22,
    "designedSinkM": {
     "p25": 0.7085,
-    "p50": 1.52,
-    "p75": 2.109,
-    "n": 24,
-    "slopeTermMPerDeg": 0.08357,
+    "p50": 1.5039,
+    "p75": 1.9879,
+    "n": 25,
+    "slopeTermMPerDeg": 0.08363,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/beachpalm5",
@@ -32878,7 +32942,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/fanpalm5",
@@ -33823,7 +33888,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress1",
@@ -35166,7 +35232,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress2",
@@ -36508,7 +36575,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big6",
@@ -36592,7 +36660,8 @@
     "tell": "floor-plane",
     "valueM": -4.8764
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush01",
@@ -36668,7 +36737,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush05",
@@ -36739,13 +36809,13 @@
     "p25": 0.0,
     "p50": 0.0,
     "p75": 0.0,
-    "n": 0,
+    "n": 5,
     "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
+    "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -0.569
+   "lodLevels": 4
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_01",
@@ -38089,7 +38159,8 @@
     "tell": "floor-plane",
     "valueM": -0.0062
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_02",
@@ -39429,7 +39500,8 @@
     "tell": "floor-plane",
     "valueM": -0.0223
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_04",
@@ -40764,7 +40836,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree11",
@@ -41953,7 +42026,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
@@ -43300,7 +43374,8 @@
     "tell": "floor-plane",
     "valueM": -0.2179
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew10",
@@ -44498,7 +44573,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew3",
@@ -45403,7 +45479,8 @@
     "tell": "foundation-top",
     "valueM": 13.9305
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:plants/trees/banana_tree",
@@ -45493,7 +45570,8 @@
     "tell": "floor-plane",
     "valueM": -0.0436
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/water lily1",
@@ -45577,7 +45655,8 @@
     "tell": "floor-plane",
     "valueM": -8.6392
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/water lily2",
@@ -45661,7 +45740,8 @@
     "tell": "floor-plane",
     "valueM": -8.6881
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/reedlarge1",
@@ -45736,7 +45816,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/reedmed1",
@@ -45811,7 +45892,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/reedsmall1",
@@ -45888,7 +45970,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/reedsmall2",
@@ -45965,7 +46048,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/trees/gkblillipad",
@@ -46042,7 +46126,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken01st",
@@ -46117,7 +46202,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken02st",
@@ -46197,7 +46283,8 @@
     "tell": "floor-plane",
     "valueM": -0.0372
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken03st",
@@ -46277,7 +46364,8 @@
     "tell": "floor-plane",
     "valueM": -0.0484
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken04st",
@@ -46357,7 +46445,8 @@
     "tell": "foundation-top",
     "valueM": 0.5493
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken05st",
@@ -46437,7 +46526,8 @@
     "tell": "floor-plane",
     "valueM": -0.0585
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbraken06st",
@@ -46517,7 +46607,8 @@
     "tell": "foundation-top",
     "valueM": 0.3237
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster01",
@@ -46597,7 +46688,8 @@
     "tell": "floor-plane",
     "valueM": -0.0868
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster02",
@@ -46677,7 +46769,8 @@
     "tell": "floor-plane",
     "valueM": -0.1488
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster03",
@@ -46757,7 +46850,8 @@
     "tell": "foundation-top",
     "valueM": 0.1157
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster04",
@@ -46837,7 +46931,8 @@
     "tell": "floor-plane",
     "valueM": -0.0588
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster05",
@@ -46917,7 +47012,8 @@
     "tell": "foundation-top",
     "valueM": 0.2963
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster06",
@@ -46997,7 +47093,8 @@
     "tell": "floor-plane",
     "valueM": -0.0444
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/bigshrub-b(colorful)",
@@ -47077,7 +47174,8 @@
     "tell": "post-foot",
     "valueM": -0.4335
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/plants/bigshrub-c(colorful)",
@@ -47157,7 +47255,8 @@
     "tell": "post-foot",
     "valueM": -0.4335
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "bmv:landscape/grass/watercoralgrass01",
@@ -47238,7 +47337,8 @@
     "valueM": -0.0319
    },
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0
+   "designedWaterlineM": 0.0,
+   "lodLevels": 4
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -47319,7 +47419,8 @@
     "valueM": -0.9729
    },
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 5.462
+   "designedWaterlineM": 5.462,
+   "lodLevels": 4
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -47399,7 +47500,8 @@
     "tell": "post-foot",
     "valueM": -0.9729
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -47474,7 +47576,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -47549,7 +47652,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -47625,7 +47729,8 @@
    },
    "anchorClass": "water",
    "designedWaterlineM": 2.6662,
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:plants/floraswampfungalpod01",
@@ -47701,7 +47806,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:plants/floraswampfungalpod02",
@@ -47781,7 +47887,8 @@
     "tell": "floor-plane",
     "valueM": -0.0816
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/rocks/rockl01",
@@ -47838,15 +47945,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.848,
    "designedSinkM": {
-    "p25": 1.0692,
-    "p50": 1.7168,
+    "p25": 1.0694,
+    "p50": 1.7224,
     "p75": 2.3129,
-    "n": 1051,
+    "n": 1052,
     "slopeTermMPerDeg": -0.01422,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockl03",
@@ -47904,14 +48012,15 @@
    "pivotAboveBaseM": 0.231,
    "designedSinkM": {
     "p25": 1.0009,
-    "p50": 1.4241,
+    "p50": 1.4275,
     "p75": 1.8292,
-    "n": 389,
-    "slopeTermMPerDeg": 0.01091,
+    "n": 390,
+    "slopeTermMPerDeg": 0.01085,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockl05",
@@ -47976,7 +48085,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockm01",
@@ -48041,7 +48151,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockm04",
@@ -48106,7 +48217,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rocks01",
@@ -48171,7 +48283,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rocks02",
@@ -48236,7 +48349,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl01wet",
@@ -48301,7 +48415,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl02wet",
@@ -48368,7 +48483,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl03wet",
@@ -48434,7 +48550,8 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 2.1411
+   "designedWaterlineM": 2.1411,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl04wet",
@@ -48499,7 +48616,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl05wet",
@@ -48565,7 +48683,8 @@
    },
    "anchorClass": "water",
    "designedWaterlineM": 2.3402,
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
@@ -48630,7 +48749,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel01wet",
@@ -48697,7 +48817,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel02wet",
@@ -48766,7 +48887,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel03wet",
@@ -48838,7 +48960,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem02wet",
@@ -48908,7 +49031,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles01",
@@ -48975,7 +49099,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles02",
@@ -49042,7 +49167,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles03",
@@ -49109,7 +49235,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles04",
@@ -49176,7 +49303,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem01",
@@ -49245,7 +49373,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem02",
@@ -49315,7 +49444,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel01",
@@ -49382,7 +49512,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel02",
@@ -49451,7 +49582,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel03",
@@ -49523,7 +49655,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel04",
@@ -49587,14 +49720,15 @@
    "pivotAboveBaseM": 1.652,
    "designedSinkM": {
     "p25": 0.4772,
-    "p50": 0.7661,
-    "p75": 1.0446,
-    "n": 345,
-    "slopeTermMPerDeg": 0.00327,
+    "p50": 0.7693,
+    "p75": 1.0451,
+    "n": 347,
+    "slopeTermMPerDeg": 0.00337,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff01",
@@ -49660,12 +49794,13 @@
     "p25": 0.2664,
     "p50": 1.2425,
     "p75": 1.8155,
-    "n": 430,
-    "slopeTermMPerDeg": -0.03503,
+    "n": 431,
+    "slopeTermMPerDeg": -0.03506,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff02",
@@ -49729,12 +49864,13 @@
     "p25": 7.1914,
     "p50": 8.5794,
     "p75": 9.4462,
-    "n": 638,
+    "n": 639,
     "slopeTermMPerDeg": 0.01144,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff03",
@@ -49801,7 +49937,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff04",
@@ -49860,15 +49997,16 @@
    "openBackYawDeg": 281.2,
    "pivotAboveBaseM": 0.36,
    "designedSinkM": {
-    "p25": 9.23,
-    "p50": 11.3906,
+    "p25": 9.195,
+    "p50": 11.3834,
     "p75": 12.7585,
-    "n": 346,
-    "slopeTermMPerDeg": 0.10306,
+    "n": 347,
+    "slopeTermMPerDeg": 0.10175,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff05",
@@ -49937,7 +50075,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff06",
@@ -50002,7 +50141,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff07",
@@ -50069,7 +50209,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff08",
@@ -50139,7 +50280,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 1
   },
   {
    "id": "vanilla:landscape/plants/deadshrub01",
@@ -50214,7 +50356,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub01",
@@ -50289,7 +50432,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub02",
@@ -50364,7 +50508,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub03",
@@ -50431,15 +50576,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.221,
    "designedSinkM": {
-    "p25": 0.0791,
-    "p50": 0.2304,
+    "p25": 0.0818,
+    "p50": 0.2309,
     "p75": 0.3319,
-    "n": 187,
-    "slopeTermMPerDeg": 0.00424,
+    "n": 188,
+    "slopeTermMPerDeg": 0.00333,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/tundrascrub01",
@@ -50514,7 +50660,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/reachshrub01",
@@ -50582,14 +50729,15 @@
    "pivotAboveBaseM": 0.22,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.1272,
+    "p50": 0.1343,
     "p75": 0.48,
-    "n": 139,
-    "slopeTermMPerDeg": -0.00154,
+    "n": 140,
+    "slopeTermMPerDeg": -0.00245,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/plants/thicket01",
@@ -50657,14 +50805,15 @@
    "pivotAboveBaseM": 0.114,
    "designedSinkM": {
     "p25": 0.0196,
-    "p50": 0.2361,
-    "p75": 0.4608,
-    "n": 4369,
-    "slopeTermMPerDeg": 0.05509,
+    "p50": 0.2364,
+    "p75": 0.4613,
+    "n": 4374,
+    "slopeTermMPerDeg": 0.06658,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:plants/floramountainflower01purple",
@@ -50731,15 +50880,16 @@
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
-    "p25": -0.0022,
-    "p50": 0.0786,
+    "p25": -0.0025,
+    "p50": 0.0781,
     "p75": 0.167,
-    "n": 530,
-    "slopeTermMPerDeg": -0.00223,
+    "n": 531,
+    "slopeTermMPerDeg": -0.00218,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:plants/floramountainflower01blue",
@@ -50809,12 +50959,13 @@
     "p25": 0.0,
     "p50": 0.0891,
     "p75": 0.179,
-    "n": 409,
-    "slopeTermMPerDeg": 0.00229,
+    "n": 410,
+    "slopeTermMPerDeg": 0.0023,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:plants/floramountainflower01red",
@@ -50882,14 +51033,15 @@
    "pivotAboveBaseM": 0.073,
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.1058,
+    "p50": 0.1044,
     "p75": 0.1986,
-    "n": 282,
-    "slopeTermMPerDeg": 0.00803,
+    "n": 283,
+    "slopeTermMPerDeg": 0.00809,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog01",
@@ -50986,7 +51138,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog02",
@@ -51081,7 +51234,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump01",
@@ -51177,7 +51331,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump02a",
@@ -51274,7 +51429,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treeaspenlog01",
@@ -51369,7 +51525,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   },
   {
    "id": "vanilla:landscape/trees/treeaspenstump01",
@@ -51458,12 +51615,13 @@
     "p25": -0.1789,
     "p50": -0.021,
     "p75": 0.0,
-    "n": 148,
-    "slopeTermMPerDeg": 0.00104,
+    "n": 149,
+    "slopeTermMPerDeg": 0.00247,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 4
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",

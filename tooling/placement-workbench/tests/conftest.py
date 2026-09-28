@@ -4,6 +4,7 @@ its pads and padded ground with its own catalogue, and each test mutates its
 own `Scene.view()` of it instead of a deepcopy that re-resolves every pad."""
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -14,6 +15,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import wb  # noqa: E402
 from workbench import paths  # noqa: E402
 from workbench.scene import Scene  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _scratch_reports(tmp_path, monkeypatch):
+    """`wb round` writes the place's round folder by default (finding G):
+    a test never writes into tooling/.reports/16k."""
+    if "WB_REPORTS" not in os.environ:
+        monkeypatch.setenv("WB_REPORTS", str(tmp_path / "reports-16k"))
 
 
 @pytest.fixture(scope="session")

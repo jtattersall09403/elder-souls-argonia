@@ -193,3 +193,13 @@ def test_legacy_single_stamp_reads_as_whole_tree(repo, monkeypatch):
     json.dump({"hash": "abc", "time": 1.0, "status": "ok", "findings": 0}, open(review_gate.STAMP, "w"))
     assert review_gate.read_stamp()["hash"] == "abc"
     assert review_gate.read_stamp(["a"]) == {}
+
+
+def test_per_place_prose_never_enters_the_review_diff(repo, monkeypatch):
+    """Design briefs and site dossiers are text-review's (walk 3 L8 rec 6)."""
+    root, _ = repo
+    for rel in ("world/sources/sites/dossiers/p.md", "world/sources/blueprints/p.design.md", "a/g.py"):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text("y = 2\n")
+    d = review_gate.current_diff()
+    assert "a/g.py" in d and "dossiers/p.md" not in d and "p.design.md" not in d

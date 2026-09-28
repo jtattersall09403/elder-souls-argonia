@@ -55,7 +55,8 @@
     "tell": "floor-plane",
     "valueM": -1.9407
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor01",
@@ -111,7 +112,8 @@
     "tell": "floor-plane",
     "valueM": -0.1311
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor02",
@@ -167,7 +169,8 @@
     "tell": "floor-plane",
     "valueM": -0.1026
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/cor03",
@@ -223,7 +226,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc",
@@ -279,7 +283,8 @@
     "tell": "foundation-top",
     "valueM": 2.6234
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc01",
@@ -330,7 +335,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc02",
@@ -381,7 +387,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc03",
@@ -437,7 +444,8 @@
     "tell": "foundation-top",
     "valueM": -0.0075
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/corc04",
@@ -493,7 +501,8 @@
     "tell": "foundation-top",
     "valueM": -0.0075
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid01",
@@ -549,7 +558,8 @@
     "tell": "floor-plane",
     "valueM": -0.1794
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid02",
@@ -605,7 +615,8 @@
     "tell": "floor-plane",
     "valueM": -0.0831
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03a",
@@ -661,7 +672,8 @@
     "tell": "floor-plane",
     "valueM": -0.9103
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03b",
@@ -717,7 +729,8 @@
     "tell": "floor-plane",
     "valueM": 1.8207
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid03c",
@@ -773,7 +786,8 @@
     "tell": "post-foot",
     "valueM": -0.24
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid04",
@@ -829,7 +843,8 @@
     "tell": "floor-plane",
     "valueM": -7.4853
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/mid05",
@@ -885,7 +900,8 @@
     "tell": "post-foot",
     "valueM": -0.3113
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room01",
@@ -941,7 +957,8 @@
     "tell": "post-foot",
     "valueM": -6.3269
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room02",
@@ -997,7 +1014,8 @@
     "tell": "foundation-top",
     "valueM": 4.1201
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room03",
@@ -1053,7 +1071,8 @@
     "tell": "post-foot",
     "valueM": -9.8633
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room04",
@@ -1109,7 +1128,8 @@
     "tell": "foundation-top",
     "valueM": 25.7064
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/room05",
@@ -1165,7 +1185,8 @@
     "tell": "post-foot",
     "valueM": -9.0915
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall01",
@@ -1221,7 +1242,8 @@
     "tell": "floor-plane",
     "valueM": -0.156
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall02",
@@ -1277,7 +1299,8 @@
     "tell": "floor-plane",
     "valueM": -0.0545
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall03",
@@ -1333,7 +1356,8 @@
     "tell": "floor-plane",
     "valueM": -0.9103
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall04",
@@ -1389,7 +1413,8 @@
     "tell": "floor-plane",
     "valueM": 1.8207
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall05",
@@ -1445,7 +1470,8 @@
     "tell": "floor-plane",
     "valueM": -0.1277
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/srooms/wall06",
@@ -1501,7 +1527,8 @@
     "tell": "floor-plane",
     "valueM": -0.0821
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/cap",
@@ -1552,7 +1579,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/cor01",
@@ -1608,7 +1636,8 @@
     "tell": "floor-plane",
     "valueM": -1.953
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/cor02",
@@ -1664,7 +1693,8 @@
     "tell": "foundation-top",
     "valueM": -1.648
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/cor03",
@@ -1720,7 +1750,8 @@
     "tell": "foundation-top",
     "valueM": -1.7892
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/cor04",
@@ -1776,7 +1807,8 @@
     "tell": "floor-plane",
     "valueM": -1.9449
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/doorcaveb",
@@ -1831,7 +1863,8 @@
     "evidence": "policy"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/exit01",
@@ -1891,7 +1924,8 @@
     "tell": "post-foot",
     "valueM": -1.8272
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/exit02",
@@ -1951,7 +1985,8 @@
     "tell": "floor-plane",
     "valueM": -2.0691
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall01",
@@ -2007,7 +2042,8 @@
     "tell": "floor-plane",
     "valueM": -1.8843
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall02",
@@ -2063,7 +2099,8 @@
     "tell": "foundation-top",
     "valueM": 1.694
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall03",
@@ -2119,7 +2156,8 @@
     "tell": "post-foot",
     "valueM": -1.946
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall04",
@@ -2170,7 +2208,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05",
@@ -2226,7 +2265,8 @@
     "tell": "foundation-top",
     "valueM": 1.3756
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_a",
@@ -2277,7 +2317,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hall05_b",
@@ -2333,7 +2374,8 @@
     "tell": "foundation-top",
     "valueM": 3.7468
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/hallh01",
@@ -2384,7 +2426,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/small/ram01",
@@ -2435,7 +2478,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/cave2",
@@ -2486,7 +2530,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/philscaves/cave3",
@@ -2537,7 +2582,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdooret01",
@@ -2592,7 +2638,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintdoorrc01",
@@ -2647,7 +2694,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -2713,7 +2761,8 @@
     "tell": "floor-plane",
     "valueM": 3.0236
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -2773,7 +2822,8 @@
     "tell": "post-foot",
     "valueM": 3.3952
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc001",
@@ -2842,7 +2892,8 @@
     "tell": "floor-plane",
     "valueM": -0.6432
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrc90v001",
@@ -2902,7 +2953,8 @@
     "tell": "post-foot",
     "valueM": -0.6432
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -2962,7 +3014,8 @@
     "tell": "post-foot",
     "valueM": -0.6432
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintss001",
@@ -3028,7 +3081,8 @@
     "tell": "floor-plane",
     "valueM": -2.7634
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet001",
@@ -3086,7 +3140,8 @@
     "tell": "foundation-top",
     "valueM": 3.8129
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet002",
@@ -3144,7 +3199,8 @@
     "tell": "foundation-top",
     "valueM": 3.8129
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallet003",
@@ -3200,7 +3256,8 @@
     "tell": "foundation-top",
     "valueM": 3.8602
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc001",
@@ -3258,7 +3315,8 @@
     "tell": "post-foot",
     "valueM": -0.1274
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc002",
@@ -3316,7 +3374,8 @@
     "tell": "floor-plane",
     "valueM": -0.1274
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwallrc003",
@@ -3372,7 +3431,8 @@
     "tell": "post-foot",
     "valueM": -0.1274
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet001",
@@ -3425,7 +3485,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet002",
@@ -3478,7 +3539,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowet003",
@@ -3531,7 +3593,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc001",
@@ -3584,7 +3647,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc002",
@@ -3637,7 +3701,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintwindowrc003",
@@ -3690,7 +3755,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampint001",
@@ -3749,7 +3815,8 @@
     "tell": "post-foot",
     "valueM": -0.9918
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintdoor01",
@@ -3804,7 +3871,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -3862,7 +3930,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -3920,7 +3989,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v003",
@@ -3976,7 +4046,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v001",
@@ -4034,7 +4105,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v002",
@@ -4092,7 +4164,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla45v003",
@@ -4148,7 +4221,8 @@
     "tell": "post-foot",
     "valueM": -0.1597
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow001",
@@ -4201,7 +4275,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow002",
@@ -4254,7 +4329,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwindow003",
@@ -4307,7 +4383,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -4372,7 +4449,8 @@
     "tell": "post-foot",
     "valueM": -4.0803
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintdoor001",
@@ -4425,7 +4503,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001",
@@ -4483,7 +4562,8 @@
     "tell": "floor-plane",
     "valueM": -0.0157
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001",
@@ -4541,7 +4621,8 @@
     "tell": "floor-plane",
     "valueM": -0.0157
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttraprcup001",
@@ -4597,7 +4678,8 @@
     "tell": "foundation-top",
     "valueM": 2.7056
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandinttrapssup001",
@@ -4653,7 +4735,8 @@
     "tell": "foundation-top",
     "valueM": 2.7056
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet001",
@@ -4706,7 +4789,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet002",
@@ -4759,7 +4843,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowet003",
@@ -4812,7 +4897,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandintwindowrc001",
@@ -4865,7 +4951,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_ext_root_01",
@@ -4921,7 +5008,8 @@
     "tell": "floor-plane",
     "valueM": -11.8332
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_ext_root_02",
@@ -4972,7 +5060,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_root_03",
@@ -5023,7 +5112,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -5081,7 +5171,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -5145,7 +5236,8 @@
     "tell": "floor-plane",
     "valueM": -0.2537
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_ramp_03",
@@ -5198,7 +5290,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_stairs_01",
@@ -5256,7 +5349,8 @@
     "tell": "bottom-step",
     "valueM": -12.6163
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_stairs_01b",
@@ -5314,7 +5408,8 @@
     "tell": "foundation-top",
     "valueM": -4.9876
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_ext_ramp_01",
@@ -5367,7 +5462,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_pod_shelf_01",
@@ -5433,7 +5529,8 @@
     "tell": "foundation-top",
     "valueM": 9.6516
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_shelffungus_01",
@@ -5493,7 +5590,8 @@
     "tell": "foundation-top",
     "valueM": 12.4929
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "bmv:telvanni/tel_entrance_01",
@@ -5553,7 +5651,8 @@
     "tell": "foundation-top",
     "valueM": 0.3336
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots01",
@@ -5606,7 +5705,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
@@ -5664,7 +5764,8 @@
     "p10": 0.61,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
@@ -5722,7 +5823,8 @@
     "p10": 1.0,
     "p90": 1.18,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots04",
@@ -5773,7 +5875,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots05",
@@ -5829,7 +5932,8 @@
     "tell": "foundation-top",
     "valueM": 1.5541
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histroots06",
@@ -5885,7 +5989,8 @@
     "tell": "foundation-top",
     "valueM": 0.7375
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histramp",
@@ -5952,7 +6057,8 @@
     "p10": 0.84,
     "p90": 0.84,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/histtree",
@@ -6039,7 +6145,8 @@
     "tell": "post-foot",
     "valueM": -16.0978
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01",
@@ -6092,7 +6199,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots01",
@@ -6145,7 +6253,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroots03",
@@ -6196,7 +6305,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/trees/treeroottrap",
@@ -6248,7 +6358,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot",
@@ -6304,7 +6415,8 @@
     "tell": "floor-plane",
     "valueM": -0.2035
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
@@ -6355,7 +6467,8 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
@@ -6411,7 +6524,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0638
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -6469,7 +6583,24 @@
     "tell": "post-foot",
     "valueM": -8.8224
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fxhistmist01",
@@ -6527,7 +6658,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -6593,7 +6725,8 @@
     "p10": 1.0,
     "p90": 1.43,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -6651,7 +6784,24 @@
     "tell": "door-sill",
     "valueM": 3.9947
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -6709,7 +6859,8 @@
     "tell": "foundation-top",
     "valueM": -3.6633
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -6767,7 +6918,24 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -2.1494
-   }
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -6825,7 +6993,24 @@
     "tell": "floor-plane",
     "valueM": 0.0654
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -6877,7 +7062,30 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -6939,7 +7147,24 @@
     "tell": "floor-plane",
     "valueM": -3.002
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -6990,7 +7215,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\dungeon-root-v1.glb",

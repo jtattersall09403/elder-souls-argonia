@@ -313,7 +313,7 @@ def kit_plan(pools: dict, configs_dir: Path = KIT_CONFIGS, kits_dir: Path = PUBL
                     else:
                         needed.add(kit)
                         wanted_assets.setdefault(kit, set()).add(asset)
-    build, why, unstamped = [], {}, []
+    build, why, unstamped, code_moved = [], {}, [], []
     for kit in sorted(needed):
         have = published_assets(kit, kits_dir)
         if have is None:
@@ -327,10 +327,26 @@ def kit_plan(pools: dict, configs_dir: Path = KIT_CONFIGS, kits_dir: Path = PUBL
             if moved:
                 build.append(kit)
                 why[kit] = f"{len(moved)} input(s) moved since its build_kit stamp: {', '.join(moved[:4])}"
+            elif code_moved_without_bump(raw_dir / f"{kit}.inputs.sha256"):
+                code_moved.append(kit)
         else:
             unstamped.append(kit)
     return {"needed": sorted(needed), "build": build, "why": why, "unstamped": unstamped,
+            "codeMovedWithoutBump": code_moved,
             "unlistedAssets": sorted(unlisted)}
+
+
+def code_moved_without_bump(stamp: Path) -> bool:
+    """The kit builder's code (``build_kit.KIT_CODE_FILES``) changed since
+    this stamp while ``KIT_OUTPUT_FORMAT_VERSION`` did not: the stamp still
+    vouches for the kit, so an edit that changes outputs without a bump would
+    ship stale kits silently (L9 rec 5). A warning, never a rebuild."""
+    bk = _build_kit()
+    got = bk.stamped_code(stamp)
+    if got is None:
+        return False
+    digest, version = got
+    return version == str(bk.KIT_OUTPUT_FORMAT_VERSION) and digest != bk.kit_code_digest()
 
 
 def stamp_moved(kit: str, stamp: Path) -> list[str]:
@@ -350,6 +366,11 @@ def stamp_moved(kit: str, stamp: Path) -> list[str]:
     for label, digest in sorted(old.items()):
         if label.startswith("data-root/") or label == "(options)":
             continue
+        if label == "(output-format)":
+            # the builder's output-format version, not a file (L9)
+            if digest != str(_build_kit().KIT_OUTPUT_FORMAT_VERSION):
+                moved.append(label)
+            continue
         if label.endswith(" (kit rows)"):
             if rows is None:
                 rows = _kit_row_hashes(kit)
@@ -360,6 +381,16 @@ def stamp_moved(kit: str, stamp: Path) -> list[str]:
         if (_sha256(path) if path.is_file() else "absent") != digest:
             moved.append(label)
     return moved
+
+
+def _build_kit():
+    """``pipeline.build_kit`` (read-only import from the asset pipeline)."""
+    sys.path.insert(0, str(ASSET_PIPELINE))
+    try:
+        from pipeline import build_kit
+    finally:
+        sys.path.remove(str(ASSET_PIPELINE))
+    return build_kit
 
 
 def _kit_row_hashes(kit: str) -> dict[str, str]:
@@ -525,6 +556,10 @@ def main(argv: list[str] | None = None) -> int:
           f"{sum(len(e['cells']) for p in doc['pools'].values() for e in p.values())} cell(s) in the table")
     for kit in plan["build"]:
         print(f"  build {kit}: {plan['why'][kit]}")
+    if plan.get("codeMovedWithoutBump"):
+        print(f"  ! kit builder code changed since the build of {', '.join(plan['codeMovedWithoutBump'])} "
+              f"with no KIT_OUTPUT_FORMAT_VERSION bump (build_kit.py): bump it if the change alters "
+              f"a GLB, manifest or sidecar, else restamp with build_kit --stamp-only")
     if plan["unstamped"]:
         print(f"  published, no build_kit stamp (not rebuilt here; build_kit would rebuild in full): "
               f"{', '.join(plan['unstamped'])}")

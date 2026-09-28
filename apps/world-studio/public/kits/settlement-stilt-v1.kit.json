@@ -62,7 +62,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.472
+   "pivotAboveBaseM": 8.472,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
@@ -135,7 +136,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
@@ -206,7 +208,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.575,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.98
+   "pivotAboveBaseM": 1.98,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01",
@@ -272,7 +275,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.806,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.975
+   "pivotAboveBaseM": 1.975,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
@@ -336,7 +340,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.899,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
@@ -409,7 +414,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919
+   "pivotAboveBaseM": 1.919,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01",
@@ -475,7 +481,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.919
+   "pivotAboveBaseM": 1.919,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01",
@@ -541,7 +548,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.541
+   "pivotAboveBaseM": 1.541,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01",
@@ -614,7 +622,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.413,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.516
+   "pivotAboveBaseM": 1.516,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -673,7 +682,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.542
+   "pivotAboveBaseM": 1.542,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
@@ -759,7 +769,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.604
+   "pivotAboveBaseM": 9.604,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
@@ -819,7 +830,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.154
+   "pivotAboveBaseM": 0.154,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackwalll01",
@@ -874,7 +886,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackwallr01",
@@ -929,7 +942,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackroofmid01",
@@ -987,7 +1001,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -4.537
+   "pivotAboveBaseM": -4.537,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackroofcorner01",
@@ -1045,7 +1060,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.944,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.707
+   "pivotAboveBaseM": -2.707,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackframelmid01",
@@ -1109,7 +1125,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.85,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackframelend01",
@@ -1173,7 +1190,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackbrokewall01",
@@ -1233,7 +1251,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackbrokepole01",
@@ -1295,7 +1314,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -1373,7 +1393,8 @@
      "interior:wild:00MudHut01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1451,7 +1472,8 @@
      "interior:wild:00MudHut01"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -1530,7 +1552,8 @@
      "exterior:wild:Tamriel"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -1611,7 +1634,8 @@
      "exterior:wild:Tamriel"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
@@ -1685,7 +1709,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "lodLevels": 3
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -1769,8 +1794,10 @@
     "sourceCells": [
      "exterior:village:AbandonedShackLocation"
     ],
-    "evidence": "plugin"
-   }
+    "evidence": "plugin",
+    "vehicle": true
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
@@ -1814,12 +1841,12 @@
     "cedartree1:5.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": -0.672,
-    "p50": -0.672,
-    "p75": -0.672,
-    "n": 0,
+    "p25": -0.6723,
+    "p50": -0.6723,
+    "p75": -0.6723,
+    "n": 1,
     "slopeTermMPerDeg": null,
-    "evidence": "policy"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -1853,7 +1880,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
@@ -1943,7 +1971,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -2033,7 +2062,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -2116,7 +2146,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
@@ -2199,7 +2230,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
@@ -2275,7 +2307,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
@@ -2351,7 +2384,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
@@ -2434,7 +2468,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
@@ -2531,7 +2566,8 @@
      "exterior:camp:SleepingTreeCampLocation"
     ],
     "evidence": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "canoe:actors/sfss/canoe/canoe1",
@@ -2626,8 +2662,10 @@
     "interior": {},
     "exterior": {},
     "sourceCells": [],
-    "evidence": "unplaced"
-   }
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "lodLevels": 3
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -2725,8 +2763,10 @@
     "sourceCells": [
      "exterior:wild:Tamriel"
     ],
-    "evidence": "plugin"
-   }
+    "evidence": "plugin",
+    "vehicle": true
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
@@ -2801,7 +2841,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
@@ -2876,7 +2917,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
@@ -2910,20 +2952,15 @@
     "Door01:4.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -0.0569,
+    "p50": 0.0207,
+    "p75": 0.0831,
+    "n": 13,
+    "slopeTermMPerDeg": -0.00692,
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2938,7 +2975,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
@@ -3011,7 +3049,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.008
+   "pivotAboveBaseM": -0.008,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
@@ -3092,7 +3131,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.003
+   "pivotAboveBaseM": -0.003,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
@@ -3147,7 +3187,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01",
@@ -3221,7 +3262,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.034
+   "pivotAboveBaseM": 0.034,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
@@ -3294,7 +3336,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.598,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
@@ -3365,7 +3408,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.316
+   "pivotAboveBaseM": 11.316,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
@@ -3432,7 +3476,8 @@
    "pivotAboveBaseM": 0.068,
    "piled": true,
    "deckRiseM": 1.14,
-   "deckRiseEvidence": "assetPlacement deckClearanceM"
+   "deckRiseEvidence": "assetPlacement deckClearanceM",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
@@ -3506,7 +3551,8 @@
    "pivotAboveBaseM": 0.108,
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
@@ -3580,7 +3626,8 @@
    "pivotAboveBaseM": 0.108,
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
@@ -3640,7 +3687,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.835,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01",
@@ -3700,7 +3748,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.702,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.01
+   "pivotAboveBaseM": 0.01,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
@@ -3762,7 +3811,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.109,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "composite:stilt/bamboohut01-with-door",
@@ -3833,7 +3883,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "lodLevels": 3
   },
   {
    "id": "composite:stilt/bamboohut02-with-door",
@@ -3904,7 +3955,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.647,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.911
+   "pivotAboveBaseM": 0.911,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/stilthouse/stilthousedooranim",
@@ -3972,7 +4024,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.018
+   "pivotAboveBaseM": -0.018,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01",
@@ -4034,7 +4087,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.184,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.327
+   "pivotAboveBaseM": 0.327,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01",
@@ -4098,7 +4152,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.154,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335
+   "pivotAboveBaseM": 0.335,
+   "lodLevels": 3
   },
   {
    "id": "composite:stilt/stilthouse-with-door",
@@ -4163,7 +4218,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.472
+   "pivotAboveBaseM": 8.472,
+   "lodLevels": 3
   },
   {
    "id": "composite:stilt/kiosk-with-access",
@@ -4247,7 +4303,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 9.604
+   "pivotAboveBaseM": 9.604,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackwallwindow01",
@@ -4306,7 +4363,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackwallwindow02",
@@ -4365,7 +4423,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackwalltopwindow01",
@@ -4429,7 +4488,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.708
+   "pivotAboveBaseM": -2.708,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackroofside01",
@@ -4487,7 +4547,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.969,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -2.681
+   "pivotAboveBaseM": -2.681,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/shackkit/shackframerend02",
@@ -4522,10 +4583,10 @@
    ],
    "designedSinkM": {
     "p25": -0.0767,
-    "p50": 0.044,
-    "p75": 0.0894,
-    "n": 29,
-    "slopeTermMPerDeg": -0.04633,
+    "p50": 0.05,
+    "p75": 0.1138,
+    "n": 30,
+    "slopeTermMPerDeg": -0.04649,
     "evidence": "plugin"
    },
    "placedScaleMedian": 1.0,
@@ -4551,7 +4612,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.865,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway01",
@@ -4586,12 +4648,12 @@
     "RTCanalsL01Lower01:12 - L2_RTCanalsL01Lower01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.5665,
-    "p50": 0.5665,
-    "p75": 0.5665,
-    "n": 0,
+    "p25": -4.995,
+    "p50": -2.6938,
+    "p75": 0.0931,
+    "n": 7,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4610,16 +4672,10 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.591,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 0.5665,
-    "deckTopM": 0.9165,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway02",
@@ -4654,12 +4710,12 @@
     "RTCanalsL01Lower02:12 - L2_RTCanalsL01Lower02:12.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.5603,
-    "p50": 0.5603,
-    "p75": 0.5603,
-    "n": 0,
+    "p25": -3.7101,
+    "p50": -1.9003,
+    "p75": -0.995,
+    "n": 6,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4678,16 +4734,10 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.536,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 0.5603,
-    "deckTopM": 0.9103,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway03",
@@ -4755,7 +4805,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway04",
@@ -4823,7 +4874,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway05",
@@ -4891,7 +4943,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway06",
@@ -4959,7 +5012,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkway07",
@@ -5027,7 +5081,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/walkwaystairs",
@@ -5063,12 +5118,12 @@
     "RTCanalsStairs01:12.Mat"
    ],
    "designedSinkM": {
-    "p25": -5.4622,
-    "p50": -5.4622,
-    "p75": -5.4622,
-    "n": 0,
+    "p25": 1.5262,
+    "p50": 1.7882,
+    "p75": 2.9166,
+    "n": 5,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5087,11 +5142,7 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 5.462,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -5.4622
-   }
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/docks3way",
@@ -5160,7 +5211,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/docks4way",
@@ -5196,12 +5248,12 @@
     "Objekt07:4.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
+    "p25": 0.0882,
+    "p50": 0.1281,
+    "p75": 0.1316,
+    "n": 4,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5220,16 +5272,10 @@
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.313,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockscentre",
@@ -5298,7 +5344,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrealt",
@@ -5367,7 +5414,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrenopost",
@@ -5403,12 +5451,12 @@
     "Objekt07:5.Mat.001"
    ],
    "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
+    "p25": -3.9149,
+    "p50": -3.7256,
+    "p75": -1.4561,
+    "n": 6,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5427,16 +5475,10 @@
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.313,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockscentresmall",
@@ -5470,12 +5512,12 @@
     "Objekt07:2.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
+    "p25": -5.1851,
+    "p50": -2.5076,
+    "p75": 0.1495,
+    "n": 3,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5494,16 +5536,10 @@
    "undersideCoverage": 0.751,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.313,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockscorner",
@@ -5572,7 +5608,8 @@
    },
    "piled": true,
    "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseEvidence": "deck-top tell",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/docksend",
@@ -5608,12 +5645,12 @@
     "Quader05:3.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -4.5004,
+    "p50": -3.8372,
+    "p75": -1.8461,
+    "n": 25,
+    "slopeTermMPerDeg": -0.08397,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5632,16 +5669,10 @@
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.313,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/docksendnopost",
@@ -5675,12 +5706,12 @@
     "Quader05:2.Mat.001"
    ],
    "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -2.0274,
+    "p50": -0.6182,
+    "p75": 0.0239,
+    "n": 19,
+    "slopeTermMPerDeg": 0.02538,
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5699,16 +5730,10 @@
    "undersideCoverage": 0.917,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 7.313,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
    "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell"
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockspilings",
@@ -5742,12 +5767,12 @@
     "Zylinder01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": -4.12,
-    "p50": -4.12,
-    "p75": -4.12,
-    "n": 0,
+    "p25": 0.3489,
+    "p50": 0.5534,
+    "p75": 0.6082,
+    "n": 4,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -5766,11 +5791,7 @@
    "undersideCoverage": 0.29,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 4.12,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.12
-   }
+   "lodLevels": 3
   },
   {
    "id": "kotm:argonia/blackwood/dockspilingsdamage",
@@ -5830,7 +5851,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -4.1998
-   }
+   },
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",

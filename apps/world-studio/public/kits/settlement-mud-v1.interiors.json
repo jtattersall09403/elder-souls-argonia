@@ -836,7 +836,7 @@
     0.21,
     -0.7
    ],
-   "promiseReason": "King of the Murkmire never places it; Phase 12 builds its interior",
+   "promiseReason": "King of the Murkmire places it once, inside an interior cell, with no load door (setting-class record n 1), so 0105 R18's outdoor walk-in rule does not reach it; Phase 12 builds its interior",
    "provenance": [],
    "ringFraction": 0.764,
    "roofOverhead": true,
@@ -845,7 +845,7 @@
     2.0
    ],
    "storeys": 1,
-   "why": "measured to enclose a volume (76% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire never places it; Phase 12 builds its interior"
+   "why": "measured to enclose a volume (76% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it once, inside an interior cell, with no load door (setting-class record n 1), so 0105 R18's outdoor walk-in rule does not reach it; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/smpodext01": {
    "category": "misc",

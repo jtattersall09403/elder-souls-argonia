@@ -10,7 +10,7 @@ pytest.importorskip("trimesh")
 from .mine_designed_sink import (PLUGIN_UNSUPPORTED_SILL, STATIC_SUPPORTED_SILL, build_document,
                                  complete_record)
 from .mine_mounts import static_supported_refs
-from .test_mine_mounts import (_ALL_BASES, _BASES, _LAND_OFFSET, _MESHES, _box, _kit,
+from .test_mine_mounts import (_ALL_BASES, _BASES, _LAND_OFFSET, _MESHES, _box, _kit, _master_form,
                                _plugin_file)
 
 
@@ -273,3 +273,198 @@ def test_a_scaled_base_group_needs_the_base_in_the_kits():
     complete_record(assets, kits, tells, bases={"composite:h": "k:hut"}, posed=set(),
                     part_offsets={}, seated_by={}, base_scales={"composite:h": 1.3})
     assert assets["composite:h"]["evidence"] == "mesh-sill"
+
+
+def _override(tmp_path, child_land=None, master_land=_LAND_OFFSET, drop=0.5):
+    """R12 fixture: Master.esm owns the cell and its LAND (-1.14 m); Child.esp
+    overrides the cell (``child_land``: none, or a VHGT offset) and places
+    three of the master's chairs ``drop`` metres into the master's ground."""
+    from .esp_index import UNITS_PER_METRE
+    ground = master_land * 8 / UNITS_PER_METRE
+    master = _plugin_file(tmp_path / "Master.esm", _ALL_BASES,
+                          {(0, 0): {"land": master_land}})
+    chairs = [(0x01000C21 + i, _master_form("chair"), (float(i), 0.0, ground - drop), 0.0)
+              for i in range(3)]
+    child = _plugin_file(tmp_path / "Child.esp", [],
+                         {(0, 0): {"refs": chairs, "land": child_land}},
+                         masters=("Master.esm",), world=0x00000B00, cell_base=0x00000A00)
+    kits = {"vanilla:test/chair01": _kit(_MESHES["chair"])}
+    tells = {"vanilla:test/chair01": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    return build_document(kits, Path("/nonexistent"), tells=tells, supported=set(),
+                          plugins=[("vanilla", child), ("vanilla", master)])
+
+
+def test_r12_an_override_cell_without_land_reads_the_masters_ground(tmp_path):
+    """R12 (16k walk 3): the Skyfall Hist tree and the Mud Mother .esl place
+    their pieces in a master's cell and carry no LAND for it. Before R12 the
+    references found no terrain and the row fell back to the mesh tell."""
+    document = _override(tmp_path)
+    chair = document["assets"]["vanilla:test/chair01"]
+    assert (chair["evidence"], chair["n"], chair["refsMasterLand"]) == ("plugin", 3, 3), chair
+    assert abs(chair["p50"] - 0.5) < 0.01, chair
+    assert "fallback" not in chair
+    assert (document["refsMasterLand"], document["refsNoLand"]) == (3, 0)
+    assert document["sinkFallback"]["rows"] == 0
+
+
+def test_r12_the_placing_files_own_real_land_wins(tmp_path):
+    """A file that carries real LAND for its cell is read on its own ground,
+    never its master's (the chairs stand 0.5 m into the master's ground and
+    about 2.8 m above the child's)."""
+    chair = _override(tmp_path, child_land=-30.0)["assets"]["vanilla:test/chair01"]
+    assert "refsMasterLand" not in chair
+    assert chair.get("n", 0) == 0 or chair["p50"] < -2.0, chair
+
+
+def test_r12_a_flat_placeholder_yields_to_the_masters_real_land(tmp_path):
+    """A flat LAND (BM&V placeholders; ``mine_mounts.is_placeholder_land``)
+    is no ground while a master holds real terrain for the cell."""
+    from .esp_index import LandData
+    from .mine_designed_sink import is_real_land
+    assert not is_real_land(LandData(heights=[[3.0, 3.0], [3.0, 3.0]]))
+    assert is_real_land(LandData(heights=[[3.0, 3.0], [3.0, 4.0]]))
+    assert not is_real_land(None)
+
+
+def test_r12_no_land_anywhere_is_counted_and_the_fallback_is_flagged(tmp_path):
+    """A reference with no LAND in its file or any master is counted on its
+    row (never silently dropped) and the mesh-sill row says it is a fallback."""
+    from .esp_index import UNITS_PER_METRE  # noqa: F401
+    master = _plugin_file(tmp_path / "Master.esm", _ALL_BASES, {(5, 5): {"land": None}})
+    chairs = [(0x01000C31 + i, _master_form("chair"), (float(i), 0.0, 0.0), 0.0)
+              for i in range(3)]
+    child = _plugin_file(tmp_path / "Child.esp", [], {(0, 0): {"refs": chairs}},
+                         masters=("Master.esm",), world=0x00000B00, cell_base=0x00000A00)
+    kits = {"vanilla:test/chair01": _kit(_MESHES["chair"])}
+    tells = {"vanilla:test/chair01": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    document = build_document(kits, Path("/nonexistent"), tells=tells, supported=set(),
+                              plugins=[("vanilla", child), ("vanilla", master)])
+    chair = document["assets"]["vanilla:test/chair01"]
+    assert (chair["evidence"], chair["refsNoLand"], chair["fallback"]) == (
+        "mesh-sill", 3, True), chair
+    assert document["refsNoLand"] == 3
+    assert document["sinkFallback"]["rows"] == 1
+    assert document["sinkFallback"]["byEvidence"] == {"mesh-sill": 1}
+
+
+def test_a_texture_variant_takes_its_bases_row():
+    """Walk 3 L5 rec 2 (miner side): the sick Hist tree ships the healthy
+    tree's mesh, so its row is the base's, never its own mesh tell; a plugin
+    base reads as swap:<base>."""
+    kits = {"k:tree": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0]},
+            "k:tree-sick": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0],
+                            "variantOf": "k:tree"},
+            "k:rock": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0]},
+            "k:rock-wet": {"sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0],
+                           "variantOf": "k:rock"}}
+    assets = {"k:tree": {"p25": -0.7, "p50": -0.6, "p75": -0.5, "n": 4, "iqrM": 0.2,
+                         "slopeTermMPerDeg": None, "evidence": "plugin"}}
+    tells = {key: {"type": "mesh", "tell": "floor-plane", "valueM": 0.25} for key in kits}
+    tells["k:rock"]["valueM"] = -0.4
+    counts = complete_record(assets, kits, tells, bases={}, posed=set(), part_offsets={},
+                             seated_by={}, base_scales={})
+    assert counts["variant"] == 2
+    sick = assets["k:tree-sick"]
+    assert (sick["evidence"], sick["p50"], sick["variantOf"]) == ("swap:k:tree", -0.6, "k:tree")
+    assert "fallback" not in sick
+    wet = assets["k:rock-wet"]
+    assert (wet["evidence"], wet["p50"], wet["fallback"]) == ("mesh-sill", -0.4, True), wet
+
+
+def test_the_ground_is_the_cell_under_the_pivot_not_the_parent_cell(tmp_path):
+    """R12 follow-on (16k walk 3 full run): SNT ferry.esp keeps its rafts in
+    the worldspace's persistent cell, which carries XCLC 0,0, at cell -16,22.
+    Reading (0,0)'s LAND (from Skyrim.esm once R12 looked there) set them 116 m
+    under the ground. The ground is the LAND of the cell under the pivot."""
+    from .esp_index import UNITS_PER_METRE
+    ground = _LAND_OFFSET * 8 / UNITS_PER_METRE
+    master = _plugin_file(tmp_path / "Master.esm", _ALL_BASES,
+                          {(0, 0): {"land": -400.0}, (2, 0): {"land": _LAND_OFFSET}})
+    x0 = 2 * 4096 / UNITS_PER_METRE             # the west edge of cell (2, 0)
+    chairs = [(0x01000C41 + i, _master_form("chair"), (x0 + 5.0 + i, 5.0, ground - 0.5), 0.0)
+              for i in range(3)]
+    child = _plugin_file(tmp_path / "Child.esp", [], {(0, 0): {"refs": chairs}},
+                         masters=("Master.esm",), world=0x00000B00, cell_base=0x00000A00)
+    kits = {"vanilla:test/chair01": _kit(_MESHES["chair"])}
+    tells = {"vanilla:test/chair01": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    document = build_document(kits, Path("/nonexistent"), tells=tells, supported=set(),
+                              plugins=[("vanilla", child), ("vanilla", master)])
+    chair = document["assets"]["vanilla:test/chair01"]
+    assert (chair["evidence"], chair["n"]) == ("plugin", 3), chair
+    assert abs(chair["p50"] - 0.5) < 0.01, chair
+    assert document["refsOutsideCell"] == 3
+
+
+def test_r19_whole_population_divides_a_scaled_sample_by_its_scale():
+    """0105 R19: the Skyfall tree's one reference at scale 1.40 sinks 0.941 m;
+    the whole-population row reads -0.672 m at unit scale, the full run's
+    MIN_SAMPLES row stays empty, and mark_whole_population accepts it."""
+    from .mine_designed_sink import AssetSamples, summarise, mark_whole_population, MIN_SAMPLES
+    entry = AssetSamples()
+    entry.scaled_refs = 1
+    entry.by_scale["1.40"].append(-0.941)
+    entry.scaled_unit.append(-0.941 / 1.40)
+    entry.plugins.add("Skyfall Sleeping Tree Overhaul.esp")
+    full = summarise({"tree": entry}, MIN_SAMPLES)["tree"]
+    assert "p50" not in full and full["refsDroppedNonUnitScale"] == 1
+    row = summarise({"tree": entry}, 1)["tree"]
+    assert row["p50"] == -0.6721 and row["n"] == 1 and row["refsScaledNormalised"] == 1
+    mark_whole_population("tree", row, "R19")
+    assert row["wholePopulation"]["n"] == 1
+    entry.scaled_dropped = 1                       # a dropped scaled ref: not the population
+    with pytest.raises(SystemExit):
+        mark_whole_population("tree", summarise({"tree": entry}, 1)["tree"], "R19")
+
+
+def test_r19_a_tree_in_shallow_water_is_on_the_ground():
+    from .mine_designed_sink import AssetSamples, measure_ref, TREE_SHALLOWS_M
+    from . import mine_designed_sink as mds
+    from .esp_index import UNITS_PER_METRE
+
+    class Ref:
+        pos = (0.0, 0.0, -6100.0)
+        scale = 1.0
+    terrain = -6075.0
+    stats = {"refsNoLand": 0, "refsJoined": 0, "refsPluginUnsupported": 0}
+    orig_h, orig_s, orig_b = mds.height_at, mds.slope_degrees_at, mds.bottom_clear_of_land
+    mds.height_at = lambda *a: terrain
+    mds.slope_degrees_at = lambda *a: 0.0
+    mds.bottom_clear_of_land = lambda *a: False
+    try:
+        shallow, deep = (terrain + d * UNITS_PER_METRE for d in (1.33, TREE_SHALLOWS_M + 0.5))
+        for base_type, height, water, grounded in (("TREE", 24.0, shallow, True),
+                                                   ("STAT", 24.0, shallow, False),
+                                                   ("TREE", 0.2, shallow, False),   # a lily pad
+                                                   ("KELP", 12.0, shallow, False),  # tall kelp
+                                                   ("TREE", 24.0, deep, False)):
+            entry = AssetSamples()
+            kit = {"sizeM": [5.0, 5.0, height],
+                   **({"category": "aquatic-plant"} if base_type == "KELP" else {})}
+            measure_ref(entry, stats, kit, object(),
+                        (Ref, (0, 0), water, 1, 2, "TREE" if base_type == "KELP" else base_type), set())
+            assert bool(entry.sink) == grounded and bool(entry.waterline) != grounded, base_type
+    finally:
+        mds.height_at, mds.slope_degrees_at, mds.bottom_clear_of_land = orig_h, orig_s, orig_b
+
+
+def test_a_merge_of_a_base_carries_its_texture_variants(tmp_path, monkeypatch):
+    """L12: `--merge --assets <base>` re-resolves the base's variants (the
+    sick Hist tree kept the base's old mesh-sill row after the R19 merge)."""
+    from . import mine_designed_sink as mds
+    base, sick = "h:tree", "h:tree-sick"
+    kits = {base: {"kit": "k", "sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0]},
+            sick: {"kit": "k", "sizeM": [1, 1, 1], "originOffsetM": [0, 0, 0], "variantOf": base}}
+    old = {"p25": -1.4, "p50": -1.4, "p75": -1.4, "n": 0, "iqrM": 0.0, "evidence": "mesh-sill",
+           "groundLineTell": {"type": "mesh", "tell": "post-foot", "valueM": -1.4}}
+    out = tmp_path / "sink.json"
+    out.write_text(json.dumps({"assets": {base: dict(old), sick: dict(old, variantOf=base)}}))
+    new = {"p25": -0.67, "p50": -0.67, "p75": -0.67, "n": 1, "iqrM": 0.0,
+           "slopeTermMPerDeg": None, "evidence": "plugin"}
+    monkeypatch.setattr(mds, "kit_assets", lambda *a: kits)
+    monkeypatch.setattr(mds, "build_document", lambda *a, **k: {"assets": {base: dict(new)}})
+    monkeypatch.setattr(mds, "composite_base_scales", lambda: {})
+    monkeypatch.setattr(mds, "composite_bases", lambda: {})
+    monkeypatch.setattr(mds, "composite_part_offsets", lambda: {})
+    assert mds._main(["--merge", "--assets", base, "--out", str(out), "--quiet"]) == 0
+    got = json.loads(out.read_text())["assets"][sick]
+    assert (got["p50"], got["evidence"], got["variantOf"]) == (-0.67, f"swap:{base}", base)

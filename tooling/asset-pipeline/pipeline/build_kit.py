@@ -1187,6 +1187,47 @@ def read_gltf_json(glb: Path) -> dict:
     return json.loads(data[20:20 + length])
 
 
+def glb_lod_levels(glb: Path) -> dict[str, int]:
+    """``assetId -> LOD levels`` as the runtime's ``buildArchitectureKit``
+    reads the GLB (decision 0105 R20): each scene root carrying
+    ``extras.assetId``, levels = the highest mesh-node ``extras.lod`` + 1
+    (absent = 0). An alpha-tested piece gets no decimated levels (16f round 5)
+    whatever its configured ``lodRatios``; a flora card adds one."""
+    gltf = read_gltf_json(glb)
+    nodes = gltf.get("nodes") or []
+    scenes = gltf.get("scenes") or [{"nodes": []}]
+    out: dict[str, int] = {}
+    for root in scenes[gltf.get("scene", 0)].get("nodes") or []:
+        asset_id = (nodes[root].get("extras") or {}).get("assetId")
+        if not isinstance(asset_id, str):
+            continue
+        top, stack = -1, [root]
+        while stack:
+            node = nodes[stack.pop()]
+            if "mesh" in node:
+                lod = (node.get("extras") or {}).get("lod")
+                top = max(top, lod if isinstance(lod, int) else 0)
+            stack.extend(node.get("children") or [])
+        out[asset_id] = top + 1
+    return out
+
+
+def apply_lod_levels(glb: Path, manifest: dict) -> int:
+    """``lodLevels`` on every manifest row the GLB carries (0105 R20: the
+    levels actually built; ``lodRatios`` stays the configured chain). Returns
+    how many rows' ``lodLevels`` differ from ``len(lodRatios) + 1``."""
+    levels = glb_lod_levels(glb)
+    differ = 0
+    for asset in manifest.get("assets", []):
+        got = levels.get(asset.get("id"))
+        if got is None:
+            asset.pop("lodLevels", None)
+            continue
+        asset["lodLevels"] = got
+        differ += got != len(asset.get("lodRatios") or []) + 1
+    return differ
+
+
 # --- input-hash skip (speed lane 2 item f) -----------------------------------
 #
 # A kit build is skipped when a digest of everything it reads matches the stamp
@@ -1199,16 +1240,28 @@ def read_gltf_json(glb: Path) -> dict:
 #   * the kit config, the asset registries, the interior kit configs and the
 #     placement records the post-passes read, and the toolchain config, by
 #     content;
-#   * the code version: this file, the Blender scripts it runs and the
-#     post-pass modules that write into the GLB, the manifest or the sidecars;
+#   * the code version: `KIT_OUTPUT_FORMAT_VERSION`, a number bumped by hand
+#     in the same change as any edit to `KIT_CODE_FILES` that alters what a
+#     build writes (never the source hash of those files: one edit to this
+#     file then restamped all eleven kits, L8 rec 3, walk 3 2026-09-28);
 #   * the options: the Blender plan (every config-derived setting) and --vault.
 # Extraction still runs on a skip (the texture set is only known after the
 # NIFs are read); it is the cheap half.
 
 PIPELINE_DIR = Path(__file__).resolve().parent
 
-#: The code whose change must rebuild a kit: build_kit, the Blender half and
-#: the helper it imports, and every post-pass `_build` runs on the result.
+#: The output format every kit build writes. Bump it (and say why below) in
+#: the change that alters a GLB, manifest or sidecar any file in
+#: `KIT_CODE_FILES` writes; a refactor, a comment or a new option that leaves
+#: existing outputs byte-equal does not bump it. Every kit stamped at an older
+#: version is stale and rebuilds once.
+#:   1  2026-09-28: introduced (walk 3 L9); replaces the source hash of
+#:      KIT_CODE_FILES in the stamp.
+KIT_OUTPUT_FORMAT_VERSION = 1
+
+#: The code a kit build runs: build_kit, the Blender half and the helper it
+#: imports, and every post-pass `_build` runs on the result. Its edits reach
+#: the stamp only through `KIT_OUTPUT_FORMAT_VERSION`.
 KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
     "build_kit.py", "build.py", "blender/build_kit.py",
     "blender/effect_materials.py", "placement_metadata.py", "trunk_solids.py",
@@ -1333,11 +1386,12 @@ def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> d
     from .interiors_index import INTERIOR_KITS
     files = [(f"data-root/{p.relative_to(data_root).as_posix()}", p)
              for p in sorted(data_root.rglob("*")) if p.is_file()]
-    repo_files = [CONFIG / f"{kit_id}.json", *KIT_CODE_FILES, *KIT_RECORD_FILES,
+    repo_files = [CONFIG / f"{kit_id}.json", *KIT_RECORD_FILES,
                   *(CONFIG / f"{name}.json" for name in INTERIOR_KITS),
                   *sorted(REGISTRY_DIR.glob("registry-*.jsonl"))]
     files += [(_repo_label(p), p) for p in dict.fromkeys(repo_files)]
     hashes = input_hashes(files, {"plan": plan, "vault": str(vault)})
+    hashes["(output-format)"] = str(KIT_OUTPUT_FORMAT_VERSION)
     ids = kit_asset_ids(kit_id)
     for path in KIT_ROW_RECORDS:
         hashes[f"{path.name} (kit rows)"] = hashlib.sha256(
@@ -1369,6 +1423,29 @@ def outputs_digest(kit_id: str, output_glb: Path) -> str:
     return h.hexdigest()
 
 
+def kit_code_digest() -> str:
+    """sha256 over ``KIT_CODE_FILES``' content: an informational stamp line
+    (``# code:``), never part of the skip digest. ``batch_prepass`` warns
+    when it moved while ``KIT_OUTPUT_FORMAT_VERSION`` did not (L9 rec 5)."""
+    h = hashlib.sha256()
+    for path in KIT_CODE_FILES:
+        h.update(path.name.encode("utf-8") + b"\0" + (path.read_bytes() if path.is_file() else b""))
+    return h.hexdigest()
+
+
+CODE_STAMP_PREFIX = "# code: "
+
+
+def stamped_code(stamp: Path) -> tuple[str, str] | None:
+    """``(code digest, output-format version)`` a stamp's ``# code:`` line
+    records; None for a stamp older than the line."""
+    for line in stamp.read_text().splitlines()[1:4]:
+        if line.startswith(CODE_STAMP_PREFIX):
+            digest, _, version = line[len(CODE_STAMP_PREFIX):].partition(" output-format ")
+            return digest.strip(), version.strip()
+    return None
+
+
 def write_inputs_stamp(output_glb: Path, hashes: dict[str, str], sidecars: list[str] = (),
                        kit_id: str | None = None) -> None:
     """The digest on line 1, the sidecars this build wrote on line 2
@@ -1377,7 +1454,8 @@ def write_inputs_stamp(output_glb: Path, hashes: dict[str, str], sidecars: list[
     a rebuild can say which inputs moved."""
     kit_id = kit_id or output_glb.stem
     lines = ([digest_of(hashes), "# sidecars: " + " ".join(sidecars),
-              "# outputs: " + outputs_digest(kit_id, output_glb)]
+              "# outputs: " + outputs_digest(kit_id, output_glb),
+              f"{CODE_STAMP_PREFIX}{kit_code_digest()} output-format {KIT_OUTPUT_FORMAT_VERSION}"]
              + [f"{hashes[k]} {k}" for k in sorted(hashes)])
     stamp = inputs_stamp_path(output_glb)
     stamp.parent.mkdir(parents=True, exist_ok=True)
@@ -1554,6 +1632,7 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     summary["texturesMissing"] = notes["texturesMissing"]
     summary["texturesSubstituted"] = notes["texturesSubstituted"]
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
+    apply_lod_levels(output_glb, summary)
     sized = apply_size_collision(summary, kit)
     if sized:
         print(f"[kit] size-rule colliders: {len(sized)}")

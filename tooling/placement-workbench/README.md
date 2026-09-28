@@ -90,7 +90,7 @@ full apply, including after a one-op edit and after a pad move
 ## Round
 
     python3 tooling/placement-workbench/wb.py round [SCENE] LAYOUT [--plan | --no-shots]
-        [--walktable] [--full | --cache] [--report-dir DIR]
+        [--walktable] [--full | --cache] [--report-dir DIR] [--waiting-on TASK[=RULE] ...]
 
 `apply` + `check` + `compile`, then `render --shots auto` (or with
 `--plan` the 2D plan render of the blueprint this apply derived,
@@ -104,11 +104,28 @@ timings; failed op and op warnings; `byRule` (count, the rule's fix hint
 from `rules.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
 compile's errors and warnings; the plan PNGs or the shot manifest. Each
 round appends one line to `output/apply/<scene>/rounds.jsonl` (load,
-apply ops, check, compile, plan, shots, total seconds; failures);
-`--report-dir` copies the summary into the round's report folder and
-appends THIS round's row to the folder's own `rounds.jsonl` (never the
-scene's whole ledger, which a ledger over report folders double counted). The apply
-summary `output/apply/<placeId>.json` is still written.
+apply ops, check, compile, plan, shots, total seconds; failures).
+The summary is copied into the round's report folder, which gets THIS
+round's row in its own `rounds.jsonl` (never the scene's whole ledger,
+which a ledger over report folders double counted). The folder is
+`--report-dir`, else the place's current round folder
+(`tooling/.reports/16k/<placeId>/round-N/`: the highest round-N without a
+`summary.json`, where the scan output or fix list may already sit, else
+round-N+1; `WB_REPORTS` moves the root, and a lane with its own
+`WB_OUTPUT` writes under `<WB_OUTPUT>/reports`). `--waiting-on` writes
+`waiting-on.json` there: the tooling tasks the round waits on
+(`TASK=RULE` adds the rule the task will add; a `<TASK>.md` in the place
+folder is linked as `file`; rows and hand-written keys already there are
+kept). The apply summary `output/apply/<placeId>.json` is still written.
+
+**Owner-accepted ops** (method review r3 finding G). An op the owner
+called right on a walk carries `"ownerOk": "walk-N"` (or `true`); an op
+that changes afterwards carries `"cause": "<why>"`. Both are layout-only
+keys (never CLI arguments, never in the op cache key). The `ownerOkRule`
+check compares the layout's ops with the same file at git HEAD: an op
+`ownerOk` there that is changed, or dropped, without a `cause` fails. To
+remove an accepted piece, keep its op with a `cause` and add a `remove`
+op. Socket ops take neither key (sockets move no piece).
 
 ## Edit
 
@@ -127,8 +144,9 @@ rules (walk, pathReach, berthReach), doors, and the six per-piece rules
 (`rules.PIECE_RULES`: floorEdge, propSeat, roadSurface, sill, sign,
 collider; each a `<rule>_piece` function over a context built once per
 scene, split by piece) in one fork pool (`workbench/parallel.py`). The pool
-is the job slot's share under `job_guard.sh` (`ES_JOB_CORES`, 2 on the
-8-vCPU box), else every core but 0 up to 7; `WB_WORKERS` overrides,
+under `job_guard.sh` is the pool cores idle at fork time (a 0.1 s
+/proc/stat sample) up to 7, never below the job slot's share
+(`ES_JOB_CORES`, 2 on the 8-vCPU box), else every core but 0 up to 7; `WB_WORKERS` overrides,
 `WB_WORKERS=1` is serial. Results come back in task order, so the output is
 the serial loop's key for key. Near pairs whose two pieces are unchanged
 come from the pair cache. `check --only UID,..` judges those pieces only:

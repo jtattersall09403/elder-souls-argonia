@@ -22,12 +22,20 @@ measured and stay `reader` until a rule covers the whole row).
 You are reading renders of one place built from game kit pieces. Answer
 every line below (the `reader` rows only are pasted) for every shot it names with YES, NO or UNSURE (every
 line is a question whose right answer is YES), and for
-each NO give the piece label, the shot file and what you see, in metres
-where the 1 m grid allows. UNSURE means "re-render this closer or lit";
+each NO give the shot file, its subject (the round manifest's `subject`
+for that shot), the compass position of what you mean in that shot
+("the NE corner of the stable", "the second hut west of the gate") and
+what you see, in metres where the 1 m grid allows. The renders carry no
+piece labels (0105 R8): never guess an id. UNSURE means "re-render this closer or lit";
 never guess. A black, blank or badly framed image is reported as
 UNREADABLE with its file name, not read (L42). Do not suggest fixes.
 The designer's expectations for this round are listed after the
 checklist; say where a shot contradicts one.
+
+**The builder maps a NO to a piece** by re-rendering that one shot with
+`--labels` (`wb.py SCENE render --shots <that shot's token: top,
+iso:BEARING or front:UID> --labels`, one Blender launch) and reading the
+id at the named position; readers never get labelled images.
 
 ## Plan (the `render_blueprint` PNG; step 3)
 

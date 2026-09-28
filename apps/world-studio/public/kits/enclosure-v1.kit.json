@@ -83,7 +83,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallgate02",
@@ -171,7 +172,8 @@
     "p10": 1.0,
     "p90": 1.5,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024arch01",
@@ -243,7 +245,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.469
+   "pivotAboveBaseM": 10.469,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall01",
@@ -330,7 +333,8 @@
     "p10": 1.5,
     "p90": 1.5,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall02",
@@ -410,7 +414,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way",
@@ -497,7 +502,8 @@
     "p10": 1.5,
     "p90": 1.5,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way",
@@ -577,7 +583,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner4way",
@@ -655,7 +662,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.488,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallround01",
@@ -735,7 +743,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.405,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01a",
@@ -813,7 +822,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.369,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01b",
@@ -895,7 +905,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.668,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallstair01",
@@ -986,7 +997,8 @@
     "p10": 1.5,
     "p90": 1.5,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall01a",
@@ -1066,7 +1078,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall02",
@@ -1144,7 +1157,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512pillar01",
@@ -1220,7 +1234,8 @@
     "p10": 1.0,
     "p90": 2.2,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall01",
@@ -1298,7 +1313,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.725,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall02",
@@ -1376,7 +1392,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.729,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wallendcap",
@@ -1454,7 +1471,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.745,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledge",
@@ -1525,7 +1543,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgecorner",
@@ -1601,7 +1620,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect",
@@ -1683,7 +1703,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/misc/ramp01",
@@ -1763,7 +1784,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.411,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834
+   "pivotAboveBaseM": 11.834,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/newcastle/wall/slope/1024wallslope256",
@@ -1843,7 +1865,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.672,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 13.655
+   "pivotAboveBaseM": 13.655,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01",
@@ -1902,7 +1925,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.161,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756
+   "pivotAboveBaseM": 0.756,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01",
@@ -1961,7 +1985,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.357
+   "pivotAboveBaseM": 0.357,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
@@ -2020,7 +2045,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
@@ -2079,7 +2105,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.202,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756
+   "pivotAboveBaseM": 0.756,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
@@ -2138,7 +2165,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": 0.935
+   "pivotAboveBaseM": 0.935,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
@@ -2197,7 +2225,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01",
@@ -2256,7 +2285,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.047,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756
+   "pivotAboveBaseM": 0.756,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01",
@@ -2315,7 +2345,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01",
@@ -2379,7 +2410,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.022,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756
+   "pivotAboveBaseM": 0.756,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01",
@@ -2438,7 +2470,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -2501,7 +2534,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.991
+   "pivotAboveBaseM": 0.991,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwall",
@@ -2562,7 +2596,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallcorner",
@@ -2623,7 +2658,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91
+   "pivotAboveBaseM": 0.91,
+   "lodLevels": 3
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwalldivider",
@@ -2684,7 +2720,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.969
+   "pivotAboveBaseM": 0.969,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01",
@@ -2744,7 +2781,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01",
@@ -2804,7 +2842,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02",
@@ -2864,7 +2903,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01",
@@ -2919,7 +2959,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.302,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate",
@@ -2994,7 +3035,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal",
@@ -3056,7 +3098,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.166
+   "pivotAboveBaseM": 2.166,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallstraight01",
@@ -3113,7 +3156,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.16,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114
+   "pivotAboveBaseM": 2.114,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerin01",
@@ -3170,7 +3214,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerout01",
@@ -3227,7 +3272,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallwalkway01",
@@ -3286,7 +3332,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.899,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114
+   "pivotAboveBaseM": 2.114,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadetower01",
@@ -3345,7 +3392,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadegate01",
@@ -3393,9 +3441,9 @@
    "designedSinkM": {
     "p25": -0.2138,
     "p50": -0.0637,
-    "p75": -0.0009,
-    "n": 18,
-    "slopeTermMPerDeg": -0.02176,
+    "p75": -0.0002,
+    "n": 19,
+    "slopeTermMPerDeg": -0.02232,
     "evidence": "plugin"
    },
    "anchorClass": "hanging",
@@ -3414,7 +3462,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.172,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.499
+   "pivotAboveBaseM": 0.499,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
@@ -3459,11 +3508,11 @@
     "StockadeBarricade01-03:3.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.1605,
+    "p25": 0.1155,
     "p50": 0.2688,
     "p75": 0.426,
-    "n": 72,
-    "slopeTermMPerDeg": 0.00799,
+    "n": 100,
+    "slopeTermMPerDeg": 0.00475,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3482,7 +3531,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.361,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/stockade/stockadepike01",
@@ -3516,11 +3566,11 @@
     "StockadePike01:2.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.6556,
-    "p50": 0.9921,
-    "p75": 1.457,
-    "n": 68,
-    "slopeTermMPerDeg": 0.00247,
+    "p25": 0.6775,
+    "p50": 1.0286,
+    "p75": 1.5076,
+    "n": 72,
+    "slopeTermMPerDeg": 0.0076,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3539,7 +3589,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01",
@@ -3599,7 +3650,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.205,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451
+   "pivotAboveBaseM": 7.451,
+   "lodLevels": 3
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02",
@@ -3659,7 +3711,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451
+   "pivotAboveBaseM": 7.451,
+   "lodLevels": 3
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03",
@@ -3719,7 +3772,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451
+   "pivotAboveBaseM": 7.451,
+   "lodLevels": 3
   },
   {
    "id": "composite:farmfence/wr-fence-run-3",
@@ -3792,7 +3846,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.935
+   "pivotAboveBaseM": 0.935,
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\enclosure-v1.glb",

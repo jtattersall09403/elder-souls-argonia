@@ -62,7 +62,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.762,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.193
+   "pivotAboveBaseM": 0.193,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/bookshelf",
@@ -139,7 +140,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shelfsingle",
@@ -212,7 +214,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.193
+   "pivotAboveBaseM": -0.193,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/hangingshelf",
@@ -289,7 +292,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.707,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.782
+   "pivotAboveBaseM": 0.782,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -359,7 +363,8 @@
     "p10": 1.0,
     "p90": 1.43,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/chitinchair01",
@@ -435,7 +440,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.115
+   "pivotAboveBaseM": 0.115,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianpillow01",
@@ -495,7 +501,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -579,7 +586,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potterycup",
@@ -639,7 +663,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate01",
@@ -699,7 +724,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate02",
@@ -759,7 +785,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate03",
@@ -819,7 +846,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -874,7 +902,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.518
+   "pivotAboveBaseM": -0.518,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/clam01",
@@ -934,7 +963,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109
+   "pivotAboveBaseM": 0.109,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbone01",
@@ -994,7 +1024,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.069
+   "pivotAboveBaseM": 0.069,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/drum01",
@@ -1054,7 +1085,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.803,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/candle01",
@@ -1114,7 +1146,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.046
+   "pivotAboveBaseM": -0.046,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -1176,7 +1209,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425
+   "pivotAboveBaseM": 4.425,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -1238,7 +1272,30 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889
+   "pivotAboveBaseM": 0.889,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime02",
@@ -1308,7 +1365,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.604,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269
+   "pivotAboveBaseM": 0.269,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/banner01",
@@ -1363,7 +1421,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.904
+   "pivotAboveBaseM": 2.904,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging01",
@@ -1423,7 +1482,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387
+   "pivotAboveBaseM": -0.387,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging02",
@@ -1483,7 +1543,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387
+   "pivotAboveBaseM": -0.387,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging03",
@@ -1543,7 +1604,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387
+   "pivotAboveBaseM": -0.387,
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1615,7 +1677,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.674,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269
+   "pivotAboveBaseM": 0.269,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -1677,7 +1756,30 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016
+   "pivotAboveBaseM": -0.016,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -1739,7 +1841,30 @@
    "undersideClosed": false,
    "undersideCoverage": 0.509,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046
+   "pivotAboveBaseM": 0.046,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -1808,7 +1933,30 @@
     "p10": 0.85,
     "p90": 0.85,
     "source": "plugin"
-   }
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1864,7 +2012,30 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -1940,7 +2111,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -2000,7 +2188,24 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -2062,7 +2267,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -2136,7 +2358,24 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -2202,7 +2441,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002
+   "pivotAboveBaseM": 3.002,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -2264,7 +2520,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -2324,7 +2597,24 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683
+   "pivotAboveBaseM": 0.683,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -2401,7 +2691,24 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -2463,7 +2770,30 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155
+   "pivotAboveBaseM": 0.155,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
@@ -2538,7 +2868,24 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/riften/clutter/rtbanneranchor01",
@@ -2598,7 +2945,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01",
@@ -2658,7 +3006,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057
+   "pivotAboveBaseM": 0.057,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bones/trollskull",
@@ -2714,7 +3063,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.405
+   "pivotAboveBaseM": 0.405,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/chopping block/choppingblock01",
@@ -2769,7 +3119,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/commoncounter01",
@@ -2829,7 +3180,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/commoncounterhanger01",
@@ -2889,7 +3241,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011
+   "pivotAboveBaseM": 0.011,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsack02largeflat",
@@ -2959,7 +3312,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.877,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106
+   "pivotAboveBaseM": 0.106,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsack02small",
@@ -3034,7 +3388,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234
+   "pivotAboveBaseM": 0.234,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsack02smallflat",
@@ -3104,7 +3459,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.094
+   "pivotAboveBaseM": 0.094,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -3172,7 +3528,56 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403
+   "pivotAboveBaseM": 0.403,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ],
+     "exterior": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 445,
+    "interior": {
+     "keep": 84,
+     "ruin": 40,
+     "town": 90,
+     "camp": 69,
+     "wild": 22,
+     "village": 10
+    },
+    "exterior": {
+     "camp": 19,
+     "wild": 49,
+     "ruin": 24,
+     "keep": 9,
+     "town": 26,
+     "village": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:town:Katariah01",
+     "exterior:town:KatariahLocation",
+     "interior:keep:MarkarthUnderStoneKeep",
+     "interior:keep:RiftenJail01",
+     "interior:ruin:Icerunner01",
+     "interior:keep:SolitudeJail01",
+     "exterior:ruin:IcerunnerLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/cookingspitsm01",
@@ -3227,7 +3632,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.095,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.199
+   "pivotAboveBaseM": 0.199,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/cookingstone01",
@@ -3282,7 +3688,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002
+   "pivotAboveBaseM": -0.002,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/haybale01",
@@ -3340,7 +3747,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/hayscatter04",
@@ -3395,7 +3803,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/hayscatter05",
@@ -3450,7 +3859,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/hayscatter06",
@@ -3505,7 +3915,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/ingredients/hawkfeather01",
@@ -3565,7 +3976,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.462,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106
+   "pivotAboveBaseM": 0.106,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01",
@@ -3625,7 +4037,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02",
@@ -3685,7 +4098,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03",
@@ -3745,7 +4159,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16
+   "pivotAboveBaseM": 0.16,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/bedroll/bedrollhay01",
@@ -3796,10 +4211,10 @@
    },
    "designedSinkM": {
     "p25": -0.1051,
-    "p50": -0.0386,
-    "p75": -0.0036,
-    "n": 116,
-    "slopeTermMPerDeg": -0.01306,
+    "p50": -0.0414,
+    "p75": -0.0067,
+    "n": 147,
+    "slopeTermMPerDeg": -0.01216,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3818,7 +4233,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.289
+   "pivotAboveBaseM": 0.289,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/common/commonchair01",
@@ -3863,11 +4279,11 @@
     ]
    },
    "designedSinkM": {
-    "p25": -0.0402,
+    "p25": -0.0317,
     "p50": 0.0,
-    "p75": 0.0259,
-    "n": 41,
-    "slopeTermMPerDeg": 0.25073,
+    "p75": 0.0378,
+    "n": 57,
+    "slopeTermMPerDeg": 0.21021,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3886,7 +4302,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/orcfurniture/orcshelf01",
@@ -3954,7 +4371,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.857,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/smallcookingpot",
@@ -4033,7 +4451,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.604
+   "pivotAboveBaseM": -0.604,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:plants/wheat01",
@@ -4088,7 +4507,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.339,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.38
+   "pivotAboveBaseM": 0.38,
+   "lodLevels": 1
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\mudmother-hut-int.glb",

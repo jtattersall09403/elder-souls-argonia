@@ -32,13 +32,31 @@ Method:
    to a master's base (Black Marsh North placing Black Marsh.esm's lily pads)
    is measured too.
 3. Per reference: ``(terrain height under the pivot, bilinear) - pivot z``,
-   converted to metres. References at a scale other than 1.0 are left out of
+   converted to metres. The terrain is the placing file's own LAND for the
+   cell; where that file carries none, or only a flat placeholder, it is the
+   LAND of its last-loaded on-disk master that holds real terrain there (R12,
+   16k walk 3: Skyfall overrides a Skyrim.esm tree and carries no LAND, so
+   the tree was never measured). Rows count the references read that way
+   (``refsMasterLand``) and those with no LAND anywhere (``refsNoLand``: a
+   city worldspace drawing its parent's, a cell with no LAND). The ground cell
+   is the one under the pivot, not the parent cell: a worldspace's persistent
+   cell can carry XCLC 0,0 (SNT ferry.esp's rafts at cell -16,22) and read
+   (0,0)'s LAND 116 m above them (``refsOutsideCell``). Every row
+   seated by the mesh-sill tell instead of plugin ground says so
+   (``fallback: true``) and the record counts them (``sinkFallback``).
+   References at a scale other than 1.0 are left out of
    the unit-scale sample: the pivot offset scales with the mesh and the sample
    would mix two geometries. They are measured in their own group per
    placement scale (``byScale``, planner ruling 2026-09-27, scaled
    references): a composite whose part 0 is the base piece at that scale
    takes that group's sink (``base:<id>@<scale>``, BM&V's ``hutexterior``,
    placed only at 1.30).
+   Decision 0105 R19: the whole-population rule (``--whole-population``)
+   also reads every scaled reference, divided by its scale
+   (``refsScaledNormalised``), and a tree (a TREE base 3 m or taller, not an
+   aquatic plant) standing in water under ``TREE_SHALLOWS_M`` is on the
+   ground (``refsTreeShallows``): the Skyfall Hist tree, one reference at
+   1.40 in 1.33 m of cell water.
 4. Per asset: p25/p50/p75 over the samples, n, and ``slopeTermMPerDeg`` — the
    least-squares gradient of sink against the local terrain slope in degrees,
    which is how much deeper the makers set the same piece on steeper ground.
@@ -109,6 +127,21 @@ UNSUPPORTED_GAP_M = 0.10
 """Round 13: a reference whose mesh bottom stands this far above the highest
 LAND under its footprint touches nothing the terrain test can see."""
 
+TREE_SHALLOWS_M = 2.0
+"""0105 R19: a tree (a TREE base record, the plugin's own type, whose kit
+mesh stands at least ``TREE_MIN_HEIGHT_M``) standing in water shallower than
+this counts as on the ground: the Skyfall Hist tree stands in 1.33 m of cell
+water and is rooted, not afloat."""
+
+TREE_MIN_HEIGHT_M = 3.0
+"""A TREE record under this height is a shrub, fern or floating plant (Skyrim
+files lily pads and shrubs as TREE): R19 does not seat those on the bed."""
+
+WATER_PLANT_CATEGORIES = ("aquatic-plant",)
+"""Kit categories that grow in water by design (BM&V's tall kelp is a TREE
+record over 3 m): their waterline is the measurement, R19 leaves them as
+they were (L12 batch 1, 2026-09-28)."""
+
 WATER_COVERS_GROUND_UNITS = 8.0
 """Ground this far under the cell's water surface counts as water, not soil.
 
@@ -142,6 +175,7 @@ def kit_assets(*kits_dirs: Path) -> dict[str, dict]:
                     "sizeM": asset.get("sizeM"),
                     "originOffsetM": asset.get("originOffsetM"),
                     "category": asset.get("category"),
+                    "variantOf": asset.get("variantOf"),
                 })
     return out
 
@@ -375,9 +409,22 @@ class AssetSamples:
     by_scale: dict[str, list[float]] = field(default_factory=lambda: defaultdict(list))
     """Planner ruling 2026-09-27 (scaled references): terrain sinks of the
     non-unit-scale references, per placement scale (``scale_key``)."""
+    scaled_unit: list[float] = field(default_factory=list)
+    """0105 R19: the ``by_scale`` samples each divided by its placement scale
+    (the unit-scale sink the same seating gives); only the whole-population
+    rule reads them."""
+    tree_shallows: int = 0
+    """0105 R19: TREE references in water under ``TREE_SHALLOWS_M`` read as
+    on the ground."""
     scaled_dropped: int = 0
     """Scaled references left out of ``by_scale`` by the support tests (on a
     static or kit mesh, clear of the LAND, over water, no LAND)."""
+    master_land: int = 0
+    """R12 (16k walk 3): references read against a master's LAND because the
+    placing file's cell carries none (or only a flat placeholder)."""
+    no_land: int = 0
+    """References with no LAND under them in the placing file or any of its
+    on-disk masters (counted, never silently dropped)."""
 
 
 SCALED_REFS_RULING = "planner 2026-09-27, scaled references (16k slice 2)"
@@ -446,6 +493,96 @@ def bottom_clear_of_land(kit: dict, ref, land, grid) -> bool:
     return float(world[:, 2].min()) > max(heights) + UNSUPPORTED_GAP_M * UNITS_PER_METRE
 
 
+def is_real_land(land) -> bool:
+    """A LAND with heights that are not one flat value (BM&V ships flat
+    placeholders; ``mine_mounts.is_placeholder_land`` is the same test)."""
+    if land is None or land.heights is None:
+        return False
+    flat = [h for row in land.heights for h in row]
+    return min(flat) != max(flat)
+
+
+CELL_UNITS = 4096.0
+
+
+def cell_of(pos) -> tuple[int, int]:
+    """The exterior grid cell holding a world position (units)."""
+    return (math.floor(pos[0] / CELL_UNITS), math.floor(pos[1] / CELL_UNITS))
+
+
+def master_lands(index: "LoadOrderIndex", on_disk: dict[str, Path],
+                 needed: dict[str, set[tuple[int, int, int]]]) -> dict[tuple, object]:
+    """R12: ``(file, (world, gx, gy)) -> LandData`` for exactly the cells
+    ``needed`` names in each file (the placing file's masters, and the
+    placing file itself for a reference standing outside its parent cell),
+    one walk per file."""
+    lands: dict[tuple, object] = {}
+    for name, keys in needed.items():
+        plugin = Plugin(on_disk[name])
+        resolve = index.resolver.of(plugin)
+        for cell in plugin.exterior_cells(with_land=True, with_refs=False,
+                                          land_layers=False):
+            key3 = (resolve(cell.world), *cell.grid)
+            if key3 in keys and cell.land is not None and cell.land.heights is not None:
+                lands[(name, key3)] = cell.land
+        del plugin
+    return lands
+
+
+def measure_ref(entry: "AssetSamples", stats: dict, kit: dict, land, reading: tuple,
+                supported: set[int]) -> None:
+    """One reference against ``land`` (its own cell's, or a master's, R12):
+    the unit-scale sink sample, the scale group, the waterline, or the count
+    of why it gave none."""
+    ref, grid, water, form_gid, base_gid, base_type = reading
+    x, y, z = ref.pos
+    terrain = height_at(land, x, y, grid) if land is not None else None
+    if terrain is None:
+        entry.no_land += 1
+        stats["refsNoLand"] += 1
+    over_water = water is not None and (
+        terrain is None or terrain < water - WATER_COVERS_GROUND_UNITS)
+    if (over_water and base_type == "TREE" and terrain is not None
+            and float((kit.get("sizeM") or [0, 0, 0])[2]) >= TREE_MIN_HEIGHT_M
+            and kit.get("category") not in WATER_PLANT_CATEGORIES
+            and water - terrain < TREE_SHALLOWS_M * UNITS_PER_METRE):
+        over_water = False            # R19: rooted in the shallows
+        entry.tree_shallows += 1
+    if abs(ref.scale - 1.0) > SCALE_TOLERANCE:
+        entry.scaled_refs += 1
+        # ruling 2026-09-27: its own scale group, on the same
+        # terrain-support tests as the unit-scale sample. The
+        # contact scan (mine_mounts) skips scaled refs, so
+        # ``supported`` rarely names one; a scaled ref on a mesh
+        # and clear of the LAND is caught by bottom_clear_of_land,
+        # and one touching the LAND stays in (round 18 ruling 2).
+        if (terrain is not None and not over_water
+                and form_gid not in supported
+                and not bottom_clear_of_land(kit, ref, land, grid)):
+            entry.by_scale[scale_key(ref.scale)].append(
+                (terrain - z) / UNITS_PER_METRE)
+            entry.scaled_unit.append((terrain - z) / UNITS_PER_METRE / float(ref.scale))
+        else:
+            entry.scaled_dropped += 1
+        return
+    stats["refsJoined"] += 1
+    if terrain is not None and not over_water and form_gid in supported:
+        entry.static_supported += 1
+    elif (terrain is not None and not over_water
+            and bottom_clear_of_land(kit, ref, land, grid)):
+        # Round 13: it stands on something no contact test saw.
+        entry.plugin_unsupported += 1
+        stats["refsPluginUnsupported"] += 1
+    elif terrain is not None and not over_water:
+        entry.sink.append((terrain - z) / UNITS_PER_METRE)
+        slope = slope_degrees_at(land, x, y, grid)
+        entry.slope_deg.append(float("nan") if slope is None else slope)
+    if over_water:
+        entry.waterline.append((water - z) / UNITS_PER_METRE)
+        if (form_gid >> 24) == (base_gid >> 24):
+            entry.waterline_own.append((water - z) / UNITS_PER_METRE)
+
+
 def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
             plugins: list[tuple[str, Path]] | None = None,
             supported: set[int] | None = None,
@@ -463,84 +600,88 @@ def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
 
     samples: dict[str, AssetSamples] = defaultdict(AssetSamples)
     stats = {"pluginsRead": 0, "cellsWalked": 0, "refsJoined": 0,
-             "refsJoinedMasterBase": 0, "refsPluginUnsupported": 0}
+             "refsJoinedMasterBase": 0, "refsPluginUnsupported": 0,
+             "refsMasterLand": 0, "refsNoLand": 0, "refsOutsideCell": 0}
     # Round 9: a reference whose base a master defines (a Black Marsh North
     # lily pad placed from Black Marsh.esm) is measured like the plugin's own.
     index = LoadOrderIndex(pool_plugins(vault) if plugins is None else plugins)
+    on_disk = {path.name.casefold(): path for _pool, path in index.rows}
+    # R12 (16k walk 3): a reference in a cell whose placing file carries no
+    # real LAND (an override of a master's cell: Skyfall's Hist tree, the
+    # Mud Mother .esl) waits until its masters' LAND for that cell is read.
+    deferred: list[tuple] = []
+    needed: dict[str, set[tuple[int, int, int]]] = defaultdict(set)
     for pool, path in index.rows:
         name = path.name.casefold()
-        wanted: dict[int, tuple[str, str]] = {}
+        wanted: dict[int, tuple[str, str, str]] = {}
         from_master: set[int] = set()
         for gid, (base, source) in index.visible(name).items():
             if not base.model_key:
                 continue
             asset_id = index.kit_asset(joins, pool, source, base.model_key, name)
             if asset_id is not None:
-                wanted[gid] = (asset_id, base.model_key)
+                wanted[gid] = (asset_id, base.model_key, base.type)
                 if source != name:
                     from_master.add(gid)
         stats["pluginsRead"] += 1
         if not wanted:
             continue
+        # the placing file's on-disk masters, last-loaded first
+        chain = [m for m in reversed(index.masters_of[name]) if m in on_disk]
         plugin = Plugin(path)
         resolve = index.resolver.of(plugin)
         for cell in plugin.exterior_cells(with_land=True, with_refs=True,
                                             land_layers=False):
             stats["cellsWalked"] += 1
+            world_gid = resolve(cell.world)
+            own_real = is_real_land(cell.land)
             for ref in cell.refs:
                 hit = wanted.get(resolve(ref.base))
                 if hit is None:
                     continue
                 stats["refsJoinedMasterBase"] += resolve(ref.base) in from_master
-                asset_id, model_key = hit
+                asset_id, model_key, base_type = hit
                 entry = samples[asset_id]
                 entry.base_objects.add(f"{pool}:{model_key}")
                 entry.plugins.add(path.name)
-                x, y, z = ref.pos
-                terrain = (height_at(cell.land, x, y, cell.grid)
-                           if cell.land is not None else None)
-                water = cell.water_height
-                over_water = water is not None and (
-                    terrain is None or terrain < water - WATER_COVERS_GROUND_UNITS)
-                if abs(ref.scale - 1.0) > SCALE_TOLERANCE:
-                    entry.scaled_refs += 1
-                    # ruling 2026-09-27: its own scale group, on the same
-                    # terrain-support tests as the unit-scale sample. The
-                    # contact scan (mine_mounts) skips scaled refs, so
-                    # ``supported`` rarely names one; a scaled ref on a mesh
-                    # and clear of the LAND is caught by bottom_clear_of_land,
-                    # and one touching the LAND stays in (round 18 ruling 2).
-                    if (terrain is not None and not over_water
-                            and resolve(ref.form_id) not in supported
-                            and not bottom_clear_of_land(kits[asset_id], ref,
-                                                         cell.land, cell.grid)):
-                        entry.by_scale[scale_key(ref.scale)].append(
-                            (terrain - z) / UNITS_PER_METRE)
-                    else:
-                        entry.scaled_dropped += 1
+                # the ground is the LAND of the cell under the pivot: a
+                # reference in the worldspace's persistent cell (XCLC 0,0 in
+                # SNT ferry.esp) stands elsewhere than its parent cell
+                grid = cell_of(ref.pos)
+                reading = (ref, grid, cell.water_height,
+                           resolve(ref.form_id), resolve(ref.base), base_type)
+                if grid == cell.grid and (own_real or not chain):
+                    measure_ref(entry, stats, kits[asset_id], cell.land, reading, supported)
                     continue
-                stats["refsJoined"] += 1
-                if (terrain is not None and not over_water
-                        and resolve(ref.form_id) in supported):
-                    entry.static_supported += 1
-                elif (terrain is not None and not over_water
-                        and bottom_clear_of_land(kits[asset_id], ref, cell.land, cell.grid)):
-                    # Round 13: it stands on something no contact test saw.
-                    entry.plugin_unsupported += 1
-                    stats["refsPluginUnsupported"] += 1
-                elif terrain is not None and not over_water:
-                    entry.sink.append((terrain - z) / UNITS_PER_METRE)
-                    slope = slope_degrees_at(cell.land, x, y, cell.grid)
-                    entry.slope_deg.append(
-                        float("nan") if slope is None else slope)
-                if over_water:
-                    entry.waterline.append((water - z) / UNITS_PER_METRE)
-                    if (resolve(ref.form_id) >> 24) == (resolve(ref.base) >> 24):
-                        entry.waterline_own.append((water - z) / UNITS_PER_METRE)
+                if grid != cell.grid:
+                    stats["refsOutsideCell"] += 1
+                files = chain if grid == cell.grid else [name, *chain]
+                key3 = (world_gid, *grid)
+                deferred.append((asset_id, cell.land if grid == cell.grid else None,
+                                 key3, files, name, reading))
+                for source in files:
+                    needed[source].add(key3)
         del plugin
         if progress:
             print(f"  {path.name}: {len(wanted)} kit base objects "
                   f"({len(from_master)} from masters)", flush=True)
+    lands = master_lands(index, on_disk, needed)
+    for asset_id, own_land, key3, chain, name, reading in deferred:
+        entry = samples[asset_id]
+        source = next((m for m in chain if is_real_land(lands.get((m, key3)))), None)
+        land = None if source is None else lands[(source, key3)]
+        if source is not None and source != name:
+            entry.master_land += 1
+            stats["refsMasterLand"] += 1
+        else:
+            # no real terrain anywhere in the chain: the placing file's flat
+            # placeholder, else a master's, stands (as before R12)
+            land = own_land if own_land is not None else next(
+                (lands[(m, key3)] for m in chain if (m, key3) in lands), None)
+        measure_ref(entry, stats, kits[asset_id], land, reading, supported)
+    if progress and deferred:
+        print(f"  R12: {len(deferred)} references deferred to their masters' LAND, "
+              f"{stats['refsMasterLand']} read against it", flush=True)
     return samples, stats
 
 
@@ -549,8 +690,13 @@ def summarise(samples: dict[str, AssetSamples],
     records: dict[str, dict] = {}
     for asset_id, entry in sorted(samples.items()):
         record: dict = {}
-        if len(entry.sink) >= min_samples:
-            p25, p50, p75 = percentiles(entry.sink)
+        # 0105 R19: the whole-population rule (min_samples below MIN_SAMPLES)
+        # reads every placement the makers made, a scaled one divided by its
+        # scale; the full run's unit-scale sample never mixes them
+        whole = min_samples < MIN_SAMPLES and entry.scaled_unit
+        sink = entry.sink + entry.scaled_unit if whole else entry.sink
+        if len(sink) >= min_samples:
+            p25, p50, p75 = percentiles(sink)
             pairs = [(s, v) for s, v in zip(entry.slope_deg, entry.sink)
                      if not math.isnan(s)]
             gradient = least_squares_gradient([s for s, _ in pairs],
@@ -559,7 +705,7 @@ def summarise(samples: dict[str, AssetSamples],
                 "p25": round(p25, 4),
                 "p50": round(p50, 4),
                 "p75": round(p75, 4),
-                "n": len(entry.sink),
+                "n": len(sink),
                 "iqrM": round(p75 - p25, 4),
                 "slopeTermMPerDeg": None if gradient is None else round(gradient, 5),
                 "evidence": "plugin",
@@ -567,8 +713,8 @@ def summarise(samples: dict[str, AssetSamples],
             # 16k r8 rule 3: the spread check reads only references standing
             # on their ground (genericwell01's Skyrim.esm reference 10.77 m
             # above LAND made its IQR 10.77 m).
-            grounded = [v for v in entry.sink if v >= -CLEAR_OF_GROUND_M]
-            if len(grounded) != len(entry.sink):
+            grounded = [v for v in sink if v >= -CLEAR_OF_GROUND_M]
+            if len(grounded) != len(sink):
                 g25, _g50, g75 = (percentiles(grounded) if grounded else (0.0, 0.0, 0.0))
                 record["spreadIqrM"] = round(g75 - g25, 4)
                 record["spreadN"] = len(grounded)
@@ -607,14 +753,23 @@ def summarise(samples: dict[str, AssetSamples],
                 record["staticSupportedFallback"] = True
             else:
                 record["pluginUnsupportedFallback"] = True
-        if not record and not entry.scaled_refs:
+        if not record and not (entry.scaled_refs or entry.no_land or entry.master_land):
             # ruling 2026-09-27: a row whose every reference is scaled keeps
-            # its refsDroppedNonUnitScale count (it never reads as unplaced)
+            # its refsDroppedNonUnitScale count (it never reads as unplaced);
+            # R12: nor does one whose references found no LAND
             continue
         record["baseObject"] = sorted(entry.base_objects)
         record["plugins"] = sorted(entry.plugins)
         if entry.scaled_refs:
             record["refsDroppedNonUnitScale"] = entry.scaled_refs
+        if whole and len(sink) >= min_samples:
+            record["refsScaledNormalised"] = len(entry.scaled_unit)
+        if entry.tree_shallows:
+            record["refsTreeShallows"] = entry.tree_shallows
+        if entry.master_land:
+            record["refsMasterLand"] = entry.master_land
+        if entry.no_land:
+            record["refsNoLand"] = entry.no_land
         records[asset_id] = record
     return records
 
@@ -920,7 +1075,54 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
             counts["mesh-sill"] += 1
         if record:
             assets[asset_id] = record
+    counts["variant"] = resolve_variants(assets, kits)
+    mark_fallbacks(assets)
     return counts
+
+
+SINK_FIELDS = ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg", "evidence",
+               "groundLineTell", "seatedBy", "scaleGroup", "fallback")
+
+
+def resolve_variants(assets: dict[str, dict], kits: dict[str, dict]) -> int:
+    """A texture variant (manifest ``variantOf``, the sick Hist tree) ships
+    its base's mesh, so it takes its base's row: a plugin row as
+    ``swap:<base>``, any other evidence as the base carries it (walk 3 L5
+    rec 2, the miner side). Returns the rows resolved."""
+    resolved = 0
+    for asset_id, kit in sorted(kits.items()):
+        base = kit.get("variantOf")
+        source = assets.get(base) if isinstance(base, str) else None
+        if not source or "p50" not in source:
+            continue
+        row = {key: source[key] for key in SINK_FIELDS if key in source}
+        if row.get("evidence") == "plugin":
+            row["evidence"] = f"swap:{base}"
+        row["variantOf"] = base
+        assets[asset_id] = row
+        resolved += 1
+    return resolved
+
+
+FALLBACK_RULING = "R12 (16k walk 3, decision 0105 addendum)"
+
+
+def mark_fallbacks(assets: dict[str, dict]) -> None:
+    """R12: a row seated by the mesh's lowest-vertex tell, not by plugin
+    ground, says so (``fallback: true``); every other row carries no flag."""
+    for record in assets.values():
+        if str(record.get("evidence", "")).startswith("mesh-sill"):
+            record["fallback"] = True
+        else:
+            record.pop("fallback", None)
+
+
+def fallback_summary(assets: dict[str, dict]) -> dict:
+    """R12: the fallback rows counted for the record and the miner's report."""
+    from collections import Counter
+    by = Counter(str(r["evidence"]) for r in assets.values() if r.get("fallback"))
+    return {"rows": sum(by.values()), "of": len(assets),
+            "byEvidence": dict(sorted(by.items())), "ruling": FALLBACK_RULING}
 
 
 def evidence_findings(assets: dict[str, dict]) -> list[str]:
@@ -935,7 +1137,12 @@ def evidence_findings(assets: dict[str, dict]) -> list[str]:
 METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "pivot below the ground line) per exterior reference at unit "
           "scale; terrain from esp_index.height_at (bilinear on the "
-          "cell LAND); a reference with mesh contact from below on a "
+          "LAND of the cell under the pivot, which for a reference in a "
+          "worldspace's persistent cell is not its parent cell, refsOutsideCell; "
+          "where the placing file carries no real LAND there, "
+          "the LAND of its last-loaded on-disk master that has one, R12, "
+          "refsMasterLand; references with no LAND anywhere are counted, "
+          "refsNoLand); a reference with mesh contact from below on a "
           "static or kit piece (worldgen/mine_mounts.py contact) is left "
           "out, and so is one whose bounds bottom stands more than 0.10 m "
           "above the highest LAND under its corners and pivot with no "
@@ -961,7 +1168,10 @@ METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin "
           "percentiles kept in pluginSpread); a stilt-fit "
           "asset's mesh tell is its deck top minus the stilt policy's "
-          "deckClearanceM (tell deck-top); neither: "
+          "deckClearanceM (tell deck-top); every mesh-sill row carries "
+          "fallback: true and the record counts them (sinkFallback, R12); "
+          "a texture variant (manifest variantOf) takes its base's row "
+          "(a plugin row as swap:<base>); neither: "
           "no p50 (policy fallback at write "
           "time). worldgen/mine_designed_sink.py")
 
@@ -998,6 +1208,10 @@ def build_document(kits: dict[str, dict], vault: Path,
         "refsJoinedMasterBase": stats["refsJoinedMasterBase"],
         "refsStaticSupported": len(supported),
         "refsPluginUnsupported": stats["refsPluginUnsupported"],
+        "refsMasterLand": stats["refsMasterLand"],
+        "refsNoLand": stats["refsNoLand"],
+        "refsOutsideCell": stats["refsOutsideCell"],
+        "sinkFallback": fallback_summary(assets),
         "assets": assets,
     }
 
@@ -1009,7 +1223,11 @@ def mark_whole_population(asset_id: str, row: dict, ruling: str) -> None:
     ruling; refuses anything else by name (a dropped reference means the
     sample is not the population)."""
     dropped = {k: row[k] for k in ("refsDroppedNonUnitScale", "refsDroppedStaticSupported",
-                                   "refsDroppedPluginUnsupported") if row.get(k)}
+                                   "refsDroppedPluginUnsupported", "byScaleRefsDropped")
+               if row.get(k)}
+    # 0105 R19: scaled references divided by their scale are in the sample
+    if dropped.get("refsDroppedNonUnitScale") == row.get("refsScaledNormalised"):
+        dropped.pop("refsDroppedNonUnitScale")
     if row.get("evidence") != "plugin" or dropped:
         raise SystemExit(f"{asset_id}: not a whole-population plugin sample "
                          f"(evidence {row.get('evidence')!r}, dropped {dropped})")
@@ -1114,7 +1332,14 @@ def _main(argv: Iterable[str] | None = None) -> int:
                                                       (offsets.get(comp) or {}).get(part))
                 except ValueError as exc:
                     raise SystemExit(f"refused, the record is unchanged: {exc}") from None
+        # a re-mined base carries its texture variants (L12: the sick Hist
+        # tree kept the base's old mesh-sill row after the R19 merge)
+        variants = {v: row for v, row in kits.items() if row.get("variantOf") in args.assets}
+        if variants:
+            resolve_variants(record["assets"], variants)
+        mark_fallbacks(record["assets"])
         record["assetsMeasured"] = len(record["assets"])
+        record["sinkFallback"] = fallback_summary(record["assets"])
         if args.ruling:
             from datetime import date
             from .mine_assemblies import provenance as _provenance
@@ -1139,6 +1364,7 @@ def _main(argv: Iterable[str] | None = None) -> int:
         counts = complete_record(document["assets"], kits, tells)
         document["assetsMeasured"] = len(document["assets"])
         document["method"] = METHOD
+        document["sinkFallback"] = fallback_summary(document["assets"])
         print(f"completed the record: {counts}")
     else:
         document = build_document(kits, args.vault, progress=not args.quiet)
@@ -1148,6 +1374,9 @@ def _main(argv: Iterable[str] | None = None) -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(document, indent=1, sort_keys=False) + "\n",
                         encoding="utf-8")
+    if "sinkFallback" in document:
+        print(f"sink fallback rows: {document['sinkFallback']['rows']} of "
+              f"{document['sinkFallback']['of']}")
     if not args.quiet:
         print(f"{document['assetsMeasured']} of {document['kitAssetsConsidered']} "
               f"kit assets measured from {document['refsJoined']} references "

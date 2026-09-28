@@ -1069,3 +1069,21 @@ def test_the_keep_stable_stalls_open_on_their_arched_south_face():
         # (walk 2 round 5: endl01/endr01 listed an open-front at [±2.3, 2.68])
         assert e["kind"] == "opening" and e["offsetM"][1] > 4.5, (name, e)
         assert assets[stall + name]["provenance"] == [], (name, assets[stall + name]["provenance"])
+
+
+def test_r18_an_open_front_doorless_piece_placed_outdoors_is_walked_into():
+    """0105 R18: open front, no door, its plugin places it outdoors -> none."""
+    def rec(interior="shell", kinds=("open-front",)):
+        ways = [{"kind": k} for k in kinds]
+        return {"interior": interior, "ringFraction": 0.83, "entrance": ways[0], "provenance": ways[1:],
+                **({"promiseReason": "x"} if interior == "promised" else {})}
+    outdoors = {"n": 2, "settings": {"exterior": ["town"]}, "sourceCells": ["RiftenLocation"]}
+    indoors = {"n": 1, "settings": {"interior": ["town"]}, "sourceCells": ["Cell"]}
+    r = rec(); ix.walk_in_open_front(r, outdoors)
+    assert r["interior"] == "none" and r["walkedInto"] and "R18" in r["why"] and r["entrance"]
+    r = rec("promised"); ix.walk_in_open_front(r, outdoors)
+    assert r["interior"] == "none" and "promiseReason" not in r
+    for row, kinds in ((indoors, ("open-front",)), (None, ("open-front",)),
+                       (outdoors, ("opening", "open-front")), (outdoors, ("esp-door", "open-front"))):
+        r = rec(kinds=kinds); ix.walk_in_open_front(r, row)
+        assert r["interior"] == "shell", (row, kinds)

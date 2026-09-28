@@ -42,20 +42,16 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
+    "p25": -0.1189,
+    "p50": -0.0903,
+    "p75": -0.047,
+    "n": 6,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-unsupported)"
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   }
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouseldoor01",
@@ -100,20 +96,16 @@
     }
    },
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -0.1653,
+    "p50": -0.0761,
+    "p75": -0.0258,
+    "n": 13,
+    "slopeTermMPerDeg": 0.02685,
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01",
@@ -169,7 +161,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02",
@@ -225,7 +218,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner01",
@@ -287,7 +281,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner02",
@@ -349,7 +344,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner03",
@@ -411,7 +407,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner04",
@@ -473,7 +470,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider01",
@@ -526,7 +524,8 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02",
@@ -584,7 +583,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider03",
@@ -642,7 +642,8 @@
     "tell": "foundation-top",
     "valueM": 0.2845
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider04",
@@ -700,7 +701,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner01",
@@ -764,7 +766,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner02",
@@ -828,7 +831,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner03",
@@ -892,7 +896,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner04",
@@ -956,7 +961,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01",
@@ -1016,7 +1022,8 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02",
@@ -1076,7 +1083,8 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01",
@@ -1134,7 +1142,8 @@
     "tell": "foundation-top",
     "valueM": 3.0299
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -1192,7 +1201,8 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall01",
@@ -1256,7 +1266,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall02",
@@ -1320,7 +1331,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall03",
@@ -1384,7 +1396,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall04",
@@ -1448,7 +1461,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01",
@@ -1514,7 +1528,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02",
@@ -1580,7 +1595,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03",
@@ -1646,7 +1662,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04",
@@ -1712,7 +1729,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05",
@@ -1778,7 +1796,8 @@
     "tell": "floor-plane",
     "valueM": -0.0853
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01",
@@ -1842,7 +1861,8 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwell01",
@@ -1917,7 +1937,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwellent01",
@@ -1981,7 +2002,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01",
@@ -2037,7 +2059,8 @@
     "tell": "door-sill",
     "valueM": 0.0427
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2basementent01",
@@ -2107,7 +2130,8 @@
     "tell": "post-foot",
     "valueM": -3.7267
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor",
@@ -2177,7 +2201,8 @@
     "tell": "door-sill",
     "valueM": -0.1096
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway03",
@@ -2249,7 +2274,8 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway04",
@@ -2319,7 +2345,8 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end01",
@@ -2393,7 +2420,8 @@
     "tell": "floor-plane",
     "valueM": -0.0227
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end02",
@@ -2467,7 +2495,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end03",
@@ -2541,7 +2570,8 @@
     "tell": "floor-plane",
     "valueM": -0.0227
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2hearth02",
@@ -2611,7 +2641,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2wall01",
@@ -2679,7 +2710,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintcorner01",
@@ -2743,7 +2775,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintdoorway01",
@@ -2809,7 +2842,8 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend01",
@@ -2881,7 +2915,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend02",
@@ -2953,7 +2988,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend03",
@@ -3025,7 +3061,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend01",
@@ -3093,7 +3130,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend02",
@@ -3161,7 +3199,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend03",
@@ -3229,7 +3268,8 @@
     "tell": "post-foot",
     "valueM": -0.5405
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend04",
@@ -3297,7 +3337,8 @@
     "tell": "post-foot",
     "valueM": -0.5405
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend05",
@@ -3365,7 +3406,8 @@
     "tell": "floor-plane",
     "valueM": -3.4422
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend06",
@@ -3433,7 +3475,8 @@
     "tell": "post-foot",
     "valueM": -0.5405
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwall01",
@@ -3501,7 +3544,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01",
@@ -3571,7 +3615,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhback01",
@@ -3639,7 +3684,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase01",
@@ -3697,7 +3743,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase02",
@@ -3755,7 +3802,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend01",
@@ -3823,7 +3871,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend02",
@@ -3891,7 +3940,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit01",
@@ -3953,7 +4003,8 @@
     "tell": "floor-plane",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit02",
@@ -4015,7 +4066,8 @@
     "tell": "floor-plane",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit03",
@@ -4088,7 +4140,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfront01",
@@ -4158,7 +4211,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft01",
@@ -4218,7 +4272,8 @@
     "tell": "foundation-top",
     "valueM": 3.6413
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft02",
@@ -4278,7 +4333,8 @@
     "tell": "foundation-top",
     "valueM": 3.6413
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhlofttop01",
@@ -4336,7 +4392,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhmid01",
@@ -4404,7 +4461,8 @@
     "tell": "floor-plane",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwall01",
@@ -4468,7 +4526,8 @@
     "tell": "floor-plane",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
@@ -4536,7 +4595,8 @@
     "tell": "floor-plane",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth02",
@@ -4606,7 +4666,8 @@
     "tell": "floor-plane",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwbasementent01",
@@ -4672,7 +4733,8 @@
     "tell": "post-foot",
     "valueM": -0.3129
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwooddoorway01",
@@ -4742,7 +4804,8 @@
     "tell": "door-sill",
     "valueM": 3.3853
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend01",
@@ -4808,7 +4871,8 @@
     "tell": "post-foot",
     "valueM": 2.8732
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend02",
@@ -4874,7 +4938,8 @@
     "tell": "post-foot",
     "valueM": 2.8732
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodwall01",
@@ -4936,7 +5001,8 @@
     "tell": "floor-plane",
     "valueM": 3.3853
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-farmhouse-int.glb",

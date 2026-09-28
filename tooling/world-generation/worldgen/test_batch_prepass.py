@@ -1,6 +1,7 @@
 """The batch pre-pass claim table (16k S16): the lookup gives the plugin-read
-claims exactly, a moved input or a missing cell refuses loudly with the rebuild
-command, and the kit plan and site budget read what is on disk."""
+claims exactly, the table refuses a moved input or a missing cell loudly with
+the rebuild command (and `--claim` then reads the plugins with a warning), and
+the kit plan and site budget read what is on disk."""
 
 from __future__ import annotations
 
@@ -182,3 +183,57 @@ def test_budget_fails_over_the_compose_fail_line(tmp_path):
     assert not ok and lines[-1].endswith(": FAIL") and "NEW to the site" in lines[1]
     ok, lines = bpp.budget_check(["k-new"], tmp_path / "no-site", public, compose, audio)
     assert not ok and "compose.mjs" in lines[-1]
+
+
+def test_a_stale_table_falls_back_to_the_plugin_reads_with_a_warning(world, monkeypatch, capsys):
+    """Walk 3 L8 rec 2: a moved input once refused every claim (exit 2)."""
+    bp_path = world["tmp"] / "bp.json"
+    bp_path.write_text(json.dumps({"blueprint": {"parcels": [], "doors": []}}))
+
+    def stale(*a, **k):
+        raise bpp.TableError("claim table x is stale, 1 input(s) moved since it was built")
+    monkeypatch.setattr(bpp, "current_table", stale)
+    seen = {}
+
+    def claim_doors(bp, profile=None, sourcing=None):
+        seen["profile"], seen["sourcing"] = profile, sourcing
+        return []
+    monkeypatch.setattr(bi, "claim_doors", claim_doors)
+    assert bi.claim_main(bp_path, []) == 0
+    assert seen == {"profile": bi.plugin_profile, "sourcing": bi.bundle_sourcing}
+    assert "WARNING claim table x is stale" in capsys.readouterr().err
+
+
+def test_a_cell_outside_the_table_is_read_from_its_plugin_with_a_warning(world, monkeypatch, capsys):
+    table = bpp.ClaimTable(_table(world), world["table"])
+    monkeypatch.setattr(bi, "plugin_profile", lambda p, c, s: {"read": (p, c, s)})
+    monkeypatch.setattr(bi, "bundle_sourcing", lambda p, c: {"read": (p, c)})
+    profile, sourcing = bi.table_or_plugin(table, bpp.TableError)
+    assert profile("Test.esm", "Home", "test:other") == {"read": ("Test.esm", "Home", "test:other")}
+    assert sourcing("Nowhere.esp", "Home") == {"read": ("Nowhere.esp", "Home")}
+    assert capsys.readouterr().err.count("WARNING") == 2
+    hit = next(iter(table._profile))
+    assert profile(*hit) == table.profile(*hit)                  # an entry is still a lookup
+
+
+def test_kit_plan_warns_when_builder_code_moved_without_a_version_bump(tmp_path):
+    """L9 rec 5: the code digest is an informational stamp line; a stamp at
+    the current output-format version whose code digest moved is a warning
+    (never a rebuild), and the `(output-format)` label is the version, not a
+    file (a current one never reads as moved)."""
+    bk = bpp._build_kit()
+    configs, public, raw = (tmp_path / n for n in ("configs", "public", "raw"))
+    for d in (configs, public, raw):
+        d.mkdir()
+    version = bk.KIT_OUTPUT_FORMAT_VERSION
+    for kit, code in (("k-same", bk.kit_code_digest()), ("k-edited", "0" * 64), ("k-old", "0" * 64)):
+        (configs / f"{kit}.json").write_text(json.dumps({"id": kit, "assets": []}))
+        _kit(public, kit, [])
+        v = version - 1 if kit == "k-old" else version
+        (raw / f"{kit}.inputs.sha256").write_text(
+            f"d\n# sidecars:\n# outputs: o\n{bk.CODE_STAMP_PREFIX}{code} output-format {v}\n"
+            f"{v} (output-format)\n")
+    plan = bpp.kit_plan({"p": {"s": {"cells": [{"kits": ["k-same", "k-edited", "k-old"]}]}}},
+                        configs, public, raw)
+    assert plan["codeMovedWithoutBump"] == ["k-edited"]
+    assert plan["build"] == ["k-old"] and "(output-format)" in plan["why"]["k-old"]

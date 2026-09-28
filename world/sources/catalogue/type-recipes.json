@@ -71,6 +71,14 @@
       "combat",
       "social",
       "fastTransit"
+    ],
+    "settingClass": [
+      "keep",
+      "town",
+      "village",
+      "camp",
+      "ruin",
+      "wild"
     ]
   },
   "schema": {
@@ -81,6 +89,7 @@
     "slots": "the five-slot POI recipe (docs/research/placement-settlements/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
     "siting": "meso-rung siting grammar (module 40 28b). landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank, and are RANKED PREFERENCES, not requirements - enclosed-clearing (6 province-wide) and sinkhole (11) are genuinely scarce and must be budgeted. regionClasses are worldgen regions.REGION_CLASSES names.",
     "magnitude": "SETTLEMENT SCALE ONLY (M1-M5). null means 'not a settlement', not 'unset' - a reef and a grave field have no magnitude by definition. Do not treat this as a universal size axis.",
+    "settingClass": "decision 0105 R9/R17: the place's own social scale for the setting-class licence (place_gates `setting.class`): keep | town | village | camp | ruin | wild. keep is exclusive; town, village and camp are one settlement pool; ruin pieces stand only at ruins; a wild place (lairs, lone curiosities, wild shrines) admits every pool but keep's. Derived from the row's kind (class, family, type) by place_gates.derive_setting_class (R17, 2026-09-28); a row that must differ changes the rule there, never the row alone.",
     "cultures": "whose place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend. dunmer places build from dunmer-telvanni; khajiit, altmer and nord from the imperial/market families; lost-peoples marks the five vanished cultures whose ruins are nobody's inheritance.",
     "season": "all = present year-round; wet/dry = exists or is reachable in one half of the cycle; varies = state changes seasonally (see statuses)",
     "assetPlan": "inventory family ids. The withdrawn darkwater pool must never appear.",
@@ -88,7 +97,8 @@
     "complexityBudget": "complex needs complexityJustification (Morrowind-level placement ceiling)",
     "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient",
     "footprintRadiusM": "how much ground the type occupies, metres. DERIVED from the authored blueprint's BUILT GROUND (parcel hulls, the districts that hold them and the landmarks standing inside those) where a blueprint exists, NOT from the outer boundary, which also encloses the approach, the water and the yard; else banded from magnitude / class / complexityBudget. The macro plot's collision floor for a pair is the SUM of the two radii.",
-    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class, measured in EQUIVALENT FLAT METRES of walking (Tobler travel cost, worldgen.travel_cost): on flat ground that is plan metres, while a climb counts for more, because the prose from which these floors come says the effort-to-reach is the design. Every other distance here is plan metres; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block."
+    "proximity": "typed siting gates read from this type's own siting.neighbourRelation. minFromClassM = hard floor to every live record of that place class, measured in EQUIVALENT FLAT METRES of walking (Tobler travel cost, worldgen.travel_cost): on flat ground that is plan metres, while a climb counts for more, because the prose from which these floors come says the effort-to-reach is the design. Every other distance here is plan metres; maxFromM = hard ceiling to the nearest already-plotted record of that class ('route' = metres to the nearest route line); outOfSightOf = classes it must have no line of sight to; mayAbut = classes a RELATED neighbour may share ground with (max of the two radii, not the sum). ABSENT MEANS NO CONSTRAINT - that is the default, and prose that states no distance deliberately gets no block.",
+    "builtBy": "decision 0105 R16: on a ruin row, the class whose pieces the ruin also takes (village-ruin types: village). Derived by place_gates.derive_built_by; absent = the ruin pool alone. keep never opens."
   },
   "types": [
     {
@@ -126,6 +136,7 @@
         "neighbourRelation": "commands a channel or a bay"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -196,6 +207,7 @@
         "neighbourRelation": "refuge for its neighbours in flood"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -265,6 +277,7 @@
         "neighbourRelation": "commands a stretch of river; the corridor's signature settlement"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -337,6 +350,7 @@
         "neighbourRelation": "in a city's agricultural hinterland"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -408,6 +422,7 @@
         "neighbourRelation": "a local centre; neighbours come here in flood"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -479,6 +494,7 @@
         "neighbourRelation": "on a pass or an upland route; isolated"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -556,6 +572,7 @@
         "neighbourRelation": "deliberately equidistant from two customs regimes"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -637,6 +654,7 @@
         "neighbourRelation": "one per region packet, near but not in a settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -726,6 +744,7 @@
         "neighbourRelation": "scattered between villages; the connective tissue of the settled map"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -802,6 +821,7 @@
         "neighbourRelation": "attached to or beside a major settlement"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -887,6 +907,7 @@
         "neighbourRelation": "too far inland for its own logistics"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -958,6 +979,7 @@
         "neighbourRelation": "strung along a road at Imperial spacing, not local spacing"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -1029,6 +1051,7 @@
         "neighbourRelation": "day-travel spacing along a road"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -1103,6 +1126,7 @@
         "neighbourRelation": "controls a hidden navigable channel inland"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -1178,6 +1202,7 @@
         "neighbourRelation": "on the foreign road; ex-estate villages in its hinterland"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -1254,6 +1279,7 @@
         "neighbourRelation": "on the Blackwood Road; closest major to a foreign border"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "imperial",
         "argonian"
@@ -1329,6 +1355,7 @@
         "neighbourRelation": "terminus of every interior route; no rival within 3 km"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian"
       ],
@@ -1402,6 +1429,7 @@
         "neighbourRelation": "lake hub; a notorious prison a day's march north"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -1480,6 +1508,7 @@
         "neighbourRelation": "the coast's legal entry; rival to the southern ports"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -1560,6 +1589,7 @@
         "neighbourRelation": "bay port with a second door (a floating port) across the water"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian"
       ],
@@ -1640,6 +1670,7 @@
         "neighbourRelation": "head of the northern road; causeway to a sacred village"
       },
       "magnitude": "M5",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -1721,6 +1752,7 @@
         "neighbourRelation": "on the province's border; one of only three or four"
       },
       "magnitude": "M2",
+      "settingClass": "town",
       "cultures": [
         "imperial",
         "argonian"
@@ -1797,6 +1829,7 @@
         "neighbourRelation": "on the Tear road and the Morrowind frontier"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "dunmer",
         "imperial"
@@ -1874,6 +1907,7 @@
         "neighbourRelation": "holds the crossing its neighbours must use"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -1952,6 +1986,7 @@
         "neighbourRelation": "always paired with a fort, occupied or not"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -2031,6 +2066,7 @@
         "neighbourRelation": "the hinge of a district; several villages depend on it"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -2104,6 +2140,7 @@
         "neighbourRelation": "near a road that stopped being used"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -2176,6 +2213,7 @@
         "neighbourRelation": "feeder to a major port"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -2253,6 +2291,7 @@
         "neighbourRelation": "always paired with a hero Hist, a Sithis temple or a trial ground"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian"
       ],
@@ -2326,6 +2365,7 @@
         "neighbourRelation": "on a road or boat lane; day-travel spacing from the next"
       },
       "magnitude": "M3",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -2400,6 +2440,7 @@
         "neighbourRelation": "between two settlements that do not visit each other"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -2476,6 +2517,7 @@
         "neighbourRelation": "paired with a diggings, salt pans, clay pit or fishery"
       },
       "magnitude": "M4",
+      "settingClass": "town",
       "cultures": [
         "argonian",
         "imperial"
@@ -2551,6 +2593,7 @@
         "neighbourRelation": "within a day of a hard owing district, out of its sight"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -2623,6 +2666,7 @@
         "neighbourRelation": "on the edge of somewhere that would not take them in"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -2704,6 +2748,7 @@
         "neighbourRelation": "toward the Morrowind border and the Tear road"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -2776,6 +2821,7 @@
         "neighbourRelation": "deliberately just out of reach of its neighbours"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -2847,6 +2893,7 @@
         "neighbourRelation": "on the Umbriel corridor; neighbours find them embarrassing"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -2918,6 +2965,7 @@
         "neighbourRelation": "on a trade water; brokers between neighbours"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -2993,6 +3041,7 @@
         "neighbourRelation": "supplies mounts or protection to a district"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3063,6 +3112,7 @@
         "neighbourRelation": "neighbours argue about taking them in"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3135,6 +3185,7 @@
         "neighbourRelation": "serves 4-8 villages; approaches watched"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3205,6 +3256,7 @@
         "neighbourRelation": "raids its neighbours for labour"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3281,6 +3333,7 @@
         "neighbourRelation": "one to two hours from its neighbours by water; clusters along a drainage"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3360,6 +3413,7 @@
         "neighbourRelation": "has an enemy; the enemy's ground is nearby"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3434,6 +3488,7 @@
         "neighbourRelation": "near the roads its tribeless relatives work"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3513,6 +3568,7 @@
         "neighbourRelation": "serves 6-12 villages that keep it at arm's length"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3586,6 +3642,7 @@
         "neighbourRelation": "within a night's travel of a hatchery it preys on"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3655,6 +3712,7 @@
         "neighbourRelation": "terminus of a pilgrim route; deliberately reachable"
       },
       "magnitude": "M4",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3728,6 +3786,7 @@
         "neighbourRelation": "other villages keep their distance"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3797,6 +3856,7 @@
         "neighbourRelation": "often the only dry route through its stretch"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3872,6 +3932,7 @@
         "neighbourRelation": "punctuates a long channel between real settlements"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -3943,6 +4004,7 @@
         "neighbourRelation": "its moorings are on a caravan or boat route"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4017,6 +4079,7 @@
         "neighbourRelation": "trades with a shore settlement it does not live in"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4088,6 +4151,7 @@
         "neighbourRelation": "deliberately not on any lane"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4159,6 +4223,7 @@
         "neighbourRelation": "has two or three fixed moorings keyed to the flood cycle"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4235,6 +4300,7 @@
         "neighbourRelation": "strung along a waterway, linear not radial"
       },
       "magnitude": "M3",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4314,6 +4380,7 @@
         "neighbourRelation": "serves a village or a port"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -4386,6 +4453,7 @@
         "neighbourRelation": "supplies a named artisan village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4456,6 +4524,7 @@
         "neighbourRelation": "serves a coastal settlement's transport"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -4530,6 +4599,7 @@
         "neighbourRelation": "worked from a coastal settlement or a flotilla"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4602,6 +4672,7 @@
         "neighbourRelation": "attached to a village or a city canal system"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4684,6 +4755,7 @@
         "neighbourRelation": "supplies a village's defence"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4754,6 +4826,7 @@
         "neighbourRelation": "attached to a village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -4823,6 +4896,7 @@
         "neighbourRelation": "on a road, in a port, or hidden"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -4899,6 +4973,7 @@
         "neighbourRelation": "serves a port or a water-village cluster"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -4972,6 +5047,7 @@
         "neighbourRelation": "attached to a village or standing on a hunting route"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5043,6 +5119,7 @@
         "neighbourRelation": "in an artisan village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5113,6 +5190,7 @@
         "neighbourRelation": "in Kothringi country"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5182,6 +5260,7 @@
         "neighbourRelation": "in an artisan or festival village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5252,6 +5331,7 @@
         "neighbourRelation": "always paired with drowned ground it works"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5326,6 +5406,7 @@
         "neighbourRelation": "one per major port; the whole coast's hulls come from a handful of these"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -5398,6 +5479,7 @@
         "neighbourRelation": "serves builders and instrument-makers"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5466,6 +5548,7 @@
         "neighbourRelation": "the only reason to live this close to that water"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5536,6 +5619,7 @@
         "neighbourRelation": "in an artisan village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5606,6 +5690,7 @@
         "neighbourRelation": "near a settlement, above canopy where possible"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -5683,6 +5768,7 @@
         "neighbourRelation": "attached to a village or standing alone on a gathering route"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5753,6 +5839,7 @@
         "neighbourRelation": "always within sight of its village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5826,6 +5913,7 @@
         "neighbourRelation": "in a city's hinterland; owned"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -5898,6 +5986,7 @@
         "neighbourRelation": "the kept fringe of a settlement's clearance ring"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -5963,6 +6052,7 @@
         "neighbourRelation": "in or beside a village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -6031,6 +6121,7 @@
         "neighbourRelation": "near a road or a foreign settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -6110,6 +6201,7 @@
         "neighbourRelation": "on a navigable water for export"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -6183,6 +6275,7 @@
         "neighbourRelation": "feeds a northern city's crystal trade"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6258,6 +6351,7 @@
         "neighbourRelation": "behind a coastal ex-capital, on a dead haul road"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -6332,6 +6426,7 @@
         "neighbourRelation": "supplies an artisan village's jewellers"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -6403,6 +6498,7 @@
         "neighbourRelation": "upslope of the kilns and smithies it supplies"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6477,6 +6573,7 @@
         "neighbourRelation": "near a village or a hunting ground"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -6553,6 +6650,7 @@
         "neighbourRelation": "near a road for shipping"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6630,6 +6728,7 @@
         "neighbourRelation": "in the burn country, or supplying a village's fires"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6701,6 +6800,7 @@
         "neighbourRelation": "supplies a whole district's preservation"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6773,6 +6873,7 @@
         "neighbourRelation": "between a robbed ruin and a port"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6846,6 +6947,7 @@
         "neighbourRelation": "on the Umbriel corridor, or at an unwatched ruin"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -6921,6 +7023,7 @@
         "neighbourRelation": "between a smuggling port and a market"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -6994,6 +7097,7 @@
         "neighbourRelation": "deliberately unreachable except by one route"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -7064,6 +7168,7 @@
         "neighbourRelation": "at an isolated or rogue Hist, far from a village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -7144,6 +7249,7 @@
         "neighbourRelation": "one leg of a covert route between two named places"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7214,6 +7320,7 @@
         "neighbourRelation": "beside a pass, out of sight of its post"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7299,6 +7406,7 @@
         "neighbourRelation": "attached to a crossing, an estate or a dock"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7371,6 +7479,7 @@
         "neighbourRelation": "attached to an estate, a crossing or a stronghold"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7443,6 +7552,7 @@
         "neighbourRelation": "attached to a settlement of M3 or above"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7514,6 +7624,7 @@
         "neighbourRelation": "below or beside a carceral site"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7600,6 +7711,7 @@
         "neighbourRelation": "on the route it is maintaining"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -7672,6 +7784,7 @@
         "neighbourRelation": "inside a market or a port"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7748,6 +7861,7 @@
         "neighbourRelation": "on neutral ground between settlements, or in an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7830,6 +7944,7 @@
         "neighbourRelation": "where a land route begins or a water route ends"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7902,6 +8017,7 @@
         "neighbourRelation": "in or beside a settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -7980,6 +8096,7 @@
         "neighbourRelation": "on a road, quay or crossing"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -8055,6 +8172,7 @@
         "neighbourRelation": "immediately before a hard stretch"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8125,6 +8243,7 @@
         "neighbourRelation": "in a settlement of M3 or above"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8190,6 +8309,7 @@
         "neighbourRelation": "in a settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8260,6 +8380,7 @@
         "neighbourRelation": "attached to a port or a wharf"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial",
@@ -8350,6 +8471,7 @@
         "neighbourRelation": "a mandatory node between a boat lane and a land route"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8425,6 +8547,7 @@
         "neighbourRelation": "links two named places directly"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -8503,6 +8626,7 @@
         "neighbourRelation": "on a walked route between settlements"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8575,6 +8699,7 @@
         "neighbourRelation": "a mandatory node on a boat lane"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -8649,6 +8774,7 @@
         "neighbourRelation": "a shortcut that halves a journey, on a schedule"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8724,6 +8850,7 @@
         "neighbourRelation": "on the route graph; its owner lives within sight"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -8809,6 +8936,7 @@
         "neighbourRelation": "one of a chain; must see a neighbour or it is not a watch"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -8885,6 +9013,7 @@
         "neighbourRelation": "a shortcut between two routes"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -8953,6 +9082,7 @@
         "neighbourRelation": "placed where a viewshed pass shows a dead zone"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9025,6 +9155,7 @@
         "neighbourRelation": "connects three or more water settlements"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9101,6 +9232,7 @@
         "neighbourRelation": "a mandatory node in the route graph; has a paired stage"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -9177,6 +9309,7 @@
         "neighbourRelation": "the hinge between a boat lane and a land route; a mandatory node"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -9253,6 +9386,7 @@
         "neighbourRelation": "paired with a raft village or flotilla"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9321,6 +9455,7 @@
         "neighbourRelation": "spaced a day's travel apart on a long channel"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9395,6 +9530,7 @@
         "neighbourRelation": "the water-side face of anything inland"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9469,6 +9605,7 @@
         "neighbourRelation": "attached to a port town or city"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial",
@@ -9542,6 +9679,7 @@
         "neighbourRelation": "on a road that has a wet-season alternative"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -9611,6 +9749,7 @@
         "neighbourRelation": "the only crossings of the rim; each one is strategically singular"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -9687,6 +9826,7 @@
         "neighbourRelation": "day-travel spacing; something named within 300 m of the road"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -9770,6 +9910,7 @@
         "neighbourRelation": "every junction in the route graph gets one"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -9845,6 +9986,7 @@
         "neighbourRelation": "chained along pilgrim and trade routes"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -9919,6 +10061,7 @@
         "neighbourRelation": "paired with a station"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -9992,6 +10135,7 @@
         "neighbourRelation": "nodes on the root network; not on any map"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10062,6 +10206,7 @@
         "neighbourRelation": "inside a drowned or flooded place"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10130,6 +10275,7 @@
         "neighbourRelation": "inside or beside a water city"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10205,6 +10351,7 @@
         "neighbourRelation": "the only entrance to a submerged place"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10278,6 +10425,7 @@
         "neighbourRelation": "links two known places by a wet route"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -10346,6 +10494,7 @@
         "neighbourRelation": "in a records city with a Kothringi past"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -10418,6 +10567,7 @@
         "neighbourRelation": "inside an M3 or larger settlement with a foreign history"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -10492,6 +10642,7 @@
         "neighbourRelation": "far inland, where nobody wanted them"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -10566,6 +10717,7 @@
         "neighbourRelation": "deliberately avoided by every route"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -10638,6 +10790,7 @@
         "neighbourRelation": "chained along an Imperial road"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "imperial",
         "argonian"
@@ -10709,6 +10862,7 @@
         "neighbourRelation": "inside an M4 or M5 settlement"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -10788,6 +10942,7 @@
         "neighbourRelation": "tended from a nearby settlement"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10866,6 +11021,7 @@
         "neighbourRelation": "beside a bereaved or sap-touched village"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -10942,6 +11098,7 @@
         "neighbourRelation": "a regional centre; routes converge on it"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11017,6 +11174,7 @@
         "neighbourRelation": "inside a village of M2 or above"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11098,6 +11256,7 @@
         "neighbourRelation": "deliberately far from any living settlement"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -11176,6 +11335,7 @@
         "neighbourRelation": "between a village and a lair"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -11243,6 +11403,7 @@
         "neighbourRelation": "serves several villages"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11313,6 +11474,7 @@
         "neighbourRelation": "at or beside a hero Hist or a capital"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11389,6 +11551,7 @@
         "neighbourRelation": "a short walk from a village, out of its sight"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11473,6 +11636,7 @@
         "neighbourRelation": "attached to a village or a pilgrim town"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11555,6 +11719,7 @@
         "neighbourRelation": "serves a village cluster"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11620,6 +11785,7 @@
         "neighbourRelation": "always paired with a Hist and an uxith"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11692,6 +11858,7 @@
         "neighbourRelation": "near a hatchery and a major city, deliberately unremarkable"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11771,6 +11938,7 @@
         "neighbourRelation": "near a Nisswo circuit"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11843,6 +12011,7 @@
         "neighbourRelation": "chained along routes"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11909,6 +12078,7 @@
         "neighbourRelation": "between villages on a preaching circuit"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -11980,6 +12150,7 @@
         "neighbourRelation": "on a travelling circuit between villages"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12052,6 +12223,7 @@
         "neighbourRelation": "a regional pilgrimage terminus"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12122,6 +12294,7 @@
         "neighbourRelation": "between a carceral site and the interior"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12194,6 +12367,7 @@
         "neighbourRelation": "beside a lost-peoples ruin"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "lost-peoples"
       ],
@@ -12266,6 +12440,7 @@
         "neighbourRelation": "attached to a foreign settlement"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -12343,6 +12518,7 @@
         "neighbourRelation": "attached to a village and its stake field"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12418,6 +12594,7 @@
         "neighbourRelation": "every Argonian settlement has one; war memorials stand alone"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12492,6 +12669,7 @@
         "neighbourRelation": "one per inhabited tree-island; the sacred site of the hammock village below"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12568,6 +12746,7 @@
         "neighbourRelation": "on the Umbriel corridor, in the burn country, or at a flu-emptied village"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -12639,6 +12818,7 @@
         "neighbourRelation": "always paired with a grave field or a blight ground"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12710,6 +12890,7 @@
         "neighbourRelation": "deliberately outside a village's normal ground"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12791,6 +12972,7 @@
         "neighbourRelation": "has two or more authored verge locations and an absent state, exactly as the drifting village does"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12867,6 +13049,7 @@
         "neighbourRelation": "a single straight line across the province; every stripped village and memorial on it should be ON it"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -12931,6 +13114,7 @@
         "neighbourRelation": "paired with a hatchery village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13000,6 +13184,7 @@
         "neighbourRelation": "inside or beside a settlement"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13077,6 +13262,7 @@
         "neighbourRelation": "inside a village with a Hist"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13153,6 +13339,7 @@
         "neighbourRelation": "in or beside a village; rivalries link them"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13224,6 +13411,7 @@
         "neighbourRelation": "just outside a village"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13294,6 +13482,7 @@
         "neighbourRelation": "serves a settlement cluster"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13364,6 +13553,7 @@
         "neighbourRelation": "in an M4 or M5 settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13436,6 +13626,7 @@
         "neighbourRelation": "on a troupe circuit"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13509,6 +13700,7 @@
         "neighbourRelation": "beside an outsider-facing settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13596,6 +13788,7 @@
         "neighbourRelation": "on every real route at day-travel spacing; in every M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13675,6 +13868,7 @@
         "neighbourRelation": "in a port, a market town or a slum quarter"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13749,6 +13943,7 @@
         "neighbourRelation": "in an M4 or M5 settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -13824,6 +14019,7 @@
         "neighbourRelation": "chained; a relay that does not reach its neighbour is not a relay"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -13898,6 +14094,7 @@
         "neighbourRelation": "in a port"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -13969,6 +14166,7 @@
         "neighbourRelation": "on the frontier"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -14038,6 +14236,7 @@
         "neighbourRelation": "in a city or on the frontier screen"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -14107,6 +14306,7 @@
         "neighbourRelation": "in an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -14181,6 +14381,7 @@
         "neighbourRelation": "inside an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -14252,6 +14453,7 @@
         "neighbourRelation": "200-600 m outside an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -14335,6 +14537,7 @@
         "neighbourRelation": "at a legal port or border crossing"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -14419,6 +14622,7 @@
         "neighbourRelation": "just outside a settlement, near sap country"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -14497,6 +14701,7 @@
         "neighbourRelation": "between two settlements that are in dispute"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -14564,6 +14769,7 @@
         "neighbourRelation": "only where Imperial civil administration survived"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -14636,6 +14842,7 @@
         "neighbourRelation": "outside a settlement, on its road"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -14704,6 +14911,7 @@
         "neighbourRelation": "attached to a civic centre"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -14772,6 +14980,7 @@
         "neighbourRelation": "only in northern mixed cities"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -14842,6 +15051,7 @@
         "neighbourRelation": "attached to an artisan village"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -14907,6 +15117,7 @@
         "neighbourRelation": "in a records or port city"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -14979,6 +15190,7 @@
         "neighbourRelation": "deliberately near something interesting and far from help"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -15060,6 +15272,7 @@
         "neighbourRelation": "in a ruin, or in a northern city"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -15139,6 +15352,7 @@
         "neighbourRelation": "chained along song-lines that follow real routes"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -15210,6 +15424,7 @@
         "neighbourRelation": "in or beside a village"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -15281,6 +15496,7 @@
         "neighbourRelation": "in a city with a foreign scholarly presence"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "imperial",
         "argonian"
@@ -15352,6 +15568,7 @@
         "neighbourRelation": "downstream of an extraction chain; in an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -15428,6 +15645,7 @@
         "neighbourRelation": "in or beside almost any settlement — this is folk practice, not an institution"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -15500,6 +15718,7 @@
         "neighbourRelation": "in or near a northern city; rival to the Whispers"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -15583,6 +15802,7 @@
         "neighbourRelation": "inside a settlement, indistinguishable from it"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -15659,6 +15879,7 @@
         "neighbourRelation": "inside an M4+ settlement on a foreign trade route"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "dunmer",
         "khajiit",
@@ -15735,6 +15956,7 @@
         "neighbourRelation": "inside an M4 or M5 settlement, on its bad side"
       },
       "magnitude": "M2",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -15814,6 +16036,7 @@
         "neighbourRelation": "on hard routes, spaced by a day's travel"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -15891,6 +16114,7 @@
         "neighbourRelation": "chained along routes at a day's travel; the province's D0 floor outside cities"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -15969,6 +16193,7 @@
         "neighbourRelation": "deliberately remote; an approach route exists and is maintained"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -16052,6 +16277,7 @@
         "neighbourRelation": "on an exposed stretch with no settlement"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -16120,6 +16346,7 @@
         "neighbourRelation": "beside Imperial settlement remains"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "imperial"
       ],
@@ -16187,6 +16414,7 @@
         "neighbourRelation": "downstream of its settlement, upstream of somebody else's"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -16256,6 +16484,7 @@
         "neighbourRelation": "every M3+ settlement has one"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -16327,6 +16556,7 @@
         "neighbourRelation": "attached to a hard-owing estate or crossing"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -16408,6 +16638,7 @@
         "neighbourRelation": "far from everything, by design"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "imperial"
       ],
@@ -16489,6 +16720,7 @@
         "neighbourRelation": "a day's march from a city that pretends it is not there"
       },
       "magnitude": "M2",
+      "settingClass": "camp",
       "cultures": [
         "imperial",
         "argonian"
@@ -16563,6 +16795,7 @@
         "neighbourRelation": "inside an M5 city"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -16634,6 +16867,7 @@
         "neighbourRelation": "on the old Morrowind-border trade line"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "imperial",
         "argonian"
@@ -16709,6 +16943,7 @@
         "neighbourRelation": "on a dead road"
       },
       "magnitude": "M1",
+      "settingClass": "keep",
       "cultures": [
         "imperial"
       ],
@@ -16783,6 +17018,7 @@
         "neighbourRelation": "at a xanmeer, a crossing or a road"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -16858,6 +17094,7 @@
         "neighbourRelation": "near a battlefield or a village of the period"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -16932,6 +17169,7 @@
         "neighbourRelation": "on a road between the border and a city"
       },
       "magnitude": "M2",
+      "settingClass": "keep",
       "cultures": [
         "imperial",
         "argonian"
@@ -17005,6 +17243,7 @@
         "neighbourRelation": "always paired with what it besieged"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "imperial"
       ],
@@ -17074,6 +17313,7 @@
         "neighbourRelation": "at the centre of an insular village"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17143,6 +17383,7 @@
         "neighbourRelation": "beside a settlement"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17221,6 +17462,7 @@
         "neighbourRelation": "dominates its immediate district"
       },
       "magnitude": "M3",
+      "settingClass": "keep",
       "cultures": [
         "argonian"
       ],
@@ -17292,6 +17534,7 @@
         "neighbourRelation": "attached to an M3+ settlement"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17362,6 +17605,7 @@
         "neighbourRelation": "always encircles something"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17431,6 +17675,7 @@
         "neighbourRelation": "a chain; each must see the next at night"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17505,6 +17750,7 @@
         "neighbourRelation": "spaced along the border; gaps are the point"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17580,6 +17826,7 @@
         "neighbourRelation": "watching something that matters; never adjacent to its own side"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "altmer",
         "imperial",
@@ -17655,6 +17902,7 @@
         "neighbourRelation": "one per hazardous approach"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "imperial",
         "argonian"
@@ -17729,6 +17977,7 @@
         "neighbourRelation": "chained along a patrol line"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -17801,6 +18050,7 @@
         "neighbourRelation": "must see a neighbour, or it is not a watch tower"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -17879,6 +18129,7 @@
         "neighbourRelation": "scattered along productive water"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -17955,6 +18206,7 @@
         "neighbourRelation": "a day's travel from its home village"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18025,6 +18277,7 @@
         "neighbourRelation": "on a guided route, day-travel spacing"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18098,6 +18351,7 @@
         "neighbourRelation": "on a game trail, near a lair"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -18172,6 +18426,7 @@
         "neighbourRelation": "the last stop before a sacred destination"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18245,6 +18500,7 @@
         "neighbourRelation": "near a known extraction district"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -18320,6 +18576,7 @@
         "neighbourRelation": "on the road from a carceral site"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18388,6 +18645,7 @@
         "neighbourRelation": "immediately outside an estate village"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18463,6 +18721,7 @@
         "neighbourRelation": "just outside a settlement that has not taken them in"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -18538,6 +18797,7 @@
         "neighbourRelation": "on the Umbriel corridor"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -18610,6 +18870,7 @@
         "neighbourRelation": "always beside a ruin"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "imperial",
         "argonian"
@@ -18691,6 +18952,7 @@
         "neighbourRelation": "chained along a planned route"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "imperial",
         "argonian"
@@ -18766,6 +19028,7 @@
         "neighbourRelation": "beside a notable ruin or hard-to-reach landform"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -18847,6 +19110,7 @@
         "neighbourRelation": "answers to a reoccupied prison"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -18927,6 +19191,7 @@
         "neighbourRelation": "within raiding distance of villages"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -19002,6 +19267,7 @@
         "neighbourRelation": "on a route with traffic worth robbing"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian"
       ],
@@ -19076,6 +19342,7 @@
         "neighbourRelation": "near a shipping lane it can reach and leave"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -19159,6 +19426,7 @@
         "neighbourRelation": "just outside a village's watched ground"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -19248,6 +19516,7 @@
         "neighbourRelation": "in a chain along a covert route"
       },
       "magnitude": null,
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -19316,6 +19585,7 @@
         "neighbourRelation": "on a shipping approach with reefs or bars"
       },
       "magnitude": "M1",
+      "settingClass": "camp",
       "cultures": [
         "argonian",
         "imperial"
@@ -19390,6 +19660,7 @@
         "neighbourRelation": "in the north and west, where the Barsaebic Ayleids went"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19458,6 +19729,7 @@
         "neighbourRelation": "near a Barsaebic compound"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19532,6 +19804,7 @@
         "neighbourRelation": "one of a set; the set is the puzzle"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19598,6 +19871,7 @@
         "neighbourRelation": "beneath or beside an Ayleid ruin"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19677,6 +19951,7 @@
         "neighbourRelation": "in Ayleid country"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19747,6 +20022,7 @@
         "neighbourRelation": "shunned by its neighbours, who nevertheless maintain the markers"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19819,6 +20095,7 @@
         "neighbourRelation": "near settlements that existed in 3E 433"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian",
         "imperial"
@@ -19893,6 +20170,7 @@
         "neighbourRelation": "deliberately avoided by every route and every village"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -19965,6 +20243,8 @@
         "neighbourRelation": "in the burn country of the west"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian"
       ],
@@ -20037,6 +20317,8 @@
         "neighbourRelation": "below a living settlement, or beside one that watched it go"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian"
       ],
@@ -20120,6 +20402,8 @@
         "neighbourRelation": "in the country the Flu emptied; other villages avoid it"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -20196,6 +20480,7 @@
         "neighbourRelation": "encircles a plague-abandoned village or a cairn field"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian",
         "imperial"
@@ -20268,6 +20553,8 @@
         "neighbourRelation": "paired with its successor settlement"
       },
       "magnitude": null,
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian"
       ],
@@ -20337,6 +20624,8 @@
         "neighbourRelation": "above workings or burning peat"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -20410,6 +20699,8 @@
         "neighbourRelation": "on the Umbriel corridor, a legible line across the province"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
+      "builtBy": "village",
       "cultures": [
         "argonian"
       ],
@@ -20481,6 +20772,7 @@
         "neighbourRelation": "in the ex-Imperial agricultural belt"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20551,6 +20843,7 @@
         "neighbourRelation": "dominating ground nobody else wanted"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20619,6 +20912,7 @@
         "neighbourRelation": "far inland, where the mission thought it was needed"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20689,6 +20983,7 @@
         "neighbourRelation": "on the line of an abandoned Imperial road"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20757,6 +21052,7 @@
         "neighbourRelation": "attached to a living settlement that does not talk about it"
       },
       "magnitude": "M2",
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20839,6 +21135,7 @@
         "neighbourRelation": "under or beside later Imperial works"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20915,6 +21212,7 @@
         "neighbourRelation": "on a dead Imperial road"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "imperial"
       ],
@@ -20985,6 +21283,7 @@
         "neighbourRelation": "on the eastern seaboard, toward Morrowind"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "lost-peoples"
       ],
@@ -21055,6 +21354,7 @@
         "neighbourRelation": "upstream of settlements that depend on it"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "lost-peoples"
       ],
@@ -21131,6 +21431,7 @@
         "neighbourRelation": "in the west and centre, where the Kothringi lived"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "lost-peoples"
       ],
@@ -21202,6 +21503,7 @@
         "neighbourRelation": "beneath or beside a currently occupied place"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "lost-peoples"
       ],
@@ -21279,6 +21581,7 @@
         "neighbourRelation": "deliberately isolated; the Orma left almost nothing"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "lost-peoples"
       ],
@@ -21354,6 +21657,7 @@
         "neighbourRelation": "near a settlement that tells the story wrong"
       },
       "magnitude": null,
+      "settingClass": "ruin",
       "cultures": [
         "argonian",
         "imperial"
@@ -21431,6 +21735,7 @@
         "neighbourRelation": "in a district with other xanmeer, showing the range of states"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -21504,6 +21809,7 @@
         "neighbourRelation": "in xanmeer country; contrasts directly with the tended and sealed ones"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -21579,6 +21885,7 @@
         "neighbourRelation": "deliberately hard to reach; no village tends it"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -21654,6 +21961,7 @@
         "neighbourRelation": "in drowned country; often near a drowned village"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -21730,6 +22038,7 @@
         "neighbourRelation": "a landmark for its whole district; a village within 1 km tends it"
       },
       "magnitude": "M1",
+      "settingClass": "ruin",
       "cultures": [
         "argonian"
       ],
@@ -21806,6 +22115,7 @@
         "neighbourRelation": "worked seasonally from a nearby settlement"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -21883,6 +22193,7 @@
         "neighbourRelation": "at or beside a grave-stake field"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -21964,6 +22275,7 @@
         "neighbourRelation": "on a channel a route must cross"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22033,6 +22345,7 @@
         "neighbourRelation": "on or beside a walked route, deliberately"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22100,6 +22413,7 @@
         "neighbourRelation": "the region's ecological engine; villages time their year on it"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22174,6 +22488,7 @@
         "neighbourRelation": "downwind of a lair, a battlefield or a midden"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22246,6 +22561,7 @@
         "neighbourRelation": "the apex hazard of its region; routes bend around it"
       },
       "magnitude": "M1",
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22320,6 +22636,7 @@
         "neighbourRelation": "a landmark for its stretch of coast or channel"
       },
       "magnitude": "M1",
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22391,6 +22708,7 @@
         "neighbourRelation": "a protected territory, mapped by totems"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22463,6 +22781,7 @@
         "neighbourRelation": "between a route and something worth reaching"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22532,6 +22851,7 @@
         "neighbourRelation": "on a boat lane, which is the problem"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22606,6 +22926,7 @@
         "neighbourRelation": "avoided ground between routes"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22676,6 +22997,7 @@
         "neighbourRelation": "supplies a nearby craft works"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22753,6 +23075,7 @@
         "neighbourRelation": "inside a xanmeer, an Ayleid ruin or a flooded cellar"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22835,6 +23158,7 @@
         "neighbourRelation": "a district hazard; villages route around it"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22905,6 +23229,7 @@
         "neighbourRelation": "on a route people travel at night"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -22980,6 +23305,7 @@
         "neighbourRelation": "in an extraction district"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian",
         "imperial"
@@ -23054,6 +23380,7 @@
         "neighbourRelation": "scattered; a reason to leave the route"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23128,6 +23455,7 @@
         "neighbourRelation": "worked from a nearby camp"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23196,6 +23524,7 @@
         "neighbourRelation": "on or beside walked routes"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23263,6 +23592,7 @@
         "neighbourRelation": "a landmark visible from the surrounding high ground"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23329,6 +23659,7 @@
         "neighbourRelation": "the lake region's signature seasonal event"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23400,6 +23731,7 @@
         "neighbourRelation": "on a boat lane; forces a portage or a wait"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23468,6 +23800,7 @@
         "neighbourRelation": "near a route or a settlement with no better water"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23537,6 +23870,7 @@
         "neighbourRelation": "in the burn country; on or beside a route"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23606,6 +23940,7 @@
         "neighbourRelation": "forces a route to bend"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23677,6 +24012,7 @@
         "neighbourRelation": "forces every boat route to stop; a portage or a ferry always answers it"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23750,6 +24086,7 @@
         "neighbourRelation": "on the Archon-Lilmoth-Soulrest-Tear line"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian",
         "imperial"
@@ -23824,6 +24161,7 @@
         "neighbourRelation": "contested between two coastal settlements"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23899,6 +24237,7 @@
         "neighbourRelation": "on a shipping approach; explains the wrecks and the lights around it"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -23969,6 +24308,7 @@
         "neighbourRelation": "the ocean's climbable landmark; visible from the lane"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24043,6 +24383,7 @@
         "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map"
       },
       "magnitude": "M1",
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24122,6 +24463,7 @@
         "neighbourRelation": "on or beside the root-transit network, which is why it matters"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24198,6 +24540,7 @@
         "neighbourRelation": "hidden; discovered by exploring water"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24279,6 +24622,7 @@
         "neighbourRelation": "known and visited; a destination, not a secret"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24350,6 +24694,7 @@
         "neighbourRelation": "a canopy-breaking landmark in dense country"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24422,6 +24767,7 @@
         "neighbourRelation": "visible as a feature from a nearby high point"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24492,6 +24838,7 @@
         "neighbourRelation": "always in a ring or a line around something"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24556,6 +24903,7 @@
         "neighbourRelation": "rare — eleven found province-wide; every instance should be individually meaningful"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24626,6 +24974,7 @@
         "neighbourRelation": "placed where the visibility raster shows a dead zone"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24692,6 +25041,7 @@
         "neighbourRelation": "on a river with real relief — the rim and upland only"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],
@@ -24769,6 +25119,7 @@
         "neighbourRelation": "deliberately far from everything; the effort-to-reach IS the design"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -24855,6 +25206,7 @@
         "neighbourRelation": "always paired with a crossing, landing or light"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -24933,6 +25285,7 @@
         "neighbourRelation": "200-600 m from the village it serves"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25003,6 +25356,7 @@
         "neighbourRelation": "the rim's signature dwelling; deliberately alone"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25081,6 +25435,7 @@
         "neighbourRelation": "inside any ruin type"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25160,6 +25515,7 @@
         "neighbourRelation": "in lines, encircling or dividing"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25233,6 +25589,7 @@
         "neighbourRelation": "chained within earshot along routes; an audio equivalent of a beacon chain"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25307,6 +25664,7 @@
         "neighbourRelation": "at or overlooking the event's site"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25386,6 +25744,7 @@
         "neighbourRelation": "deliberately unrelated to its surroundings"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25461,6 +25820,7 @@
         "neighbourRelation": "above canopy; visible from a distance"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25534,6 +25894,7 @@
         "neighbourRelation": "upstream or downstream of something that explains it"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25612,6 +25973,7 @@
         "neighbourRelation": "spread along routes and around hostile camps"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25694,6 +26056,7 @@
         "neighbourRelation": "beside an abandoned settlement or a dead route"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25771,6 +26134,7 @@
         "neighbourRelation": "where somebody died, on or off a route"
       },
       "magnitude": null,
+      "settingClass": "village",
       "cultures": [
         "argonian"
       ],
@@ -25847,6 +26211,7 @@
         "neighbourRelation": "on a shipping approach or a hazard"
       },
       "magnitude": "M1",
+      "settingClass": "village",
       "cultures": [
         "argonian",
         "imperial"
@@ -25924,6 +26289,7 @@
         "neighbourRelation": "remote; deliberately far from every route"
       },
       "magnitude": null,
+      "settingClass": "wild",
       "cultures": [
         "argonian"
       ],

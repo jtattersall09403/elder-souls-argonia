@@ -17,7 +17,10 @@ worldspace's ``XLCN``, walked up the ``PNAM`` parent chain; every ``LocType*``
 keyword on that chain votes and the highest class in ``CLASS_ORDER`` wins
 (an inn inside a city is ``town``; a farm inside a hold is ``village``).
 A cell with no location, or none whose chain carries a class keyword, is
-``wild``. ``KEYWORD_CLASS`` is the whole mapping.
+``wild``. ``KEYWORD_CLASS`` is the whole mapping. The cell, worldspace,
+location and keyword records are the ones the referencing plugin sees (its
+on-disk masters in master order, then itself; masters are always loaded),
+so a piece's row never depends on which other kits are mined beside it.
 
 **Per piece:** ``interior`` / ``exterior`` counts, ``classes`` (class -> n),
 ``settings``: a setting (interior, exterior) is licensed when it holds at
@@ -30,6 +33,9 @@ interior/exterior licence only, and a gate reads a class only when one is
 licensed. up to ``CELLS_KEPT``
 source cells (the cell or location editor ids, most frequent first). A piece
 with no own reference is ``unplaced`` (n 0): R1 gives it no licence anywhere.
+A water craft (``VEHICLE_KIT``'s hulls and oars) carries ``vehicle: true``:
+its mod places it by script, and the gate exempts it from the
+interior/exterior axis (0105 R15).
 
 Output: ``world/sources/placement/kit-setting-class.json``; the manifests read
 it through ``placement_metadata --refresh-built-manifests`` (``settingClass``
@@ -57,11 +63,29 @@ from .mine_designed_sink import LoadOrderIndex, PoolJoin, pool_plugins
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_OUT = REPO_ROOT / "world" / "sources" / "placement" / "kit-setting-class.json"
 KIT_CONFIG_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "kits"
-#: The two settlement kits the 16k places build from (walk-3 L4), and the keep
-#: kit whose stable Claywater stood (the R1 breach the owner saw).
-DEFAULT_KITS = ("settlement-imperial-v1", "settlement-mud-v1", "imperial-keep")
+#: The two settlement kits the 16k places build from (walk-3 L4), the keep
+#: kit whose stable Claywater stood (the R1 breach the owner saw), and the
+#: works kit the 16k yards dress from (walk 3 L9): the default run
+#: reproduces the committed record.
+DEFAULT_KITS = ("settlement-imperial-v1", "settlement-mud-v1", "imperial-keep", "works-v1")
 SCHEMA_VERSION = 1
-MINER_VERSION = 1
+#: 2: a reference's class is read from what its own plugin sees (its on-disk
+#: masters, then itself), and every selected plugin's masters are loaded, so
+#: a piece's row no longer depends on which other kits are co-mined (L9 rec 3);
+#: water craft carry ``vehicle`` (0105 R15)
+MINER_VERSION = 2
+#: 0105 R15: vehicles and water craft are exempt from the interior/exterior
+#: axis; their mods place them by script. The province's craft are the
+#: watercraft kit's hulls and oars (its config is the one list of them);
+#: ``NOT_VEHICLES`` are the kit's pieces that are no craft (an anchor, loose
+#: planks) or a wreck a plugin places as a static.
+VEHICLE_KIT = "watercraft-v1"
+NOT_VEHICLES = frozenset({
+    "canoe:weapons/sfss/anchor",
+    "ferryraft:snt/ferry/norbridgewoodplanks01", "ferryraft:snt/ferry/norbridgewoodplanks02",
+    "bmv:architecture/boats/rowboatbrokenback", "bmv:architecture/boats/rowboatbrokenfront",
+    "bmv:nordships/shipnordtradeshipbeached",
+})
 
 #: Highest first: a location chain carrying several classes takes the first.
 CLASS_ORDER = ("keep", "town", "village", "camp", "ruin")
@@ -115,6 +139,30 @@ def piece_ids(kits: list[str]) -> dict[str, str]:
             out[entry["asset"]] = (parts[0]["asset"] if parts
                                    else entry.get("variantOf") or entry["asset"])
     return out
+
+
+def vehicle_assets() -> frozenset[str]:
+    """0105 R15: the asset ids that are water craft (``VEHICLE_KIT``'s
+    config less ``NOT_VEHICLES``)."""
+    config = json.loads((KIT_CONFIG_DIR / f"{VEHICLE_KIT}.json").read_text())
+    return frozenset(e["asset"] for e in config.get("assets", [])) - NOT_VEHICLES
+
+
+def with_masters(selected: list[tuple[str, Path]], every: list[tuple[str, Path]]) -> list[tuple[str, Path]]:
+    """``selected`` plus, transitively, every on-disk master of each of its
+    plugins (``every`` is the whole pool list): a reference's location and
+    keyword records come from the files its plugin sees, whichever kits are
+    mined with it."""
+    by_name = {path.name.casefold(): row for row in every for path in [row[1]]}
+    out = {row[1].name.casefold(): row for row in selected}
+    queue = list(out)
+    while queue:
+        for master in Plugin(out[queue.pop()][1]).masters:
+            key = master.casefold()
+            if key in by_name and key not in out:
+                out[key] = by_name[key]
+                queue.append(key)
+    return list(out.values())
 
 
 def location_tables(plugin: Plugin, resolve) -> tuple[dict, dict, dict, dict]:
@@ -177,19 +225,27 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
         by_pool[asset_id.split(":", 1)[0]].append(asset_id)
     for pool, ids in by_pool.items():
         joins[pool] = PoolJoin(ids)
-    rows = [row for row in pool_plugins(vault)
-            if row[0] in by_pool or any(
-                pool in by_pool for _prefix, pool in PLUGIN_PATH_POOLS.get(row[1].name.lower(), ()))]
+    every = pool_plugins(vault)
+    rows = with_masters([row for row in every
+                         if row[0] in by_pool or any(
+                             pool in by_pool
+                             for _prefix, pool in PLUGIN_PATH_POOLS.get(row[1].name.lower(), ()))],
+                        every)
     index = LoadOrderIndex(rows)
-    keywords: dict = {}
-    locations: dict = {}
-    cell_loc: dict = {}
-    world_loc: dict = {}
+    vehicles = vehicle_assets()
+    file_tables: dict[str, tuple[dict, dict, dict, dict]] = {}
     for _pool, path in index.rows:
         plugin = Plugin(path)
-        tables = location_tables(plugin, index.resolver.of(plugin))
-        keywords.update(tables[0]); locations.update(tables[1])
-        cell_loc.update(tables[2]); world_loc.update(tables[3])
+        file_tables[path.name.casefold()] = location_tables(plugin, index.resolver.of(plugin))
+
+    def seen_by(name: str) -> tuple[dict, dict, dict, dict]:
+        """The location tables ``name`` sees: its on-disk masters in master
+        order, then its own records (the latest file it loads owns a record)."""
+        merged: tuple[dict, dict, dict, dict] = ({}, {}, {}, {})
+        for source in [m for m in index.masters_of[name] if m in file_tables] + [name]:
+            for into, part in zip(merged, file_tables[source]):
+                into.update(part)
+        return merged
     counts: dict[str, dict] = {a: {"interior": Counter(), "exterior": Counter(),
                                    "cells": Counter(), "otherFileRefs": 0,
                                    "plugins": set()} for a in wanted}
@@ -199,6 +255,7 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
         name = path.name.casefold()
         resolve = index.resolver.of(plugin)
         visible = index.visible(name)
+        keywords, locations, cell_loc, world_loc = seen_by(name)
         if progress:
             print(f"[setting] {path.name}", file=sys.stderr)
 
@@ -265,6 +322,7 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
             "plugins": sorted(row["plugins"]),
             "otherFileRefs": row["otherFileRefs"],
             "evidence": "plugin" if n else "unplaced",
+            **({"vehicle": True} if manifest_id in vehicles or source_id in vehicles else {}),
             **({"readFrom": source_id} if source_id != manifest_id else {}),
         }
     return {
@@ -281,6 +339,8 @@ def mine(kits: list[str], vault: Path, progress: bool = True) -> dict:
         "minRefs": MIN_REFS,
         "excludedCellPrefixes": list(EXCLUDED_PREFIXES),
         "excludedCells": row_excluded[0],
+        "vehicleKit": VEHICLE_KIT,
+        "notVehicles": sorted(NOT_VEHICLES),
         "assets": assets,
     }
 

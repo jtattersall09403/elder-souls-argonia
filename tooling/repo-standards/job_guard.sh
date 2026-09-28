@@ -26,16 +26,20 @@
 #      agents, the editor tunnel and the dev server (owner 2026-09-25), with
 #      ES_JOB_CORES and PYTEST_XDIST_AUTO_NUM_WORKERS=ES_JOB_CORES exported
 #      (`-n auto` would otherwise start one pytest worker per pool core in
-#      every slot; build_kit, preflight and the workbench's check/scan pool,
-#      tooling/placement-workbench/workbench/parallel.py, size their pools to
-#      it too), and exits with
+#      every slot; build_kit and preflight size their pools to it too, and
+#      the workbench's check/scan pool,
+#      tooling/placement-workbench/workbench/parallel.py, takes the pool
+#      cores idle at fork time up to 7 with it as the floor), and exits with
 #      the command's code. tooling/repo-standards/cpu_watchdog.sh is the
 #      machine-wide backstop behind it.
 # Lines it prints start "job_guard[<lane>]". Examples:
 #   bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_mounts --jobs 2
 #   bash tooling/repo-standards/job_guard.sh kits -- python3 pipeline/build_kit.py settlement-stilt-v1
-# The command runs through `bash -c "$*"` (as memwatch.sh does): quote it as
-# you would at a prompt.
+# The command's arguments reach it unchanged (walk 3 L3 rec 2: `-k "a or b"`
+# was split into words): several arguments are quoted one by one (printf %q)
+# into the one string memwatch.sh runs with `bash -c`, so each stays one
+# argument; a single argument is a shell line, run as written (pipes, `&&`,
+# `$VAR`: `job_guard.sh L -- "cd x && make | tee log"`).
 # Rules (docs/phases/lanes/README.md): every heavy job goes through job_guard;
 # a lane never runs two heavy jobs at once; the planner launches at most one
 # heavy lane per slot.
@@ -54,6 +58,9 @@ if [[ -z "$lane" || "${2:-}" != "--" || $# -lt 3 ]]; then
 fi
 shift 2
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# memwatch.sh runs `bash -c "$*"`: one argument is a shell line as written;
+# several are quoted one by one so each reaches the command unchanged
+if (( $# == 1 )); then run_line="$1"; else run_line="$(printf '%q ' "$@")"; run_line="${run_line% }"; fi
 say() { echo "job_guard[$lane]: $*" >&2; }
 
 cores=$(nproc)
@@ -135,7 +142,7 @@ while :; do
           # The slot is held by this script for the job's life; the job gets
           # no copy of the fd ({fd}>&-), so a process it leaves behind never
           # keeps the slot. memwatch logs the run with the lane in the tool line.
-          MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$@" {fd}>&-
+          MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
           code=$?
           : > "$lock_dir/slot-$i.lock"
           exit "$code"

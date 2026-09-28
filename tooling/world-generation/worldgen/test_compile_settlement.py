@@ -1235,3 +1235,23 @@ def test_a_door_with_no_measured_doorway_is_still_judged_for_light():
 def test_a_door_with_no_threshold_fails_loudly():
     unlit = cs.unlit_entrance_errors([{"id": "d", "parcelId": "p"}], [], lambda aid: None)
     assert len(unlit) == 1 and "no bound threshold" in unlit[0]
+
+
+def test_a_probe_kit_is_never_placeable_and_an_alpha_tested_piece_is(tmp_path):
+    """0105 R20: the probe filter keys on the `probe-` kit id, not the LOD
+    chain; an alpha-tested piece built with one level (`lodLevels` 1, its
+    configured `lodRatios` kept) stays placeable (chickennest01)."""
+    kits, cfg = tmp_path / "kits", tmp_path / "cfg"
+    kits.mkdir(), cfg.mkdir()
+    row = {"id": "x:nest", "lodRatios": [0.3, 0.1], "lodLevels": 1, "sizeM": [1, 1, 1]}
+    rock = {"id": "x:rock", "lodRatios": [], "lodLevels": 1, "sizeM": [1.95, 1.2, 0.8]}
+    hut = {"id": "x:hut", "lodRatios": [0.3, 0.1], "lodLevels": 3, "sizeM": [6, 6, 4]}
+    (kits / "probe-cards.kit.json").write_text(json.dumps({"assets": [dict(hut, id="x:probe")]}))
+    (kits / "settlement-x.kit.json").write_text(json.dumps({"assets": [row, rock, hut]}))
+    shelf = cs.KitShelf(kits, cfg)
+    assert shelf.locate("x:nest")["kit"] == "settlement-x"
+    assert shelf.locate("x:hut")["kit"] == "settlement-x"
+    # one level and 1.95 m long: the runtime refuses it at any placement
+    assert shelf.locate("x:rock") is None
+    assert shelf.locate("x:probe") is None
+    assert "x:probe" in shelf.by_asset        # measurement still reads it

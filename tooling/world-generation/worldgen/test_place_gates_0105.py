@@ -1,7 +1,7 @@
 """place_gates, decision 0105: R3 fixture density (the runtime's cap and band),
 R4 interior-cell variety (region repeat, exhausted linked set, province cap),
-R1 setting class (NOT_MEASURED until the manifests carry it). Each gate is
-made to fail on purpose here."""
+R1/R9 setting class (two axes; NOT_MEASURED until the manifests carry it),
+R10 reserved doors. Each gate is made to fail on purpose here."""
 from __future__ import annotations
 
 import json
@@ -129,11 +129,111 @@ def test_setting_class_fails_an_interior_piece_outside_and_a_keep_piece_in_a_vil
     assert g.rows[-1]["ok"] and "NOT_MEASURED" in g.rows[-1]["warnings"][0]
 
 
-def test_place_setting_class_from_the_recipe():
-    assert pg.place_setting_class({"class": "settlement", "family": "tribal-village", "type": "hist-village"}) == "village"
-    assert pg.place_setting_class({"class": "settlement", "family": "mixed-settlement", "type": "port-town"}) == "town"
-    assert pg.place_setting_class({"class": "martial", "family": "watch", "type": "watchtower"}) == "keep"
-    assert pg.place_setting_class({"class": "camp", "family": "civil-camp", "type": "fishing-camp"}) == "camp"
+def test_place_setting_class_is_the_recipe_row_field():
+    assert pg.place_setting_class({"type": "hist-village", "settingClass": "village"}) == "village"
+    assert pg.place_setting_class({"type": "watchtower", "settingClass": "keep"}) == "keep"
+    assert pg.place_setting_class({"type": "x"}) is None                 # no field: not judged
+    assert pg.place_setting_class({"type": "x", "settingClass": "hamlet"}) is None
+
+
+def test_every_type_recipe_row_carries_a_setting_class():
+    path = pg.REPO_ROOT / "world" / "sources" / "catalogue" / "type-recipes.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    assert doc["vocabularies"]["settingClass"] == list(pg.PLACE_CLASSES)
+    bad = [r["type"] for r in doc["types"] if r.get("settingClass") not in pg.PLACE_CLASSES]
+    assert bad == []
+    # 0105 R16/R17: every row is its kind's derivation, never a hand value
+    drift = [r["type"] for r in doc["types"]
+             if r["settingClass"] != pg.derive_setting_class(r) or r.get("builtBy") != pg.derive_built_by(r)]
+    assert drift == []
+    by = {r["type"]: r["settingClass"] for r in doc["types"]}
+    # the two built places (16k types 1 and 2) are villages
+    assert by["road-station-village"] == by["hist-village"] == "village"
+    assert by["wamasu-pond"] == by["vista-ledge"] == by["wild-hist"] == "wild"
+    assert by["patrol-shelter"] == by["beacon-platform"] == by["holding-pit"] == "camp"
+    assert by["occupied-fort"] == "keep"
+
+
+def _piece(x, **kw):
+    return {"id": x, "objectKind": "assembly", "kit": "k", "assetId": x, "positionM": [0, 0, 0], **kw}
+
+
+def test_r9_small_dressing_is_exempt_from_the_setting_axis_but_lights_and_big_pieces_are_not():
+    placements = [_piece("cup"), _piece("bigcup", scale=2.5), _piece("sconce", layer="light"),
+                  _piece("glowjar"), _piece("chair")]
+    rows = {("k", "cup"): {**_sc(20, interior=["town"]), "sizeM": [0.2, 0.3, 0.2]},
+            ("k", "bigcup"): {**_sc(20, interior=["town"]), "sizeM": [0.2, 0.5, 0.2]},
+            ("k", "sconce"): {**_sc(40, interior=["town"]), "sizeM": [0.3, 0.4, 0.2]},
+            ("k", "glowjar"): {**_sc(9, interior=["town"]), "sizeM": [0.2, 0.2, 0.2],
+                               "glowMaterials": ["m"]},
+            ("k", "chair"): {**_sc(30, interior=["town"]), "sizeM": [0.6, 1.1, 0.6]},
+            ("k", "table"): {**_sc(30, interior=["town"]), "sizeM": [3.02, 1.47, 0.91]}}
+    placements.append(_piece("table"))
+    f, _, _ = pg.setting_failures(placements, rows, "village")
+    named = [x.split(":")[1].split()[0] for x in f]
+    # R14: the largest dimension under 1.2 m is small dressing (cup, chair);
+    # a 3 m table with one dimension under it is not
+    assert named == ["bigcup", "sconce", "glowjar", "table"], f
+
+
+def test_r15_a_vehicle_is_exempt_from_axis_i():
+    rows = {("k", "canoe"): {**_sc(0), "sizeM": [2, 6.8, 2.1]},
+            ("k", "raft"): {**_sc(0), "sizeM": [3.2, 4.1, 1.7]}}
+    rows[("k", "canoe")]["settingClass"]["vehicle"] = True
+    f, _, _ = pg.setting_failures([_piece("canoe"), _piece("raft")], rows, "village")
+    assert len(f) == 1 and "raft" in f[0], f
+
+
+def test_r9_social_scale_pools():
+    rows = {("k", "townonly"): _sc(10, exterior=["town"]),
+            ("k", "keeponly"): _sc(10, exterior=["keep"]),
+            ("k", "villageonly"): _sc(10, exterior=["village"]),
+            ("k", "ruinonly"): _sc(10, exterior=["ruin"]),
+            ("k", "wildonly"): _sc(10, exterior=["wild"])}
+    names = list(k for _, k in rows)
+
+    def red(place_class):
+        f, _, _ = pg.setting_failures([_piece(x) for x in names], rows, place_class)
+        return sorted(x.split(":")[1].split()[0] for x in f)
+    assert red("village") == ["keeponly", "ruinonly"]              # town/village/camp: one pool
+    assert red("camp") == ["keeponly", "ruinonly"]
+    assert red("keep") == ["ruinonly", "townonly", "villageonly"]   # keep is exclusive
+    assert red("ruin") == ["keeponly", "townonly", "villageonly"]
+    assert red(None) == []                                          # no class: axis ii not judged
+    assert red("wild") == ["keeponly"]                              # R17: every pool but keep's
+
+    def red_recipe(recipe):
+        f, _, _ = pg.setting_failures([_piece(x) for x in names], rows, recipe["settingClass"],
+                                      pool=pg.place_pool(recipe))
+        return sorted(x.split(":")[1].split()[0] for x in f)
+    # R16: a village ruin takes village + ruin; keep stays exclusive
+    assert red_recipe({"settingClass": "ruin", "builtBy": "village"}) == ["keeponly"]
+    assert red_recipe({"settingClass": "ruin", "builtBy": "keep"}) == ["keeponly", "townonly", "villageonly"]
+
+
+def test_setting_gate_warns_when_the_place_has_no_setting_class():
+    g = pg.Gates()
+    pg.setting_gate(g, {"placements": [_piece("keeponly")]}, None,
+                    rows={("k", "keeponly"): _sc(10, exterior=["keep"])})
+    assert g.rows[-1]["ok"] and any("no settingClass" in w for w in g.rows[-1]["warnings"])
+
+
+def _bp(tier, use, services=None):
+    return {"parcels": [{"id": "p1", "use": use, **({"services": services} if services else {})}],
+            "doors": [{"id": "d1", "parcelId": "p1", "interiorClaim": {"tier": tier, "why": "no link"}}]}
+
+
+def test_r10_a_reserved_door_fails_on_a_dwelling_workplace_shop_or_store():
+    for use in ("dwelling", "lodging", "work", "shop", "kiln", "storage"):
+        f = pg.reserved_failures(_bp("reserved", use))
+        assert len(f) == 1 and "0105 R10" in f[0] and "d1" in f[0], use
+    assert pg.reserved_failures(_bp("reserved", "civic", ["trader"]))            # a shop by service
+    assert pg.reserved_failures(_bp("reserved", "hall")) == []                  # tier B/C: legal
+    assert pg.reserved_failures(_bp("reserved", "entrance")) == []
+    assert pg.reserved_failures(_bp("A", "dwelling")) == []
+    g = pg.Gates()
+    pg.reserved_gate(g, _bp("reserved", "dwelling"))
+    assert g.rows[-1]["id"] == "interiors.reserved" and not g.rows[-1]["ok"]
 
 
 FAKE_WB = '''

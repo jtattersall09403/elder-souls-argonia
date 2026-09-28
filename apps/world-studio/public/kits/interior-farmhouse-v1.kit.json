@@ -33,20 +33,15 @@
     "DoorBlack.Mat"
    ],
    "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "p25": -0.1653,
+    "p50": -0.0761,
+    "p75": -0.0258,
+    "n": 13,
+    "slopeTermMPerDeg": 0.02685,
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -61,7 +56,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintdoorway01",
@@ -131,7 +127,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.931,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend01",
@@ -218,7 +215,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.622,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend02",
@@ -305,7 +303,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
@@ -381,7 +380,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.946,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket02",
@@ -436,7 +436,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.941,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/basket04",
@@ -491,7 +492,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.781,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/bones/deerskullhornsstatic",
@@ -546,7 +548,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.637,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.031
+   "pivotAboveBaseM": -0.031,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/books/basicbook03a",
@@ -604,7 +607,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/candles/candlehornchandelier01",
@@ -669,7 +673,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.4123
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/candles/candlehornfloor01",
@@ -729,7 +734,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/candles/candlehorntable01",
@@ -789,7 +795,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/candles/candlehornwall01",
@@ -849,7 +856,8 @@
     "type": "mesh",
     "tell": "foundation-top",
     "valueM": -0.0055
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/broom",
@@ -907,7 +915,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848
+   "pivotAboveBaseM": 0.848,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/commonshelf01",
@@ -962,7 +971,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/commontableround01",
@@ -1017,7 +1027,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/cupboard01",
@@ -1091,7 +1102,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/endtable01",
@@ -1160,7 +1172,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/common/wardrobe01",
@@ -1230,7 +1243,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/containers/chest01/chest01",
@@ -1278,10 +1292,10 @@
    },
    "designedSinkM": {
     "p25": 0.0,
-    "p50": 0.0668,
-    "p75": 0.1778,
-    "n": 114,
-    "slopeTermMPerDeg": 0.01906,
+    "p50": 0.1025,
+    "p75": 0.2331,
+    "n": 137,
+    "slopeTermMPerDeg": 0.01595,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1300,7 +1314,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/cookingspitfarmhouse01",
@@ -1360,7 +1375,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.3414
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/hanginganimalsring01",
@@ -1420,7 +1436,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": 0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/hangingpheasant01",
@@ -1483,7 +1500,8 @@
     "type": "mesh",
     "tell": "foundation-top",
     "valueM": -0.2379
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/hangingpheasant02",
@@ -1546,7 +1564,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.7328
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/hangingrabbit01",
@@ -1606,7 +1625,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.7192
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/hangingrabbit02",
@@ -1666,7 +1686,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.5308
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedbear01",
@@ -1731,7 +1752,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.6106
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedhorker01",
@@ -1798,7 +1820,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.448
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/deadanimals/wallmountedsabrecat02",
@@ -1863,7 +1886,8 @@
     "type": "mesh",
     "tell": "post-foot",
     "valueM": -0.53
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/dining set/basicfork01",
@@ -1935,7 +1959,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0138
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/dining set/basicknife01",
@@ -2007,7 +2032,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0138
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/dining set/basictankard01",
@@ -2039,11 +2065,11 @@
     "BasicTankard01:0.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.0853,
-    "p50": -0.0581,
+    "p25": -0.0837,
+    "p50": -0.0569,
     "p75": 0.0,
-    "n": 35,
-    "slopeTermMPerDeg": 0.00238,
+    "n": 34,
+    "slopeTermMPerDeg": 0.00192,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -2062,7 +2088,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/food/bread01a",
@@ -2122,7 +2149,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/food/bread01b",
@@ -2182,7 +2210,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.0
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/hayscatter01",
@@ -2243,7 +2272,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/hay/hayscatter02",
@@ -2304,7 +2334,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/ingredients/mead01",
@@ -2364,7 +2395,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/kettle01",
@@ -2419,7 +2451,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.001
+   "pivotAboveBaseM": -0.001,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/kitchen/castironpotsmall01",
@@ -2474,7 +2507,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/kitchen/woodenladle01",
@@ -2529,7 +2563,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05
+   "pivotAboveBaseM": 0.05,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/meadery/meadbarrel01",
@@ -2587,7 +2622,8 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfarmwall01",
@@ -2645,7 +2681,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.396,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.321
+   "pivotAboveBaseM": 1.321,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfarmwall02",
@@ -2703,7 +2740,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.366
+   "pivotAboveBaseM": 1.366,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfarmwall03",
@@ -2761,7 +2799,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.333
+   "pivotAboveBaseM": 1.333,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfloor01",
@@ -2819,7 +2858,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfloor02",
@@ -2877,7 +2917,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/pelts/peltfloor03",
@@ -2935,7 +2976,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/wine/winebottle01a",
@@ -2991,7 +3033,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.852,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/wine/winebottle01b",
@@ -3051,7 +3094,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/wine/winebottle02b",
@@ -3111,7 +3155,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/woodfires/fireplacewood01burning",
@@ -3189,7 +3234,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.1612
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/common/commonbed01",
@@ -3248,11 +3294,11 @@
     ]
    },
    "designedSinkM": {
-    "p25": -0.0133,
+    "p25": -0.0187,
     "p50": 0.0,
     "p75": 0.1543,
-    "n": 19,
-    "slopeTermMPerDeg": -0.02055,
+    "n": 21,
+    "slopeTermMPerDeg": -0.01921,
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3271,7 +3317,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.927,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:furniture/commontableonebench",
@@ -3339,7 +3386,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.869,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:plants/hangingelvesear01",
@@ -3394,7 +3442,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.534,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.23
+   "pivotAboveBaseM": 0.23,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/hangingfrostmirriam01",
@@ -3449,7 +3498,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.625,
    "openBackYawDeg": 258.8,
-   "pivotAboveBaseM": 0.208
+   "pivotAboveBaseM": 0.208,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/hanginggarlicbraid01",
@@ -3510,7 +3560,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.6638
-   }
+   },
+   "lodLevels": 1
   },
   {
    "id": "vanilla:plants/leek01",
@@ -3565,7 +3616,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.808,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.263
+   "pivotAboveBaseM": 0.263,
+   "lodLevels": 1
   },
   {
    "id": "vanilla:weapons/steel/steelmace",
@@ -3639,7 +3691,8 @@
     "type": "mesh",
     "tell": "floor-plane",
     "valueM": -0.1053
-   }
+   },
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-farmhouse-v1.glb",

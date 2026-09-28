@@ -41,3 +41,16 @@ def test_record_licences_match_the_rule():
         assert row["n"] == sum(row["interior"].values()) + sum(row["exterior"].values())
         if not row["n"]:
             assert row["settings"] == {}, asset_id
+
+
+def test_r15_the_craft_are_the_watercraft_kits_hulls_and_oars():
+    """0105 R15: vehicles are the watercraft kit's entries less the pieces
+    that are no craft; the committed record flags the craft it mined."""
+    from . import mine_setting_class as msc
+    craft = msc.vehicle_assets()
+    assert "canoe:actors/sfss/canoe/canoe1" in craft and "rowboats:dungeons/clutter/shipoar01" in craft
+    assert not craft & msc.NOT_VEHICLES and "canoe:weapons/sfss/anchor" not in craft
+    record = json.loads(msc.DEFAULT_OUT.read_text())
+    flagged = {a for a, row in record["assets"].items() if row.get("vehicle")}
+    assert flagged == {a for a in record["assets"] if a in craft}
+    assert "vanilla:clutter/barrel01" not in flagged

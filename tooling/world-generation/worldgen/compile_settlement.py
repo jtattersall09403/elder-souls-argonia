@@ -484,6 +484,35 @@ def place_kit_preference(place_id: str) -> tuple[str, ...]:
     return tuple([k for k in kits if k not in inner] + [k for k in kits if k in inner])
 
 
+#: Kit ids of throwaway sourcing probes: never placeable (0105 R20).
+PROBE_KIT_PREFIX = "probe-"
+#: The runtime's tier rule (packages/game-core/src/settlement/lod.ts
+#: ``requiredLodTiers``, decision 0102 decision 6): dressing or clutter whose
+#: longest side is under this ships one LOD level; everything else three.
+SINGLE_TIER_MAX_SIDE_M = 1.5
+FULL_LOD_TIERS = 3
+
+
+def lod_levels(asset: dict) -> int:
+    """The LOD levels a manifest row's GLB carries (0105 R20 ``lodLevels``);
+    a manifest refreshed before R20 falls back to its configured chain."""
+    levels = asset.get("lodLevels")
+    return int(levels) if isinstance(levels, int) else len(asset.get("lodRatios") or []) + 1
+
+
+def lod_tiers_can_meet(asset: dict) -> bool:
+    """A row can stand in a settlement: it carries the full chain, or it is
+    under ``SINGLE_TIER_MAX_SIDE_M`` unscaled so it can be placed as one-tier
+    dressing (the published-bundle gate in game-core's publishedLoad test
+    checks each placement's kind and scale). A one-level 1.95 m rock can
+    never meet the rule and is never offered (L12 review 2026-09-28)."""
+    if lod_levels(asset) >= FULL_LOD_TIERS:
+        return True
+    size = asset.get("sizeM")
+    return (isinstance(size, list) and bool(size)
+            and max(float(x) for x in size) < SINGLE_TIER_MAX_SIDE_M)
+
+
 class KitShelf:
     """Loads the built kit manifests and picks assets for building families."""
 
@@ -503,16 +532,16 @@ class KitShelf:
         self._rows_by_kit: dict[str, list[dict]] = {}
         for name, path in sorted((p.stem.removesuffix(".kit"), p) for p in kits_dir.glob("*.kit.json")):
             data = json.loads(path.read_text())
-            # Only assets that can satisfy the runtime's three-tier LOD contract
-            # are placeable. Throwaway sourcing probes are built with a single
-            # lodRatio, so their assets have a two-tier chain and make
-            # SettlementLayer's validateLodTriangles throw the moment the player
-            # is close enough to draw one. `locate` scans kits alphabetically,
-            # so `probe-enclosure`/`probe-gapfill` were beating `settlement-*`
-            # and `underwater-v1` to assets those shipping kits also hold —
-            # which blanked the studio at Mazzatun (2026-09-09, decision 0052).
-            self.assets_by_kit[name] = [asset for asset in data["assets"]
-                                        if len(asset.get("lodRatios") or []) >= 2]
+            # Throwaway sourcing probes are never placeable: `locate` scans kits
+            # alphabetically, so `probe-enclosure`/`probe-gapfill` were beating
+            # `settlement-*` and `underwater-v1` to assets those shipping kits
+            # also hold, which blanked the studio at Mazzatun (2026-09-09,
+            # decision 0052). The filter keys on the `probe-` kit id (decision
+            # 0105 R20); a shipping row is placeable when the levels its GLB
+            # carries can meet the runtime's tier rule (`lod_tiers_can_meet`).
+            self.assets_by_kit[name] = ([] if name.startswith(PROBE_KIT_PREFIX)
+                                        else [asset for asset in data["assets"]
+                                              if lod_tiers_can_meet(asset)])
             # by_asset stays complete: it is measurement (canopy heights, sizes),
             # not selection, and a probe kit is a legitimate measurement source.
             self._rows_by_kit[name] = list(data["assets"])

@@ -38,7 +38,13 @@ Runs, for one place and without the yard regression gates:
   ``signature-claims.json`` (``--claim-cells`` writes this place's);
 * ``setting.class`` - 0105 R1: a piece stands only in the setting its own
   plugin places it in (the kit manifest row's ``settingClass``); rows that
-  carry none are counted NOT_MEASURED and pass with a warning.
+  carry none are counted NOT_MEASURED and pass with a warning; R9 reads it
+  on two axes: interior/exterior (small dressing under 1 m that is no light
+  exempt) and social scale (the place's ``settingClass`` from its
+  type-recipes.json row; keep exclusive, town/village/camp one pool, ruin
+  alone);
+* ``interiors.reserved`` - 0105 R10: a reserved door on a dwelling,
+  workplace, shop or store parcel fails (reserved is tier B/C only).
 
 Writes ``tooling/.reports/16k/<place-id>/place-gates.json`` (contract 3:
 schemaVersion, placeId, startedAt, wallS, ok, gates[{id, ok, seconds,
@@ -672,26 +678,87 @@ def claim_interior_cells(place_id: str, bp: dict, now: str, path: Path | None = 
 
 # --- 0105 R1: setting class --------------------------------------------------
 
-#: the R1 place classes, and how a catalogue recipe (class, family, type) maps
-#: onto them; everything a settlement-scale recipe does not name is a village
+#: the R1 social classes a piece's plugin licenses (0105 R9 axis ii) and
+#: the licence pools a place class admits: ``keep`` is exclusive, ``town``,
+#: ``village`` and ``camp`` are one settlement pool, ``ruin`` stands alone
+#: (a ruin place adds the pool of the class that built it, R16), and a
+#: ``wild`` place (R17: lairs, lone curiosities, wild shrines) admits every
+#: pool but the exclusive keep's
 SETTING_CLASSES = ("keep", "town", "village", "camp", "ruin")
+#: a place's own class (type-recipes.json ``settingClass``): the piece
+#: classes plus ``wild`` (0105 R17)
+PLACE_CLASSES = SETTING_CLASSES + ("wild",)
+_SETTLEMENT_POOL = frozenset({"town", "village", "camp"})
+SETTING_POOLS = {"keep": frozenset({"keep"}),
+                 "town": _SETTLEMENT_POOL,
+                 "village": _SETTLEMENT_POOL,
+                 "camp": _SETTLEMENT_POOL,
+                 "ruin": frozenset({"ruin"}),
+                 "wild": _SETTLEMENT_POOL | {"ruin"}}
+#: 0105 R14 (R9 axis i): a piece whose largest dimension (its kit row's
+#: ``sizeM`` times its placed scale) is under this and that is no light is
+#: small dressing, exempt from the interior/exterior licence
+SMALL_DRESSING_M = 1.2
+
+#: 0105 R17: a type's ``settingClass`` follows its kind (the recipe's class,
+#: family and type). Types named here by the ruling; every other row follows
+#: ``derive_setting_class``'s class/family rule.
+WILD_TYPES = frozenset({"wild-hist", "beast-offering-shrine", "wayside-imperial-shrine"})
+CAMP_TYPES = frozenset({"patrol-shelter", "beacon-platform", "holding-pit"})
+KEEP_TYPES = frozenset({"abandoned-fort", "occupied-fort", "inhabited-xanmeer-fort"})
 _TOWN_FAMILIES = ("major-city", "free-port")
+#: 0105 R16: ruin types a village culture built take the village pool too
+#: (``builtBy`` on the recipe row); the exclusive keep never opens
+VILLAGE_RUIN_TYPES = frozenset({"burn-scar-village", "drowned-village", "plague-abandoned-village",
+                                "umbriel-stripped-village", "subsidence-hamlet",
+                                "rebuilt-elsewhere-footprint"})
 
 
-def place_setting_class(recipe: dict | None) -> str | None:
-    """keep / town / village / camp / ruin for a type-recipes.json row."""
-    if not recipe:
-        return None
+def derive_setting_class(recipe: dict) -> str:
+    """0105 R17: a type-recipes.json row's ``settingClass`` from its kind.
+    lairs, lone curiosities and wild shrines are ``wild``; patrol shelters,
+    beacons and holding pits ``camp``; ``keep`` only for keeps and forts
+    (every other martial type is a ``camp``: a post, a ground or a prison
+    in the settlement pool); ruins ``ruin``; cities, free ports and
+    ``-town``/``-city`` types ``town``; the rest ``village``."""
     cls, family, rtype = recipe.get("class"), recipe.get("family"), recipe.get("type") or ""
-    if cls == "camp":
+    if cls == "lair" or (cls == "lone" and family == "curiosity") or rtype in WILD_TYPES:
+        return "wild"
+    if rtype in KEEP_TYPES:
+        return "keep"
+    if cls in ("camp", "martial") or rtype in CAMP_TYPES:
         return "camp"
     if cls == "ruin":
         return "ruin"
-    if cls == "martial":
-        return "keep"
     if family in _TOWN_FAMILIES or rtype.endswith("-town") or rtype.endswith("-city"):
         return "town"
     return "village"
+
+
+def derive_built_by(recipe: dict) -> str | None:
+    """0105 R16: the class whose pieces a ruin type adds to the ruin pool
+    (None: the ruin pool alone)."""
+    return "village" if recipe.get("type") in VILLAGE_RUIN_TYPES else None
+
+
+def place_setting_class(recipe: dict | None) -> str | None:
+    """keep / town / village / camp / ruin / wild: a type-recipes.json
+    row's ``settingClass`` (None when the row or the field is missing)."""
+    sc = (recipe or {}).get("settingClass")
+    return sc if sc in PLACE_CLASSES else None
+
+
+def place_pool(recipe: dict | None) -> frozenset | None:
+    """The piece classes a place admits on axis ii: its class's pool, plus
+    the ``builtBy`` class's pool on a ruin (0105 R16); None: not judged."""
+    place_class = place_setting_class(recipe)
+    if place_class is None:
+        return None
+    pool = SETTING_POOLS[place_class]
+    built_by = (recipe or {}).get("builtBy")
+    if place_class == "ruin" and built_by in SETTING_POOLS and built_by != "keep":
+        pool = pool | SETTING_POOLS[built_by]
+    return pool
 
 
 def recipe_of(record: dict | None) -> dict | None:
@@ -704,45 +771,70 @@ def recipe_of(record: dict | None) -> dict | None:
 
 
 def setting_failures(placements: list[dict], rows: dict, place_class: str | None,
-                     interior: bool = False) -> tuple[list[str], list[str], list[str]]:
-    """(failures, warnings, not measured asset ids) of 0105 R1.
+                     interior: bool = False, pool: frozenset | None = None
+                     ) -> tuple[list[str], list[str], list[str]]:
+    """(failures, warnings, not measured asset ids) of 0105 R1 as R9 reads it.
 
     A manifest row's ``settingClass`` is ``mine_setting_class``'s record
     (lane L4): ``n``, ``interior`` and ``exterior`` ({class: n}),
     ``settings`` ({setting: [licensed classes]}, a setting present only when
     the piece's own plugin licenses it; ``wild`` licenses the setting and no
-    class), ``sourceCells``, ``evidence`` (``plugin`` | ``unplaced``). A
-    piece fails where its setting is not licensed (an ``unplaced`` piece has
-    no licence anywhere), and where its licensed classes name some social
-    class but not this place's. Rows without ``settingClass`` are
+    class), ``sourceCells``, ``evidence`` (``plugin`` | ``unplaced``).
+    Axis i (interior/exterior): a piece fails where its setting is not
+    licensed (an ``unplaced`` piece has no licence anywhere), unless it is
+    small dressing (no light, largest dimension under ``SMALL_DRESSING_M``,
+    R14) or a vehicle (``settingClass.vehicle``: water craft their mods
+    place by script, R15). Axis ii (social scale): a piece whose licensed
+    classes (over both settings) name some class fails when none of them is
+    in ``pool`` (default the place class's ``SETTING_POOLS`` row; a ruin's
+    ``builtBy`` widens it, ``place_pool``); a piece licensed only ``wild``
+    is judged on axis i alone. Rows without ``settingClass`` are
     NOT_MEASURED."""
     setting = "interior" if interior else "exterior"
+    if pool is None:
+        pool = SETTING_POOLS.get(place_class or "")
     failures, warnings, unmeasured = [], [], set()
     seen = set()
     for p in placements:
         if p.get("objectKind") == "effect":
             continue
-        key = (p.get("kit"), p.get("assetId"))
+        key = (p.get("kit"), p.get("assetId"), float(p.get("scale") or 1.0))
         if key in seen:
             continue
         seen.add(key)
-        sc = (rows.get(key) or {}).get("settingClass")
+        row = rows.get(key[:2]) or {}
+        sc = row.get("settingClass")
         if not isinstance(sc, dict):
             unmeasured.add(p.get("assetId"))
             continue
         n = sc.get("n")
         settings = sc.get("settings") or {}
         cells = ", ".join((sc.get("sourceCells") or [])[:3]) or "-"
-        if setting not in settings:
+        if setting not in settings and not small_dressing(p, row) and not sc.get("vehicle"):
             where = sorted(settings) or ["nowhere (unplaced by its own plugin)"]
             failures.append(f"0105 R1: {p['assetId']} is placed {setting} here; its plugin licenses it "
                             f"{' and '.join(where)} (n {n}; cells {cells})")
             continue
-        classes = [c for c in settings[setting] if c in SETTING_CLASSES]
-        if place_class and classes and place_class not in classes:
-            failures.append(f"0105 R1: {p['assetId']} stands in a {place_class}; its plugin places it "
-                            f"{setting} in {classes} only (n {n}; cells {cells})")
+        classes = sorted({c for got in settings.values() for c in got if c in SETTING_CLASSES})
+        if pool and classes and not pool & set(classes):
+            failures.append(f"0105 R9: {p['assetId']} stands in a {place_class}; its plugin places it "
+                            f"in {classes} only, outside the {place_class} pool {sorted(pool)} "
+                            f"(n {n}; cells {cells})")
     return failures, warnings, sorted(unmeasured)
+
+
+def small_dressing(p: dict, row: dict) -> bool:
+    """0105 R14 (R9 axis i's exemption): no light (the compile's light
+    layer, a mined LIGH record or a glow material) and the largest dimension
+    of its kit row's ``sizeM`` times its placed scale under
+    ``SMALL_DRESSING_M``; a row with no ``sizeM`` is never exempt."""
+    if p.get("layer") in LIGHT_LAYERS or row.get("light") or row.get("glowMaterials"):
+        return False
+    size = row.get("sizeM")
+    if not isinstance(size, (list, tuple)) or not size:
+        return False
+    scale = float(p.get("scale") or 1.0)
+    return max(float(x) for x in size) * scale < SMALL_DRESSING_M
 
 
 def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None) -> None:
@@ -753,13 +845,56 @@ def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: d
     placements = settlement.get("placements") or []
     if rows is None:
         rows = kit_rows({p.get("kit") for p in placements})
-    place_class = place_setting_class(recipe_of(record))
-    failures, warnings, unmeasured = setting_failures(placements, rows, place_class)
+    recipe = recipe_of(record)
+    place_class = place_setting_class(recipe)
+    failures, warnings, unmeasured = setting_failures(placements, rows, place_class,
+                                                      pool=place_pool(recipe))
+    if place_class is None:
+        warnings.append("NOT_MEASURED: the place's type-recipes.json row carries no settingClass, "
+                        "so the social-scale axis (0105 R9 ii) is not judged")
     if unmeasured:
         warnings.append(f"NOT_MEASURED: {len(unmeasured)} asset(s) carry no settingClass in their kit "
                         f"manifest (walk 3 lane L4 writes it)")
     g.add("setting.class", time.perf_counter() - t, failures, warnings, placeClass=place_class,
           notMeasured=unmeasured)
+
+
+# --- 0105 R10: reserved doors ----------------------------------------------
+
+#: the parcel uses (``blueprint.USE_BUCKET`` buckets) and services whose door
+#: is never reserved (0105 R2/R10): dwellings, workplaces, shops and stores
+#: take a tier A cell or are dressed as walk-in exteriors; reserved is legal
+#: only for tier B/C rows (dungeons, unique large interiors)
+NEVER_RESERVED_BUCKETS = ("dwelling", "work", "storage")
+NEVER_RESERVED_SERVICES = ("trader", "shop", "smith", "lodging", "stable")
+
+
+def reserved_failures(bp: dict) -> list[str]:
+    """0105 R10: every door whose ``interiorClaim.tier`` is ``reserved`` on a
+    parcel whose use bucket is in NEVER_RESERVED_BUCKETS or that offers a
+    service in NEVER_RESERVED_SERVICES."""
+    from .blueprint import USE_BUCKET
+    parcels = {p.get("id"): p for p in bp.get("parcels") or []}
+    out = []
+    for door in bp.get("doors") or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("tier") != "reserved":
+            continue
+        parcel = parcels.get(door.get("parcelId")) or {}
+        use = (parcel.get("use") or "").lower()
+        bucket = USE_BUCKET.get(use)
+        services = sorted(set(parcel.get("services") or []) & set(NEVER_RESERVED_SERVICES))
+        if bucket in NEVER_RESERVED_BUCKETS or services:
+            what = f"use {use!r}" + (f", services {services}" if services else "")
+            out.append(f"0105 R10: door {door.get('id')} on {door.get('parcelId')} ({what}) is reserved "
+                       f"({claim.get('why') or 'no why'}); a dwelling, workplace, shop or store takes a "
+                       f"tier A cell (re-shell to a linked shell) or is dressed as a walk-in exterior")
+    return out
+
+
+def reserved_gate(g: Gates, bp: dict) -> None:
+    t = time.perf_counter()
+    g.add("interiors.reserved", time.perf_counter() - t, reserved_failures(bp))
 
 
 def layout_blueprint(place_id: str, compiled_ok: bool) -> Path | None:
@@ -844,6 +979,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     variety_gates(g, place_id, bp, record,
                   gates_output(place_id) / "scenes" / f"{scene}.json", bp_source, settlement)
     interior_variety_gate(g, place_id, bp)
+    reserved_gate(g, bp)
     rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
     lights_gate(g, settlement, rows)
     setting_gate(g, settlement, record, rows)

@@ -84,7 +84,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge02",
@@ -167,7 +168,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge03",
@@ -250,7 +252,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge04",
@@ -333,7 +336,8 @@
     "p10": 0.6,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck01",
@@ -410,7 +414,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck02",
@@ -487,7 +492,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -546,7 +552,8 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -0.1684
+   "designedWaterlineM": -0.1684,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -605,7 +612,8 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0
+   "designedWaterlineM": 0.0,
+   "lodLevels": 3
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -664,7 +672,8 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -0.0226
+   "designedWaterlineM": -0.0226,
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck01",
@@ -730,7 +739,8 @@
     "tell": "post-foot",
     "valueM": 0.0653
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck02",
@@ -796,7 +806,8 @@
     "tell": "post-foot",
     "valueM": 0.0653
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck01",
@@ -860,7 +871,8 @@
     "tell": "post-foot",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck02",
@@ -924,7 +936,8 @@
     "tell": "post-foot",
     "valueM": -0.0284
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck01",
@@ -1000,7 +1013,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck02",
@@ -1076,7 +1090,8 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck01",
@@ -1140,7 +1155,8 @@
     "tell": "post-foot",
     "valueM": -4.6098
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck02",
@@ -1208,7 +1224,8 @@
     "tell": "post-foot",
     "valueM": -4.6137
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -1272,7 +1289,8 @@
     "tell": "floor-plane",
     "valueM": -0.7638
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1336,7 +1354,8 @@
     "tell": "floor-plane",
     "valueM": -0.7572
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "lodLevels": 3
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\wrecks-v1.glb",

@@ -92,6 +92,23 @@ def test_the_code_version_covers_the_blender_half():
     assert all(p.is_file() for p in build_kit.KIT_RECORD_FILES)
 
 
+def test_the_stamp_carries_the_output_format_not_the_code_hash(tmp_path, monkeypatch):
+    # L8 rec 3 (walk 3): an edit to build_kit.py no longer restamps every kit;
+    # a bump of KIT_OUTPUT_FORMAT_VERSION does.
+    import pipeline.interiors_index as interiors_index
+    monkeypatch.setattr(interiors_index, "INTERIOR_KITS", ())
+    kit = "settlement-imperial-v1"
+    hashes = build_kit.kit_input_hashes(kit, tmp_path, {}, tmp_path)
+    assert hashes["(output-format)"] == str(build_kit.KIT_OUTPUT_FORMAT_VERSION)
+    labels = set(hashes)
+    assert not any(label.endswith(("build_kit.py", "vet_kit.py", "kit_compress.py"))
+                   for label in labels)
+    monkeypatch.setattr(build_kit, "KIT_OUTPUT_FORMAT_VERSION",
+                        build_kit.KIT_OUTPUT_FORMAT_VERSION + 1)
+    bumped = build_kit.kit_input_hashes(kit, tmp_path, {}, tmp_path)
+    assert build_kit.digest_of(bumped) != build_kit.digest_of(hashes)
+
+
 def test_the_stamp_lists_which_inputs_moved(tmp_path, inputs):
     glb = tmp_path / "k.glb"
     hashes = build_kit.input_hashes(list(inputs.items()), {"plan": {}})

@@ -1455,6 +1455,52 @@
     "widthM": 3.64
    }
   ],
+  "vanilla:architecture/riften/rtstables01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -4.9
+    ],
+    "widthM": 13.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.73,
+     -0.02
+    ],
+    "widthM": 9.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     4.87
+    ],
+    "widthM": 13.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.81,
+     -0.02
+    ],
+    "widthM": 9.77
+   }
+  ],
   "vanilla:clutter/barrel01": [
    {
     "evidence": "bounds",
@@ -1823,6 +1869,30 @@
     "widthM": 1.78
    }
   ],
+  "vanilla:clutter/horsetrough/horsetrough01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.94,
+     0.0
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.91,
+     0.0
+    ],
+    "widthM": 0.69
+   }
+  ],
   "vanilla:clutter/imperial/impwallsconcecandle01": [
    {
     "evidence": "bounds",
@@ -2059,8 +2129,8 @@
   ]
  },
  "counts": {
-  "assets": 48,
-  "bounds": 149,
+  "assets": 50,
+  "bounds": 155,
   "co-placement": 23
  },
  "elongationRatio": 2.0,

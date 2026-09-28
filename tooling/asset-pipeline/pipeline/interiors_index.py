@@ -260,7 +260,9 @@ PROMISED_INTERIORS: dict[str, str] = {
     "kotm:argonia/mudhuts/manorext": (
         "King of the Murkmire never places it; Phase 12 builds its interior"),
     "kotm:argonia/mudhuts/shed": (
-        "King of the Murkmire never places it; Phase 12 builds its interior"),
+        "King of the Murkmire places it once, inside an interior cell, with no load door "
+        "(setting-class record n 1), so 0105 R18's outdoor walk-in rule does not reach it; "
+        "Phase 12 builds its interior"),
     "kotm:argonia/mudhuts/smpodext02": (
         "King of the Murkmire places no interior door for this shell (door-link mine "
         "2026-09-25); Phase 12 builds it"),
@@ -2016,6 +2018,37 @@ def set_storeys(record: dict) -> None:
         record["storeyLevelsM"] = sorted({round(v, 1) for v in levels})
 
 
+def load_setting_rows() -> dict[str, dict]:
+    """``assetId -> setting-class row`` (``worldgen.mine_setting_class``'s
+    record, decision 0105 R1); empty when never mined."""
+    from .placement_metadata import load_setting_class
+    return load_setting_class()
+
+
+def walk_in_open_front(record: dict, setting_row: dict | None) -> None:
+    """0105 R18 (R2): an open-fronted piece with no door that its own plugin
+    places outdoors is walked into: ``interior: none``, never ``shell`` or
+    ``promised``. It keeps its measured open-front entrance (the side a
+    player walks in by); a piece with any door evidence (a load door, a door
+    piece, a leaf, a door-width opening) stays a building, and a piece its
+    plugin never places outdoors (or whose kit is unmined) is not judged."""
+    if record.get("interior") not in ("shell", "promised"):
+        return
+    kinds = {w.get("kind") for w in [record.get("entrance") or {}] + list(record.get("provenance") or [])}
+    if kinds != {"open-front"}:
+        return
+    settings = (setting_row or {}).get("settings") or {}
+    if "exterior" not in settings:
+        return
+    record.pop("promiseReason", None)
+    record.update(
+        interior="none", walkedInto=True,
+        why=(f"open-fronted with no door ({record.get('ringFraction', 0):.0%} of the ring at 1.6 m "
+             f"hits a wall, the rest is one open front) and its own plugin places it outdoors "
+             f"(n {setting_row.get('n')}, {', '.join((setting_row.get('sourceCells') or [])[:2])}): "
+             f"it is walked into, never a shell or a promised interior (decision 0105 R18, R2)"))
+
+
 def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
               registry_dir: Path = REGISTRY_DIR) -> dict:
     import trimesh
@@ -2077,9 +2110,11 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     # ONE canonical entrance per piece, and — for the pieces that have none — a
     # derived front, so a gate arch or a wall stub still knows which way round
     # it goes (owner rulings 2026-09-07).
+    setting = load_setting_rows()
     for asset_id, record in assets.items():
         record.pop("_probe", None)
         finalise_entrance(record)
+        walk_in_open_front(record, setting.get(asset_id))
         set_storeys(record)
         if record.get("entrance") is None:
             source = parts_of.get(asset_id, [asset_id])[0]
