@@ -13,46 +13,61 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-27 late, slices 1c and 2 with the owner: Claywater walk 3 and Greenspring walk 1 in one packet; the closing agent of each slice replaces this section)
+## Starting state (2026-09-28, slices 1c and 2 with the owner: Claywater walk 4 and Greenspring walk 2 in one packet; the closing agent of each slice replaces this section)
 
-- **Claywater Station** (`place.imperial-fringe.claywater-station`,
-  type 1): the walk-2 fix round is done (11 rounds across two agents,
-  `tooling/.reports/16k/walk2/P-final.md`, `P-residual.md`): check 0
-  failures, compile 0 errors, `place_gates` 14/14 before the breadth
-  gates landed, promises 14/14, three tier A rooms behind four doors
-  (DawnstarBrinasHouse, KeebaHouseFisher, KeebaHouseCrafter for doors 3
-  and 5), the 0098 top-shell exception in `variety.exceptions[]` (the
-  three pods; S26 removes it). Collider parts 298 against the 250 warn.
-- **Greenspring** (`place.hist-heartland.greenspring`, type 2, the first
-  Hist village): built and published (7027bec1, c1b4b4f4, f30acd06):
-  check 0, compile 0 errors, promises 12/12, tier A KeebaHouseCrafter
-  (lodge) and KeebaHouseFisher (herald), four doors reserved for Phase 12;
-  the type-2 sheet is `references/types/02-hist-village.md`.
-- **Breadth gates (2026-09-27 close-out):** four of the seven breadth
-  bars are gated in `place_gates` and both places are red on them:
-  dressing per dwelling within 12 m p50 5 (Claywater, bar 15) and 5.5
-  (Greenspring, bar 20); Greenspring's light kinds 1 (bar 2). The counting
-  rule (dressing layers only, or every piece as 0098's vanilla numbers
-  did) is a planner ruling before the fix round; the other three bars are
-  S28.
-- **Packet:** one packet for both places, `tooling/.reports/16k/walk2/packet-3.md`,
-  pictures in `tooling/.reports/16k/{claywater-walk-3,greenspring-walk-1}/`,
-  on issue #1 with three owner calls (type 10, the hanging-lantern rule,
-  the Phase 15 walk sample rate).
-- **Ledger** (`build_ledger.py --report`, 2026-09-27):
-
-  | Run | Path | Minutes | Target |
-  |---|---|---|---|
-  | `place.hist-heartland.greenspring#1` | new type | 64.0 (hand row) | 40 (over: S27) |
-  | `place.imperial-fringe.claywater-station#1` | new type | 1.1 (walk-2 gates rows only) | 40 |
-  | `place.imperial-fringe.claywater-station#2` | fix round | 3.4 (`wb round` process time of 18 rounds; agent wall not recorded) | 10 |
-
-  Stage events (`build_ledger.py stage`, SKILL steps 0-7) time every
-  stage from the next run on.
-- **S-list:** S19-S28 queued (below); S12's manifest now carries the
-  dossier and the promise ledger; the legacy whole `settlements.json` is
-  gone (the index and the per-place bundles are the published form).
-- **Next:** "continue 16k slices 1c and 2 after owner walk".
+- **Both places pass every place gate** (`place_gates`, 23/23 each,
+  `tooling/.reports/16k/<place-id>/place-gates.json`; three breadth bars
+  still NOT_MEASURED, S28) and are published with `--places` and deployed.
+  - **Claywater Station** (type 1): walk-3 fix round (L7b, 105 min): the
+    Riften stable (`rtstables01`), exterior candle lanterns (no interior
+    sconces), four tier A rooms (Brina, Fisher, Crafter, SnailMinder), the
+    ferry prose rewritten to the water that exists (R5); no two-storey
+    house exists, the keeper lives in the station house (R27). Every
+    fixture within 200 m emits, cap 16 (0105 R3, `lighting.ts`).
+  - **Greenspring** (type 2): walk-1 fix round (L7b, L20, L22): the sick
+    Hist tree recoloured and sunk, every doored hut enterable from the
+    Argonian pool (38 -> 96 cells, R56-R57; doors 4-6 take
+    LilmothPlantationStorehouse and the Glassworks and Ironworks overseer
+    houses), `argoniantent02` an open shelter (R58), `gen_greenspring.py`
+    retired (R59).
+  - **The empty places** (walk 3: nothing built, a black box following the
+    player): the settlement loader now raises a readable error and a build
+    gate refuses the cause (`deliver-settlement-fatal.md`).
+- **Rulings:** one row each in `.claude/skills/place-build/references/rulings.md`
+  (R1-R62; 0105 holds R1-R8, 0106 the working method). Owner
+  2026-09-28: every building that looks enterable is enterable (R52, 0103
+  decision 1 corrected at source); every lane brief has a hard wall-clock
+  stop (R60); no agent walks or renders the studio (R61); elapsed time per
+  lane in every check-in (R62).
+- **Packet 4** (`tooling/.reports/16k/walk3/packet-4.md`, issue #1): two
+  questions, the dressing bar 20 per dwelling and the Argonian interior
+  variety.
+- **Ledger** (`build_ledger.py --report`, 2026-09-28): walk-3 fix rounds
+  were hand rows, far over target: Claywater `#walk-3` 105.3 min and
+  Greenspring `#walk-1` 64.3 min against 10; Greenspring `#1` 64.0 against
+  40. Stage events time every stage from the next run on.
+- **Open strands the planner owns:**
+  - Speed-up (first, before the next fix round): **S29 incremental
+    mining**, then **S30 the scoped placement gate**, then S19-S28.
+  - Adversarial review: method review r5 delivered
+    (`tooling/.reports/16k/walk3/method-review-r5.md`, follow-ups R31-R40);
+    r6 runs after the next walk's fix round.
+  - R53 (`mount --unmined` branch-hang) is a REQUEST row, not built.
+  - Recommendations not yet taken (`tooling/.reports/16k/walk3/deliver-L<n>.md`
+    § Recommendations): L9 4 (Riften farmhouse as the stablemaster house)
+    and 5 (warn when build code moves without a version bump); L10 1
+    (962 sink fallback rows are interior-only pieces: a floor-contact
+    sink from interior cells) and 3 (city worldspaces inherit the parent
+    LAND in `master_lands`); L13 4 (is a toll-tower a guard tower); L14
+    (14 meshes in no vault file, 22 texture-blocked pieces: sourcing log);
+    L15 2 (`displayName` source for the manifest) and 4 (route bundles
+    need a real extent before rollout). L12 1-2 are answered (R16-R17).
+  - The walk-2 residuals in `tooling/.reports/16k/walk3/owned-strands.md`
+    (rows 3-8, 16-28) stand unless this round closed them.
+- **Next:** "continue 16k slices 1c and 2 after owner walk", or, if the
+  owner accepts both places, "deliver 16k slice 3 by the contrast rule".
+  The planner owns the speed-up (S29 first) and the adversarial reviews
+  in that session too.
 
 ## Read (fresh agent: this is your whole map)
 
@@ -1013,6 +1028,8 @@ Planner rulings (2026-09-24):
   - S26 (Claywater residual, composite-author job): a KotM `mudhut02` + KotM stairs composite as the source plugin places it, so the upper-storey door (sill 4.72-4.82 m above the walk surface at all 20 scanned poses) is reached by its own stair; then the 0098 top-shell exception in Claywater's `variety.exceptions[]` can go and KeebaHouseElder becomes a usable tier A cell for type 1 and type 2 places.
   - S27 (build ledger, over target): Greenspring, run `place.hist-heartland.greenspring#1`, new type, 64 min wall against the 40 min target (orient and dossier 12, survey and scans 15, layout to compile 22, rounds 7, readers 6, gates 2; hand row, 2026-09-27). The layout-to-compile (22) and survey (15) stages are over their share; S20 (dressing seated by search: 31 of 43 pieces failed the first apply) and S21 (overlapping pads found only at check) are the tool tasks that cut them. The next run is timed by the stage events (`build_ledger.py stage`, SKILL steps 0-6), never a hand row.
   - S28 (breadth bars, 2026-09-27 close-out): three of the seven breadth bars still have no gate (`place_gates.NOT_MEASURED`): `clutterPiecesMin` needs a personal-clutter marker (a `clutter-personal` layer on yard-set members, or a rule that clutter on the dwelling's own parcel within N m of its door counts); `groundKindsMin` needs a surface-material record on the compiled place (only route kinds exist); `enclosureKindsMin` needs a record of which parcels or pieces are an enclosure kind. Each is a planner ruling, then a gate with a fail-first test (`tooling/.reports/16k/walk2/closeout-D.md`).
+  - S29 (incremental mining, owner 2026-09-28, first speed-up item): a piece joining the pool is mined for its own sink, mounts and abuts rows and pairs only (seconds); a full run is only for a rule change (0106). Walk 3: one stable cost an 83 min abuts run and an 18 min mounts run.
+  - S30 (the placement preflight gate is not scoped, owner 2026-09-28): it ran 224-292 s per run on walk 3, three times per commit, re-running tests already red on HEAD. Select placement tests by the paths touched (the same selection `npm test` has), skip known-red-on-HEAD tests with a label, target under 30 s scoped.
 
 ## Build cost is measured as data (owner 2026-09-27)
 

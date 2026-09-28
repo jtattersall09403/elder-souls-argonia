@@ -101,7 +101,7 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
    carry a scale bar and a north arrow only; piece ids, bearings and
    captions appear only behind `--labels`.
 
-## Later rulings R9–R55: one table (decision 0106)
+## Later rulings R9–R62: one table (decision 0106)
 
 The four planner addenda that stood here (R9–R50) and every later ruling
 are rows of [`.claude/skills/place-build/references/rulings.md`](../../.claude/skills/place-build/references/rulings.md),

@@ -69,3 +69,6 @@ the code that enforces each is listed in 0105 § Where each lives.
 | R57 | Reusing a cell within a place or region is green only when the whole R56 fit set (ratio 0.6-1.7) for that shell is used; the gate computes it from the claim table and reports `fitSets` per door | `interiors.variety` | brief-L22 (planner 2026-09-28) |
 | R58 | An `openShelter` (roofed piece on posts, no floor slab; `floorClass` on its `assetPlacement` row) is judged at its posts; the canopy may stand off the ground. `argoniantent02` is one | `floorEdgeRule` (`open_shelter_piece`) | brief-L22 (planner 2026-09-28) |
 | R59 | A place's layout file is its source; no generator script writes it | `chain.sh` | brief-L22 (planner 2026-09-28) |
+| R60 | Every lane brief carries a hard wall-clock stop, `Budget: <N> min (hard)`; at the stop the lane writes what is green and the next step, and returns | `preflight_guard` hook (0106) | owner 2026-09-28 |
+| R61 | No agent walks or renders the studio; a headless page load runs once, only to read an error (the owner walks) | builder's to keep | owner 2026-09-28 |
+| R62 | Every check-in reports each lane's elapsed wall time against its budget, over-runs named | builder's to keep | owner 2026-09-28 |

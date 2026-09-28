@@ -4,10 +4,16 @@ Moved out of SKILL.md to keep it lean (0105 R39). Step 1 names each section;
 this file holds what each must say. Rulings cited as R<n> are one line each in
 [rulings.md](rulings.md).
 
+Every lane brief, the design brief's run line included, carries a hard
+wall-clock stop, `Budget: <N> min (hard)` (R60, 0106), and every check-in
+reports each lane's elapsed time against it (R62).
+
 - § Interiors (0103 decisions 1–2; `references/doors-interiors-sockets.md`
   §2): one row per door: building, shell, tier (A with its chosen cell,
-  or `reserved` with the pool named, or `none` for a building nobody
-  enters), and why. **`reserved` is legal only for a tier B or C
+  or `reserved` with the pool named, or `none` only for an open-fronted
+  piece with no door, walked into, R18), and why. Every building that
+  looks enterable is enterable (R52): there are no buildings nobody
+  enters. **`reserved` is legal only for a tier B or C
   interior** (0105 R2: a dungeon, a unique large interior). A dwelling,
   shop, stable house or workplace door is never reserved: re-shell to a
   shell with a linked furnished cell, or, for a doorless hut, dress the
