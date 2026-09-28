@@ -72,6 +72,25 @@
     "p10": 0.8,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "wild": 2,
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -147,6 +166,26 @@
     "p10": 0.8,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {},
+    "exterior": {
+     "wild": 3,
+     "camp": 2
+    },
+    "sourceCells": [
+     "exterior:wild:KeelSakkaBridgeLocation",
+     "exterior:camp:BlackroseRuinsLocation",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -222,6 +261,26 @@
     "p10": 0.8,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "wild": 2,
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "exterior:wild:KeelSakkaBridgeLocation",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -288,7 +347,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
@@ -356,7 +423,15 @@
     "tell": "post-foot",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01",
@@ -422,7 +497,15 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01",
@@ -484,7 +567,15 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
@@ -557,6 +648,22 @@
     "p10": 0.8,
     "p90": 0.8,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:KeelSakkaBridgeLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -632,6 +739,22 @@
     "p10": 0.8,
     "p90": 0.8,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:KeelSakkaBridgeLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -705,6 +828,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -773,7 +912,15 @@
     "tell": "bottom-step",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02",
@@ -841,7 +988,15 @@
     "tell": "bottom-step",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03",
@@ -905,7 +1060,15 @@
     "tell": "bottom-step",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04",
@@ -969,7 +1132,15 @@
     "tell": "bottom-step",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01",
@@ -1034,6 +1205,28 @@
     "p10": 0.87,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 36,
+    "interior": {
+     "town": 28
+    },
+    "exterior": {
+     "town": 8
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt02",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1096,7 +1289,15 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01",
@@ -1169,6 +1370,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1240,6 +1457,22 @@
     "p10": 0.87,
     "p90": 0.87,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1298,7 +1531,15 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01",
@@ -1360,7 +1601,15 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01",
@@ -1426,7 +1675,15 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01",
@@ -1492,7 +1749,15 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02",
@@ -1565,6 +1830,22 @@
     "p10": 1.16,
     "p90": 1.16,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1625,7 +1906,15 @@
     "tell": "door-sill",
     "valueM": -0.4482
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02",
@@ -1680,7 +1969,30 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 11,
+    "interior": {
+     "town": 5
+    },
+    "exterior": {
+     "town": 6
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothApothecary01",
+     "interior:town:LilmothStablesInt"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
@@ -1753,6 +2065,22 @@
     "p10": 1.28,
     "p90": 1.28,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1824,6 +2152,25 @@
     "p10": 1.28,
     "p90": 1.3,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "camp": 1,
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:camp:BlackroseRuinsLocation",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1895,6 +2242,25 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 1,
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -1957,6 +2323,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 18,
+    "interior": {},
+    "exterior": {
+     "wild": 18
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -2013,7 +2395,15 @@
     "tell": "door-sill",
     "valueM": -7.2827
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01",
@@ -2080,6 +2470,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -2151,6 +2557,22 @@
     "p10": 1.1,
     "p90": 1.1,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -2220,6 +2642,25 @@
     "p10": 0.7,
     "p90": 0.85,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "camp": 1,
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -2271,7 +2712,15 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02",
@@ -2331,7 +2780,15 @@
     "tell": "door-sill",
     "valueM": -1.9345
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01",
@@ -2389,7 +2846,15 @@
     "tell": "foundation-top",
     "valueM": 0.9103
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall",
@@ -2447,7 +2912,23 @@
     "tell": "foundation-top",
     "valueM": 0.9103
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble",
@@ -2505,7 +2986,15 @@
     "tell": "foundation-top",
     "valueM": 0.9103
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02",
@@ -2565,7 +3054,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall",
@@ -2625,7 +3122,15 @@
     "tell": "post-foot",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01",
@@ -2683,7 +3188,15 @@
     "tell": "foundation-top",
     "valueM": 0.9103
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02",
@@ -2743,7 +3256,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01",
@@ -2801,7 +3322,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02",
@@ -2861,7 +3390,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01",
@@ -2919,7 +3456,15 @@
     "tell": "foundation-top",
     "valueM": 1.1948
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02",
@@ -2972,7 +3517,23 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03",
@@ -3032,7 +3593,15 @@
     "tell": "post-foot",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04",
@@ -3092,7 +3661,15 @@
     "tell": "post-foot",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01",
@@ -3154,6 +3731,28 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 99,
+    "interior": {
+     "town": 98
+    },
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt03Hideout",
+     "interior:town:LilmothSewersInt02",
+     "interior:town:LilmothRoots",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3218,6 +3817,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "town": 7
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3280,7 +3895,15 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01",
@@ -3344,6 +3967,28 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 14,
+    "interior": {
+     "town": 9
+    },
+    "exterior": {
+     "town": 5
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3400,7 +4045,29 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 40,
+    "interior": {
+     "town": 39
+    },
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt03Hideout",
+     "interior:town:LilmothRoots",
+     "interior:town:LilmothSewersInt02",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
@@ -3456,7 +4123,32 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 126,
+    "interior": {
+     "town": 104
+    },
+    "exterior": {
+     "town": 22
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothRoots",
+     "interior:town:LilmothSewersInt02",
+     "interior:town:LilmothSewersInt03Hideout"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01",
@@ -3529,6 +4221,29 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 9,
+    "interior": {
+     "town": 5
+    },
+    "exterior": {
+     "town": 4
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothRoots",
+     "interior:town:LilmothSewersInt01"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3595,7 +4310,15 @@
     "tell": "bottom-step",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01",
@@ -3655,6 +4378,22 @@
     "p10": 1.07,
     "p90": 1.07,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3721,7 +4460,15 @@
     "tell": "bottom-step",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01",
@@ -3787,7 +4534,15 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02",
@@ -3855,7 +4610,15 @@
     "tell": "door-sill",
     "valueM": -3.6413
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01",
@@ -3926,6 +4689,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -3994,6 +4773,28 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {},
+    "exterior": {
+     "wild": 2,
+     "camp": 1,
+     "town": 2
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "exterior:town:LilmothLocation",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -4066,6 +4867,25 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 6,
+    "interior": {},
+    "exterior": {
+     "wild": 2,
+     "camp": 4
+    },
+    "sourceCells": [
+     "exterior:camp:BlackroseRuinsLocation",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -4117,7 +4937,26 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 9,
+    "interior": {},
+    "exterior": {
+     "wild": 4,
+     "town": 5
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01",
@@ -4181,7 +5020,15 @@
     "tell": "door-sill",
     "valueM": -10.924
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
@@ -4240,7 +5087,29 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town",
+      "camp",
+      "wild"
+     ]
+    },
+    "n": 19,
+    "interior": {},
+    "exterior": {
+     "wild": 4,
+     "camp": 8,
+     "town": 7
+    },
+    "sourceCells": [
+     "exterior:camp:BlackroseRuinsLocation",
+     "exterior:town:LilmothLocation",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01",
@@ -4306,7 +5175,15 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
@@ -4379,6 +5256,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -4452,6 +5345,22 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "town": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -4514,7 +5423,29 @@
     "tell": "door-sill",
     "valueM": -0.4552
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "town": 1
+    },
+    "exterior": {
+     "town": 3
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothSewersInt01"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01",
@@ -4565,7 +5496,15 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01",
@@ -4625,7 +5564,29 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "town": 2
+    },
+    "exterior": {
+     "town": 2
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02",
@@ -4685,7 +5646,24 @@
     "tell": "door-sill",
     "valueM": -0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 10,
+    "interior": {
+     "town": 10
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:LilmothSewersInt02",
+     "interior:town:LilmothSewersInt01"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01",
@@ -4745,7 +5723,15 @@
     "tell": "foundation-top",
     "valueM": 0.5121
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01",
@@ -4803,7 +5789,23 @@
     "tell": "post-foot",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01",
@@ -4861,7 +5863,35 @@
     "tell": "door-sill",
     "valueM": -0.1637
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 49,
+    "interior": {
+     "town": 42
+    },
+    "exterior": {
+     "wild": 6,
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt02",
+     "interior:town:LilmothSewersInt03Hideout",
+     "interior:town:LilmothRoots",
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothSinkingManorInt01",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01",
@@ -4921,7 +5951,24 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "town": 2
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt03Hideout"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01",
@@ -4983,6 +6030,34 @@
     "p10": 0.82,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 26,
+    "interior": {
+     "town": 11,
+     "ruin": 6
+    },
+    "exterior": {
+     "wild": 2,
+     "town": 7
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothSewersInt01",
+     "interior:ruin:OldImpLaboratoryInt01",
+     "interior:town:LilmothSewersInt02",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -5045,6 +6120,35 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 9,
+    "interior": {
+     "town": 4,
+     "ruin": 2
+    },
+    "exterior": {
+     "wild": 2,
+     "town": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt02",
+     "interior:ruin:OldImpLaboratoryInt01",
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothSewersInt01",
+     "exterior:town:LilmothLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -5112,6 +6216,31 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "ruin": 1,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "interior:ruin:OldImpLaboratoryInt01",
+     "interior:town:LilmothSewersInt02"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -5170,6 +6299,31 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "ruin": 2,
+     "town": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:ruin:OldImpLaboratoryInt01",
+     "interior:town:LilmothSewersInt02",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
    }
   },
   {
@@ -5221,7 +6375,15 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03",
@@ -5273,7 +6435,23 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.18
+   "designedWaterlineM": 0.18,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01",
@@ -5327,7 +6505,40 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 135,
+    "interior": {
+     "town": 93,
+     "ruin": 16
+    },
+    "exterior": {
+     "wild": 7,
+     "camp": 2,
+     "town": 17
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt02",
+     "exterior:town:LilmothLocation",
+     "interior:ruin:OldImpLaboratoryInt01",
+     "interior:town:LilmothRoots",
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothSewersInt03Hideout",
+     "exterior:camp:BlackroseRuinsLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02",
@@ -5381,7 +6592,40 @@
     "evidence": "plugin"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ],
+     "exterior": [
+      "town",
+      "wild"
+     ]
+    },
+    "n": 101,
+    "interior": {
+     "town": 68,
+     "ruin": 15
+    },
+    "exterior": {
+     "wild": 7,
+     "camp": 1,
+     "town": 10
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:town:LilmothSewersInt02",
+     "interior:ruin:OldImpLaboratoryInt01",
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothSewersInt03Hideout",
+     "interior:town:LilmothRoots",
+     "exterior:wild:BlackMarshLocation",
+     "exterior:wild:KeelSakkaBridgeLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01",
@@ -5437,7 +6681,26 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "plugin"
+   "anchorClassEvidence": "plugin",
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "ruin"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "town": 1,
+     "ruin": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "interior:ruin:OldImpLaboratoryInt01"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01",
@@ -5494,7 +6757,15 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01",
@@ -5550,7 +6821,15 @@
     "tell": "door-sill",
     "valueM": 0.0
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\imperial-keep.glb",

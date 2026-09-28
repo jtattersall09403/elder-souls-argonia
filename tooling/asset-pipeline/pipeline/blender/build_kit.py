@@ -191,6 +191,33 @@ def bind_nif_texture_alias(mat):
     print(f"[kit]   {mat.name}: NIF diffuse {named!r} bound to alias {path}")
 
 
+def swap_variant_images(mat, swaps, source_names=None):
+    """A texture variant's derived images in place of its base's (the Python
+    half's `textureSwaps`: source texture path, lower, forward slashes ->
+    derived PNG). Matched on the image's own file path, so only the textures
+    the recipe names change; runs on this asset's single-user material copy,
+    so the base asset keeps its own. ``source_names`` (derived image name ->
+    the source texture's file name) lets the manifest name a variant's
+    texture by its source, as every other row does: the derived PNG is a
+    build intermediate that ships only as KTX2 inside the GLB, never as a
+    file. Returns the number of nodes swapped."""
+    if not swaps or not mat.use_nodes:
+        return 0
+    swapped = 0
+    for node in mat.node_tree.nodes:
+        if node.type != "TEX_IMAGE" or not node.image:
+            continue
+        path = (node.image.filepath or node.image.name).replace("\\", "/").lower()
+        for source, derived in swaps.items():
+            if path.endswith(source):
+                node.image = bpy.data.images.load(derived, check_existing=True)
+                if source_names is not None:
+                    source_names[node.image.name] = source.rsplit("/", 1)[-1]
+                swapped += 1
+                break
+    return swapped
+
+
 def rebuild_material(mat, double_sided, effect=None):
     """Diffuse Principled BSDF with alpha linked, and the glow map on Emission.
 
@@ -254,6 +281,10 @@ def rebuild_material(mat, double_sided, effect=None):
         # glTF emissive textures are sRGB; PyNifly loads the slot Non-Color.
         glow.colorspace_settings.name = "sRGB"
         gtex = tree.nodes.new("ShaderNodeTexImage")
+        # keep PyNifly's slot name: a later asset bound to this already
+        # rebuilt material (same NIF imported twice, e.g. a texture variant)
+        # must still read it as the glow slot, not as a second diffuse
+        gtex.name = "Glow_Map_Texture"
         gtex.image = glow
         tree.links.new(gtex.outputs["Color"], bsdf.inputs["Emission Color"])
         bsdf.inputs["Emission Strength"].default_value = 1.0
@@ -1033,6 +1064,8 @@ for asset in PLAN["assets"]:
 
     textures = set()
     materials = set()
+    variant_swaps = 0
+    variant_sources = {}
     for obj in meshes:
         for slot in obj.material_slots:
             if slot.material:
@@ -1042,11 +1075,13 @@ for asset in PLAN["assets"]:
                 # this asset would silently retexture the other one.
                 if slot.material.users > 1:
                     slot.material = slot.material.copy()
+                variant_swaps += swap_variant_images(slot.material,
+                                                     asset.get("textureSwaps"), variant_sources)
                 name = rebuild_material(slot.material, asset["doubleSided"],
                                         asset.get("effect"))
                 materials.add(slot.material.name)
                 if name:
-                    textures.add(name)
+                    textures.add(variant_sources.get(name, name))
 
     dropped = list(refraction)
     if not asset.get("parts"):
@@ -1209,6 +1244,13 @@ for asset in PLAN["assets"]:
         "textures": sorted(textures),
         "materials": sorted(materials),
     }
+    if asset.get("variantOf"):
+        record["variantOf"] = asset["variantOf"]
+        if asset.get("textureSwaps") and not variant_swaps:
+            raise RuntimeError("%s: textureSwaps named %s but no image matched"
+                               % (asset["id"], sorted(asset["textureSwaps"])))
+        print("[kit]   %s: %d image node(s) swapped to variant textures"
+              % (asset["id"], variant_swaps))
     glow_materials = sorted(materials & GLOW_MATERIALS)
     if glow_materials:
         record["glowMaterials"] = glow_materials

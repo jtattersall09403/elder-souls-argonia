@@ -26,8 +26,9 @@
 #      agents, the editor tunnel and the dev server (owner 2026-09-25), with
 #      ES_JOB_CORES and PYTEST_XDIST_AUTO_NUM_WORKERS=ES_JOB_CORES exported
 #      (`-n auto` would otherwise start one pytest worker per pool core in
-#      every slot; build_kit and preflight size their pools to it too; the
-#      workbench's scan pool does not yet), and exits with
+#      every slot; build_kit, preflight and the workbench's check/scan pool,
+#      tooling/placement-workbench/workbench/parallel.py, size their pools to
+#      it too), and exits with
 #      the command's code. tooling/repo-standards/cpu_watchdog.sh is the
 #      machine-wide backstop behind it.
 # Lines it prints start "job_guard[<lane>]". Examples:

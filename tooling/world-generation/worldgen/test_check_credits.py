@@ -112,3 +112,50 @@ def test_a_composite_with_no_parts_does_not_pass_by_vacuous_truth(tmp_path, monk
         kits=[_composite_kit([])],
     )
     assert any("nothing to credit" in p for p in check_credits.check())
+
+
+def test_a_texture_variant_inherits_its_base_registry_credit(tmp_path, monkeypatch):
+    # 16k walk 3: a variant (the base's mesh, recoloured textures) has an id
+    # of ours and no registry row; credit follows the base it names.
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 1}},
+        rows=[("tropical", ["tropical:tree"])],
+        kits=[{"id": "k", "assets": [{"asset": "tropical:tree"},
+                                     {"asset": "tropical:tree-sick", "variantOf": "tropical:tree"}]}],
+    )
+    assert check_credits.check() == []
+
+
+def test_a_texture_variant_of_an_unregistered_base_still_fails(tmp_path, monkeypatch):
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 1}},
+        rows=[("tropical", ["tropical:tree"])],
+        kits=[{"id": "k", "assets": [
+            {"asset": "tropical:bush-sick", "variantOf": "tropical:bush"},
+            {"asset": "tropical:odd-sick", "variantOf": None}]}],
+    )
+    problems = check_credits.check()
+    assert any("ships tropical:bush (in tropical:bush-sick)" in p and "uncredited" in p for p in problems)
+    assert any("tropical:odd-sick" in p and "nothing to credit" in p for p in problems)
+
+
+def test_a_texture_variant_of_a_composite_is_credited_through_the_parts(tmp_path, monkeypatch):
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 1}},
+        rows=[("tropical", ["tropical:trunk"])],
+        kits=[{"id": "k", "assets": [
+            {"asset": "composite:jungle/tree", "compose": {"parts": [{"asset": "tropical:trunk"},
+                                                                     {"asset": "tropical:gone"}]}},
+            {"asset": "composite:jungle/tree-sick", "variantOf": "composite:jungle/tree"}]}],
+    )
+    problems = check_credits.check()
+    assert any("ships tropical:gone (in composite:jungle/tree-sick)" in p for p in problems)

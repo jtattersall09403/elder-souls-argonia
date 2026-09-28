@@ -58,9 +58,15 @@ run) and 5 (the gates).
    service, a home, a workplace) takes a shell that a plugin links to a
    furnished cell (`world/sources/placement/exterior-interior-links.json`).
    A shell with no link is legal only for a building nobody enters
-   (open barn, lean-to, store) or when the culture's pool has no linked
-   shell; its door is then `reserved` with the pool named. A composite
-   inherits its base shell's links.
+   (open barn, lean-to; no door record, walked into). A door is
+   `reserved` (its pool named) only for a tier B or C interior (a
+   dungeon, a unique large interior; 0105 R2): a dwelling, shop, stable
+   house or workplace door is never reserved; the builder re-shells to a
+   linked shell, or, for a doorless hut, dresses the inside as exterior
+   placements. A composite inherits its base shell's links. The cell
+   chosen is also held against repetition (0105 R4: no cell twice in a
+   region unless the shell's linked set is exhausted, at most 3 in the
+   province; `place_gates --claim-cells`, gate `interiors.variety`).
 2. **The cell is picked by the fit rule, deterministically,** from the
    shell's linked set: the cell's room plan (its biggest enclosing piece
    and what overlaps it, measured in that piece's own frame) is 0.6–1.7
@@ -72,9 +78,10 @@ run) and 5 (the gates).
    shell's storeys and at least one exterior load door per entrance (spare
    ones ship closed); use class matches the parcel's `services` (from the
    furniture mix: beds and a bar = inn, counter and stock = shop, altar =
-   shrine, hearth and beds = dwelling). A parcel whose only service is
-   `stable` is `reserved` with pool `stable` (no plugin authors a stable
-   interior; Phase 12 tier B). Ties break on the plugin's own most-used
+   shrine, hearth and beds = dwelling). A stable (no plugin authors a
+   stable interior) is an open-sided shell with no door record, walked
+   into; a stable house (the keeper's home) is a dwelling and takes a
+   linked shell (0105 R2). Ties break on the plugin's own most-used
    cell for that shell. A claim outside the ratio, with too few storeys
    or doors fails a test. The rule is asset-aware (planner ruling
    2026-09-27, `bundle_sourcing`): a cell's missing pieces (a base in a
@@ -92,9 +99,11 @@ run) and 5 (the gates).
    or `pool`, `why`, `interiorLoadDoorRef`, `arrivalMarker`); the claim is
    never written by hand.
 4. A kit's `interior: matched` (a sibling interior *mesh*) is not tier A.
-   A shell with a matched mesh and no furnished cell keeps its door
-   `reserved` with `interiorShell: <mesh>` so Phase 12 furnishes it;
-   `tileset` shells are Phase 12's.
+   A shell with a matched mesh and no furnished cell is not used for a
+   dwelling, shop, stable house or workplace (0105 R2); for a tier B or C
+   interior its door stays `reserved` with `interiorShell: <mesh>` so
+   Phase 12 furnishes it; `tileset` shells are Phase 12's on the same
+   terms.
 5. Mark the D0 safe interior the settlement owes (quests 20 §12) on its
    record. `acousticProfile` and `lightingProfile` stay typed empty slots.
 

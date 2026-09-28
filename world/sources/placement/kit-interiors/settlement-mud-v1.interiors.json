@@ -345,6 +345,34 @@
    "sizeClass": "large",
    "why": "name token 'tree' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
+   "category": "misc",
+   "doorwaysMeasuredBelowM": 7.0,
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 7.0,
+   "front": {
+    "deg": 254.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 255\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.697,
+   "headroomM": 2.98,
+   "heightM": 24.35,
+   "interior": "none",
+   "medianWallM": 1.71,
+   "planAreaM2": 512.45,
+   "planCentreM": [
+    -1.85,
+    -2.05
+   ],
+   "provenance": [],
+   "ringFraction": 0.917,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'tree' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
   "histtree:skyfall/sleeping tree overhaul/histflower01": {
    "category": "misc",
    "entrance": null,
@@ -357,7 +385,31 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.5 m\u00b2 plan, 3.5 m tall)"
   },
+  "histtree:skyfall/sleeping tree overhaul/histflower01-sick": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.46,
+   "interior": "none",
+   "planAreaM2": 0.51,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 3.5 m tall)"
+  },
   "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 4.3,
+   "interior": "none",
+   "planAreaM2": 0.36,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 4.3 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": {
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",

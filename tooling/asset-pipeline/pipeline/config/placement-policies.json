@@ -431,6 +431,22 @@
   "vanilla:clutter/signage/whiterun/signwrpost01": {
    "anchorClass": "ground",
    "why": "Sign post 2.74 m tall with its base at the pivot and the arm at the top: it stands on the ground. The plugin vote splits deck 4 / ground 3 / wall 1 because Whiterun sets several posts on stone paving; the plugin sink (n 5) stays."
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "designedSinkM": -0.672,
+   "why": "Skyfall's Sleeping Hist Tree Overhaul places the tree once, overriding a Skyrim.esm reference (0x000A9289, Tamriel cell -10,-5) at scale 1.40 with its pivot 66.2 units (0.941 m) above the Skyrim.esm LAND under it, slope 7.2 deg: 0.672 m at unit scale, burying the root flare 0.75 m. The miner measured n 0 because the plugin carries no LAND of its own for that cell (the ground lives in the master) and the reference is scaled, so the record fell back to the mesh-sill tell (-1.4177 m) and stood the lowest root on the ground, unsunk (owner walk 3, 2026-09-28). Measured by lane L5, walk 3."
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
+   "designedSinkM": -0.672,
+   "why": "Texture variant of the ancient sleeping tree (same mesh): the same designed sink. Skyfall's Sleeping Hist Tree Overhaul places the tree once, overriding a Skyrim.esm reference (0x000A9289, Tamriel cell -10,-5) at scale 1.40 with its pivot 66.2 units (0.941 m) above the Skyrim.esm LAND under it, slope 7.2 deg: 0.672 m at unit scale, burying the root flare 0.75 m. The miner measured n 0 because the plugin carries no LAND of its own for that cell (the ground lives in the master) and the reference is scaled, so the record fell back to the mesh-sill tell (-1.4177 m) and stood the lowest root on the ground, unsunk (owner walk 3, 2026-09-28). Measured by lane L5, walk 3."
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01-sick": {
+   "designedSinkM": 6.1957,
+   "why": "Texture variant of histflower01 (same mesh, dimmed flowers of the sick Hist, lane L5 walk 3): its base's mesh-sill sink 6.1957 m from kit-designed-sink.json, so the variant seats exactly where its base does; the record has no row for a variant id."
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": {
+   "designedSinkM": 6.0086,
+   "why": "Texture variant of histflower02 (same mesh, dimmed flowers of the sick Hist, lane L5 walk 3): its base's mesh-sill sink 6.0086 m from kit-designed-sink.json, so the variant seats exactly where its base does; the record has no row for a variant id."
   }
  },
  "piledDecks": {

@@ -888,11 +888,12 @@ def cmd_bind(a, scene, cat):
 def cmd_render(a, scene, cat):
     from workbench import render
     if a.shots:
-        return render.render_round(cat, scene, a.shots, a.res, a.samples)
+        return render.render_round(cat, scene, a.shots, a.res, a.samples,
+                                   labels=getattr(a, "labels", False))
     if a.view is None:
         raise ValueError("render needs a VIEW or --shots auto|LIST")
     return render.render(cat, scene, a.view, a.focus, a.res, a.out, a.span, a.bearing, a.cut,
-                         a.samples, a.highlight, night=a.night)
+                         a.samples, a.highlight, night=a.night, labels=a.labels)
 
 
 def owner_guided_refusal(place_id: str, reason: str | None) -> str | None:
@@ -1512,6 +1513,9 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--night", action="store_true",
                    help="dark sky, a warm light at every light-layer piece (single view; "
                         "in --shots, end a token in @night)")
+    s.add_argument("--labels", action="store_true",
+                   help="piece ids, caption (view, bearing, span, night) and px/m on the "
+                        "pictures; default none but the scale bar and north arrow (R8)")
     s.add_argument("--out", default=None)
     s = sub.add_parser("export")
     s.add_argument("blueprint")
@@ -1826,6 +1830,9 @@ def round_parser() -> argparse.ArgumentParser:
     ap.add_argument("--no-shots", action="store_true", help="skip the render round")
     ap.add_argument("--plan", action="store_true",
                     help="the 2D plan render only (worldgen.render_blueprint --layout), no Blender")
+    ap.add_argument("--labels", action="store_true",
+                    help="text on the plan and the shots (ids, bearings, ground deltas, "
+                         "captions); default none but the scale bar and north arrow (R8)")
     ap.add_argument("--walktable", action="store_true",
                     help="also print the owner-walk table (read from the PUBLISHED bundle: "
                          "only after the place is published)")
@@ -1950,7 +1957,7 @@ def run_round(argv) -> int:
             # read from this run's OUTPUT so WB_OUTPUT lanes see their own)
             derived = wbpaths.OUTPUT / "apply" / f"{doc['placeId']}.blueprint.json"
             got = _run_module("worldgen.render_blueprint", "--blueprint", str(derived), "--plan",
-                              "--out", str(plan_dir))
+                              "--out", str(plan_dir), *(["--labels"] if a.labels else []))
             out["plan"] = {"exitCode": got.returncode, "dir": str(plan_dir),
                            "pngs": sorted(str(f) for f in plan_dir.glob("*.png")),
                            "log": (got.stdout + got.stderr).strip().splitlines()[-5:]}
@@ -1960,7 +1967,8 @@ def run_round(argv) -> int:
             t1 = time.time()
             scene = Scene.load(spath)
             try:
-                got = cmd_render(argparse.Namespace(shots=a.shots, res=a.res, samples=a.samples),
+                got = cmd_render(argparse.Namespace(shots=a.shots, res=a.res, samples=a.samples,
+                                                    labels=a.labels),
                                  scene, cat)
                 out["shots"] = got
             except Exception as err:          # noqa: BLE001 - the summary names it

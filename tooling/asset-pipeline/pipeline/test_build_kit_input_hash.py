@@ -281,3 +281,28 @@ def test_a_published_folder_build_stamps_outside_the_site(tmp_path, monkeypatch)
     digest = (stamps / "k.inputs.sha256").read_text().split("\n", 1)[0]
     assert unchanged_outputs(glb, digest) is not None
     assert inputs_stamp_path(tmp_path / "raw" / "k.glb") == tmp_path / "raw" / "k.inputs.sha256"
+
+
+def test_a_setting_class_row_of_the_kit_rebuilds_it_and_another_kits_does_not(tmp_path, monkeypatch):
+    """0105 R1: placement_metadata copies kit-setting-class.json rows onto the
+    manifest (`settingClass`), so the kit's own rows are a build input; a
+    re-mine of another kit's rows or the record's rule prose is not."""
+    import shutil
+    kit, own = "settlement-mud-v1", "composite:mud/kotm-house-pod"
+    record = tmp_path / build_kit.SETTING_CLASS_FILE.name
+    shutil.copy(build_kit.SETTING_CLASS_FILE, record)
+    monkeypatch.setattr(build_kit, "KIT_ROW_RECORDS", tuple(
+        record if p == build_kit.SETTING_CLASS_FILE else p for p in build_kit.KIT_ROW_RECORDS))
+    data_root = tmp_path / "data-root"
+    data_root.mkdir()
+
+    def digest():
+        return build_kit.digest_of(build_kit.kit_input_hashes(kit, data_root, {"kit": kit}, tmp_path))
+    before = digest()
+    other = next(k for k in json.loads(record.read_text())["assets"]
+                 if k not in build_kit.kit_asset_ids(kit))
+    _edit(record, lambda d: d["assets"][other].update(n=d["assets"][other]["n"] + 3))
+    _edit(record, lambda d: d.update(rule="rewritten"))
+    assert digest() == before
+    _edit(record, lambda d: d["assets"][own].update(settings={"exterior": ["town"]}))
+    assert digest() != before

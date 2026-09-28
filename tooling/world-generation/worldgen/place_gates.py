@@ -25,7 +25,20 @@ Runs, for one place and without the yard regression gates:
 * ``breadth.<bar>`` - the within-place breadth bars measured on the compiled
   settlement's placements (see ``breadth_measure``): dressing pieces within
   12 m per dwelling (p50), dressing asset kinds, one dressing asset's share,
-  light fixture kinds.
+  light fixture kinds. The per-dwelling count is decision 0105 R6: every
+  placement within 12 m of the dwelling's footprint except shells, pads,
+  ground treatments and modular-run pieces;
+* ``lights.density`` - 0105 R3: no point within the place sees more than
+  ``LIGHTS_CAP`` light fixtures within ``LIGHTS_ACTIVE_M`` (both read from the
+  runtime's ``lighting.ts``, one number in one home);
+* ``interiors.variety`` - 0105 R4: an interior cell used twice in one region
+  fails unless the shell's linked set is exhausted (the claim's ``why`` says
+  so), and a cell is used at most ``INTERIOR_CELL_MAX_PER_PROVINCE`` times;
+  other places' cells are read from ``interiorCellClaims`` in
+  ``signature-claims.json`` (``--claim-cells`` writes this place's);
+* ``setting.class`` - 0105 R1: a piece stands only in the setting its own
+  plugin places it in (the kit manifest row's ``settingClass``); rows that
+  carry none are counted NOT_MEASURED and pass with a warning.
 
 Writes ``tooling/.reports/16k/<place-id>/place-gates.json`` (contract 3:
 schemaVersion, placeId, startedAt, wallS, ok, gates[{id, ok, seconds,
@@ -38,6 +51,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import subprocess
 import sys
@@ -86,6 +100,22 @@ LIGHT_LAYERS = ("light",)
 #: every piece within 12 m horizontal and 15 m vertical of the house anchor
 DWELLING_REACH_M = 12.0
 DWELLING_REACH_UP_M = 15.0
+#: 0105 R6: what the per-dwelling dressing count leaves out. Shells are the
+#: parcels' ``.building`` placements; modular-run pieces carry ``run`` (or are
+#: fence pieces); pads and ground treatments are patches in the compiled
+#: settlement (a shell's ``pad`` field, the clearance and grade layers), never
+#: placements, so nothing further is dropped for them.
+R6_RUN_KINDS = ("fence",)
+KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
+LIGHTING_TS = REPO_ROOT / "packages" / "game-core" / "src" / "settlement" / "lighting.ts"
+#: 0105 R3 sampling: the density is counted at every placement of the place
+#: and on this grid over the placements' plan bounds
+LIGHT_GRID_M = 5.0
+#: the compile's fire socket rule (lighting.ts FIRE_SOCKET_RULE): a fire emits
+FIRE_SOCKET_RULE = "effect-socket/fire"
+#: 0105 R4: an interior cell appears at most this many times in the province
+#: (like a signature, 0098 assemblyMaxPerProvince)
+INTERIOR_CELL_MAX_PER_PROVINCE = 3
 
 
 class Gates:
@@ -107,16 +137,29 @@ def _layout_path(place_id: str) -> Path:
     return BLUEPRINTS / f"{stem}.layout.json"
 
 
-def run_apply(layout: Path, scene: str, compile_: bool, t_start: float) -> tuple[dict | None, str]:
-    """``wb.py apply``; (its summary when this run wrote it, the tail of its output)."""
+def default_scene(place_id: str) -> str:
+    return place_id.removeprefix("place.").replace(".", "-") + "-gates"
+
+
+def derived_blueprint_path(place_id: str) -> Path:
+    """Where ``wb.py apply`` (compile stage) writes the blueprint it derived from the layout."""
+    return gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
+
+
+def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, str]:
+    """``wb.py apply``; (its summary when this run wrote it, the tail of its
+    output). The summary and the derived blueprint a previous run left are
+    removed first, so either file existing afterwards is this run's."""
     cmd = [sys.executable, str(WB), "apply", str(layout), "--scene", scene]
     if not compile_:
         cmd.append("--no-compile")
     place_id = json.loads(layout.read_text(encoding="utf-8"))["placeId"]
-    got = subprocess.run(cmd, cwd=WB.parent, capture_output=True, text=True, env=wb_env(place_id))
     summary_path = gates_output(place_id) / "apply" / f"{place_id}.json"
+    for stale in (summary_path, derived_blueprint_path(place_id)):
+        stale.unlink(missing_ok=True)
+    got = subprocess.run(cmd, cwd=WB.parent, capture_output=True, text=True, env=wb_env(place_id))
     tail = (got.stdout + got.stderr).strip().splitlines()[-1:] or [f"exit {got.returncode}"]
-    if summary_path.exists() and summary_path.stat().st_mtime >= t_start:
+    if summary_path.exists():
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
         if summary.get("layoutSha256") == hashlib.sha256(layout.read_bytes()).hexdigest():
             return summary, tail[0]
@@ -198,16 +241,82 @@ def variety_exceptions(bp: dict, bars: list[tuple[str, str]]) -> tuple[list[str]
     return failures, warnings
 
 
-def breadth_measure(placements: list[dict], dwelling_parcels: set[str]) -> dict:
+def is_r6_counted(p: dict) -> bool:
+    """0105 R6: a placement the per-dwelling dressing count includes: every
+    placement except shells (a parcel's ``.building``), modular-run pieces
+    (``run``, fence pieces); pads and ground treatments are no placements."""
+    if p.get("objectKind") == "parcel" and str(p.get("id", "")).endswith(".building"):
+        return False
+    return not (p.get("run") or p.get("objectKind") in R6_RUN_KINDS)
+
+
+def _grid(items, key, cell_m: float) -> dict[tuple[int, int], list]:
+    """Bucket ``items`` by the uniform plan cell (``cell_m``) of ``key(item)``
+    -> (x, z), so a query within ``cell_m`` of a point reads only the 3 x 3
+    cells around it."""
+    out: dict[tuple[int, int], list] = {}
+    for item in items:
+        x, z = key(item)
+        out.setdefault((math.floor(x / cell_m), math.floor(z / cell_m)), []).append(item)
+    return out
+
+
+def _grid_near(grid: dict, cell_m: float, minx: float, minz: float, maxx: float, maxz: float,
+               reach_m: float):
+    """The bucketed items whose cells meet the box (minx, minz)-(maxx, maxz)
+    grown by ``reach_m``: a superset of everything within ``reach_m`` of it."""
+    i0, i1 = math.floor((minx - reach_m) / cell_m), math.floor((maxx + reach_m) / cell_m)
+    j0, j1 = math.floor((minz - reach_m) / cell_m), math.floor((maxz + reach_m) / cell_m)
+    for i in range(i0, i1 + 1):
+        for j in range(j0, j1 + 1):
+            yield from grid.get((i, j), ())
+
+
+def _footprint_shape(footprint):
+    """The footprint as a query shape, built once per dwelling: a shapely
+    polygon, or the anchor (x, z) when the footprint is a single point."""
+    if len(footprint) < 3:
+        return tuple(footprint[0])
+    from shapely.geometry import Polygon
+    return Polygon(footprint)
+
+
+def _plan_distance(point, shape) -> float:
+    """Plan distance (m) from (x, z) to a ``_footprint_shape`` (0 inside a
+    polygon)."""
+    if isinstance(shape, tuple):
+        return ((point[0] - shape[0]) ** 2 + (point[1] - shape[1]) ** 2) ** 0.5
+    from shapely.geometry import Point
+    return shape.distance(Point(point))
+
+
+def dwelling_footprints_m(bp: dict, dwelling_parcels: set[str]) -> dict[str, list[tuple[float, float]]]:
+    """{parcel id: footprint polygon in world metres} from the blueprint's
+    derived ``footprint`` (province UV times the authored extent)."""
+    from .scale import PROVINCE_EXTENT_M
+    out = {}
+    for parcel in bp.get("parcels") or []:
+        fp = parcel.get("footprint") or []
+        if parcel.get("id") in dwelling_parcels and len(fp) >= 3:
+            out[parcel["id"]] = [(float(u) * PROVINCE_EXTENT_M, float(v) * PROVINCE_EXTENT_M) for u, v in fp]
+    return out
+
+
+def breadth_measure(placements: list[dict], dwelling_parcels: set[str],
+                    footprints: dict[str, list] | None = None) -> dict:
     """The within-place breadth numbers of one compiled settlement.
 
-    Dressing is every `assembly` placement whose `layer` is in DRESSING_LAYERS;
-    a light fixture every `assembly` placement whose layer is in LIGHT_LAYERS.
-    A dwelling's anchor is its parcel's `.building` placement; its count is
-    the dressing within DWELLING_REACH_M in plan and DWELLING_REACH_UP_M in
-    height of that anchor (0098 row "pieces within 12 m per dwelling", p50).
+    Dressing (for the kinds and share bars) is every `assembly` placement
+    whose `layer` is in DRESSING_LAYERS; a light fixture kind every
+    `assembly` placement whose layer is in LIGHT_LAYERS. The per-dwelling
+    count is 0105 R6: every placement ``is_r6_counted`` admits within
+    DWELLING_REACH_M in plan of the dwelling's footprint (``footprints``;
+    the parcel's `.building` anchor where none is given) and within
+    DWELLING_REACH_UP_M in height of the anchor (0098 row "pieces within
+    12 m per dwelling", p50).
     """
     from statistics import median
+    footprints = footprints or {}
     dressing = [p for p in placements
                 if p.get("objectKind") == "assembly" and p.get("layer") in DRESSING_LAYERS]
     lights = {p["assetId"] for p in placements
@@ -215,13 +324,19 @@ def breadth_measure(placements: list[dict], dwelling_parcels: set[str]) -> dict:
     anchors = {p["parcelId"]: p["positionM"] for p in placements
                if p.get("objectKind") == "parcel" and p.get("parcelId") in dwelling_parcels
                and str(p.get("id", "")).endswith(".building")}
+    counted = _grid((p for p in placements if is_r6_counted(p) and p.get("positionM")),
+                    lambda p: (p["positionM"][0], p["positionM"][2]), DWELLING_REACH_M)
     per_dwelling = {}
     for pid in sorted(anchors):
         ax, ay, az = anchors[pid]
+        fp = footprints.get(pid) or [(ax, az)]
+        shape = _footprint_shape(fp)
+        xs, zs = [x for x, _ in fp], [z for _, z in fp]
         per_dwelling[pid] = sum(
-            1 for d in dressing
-            if ((d["positionM"][0] - ax) ** 2 + (d["positionM"][2] - az) ** 2) ** 0.5 <= DWELLING_REACH_M
-            and abs(d["positionM"][1] - ay) <= DWELLING_REACH_UP_M)
+            1 for d in _grid_near(counted, DWELLING_REACH_M, min(xs), min(zs), max(xs), max(zs),
+                                  DWELLING_REACH_M)
+            if abs(d["positionM"][1] - ay) <= DWELLING_REACH_UP_M
+            and _plan_distance((d["positionM"][0], d["positionM"][2]), shape) <= DWELLING_REACH_M)
     kinds = Counter(d["assetId"] for d in dressing)
     top_asset, top_n = min(kinds.items(), key=lambda kv: (-kv[1], kv[0])) if kinds else (None, 0)
     return {
@@ -245,7 +360,7 @@ def breadth_failures(m: dict, row: dict, column: str) -> dict[str, list[str]]:
             f"breadth: dwelling(s) with no .building placement to measure from: {m['dwellingsWithoutAnchor']}")
     if m["dressingPerDwellingP50"] is not None and m["dressingPerDwellingP50"] < bar:
         out["dressingPiecesPerDwellingWithin12mMin"].append(
-            f"breadth: dressing pieces within {DWELLING_REACH_M:g} m per dwelling p50 "
+            f"breadth: placements within {DWELLING_REACH_M:g} m of each dwelling's footprint (R6) p50 "
             f"{m['dressingPerDwellingP50']:g} < {bar} ({column})")
     if m["dressingAssetKinds"] < row["dressingAssetKindsMin"]:
         out["dressingAssetKindsMin"].append(
@@ -261,13 +376,13 @@ def breadth_failures(m: dict, row: dict, column: str) -> dict[str, list[str]]:
 
 
 def breadth_gates(g: Gates, settlement: dict | None, dwelling_parcels: set[str],
-                  column: str | None, row: dict | None) -> None:
+                  column: str | None, row: dict | None, footprints: dict | None = None) -> None:
     t = time.perf_counter()
     if settlement is None:
         for bar in BREADTH_BARS:
             g.add(f"breadth.{bar}", 0.0, ["the compile did not run: no placements to measure"])
         return
-    m = breadth_measure(settlement.get("placements") or [], dwelling_parcels)
+    m = breadth_measure(settlement.get("placements") or [], dwelling_parcels, footprints)
     if column is None:
         for bar in BREADTH_BARS:
             g.add(f"breadth.{bar}", 0.0, [], ["below every breadth-bars column"], measured=m)
@@ -305,7 +420,8 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
     # the parcels the compile's density column counts (blueprint.density_column)
     counted = {p["id"] for p in pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))}
     column, type_no, row = place_bars(record, len(counted))
-    breadth_gates(g, settlement, {pid for pid in counted if use.get(pid) == "dwelling"}, column, row)
+    dwellings_here = {pid for pid in counted if use.get(pid) == "dwelling"}
+    breadth_gates(g, settlement, dwellings_here, column, row, dwelling_footprints_m(bp, dwellings_here))
     t = time.perf_counter()
     try:
         sigs = cl.place_signatures(place_id, scene, env=wb_env(place_id), blueprint=bp)
@@ -351,6 +467,324 @@ def variety_gates(g: Gates, place_id: str, bp: dict, record: dict | None, scene:
            f"(claim_signature --from-scene)"] if unclaimed else None)
 
 
+# --- 0105 R3: the lights band's fixture density -----------------------------
+
+def lighting_constants(path: Path = LIGHTING_TS) -> tuple[int, float]:
+    """(LIGHTS_CAP, LIGHTS_ACTIVE_M) as the runtime exports them: the cap and
+    the band live once, in ``lighting.ts``; the gate reads them there."""
+    text = path.read_text(encoding="utf-8")
+    got = {}
+    for name in ("LIGHTS_CAP", "LIGHTS_ACTIVE_M"):
+        m = re.search(rf"export const {name}\s*=\s*([0-9.]+)\s*;", text)
+        if not m:
+            raise ValueError(f"{path.relative_to(REPO_ROOT)}: no `export const {name} = <number>;`")
+        got[name] = float(m.group(1))
+    return int(got["LIGHTS_CAP"]), got["LIGHTS_ACTIVE_M"]
+
+
+def kit_rows(kits: set[str], kits_dir: Path = KITS_DIR) -> dict[tuple[str, str], dict]:
+    """{(kit, asset id): manifest row} for the published kits named."""
+    out = {}
+    for kit in sorted(k for k in kits if k):
+        path = kits_dir / f"{kit}.kit.json"
+        if path.exists():
+            for row in json.loads(path.read_text(encoding="utf-8")).get("assets") or []:
+                out[(kit, row["id"])] = row
+    return out
+
+
+def light_fixtures(placements: list[dict], rows: dict) -> list[dict]:
+    """The fixtures the runtime lights (SettlementLayer + lighting.ts): a fire
+    socket; a non-effect piece on the compile's light layer or with a mined
+    LIGH record. A lit window is no fixture (walk 3 ruling R11: its glow is
+    the kit's emissive mask, never a point light), so it never counts."""
+    out = []
+    for p in placements:
+        pos = p.get("positionM")
+        if not pos:
+            continue
+        row = rows.get((p.get("kit"), p.get("assetId"))) or {}
+        at = (pos[0], pos[2])
+        if p.get("objectKind") == "effect":
+            if (p.get("provenance") or {}).get("ruleId") == FIRE_SOCKET_RULE:
+                out.append({"id": p["id"], "kind": "fire", "at": at})
+            continue
+        if p.get("layer") in LIGHT_LAYERS or row.get("light"):
+            out.append({"id": p["id"], "kind": "fixture", "at": at})
+    return out
+
+
+#: samples per block of the fixture-density distance matrix (block x fixtures
+#: float64 pairs: 4096 x 400 is 13 MB)
+FIXTURE_DENSITY_BLOCK = 4096
+
+
+def fixture_density(placements: list[dict], fixtures: list[dict], band_m: float,
+                    grid_m: float = LIGHT_GRID_M) -> dict:
+    """The most fixtures any point of the place sees within ``band_m`` in plan
+    (plan distance never exceeds the runtime's 3D one, so this never
+    undercounts): sampled at every placement and on a ``grid_m`` grid over the
+    placements' plan bounds. Counted as one samples x fixtures distance
+    matrix (numpy, in blocks of ``FIXTURE_DENSITY_BLOCK`` samples); the first
+    sample with the most wins, as the all-pairs loop chose it."""
+    import numpy as np
+    pts = [(p["positionM"][0], p["positionM"][2]) for p in placements if p.get("positionM")]
+    if not pts or not fixtures:
+        return {"fixtures": len(fixtures), "maxSeen": len(fixtures) if pts else 0, "at": None}
+    xs, zs = [x for x, _ in pts], [z for _, z in pts]
+    x0, z0 = min(xs), min(zs)             # once: per sample it was the whole cost
+    nx = int((max(xs) - x0) // grid_m) + 1
+    nz = int((max(zs) - z0) // grid_m) + 1
+    samples = pts + [(x0 + i * grid_m, z0 + j * grid_m) for i in range(nx + 1) for j in range(nz + 1)]
+    at = np.array([f["at"] for f in fixtures], dtype=np.float64)
+    fx, fz = at[:, 0][None, :], at[:, 1][None, :]
+    band2 = band_m * band_m
+    best, where = -1, None
+    for start in range(0, len(samples), FIXTURE_DENSITY_BLOCK):
+        block = np.array(samples[start:start + FIXTURE_DENSITY_BLOCK], dtype=np.float64)
+        dx, dz = fx - block[:, 0][:, None], fz - block[:, 1][:, None]
+        counts = np.count_nonzero(dx * dx + dz * dz <= band2, axis=1)
+        k = int(np.argmax(counts))
+        if int(counts[k]) > best:
+            best = int(counts[k])
+            sx, sz = samples[start + k]
+            where = (round(sx, 1), round(sz, 1))
+    return {"fixtures": len(fixtures), "maxSeen": best, "at": list(where)}
+
+
+def lights_gate(g: Gates, settlement: dict | None, rows: dict | None = None,
+                constants: tuple[int, float] | None = None) -> None:
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("lights.density", 0.0, ["the compile did not run: no fixtures to count"])
+        return
+    cap, band = constants or lighting_constants()
+    placements = settlement.get("placements") or []
+    if rows is None:
+        rows = kit_rows({p.get("kit") for p in placements})
+    fixtures = light_fixtures(placements, rows)
+    m = fixture_density(placements, fixtures, band)
+    failures = []
+    if m["maxSeen"] > cap:
+        failures.append(f"0105 R3: a point at {m['at']} sees {m['maxSeen']} light fixtures within "
+                        f"{band:g} m > the cap {cap}; the runtime lights only the {cap} nearest")
+    g.add("lights.density", time.perf_counter() - t, failures, cap=cap, bandM=band,
+          measured={**m, "byKind": dict(Counter(f["kind"] for f in fixtures))})
+
+
+# --- 0105 R4: planned interior variety --------------------------------------
+
+def region_of(place_id: str) -> str:
+    """The catalogue region: ``place.<region>.<name>``."""
+    parts = place_id.split(".")
+    return parts[1] if len(parts) >= 3 else place_id
+
+
+def door_cells(bp: dict) -> list[dict]:
+    """[{doorId, parcelId, cellId, why}] for every door that claims an interior cell."""
+    out = []
+    for door in bp.get("doors") or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("cellId"):
+            out.append({"doorId": door["id"], "parcelId": door.get("parcelId"),
+                        "cellId": claim["cellId"], "why": str(claim.get("why") or "")})
+    return out
+
+
+def _shell_links(parcel: dict | None) -> list[str]:
+    """The interior cells the parcel's shell (a composite's base shell) is linked to."""
+    from . import blueprint_interiors as bi
+    ref = (parcel or {}).get("assetRef") or ""
+    links = bi.linked_shells()
+    rows = links.get(ref) or links.get(bi.composite_base(ref) or "") or []
+    return sorted({r.get("interiorCell") for r in rows if r.get("interiorCell")})
+
+
+def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
+                              links_of=_shell_links,
+                              cap: int = INTERIOR_CELL_MAX_PER_PROVINCE) -> tuple[list[str], list[str]]:
+    """(failures, warnings) of 0105 R4 for ``place_id`` holding ``bp``'s door
+    cells. ``claims`` are ``interiorCellClaims`` rows ({placeId, doorId,
+    cellId}); this place's own rows there are ignored (its blueprint is the
+    truth). A cell used twice within the region (this place included) fails
+    unless every cell the door's shell is linked to is already used in the
+    region AND the claim's ``why`` says the set is exhausted (then a
+    warning); a cell used more than ``cap`` times in the province fails."""
+    region = region_of(place_id)
+    parcels = {p["id"]: p for p in bp.get("parcels") or []}
+    mine = door_cells(bp)
+    others = [c for c in claims if c.get("placeId") != place_id]
+    failures, warnings = [], []
+    for i, d in enumerate(mine):
+        before_here = [m["doorId"] for m in mine[:i] if m["cellId"] == d["cellId"]]
+        in_region = sorted({c["placeId"] for c in others
+                            if c["cellId"] == d["cellId"] and region_of(c["placeId"]) == region})
+        if before_here or in_region:
+            where = ", ".join([f"{place_id} {x}" for x in before_here] + in_region)
+            used = ({m["cellId"] for m in mine if m["doorId"] != d["doorId"]}
+                    | {c["cellId"] for c in others if region_of(c["placeId"]) == region})
+            linked = links_of(parcels.get(d["parcelId"]))
+            exhausted = bool(linked) and set(linked) <= used
+            msg = (f"0105 R4: {d['doorId']} uses interior cell {d['cellId']} already used in region "
+                   f"{region} ({where})")
+            if exhausted and "exhausted" in d["why"].lower():
+                warnings.append(f"{msg}; excused: the shell's linked set {linked} is exhausted")
+            elif exhausted:
+                failures.append(f"{msg}; the shell's linked set {linked} is exhausted but the claim's "
+                                f"`why` does not say so")
+            else:
+                unused = sorted(set(linked) - used)
+                failures.append(f"{msg}; unused cells linked to the shell: {unused or 'none'}")
+    copies = Counter(c["cellId"] for c in others) + Counter(d["cellId"] for d in mine)
+    for cell in sorted({d["cellId"] for d in mine}):
+        if copies[cell] > cap:
+            failures.append(f"0105 R4: interior cell {cell} would be used {copies[cell]} times in the "
+                            f"province (cap {cap})")
+    return failures, warnings
+
+
+def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | None = None) -> None:
+    from . import claim_signature as cl
+    t = time.perf_counter()
+    doc = claims_doc if claims_doc is not None else cl.load()
+    failures, warnings = interior_variety_failures(place_id, bp, doc.get("interiorCellClaims") or [])
+    g.add("interiors.variety", time.perf_counter() - t, failures, warnings,
+          cells=[d["cellId"] for d in door_cells(bp)])
+
+
+def claim_interior_cells(place_id: str, bp: dict, now: str, path: Path | None = None) -> list[dict]:
+    """Replace ``place_id``'s ``interiorCellClaims`` rows in the claims file
+    with its blueprint's door cells, under the claims lock; returns its rows."""
+    from . import claim_signature as cl
+    path = Path(path or cl.CLAIMS_PATH)
+    with cl.claims_lock(path):
+        doc = cl.load(path)
+        rows = [c for c in doc.get("interiorCellClaims") or [] if c["placeId"] != place_id]
+        held = {(c["doorId"], c["cellId"]): c for c in doc.get("interiorCellClaims") or []
+                if c["placeId"] == place_id}
+        mine = [held.get((d["doorId"], d["cellId"])) or
+                {"placeId": place_id, "doorId": d["doorId"], "cellId": d["cellId"], "claimedAt": now}
+                for d in door_cells(bp)]
+        doc["interiorCellClaims"] = sorted(rows + mine, key=lambda c: (c["cellId"], c["placeId"], c["doorId"]))
+        atomic_write_bytes(path, (json.dumps(doc, indent=1, sort_keys=True) + "\n").encode("utf-8"), 0o644)
+    return mine
+
+
+# --- 0105 R1: setting class --------------------------------------------------
+
+#: the R1 place classes, and how a catalogue recipe (class, family, type) maps
+#: onto them; everything a settlement-scale recipe does not name is a village
+SETTING_CLASSES = ("keep", "town", "village", "camp", "ruin")
+_TOWN_FAMILIES = ("major-city", "free-port")
+
+
+def place_setting_class(recipe: dict | None) -> str | None:
+    """keep / town / village / camp / ruin for a type-recipes.json row."""
+    if not recipe:
+        return None
+    cls, family, rtype = recipe.get("class"), recipe.get("family"), recipe.get("type") or ""
+    if cls == "camp":
+        return "camp"
+    if cls == "ruin":
+        return "ruin"
+    if cls == "martial":
+        return "keep"
+    if family in _TOWN_FAMILIES or rtype.endswith("-town") or rtype.endswith("-city"):
+        return "town"
+    return "village"
+
+
+def recipe_of(record: dict | None) -> dict | None:
+    rtype = ((record or {}).get("classification") or {}).get("type")
+    path = REPO_ROOT / "world" / "sources" / "catalogue" / "type-recipes.json"
+    for row in json.loads(path.read_text(encoding="utf-8")).get("types") or []:
+        if row.get("type") == rtype:
+            return row
+    return None
+
+
+def setting_failures(placements: list[dict], rows: dict, place_class: str | None,
+                     interior: bool = False) -> tuple[list[str], list[str], list[str]]:
+    """(failures, warnings, not measured asset ids) of 0105 R1.
+
+    A manifest row's ``settingClass`` is ``mine_setting_class``'s record
+    (lane L4): ``n``, ``interior`` and ``exterior`` ({class: n}),
+    ``settings`` ({setting: [licensed classes]}, a setting present only when
+    the piece's own plugin licenses it; ``wild`` licenses the setting and no
+    class), ``sourceCells``, ``evidence`` (``plugin`` | ``unplaced``). A
+    piece fails where its setting is not licensed (an ``unplaced`` piece has
+    no licence anywhere), and where its licensed classes name some social
+    class but not this place's. Rows without ``settingClass`` are
+    NOT_MEASURED."""
+    setting = "interior" if interior else "exterior"
+    failures, warnings, unmeasured = [], [], set()
+    seen = set()
+    for p in placements:
+        if p.get("objectKind") == "effect":
+            continue
+        key = (p.get("kit"), p.get("assetId"))
+        if key in seen:
+            continue
+        seen.add(key)
+        sc = (rows.get(key) or {}).get("settingClass")
+        if not isinstance(sc, dict):
+            unmeasured.add(p.get("assetId"))
+            continue
+        n = sc.get("n")
+        settings = sc.get("settings") or {}
+        cells = ", ".join((sc.get("sourceCells") or [])[:3]) or "-"
+        if setting not in settings:
+            where = sorted(settings) or ["nowhere (unplaced by its own plugin)"]
+            failures.append(f"0105 R1: {p['assetId']} is placed {setting} here; its plugin licenses it "
+                            f"{' and '.join(where)} (n {n}; cells {cells})")
+            continue
+        classes = [c for c in settings[setting] if c in SETTING_CLASSES]
+        if place_class and classes and place_class not in classes:
+            failures.append(f"0105 R1: {p['assetId']} stands in a {place_class}; its plugin places it "
+                            f"{setting} in {classes} only (n {n}; cells {cells})")
+    return failures, warnings, sorted(unmeasured)
+
+
+def setting_gate(g: Gates, settlement: dict | None, record: dict | None, rows: dict | None = None) -> None:
+    t = time.perf_counter()
+    if settlement is None:
+        g.add("setting.class", 0.0, ["the compile did not run: no placements to read"])
+        return
+    placements = settlement.get("placements") or []
+    if rows is None:
+        rows = kit_rows({p.get("kit") for p in placements})
+    place_class = place_setting_class(recipe_of(record))
+    failures, warnings, unmeasured = setting_failures(placements, rows, place_class)
+    if unmeasured:
+        warnings.append(f"NOT_MEASURED: {len(unmeasured)} asset(s) carry no settingClass in their kit "
+                        f"manifest (walk 3 lane L4 writes it)")
+    g.add("setting.class", time.perf_counter() - t, failures, warnings, placeClass=place_class,
+          notMeasured=unmeasured)
+
+
+def layout_blueprint(place_id: str, compiled_ok: bool) -> Path | None:
+    """The blueprint the gates grade and the cell claims read: the one this
+    run's ``wb.py apply`` derived from the layout (``run_apply`` clears the
+    previous one first), or None when the compile stage wrote none."""
+    derived = derived_blueprint_path(place_id)
+    return derived if compiled_ok and derived.exists() else None
+
+
+def claim_cells(place_id: str, now: str, scene_name: str | None = None,
+                path: Path | None = None) -> list[dict]:
+    """0105 R4 ``--claim-cells``: apply the layout, then hold the door cells of
+    the blueprint derived from it (``layout_blueprint``, the one the gate
+    grades); never the committed blueprint, which lags the layout until
+    export. Raises when the layout derives no blueprint."""
+    summary, tail = run_apply(_layout_path(place_id), scene_name or default_scene(place_id), True)
+    bp_file = layout_blueprint(place_id, summary is not None)
+    if bp_file is None:
+        raise RuntimeError(f"wb.py apply derived no blueprint from the layout ({tail}); "
+                           "no cells claimed")
+    bp = json.loads(bp_file.read_text(encoding="utf-8"))["blueprint"]
+    return claim_interior_cells(place_id, bp, now, path)
+
+
 def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     """All gates for one place. ``now`` is the report's ``startedAt`` stamp,
     injected by the CLI (standard 6: no wall clock below the boundary)."""
@@ -358,13 +792,15 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     started = now
     g = Gates()
     layout = _layout_path(place_id)
-    scene = scene_name or place_id.removeprefix("place.").replace(".", "-") + "-gates"
+    scene = scene_name or default_scene(place_id)
 
     t = time.perf_counter()
-    summary, tail = run_apply(layout, scene, True, t0)
+    summary, tail = run_apply(layout, scene, True)
     compiled_ok = summary is not None
+    # read before a rules-only re-run, which clears it
+    derived = layout_blueprint(place_id, compiled_ok)
     if summary is None:                       # the compile stage crashed: rules alone
-        summary, tail2 = run_apply(layout, scene, False, t)
+        summary, tail2 = run_apply(layout, scene, False)
         tail = f"{tail} (rules re-run without the compile: {tail2})"
     apply_s = time.perf_counter() - t
     if summary is None:
@@ -379,7 +815,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     comp = (summary or {}).get("compile") or {}
     if compiled_ok and comp.get("settlement"):
         path = Path(comp["settlement"])
-        if path.exists() and path.stat().st_mtime >= t0:
+        if path.exists():                     # named by this run's summary
             settlement = json.loads(path.read_text(encoding="utf-8"))
     elif compiled_ok:
         why = comp.get("skipped") or comp.get("stage") or "no settlement written"
@@ -389,11 +825,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     # layout (what the rules and the compile graded, parcels, doors and uses
     # the layout binds included); the committed export only when the compile
     # stage wrote none, and the gate rows say which
-    derived = gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
-    if compiled_ok and derived.exists() and derived.stat().st_mtime >= t0:
-        bp_file = derived
-    else:
-        bp_file = BLUEPRINTS / f"{place_id}.json"
+    bp_file = derived or BLUEPRINTS / f"{place_id}.json"
     bp = json.loads(bp_file.read_text(encoding="utf-8"))["blueprint"]
     bp_source = str(bp_file.relative_to(REPO_ROOT))
 
@@ -408,8 +840,13 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     interior_gate(g, bp)
     g.rows[-1]["blueprint"] = bp_source
     from .blueprint_promises import load_record
-    variety_gates(g, place_id, bp, load_record(place_id),
+    record = load_record(place_id)
+    variety_gates(g, place_id, bp, record,
                   gates_output(place_id) / "scenes" / f"{scene}.json", bp_source, settlement)
+    interior_variety_gate(g, place_id, bp)
+    rows = kit_rows({p.get("kit") for p in (settlement or {}).get("placements") or []})
+    lights_gate(g, settlement, rows)
+    setting_gate(g, settlement, record, rows)
 
     doc = {"schemaVersion": SCHEMA_VERSION, "placeId": place_id, "startedAt": started,
            "wallS": round(time.perf_counter() - t0, 2), "ok": all(r["ok"] for r in g.rows),
@@ -422,7 +859,20 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--id", required=True)
     ap.add_argument("--scene", default=None, help="workbench scene name (default <place>-gates)")
     ap.add_argument("--no-ledger", action="store_true", help="a trial run: no build-ledger row")
+    ap.add_argument("--claim-cells", action="store_true",
+                    help="0105 R4: apply the layout and record the door cells of the blueprint derived "
+                         "from it (the one the gates grade) in signature-claims.json "
+                         "(interiorCellClaims), then exit; run at the design brief step")
     a = ap.parse_args(argv)
+    if a.claim_cells:
+        try:
+            rows = claim_cells(a.id, time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), a.scene)
+        except RuntimeError as exc:
+            print(f"place_gates {a.id}: {exc}", file=sys.stderr)
+            return 1
+        print(f"place_gates {a.id}: {len(rows)} interior cell claim(s) held: "
+              f"{', '.join(r['cellId'] for r in rows) or '-'}")
+        return 0
     # the one wall-clock read: the report's startedAt stamp, at the CLI boundary
     doc = run(a.id, a.scene, now=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
     out = REPORTS / a.id / "place-gates.json"

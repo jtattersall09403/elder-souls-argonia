@@ -202,6 +202,13 @@ fix round's first start adds `--start-run --path fix-round` (step 7).
    ground and the assets were known and makes mistakes: where it
    contradicts the dossier, the typed fields or an asset fact, the typed
    field and the ground win, and the prose is corrected (lesson L02, L06).
+   **Prose never claims a world behaviour the runtime lacks** (0105 R5):
+   a seasonal flood, a tide, a rising ford, a collapse, a crowd. Before any
+   line of design, dossier, catalogue or text-catalogue prose is written,
+   check the behaviour against the record and the runtime (is there a
+   system that makes the water rise?); a claim with none is rewritten to
+   what the player can see, keeping the visual (Claywater's ferryman
+   "poles across when the ford floods" over water that never rises).
    **Two-way (0104 decision 6):** a promise the world cannot keep (a
    quest asks for an item class no asset shows, a service the ground or
    the culture forbids, an interior no plugin furnishes) is not left
@@ -261,6 +268,21 @@ per building, enclosure, path, light, water edge and dressing group:
 - Pieces are chosen on measured size and the mined evidence, never on a
   label (lessons L04, L05). A piece nobody made is a sourcing job
   (CLAUDE.md), shown as a gap.
+- **Setting class** (0105 R1): a piece is placed only in the setting its
+  own plugin places it in: interior or exterior, and keep-or-castle,
+  town, village, camp or ruin, read from the manifest row's
+  `settingClass` (the plugin's placement cells and worldspaces), never
+  from the name. A candle sconce is an interior piece, so an exterior
+  door gets a wall or eave lantern, else a candle lantern on a barrel by
+  the door; a keep's stone stable never stands in a hamlet. The place's
+  class is its recipe's (`place_gates.place_setting_class`). Gate
+  `setting.class`.
+- **Lights** (0105 R3, R7): every fixture within 200 m of the player
+  emits (the 16 nearest); no point in the place may see more than 16
+  fixtures within 200 m (gate `lights.density`), so plan the fixture
+  count with the lit entrances first. Argonian hanging lanterns hang
+  wherever you judge they look good (branches, arches, eaves, posts), at
+  the mod's own hanging height, verified by the reader pass.
 - Dressing is authored as named **yard sets** per building kind, defined
   in the type sheet and placed with `group place` (0100 decision 5).
 - The bars: read this place's tier object and type object from
@@ -270,6 +292,18 @@ per building, enclosure, path, light, water edge and dressing group:
   places of one type or purpose) and 0098 § 1's table. Write each bar with
   the number the brief plans to reach. A bar the culture's pool cannot
   reach is a sourcing gap (0098 § 1, reachability).
+- § Variety (0105 R4; owner 2026-09-28: "the skill must explicitly use
+  and create variety"): one row per building: the shell and the interior
+  cell chosen, and every pool member rejected with its reason (used
+  within 2 km, used 3 times province-wide, no link). Read the register
+  digest and `interiorCellClaims` in
+  `world/sources/placement/signature-claims.json` first; an interior cell
+  already used in this region (this place included) is chosen only when
+  every cell linked to the shell is used, and the claim's `why` then says
+  the linked set is exhausted; a cell is used at most 3 times in the
+  province. Hold the cells once the claims are written (step 2 item 4):
+  `python3 -m worldgen.place_gates --id <place-id> --claim-cells`
+  (worldgen). Gate `interiors.variety`.
 - § Approach: the 16 questions of
   `docs/research/placement-settlements/openworld-approach-and-wayfinding.md`
   §5, each answered yes or no with its field; each "no" is a layout edit
@@ -277,7 +311,12 @@ per building, enclosure, path, light, water edge and dressing group:
 - § Interiors (0103 decisions 1–2; `references/doors-interiors-sockets.md`
   §2): one row per door: building, shell, tier (A with its chosen cell,
   or `reserved` with the pool named, or `none` for a building nobody
-  enters), and why. **Asset-aware, always** (owner 2026-09-27; CLAUDE.md
+  enters), and why. **`reserved` is legal only for a tier B or C
+  interior** (0105 R2: a dungeon, a unique large interior). A dwelling,
+  shop, stable house or workplace door is never reserved: re-shell to a
+  shell with a linked furnished cell, or, for a doorless hut, dress the
+  inside as exterior placements (no door record; the hut is walked
+  into). Standard houses, stables and workplaces are never Phase 12's. **Asset-aware, always** (owner 2026-09-27; CLAUDE.md
   golden rule): a shell whose doorway was designed to load into an
   interior is used only with the interior its author designed for it
   (vanilla or mod, in the vault or sourced from Nexus in this slice);
@@ -387,7 +426,8 @@ every door an Interiors row, every promise row a fulfilment or an
 
 Ends when: `apply` reports 0 compile errors, `check` has ZERO
 failures (placement-workbench § 5) and every lived-in door has a tier A
-claim or a `reserved` state naming its pool.
+claim (or, for a tier B or C interior only, a `reserved` state naming
+its pool; 0105 R2), and `place_gates --claim-cells` holds its cells.
 
 ## 3. The plan read (only when the compile gates are red, or the type is unproven and its sheet asks)
 
@@ -395,6 +435,10 @@ claim or a `reserved` state naming its pool.
 
 `--layout` renders the blueprint the last `apply` derived from that layout
 (it refuses when the layout changed since) and implies `--plan`.
+
+Renders carry no text (0105 R8): a scale bar and a north arrow only;
+`--labels` adds piece ids, bearings and captions for a human debugging a
+render, never for the readers or the owner.
 
 Hand the PNG to one Sonnet reader (read-only `general-purpose` agent)
 with the **Plan** rows of `references/reader-checklist.md` and the brief's
@@ -478,6 +522,12 @@ without that is an escalation to the planner, never a packet.
     with placements plus listed drops equal to the cell's reference count
     (the exporter's acceptance, `test_export_interior_bundle.py`), every interior kit it needs is
     published through `kit-build`, and every reserved door names its pool;
+  - the 0105 gates: `setting.class` (R1; NOT_MEASURED rows pass with a
+    warning until the manifests carry `settingClass`), `lights.density`
+    (R3), `interiors.variety` (R4), and the breadth bar's per-dwelling
+    count as R6 counts it (every placement within 12 m of the
+    dwelling's footprint except shells, pads, ground treatments and
+    modular-run pieces);
 - Per BATCH, never per place (in 16k a batch is one walk packet's
   places; in Phase 15 a region packet): the yard regression gates
   (`worldgen/test_proving_ground.py` and

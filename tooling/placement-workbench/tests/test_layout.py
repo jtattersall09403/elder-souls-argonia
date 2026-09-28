@@ -265,3 +265,39 @@ def test_render_round_is_one_launch_with_a_manifest_and_no_leaked_work_dir(appli
     assert Path(out["dir"]).name == "round-1"
     again = render.render_round(cat, scene, "top,iso:90", res=128, samples=1)
     assert Path(again["dir"]).name == "round-2" and len(calls[1]["shots"]) == 2
+
+
+@local
+def test_render_round_pictures_carry_no_text_unless_labels(applied, tmp_path, monkeypatch):
+    """Planner ruling R8 (16k walk 3): the pictures carry no text but the
+    scale bar's length and the north arrow's N; `labels` adds the piece ids
+    and the captions (view, bearing, span, night) back."""
+    import re
+    import subprocess
+    from PIL import Image, ImageDraw
+    from workbench import render
+
+    def fake_run(cmd, env=None, **_kw):
+        for shot in json.loads(Path(env["JOB"]).read_text())["shots"]:
+            Image.new("RGB", tuple(shot["res"]), "grey").save(shot["out"])
+        return subprocess.CompletedProcess(cmd, 0, "[wb-render] done\n", "")
+
+    words = []
+    real = ImageDraw.ImageDraw.text
+
+    def spy(self, xy, text, *a, **k):
+        words.append(text)
+        return real(self, xy, text, *a, **k)
+    monkeypatch.setattr(render.subprocess, "run", fake_run)
+    monkeypatch.setattr(ImageDraw.ImageDraw, "text", spy)
+    monkeypatch.setattr(paths, "OUTPUT", tmp_path)
+    scene = wb.Scene.load(applied["a"])
+    cat = wb.Catalogue()
+    got = render.render_round(cat, scene, "top,front:house,iso:90@night", res=256, samples=1)
+    assert set(words) - {"N"} and all(w == "N" or re.fullmatch(r"\d+ m", w) for w in words)
+    assert words.count("N") == 2          # the top view's arrow and the iso's
+    assert json.loads(Path(got["manifest"]).read_text())["labels"] is False
+    words.clear()
+    render.render_round(cat, scene, "top,iso:90@night", res=256, samples=1, labels=True)
+    assert "house" in words and any("night" in w for w in words)
+    assert any(w.startswith("plan, north up") for w in words)

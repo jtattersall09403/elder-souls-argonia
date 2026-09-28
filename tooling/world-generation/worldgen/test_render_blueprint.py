@@ -120,5 +120,50 @@ def test_a_cropped_plan_clips_its_labels_to_the_map(tmp_path, monkeypatch):
     x0, z0, x1, z1 = box
     seen.clear()
     render_blueprint.render(bp, tmp_path / "c.png", terrain=False, seed=6, plan=True,
-                            crop_m=(x0, z0, (x0 + x1) / 2, (z0 + z1) / 2))
+                            crop_m=(x0, z0, (x0 + x1) / 2, (z0 + z1) / 2), labels=True)
     assert seen and all(t.get_clip_on() for t in seen)
+
+
+def _texts_drawn(monkeypatch):
+    import matplotlib.figure
+    seen = []
+    real = matplotlib.figure.Figure.savefig
+
+    def spy(fig, *a, **k):
+        seen.append({"texts": [t.get_text() for t in fig.axes[0].texts if t.get_text()],
+                     "legend": fig.axes[0].get_legend() is not None,
+                     "title": fig.axes[0].get_title(),
+                     "ticks": [t.get_text() for t in fig.axes[0].get_xticklabels()
+                               if t.get_text()]})
+        return real(fig, *a, **k)
+    monkeypatch.setattr(matplotlib.figure.Figure, "savefig", spy)
+    return seen
+
+
+def test_default_render_carries_no_text_but_the_scale_bar_and_north_arrow(tmp_path, monkeypatch):
+    """Planner ruling R8 (16k walk 3): renders for the owner and for readers
+    carry no text; the scale bar and the north arrow stay. Over the terrain,
+    so the contour heights and the plan's ground deltas are in play too."""
+    seen = _texts_drawn(monkeypatch)
+    bp = render_blueprint.load_blueprint(FIXTURE)
+    summary = render_blueprint.render(bp, tmp_path / "bare.png", terrain=True, seed=6, plan=True)
+    (drawn,) = seen
+    north, scale = sorted(drawn["texts"], key=lambda t: t != "N")
+    assert north == "N" and scale.endswith(" m") and scale[:-2].isdigit()
+    assert not drawn["legend"] and not drawn["title"] and not drawn["ticks"]
+    assert summary["textCount"] == 2
+    # every element is still drawn as a mark: the door arrows stay
+    assert summary["doors"] == len(bp["doors"])
+    assert summary["plan"]["doorFacings"] > 0
+
+
+def test_labels_restore_ids_bearings_deltas_title_and_legend(tmp_path, monkeypatch):
+    seen = _texts_drawn(monkeypatch)
+    bp = render_blueprint.load_blueprint(FIXTURE)
+    render_blueprint.render(bp, tmp_path / "lab.png", terrain=True, seed=6, plan=True,
+                            labels=True)
+    (drawn,) = seen
+    texts = "\n".join(drawn["texts"])
+    assert all(p["id"] in texts for p in bp["parcels"])
+    assert "\u0394" in texts and "\u00b0" in texts
+    assert drawn["legend"] and bp["id"] in drawn["title"] and drawn["ticks"]

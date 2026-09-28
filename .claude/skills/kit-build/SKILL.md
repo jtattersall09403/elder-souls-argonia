@@ -33,6 +33,14 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
 
 ## Per-piece config fields that reach the runtime
 
+- `"variantOf": <base id>` + `"textureVariants": {<NIF texture path>: <recipe>}`:
+  a texture variant, the base's mesh under its own id (never overwriting the
+  base), its textures derived by `pipeline/texture_variants.py` (recipe keys
+  in its docstring; files content-addressed, equal derivations shared).
+  Judge a recipe before the build with `python3 -m pipeline.render_variant`
+  (before/after stills, seconds per derive). A variant has no mined sink row:
+  give it an `assetPlacement` row (placement-policies.json) equal to its
+  base's. Example: the sick Hist, settlement-mud-v1 (16k walk 3 L5).
 - `"effect": "additive"`: the piece's effect-shader materials (BSEffectShader:
   flames, smoke, glow cards) are rebuilt by `blender/effect_materials.py` (shared
   with the weapons lights set) and ship glTF BLEND + material extra

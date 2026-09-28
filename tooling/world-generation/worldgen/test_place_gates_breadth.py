@@ -20,17 +20,21 @@ def _scene():
     far = _p("parcel", "house", (100, 0, 0), parcel="parcel.b", pid="place.x.parcel.b.building")
     near = [_p("assembly", "barrel", (3, 0, 0), "clutter"), _p("assembly", "barrel", (0, 0, 11.9), "clutter"),
             _p("assembly", "lantern", (1, 2, 0), "light"),
-            _p("assembly", "stairs", (1, 0, 1), "steps"),               # structural: not dressing
+            _p("assembly", "stairs", (1, 0, 1), "steps"),               # R6 counts it; no dressing kind
             _p("assembly", "barrel", (12.5, 0, 0), "clutter"),          # beyond 12 m
             _p("assembly", "barrel", (0, 20, 0), "clutter"),            # 20 m above
-            _p("effect", "fx:smoke", (0, 0, 1), "light")]               # an effect: no fixture
+            _p("effect", "fx:smoke", (0, 0, 1), "light"),               # an effect: no fixture; R6 counts it
+            {**_p("parcel", "wall", (2, 0, 0), parcel="parcel.w", pid="place.x.parcel.w.piece.1"),
+             "run": {"id": "parcel.w"}},                                # a modular-run piece: R6 drops it
+            _p("fence", "fence", (0, 0, 2))]                            # a fence piece: R6 drops it
     return [house, far] + near
 
 
 def test_measure_counts_dressing_within_reach_of_each_dwelling():
     m = pg.breadth_measure(_scene(), {"parcel.a", "parcel.b"})
-    assert m["dressingPerDwelling"] == {"parcel.a": 3, "parcel.b": 0}
-    assert m["dressingPerDwellingP50"] == 1.5
+    # R6: 3 dressing + the stairs + the effect; not the shells, the run or the fence
+    assert m["dressingPerDwelling"] == {"parcel.a": 5, "parcel.b": 0}
+    assert m["dressingPerDwellingP50"] == 2.5
     assert m["dressingPieces"] == 5 and m["dressingAssetKinds"] == 2
     assert m["topDressingAsset"] == "barrel" and m["topDressingAssetShare"] == 0.8
     assert m["lightKinds"] == ["lantern"] and m["dwellingsWithoutAnchor"] == []
@@ -41,11 +45,21 @@ def test_each_bar_fails_on_its_own_shortfall():
     f = pg.breadth_failures(m, ROW, "M1")
     assert set(f) == set(pg.BREADTH_BARS)
     assert all(len(v) == 1 for v in f.values()), f
-    assert "p50 1.5 < 3" in f["dressingPiecesPerDwellingWithin12mMin"][0]
+    f = pg.breadth_failures(m, {**ROW, "dressingPiecesPerDwellingWithin12mMin": 3}, "M1")
+    assert "p50 2.5 < 3" in f["dressingPiecesPerDwellingWithin12mMin"][0]
     assert "barrel is 0.80" in f["dressingAssetShareMax"][0]
     loose = {"dressingPiecesPerDwellingWithin12mMin": 1, "dressingAssetKindsMin": 2,
              "dressingAssetShareMax": 0.8, "lightKindsMin": 1}
     assert not any(pg.breadth_failures(m, loose, "M1").values())
+
+
+def test_r6_reach_is_measured_from_the_footprint_not_the_pivot():
+    """0105 R6: within 12 m of the dwelling's footprint: a piece 12.5 m from
+    the pivot but 2.5 m from a 10 m-wide footprint counts."""
+    square = {"parcel.a": [(-10, -5), (10, -5), (10, 5), (-10, 5)]}
+    by_pivot = pg.breadth_measure(_scene(), {"parcel.a"})["dressingPerDwelling"]["parcel.a"]
+    by_footprint = pg.breadth_measure(_scene(), {"parcel.a"}, square)["dressingPerDwelling"]["parcel.a"]
+    assert by_footprint == by_pivot + 1
 
 
 def test_a_dwelling_without_an_anchor_fails():

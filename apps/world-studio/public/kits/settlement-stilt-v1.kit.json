@@ -1357,7 +1357,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228
+   "pivotAboveBaseM": -0.228,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1413,7 +1429,29 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -1476,7 +1514,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.52,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.627
+   "pivotAboveBaseM": 2.627,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -1541,7 +1595,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822
+   "pivotAboveBaseM": 8.822,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
@@ -1684,7 +1754,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:AbandonedShackLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
@@ -1728,20 +1814,15 @@
     "cedartree1:5.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": -1.4177,
-    "p50": -1.4177,
-    "p75": -1.4177,
+    "p25": -0.672,
+    "p50": -0.672,
+    "p75": -0.672,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.4177
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1756,7 +1837,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418
+   "pivotAboveBaseM": 1.418,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
@@ -1830,7 +1927,23 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854
+   "pivotAboveBaseM": -5.854,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "camp": 3
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -1886,11 +1999,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -6.009,
-    "buryCapM": 0.25,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "glowFacingsDeg": [
@@ -1904,7 +2017,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.009
+   "pivotAboveBaseM": -6.009,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "camp": 7
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -1971,7 +2100,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
@@ -2038,7 +2183,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.738,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
@@ -2098,7 +2259,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.841,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.077
+   "pivotAboveBaseM": 0.077,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
@@ -2158,7 +2335,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.787,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
@@ -2225,7 +2418,23 @@
    "undersideClosed": false,
    "undersideCoverage": 0.059,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.606
+   "pivotAboveBaseM": 0.606,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
@@ -2296,17 +2505,33 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 1.879,
-    "buryCapM": 0.25,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.394,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.879
+   "pivotAboveBaseM": 1.879,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "canoe:actors/sfss/canoe/canoe1",
@@ -2394,7 +2619,15 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166
+   "pivotAboveBaseM": 0.166,
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   }
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -2477,7 +2710,23 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473
+   "pivotAboveBaseM": 0.473,
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "wild": 8
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",

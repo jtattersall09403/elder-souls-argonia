@@ -5,9 +5,16 @@ orthographic elevations), ``iso`` (perspective from above), ``turntable``
 (eight iso shots in one contact sheet), ``cutaway`` (an elevation whose
 near clip plane slices through the focus at ``cut`` metres). Every view
 has the ground grid (1 m lines, 5 m bright lines) in the world; the
-orthographic ones also get a labelled metre scale bar, the piece labels at
-their pivots, and for ``top`` the footprint outlines and a north arrow
-(drawn after the render, from the exact camera projection).
+orthographic ones also get a metre scale bar, ``top`` the footprint
+outlines and a north arrow, a perspective shot a north arrow at the
+projected north (all drawn after the render, from the exact camera
+projection).
+
+No text by default (planner ruling R8, 16k walk 3: the owner found the
+pictures too busy to read, and readers read them too): the scale bar's
+length and the north arrow's "N" are the only words. ``labels=True``
+(``wb.py render --labels``) adds the piece ids at their pivots, the caption
+with the view, bearing, pitch, span and night, and the px/m figure.
 
 Blender: the Linux 3.2.2 build (native, ~5 s start; the Windows 4.4.3
 build under Wine is kept for NIF work), Cycles on CPU.
@@ -252,20 +259,25 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
         shutil.rmtree(work, ignore_errors=True)
 
 
-def _annotate(img, cat, scene, plan, shot, ground, pitch: float) -> None:
+def _annotate(img, cat, scene, plan, shot, ground, pitch: float, labels: bool = False) -> None:
+    night = ", night" if plan.get("night") is not None else ""
     if shot["ortho"]:
-        _annotate_ortho(img, cat, scene, shot, plan["span"], plan["view"], plan["bearing"], ground)
-    else:
-        _label_pieces(img, scene, _perspective_projector(img, shot))
-        _caption(img, f"{plan['view']} bearing {shot['bearing']:.0f} deg, pitch {pitch:.0f} deg; "
-                      f"grid 1 m, bright 5 m")
+        _annotate_ortho(img, cat, scene, shot, plan["span"], plan["view"], plan["bearing"], ground,
+                        labels, night)
+        return
+    project = _perspective_projector(img, shot)
+    _north_arrow_perspective(img, project, plan["centre"], plan["span"])
+    if labels:
+        _label_pieces(img, scene, project)
+        _caption(img, f"{plan['view']} bearing {shot['bearing']:.0f} deg, pitch {pitch:.0f} deg"
+                      f"{night}; grid 1 m, bright 5 m")
 
 
 def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = None,
            res: int = 1024, out: Path | None = None, span: float | None = None,
            bearing: float | None = None, cut: float = 0.0, samples: int = 12,
            highlight: list[str] | None = None, pitch: float = 32.0,
-           night: bool = False) -> dict:
+           night: bool = False, labels: bool = False) -> dict:
     focus = focus or []
     plan = _plan(cat, scene, view, focus, span, bearing, cut, pitch)
     if night:
@@ -276,7 +288,7 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
                                   plan["groundHalf"])
     ground = render_ground(cat, scene)
     for s, img in zip(plan["shots"], images):
-        _annotate(img, cat, scene, plan, s, ground, pitch)
+        _annotate(img, cat, scene, plan, s, ground, pitch, labels)
     rx, ry = plan["res"]
     if len(images) == 1:
         images[0].save(out)
@@ -291,6 +303,7 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
     pieces = sum(1 for p in scene.pieces if p.y is not None and cat.raw_glb(p.asset) is not None)
     return {"png": str(out), "view": view, "spanM": round(plan["span"], 2),
             "bearingDeg": round(plan["bearing"], 1), "pieces": pieces, "warnings": warnings,
+            "labels": labels,
             "pxPerM": round(rx / plan["span"], 2) if plan["shots"][0]["ortho"] else None}
 
 
@@ -405,10 +418,10 @@ def night_lights(cat, scene: Scene) -> list[list[float]]:
 
 
 def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 1024,
-                 samples: int = 12, pitch: float = 32.0) -> dict:
+                 samples: int = 12, pitch: float = 32.0, labels: bool = False) -> dict:
     """A render ROUND (0100 decision 2): every shot in ONE Blender launch,
     written to output/renders/<scene>/round-N/ with a manifest naming each
-    shot's subject."""
+    shot's subject (the pictures carry no text unless `labels`, R8)."""
     t0 = time.time()
     wanted = round_shots(cat, scene, spec)
     plans = [_plan(cat, scene, w["view"], w["focus"], w.get("span"), w["bearing"], 0.0, pitch)
@@ -432,7 +445,7 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
     shots = []
     for k, (w, plan, imgs) in enumerate(zip(wanted, plans, images)):
         shot, img = plan["shots"][0], imgs[0]
-        _annotate(img, cat, scene, plan, shot, ground, pitch)
+        _annotate(img, cat, scene, plan, shot, ground, pitch, labels)
         name = f"{k:02d}-{w['view']}" + (f"-{w['focus'][0]}" if w["view"] == "front" else
                                          f"-{plan['shots'][0].get('bearing', 0):.0f}"
                                          if w["view"] == "iso" else "")
@@ -444,7 +457,7 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
                       "focus": w["focus"], "bearingDeg": round(shot.get("bearing", plan["bearing"]), 1),
                       "spanM": round(plan["span"], 2),
                       **({"doorFacingDeg": w["doorFacingDeg"]} if "doorFacingDeg" in w else {})})
-    manifest = {"scene": str(scene.path), "round": n, "spec": spec, "res": res,
+    manifest = {"scene": str(scene.path), "round": n, "spec": spec, "res": res, "labels": labels,
                 "samples": samples, "seconds": round(time.time() - t0, 1),
                 "groundHalfM": round(half, 1), "warnings": warnings, "shots": shots}
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
@@ -504,7 +517,40 @@ def _label_pieces(img, scene, project) -> None:
                       stroke_width=2, stroke_fill=(0, 0, 0))
 
 
-def _annotate_ortho(img, cat, scene, shot, span, view, bearing, ground) -> None:
+def _north_arrow(draw, img, tip, tail, f) -> None:
+    """A white arrow from `tail` to `tip` (pixels) with an "N" beyond the tip."""
+    (tx, ty), (bx, by) = tip, tail
+    dx, dy = tx - bx, ty - by
+    n = math.hypot(dx, dy) or 1.0
+    ux, uy = dx / n, dy / n
+    draw.line([(bx, by), (tx, ty)], fill=(255, 255, 255), width=4)
+    px, py = -uy, ux
+    head = [(tx + ux * 4, ty + uy * 4), (tx - ux * 12 + px * 8, ty - uy * 12 + py * 8),
+            (tx - ux * 12 - px * 8, ty - uy * 12 - py * 8)]
+    draw.polygon(head, fill=(255, 255, 255), outline=(0, 0, 0))
+    draw.text((tx + ux * 18, ty + uy * 18), "N", fill=(255, 255, 255), font=f, anchor="mm",
+              stroke_width=2, stroke_fill=(0, 0, 0))
+
+
+def _north_arrow_perspective(img, project, centre, span: float) -> None:
+    """The north arrow of a perspective shot: north (+y, wb frame) at the
+    frame centre, projected, drawn from a fixed corner so it never covers the
+    place."""
+    from PIL import ImageDraw
+    c = np.asarray(centre, float)
+    a, b = project(c), project(c + np.array([0.0, span * 0.1, 0.0]))
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    n = math.hypot(dx, dy)
+    if n < 1e-6 or not all(math.isfinite(v) for v in (*a, *b)) or a[0] < -1e5 or b[0] < -1e5:
+        return
+    w, _h = img.size
+    tail = (w - 60, 90)
+    tip = (tail[0] + dx / n * 36, tail[1] + dy / n * 36)
+    _north_arrow(ImageDraw.Draw(img), img, tip, tail, _font(max(12, w // 60)))
+
+
+def _annotate_ortho(img, cat, scene, shot, span, view, bearing, ground, labels: bool = False,
+                    night: str = "") -> None:
     from PIL import ImageDraw
     draw = ImageDraw.Draw(img)
     w, h = img.size
@@ -537,9 +583,9 @@ def _annotate_ortho(img, cat, scene, shot, span, view, bearing, ground) -> None:
         for path in scene.paths:
             pts = [project((x, -z, 0.0)) for x, z in path["pointsM"]]
             draw.line(pts, fill=(255, 140, 0), width=max(2, int(path.get("widthM", 2) * ppm / 3)))
-        draw.polygon([(w - 40, 60), (w - 50, 90), (w - 30, 90)], fill=(255, 255, 255))
-        draw.text((w - 46, 36), "N", fill=(255, 255, 255), font=f)
-    _label_pieces(img, scene, project)
+        _north_arrow(draw, img, (w - 60, 54), (w - 60, 90), f)
+    if labels:
+        _label_pieces(img, scene, project)
     # scale bar: the largest of 1/2/5/10/20/50 m under a quarter of the width
     bar = max(v for v in (1, 2, 5, 10, 20, 50, 100) if v * ppm <= w / 4 or v == 1)
     x0, y0 = 20, h - 30
@@ -548,7 +594,9 @@ def _annotate_ortho(img, cat, scene, shot, span, view, bearing, ground) -> None:
         if bar <= 10 or k % 5 == 0:
             xx = x0 + k * ppm
             draw.line([(xx, y0 - 4), (xx, y0 + 8)], fill=(0, 0, 0), width=1)
-    draw.text((x0, y0 - 24), f"{bar} m  ({ppm:.1f} px/m)", fill=(255, 255, 255), font=f,
-              stroke_width=2, stroke_fill=(0, 0, 0))
-    label = {"top": "plan, north up"}.get(view, f"{view}: camera looks toward {bearing:.0f} deg")
-    _caption(img, f"{label}; span {span:.1f} m; grid 1 m, bright 5 m")
+    draw.text((x0, y0 - 24), f"{bar} m" + (f"  ({ppm:.1f} px/m)" if labels else ""),
+              fill=(255, 255, 255), font=f, stroke_width=2, stroke_fill=(0, 0, 0))
+    if labels:
+        label = {"top": "plan, north up"}.get(view,
+                                               f"{view}: camera looks toward {bearing:.0f} deg")
+        _caption(img, f"{label}{night}; span {span:.1f} m; grid 1 m, bright 5 m")

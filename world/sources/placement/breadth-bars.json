@@ -8,7 +8,8 @@
     "dressingAssetShareMax": "the largest share any one dressing asset may take of the place's dressing pieces",
     "defaultTier": "used only when a record carries no magnitude; the record's classification.magnitude decides otherwise",
     "buildingSpacingM": "[min, max] metres between neighbouring buildings; 97 C6 buffers each district hull by half the max",
-    "densityPerHa": "[low, high] 97 C6 band: counted buildings and structures per hectare of the union of the district hulls, read from the column the place is built under"
+    "densityPerHa": "[low, high] 97 C6 band: counted buildings and structures per hectare of the union of the district hulls, read from the column the place is built under",
+    "dressingPiecesPerDwellingWithin12mMin": "every placement within 12 m in plan of the dwelling's footprint (15 m in height of its anchor), except shells, pads, ground treatments and modular-run pieces (decision 0105 R6; 0098's vanilla numbers counted pieces); p50 over the place's dwellings"
   },
   "tiers": {
     "M1": {

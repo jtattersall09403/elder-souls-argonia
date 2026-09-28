@@ -317,7 +317,8 @@ arrangement. None of it changes what any test asserts.
 - `worldgen/render_blueprint.py` — the blueprint map: top-down annotated
   diagram (districts, ways, parcels by ground fit, docks, doors with facing,
   landmarks, sockets, water, contours) over a real terrain hillshade crop,
-  with legend and budget title block, into `output/blueprint-maps/`
+  with no text but the scale bar and north arrow (R8, 16k walk 3; `--labels`
+  adds ids, bearings, ground deltas, legend and title block), into `output/blueprint-maps/`
   (gitignored — renders are derived). Fixture + tests in
   `worldgen/testdata/` (0041 Part 0 item 5).
 - `worldgen/site_urls.py` — `PAGES_URL`, `STUDIO_URL` and `studio_url(local)`: links handed to the

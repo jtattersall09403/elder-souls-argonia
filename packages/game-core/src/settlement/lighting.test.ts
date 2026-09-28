@@ -1,14 +1,17 @@
 /**
  * Settlement lighting (walk 2 D7): the lamp clock, the fixture light, the
- * nearest-eight budget and the window lights.
+ * lights band (R3: every burning fixture within 200 m, capped at 16), the
+ * stepped light counts and flame reach (R11).
  */
 import * as THREE from "three";
+import * as lighting from "./lighting";
 import { describe, expect, it } from "vitest";
 import {
   ALWAYS_LIT_DAY_FACTOR, artificialLightFactor, fixtureFromFireSocket, fixtureFromPiece,
   fixtureLightOf, FIXTURE_CANDELA, FIXTURE_DEFAULT_RADIUS_M, isAlwaysLitFixture, isFireSocket,
-  isLightFixturePlacement, LIGHT_BUDGET, LIGHTS_ACTIVE_M, nearestFixtures,
-  SettlementLightFixtures, windowFixturesFromPiece,
+  fixturesInBand, FLAME_MAX_DISTANCE_M, isLightFixturePlacement, LIGHT_COUNT_STEPS, lightCountStep,
+  LIGHTS_ACTIVE_M, LIGHTS_CAP,
+  SettlementLightFixtures,
 } from "./lighting";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import type { SettlementKitAssetMeta } from "./types";
@@ -68,42 +71,131 @@ describe("light fixtures", () => {
     expect(fire.flame).toBeNull();
   });
 
-  it("puts one 4 m window light 0.5 m inside each glow facing of an architecture piece", () => {
-    const house = new THREE.Box3(new THREE.Vector3(-10, 0, -5), new THREE.Vector3(10, 10, 5));
-    const meta: SettlementKitAssetMeta = { category: "architecture", glowFacingsDeg: [90, 270] };
-    const windows = windowFixturesFromPiece("h", meta, new THREE.Matrix4(), house);
-    expect(windows.map((w) => [w.position.x, w.position.y, w.position.z, w.radiusM]))
-      .toEqual([[9.5, 1.5, expect.closeTo(0, 9), 4], [expect.closeTo(-9.5, 9), 1.5, expect.closeTo(0, 9), 4]]);
-    expect(windowFixturesFromPiece("f", { ...meta, category: "misc" }, new THREE.Matrix4(), house))
-      .toEqual([]);
+  it("the band and the cap are the R3 numbers the place gate reads", () => {
+    expect(LIGHTS_ACTIVE_M).toBe(200);
+    expect(LIGHTS_CAP).toBe(16);
   });
 
-  it("the budget lights the nearest 8, re-chosen once a second, scaled by the factor", () => {
+  const ring = (n: number, radiusM: number, prefix = "f") => Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    return fixtureFromPiece(`${prefix}${i}`, {},
+      new THREE.Matrix4().makeTranslation(Math.cos(a) * radiusM, 0, Math.sin(a) * radiusM), box);
+  });
+  const lit = (manager: SettlementLightFixtures) =>
+    manager.lights.filter((l) => l.visible && l.intensity > 0);
+  const flameQuads = (manager: SettlementLightFixtures) =>
+    (manager.group.getObjectByName("settlement-fixture-flames") as THREE.Mesh).geometry.drawRange.count / 6;
+  const at = (x: number) => {
+    const camera = new THREE.PerspectiveCamera();
+    camera.position.set(x, 0, 0); camera.updateMatrixWorld();
+    return camera;
+  };
+
+  it("20 fixtures at 50 m: the 16 nearest emit, the other 4 keep their sprite", () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFlameTexture(new THREE.Texture());
+    // the camera 2 m off centre gives every fixture a distinct distance near 50 m
+    manager.setFixtures(ring(20, 50));
+    manager.update(0, at(2));
+    expect(lit(manager)).toHaveLength(16);
+    expect(manager.lights).toHaveLength(16);
+    expect(manager.litIds).toHaveLength(16);
+    expect(flameQuads(manager)).toBe(20);
+    expect(manager.lights.every((l) => l.decay === 2 && !l.castShadow)).toBe(true);
+    manager.dispose();
+  });
+
+  it("5 fixtures at 150 m: all 5 emit, padded to 8 visible lights and no more made", () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFixtures(ring(5, 150));
+    manager.update(0, at(0));
+    expect(lit(manager)).toHaveLength(5);
+    expect(manager.lights).toHaveLength(8);
+    expect(manager.lights.filter((l) => l.visible)).toHaveLength(8);
+    expect(manager.visibleLightCount).toBe(8);
+    manager.dispose();
+  });
+
+  it("the visible light count steps 0/4/8/16 only (R11)", () => {
+    expect(LIGHT_COUNT_STEPS).toEqual([0, 4, 8, 16]);
+    expect([0, 1, 3, 4, 5, 8, 9, 15, 16].map(lightCountStep)).toEqual([0, 4, 4, 4, 8, 8, 16, 16, 16]);
+    const manager = new SettlementLightFixtures({ value: 1 });
+    const seen = new Set<number>();
+    for (const n of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 16, 20, 3, 0]) {
+      manager.setFixtures(ring(n, 50));
+      manager.update(n, at(2));
+      const visible = manager.lights.filter((l) => l.visible).length;
+      expect(visible).toBe(lightCountStep(Math.min(n, LIGHTS_CAP)));
+      expect(lit(manager)).toHaveLength(Math.min(n, LIGHTS_CAP));
+      seen.add(visible);
+    }
+    expect([...seen].sort((a, b) => a - b)).toEqual([0, 4, 8, 16]);
+    manager.dispose();
+  });
+
+  it("the pool grows only to the step needed", () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFixtures(ring(3, 50));
+    manager.update(0, at(2));
+    expect(manager.lights).toHaveLength(4);
+    manager.setFixtures(ring(6, 50));
+    manager.update(1, at(2));
+    expect(manager.lights).toHaveLength(8);
+    manager.setFixtures(ring(2, 50));
+    manager.update(2, at(2));
+    // made lights are kept; the unused ones past the step are hidden
+    expect(manager.lights).toHaveLength(8);
+    expect(manager.lights.filter((l) => l.visible)).toHaveLength(4);
+    manager.dispose();
+  });
+
+  it("a lit window is no fixture: nothing builds a light for it (R11)", () => {
+    // window glow is the kit's emissive mask under the lamp clock (materials.ts)
+    expect(Object.keys(lighting).filter((k) => /window/i.test(k))).toEqual([]);
+  });
+
+  it("flame sprites are drawn to 250 m", () => {
+    expect(FLAME_MAX_DISTANCE_M).toBe(250);
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFlameTexture(new THREE.Texture());
+    manager.setFixtures([...ring(1, 240, "near"), ...ring(1, 260, "far")]);
+    manager.update(0, at(0));
+    expect(flameQuads(manager)).toBe(1);
+    expect(manager.lights).toHaveLength(0);
+    manager.dispose();
+  });
+
+  it("1 fixture at 250 m: none emit and no light is made", () => {
+    const manager = new SettlementLightFixtures({ value: 1 });
+    manager.setFixtures(ring(1, 250));
+    manager.update(0, at(0));
+    expect(lit(manager)).toHaveLength(0);
+    expect(manager.lights).toHaveLength(0);
+    manager.dispose();
+  });
+
+  it("the lit set is re-chosen once a second, nearest first, and hides when the lamps go out", () => {
     const fixtures = Array.from({ length: 12 }, (_, i) => fixtureFromPiece(`f${i}`, {},
-      new THREE.Matrix4().makeTranslation(i * 10, 0, 0), box));
-    expect(nearestFixtures(fixtures, new THREE.Vector3(55, 0, 0))).toEqual([5, 6, 4, 7, 3, 8, 2, 9]);
+      new THREE.Matrix4().makeTranslation(i * 30, 0, 0), box));
+    expect(fixturesInBand(fixtures, new THREE.Vector3(155, 0, 0), LIGHTS_ACTIVE_M, 4)).toEqual([5, 6, 4, 7]);
     const factor = { value: 1 };
     const manager = new SettlementLightFixtures(factor);
-    expect(manager.lights).toHaveLength(LIGHT_BUDGET);
     manager.setFixtures(fixtures);
-    const camera = new THREE.PerspectiveCamera();
-    camera.position.set(0, 0, 0); camera.updateMatrixWorld();
-    manager.update(0, camera);
-    expect(manager.litIds).toEqual(["f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7"]);
-    expect(manager.lights.every((l) => l.intensity > 0 && l.decay === 2 && !l.castShadow)).toBe(true);
-    camera.position.set(110, 0, 0); camera.updateMatrixWorld();
-    manager.update(0.5, camera);
+    manager.update(0, at(0));
+    // 0..180 m of 0..330 m are in the band
+    expect(manager.litIds).toEqual(["f0", "f1", "f2", "f3", "f4", "f5", "f6"]);
+    manager.update(0.5, at(330));
     expect(manager.litIds[0]).toBe("f0");
-    manager.update(1.0, camera);
-    expect(manager.litIds[0]).toBe("f11");
-    expect(manager.lights.every((l) => l.visible)).toBe(true);
+    manager.update(1.0, at(330));
+    expect(manager.litIds).toEqual(["f11", "f10", "f9", "f8", "f7", "f6", "f5"]);
+    expect(lit(manager)).toHaveLength(7);
     factor.value = 0;
-    manager.update(1.2, camera);
-    expect(manager.lights.every((l) => l.intensity === 0 && !l.visible)).toBe(true);
-    // lamps lit but no fixture within LIGHTS_ACTIVE_M: the pool is off
-    factor.value = 1;
-    camera.position.set(110 + LIGHTS_ACTIVE_M + 1, 0, 0); camera.updateMatrixWorld();
-    manager.update(3, camera);
+    // lamps out between refreshes: zero intensity, the visible count holds at 8
+    manager.update(1.2, at(330));
+    expect(manager.lights.every((l) => l.intensity === 0)).toBe(true);
+    expect(manager.lights.filter((l) => l.visible)).toHaveLength(8);
+    manager.update(2.5, at(330));
+    expect(manager.litIds).toEqual([]);
     expect(manager.lights.some((l) => l.visible)).toBe(false);
     manager.dispose();
   });
@@ -165,10 +257,12 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     expect(ALWAYS_LIT_DAY_FACTOR).toBe(0.5);
     expect(manager.lights.every((l) => l.visible)).toBe(true);
     expect(intensityOf(manager, "brazier")).toBeCloseTo(FIXTURE_CANDELA * 0.5, 9);
-    expect(intensityOf(manager, "candle")).toBe(0);
+    // a candle that is out holds no light at all
+    expect(manager.litIds).toEqual(["brazier"]);
+    expect(manager.lights).toHaveLength(4);
     expect(drawn(manager)).toEqual([0.5]);
     factor.value = artificialLightFactor(22 * 60);
-    manager.update(0.1, camera);
+    manager.update(1, camera);
     expect(intensityOf(manager, "brazier")).toBeCloseTo(FIXTURE_CANDELA, 9);
     expect(intensityOf(manager, "candle")).toBeCloseTo(FIXTURE_CANDELA, 9);
     expect(drawn(manager)).toEqual([1, 1]);

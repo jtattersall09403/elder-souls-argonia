@@ -25,6 +25,12 @@ layout (tooling/placement-workbench/output/apply/<placeId>.blueprint.json),
 refusing when the layout changed since that apply; it implies `--plan` and
 writes `<id>.plan.png`.
 
+No text by default (planner ruling R8, 16k walk 3; the owner found the maps
+too busy to read): the map carries only its scale bar and north arrow, and a
+parcel over its fit's ground-delta limit is drawn with a red outline instead
+of a number. `--labels` adds back every id, the door bearings, the ground
+deltas, the contour heights, the title block, the legend and the axes.
+
 Output: `<out>/<blueprint-id>.png` (default out: tooling/world-generation/output/
 blueprint-maps/, gitignored — renders are derived, the blueprint is the source).
 
@@ -54,6 +60,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt          # noqa: E402
 import numpy as np                        # noqa: E402
+from matplotlib import patheffects       # noqa: E402
 from matplotlib.lines import Line2D       # noqa: E402
 from matplotlib.patches import Patch, Polygon as MplPolygon  # noqa: E402
 
@@ -84,6 +91,7 @@ WAY_STYLE = {
     "boardwalk": ("#caa06a", "--"),
 }
 PAD_M = 60.0
+KEEP_GID = "r8-keep"      # the scale bar's and north arrow's text: drawn with or without --labels
 MIN_SPAN_M = 150.0
 
 
@@ -206,7 +214,7 @@ PLAN_COLOURS = {"hardClear": "#ff5c5c", "thinned": "#f2a65a", "kept": "#7bd88f",
                 "terminal": "#61dafb", "over": "#ff4d4d", "within": "#f4f7fb"}
 
 
-def _plan_overlay(ax, bp: dict, crop, to_m) -> dict:
+def _plan_overlay(ax, bp: dict, crop, to_m, labels: bool = True) -> dict:
     """What a 3D top view cannot show (0100 decision 3): the ground delta
     under each parcel's outline against its fit's limit (the compile's own
     rule, `compile_settlement.FIT_MAX`; needs the terrain; red over the
@@ -236,13 +244,18 @@ def _plan_overlay(ax, bp: dict, crop, to_m) -> dict:
         fit = fits.get(p.get("id"))
         limit = FIT_MAX.get(fit) if fit else None
         over = limit is not None and delta > limit
+        got["padDeltas"] += 1
+        got["padOver"] += int(over)
+        if over:
+            # the one plan fact a reader must see without the number (R8)
+            _poly(ax, m, fill=False, edgecolor=PLAN_COLOURS["over"], linewidth=2.2, zorder=6)
+        if not labels:
+            continue
         text = f"\u0394{delta:.2f}" + (f"/{limit:.2f}" if limit is not None
                                          and math.isfinite(limit) else "") + " m"
         ax.text(float(m[:, 0].min()), float(m[:, 1].max()) + 1.0, text, fontsize=6.5,
                 color=PLAN_COLOURS["over" if over else "within"], zorder=9, va="top",
                 bbox=dict(boxstyle="round,pad=0.15", fc="#0d1218cc", ec="none"))
-        got["padDeltas"] += 1
-        got["padOver"] += int(over)
     for dr in bp.get("doors", []):
         if dr.get("thresholdUV") and dr.get("facingDeg") is not None:
             cx, cz = to_m([dr["thresholdUV"]])[0]
@@ -286,8 +299,11 @@ def _plan_overlay(ax, bp: dict, crop, to_m) -> dict:
 def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD_M,
            seed: int | None = None, extent_m: float | None = None,
            crop_m: tuple[float, float, float, float] | None = None,
-           plan: bool = False) -> dict:
+           plan: bool = False, labels: bool = False) -> dict:
     """Render one blueprint. Returns a summary of what was drawn.
+
+    `labels` (R8): False draws no text but the scale bar and the north arrow;
+    True adds the ids, bearings, ground deltas, title, legend and axes.
 
     `crop_m` (x0, z0, x1, z1 in world metres) overrides the automatic box so a
     district of a city can be rendered at a legible scale.
@@ -329,7 +345,8 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
             levels = np.arange(math.floor(lo), math.ceil(hi) + step, step)
             cs = ax.contour(xs, zs, h, levels=levels, colors="#7f8c99",
                             linewidths=0.5, alpha=0.7)
-            ax.clabel(cs, inline=True, fontsize=6, fmt="%.0f")
+            if labels:
+                ax.clabel(cs, inline=True, fontsize=6, fmt="%.0f")
 
     # -- settlement boundary ------------------------------------------------
     if bp.get("boundary"):
@@ -449,23 +466,42 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         drawn["sockets"] += 1
 
     if plan:
-        drawn["plan"] = _plan_overlay(ax, bp, crop, to_m)
+        drawn["plan"] = _plan_overlay(ax, bp, crop, to_m, labels)
 
     # -- frame, scale bar, title block, legend ------------------------------
     ax.set_xlim(x0, x1)
     ax.set_ylim(z1, z0)                    # Z grows south — north is up
     ax.set_aspect("equal")
-    ax.set_xlabel("world X east (m)", fontsize=8)
-    ax.set_ylabel("world Z south (m)", fontsize=8)
-    ax.tick_params(labelsize=7)
 
     span = x1 - x0
     bar = max(10.0, round(span / 5 / 10) * 10)
     bx, bz = x0 + span * 0.05, z1 - span * 0.05
-    ax.plot([bx, bx + bar], [bz, bz], color="#f2f2f2", lw=3, zorder=9)
+    # a dark halo keeps the bar and the arrow legible over pale hillshade
+    halo = [patheffects.withStroke(linewidth=4.5, foreground="#0d1218")]
+    ax.plot([bx, bx + bar], [bz, bz], color="#f2f2f2", lw=3, zorder=9, path_effects=halo)
     ax.text(bx + bar / 2, bz - span * 0.015, f"{bar:.0f} m", color="#f2f2f2",
-            fontsize=8, ha="center", va="bottom", zorder=9)
+            fontsize=9, ha="center", va="bottom", zorder=9, gid=KEEP_GID, path_effects=halo)
+    # north arrow, top right (north is up: Z grows south)
+    nx, nz = x1 - span * 0.06, z0 + span * 0.13
+    ax.annotate("", xy=(nx, nz - span * 0.07), xytext=(nx, nz), zorder=9,
+                arrowprops=dict(arrowstyle="-|>", color="#f2f2f2", lw=2.0, mutation_scale=18,
+                                path_effects=halo))
+    ax.text(nx, nz - span * 0.075, "N", color="#f2f2f2", fontsize=10, ha="center",
+            va="bottom", zorder=9, gid=KEEP_GID, path_effects=halo)
 
+    if not labels:
+        # R8: nothing but the scale bar and the north arrow; an arrow drawn
+        # with an empty annotation (the door facings) is a mark, not text
+        for t in list(ax.texts):
+            if t.get_gid() != KEEP_GID and t.get_text():
+                t.remove()
+        ax.set_xticks([])
+        ax.set_yticks([])
+        return _save(fig, ax, out_path, bp, box, crop, drawn)
+
+    ax.set_xlabel("world X east (m)", fontsize=8)
+    ax.set_ylabel("world Z south (m)", fontsize=8)
+    ax.tick_params(labelsize=7)
     budget = bp.get("budget", {})
     title = (f"{bp.get('id')}  ·  seed {bp.get('seed')}  ·  "
              f"{drawn['districts']} districts, {drawn['parcels']} parcels, "
@@ -505,14 +541,17 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         ]
     ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.01, 1.0),
               fontsize=7, framealpha=0.9)
-
-    fig.patch.set_facecolor("#0d1218")
-    for spine in ax.spines.values():
-        spine.set_color("#3a4655")
     ax.xaxis.label.set_color("#c7ced8")
     ax.yaxis.label.set_color("#c7ced8")
     ax.tick_params(colors="#c7ced8")
+    return _save(fig, ax, out_path, bp, box, crop, drawn)
 
+
+def _save(fig, ax, out_path: Path, bp: dict, box, crop, drawn: dict) -> dict:
+    x0, z0, x1, z1 = box
+    fig.patch.set_facecolor("#0d1218")
+    for spine in ax.spines.values():
+        spine.set_color("#3a4655")
     # every map label stays inside the map: a --crop render drew the labels
     # of everything outside the crop below the axes (16k fix 2 r3 ruling 4)
     for t in ax.texts:
@@ -525,7 +564,8 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
     plt.close(fig)
 
     return {"id": bp.get("id"), "out": str(out_path), "cropM": [x0, z0, x1, z1],
-            "terrain": crop is not None, **drawn}
+            "terrain": crop is not None,
+            "textCount": sum(1 for t in ax.texts if t.get_text()), **drawn}
 
 
 def load_blueprint(path: Path) -> dict:
@@ -566,6 +606,9 @@ def main(argv: list[str] | None = None) -> int:
                           "it (implies --plan)")
     ap.add_argument("--plan", action="store_true",
                     help="add ground deltas, door facings, clearance tiers and sockets")
+    ap.add_argument("--labels", action="store_true",
+                    help="add ids, bearings, ground deltas, contour heights, title, legend "
+                         "and axes (default: no text but the scale bar and north arrow, R8)")
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="output directory")
     ap.add_argument("--pad-m", type=float, default=PAD_M, help="crop padding, metres")
     ap.add_argument("--seed", type=int, default=None, help="label-jitter seed")
@@ -603,7 +646,8 @@ def main(argv: list[str] | None = None) -> int:
 
     stem = args.name or (f"{bp['id']}.plan" if args.layout else bp["id"])
     summary = render(bp, args.out / f"{stem}.png", terrain=not args.no_terrain,
-                     pad_m=args.pad_m, seed=args.seed, crop_m=crop_m, plan=plan)
+                     pad_m=args.pad_m, seed=args.seed, crop_m=crop_m, plan=plan,
+                     labels=args.labels)
     print(json.dumps(summary, indent=1))
     return 0
 

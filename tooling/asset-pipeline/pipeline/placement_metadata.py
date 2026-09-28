@@ -36,6 +36,9 @@ PLACEMENT_FIELDS = {
 DESIGNED_SINK_DIR = REPO_ROOT / "world" / "sources" / "placement"
 DESIGNED_SINK_RECORD = DESIGNED_SINK_DIR / "kit-designed-sink.json"
 MOUNTS_RECORD = DESIGNED_SINK_DIR / "kit-mounts-mined.json"
+#: decision 0105 R1: the setting (interior/exterior, social class) each piece's
+#: own plugin places it in (`worldgen.mine_setting_class`).
+SETTING_CLASS_RECORD = DESIGNED_SINK_DIR / "kit-setting-class.json"
 #: The door-link miner's record; its ``placedScales`` section is every kit
 #: shell's plugin placed scale (planner ruling 1, interiors round 4).
 DOOR_LINKS_RECORD = DESIGNED_SINK_DIR / "exterior-interior-links.json"
@@ -422,6 +425,38 @@ def load_anchors(path: Path = MOUNTS_RECORD) -> dict[str, dict[str, Any]]:
     return anchors if isinstance(anchors, dict) else {}
 
 
+def load_setting_class(path: Path = SETTING_CLASS_RECORD) -> dict[str, dict[str, Any]]:
+    """``assetId -> mined setting-class row``; empty when never mined."""
+    try:
+        document = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {}
+    if document.get("schemaVersion") != 1:
+        raise ValueError(
+            f"{path}: setting-class record schemaVersion {document.get('schemaVersion')!r} "
+            "is not one this reader knows (1)")
+    assets = document.get("assets", {})
+    return assets if isinstance(assets, dict) else {}
+
+
+def apply_setting_class(asset: dict[str, Any], rows: dict[str, dict[str, Any]]) -> None:
+    """``settingClass`` on a manifest row the setting-class miner measured
+    (decision 0105 R1): the licensed settings, n and the source cells; absent
+    when the piece's kit was never mined (a gate reads NOT_MEASURED)."""
+    row = rows.get(asset.get("id"))
+    if not isinstance(row, dict):
+        asset.pop("settingClass", None)
+        return
+    asset["settingClass"] = {
+        "settings": row.get("settings", {}),
+        "n": row.get("n", 0),
+        "interior": row.get("interior", {}),
+        "exterior": row.get("exterior", {}),
+        "sourceCells": row.get("sourceCells", []),
+        "evidence": row.get("evidence", "plugin"),
+    }
+
+
 def load_placed_scales(path: Path = DOOR_LINKS_RECORD) -> dict[str, dict[str, Any]]:
     """``assetId -> {median, p10, p90, n}``: the scale every plugin reference
     placing a kit shell was set at (`worldgen.mine_door_links.placed_scales`);
@@ -505,8 +540,10 @@ def apply_placement_metadata(
     mined: dict[str, Any] | None = None,
     anchors: dict[str, dict[str, Any]] | None = None,
     scales: dict[str, dict[str, Any]] | None = None,
+    setting: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Attach the required contract to every asset, failing absent measurement."""
+    setting = load_setting_class() if setting is None else setting
     inventory = inventory or load_inventory()
     mined = load_designed_sink() if mined is None else mined
     anchors = load_anchors() if anchors is None else anchors
@@ -559,6 +596,7 @@ def apply_placement_metadata(
             for key in ("piled", "deckRiseM", "deckRiseEvidence"):
                 asset.pop(key, None)
         apply_placed_scale(asset, scales)
+        apply_setting_class(asset, setting)
         asset["anchorClass"] = anchor_class
         asset["anchorClassEvidence"] = anchor_evidence
         asset.pop("meshTell", None)

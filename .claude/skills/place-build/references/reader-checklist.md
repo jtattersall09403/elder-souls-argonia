@@ -76,6 +76,7 @@ checklist; say where a shot contradicts one.
 34. Is there a cook fire, forge glow or chimney smoke where the brief names one? (Gate "Fire and smoke") `reader`
 35. Are the ground and wall meeting without a hard line or a gap under the wall? (Gate "Ground-to-wall blend") `reader`
 36. Are there pads, retaining walls or steps where the ground slopes under a building, with no floor hanging over a drop? (Gate "Pads, retaining walls, steps") `rule:floorEdgeRule, padRule`
+37. Does each building read as the right social scale for this place (a hamlet's stable, not a castle's; a village house, not a manor), and is every outdoor light an outdoor piece, with no interior sconce or candle on an outside wall? (0105 R1) `reader`, `rule:setting.class`
 
 ## Walk only (never asked of the reader)
 

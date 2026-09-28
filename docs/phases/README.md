@@ -20,7 +20,7 @@ are not phases — several phases each draw on one module.
 | 10b | full sandbox parity in the studio | [§ Phase 10b](#phase-10b--full-portable-sandbox-parity-in-the-studio) | [0017](../decisions/0017-sandbox-parity-moved-to-phase-10b.md) |
 | 10c | stats and progression implementation | [§ Phase 10c](#phase-10c--stats-progression-and-character-systems-module-76) | [../world/76](../world/76-stats-progression.md), [0019](../decisions/0019-stats-system-workstream-and-placement.md) |
 | 13 | fauna ecology, encounters, fixed loot (systems only; rollout in 15); fills the `sockets[]` the places author, adding no vocabulary | [§ Phase 13](#phase-13--fauna-ecology-encounters-and-fixed-loot-exemplar-first) | [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
-| **12** | **interiors**: tiers B and C, every assembled interior, dungeon or building — research, the furnishing mine, the skill proved on exemplars then unattended; sites, promises, sockets and tier A cells are delivered earlier with the places (16k) | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md), [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
+| **12** | **interiors**: tiers B and C only, every assembled interior (dungeons, unique large interiors; never a standard house, stable or workplace, which are tier A with their places, 0105) — research, the furnishing mine, the skill proved on exemplars then unattended; sites, promises, sockets and tier A cells are delivered earlier with the places (16k) | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md), [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
 | P (+12b) | rolling polish pass; the soundscape | [§ Phase P](#phase-p--general-polish-pass-rolling-including-phase-12b--the-soundscape) + [P-polish/backlog.md](P-polish/backlog.md) | [0023](../decisions/0023-soundscape-polish-tier-and-credits.md) |
 | 14 | streaming and deployment (budgets; the renderer extraction moved to 10b) | [§ Phase 14](#phase-14--streaming-and-deployment) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | 15 | rollout by region packet, one pass per packet once every system exists, with the skill set the 16k loop proved (0099) | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md), [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
@@ -349,8 +349,8 @@ parked:
 | runtime correctness of what the compiler placed | 16h |
 | the five exemplars, exterior | retired 2026-09-23 (the yard is the fixture); their blueprints deleted in 16k slice 1b (0099 addendum); Lilmoth returns as the owner-guided whole-city slice of the 16k loop |
 | the **Hist-centred** and **Imperial-fringe settlement grammars** — in practice the type recipes (`type-recipes.json`) plus the mined kit-assembly templates | proven per place type in the 16k loop (0099: two fresh places in a row per type, unattended; one type sheet per type in the `place-build` skill, 0100); further recipes per packet in 15 |
-| "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door model, 0081), the 16k loop (door records and reachability, tier A interiors and the reserved-door state: carried 16h item 11, 16i items 4–5), Phase 12 (assembled interiors) |
-| **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | each 16k loop place's in its slice; every other settlement's in its Phase 15 packet (tier A verbatim where a linked cell exists, else assembled by the Phase 12 skill); Helstrom is a city, owner-guided, in its packet |
+| "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door model, 0081), the 16k loop (door records and reachability, tier A interiors and the reserved-door state, reserved only for tier B/C per 0105 R2: carried 16h item 11, 16i items 4–5), Phase 12 (assembled interiors, tiers B and C) |
+| **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | each 16k loop place's in its slice; every other settlement's in its Phase 15 packet (tier A verbatim on a shell with a linked cell, 0105 R2: a D0 house is never left for Phase 12); Helstrom is a city, owner-guided, in its packet |
 | **Morrowind-style travel services** (ferrymen, boat owners, rootworm Waykeepers: talk-pay-arrive over a geographically sensible service graph) and the **root-transit network re-authoring** with Hist-node placement | 16e (the typed service graph as one record with ferries, boat services and a talk-pay-arrive contract; ferry landings and berths recorded on the graph); 16h draws the hulls and landings; 16g re-authors the rootworm stations at the hero Hist nodes it places (0068) |
 | **player-stronghold site reservation** (quests 30 §24b.5; 0028) | 16g reserves the record and its design group; its interior is a Phase 12 family (a reoccupied xanmeer or a river station) |
 | **quest location roster** and the per-quest world provisions | re-validated in 16g against the frozen world; per packet in 15 |
@@ -410,8 +410,11 @@ Deliverables:
   16i items 4–5, 0103) and delivers every loop place's interior that a mod
   plugin already ships furnished behind that shell (**tier A**, verbatim,
   enterable in the studio); a lived-in building takes a shell with such a
-  cell (0103 decision 1); every other door gets a typed reserved state
-  naming its pool; **tiers B and C** (assembled interiors) are Phase 12's;
+  cell (0103 decision 1); a door is reserved (typed, naming its pool) only
+  for a tier B or C interior, never a house, shop, stable house or
+  workplace (0105 R2: re-shell to a linked shell, or dress a doorless hut's
+  inside as exterior placements); **tiers B and C** (assembled interiors)
+  are Phase 12's;
 - every promise a later phase fills (people and their schedules, items,
   containers and their loot rules, encounters, ambience) **placed as a
   typed socket** with its data in each loop place's `sockets[]` (0103
@@ -434,8 +437,12 @@ promises of what must be inside** are authored with every other place
 (16g fixes the vocabulary; the 16k loop and Phase 15 author them per place). This
 phase, late in the queue, builds **the insides**: every interior that has
 to be *assembled* rather than copied — dungeons of every family, hero
-interiors and the settlement buildings whose shells have no furnished
-cell in any mod plugin (tiers B and C). **Tier A is not this phase's**
+interiors and other unique large interiors (tiers B and C). Standard
+houses, shops, stables and workplaces are never this phase's: they are tier
+A, built with their places in the 16k loop and Phase 15, on a shell with a
+linked furnished cell or, for a doorless hut, dressed inside as exterior
+placements (owner 2026-09-28,
+[0105](../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R2). **Tier A is not this phase's**
 (owner 2026-09-26, [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
 decision 7): the 16k loop ships every tier A cell verbatim and enterable,
 with the door transition, the load contract and interior lighting, and

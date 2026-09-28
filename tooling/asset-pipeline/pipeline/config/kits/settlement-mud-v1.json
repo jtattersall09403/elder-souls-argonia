@@ -174,6 +174,125 @@
    "asset": "histtree:skyfall/sleeping tree overhaul/histflower02"
   },
   {
+   "asset": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+   "textureVariants": {
+    "textures/skyfall/sleeping tree overhaul/crackedbark.dds": {
+     "desaturate": 0.85,
+     "toward": [
+      0.52,
+      0.52,
+      0.5,
+      0.3
+     ],
+     "patches": {
+      "colour": [
+       0.6,
+       0.59,
+       0.56
+      ],
+      "amount": 0.25,
+      "cover": 0.25,
+      "sizePx": 40,
+      "seed": 1
+     }
+    },
+    "textures/skyfall/sleeping tree overhaul/cluste_col.dds": {
+     "desaturate": 0.18,
+     "tipColour": {
+      "colour": [
+       0.52,
+       0.36,
+       0.12
+      ],
+      "widthPx": 6,
+      "amount": 0.9,
+      "cover": 0.6,
+      "sizePx": 64,
+      "seed": 4
+     },
+     "patches": {
+      "colour": [
+       0.5,
+       0.48,
+       0.2
+      ],
+      "amount": 0.55,
+      "cover": 0.28,
+      "sizePx": 260,
+      "seed": 2
+     },
+     "drop": {
+      "cover": 0.2,
+      "sizePx": 50,
+      "seed": 3
+     }
+    },
+    "textures/skyfall/sleeping tree overhaul/vinesb_col.dds": {
+     "desaturate": 0.25,
+     "tipColour": {
+      "colour": [
+       0.52,
+       0.36,
+       0.12
+      ],
+      "widthPx": 6,
+      "amount": 0.8,
+      "cover": 0.6,
+      "sizePx": 64,
+      "seed": 4
+     },
+     "patches": {
+      "colour": [
+       0.5,
+       0.47,
+       0.2
+      ],
+      "amount": 0.45,
+      "cover": 0.25,
+      "sizePx": 260,
+      "seed": 2
+     }
+    }
+   }
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01-sick",
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "textureVariants": {
+    "textures/weapons/sanguinerose/sanguinerose.dds": {
+     "desaturate": 0.55,
+     "multiply": [
+      0.72,
+      0.56,
+      0.5
+     ]
+    },
+    "textures/weapons/sanguinerose/translucentrose.dds": {
+     "desaturate": 0.4,
+     "gain": 0.3
+    }
+   }
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "textureVariants": {
+    "textures/weapons/sanguinerose/sanguinerose.dds": {
+     "desaturate": 0.55,
+     "multiply": [
+      0.72,
+      0.56,
+      0.5
+     ]
+    },
+    "textures/weapons/sanguinerose/translucentrose.dds": {
+     "desaturate": 0.4,
+     "gain": 0.3
+    }
+   }
+  },
+  {
    "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01"
   },
   {

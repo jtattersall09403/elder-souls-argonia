@@ -44,6 +44,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+from . import texture_variants
 from .bsa import BSAArchive
 from .build import (BUILD_DIR, TOOLCHAIN, TROPICAL_TEXTURES, _expand,
                     _referenced_textures, to_windows)
@@ -594,6 +595,10 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if entry.get("variantOf"):
+            # a texture variant (`texture_variants`): the base's mesh under
+            # its own id; the derived textures land after the texture pass
+            record["variantOf"] = entry["variantOf"]
         if entry.get("effect") is not None:
             if entry["effect"] not in EFFECT_MODES:
                 raise ValueError(f"{entry['asset']}: effect {entry['effect']!r} "
@@ -695,6 +700,21 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     for rel, alternative in sorted(substituted.items()):
         print(f"[kit]   texture path fixed up: {rel} <- {alternative}")
 
+    # Texture variants (16k walk 3 L5): derived from the textures the base
+    # asset's own pass just landed, by the recipe in the kit config.
+    by_id = {record["id"]: record for record in resolved}
+    for entry in entries:
+        if not entry.get("textureVariants"):
+            continue
+        if not entry.get("variantOf") or entry.get("compose"):
+            raise ValueError(f"{entry['asset']}: textureVariants needs variantOf "
+                             "(and no compose)")
+        swaps = texture_variants.derive_for_entry(entry, data_root)
+        by_id[entry["asset"]]["textureSwaps"] = {
+            source: to_windows(data_root / derived) for source, derived in swaps.items()}
+        for source, derived in swaps.items():
+            print(f"[kit]   texture variant {entry['asset']}: {source} -> {derived}")
+
     print(f"[kit] {len(resolved)} assets, textures filled={len(filled)} "
           f"missing={len(missing)}")
     for texture in sorted(missing)[:10]:
@@ -711,7 +731,8 @@ def _part_specs(entry: dict) -> list[dict]:
     """
     compose = entry.get("compose")
     if not compose:
-        return [{"asset": entry["asset"]}]
+        # a texture variant is its base asset's mesh (`texture_variants`)
+        return [{"asset": entry.get("variantOf") or entry["asset"]}]
     parts = compose["parts"]
     if not parts:
         raise ValueError(f"{entry['asset']}: compose.parts is empty")
@@ -1193,7 +1214,7 @@ KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
     "blender/effect_materials.py", "placement_metadata.py", "trunk_solids.py",
     "vet_kit.py", "measure_footprints.py", "interiors_index.py",
     "measure_connectors.py", "piece_front.py",
-    "kit_compress.py"))
+    "kit_compress.py", "texture_variants.py"))
 
 #: Records the post-passes read (placement_metadata, interiors_index,
 #: measure_connectors), plus the toolchain.
@@ -1211,7 +1232,12 @@ KIT_RECORD_FILES = (
 #: designed-sink miner rewrote both files and rebuilt every kit).
 PLACEMENT_POLICIES_FILE = PIPELINE_DIR / "config" / "placement-policies.json"
 DESIGNED_SINK_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-designed-sink.json"
-KIT_ROW_RECORDS = (PLACEMENT_POLICIES_FILE, DESIGNED_SINK_FILE)
+#: the setting-class miner's record (decision 0105 R1): placement_metadata
+#: copies each asset's row onto the manifest as `settingClass`
+SETTING_CLASS_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-setting-class.json"
+KIT_ROW_RECORDS = (PLACEMENT_POLICIES_FILE, DESIGNED_SINK_FILE, SETTING_CLASS_FILE)
+#: row-keyed records whose kit view is their schema and the kit's own `assets` rows
+ASSET_ROW_RECORD_NAMES = (DESIGNED_SINK_FILE.name, SETTING_CLASS_FILE.name)
 
 #: placement-policies.json sections keyed by kit id, by asset id, and read
 #: whole by every kit (`placement_metadata`); the prose keys (`_`, `why`) are
@@ -1230,7 +1256,7 @@ def kit_asset_ids(kit_id: str) -> set[str]:
     def walk(node) -> None:
         if isinstance(node, dict):
             for key, value in node.items():
-                if key == "asset" and isinstance(value, str):
+                if key in ("asset", "variantOf") and isinstance(value, str):
                     ids.add(normalize_asset_id(value))
                 else:
                     walk(value)
@@ -1253,7 +1279,7 @@ def kit_record_view(path: Path, kit_id: str, asset_ids: set[str]) -> bytes:
     def own(rows) -> dict:
         return ({k: v for k, v in rows.items() if normalize_asset_id(k) in asset_ids}
                 if isinstance(rows, dict) else rows)
-    if path.name == DESIGNED_SINK_FILE.name:
+    if path.name in ASSET_ROW_RECORD_NAMES:
         view = {"schemaVersion": doc.get("schemaVersion"), "assets": own(doc.get("assets") or {})}
     else:
         view = {key: doc.get(key) for key in POLICY_SHARED_SECTIONS}

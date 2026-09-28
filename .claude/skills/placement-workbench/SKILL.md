@@ -86,7 +86,7 @@ argument names; the standing example is
     $W scan <spec>.json --out <file>   # every candidate pose ranked: pad legality, paint, water, apron room
     $W check [--only UID,..] [--serial] [--full]   # pooled; unchanged pairs from the pair cache
     python3 tooling/placement-workbench/wb.py replay --scene NAME --out <place>.layout.json
-    cd tooling/world-generation && python3 -m worldgen.render_blueprint --layout <layout>   # plan, 3 s
+    cd tooling/world-generation && python3 -m worldgen.render_blueprint --layout <layout>   # plan, 3 s; --labels for ids/deltas
 
 `apply` stops at the first failing op (its index in the digest), writes
 `output/apply/<placeId>.json`, and refuses when the place's blueprint was
@@ -234,7 +234,8 @@ PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
 
 ## 6. Render and look (Sonnet reader)
 
-    $W render top                        # layout, footprints (cyan), paths (orange), labels
+    $W render top                        # layout, footprints (cyan), paths (orange); no text (R8)
+    $W render top --labels               # + piece ids, caption, px/m (never for the owner)
     $W render front --focus <uid>        # faces the doorway; red line = terrain cut
     $W render cutaway --focus <uid> --cut 0
     $W render iso | turntable [--focus <uid>]

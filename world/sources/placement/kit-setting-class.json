@@ -1,0 +1,4574 @@
+{
+ "schemaVersion": 1,
+ "provenance": {
+  "miner": "worldgen.mine_setting_class",
+  "minerVersion": 1,
+  "runDate": "2026-09-28",
+  "kits": [
+   "imperial-keep",
+   "settlement-imperial-v1",
+   "settlement-mud-v1"
+  ],
+  "plugins": [
+   "Skyrim.esm",
+   "Update.esm",
+   "Black Marsh.esm",
+   "Black Marsh North.esp",
+   "Valenwood.esp",
+   "ArgonianLakeHouse.esl",
+   "Ferries.esp",
+   "Skyfall Sleeping Tree Overhaul.esp",
+   "Scriptfreeshipsailing.esp",
+   "SNT ferry.esp",
+   "King of the Murkmire.esp"
+  ]
+ },
+ "rule": "decision 0105 R1 (planner 2026-09-28): a piece is placed only in the setting class its own plugin places it in",
+ "method": "Every reference to a kit piece (or a composite's first part, the\nshell the composite is built on) in the plugins of the piece's OWN pool\n(``mine_designed_sink.pool_plugins``; King of the Murkmire is split by model\npath, ``mine_assemblies.PLUGIN_PATH_POOLS``). A vanilla piece a mod places is\ncounted apart (``otherFileRefs``) and never votes.\n\n**Per reference:** interior or exterior (the cell kind), then the social class\nof the cell's location: the cell's ``XLCN`` location, else (exterior) its\nworldspace's ``XLCN``, walked up the ``PNAM`` parent chain; every ``LocType*``\nkeyword on that chain votes and the highest class in ``CLASS_ORDER`` wins\n(an inn inside a city is ``town``; a farm inside a hold is ``village``).\nA cell with no location, or none whose chain carries a class keyword, is\n``wild``. ``KEYWORD_CLASS`` is the whole mapping.",
+ "classOrder": [
+  "keep",
+  "town",
+  "village",
+  "camp",
+  "ruin",
+  "wild"
+ ],
+ "keywordClass": {
+  "LocTypeCastle": "keep",
+  "LocTypeMilitaryFort": "keep",
+  "LocTypeJail": "keep",
+  "LocTypeOrcStronghold": "keep",
+  "LocTypeGuardTower": "keep",
+  "LocTypeCity": "town",
+  "LocTypeTown": "town",
+  "LocTypeSettlement": "village",
+  "LocTypeFarm": "village",
+  "LocTypeLumberMill": "village",
+  "LocTypeMine": "village",
+  "LocTypeMilitaryCamp": "camp",
+  "LocTypeBanditCamp": "camp",
+  "LocTypeGiantCamp": "camp",
+  "LocTypeForswornCamp": "camp",
+  "LocTypeDungeon": "ruin",
+  "LocTypeNordicRuin": "ruin",
+  "LocTypeDwarvenAutomatons": "ruin",
+  "LocTypeFalmerHive": "ruin",
+  "LocTypeDraugrCrypt": "ruin",
+  "LocTypeAnimalDen": "ruin",
+  "LocTypeVampireLair": "ruin",
+  "LocTypeWarlockLair": "ruin",
+  "LocTypeHagravenNest": "ruin",
+  "LocTypeDragonLair": "ruin"
+ },
+ "minShare": 0.1,
+ "minRefs": 3,
+ "excludedCellPrefixes": [
+  "warehouse",
+  "navmeshgen",
+  "zz",
+  "test"
+ ],
+ "excludedCells": 275,
+ "assets": {
+  "bmv:architecture/huts/exterior/hutdecking": {
+   "n": 5,
+   "interior": {},
+   "exterior": {
+    "wild": 5
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarsh2"
+   ],
+   "plugins": [
+    "Black Marsh.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "bmv:architecture/huts/exterior/hutexterior": {
+   "n": 11,
+   "interior": {},
+   "exterior": {
+    "wild": 11
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarsh2"
+   ],
+   "plugins": [
+    "Black Marsh.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "bmv:architecture/phitt/aldredanyia/signpost": {
+   "n": 150,
+   "interior": {
+    "wild": 9
+   },
+   "exterior": {
+    "wild": 141
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Valenwood",
+    "exterior:wild:BlackMarshNorth",
+    "exterior:wild:BlackMarsh2",
+    "interior:wild:01SouthpointINT",
+    "interior:wild:01treeint"
+   ],
+   "plugins": [
+    "Black Marsh North.esp",
+    "Valenwood.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "composite:farmhouse/farmhouse01-with-door": {
+   "n": 11,
+   "interior": {},
+   "exterior": {
+    "keep": 1,
+    "town": 7,
+    "village": 2,
+    "ruin": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:keep:FortDunstadLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:town:ShorsStoneLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:RoriksteadLocation",
+    "exterior:village:StonehillsLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin",
+   "readFrom": "vanilla:architecture/farmhouse/farmhouse01"
+  },
+  "composite:farmhouse/farmhouse02-with-door": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:MorthalLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin",
+   "readFrom": "vanilla:architecture/farmhouse/farmhouse02"
+  },
+  "composite:farmhouse/farmhouse02-with-walkway": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:MorthalLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin",
+   "readFrom": "vanilla:architecture/farmhouse/farmhouse02"
+  },
+  "composite:farmhouse/stonewall-run-3": {
+   "n": 121,
+   "interior": {},
+   "exterior": {
+    "town": 7,
+    "wild": 98,
+    "keep": 3,
+    "ruin": 3,
+    "village": 10
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:StonehillsLocation",
+    "exterior:wild:DrelasCottageLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:village:SalviusFarmLocation",
+    "exterior:wild:GraniteHillLocation",
+    "exterior:wild:HalloftheVigilantLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "vanilla:architecture/farmhouse/stonewall/stonewall01"
+  },
+  "composite:farmhouse/stonewall-run-5": {
+   "n": 121,
+   "interior": {},
+   "exterior": {
+    "town": 7,
+    "wild": 98,
+    "keep": 3,
+    "ruin": 3,
+    "village": 10
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:StonehillsLocation",
+    "exterior:wild:DrelasCottageLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:village:SalviusFarmLocation",
+    "exterior:wild:GraniteHillLocation",
+    "exterior:wild:HalloftheVigilantLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "vanilla:architecture/farmhouse/stonewall/stonewall01"
+  },
+  "composite:mud/hut-with-entrance": {
+   "n": 11,
+   "interior": {},
+   "exterior": {
+    "wild": 11
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarsh2"
+   ],
+   "plugins": [
+    "Black Marsh.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "bmv:architecture/huts/exterior/hutexterior"
+  },
+  "composite:mud/kotm-house-pod": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "village": 7
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "kotm:argonia/mudhuts/smpodext02"
+  },
+  "composite:mud/pod-as-placed": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "village": 7
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "kotm:argonia/mudhuts/smpodext02"
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:AbandonedShackLocation"
+   ],
+   "plugins": [
+    "Ferries.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "wild": 8
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "SNT ferry.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "camp": 3
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01-sick": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "camp": 3
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "histtree:skyfall/sleeping tree overhaul/histflower01"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "camp": 7
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "camp": 7
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin",
+   "readFrom": "histtree:skyfall/sleeping tree overhaul/histflower02"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn02": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn03": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn04": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rune circle": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:SleepingTreeCampLocation"
+   ],
+   "plugins": [
+    "Skyfall Sleeping Tree Overhaul.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/door01": {
+   "n": 14,
+   "interior": {
+    "village": 6,
+    "ruin": 1
+   },
+   "exterior": {
+    "wild": 7
+   },
+   "settings": {
+    "interior": [
+     "village"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "interior:village:KeebaHouseElder",
+    "interior:village:KeebaHouseCrafter",
+    "interior:village:KeebaHouseSnailMinder",
+    "interior:ruin:HuluxinoagRoots",
+    "interior:village:KeebaHouseTreeminder",
+    "interior:village:KeebaHouseFisher"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/door02": {
+   "n": 138,
+   "interior": {
+    "town": 63,
+    "village": 6
+   },
+   "exterior": {
+    "wild": 69
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "village"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "interior:town:LilmothIronworks",
+    "interior:town:LilmothPusbottomBunkhouse01",
+    "interior:town:LilmothGlassworksOverseerHouse",
+    "interior:town:LilmothPlantationStorehouse",
+    "interior:town:LilmothTaverna",
+    "interior:town:LilmothBakeryInt",
+    "interior:town:LilmothPusbottomBunkhouse02"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/lizardhouse": {
+   "n": 2,
+   "interior": {
+    "town": 1
+   },
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothRoots",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/manorext": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "kotm:argonia/mudhuts/mudhut01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/mudhut02": {
+   "n": 6,
+   "interior": {},
+   "exterior": {
+    "village": 6
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/mudhut03": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "kotm:argonia/mudhuts/mudhutchimney": {
+   "n": 6,
+   "interior": {
+    "village": 1
+   },
+   "exterior": {
+    "village": 5
+   },
+   "settings": {
+    "interior": [
+     "village"
+    ],
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation",
+    "interior:village:KeebaHouseCrafter"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/overhang01": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "village": 2
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/overhang03": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/shed": {
+   "n": 1,
+   "interior": {
+    "town": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:AltenDockmasterHouse"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/smpodext01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/smpodext02": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "village": 7
+   },
+   "settings": {
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/smpodextdoor": {
+   "n": 13,
+   "interior": {
+    "village": 6,
+    "ruin": 1
+   },
+   "exterior": {
+    "ruin": 1,
+    "village": 5
+   },
+   "settings": {
+    "interior": [
+     "village"
+    ],
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation",
+    "interior:village:KeebaHouseElder",
+    "interior:village:KeebaHouseCrafter",
+    "interior:village:KeebaHouseSnailMinder",
+    "interior:ruin:HuluxinoagRoots",
+    "interior:village:KeebaHouseTreeminder",
+    "interior:village:KeebaHouseFisher",
+    "exterior:ruin:HuluxinoagVillageLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/stairs01": {
+   "n": 91,
+   "interior": {
+    "town": 47,
+    "ruin": 1
+   },
+   "exterior": {
+    "wild": 10,
+    "town": 14,
+    "ruin": 5,
+    "village": 14
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "exterior:town:LilmothLocation",
+    "exterior:wild:BlackMarshLocation",
+    "interior:town:LilmothSewersInt02",
+    "exterior:village:RootWhisperVillageLocation",
+    "exterior:ruin:HuluxinoagVillageLocation",
+    "exterior:village:SeekhatYolLocation",
+    "interior:town:LilmothSewersInt03Hideout"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/stairs02": {
+   "n": 97,
+   "interior": {
+    "town": 62,
+    "village": 1
+   },
+   "exterior": {
+    "town": 31,
+    "wild": 2,
+    "village": 1
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothIronworkersBarracksInt",
+    "interior:town:LilmothPusbottomBunkhouse02",
+    "exterior:town:AltenMeerhleelLocation",
+    "interior:town:LilmothPusbottomBunkhouse01",
+    "interior:town:LilmothGlassworksOverseerHouse",
+    "interior:town:LilmothMerchantManor02Barracks",
+    "interior:town:LilmothPlantationStorehouse"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/window01": {
+   "n": 20,
+   "interior": {
+    "village": 10
+   },
+   "exterior": {
+    "village": 10
+   },
+   "settings": {
+    "interior": [
+     "village"
+    ],
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation",
+    "interior:village:KeebaHouseCrafter",
+    "interior:village:KeebaHouseSnailMinder",
+    "interior:village:KeebaHouseTreeminder",
+    "interior:village:KeebaHouseFisher",
+    "interior:village:KeebaHouseElder"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "kotm:argonia/mudhuts/window02": {
+   "n": 22,
+   "interior": {
+    "village": 10
+   },
+   "exterior": {
+    "village": 12
+   },
+   "settings": {
+    "interior": [
+     "village"
+    ],
+    "exterior": [
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:KeebaHollowLocation",
+    "interior:village:KeebaHouseCrafter",
+    "interior:village:KeebaHouseSnailMinder",
+    "interior:village:KeebaHouseTreeminder",
+    "interior:village:KeebaHouseFisher",
+    "interior:village:KeebaHouseElder"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/archwaysticks": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridge": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniancandle01": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "wild": 2
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence01": {
+   "n": 5,
+   "interior": {},
+   "exterior": {
+    "wild": 5
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "n": 2,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "n": 5,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {
+    "wild": 4
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "wild": 2
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "n": 4,
+   "interior": {},
+   "exterior": {
+    "wild": 4
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "n": 3,
+   "interior": {
+    "wild": 2
+   },
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatform": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "wild": 2
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianskull01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "n": 2,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "n": 5,
+   "interior": {
+    "wild": 2
+   },
+   "exterior": {
+    "wild": 3
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/basketfull": {
+   "n": 4,
+   "interior": {
+    "wild": 4
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/basketsmall01": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/carapaceoven": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/mudhut01": {
+   "n": 5,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {
+    "wild": 4
+   },
+   "settings": {
+    "interior": [
+     "wild"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/paintedurn01": {
+   "n": 4,
+   "interior": {
+    "wild": 4
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/snakefence01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/wovenchair01": {
+   "n": 2,
+   "interior": {
+    "wild": 2
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mudmother:gv_meshes/argoniannest/woventable01": {
+   "n": 1,
+   "interior": {
+    "wild": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:wild:00MudHut01"
+   ],
+   "plugins": [
+    "ArgonianLakeHouse.esl"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01": {
+   "n": 2,
+   "interior": {
+    "town": 2
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt03Hideout"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "wild": 3
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01": {
+   "n": 4,
+   "interior": {
+    "town": 2
+   },
+   "exterior": {
+    "town": 2
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02": {
+   "n": 10,
+   "interior": {
+    "town": 10
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt02",
+    "interior:town:LilmothSewersInt01"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": {
+   "n": 49,
+   "interior": {
+    "town": 42
+   },
+   "exterior": {
+    "wild": 6,
+    "town": 1
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt02",
+    "interior:town:LilmothSewersInt03Hideout",
+    "interior:town:LilmothRoots",
+    "exterior:wild:BlackMarshLocation",
+    "interior:town:LilmothSinkingManorInt01",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01": {
+   "n": 4,
+   "interior": {
+    "town": 1
+   },
+   "exterior": {
+    "town": 3
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothSewersInt01"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01": {
+   "n": 2,
+   "interior": {
+    "town": 1,
+    "ruin": 1
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:ruin:OldImpLaboratoryInt01"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02": {
+   "n": 5,
+   "interior": {},
+   "exterior": {
+    "wild": 2,
+    "camp": 1,
+    "town": 2
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "exterior:town:LilmothLocation",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01": {
+   "n": 19,
+   "interior": {},
+   "exterior": {
+    "wild": 4,
+    "camp": 8,
+    "town": 7
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:BlackroseRuinsLocation",
+    "exterior:town:LilmothLocation",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01": {
+   "n": 6,
+   "interior": {},
+   "exterior": {
+    "wild": 2,
+    "camp": 4
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:BlackroseRuinsLocation",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01": {
+   "n": 9,
+   "interior": {},
+   "exterior": {
+    "wild": 4,
+    "town": 5
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01": {
+   "n": 99,
+   "interior": {
+    "town": 98
+   },
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt03Hideout",
+    "interior:town:LilmothSewersInt02",
+    "interior:town:LilmothRoots",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02": {
+   "n": 7,
+   "interior": {},
+   "exterior": {
+    "town": 7
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01": {
+   "n": 14,
+   "interior": {
+    "town": 9
+   },
+   "exterior": {
+    "town": 5
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01": {
+   "n": 40,
+   "interior": {
+    "town": 39
+   },
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt03Hideout",
+    "interior:town:LilmothRoots",
+    "interior:town:LilmothSewersInt02",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02": {
+   "n": 126,
+   "interior": {
+    "town": 104
+   },
+   "exterior": {
+    "town": 22
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothRoots",
+    "interior:town:LilmothSewersInt02",
+    "interior:town:LilmothSewersInt03Hideout"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01": {
+   "n": 9,
+   "interior": {
+    "town": 5
+   },
+   "exterior": {
+    "town": 4
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothRoots",
+    "interior:town:LilmothSewersInt01"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02": {
+   "n": 11,
+   "interior": {
+    "town": 5
+   },
+   "exterior": {
+    "town": 6
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothApothecary01",
+    "interior:town:LilmothStablesInt"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01": {
+   "n": 18,
+   "interior": {},
+   "exterior": {
+    "wild": 18
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "camp": 1,
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:BlackroseRuinsLocation",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "wild": 1,
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01": {
+   "n": 4,
+   "interior": {},
+   "exterior": {
+    "camp": 1,
+    "town": 3
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02": {
+   "n": 4,
+   "interior": {},
+   "exterior": {
+    "wild": 4
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01": {
+   "n": 36,
+   "interior": {
+    "town": 28
+   },
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "interior": [
+     "town"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt02",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "town": 2
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "wild": 2,
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01": {
+   "n": 5,
+   "interior": {},
+   "exterior": {
+    "wild": 3,
+    "camp": 2
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:KeelSakkaBridgeLocation",
+    "exterior:camp:BlackroseRuinsLocation",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02": {
+   "n": 3,
+   "interior": {},
+   "exterior": {
+    "wild": 2,
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "exterior:wild:KeelSakkaBridgeLocation",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:KeelSakkaBridgeLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:KeelSakkaBridgeLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01": {
+   "n": 135,
+   "interior": {
+    "town": 93,
+    "ruin": 16
+   },
+   "exterior": {
+    "wild": 7,
+    "camp": 2,
+    "town": 17
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt02",
+    "exterior:town:LilmothLocation",
+    "interior:ruin:OldImpLaboratoryInt01",
+    "interior:town:LilmothRoots",
+    "exterior:wild:BlackMarshLocation",
+    "interior:town:LilmothSewersInt03Hideout",
+    "exterior:camp:BlackroseRuinsLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02": {
+   "n": 101,
+   "interior": {
+    "town": 68,
+    "ruin": 15
+   },
+   "exterior": {
+    "wild": 7,
+    "camp": 1,
+    "town": 10
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt01",
+    "interior:town:LilmothSewersInt02",
+    "interior:ruin:OldImpLaboratoryInt01",
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothSewersInt03Hideout",
+    "interior:town:LilmothRoots",
+    "exterior:wild:BlackMarshLocation",
+    "exterior:wild:KeelSakkaBridgeLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01": {
+   "n": 4,
+   "interior": {
+    "ruin": 2,
+    "town": 1
+   },
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:ruin:OldImpLaboratoryInt01",
+    "interior:town:LilmothSewersInt02",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": {
+   "n": 26,
+   "interior": {
+    "town": 11,
+    "ruin": 6
+   },
+   "exterior": {
+    "wild": 2,
+    "town": 7
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:LilmothLocation",
+    "interior:town:LilmothSewersInt01",
+    "interior:ruin:OldImpLaboratoryInt01",
+    "interior:town:LilmothSewersInt02",
+    "exterior:wild:BlackMarshLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02": {
+   "n": 9,
+   "interior": {
+    "town": 4,
+    "ruin": 2
+   },
+   "exterior": {
+    "wild": 2,
+    "town": 1
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:LilmothSewersInt02",
+    "interior:ruin:OldImpLaboratoryInt01",
+    "exterior:wild:BlackMarshLocation",
+    "interior:town:LilmothSewersInt01",
+    "exterior:town:LilmothLocation"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03": {
+   "n": 4,
+   "interior": {
+    "ruin": 1,
+    "town": 1
+   },
+   "exterior": {
+    "wild": 2
+   },
+   "settings": {
+    "interior": [
+     "town",
+     "ruin"
+    ],
+    "exterior": [
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:BlackMarshLocation",
+    "interior:ruin:OldImpLaboratoryInt01",
+    "interior:town:LilmothSewersInt02"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "rowboats:dungeons/clutter/shipoar01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "rowboats:dungeons/ship/shiprowboat01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01": {
+   "n": 0,
+   "interior": {},
+   "exterior": {},
+   "settings": {},
+   "sourceCells": [],
+   "plugins": [],
+   "otherFileRefs": 0,
+   "evidence": "unplaced"
+  },
+  "vanilla:architecture/docks/dockcolstr01": {
+   "n": 19,
+   "interior": {},
+   "exterior": {
+    "town": 12,
+    "wild": 7
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:SolitudeDocksLocation",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 11,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/docks/dockcorsol01": {
+   "n": 5,
+   "interior": {},
+   "exterior": {
+    "town": 4,
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:SolitudeDocksLocation",
+    "exterior:wild:DaintySloadLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/docks/dockropestr01": {
+   "n": 9,
+   "interior": {},
+   "exterior": {
+    "town": 6,
+    "wild": 3
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:SolitudeDocksLocation",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 7,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/docks/dockstepsdown01": {
+   "n": 2,
+   "interior": {},
+   "exterior": {
+    "camp": 1,
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "camp",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:camp:FaldarsToothLocation",
+    "exterior:wild:Tamriel"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 7,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/docks/dockstr4way01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:SolitudeDocksLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 3,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/docks/dockstrsol01": {
+   "n": 19,
+   "interior": {},
+   "exterior": {
+    "camp": 1,
+    "town": 9,
+    "wild": 8,
+    "ruin": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:SolitudeDocksLocation",
+    "exterior:wild:Tamriel",
+    "exterior:town:SolitudeLocation",
+    "exterior:camp:FaldarsToothLocation",
+    "exterior:wild:DaintySloadLocation",
+    "exterior:ruin:IlinaltasDeepLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 76,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/farmhouse01": {
+   "n": 11,
+   "interior": {},
+   "exterior": {
+    "keep": 1,
+    "town": 7,
+    "village": 2,
+    "ruin": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:keep:FortDunstadLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:town:ShorsStoneLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:RoriksteadLocation",
+    "exterior:village:StonehillsLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/farmhouse01walkway": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 7,
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:town:ShorsStoneLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:RoriksteadLocation",
+    "exterior:village:StonehillsLocation",
+    "exterior:town:FalkreathLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 4,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/farmhouse02": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:MorthalLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 2,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/farmhouse02walkway": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:MorthalLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/fencewoven01": {
+   "n": 277,
+   "interior": {
+    "ruin": 26
+   },
+   "exterior": {
+    "village": 138,
+    "ruin": 4,
+    "wild": 68,
+    "town": 31,
+    "keep": 10
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:LoreiusFarmLocation",
+    "exterior:village:MerryfairFarmLocation",
+    "exterior:village:AngasMillLocation",
+    "exterior:village:SnowShodFarmLocation",
+    "exterior:village:HollyfrostFarmLocation",
+    "exterior:town:WhiterunLocation",
+    "exterior:village:SarethiFarmLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 21,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/fencewoven02": {
+   "n": 537,
+   "interior": {
+    "ruin": 27,
+    "keep": 2,
+    "town": 2
+   },
+   "exterior": {
+    "town": 304,
+    "ruin": 12,
+    "wild": 41,
+    "village": 127,
+    "keep": 22
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:RoriksteadLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:village:KynesgroveLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:wild:Tamriel",
+    "exterior:village:DarkwaterCrossingLocation",
+    "exterior:village:SolitudeSawmillLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 17,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/ivy01": {
+   "n": 21,
+   "interior": {},
+   "exterior": {
+    "town": 19,
+    "village": 2
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:ShroudHearthBarrowLocation",
+    "exterior:village:DarkwaterCrossingLocation",
+    "exterior:town:DragonBridgeFarmLocation",
+    "exterior:town:IvarsteadLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 8,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/ivy02": {
+   "n": 20,
+   "interior": {},
+   "exterior": {
+    "town": 19,
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:DragonBridgeLocation",
+    "exterior:village:DarkwaterCrossingLocation",
+    "exterior:town:DragonBridgeFarmLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 24,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/ivy03": {
+   "n": 19,
+   "interior": {},
+   "exterior": {
+    "town": 18,
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:ShroudHearthBarrowLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:village:DarkwaterCrossingLocation",
+    "exterior:town:DragonBridgeLocation",
+    "exterior:town:DragonBridgeFarmLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 37,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall01": {
+   "n": 121,
+   "interior": {},
+   "exterior": {
+    "town": 7,
+    "wild": 98,
+    "keep": 3,
+    "ruin": 3,
+    "village": 10
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:StonehillsLocation",
+    "exterior:wild:DrelasCottageLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:village:SalviusFarmLocation",
+    "exterior:wild:GraniteHillLocation",
+    "exterior:wild:HalloftheVigilantLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall02": {
+   "n": 55,
+   "interior": {},
+   "exterior": {
+    "town": 4,
+    "wild": 38,
+    "keep": 2,
+    "village": 11
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:KynesgroveLocation",
+    "exterior:village:StonehillsLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:village:OldHroldanLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:town:BlackBriarLodgeLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendl01": {
+   "n": 290,
+   "interior": {},
+   "exterior": {
+    "town": 17,
+    "wild": 211,
+    "keep": 16,
+    "village": 42,
+    "ruin": 4
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:StonehillsLocation",
+    "exterior:village:KynesgroveLocation",
+    "exterior:wild:GraniteHillLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:keep:FortNeugradLocation",
+    "exterior:town:KarthwastenLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendr01": {
+   "n": 289,
+   "interior": {},
+   "exterior": {
+    "town": 15,
+    "wild": 210,
+    "keep": 16,
+    "village": 45,
+    "ruin": 3
+   },
+   "settings": {
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:StonehillsLocation",
+    "exterior:village:KynesgroveLocation",
+    "exterior:wild:GraniteHillLocation",
+    "exterior:keep:FortAmolLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:keep:FortNeugradLocation",
+    "exterior:town:KarthwastenLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 1,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs1": {
+   "n": 29,
+   "interior": {},
+   "exterior": {
+    "village": 12,
+    "town": 16,
+    "wild": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village"
+    ]
+   },
+   "sourceCells": [
+    "exterior:village:HollyfrostFarmLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:village:BrandyMugFarmLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:ShorsStoneLocation",
+    "exterior:town:DragonBridgeLocation",
+    "exterior:village:LoreiusFarmLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs4": {
+   "n": 39,
+   "interior": {},
+   "exterior": {
+    "wild": 6,
+    "town": 31,
+    "village": 2
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:WinterholdLocation",
+    "exterior:town:DragonBridgeLocation",
+    "exterior:town:RoriksteadLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:wild:HalloftheVigilantLocation",
+    "exterior:town:ShorsStoneLocation",
+    "exterior:town:KarthwastenLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs8": {
+   "n": 43,
+   "interior": {},
+   "exterior": {
+    "town": 38,
+    "wild": 4,
+    "village": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:MorthalLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:KarthwastenLocation",
+    "exterior:town:DawnstarLocation",
+    "exterior:wild:HelgenLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:RoriksteadLocation",
+    "exterior:village:KynesgroveLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/barrel01": {
+   "n": 3183,
+   "interior": {
+    "wild": 206,
+    "town": 1131,
+    "keep": 260,
+    "ruin": 303,
+    "village": 114,
+    "camp": 227
+   },
+   "exterior": {
+    "village": 76,
+    "wild": 189,
+    "camp": 122,
+    "ruin": 130,
+    "town": 359,
+    "keep": 66
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:SolitudeRedWave",
+    "exterior:town:RiftenLocation",
+    "interior:town:HonningbrewMeadery01",
+    "exterior:town:SolitudeLocation",
+    "exterior:town:WindhelmLocation",
+    "exterior:wild:Tamriel",
+    "interior:ruin:PotemasCatacombs01",
+    "exterior:wild:EastEmpireWarehouseLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 718,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/barrel02": {
+   "n": 2820,
+   "interior": {
+    "town": 719,
+    "keep": 529,
+    "ruin": 436,
+    "camp": 351,
+    "wild": 163,
+    "village": 56
+   },
+   "exterior": {
+    "camp": 87,
+    "keep": 44,
+    "ruin": 97,
+    "wild": 196,
+    "town": 108,
+    "village": 34
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:HonningbrewMeadery02",
+    "interior:keep:DriftshadeSanctuary02",
+    "exterior:wild:JaphetsFollyLocation",
+    "interior:town:HonningbrewMeadery01",
+    "interior:keep:FortKastav01",
+    "interior:town:Katariah01",
+    "interior:keep:NightcallerTemple01",
+    "interior:camp:BrokenTowerRedoubt01"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 639,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/bucket01": {
+   "n": 1493,
+   "interior": {
+    "town": 513,
+    "keep": 255,
+    "ruin": 200,
+    "village": 56,
+    "camp": 133,
+    "wild": 81
+   },
+   "exterior": {
+    "wild": 58,
+    "camp": 67,
+    "keep": 39,
+    "ruin": 31,
+    "town": 48,
+    "village": 12
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:ruin:FellglowKeep01",
+    "interior:town:Katariah01",
+    "interior:keep:RiftenJail01",
+    "exterior:wild:Tamriel",
+    "interior:camp:FaldarsTooth01",
+    "interior:keep:FortGreymoor01",
+    "interior:ruin:FellglowKeep02",
+    "interior:keep:SolitudeJail01"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 38,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/common/candlelanternwithcandle01": {
+   "n": 1391,
+   "interior": {
+    "keep": 173,
+    "wild": 76,
+    "ruin": 443,
+    "town": 265,
+    "village": 68,
+    "camp": 146
+   },
+   "exterior": {
+    "camp": 50,
+    "wild": 58,
+    "ruin": 29,
+    "keep": 17,
+    "village": 11,
+    "town": 55
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:ruin:PotemasCatacombs01",
+    "interior:ruin:Bthardamz01",
+    "exterior:town:WindhelmLocation",
+    "interior:camp:RedoransRetreat01",
+    "interior:ruin:MovarthsLair01",
+    "interior:town:Katariah01",
+    "interior:keep:SolitudeJail01",
+    "interior:village:KolskeggrMine01"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 1594,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/firewood/firewoodpilelarge01": {
+   "n": 430,
+   "interior": {
+    "town": 74,
+    "keep": 48,
+    "ruin": 42,
+    "village": 19,
+    "camp": 34,
+    "wild": 10
+   },
+   "exterior": {
+    "camp": 27,
+    "wild": 29,
+    "keep": 14,
+    "town": 97,
+    "ruin": 15,
+    "village": 21
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:town:RiverwoodLocation",
+    "exterior:town:FalkreathLocation",
+    "exterior:wild:Tamriel",
+    "exterior:town:WindhelmLocation",
+    "exterior:town:SolitudeLocation",
+    "interior:ruin:Pinewatch01",
+    "exterior:town:WhiterunLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 31,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/firewood/firewoodpilemedium01": {
+   "n": 389,
+   "interior": {
+    "town": 104,
+    "keep": 58,
+    "ruin": 41,
+    "village": 18,
+    "camp": 21,
+    "wild": 8
+   },
+   "exterior": {
+    "village": 26,
+    "keep": 12,
+    "wild": 20,
+    "town": 58,
+    "ruin": 11,
+    "camp": 12
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:DawnstarLocation",
+    "exterior:wild:Tamriel",
+    "exterior:town:FalkreathLocation",
+    "exterior:town:RiverwoodLocation",
+    "interior:keep:DriftshadeSanctuary02",
+    "interior:town:SolitudeBlackSmith",
+    "exterior:town:MorthalLocation",
+    "exterior:town:WinterholdLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 63,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/firewood/firewoodpilesmall01": {
+   "n": 436,
+   "interior": {
+    "town": 172,
+    "keep": 65,
+    "ruin": 44,
+    "village": 24,
+    "camp": 31,
+    "wild": 13
+   },
+   "exterior": {
+    "wild": 24,
+    "town": 27,
+    "ruin": 7,
+    "camp": 11,
+    "keep": 6,
+    "village": 12
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:ruin:NorthwatchKeep01",
+    "exterior:wild:Tamriel",
+    "interior:town:SolitudeBlackSmith",
+    "interior:keep:RiftenJail01",
+    "exterior:town:FalkreathLocation",
+    "interior:keep:DriftshadeSanctuary02",
+    "interior:keep:SolitudeJail01",
+    "interior:town:DarkBrotherhoodSanctuary"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 75,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/hay/haymound01": {
+   "n": 529,
+   "interior": {
+    "keep": 79,
+    "town": 102,
+    "ruin": 86,
+    "village": 7,
+    "camp": 71,
+    "wild": 40
+   },
+   "exterior": {
+    "village": 52,
+    "wild": 37,
+    "town": 34,
+    "ruin": 7,
+    "camp": 10,
+    "keep": 4
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:town:HonningbrewMeadery01",
+    "interior:town:HonningbrewMeadery02",
+    "exterior:wild:Tamriel",
+    "interior:camp:TrevasWatch02",
+    "interior:camp:BrokenTowerRedoubt01",
+    "interior:ruin:DarklightTower02",
+    "interior:ruin:NorthwatchKeep01",
+    "interior:wild:JaphetsFolly02"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 27,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/imperial/impwallsconcecandle01": {
+   "n": 337,
+   "interior": {
+    "wild": 14,
+    "keep": 104,
+    "ruin": 73,
+    "town": 77,
+    "camp": 64
+   },
+   "exterior": {
+    "ruin": 2,
+    "town": 2,
+    "village": 1
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:camp:BrokenTowerRedoubt01",
+    "interior:town:WhiterunJorrvaskrBasement",
+    "interior:ruin:Harmugstahl01",
+    "interior:camp:GallowsRock01",
+    "interior:keep:NightcallerTemple01",
+    "interior:keep:FortGreymoor01",
+    "interior:ruin:NorthwatchKeep01",
+    "interior:ruin:FellglowKeep02"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 13,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:WhiterunLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/signage/whiterun/signwrpost01": {
+   "n": 8,
+   "interior": {},
+   "exterior": {
+    "town": 8
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:WhiterunLocation",
+    "exterior:town:WhiterunHonningbrewMeaderyLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:clutter/signage/whiterun/signwrstables01": {
+   "n": 1,
+   "interior": {},
+   "exterior": {
+    "town": 1
+   },
+   "settings": {
+    "exterior": [
+     "town"
+    ]
+   },
+   "sourceCells": [
+    "exterior:town:WhiterunLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  },
+  "vanilla:dungeons/imperial/clutterkits/impfreewall01": {
+   "n": 392,
+   "interior": {
+    "keep": 191,
+    "ruin": 111,
+    "camp": 66,
+    "town": 8,
+    "wild": 16
+   },
+   "exterior": {},
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "interior:ruin:Harmugstahl01",
+    "interior:keep:DriftshadeSanctuary01",
+    "interior:ruin:IlinaltasDeep01",
+    "interior:keep:Morvunskar01",
+    "interior:keep:NightcallerTemple01",
+    "interior:ruin:FellglowKeep02",
+    "interior:keep:BrokenFangCave01",
+    "interior:wild:OLDBluePalaceWing01"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 26,
+   "evidence": "plugin"
+  },
+  "vanilla:furniture/farm/farmbench01": {
+   "n": 250,
+   "interior": {
+    "keep": 43,
+    "town": 12,
+    "village": 3,
+    "camp": 26,
+    "ruin": 17,
+    "wild": 12
+   },
+   "exterior": {
+    "wild": 48,
+    "camp": 23,
+    "town": 35,
+    "ruin": 19,
+    "village": 6,
+    "keep": 6
+   },
+   "settings": {
+    "interior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ],
+    "exterior": [
+     "keep",
+     "town",
+     "village",
+     "camp",
+     "ruin",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "interior:keep:DriftshadeSanctuary01",
+    "interior:keep:FortKastav01",
+    "exterior:town:MorthalLocation",
+    "exterior:town:DawnstarLocation",
+    "interior:camp:SerpentsBluffRedoubt01",
+    "exterior:ruin:IcerunnerLocation",
+    "interior:ruin:LiarsRetreat01"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 10,
+   "evidence": "plugin"
+  },
+  "vanilla:plants/chickennest01": {
+   "n": 68,
+   "interior": {},
+   "exterior": {
+    "wild": 13,
+    "village": 36,
+    "town": 17,
+    "ruin": 1,
+    "camp": 1
+   },
+   "settings": {
+    "exterior": [
+     "town",
+     "village",
+     "wild"
+    ]
+   },
+   "sourceCells": [
+    "exterior:wild:Tamriel",
+    "exterior:village:MixwaterMillLocation",
+    "exterior:town:MarkarthLocation",
+    "exterior:village:AngasMillLocation",
+    "exterior:village:PelagiaFarmLocation",
+    "exterior:town:IvarsteadLocation",
+    "exterior:village:SarethiFarmLocation",
+    "exterior:village:DarkwaterCrossingLocation"
+   ],
+   "plugins": [
+    "Skyrim.esm"
+   ],
+   "otherFileRefs": 0,
+   "evidence": "plugin"
+  }
+ }
+}

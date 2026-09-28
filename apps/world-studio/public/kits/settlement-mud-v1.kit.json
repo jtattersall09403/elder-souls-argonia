@@ -45,6 +45,28 @@
     "p90": 2.3,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -107,6 +129,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -173,6 +211,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -241,6 +295,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -304,6 +374,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -366,6 +452,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -432,6 +534,14 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -504,6 +614,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -571,6 +689,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {},
+    "exterior": {
+     "wild": 5
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -630,6 +764,28 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -696,6 +852,28 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -760,6 +938,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -838,6 +1032,22 @@
     "p90": 1.45,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -910,6 +1120,28 @@
     "p90": 0.85,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -975,6 +1207,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1036,6 +1276,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -1111,6 +1367,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -1189,6 +1461,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -1265,6 +1553,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1324,6 +1628,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -1399,6 +1719,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1458,6 +1794,28 @@
     "p75": 0.1229,
     "n": 3,
     "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 3
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel",
+     "interior:wild:00MudHut01"
+    ],
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -1535,6 +1893,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -1598,6 +1972,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -1656,6 +2038,22 @@
     "evidence": "mesh-sill"
    },
    "placeUse": "hanging-only",
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -1717,6 +2115,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {},
+    "exterior": {
+     "wild": 4
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
@@ -1780,6 +2194,28 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 3,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:wild:00MudHut01",
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -1837,36 +2273,6 @@
     "RieklingCandle:2.Mat",
     "RieklingCandle:3.Mat"
    ],
-   "designedSinkM": {
-    "p25": -0.0288,
-    "p50": -0.0288,
-    "p75": -0.0288,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0288
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.029,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.396,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
    "light": {
     "formId": "00094e65",
     "editorId": "Alikr_OrangeFlicker",
@@ -1893,7 +2299,53 @@
     ],
     "fixtureKind": "candle",
     "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): Alikr_OrangeFlicker (Skyrim.esm LIGH 00094e65) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 2 00GV_ArgonianCandle01 (STAT) refs the mod places (none 1); offset is that ref's in the piece's frame, glTF Y-up metres (n 1: the mod's only evidence). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0288,
+    "p50": -0.0288,
+    "p75": -0.0288,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "wild": 2
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0288
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.029,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.396,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -1936,6 +2388,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2001,6 +2469,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2075,6 +2559,22 @@
     "p90": 1.3,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 11,
+    "interior": {},
+    "exterior": {
+     "wild": 11
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarsh2"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -2148,6 +2648,22 @@
     "p90": 3.1,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 5,
+    "interior": {},
+    "exterior": {
+     "wild": 5
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarsh2"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2218,6 +2734,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -2287,6 +2811,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:AbandonedShackLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2352,20 +2892,31 @@
     "cedartree1:5.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": -1.4177,
-    "p50": -1.4177,
-    "p75": -1.4177,
+    "p25": -0.672,
+    "p50": -0.672,
+    "p75": -0.672,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.4177
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2424,6 +2975,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "camp": 3
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2499,6 +3066,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "camp": 7
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -2506,6 +3089,262 @@
     "tell": "post-foot",
     "valueM": 6.0086
    },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -6.009,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "glowFacingsDeg": [
+    60.5,
+    134.2,
+    178.5,
+    252.8,
+    305.9,
+    350.0
+   ],
+   "undersideClosed": false,
+   "undersideCoverage": 0.473,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -6.009
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
+   "node": "es|d057cd40c7|tree overhaul_ancient-sleeping-tree-sick",
+   "category": "misc",
+   "sizeM": [
+    24.868,
+    27.118,
+    24.35
+   ],
+   "originOffsetM": [
+    12.863,
+    12.84,
+    1.418
+   ],
+   "triangles": 38018,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cluste_col.dds",
+    "crackedbark.dds",
+    "vinesb_col.dds"
+   ],
+   "materials": [
+    "Scene Root:0.Mat.001",
+    "Scene Root:16.Mat.001",
+    "cedartree1:0.Mat.001",
+    "cedartree1:1.Mat.001",
+    "cedartree1:2.Mat.001",
+    "cedartree1:5.Mat.001"
+   ],
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+   "alphaMaskMaterials": {
+    "cedartree1:1.Mat.001": 0.502,
+    "cedartree1:2.Mat.001": 0.502,
+    "cedartree1:5.Mat.001": 0.502
+   },
+   "designedSinkM": {
+    "p25": -0.672,
+    "p50": -0.672,
+    "p75": -0.672,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.418,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.901,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.418
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/histflower01-sick",
+   "node": "es|1220f484bc|sleeping tree overhaul_histflower01-sick",
+   "category": "misc",
+   "sizeM": [
+    1.164,
+    0.678,
+    3.459
+   ],
+   "originOffsetM": [
+    0.649,
+    0.25,
+    -5.854
+   ],
+   "triangles": 949,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "sanguinerose.dds"
+   ],
+   "materials": [
+    "Cylinder.Mat.002"
+   ],
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "glowMaterials": [
+    "Cylinder.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat.002": 0.502
+   },
+   "designedSinkM": {
+    "p25": 6.1957,
+    "p50": 6.1957,
+    "p75": 6.1957,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 3,
+    "interior": {},
+    "exterior": {
+     "camp": 3
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -5.854,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "glowFacingsDeg": [
+    25.4,
+    80.1,
+    142.4,
+    212.0,
+    296.4,
+    341.8
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -5.854
+  },
+  {
+   "id": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
+   "node": "es|95736876ec|sleeping tree overhaul_histflower02-sick",
+   "category": "misc",
+   "sizeM": [
+    0.647,
+    0.856,
+    4.295
+   ],
+   "originOffsetM": [
+    0.335,
+    0.378,
+    -6.009
+   ],
+   "triangles": 1006,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "sanguinerose.dds"
+   ],
+   "materials": [
+    "Cylinder.Mat.003"
+   ],
+   "variantOf": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "glowMaterials": [
+    "Cylinder.Mat.003"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat.003": 0.502
+   },
+   "designedSinkM": {
+    "p25": 6.0086,
+    "p50": 6.0086,
+    "p75": 6.0086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "camp": 7
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2574,6 +3413,22 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2641,6 +3496,22 @@
     "p90": 0.95,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -2701,6 +3572,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -2760,6 +3647,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2827,6 +3730,22 @@
     "p10": 1.1,
     "p90": 1.1,
     "source": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2908,6 +3827,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "camp"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "camp": 1
+    },
+    "sourceCells": [
+     "exterior:camp:SleepingTreeCampLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -2997,6 +3932,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -3078,6 +4021,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "wild": 8
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
@@ -3169,6 +4128,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "base:bmv:architecture/huts/exterior/hutexterior@1.30"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 11,
+    "interior": {},
+    "exterior": {
+     "wild": 11
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarsh2"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -3233,6 +4208,22 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -3295,6 +4286,22 @@
     "p90": 0.79,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 6,
+    "interior": {},
+    "exterior": {
+     "village": 6
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -3354,6 +4361,14 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3422,6 +4437,22 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -3485,6 +4516,22 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "village": 7
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -3539,6 +4586,22 @@
     "n": 7,
     "slopeTermMPerDeg": null,
     "evidence": "base:kotm:argonia/mudhuts/smpodext02"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "village": 7
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3604,6 +4667,22 @@
     "n": 4,
     "slopeTermMPerDeg": null,
     "evidence": "part:kotm:argonia/mudhuts/smpodextdoor"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 7,
+    "interior": {},
+    "exterior": {
+     "village": 7
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -3677,6 +4756,28 @@
     "p90": 1.0,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "town": 1
+    },
+    "exterior": {
+     "wild": 1
+    },
+    "sourceCells": [
+     "interior:town:LilmothRoots",
+     "exterior:wild:BlackMarshLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -3737,6 +4838,14 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -3794,6 +4903,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "town": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:town:AltenDockmasterHouse"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -3849,6 +4974,36 @@
     "p75": 0.8191,
     "n": 4,
     "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 13,
+    "interior": {
+     "village": 6,
+     "ruin": 1
+    },
+    "exterior": {
+     "ruin": 1,
+     "village": 5
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation",
+     "interior:village:KeebaHouseElder",
+     "interior:village:KeebaHouseCrafter",
+     "interior:village:KeebaHouseSnailMinder",
+     "interior:ruin:HuluxinoagRoots",
+     "interior:village:KeebaHouseTreeminder",
+     "interior:village:KeebaHouseFisher",
+     "exterior:ruin:HuluxinoagVillageLocation"
+    ],
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -3911,6 +5066,34 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 14,
+    "interior": {
+     "village": 6,
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 7
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "interior:village:KeebaHouseElder",
+     "interior:village:KeebaHouseCrafter",
+     "interior:village:KeebaHouseSnailMinder",
+     "interior:ruin:HuluxinoagRoots",
+     "interior:village:KeebaHouseTreeminder",
+     "interior:village:KeebaHouseFisher"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -3968,6 +5151,36 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town",
+      "village"
+     ],
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 138,
+    "interior": {
+     "town": 63,
+     "village": 6
+    },
+    "exterior": {
+     "wild": 69
+    },
+    "sourceCells": [
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothIronworks",
+     "interior:town:LilmothPusbottomBunkhouse01",
+     "interior:town:LilmothGlassworksOverseerHouse",
+     "interior:town:LilmothPlantationStorehouse",
+     "interior:town:LilmothTaverna",
+     "interior:town:LilmothBakeryInt",
+     "interior:town:LilmothPusbottomBunkhouse02"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "hanging",
    "anchorClassEvidence": "plugin",
@@ -4031,6 +5244,32 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 20,
+    "interior": {
+     "village": 10
+    },
+    "exterior": {
+     "village": 10
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation",
+     "interior:village:KeebaHouseCrafter",
+     "interior:village:KeebaHouseSnailMinder",
+     "interior:village:KeebaHouseTreeminder",
+     "interior:village:KeebaHouseFisher",
+     "interior:village:KeebaHouseElder"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -4092,6 +5331,32 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 22,
+    "interior": {
+     "village": 10
+    },
+    "exterior": {
+     "village": 12
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation",
+     "interior:village:KeebaHouseCrafter",
+     "interior:village:KeebaHouseSnailMinder",
+     "interior:village:KeebaHouseTreeminder",
+     "interior:village:KeebaHouseFisher",
+     "interior:village:KeebaHouseElder"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4155,6 +5420,28 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "village"
+     ],
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 6,
+    "interior": {
+     "village": 1
+    },
+    "exterior": {
+     "village": 5
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation",
+     "interior:village:KeebaHouseCrafter"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "wall",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
@@ -4215,6 +5502,41 @@
     "slopeTermMPerDeg": -0.05284,
     "evidence": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town",
+      "village",
+      "ruin",
+      "wild"
+     ]
+    },
+    "n": 91,
+    "interior": {
+     "town": 47,
+     "ruin": 1
+    },
+    "exterior": {
+     "wild": 10,
+     "town": 14,
+     "ruin": 5,
+     "village": 14
+    },
+    "sourceCells": [
+     "interior:town:LilmothSewersInt01",
+     "exterior:town:LilmothLocation",
+     "exterior:wild:BlackMarshLocation",
+     "interior:town:LilmothSewersInt02",
+     "exterior:village:RootWhisperVillageLocation",
+     "exterior:ruin:HuluxinoagVillageLocation",
+     "exterior:village:SeekhatYolLocation",
+     "interior:town:LilmothSewersInt03Hideout"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
@@ -4270,6 +5592,37 @@
     "p75": -2.483,
     "n": 13,
     "slopeTermMPerDeg": 0.06834,
+    "evidence": "plugin"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "town"
+     ],
+     "exterior": [
+      "town"
+     ]
+    },
+    "n": 97,
+    "interior": {
+     "town": 62,
+     "village": 1
+    },
+    "exterior": {
+     "town": 31,
+     "wild": 2,
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:town:LilmothLocation",
+     "interior:town:LilmothIronworkersBarracksInt",
+     "interior:town:LilmothPusbottomBunkhouse02",
+     "exterior:town:AltenMeerhleelLocation",
+     "interior:town:LilmothPusbottomBunkhouse01",
+     "interior:town:LilmothGlassworksOverseerHouse",
+     "interior:town:LilmothMerchantManor02Barracks",
+     "interior:town:LilmothPlantationStorehouse"
+    ],
     "evidence": "plugin"
    },
    "anchorClass": "ground",
@@ -4343,6 +5696,22 @@
     "p90": 1.59,
     "source": "plugin"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 2,
+    "interior": {},
+    "exterior": {
+     "village": 2
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "groundLineTell": {
@@ -4412,6 +5781,22 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "village"
+     ]
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:KeebaHollowLocation"
+    ],
+    "evidence": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
    "placement": {
@@ -4447,11 +5832,14 @@
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds": "textures/argonia/landscape/rivermud.dds",
   "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
   "textures/cubemaps/shinydull.dds": "textures/cubemaps/chitin_e_ebony.dds",
-  "textures/argonia/landscape/riverbottom_n.dds": "textures/landscape/riverbottom_n.dds"
+  "textures/argonia/landscape/riverbottom_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/riverbottom_n.dds",
+  "textures/cubemaps/shinybright_e.dds": "textures/armor/noldorarmormaty743/shinybright_e.dds",
+  "textures/dungeons/metalwork01.dds": "textures/architecture/metalwork01.dds",
+  "textures/dungeons/metalwork01_n.dds": "textures/architecture/metalwork01_n.dds"
  },
  "alphaModes": {
-  "MASK": 34,
-  "OPAQUE": 200,
+  "MASK": 39,
+  "OPAQUE": 203,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -4485,16 +5873,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 38590996,
-  "bytesAfter": 18364612,
-  "images": 69,
-  "imageBytesAfter": 14778012,
+  "bytesBefore": 42557352,
+  "bytesAfter": 19483320,
+  "images": 74,
+  "imageBytesAfter": 15815954,
   "warnings": [],
-  "sha256": "c6d7df24fcb76b5e93424c5c851308ca302d889ccb404f235323695ed45d5111",
+  "sha256": "aa2fbb9f0d9b57462993363100f71bc8e230514a512e4dbd4337eb4b59f16ddf",
   "sidecarBytes": {
-   "connectors": 45782,
-   "footprints": 100593,
-   "interiors": 52804
+   "connectors": 48109,
+   "footprints": 104670,
+   "interiors": 54440
   }
  }
 }

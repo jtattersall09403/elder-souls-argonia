@@ -66,5 +66,43 @@
    "signature": "shed | clutter:basketfull, clutter:canoe1, clutter:histflower01, clutter:paintedurn01, clutter:paintedurn01, clutter:paintedurn01, clutter:plank_ferry_swamp_01, clutter:rockcairn03, light:argoniancandle01"
   }
  ],
+ "interiorCellClaims": [
+  {
+   "cellId": "DawnstarBrinasHouse",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.imperial-fringe.claywater-station.1",
+   "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "KeebaHouseCrafter",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.hist-heartland.greenspring.1",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "KeebaHouseCrafter",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.imperial-fringe.claywater-station.3",
+   "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "KeebaHouseCrafter",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.imperial-fringe.claywater-station.5",
+   "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "KeebaHouseFisher",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.hist-heartland.greenspring.2",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "KeebaHouseFisher",
+   "claimedAt": "2026-09-28T08:22:08Z",
+   "doorId": "door.imperial-fringe.claywater-station.2",
+   "placeId": "place.imperial-fringe.claywater-station"
+  }
+ ],
  "schemaVersion": 1
 }

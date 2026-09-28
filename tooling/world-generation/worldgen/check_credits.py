@@ -13,6 +13,10 @@ Checks, cheaply and without network:
    of that credit appears in the README's credits section;
 2. every kit config only names assets that exist in the registry, so a kit
    cannot ship an asset the registry (and therefore the credits) never saw.
+   A composite is credited through its parts; a texture variant
+   (``variantOf``, texture_variants.py: the base's mesh with recoloured
+   textures) through its base, so it inherits the base's registry row and
+   fails when the base has none.
 
 Usage: python3 -m worldgen.check_credits
 """
@@ -121,14 +125,20 @@ def check() -> list[str]:
 
     for config in sorted(KITS.glob("*.json")):
         kit = json.loads(config.read_text())
+        by_id = {a["asset"]: a for a in kit.get("assets", [])}
         for asset in kit.get("assets", []):
+            # A texture VARIANT (16k walk 3 L5) has an id of ours and the
+            # base's mesh and textures, recoloured: credit follows the base
+            # (the kit's own row for it where the base is a composite).
+            base = asset.get("variantOf")
+            source_row = by_id.get(base, {"asset": base}) if "variantOf" in asset else asset
             # A COMPOSITE asset (round 7: the Anvil jungle trees) has no
             # registry row of its own — its id is ours. Credit follows the
             # geometry, so it is its PARTS that must be traceable, and an
             # empty parts list must not pass by vacuous truth.
-            compose = asset.get("compose")
+            compose = source_row.get("compose")
             sources = ([part["asset"] for part in compose["parts"]] if compose
-                       else [asset["asset"]])
+                       else [source_row["asset"]] if source_row.get("asset") else [])
             if not sources:
                 problems.append(
                     f"kit '{kit['id']}' ships {asset['asset']} with no source "
@@ -138,7 +148,7 @@ def check() -> list[str]:
                 if source not in known_ids:
                     problems.append(
                         f"kit '{kit['id']}' ships {source}"
-                        + (f" (in {asset['asset']})" if compose else "")
+                        + (f" (in {asset['asset']})" if source != asset["asset"] else "")
                         + ", which is not in the asset registry — it would be "
                         "uncredited"
                     )

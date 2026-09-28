@@ -162,8 +162,9 @@ walks as it needs; it closes only on the owner's "looks right".
 The audit's table with its coverage (2026-09-25). **Gate column signed
 by the owner 2026-09-25** (hand-off ruling 3): every visual row is a gate
 before rollout. Interiors gate on the cells themselves (0103 decision 7):
-every tier A cell shipped and enterable, every other door reserved with
-its pool named. Occupants, items, containers and ambience gate on the
+every tier A cell shipped and enterable; a door is reserved (its pool
+named) only for a tier B or C interior, never a house, shop, stable house
+or workplace ([0105](../../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R2). Occupants, items, containers and ambience gate on the
 **socket as data**, not the system: the place's `sockets[]` record
 (0103 decisions 5–6; kinds and vocabulary in
 `world/sources/vocab/socket-vocabulary.json`, never a second vocabulary)
@@ -181,8 +182,8 @@ step 2 from the slice that first builds it.
 | Ground-to-wall blend | item 25 | yes |
 | Pads, retaining walls, steps | items 12, 13; retaining walls R1 (0101); `floorEdgeRule` (0102) | yes |
 | Enclosure (fences, walls as a placed rule) | new rule R2 (97 Part F column) | yes |
-| Yard dressing vocabulary | items 15, 17, 23, 26; `propSeatRule` (0102) | yes |
-| Lights by time of day (sconces, lanterns) | item 22; a lit entrance at every door, 97 C16 (0102 decision 7); **lit 17:30–06:30 by the world clock, every fixture glows and the nearest eight cast light** (owner 2026-09-27; `artificialLightFactor`, the fixture budget) | yes |
+| Yard dressing vocabulary | items 15, 17, 23, 26; `propSeatRule` (0102); the per-dwelling count is every placement within 12 m of the footprint except shells, pads, ground treatments and runs (0105 R6) | yes |
+| Lights by time of day (sconces, lanterns) | item 22; a lit entrance at every door, 97 C16 (0102 decision 7); **lit 17:30–06:30 by the world clock, every fixture glows; every fixture within 200 m emits, the 16 nearest** (owner 2026-09-28, [0105](../../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R3; `LIGHTS_ACTIVE_M`, `LIGHTS_CAP`); lanterns outdoors, never interior pieces such as candle sconces (R1) | yes: `lights.density` (no point in the place sees more than 16 fixtures within 200 m), `setting.class` |
 | Seams: the place in its world | skill step 0.3b and § Seams: on-road or off-road, ways join real route terminals, a landing from dry ground to every berth, sign arms along the road; `roadSurfaceRule`, `berthReachRule`, `signRule`, `sillRule` (owner 2026-09-27) | yes |
 | Promises filled | the promise ledger and `fills` (0104 decisions 3–6); the promise gate | yes |
 | Colliders on everything a walker meets | `colliderRule`: every placed asset over 0.3 m in plan and height collides (owner 2026-09-27) | yes |
@@ -196,7 +197,7 @@ step 2 from the slice that first builds it.
 | Ambience and footstep surfaces | 0095 rule 5; studio wiring (backlog row); `ambience` sockets | yes, on the sockets record: the ambience zone placed as an `ambience` socket |
 | Sockets placed as data | 0103 decisions 5–6: `sockets[]` in the compiled record and the bundle, a § Sockets table in the design brief, `?sockets=1` in the studio | yes: the compile's socket gates green |
 | Seen from a distance (lit at range, skyline) | item 5; new R7 | yes |
-| Interiors (tier A verbatim, else reserved) | 16i items 4–5 (0103 decisions 1–4); Phase 12 keeps tiers B and C | yes: every tier A cell shipped and enterable (door and `?interior=<cellId>`, bundle count = the cell's references); every reserved door closed with its pool named |
+| Interiors (tier A verbatim; reserved only for tier B/C) | 16i items 4–5 (0103 decisions 1–4); [0105](../../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R2 and R4; Phase 12 keeps tiers B and C | yes: every tier A cell shipped and enterable (door and `?interior=<cellId>`, bundle count = the cell's references); every reserved door closed with its pool named; `interiors.variety` (no cell twice in a region unless the shell's linked set is exhausted, at most 3 in the province) |
 | Walkability and navmesh | `walkRule` (0102): a route from the road terminal to every door threshold and yard opening within the controller's step and slope limits; the runtime navmesh is Phase 10b's | yes, on `walkRule`: its walk graph is the navmesh socket's walkable ways and door links |
 | Map marker, discovery | catalogue `discovery`; Phase 13 | yes (the `discovery` record and C-stitch) |
 
@@ -284,7 +285,7 @@ From the catalogue's active kind counts (419 active records: settlement
 | 7 | Works and landing (craft, extraction, illicit, storage; ferry stages and landings) | 49 works and 20 landings; industry props, fire, freight and moorings |
 | 8 | Town or city, always a WHOLE city, never a district (Imperial town, Blackrose, Lilmoth) | owner hands-on (0062 §9); built with the owner, not unattended; exits the loop by owner acceptance |
 | 9 | Early-game location (owner-guided): candidates `place.pirate-freeholds.opening-work-barge` (M1 works, `vasteiTutorialScene`), `.opening-work-camp` (M2 muster yard), `.corimont-crosstrees` (M1 transit) | the opening scenes of 0062 §9 and quest MQ01; owner hands-on; exits the loop by owner acceptance |
-| 10 | Road structure or crossing outside any place (the Nine-Trunks stair flight, the Xul-Vaat walkway, a bridge, a lip-step, a ferry crossing with both berths and hulls) | added 2026-09-27 restoring 16h items 10, 16 and 19, which the retirement left with no owner: the route structures 16e recorded and the berths of `travel-services.json` reach Phase 15 unproven otherwise; one slice proves the four kinds as one "place" whose record is `world/sources/routes/route-structure-exemplars.json`; owner to confirm the row at the next packet |
+| 10 | Road structure or crossing outside any place (owner confirmed 2026-09-28, 0105 R7) (the Nine-Trunks stair flight, the Xul-Vaat walkway, a bridge, a lip-step, a ferry crossing with both berths and hulls) | added 2026-09-27 restoring 16h items 10, 16 and 19, which the retirement left with no owner: the route structures 16e recorded and the berths of `travel-services.json` reach Phase 15 unproven otherwise; one slice proves the four kinds as one "place" whose record is `world/sources/routes/route-structure-exemplars.json` |
 
 ### Carried backlog (numbers as in the retired briefs)
 
@@ -802,8 +803,10 @@ Planner rulings (2026-09-24):
    matched meshes stay `reserved` with `interiorShell`, the D0 safe
    interior, the empty `acousticProfile` / `lightingProfile` slots) is
    `place-build/references/doors-interiors-sockets.md` §2. 0103 decision 1
-   supersedes 16i's borrowing of a fitted cell for an unlinked shell: an
-   unlinked shell's door is `reserved` with the pool named. What stays
+   supersedes 16i's borrowing of a fitted cell for an unlinked shell, and
+   [0105](../../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R2 narrows `reserved` to tier B and C interiors: a house, shop,
+   stable house or workplace on an unlinked shell is re-shelled, or, for a
+   doorless hut, dressed inside as exterior placements and walked into. What stays
    here as work: the use-class classifier is proved on a 12-cell labelled
    sample (inn, shop, shrine, dwelling; labels written first), then a
    fresh 12, before any claim is written
@@ -1065,9 +1068,9 @@ inherits the ledger and the targets per region packet.
 - **World-level calls** (a place moved or cut, a new type, a city
   choice) are asked as they arise, batched into the next walk packet.
   Queued: none (the 97 A7 call was closed 2026-09-26, 0102 decision 9).
-- **Phase 15 walk sampling:** the rollout's walk sample rate (every
-  major place; 1 in N template-built minor places, N proposed 10) is an
-  owner call, asked in the next packet.
+- **Phase 15 walk sampling** (owner 2026-09-28, [0105](../../decisions/0105-setting-class-reserved-doors-lights-band-planned-variety.md) R7): the owner
+  walks every major city, the opening-scene places, and one or two of
+  each place type.
 - **What the owner is never asked** (0102 decisions 2–3): anything a
   `check` rule measures (can you walk in, does a floor hang over a drop,
   is the craft beached, does the path reach the door, does a prop stand

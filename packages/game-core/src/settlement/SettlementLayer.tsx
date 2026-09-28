@@ -58,7 +58,7 @@ import { trimeshFromGeometry } from "../physics/floraSolids";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import {
   FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
-  isFireSocket, isLightFixturePlacement, SettlementLightFixtures, windowFixturesFromPiece,
+  isFireSocket, isLightFixturePlacement, SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
 import { mergeRunColliders } from "./runColliders";
@@ -768,7 +768,6 @@ export function SettlementLayer({
         if (inDrawRange) {
           const box = assetBox(`${placement.kit}|${placement.assetId}`, asset.levels[0]);
           if (fixture) fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box));
-          fixturesHere.push(...windowFixturesFromPiece(placement.id, meta, transform, box));
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           const piece = {
             longestSideM: assetLongestSideM(`${placement.kit}|${placement.assetId}`, asset.levels[0])

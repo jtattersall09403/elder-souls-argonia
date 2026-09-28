@@ -252,7 +252,9 @@ asset registry.
   `ruin-monumental-v1` kit.
 - **Skyfall's Sleeping Hist Tree Overhaul** (Nexus SSE mod 116792, Skyfall515,
   ToosTruus and Clofas, v1.4) — a second hero-Hist tree mesh, Hist flowers,
-  rock cairns and rune circle (our grave-stake stand-ins) and a wind chime.
+  rock cairns and rune circle (our grave-stake stand-ins) and a wind chime;
+  the sick-Hist variant recolours its bark, leaf and flower textures (and
+  vanilla's Sanguine Rose flower textures) by a recipe in the kit config.
 - **Script free ship sailing** (Nexus classic Skyrim mod 67727, ElstarTomas;
   canoe model by FrankFamily, v2.3) — the dugout canoe and oars: the only
   genuine canoe mesh we located anywhere.
