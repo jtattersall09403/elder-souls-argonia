@@ -1,6 +1,6 @@
 {
   "id": "interior-kotm-v1",
-  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher, KeebaHouseCrafter and KeebaHouseSnailMinder, the cells linked to the smpodext02 pod (interiors round 7; SnailMinder and Crafter gaps added walk 2). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27).",
+  "description": "Tier A interior kit for King of the Murkmire cells (decision 0103 decision 3): the interior shells, furniture, containers, clutter, carried items and light-bearing meshes that the two Keeba pod-house cells reference and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of the cell), never picked by name. Cells: King of the Murkmire.esp KeebaHouseFisher, KeebaHouseCrafter and KeebaHouseSnailMinder, the cells linked to the smpodext02 pod (interiors round 7; SnailMinder and Crafter gaps added walk 2). A later claim adds its gaps here and rebuilds. Stand-ins: the same-class vault pieces that draw a cell's missing Creation Club clutter (kit-interiors/substitutions, planner ruling 2026-09-27). Walk 3 lane L14 (2026-09-28): the King of the Murkmire gaps of every linked Murkmire cell whose only acceptance failure was a missing mesh were added (interior shells, furniture, clutter, and the trees the RootWhisper huts are built around), read from the cells as above.",
   "culture": "argonian",
   "output": "tooling/asset-pipeline/output/kits/interior-kotm-v1.glb",
   "lodRatios": [
@@ -307,9 +307,263 @@
     },
     {
       "asset": "vanilla:clutter/ingredients/trollfat01"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/boat01"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/doorframe"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/hausneu01innen"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house04platform"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house05platform"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house1in"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house2in"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house2inb"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/house4in"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/housepartion01"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/housepartion02"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/housepartion04"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/housepartionwallwide",
+      "collision": "convex"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/lumbermill01waterwheel01"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/lumbermill01waterwheel02"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/plankwall01a",
+      "collision": "convex"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/plankwall01b",
+      "collision": "convex"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/plankwall02b",
+      "collision": "convex"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/roundhut02int"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/shipplank02",
+      "collision": "convex"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/shiveringhouse_01_inside"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/wall01"
+    },
+    {
+      "asset": "kotm:argonia/blackwood/walldoor01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/burner01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/doll_spriggan"
+    },
+    {
+      "asset": "kotm:argonia/clutter/firewoodpilemedium01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/hangingfeathers02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/hangingfeathers03"
+    },
+    {
+      "asset": "kotm:argonia/clutter/saxhleelfence02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/shell01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/townlantern04"
+    },
+    {
+      "asset": "kotm:argonia/clutter/twigsbundle"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vossasatl01"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vossasatl02"
+    },
+    {
+      "asset": "kotm:argonia/clutter/vossasatl03"
+    },
+    {
+      "asset": "kotm:argonia/clutter/woodchoppingblock"
+    },
+    {
+      "asset": "kotm:argonia/clutter/woodpickup"
+    },
+    {
+      "asset": "kotm:argonia/furniture/beddouble01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/bedsingle01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/bench01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/chair01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/chair03"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furnbedfoottable01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furnbook3shelf01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furnbook4shelf01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furncupboard01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furncupboardsm01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furndresser3dwr01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/furnwardrobe01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/hangingfoodrack01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/rusticbench02"
+    },
+    {
+      "asset": "kotm:argonia/furniture/stool01"
+    },
+    {
+      "asset": "kotm:argonia/furniture/table03"
+    },
+    {
+      "asset": "kotm:argonia/furniture/table03end"
+    },
+    {
+      "asset": "kotm:argonia/furniture/table03sq"
+    },
+    {
+      "asset": "kotm:argonia/stockades/minewoodplanks02"
+    },
+    {
+      "asset": "kotm:argonia/stockades/minewoodplanks04"
+    },
+    {
+      "asset": "kotm:argonia/stockades/stockadescaffoldbase0sided01"
+    },
+    {
+      "asset": "kotm:argonia/stockades/stockadescaffoldtop0sided01"
+    },
+    {
+      "asset": "kotm:argonia/stockades/stockadescaffoldtop0sided01b"
+    },
+    {
+      "asset": "kotm:argonia/trees/ctq_kapoktree01"
+    },
+    {
+      "asset": "kotm:argonia/trees/ctq_kapoktree03"
+    },
+    {
+      "asset": "kotm:argonia/trees/ctq_kapoktree04"
+    },
+    {
+      "asset": "kotm:argonia/trees/ctq_kapoktree05"
+    },
+    {
+      "asset": "kotm:argonia/trees/cypressdebris/cutlog01"
+    },
+    {
+      "asset": "kotm:argonia/trees/cypressdebris/cutlog02"
+    },
+    {
+      "asset": "kotm:argonia/trees/cypressdebris/cutlog04"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/palmoketree02full"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/palmoketree03full"
+    },
+    {
+      "asset": "kotm:argonia/trees/greguire/palmoketree04full"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/histtree01"
+    },
+    {
+      "asset": "kotm:argonia/trees/hist trees/histtreetrunk01"
+    },
+    {
+      "asset": "kotm:argonia/xanmeer/detail/ruinstable01"
+    },
+    {
+      "asset": "kotm:argonia/xanmeer/interior/freefloor2x2"
+    },
+    {
+      "asset": "kotm:argonia/xanmeer/interior/freefloor3x3"
+    },
+    {
+      "asset": "kotm:caen/mounted heads/murkmire/mounted crocodile big"
+    },
+    {
+      "asset": "kotm:loliceptresource/barrel/rugopenbarrel"
+    },
+    {
+      "asset": "kotm:loliceptresource/chest/workbenchchest01"
+    },
+    {
+      "asset": "kotm:loliceptresource/deco/quillinkwellpaper02"
+    },
+    {
+      "asset": "kotm:loliceptresource/deco/quillinkwellpaper03"
+    },
+    {
+      "asset": "kotm:oaristys/paper/scrolls02"
+    },
+    {
+      "asset": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeatcooked"
+    },
+    {
+      "asset": "kotm:skinwalker21 creatures/sabrecat/megalania/skyrim/megalaniascales"
     }
   ],
-  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle.",
+  "textureNote": "Aliases copy settlement-mud-v1's rows for the same archive-absent Creation Club, resource-pack and Dragonborn textures; desertcracked02 takes its desertcracked01 sibling's stand-in. boneflute01 is left out: its only diffuse is a Creation Club weapon texture (bgssse001 fangofhaynekhtnamet) absent from the vault, so the flute stays a named no-kit-asset gap in the bundle. Walk 3 lane L14: telwoodendoor01 (the Hist trunk's bark) takes dungeon-root-v1's stand-in; 22 more pieces the Murkmire cells reference are left out on the boneflute's rule, each because a diffuse it needs sits only in an archive the vault lacks (Creation Club bgssse001/bgssse037/bgssse025 fish, rods, weapons and ingredients; the AE _ResourcePack palm, snow-gum and willow trees; _byoh food; Dragonborn dlc2darkelffurniture01 and telinsideblob01; a Curse of Immortals turtle shell): boneflute01, doll_turtle, marshmerrowstew, saltricenoodles, crateopen01, ctq_treepalm03-05, jungletree04-06, histgland03, rainforesttree02, willow03-04, argonianspearsquiver, the three mounted fish, redwort01, argbonedagger, argknife.",
   "textureAliases": {
     "textures/_resourcepack/landscape/desertcracked01_d.dds": "textures/argonia/landscape/rivermud.dds",
     "textures/_resourcepack/landscape/desertcracked01_n.dds": "textures/argonia/landscape/rivermud_n.dds",
@@ -318,6 +572,7 @@
     "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds": "textures/dungeons/rottingwood01.dds",
     "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds": "textures/dungeons/rottingwood01_n.dds",
     "textures/_resourcepack/landscape/desertcracked02light_d.dds": "textures/argonia/landscape/dirt02.dds",
-    "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds"
+    "textures/_resourcepack/landscape/desertcracked02_n.dds": "textures/argonia/landscape/rivermud_n.dds",
+    "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds"
   }
 }

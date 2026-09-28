@@ -64,6 +64,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import struct
 import sys
 from collections import Counter
@@ -405,7 +406,14 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
         row = absent.get(base_form or "")
         return (row["class"], row["source"]) if row else ("unclassed", "master absent, no sourced row")
     btype = base["type"]
-    fixed = {"FURN": "furniture", "CONT": "container", "LIGH": "light", "DOOR": "door"}
+    if btype == "TREE":
+        return "vegetation", "base record TREE (planner ruling R46, 16k walk 3)"
+    if btype == "CONT":
+        return "container", "base record CONT"
+    if model and _CRATE.search(model.rsplit("/", 1)[-1]):
+        # R47: a crate is clutter, as every published crate's kit category is
+        return "clutter", f"base record {btype}, a crate (planner ruling R47, 16k walk 3)"
+    fixed = {"FURN": "furniture", "LIGH": "light", "DOOR": "door"}
     if btype in fixed:
         return fixed[btype], f"base record {btype}"
     if btype == "ARMO":
@@ -415,6 +423,109 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
     if model:
         return classify(model).category, f"base record {btype}, model taxonomy"
     return "unclassed", f"base record {btype} with no model"
+
+
+#: a crate's mesh stem (R47); "desecrated" (dead-soldier containers) is not one
+_CRATE = re.compile(r"(?<!se)crate")
+
+#: R45 (planner ruling, 16k walk 3): the kit categories a reference can rest on
+SURFACE_CATEGORIES = frozenset({"clutter", "furniture", "container", "item"})
+#: ... and the structural ones whose top or base is a floor (room shells and
+#: floor pieces file under misc in the KotM kits); never a light, door or plant
+STRUCTURAL_CATEGORIES = ARCHITECTURE_CLASSES - {"door"} | {"misc"}
+#: R45 tolerances, metres: how far a reference may sit outside a piece's plan,
+#: above its top, and above a floor; the bounds that make a floor piece furniture
+SUPPORT_MARGIN_M = 0.05
+SHELL_FLOOR_M = 0.4
+SUPPORT_TOP_M = 0.15
+SUPPORT_BASE_M = 0.08
+FLOOR_BAND_M = 0.2
+FLOOR_REACH_M = 6.0
+FURNITURE_BOUNDS_M = 0.6
+
+
+def _local_point(q, piece) -> tuple[float, float, float]:
+    """``q`` (game frame) in the piece's asset frame (plugin axes: x east,
+    y north, z up; metres, unscaled). Yaw only: a tilted piece is rare and
+    tilts its top by centimetres over its plan."""
+    pos = piece["positionM"]
+    dx, dy, dz = q[0] - pos[0], -(q[2] - pos[2]), q[1] - pos[1]
+    t = math.radians(float(piece["rotationDeg"][1]))
+    s_ = float(piece.get("scale") or 1.0)
+    return ((dx * math.cos(t) - dy * math.sin(t)) / s_,
+            (dx * math.sin(t) + dy * math.cos(t)) / s_, dz / s_)
+
+
+def support_of(q, placements: list[dict], bounds: dict[str, tuple]) -> tuple[str, list[str]]:
+    """Where a reference at ``q`` (game frame) sits in its cell (R45): on a
+    ``surface`` piece (inside a clutter, furniture or container piece's plan,
+    above its base and at most ``SUPPORT_TOP_M`` above its top: a table, a
+    shelf level, a basket), on the ``floor`` (on the top of a floor or
+    structural piece, or within ``FLOOR_BAND_M`` of the base of the nearest
+    standing furniture; a structural piece is a room shell, wall or floor
+    piece, whose floor is its top or lies within ``SHELL_FLOOR_M`` of its
+    base), else on a ``wall`` (above the floor with nothing of
+    the cell's own under it: hung). Only the author's placed pieces count;
+    a stand-in is never evidence. Returns the verdict and the pieces read."""
+    on, floor_tops, bases = [], [], []
+    for p in placements:
+        b = bounds.get(p["assetId"])
+        if b is None:
+            continue
+        size, org = b
+        x, y, z = _local_point(q, p)
+        s_ = float(p.get("scale") or 1.0)
+        lo = [-o for o in org]
+        hi = [size[i] - org[i] for i in range(3)]
+        m = SUPPORT_MARGIN_M / s_
+        inside = lo[0] - m <= x <= hi[0] + m and lo[1] - m <= y <= hi[1] + m
+        if p.get("category") in SURFACE_CATEGORIES:
+            if inside and lo[2] + SUPPORT_BASE_M / s_ < z <= hi[2] + SUPPORT_TOP_M / s_:
+                on.append(p["id"])
+            if (p.get("category") in ("furniture", "container") and abs(org[2]) < 0.05
+                    and math.hypot(p["positionM"][0] - q[0], p["positionM"][2] - q[2]) < FLOOR_REACH_M
+                    and p["positionM"][1] <= q[1] + SUPPORT_TOP_M):
+                bases.append((p["positionM"][1], p["id"]))
+        elif inside and p.get("category") in STRUCTURAL_CATEGORIES and (
+                abs(z - hi[2]) <= SUPPORT_TOP_M / s_
+                or lo[2] - SUPPORT_MARGIN_M / s_ <= z <= lo[2] + SHELL_FLOOR_M / s_):
+            # the top of a floor piece, or the floor of a room shell or wall
+            # piece: near the bottom of its box (its top is the roof)
+            floor_tops.append(p["id"])
+    if on:
+        return "surface", sorted(on)
+    if floor_tops:
+        return "floor", sorted(floor_tops)
+    if bases:
+        top = max(bases)
+        if q[1] - top[0] <= FLOOR_BAND_M:
+            return "floor", [top[1]]
+    return "wall", []
+
+
+def class_by_placement(votes: dict[str, int], carried_m: float) -> str:
+    """R45: a form's class from where its references sit. Support from below
+    wins (decision 0085): any reference resting on a surface piece makes it
+    clutter; else a floor reference makes it furniture when something the
+    cell's author set on it stands over ``FURNITURE_BOUNDS_M`` above the
+    floor (``carried_m``, the only bounds a form in an absent master shows)
+    and clutter otherwise; a form every reference of which hangs is a
+    ``fixture``."""
+    if votes.get("surface"):
+        return "clutter"
+    if votes.get("floor"):
+        return "furniture" if carried_m > FURNITURE_BOUNDS_M else "clutter"
+    return "fixture"
+
+
+def published_kit_bounds(kits_dir: Path = KITS_DIR) -> dict[str, tuple[list, list]]:
+    """asset id -> (sizeM, originOffsetM) over every published kit."""
+    out: dict[str, tuple[list, list]] = {}
+    for path in sorted(kits_dir.glob("*.kit.json")):
+        for asset in json.loads(path.read_text()).get("assets", []) or []:
+            if asset.get("sizeM") and asset.get("originOffsetM"):
+                out.setdefault(asset["id"], (asset["sizeM"], asset["originOffsetM"]))
+    return out
 
 
 def published_kit_assets(kits_dir: Path = KITS_DIR) -> dict[str, tuple[str, str | None]]:
@@ -474,7 +585,8 @@ def _game_pos(pos_units) -> list[float]:
 
 
 def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], registry,
-                kit_assets, pool_of, doors: list[dict] | None = None) -> dict:
+                kit_assets, pool_of, doors: list[dict] | None = None,
+                absent: dict[str, dict] | None = None) -> dict:
     """The bundle for one cell (see the module docstring). `doors` is the
     blueprint's pairing, `[{exteriorDoorId, interiorLoadDoorRef,
     arrivalMarker}]` (game frame), in door order."""
@@ -510,7 +622,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
     bases = {k: _base_info(r) for k, r in records.items() if r.type != b"LGTM"}
 
     pool = pool_of(plugin_name)
-    absent = absent_master_classes()
+    absent = absent_master_classes() if absent is None else absent
     placements, drops, lights, sockets = [], [], [], []
     poses: dict[str, tuple] = {}
     load_doors: dict[str, dict] = {}
@@ -532,7 +644,8 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             key = ref.get("baseKey")
             form = f"{key[0]}:{key[1]:08X}" if key else None
             cls, why = piece_class(None, form, None, absent)
-            drop("unresolved-base", **({"baseForm": form} if form else {}), **{"class": cls, "classSource": why})
+            drop("unresolved-base", **({"baseForm": form} if form else {}),
+                 **{"class": cls, "classSource": why, "positionM": pos})
             continue
         btype = base["type"]
         name = f"{base.get('editorId') or ''} {base.get('model') or ''}"
@@ -599,7 +712,8 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         hit = kit_assets.get(asset_id) if asset_id else None
         if hit is None:
             cls, why = piece_class(base, None, model, absent)
-            drop("no-kit-asset", model=model, assetId=asset_id, **{"class": cls, "classSource": why})
+            drop("no-kit-asset", model=model, assetId=asset_id,
+                 **{"class": cls, "classSource": why, "positionM": pos})
             continue
         kit, kit_category = hit
         if btype == "CONT":
@@ -836,6 +950,46 @@ def validate_bundle(b: dict) -> list[str]:
     return bad
 
 
+def placement_rows(bundles: list[dict], bounds: dict[str, tuple]) -> dict[str, dict]:
+    """R45 rows for every unclassed base in an absent master across
+    ``bundles``: ``{form: {class, classedBy, source, votes, carriedM, cells}}``
+    (see ``support_of`` and ``class_by_placement``)."""
+    votes: dict[str, Counter] = {}
+    carried: dict[str, float] = {}
+    cells: dict[str, set] = {}
+    for b in bundles:
+        pl = b["placements"]
+        refs = [(d, d.get("positionM")) for d in b["drops"] if d.get("positionM")]
+        refs += [(p, p["positionM"]) for p in pl]
+        for d in b["drops"]:
+            if d["reason"] != "unresolved-base" or d.get("class") != "unclassed" or not d.get("positionM"):
+                continue
+            form, q = d["baseForm"], d["positionM"]
+            verdict, _ = support_of(q, pl, bounds)
+            votes.setdefault(form, Counter())[verdict] += 1
+            cells.setdefault(form, set()).add(b["cellId"])
+            if verdict == "floor":
+                # what the author set on it: the LOWEST reference over its plan with
+                # no support of its own (anything higher may hang above it)
+                on_it = [oq[1] - q[1] for other, oq in refs
+                         if other is not d and math.hypot(oq[0] - q[0], oq[2] - q[2]) <= 0.5
+                         and 0.1 < oq[1] - q[1] <= 2.5 and support_of(oq, pl, bounds)[0] == "wall"]
+                if on_it:
+                    carried[form] = max(carried.get(form, 0.0), round(min(on_it), 3))
+    out = {}
+    for form in sorted(votes):
+        v = dict(sorted(votes[form].items()))
+        c = carried.get(form, 0.0)
+        cls = class_by_placement(v, c)
+        where = ", ".join(f"{n} {k}" for k, n in v.items())
+        out[form] = {"class": cls, "classedBy": "placement",
+                     "source": (f"planner ruling R45 (16k walk 3): no written source; its references sit "
+                                f"{where} (support_of in worldgen/export_interior_bundle.py)"
+                                + (f"; the author set a piece {c} m above it" if c else "")),
+                     "votes": v, "carriedM": c, "cells": sorted(cells[form])}
+    return out
+
+
 def _environment():
     from .asset_registry import DEFAULT_VAULT
     from .mine_door_links import discover_plugins, registry_index
@@ -848,13 +1002,44 @@ def _environment():
     return paths, pools, registry_index()
 
 
+def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
+    from .blueprint_interiors import linked_shells
+    paths, pools, registry = _environment()
+    kit_assets, bounds = published_kit_assets(), published_kit_bounds()
+    doc = json.loads(path.read_text())
+    # a re-run re-derives every placement row: the cells are read with only the
+    # rows that have a written source; the file is written once, at the end
+    doc["forms"] = {f: r for f, r in doc["forms"].items() if r.get("classedBy") != "placement"}
+    bundles = []
+    for plugin, cell in sorted({(r["plugin"], r["interiorCell"])
+                                for rows in linked_shells().values() for r in rows}):
+        if plugin not in paths:
+            continue
+        try:
+            bundles.append(export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
+                                       absent=doc["forms"]))
+        except (SystemExit, ValueError) as err:
+            print(f"  skip {plugin} {cell}: {err}")
+    rows = placement_rows(bundles, bounds)
+    doc["forms"].update(rows)
+    path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+    print(f"{len(rows)} forms classed by placement: "
+          + json.dumps(Counter(r["class"] for r in rows.values())))
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--plugin")
     ap.add_argument("--cell")
     ap.add_argument("--blueprint", help="export every tier A claim on this blueprint's doors")
     ap.add_argument("--out-dir", default=str(OUT_DIR))
+    ap.add_argument("--class-absent-by-placement", action="store_true",
+                    help="R45: write a placement row to absent-master-classes.json for every "
+                         "unclassed absent-master base in the door-linked cells")
     args = ap.parse_args()
+    if args.class_absent_by_placement:
+        return _write_placement_rows()
     jobs: list[tuple[str, str, str | None]] = []
     pairs: dict[tuple[str, str], list[dict]] = {}
     if args.blueprint:

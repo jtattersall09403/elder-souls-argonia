@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothTaverna",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "0801AC70",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0801AC71",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0801AC72",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0801AC73",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0801AC7F",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish04",
+      "why": "A raw slaughterfish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "0801AC93",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of milk stands here; a small glazed jug takes its place."
+    },
+    {
+      "refId": "0801AC94",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of milk stands here; a small glazed jug takes its place."
+    },
+    {
+      "refId": "0801AC95",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0801AC96",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0801AC98",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0801AC99",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0801ACA5",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0801ACA6",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "08036051",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0803608C",
+      "standInAsset": "vanilla:clutter/common/ruground04",
+      "why": "A square woven rug lies here; a round rug of its width takes its place."
+    },
+    {
+      "refId": "08036091",
+      "standInAsset": "vanilla:clutter/common/rug07",
+      "why": "A woven rug lies here; a common rug of its size takes its place."
+    },
+    {
+      "refId": "08036092",
+      "standInAsset": "vanilla:clutter/common/rug07",
+      "why": "A woven rug lies here; a common rug of its size takes its place."
+    },
+    {
+      "refId": "080360C2",
+      "standInAsset": "vanilla:clutter/common/rug07",
+      "why": "A woven rug lies here; a common rug of its size takes its place."
+    },
+    {
+      "refId": "08036129",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of marshmerrow stew sits here; a bowl of stew takes its place."
+    },
+    {
+      "refId": "0803612A",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of saltrice noodles sits here; a bowl of stew of its size takes its place."
+    },
+    {
+      "refId": "08036134",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A hypha facia cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "08036135",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A hypha facia cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "08036136",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A hypha facia cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0803613B",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0803613C",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    }
+  ]
+}

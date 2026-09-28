@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "cellId": "RootWhisperHouseSapSpeaker",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "085C826B",
+      "standInAsset": "vanilla:clutter/glazedbowl02",
+      "why": "An empty shaman's bowl sits here; a glazed bowl of its size takes its place."
+    },
+    {
+      "refId": "085C826C",
+      "standInAsset": "vanilla:clutter/glazedbowl01",
+      "why": "A bowl of bone meal sits here; a glazed bowl of its size takes its place."
+    },
+    {
+      "refId": "085C828A",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085C828B",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085C829F",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A luminous russula cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085C82A0",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A luminous russula cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085C82A4",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+      "why": "A raw fat sleeper fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "085C82A8",
+      "standInAsset": "kotm:argonia/clutter/doll_spriggan",
+      "why": "A turtle doll sits here; a doll from the same set takes its place."
+    },
+    {
+      "refId": "085C82AA",
+      "standInAsset": "vanilla:clutter/common/flute01",
+      "why": "A bone flute lies here; a wooden flute of its length takes its place."
+    }
+  ]
+}

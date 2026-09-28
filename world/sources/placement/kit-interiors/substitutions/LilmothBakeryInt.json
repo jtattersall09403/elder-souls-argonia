@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothBakeryInt",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "082F01D3",
+      "standInAsset": "kotm:argonia/clutter/townlantern04",
+      "why": "A lantern on a rope hangs here; a town lantern takes its place."
+    },
+    {
+      "refId": "082F01D4",
+      "standInAsset": "kotm:argonia/clutter/townlantern04",
+      "why": "A lantern on a rope hangs here; a town lantern takes its place."
+    },
+    {
+      "refId": "082F0200",
+      "standInAsset": "vanilla:clutter/ingredients/pie01",
+      "why": "A jazbay crostata sits here; a pie takes its place."
+    },
+    {
+      "refId": "082F0208",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of milk stands here; a small glazed jug takes its place."
+    },
+    {
+      "refId": "082F022E",
+      "standInAsset": "vanilla:clutter/food/cookedsalmonsteak01",
+      "why": "A cooked michinitl fish lies here; a cooked salmon steak takes its place."
+    },
+    {
+      "refId": "082F0230",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of marshmerrow stew sits here; a bowl of stew takes its place."
+    },
+    {
+      "refId": "082F0235",
+      "standInAsset": "vanilla:clutter/food/bread01a",
+      "why": "A braided loaf lies here; a loaf of bread takes its place."
+    },
+    {
+      "refId": "082F0236",
+      "standInAsset": "vanilla:clutter/food/bread01a",
+      "why": "A braided loaf lies here; a loaf of bread takes its place."
+    },
+    {
+      "refId": "082F0237",
+      "standInAsset": "vanilla:clutter/food/bread01a",
+      "why": "A braided loaf lies here; a loaf of bread takes its place."
+    },
+    {
+      "refId": "082F0239",
+      "standInAsset": "vanilla:clutter/food/bread01a",
+      "why": "A braided loaf lies here; a loaf of bread takes its place."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothFishery",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "0885F8A5",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear hangs here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "0885F8A6",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+      "why": "Fishing gear hangs here; a fish rack takes its place."
+    },
+    {
+      "refId": "0885F8A8",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+      "why": "Fishing gear hangs here; a fish rack takes its place."
+    },
+    {
+      "refId": "0885F8AB",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+      "why": "Fishing gear hangs here; a fish rack takes its place."
+    },
+    {
+      "refId": "0885F8AC",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear hangs here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "0885F8CF",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack01",
+      "why": "Fishing gear stands here; a fish rack takes its place."
+    },
+    {
+      "refId": "0885F8D3",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear stands here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "0885F8D4",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear stands here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "0885F8D6",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish04",
+      "why": "A raw fat sleeper fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "0885F8D7",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+      "why": "A raw ayotlchin fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "0885F8DA",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish03",
+      "why": "A raw slaughterfish lies here; a dead pond fish takes its place."
+    }
+  ]
+}

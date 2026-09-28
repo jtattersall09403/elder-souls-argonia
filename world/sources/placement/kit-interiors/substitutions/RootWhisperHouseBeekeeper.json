@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "cellId": "RootWhisperHouseBeekeeper",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "085BDDE3",
+      "standInAsset": "vanilla:clutter/deadanimals/fishrack02",
+      "why": "Fishing gear hangs here; a fish rack takes its place."
+    },
+    {
+      "refId": "085BDE03",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear hangs here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "085BDE17",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+      "why": "A raw michinitl fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "085BDE19",
+      "standInAsset": "vanilla:clutter/common/fishingpolecollection01",
+      "why": "Fishing gear hangs here; a bundle of fishing poles takes its place."
+    },
+    {
+      "refId": "085BDE1E",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
+      "why": "A raw slaughterfish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "085C2FB5",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "085C2FB7",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of marshmerrow stew sits here; a bowl of stew takes its place."
+    }
+  ]
+}

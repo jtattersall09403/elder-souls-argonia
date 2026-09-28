@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "cellId": "KeebaHouseFisher",
   "plugin": "King of the Murkmire.esp",
-  "rule": "Stand-ins for the cell's missing Creation Club clutter (planner ruling 2026-09-27; place-diag P9). Each stand-in is a vault piece of the same class, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "rule": "Stand-ins for the cell's missing Creation Club clutter (planner ruling 2026-09-27; place-diag P9). Each stand-in is a published piece of the same object and near size, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
   "substitutions": [
     {
       "refId": "080A5B7B",
@@ -38,11 +38,6 @@
       "refId": "080A5B81",
       "standInAsset": "vanilla:clutter/deadanimals/deadsalmon02",
       "why": "A raw slaughterfish sits on the shelf; a dead salmon takes its place."
-    },
-    {
-      "refId": "080A5B87",
-      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-      "why": "A Curios piece sits on the shelf; a mounted slaughterfish takes its place."
     },
     {
       "refId": "080A5B42",

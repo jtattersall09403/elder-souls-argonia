@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothCarpenters",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "0886A10E",
+      "standInAsset": "vanilla:furniture/blacksmithworkbench01",
+      "why": "A carpenter's workbench stands here; a smith's workbench takes its place."
+    },
+    {
+      "refId": "0886A10F",
+      "standInAsset": "vanilla:furniture/blacksmithworkbench01",
+      "why": "A carpenter's workbench stands here; a smith's workbench takes its place."
+    },
+    {
+      "refId": "0886A110",
+      "standInAsset": "kotm:argonia/furniture/rustictable02",
+      "why": "A drafting table stands here; a plain table of its width takes its place."
+    }
+  ]
+}

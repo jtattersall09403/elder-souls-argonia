@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "cellId": "RootWhisperHouseHunter",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "085D80E0",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of saltrice noodles sits here; a bowl of stew of its size takes its place."
+    },
+    {
+      "refId": "085D80E1",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of saltrice noodles sits here; a bowl of stew of its size takes its place."
+    },
+    {
+      "refId": "085D80E8",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D80E9",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D80EA",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    }
+  ]
+}

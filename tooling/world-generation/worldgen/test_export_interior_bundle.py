@@ -172,6 +172,74 @@ def test_piece_class_reads_the_base_record_then_the_sourced_absent_master_row():
                           "architecture/whiterun/wrbuildings/wrhouse01.nif", {})[0] == "architecture"
 
 
+def test_a_tree_base_is_vegetation_and_every_crate_is_clutter():
+    # R46: a TREE base is vegetation whatever its mesh folder says
+    assert ex.piece_class({"type": "TREE"}, None, "argonia/trees/undergrowth01.nif", {})[0] == "vegetation"
+    # R47: crates are clutter, as their published kit category is; a CONT keeps its record type
+    assert ex.piece_class({"type": "STAT"}, None, "argonia/furniture/crateopen01.nif", {})[0] == "clutter"
+    assert ex.piece_class({"type": "STAT"}, None, "furniture/noble/noblecrate02.nif", {})[0] == "clutter"
+    assert ex.piece_class({"type": "CONT"}, None, "clutter/common/cratesmall01.nif", {})[0] == "container"
+    assert ex.piece_class({"type": "CONT"}, None,
+                          "clutter/deadsoldiers/desecratedimperial.nif", {})[0] == "container"
+
+
+# R45 geometry: a 1 m table (top at 0.9 m) at the origin, facing north; a
+# chair beside it on the same floor. Game frame: y up, z south.
+_BOUNDS = {"t": ([1.0, 1.0, 0.9], [0.5, 0.5, 0.0]), "c": ([0.5, 0.5, 1.0], [0.25, 0.25, 0.0])}
+_PIECES = [
+    {"id": "T", "assetId": "t", "category": "clutter", "positionM": [0.0, 0.0, 0.0],
+     "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0},
+    {"id": "C", "assetId": "c", "category": "furniture", "positionM": [2.0, 0.0, 0.0],
+     "rotationDeg": [0.0, 90.0, 0.0], "scale": 1.0},
+]
+
+
+@pytest.mark.parametrize("q, verdict", [
+    ([0.2, 0.92, -0.1], "surface"),   # on the table top
+    ([3.0, 0.05, 1.0], "floor"),      # on the floor by the chair
+    ([3.0, 1.6, 1.0], "wall"),        # hung, nothing under it
+    ([0.2, 1.2, -0.1], "wall"),       # 0.3 m over the table top: not resting on it
+])
+def test_support_of_reads_where_a_reference_sits(q, verdict):
+    assert ex.support_of(q, _PIECES, _BOUNDS)[0] == verdict
+
+
+def test_support_of_reads_a_room_shell_floor_and_never_a_door_top():
+    bounds = {"shell": ([10.0, 10.0, 4.0], [5.0, 5.0, 0.8]), "door": ([1.2, 0.3, 2.2], [0.6, 0.15, 0.0])}
+    shell = {"id": "S", "assetId": "shell", "category": "misc", "positionM": [20.0, 0.0, 0.0],
+             "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0}
+    door = dict(shell, id="D", assetId="door", category="door", positionM=[40.0, 0.0, 0.0])
+    # standing on the shell's floor, near the bottom of its box, no furniture near
+    assert ex.support_of([21.0, -0.7, 1.0], [shell], bounds)[0] == "floor"
+    # hung just over a door's lintel
+    assert ex.support_of([40.0, 2.25, 0.0], [door], bounds)[0] == "wall"
+
+
+def test_class_by_placement_support_from_below_wins():
+    assert ex.class_by_placement({"surface": 1, "wall": 3}, 0.0) == "clutter"
+    assert ex.class_by_placement({"floor": 2}, 0.0) == "clutter"
+    assert ex.class_by_placement({"floor": 2, "wall": 1}, 0.75) == "furniture"
+    assert ex.class_by_placement({"wall": 2}, 0.0) == "fixture"
+
+
+def test_placement_rows_class_unclassed_absent_forms_only():
+    drops = [
+        {"refId": "1", "reason": "unresolved-base", "baseForm": "cc.esm:00000001",
+         "class": "unclassed", "positionM": [0.2, 0.92, -0.1]},
+        {"refId": "2", "reason": "unresolved-base", "baseForm": "cc.esm:00000002",
+         "class": "clutter", "positionM": [3.0, 1.6, 1.0]},
+        {"refId": "3", "reason": "unresolved-base", "baseForm": "cc.esm:00000003",
+         "class": "unclassed", "positionM": [3.0, 0.05, 1.0]},
+        {"refId": "4", "reason": "no-kit-asset", "class": "clutter", "positionM": [3.0, 0.85, 1.0]},
+    ]
+    rows = ex.placement_rows([{"cellId": "X", "placements": _PIECES, "drops": drops}], _BOUNDS)
+    assert set(rows) == {"cc.esm:00000001", "cc.esm:00000003"}
+    assert rows["cc.esm:00000001"]["class"] == "clutter"
+    # the author set a piece 0.8 m above the floor form: its bounds pass 0.6 m
+    assert rows["cc.esm:00000003"] == {**rows["cc.esm:00000003"], "class": "furniture",
+                                       "classedBy": "placement", "carriedM": 0.8}
+
+
 # Interior lighting from the plugin (runtime-diag D2 "flat"; restored 16i
 # item 5): the bundle's lights and the cell's ambient and directional match
 # the plugin's own bytes, read here without the exporter's decoder. Two

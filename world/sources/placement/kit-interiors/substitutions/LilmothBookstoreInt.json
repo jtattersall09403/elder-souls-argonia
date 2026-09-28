@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothBookstoreInt",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "0841B497",
+      "standInAsset": "vanilla:clutter/common/ruground04",
+      "why": "A square woven rug lies here; a round rug of its width takes its place."
+    },
+    {
+      "refId": "0841B49A",
+      "standInAsset": "vanilla:clutter/common/rug07",
+      "why": "A woven rug lies here; a common rug of its size takes its place."
+    },
+    {
+      "refId": "0841B4CF",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish01",
+      "why": "A raw ayotlchin fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "0841B4D0",
+      "standInAsset": "vanilla:clutter/food/cookedsalmonsteak01",
+      "why": "A cooked ayotlchin fish lies here; a cooked salmon steak takes its place."
+    },
+    {
+      "refId": "0841B4D1",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0841B536",
+      "standInAsset": "vanilla:clutter/books/basicbook04",
+      "why": "A copy of The Poison Song, Book I lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B537",
+      "standInAsset": "vanilla:clutter/books/basicbook05",
+      "why": "A copy of The Poison Song, Book II lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B538",
+      "standInAsset": "vanilla:clutter/books/basicbook06",
+      "why": "A copy of The Poison Song, Book III lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B539",
+      "standInAsset": "vanilla:clutter/books/basicbook07",
+      "why": "A copy of The Poison Song, Book IV lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53A",
+      "standInAsset": "vanilla:clutter/books/basicbook01",
+      "why": "A copy of The Poison Song, Book V lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53B",
+      "standInAsset": "vanilla:clutter/books/basicbook03",
+      "why": "A copy of The Poison Song, Book VI lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53C",
+      "standInAsset": "vanilla:clutter/books/basicbook04",
+      "why": "A copy of The Poison Song, Book VII lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53D",
+      "standInAsset": "vanilla:clutter/books/basicbook05",
+      "why": "A copy of Words of the Wind lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53E",
+      "standInAsset": "vanilla:clutter/books/basicbook06",
+      "why": "A copy of The Axe Man lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B53F",
+      "standInAsset": "vanilla:clutter/books/basicbook07",
+      "why": "A copy of The Red Year lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B540",
+      "standInAsset": "vanilla:clutter/books/basicbook01",
+      "why": "A copy of The Red Year lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B541",
+      "standInAsset": "vanilla:clutter/books/basicbook03",
+      "why": "A copy of Nerevar at Red Mountain lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B545",
+      "standInAsset": "vanilla:clutter/books/basicbook07",
+      "why": "A copy of Bone, Part II lies here; a closed book takes its place."
+    },
+    {
+      "refId": "0841B546",
+      "standInAsset": "vanilla:clutter/books/basicbook01",
+      "why": "A copy of Bone, Part I lies here; a closed book takes its place."
+    }
+  ]
+}

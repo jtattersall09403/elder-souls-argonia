@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothDistilleryInt",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "0826FE87",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0826FE88",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0826FE89",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0826FE8A",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "0826FE97",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0826FE98",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0826FE99",
+      "standInAsset": "vanilla:clutter/wine/winebottle02b",
+      "why": "A bottle of snail milk stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0826FEBB",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of theilul stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0826FED2",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0826FED3",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0826FED4",
+      "standInAsset": "vanilla:clutter/wine/winebottle02b",
+      "why": "A bottle of snail milk stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "0826FED5",
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    }
+  ]
+}

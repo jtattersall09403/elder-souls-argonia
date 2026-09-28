@@ -5,121 +5,6 @@
   "rule": "Stand-ins for the cell's missing clutter (planner ruling 2026-09-27; as KeebaHouseFisher). Each stand-in is a published clutter piece picked on the missing base's measured size (its OBND, or the UESP item's kind for a base in an absent master), drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
   "substitutions": [
     {
-      "refId": "080157F2",
-      "standInAsset": "kotm:argonia/clutter/vase01",
-      "why": "A pot of honey stands here; a clay vase of its size takes its place."
-    },
-    {
-      "refId": "080157F4",
-      "standInAsset": "kotm:argonia/clutter/saxhleelfence01",
-      "why": "A woven reed fence stands here; the shorter woven fence takes its place."
-    },
-    {
-      "refId": "08015800",
-      "standInAsset": "kotm:argonia/clutter/saxhleelfence01",
-      "why": "A woven reed fence stands here; the shorter woven fence takes its place."
-    },
-    {
-      "refId": "0801AA25",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
-      "why": "A lantern hangs here; a lantern of its size takes its place."
-    },
-    {
-      "refId": "0801AA26",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
-      "why": "A lantern hangs here; a lantern of its size takes its place."
-    },
-    {
-      "refId": "0801AA28",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
-      "why": "A lantern hangs here; a lantern of its size takes its place."
-    },
-    {
-      "refId": "0801AA2F",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven",
-      "why": "A small candle lamp stands on the floor; a table lamp of its width takes its place."
-    },
-    {
-      "refId": "0801AA6C",
-      "standInAsset": "kotm:argonia/clutter/hangingfeathers01",
-      "why": "A basket of feathers hangs on the wall; its twin from the same set takes its place."
-    },
-    {
-      "refId": "0801AA91",
-      "standInAsset": "kotm:argonia/clutter/tamwindchime01",
-      "why": "A hagraven's charm ball hangs here; a hanging wind chime takes its place."
-    },
-    {
-      "refId": "0801AA92",
-      "standInAsset": "kotm:argonia/clutter/tamwindchime01",
-      "why": "A hagraven's charm ball hangs here; a hanging wind chime takes its place."
-    },
-    {
-      "refId": "0801AAA1",
-      "standInAsset": "kotm:argonia/clutter/wallbasket01",
-      "why": "A wall basket hangs here; the Saxhleel basket of its size takes its place."
-    },
-    {
-      "refId": "0801AAA2",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
-      "why": "A lantern hangs here; a lantern of its size takes its place."
-    },
-    {
-      "refId": "0801AAA6",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
-      "why": "A lantern hangs here; a lantern of its size takes its place."
-    },
-    {
-      "refId": "0801AAB1",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A redwort flower lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAB2",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A redwort flower lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAB3",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A deathbell lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAB4",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A deathbell lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAB5",
-      "standInAsset": "kotm:argonia/clutter/amberbee",
-      "why": "A beehive husk sits on the shelf; a bee set in amber takes its place."
-    },
-    {
-      "refId": "0801AAB8",
-      "standInAsset": "kotm:argonia/clutter/vase01",
-      "why": "A pot of honey stands here; a clay vase of its size takes its place."
-    },
-    {
-      "refId": "0801AABE",
-      "standInAsset": "vanilla:clutter/ingredients/saltpile",
-      "why": "A lump of spriggan sap lies on the shelf; a small salt pile takes its place."
-    },
-    {
-      "refId": "0801AABF",
-      "standInAsset": "vanilla:clutter/ingredients/hawkfeather01",
-      "why": "A taproot lies on the shelf; a hawk feather of its height takes its place."
-    },
-    {
-      "refId": "0801AAC0",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A marshmerrow stalk lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAC1",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A marshmerrow stalk lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
       "refId": "0801AAC2",
       "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
       "why": "A poison bloom lies on the shelf; a pinch of dried fungus takes its place."
@@ -128,16 +13,6 @@
       "refId": "0801AAC3",
       "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
       "why": "A poison bloom lies on the shelf; a pinch of dried fungus takes its place."
-    },
-    {
-      "refId": "0801AAC6",
-      "standInAsset": "vanilla:clutter/deadanimals/hangingrabbit02",
-      "why": "A bunch of moss hangs up to dry; a hanging rabbit of its length takes its place."
-    },
-    {
-      "refId": "0801AAC7",
-      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
-      "why": "A marshmerrow stalk lies on the shelf; a pinch of dried fungus takes its place."
     },
     {
       "refId": "0801AACE",
@@ -151,73 +26,48 @@
     },
     {
       "refId": "0801AAD1",
-      "standInAsset": "mudmother:gv_meshes/argoniannest/potterycup",
-      "why": "A bowl of marshmerrow stew sits here; a clay cup of its size takes its place."
-    },
-    {
-      "refId": "0801AAD4",
-      "standInAsset": "vanilla:clutter/food/cookedslaughterfishsteak01",
-      "why": "A piece of cooked snail meat sits here; a cooked slaughterfish steak takes its place."
-    },
-    {
-      "refId": "0801AADD",
-      "standInAsset": "vanilla:clutter/ingredients/hawkfeather01",
-      "why": "A dragon's tongue flower lies on the shelf; a hawk feather of its height takes its place."
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of marshmerrow stew sits here; a bowl of stew takes its place."
     },
     {
       "refId": "0801AADE",
-      "standInAsset": "vanilla:clutter/ingredients/hawkfeather01",
-      "why": "A canis root lies on the shelf; a hawk feather of its height takes its place."
+      "standInAsset": "vanilla:clutter/ingredients/spriggantaproot",
+      "why": "A canis root lies on the shelf; a taproot of its length takes its place."
     },
     {
       "refId": "0801AADF",
-      "standInAsset": "vanilla:clutter/ingredients/hawkfeather01",
-      "why": "A canis root lies on the shelf; a hawk feather of its height takes its place."
-    },
-    {
-      "refId": "080CC2A9",
-      "standInAsset": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
-      "why": "An axe lies by the chopping block; a pair of tongs takes its place."
+      "standInAsset": "vanilla:clutter/ingredients/spriggantaproot",
+      "why": "A canis root lies on the shelf; a taproot of its length takes its place."
     },
     {
       "refId": "080CC2AA",
-      "standInAsset": "vanilla:clutter/smelter/coal01",
-      "why": "A lump of raw amber lies by the chopping block; a lump of coal of its size takes its place."
+      "standInAsset": "kotm:argonia/clutter/amberbee",
+      "why": "A lump of raw amber lies by the chopping block; a lump of amber takes its place."
     },
     {
       "refId": "080CC2AC",
-      "standInAsset": "vanilla:clutter/smelter/coal01",
-      "why": "A lump of raw amber lies by the chopping block; a lump of coal of its size takes its place."
-    },
-    {
-      "refId": "080CC2B2",
-      "standInAsset": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven",
-      "why": "A small candle lamp stands on the floor; a table lamp of its width takes its place."
+      "standInAsset": "kotm:argonia/clutter/amberbee",
+      "why": "A lump of raw amber lies by the chopping block; a lump of amber takes its place."
     },
     {
       "refId": "081AD5EC",
-      "standInAsset": "vanilla:clutter/books/book02lowpoly",
-      "why": "A pile of scrolls lies on the desk; a closed book takes its place."
+      "standInAsset": "kotm:oaristys/paper/scrolls02",
+      "why": "A pile of scrolls lies on the desk; a pile of scrolls from the same set takes its place."
     },
     {
       "refId": "081AD5ED",
-      "standInAsset": "vanilla:clutter/books/basicbook01",
-      "why": "A pile of scrolls lies on the desk; a closed book takes its place."
+      "standInAsset": "kotm:oaristys/paper/scrolls02",
+      "why": "A pile of scrolls lies on the desk; a pile of scrolls from the same set takes its place."
     },
     {
       "refId": "081AD5EE",
-      "standInAsset": "vanilla:clutter/books/book02lowpoly",
-      "why": "Papers, a quill and an inkwell lie on the desk; a closed book takes their place."
-    },
-    {
-      "refId": "081AD5EF",
-      "standInAsset": "vanilla:clutter/books/book02lowpoly",
-      "why": "Papers, a quill and an inkwell lie on the desk; a closed book takes their place."
+      "standInAsset": "kotm:loliceptresource/deco/quillinkwellpaper02",
+      "why": "Papers, a quill and an inkwell lie on the desk; the same set's other quill, inkwell and papers take their place."
     },
     {
       "refId": "081AD5F0",
-      "standInAsset": "vanilla:clutter/books/book02lowpoly",
-      "why": "A pile of scrolls lies on the desk; a closed book takes its place."
+      "standInAsset": "kotm:oaristys/paper/scrolls02",
+      "why": "A pile of scrolls lies on the desk; a pile of scrolls from the same set takes its place."
     },
     {
       "refId": "08518BA3",
@@ -225,14 +75,9 @@
       "why": "A turtle doll sits here; its twin from the same set takes its place."
     },
     {
-      "refId": "08989C00",
-      "standInAsset": "vanilla:clutter/books/basicbook04",
-      "why": "A copy of a book lies here; a book of its size takes its place."
-    },
-    {
       "refId": "08AA3222",
-      "standInAsset": "kotm:argonia/food/sakebottle",
-      "why": "A jug of bog brew stands here; a clay bottle of its height takes its place."
+      "standInAsset": "vanilla:clutter/glazedjugsmall01",
+      "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
     }
   ]
 }

@@ -33,6 +33,7 @@
     "DLC2TelvanniGourdHouseInt06:5.Mat",
     "DLC2TelvanniGourdHouseInt06:7.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1932,
     "p50": -0.1932,
@@ -62,8 +63,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.762,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.193,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.193
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/bookshelf",
@@ -111,6 +111,7 @@
      0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0004,
     "p50": -0.0004,
@@ -140,8 +141,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shelfsingle",
@@ -185,6 +185,7 @@
      -0.017
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.1927,
     "p50": 0.1927,
@@ -214,8 +215,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.193,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.193
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/hangingshelf",
@@ -263,6 +263,7 @@
      0.241
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.9983,
     "p50": 0.9983,
@@ -292,8 +293,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.707,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.782,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.782
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01",
@@ -316,7 +316,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "mudhut01.dds"
@@ -327,6 +327,7 @@
     "CaveGBalconyShelf01:4.Mat",
     "CaveGBalconyShelf01:9.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.3148,
     "p50": 0.3148,
@@ -334,6 +335,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.43,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.43,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -356,15 +364,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.49,
-   "placedScaleMedian": 1.43,
-   "placedScaleEvidence": {
-    "n": 2,
-    "p10": 1.0,
-    "p90": 1.43,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.49
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/chitinchair01",
@@ -411,6 +411,7 @@
      0.085
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1151,
     "p50": -0.1151,
@@ -440,8 +441,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.115,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.115
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianpillow01",
@@ -472,6 +472,7 @@
    "materials": [
     "Pillow02Static:0.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.041,
     "p50": -0.041,
@@ -501,8 +502,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/ovennew",
@@ -544,6 +544,11 @@
     "oven.Mat",
     "oven02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "m_Flames:0.Mat": 0.5,
+    "m_Flames:1.Mat": 0.5,
+    "m_Glow.Mat": 0.5
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -557,6 +562,7 @@
      -2.012
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0007,
     "p50": -0.0007,
@@ -564,6 +570,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -586,24 +608,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.785,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potterycup",
@@ -634,6 +639,7 @@
    "materials": [
     "GlazedCup01:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -663,8 +669,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate01",
@@ -695,6 +700,7 @@
    "materials": [
     "BasicPlate01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -724,8 +730,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate02",
@@ -756,6 +761,7 @@
    "materials": [
     "BasicPlate02:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -785,8 +791,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/potteryplate03",
@@ -817,6 +822,7 @@
    "materials": [
     "BasicWoodenPlate01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -846,8 +852,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/shellhalf",
@@ -870,7 +875,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "crabcarapace01.dds"
@@ -878,6 +883,7 @@
    "materials": [
     "crab.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -902,8 +908,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.518,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.518
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/clam01",
@@ -934,6 +939,7 @@
    "materials": [
     "Clam.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.109,
     "p50": -0.109,
@@ -963,8 +969,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.109,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.109
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbone01",
@@ -995,6 +1000,10 @@
    "materials": [
     "DLC2RieklingBone01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingBone01:0.Mat": 0.5
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0692,
     "p50": -0.0692,
@@ -1024,8 +1033,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.069,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.069
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/drum01",
@@ -1056,6 +1064,7 @@
    "materials": [
     "drum:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0014,
     "p50": -0.0014,
@@ -1085,8 +1094,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.803,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/candle01",
@@ -1117,6 +1125,10 @@
    "materials": [
     "GlazedCandles01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "GlazedCandles01:6.Mat": 0.89
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.046,
     "p50": 0.046,
@@ -1146,8 +1158,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.046,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns01",
@@ -1170,7 +1181,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1180,6 +1191,10 @@
     "DLC2DarkElfLantern01:0.Mat",
     "DLC2DarkElfLantern01:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2DarkElfLantern01:0.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.6633,
     "p50": -3.6633,
@@ -1209,8 +1224,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.524,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.425,
-   "lodLevels": 3
+   "pivotAboveBaseM": 4.425
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -1233,7 +1247,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1243,6 +1257,7 @@
     "DLC2DarkElfLanternStatic06:0.Mat",
     "DLC2DarkElfLanternStatic06:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.8895,
     "p50": -0.8895,
@@ -1251,28 +1266,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.8895
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.889,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.667,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889,
    "settingClass": {
     "settings": {
      "interior": [
@@ -1295,7 +1288,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8895
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.889,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.667,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.889
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime02",
@@ -1336,6 +1350,14 @@
     "Rope02.Mat.001",
     "Rope03.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Bone01.Mat": 0.5,
+    "Bone02.Mat": 0.5,
+    "Bone03.Mat": 0.5,
+    "Bone04.Mat": 0.5,
+    "Bone05.Mat": 0.5
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2694,
     "p50": -0.2694,
@@ -1365,8 +1387,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.604,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/banner01",
@@ -1397,6 +1418,10 @@
    "materials": [
     "Banner1_Banner.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Banner1_Banner.Mat": 0.333
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1421,8 +1446,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 2.904,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.904
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging01",
@@ -1453,6 +1477,7 @@
    "materials": [
     "drum.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.3868,
     "p50": 0.3868,
@@ -1482,8 +1507,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging02",
@@ -1514,6 +1538,7 @@
    "materials": [
     "drum.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.3868,
     "p50": 0.3868,
@@ -1543,8 +1568,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wallhanging03",
@@ -1575,6 +1599,7 @@
    "materials": [
     "drum.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.3868,
     "p50": 0.3868,
@@ -1604,8 +1629,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.387,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.387
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1628,7 +1652,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds",
@@ -1648,6 +1672,15 @@
     "Rope04.Mat",
     "Skull.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Bone01.Mat.001": 0.5,
+    "Bone02.Mat.001": 0.5,
+    "Bone03.Mat.001": 0.5,
+    "Bone04.Mat.001": 0.5,
+    "Bone05.Mat.001": 0.5,
+    "Skull.Mat": 0.5
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2694,
     "p50": -0.2694,
@@ -1655,6 +1688,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -1677,24 +1726,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.674,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -1727,6 +1759,10 @@
     "DLC2RieklingFence02:0.Mat",
     "DLC2RieklingFence02:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingFence02:0.Mat": 0.5
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0161,
     "p50": 0.0161,
@@ -1735,28 +1771,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0161
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.016,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.608,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016,
    "settingClass": {
     "settings": {
      "interior": [
@@ -1779,7 +1793,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0161
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.016,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.608,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -1812,6 +1847,10 @@
     "DLC2RieklingFenceEnd01:0.Mat",
     "DLC2RieklingFenceEnd01:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingFenceEnd01:0.Mat": 0.5
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0459,
     "p50": -0.0459,
@@ -1820,28 +1859,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0459
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.046,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.509,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046,
    "settingClass": {
     "settings": {
      "interior": [
@@ -1864,7 +1881,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0459
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.046,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.509,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -1887,7 +1925,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "thatch.dds",
@@ -1897,6 +1935,10 @@
     "Furs.Mat",
     "HagravenHouse03:13 - L1_Branches02:13.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Furs.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4494,
     "p50": -0.4494,
@@ -1905,28 +1947,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.4494
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.449,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.656,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.449,
    "placedScaleMedian": 0.85,
    "placedScaleEvidence": {
     "n": 1,
@@ -1956,7 +1976,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4494
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.449,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.656,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.449
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1979,7 +2020,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -1988,6 +2029,7 @@
     "DLC2RieklingTotem02:0.Mat",
     "DLC2RieklingTotem02:2.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0091,
     "p50": 0.1147,
@@ -1996,23 +2038,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.011,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.315,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011,
    "settingClass": {
     "settings": {
      "interior": [
@@ -2035,7 +2060,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.011,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.315,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.011
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -2082,6 +2123,7 @@
      -0.001
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0354,
     "p50": -0.0354,
@@ -2089,6 +2131,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2111,24 +2169,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 4,
-    "interior": {
-     "wild": 4
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -2159,6 +2200,7 @@
    "materials": [
     "Basket.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0003,
     "p50": 0.0003,
@@ -2166,6 +2208,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2188,24 +2246,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -2228,7 +2269,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -2238,6 +2279,7 @@
     "FishRack01:0.Mat",
     "L2_Ropes.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.2276,
     "p50": 0.2276,
@@ -2245,6 +2287,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2267,24 +2325,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -2329,6 +2370,7 @@
      0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0013,
     "p50": -0.0013,
@@ -2336,6 +2378,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 4,
+    "interior": {
+     "wild": 4
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2358,24 +2416,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 4,
-    "interior": {
-     "wild": 4
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -2398,7 +2439,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dwemetalsheet01.dds",
@@ -2412,6 +2453,7 @@
     "DLC2DweClutterPlatformGiant01:44.Mat",
     "DLC2DweClutterPlatformGiant01:8.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.002,
     "p50": -3.002,
@@ -2419,6 +2461,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -2441,24 +2499,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.002
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -2481,7 +2522,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sithisegg.dds",
@@ -2491,6 +2532,10 @@
     "AmethystEgg.Mat",
     "Serpent.Mat"
    ],
+   "alphaMaskMaterials": {
+    "AmethystEgg.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0654,
     "p50": 0.0654,
@@ -2498,6 +2543,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2520,24 +2581,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -2568,6 +2612,10 @@
    "materials": [
     "WinterholdTowerIntFloor01:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WinterholdTowerIntFloor01:3.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6828,
     "p50": -0.6828,
@@ -2575,6 +2623,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2597,24 +2661,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.683
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -2662,6 +2709,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2669,6 +2717,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 2,
+    "interior": {
+     "wild": 2
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
@@ -2691,24 +2755,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 2,
-    "interior": {
-     "wild": 2
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenfence01",
@@ -2741,6 +2788,10 @@
     "HagravenFence01:13.Mat",
     "HagravenFence01:20.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HagravenFence01:20.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1546,
     "p50": -0.1546,
@@ -2749,28 +2800,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1546
-   },
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.155,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": false,
-   "undersideCoverage": 0.091,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
    "settingClass": {
     "settings": {
      "interior": [
@@ -2793,7 +2822,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1546
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.155,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.091,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
@@ -2839,6 +2889,7 @@
      -0.004
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2846,6 +2897,22 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "interior": [
+      "wild"
+     ]
+    },
+    "n": 1,
+    "interior": {
+     "wild": 1
+    },
+    "exterior": {},
+    "sourceCells": [
+     "interior:wild:00MudHut01"
+    ],
+    "evidence": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -2868,24 +2935,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "settingClass": {
-    "settings": {
-     "interior": [
-      "wild"
-     ]
-    },
-    "n": 1,
-    "interior": {
-     "wild": 1
-    },
-    "exterior": {},
-    "sourceCells": [
-     "interior:wild:00MudHut01"
-    ],
-    "evidence": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/riften/clutter/rtbanneranchor01",
@@ -2916,6 +2966,7 @@
    "materials": [
     "RTBannerAnchor01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0407,
     "p50": -0.0407,
@@ -2945,8 +2996,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.041
   },
   {
    "id": "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01",
@@ -2977,6 +3027,7 @@
    "materials": [
     "RifRmSmPartitionBeamTall01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0569,
     "p50": -0.0569,
@@ -3006,8 +3057,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "vanilla:clutter/bones/trollskull",
@@ -3030,7 +3080,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "trollskull.dds"
@@ -3039,6 +3089,7 @@
     "In Transit02:0.Mat",
     "Object01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2978,
     "p50": -0.2493,
@@ -3063,8 +3114,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.405,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.405
   },
   {
    "id": "vanilla:clutter/chopping block/choppingblock01",
@@ -3087,7 +3137,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "choppingblock01.dds"
@@ -3095,6 +3145,7 @@
    "materials": [
     "ChoppingBlock01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": 0.0124,
@@ -3119,8 +3170,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/commoncounter01",
@@ -3143,7 +3193,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dresser01.dds"
@@ -3151,6 +3201,7 @@
    "materials": [
     "CommonCounter01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0004,
     "p50": -0.0004,
@@ -3180,8 +3231,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/commoncounterhanger01",
@@ -3204,7 +3254,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wrfireplaceclutter01.dds"
@@ -3212,6 +3262,7 @@
    "materials": [
     "CommonCounterHanger01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0106,
     "p50": -0.0106,
@@ -3241,8 +3292,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "vanilla:clutter/containers/miscsack02largeflat",
@@ -3288,6 +3338,7 @@
      0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1715,
     "p50": -0.1045,
@@ -3312,8 +3363,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.877,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.106
   },
   {
    "id": "vanilla:clutter/containers/miscsack02small",
@@ -3359,6 +3409,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2342,
     "p50": -0.2342,
@@ -3388,8 +3439,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.792,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.234
   },
   {
    "id": "vanilla:clutter/containers/miscsack02smallflat",
@@ -3435,6 +3485,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2005,
     "p50": -0.1231,
@@ -3459,8 +3510,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.094,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.094
   },
   {
    "id": "vanilla:clutter/containers/miscsacklarge",
@@ -3504,6 +3554,7 @@
      -0.025
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3772,
     "p50": -0.1356,
@@ -3512,23 +3563,6 @@
     "slopeTermMPerDeg": -0.00304,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.403,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 0.785,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.403,
    "settingClass": {
     "settings": {
      "interior": [
@@ -3577,7 +3611,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.403,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.785,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.403
   },
   {
    "id": "vanilla:clutter/cookingspitsm01",
@@ -3600,7 +3650,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wrfireplaceclutter01.dds"
@@ -3608,6 +3658,7 @@
    "materials": [
     "CookingSpitSm01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2334,
     "p50": -0.2134,
@@ -3632,8 +3683,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.095,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.199,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.199
   },
   {
    "id": "vanilla:clutter/cookingstone01",
@@ -3656,7 +3706,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cookingstone01.dds"
@@ -3664,6 +3714,7 @@
    "materials": [
     "CookingStone01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0293,
     "p50": 0.0,
@@ -3688,8 +3739,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.002
   },
   {
    "id": "vanilla:clutter/hay/haybale01",
@@ -3712,7 +3762,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cwcatapult01.dds",
@@ -3723,6 +3773,10 @@
     "HayBale01:7.Mat",
     "L1_Details.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_Details.Mat": 0.039
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0112,
@@ -3747,8 +3801,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.998,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter04",
@@ -3779,6 +3832,13 @@
    "materials": [
     "HayScatter04:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HayScatter04:0.Mat": 0.039
+   },
+   "decalMaterials": [
+    "HayScatter04:0.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0471,
     "p50": 0.0,
@@ -3803,8 +3863,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter05",
@@ -3835,6 +3894,13 @@
    "materials": [
     "HayScatter05:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HayScatter05:0.Mat": 0.039
+   },
+   "decalMaterials": [
+    "HayScatter05:0.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0598,
     "p50": -0.0242,
@@ -3859,8 +3925,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter06",
@@ -3891,6 +3956,13 @@
    "materials": [
     "HayScatter06:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HayScatter06:0.Mat": 0.039
+   },
+   "decalMaterials": [
+    "HayScatter06:0.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0336,
     "p50": -0.0154,
@@ -3915,8 +3987,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/ingredients/hawkfeather01",
@@ -3947,6 +4018,10 @@
    "materials": [
     "HawkFeather01:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HawkFeather01:2.Mat": 0.502
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1058,
     "p50": -0.1058,
@@ -3976,8 +4051,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.462,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.106
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01",
@@ -4008,6 +4082,7 @@
    "materials": [
     "RiftenRWWoodbeam01:8.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.16,
     "p50": -0.16,
@@ -4037,8 +4112,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02",
@@ -4069,6 +4143,7 @@
    "materials": [
     "RiftenRWWoodbeam02:8.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.16,
     "p50": -0.16,
@@ -4098,8 +4173,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.894,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03",
@@ -4130,6 +4204,7 @@
    "materials": [
     "RiftenRWWoodbeam03:8.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.16,
     "p50": -0.16,
@@ -4159,8 +4234,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.999,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.16,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.16
   },
   {
    "id": "vanilla:furniture/bedroll/bedrollhay01",
@@ -4196,6 +4270,13 @@
     "BedrollHay01:4.Mat",
     "BedrollHay01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BedrollHay01:0.Mat": 0.039,
+    "BedrollHay01:4.Mat": 0.498
+   },
+   "decalMaterials": [
+    "BedrollHay01:0.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -4209,6 +4290,7 @@
      0.039
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1051,
     "p50": -0.0414,
@@ -4233,8 +4315,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.289,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.289
   },
   {
    "id": "vanilla:furniture/common/commonchair01",
@@ -4278,6 +4359,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0317,
     "p50": 0.0,
@@ -4302,8 +4384,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/orcfurniture/orcshelf01",
@@ -4347,6 +4428,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0705,
     "p50": 0.1802,
@@ -4371,8 +4453,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.857,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:furniture/smallcookingpot",
@@ -4409,6 +4490,10 @@
     "jet03.Mat",
     "jet04.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jet03.Mat": 0.5,
+    "jet04.Mat": 0.5
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -4422,6 +4507,7 @@
      -0.553
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.6036,
     "p50": 0.6036,
@@ -4451,8 +4537,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.604,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.604
   },
   {
    "id": "vanilla:plants/wheat01",
@@ -4483,6 +4568,7 @@
    "materials": [
     "Wheat01:0.Mat"
    ],
+   "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4507,11 +4593,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.339,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.38,
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.38
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\mudmother-hut-int.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\mudmother-hut-int.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/_byoh/clutter/food/dumpling01.dds",
@@ -4523,8 +4608,9 @@
  ],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 1,
-  "OPAQUE": 137
+  "MASK": 34,
+  "OPAQUE": 104,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -4557,16 +4643,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 22438456,
-  "bytesAfter": 11602928,
+  "bytesBefore": 22570656,
+  "bytesAfter": 11697328,
   "images": 50,
-  "imageBytesAfter": 10412953,
+  "imageBytesAfter": 10506344,
   "warnings": [],
-  "sha256": "18a14f72df72f5b28c521765a8afef43ac94c4daeea12ff3066ef9b4cbe9d9cb",
+  "sha256": "ef7ac4bfaca0f933ab3ab63785ccd23c52f5602eeab10fa749d10a6bf0f79452",
   "sidecarBytes": {
    "connectors": 40535,
    "footprints": 86768,
-   "interiors": 25535
+   "interiors": 30441
   }
  }
 }

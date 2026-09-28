@@ -65,6 +65,3372 @@
     "ccBGSSSE025-AdvDSGS.esm:00000BC6": {
       "class": "clutter",
       "source": "UESP Skyrim:Amber (Saints & Seducers smithing material): Amber xx000BC6"
+    },
+    "Dragonborn.esm:0001CD6F": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients: Boar Tusk xx01CD6F (Dragonborn)"
+    },
+    "Dragonborn.esm:00028261": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: Bone, Part I xx028261 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028262": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: Bone, Part II xx028262 (Dragonborn)"
+    },
+    "Dragonborn.esm:0002826B": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: Nerevar at Red Mountain xx02826B (Dragonborn)"
+    },
+    "Dragonborn.esm:0002826D": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Axe Man xx02826D (Dragonborn)"
+    },
+    "Dragonborn.esm:0002826E": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book I xx02826E (Dragonborn)"
+    },
+    "Dragonborn.esm:0002826F": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book II xx02826F (Dragonborn)"
+    },
+    "Dragonborn.esm:00028270": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book III xx028270 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028271": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book IV xx028271 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028272": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book V xx028272 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028273": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book VI xx028273 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028274": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Poison Song, Book VII xx028274 (Dragonborn)"
+    },
+    "Dragonborn.esm:00028277": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: Words of the Wind xx028277 (Dragonborn)"
+    },
+    "Dragonborn.esm:0003B063": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Red Year, Vol. I xx03B063 (Dragonborn)"
+    },
+    "Dragonborn.esm:0003B064": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Books: The Red Year, Vol. II xx03B064 (Dragonborn)"
+    },
+    "HearthFires.esm:000009DB": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Braided Bread xx0009DB (Hearthfire)"
+    },
+    "HearthFires.esm:0000300F": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Miscellaneous_Items: Nails xx00300F (Hearthfire)"
+    },
+    "HearthFires.esm:00003011": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Miscellaneous_Items: Hinge xx003011 (Hearthfire)"
+    },
+    "HearthFires.esm:00003012": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Miscellaneous_Items: Lock xx003012 (Hearthfire)"
+    },
+    "HearthFires.esm:00003035": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Miscellaneous_Items: Iron Fittings xx003035 (Hearthfire)"
+    },
+    "HearthFires.esm:00003534": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Jug of Milk xx003534 (Hearthfire)"
+    },
+    "HearthFires.esm:00003538": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Sack of Flour xx003538 (Hearthfire)"
+    },
+    "HearthFires.esm:0000353A": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Jazbay Crostata xx00353A (Hearthfire)"
+    },
+    "HearthFires.esm:0000353C": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Butter xx00353C (Hearthfire)"
+    },
+    "HearthFires.esm:00003540": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Mudcrab Legs xx003540 (Hearthfire)"
+    },
+    "HearthFires.esm:00011801": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Food: Lavender Dumpling xx011801 (Hearthfire)"
+    },
+    "ccBGSSSE001-Fish.esm:00000850": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items: Argonian Fishing Rod xx000850 (a carried WEAP)"
+    },
+    "ccBGSSSE001-Fish.esm:00000EFE": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Food: Crab Meat xx000EFE"
+    },
+    "ccBGSSSE001-Fish.esm:00000F78": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Fishing_Items, Cooked Food: Crab Cakes xx000F78"
+    },
+    "ccBGSSSE037-Curios.esl:00000802": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Bungler's Bane FExxx802"
+    },
+    "ccBGSSSE037-Curios.esl:0000080E": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Hypha Facia FExxx80E"
+    },
+    "ccBGSSSE037-Curios.esl:00000811": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Kresh Fiber FExxx811"
+    },
+    "ccBGSSSE037-Curios.esl:00000813": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Luminous Russula FExxx813"
+    },
+    "ccBGSSSE037-Curios.esl:00000817": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Red Kelp Gas Bladder FExxx817"
+    },
+    "ccBGSSSE037-Curios.esl:0000081A": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Saltrice FExxx81A"
+    },
+    "ccBGSSSE037-Curios.esl:0000082E": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Hackle-Lo Leaf FExxx82E"
+    },
+    "ccBGSSSE037-Curios.esl:00000838": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Ingredients, Rare Curios: Chokeberry FExxx838"
+    },
+    "BosmerArmorMATY743.esm:00000D62": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "BosmerArmorMATY743.esm:0000845F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01ThalmorINT1"
+      ]
+    },
+    "BosmerArmorMATY743.esm:00008F25": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "Dawnguard.esm:00000801": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSinkingManorInt01"
+      ]
+    },
+    "Dawnguard.esm:00000802": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "Dawnguard.esm:000008BD": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01BlackRoseJail"
+      ]
+    },
+    "Dawnguard.esm:00000BB3": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSinkingManorInt01"
+      ]
+    },
+    "Dawnguard.esm:00001C17": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital",
+        "01GrahtOaks"
+      ]
+    },
+    "Dawnguard.esm:00002993": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 11
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside",
+        "LilmothApothecary01"
+      ]
+    },
+    "Dawnguard.esm:000037D8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:000037D9": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:00003837": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00003838": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00003ACC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "Dawnguard.esm:00003D41": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00003D42": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00004BAC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004BB3": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004BB4": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004BB5": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 11
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004D9D": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004DA2": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00004DA4": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:0000513E": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2,
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior",
+        "LilmothIronworks",
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dawnguard.esm:0000513F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dawnguard.esm:00005E77": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00006868": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 13
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital",
+        "01AYDungeon2Capital2",
+        "01guild",
+        "01jail"
+      ]
+    },
+    "Dawnguard.esm:000074C8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:00007CDA": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 13
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dawnguard.esm:00008E4E": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSinkingManorInt01",
+        "OldImpLaboratoryInt01"
+      ]
+    },
+    "Dawnguard.esm:0000933C": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 14 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 14
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:000093F5": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 floor, 4 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 10,
+        "surface": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothGlassFoundry",
+        "LilmothTaverna"
+      ]
+    },
+    "Dawnguard.esm:000093F6": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 floor, 3 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 6,
+        "surface": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothGlassFoundry"
+      ]
+    },
+    "Dawnguard.esm:00009669": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01guild"
+      ]
+    },
+    "Dawnguard.esm:0000CADB": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital2"
+      ]
+    },
+    "Dawnguard.esm:0000CADD": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital2",
+        "01aundergroundcell"
+      ]
+    },
+    "Dawnguard.esm:0000D260": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 28
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01CabinInt2",
+        "01HavenHouses",
+        "01SouthpointINT",
+        "HouseInt"
+      ]
+    },
+    "Dawnguard.esm:0000D704": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01SouthpointINT",
+        "01guild",
+        "01jail"
+      ]
+    },
+    "Dawnguard.esm:0000E3E4": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:0000EFB3": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 21 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 21
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "HuluxinoagRoots",
+        "MugsumpHollowInt01",
+        "MugsumpRootsInt01",
+        "SpirelandsHistTreeRoots",
+        "TBPFrostWaterHollowCave01"
+      ]
+    },
+    "Dawnguard.esm:0000EFB8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 17 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 17
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "HuluxinoagRoots",
+        "MugsumpHollowInt01",
+        "MugsumpRootsInt01",
+        "SpirelandsHistTreeRoots"
+      ]
+    },
+    "Dawnguard.esm:0000EFE3": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:00010457": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00010DFB": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01guild",
+        "01tunnel"
+      ]
+    },
+    "Dawnguard.esm:00010F37": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 11
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "TeethofSithisInt02"
+      ]
+    },
+    "Dawnguard.esm:000119F9": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01guild",
+        "01tunnel"
+      ]
+    },
+    "Dawnguard.esm:00011A00": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00011A01": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 15 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 15
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00011D56": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01cellDUPLICATE002"
+      ]
+    },
+    "Dawnguard.esm:00011D60": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01cellDUPLICATE002"
+      ]
+    },
+    "Dawnguard.esm:00012ABC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:00013213": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 24 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 24
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dawnguard.esm:00013949": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00013B82": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01tunnel"
+      ]
+    },
+    "Dawnguard.esm:00013B84": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses",
+        "01SouthpointINT"
+      ]
+    },
+    "Dawnguard.esm:00013FF8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01CabinIntsining1",
+        "01Cavern",
+        "01Ruins"
+      ]
+    },
+    "Dawnguard.esm:000144F2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ruins"
+      ]
+    },
+    "Dawnguard.esm:00014B85": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dawnguard.esm:00014E97": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 10,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothGlassFoundry",
+        "LilmothIronworks",
+        "LilmothOliisIronFoundryInt",
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dawnguard.esm:00014E98": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark",
+        "CIPHTBMCoatepec"
+      ]
+    },
+    "Dawnguard.esm:00014FD1": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 20 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2,
+        "wall": 20
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark",
+        "CIPHTBMCoatepec",
+        "IxtaxhXanmeerInterior",
+        "LilmothIronworks",
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dawnguard.esm:00015340": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepec",
+        "IxtaxhXanmeerInterior",
+        "LilmothIronworks",
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dawnguard.esm:0001540C": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "RiverwoodSleepingGiantInn"
+      ]
+    },
+    "Dawnguard.esm:0001607B": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:000176E5": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01templecave"
+      ]
+    },
+    "Dawnguard.esm:000178B6": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothDistilleryInt"
+      ]
+    },
+    "Dawnguard.esm:00017E92": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01aundergroundcell"
+      ]
+    },
+    "Dawnguard.esm:00017E94": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital2"
+      ]
+    },
+    "Dawnguard.esm:0001830E": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01aundergroundcell"
+      ]
+    },
+    "Dawnguard.esm:000183EE": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dawnguard.esm:000189FF": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSewersInt01"
+      ]
+    },
+    "Dawnguard.esm:00018BC2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01wilderking"
+      ]
+    },
+    "Dawnguard.esm:00019AC2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01SouthpointINT"
+      ]
+    },
+    "Dragonborn.esm:000173CC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00018486": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "TBPFrostWaterHollowCave01"
+      ]
+    },
+    "Dragonborn.esm:00019534": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Dungeons"
+      ]
+    },
+    "Dragonborn.esm:00019C67": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:0001B640": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01CabinIntsining1"
+      ]
+    },
+    "Dragonborn.esm:0001B645": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01CabinIntsining1"
+      ]
+    },
+    "Dragonborn.esm:0001B93A": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001CD7D": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "OldImpLaboratoryInt01"
+      ]
+    },
+    "Dragonborn.esm:0001D4D6": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside"
+      ]
+    },
+    "Dragonborn.esm:0001D4D7": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside"
+      ]
+    },
+    "Dragonborn.esm:0001DFF9": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001E0B7": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:0001E139": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 29
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:0001F14F": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001F151": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001F152": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 22 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 22
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001F158": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001F159": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001FEBC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 8 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 8
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001FEBD": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001FEC3": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0001FEC4": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020008": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothBanditTavern"
+      ]
+    },
+    "Dragonborn.esm:0002000A": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 floor, 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 4,
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothDrainingHouse",
+        "LilmothLodgingHouse",
+        "LilmothSinkingManorInt01",
+        "RootWhisperHouseHunter",
+        "SeekhatAccommodationHut"
+      ]
+    },
+    "Dragonborn.esm:0002000B": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 12 floor, 1 surface (support_of in worldgen/export_interior_bundle.py); the author set a piece 1.345 m above it",
+      "votes": {
+        "floor": 12,
+        "surface": 1
+      },
+      "carriedM": 1.345,
+      "cells": [
+        "LilmothApothecaryHouse",
+        "LilmothCogworksBunkhouse",
+        "LilmothDistilleryInt",
+        "LilmothHealerHutInt",
+        "LilmothOliisIronFoundryInt",
+        "LilmothPlantationStorehouse",
+        "LilmothPusbottomBunkhouse02",
+        "LilmothPusbottomBunkhouse03",
+        "LilmothWindmillhouse",
+        "LilmothYusikAndYeisWorkshop",
+        "RootWhisperHouseCarpenter",
+        "RootWhisperHouseFisher",
+        "RootWhisperHouseTreeminder"
+      ]
+    },
+    "Dragonborn.esm:0002000C": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor, 5 surface (support_of in worldgen/export_interior_bundle.py); the author set a piece 2.025 m above it",
+      "votes": {
+        "floor": 16,
+        "surface": 5
+      },
+      "carriedM": 2.025,
+      "cells": [
+        "LilmothBookstoreInt",
+        "LilmothBrewmasterHouse",
+        "LilmothDistilleryInt",
+        "LilmothGlassworksOverseerHouse",
+        "LilmothImperialImportsInt",
+        "LilmothIronworksOverseerHouse",
+        "LilmothLumberworksBarracksInt",
+        "LilmothMerchantManor01",
+        "LilmothMerchantManor02",
+        "LilmothOliisIronFoundryInt",
+        "LilmothPlantationManor",
+        "LilmothShipwrightInt",
+        "LilmothStablemasterHouseInt",
+        "RootWhisperHouseBeekeeper",
+        "RootWhisperHouseSapSpeaker",
+        "SeekhatEggTendersQuarters",
+        "SeekhatEldersHut",
+        "SeekhatFishersHut",
+        "SeekhatSmithyHut",
+        "SeekhatTreeminderHut"
+      ]
+    },
+    "Dragonborn.esm:000201B8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000202C2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000202C4": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000202C6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000202C7": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020626": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020685": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01guild"
+      ]
+    },
+    "Dragonborn.esm:0002073D": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 25 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 25
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020740": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020745": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020748": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020749": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0002074B": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0002074C": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0002074E": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:0002074F": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020750": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020751": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020752": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020754": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000207E5": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 3,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt",
+        "LilmothMerchantManor01",
+        "LilmothPlantationManor"
+      ]
+    },
+    "Dragonborn.esm:000209AF": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 10
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209B1": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209B2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209B5": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209B6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209BA": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:000209BB": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020E65": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:00020FDA": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00020FEA": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00021740": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.247 m above it",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.247,
+      "cells": [
+        "CIPHTBMCoatepecMine"
+      ]
+    },
+    "Dragonborn.esm:00021743": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 16
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17"
+      ]
+    },
+    "Dragonborn.esm:00021744": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.901 m above it",
+      "votes": {
+        "floor": 7,
+        "wall": 1
+      },
+      "carriedM": 0.901,
+      "cells": [
+        "CIPHTBMCoatepecMine",
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dragonborn.esm:00021745": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py); the author set a piece 1.005 m above it",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 1.005,
+      "cells": [
+        "01Cavern"
+      ]
+    },
+    "Dragonborn.esm:00021746": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.882 m above it",
+      "votes": {
+        "floor": 16,
+        "wall": 1
+      },
+      "carriedM": 0.882,
+      "cells": [
+        "CIPHTBMCoatepecMine",
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17"
+      ]
+    },
+    "Dragonborn.esm:00021747": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 floor, 2 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.885 m above it",
+      "votes": {
+        "floor": 2,
+        "wall": 2
+      },
+      "carriedM": 0.885,
+      "cells": [
+        "CIPHTBMCoatepecMine"
+      ]
+    },
+    "Dragonborn.esm:0002174A": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dragonborn.esm:000244E8": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:00024FA5": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt"
+      ]
+    },
+    "Dragonborn.esm:00026B62": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside"
+      ]
+    },
+    "Dragonborn.esm:00027862": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00027BF9": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:00028548": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 20 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 20
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00028B3E": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 14 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "surface": 14,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothCarpenters",
+        "LilmothIronworks",
+        "LilmothOliisIronFoundryInt",
+        "LilmothPlantationManor",
+        "SeekhatCarpenterHut"
+      ]
+    },
+    "Dragonborn.esm:0002932D": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dragonborn.esm:0002932E": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dragonborn.esm:0002956E": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 10
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:00029EC4": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothCarpenters"
+      ]
+    },
+    "Dragonborn.esm:0002A6D3": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothCarpenters"
+      ]
+    },
+    "Dragonborn.esm:0002AABA": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Dwarven"
+      ]
+    },
+    "Dragonborn.esm:0002AABE": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ship"
+      ]
+    },
+    "Dragonborn.esm:0002B04E": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenGeneralStore"
+      ]
+    },
+    "Dragonborn.esm:0002B5D2": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01tunnel"
+      ]
+    },
+    "Dragonborn.esm:0002B5D3": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 115 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 115
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01CabinIntsining1",
+        "01CabinIntsiningDUPLICATE002",
+        "01Cavern",
+        "01Dwarven",
+        "01Dwarven2a",
+        "01GrahtOaks",
+        "01Ruins",
+        "01aundergroundcell",
+        "01templecave",
+        "01underdark",
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dragonborn.esm:0002B5D5": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01aundergroundcell"
+      ]
+    },
+    "Dragonborn.esm:0002B5D6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "Dragonborn.esm:0002B5FD": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01cellDUPLICATE002"
+      ]
+    },
+    "Dragonborn.esm:0002C464": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ship"
+      ]
+    },
+    "Dragonborn.esm:0002C467": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ship"
+      ]
+    },
+    "Dragonborn.esm:00031AD6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01guild"
+      ]
+    },
+    "Dragonborn.esm:00031F91": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01jail",
+        "OldImpLaboratoryInt01"
+      ]
+    },
+    "Dragonborn.esm:00032FF0": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01underdark"
+      ]
+    },
+    "Dragonborn.esm:00033254": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00035037": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 16
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17"
+      ]
+    },
+    "Dragonborn.esm:00035038": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 16
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17"
+      ]
+    },
+    "Dragonborn.esm:00035D85": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "Dragonborn.esm:00036793": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 29,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepecMine",
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17",
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dragonborn.esm:00036794": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 26,
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepecMine",
+        "CIPHTBMHutInterior01",
+        "CIPHTBMHutInterior03",
+        "CIPHTBMHutInterior04",
+        "CIPHTBMHutInterior05",
+        "CIPHTBMHutInterior06",
+        "CIPHTBMHutInterior07",
+        "CIPHTBMHutInterior08",
+        "CIPHTBMHutInterior09",
+        "CIPHTBMHutInterior10",
+        "CIPHTBMHutInterior11",
+        "CIPHTBMHutInterior12",
+        "CIPHTBMHutInterior13",
+        "CIPHTBMHutInterior14",
+        "CIPHTBMHutInterior15",
+        "CIPHTBMHutInterior16",
+        "CIPHTBMHutInterior17",
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dragonborn.esm:00036795": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMCoatepecMine"
+      ]
+    },
+    "Dragonborn.esm:00036A73": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall",
+        "TBPFrostWaterHollowCave01"
+      ]
+    },
+    "Dragonborn.esm:0003770B": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Dwarven2a"
+      ]
+    },
+    "Dragonborn.esm:000383D6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01DwarvenSmall"
+      ]
+    },
+    "Dragonborn.esm:00038524": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSilverRefinery"
+      ]
+    },
+    "Dragonborn.esm:00038BAD": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "KeebaRoots",
+        "MugsumpRootsInt01"
+      ]
+    },
+    "Dragonborn.esm:0003972E": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 15 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 15
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior",
+        "LilmothSewersInt01"
+      ]
+    },
+    "Dragonborn.esm:00039732": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ruins"
+      ]
+    },
+    "Dragonborn.esm:00039BB5": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInteriorGreatHouse"
+      ]
+    },
+    "Dragonborn.esm:00039BB7": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 7
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMKothGreathouse"
+      ]
+    },
+    "Dragonborn.esm:00039BBB": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInteriorGreatHouse"
+      ]
+    },
+    "Dragonborn.esm:00039BBC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "CIPHTBMHutInteriorGreatHouse"
+      ]
+    },
+    "Dragonborn.esm:00039D32": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ship"
+      ]
+    },
+    "Dragonborn.esm:00039D43": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01Ship"
+      ]
+    },
+    "Dragonborn.esm:00039F87": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "Dragonborn.esm:0003A740": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "Dragonborn.esm:0003C4A7": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01capitalHouses"
+      ]
+    },
+    "Dragonborn.esm:0003CA7C": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "Dragonborn.esm:0003D5DC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 13
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "KeebaRoots",
+        "MugsumpHollowInt01",
+        "MugsumpRootsInt01"
+      ]
+    },
+    "Dragonborn.esm:0003D5E6": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01AYDungeon2Capital2"
+      ]
+    },
+    "HearthFires.esm:000008CC": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface, 14 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 3,
+        "wall": 14
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside",
+        "TBPFrostWaterHollowCave01"
+      ]
+    },
+    "HearthFires.esm:000009C8": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 36 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 36
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside"
+      ]
+    },
+    "HearthFires.esm:000009CC": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "KeebaHouseElder"
+      ]
+    },
+    "HearthFires.esm:000009DC": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "HearthFires.esm:00000BC0": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "0DMarArgonianHaus"
+      ]
+    },
+    "HearthFires.esm:0000283F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "LilmothBakeryInt"
+      ]
+    },
+    "HearthFires.esm:00003065": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01HavenHouses"
+      ]
+    },
+    "HearthFires.esm:00003535": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 9 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "surface": 9,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01HavenHouses",
+        "LilmothMerchantManor01",
+        "LilmothMerchantManor02",
+        "LilmothPlantationManor",
+        "TBPFrostWaterHollowCave01"
+      ]
+    },
+    "HearthFires.esm:00003536": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 13
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01HavenHouses",
+        "LilmothImperialImportsInt",
+        "LilmothMerchantManor01",
+        "LilmothMerchantManor02",
+        "LilmothPlantationManor"
+      ]
+    },
+    "HearthFires.esm:00003537": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks",
+        "01HavenHouses"
+      ]
+    },
+    "HearthFires.esm:00003539": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01"
+      ]
+    },
+    "HearthFires.esm:0000353B": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "HearthFires.esm:0000353E": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01",
+        "01GrahtOaks",
+        "AltenDockmasterHouse"
+      ]
+    },
+    "HearthFires.esm:00003545": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "SeekhatAccommodationHut"
+      ]
+    },
+    "HearthFires.esm:00003F31": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "RootWhisperHouseBeekeeper"
+      ]
+    },
+    "HearthFires.esm:00005A69": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 6
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothGlassFoundry"
+      ]
+    },
+    "HearthFires.esm:00008240": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01"
+      ]
+    },
+    "HearthFires.esm:00008372": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01"
+      ]
+    },
+    "HearthFires.esm:00008374": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01"
+      ]
+    },
+    "HearthFires.esm:00009868": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "00MudHut01"
+      ]
+    },
+    "HearthFires.esm:0000C1DE": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1,
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenGeneralStore",
+        "LilmothPlantationManor"
+      ]
+    },
+    "HearthFires.esm:0000D822": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothPlantationManor"
+      ]
+    },
+    "HearthFires.esm:00010463": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 4,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "KeebaHouseElder",
+        "LilmothBakeryInt",
+        "LilmothBookstoreInt",
+        "LilmothHealerHutInt"
+      ]
+    },
+    "HearthFires.esm:00010464": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 3,
+        "wall": 5
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSewersInt01",
+        "LoreisianInt01",
+        "OldImpLaboratoryInt01"
+      ]
+    },
+    "HearthFires.esm:00010468": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 5,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothBakeryInt",
+        "LilmothBookstoreInt",
+        "LilmothHealerHutInt"
+      ]
+    },
+    "HearthFires.esm:000110CC": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothBookstoreInt",
+        "LilmothHealerHutInt"
+      ]
+    },
+    "HearthFires.esm:000117FF": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01GrahtOaks"
+      ]
+    },
+    "HearthFires.esm:00015BE0": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "01ArgonianHouseinside"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:0000084F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenDockmasterHouse"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000853": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "HuluxinoagRoots",
+        "RootWhisperVakkaBokInt01",
+        "SpirelandsHistTreeRoots"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:000008F5": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.95 m above it",
+      "votes": {
+        "floor": 3,
+        "wall": 1
+      },
+      "carriedM": 0.95,
+      "cells": [
+        "AltenBunkhouse",
+        "LilmothFishery",
+        "LilmothTaverna"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000CC7": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 3 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "surface": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenGeneralStore",
+        "LilmothMerchantManor01",
+        "LilmothMerchantManor02",
+        "LilmothPlantationManor"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000D67": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenDockmasterHouse",
+        "LilmothFishery"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000D6B": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 1 surface, 3 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.787 m above it",
+      "votes": {
+        "floor": 26,
+        "surface": 1,
+        "wall": 3
+      },
+      "carriedM": 0.787,
+      "cells": [
+        "AltenBunkhouse",
+        "LilmothBakeryInt",
+        "LilmothBookstoreInt",
+        "LilmothDrainingHouse",
+        "LilmothGlassworksOverseerHouse",
+        "LilmothHealerHutInt",
+        "LilmothImperialImportsInt",
+        "LilmothIronworksOverseerHouse",
+        "LilmothLodgingHouse",
+        "LilmothMerchantManor02",
+        "LilmothSinkingManorInt01",
+        "RootWhisperHouseBeekeeper",
+        "RootWhisperHouseCarpenter",
+        "RootWhisperHouseFisher",
+        "RootWhisperHouseSapSpeaker",
+        "RootWhisperHouseTreeminder",
+        "SeekhatAccommodationHut",
+        "SeekhatCarpenterHut",
+        "SeekhatEggTendersQuarters",
+        "SeekhatEldersHut",
+        "SeekhatFishersHut",
+        "SeekhatTreeminderHut"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000D72": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 9
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenDockmasterHouse",
+        "LilmothFishery",
+        "LilmothGreasySleeperInt01",
+        "RootWhisperHouseBeekeeper",
+        "RootWhisperHouseFisher",
+        "SeekhatFishersHut"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000D73": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 floor, 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 28,
+        "wall": 4
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "AltenBunkhouse",
+        "LilmothBakeryInt",
+        "LilmothBookstoreInt",
+        "LilmothDrainingHouse",
+        "LilmothGlassworksOverseerHouse",
+        "LilmothHealerHutInt",
+        "LilmothImperialImportsInt",
+        "LilmothIronworksOverseerHouse",
+        "LilmothLodgingHouse",
+        "LilmothMerchantManor02",
+        "LilmothSinkingManorInt01",
+        "LilmothTaverna",
+        "RootWhisperHouseBeekeeper",
+        "RootWhisperHouseCarpenter",
+        "RootWhisperHouseFisher",
+        "RootWhisperHouseHunter",
+        "RootWhisperHouseSapSpeaker",
+        "RootWhisperHouseTreeminder",
+        "SeekhatAccommodationHut",
+        "SeekhatEggTendersQuarters",
+        "SeekhatEldersHut",
+        "SeekhatFishersHut",
+        "SeekhatTreeminderHut"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00000D74": {
+      "class": "furniture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.791 m above it",
+      "votes": {
+        "floor": 29,
+        "wall": 2
+      },
+      "carriedM": 0.791,
+      "cells": [
+        "AltenBunkhouse",
+        "LilmothBakeryInt",
+        "LilmothBrewmasterHouse",
+        "LilmothDrainingHouse",
+        "LilmothGlassworksOverseerHouse",
+        "LilmothHealerHutInt",
+        "LilmothImperialImportsInt",
+        "LilmothIronworksOverseerHouse",
+        "LilmothLodgingHouse",
+        "LilmothMerchantManor02",
+        "LilmothSinkingManorInt01",
+        "LilmothTaverna",
+        "RootWhisperHouseBeekeeper",
+        "RootWhisperHouseCarpenter",
+        "RootWhisperHouseFisher",
+        "RootWhisperHouseHunter",
+        "RootWhisperHouseSapSpeaker",
+        "RootWhisperHouseTreeminder",
+        "SeekhatAccommodationHut",
+        "SeekhatCarpenterHut",
+        "SeekhatEggTendersQuarters",
+        "SeekhatEldersHut",
+        "SeekhatFishersHut",
+        "SeekhatTreeminderHut"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:00033A3F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothFishery"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:000D101A": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "HuluxinoagRoots",
+        "RootWhisperVakkaBokInt01",
+        "SpirelandsHistTreeRoots"
+      ]
+    },
+    "ccBGSSSE001-Fish.esm:000D101B": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "floor": 1,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "HuluxinoagRoots",
+        "RootWhisperVakkaBokInt01",
+        "SpirelandsHistTreeRoots"
+      ]
+    },
+    "ccBGSSSE025-AdvDSGS.esm:00000C73": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 11
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "IxtaxhXanmeerInterior"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000809": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "TeethofSithisInt02"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:0000080F": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000815": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:0000081F": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "TeethofSithisInt02"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:0000082D": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "TeethofSithisInt02"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000836": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2,
+        "wall": 3
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt",
+        "TeethofSithisInt02"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000837": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2,
+        "wall": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothImperialImportsInt",
+        "TeethofSithisInt02"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:0000083A": {
+      "class": "fixture",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "wall": 1
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "LilmothSinkingManorInt01"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000849": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface (support_of in worldgen/export_interior_bundle.py)",
+      "votes": {
+        "surface": 2
+      },
+      "carriedM": 0.0,
+      "cells": [
+        "OldImpLaboratoryInt01"
+      ]
+    },
+    "ccBGSSSE037-Curios.esl:00000D98": {
+      "class": "clutter",
+      "classedBy": "placement",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 surface (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.621 m above it",
+      "votes": {
+        "floor": 1,
+        "surface": 1
+      },
+      "carriedM": 0.621,
+      "cells": [
+        "OldImpLaboratoryInt01"
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "interior-farmhouse-v1",
-  "description": "Tier A interior kit for vanilla farmhouse cells (decision 0103 decision 3): the interior tileset pieces, furniture, containers, clutter, carried items and light-bearing meshes that the tier A cells claimed on published places reference, and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of a claimed cell), never picked by name. First cell: Skyrim.esm DawnstarBrinasHouse, the claim on Claywater Station's station house (farmhouse01). A later claim adds its gaps here and rebuilds. The full farmhouse interior tileset (`vanilla-farmhouse-int`, 76 pieces including the basement family) stays an unbuilt config for Phase 12's assembled interiors.",
+  "description": "Tier A interior kit for vanilla farmhouse cells (decision 0103 decision 3): the interior tileset pieces, furniture, containers, clutter, carried items and light-bearing meshes that the tier A cells claimed on published places reference, and that no other published kit already holds. The set is read from the cells themselves by `worldgen.export_interior_bundle` (every `no-kit-asset` gap of a claimed cell), never picked by name. First cell: Skyrim.esm DawnstarBrinasHouse, the claim on Claywater Station's station house (farmhouse01). A later claim adds its gaps here and rebuilds. The full farmhouse interior tileset (`vanilla-farmhouse-int`, 76 pieces including the basement family) stays an unbuilt config for Phase 12's assembled interiors. Walk 3 lane L14 (2026-09-28): the gaps of every vanilla-shell and King of the Murkmire cell linked to a culture-pool shell whose only acceptance failure was a missing clutter, furniture or item mesh were added (the vault's vanilla archives), so those cells export whole.",
   "culture": "imperial-colonial",
   "output": "tooling/asset-pipeline/output/kits/interior-farmhouse-v1.glb",
   "lodRatios": [
@@ -187,6 +187,741 @@
     },
     {
       "asset": "vanilla:weapons/steel/steelmace"
+    },
+    {
+      "asset": "vanilla:clutter/banners/genericbannerred01"
+    },
+    {
+      "asset": "vanilla:clutter/barset/barleft01"
+    },
+    {
+      "asset": "vanilla:clutter/barset/barright01"
+    },
+    {
+      "asset": "vanilla:clutter/barset/barstraight01"
+    },
+    {
+      "asset": "vanilla:clutter/blacksmith/blacksmithnovicehammer01"
+    },
+    {
+      "asset": "vanilla:clutter/bones/deerskullprop"
+    },
+    {
+      "asset": "vanilla:clutter/bones/humanskullfull"
+    },
+    {
+      "asset": "vanilla:clutter/bones/mountedantlers"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook05"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook05a"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook06a"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook07"
+    },
+    {
+      "asset": "vanilla:clutter/books/basicbook07a"
+    },
+    {
+      "asset": "vanilla:clutter/books/book02lowpoly02"
+    },
+    {
+      "asset": "vanilla:clutter/books/journallowpoly01"
+    },
+    {
+      "asset": "vanilla:clutter/books/journallowpoly02"
+    },
+    {
+      "asset": "vanilla:clutter/books/note01"
+    },
+    {
+      "asset": "vanilla:clutter/books/note02"
+    },
+    {
+      "asset": "vanilla:clutter/books/spelltomealterationlowpoly"
+    },
+    {
+      "asset": "vanilla:clutter/books/spelltomeconjurationlowpoly"
+    },
+    {
+      "asset": "vanilla:clutter/books/spelltomedestructionlowpoly"
+    },
+    {
+      "asset": "vanilla:clutter/brewerycasklargeclosed01"
+    },
+    {
+      "asset": "vanilla:clutter/brewerycasklargeclosed02"
+    },
+    {
+      "asset": "vanilla:clutter/brewerycasklargeopen01"
+    },
+    {
+      "asset": "vanilla:clutter/chauruseggs/eggs"
+    },
+    {
+      "asset": "vanilla:clutter/chopping block/axe01"
+    },
+    {
+      "asset": "vanilla:clutter/coin01"
+    },
+    {
+      "asset": "vanilla:clutter/common/commoncrate01"
+    },
+    {
+      "asset": "vanilla:clutter/common/commontable01"
+    },
+    {
+      "asset": "vanilla:clutter/common/commontable02"
+    },
+    {
+      "asset": "vanilla:clutter/common/commontablesquare01"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmall02"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmall03"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmall04"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmalllong02"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmalllong03"
+    },
+    {
+      "asset": "vanilla:clutter/common/cratesmalllong04"
+    },
+    {
+      "asset": "vanilla:clutter/common/dresser01"
+    },
+    {
+      "asset": "vanilla:clutter/common/drum01"
+    },
+    {
+      "asset": "vanilla:clutter/common/flagon01"
+    },
+    {
+      "asset": "vanilla:clutter/common/leatherhide"
+    },
+    {
+      "asset": "vanilla:clutter/common/leatherstrips01"
+    },
+    {
+      "asset": "vanilla:clutter/common/lockpick"
+    },
+    {
+      "asset": "vanilla:clutter/common/lute01"
+    },
+    {
+      "asset": "vanilla:clutter/common/pickaxe02"
+    },
+    {
+      "asset": "vanilla:clutter/common/quill01"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug10"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug11"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug12"
+    },
+    {
+      "asset": "vanilla:clutter/common/rug14"
+    },
+    {
+      "asset": "vanilla:clutter/common/ruground04"
+    },
+    {
+      "asset": "vanilla:clutter/common/saw01"
+    },
+    {
+      "asset": "vanilla:clutter/common/strongbox01"
+    },
+    {
+      "asset": "vanilla:clutter/common/torchpermanent01"
+    },
+    {
+      "asset": "vanilla:clutter/containers/miscsack02large"
+    },
+    {
+      "asset": "vanilla:clutter/containers/miscsacklargeflat03"
+    },
+    {
+      "asset": "vanilla:clutter/counterset/countercornerin01"
+    },
+    {
+      "asset": "vanilla:clutter/counterset/counterleft01"
+    },
+    {
+      "asset": "vanilla:clutter/counterset/counterright01"
+    },
+    {
+      "asset": "vanilla:clutter/counterset/counterstraight01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/hanginganimalsring02"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/mountedfemaleelk"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/mountedmaleelk"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/pheasantmeat01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/salmonmeat01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedbear02"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedbear03"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedgoat01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedsabrecat01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedwolf01"
+    },
+    {
+      "asset": "vanilla:clutter/deadanimals/wallmountedwolf02"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicplate01"
+    },
+    {
+      "asset": "vanilla:clutter/dining set/basicplate02"
+    },
+    {
+      "asset": "vanilla:clutter/dummyitems/dummymace01"
+    },
+    {
+      "asset": "vanilla:clutter/dummyitems/dummypotion01"
+    },
+    {
+      "asset": "vanilla:clutter/dwemer/dweichorgoo01"
+    },
+    {
+      "asset": "vanilla:clutter/floral/snowberrywreath"
+    },
+    {
+      "asset": "vanilla:clutter/food/apple01"
+    },
+    {
+      "asset": "vanilla:clutter/food/apple02"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewedge01"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewedge02"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewheel01a"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewheel01b"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewheel02a"
+    },
+    {
+      "asset": "vanilla:clutter/food/cheesewheel02b"
+    },
+    {
+      "asset": "vanilla:clutter/food/cookedsalmonsteak01"
+    },
+    {
+      "asset": "vanilla:clutter/food/nuttybread01"
+    },
+    {
+      "asset": "vanilla:clutter/giant/gianthangingbones"
+    },
+    {
+      "asset": "vanilla:clutter/glazed02potteryjug01"
+    },
+    {
+      "asset": "vanilla:clutter/glazed02potteryurn01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedbowl01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedbowl02"
+    },
+    {
+      "asset": "vanilla:clutter/glazedcandlesstatic02"
+    },
+    {
+      "asset": "vanilla:clutter/glazedcup01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedjuglarge01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedjugsmall01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedplate01"
+    },
+    {
+      "asset": "vanilla:clutter/glazedpot01"
+    },
+    {
+      "asset": "vanilla:clutter/hay/haymound02"
+    },
+    {
+      "asset": "vanilla:clutter/hay/haymoundl01"
+    },
+    {
+      "asset": "vanilla:clutter/honeypot01"
+    },
+    {
+      "asset": "vanilla:clutter/imperial/impcandle01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/beefmeat"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/bonemeal01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/carrot01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/clam/clammeat"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/clam/pearlsmall"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/dragonflyblue"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/dragonflyorange"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/ectoplasm"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/firesaltpile"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/frostsalts"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/giantstoe"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/glowdust01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/hagclaw"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/horsemeat"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/icewraithteeth"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/moonsugar01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/pie01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/sap"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/slaughterfishscale"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/spideregg01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/spriggantaproot"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/stew"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/sweetroll01"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/vampiredust"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/venison"
+    },
+    {
+      "asset": "vanilla:clutter/ingredients/voidsalts"
+    },
+    {
+      "asset": "vanilla:clutter/key01"
+    },
+    {
+      "asset": "vanilla:clutter/meaderybrewer01"
+    },
+    {
+      "asset": "vanilla:clutter/meaderybrewer01lid"
+    },
+    {
+      "asset": "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01"
+    },
+    {
+      "asset": "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/pelthanging01"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/pelthanging02"
+    },
+    {
+      "asset": "vanilla:clutter/pelts/pelthanging03"
+    },
+    {
+      "asset": "vanilla:clutter/potions/meadblackbriar"
+    },
+    {
+      "asset": "vanilla:clutter/potions/poisonfear01"
+    },
+    {
+      "asset": "vanilla:clutter/potions/poisonfrenzy01"
+    },
+    {
+      "asset": "vanilla:clutter/potions/poisonparalyze01"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionfortifyhealratelesser"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionfortifyskill01"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionfortifystaminalesser"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionhealthextra"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionhealthgreat"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionhealthlesser"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potioninvisibiltylesser"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionmagickaextreme"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionmagickalesser"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionresistfire50"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionresistfrost50"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionresistshock50"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionskooma"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionstaminaextra"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionstaminagreat"
+    },
+    {
+      "asset": "vanilla:clutter/potions/potionstaminalesser"
+    },
+    {
+      "asset": "vanilla:clutter/practicedummy/practicedummy01"
+    },
+    {
+      "asset": "vanilla:clutter/practicedummy/practicedummy02"
+    },
+    {
+      "asset": "vanilla:clutter/quest/firebrandwine01"
+    },
+    {
+      "asset": "vanilla:clutter/quest/sleepingtreesap01"
+    },
+    {
+      "asset": "vanilla:clutter/quest/tgparchment01"
+    },
+    {
+      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon"
+    },
+    {
+      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02"
+    },
+    {
+      "asset": "vanilla:clutter/shrines/shrinearkay"
+    },
+    {
+      "asset": "vanilla:clutter/shrines/shrinebase"
+    },
+    {
+      "asset": "vanilla:clutter/silver/silverbowl01"
+    },
+    {
+      "asset": "vanilla:clutter/silver/silverjug01"
+    },
+    {
+      "asset": "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/upperchair01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/uppercupboard01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/upperdresser01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/uppershelf01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/uppertable01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/uppertableround01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/uppertablesquare01"
+    },
+    {
+      "asset": "vanilla:clutter/upperclass/upperwardrobe01"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasket01"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasket02"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasket04"
+    },
+    {
+      "asset": "vanilla:clutter/wallbaskethex01"
+    },
+    {
+      "asset": "vanilla:clutter/wallbaskethex04"
+    },
+    {
+      "asset": "vanilla:clutter/wallbasketlarge02"
+    },
+    {
+      "asset": "vanilla:clutter/warhorns/imperialwarhorn"
+    },
+    {
+      "asset": "vanilla:clutter/weaponrack/wrplaque01"
+    },
+    {
+      "asset": "vanilla:clutter/weaponrack/wrplaquetrigger01"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle01aempty"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle01bempty"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle02aempty"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winebottle02bempty"
+    },
+    {
+      "asset": "vanilla:clutter/wine/winesanspicedwine"
+    },
+    {
+      "asset": "vanilla:critters/bee/beehivehusk"
+    },
+    {
+      "asset": "vanilla:critters/bee/beeinjar"
+    },
+    {
+      "asset": "vanilla:critters/firefly/fireflygo"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/ingotcorundum"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/ingotiron01"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/ingotsilver"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/ingotsteel"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/ore_silver"
+    },
+    {
+      "asset": "vanilla:dungeons/mines/ore/oreiron01"
+    },
+    {
+      "asset": "vanilla:dungeons/ship/clutter/shipoar01"
+    },
+    {
+      "asset": "vanilla:furniture/alchemyworkbench"
+    },
+    {
+      "asset": "vanilla:furniture/alchemyworkstation"
+    },
+    {
+      "asset": "vanilla:furniture/bedroll/bedroll01"
+    },
+    {
+      "asset": "vanilla:furniture/blacksmithworkbench01"
+    },
+    {
+      "asset": "vanilla:furniture/clutter/blacksmithanvil"
+    },
+    {
+      "asset": "vanilla:furniture/clutter/blacksmithsharpeningwheelanimating"
+    },
+    {
+      "asset": "vanilla:furniture/common/commonbeddouble01"
+    },
+    {
+      "asset": "vanilla:furniture/farm/farmtable01"
+    },
+    {
+      "asset": "vanilla:furniture/farm/farmtablebench01"
+    },
+    {
+      "asset": "vanilla:furniture/noble/noblebeddouble01"
+    },
+    {
+      "asset": "vanilla:furniture/noble/nobleendtable04"
+    },
+    {
+      "asset": "vanilla:furniture/noble/noblewashbasin01"
+    },
+    {
+      "asset": "vanilla:furniture/woodenbarstool"
+    },
+    {
+      "asset": "vanilla:plants/birdegg02"
+    },
+    {
+      "asset": "vanilla:plants/birdegg03"
+    },
+    {
+      "asset": "vanilla:plants/cabbage01"
+    },
+    {
+      "asset": "vanilla:plants/coinbagmed"
+    },
+    {
+      "asset": "vanilla:plants/coinbagsmall"
+    },
+    {
+      "asset": "vanilla:plants/creepclusterroot01"
+    },
+    {
+      "asset": "vanilla:plants/deathbell01"
+    },
+    {
+      "asset": "vanilla:plants/dragonstongue01"
+    },
+    {
+      "asset": "vanilla:plants/elvesear01"
+    },
+    {
+      "asset": "vanilla:plants/frostmirriam01"
+    },
+    {
+      "asset": "vanilla:plants/garlic01"
+    },
+    {
+      "asset": "vanilla:plants/gourd01"
+    },
+    {
+      "asset": "vanilla:plants/jazbay01"
+    },
+    {
+      "asset": "vanilla:plants/lavender01"
+    },
+    {
+      "asset": "vanilla:plants/mountainflower01purple"
+    },
+    {
+      "asset": "vanilla:plants/mushroom03"
+    },
+    {
+      "asset": "vanilla:plants/nirnroot01"
+    },
+    {
+      "asset": "vanilla:plants/potato01"
+    },
+    {
+      "asset": "vanilla:plants/snowberry"
+    },
+    {
+      "asset": "vanilla:plants/spikygrass01"
+    },
+    {
+      "asset": "vanilla:plants/swampfungalpod01"
+    },
+    {
+      "asset": "vanilla:plants/thistle01"
+    },
+    {
+      "asset": "vanilla:plants/tundracotton01"
+    },
+    {
+      "asset": "vanilla:weapons/iron/ironarrow"
+    },
+    {
+      "asset": "vanilla:weapons/iron/irondagger"
+    },
+    {
+      "asset": "vanilla:weapons/iron/ironmace"
+    },
+    {
+      "asset": "vanilla:weapons/iron/longsword"
+    },
+    {
+      "asset": "vanilla:weapons/iron/waraxe"
+    },
+    {
+      "asset": "vanilla:weapons/steel/steelgreatsword"
+    },
+    {
+      "asset": "vanilla:weapons/steel/steelsword"
+    },
+    {
+      "asset": "vanilla:weapons/steel/steelwaraxe"
+    },
+    {
+      "asset": "vanilla:weapons/steel/steelwarhammer"
     }
   ]
 }

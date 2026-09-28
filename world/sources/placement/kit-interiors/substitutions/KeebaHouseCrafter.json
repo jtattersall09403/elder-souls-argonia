@@ -2,43 +2,8 @@
   "schemaVersion": 1,
   "cellId": "KeebaHouseCrafter",
   "plugin": "King of the Murkmire.esp",
-  "rule": "Stand-ins for the cell's missing clutter whose mesh or base is not in the vault (Creation Club, Hearthfire, the resource pack, Dawnguard; planner ruling 2026-09-27; place-diag P9). Each stand-in is a vanilla piece of the same class, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "rule": "Stand-ins for the cell's missing clutter whose mesh or base is not in the vault (Creation Club, Hearthfire, the resource pack, Dawnguard; planner ruling 2026-09-27; place-diag P9). Each stand-in is a published piece of the same object and near size, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
   "substitutions": [
-    {
-      "refId": "0809B578",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B579",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B57A",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B57B",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B57C",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B57D",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
-    {
-      "refId": "0809B57E",
-      "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-      "why": "A lump of clay sits here; a lump of troll fat takes its place."
-    },
     {
       "refId": "080A0842",
       "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
@@ -48,11 +13,6 @@
       "refId": "080A0843",
       "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
       "why": "A bog beacon cap sits here; scaly pholiota takes its place."
-    },
-    {
-      "refId": "080A0844",
-      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-      "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place."
     },
     {
       "refId": "080A0863",
@@ -67,7 +27,7 @@
     {
       "refId": "08989BFA",
       "standInAsset": "vanilla:clutter/common/flute01",
-      "why": "A bone flute lies here; its texture is not in the vault, so a wooden flute takes its place."
+      "why": "A bone flute lies here; a wooden flute of its length takes its place."
     }
   ]
 }

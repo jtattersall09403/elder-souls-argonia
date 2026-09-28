@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "cellId": "KeebaHouseSnailMinder",
   "plugin": "King of the Murkmire.esp",
-  "rule": "Stand-ins for the cell's missing clutter whose mesh or base is not in the vault (Creation Club, Hearthfire, the resource pack, Dawnguard; planner ruling 2026-09-27; place-diag P9). Each stand-in is a vanilla piece of the same class, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "rule": "Stand-ins for the cell's missing clutter whose mesh or base is not in the vault (Creation Club, Hearthfire, the resource pack, Dawnguard; planner ruling 2026-09-27; place-diag P9). Each stand-in is a published piece of the same object and near size, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
   "substitutions": [
     {
       "refId": "08095F8F",
@@ -53,16 +53,6 @@
       "refId": "08095FAF",
       "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
       "why": "A brook bass lies here; a dead pond fish takes its place."
-    },
-    {
-      "refId": "08095FB1",
-      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-      "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place."
-    },
-    {
-      "refId": "08095FC9",
-      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-      "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place."
     }
   ]
 }

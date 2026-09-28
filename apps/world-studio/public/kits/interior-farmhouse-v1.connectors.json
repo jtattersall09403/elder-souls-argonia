@@ -186,6 +186,124 @@
     "widthM": 7.4
    }
   ],
+  "vanilla:clutter/banners/genericbannerred01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -0.63
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     0.65
+    ],
+    "widthM": 0.29
+   }
+  ],
+  "vanilla:clutter/barset/barleft01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.69,
+     -0.46
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.69,
+     0.47
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/barset/barright01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.69,
+     -0.46
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.69,
+     0.47
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/barset/barstraight01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.0
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.46
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.0
+    ],
+    "widthM": 0.92
+   }
+  ],
   "vanilla:clutter/basket02": [
    {
     "evidence": "bounds",
@@ -278,6 +396,30 @@
     "widthM": 0.48
    }
   ],
+  "vanilla:clutter/blacksmith/blacksmithnovicehammer01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     0.0
+    ],
+    "widthM": 0.04
+   }
+  ],
   "vanilla:clutter/bones/deerskullhornsstatic": [
    {
     "evidence": "bounds",
@@ -324,6 +466,100 @@
     "widthM": 0.78
    }
   ],
+  "vanilla:clutter/bones/deerskullprop": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.42,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.21,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/bones/humanskullfull": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/bones/mountedantlers": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.59,
+     0.0
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.59,
+     0.0
+    ],
+    "widthM": 0.92
+   }
+  ],
   "vanilla:clutter/books/basicbook03a": [
    {
     "evidence": "bounds",
@@ -368,6 +604,742 @@
      0.0
     ],
     "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook05a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook06a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook07": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/basicbook07a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/book02lowpoly02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.17,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/books/journallowpoly01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.01
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.01
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:clutter/books/journallowpoly02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.01
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.01
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:clutter/books/note01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/books/note02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/books/spelltomealterationlowpoly": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/spelltomeconjurationlowpoly": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/books/spelltomedestructionlowpoly": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/brewerycasklargeclosed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.28
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     -0.08
+    ],
+    "widthM": 2.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.11
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     -0.08
+    ],
+    "widthM": 2.39
+   }
+  ],
+  "vanilla:clutter/brewerycasklargeclosed02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -1.77
+    ],
+    "widthM": 2.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.19,
+     -0.89
+    ],
+    "widthM": 1.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     -0.01
+    ],
+    "widthM": 2.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     -0.89
+    ],
+    "widthM": 1.76
+   }
+  ],
+  "vanilla:clutter/brewerycasklargeopen01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.11
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     0.0
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.11
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     0.0
+    ],
+    "widthM": 2.22
    }
   ],
   "vanilla:clutter/candles/candlehornchandelier01": [
@@ -510,6 +1482,122 @@
     "widthM": 0.14
    }
   ],
+  "vanilla:clutter/chauruseggs/eggs": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/chopping block/axe01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -0.55
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     0.46
+    ],
+    "widthM": 0.27
+   }
+  ],
+  "vanilla:clutter/coin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ],
   "vanilla:clutter/common/broom": [
    {
     "evidence": "bounds",
@@ -556,6 +1644,30 @@
     "widthM": 0.3
    }
   ],
+  "vanilla:clutter/common/commoncrate01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.92,
+     -0.05
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.91,
+     -0.05
+    ],
+    "widthM": 0.66
+   }
+  ],
   "vanilla:clutter/common/commonshelf01": [
    {
     "evidence": "bounds",
@@ -578,6 +1690,76 @@
      0.0
     ],
     "widthM": 0.78
+   }
+  ],
+  "vanilla:clutter/common/commontable01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.51,
+     -0.01
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.51,
+     -0.01
+    ],
+    "widthM": 1.47
+   }
+  ],
+  "vanilla:clutter/common/commontable02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.77
+    ],
+    "widthM": 2.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.21,
+     0.02
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.8
+    ],
+    "widthM": 2.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.22,
+     0.02
+    ],
+    "widthM": 1.57
    }
   ],
   "vanilla:clutter/common/commontableround01": [
@@ -626,6 +1808,262 @@
     "widthM": 1.14
    }
   ],
+  "vanilla:clutter/common/commontablesquare01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.65
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.65,
+     0.0
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.65
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     0.0
+    ],
+    "widthM": 1.3
+   }
+  ],
+  "vanilla:clutter/common/cratesmall02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.61
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.02
+    ],
+    "widthM": 1.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.58
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.02
+    ],
+    "widthM": 1.19
+   }
+  ],
+  "vanilla:clutter/common/cratesmall03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.47
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.48,
+     0.0
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.47
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.48,
+     0.0
+    ],
+    "widthM": 0.94
+   }
+  ],
+  "vanilla:clutter/common/cratesmall04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.47
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.48,
+     0.0
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.47
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.48,
+     0.0
+    ],
+    "widthM": 0.94
+   }
+  ],
+  "vanilla:clutter/common/cratesmalllong02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.58,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.55
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.58,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.49
+    ],
+    "widthM": 0.72
+   }
+  ],
+  "vanilla:clutter/common/cratesmalllong03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.98
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.98
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:clutter/common/cratesmalllong04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.98
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.98
+    ],
+    "widthM": 0.96
+   }
+  ],
   "vanilla:clutter/common/cupboard01": [
    {
     "evidence": "bounds",
@@ -648,6 +2086,76 @@
      0.01
     ],
     "widthM": 0.77
+   }
+  ],
+  "vanilla:clutter/common/dresser01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.0
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.96,
+     0.0
+    ],
+    "widthM": 0.76
+   }
+  ],
+  "vanilla:clutter/common/drum01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.24,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.24,
+     0.0
+    ],
+    "widthM": 0.48
    }
   ],
   "vanilla:clutter/common/endtable01": [
@@ -694,6 +2202,542 @@
      0.0
     ],
     "widthM": 0.76
+   }
+  ],
+  "vanilla:clutter/common/flagon01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.01
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.01
+    ],
+    "widthM": 0.19
+   }
+  ],
+  "vanilla:clutter/common/leatherhide": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.13
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     -0.01
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.12
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     -0.01
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:clutter/common/leatherstrips01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.18
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.18
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "vanilla:clutter/common/lockpick": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.02
+   }
+  ],
+  "vanilla:clutter/common/lute01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/common/pickaxe02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.51
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.32,
+     -0.2
+    ],
+    "widthM": 0.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     -0.2
+    ],
+    "widthM": 0.63
+   }
+  ],
+  "vanilla:clutter/common/quill01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.02
+   }
+  ],
+  "vanilla:clutter/common/rug10": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     -2.17
+    ],
+    "widthM": 2.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.14,
+     -0.01
+    ],
+    "widthM": 4.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     2.14
+    ],
+    "widthM": 2.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.23,
+     -0.01
+    ],
+    "widthM": 4.31
+   }
+  ],
+  "vanilla:clutter/common/rug11": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.44
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.01,
+     0.01
+    ],
+    "widthM": 2.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.46
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.03,
+     0.01
+    ],
+    "widthM": 2.9
+   }
+  ],
+  "vanilla:clutter/common/rug12": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.08
+    ],
+    "widthM": 0.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.1
+    ],
+    "widthM": 0.95
+   }
+  ],
+  "vanilla:clutter/common/rug14": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.12
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.09
+    ],
+    "widthM": 1.04
+   }
+  ],
+  "vanilla:clutter/common/ruground04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.32
+    ],
+    "widthM": 2.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.04,
+     0.0
+    ],
+    "widthM": 2.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.32
+    ],
+    "widthM": 2.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.04,
+     0.0
+    ],
+    "widthM": 2.64
+   }
+  ],
+  "vanilla:clutter/common/saw01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.45,
+     0.0
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.44,
+     0.0
+    ],
+    "widthM": 0.04
+   }
+  ],
+  "vanilla:clutter/common/strongbox01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/common/torchpermanent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.26
    }
   ],
   "vanilla:clutter/common/wardrobe01": [
@@ -766,6 +2810,98 @@
     "widthM": 0.7
    }
   ],
+  "vanilla:clutter/containers/miscsack02large": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.22
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.22
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/containers/miscsacklargeflat03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.08,
+     -0.38
+    ],
+    "widthM": 1.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.43,
+     -0.01
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.08,
+     0.36
+    ],
+    "widthM": 1.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.6,
+     -0.01
+    ],
+    "widthM": 0.74
+   }
+  ],
   "vanilla:clutter/cookingspitfarmhouse01": [
    {
     "evidence": "bounds",
@@ -788,6 +2924,146 @@
      -0.77
     ],
     "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/counterset/countercornerin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.46,
+     -1.37
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     -0.46
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.46,
+     0.46
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     -0.46
+    ],
+    "widthM": 1.83
+   }
+  ],
+  "vanilla:clutter/counterset/counterleft01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.47,
+     0.69
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.69
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/counterset/counterright01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.47,
+     -0.69
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     -0.69
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/counterset/counterstraight01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.0
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.46
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.0
+    ],
+    "widthM": 0.92
    }
   ],
   "vanilla:clutter/deadanimals/hanginganimalsring01": [
@@ -828,6 +3104,52 @@
     "evidence": "bounds",
     "face": "west",
     "heightM": 2.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/deadanimals/hanginganimalsring02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.7,
     "normalDeg": 270.0,
     "positionInPiece": [
      -0.27,
@@ -1020,6 +3342,168 @@
     "widthM": 0.18
    }
   ],
+  "vanilla:clutter/deadanimals/mountedfemaleelk": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.4
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     -0.7
+    ],
+    "widthM": 1.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.37,
+     -0.7
+    ],
+    "widthM": 1.4
+   }
+  ],
+  "vanilla:clutter/deadanimals/mountedmaleelk": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.64,
+     -0.68
+    ],
+    "widthM": 1.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.64,
+     -0.68
+    ],
+    "widthM": 1.37
+   }
+  ],
+  "vanilla:clutter/deadanimals/pheasantmeat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/deadanimals/salmonmeat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
   "vanilla:clutter/deadanimals/wallmountedbear01": [
    {
     "evidence": "bounds",
@@ -1064,6 +3548,144 @@
      0.42
     ],
     "widthM": 0.86
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedbear02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.01
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.42
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.85
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.42
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedbear03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.01
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.42
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.85
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.42
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedgoat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -0.01
+    ],
+    "widthM": 0.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.34
+    ],
+    "widthM": 0.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     0.69
+    ],
+    "widthM": 0.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.34
+    ],
+    "widthM": 0.7
    }
   ],
   "vanilla:clutter/deadanimals/wallmountedhorker01": [
@@ -1112,6 +3734,52 @@
     "widthM": 0.8
    }
   ],
+  "vanilla:clutter/deadanimals/wallmountedsabrecat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.01
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.39
+    ],
+    "widthM": 0.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.78
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.39
+    ],
+    "widthM": 0.79
+   }
+  ],
   "vanilla:clutter/deadanimals/wallmountedsabrecat02": [
    {
     "evidence": "bounds",
@@ -1156,6 +3824,98 @@
      0.39
     ],
     "widthM": 0.79
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedwolf01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.01
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.31,
+     0.35
+    ],
+    "widthM": 0.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.72
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.31,
+     0.35
+    ],
+    "widthM": 0.73
+   }
+  ],
+  "vanilla:clutter/deadanimals/wallmountedwolf02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.01
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.31,
+     0.35
+    ],
+    "widthM": 0.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.72
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.31,
+     0.35
+    ],
+    "widthM": 0.73
    }
   ],
   "vanilla:clutter/dining set/basicfork01": [
@@ -1206,6 +3966,98 @@
     "widthM": 0.04
    }
   ],
+  "vanilla:clutter/dining set/basicplate01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/dining set/basicplate02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.28
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.28,
+     0.0
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.28
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.28,
+     0.0
+    ],
+    "widthM": 0.56
+   }
+  ],
   "vanilla:clutter/dining set/basictankard01": [
    {
     "evidence": "bounds",
@@ -1250,6 +4102,168 @@
      -0.02
     ],
     "widthM": 0.19
+   }
+  ],
+  "vanilla:clutter/dwemer/dweichorgoo01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -0.51
+    ],
+    "widthM": 1.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     0.02
+    ],
+    "widthM": 1.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     0.54
+    ],
+    "widthM": 1.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.55,
+     0.02
+    ],
+    "widthM": 1.05
+   }
+  ],
+  "vanilla:clutter/floral/snowberrywreath": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.43,
+     0.01
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.01
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/food/apple01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/food/apple02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.16
    }
   ],
   "vanilla:clutter/food/bread01a": [
@@ -1344,6 +4358,950 @@
     "widthM": 0.2
    }
   ],
+  "vanilla:clutter/food/cheesewedge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/food/cheesewedge02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/food/cheesewheel01a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/food/cheesewheel01b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     -0.02
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     -0.02
+    ],
+    "widthM": 0.39
+   }
+  ],
+  "vanilla:clutter/food/cheesewheel02a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/food/cheesewheel02b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/food/cookedsalmonsteak01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/food/nuttybread01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.21
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.25
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "vanilla:clutter/giant/gianthangingbones": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -0.62
+    ],
+    "widthM": 1.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.44,
+     -0.01
+    ],
+    "widthM": 1.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     0.6
+    ],
+    "widthM": 1.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.56,
+     -0.01
+    ],
+    "widthM": 1.22
+   }
+  ],
+  "vanilla:clutter/glazed02potteryjug01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.23
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.23
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/glazed02potteryurn01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.23
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.23
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:clutter/glazedbowl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "vanilla:clutter/glazedbowl02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/glazedcandlesstatic02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/glazedcup01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/glazedjuglarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/glazedjugsmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.18
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.18
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "vanilla:clutter/glazedplate01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.22
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "vanilla:clutter/glazedpot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "vanilla:clutter/hay/haymound02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.24
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.12,
+     0.0
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.24
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.12,
+     0.0
+    ],
+    "widthM": 2.48
+   }
+  ],
+  "vanilla:clutter/hay/haymoundl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.3
+    ],
+    "widthM": 4.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.46,
+     0.0
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.3
+    ],
+    "widthM": 4.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.46,
+     0.0
+    ],
+    "widthM": 4.6
+   }
+  ],
   "vanilla:clutter/hay/hayscatter01": [
    {
     "evidence": "bounds",
@@ -1436,6 +5394,788 @@
     "widthM": 1.82
    }
   ],
+  "vanilla:clutter/honeypot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.58,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.3
+    ],
+    "widthM": 0.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.58,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.3
+    ],
+    "widthM": 0.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.31,
+     0.0
+    ],
+    "widthM": 0.6
+   }
+  ],
+  "vanilla:clutter/imperial/impcandle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/ingredients/beefmeat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.15
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.21,
+     0.01
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.17
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     0.01
+    ],
+    "widthM": 0.32
+   }
+  ],
+  "vanilla:clutter/ingredients/bonemeal01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/ingredients/carrot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.48,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.48,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.01
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.48,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.48,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.01
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/ingredients/clam/clammeat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/ingredients/clam/pearlsmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.02
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.02,
+     0.0
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.02
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.02,
+     0.0
+    ],
+    "widthM": 0.04
+   }
+  ],
+  "vanilla:clutter/ingredients/dragonflyblue": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/ingredients/dragonflyorange": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/ingredients/ectoplasm": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/ingredients/firesaltpile": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.1
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     -0.01
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -0.01
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:clutter/ingredients/frostsalts": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/ingredients/giantstoe": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/ingredients/glowdust01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/ingredients/hagclaw": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/ingredients/horsemeat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.1,
+     -0.21
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.49,
+     0.0
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.1,
+     0.21
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.29,
+     0.0
+    ],
+    "widthM": 0.42
+   }
+  ],
+  "vanilla:clutter/ingredients/icewraithteeth": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.01
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.01
+    ],
+    "widthM": 0.18
+   }
+  ],
   "vanilla:clutter/ingredients/mead01": [
    {
     "evidence": "bounds",
@@ -1482,6 +6222,512 @@
     "widthM": 0.1
    }
   ],
+  "vanilla:clutter/ingredients/moonsugar01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/ingredients/pie01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.19
+    ],
+    "widthM": 0.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     -0.01
+    ],
+    "widthM": 0.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.18
+    ],
+    "widthM": 0.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     -0.01
+    ],
+    "widthM": 0.37
+   }
+  ],
+  "vanilla:clutter/ingredients/sap": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/ingredients/slaughterfishscale": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.11
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.11
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/ingredients/spideregg01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/ingredients/spriggantaproot": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.09
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.12
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.01
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "vanilla:clutter/ingredients/stew": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.09
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:clutter/ingredients/sweetroll01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/ingredients/vampiredust": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/ingredients/venison": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/ingredients/voidsalts": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
   "vanilla:clutter/kettle01": [
    {
     "evidence": "bounds",
@@ -1526,6 +6772,30 @@
      0.0
     ],
     "widthM": 0.76
+   }
+  ],
+  "vanilla:clutter/key01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.18
+    ],
+    "widthM": 0.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.18
+    ],
+    "widthM": 0.02
    }
   ],
   "vanilla:clutter/kitchen/castironpotsmall01": [
@@ -1620,6 +6890,190 @@
      0.08
     ],
     "widthM": 0.72
+   }
+  ],
+  "vanilla:clutter/meaderybrewer01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -1.27
+    ],
+    "widthM": 2.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.34,
+     0.0
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     1.27
+    ],
+    "widthM": 2.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     0.0
+    ],
+    "widthM": 2.54
+   }
+  ],
+  "vanilla:clutter/meaderybrewer01lid": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.58
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.57,
+     0.0
+    ],
+    "widthM": 1.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.58
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.61,
+     0.0
+    ],
+    "widthM": 1.16
+   }
+  ],
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.28,
+     -0.01
+    ],
+    "widthM": 0.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.28,
+     -0.01
+    ],
+    "widthM": 0.55
+   }
+  ],
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.28,
+     -0.01
+    ],
+    "widthM": 0.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.28,
+     -0.01
+    ],
+    "widthM": 0.55
    }
   ],
   "vanilla:clutter/pelts/peltfarmwall01": [
@@ -1832,6 +7286,1978 @@
     "widthM": 2.74
    }
   ],
+  "vanilla:clutter/pelts/pelthanging01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.07
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.32,
+     0.07
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "vanilla:clutter/pelts/pelthanging02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.34,
+     0.05
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.05
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/pelts/pelthanging03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.05
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.05
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/potions/meadblackbriar": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.35,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.35,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.35,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.35,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/potions/poisonfear01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "vanilla:clutter/potions/poisonfrenzy01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "vanilla:clutter/potions/poisonparalyze01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "vanilla:clutter/potions/potionfortifyhealratelesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/potions/potionfortifyskill01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.09
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:clutter/potions/potionfortifystaminalesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/potions/potionhealthextra": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.35,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.35,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -0.0
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.35,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.35,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -0.0
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "vanilla:clutter/potions/potionhealthgreat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     -0.01
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     -0.01
+    ],
+    "widthM": 0.13
+   }
+  ],
+  "vanilla:clutter/potions/potionhealthlesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/potions/potioninvisibiltylesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.03
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.06
+   }
+  ],
+  "vanilla:clutter/potions/potionmagickaextreme": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/potions/potionmagickalesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/potions/potionresistfire50": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/potions/potionresistfrost50": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/potions/potionresistshock50": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/potions/potionskooma": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.03
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.03,
+     0.0
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.0
+    ],
+    "widthM": 0.06
+   }
+  ],
+  "vanilla:clutter/potions/potionstaminaextra": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.33,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.33,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.33,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.33,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:clutter/potions/potionstaminagreat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/potions/potionstaminalesser": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/practicedummy/practicedummy01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.5,
+     0.12
+    ],
+    "widthM": 0.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.53,
+     0.12
+    ],
+    "widthM": 0.41
+   }
+  ],
+  "vanilla:clutter/practicedummy/practicedummy02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.12,
+     -0.14
+    ],
+    "widthM": 1.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.65,
+     0.19
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.12,
+     0.52
+    ],
+    "widthM": 1.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.41,
+     0.19
+    ],
+    "widthM": 0.66
+   }
+  ],
+  "vanilla:clutter/quest/firebrandwine01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/quest/sleepingtreesap01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.09
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:clutter/quest/tgparchment01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     0.0
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.0
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "vanilla:clutter/shrines/shrinearkay": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.25
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.24,
+     0.0
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.25
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.5
+   }
+  ],
+  "vanilla:clutter/shrines/shrinebase": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.3
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.3
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.0
+    ],
+    "widthM": 0.6
+   }
+  ],
+  "vanilla:clutter/silver/silverbowl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.26
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "vanilla:clutter/silver/silverjug01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.6,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.19
+    ],
+    "widthM": 0.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.24,
+     0.0
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.6,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.19
+    ],
+    "widthM": 0.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.0
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.15
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.27,
+     0.02
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.19
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     0.02
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:clutter/upperclass/upperchair01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.31
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     0.0
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.31
+    ],
+    "widthM": 0.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     0.0
+    ],
+    "widthM": 0.62
+   }
+  ],
+  "vanilla:clutter/upperclass/uppercupboard01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.01
+    ],
+    "widthM": 0.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.97,
+     0.01
+    ],
+    "widthM": 0.77
+   }
+  ],
+  "vanilla:clutter/upperclass/upperdresser01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.01
+    ],
+    "widthM": 0.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.96,
+     0.01
+    ],
+    "widthM": 0.77
+   }
+  ],
+  "vanilla:clutter/upperclass/uppershelf01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.0
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.96,
+     0.0
+    ],
+    "widthM": 0.78
+   }
+  ],
+  "vanilla:clutter/upperclass/uppertable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.84,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.82
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     0.0
+    ],
+    "widthM": 1.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.84,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.82
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     0.0
+    ],
+    "widthM": 1.64
+   }
+  ],
+  "vanilla:clutter/upperclass/uppertableround01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.57
+    ],
+    "widthM": 1.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.57,
+     0.0
+    ],
+    "widthM": 1.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.57
+    ],
+    "widthM": 1.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.57,
+     0.0
+    ],
+    "widthM": 1.14
+   }
+  ],
+  "vanilla:clutter/upperclass/uppertablesquare01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.65
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.65,
+     0.0
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.65
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     0.0
+    ],
+    "widthM": 1.3
+   }
+  ],
+  "vanilla:clutter/upperclass/upperwardrobe01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     0.01
+    ],
+    "widthM": 0.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.97,
+     0.01
+    ],
+    "widthM": 0.77
+   }
+  ],
+  "vanilla:clutter/wallbasket01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:clutter/wallbasket02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.42,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.42,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/wallbasket04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     -0.0
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:clutter/wallbaskethex01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.39,
+     0.06
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.06
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:clutter/wallbaskethex04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.42,
+     0.06
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.42,
+     0.06
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:clutter/wallbasketlarge02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.59,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.59,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:clutter/warhorns/imperialwarhorn": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.5,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.5,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:clutter/weaponrack/wrplaque01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.62,
+     -0.02
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.62,
+     -0.02
+    ],
+    "widthM": 0.04
+   }
+  ],
   "vanilla:clutter/wine/winebottle01a": [
    {
     "evidence": "bounds",
@@ -1870,6 +9296,52 @@
     "evidence": "bounds",
     "face": "west",
     "heightM": 0.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/wine/winebottle01aempty": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.36,
     "normalDeg": 270.0,
     "positionInPiece": [
      -0.12,
@@ -1924,7 +9396,191 @@
     "widthM": 0.24
    }
   ],
+  "vanilla:clutter/wine/winebottle01bempty": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/wine/winebottle02aempty": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
   "vanilla:clutter/wine/winebottle02b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/wine/winebottle02bempty": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/wine/winesanspicedwine": [
    {
     "evidence": "bounds",
     "face": "north",
@@ -2016,6 +9672,566 @@
     "widthM": 1.42
    }
   ],
+  "vanilla:critters/bee/beehivehusk": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.02
+    ],
+    "widthM": 0.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.19
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.02
+    ],
+    "widthM": 0.33
+   }
+  ],
+  "vanilla:critters/bee/beeinjar": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.17
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:critters/firefly/fireflygo": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     -0.01
+    ],
+    "widthM": 0.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     -0.01
+    ],
+    "widthM": 0.09
+   }
+  ],
+  "vanilla:dungeons/mines/ore/ingotcorundum": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:dungeons/mines/ore/ingotiron01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:dungeons/mines/ore/ingotsilver": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:dungeons/mines/ore/ingotsteel": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.18,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:dungeons/mines/ore/ore_silver": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.13
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:dungeons/mines/ore/oreiron01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.13
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.13
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:dungeons/ship/clutter/shipoar01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:furniture/alchemyworkbench": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.6,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.75
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.85,
+     -1.0
+    ],
+    "widthM": 1.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.6,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -0.26
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.85,
+     -1.0
+    ],
+    "widthM": 1.49
+   }
+  ],
+  "vanilla:furniture/alchemyworkstation": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.18
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.44,
+     -0.73
+    ],
+    "widthM": 0.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.44,
+     -0.73
+    ],
+    "widthM": 0.89
+   }
+  ],
+  "vanilla:furniture/bedroll/bedroll01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.26
+    ],
+    "widthM": 1.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.26
+    ],
+    "widthM": 1.2
+   }
+  ],
+  "vanilla:furniture/blacksmithworkbench01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.99,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.11,
+     -1.04
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.99,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.11,
+     1.04
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:furniture/clutter/blacksmithanvil": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.84,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.27,
+     -1.34
+    ],
+    "widthM": 0.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.71,
+     -0.97
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.84,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.27,
+     -0.59
+    ],
+    "widthM": 0.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.16,
+     -0.97
+    ],
+    "widthM": 0.75
+   }
+  ],
+  "vanilla:furniture/clutter/blacksmithsharpeningwheelanimating": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -2.04
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     -0.38
+    ],
+    "widthM": 0.57
+   }
+  ],
   "vanilla:furniture/common/commonbed01": [
    {
     "evidence": "bounds",
@@ -2057,6 +10273,52 @@
     "normalDeg": 270.0,
     "positionInPiece": [
      -0.73,
+     0.0
+    ],
+    "widthM": 2.52
+   }
+  ],
+  "vanilla:furniture/common/commonbeddouble01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -1.26
+    ],
+    "widthM": 2.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.13,
+     0.0
+    ],
+    "widthM": 2.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     1.26
+    ],
+    "widthM": 2.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.07,
      0.0
     ],
     "widthM": 2.52
@@ -2106,6 +10368,812 @@
      -0.31
     ],
     "widthM": 2.07
+   }
+  ],
+  "vanilla:furniture/farm/farmtable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.72
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.47,
+     0.02
+    ],
+    "widthM": 1.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.76
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.47,
+     0.02
+    ],
+    "widthM": 1.48
+   }
+  ],
+  "vanilla:furniture/farm/farmtablebench01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.86,
+     -1.23
+    ],
+    "widthM": 0.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.82,
+     -1.23
+    ],
+    "widthM": 0.45
+   }
+  ],
+  "vanilla:furniture/noble/noblebeddouble01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.43
+    ],
+    "widthM": 2.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.16,
+     0.0
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.43
+    ],
+    "widthM": 2.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.16,
+     0.0
+    ],
+    "widthM": 2.86
+   }
+  ],
+  "vanilla:furniture/noble/nobleendtable04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.6,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.28
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.28,
+     0.0
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.6,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.28
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.28,
+     0.0
+    ],
+    "widthM": 0.56
+   }
+  ],
+  "vanilla:furniture/noble/noblewashbasin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.32
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.32,
+     0.01
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.34
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.33,
+     0.01
+    ],
+    "widthM": 0.66
+   }
+  ],
+  "vanilla:furniture/woodenbarstool": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.2
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.0
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.2
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.4
+   }
+  ],
+  "vanilla:plants/birdegg02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.09
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:plants/birdegg03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.09
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "vanilla:plants/cabbage01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.3,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.18
+    ],
+    "widthM": 0.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.3,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     -0.01
+    ],
+    "widthM": 0.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.3,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.15
+    ],
+    "widthM": 0.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.3,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     -0.01
+    ],
+    "widthM": 0.33
+   }
+  ],
+  "vanilla:plants/coinbagmed": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:plants/coinbagsmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:plants/creepclusterroot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.11
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     -0.03
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.05
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -0.03
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:plants/deathbell01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.08
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.03
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.14
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.03
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:plants/dragonstongue01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     0.03
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.03
+    ],
+    "widthM": 0.17
+   }
+  ],
+  "vanilla:plants/elvesear01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -0.19
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.01
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     0.2
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.01
+    ],
+    "widthM": 0.39
+   }
+  ],
+  "vanilla:plants/frostmirriam01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.18
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.18
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "vanilla:plants/garlic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.07
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.0
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:plants/gourd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.28
+    ],
+    "widthM": 0.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     0.0
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.29
+    ],
+    "widthM": 0.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.0
+    ],
+    "widthM": 0.57
    }
   ],
   "vanilla:plants/hangingelvesear01": [
@@ -2224,6 +11292,76 @@
     "widthM": 0.22
    }
   ],
+  "vanilla:plants/jazbay01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.06
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.06
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:plants/lavender01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.43,
+     0.0
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     0.0
+    ],
+    "widthM": 0.22
+   }
+  ],
   "vanilla:plants/leek01": [
    {
     "evidence": "bounds",
@@ -2270,6 +11408,564 @@
     "widthM": 0.18
    }
   ],
+  "vanilla:plants/mountainflower01purple": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:plants/mushroom03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.16,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:plants/nirnroot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.11
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.3
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.11
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "vanilla:plants/potato01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     -0.01
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.12
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -0.01
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:plants/snowberry": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.42,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     -0.02
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.06
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.42,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     -0.02
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:plants/spikygrass01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.06
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:plants/swampfungalpod01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.12
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.01
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:plants/thistle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.35
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.16,
+     -0.14
+    ],
+    "widthM": 0.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.06
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     -0.14
+    ],
+    "widthM": 0.41
+   }
+  ],
+  "vanilla:plants/tundracotton01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.58,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.13
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.02
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.58,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.18
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.02
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "vanilla:weapons/iron/ironarrow": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.01
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.83
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:weapons/iron/irondagger": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.31
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:weapons/iron/ironmace": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.56
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:weapons/iron/longsword": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.9
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.17
+    ],
+    "widthM": 0.23
+   }
+  ],
+  "vanilla:weapons/iron/waraxe": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.48
+    ],
+    "widthM": 0.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.16
+    ],
+    "widthM": 0.27
+   }
+  ],
+  "vanilla:weapons/steel/steelgreatsword": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.32
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.3
+    ],
+    "widthM": 0.32
+   }
+  ],
   "vanilla:weapons/steel/steelmace": [
    {
     "evidence": "bounds",
@@ -2293,11 +11989,83 @@
     ],
     "widthM": 0.2
    }
+  ],
+  "vanilla:weapons/steel/steelsword": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.01
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.17
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:weapons/steel/steelwaraxe": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.6
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.18
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:weapons/steel/steelwarhammer": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -0.6
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     0.62
+    ],
+    "widthM": 0.46
+   }
   ]
  },
  "counts": {
-  "assets": 58,
-  "bounds": 198,
+  "assets": 300,
+  "bounds": 1042,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

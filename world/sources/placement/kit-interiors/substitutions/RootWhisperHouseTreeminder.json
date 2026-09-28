@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "cellId": "RootWhisperHouseTreeminder",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "085D818B",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bungler's bane cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D818D",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D818E",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D819A",
+      "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
+      "why": "A poison bloom lies here; a pinch of dried fungus takes its place."
+    },
+    {
+      "refId": "085D819F",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+      "why": "A raw ayotlchin fish lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "085D81A2",
+      "standInAsset": "vanilla:clutter/ingredients/stew",
+      "why": "A bowl of marshmerrow stew sits here; a bowl of stew takes its place."
+    }
+  ]
+}

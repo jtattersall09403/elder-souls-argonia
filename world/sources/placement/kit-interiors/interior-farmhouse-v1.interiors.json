@@ -68,6 +68,54 @@
    "provenance": [],
    "why": "interior-farmhouse-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "vanilla:clutter/banners/genericbannerred01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.92,
+   "interior": "none",
+   "planAreaM2": 0.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.9 m tall)"
+  },
+  "vanilla:clutter/barset/barleft01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/barset/barright01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/barset/barstraight01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 1.1 m tall)"
+  },
   "vanilla:clutter/basket02": {
    "category": "clutter",
    "entrance": null,
@@ -92,6 +140,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
   },
+  "vanilla:clutter/blacksmith/blacksmithnovicehammer01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
   "vanilla:clutter/bones/deerskullhornsstatic": {
    "category": "clutter",
    "entrance": null,
@@ -109,6 +169,52 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.8 m tall)"
   },
+  "vanilla:clutter/bones/deerskullprop": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/bones/humanskullfull": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 347.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 347\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/bones/mountedantlers": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 309.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 310\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.58,
+   "interior": "none",
+   "planAreaM2": 2.19,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.2 m\u00b2 plan, 1.6 m tall)"
+  },
   "vanilla:clutter/books/basicbook03a": {
    "category": "clutter",
    "entrance": null,
@@ -125,6 +231,263 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/basicbook05": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/basicbook05a": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/basicbook06a": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/basicbook07": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/basicbook07a": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/book02lowpoly02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.28x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.1,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/journallowpoly01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 42.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 43\u00b0 in the piece's own frame carries 2.94x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/books/journallowpoly02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 42.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 43\u00b0 in the piece's own frame carries 2.94x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/books/note01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.01,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/books/note02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.01,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/books/spelltomealterationlowpoly": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.07x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/spelltomeconjurationlowpoly": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/books/spelltomedestructionlowpoly": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 217.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 218\u00b0 in the piece's own frame carries 4.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/brewerycasklargeclosed01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 356.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 356\u00b0 in the piece's own frame carries 2.89x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.15,
+   "interior": "none",
+   "planAreaM2": 3.89,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.9 m\u00b2 plan, 2.1 m tall)"
+  },
+  "vanilla:clutter/brewerycasklargeclosed02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 314.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 314\u00b0 in the piece's own frame carries 2.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.38,
+   "interior": "none",
+   "planAreaM2": 3.98,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.0 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:clutter/brewerycasklargeopen01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.66,
+   "interior": "none",
+   "planAreaM2": 3.82,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.8 m\u00b2 plan, 1.7 m tall)"
   },
   "vanilla:clutter/candles/candlehornchandelier01": {
    "category": "clutter",
@@ -184,6 +547,47 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.6 m tall)"
   },
+  "vanilla:clutter/chauruseggs/eggs": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.13,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/chopping block/axe01": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 70.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 71\u00b0 in the piece's own frame carries 1.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.17,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/coin01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
   "vanilla:clutter/common/broom": {
    "category": "clutter",
    "entrance": null,
@@ -195,6 +599,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.7 m tall)"
+  },
+  "vanilla:clutter/common/commoncrate01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.45,
+   "interior": "none",
+   "planAreaM2": 1.19,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.2 m\u00b2 plan, 0.5 m tall)"
   },
   "vanilla:clutter/common/commonshelf01": {
    "category": "clutter",
@@ -208,6 +624,30 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.5 m\u00b2 plan, 2.2 m tall)"
   },
+  "vanilla:clutter/common/commontable01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.9,
+   "interior": "none",
+   "planAreaM2": 4.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.4 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/common/commontable02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.9,
+   "interior": "none",
+   "planAreaM2": 3.8,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.8 m\u00b2 plan, 0.9 m tall)"
+  },
   "vanilla:clutter/common/commontableround01": {
    "category": "clutter",
    "entrance": null,
@@ -220,6 +660,115 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.0 m\u00b2 plan, 0.9 m tall)"
   },
+  "vanilla:clutter/common/commontablesquare01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 225.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 7.84x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.9,
+   "interior": "none",
+   "planAreaM2": 1.69,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.7 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/common/cratesmall02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 259.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 260\u00b0 in the piece's own frame carries 2.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.61,
+   "interior": "none",
+   "planAreaM2": 0.92,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/common/cratesmall03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.71,
+   "interior": "none",
+   "planAreaM2": 0.89,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/common/cratesmall04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.71,
+   "interior": "none",
+   "planAreaM2": 0.89,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/common/cratesmalllong02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 322.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 323\u00b0 in the piece's own frame carries 3.06x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.58,
+   "interior": "none",
+   "planAreaM2": 1.47,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/common/cratesmalllong03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 282.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 282\u00b0 in the piece's own frame carries 2.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.71,
+   "interior": "none",
+   "planAreaM2": 1.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.9 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/common/cratesmalllong04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 279.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 3.34x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.71,
+   "interior": "none",
+   "planAreaM2": 1.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.9 m\u00b2 plan, 0.7 m tall)"
+  },
   "vanilla:clutter/common/cupboard01": {
    "category": "container",
    "entrance": null,
@@ -231,6 +780,35 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (1.5 m\u00b2 plan, 2.2 m tall)"
+  },
+  "vanilla:clutter/common/dresser01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 131.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 131\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.88,
+   "interior": "none",
+   "planAreaM2": 1.44,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.4 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/common/drum01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.45,
+   "interior": "none",
+   "planAreaM2": 0.18,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
   },
   "vanilla:clutter/common/endtable01": {
    "category": "container",
@@ -248,6 +826,206 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.8 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/common/flagon01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.31,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/common/leatherhide": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/common/leatherstrips01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.13,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/common/lockpick": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.02,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/lute01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 17.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 17\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.08,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/common/pickaxe02": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 15.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 15\u00b0 in the piece's own frame carries 1.96x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.15,
+   "interior": "none",
+   "planAreaM2": 0.22,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/common/quill01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.45,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/common/rug10": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 9.99,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (10.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/rug11": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 5.69,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.7 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/rug12": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.02,
+   "interior": "none",
+   "planAreaM2": 2.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/rug14": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.01,
+   "interior": "none",
+   "planAreaM2": 6.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (6.4 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/ruground04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.04,
+   "interior": "none",
+   "planAreaM2": 4.26,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.3 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/common/saw01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/common/strongbox01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 311.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 311\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.28,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/common/torchpermanent01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 320.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 5.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.91,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.9 m tall)"
   },
   "vanilla:clutter/common/wardrobe01": {
    "category": "container",
@@ -278,6 +1056,30 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.7 m tall)"
   },
+  "vanilla:clutter/containers/miscsack02large": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.68,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/containers/miscsacklargeflat03": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.39,
+   "interior": "none",
+   "planAreaM2": 0.59,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 0.4 m tall)"
+  },
   "vanilla:clutter/cookingspitfarmhouse01": {
    "category": "clutter",
    "entrance": null,
@@ -289,6 +1091,59 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.0 m tall)"
+  },
+  "vanilla:clutter/counterset/countercornerin01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 44.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 75.12x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 2.93,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/counterset/counterleft01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/counterset/counterright01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/counterset/counterstraight01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 0.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 1.1 m tall)"
   },
   "vanilla:clutter/deadanimals/hanginganimalsring01": {
    "category": "clutter",
@@ -306,6 +1161,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.8 m tall)"
+  },
+  "vanilla:clutter/deadanimals/hanginganimalsring02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.7,
+   "interior": "none",
+   "planAreaM2": 0.23,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
   },
   "vanilla:clutter/deadanimals/hangingpheasant01": {
    "category": "clutter",
@@ -365,6 +1232,64 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.7 m tall)"
   },
+  "vanilla:clutter/deadanimals/mountedfemaleelk": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 320.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 321\u00b0 in the piece's own frame carries 7.19x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.37,
+   "interior": "none",
+   "planAreaM2": 0.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 1.4 m tall)"
+  },
+  "vanilla:clutter/deadanimals/mountedmaleelk": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 347.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 348\u00b0 in the piece's own frame carries 3.76x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.95,
+   "interior": "none",
+   "planAreaM2": 3.3,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.3 m\u00b2 plan, 1.9 m tall)"
+  },
+  "vanilla:clutter/deadanimals/pheasantmeat01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/deadanimals/salmonmeat01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
   "vanilla:clutter/deadanimals/wallmountedbear01": {
    "category": "clutter",
    "entrance": null,
@@ -376,6 +1301,42 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.5 m\u00b2 plan, 1.2 m tall)"
+  },
+  "vanilla:clutter/deadanimals/wallmountedbear02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.22,
+   "interior": "none",
+   "planAreaM2": 0.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 1.2 m tall)"
+  },
+  "vanilla:clutter/deadanimals/wallmountedbear03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.22,
+   "interior": "none",
+   "planAreaM2": 0.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 1.2 m tall)"
+  },
+  "vanilla:clutter/deadanimals/wallmountedgoat01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.04,
+   "interior": "none",
+   "planAreaM2": 0.41,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.0 m tall)"
   },
   "vanilla:clutter/deadanimals/wallmountedhorker01": {
    "category": "clutter",
@@ -394,6 +1355,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.9 m tall)"
   },
+  "vanilla:clutter/deadanimals/wallmountedsabrecat01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.06,
+   "interior": "none",
+   "planAreaM2": 0.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
   "vanilla:clutter/deadanimals/wallmountedsabrecat02": {
    "category": "clutter",
    "entrance": null,
@@ -405,6 +1378,40 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/deadanimals/wallmountedwolf01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 250.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 251\u00b0 in the piece's own frame carries 1.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.81,
+   "interior": "none",
+   "planAreaM2": 0.27,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/deadanimals/wallmountedwolf02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 250.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 251\u00b0 in the piece's own frame carries 1.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.81,
+   "interior": "none",
+   "planAreaM2": 0.27,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.8 m tall)"
   },
   "vanilla:clutter/dining set/basicfork01": {
    "category": "weapon",
@@ -430,12 +1437,113 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
   },
+  "vanilla:clutter/dining set/basicplate01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/dining set/basicplate02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
   "vanilla:clutter/dining set/basictankard01": {
    "category": "clutter",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": null,
    "heightM": 0.17,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/dummyitems/dummymace01": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/dummyitems/dummypotion01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/dwemer/dweichorgoo01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 283.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 284\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.77,
+   "interior": "none",
+   "planAreaM2": 0.93,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/floral/snowberrywreath": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.83,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/food/apple01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/food/apple02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
    "interior": "none",
    "planAreaM2": 0.02,
    "provenance": [],
@@ -466,6 +1574,268 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
   },
+  "vanilla:clutter/food/cheesewedge01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/food/cheesewedge02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/food/cheesewheel01a": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.22,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/food/cheesewheel01b": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.22,
+   "interior": "none",
+   "planAreaM2": 0.13,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/food/cheesewheel02a": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/food/cheesewheel02b": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/food/cookedsalmonsteak01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/food/nuttybread01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.13,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/giant/gianthangingbones": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.4,
+   "interior": "none",
+   "planAreaM2": 0.74,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.7 m\u00b2 plan, 1.4 m tall)"
+  },
+  "vanilla:clutter/glazed02potteryjug01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.59,
+   "interior": "none",
+   "planAreaM2": 0.17,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/glazed02potteryurn01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/glazedbowl01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/glazedbowl02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.23,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/glazedcandlesstatic02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 222.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 223\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/glazedcup01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.14,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/glazedjuglarge01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.62,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/glazedjugsmall01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/glazedplate01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/glazedpot01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.44,
+   "interior": "none",
+   "planAreaM2": 0.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/hay/haymound02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 253.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 254\u00b0 in the piece's own frame carries 1.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 3.96,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/hay/haymoundl01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.56,
+   "interior": "none",
+   "planAreaM2": 17.41,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (17.4 m\u00b2 plan, 0.6 m tall)"
+  },
   "vanilla:clutter/hay/hayscatter01": {
    "category": "clutter",
    "entrance": null,
@@ -490,6 +1860,225 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (3.4 m\u00b2 plan, 0.0 m tall)"
   },
+  "vanilla:clutter/honeypot01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.58,
+   "interior": "none",
+   "planAreaM2": 0.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/imperial/impcandle01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.27,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/ingredients/beefmeat": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.16,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/ingredients/bonemeal01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/carrot01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 225.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.48,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/ingredients/clam/clammeat": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.04,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/ingredients/clam/pearlsmall": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/dragonflyblue": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 344.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 345\u00b0 in the piece's own frame carries 7.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/dragonflyorange": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/ectoplasm": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/firesaltpile": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/frostsalts": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.09,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/giantstoe": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.15,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/glowdust01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 11.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 12\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.15,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/hagclaw": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.04,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:clutter/ingredients/horsemeat": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.19,
+   "interior": "none",
+   "planAreaM2": 0.22,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/ingredients/icewraithteeth": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.09,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
   "vanilla:clutter/ingredients/mead01": {
    "category": "clutter",
    "entrance": null,
@@ -501,6 +2090,148 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/ingredients/moonsugar01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 346.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 346\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/pie01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.09,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/sap": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/slaughterfishscale": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/spideregg01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.17,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/ingredients/spriggantaproot": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/ingredients/stew": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.09,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/sweetroll01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/ingredients/vampiredust": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ingredients/venison": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 106.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 3.62x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/ingredients/voidsalts": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
   },
   "vanilla:clutter/kettle01": {
    "category": "clutter",
@@ -518,6 +2249,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.5 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/key01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
   },
   "vanilla:clutter/kitchen/castironpotsmall01": {
    "category": "clutter",
@@ -554,6 +2297,69 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/meaderybrewer01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 83.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 83\u00b0 in the piece's own frame carries 2.78x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 4.41,
+   "interior": "none",
+   "planAreaM2": 4.95,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.0 m\u00b2 plan, 4.4 m tall)"
+  },
+  "vanilla:clutter/meaderybrewer01lid": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 1.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 164.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 4.04x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.7,
+   "interior": "none",
+   "planAreaM2": 0.24,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/oilbarrel/bfxoilbarrelclosedstatic02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 164.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 164\u00b0 in the piece's own frame carries 3.83x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.7,
+   "interior": "none",
+   "planAreaM2": 0.24,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
   },
   "vanilla:clutter/pelts/peltfarmwall01": {
    "category": "clutter",
@@ -627,12 +2433,723 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (5.7 m\u00b2 plan, 0.0 m tall)"
   },
+  "vanilla:clutter/pelts/pelthanging01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.73,
+   "interior": "none",
+   "planAreaM2": 0.29,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.7 m tall)"
+  },
+  "vanilla:clutter/pelts/pelthanging02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.73,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.7 m tall)"
+  },
+  "vanilla:clutter/pelts/pelthanging03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.71,
+   "interior": "none",
+   "planAreaM2": 0.24,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.7 m tall)"
+  },
+  "vanilla:clutter/potions/meadblackbriar": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.35,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/poisonfear01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.22,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/poisonfrenzy01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.22,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/poisonparalyze01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionfortifyhealratelesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 41.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 42\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionfortifyskill01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.26,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/potionfortifystaminalesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 222.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 222\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionhealthextra": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 313.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 314\u00b0 in the piece's own frame carries 1.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.35,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/potionhealthgreat": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 76.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 77\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.32,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/potionhealthlesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potioninvisibiltylesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.13,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/potions/potionmagickaextreme": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/potions/potionmagickalesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 41.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 42\u00b0 in the piece's own frame carries 1.50x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionresistfire50": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionresistfrost50": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionresistshock50": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionskooma": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/potions/potionstaminaextra": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.33,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/potionstaminagreat": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.31,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/potions/potionstaminalesser": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 222.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 222\u00b0 in the piece's own frame carries 1.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/practicedummy/practicedummy01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.32,
+   "interior": "none",
+   "planAreaM2": 0.29,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.3 m tall)"
+  },
+  "vanilla:clutter/practicedummy/practicedummy02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 16.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 16\u00b0 in the piece's own frame carries 1.85x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.37,
+   "interior": "none",
+   "planAreaM2": 0.51,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:clutter/quest/firebrandwine01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.39,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/quest/sleepingtreesap01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 76.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 76\u00b0 in the piece's own frame carries 1.46x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/quest/tgparchment01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 165.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 166\u00b0 in the piece's own frame carries 1.83x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.43,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/shrines/shrinearkay": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.57,
+   "interior": "none",
+   "planAreaM2": 0.13,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/shrines/shrinebase": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 224.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 2.27x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.81,
+   "interior": "none",
+   "planAreaM2": 0.26,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/silver/silverbowl01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/silver/silverjug01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.6,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/tolfdirsalembic01/alchemytolfdirsalembic01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.32,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/upperclass/upperchair01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 320.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 4.31x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.12,
+   "interior": "none",
+   "planAreaM2": 0.37,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/upperclass/uppercupboard01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.38,
+   "interior": "none",
+   "planAreaM2": 1.47,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:clutter/upperclass/upperdresser01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.11,
+   "interior": "none",
+   "planAreaM2": 1.45,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:clutter/upperclass/uppershelf01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.38,
+   "interior": "none",
+   "planAreaM2": 1.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:clutter/upperclass/uppertable01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 56.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 56\u00b0 in the piece's own frame carries 2.33x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.84,
+   "interior": "none",
+   "planAreaM2": 4.56,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.6 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/upperclass/uppertableround01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 224.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.89,
+   "interior": "none",
+   "planAreaM2": 1.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.0 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/upperclass/uppertablesquare01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 223.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 3.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.9,
+   "interior": "none",
+   "planAreaM2": 1.69,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.7 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/upperclass/upperwardrobe01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 195.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 195\u00b0 in the piece's own frame carries 2.20x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.38,
+   "interior": "none",
+   "planAreaM2": 1.47,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:clutter/wallbasket01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.77,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/wallbasket02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.45,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.4 m tall)"
+  },
+  "vanilla:clutter/wallbasket04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.77,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:clutter/wallbaskethex01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.67,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/wallbaskethex04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.73,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/wallbasketlarge02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.92,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.9 m tall)"
+  },
+  "vanilla:clutter/warhorns/imperialwarhorn": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.17,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:clutter/weaponrack/wrplaque01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.57,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/weaponrack/wrplaquetrigger01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 0.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.0 m tall)"
+  },
   "vanilla:clutter/wine/winebottle01a": {
    "category": "clutter",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": null,
    "heightM": 0.39,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/wine/winebottle01aempty": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.36,
    "interior": "none",
    "planAreaM2": 0.04,
    "provenance": [],
@@ -651,7 +3168,55 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
   },
+  "vanilla:clutter/wine/winebottle01bempty": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.37,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/wine/winebottle02aempty": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.4,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
   "vanilla:clutter/wine/winebottle02b": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.43,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/wine/winebottle02bempty": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.4,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/wine/winesanspicedwine": {
    "category": "clutter",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
@@ -680,6 +3245,233 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (2.2 m\u00b2 plan, 2.7 m tall)"
   },
+  "vanilla:critters/bee/beehivehusk": {
+   "category": "creature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.27,
+   "interior": "none",
+   "planAreaM2": 0.1,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:critters/bee/beeinjar": {
+   "category": "creature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 164.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.44,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:critters/firefly/fireflygo": {
+   "category": "creature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/ingotcorundum": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/ingotiron01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/ingotsilver": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/ingotsteel": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/ore_silver": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 193.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 194\u00b0 in the piece's own frame carries 1.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/mines/ore/oreiron01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 193.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 194\u00b0 in the piece's own frame carries 1.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/ship/clutter/shipoar01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.08,
+   "interior": "none",
+   "planAreaM2": 0.71,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.7 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:furniture/alchemyworkbench": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 40.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 40\u00b0 in the piece's own frame carries 10.21x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.6,
+   "interior": "none",
+   "planAreaM2": 1.9,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.9 m\u00b2 plan, 1.6 m tall)"
+  },
+  "vanilla:furniture/alchemyworkstation": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 342.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 343\u00b0 in the piece's own frame carries 2.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.34,
+   "interior": "none",
+   "planAreaM2": 0.62,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:furniture/bedroll/bedroll01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 74.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 74\u00b0 in the piece's own frame carries 3.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.17,
+   "interior": "none",
+   "planAreaM2": 2.54,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.5 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:furniture/blacksmithworkbench01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.99,
+   "interior": "none",
+   "planAreaM2": 1.73,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.7 m\u00b2 plan, 1.0 m tall)"
+  },
+  "vanilla:furniture/clutter/blacksmithanvil": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.84,
+   "interior": "none",
+   "planAreaM2": 0.46,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:furniture/clutter/blacksmithsharpeningwheelanimating": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 67.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 67\u00b0 in the piece's own frame carries 14.97x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.98,
+   "interior": "none",
+   "planAreaM2": 0.82,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 1.0 m tall)"
+  },
   "vanilla:furniture/common/commonbed01": {
    "category": "furniture",
    "entrance": null,
@@ -697,6 +3489,23 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (3.6 m\u00b2 plan, 1.1 m tall)"
   },
+  "vanilla:furniture/common/commonbeddouble01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 317.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 318\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.05,
+   "interior": "none",
+   "planAreaM2": 5.46,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.5 m\u00b2 plan, 1.1 m tall)"
+  },
   "vanilla:furniture/commontableonebench": {
    "category": "furniture",
    "entrance": null,
@@ -713,6 +3522,237 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (6.0 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:furniture/farm/farmtable01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.9,
+   "interior": "none",
+   "planAreaM2": 4.15,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.2 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:furniture/farm/farmtablebench01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.43,
+   "interior": "none",
+   "planAreaM2": 0.76,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:furniture/noble/noblebeddouble01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 132.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 132\u00b0 in the piece's own frame carries 4.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.56,
+   "interior": "none",
+   "planAreaM2": 6.61,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (6.6 m\u00b2 plan, 1.6 m tall)"
+  },
+  "vanilla:furniture/noble/nobleendtable04": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.6,
+   "interior": "none",
+   "planAreaM2": 0.31,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:furniture/noble/noblewashbasin01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.08,
+   "interior": "none",
+   "planAreaM2": 0.32,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.1 m tall)"
+  },
+  "vanilla:furniture/woodenbarstool": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.67,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:plants/birdegg02": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.14,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:plants/birdegg03": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.14,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:plants/cabbage01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.3,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:plants/coinbagmed": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 135.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 136\u00b0 in the piece's own frame carries 2.23x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.25,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/coinbagsmall": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 164.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.19,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/creepclusterroot01": {
+   "category": "root",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.32,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:plants/deathbell01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/dragonstongue01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.39,
+   "interior": "none",
+   "planAreaM2": 0.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:plants/elvesear01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/frostmirriam01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/garlic01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.1,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:plants/gourd01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.37,
+   "interior": "none",
+   "planAreaM2": 0.15,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
   },
   "vanilla:plants/hangingelvesear01": {
    "category": "plant",
@@ -750,6 +3790,35 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.7 m tall)"
   },
+  "vanilla:plants/jazbay01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 257.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 257\u00b0 in the piece's own frame carries 3.28x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.11,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:plants/lavender01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
   "vanilla:plants/leek01": {
    "category": "plant",
    "entrance": null,
@@ -761,6 +3830,216 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:plants/mountainflower01purple": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 72.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 72\u00b0 in the piece's own frame carries 2.02x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/mushroom03": {
+   "category": "fungus",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 160.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 160\u00b0 in the piece's own frame carries 1.91x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.38,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:plants/nirnroot01": {
+   "category": "root",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.76,
+   "interior": "none",
+   "planAreaM2": 0.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.8 m tall)"
+  },
+  "vanilla:plants/potato01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 0.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/snowberry": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 102.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 103\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.42,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:plants/spikygrass01": {
+   "category": "grass",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.01,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/swampfungalpod01": {
+   "category": "fungus",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/thistle01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 106.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 107\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:plants/tundracotton01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.58,
+   "interior": "none",
+   "planAreaM2": 0.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:weapons/iron/ironarrow": {
+   "category": "ammo",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.13,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:weapons/iron/irondagger": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 140.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 141\u00b0 in the piece's own frame carries 4.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.07,
+   "interior": "none",
+   "planAreaM2": 0.03,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:weapons/iron/ironmace": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.26,
+   "interior": "none",
+   "planAreaM2": 0.12,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:weapons/iron/longsword": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:weapons/iron/waraxe": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 113.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 113\u00b0 in the piece's own frame carries 1.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.17,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:weapons/steel/steelgreatsword": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.05,
+   "interior": "none",
+   "planAreaM2": 0.31,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.1 m tall)"
   },
   "vanilla:weapons/steel/steelmace": {
    "category": "weapon",
@@ -778,6 +4057,47 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:weapons/steel/steelsword": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.18,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:weapons/steel/steelwaraxe": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 50.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 50\u00b0 in the piece's own frame carries 2.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.15,
+   "interior": "none",
+   "planAreaM2": 0.15,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:weapons/steel/steelwarhammer": {
+   "category": "weapon",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.35,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.1 m tall)"
   }
  },
  "kit": "interior-farmhouse-v1",
