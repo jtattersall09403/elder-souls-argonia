@@ -73,3 +73,26 @@ def test_arguments_reach_the_command_unchanged(tmp_path):
     r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--", "echo one two | tr o 0"],
                        env=env, capture_output=True, text=True, timeout=60)
     assert "0ne tw0" in r.stdout, r.stderr
+
+
+def test_a_budget_kills_the_job_and_writes_a_checkpoint(tmp_path):
+    """Decision 0106: `--budget <min>` is a hard stop with a checkpoint line."""
+    load = tmp_path / "loadavg"
+    load.write_text("0.10 0.10 0.10 1/1 1\n")
+    env = {**os.environ, "ES_JOB_LOCK_DIR": str(tmp_path / "locks"), "ES_JOB_LOADAVG_FILE": str(load),
+           "ES_JOB_WAIT_S": "0", "ES_JOB_POLL_S": "0", "ES_JOB_MIN_FREE_GB": "0",
+           "ES_JOB_MEM_CEILING_MIB": "100000000", "ES_JOB_CPUS": "0",
+           "ES_BUDGET_DIR": str(tmp_path / "budget")}
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "lane9", "--budget", "0.02", "--", "sleep 3; echo ran"],
+                       env=env, capture_output=True, text=True, timeout=60)
+    # a 1.2 s budget stops a 3 s job: the timeout exit, the checkpoint line
+    assert r.returncode == 124, r.stderr
+    assert "BUDGET 0.02 min" in (tmp_path / "budget" / "lane9.checkpoint").read_text()
+    for bad in ("x", "0", "0.0"):
+        r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "lane9", "--budget", bad, "--", "echo"],
+                           env=env, capture_output=True, text=True, timeout=60)
+        assert r.returncode == 2, bad
+    # a job's own exit 124 inside its budget is not a budget stop
+    r = subprocess.run(["bash", str(HERE / "job_guard.sh"), "lane8", "--budget", "5", "--", "exit 124"],
+                       env=env, capture_output=True, text=True, timeout=60)
+    assert r.returncode == 124 and not (tmp_path / "budget" / "lane8.checkpoint").exists()

@@ -44,14 +44,15 @@ def test_design_briefs_are_excluded_from_the_review_diff(tmp_path, monkeypatch):
     bp = tmp_path / "world" / "sources" / "blueprints"
     bp.mkdir(parents=True)
     (bp / "x.design.md").write_text("brief v1\n")
-    (tmp_path / "code.py").write_text("a = 1\n")
+    (tmp_path / "tooling").mkdir()
+    (tmp_path / "tooling" / "code.py").write_text("a = 1\n")
     run("git", "add", "-A"); run("git", "commit", "-qm", "base")
     (bp / "x.design.md").write_text("brief v2 DESIGNPROSE\n")
-    (tmp_path / "code.py").write_text("a = 2  # CODECHANGE\n")
+    (tmp_path / "tooling" / "code.py").write_text("a = 2  # CODECHANGE\n")
     (bp / "new.design.md").write_text("a new brief UNTRACKEDPROSE\n")
-    (tmp_path / "new.py").write_text("b = 1  # NEWCODE\n")
+    (tmp_path / "tooling" / "new.py").write_text("b = 1  # NEWCODE\n")
     monkeypatch.setattr(rg, "ROOT", str(tmp_path))
-    for paths in (None, ["world", "code.py", "new.py"]):
+    for paths in (None, ["world", "tooling/code.py", "tooling/new.py"]):
         diff = rg.current_diff(paths)
         assert "CODECHANGE" in diff and "NEWCODE" in diff
         assert "DESIGNPROSE" not in diff and "UNTRACKEDPROSE" not in diff

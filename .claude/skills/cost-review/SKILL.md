@@ -50,6 +50,25 @@ windows (planner + subagents, weighted by Anthropic's price ratios).
 - **Hook lines are printed**: the SessionStart report line appears at
   session start (it is in the transcript even if not in the chat).
 
+## 2b. Workflow drift (decision 0106; every review)
+
+Run `python3 tooling/repo-standards/workflow_drift.py --days 7` (< 1 s; exit 1
+on any red) and copy its lines into the record. Each measure and its red
+threshold, so the slower ways never creep back:
+
+| Measure | Red when | Source |
+|---|---|---|
+| preflight runs per commit | > 1.5 | `tooling/.reports/preflight/runs.jsonl`, git log |
+| scoped preflight wall, p50 / runs over 60 s | > 30 s / > 0 | runs.jsonl `wallS` |
+| review-gate fires on non-code batches | > 0 | `.claude/review-stamp.json` paths |
+| full miner runs (no `--assets`) | > 1 a week | memwatch `tool-timings.jsonl` |
+| lanes killed at their budget | > 2 a week | `tooling/.reports/budget/*.checkpoint` |
+
+A red names the session and lane that caused it (a `find` agent over the
+log rows) and the hook or rule that should have refused it; a hook that
+did not fire is checked in `.claude/settings.json` against
+[docs/standards/hooks.md](../../../docs/standards/hooks.md).
+
 ## 3. Where the spend is now
 
 From the latest window: the three largest sources by cost units and, for the

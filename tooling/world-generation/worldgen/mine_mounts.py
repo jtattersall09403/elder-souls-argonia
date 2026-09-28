@@ -2444,6 +2444,9 @@ def _main(argv: Iterable[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--vault", type=Path, default=asset_registry.DEFAULT_VAULT)
     parser.add_argument("--quiet", action="store_true")
+    parser.add_argument("--rule-change", action="store_true",
+                        help="names a full run as one a miner rule change needs (the "
+                             "preflight_guard hook refuses a full run without it, 0106)")
     parser.add_argument("--assets", nargs="+", default=None,
                         help="mine only these child asset ids; print, write nothing "
                              "(with --merge: write their rows into --out)")

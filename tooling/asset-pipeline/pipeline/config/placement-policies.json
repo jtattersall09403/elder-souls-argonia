@@ -288,7 +288,14 @@
   "vanilla:architecture/docks/dockstrent02": "stilt",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "pad",
   "kotm:argonia/clutter/basketcontainer": "direct",
-  "kotm:argonia/clutter/saxhleelmetalpot01": "direct"
+  "kotm:argonia/clutter/saxhleelmetalpot01": "direct",
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": "pad",
+  "vanilla:clutter/woodfires/campfire01burning": "pad",
+  "kotm:argonia/clutter/basket01": "direct",
+  "kotm:argonia/clutter/basket02": "direct",
+  "kotm:argonia/mudhuts/overhang01": "pad",
+  "mudmother:gv_meshes/argoniannest/argoniantent01": "pad",
+  "vanilla:architecture/riften/rtstables01": "pad"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -386,7 +393,10 @@
   "vanilla:architecture/docks/dockstrent02": "frozen from the docks-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.35 m, n 0, evidence mesh-sill (plugin-spread); a piled deck (piledDecks)",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill",
   "kotm:argonia/clutter/basketcontainer": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.4953 m, n 9, evidence plugin",
-  "kotm:argonia/clutter/saxhleelmetalpot01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.0993 m, n 0, evidence mesh-sill"
+  "kotm:argonia/clutter/saxhleelmetalpot01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.0993 m, n 0, evidence mesh-sill",
+  "kotm:argonia/mudhuts/overhang01": "KotM mud-hut overhang, attached to a mud hut on its declared pad (0101): same contact family as kotm:argonia/mudhuts/mudhut01 and the settlement-mud-v1 kit policy (pad).",
+  "mudmother:gv_meshes/argoniannest/argoniantent01": "Mud Mother Grove hide shelter on a declared pad: same contact family as mudmother:gv_meshes/argoniannest/argoniantent02 (pad); its designedSinkM row sits in assetPlacement.",
+  "vanilla:architecture/riften/rtstables01": "Riften stable on a declared pad: same contact family as the imperial-keep stables (mwimparchstableendl01/endr01, pad); its designedSinkM row sits in assetPlacement (0105 R25)."
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
@@ -439,6 +449,34 @@
   "vanilla:architecture/riften/rtstables01": {
    "designedSinkM": 0.0,
    "why": "Riften stable: the stall floor (a 49.3 m2 up-facing band at z 0.004 m) lies at the pivot and the stone foundation reaches 0.91 m below it. The stalls are walked into from the ground, so the pivot sits at the ground (sink 0) and the foundation is buried. The mesh-sill tell took the foundation's foot (-0.91 m, n 0: RiftenWorld has no LAND) and stood the stall floor 0.91 m in the air (0105 R25, planner 2026-09-28)."
+  },
+  "histtree:skyfall/sleeping tree overhaul/rune circle": {
+   "designedSinkM": -0.606,
+   "why": "Rune circle, an 8.1 x 9.0 m stone disc. Skyfall places it once, scaled, on the Hist's mound; the miner drops that reference (byScaleRefsDropped 1), so no plugin sink exists. The mesh's floor plane lies 0.606 m below the pivot and is the disc's underside: sink -0.606 sets that underside on the ground, the disc's rim standing its full height above it. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "designedSinkM": 5.854,
+   "why": "Hist flower, 3.5 m. The mesh sits 5.854 m above its pivot (Skyfall authors it in the tree's frame); its lowest point is the foot of its root bulb. Skyfall places all 3 references scaled on the tree's roots, never on LAND (byScaleRefsDropped 3). Sink 5.854 m sets that foot on the ground (the mesh-sill tell's 6.196 m buried the bulb 0.34 m, which propSeatRule refuses for a prop). (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "designedSinkM": 6.0086,
+   "why": "Hist flower, 4.3 m. The mesh sits 6.009 m above its pivot (authored in the tree's frame); the stem's foot is its lowest point. Skyfall places all 7 references scaled on the tree's roots, never on LAND (byScaleRefsDropped 7). Sink 6.009 m sets the stem's foot on the ground. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02-sick": {
+   "designedSinkM": 6.0086,
+   "why": "The sick texture variant of histflower02: the same mesh, so the same sink (6.009 m, the stem's foot on the ground; kit-build § texture variants). (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "vanilla:architecture/docks/dockstrent02": {
+   "designedSinkM": -0.35,
+   "why": "Dock entrance piece, 7.2 m tall with piles. Its makers stand it in water (waterline row n 3, p50 -1.59 m); on land the four plugins disagree by 3.07 m IQR (pluginSpread), so no ground sink is measured. Its deck top lies at the pivot and the piles reach down from it: sink -0.35 keeps the deck 0.35 m over the bank (the deck-top tell's clearance) where it meets the shore. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "bmv:sheogorad/dagon fel/cleat": {
+   "designedSinkM": -0.1836,
+   "why": "Mooring cleat, 1.06 x 0.39 x 0.37 m. No mined plugin reference (n 0): Black Marsh sets it on dock decks, never on LAND. Its foot plane lies 0.184 m below the pivot: sink -0.184 rests the foot on the surface it is set on. (0105 R36, reviewed by lane L16 2026-09-28; sink miner run /tmp/l16/sink-sample.json and --merge --whole-population refused: no reference stands on LAND)"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "designedSinkM": -0.4494,
+   "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it (refsDroppedNonUnitScale 1) and no plugin sink exists. The mesh's lowest vertices lie 0.449 m below the pivot in a 4.6 m run along its back (the ground log the poles stand in); 388 vertices within 0.5 m of that level span the whole 5.4 x 4.7 m footprint: sink -0.4494 sets the log and the pole feet on the ground. (0105 R36 and R54, reviewed by lane L20 2026-09-28 for the Greenspring spring house; measured on the raw settlement-mud-v1.glb)"
   }
  },
  "piledDecks": {

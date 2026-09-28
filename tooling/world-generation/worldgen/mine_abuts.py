@@ -480,12 +480,45 @@ def end_faces(pairs: list[dict], family_pairs: list[dict] = (),
     return {a: dict(sorted(f.items())) for a, f in sorted(out.items())}
 
 
+def merge_scope(assets: list[str], boxes: dict) -> tuple[set[str], set[str]]:
+    """(families, pieces) an ``--assets`` merge re-mines: the named pieces'
+    families and every kit piece in them, since a family pair pools its
+    members' joints (K9 A3)."""
+    fams = {family_of(a) for a in assets}
+    return fams, {a for a in boxes if family_of(a) in fams} | set(assets)
+
+
+def near_scope(refs: list, boxes: dict, pieces: set[str]) -> list:
+    """The scope pieces' references and every reference whose placed bounds
+    may touch one of them (``candidate_pairs``'s reach), in walk order: every
+    joint of a scope piece is among these, so its rows are the full run's."""
+    def reach(r):
+        return max(abs(v) for corner in boxes[asset_ref(r.pool, r.model_key)]
+                   for v in corner[:2]) * r.scale
+    targets = [r for r in refs if asset_ref(r.pool, r.model_key) in pieces]
+    if not targets:
+        return []
+    tx = np.array([t.x for t in targets])
+    ty = np.array([t.y for t in targets])
+    tr = np.array([reach(t) for t in targets])
+    tw = [t.world for t in targets]
+    out = []
+    for r in refs:
+        near = (np.hypot(tx - r.x, ty - r.y) <= tr + reach(r) + CANDIDATE_GAP_M)
+        if any(near[k] and tw[k] == r.world for k in np.flatnonzero(near)):
+            out.append(r)
+    return out
+
+
 def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol: float,
          min_count: int, only: list[str] | None = None, cache: Path | None = None,
-         index=None) -> dict:
+         index=None, assets: list[str] | None = None) -> dict:
     """``bundles``: ``mine_assemblies.derived_sets`` rows; ``index`` the pool's
-    ``LoadOrderIndex`` (built on first need when not given)."""
+    ``LoadOrderIndex`` (built on first need when not given). ``assets``: an
+    incremental run (``--assets … --merge``): only the joints of those
+    pieces' families, for ``merge_abuts``."""
     boxes = {a: bounds_of(row) for a, row in kits.items() if bounds_of(row)}
+    fams, pieces = merge_scope(assets, boxes) if assets else (set(), set())
     sampler = Sampler(MeshLibrary())
     joins = None
     pairs: list[dict] = []
@@ -513,9 +546,14 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
                 cached.write_bytes(pickle.dumps(source))
         refs = [r for r in source.refs if keep(r.model_key, 0.0, r.pool)
                 and wanted(asset_ref(r.pool, r.model_key)) and not natural(r.model_key)]
+        if assets:
+            refs = near_scope(refs, boxes, pieces)
         for r in refs:
-            placed[asset_ref(r.pool, r.model_key)] += 1
+            if not assets or asset_ref(r.pool, r.model_key) in pieces:
+                placed[asset_ref(r.pool, r.model_key)] += 1
         rows = abut_rows(refs, boxes, sampler, bundle["id"], stats)
+        if assets:
+            rows = [r for r in rows if r["familyKey"][0] in fams or r["familyKey"][1] in fams]
         found = pairs_from(rows, bundle["id"], offset_tol, yaw_tol, min_count)
         fam = drop_loose_clutter(family_pairs_from(rows, bundle["id"], offset_tol, yaw_tol,
                                                    min_count), kits)
@@ -540,6 +578,13 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
         for face, n in faces.items():
             fam_terminal[family_of(asset)][face] += n
     families = sorted({p[k] for p in fam_pairs for k in ("parent", "child")})
+    if assets:
+        return {"scope": {"assets": sorted(assets), "families": sorted(fams),
+                          "pieces": sorted(pieces)},
+                "pairs": pairs, "familyPairs": fam_pairs,
+                "placedAssets": dict(sorted(placed.items())),
+                "terminates": {a: f for a, f in terminal.items() if a in pieces},
+                "meshesMissing": missing}
     return {
         "schemaVersion": SCHEMA_VERSION,
         "provenance": provenance(__file__, [path.name for b in bundles
@@ -575,6 +620,66 @@ def mine(bundles: list[dict], kits: dict[str, dict], offset_tol: float, yaw_tol:
         "placedNoPairs": no_pairs,
         "singleUse": derive_single_use(pairs, fam_pairs, no_pairs, placed, kits),
     }
+
+
+def _merge_rows(old: list[dict], new: list[dict], scope: set[str]) -> list[dict]:
+    """Rows keyed by (parent, child): the old rows naming the scope dropped,
+    the new ones added, in ``mine``'s order (one ``_sort``ed block per source
+    set, sets in walk order, a new set last)."""
+    blocks: dict[str, list[dict]] = {}
+    for p in old:
+        blocks.setdefault(p["sourceSet"], [])
+        if p["parent"] not in scope and p["child"] not in scope:
+            blocks[p["sourceSet"]].append(p)
+    for p in new:
+        blocks.setdefault(p["sourceSet"], []).append(p)
+    return [p for rows in blocks.values() for p in _sort(rows)]
+
+
+def merge_abuts(section: dict, part: dict, kits: dict[str, dict], meshes=None) -> dict:
+    """An ``--assets`` run folded into the record: every row and per-asset key
+    naming a scope piece (or, for family pairs, a scope family) is replaced by
+    the run's, and the derived fields (endFaces, doubleFaces, families,
+    familyTerminates, placedNoPairs, singleUse) are recomputed from the merged
+    rows as ``mine`` computes them. ``meshes``: the run-joint bars of the
+    scope's self-pairs are re-measured when given."""
+    fams, pieces = set(part["scope"]["families"]), set(part["scope"]["pieces"])
+    out = dict(section)
+    out["pairs"] = _merge_rows(section.get("pairs") or [], part["pairs"], pieces)
+    out["familyPairs"] = _merge_rows(section.get("familyPairs") or [], part["familyPairs"], fams)
+    placed = {a: n for a, n in (section.get("placedAssets") or {}).items() if a not in pieces}
+    out["placedAssets"] = dict(sorted((placed | part["placedAssets"]).items()))
+    term = {a: f for a, f in (section.get("terminates") or {}).items() if a not in pieces}
+    out["terminates"] = dict(sorted((term | part["terminates"]).items()))
+    boxes = {a: bounds_of(row) for a, row in kits.items() if bounds_of(row)}
+    members: dict[str, list[str]] = defaultdict(list)
+    for asset in sorted(boxes):
+        members[family_of(asset)].append(asset)
+    pairs, fam_pairs = out["pairs"], out["familyPairs"]
+    out["endFaces"] = end_faces([p for p in pairs if p["joint"] == "run"],
+                                [p for p in fam_pairs if p["joint"] == "run"], members)
+    out["doubleFaces"] = end_faces([p for p in pairs if p["joint"] != "run"],
+                                   [p for p in fam_pairs if p["joint"] != "run"], members)
+    out["placedNoPairs"] = sorted(a for a in out["placedAssets"] if a not in out["endFaces"])
+    fam_terminal: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for asset, faces in out["terminates"].items():
+        for face, n in faces.items():
+            fam_terminal[family_of(asset)][face] += n
+    out["familyTerminates"] = {f: dict(sorted(v.items())) for f, v in sorted(fam_terminal.items())}
+    out["families"] = {f: members[f] for f in sorted({p[k] for p in fam_pairs
+                                                      for k in ("parent", "child")})}
+    out = rederive(out, kits)
+    if meshes is not None:
+        bars = {a: b for a, b in (section.get("runJointBars") or {}).items() if a not in pieces}
+        bars |= run_joint_bars({"pairs": [p for p in out["pairs"] if p["parent"] in pieces]},
+                               meshes)
+        out["runJointBars"] = dict(sorted(bars.items()))
+    prov = dict(section.get("provenance") or {})
+    prov["merges"] = [*(prov.get("merges") or []),
+                      {"assets": part["scope"]["assets"], "families": part["scope"]["families"],
+                       "pairs": len(part["pairs"]), "familyPairs": len(part["familyPairs"])}]
+    out["provenance"] = prov
+    return out
 
 
 def run_families(pairs: list[dict], family_pairs: list[dict]) -> set[str]:
@@ -747,7 +852,33 @@ def _main(argv: list[str] | None = None) -> int:
     ap.add_argument("--rederive", action="store_true",
                     help="recompute the record's derived fields (singleUse, "
                          "runJointBars) in place, no walk")
+    ap.add_argument("--assets", nargs="+", default=None,
+                    help="incremental run (0106): only these pieces' families, "
+                         "every set walked; with --merge folds them into the record")
+    ap.add_argument("--merge", action="store_true",
+                    help="with --assets: replace those rows in kit-assemblies-mined.json "
+                         "and re-derive the lists from the merged rows")
+    ap.add_argument("--rule-change", action="store_true",
+                    help="names a full run as one a miner rule change needs (the "
+                         "preflight_guard hook refuses a full run without it, 0106)")
+    ap.add_argument("--refresh-derived", action="store_true",
+                    help="recompute only singleUse (it depends on the built kits' "
+                         "categories) from the record's rows; run by build_kit after "
+                         "every build, so a kit that joins the pool never leaves "
+                         "the record stale (~0.5 s, writes only on change)")
     args = ap.parse_args(argv)
+    if args.refresh_derived:
+        record = json.loads(RECORD.read_text())
+        kits = kit_rows()
+        if not record.get("abuts") or not kits:
+            return 0
+        single = rederive(record["abuts"], kits)["singleUse"]   # familyPairs are never rewritten here
+        if single != record["abuts"].get("singleUse"):
+            before = len(record["abuts"].get("singleUse") or [])
+            record["abuts"]["singleUse"] = fresh = single
+            RECORD.write_text(json.dumps(record, indent=1, sort_keys=False) + "\n")
+            print(f"-> {RECORD} (abuts singleUse: {before} -> {len(fresh)})")
+        return 0
     if args.rederive:
         record = json.loads(RECORD.read_text())
         before = len(record["abuts"].get("singleUse") or [])
@@ -764,6 +895,24 @@ def _main(argv: list[str] | None = None) -> int:
         if args.write:
             raise SystemExit("--set never writes the record: it would drop sets")
         bundles = [b for b in bundles if b["id"] in args.set]
+    if args.merge and not args.assets:
+        raise SystemExit("--merge needs --assets (a full run is --write --rule-change)")
+    if args.assets:
+        kits = kit_rows()
+        part = mine(bundles, kits, args.offset_tol, args.yaw_tol, args.min_count,
+                    None, args.cache, index=index, assets=args.assets)
+        print(f"--assets: {len(part['scope']['pieces'])} pieces in "
+              f"{len(part['scope']['families'])} families: {len(part['pairs'])} pairs, "
+              f"{len(part['familyPairs'])} family pairs, placed {sum(part['placedAssets'].values())}")
+        if args.out:
+            args.out.write_text(json.dumps(part, indent=1) + "\n")
+            print(f"-> {args.out}")
+        if args.merge:
+            record = json.loads(RECORD.read_text())
+            record["abuts"] = merge_abuts(record["abuts"], part, kits, MeshLibrary())
+            RECORD.write_text(json.dumps(record, indent=1, sort_keys=False) + "\n")
+            print(f"-> {RECORD} (abuts: {len(record['abuts']['pairs'])} pairs, merged)")
+        return 0
     section = mine(bundles, kit_rows(), args.offset_tol, args.yaw_tol,
                    args.min_count, args.only or None, args.cache, index=index)
     section["runJointBars"] = run_joint_bars(section, MeshLibrary())

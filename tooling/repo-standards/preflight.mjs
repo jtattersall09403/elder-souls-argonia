@@ -21,8 +21,9 @@
  * only the gates whose inputs intersect the changed files under that pathspec
  * run, npm test only in the touched workspaces and their dependents
  * (preflight_select.mjs holds the map; the skipped gates are printed by name).
- * No --paths runs every gate: the once-before-merge full run. A lane
- * preflights its own commit this way. Within a selected pytest gate
+ * No --paths is refused (decision 0106): the full run is `--runner`, once
+ * before a merge to main; the planner's `preflight` agent runs one scoped
+ * preflight per commit batch, and a scoped run over 60 s wall is a FAIL. Within a selected pytest gate
  * (placement, water, pipeline, workbench) only the test files the changed
  * files reach run (speed lane 2 S3: static import graph plus the tests'
  * literal paths, tooling/world-generation/scripts/select_tests.py, handed the
@@ -31,7 +32,8 @@
  * A failing pytest test is re-run once on a clean clone of HEAD and labelled
  * NEW or PRE-EXISTING (red on HEAD too, with the sha it was first seen red on
  * and "the lane that changed <file>"); results are cached per HEAD sha under
- * tooling/.reports/preflight/ (preflight_heads.mjs). The gate still fails.
+ * tooling/.reports/preflight/ (preflight_heads.mjs). A red on HEAD BLOCKS
+ * (decision 0106): it is listed by name and fixed at source, never tolerated.
  *
  * Parallelism is capped by jobs.mjs (ES_JOBS, else half the cores): at most
  * that many gates at once, pytest workers and vitest workers likewise, so a
@@ -42,7 +44,7 @@
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
 import { spawn, execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { availableParallelism } from "node:os";
 import { basename, join, dirname } from "node:path";
@@ -105,6 +107,15 @@ const runnerMode = process.argv.includes("--runner");
 // line); preflight only reports it so the log says which review it follows.
 const pathsIdx = process.argv.indexOf("--paths");
 const reviewPaths = pathsIdx < 0 ? [] : process.argv.slice(pathsIdx + 1).filter((_, i, a) => !a.slice(0, i + 1).some((t) => t.startsWith("--")));
+// Decision 0106 (owner 2026-09-28): a working-tree preflight is scoped, always.
+// The full run is the merge-day `--runner`; a bare `npm run preflight` is refused.
+if (!runnerMode && !reviewPaths.length) {
+  console.error("preflight: refused (decision 0106): name the batch's paths, `npm run preflight -- --paths <pathspec...>`; the full run is `npm run preflight -- --runner`, once before a merge to main.");
+  process.exit(2);
+}
+const startedAt = Date.now();
+// A scoped run over this many seconds is itself a red (0106: target < 30 s).
+const SCOPED_LIMIT_S = 60;
 const runnerEnv = runnerMode
   ? { ES_ASSET_PIPELINE_ROOT: mkdtempSync(join(tmpdir(), "no-vault-")), ES_VAULT_ROOT: "" }
   : {};
@@ -377,6 +388,7 @@ if (!runnerMode) {
 }
 
 let failed = 0;
+const headReds = [];
 console.log("\npreflight — every deploy gate, run together\n");
 for (const r of results) {
   const ok = r.code === 0;
@@ -397,14 +409,42 @@ for (const r of results) {
       const id = failedIds(l)[0];
       const x = id && tagged.get(id);
       const tag = !x ? "" : x.label === "PRE-EXISTING"
-        ? `PRE-EXISTING (red on HEAD, first seen ${x.firstSeen.slice(0, 8)}; owner: ${x.owner}) `
+        ? `RED ON HEAD (first seen ${x.firstSeen.slice(0, 8)}; last touched by: ${x.owner}) `
         : x.label === "NEW" ? "NEW " : "";
       console.log("      " + (tag + l.trim()).slice(0, 320));
     }
-    const pre = (labels[r.name] ?? []).filter((x) => x.label === "PRE-EXISTING").length;
-    if (pre) console.log(`      ${pre} of ${labels[r.name].length} failing tests are PRE-EXISTING on HEAD: leave them to their owner, do not re-run for them`);
+    const pre = (labels[r.name] ?? []).filter((x) => x.label === "PRE-EXISTING");
+    if (pre.length) headReds.push(...pre.map((x) => x.id));
   }
 }
-console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(0, ...results.map((r) => r.seconds))}s` +
+// Decision 0106: a test red on HEAD blocks. It is fixed at source now, by
+// whoever meets it, never labelled and tolerated (16 runs on 2026-09-28 each
+// re-reported the same two HEAD reds).
+if (headReds.length) {
+  console.log(`\nBLOCKED: ${headReds.length} test(s) red on HEAD: fix at source before anything else (decision 0106):`);
+  for (const id of headReds) console.log(`      ${id}`);
+}
+const wallS = Math.round((Date.now() - startedAt) / 1000);
+const slow = !runnerMode && wallS > SCOPED_LIMIT_S;
+if (slow) console.log(`\nFAIL  scoped preflight took ${wallS}s, over the ${SCOPED_LIMIT_S}s limit (decision 0106): the selection is too wide; fix select_tests.py or the pathspec, never re-run as is.`);
+console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(0, ...results.map((r) => r.seconds))}s; wall ${wallS}s` +
   (selection.skipped.length ? `; skipped ${selection.skipped.join(", ")}` : "") + "\n");
-process.exit(failed ? 1 : 0);
+if (!runnerMode) writeStamp(reviewPaths, !failed && !slow);
+// One line per run for the weekly drift check (cost-review § Workflow drift).
+try {
+  appendFileSync(join(repoRoot, "tooling", ".reports", "preflight", "runs.jsonl"), JSON.stringify({
+    at: new Date().toISOString(), runner: runnerMode, paths: reviewPaths, wallS, passed: !failed && !slow,
+    gates: results.map((r) => [r.name, r.seconds]), headReds: headReds.length }) + "\n");
+} catch { /* a log line never fails a run */ }
+process.exit(failed || slow ? 1 : 0);
+
+// The once-per-batch stamp preflight_guard.py reads (decision 0106): the
+// pathspec, HEAD and a hash of the diff under it. The guard refuses the same
+// run again until a commit or an edit under those paths.
+function writeStamp(paths, passed) {
+  try {
+    const out = execFileSync("python3", [join(repoRoot, "tooling", "repo-standards", "hooks", "preflight_guard.py"), "--stamp", String(passed), ...paths],
+      { cwd: repoRoot, encoding: "utf8" });
+    if (out.trim()) console.log(out.trim());
+  } catch (e) { console.log(`preflight: stamp not written (${String(e.message).split("\n")[0]})`); }
+}

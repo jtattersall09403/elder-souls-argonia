@@ -14,7 +14,7 @@ Five kinds of thing, one folder each. Nothing else lives at the root.
 | [world/](world/README.md) | plan | the world-generation master plan, one module per topic; [00-core](world/00-core.md) is read in full every session |
 | [quests/](quests/README.md) | plan | the quest and narrative master plan; `index/` is generated from the quest data |
 | [phases/](phases/README.md) | schedule | the build sequence (§85–87, one section per phase) and, per planned phase, a folder with the plan and one brief per chunk ("deliver 16a"); [P-polish/backlog.md](phases/P-polish/backlog.md) is Phase P; [buildout/](phases/buildout/README.md) is what comes after the world build |
-| [standards/](standards/engineering.md) | rules | [engineering.md](standards/engineering.md) (the standing rules, checked by `npm test`) and [text/](standards/text/README.md) (style guide, culture registers, review process) |
+| [standards/](standards/engineering.md) | rules | [engineering.md](standards/engineering.md) (the standing rules, checked by `npm test`), [hooks.md](standards/hooks.md) (what each hook refuses, the lines to paste; 0106) and [text/](standards/text/README.md) (style guide, culture registers, review process) |
 | [decisions/](decisions/README.md) | rules | short numbered records of why things are the way they are |
 | [research/](research/README.md) | knowledge | reusable findings in themed folders, each indexed; `archive/` is provenance only |
 | [evidence/](evidence/) | evidence | images written by tooling for owner review, linked from PROGRESS |
@@ -59,6 +59,7 @@ touches something no row names, open the nearest folder README and judge.
 | Stats, skills, progression, levelling | [world/76](world/76-stats-progression.md) §116–129 (the decided design) | the code and tables: [../packages/game-core/src/stats/README.md](../packages/game-core/src/stats/README.md), the lab [../apps/stats-lab/](../apps/stats-lab/README.md), [phases/lanes/stats-lab-lane.md](phases/lanes/stats-lab-lane.md); history in [research/archive/workstream-s/](research/archive/workstream-s/README.md) |
 | Writing or reviewing any player-visible text; how an NPC sounds | [standards/text/README.md](standards/text/README.md) | the [text-review](../.claude/skills/text-review/SKILL.md) skill, [research/text-and-voice/](research/text-and-voice/README.md) |
 | Writing any code or prose: the standing rules | [standards/engineering.md](standards/engineering.md) | [0042](decisions/0042-buildout-steers-and-engineering-standards.md) |
+| Preflight, review, lane budgets, miner runs, hooks: how we work | [0106](decisions/0106-how-we-work-fix-at-source-one-preflight-per-batch-scoped-for-real.md), [standards/hooks.md](standards/hooks.md) | [cost review 2026-09-28](research/process/workflow-cost-review-2026-09-28.md) |
 | Which subagent or skill to use, agent cost and session length | [decisions/0079](decisions/0079-cheap-hands-expensive-head-agent-cost-controls.md) | the five agents in [../.claude/agents/](../.claude/agents/) (find, run, preflight, deliver, research) · the skills in `.claude/skills/` · `/cost-review` and [research/agent-ops/](research/agent-ops/README.md) for the periodic cost check |
 | "Why is X the way it is?" | [decisions/README.md](decisions/README.md) | — |
 | Deferring cosmetic work; picking up Phase P | [phases/P-polish/backlog.md](phases/P-polish/backlog.md) | — |

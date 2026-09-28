@@ -3,6 +3,8 @@
 **Date:** 2026-09-19 · **Status:** accepted (owner asked for a cost cut
 without a quality cut; measured, proposed, approved the same day).
 
+> **Partly superseded by [0106](0106-how-we-work-fix-at-source-one-preflight-per-batch-scoped-for-real.md)** (2026-09-28): rule 8's review of non-code diffs and its 20 min fix window.
+
 ## The measurement
 
 `python3 tooling/repo-standards/session_tokens.py --last 25` on the

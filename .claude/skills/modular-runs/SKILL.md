@@ -90,10 +90,11 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     `docs/research/placement-settlements/settlement-kit-sourcing-log.md`
     (source, version, sha256, what is taken); root `README.md` § Credits.
     Tests: `test_asset_registry.py test_mine_assemblies.py test_mine_designed_sink.py`.
-15. Mine that set as a sample (E) with `--set <id> --plugin <esp> --world
-    <worldspace> --names <Skyrim.esm>`, then add it to the full run.
+15. A piece or set joining the pool is mined into the record with
+    `python3 -m worldgen.mine_abuts --assets <ids> --merge` (seconds;
+    decision 0106); a full run (E) is only for a miner rule change.
 
-## E. Re-mining abuts (sample first, fresh batch, scale once)
+## E. Re-mining abuts after a miner RULE change (sample first, fresh batch, scale once)
 
 16. Write expectations first to a file (pairs, faces, `joint`, offset, count,
     ends, terminates) for a named sample directory; K10's shape:
@@ -108,7 +109,7 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
 19. One full run, all five sets (`vanilla`, `bmv-blackmarsh`, `bmv-valenwood`,
     `htbm`, `kotm`; plugin and worldspace arguments as `sets.*.plugins` /
     `worldspaces` in `$R`, kotm as step 15) under
-    `bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_abuts … --write`
+    `bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_abuts … --write --rule-change`
     (0099 decision 8; job_guard runs it under memwatch). Overnight, when
     nothing else is queued (kit-mining §5).
     K9/K10: 251–278 s, cgroup peak 4.50–5.34 GiB; nothing else heavy alongside.

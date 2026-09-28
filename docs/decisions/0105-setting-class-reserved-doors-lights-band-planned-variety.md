@@ -88,7 +88,10 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
    the dwelling's footprint except shells, pads, ground treatments and
    modular-run pieces. 0098's vanilla numbers counted pieces, so the bar
    now counts the same thing (steps, annexes, fire sockets and props all
-   count; the house shell, pads and runs do not).
+   count; the house shell, pads and runs do not). R33 names the classes:
+   natural references (trees, rocks, wild plants: the frozen world's layer)
+   and markers are excluded; crops, steps, porches, doors, smoke, fire and
+   clutter count.
 7. **R7 Owner calls.** Type 10 stays on the type list. Argonian hanging
    lanterns hang wherever the builder judges they look good (branches,
    arches, eaves, posts), verified by the reader pass. The Phase 15 walk
@@ -98,158 +101,12 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
    carry a scale bar and a north arrow only; piece ids, bearings and
    captions appear only behind `--labels`.
 
-## Addendum (walk 3 wave 2, 2026-09-28): planner rulings R9–R13
+## Later rulings R9–R55: one table (decision 0106)
 
-9. **R9 The setting-class licence has two axes** (refines R1).
-   (i) Interior/exterior is strict for shells, structures and fixtures
-   (lights, and any piece 1 m or more in some dimension); small dressing,
-   under 1 m in every dimension (kit `sizeM` times the placed scale) and
-   no light, is exempt from it. (ii) Social scale: `keep` is exclusive
-   (keep pieces never stand in a village, camp or hamlet, and a keep takes
-   only keep-licensed pieces); `town`, `village` and `camp` are one
-   settlement pool; `ruin` pieces stand only at ruins. A piece whose plugin
-   sets no location class (`wild` or unmeasured) is judged on axis (i)
-   only. A place's own class is the `settingClass` field of its
-   `world/sources/catalogue/type-recipes.json` row (the 16k types 1 and 2
-   are `village`); first derived from the rule the gate held in code
-   (camp, ruin and martial classes → camp, ruin, keep; major-city and
-   free-port families and `-town`/`-city` types → town; else village).
-10. **R10 A reserved door on a dwelling, workplace, shop or store parcel
-    fails** the `interiors.reserved` gate (use bucket dwelling, work or
-    storage, or a trader, shop, smith, lodging or stable service).
-    Reserved is legal on tier B/C rows only (R2).
-11. **R11 Window glows are emissive only, never a point light.** Lit
-    counts step 0/4/8/16 (padded with zero-intensity lights) so the shader
-    never recompiles; flame sprites are drawn to 250 m.
-12. **R12 Sink rows are measured against the master's ground** when a
-    plugin overrides a master reference; the lowest-vertex fallback is
-    recorded as `fallback: true` and counted in the miner's report, never
-    silently.
-13. **R13 Method finding H (a brief generator marking the delta lines) is
-    dropped for now:** the briefs share no lines with the type sheets.
-    Finding G (the round hand-off state) is delivered: `wb round` writes
-    the place's round folder by default, `--waiting-on` writes
-    `waiting-on.json`, and the `ownerOkRule` check fails an op accepted at
-    git HEAD (`ownerOk`) that changed without a `cause`.
-
-## Addendum 2 (walk 3 wave 2 close, 2026-09-28): planner rulings R14–R30
-
-These are planner rulings on the wave-2 lanes' recommendations (no owner
-words were given for them).
-
-14. **R14 Small dressing** (R9 axis i's exemption) is a piece whose largest
-    dimension (kit `sizeM` times the placed scale) is under 1.2 m and that
-    is no light (`SMALL_DRESSING_M`). This supersedes R9's "under 1 m in
-    every dimension".
-15. **R15 Vehicles and water craft are class `vehicle`**, exempt from
-    axis (i): their mods place them by script. The craft are the
-    `watercraft-v1` kit's hulls and oars (its config is the one list; the
-    anchor, loose planks and wrecks are no craft); the setting-class miner
-    writes `vehicle: true` on their rows and the manifests carry it.
-16. **R16 A ruin place takes ruin-licensed pieces plus the pieces of the
-    culture that built it:** a village-ruin type (burn-scar, drowned,
-    plague-abandoned, Umbriel-stripped village, subsidence hamlet,
-    rebuilt-elsewhere footprint) carries `builtBy: village` on its recipe
-    row and takes the village pool too. `keep` stays exclusive; R22 opens
-    it inside a keep-built ruin only.
-17. **R17 A type's `settingClass` follows its kind** (the recipe's class,
-    family and type), derived by `place_gates.derive_setting_class`,
-    never set by hand: lairs, lone curiosities and wild shrines are
-    `wild`; patrol shelters, beacons and holding pits `camp`; keeps,
-    forts, prisons and watchtowers `keep` (the last two by R21; every
-    other martial type `camp`); ruins
-    `ruin`; cities, free ports and `-town`/`-city` types `town`; the rest
-    `village`. A `wild` place admits every pool but the keep's. A test
-    fails when a row differs from its derivation.
-18. **R18 An open-fronted piece with no door that its own plugin places
-    outdoors is walked into** (`interior: none`, `walkedInto: true`),
-    never `shell` or `promised`: `interiors_index.walk_in_open_front`
-    (the Riften stable `rtstables01`).
-19. **R19 Sink miner, scaled and shallow-water references.** In the
-    whole-population rule a scaled reference is divided by its scale and
-    counts; a tree (a TREE base record at least 3 m tall) standing in
-    water under 2 m deep counts as on the ground. The full run's
-    unit-scale sample still never mixes scales.
-20. **R20 Manifest `lodLevels` is the number of LOD levels the GLB
-    actually carries** (read from the GLB as the runtime reads it);
-    `lodRatios` stays the configured chain. The compile keeps throwaway
-    probe kits out by their `probe-` kit id, never by the LOD count, so the
-    222 alpha-tested rows built with one level (chickennest01 among them)
-    are truthful and still placeable.
-21. **R21 Prisons, jails, watchtowers and guard towers are `keep`**. This
-    matches the setting-class miner, which already reads `LocTypeJail` and
-    `LocTypeGuardTower` as keep. The types are `prison-ruin`,
-    `reoccupied-prison` and `watchtower` (`KEEP_TYPES`).
-22. **R22 A ducal or fort ruin takes the keep pool** (`builtBy: keep`,
-    `KEEP_RUIN_TYPES`). `ducal-ruin` is the one such ruin-class type; the
-    forts themselves (`abandoned-fort`) are already `keep`. The keep pool opens only inside that
-    ruin place; everywhere else `keep` stays exclusive.
-23. **R23 A class licence on axis (ii) needs at least 2 references.** A
-    piece placed once holds its setting (axis i) but no class, and the
-    gate reports it NOT_MEASURED on axis (ii) (`CLASS_MIN_REFS`,
-    setting-class miner version 3; `genericwell01`, placed once at a keep).
-24. **R24 A hand row the miner now measures is deleted.** The
-    `histflower01/02-sick` rows in `placement-policies.json` were deleted once the
-    sink miner resolved texture variants to their base's row.
-25. **R25 The Riften stable sits at sink 0.** A reviewed `assetPlacement` row
-    (`rtstables01`, designedSinkM 0.0) replaces the mesh-sill fallback (-0.91 m;
-    RiftenWorld has no LAND), and the layout carries no hand `y`.
-26. **R26 A `work` parcel takes a workplace cell.** `USE_CLASSES` gains
-    `work: (smithy, workshop, storage)` (`blueprint_interiors.py`). Claywater's
-    store hut is a `work` parcel and takes KeebaHouseSnailMinder.
-27. **R27 The stable is walked into.** It has no door record. The keeper's home
-    is the station house, and the design brief says so.
-28. **R28 A shell's porch face is a run end only when the plugin pairs it in
-    at least 2 placements**; otherwise it is optional. At Claywater the barn it
-    was raised for is gone, so no place uses it yet.
-29. **R29 The `histflower01-sick` sink goes through the miner.** Only its own row
-    is re-mined; until the row lands, places use `histflower02-sick`.
-30. **R30 Every REQUEST row is closed.** Each row is either applied or answered
-    with the rule that refuses it.
-
-## Addendum 3 (method review r5 follow-ups, 2026-09-28): planner rulings R31–R40
-
-Planner rulings on method review round 5
-(`tooling/.reports/16k/walk3/method-review-r5.md`, findings A–H and its
-table of gates that cannot fail). One line each in the place-build skill's
-`references/rulings.md`, which orient reads instead of the lane reports.
-
-31. **R31 A building op is legal only on a fresh scan.** A `place` op with a
-    `pad` that is new or whose asset, pose or pad changed since HEAD fails
-    `scanFreshRule` unless a scan output written after HEAD's commit of the
-    layout holds its asset and pose (radius plus half a step, yaw within half
-    the scanned spacing). A brief names the need, never the site.
-32. **R32 Ledger runs are keyed by place and walk.** The runId is
-    `<place>#walk-<N>`, N the owner walk the run answers (0 for the first
-    build); an orient stage of a place with a run names `--walk N`, and one
-    that would join an earlier walk's run is refused. The walk-3 rows were
-    re-keyed (Claywater walk 3, Greenspring walk 1) and booked with hand rows
-    from the lane reports.
-33. **R33 The per-dwelling dressing bar is re-derived under R6's count** from
-    the same vanilla places 0098 measured, the count rule and the bar from
-    one measurement, written with the measurement. Open: not yet measured
-    (lane L15 report).
-34. **R34 A sourcing candidate in any brief cites its record row** (setting
-    class, sink, mounts or links) or is marked UNVERIFIED; a survey by
-    filename is a lead, never a fact.
-35. **R35 The packet's "What changed" lines are generated from the layout
-    diff** (`wb.py whatchanged`), each piece named by its manifest
-    `displayName`; packet prose is under R5.
-36. **R36 A placed tree, piece of architecture, or piece 3 m or taller whose
-    sink is the mesh-sill fallback is listed by gate `sink.fallback`**, and
-    the place is not green. Craft (R15) are exempt.
-37. **R37 `interiors.variety` computes "exhausted"**: every cell the fit rule
-    accepts for the door's parcel, over the claim table, is used in the
-    region. The claim's `why` is never read.
-38. **R38 `lights.density` counts neighbouring places' fixtures** (every
-    published place and route bundle in `settlements/index.json`) within the
-    band.
-39. **R39 The place-build skill stays at most 450 lines**
-    (`test_place_build_skill.py`); rulings live as one line each in its
-    `references/rulings.md`.
-40. **R40 Decision 1 drops the sconce and keep-stable sentences** (premises,
-    not facts: no sconce was placed; the stable ends measure town) and the
-    martial mapping points to R17.
+The four planner addenda that stood here (R9–R50) and every later ruling
+are rows of [`.claude/skills/place-build/references/rulings.md`](../../.claude/skills/place-build/references/rulings.md),
+the only home of the place rulings (0106: a ruling is a row, never an
+addendum). Addenda 1–3 in full are in git at `961a993f` of this file.
 
 ## Where each lives
 

@@ -1935,9 +1935,23 @@ def main() -> None:
         ap.error("--force and --stamp-only contradict each other")
     if args.kit:
         build(args.kit, Path(args.vault), force=args.force, stamp_only=args.stamp_only)
-        return
-    build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
-               force=args.force, stamp_only=args.stamp_only)
+    else:
+        build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs,
+                   force=args.force, stamp_only=args.stamp_only)
+    refresh_abuts_derived()
+
+
+WORLDGEN_DIR = Path(__file__).resolve().parents[2] / "world-generation"
+
+
+def refresh_abuts_derived() -> None:
+    """The abuts record's kit-dependent list (singleUse) follows the built
+    kits (familyPairs are never rewritten by a build): a kit build that adds structural pieces re-derives them
+    here (~0.5 s), so the record never goes stale behind a kit (the red
+    test_the_record_single_use_is_the_derived_set, 2026-09-28)."""
+    import subprocess
+    subprocess.run([sys.executable, "-m", "worldgen.mine_abuts", "--refresh-derived"],
+                   cwd=WORLDGEN_DIR, check=True)
 
 
 if __name__ == "__main__":

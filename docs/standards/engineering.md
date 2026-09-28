@@ -440,6 +440,15 @@ count is pinned per place and only falls); every family in
 
 ## Running the checks
 
+**How the checks are run** (decision 0106): one scoped `npm run preflight
+-- --paths <batch>` per commit batch, by the planner's `preflight` agent
+(never for a docs-, report- or rulings-only batch; a scoped run over 60 s
+fails); the full `--runner` run once before a merge to main; a red on HEAD
+blocks until fixed at source. Every Agent or Workflow brief that launches a
+deliver lane carries the line `Budget: <N> min (hard)`, and heavy jobs run
+under `job_guard.sh <lane> --budget <N>`. A new gate costs under 5 s and
+answers a failure class seen twice. Hooks: [hooks.md](hooks.md).
+
 ```
 npm test                     # from the repo root — includes repo-standards
 npm test -w @elder-souls/repo-standards     # just these checks

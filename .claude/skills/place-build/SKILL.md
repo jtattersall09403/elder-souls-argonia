@@ -9,7 +9,7 @@ description: Design and build one real place (settlement, camp, shrine, works, d
 > decisions 0097, 0098, 0099, 0100 (this skill's architecture), 0101,
 > 0102 (a place carries its own ground; no unfinished hand-off), 0103
 > (tier A interiors ship in 16k; every promise a placed socket), 0105
-> (walk-3 rulings, [references/rulings.md](references/rulings.md)), 0081
+> (rulings: [references/rulings.md](references/rulings.md), 0106), 0081
 > decisions 3–4; the 16k brief
 > (`docs/phases/16-foundation-and-places/16k-place-loop.md`) § The loop,
 > § The checklist, § Owner check-ins; world 97 (binding rules) and 96 §2
@@ -20,7 +20,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 
 | File | What it is | Read |
 |---|---|---|
-| [references/lessons.md](references/lessons.md) | every lesson still in force, each with the gate that enforces it | step 0, the rows for this type as the site packet lists them; edited in the fix round |
+| [references/lessons.md](references/lessons.md) | the lessons store's index (sections in `lessons/`, per-type index; 0106): every lesson still in force, each with its gate | step 0, only the rows the site packet lists for this type; a section file when a job needs it |
 | [references/design-index.md](references/design-index.md) | one line per binding source or prior: the rule id and when it applies | step 0, the rows for this type, culture and step |
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
@@ -28,7 +28,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/round-recipe.md](references/round-recipe.md) | the timetable of one round: what fans out, what the builder does itself, what is never done in a round | steps 2–4 and 7, before the first edit |
 | [references/creative-register.md](references/creative-register.md) | one row per built place: the creative calls made above its promises, so the next place makes different ones | step 1 § Creative register; appended at step 8 |
 | [references/rollout-packet-template.md](references/rollout-packet-template.md) | the spec the Phase 15 packet template meets (16j item 8) | at the loop's exit only |
-| [references/rulings.md](references/rulings.md) | the walk-3 rulings (0105 R1–R40), one line each with the gate that enforces it | step 0; read this table, never the lane reports (R39) |
+| [references/rulings.md](references/rulings.md) | every place ruling (R1–R55), one row each with its gate and source; the ONLY home of a ruling (0106) | step 0; read this table, never the lane reports (R39) |
 | [references/builder-practice.md](references/builder-practice.md) | how the builder works: recommend and do, fan out, scan before editing, one batch per round, per-place files, proven-type fast path | once per slice, before step 0 |
 | [references/brief-sections.md](references/brief-sections.md) | what § Interiors, § Containers and items, § Creative register, § Sockets, § Quests and § Seams must say | step 1 |
 | [references/fix-round-brief-template.md](references/fix-round-brief-template.md) | the planner's fix-round brief: needs, never sites; sourcing candidates cite their record row | step 7 (planner) |
@@ -317,9 +317,9 @@ without that is an escalation to the planner, never a packet.
   packet in Phase 15): the yard regression gates
   (`worldgen/test_proving_ground.py`,
   `tooling/placement-workbench/tests/test_proving_ground_b.py`, 0099
-  decision 7), the integrator's REQUEST rows, the one `text-review`,
-  `npm run docs:check`, then `npm run preflight -- --paths <the batch's
-  files>`, the review and the deploy.
+  decision 7), the integrator's REQUEST rows, the one `text-review` (0106:
+  once per batch, here only), `npm run docs:check`, ONE `npm run preflight
+  -- --paths <the batch's files>` (0106; its review reads code only), deploy.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published; the batch gates run when the batch's last place gets here.

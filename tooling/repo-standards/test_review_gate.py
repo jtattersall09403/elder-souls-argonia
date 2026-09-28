@@ -131,8 +131,8 @@ def repo(tmp_path, monkeypatch):
         subprocess.run(["git", *a], cwd=tmp_path, check=True, capture_output=True)
     git("init", "-q")
     git("config", "user.email", "t@t"); git("config", "user.name", "t")
-    for d in ("a", "b"):
-        (tmp_path / d).mkdir()
+    for d in ("tooling/a", "tooling/b"):
+        (tmp_path / d).mkdir(parents=True)
         (tmp_path / d / "f.py").write_text("x = 1\n")
     git("add", "."); git("commit", "-qm", "init")
     claude = tmp_path / ".claude"
@@ -156,35 +156,35 @@ def run_hook(monkeypatch, cmd):
 
 def test_stamp_for_pathspec_a_does_not_satisfy_pathspec_b(repo, monkeypatch):
     root, calls = repo
-    (root / "a" / "f.py").write_text("x = 2\n")
-    (root / "b" / "f.py").write_text("x = 3\n")
-    assert run_hook(monkeypatch, "npm run preflight -- --paths a") == 0
-    assert len(calls) == 1 and "a/f.py" in calls[0] and "b/f.py" not in calls[0]
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    (root / "tooling/b" / "f.py").write_text("x = 3\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    assert len(calls) == 1 and "tooling/a/f.py" in calls[0] and "tooling/b/f.py" not in calls[0]
     # same pathspec again, inside the fix window: satisfied by A's stamp
-    assert run_hook(monkeypatch, "npm run preflight -- --paths a") == 0
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
     assert len(calls) == 1
     # pathspec B: A's stamp (and its fix window) must not satisfy it
-    assert run_hook(monkeypatch, "npm run preflight -- --paths b") == 0
-    assert len(calls) == 2 and "b/f.py" in calls[1] and "a/f.py" not in calls[1]
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 0
+    assert len(calls) == 2 and "tooling/b/f.py" in calls[1] and "tooling/a/f.py" not in calls[1]
     # whole tree: neither pathspec stamp satisfies it
-    assert run_hook(monkeypatch, "npm run preflight") == 0
-    assert len(calls) == 3 and "a/f.py" in calls[2] and "b/f.py" in calls[2]
+    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0
+    assert len(calls) == 3 and "tooling/a/f.py" in calls[2] and "tooling/b/f.py" in calls[2]
     stamps = json.load(open(review_gate.STAMP))["stamps"]
-    assert set(stamps) == {"a", "b", "*"} and stamps["a"]["paths"] == ["a"]
+    assert set(stamps) == {"tooling/a", "tooling/b", "*"} and stamps["tooling/a"]["paths"] == ["tooling/a"]
 
 
 def test_size_limit_measured_on_pathspec_diff_only(repo, monkeypatch):
     root, calls = repo
-    (root / "a" / "f.py").write_text("x = 2\n")
-    (root / "b" / "f.py").write_text("y = 1\n" * (review_gate.MAX_DIFF_BYTES // 6 + 10))
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    (root / "tooling/b" / "f.py").write_text("y = 1\n" * (review_gate.MAX_DIFF_BYTES // 6 + 10))
     # the whole tree is over the limit: refused before any review
-    assert run_hook(monkeypatch, "npm run preflight") == 2
+    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 2
     assert calls == []
     # pathspec a is small: reviewed, although the tree is over the limit
-    assert run_hook(monkeypatch, "npm run preflight -- --paths a") == 0
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
     assert len(calls) == 1 and len(calls[0]) < 1000
     # pathspec b alone is over the limit: refused
-    assert run_hook(monkeypatch, "npm run preflight -- --paths b") == 2
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 2
     assert len(calls) == 1
 
 
@@ -198,8 +198,20 @@ def test_legacy_single_stamp_reads_as_whole_tree(repo, monkeypatch):
 def test_per_place_prose_never_enters_the_review_diff(repo, monkeypatch):
     """Design briefs and site dossiers are text-review's (walk 3 L8 rec 6)."""
     root, _ = repo
-    for rel in ("world/sources/sites/dossiers/p.md", "world/sources/blueprints/p.design.md", "a/g.py"):
+    for rel in ("world/sources/sites/dossiers/p.md", "world/sources/blueprints/p.design.md", "tooling/a/g.py"):
         (root / rel).parent.mkdir(parents=True, exist_ok=True)
         (root / rel).write_text("y = 2\n")
     d = review_gate.current_diff()
-    assert "a/g.py" in d and "dossiers/p.md" not in d and "p.design.md" not in d
+    assert "tooling/a/g.py" in d and "dossiers/p.md" not in d and "p.design.md" not in d
+
+
+def test_a_batch_with_no_code_is_never_reviewed(repo, monkeypatch):
+    """Decision 0106: docs, data, world records and reports are not reviewed."""
+    root, calls = repo
+    for rel in ("docs/decisions/0106-x.md", "world/sources/blueprints/p.layout.json",
+                "tooling/.reports/16k/r.md", "tooling/a/config.json"):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text("prose or data\n")
+    assert review_gate.current_diff() == ""
+    assert run_hook(monkeypatch, "npm run preflight -- --paths docs world tooling/.reports tooling/a") == 0
+    assert calls == []

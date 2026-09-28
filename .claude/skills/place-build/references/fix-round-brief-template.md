@@ -6,7 +6,10 @@ site cost ~45 min of trial applies (finding B), and briefs that carried
 candidates from a filename survey carried false links (finding F).
 
 1. **Run:** place id, walk number N (`build_ledger.py stage ... --walk N`,
-   R32), budget, report path.
+   R32), report path, and the line `Budget: <N> min (hard)` (0106: the
+   `preflight_guard` hook refuses a deliver lane without it; heavy jobs run
+   under `job_guard.sh <lane> --budget <N>`; at the stop the lane writes what
+   is green and the next step, and returns).
 2. **Owner items, by cause:** each cause in one line, with the owner's
    words quoted.
 3. **Needs, never sites** (R31): what a building must do ("a stable the

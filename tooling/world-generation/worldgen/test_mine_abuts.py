@@ -201,3 +201,34 @@ def test_family_of_memo_matches_the_plain_function():
         assert mine_abuts.family_of(asset) == plain(asset) == mine_abuts.family_of(asset)
     assert mine_abuts.family_of("meshes/architecture/walls/mwimparchwalltower01") \
         == "meshes/architecture/walls/mwimparchwall"
+
+
+RTSTABLES = "vanilla:architecture/riften/rtstables01"
+
+
+def test_merge_of_the_records_own_rows_gives_the_full_run_record():
+    """0106 incremental mining: an ``--assets`` run folded in by ``merge_abuts``
+    re-derives every list exactly as the full run did. The part is the full
+    run's own rows for the rtstables01 scope (and a keep wall family, which
+    has pairs), so the merged record must equal the record."""
+    from .mine_abuts import bounds_of, merge_abuts, merge_scope
+    section = json.loads(RECORD.read_text()).get("abuts") or {}
+    kits = kit_rows()
+    if not section or not kits:
+        pytest.skip("abuts not mined or no raw kits built")
+    boxes = {a: bounds_of(row) for a, row in kits.items() if bounds_of(row)}
+    walls = next((p["parent"] for p in section["pairs"] if p["joint"] == "run"), RTSTABLES)
+    for asset in (RTSTABLES, walls):
+        fams, pieces = merge_scope([asset], boxes)
+        part = {"scope": {"assets": [asset], "families": sorted(fams), "pieces": sorted(pieces)},
+                "pairs": [p for p in section["pairs"]
+                          if p["parent"] in pieces or p["child"] in pieces],
+                "familyPairs": [p for p in section["familyPairs"]
+                                if p["parent"] in fams or p["child"] in fams],
+                "placedAssets": {a: n for a, n in section["placedAssets"].items() if a in pieces},
+                "terminates": {a: f for a, f in section["terminates"].items() if a in pieces}}
+        merged = merge_abuts(section, part, kits)
+        for key in ("pairs", "familyPairs", "placedAssets", "placedNoPairs", "endFaces",
+                    "doubleFaces", "terminates", "familyTerminates", "families", "singleUse"):
+            assert merged[key] == section[key], (asset, key)
+        assert merged["provenance"]["merges"][-1]["assets"] == [asset]

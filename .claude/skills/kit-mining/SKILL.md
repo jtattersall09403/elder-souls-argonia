@@ -110,9 +110,16 @@ and that a record never mined. `--sample` never writes a tracked record.
 
 ## 5. The ONE full run (only after a batch passes with no code change)
 
+**A piece joining the pool is never a full run** (decision 0106): mine it
+with `--assets <ids> --merge` on each miner (seconds; abuts: the pieces'
+families re-mined, rows keyed by (parent, child), lists re-derived from the
+merged rows, 13.7 s for a wall family with rows identical to the full run;
+mounts and sink replace those assets' rows). A full run is ONLY for a miner
+rule change, is named as such in the brief, and carries `--rule-change`
+(the `preflight_guard` hook refuses a full miner run without it).
+
 Scheduling (16k hand-off ruling 5; 0099 decision 8): inside a slice, mine
-per kit on demand (`mine_abuts --set <id>` or `--only`; `mine_mounts --assets
-<ids>`, which prints and writes nothing). The full-pool run is
+per kit on demand (`--assets … --merge`, above). The full-pool run is
 an overnight job at the lowest priority, launched only when nothing else is
 queued, and always through the guard,
 `JG='bash ../repo-standards/job_guard.sh miner --'` (it runs the command
@@ -121,15 +128,15 @@ under memwatch; run from `$W`).
 17. Headroom: `awk '/^(anon|shmem) /{s+=$2}END{print s/2^30}'
     /sys/fs/cgroup/memory.stat`; memwatch ceilings are cgroup-wide (ledger §6
     B); one heavy job per lane; no other lane's kit build or full run beside it.
-18. Mounts: `cd $W && $JG python3 -m worldgen.mine_mounts --quiet` (default
+18. Mounts: `cd $W && $JG python3 -m worldgen.mine_mounts --quiet --rule-change` (default
     `--jobs 5`; workers start from a forkserver, `mine_mounts.py:1153`: a fork
     copied 1.5 GB into each, 10 GiB, killed twice, M10). M16: 806 s, 7.22 GiB.
     Needs the mesh cache: `--dump-meshes` first when `meshesMissing` > 0.
 19. Sink (rule change in the sink): `cd $W && $JG python3 -m
-    worldgen.mine_designed_sink` (M10/M11: ~900 s, 6.3–6.9 GiB).
+    worldgen.mine_designed_sink --rule-change` (M10/M11: ~900 s, 6.3–6.9 GiB).
     Always after mounts or a kit rebuild: `--complete-only` (swap, base,
     mesh-sill rows; seconds). Report p50 changes (count, median, max).
-20. Abuts: the sample command over every set, no `--only`, plus `--write`
+20. Abuts: the sample command over every set, no `--only`, plus `--write --rule-change`
     (K9 278 s / 5.34 GiB; K10 251 s / 4.50 GiB).
 21. Stale if skipped: an INTERIM record is not a record (M7–M13); a full run
     before the batch is scored is invalid (M13).

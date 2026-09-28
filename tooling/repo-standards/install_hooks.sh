@@ -14,6 +14,7 @@ hooks_dir="$(git -C "$repo" rev-parse --git-path hooks 2>/dev/null)" || exit 0
 mkdir -p "$hooks_dir"
 for src in "$repo"/tooling/repo-standards/hooks/*; do
   name="$(basename "$src")"; dst="$hooks_dir/$name"
+  [[ "$name" == *.* ]] && continue   # a Claude hook script (preflight_guard.py), not a git hook
   if [[ -L "$dst" && "$(readlink -f "$dst")" == "$src" ]]; then continue; fi
   if [[ -e "$dst" || -L "$dst" ]]; then echo "install_hooks: $dst exists and is not ours; left alone" >&2; continue; fi
   ln -sfn "$src" "$dst"

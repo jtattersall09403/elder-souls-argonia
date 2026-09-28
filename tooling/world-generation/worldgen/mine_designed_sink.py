@@ -1290,6 +1290,9 @@ def _main(argv: Iterable[str] | None = None) -> int:
                         help="sample-first batch: measure N seeded kit assets (plus "
                              "--assets) and write them to --out, never the record")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--rule-change", action="store_true",
+                        help="names a full run as one a miner rule change needs (the "
+                             "preflight_guard hook refuses a full run without it, 0106)")
     parser.add_argument("--assets", nargs="+", default=[],
                         help="with --sample: always include these asset ids")
     parser.add_argument("--merge", action="store_true",

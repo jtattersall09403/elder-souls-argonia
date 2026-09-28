@@ -4,6 +4,8 @@
 planner during 16h part 1's fix round). Amends 0079 rule 15 and 0074 §1;
 extends 0079 §8 (the review gate).
 
+> **Partly superseded by [0106](0106-how-we-work-fix-at-source-one-preflight-per-batch-scoped-for-real.md)** (2026-09-28): §3 "a lane preflights its own files" and "no lane cap".
+
 ## What was decided
 
 1. **Opus decides when the decision is delegated.** 0079 rule 15 ("Opus

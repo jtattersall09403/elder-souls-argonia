@@ -3,10 +3,12 @@
 run BY THIS HOOK, so the orchestrator never has to remember it.
 
 On `npm run preflight` (or preflight.mjs):
+  0. decision 0106: only CODE is reviewed (.py .ts .tsx .mjs .js under
+     packages/ apps/ tooling/); a batch with no code change -> allow, no review
   1. no uncommitted change              -> allow
   2. stamp matches the current diff      -> allow (already reviewed)
-  3. a WORKING-TREE stamp younger than FIX_WINDOW min -> allow (the fix cycle
-     after a review); a `--range` stamp never exempts the working-tree diff
+  3. a WORKING-TREE stamp younger than FIX_WINDOW min (60, one review per
+     commit batch, 0106) -> allow (the fix cycle after a review); a `--range` stamp never exempts the working-tree diff
   4. otherwise run a headless Opus 5.5 (medium) review of the diff (read-only tools),
      write .claude/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
@@ -38,7 +40,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 STAMP = os.path.join(ROOT, ".claude", "review-stamp.json")
 FINDINGS = os.path.join(ROOT, ".claude", "review-findings.md")
 FINDINGS_RANGE = os.path.join(ROOT, ".claude", "review-findings-range.md")
-FIX_WINDOW_MIN = 20
+FIX_WINDOW_MIN = 60   # 0106: one review per commit batch; the batch's fix cycle is covered
 MAX_DIFF_BYTES = 250_000
 TIMEOUT_S = 540
 MODEL = "claude-opus-5-5[1m]"  # owner 2026-09-19: Opus has headroom, review is judgement; 2026-09-23: Opus 5.5 at medium effort
@@ -252,21 +254,34 @@ EXCLUDE_SPECS = (":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock
 EXCLUDES = ("--", ".", *EXCLUDE_SPECS)
 
 
+# Decision 0106 (owner 2026-09-28): the review reads CODE only. Docs, data,
+# world records, ledgers and reports are covered by the prose linter, the
+# standards checks and the place gates; 13 reviews on 2026-09-28 spent 36.5 M
+# tokens, docs-only diffs included.
+CODE_FILE = re.compile(r"^(packages|apps|tooling)/.+\.(py|ts|tsx|mjs|js)$")
+
+
+def is_code(path: str) -> bool:
+    return bool(CODE_FILE.match(path))
+
+
 def range_diff(rng):
-    """Diff of a committed range; a single rev means <rev>^..<rev>."""
+    """Code diff of a committed range; a single rev means <rev>^..<rev>."""
     if ".." not in rng:
         rng = f"{rng}^..{rng}"
-    return sh("git", "diff", rng, *EXCLUDES)
+    files = [f for f in sh("git", "diff", "--name-only", rng, *EXCLUDES).split() if is_code(f)]
+    return sh("git", "diff", rng, "--", *files) if files else ""
 
 
 def current_diff(paths=None):
-    """Uncommitted diff (tracked + small untracked text files), limited to `paths` when given."""
+    """Uncommitted CODE diff (tracked + small untracked code files), limited to `paths` when given."""
     spec = ("--", *paths, *EXCLUDE_SPECS) if paths else EXCLUDES
-    d = sh("git", "diff", "HEAD", *spec)
+    files = [f for f in sh("git", "diff", "--name-only", "HEAD", *spec).split() if is_code(f)]
+    d = sh("git", "diff", "HEAD", "--", *files) if files else ""
     others = ("--", *paths) if paths else ()
     for path in sh("git", "ls-files", "--others", "--exclude-standard", *others, *EXCLUDE_SPECS).split():
         full = os.path.join(ROOT, path)
-        if path.endswith((".py", ".ts", ".tsx", ".js", ".mjs", ".md")) and os.path.getsize(full) < 60_000:
+        if is_code(path) and os.path.getsize(full) < 60_000:
             with open(full, errors="replace") as f:
                 d += f"\n--- new file: {path}\n" + f.read()
     return d
@@ -361,6 +376,8 @@ def main():
         if not is_preflight_command(cmd):
             return 0
         paths = preflight_paths(cmd)
+        if paths is None and "--paths" not in cmd and "--runner" not in cmd:
+            return 0            # 0106: preflight.mjs refuses a bare run; never review for it
     if rng and paths:
         sys.stderr.write("[review gate] --range and --paths cannot be combined\n")
         return 2

@@ -103,11 +103,30 @@ def test_a_row_older_than_the_test_or_a_module_it_imports_is_not_used(monkeypatc
     assert TARGET not in st.select_changed("placement", [DATA])["selected"]
 
 
-def test_the_map_never_removes_what_the_literal_rule_selects(monkeypatch):
+def test_data_selects_by_the_map_only_never_by_the_literal_rule(monkeypatch):
+    """Decision 0106: the literal rule selected ~90 % of placement for any
+    record; a data file now selects only the tests whose row opened it (the
+    full --runner run before merge is the backstop for a file no row lists)."""
     st = _select()
     new_layout = "world/sources/blueprints/new-place.layout.json"       # created after the recording
     monkeypatch.setattr(st, "reads_map", lambda suite: {TARGET: (set(), 4e9)})
-    assert TARGET in st.select_changed("placement", [new_layout])["selected"]
+    assert st.select_changed("placement", [new_layout])["selected"] == []
+    monkeypatch.setattr(st, "reads_map", lambda suite: {TARGET: ({new_layout}, 4e9)})
+    assert st.select_changed("placement", [new_layout])["selected"] == [TARGET]
+
+
+def test_prose_readmes_and_reports_select_nothing_and_never_the_whole_suite():
+    st = _select()
+    for suite in ("placement", "workbench"):
+        got = st.select_changed(suite, ["tooling/world-generation/README.md",
+                                        "tooling/placement-workbench/README.md",
+                                        "docs/decisions/0106-x.md",
+                                        "tooling/.reports/16k/walk3/brief-L21.md"])
+        assert got["selected"] == [] and not got["all"], suite
+    # an unread non-.py file in the suite's own folder no longer selects the whole suite
+    unread = "tooling/world-generation/worldgen/testdata/" + "nobody-" + "reads.json"  # no literal here
+    got = st.select_changed("placement", [unread])
+    assert not got["all"] and len(got["selected"]) < 5     # only tests that walk that folder
 
 
 def test_a_red_recording_run_writes_a_row_the_selector_ignores(tmp_path, monkeypatch):

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-# job_guard.sh <lane> -- <command...>
+# job_guard.sh <lane> [--budget <min>] -- <command...>
+#
+# --budget (decision 0106): a hard wall-clock stop in whole minutes; at the
+# budget the job is killed (exit 124) after a checkpoint line lands in
+# tooling/.reports/budget/<lane>.checkpoint (ES_BUDGET_DIR overrides).
 #
 # The one way a heavy job runs (kit builds, Blender, miners, compiles,
 # preflight, npm test): owner ruling 2026-09-25, after the planner session died
@@ -53,8 +57,17 @@
 set -uo pipefail
 
 lane="${1:-}"
+budget_min=""
+# --budget <min> (decision 0106): the job is killed at its budget after a
+# checkpoint line is written to tooling/.reports/budget/<lane>.checkpoint.
+if [[ "${2:-}" == "--budget" ]]; then
+  budget_min="${3:-}"
+  [[ "$budget_min" =~ ^[0-9]+(\.[0-9]+)?$ ]] && awk -v m="$budget_min" 'BEGIN{exit !(m > 0)}' \
+    || { echo "job_guard: --budget needs minutes > 0" >&2; exit 2; }
+  set -- "$1" "${@:4}"
+fi
 if [[ -z "$lane" || "${2:-}" != "--" || $# -lt 3 ]]; then
-  echo "usage: job_guard.sh <lane> -- <command...>" >&2; exit 2
+  echo "usage: job_guard.sh <lane> [--budget <min>] -- <command...>" >&2; exit 2
 fi
 shift 2
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -142,8 +155,20 @@ while :; do
           # The slot is held by this script for the job's life; the job gets
           # no copy of the fd ({fd}>&-), so a process it leaves behind never
           # keeps the slot. memwatch logs the run with the lane in the tool line.
-          MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
-          code=$?
+          if [[ -n "$budget_min" ]]; then
+            began=$(date +%s)
+            MEMWATCH_LANE="$lane" timeout --kill-after=30 "${budget_min}m" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
+            code=$?
+            # the budget, not the job's own 124 or an OOM kill: the wall reached it
+            if (( code == 124 || code == 137 )) && awk -v e="$(( $(date +%s) - began ))" -v m="$budget_min" 'BEGIN{exit !(e >= m * 60 - 1)}'; then
+              ckdir="${ES_BUDGET_DIR:-$here/../.reports/budget}"; mkdir -p "$ckdir"
+              printf '%s BUDGET %s min reached, job killed (0106): %s\n' "$(date -u +%FT%TZ)" "$budget_min" "$*" >> "$ckdir/$lane.checkpoint"
+              say "BUDGET ${budget_min} min reached: killed; checkpoint line in $ckdir/$lane.checkpoint. Write what is green and the next step, and return."
+            fi
+          else
+            MEMWATCH_LANE="$lane" nice -n 10 ionice -c3 taskset -c "$cpus" "$here/memwatch.sh" "${mw_args[@]}" "$run_line" {fd}>&-
+            code=$?
+          fi
           : > "$lock_dir/slot-$i.lock"
           exit "$code"
         fi

@@ -38,10 +38,15 @@ tooling/world-generation), pipeline (tooling/asset-pipeline) and workbench
     compile_settlement), a code-only change 0-36 % (measured 2026-09-27).
 A conftest's closure joins a test's when the test requests one of its
 fixtures (by parameter name) or the fixture is autouse. The WHOLE suite is
-selected when a shared file changes (a package __init__, a conftest,
-pytest.ini, this script, requirements-test.txt) or when a non-.py file
-inside the suite's own folder matches no test literal (its readers are
-unknown).
+selected only when a shared file changes (a package __init__, a conftest,
+pytest.ini, this script, requirements-test.txt).
+DECISION 0106 (owner 2026-09-28, scoped means scoped): a .md, a README and
+anything under docs/, tooling/.reports/ or .claude/ selects no test; a DATA
+file (world/, apps/world-studio/public/, tooling/*/output/) selects only the
+tests whose test-reads row lists it, never by the literal rule (which
+selected ~90 % of placement for any kit or record); a non-.py file no
+literal names selects nothing (it used to select the whole suite). The full
+`--runner` run before a merge to main is the backstop for a missed reader.
 Under ES_TEST_CHANGED the tests marked `@pytest.mark.slow` are deselected
 (`--deselect`) unless their file was selected by its own inputs: the full
 run keeps them. `--summary` prints JSON {suite, total, selected, all,
@@ -327,6 +332,17 @@ READS_MAP = REPO / "tooling/world-generation/output/test-reads.json"
 DATA_ROOTS = ("world/", "apps/world-studio/public/")
 
 
+PROSE_ROOTS = ("docs/", "tooling/.reports/", ".claude/")
+
+
+def selects_nothing(rel: str) -> bool:
+    """Decision 0106 (owner 2026-09-28): prose, READMEs and reports select no
+    test. The prose linter and the review read them; no test does, and a
+    README inside a suite folder used to select the whole suite."""
+    name = rel.rsplit("/", 1)[-1]
+    return rel.endswith(".md") or name.startswith("README") or rel.startswith(PROSE_ROOTS)
+
+
 def _is_data(rel: str) -> bool:
     if rel.endswith(".py"):
         return False
@@ -374,7 +390,8 @@ def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -
     """{suite, total, selected: [test files, repo-relative], all, reasons: {test: why}, slow: [...]}"""
     cwd = SUITES[suite]
     tests = suite_tests(suite)
-    changed = sorted({c.strip().lstrip("./") for c in changed if c.strip()})
+    changed = sorted({c.strip().removeprefix("./") for c in changed if c.strip()})
+    changed = [c for c in changed if not selects_nothing(c)]   # prose and reports: no test reads them (0106)
     # a deleted or renamed module: its importers are not in the graph any more
     gone = [c for c in changed if c.endswith(".py") and not (REPO / c).exists()
             and c.startswith(("tooling/world-generation/", "tooling/asset-pipeline/", "tooling/placement-workbench/"))]
@@ -388,10 +405,9 @@ def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -
     confs = [c for c in CONFTESTS[cwd] if (REPO / c).is_file()]
     conf_fixtures = {c: _fixtures(c) for c in confs}
     reasons: dict[str, str] = {}
-    unmatched_own = []
-    literal_seen = set()
     mapped = reads_map(suite) if use_reads_map else {}
     data_changed = [c for c in changed if _is_data(c)]
+    literal_changed = [c for c in changed if not _is_data(c)]   # data selects by the reads map only (0106)
     for t in tests:
         files = _closure(t)
         used = _arg_names(t)
@@ -408,9 +424,8 @@ def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -
         if why is None:                                   # literal paths in the test and its direct imports
             for f in [t, *sorted(files - {t})]:
                 for lit in sorted(_scan(f)[1]):
-                    hit = next((c for c in changed if _literal_hits(lit, c)), None)
+                    hit = next((c for c in literal_changed if _literal_hits(lit, c)), None)
                     if hit:
-                        literal_seen.add(hit)
                         why = f"{'names' if f == t else f.rsplit('/', 1)[-1] + ' names'} {lit!r} ({hit})"
                         break
                 if why:
@@ -418,16 +433,9 @@ def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -
         if why is None and t in mapped and _fresh(files, mapped[t][1]):   # the map ADDS readers the literals miss
             hit = next((c for c in data_changed if c in mapped[t][0]), None)
             if hit:
-                literal_seen.add(hit)
                 why = f"opened {hit} (test-reads map)"
         if why:
             reasons[t] = why
-    for c in changed:
-        if not c.endswith(".py") and c.startswith(cwd + "/") and c not in literal_seen:
-            unmatched_own.append(c)
-    if unmatched_own:
-        return {"suite": suite, "total": len(tests), "selected": tests, "all": True,
-                "reasons": {"*": f"no literal names {unmatched_own[0]}; readers unknown"}}
     selected = [t for t in tests if t in reasons]
     return {"suite": suite, "total": len(tests), "selected": selected, "all": False, "reasons": reasons}
 

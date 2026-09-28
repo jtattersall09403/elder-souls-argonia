@@ -194,13 +194,16 @@ def type_sheet(rec_type: str | None) -> dict:
 
 
 def lessons(number: int | None, rec_type: str | None) -> dict:
-    """Rows of references/lessons.md tagged for the type (they name `type N`,
+    """Rows of the lessons store (references/lessons/<section>.md, split by
+    section under decision 0106) tagged for the type (they name `type N`,
     the type sheet's number, or the record's catalogue type); the rows that
     name no type apply to every place and are listed by id."""
     path = SKILL / "lessons.md"
     tagged, general = [], []
     type_ref = re.compile(r"\btypes? (\d)(?: or (\d))?\b")
-    for ln in path.read_text(encoding="utf-8").splitlines():
+    lines = [ln for f in [path, *sorted((SKILL / "lessons").glob("*.md"))]
+             for ln in f.read_text(encoding="utf-8").splitlines()]
+    for ln in lines:
         m = re.match(r"\| (L\d+) \|", ln)
         if not m:
             continue
