@@ -428,6 +428,12 @@ const PLAYBOOK_ALSO_OK = [
   "docs/world/97-placement-principles.md",
   "docs/decisions/0041-phase11-settlement-decisions.md",
 ];
+// 0106 split the lessons store into section files and made the rulings table
+// the only home of the place rulings: a row in either records the lesson.
+const PLAYBOOK_ALSO_OK_RE = [
+  /^\.claude\/skills\/place-build\/references\/lessons\/[^/]+\.md$/,
+  /^\.claude\/skills\/place-build\/references\/rulings\.md$/,
+];
 const PLACEMENT_WORK = [
   /^tooling\/placement-workbench\//,
   /^\.claude\/skills\/place-build\//,
@@ -476,14 +482,17 @@ function checkPlaybookMoves() {
 function playbookVerdict(changed) {
   const placement = changed.filter((p) => PLACEMENT_WORK.some((re) => re.test(p)));
   if (placement.length === 0) return;
-  const recorded = changed.includes(PLAYBOOK) || PLAYBOOK_ALSO_OK.some((p) => changed.includes(p));
+  const recorded =
+    changed.includes(PLAYBOOK) ||
+    PLAYBOOK_ALSO_OK.some((p) => changed.includes(p)) ||
+    changed.some((p) => PLAYBOOK_ALSO_OK_RE.some((re) => re.test(p)));
   if (!recorded)
     fail(
       13,
       PLAYBOOK,
       0,
       `placement work changed (${placement.slice(0, 3).join(", ")}${placement.length > 3 ? ", …" : ""}) but none of the ` +
-        `lessons store (.claude/skills/place-build/references/lessons.md), world 97, the playbook nor decision 0041 did (working tree + commits since the base). Write the lesson (a merged row, 0100 decision 4), then re-run.`,
+        `lessons store (.claude/skills/place-build/references/lessons.md or a lessons/ section file), the rulings table, world 97, the playbook nor decision 0041 did (working tree + commits since the base). Write the lesson (a merged row, 0100 decision 4), then re-run.`,
     );
 }
 

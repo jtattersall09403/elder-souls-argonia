@@ -42,12 +42,16 @@ const instanceMatrices = (group: THREE.Group) => group.children
 describe("interior substitutions (walk 2 lane I)", () => {
   const raw = JSON.parse(readFileSync(KEEBA, "utf8"));
 
-  it("KeebaHouseFisher draws its 13 stand-ins: instances = placements + substitutions", async () => {
-    expect(raw.placements.length).toBe(105);
-    expect(raw.substitutions.length).toBe(13);
+  // The counts are read from the bundle: a stand-in leaves the list when its
+  // real mesh ships (16k walk 3 moved one), so the invariant is the sum.
+  it("KeebaHouseFisher draws its stand-ins: instances = placements + substitutions", async () => {
+    const placed = raw.placements.length;
+    const stand = raw.substitutions.length;
+    expect(placed).toBeGreaterThan(0);
+    expect(stand).toBeGreaterThan(0);
     const cell = await loaderFor(raw).loader.request("KeebaHouseFisher");
-    expect(cell.counts.substitutions).toBe(13);
-    expect(instanceMatrices(cell.group).length).toBe(105 + 13);
+    expect(cell.counts.substitutions).toBe(stand);
+    expect(instanceMatrices(cell.group).length).toBe(placed + stand);
   });
 
   it("places each stand-in with its full transform from the bundle", async () => {
