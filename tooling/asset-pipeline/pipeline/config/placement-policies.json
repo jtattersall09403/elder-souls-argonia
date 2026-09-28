@@ -476,7 +476,8 @@
   },
   "mudmother:gv_meshes/argoniannest/argoniantent02": {
    "designedSinkM": -0.4494,
-   "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it (refsDroppedNonUnitScale 1) and no plugin sink exists. The mesh's lowest vertices lie 0.449 m below the pivot in a 4.6 m run along its back (the ground log the poles stand in); 388 vertices within 0.5 m of that level span the whole 5.4 x 4.7 m footprint: sink -0.4494 sets the log and the pole feet on the ground. (0105 R36 and R54, reviewed by lane L20 2026-09-28 for the Greenspring spring house; measured on the raw settlement-mud-v1.glb)"
+   "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it (refsDroppedNonUnitScale 1) and no plugin sink exists. The mesh's lowest vertices lie 0.449 m below the pivot in a 4.6 m run along its back (the ground log the poles stand in); 388 vertices within 0.5 m of that level span the whole 5.4 x 4.7 m footprint: sink -0.4494 sets the log and the pole feet on the ground. (0105 R36 and R54, reviewed by lane L20 2026-09-28 for the Greenspring spring house; measured on the raw settlement-mud-v1.glb) floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab. On the mesh the pole feet and the ground log are the lowest vertices (0.449 m below the pivot) and the canopy skirt hangs about 1 m above them, so the posts are judged and the canopy is not.",
+   "floorClass": "openShelter"
   }
  },
  "piledDecks": {

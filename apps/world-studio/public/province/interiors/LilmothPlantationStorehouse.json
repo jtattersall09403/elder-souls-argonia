@@ -1,0 +1,3199 @@
+{
+ "schemaVersion": 1,
+ "cellId": "LilmothPlantationStorehouse",
+ "plugin": "King of the Murkmire.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": "kotm:argonia/mudhuts/mudhut01",
+ "refCount": 122,
+ "kits": {
+  "htbm-hut-int": {
+   "id": "htbm-hut-int",
+   "glb": "kits/htbm-hut-int.glb",
+   "manifest": "kits/htbm-hut-int.kit.json"
+  },
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  },
+  "mudmother-hut-int": {
+   "id": "mudmother-hut-int",
+   "glb": "kits/mudmother-hut-int.glb",
+   "manifest": "kits/mudmother-hut-int.kit.json"
+  },
+  "settlement-imperial-v1": {
+   "id": "settlement-imperial-v1",
+   "glb": "kits/settlement-imperial-v1.glb",
+   "manifest": "kits/settlement-imperial-v1.kit.json"
+  },
+  "settlement-mud-v1": {
+   "id": "settlement-mud-v1",
+   "glb": "kits/settlement-mud-v1.glb",
+   "manifest": "kits/settlement-mud-v1.kit.json"
+  },
+  "settlement-stilt-v1": {
+   "id": "settlement-stilt-v1",
+   "glb": "kits/settlement-stilt-v1.glb",
+   "manifest": "kits/settlement-stilt-v1.kit.json"
+  },
+  "works-v1": {
+   "id": "works-v1",
+   "glb": "kits/works-v1.glb",
+   "manifest": "kits/works-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   97.6755,
+   80.3666,
+   75.3957
+  ],
+  "yawDeg": 176.654
+ },
+ "exitDoor": {
+  "id": "LilmothPlantationStorehouse.088B271D",
+  "refId": "088B271D",
+  "positionM": [
+   97.6776,
+   80.4602,
+   74.2038
+  ],
+  "yawDeg": 0.0
+ },
+ "doors": [
+  {
+   "exteriorDoorId": "door.hist-heartland.greenspring.4",
+   "interiorLoadDoorRef": "088B271D",
+   "arrivalMarker": {
+    "positionM": [
+     97.6755,
+     80.3666,
+     75.3957
+    ],
+    "yawDeg": 176.654
+   },
+   "loadDoor": {
+    "positionM": [
+     97.6776,
+     80.4602,
+     74.2038
+    ],
+    "yawDeg": 0.0
+   }
+  },
+  {
+   "interiorLoadDoorRef": "088B26FB",
+   "closed": true,
+   "loadDoor": {
+    "positionM": [
+     109.9096,
+     85.608,
+     76.1626
+    ],
+    "yawDeg": 90.0
+   }
+  }
+ ],
+ "ambient": {
+  "colorRGB": [
+   44,
+   33,
+   27
+  ],
+  "intensity": 1.0
+ },
+ "fog": {
+  "colorRGB": [
+   89,
+   95,
+   102
+  ],
+  "nearM": 4.836,
+  "farM": 71.12
+ },
+ "lighting": {
+  "ambientRGB": [
+   44,
+   33,
+   27
+  ],
+  "directionalRGB": [
+   77,
+   62,
+   55
+  ],
+  "fogNearRGB": [
+   89,
+   95,
+   102
+  ],
+  "fogNearM": 4.836,
+  "fogFarM": 71.12,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 71.12,
+  "fogPower": 0.6,
+  "fogFarRGB": [
+   23,
+   33,
+   22
+  ],
+  "fogMax": 1.0,
+  "inherits": 159,
+  "template": "SolitudeInteriors"
+ },
+ "placements": [
+  {
+   "id": "LilmothPlantationStorehouse.088B26E8",
+   "assetId": "kotm:argonia/blackwood/plankwall01b",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.4179,
+    85.5683,
+    74.6687
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    90.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlankWall03B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26EA",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.8852,
+    80.5994,
+    80.4067
+   ],
+   "rotationDeg": [
+    -12.312,
+    8.918,
+    64.34
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26EB",
+   "assetId": "kotm:argonia/blackwood/wall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.6886,
+    88.7578,
+    73.5096
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26EC",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    100.7376,
+    80.8478,
+    78.031
+   ],
+   "rotationDeg": [
+    0.0,
+    17.189,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26ED",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    99.6818,
+    82.8336,
+    76.2406
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    180.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26EE",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    99.5824,
+    80.8478,
+    76.9992
+   ],
+   "rotationDeg": [
+    0.0,
+    120.321,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BasketMarshmerrow01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26EF",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.7703,
+    81.2497,
+    77.1587
+   ],
+   "rotationDeg": [
+    -0.18,
+    251.158,
+    -0.335
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26F0",
+   "assetId": "vanilla:clutter/common/rug07",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.6506,
+    88.8251,
+    76.213
+   ],
+   "rotationDeg": [
+    0.0,
+    279.786,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rug07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26F5",
+   "assetId": "kotm:argonia/blackwood/walldoor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.6886,
+    88.7578,
+    77.151
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DoorDBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26F7",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7062,
+    81.3623,
+    77.6549
+   ],
+   "rotationDeg": [
+    0.122,
+    268.328,
+    -0.088
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26F8",
+   "assetId": "kotm:argonia/mudhuts/stairs02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    99.7145,
+    84.0173,
+    77.5467
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlatformStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26FA",
+   "assetId": "kotm:argonia/blackwood/wall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.8334,
+    80.3372,
+    76.0131
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26FB",
+   "assetId": "kotm:argonia/mudhuts/door02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    109.9096,
+    85.608,
+    76.1626
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "door",
+   "base": "MudHutLDoor02",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26FC",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.6721,
+    81.2495,
+    76.9566
+   ],
+   "rotationDeg": [
+    0.485,
+    325.609,
+    -0.036
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26FD",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.1785,
+    81.3033,
+    80.3471
+   ],
+   "rotationDeg": [
+    -3.216,
+    230.17,
+    4.368
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B26FE",
+   "assetId": "kotm:argonia/furniture/furncupboard01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.6959,
+    80.3475,
+    77.2317
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPAFurnCupboard01Food",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2700",
+   "assetId": "kotm:argonia/furniture/furndresser3dwr01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0264,
+    88.8251,
+    74.7423
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPAFurnDresser02",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2702",
+   "assetId": "kotm:argonia/furniture/table03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.188,
+    80.3475,
+    74.1208
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2703",
+   "assetId": "kotm:argonia/furniture/chair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.4396,
+    80.3475,
+    74.8525
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnChair01STATIC",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2705",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7015,
+    81.2492,
+    77.6613
+   ],
+   "rotationDeg": [
+    0.016,
+    268.327,
+    -0.211
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2707",
+   "assetId": "kotm:argonia/clutter/twigsbundle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.7844,
+    80.3475,
+    80.1657
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterCypressStickBundle",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2708",
+   "assetId": "vanilla:clutter/common/cratesmall04",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    107.9647,
+    85.1544,
+    76.611
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 0.85,
+   "category": "clutter",
+   "base": "CrateSmall04Weathered",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B270A",
+   "assetId": "kotm:argonia/clutter/burner01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.4574,
+    80.3475,
+    80.1105
+   ],
+   "rotationDeg": [
+    0.0,
+    228.22,
+    0.0
+   ],
+   "scale": 1.1,
+   "category": "clutter",
+   "base": "ALPAFurnWoodBurner01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B270B",
+   "assetId": "vanilla:clutter/dining set/basictankard01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.5495,
+    81.2498,
+    77.1366
+   ],
+   "rotationDeg": [
+    -0.173,
+    216.745,
+    -0.423
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicTankard01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B270C",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeatcooked",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.6172,
+    81.3347,
+    74.5014
+   ],
+   "rotationDeg": [
+    23.632,
+    101.801,
+    2.655
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeatCooked",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B270E",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.86,
+    80.535,
+    80.3703
+   ],
+   "rotationDeg": [
+    -0.095,
+    147.052,
+    -0.112
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2710",
+   "assetId": "vanilla:clutter/common/candlelanternwithcandle01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    100.1294,
+    81.2617,
+    73.808
+   ],
+   "rotationDeg": [
+    0.0,
+    131.78,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleLanternwithCandle01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2711",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7127,
+    81.3056,
+    77.6643
+   ],
+   "rotationDeg": [
+    0.036,
+    80.242,
+    -0.177
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2712",
+   "assetId": "kotm:argonia/mudhuts/stairs02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.5448,
+    89.2129,
+    77.151
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlatformStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2713",
+   "assetId": "kotm:argonia/blackwood/wall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.3714,
+    80.3372,
+    77.8337
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2714",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    105.1949,
+    81.1433,
+    73.2014
+   ],
+   "rotationDeg": [
+    0.0,
+    135.0,
+    0.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2715",
+   "assetId": "vanilla:clutter/kitchen/castironpotsmall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.7254,
+    81.2495,
+    76.639
+   ],
+   "rotationDeg": [
+    -0.068,
+    231.722,
+    0.056
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CastIronPotSmall01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2716",
+   "assetId": "vanilla:clutter/common/cratesmall03",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    100.0837,
+    84.5343,
+    75.3454
+   ],
+   "rotationDeg": [
+    0.0,
+    91.673,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CrateSmall03Weathered",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2718",
+   "assetId": "vanilla:furniture/smallcookingpotnohandle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.8598,
+    80.3372,
+    78.6982
+   ],
+   "rotationDeg": [
+    0.0,
+    131.781,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CraftingCookingPotSmNoHandleArgonian",
+   "baseType": "FURN"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2719",
+   "assetId": "kotm:argonia/blackwood/shiveringhouse_01_inside",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0059,
+    80.3372,
+    76.0131
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHouse07DBlueInt02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B271A",
+   "assetId": "vanilla:clutter/common/cratesmall02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    108.1739,
+    85.1046,
+    77.8187
+   ],
+   "rotationDeg": [
+    0.0,
+    11.459,
+    0.0
+   ],
+   "scale": 0.88,
+   "category": "clutter",
+   "base": "CrateSmall02Weathered",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B271B",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7591,
+    81.9255,
+    77.1058
+   ],
+   "rotationDeg": [
+    3.994,
+    66.921,
+    -0.902
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B271D",
+   "assetId": "kotm:argonia/mudhuts/door02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    97.6776,
+    80.4602,
+    74.2038
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "door",
+   "base": "MudHutLDoor02",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B271E",
+   "assetId": "kotm:argonia/blackwood/wall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.4611,
+    88.7578,
+    80.7923
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B271F",
+   "assetId": "kotm:loliceptresource/barrel/rugopenbarrel",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    96.1439,
+    80.3475,
+    78.0662
+   ],
+   "rotationDeg": [
+    0.0,
+    80.214,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "ALPAClutterRugBarrel",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2720",
+   "assetId": "kotm:argonia/food/sakebottle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.5672,
+    81.9486,
+    80.4475
+   ],
+   "rotationDeg": [
+    -0.101,
+    302.704,
+    -0.027
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "JeelSa",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2721",
+   "assetId": "vanilla:clutter/common/rug11",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    106.7475,
+    80.3475,
+    74.5866
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rug11",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2723",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7614,
+    81.853,
+    77.1137
+   ],
+   "rotationDeg": [
+    -0.004,
+    68.755,
+    -0.002
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2728",
+   "assetId": "kotm:argonia/blackwood/plankwall02b",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.5967,
+    84.113,
+    74.7043
+   ],
+   "rotationDeg": [
+    90.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlankWall04B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B272A",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    99.8251,
+    81.0274,
+    77.8908
+   ],
+   "rotationDeg": [
+    0.0,
+    51.566,
+    0.0
+   ],
+   "scale": 1.38,
+   "category": "container",
+   "base": "BasketFish01Murkmire",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B272C",
+   "assetId": "kotm:argonia/clutter/firewoodpilelarge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.008,
+    80.3475,
+    74.8017
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 0.82,
+   "category": "clutter",
+   "base": "FirewoodPileLarge01Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B272D",
+   "assetId": "kotm:argonia/blackwood/walldoor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.1921,
+    80.3372,
+    76.0131
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DoorDBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B272E",
+   "assetId": "vanilla:clutter/honeypot01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    103.874,
+    89.7549,
+    78.6272
+   ],
+   "rotationDeg": [
+    0.109,
+    245.408,
+    0.059
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FoodHoney",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B272F",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    99.6818,
+    88.9189,
+    76.2406
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2730",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.8394,
+    80.5955,
+    80.3349
+   ],
+   "rotationDeg": [
+    28.384,
+    68.096,
+    -15.97
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2731",
+   "assetId": "vanilla:clutter/common/cratesmalllong03",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    108.131,
+    84.5071,
+    77.5696
+   ],
+   "rotationDeg": [
+    0.0,
+    177.617,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CrateSmallLong03Weathered",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2732",
+   "assetId": "vanilla:plants/lavender01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.0089,
+    89.7803,
+    74.9387
+   ],
+   "rotationDeg": [
+    -7.544,
+    306.866,
+    17.392
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Lavender",
+   "baseType": "INGR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2735",
+   "assetId": "kotm:argonia/blackwood/plankwall02b",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.4433,
+    84.0988,
+    76.9691
+   ],
+   "rotationDeg": [
+    90.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlankWall04B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2736",
+   "assetId": "kotm:oaristys/clutter/rugs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.2547,
+    84.1733,
+    74.745
+   ],
+   "rotationDeg": [
+    0.0,
+    80.214,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterRugs",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2737",
+   "assetId": "kotm:argonia/furniture/furndresser3dwr01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.3319,
+    88.8242,
+    78.5805
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPAFurnDresser02",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2738",
+   "assetId": "vanilla:clutter/common/rug12",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.0186,
+    85.6276,
+    76.1504
+   ],
+   "rotationDeg": [
+    0.0,
+    182.383,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rug12",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2739",
+   "assetId": "kotm:argonia/blackwood/plankwall01b",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.3934,
+    88.7649,
+    78.2889
+   ],
+   "rotationDeg": [
+    0.028,
+    270.0,
+    -90.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlankWall03B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B273A",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    102.9733,
+    81.1433,
+    73.2014
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B273B",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.8709,
+    81.3035,
+    80.3358
+   ],
+   "rotationDeg": [
+    0.548,
+    15.94,
+    -5.266
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B273C",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.642,
+    81.2483,
+    74.5233
+   ],
+   "rotationDeg": [
+    0.24,
+    5.732,
+    -0.132
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B273D",
+   "assetId": "kotm:argonia/mudhuts/stairs01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.8,
+    85.0341,
+    74.5358
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 0.86,
+   "category": "misc",
+   "base": "MurkmirePlatformStairs01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B273E",
+   "assetId": "vanilla:clutter/common/candlelanternwithcandle01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    99.9302,
+    84.8567,
+    75.1971
+   ],
+   "rotationDeg": [
+    0.0,
+    314.164,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleLanternwithCandle01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2740",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    103.3493,
+    79.5633,
+    76.2406
+   ],
+   "rotationDeg": [
+    0.0,
+    74.484,
+    -180.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2741",
+   "assetId": "kotm:argonia/food/sakebottle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.2407,
+    81.2479,
+    74.1875
+   ],
+   "rotationDeg": [
+    -0.528,
+    302.712,
+    0.316
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "JeelSa",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2742",
+   "assetId": "kotm:argonia/furniture/furnbook3shelf01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.4197,
+    80.3475,
+    80.2744
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2743",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7463,
+    81.8537,
+    76.6909
+   ],
+   "rotationDeg": [
+    0.037,
+    308.434,
+    -0.069
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2744",
+   "assetId": "kotm:argonia/food/flatbread",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.2869,
+    80.5354,
+    80.2912
+   ],
+   "rotationDeg": [
+    -0.097,
+    318.053,
+    -0.055
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaltriceFlatbread",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2745",
+   "assetId": "vanilla:clutter/woodfires/cookingstand02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.8598,
+    80.3372,
+    78.6982
+   ],
+   "rotationDeg": [
+    0.0,
+    131.781,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CookingStand01WithStoneArgonian",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2746",
+   "assetId": "vanilla:clutter/common/cratesmalllong01",
+   "kit": "works-v1",
+   "positionM": [
+    108.3417,
+    84.5123,
+    76.0846
+   ],
+   "rotationDeg": [
+    0.0,
+    262.597,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CrateSmallLong01Weathered",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2747",
+   "assetId": "kotm:argonia/food/sakebottle02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.7612,
+    81.9492,
+    80.2154
+   ],
+   "rotationDeg": [
+    -0.104,
+    17.188,
+    -0.145
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "TeeLel",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2748",
+   "assetId": "kotm:argonia/blackwood/wall01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.3714,
+    80.3372,
+    81.4751
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmireHousePartionIntWall03DBlue",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2749",
+   "assetId": "vanilla:clutter/common/rug03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    97.4942,
+    80.3475,
+    75.5324
+   ],
+   "rotationDeg": [
+    0.0,
+    262.597,
+    0.0
+   ],
+   "scale": 1.17,
+   "category": "clutter",
+   "base": "Rug03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274A",
+   "assetId": "kotm:argonia/blackwood/plankwall01b",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.0473,
+    88.7578,
+    74.8751
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    90.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MurkmirePlankWall03B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274B",
+   "assetId": "kotm:argonia/food/sakebottle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.0386,
+    81.949,
+    80.3368
+   ],
+   "rotationDeg": [
+    0.064,
+    28.648,
+    -0.11
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "JeelSa",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274C",
+   "assetId": "vanilla:plants/slaughterfishegg01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.9004,
+    80.6349,
+    80.2945
+   ],
+   "rotationDeg": [
+    5.933,
+    303.502,
+    -18.84
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SlaughterfishEgg01",
+   "baseType": "INGR"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274D",
+   "assetId": "kotm:argonia/blackwood/dockspilings",
+   "kit": "settlement-stilt-v1",
+   "positionM": [
+    105.3714,
+    81.0199,
+    76.0131
+   ],
+   "rotationDeg": [
+    0.0,
+    225.0,
+    0.0
+   ],
+   "scale": 0.74,
+   "category": "misc",
+   "base": "MurkmirePlatformPillar01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274E",
+   "assetId": "kotm:argonia/furniture/bedsingle01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.0018,
+    88.818,
+    77.95
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnSingleBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B274F",
+   "assetId": "kotm:argonia/food/sakebottle02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.9281,
+    89.7269,
+    74.4302
+   ],
+   "rotationDeg": [
+    -0.218,
+    285.531,
+    -0.117
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "TeeLel",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2750",
+   "assetId": "vanilla:clutter/kitchen/castironpotmedium01",
+   "kit": "works-v1",
+   "positionM": [
+    104.7815,
+    81.8537,
+    77.655
+   ],
+   "rotationDeg": [
+    0.103,
+    331.353,
+    -0.127
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "CastIronPotMedium01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2752",
+   "assetId": "kotm:argonia/furniture/chair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.5568,
+    80.3475,
+    75.3219
+   ],
+   "rotationDeg": [
+    0.0,
+    356.197,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2755",
+   "assetId": "vanilla:clutter/common/rug11",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.7129,
+    84.1723,
+    74.9283
+   ],
+   "rotationDeg": [
+    0.0,
+    176.654,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rug11",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2757",
+   "assetId": "kotm:argonia/furniture/bedsingle01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.0018,
+    88.818,
+    74.4156
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPAFurnSingleBed01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2758",
+   "assetId": "vanilla:clutter/common/candlelanternwithcandle01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    102.8243,
+    89.7377,
+    78.6421
+   ],
+   "rotationDeg": [
+    0.0,
+    34.377,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CandleLanternwithCandle01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2759",
+   "assetId": "vanilla:clutter/common/rug07",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.3108,
+    80.3475,
+    75.2158
+   ],
+   "rotationDeg": [
+    0.0,
+    268.327,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Rug07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B275A",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7534,
+    81.9288,
+    76.6901
+   ],
+   "rotationDeg": [
+    0.444,
+    320.441,
+    3.555
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B275C",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    109.1099,
+    80.3475,
+    77.3446
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B275D",
+   "assetId": "vanilla:clutter/hay/haymound02",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.324,
+    81.3717,
+    77.2934
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayMound02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B275E",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    106.586,
+    80.3475,
+    77.8757
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B275F",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    106.6709,
+    81.373,
+    77.9167
+   ],
+   "rotationDeg": [
+    0.0,
+    183.347,
+    0.0
+   ],
+   "scale": 0.85,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2760",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    107.2589,
+    80.3617,
+    77.3525
+   ],
+   "rotationDeg": [
+    0.0,
+    5.73,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2761",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    107.5224,
+    80.3617,
+    75.6495
+   ],
+   "rotationDeg": [
+    0.0,
+    91.673,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2762",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    106.6359,
+    84.159,
+    77.2901
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2763",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    100.937,
+    84.1733,
+    74.2076
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2764",
+   "assetId": "vanilla:clutter/hay/haybale01",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    106.7156,
+    85.1834,
+    77.3061
+   ],
+   "rotationDeg": [
+    0.0,
+    68.755,
+    0.0
+   ],
+   "scale": 0.74,
+   "category": "clutter",
+   "base": "HayBale01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2765",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    105.5514,
+    84.1723,
+    77.7044
+   ],
+   "rotationDeg": [
+    0.0,
+    183.347,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2766",
+   "assetId": "vanilla:clutter/hay/hayscatter05",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    106.4501,
+    84.1865,
+    75.9541
+   ],
+   "rotationDeg": [
+    0.0,
+    22.918,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2767",
+   "assetId": "vanilla:clutter/hay/hayscatter06",
+   "kit": "htbm-hut-int",
+   "positionM": [
+    101.4205,
+    84.1875,
+    74.7716
+   ],
+   "rotationDeg": [
+    0.0,
+    120.321,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "HayScatter06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2768",
+   "assetId": "kotm:argonia/clutter/saxhleelfence02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.1579,
+    84.2061,
+    78.5221
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2769",
+   "assetId": "vanilla:clutter/barrel02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    105.5517,
+    84.159,
+    77.8628
+   ],
+   "rotationDeg": [
+    0.0,
+    314.163,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Barrel02Static",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276A",
+   "assetId": "vanilla:clutter/barrel02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    104.686,
+    84.159,
+    77.9644
+   ],
+   "rotationDeg": [
+    0.0,
+    28.648,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Barrel02Static",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276B",
+   "assetId": "vanilla:clutter/barrel02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    105.0215,
+    84.159,
+    77.215
+   ],
+   "rotationDeg": [
+    0.0,
+    85.944,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "Barrel02Static",
+   "baseType": "STAT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276C",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    102.5542,
+    84.7536,
+    73.9468
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.21,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276D",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    103.5568,
+    84.7536,
+    73.6628
+   ],
+   "rotationDeg": [
+    0.0,
+    103.132,
+    0.0
+   ],
+   "scale": 1.21,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276E",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    101.0725,
+    84.733,
+    75.2767
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.18,
+   "category": "container",
+   "base": "BasketMarshmerrow01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B276F",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    108.0405,
+    80.8784,
+    76.9606
+   ],
+   "rotationDeg": [
+    0.0,
+    314.163,
+    0.0
+   ],
+   "scale": 1.08,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2770",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    109.2823,
+    86.1151,
+    73.6133
+   ],
+   "rotationDeg": [
+    0.0,
+    45.837,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "BasketMarshmerrow01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.088B2771",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    109.3609,
+    86.2106,
+    74.4957
+   ],
+   "rotationDeg": [
+    0.0,
+    285.516,
+    0.0
+   ],
+   "scale": 1.18,
+   "category": "container",
+   "base": "BasketSaltrice01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.08989BB7",
+   "assetId": "vanilla:clutter/books/basicbook07",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.0661,
+    89.7381,
+    75.2428
+   ],
+   "rotationDeg": [
+    0.0,
+    239.679,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookWadingNests",
+   "baseType": "BOOK"
+  },
+  {
+   "id": "LilmothPlantationStorehouse.08989BB8",
+   "assetId": "vanilla:clutter/books/basicbook06",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.1778,
+    89.7357,
+    78.5269
+   ],
+   "rotationDeg": [
+    0.0,
+    182.383,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookRhymesAndChimes",
+   "baseType": "BOOK"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "088B26F9",
+   "positionM": [
+    100.2289,
+    81.8282,
+    73.7699
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    180,
+    99,
+    28
+   ],
+   "fade": 2.5,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesDefault",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "088B26FF",
+   "positionM": [
+    102.7737,
+    90.3041,
+    78.5482
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    180,
+    99,
+    28
+   ],
+   "fade": 2.5,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesDefault",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "088B2751",
+   "positionM": [
+    100.1229,
+    85.4232,
+    75.3392
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    180,
+    99,
+    28
+   ],
+   "fade": 2.5,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesDefault",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "088B2754",
+   "positionM": [
+    104.4396,
+    82.0901,
+    80.165
+   ],
+   "radiusM": 0.377,
+   "colorRGB": [
+    225,
+    121,
+    51
+   ],
+   "fade": 3.0,
+   "flags": 4105,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesShadowDefault",
+   "raw": {
+    "xrdsUnits": 26.533,
+    "baseRadiusUnits": 384
+   }
+  }
+ ],
+ "sockets": [
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26E9",
+   "kind": "idle",
+   "positionM": [
+    107.1425,
+    80.362,
+    74.5932
+   ],
+   "yawDeg": 262.597,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26EA",
+   "kind": "item",
+   "positionM": [
+    101.8852,
+    80.5994,
+    80.4067
+   ],
+   "yawDeg": 344.984,
+   "host": "LilmothPlantationStorehouse.088B26EA",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26EC",
+   "kind": "container",
+   "positionM": [
+    100.7376,
+    80.8478,
+    78.031
+   ],
+   "yawDeg": 17.189,
+   "host": "LilmothPlantationStorehouse.088B26EC",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26EE",
+   "kind": "container",
+   "positionM": [
+    99.5824,
+    80.8478,
+    76.9992
+   ],
+   "yawDeg": 120.321,
+   "host": "LilmothPlantationStorehouse.088B26EE",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketMarshmerrow01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26EF",
+   "kind": "item",
+   "positionM": [
+    104.7703,
+    81.2497,
+    77.1587
+   ],
+   "yawDeg": 251.159,
+   "host": "LilmothPlantationStorehouse.088B26EF",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26F7",
+   "kind": "item",
+   "positionM": [
+    104.7062,
+    81.3623,
+    77.6549
+   ],
+   "yawDeg": 268.328,
+   "host": "LilmothPlantationStorehouse.088B26F7",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26FC",
+   "kind": "item",
+   "positionM": [
+    104.6721,
+    81.2495,
+    76.9566
+   ],
+   "yawDeg": 325.609,
+   "host": "LilmothPlantationStorehouse.088B26FC",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26FD",
+   "kind": "item",
+   "positionM": [
+    102.1785,
+    81.3033,
+    80.3471
+   ],
+   "yawDeg": 229.925,
+   "host": "LilmothPlantationStorehouse.088B26FD",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B26FE",
+   "kind": "container",
+   "positionM": [
+    104.6959,
+    80.3475,
+    77.2317
+   ],
+   "yawDeg": 90.0,
+   "host": "LilmothPlantationStorehouse.088B26FE",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPAFurnCupboard01Food placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2700",
+   "kind": "container",
+   "positionM": [
+    104.0264,
+    88.8251,
+    74.7423
+   ],
+   "yawDeg": 90.0,
+   "host": "LilmothPlantationStorehouse.088B2700",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPAFurnDresser02 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2705",
+   "kind": "item",
+   "positionM": [
+    104.7015,
+    81.2492,
+    77.6613
+   ],
+   "yawDeg": 268.327,
+   "host": "LilmothPlantationStorehouse.088B2705",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B270B",
+   "kind": "item",
+   "positionM": [
+    104.5495,
+    81.2498,
+    77.1366
+   ],
+   "yawDeg": 216.746,
+   "host": "LilmothPlantationStorehouse.088B270B",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicTankard01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B270C",
+   "kind": "item",
+   "positionM": [
+    101.6172,
+    81.3347,
+    74.5014
+   ],
+   "yawDeg": 102.865,
+   "host": "LilmothPlantationStorehouse.088B270C",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeatCooked placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B270E",
+   "kind": "item",
+   "positionM": [
+    101.86,
+    80.535,
+    80.3703
+   ],
+   "yawDeg": 147.052,
+   "host": "LilmothPlantationStorehouse.088B270E",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2711",
+   "kind": "item",
+   "positionM": [
+    104.7127,
+    81.3056,
+    77.6643
+   ],
+   "yawDeg": 80.242,
+   "host": "LilmothPlantationStorehouse.088B2711",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2715",
+   "kind": "item",
+   "positionM": [
+    104.7254,
+    81.2495,
+    76.639
+   ],
+   "yawDeg": 231.722,
+   "host": "LilmothPlantationStorehouse.088B2715",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "CastIronPotSmall01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2717",
+   "kind": "idle",
+   "positionM": [
+    104.9321,
+    84.1838,
+    74.5385
+   ],
+   "yawDeg": 205.302,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2718",
+   "kind": "idle",
+   "positionM": [
+    103.8598,
+    80.3372,
+    78.6982
+   ],
+   "yawDeg": 131.781,
+   "host": "LilmothPlantationStorehouse.088B2718",
+   "activity": "work-at",
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B271B",
+   "kind": "item",
+   "positionM": [
+    104.7591,
+    81.9255,
+    77.1058
+   ],
+   "yawDeg": 66.858,
+   "host": "LilmothPlantationStorehouse.088B271B",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2720",
+   "kind": "item",
+   "positionM": [
+    102.5672,
+    81.9486,
+    80.4475
+   ],
+   "yawDeg": 302.704,
+   "host": "LilmothPlantationStorehouse.088B2720",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "JeelSa placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2723",
+   "kind": "item",
+   "positionM": [
+    104.7614,
+    81.853,
+    77.1137
+   ],
+   "yawDeg": 68.755,
+   "host": "LilmothPlantationStorehouse.088B2723",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2724",
+   "kind": "idle",
+   "positionM": [
+    97.0116,
+    80.3538,
+    76.4898
+   ],
+   "yawDeg": 27.685,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2726",
+   "kind": "idle",
+   "positionM": [
+    102.5424,
+    88.8363,
+    76.4596
+   ],
+   "yawDeg": 96.44,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2729",
+   "kind": "idle",
+   "positionM": [
+    102.4437,
+    80.3475,
+    77.844
+   ],
+   "yawDeg": 319.893,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B272A",
+   "kind": "container",
+   "positionM": [
+    99.8251,
+    81.0274,
+    77.8908
+   ],
+   "yawDeg": 51.566,
+   "host": "LilmothPlantationStorehouse.088B272A",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketFish01Murkmire placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B272E",
+   "kind": "item",
+   "positionM": [
+    103.874,
+    89.7549,
+    78.6272
+   ],
+   "yawDeg": 245.408,
+   "host": "LilmothPlantationStorehouse.088B272E",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FoodHoney placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2730",
+   "kind": "item",
+   "positionM": [
+    101.8394,
+    80.5955,
+    80.3349
+   ],
+   "yawDeg": 60.348,
+   "host": "LilmothPlantationStorehouse.088B2730",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2732",
+   "kind": "item",
+   "positionM": [
+    104.0089,
+    89.7803,
+    74.9387
+   ],
+   "yawDeg": 304.511,
+   "host": "LilmothPlantationStorehouse.088B2732",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "Lavender placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2737",
+   "kind": "container",
+   "positionM": [
+    103.3319,
+    88.8242,
+    78.5805
+   ],
+   "yawDeg": 180.0,
+   "host": "LilmothPlantationStorehouse.088B2737",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPAFurnDresser02 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B273B",
+   "kind": "item",
+   "positionM": [
+    101.8709,
+    81.3035,
+    80.3358
+   ],
+   "yawDeg": 15.89,
+   "host": "LilmothPlantationStorehouse.088B273B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B273C",
+   "kind": "item",
+   "positionM": [
+    101.642,
+    81.2483,
+    74.5233
+   ],
+   "yawDeg": 5.731,
+   "host": "LilmothPlantationStorehouse.088B273C",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2741",
+   "kind": "item",
+   "positionM": [
+    101.2407,
+    81.2479,
+    74.1875
+   ],
+   "yawDeg": 302.709,
+   "host": "LilmothPlantationStorehouse.088B2741",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "JeelSa placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2743",
+   "kind": "item",
+   "positionM": [
+    104.7463,
+    81.8537,
+    76.6909
+   ],
+   "yawDeg": 308.434,
+   "host": "LilmothPlantationStorehouse.088B2743",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2744",
+   "kind": "item",
+   "positionM": [
+    102.2869,
+    80.5354,
+    80.2912
+   ],
+   "yawDeg": 318.053,
+   "host": "LilmothPlantationStorehouse.088B2744",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SaltriceFlatbread placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2747",
+   "kind": "item",
+   "positionM": [
+    102.7612,
+    81.9492,
+    80.2154
+   ],
+   "yawDeg": 17.189,
+   "host": "LilmothPlantationStorehouse.088B2747",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "TeeLel placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B274B",
+   "kind": "item",
+   "positionM": [
+    103.0386,
+    81.949,
+    80.3368
+   ],
+   "yawDeg": 28.648,
+   "host": "LilmothPlantationStorehouse.088B274B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "JeelSa placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B274C",
+   "kind": "item",
+   "positionM": [
+    101.9004,
+    80.6349,
+    80.2945
+   ],
+   "yawDeg": 301.482,
+   "host": "LilmothPlantationStorehouse.088B274C",
+   "itemClass": "ingredient",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SlaughterfishEgg01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B274E",
+   "kind": "idle",
+   "positionM": [
+    101.0018,
+    88.818,
+    77.95
+   ],
+   "yawDeg": 90.0,
+   "host": "LilmothPlantationStorehouse.088B274E",
+   "activity": "sleep",
+   "why": "ALPAFurnSingleBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B274F",
+   "kind": "item",
+   "positionM": [
+    103.9281,
+    89.7269,
+    74.4302
+   ],
+   "yawDeg": 285.532,
+   "host": "LilmothPlantationStorehouse.088B274F",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "TeeLel placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2750",
+   "kind": "item",
+   "positionM": [
+    104.7815,
+    81.8537,
+    77.655
+   ],
+   "yawDeg": 331.353,
+   "host": "LilmothPlantationStorehouse.088B2750",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "CastIronPotMedium01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2752",
+   "kind": "idle",
+   "positionM": [
+    101.5568,
+    80.3475,
+    75.3219
+   ],
+   "yawDeg": 356.197,
+   "host": "LilmothPlantationStorehouse.088B2752",
+   "activity": "sit",
+   "why": "ALPAFurnChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2757",
+   "kind": "idle",
+   "positionM": [
+    101.0018,
+    88.818,
+    74.4156
+   ],
+   "yawDeg": 90.0,
+   "host": "LilmothPlantationStorehouse.088B2757",
+   "activity": "sleep",
+   "why": "ALPAFurnSingleBed01R placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B275A",
+   "kind": "item",
+   "positionM": [
+    104.7534,
+    81.9288,
+    76.6901
+   ],
+   "yawDeg": 320.468,
+   "host": "LilmothPlantationStorehouse.088B275A",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B276C",
+   "kind": "container",
+   "positionM": [
+    102.5542,
+    84.7536,
+    73.9468
+   ],
+   "yawDeg": 325.623,
+   "host": "LilmothPlantationStorehouse.088B276C",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B276D",
+   "kind": "container",
+   "positionM": [
+    103.5568,
+    84.7536,
+    73.6628
+   ],
+   "yawDeg": 103.132,
+   "host": "LilmothPlantationStorehouse.088B276D",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B276E",
+   "kind": "container",
+   "positionM": [
+    101.0725,
+    84.733,
+    75.2767
+   ],
+   "yawDeg": 325.623,
+   "host": "LilmothPlantationStorehouse.088B276E",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketMarshmerrow01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B276F",
+   "kind": "container",
+   "positionM": [
+    108.0405,
+    80.8784,
+    76.9606
+   ],
+   "yawDeg": 314.163,
+   "host": "LilmothPlantationStorehouse.088B276F",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2770",
+   "kind": "container",
+   "positionM": [
+    109.2823,
+    86.1151,
+    73.6133
+   ],
+   "yawDeg": 45.837,
+   "host": "LilmothPlantationStorehouse.088B2770",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketMarshmerrow01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.088B2771",
+   "kind": "container",
+   "positionM": [
+    109.3609,
+    86.2106,
+    74.4957
+   ],
+   "yawDeg": 285.516,
+   "host": "LilmothPlantationStorehouse.088B2771",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSaltrice01 placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.08989BB7",
+   "kind": "item",
+   "positionM": [
+    104.0661,
+    89.7381,
+    75.2428
+   ],
+   "yawDeg": 239.679,
+   "host": "LilmothPlantationStorehouse.08989BB7",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookWadingNests placed by the cell's author"
+  },
+  {
+   "id": "socket.LilmothPlantationStorehouse.08989BB8",
+   "kind": "item",
+   "positionM": [
+    103.1778,
+    89.7357,
+    78.5269
+   ],
+   "yawDeg": 182.383,
+   "host": "LilmothPlantationStorehouse.08989BB8",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookRhymesAndChimes placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "088B26E9",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "088B26F4",
+   "reason": "listed-drop",
+   "base": "FXfireWithEmbersLogs01",
+   "baseType": "MSTT",
+   "model": "effects/fxfirewithemberslogs01.nif",
+   "assetId": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy",
+   "positionM": [
+    104.4555,
+    80.9875,
+    80.0736
+   ]
+  },
+  {
+   "refId": "088B26F9",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "088B26FF",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "088B2717",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "088B2724",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "088B2726",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "088B2729",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "088B2734",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "Dragonborn.esm:0002000B",
+   "class": "clutter",
+   "classSource": "planner ruling R45 (16k walk 3): no written source; its references sit 12 floor, 1 surface (support_of in worldgen/export_interior_bundle.py); the author set a piece 1.345 m above it",
+   "positionM": [
+    104.2915,
+    80.3617,
+    79.877
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17) and interior-kotm-v1's textureNote: no published interior kit holds the same object; the piece lives only in a Creation Club or Dragonborn archive, which the vault does not hold",
+   "why": "A Dragonborn household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "088B2751",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "088B2753",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "positionM": [
+    102.9758,
+    81.244,
+    80.3479
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+  },
+  {
+   "refId": "088B2754",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesShadowDefault",
+   "baseType": "LIGH"
+  }
+ ],
+ "substitutions": [
+  {
+   "id": "LilmothPlantationStorehouse.088B271C",
+   "refId": "088B271C",
+   "originalPath": "creationclub/bgssse001/critters/fish/fishcuckoocatfish/fishcuckoocatfish01inv.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record ALCH (a carried item)",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A raw michinitl fish lies here; a dead pond fish takes its place.",
+   "positionM": [
+    102.8863,
+    80.59,
+    80.3309
+   ],
+   "rotationDeg": [
+    -0.012,
+    55.626,
+    0.001
+   ],
+   "scale": 1.0
+  }
+ ],
+ "counts": {
+  "placements": 109,
+  "drops": 12,
+  "lights": 4,
+  "substitutions": 1,
+  "missingByClass": {},
+  "dropsByReason": {
+   "light-source": 4,
+   "listed-drop": 1,
+   "listed-gap": 2,
+   "marker": 5
+  },
+  "socketsByKind": {
+   "container": 12,
+   "idle": 9,
+   "item": 30
+  }
+ }
+}

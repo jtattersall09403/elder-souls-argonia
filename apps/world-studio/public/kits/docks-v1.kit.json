@@ -307,18 +307,11 @@
     "p75": -0.35,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill (plugin-spread)"
+    "evidence": "policy"
    },
    "anchorClass": "water",
    "designedWaterlineM": -1.5931,
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 176,
@@ -2132,14 +2125,9 @@
     "p75": -0.1836,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1836
-   },
    "anchorClassEvidence": "unplaced",
    "lodLevels": 3
   },

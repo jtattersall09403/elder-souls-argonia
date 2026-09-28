@@ -431,10 +431,10 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # districts side by side, never a blended one. The legacy "argonian"/"imperial"
 # ids stay valid for the Part 0 skeleton fixture.
 KIT_SETS = {
-    "argonian":           {"culture": "argonian", "kits": ["settlement-mud-v1", "settlement-stilt-v1"]},
-    "argonian-stilt":     {"culture": "argonian", "kits": ["settlement-stilt-v1", "docks-v1", "watercraft-v1"]},
-    "argonian-mud":       {"culture": "argonian", "kits": ["settlement-mud-v1", "docks-v1"]},   # culture-kits.json: docks-piers for argonian (16k walk 2)
-    "argonian-root":      {"culture": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
+    "argonian":           {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-mud-v1", "settlement-stilt-v1"]},
+    "argonian-stilt":     {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-stilt-v1", "docks-v1", "watercraft-v1"]},
+    "argonian-mud":       {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-mud-v1", "docks-v1"]},   # culture-kits.json: docks-piers for argonian (16k walk 2)
+    "argonian-root":      {"culture": "argonian", "cultureGroup": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
     "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int", "enclosure-v1"]},
     "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int", "enclosure-v1"]},
@@ -454,6 +454,11 @@ KIT_SETS = {
 # (module 97 Part F names the family each set may use), so it is admitted to
 # the sets whose Part F enclosure row points into it, and the family — never
 # the kit — is what a district is held to.
+# `cultureGroup` (0105 R56, planner 2026-09-28): the sets whose kits share
+# one interior culture pool (`blueprint_interiors.culture_shells`): mud, stilt
+# and root are one Argonian pool; the monumental stone set is ruins and
+# xanmeer dungeons, not dwellings, so it has no group. A set with no group
+# pools by its `culture` alone.
 DRESSING_KITS = ("works-v1",)
 CULTURE_KITS = set(KIT_SETS)
 

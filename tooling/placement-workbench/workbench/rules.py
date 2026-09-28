@@ -809,8 +809,46 @@ def _floor_edge_ctx(cat, scene):
             "wall_zone": unary_union(walls).buffer(EDGE_INSET_M) if walls else None}
 
 
+#: 0105 R58: an open shelter is a roofed piece on posts with no floor slab;
+#: its posts must seat, its skirt or canopy may stand off the ground. The
+#: posts are the mesh's vertices within POST_BAND_M of its lowest point.
+POST_BAND_M = 0.1
+
+
+@lru_cache(maxsize=1)
+def floor_classes() -> dict[str, str]:
+    """{asset: floorClass} from placement-policies.json `assetPlacement`
+    rows that carry a `floorClass` (R58: `openShelter`)."""
+    path = paths.ASSET_PIPELINE / "pipeline" / "config" / "placement-policies.json"
+    rows = json.loads(path.read_text()).get("assetPlacement") or {}
+    return {a: r["floorClass"] for a, r in rows.items() if isinstance(r, dict) and r.get("floorClass")}
+
+
+def open_shelter_piece(cat, g, p, fit: str, band: float) -> tuple[dict, list]:
+    """R58: the posts (vertices within POST_BAND_M of the mesh's lowest
+    point) stand within the fit's band of the padded ground; the canopy is
+    not judged."""
+    v = _world_mesh(cat, p).vertices
+    low = float(v[:, 2].min())
+    posts = v[v[:, 2] <= low + POST_BAND_M]
+    gaps = [(float(z) - g.chunk_height(float(x), float(-y)), (float(x), float(-y)))
+            for x, y, z in posts]
+    worst = max(gaps, key=lambda t: t[0])
+    over = sum(1 for gap, _ in gaps if gap > band)
+    row = {"fit": fit, "bandM": band, "floorClass": "openShelter", "postVertices": len(gaps),
+           "overBand": over, "worst": {"gapM": round(worst[0], 3),
+                                        "atM": [round(c, 2) for c in worst[1]]}}
+    failures = []
+    if over:
+        failures.append(f"{p.uid}: open shelter post stands {worst[0]:.2f} m over the padded ground "
+                        f"at {row['worst']['atM']} (> {band} m for {fit}); {over} of {len(gaps)} "
+                        f"post vertices over the band (R58)")
+    return {p.uid: row}, failures
+
+
 def floor_edge_piece(cat, scene, ctx, p, fit_for) -> tuple[dict, list]:
-    """floorEdgeRule for one building: ({uid: row}, failures)."""
+    """floorEdgeRule for one building: ({uid: row}, failures). An
+    `openShelter` (R58) is judged at its posts (`open_shelter_piece`)."""
     from shapely.geometry import Point
     g, wall_zone = ctx["g"], ctx["wall_zone"]
     fit = fit_for(p)
@@ -818,6 +856,8 @@ def floor_edge_piece(cat, scene, ctx, p, fit_for) -> tuple[dict, list]:
     if band is None:
         return {p.uid: {"fit": fit, "note": f"fit {fit!r} has no floor-edge band (direct, "
                                             f"plinth, pad only)"}}, []
+    if floor_classes().get(p.asset) == "openShelter":
+        return open_shelter_piece(cat, g, p, fit, band)
     perim = _perimeter(measure.footprint_province(cat, p), EDGE_STEP_M)
     insets = (0.02, 0.1, 0.2, EDGE_INSET_M)
     pts = [(s[0] + n[0] * d, s[1] + n[1] * d) for s, n in perim for d in insets]

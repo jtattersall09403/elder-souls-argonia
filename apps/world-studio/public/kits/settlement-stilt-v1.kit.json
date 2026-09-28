@@ -1925,20 +1925,15 @@
     "Cylinder.Mat": 0.502
    },
    "designedSinkM": {
-    "p25": 6.1957,
-    "p50": 6.1957,
-    "p75": 6.1957,
+    "p25": 5.854,
+    "p50": 5.854,
+    "p75": 5.854,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 6.1957
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2021,15 +2016,10 @@
     "p75": 6.0086,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 6.0086
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2440,7 +2430,7 @@
     "p75": -0.606,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "placedScaleMedian": 1.1,
    "placedScaleEvidence": {
@@ -2451,11 +2441,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.606
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",

@@ -57,7 +57,7 @@ BP = {"parcels": [{"id": "parcel.hut", "assetRef": "shell"}, {"id": "parcel.stor
 
 def _links(cells):
     """``fitting_of``: the cells the fit rule accepts for the parcel."""
-    return lambda parcel: list(cells)
+    return lambda parcel, culture=None: list(cells)
 
 
 def test_a_cell_twice_in_one_place_fails_while_the_linked_set_has_unused_cells():

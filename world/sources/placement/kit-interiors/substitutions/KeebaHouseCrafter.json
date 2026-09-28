@@ -29,5 +29,56 @@
       "standInAsset": "vanilla:clutter/common/flute01",
       "why": "A bone flute lies here; a wooden flute of its length takes its place."
     }
-  ]
+  ],
+  "gaps": [
+    {
+      "refId": "0809B578",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B579",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B57A",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B57B",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B57C",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B57D",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0809B57E",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "080A0844",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+    }
+  ],
+  "gapRule": "Planner ruling R51 (16k walk 3, 2026-09-28; decision 0102's third reason): a missing piece with no same-object stand-in (R48) whose asset exists nowhere after the completed search ships as a listed gap, drawn by nothing."
 }

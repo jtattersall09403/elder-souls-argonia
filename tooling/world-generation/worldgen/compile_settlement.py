@@ -1421,10 +1421,14 @@ def bind_doors_to_doorways(bp: dict, doors_out: list[dict], placements: list[dic
             continue
         cx, _cy, cz = placement["positionM"]
         yaw = float(placement.get("yawDeg", 0.0))
+        # the doorway is measured in the piece's own frame: a scaled piece
+        # carries it out by its scale (L20: a mudhut01 at 1.15 missed by 0.69 m)
+        scale = float(placement.get("scale") or 1.0)
         tx, tz = survey.uv_to_m(*door["thresholdUV"])
         best = None
         for doorway in doorways:
-            wx, wz = runtime_world_xz((cx, cz), yaw, doorway["offsetInPieceM"])
+            wx, wz = runtime_world_xz((cx, cz), yaw,
+                                      [float(v) * scale for v in doorway["offsetInPieceM"]])
             gap = math.hypot(wx - tx, wz - tz)
             if best is None or gap < best[0]:
                 best = (gap, wx, wz, doorway)
@@ -2101,13 +2105,17 @@ def _kit_geometry(linked: list[dict], interiors: dict[str, dict],
     asset_id = placement.get("assetId") or ""
     cx, _cy, cz = placement.get("positionM") or (0.0, 0.0, 0.0)
     yaw = float(placement.get("yawDeg", 0.0))
+    # piece-frame offsets are carried out by the placement's scale, as
+    # `bind_doors_to_doorways` does (L20: mudhut01 at 1.15 missed by 0.69 m)
+    scale = float(placement.get("scale") or 1.0)
     out: dict = {}
     faces = connectors.get(asset_id) or []
     if faces:
         out["connectors"] = [
             {"face": face.get("face"), "evidence": face.get("evidence"),
              "positionM": [round(v, 3) for v in
-                           runtime_world_xz((cx, cz), yaw, face["positionInPiece"])],
+                           runtime_world_xz((cx, cz), yaw,
+                                            [float(v) * scale for v in face["positionInPiece"]])],
              "normalDeg": round((yaw + float(face.get("normalDeg", 0.0))) % 360.0, 1),
              "widthM": face.get("widthM"), "heightM": face.get("heightM")}
             for face in faces]
@@ -2123,7 +2131,8 @@ def _kit_geometry(linked: list[dict], interiors: dict[str, dict],
         out["doorways"] = [
             {**doorway,
              "positionM": [round(v, 3) for v in
-                           runtime_world_xz((cx, cz), yaw, doorway["offsetInPieceM"])],
+                           runtime_world_xz((cx, cz), yaw,
+                                            [float(v) * scale for v in doorway["offsetInPieceM"]])],
              "facingDeg": (round((yaw + float(doorway["sideDeg"])) % 360.0, 1)
                            if doorway.get("sideDeg") is not None else None)}
             for doorway in doorways]

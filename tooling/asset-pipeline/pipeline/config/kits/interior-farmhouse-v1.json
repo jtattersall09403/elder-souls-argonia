@@ -922,6 +922,18 @@
     },
     {
       "asset": "vanilla:weapons/steel/steelwarhammer"
+    },
+    {
+      "asset": "vanilla:clutter/common/crateopen01"
+    },
+    {
+      "asset": "vanilla:clutter/hagraven/hagravenhangingball01"
+    },
+    {
+      "asset": "vanilla:clutter/hagraven/hagravenhangingball02"
+    },
+    {
+      "asset": "vanilla:plants/hangingmoss01"
     }
   ]
 }

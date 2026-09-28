@@ -507,3 +507,24 @@ def test_head_clearance_is_read_over_a_deck_whatever_the_order(cat, scene):
     assert rules.sealed_by(cat, scene, door) == "hung"
     grid = rules.WalkGrid(cat, scene)
     assert grid.uids[grid.block[grid.cell(x, z)]] == "hung"
+
+
+def test_open_shelter_is_judged_at_its_posts_not_its_canopy(monkeypatch):
+    """0105 R58: posts on the ground pass though the canopy hangs 1 m up; a
+    post 0.3 m up fails."""
+    import trimesh
+    from types import SimpleNamespace
+    from workbench import rules as R
+    post = trimesh.creation.box(extents=(0.2, 0.2, 2.0))
+    post.apply_translation((0.0, 0.0, 1.0))
+    canopy = trimesh.creation.box(extents=(5.0, 5.0, 0.1))
+    canopy.apply_translation((0.0, 0.0, 1.05))
+    ground = SimpleNamespace(chunk_height=lambda x, z: 0.0)
+    p = SimpleNamespace(uid="tent")
+    for lift, ok in ((0.0, True), (0.3, False)):
+        mesh = trimesh.util.concatenate([post, canopy])
+        mesh.apply_translation((0.0, 0.0, lift))
+        monkeypatch.setattr(R, "_world_mesh", lambda cat, piece, m=mesh: m)
+        row, failures = R.open_shelter_piece(None, ground, p, "pad", 0.10)
+        assert (failures == []) is ok, (lift, failures)
+        assert row["tent"]["floorClass"] == "openShelter"

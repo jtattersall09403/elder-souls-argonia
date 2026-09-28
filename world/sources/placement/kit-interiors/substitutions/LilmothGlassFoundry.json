@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "cellId": "LilmothGlassFoundry",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter and furniture (lane L17, planner brief 2026-09-28): each missing piece is drawn by a published vanilla or King of the Murkmire piece of the same object and near size, read from the kit manifests; a piece with no same-object stand-in stays a listed gap. Drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "082E5C69",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
+      "refId": "082E5C6A",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
+      "refId": "082E5C6B",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
+      "refId": "082E5C8D",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
+      "refId": "082E5CAD",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    }
+  ]
+}

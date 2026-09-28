@@ -62,7 +62,7 @@
  },
  "doors": [
   {
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.2",
+   "exteriorDoorId": "door.hist-heartland.greenspring.1",
    "interiorLoadDoorRef": "080A5B30",
    "arrivalMarker": {
     "positionM": [
@@ -2750,6 +2750,23 @@
    "baseType": "LIGH"
   },
   {
+   "refId": "080A5B87",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "positionM": [
+    105.4506,
+    83.7528,
+    56.2005
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+  },
+  {
    "refId": "080A5B95",
    "reason": "light-source",
    "base": "SolitudeInnFiretDefault",
@@ -3041,29 +3058,6 @@
    "scale": 1.0
   },
   {
-   "id": "KeebaHouseFisher.080A5B87",
-   "refId": "080A5B87",
-   "originalPath": null,
-   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
-   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A Curios piece sits on the shelf; a mounted slaughterfish takes its place.",
-   "positionM": [
-    105.4506,
-    83.7528,
-    56.2005
-   ],
-   "rotationDeg": [
-    0.0,
-    359.915,
-    0.154
-   ],
-   "scale": 1.0
-  },
-  {
    "id": "KeebaHouseFisher.080A5B9C",
    "refId": "080A5B9C",
    "originalPath": null,
@@ -3089,13 +3083,14 @@
  ],
  "counts": {
   "placements": 105,
-  "drops": 8,
+  "drops": 9,
   "lights": 3,
-  "substitutions": 13,
+  "substitutions": 12,
   "missingByClass": {},
   "dropsByReason": {
    "actor": 2,
    "light-source": 3,
+   "listed-gap": 1,
    "marker": 3
   },
   "socketsByKind": {

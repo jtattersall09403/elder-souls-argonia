@@ -239,8 +239,10 @@ def _asset_refs(doc) -> list[str]:
 
 def batch_shells(places: list[str], links: dict, blueprints_dir: Path = BLUEPRINTS_DIR) -> list[str]:
     """Every linked shell the places' blueprints and layouts place (composites
-    as their base shell), sorted. A place with neither file is an error."""
-    from .blueprint_interiors import composite_base
+    as their base shell), and every linked shell of the culture pool their
+    doors claim from (0105 R56/R57: the fit set `interiors.variety` judges is
+    the whole pool), sorted. A place with neither file is an error."""
+    from .blueprint_interiors import composite_base, culture_shells
     shells: set[str] = set()
     for place in places:
         blueprint, layout = place_sources(place, blueprints_dir)
@@ -251,6 +253,10 @@ def batch_shells(places: list[str], links: dict, blueprints_dir: Path = BLUEPRIN
             shell = (composite_base(ref) or ref) if ref.startswith("composite:") else ref
             if shell in links:
                 shells.add(shell)
+        cultures = {(d.get("interiorClaim") or {}).get("culture")
+                    for d in (blueprint or {}).get("doors") or []}
+        for culture in sorted(c for c in cultures if c):
+            shells.update(s for s in culture_shells(culture, links) if s in links)
     return sorted(shells)
 
 

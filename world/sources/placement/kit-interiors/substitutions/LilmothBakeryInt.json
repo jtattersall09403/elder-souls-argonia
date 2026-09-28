@@ -15,6 +15,16 @@
       "why": "A lantern on a rope hangs here; a town lantern takes its place."
     },
     {
+      "refId": "082F01EC",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
+      "refId": "082F01ED",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
       "refId": "082F0200",
       "standInAsset": "vanilla:clutter/ingredients/pie01",
       "why": "A jazbay crostata sits here; a pie takes its place."

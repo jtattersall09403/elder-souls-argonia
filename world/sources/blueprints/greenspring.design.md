@@ -1,9 +1,9 @@
 # Greenspring — design (16k slice 2, type 2 Hist village)
 
-Builder: slice-2 lane, 2026-09-27. Generator for the layout and the
-blueprint skeleton: `tooling/.reports/16k/place.hist-heartland.greenspring/gen_greenspring.py`
-(one table; `chain.sh` beside it runs gen, skeleton, full apply, export,
-derive, claim, apply). Round folders: `tooling/.reports/16k/place.hist-heartland.greenspring/round-N/`.
+Builder: slice-2 lane, 2026-09-27. The layout file `greenspring.layout.json`
+is the source (0105 R59: the generator that first wrote it is retired);
+`chain.sh` in the place's report folder runs full apply, export, derive,
+claim, apply. Round folders: `tooling/.reports/16k/place.hist-heartland.greenspring/round-N/`.
 
 ## Site
 
@@ -158,6 +158,25 @@ HearthFires, Dawnguard and Curios pieces), `mudmother mudhut01` (00MudHut01 need
 HearthFires and Dragonborn), the Seekhat thatch houses and Root-Whisper round
 huts (missing architecture). Survey: `/tmp/p2/cells.out` summarised in the
 round-1 notes.
+
+### Variety (0105 R4, R37, R41)
+
+Claims read from `interiorCellClaims` in `signature-claims.json` and the fit
+rule (`blueprint_interiors.claim_for_parcel`) on 2026-09-28.
+
+| Building | Shell | Cell | Pool members rejected, with the reason |
+|---|---|---|---|
+| Lodge (door 1) | `composite:mud/kotm-house-pod` | `KeebaHouseCrafter` | `KeebaHouseFisher`: taken by the herald's house; `KeebaHouseSnailMinder`: a workshop cell (use class smithy) for a `work` parcel; `KeebaHouseTreeminder`: two architecture pieces in no archive we hold |
+| Root-herald's house (door 2) | `composite:mud/kotm-house-pod` | `KeebaHouseFisher` | as the lodge; `KeebaHouseCrafter` is the lodge's |
+| Tree-minder's house (door 3) | `composite:mud/hut-with-entrance` | none (reserved, red) | no plugin links the Black Marsh hut to a cell; the mud pool's only dwelling cells are Crafter and Fisher (both here); `KeebaHouseElder` (`mudhut02`) fails on one Creation Club flower bed; `00MudHut01` (Mud Mother hut) on a Dragonborn door |
+| Spring-keeper's house (door 4) | `kotm:argonia/mudhuts/mudhut01` | none (reserved, red) | King of the Murkmire links no cell to `mudhut01`; its door is modelled shut in the mesh |
+| Family hut (door 5) | `kotm:argonia/mudhuts/mudhut01` | none (reserved, red) | as door 4 |
+| East family hut (door 6) | `composite:mud/hut-with-entrance` | none (reserved, red) | as door 3 |
+| Spring house | `kotm:argonia/mudhuts/overhang01` | none (open-fronted) | no door |
+
+Doors 3–6 wait on a planner call: a third and fourth pod would repeat
+Crafter and Fisher and break the shell-share bar; `KeebaHouseElder`
+claims only if its one flower bed may be left out.
 
 ### Containers and items
 

@@ -75,8 +75,8 @@
   },
   {
    "cellId": "KeebaHouseCrafter",
-   "claimedAt": "2026-09-28T08:22:08Z",
-   "doorId": "door.hist-heartland.greenspring.1",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.2",
    "placeId": "place.hist-heartland.greenspring"
   },
   {
@@ -86,9 +86,15 @@
    "placeId": "place.imperial-fringe.claywater-station"
   },
   {
+   "cellId": "KeebaHouseElder",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.3",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
    "cellId": "KeebaHouseFisher",
-   "claimedAt": "2026-09-28T08:22:08Z",
-   "doorId": "door.hist-heartland.greenspring.2",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.1",
    "placeId": "place.hist-heartland.greenspring"
   },
   {
@@ -102,6 +108,24 @@
    "claimedAt": "2026-09-28T12:55:27Z",
    "doorId": "door.imperial-fringe.claywater-station.5",
    "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "LilmothGlassworksOverseerHouse",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.5",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "LilmothIronworksOverseerHouse",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.6",
+   "placeId": "place.hist-heartland.greenspring"
+  },
+  {
+   "cellId": "LilmothPlantationStorehouse",
+   "claimedAt": "2026-09-28T16:27:33Z",
+   "doorId": "door.hist-heartland.greenspring.4",
+   "placeId": "place.hist-heartland.greenspring"
   }
  ],
  "schemaVersion": 1

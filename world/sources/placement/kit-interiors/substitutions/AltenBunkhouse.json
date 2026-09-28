@@ -15,6 +15,11 @@
       "why": "A square woven rug lies here; a round rug of its width takes its place."
     },
     {
+      "refId": "080F27A8",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
+    },
+    {
       "refId": "080F27AA",
       "standInAsset": "vanilla:clutter/ingredients/scalypholiotabits01",
       "why": "A bog beacon cap lies here; a pinch of dried fungus takes its place."

@@ -299,7 +299,11 @@ def _asset_placement_row_findings(
     findings: list[str] = []
     if asset_id not in configured_assets:
         findings.append(f"{where}: not emitted by a kit config")
-    unknown = set(row) - set(ASSET_PLACEMENT_FIELDS) - {"why"}
+    # floorClass (0105 R58) is read by the workbench's floorEdgeRule, not the
+    # manifests; it rides on the row that carries the asset's reviewed why
+    unknown = set(row) - set(ASSET_PLACEMENT_FIELDS) - {"why", "floorClass"}
+    if row.get("floorClass") not in (None, "openShelter"):
+        findings.append(f"{where}: floorClass {row['floorClass']!r} is not one of ['openShelter']")
     if unknown:
         findings.append(f"{where}: unknown fields {sorted(unknown)}")
     if not any(key in row for key in ASSET_PLACEMENT_FIELDS):

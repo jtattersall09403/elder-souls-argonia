@@ -14,9 +14,17 @@ checklist rows), 0081 decision 4 (door record fields stand).
 1. **Shells are chosen for their interiors.** A lived-in building (a
    service, a home, a workplace) takes a shell that a plugin links to a
    furnished cell (`world/sources/placement/exterior-interior-links.json`);
-   a shell with no link is legal only for a building nobody enters (open
-   barn, lean-to, store) or when the culture's pool has no linked shell,
-   and then the door is `reserved` with the pool named. A composite
+   every building that looks enterable is enterable (owner 2026-09-28,
+   correcting this decision at source: there are no "buildings nobody
+   enters"). A shell with a door and no plugin-linked cell takes a cell
+   from its culture pool (every cell a plugin links to any shell of the
+   culture's kit sets) by the fit rule, each cell profiled under the shell
+   it is linked to, and the door record is written like any tier A door
+   (`blueprint_interiors.culture_pool_rows`); when every fitting linked
+   cell already furnishes a building in the place, the pool offers the next
+   before any is shared. A shell that fits no cell of its pool is cut from
+   the pool for any building with a door. An open-fronted piece with no
+   door is walked into (0105 R18). A composite
    inherits its base shell's links. A shell counts as unlinked only
    after the door links have been re-mined over the CURRENT pool (owner
    2026-09-26: the tracked record predates the KotM, BM&V and mudmother

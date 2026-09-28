@@ -107,3 +107,12 @@ def test_room_shell_meshes_class_as_architecture():
                  "architecture/solitude/interior/sinteriorroom01.nif"):
         assert classify(path).category == "architecture", path
     assert classify("argonia/mudhuts/window01.nif").category != "architecture"
+
+
+def test_a_crate_is_clutter_wherever_its_mod_files_it():
+    # R47 (16k walk 3): the crate rule lives in the taxonomy, not in one exporter
+    for path in ("argonia/furniture/crateopen01.nif", "furniture/noble/noblecrate02.nif",
+                 "clutter/common/cratesmall01.nif"):
+        c = classify(path)
+        assert c.category == "clutter" and "crate" in c.tags, path
+    assert "crate" not in classify("clutter/deadsoldiers/desecratedimperial.nif").tags

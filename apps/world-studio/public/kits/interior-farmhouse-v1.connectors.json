@@ -1854,6 +1854,52 @@
     "widthM": 1.3
    }
   ],
+  "vanilla:clutter/common/crateopen01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.32
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.22,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.32
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.22,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
   "vanilla:clutter/common/cratesmall02": [
    {
     "evidence": "bounds",
@@ -5208,6 +5254,98 @@
      0.0
     ],
     "widthM": 0.52
+   }
+  ],
+  "vanilla:clutter/hagraven/hagravenhangingball01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.16
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     -0.01
+    ],
+    "widthM": 0.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     -0.01
+    ],
+    "widthM": 0.31
+   }
+  ],
+  "vanilla:clutter/hagraven/hagravenhangingball02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.86,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.86,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.15,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.86,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.86,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.15,
+     0.0
+    ],
+    "widthM": 0.3
    }
   ],
   "vanilla:clutter/hay/haymound02": [
@@ -11292,6 +11430,52 @@
     "widthM": 0.22
    }
   ],
+  "vanilla:plants/hangingmoss01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.27
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.17,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.27
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
   "vanilla:plants/jazbay01": [
    {
     "evidence": "bounds",
@@ -12064,8 +12248,8 @@
   ]
  },
  "counts": {
-  "assets": 300,
-  "bounds": 1042,
+  "assets": 304,
+  "bounds": 1058,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

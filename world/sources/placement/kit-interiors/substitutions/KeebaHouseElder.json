@@ -79,5 +79,80 @@
       "standInAsset": "vanilla:clutter/glazedjugsmall01",
       "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
     }
-  ]
+  ],
+  "gaps": [
+    {
+      "refId": "0801AABC",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A bed of redwort flowers grows here; no archive we hold has the plant, so the spot stays bare."
+    },
+    {
+      "refId": "0801AA24",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits loose here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AA27",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits loose here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AA29",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits loose here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAA3",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits loose here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAA7",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits loose here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AABD",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAB1",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A redwort flower lies here; no kit holds one, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAB2",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A redwort flower lies here; no kit holds one, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAC0",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAC1",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+    },
+    {
+      "refId": "0801AAC7",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+    }
+  ],
+  "gapRule": "Planner ruling R51 (16k walk 3, 2026-09-28; decision 0102's third reason): a missing piece with no same-object stand-in (R48) whose asset exists nowhere after the completed search ships as a listed gap, drawn by nothing."
 }

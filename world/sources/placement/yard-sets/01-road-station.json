@@ -243,6 +243,40 @@
      "yaw": 0.0
     }
    ]
+  },
+  {
+   "id": "imperial-station-porch",
+   "anchor": "isp-sack",
+   "why": "Supplies the station keeper sets out for travellers waiting on the ferry: a sack of provisions, a closed basket and a water bucket by the door.",
+   "members": [
+    {
+     "uid": "isp-sack",
+     "piece": "vanilla:clutter/containers/miscsacklarge",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "isp-basket",
+     "piece": "vanilla:clutter/basketclosed01",
+     "offsetM": [
+      0.8,
+      0.3
+     ],
+     "yaw": 20.0
+    },
+    {
+     "uid": "isp-bucket",
+     "piece": "vanilla:clutter/bucket01",
+     "offsetM": [
+      -0.8,
+      0.4
+     ],
+     "yaw": 0.0
+    }
+   ]
   }
  ]
 }

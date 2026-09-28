@@ -9,7 +9,7 @@
     "defaultTier": "used only when a record carries no magnitude; the record's classification.magnitude decides otherwise",
     "buildingSpacingM": "[min, max] metres between neighbouring buildings; 97 C6 buffers each district hull by half the max",
     "densityPerHa": "[low, high] 97 C6 band: counted buildings and structures per hectare of the union of the district hulls, read from the column the place is built under",
-    "dressingPiecesPerDwellingWithin12mMin": "every placement within 12 m in plan of the dwelling's footprint (15 m in height of its anchor), except shells, pads, ground treatments and modular-run pieces (decision 0105 R6; 0098's vanilla numbers counted pieces); p50 over the place's dwellings"
+    "dressingPiecesPerDwellingWithin12mMin": "every placement within 12 m in plan of the dwelling's footprint (15 m in height of its anchor), except shells, pads, ground treatments, modular-run pieces, natural references (trees, rocks, wild plants: the frozen world's layer) and markers; crops, steps, porches, doors, smoke, fire and clutter count (decision 0105 R6 and R33); p50 over the place's dwellings; the values are the vanilla R6 p50s of r33-dressing-count.md rounded down to 5"
   },
   "tiers": {
     "M1": {
@@ -30,8 +30,8 @@
         "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (Hamlet (4–6)); docs/research/placement-settlements/building-asset-breadth.md:237"
       },
       "dressingPiecesPerDwellingWithin12mMin": {
-        "value": 15,
-        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Hamlet (4–6), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+        "value": 20,
+        "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: vanilla Skyrim.esm + Update.esm houses under the R6 count, M1 hamlet p50 22, n 12, rounded down to 5; planner ruling L16 brief 2026-09-28)"
       },
       "clutterPiecesMin": {
         "value": 5,
@@ -87,7 +87,7 @@
       },
       "dressingPiecesPerDwellingWithin12mMin": {
         "value": 20,
-        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Village (7–12), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+        "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: vanilla Skyrim.esm + Update.esm houses under the R6 count, M2 village p50 22, n 24, rounded down to 5; planner ruling L16 brief 2026-09-28)"
       },
       "clutterPiecesMin": {
         "value": 5,
@@ -142,8 +142,8 @@
         "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (Town (13–25)); docs/research/placement-settlements/building-asset-breadth.md:237"
       },
       "dressingPiecesPerDwellingWithin12mMin": {
-        "value": 25,
-        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Town (13–25), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+        "value": 20,
+        "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: vanilla Skyrim.esm + Update.esm houses under the R6 count, M3 town p50 20, n 18, rounded down to 5; planner ruling L16 brief 2026-09-28)"
       },
       "clutterPiecesMin": {
         "value": 5,
@@ -198,8 +198,8 @@
         "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:237"
       },
       "dressingPiecesPerDwellingWithin12mMin": {
-        "value": 40,
-        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (City (26+), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+        "value": 45,
+        "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: vanilla Skyrim.esm + Update.esm houses under the R6 count, M4+ city p50 49, n 39, rounded down to 5; planner ruling L16 brief 2026-09-28)"
       },
       "clutterPiecesMin": {
         "value": 5,
@@ -254,8 +254,8 @@
         "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:237"
       },
       "dressingPiecesPerDwellingWithin12mMin": {
-        "value": 40,
-        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (City (26+), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+        "value": 45,
+        "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: vanilla Skyrim.esm + Update.esm houses under the R6 count, M4+ city p50 49, n 39, rounded down to 5; planner ruling L16 brief 2026-09-28)"
       },
       "clutterPiecesMin": {
         "value": 5,
@@ -449,6 +449,13 @@
       "defaultTier": "M1",
       "overrides": {},
       "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:232)"
+    }
+  },
+  "isolatedFarm": {
+    "buildingsMax": 3,
+    "dressingPiecesPerDwellingWithin12mMin": {
+      "value": 15,
+      "source": "tooling/.reports/16k/walk3/r33-dressing-count.md (0105 R33: isolated farms, fewer than 4 buildings within 45 m, p50 17, n 22, rounded down to 5; planner ruling L16 brief 2026-09-28). No gate reads it yet: place_gates measures no bar below the M1 column"
     }
   }
 }

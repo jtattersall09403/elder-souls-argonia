@@ -261,11 +261,50 @@ def variety_exceptions(bp: dict, bars: list[tuple[str, str]]) -> tuple[list[str]
     return failures, warnings
 
 
+#: 0105 R33: the classes the vanilla measurement behind the bar left out
+#: (`tooling/.reports/16k/walk3/r33/measure.py` ``klass``); this is the one
+#: copy the gate reads, so a change here is a change to the measurement too
+R6_CROP = re.compile(r"wheat|potato|cabbage|leek|gourd|garlic|carrot|tomato|lavender|hops|corn")
+R6_AMBIENT = re.compile(r"mist|motes|snowblow|fog|ambsnow|dustdrop|fxamb|lightbeam|godray|cloud")
+R6_RUN_NAME = re.compile(r"fence|stonewall|wall|walkway(?!stairs)|road|bridge|dockstr|dockcol|palisade|railing|rtdeck|boardwalk")
+#: taxonomy categories that are natural references wherever a mod files them
+R6_NATURAL_CATEGORIES = frozenset({"tree", "rock", "shrub", "grass", "plant", "fungus", "aquatic-plant",
+                                   "root", "deadfall", "terrain-feature"})
+
+
+def r6_class(asset_id: str | None) -> str:
+    """0105 R33: ``marker``, ``ground``, ``natural`` (trees, rocks, wild
+    plants: the frozen world's layer; crops count), ``ambient`` (mist and
+    light-beam effects), ``run`` (a run piece by name) or ``counted``, as the
+    vanilla measurement classed each reference."""
+    from .asset_taxonomy import classify
+    m = str(asset_id or "").split(":", 1)[-1].lower()
+    stem = m.rsplit("/", 1)[-1]
+    if m.startswith("markers/") or "/markers/" in m or "marker" in stem:
+        return "marker"
+    if m.startswith("landscape/roads"):
+        return "ground"
+    crop = bool(R6_CROP.search(stem))
+    if m.startswith(("landscape/", "trees/")) or (m.startswith("plants/") and not crop):
+        return "natural"
+    if not crop and classify(m + ".nif").category in R6_NATURAL_CATEGORIES:
+        return "natural"
+    if "effects/" in m and R6_AMBIENT.search(stem):
+        return "ambient"
+    if (R6_RUN_NAME.search(stem) and "walkwaystairs" not in stem
+            and not re.match(r"farmhouse0\dwalkway", stem)):
+        return "run"
+    return "counted"
+
+
 def is_r6_counted(p: dict) -> bool:
     """0105 R6: a placement the per-dwelling dressing count includes: every
     placement except shells (a parcel's ``.building``), modular-run pieces
-    (``run``, fence pieces); pads and ground treatments are no placements."""
+    (``run``, fence pieces), and what ``r6_class`` leaves out (R33); pads and
+    ground treatments are no placements."""
     if p.get("objectKind") == "parcel" and str(p.get("id", "")).endswith(".building"):
+        return False
+    if r6_class(p.get("assetId")) != "counted":
         return False
     return not (p.get("run") or p.get("objectKind") in R6_RUN_KINDS)
 
@@ -702,15 +741,17 @@ def door_cells(bp: dict) -> list[dict]:
         claim = door.get("interiorClaim") or {}
         if claim.get("cellId"):
             out.append({"doorId": door["id"], "parcelId": door.get("parcelId"),
-                        "cellId": claim["cellId"], "why": str(claim.get("why") or "")})
+                        "cellId": claim["cellId"], "culture": claim.get("culture"),
+                        "why": str(claim.get("why") or "")})
     return out
 
 
 _FIT_ENV: dict = {}
 
 
-def fitting_cells(parcel: dict | None) -> list[str]:
-    """0105 R37: the cells the fit rule accepts for the parcel
+def fitting_cells(parcel: dict | None, culture: str | None = None) -> list[str]:
+    """0105 R37/R57: the cells the fit rule accepts for the parcel over its
+    linked cells and the whole R56 culture pool
     (``blueprint_interiors.claim_for_parcel``, nothing held, no preference),
     each cell's profile and sourcing looked up in the batch pre-pass claim
     table (``output/claim-table.json``) as ``--claim`` does, a cell the table
@@ -725,7 +766,7 @@ def fitting_cells(parcel: dict | None) -> list[str]:
             profile, sourcing = bi.plugin_profile, bi.bundle_sourcing
         _FIT_ENV.update(lib=bi.library(), links=bi.linked_shells(), profile=profile, sourcing=sourcing)
     got = bi.claim_for_parcel(parcel or {}, _FIT_ENV["lib"], _FIT_ENV["links"], _FIT_ENV["profile"],
-                              sourcing=_FIT_ENV["sourcing"])
+                              sourcing=_FIT_ENV["sourcing"], culture=culture, whole_pool=True)
     return sorted(c["cellId"] for c in got.get("candidates") or [] if not c["fails"])
 
 
@@ -753,17 +794,19 @@ def interior_variety_failures(place_id: str, bp: dict, claims: list[dict],
             where = ", ".join([f"{place_id} {x}" for x in before_here] + in_region)
             used = ({m["cellId"] for m in mine if m["doorId"] != d["doorId"]}
                     | {c["cellId"] for c in others if region_of(c["placeId"]) == region})
-            fit = fitting_of(parcels.get(d["parcelId"]))
+            fit = fitting_of(parcels.get(d["parcelId"]), d.get("culture"))
             exhausted = bool(fit) and set(fit) <= used
             msg = (f"0105 R4: {d['doorId']} uses interior cell {d['cellId']} already used in region "
                    f"{region} ({where})")
             if exhausted:
                 warnings.append(f"{msg}; excused: every cell the fit rule accepts for "
-                                f"{d['parcelId']} ({fit}) is used in the region (R37, claim table)")
+                                f"{d['parcelId']} ({fit}, fit set {len(fit)}) is used in the region "
+                                f"(R37/R57, claim table)")
             else:
                 unused = sorted(set(fit) - used)
-                failures.append(f"{msg}; cells the fit rule accepts for {d['parcelId']} and the "
-                                f"region has not used: {unused or 'none (no cell fits)'}")
+                failures.append(f"{msg}; fit set {len(fit)}; cells the fit rule accepts for "
+                                f"{d['parcelId']} and the region has not used: "
+                                f"{unused or 'none (no cell fits)'}")
     copies = Counter(c["cellId"] for c in others) + Counter(d["cellId"] for d in mine)
     for cell in sorted({d["cellId"] for d in mine}):
         if copies[cell] > cap:
@@ -776,9 +819,21 @@ def interior_variety_gate(g: Gates, place_id: str, bp: dict, claims_doc: dict | 
     from . import claim_signature as cl
     t = time.perf_counter()
     doc = claims_doc if claims_doc is not None else cl.load()
-    failures, warnings = interior_variety_failures(place_id, bp, doc.get("interiorCellClaims") or [])
+    memo: dict = {}
+
+    def fit_once(parcel, culture=None):
+        key = ((parcel or {}).get("id"), culture)
+        if key not in memo:
+            memo[key] = fitting_cells(parcel, culture)
+        return memo[key]
+
+    failures, warnings = interior_variety_failures(place_id, bp, doc.get("interiorCellClaims") or [],
+                                                   fitting_of=fit_once)
+    parcels = {p["id"]: p for p in bp.get("parcels") or []}
     g.add("interiors.variety", time.perf_counter() - t, failures, warnings,
-          cells=[d["cellId"] for d in door_cells(bp)])
+          cells=[d["cellId"] for d in door_cells(bp)],
+          fitSets={d["doorId"]: len(fit_once(parcels.get(d["parcelId"]), d.get("culture")))
+                   for d in door_cells(bp)})
 
 
 def claim_interior_cells(place_id: str, bp: dict, now: str, path: Path | None = None) -> list[dict]:

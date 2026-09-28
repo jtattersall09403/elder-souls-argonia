@@ -1,0 +1,137 @@
+{
+ "schemaVersion": 1,
+ "type": "02-hist-village",
+ "about": "Yard sets for Hist villages (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0); none is mounted, every member is settled on the ground. The sets are compact (under 1.2 m from the anchor) so each fits on the flat patches of a sloping village; first laid at Greenspring (lane L16, 2026-09-28).",
+ "source": "world/sources/blueprints/greenspring.layout.json (first laid there by `group place`)",
+ "sets": [
+  {
+   "id": "hist-village-stores",
+   "anchor": "hv-store",
+   "why": "The household's stores by its door: a lidded store basket, two open baskets and a closed one, and a small basket on the ground.",
+   "members": [
+    {
+     "uid": "hv-store",
+     "piece": "kotm:argonia/clutter/basketcontainer",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "hv-basket1",
+     "piece": "kotm:argonia/clutter/basket01",
+     "offsetM": [
+      0.8,
+      0.2
+     ],
+     "yaw": 20.0
+    },
+    {
+     "uid": "hv-basket2",
+     "piece": "kotm:argonia/clutter/basket02",
+     "offsetM": [
+      0.6,
+      0.9
+     ],
+     "yaw": 60.0
+    },
+    {
+     "uid": "hv-closed",
+     "piece": "vanilla:clutter/basketclosed01",
+     "offsetM": [
+      -0.7,
+      0.3
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "hv-small",
+     "piece": "mudmother:gv_meshes/argoniannest/basketsmall01",
+     "offsetM": [
+      -0.2,
+      0.9
+     ],
+     "yaw": 0.0
+    }
+   ]
+  },
+  {
+   "id": "hist-village-cookpot",
+   "anchor": "hc-wood",
+   "why": "Where the household cooks: firewood, the cooking pots set down between meals, and the water bucket carried up from the spring.",
+   "members": [
+    {
+     "uid": "hc-wood",
+     "piece": "vanilla:clutter/firewood/firewoodpilesmall01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 90.0
+    },
+    {
+     "uid": "hc-pot",
+     "piece": "kotm:argonia/clutter/saxhleelmetalpot01",
+     "offsetM": [
+      0.9,
+      0.6
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "hc-potloose",
+     "piece": "vanilla:clutter/woodfires/spitpotopenloose01",
+     "offsetM": [
+      0.9,
+      -0.3
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "hc-bucket",
+     "piece": "vanilla:clutter/bucket01",
+     "offsetM": [
+      -0.8,
+      0.5
+     ],
+     "yaw": 0.0
+    }
+   ]
+  },
+  {
+   "id": "hist-village-nets",
+   "anchor": "hn-net1",
+   "why": "Fishing gear from the river fork: two nets drying and a sack for the catch.",
+   "members": [
+    {
+     "uid": "hn-net1",
+     "piece": "shores:shoresofskyrim/fishnet01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "hn-net2",
+     "piece": "shores:shoresofskyrim/fishnet01",
+     "offsetM": [
+      0.7,
+      0.4
+     ],
+     "yaw": 40.0
+    },
+    {
+     "uid": "hn-sack",
+     "piece": "vanilla:clutter/containers/miscsacklarge",
+     "offsetM": [
+      -0.8,
+      0.2
+     ],
+     "yaw": 30.0
+    }
+   ]
+  }
+ ]
+}

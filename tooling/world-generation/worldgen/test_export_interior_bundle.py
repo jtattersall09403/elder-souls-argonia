@@ -197,8 +197,8 @@ _PIECES = [
 @pytest.mark.parametrize("q, verdict", [
     ([0.2, 0.92, -0.1], "surface"),   # on the table top
     ([3.0, 0.05, 1.0], "floor"),      # on the floor by the chair
-    ([3.0, 1.6, 1.0], "wall"),        # hung, nothing under it
-    ([0.2, 1.2, -0.1], "wall"),       # 0.3 m over the table top: not resting on it
+    ([3.0, 1.6, 1.0], "loose"),       # R49: nothing under it and no wall within 0.3 m
+    ([0.2, 1.2, -0.1], "loose"),      # 0.3 m over the table top: not resting on it, no wall
 ])
 def test_support_of_reads_where_a_reference_sits(q, verdict):
     assert ex.support_of(q, _PIECES, _BOUNDS)[0] == verdict
@@ -211,8 +211,19 @@ def test_support_of_reads_a_room_shell_floor_and_never_a_door_top():
     door = dict(shell, id="D", assetId="door", category="door", positionM=[40.0, 0.0, 0.0])
     # standing on the shell's floor, near the bottom of its box, no furniture near
     assert ex.support_of([21.0, -0.7, 1.0], [shell], bounds)[0] == "floor"
-    # hung just over a door's lintel
-    assert ex.support_of([40.0, 2.25, 0.0], [door], bounds)[0] == "wall"
+    # just over a door's lintel: a door is no wall to hang from (R49)
+    assert ex.support_of([40.0, 2.25, 0.0], [door], bounds)[0] == "loose"
+    # hung 2 m up inside the room shell, 0.2 m off its east side: a wall (R49)
+    assert ex.support_of([24.8, 1.2, 0.0], [shell], bounds)[0] == "wall"
+    # hung 2 m up in the middle of the room, 5 m from every side: loose (R49)
+    assert ex.support_of([20.0, 1.2, 0.0], [shell], bounds)[0] == "loose"
+    # standing on the ground 0.2 m outside the shell's wall, nothing near: not hung (R49)
+    assert ex.support_of([25.2, -0.75, 0.0], [shell], bounds)[0] == "loose"
+    # 0.28 m above a floor slab's top, past the resting band: not hung from the slab (R49)
+    slab = {"id": "F", "assetId": "slab", "category": "architecture", "positionM": [60.0, 0.0, 0.0],
+            "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0}
+    b2 = {"slab": ([4.0, 4.0, 0.2], [2.0, 2.0, 0.2])}
+    assert ex.support_of([60.0, 0.28, 0.0], [slab], b2)[0] == "loose"
 
 
 def test_class_by_placement_support_from_below_wins():
@@ -220,6 +231,10 @@ def test_class_by_placement_support_from_below_wins():
     assert ex.class_by_placement({"floor": 2}, 0.0) == "clutter"
     assert ex.class_by_placement({"floor": 2, "wall": 1}, 0.75) == "furniture"
     assert ex.class_by_placement({"wall": 2}, 0.0) == "fixture"
+    # R49: one reference hung from no wall makes the form loose clutter
+    assert ex.class_by_placement({"wall": 2, "loose": 1}, 0.0) == "clutter"
+    # R50: a floor form with nothing on it is clutter
+    assert ex.class_by_placement({"floor": 3}, 0.0) == "clutter"
 
 
 def test_placement_rows_class_unclassed_absent_forms_only():

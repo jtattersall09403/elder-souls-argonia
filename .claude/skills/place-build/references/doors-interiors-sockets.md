@@ -57,8 +57,11 @@ run) and 5 (the gates).
 1. **Shells are chosen for their interiors.** A lived-in building (a
    service, a home, a workplace) takes a shell that a plugin links to a
    furnished cell (`world/sources/placement/exterior-interior-links.json`).
-   A shell with no link is legal only for a building nobody enters
-   (open barn, lean-to; no door record, walked into). A door is
+   Every building that looks enterable is enterable (R52, owner
+   2026-09-28): a shell with a door and no link takes a cell from its
+   culture pool by the same fit rule; a shell that fits no pool cell is
+   cut for doored buildings; an open-fronted piece with no door record is
+   walked into (R18). A door is
    `reserved` (its pool named) only for a tier B or C interior (a
    dungeon, a unique large interior; 0105 R2): a dwelling, shop, stable
    house or workplace door is never reserved; the builder re-shells to a

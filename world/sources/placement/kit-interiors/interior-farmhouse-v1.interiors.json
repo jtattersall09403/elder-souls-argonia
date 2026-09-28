@@ -677,6 +677,23 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.7 m\u00b2 plan, 0.9 m tall)"
   },
+  "vanilla:clutter/common/crateopen01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 38.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 39\u00b0 in the piece's own frame carries 2.02x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.34,
+   "interior": "none",
+   "planAreaM2": 0.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.3 m tall)"
+  },
   "vanilla:clutter/common/cratesmall02": {
    "category": "clutter",
    "entrance": null,
@@ -1806,6 +1823,30 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.4 m tall)"
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.96,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 2.0 m tall)"
+  },
+  "vanilla:clutter/hagraven/hagravenhangingball02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.86,
+   "interior": "none",
+   "planAreaM2": 0.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.9 m tall)"
   },
   "vanilla:clutter/hay/haymound02": {
    "category": "clutter",
@@ -3789,6 +3830,18 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:plants/hangingmoss01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.2,
+   "interior": "none",
+   "planAreaM2": 0.1,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.2 m tall)"
   },
   "vanilla:plants/jazbay01": {
    "category": "plant",

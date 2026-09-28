@@ -881,6 +881,22 @@ def test_a_door_binds_to_the_doorway_of_the_piece_it_opens():
     assert doors[0]["doorwaySource"] == "interiors/assembly"
 
 
+def test_a_scaled_shell_carries_its_doorway_out_by_its_scale():
+    """L20 (16k walk 3): a mudhut01 placed at 1.15 bound its door 0.69 m off
+    because the doorway offset was read at scale 1."""
+    interiors = {"kit:hut": {"provenance": [{"kind": "assembly", "offsetM": [-2.45, -1.4],
+                                             "sideDeg": 300.0}]}}
+    placements = [{"id": "p.hut", "objectKind": "parcel", "parcelId": "parcel.hut",
+                   "assetId": "kit:hut", "positionM": [50.0, 0.0, 50.0], "yawDeg": 0.0,
+                   "scale": 2.0}]
+    doors = [{"id": "door.1", "parcelId": "parcel.hut",
+              "thresholdUV": [(50.0 - 4.9) / 100.0, (50.0 - 2.8) / 100.0]}]
+    errors = cs.bind_doors_to_doorways(_door_bp(), doors, placements, DoorwaySurvey(),
+                                       interiors, {})
+    assert errors == []
+    assert doors[0]["thresholdM"] == [45.1, 47.2]
+
+
 def test_a_door_further_than_half_a_metre_from_any_doorway_fails():
     """The door was authored on the parcel polygon, so it opened a wall."""
     interiors = {"kit:hut": {"provenance": [{"kind": "assembly", "offsetM": [-2.45, -1.4],

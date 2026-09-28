@@ -1093,6 +1093,42 @@
    "yaw": 0.0
   },
   {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    305.0,
+    3000.0
+   ],
+   "yaw": 270.0,
+   "prefix": "c4-",
+   "parcel": "parcel.claywater-station.polers-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    321.0,
+    3000.0
+   ],
+   "yaw": 0.0,
+   "prefix": "c4-",
+   "parcel": "parcel.claywater-station.polers-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "imperial-station-porch",
+   "at": [
+    311.0,
+    3073.0
+   ],
+   "yaw": 32.0,
+   "prefix": "c1-",
+   "parcel": "parcel.claywater-station.station-house"
+  },
+  {
    "op": "mount",
    "child": "p1-board2",
    "parent": "p1",
@@ -2541,6 +2577,114 @@
    "kind": "assembly",
    "id": "parcel.claywater-station.polers-hut",
    "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hv-store",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c4-hv-small",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c1-isp-sack",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c1-isp-basket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "c1-isp-bucket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
    "on": "ground",
    "evidence": "measured"
   },

@@ -469,7 +469,91 @@ def test_an_unlinked_shell_why_states_the_link_fact_only():
     parcel = {"id": "p", "assetRef": "kotm:argonia/mudhuts/mudhut01"}
     lib = {"kotm:argonia/mudhuts/mudhut01": {"planAreaM2": 99.0}}
     got = bi.claim_for_parcel(parcel, lib, {}, lambda *a: None)
-    assert got["why"] == "no plugin links kotm:argonia/mudhuts/mudhut01 to a furnished cell"
+    assert got["why"] == ("no plugin links kotm:argonia/mudhuts/mudhut01 to a furnished cell "
+                          "and the unknown culture pool has no linked cell")
+
+
+def test_an_unlinked_shell_takes_a_fitting_cell_from_its_culture_pool():
+    """R52 (owner 2026-09-28, corrects 0103 decision 1): a shell with a door
+    and no plugin-linked cell is fitted against every linked cell of its
+    culture pool, each profiled under the shell it is linked to; it is
+    reserved only when no cell of the pool fits."""
+    seen = []
+
+    def profile(plugin, cell, shell):
+        seen.append(shell)
+        return PROFILE(plugin, cell, shell)
+    lib = _Lib({"test:unlinked": {"planAreaM2": 100.0, "storeys": 1,
+                                  "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
+    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:unlinked", "use": "dwelling"},
+                              lib, LINKS, profile, culture="c",
+                              pools={"c": ["test:shell"]})
+    assert got["tier"] == "A" and got["cellId"] == "Home"
+    assert "culture pool" in got["why"] and "no plugin links" in got["why"]
+    assert set(seen) == {"test:shell"}
+    none = bi.claim_for_parcel({"id": "p", "assetRef": "test:unlinked", "use": "dwelling"},
+                               lib, LINKS, PROFILE, culture="c", pools={"c": []})
+    assert none["tier"] == "reserved"
+
+
+def test_a_second_building_takes_a_pool_cell_before_sharing_a_linked_one():
+    """R52: when every fitting linked cell furnishes another building here,
+    the culture pool offers the next fitting cell."""
+    links = {"test:one": [dict(r, interiorCell="Home") for r in LINKS["test:shell"]
+                          if r["interiorCell"] == "Home"],
+             "test:shell": LINKS["test:shell"]}
+    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
+                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
+    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:one", "use": "dwelling"},
+                              lib, links, PROFILE, used=frozenset({"Home"}), culture="c",
+                              pools={"c": ["test:shell"]})
+    assert got["tier"] == "A" and got["cellId"] != "Home"
+    assert "culture pool" in got["why"]
+
+
+def test_whole_pool_measures_the_pool_even_while_a_linked_cell_is_free():
+    """0105 R57: the fit set the variety gate judges reuse by is the linked
+    cells plus the whole R56 culture pool, whatever is held."""
+    links = {"test:one": [r for r in LINKS["test:shell"] if r["interiorCell"] == "Home"],
+             "test:shell": LINKS["test:shell"]}
+    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
+                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
+    parcel = {"id": "p", "assetRef": "test:one", "use": "dwelling"}
+    kw = dict(culture="c", pools={"c": ["test:shell"]})
+    narrow = bi.claim_for_parcel(parcel, lib, links, PROFILE, **kw)
+    whole = bi.claim_for_parcel(parcel, lib, links, PROFILE, whole_pool=True, **kw)
+    fit = lambda got: sorted({c["cellId"] for c in got["candidates"] if not c["fails"]})
+    assert fit(narrow) == ["Home"]
+    assert "Home2" in fit(whole) and "Huge" not in fit(whole)
+
+
+def test_a_linked_shell_whose_linked_cells_all_fail_shares_a_held_pool_cell():
+    """R52 review fix: a linked shell with no fitting linked cell, placed
+    after every fitting pool cell is held, shares the least-held pool cell
+    (as an unlinked shell does) and its why says no linked cell fits."""
+    links = {"test:one": [r for r in LINKS["test:shell"] if r["interiorCell"] == "Huge"],
+             "test:shell": [r for r in LINKS["test:shell"] if r["interiorCell"] in ("Home", "Huge")]}
+    lib = _Lib({"test:one": {"planAreaM2": 100.0, "storeys": 1,
+                             "entrance": {"kind": "esp-door", "sideDeg": 10.0}}})
+    got = bi.claim_for_parcel({"id": "p", "assetRef": "test:one", "use": "dwelling"},
+                              lib, links, PROFILE, used={"Home": 1}, culture="c",
+                              pools={"c": ["test:shell"]})
+    assert got["tier"] == "A" and got["cellId"] == "Home"
+    assert "no linked one passing the fit rule" in got["why"]
+
+
+def test_culture_shells_pool_the_group_and_its_interior_kit_folders(monkeypatch):
+    """0105 R56: the sets sharing a `cultureGroup` pool together, the stone set
+    stays out, and linked shells under a group interior kit's folders join."""
+    from . import blueprint as b
+    monkeypatch.setattr(b, "KIT_SETS", {
+        "a": {"culture": "c", "cultureGroup": "c", "kits": ["kit-missing-a"]},
+        "b": {"culture": "c", "kits": ["kit-missing-b"]}})
+    monkeypatch.setattr(bi, "CULTURE_INTERIOR_KITS", {"c": {"int-kit": ("mod:houses/",)}})
+    bi._culture_kit_shells.cache_clear()
+    links = {"mod:houses/hut1": [], "mod:ruins/tower": []}
+    assert bi.culture_shells("c", links) == ["mod:houses/hut1"]
+    bi._culture_kit_shells.cache_clear()
 
 
 # Planner ruling 2026-09-27 (16k walk 2 lane I): missing pieces count over

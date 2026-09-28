@@ -89,3 +89,18 @@ def test_run_takes_its_clock_from_the_caller():
     param = inspect.signature(pg.run).parameters["now"]
     assert param.kind is param.KEYWORD_ONLY and param.default is param.empty
     assert "datetime" not in inspect.getsource(pg)
+
+
+def test_r6_leaves_out_natural_references_and_markers_but_counts_crops():
+    # 0105 R33: the bar was measured with trees, rocks, wild plants and markers left out
+    base = {"objectKind": "assembly", "positionM": [0.0, 0.0, 0.0]}
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:trees/treepineforest01"})
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:landscape/rocks/rocklargemoss01"})
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:plants/fernbush01"})
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:markers/idlemarker"})
+    assert pg.is_r6_counted({**base, "assetId": "vanilla:plants/farmcabbage01"})
+    assert pg.is_r6_counted({**base, "assetId": "vanilla:clutter/barrel01"})
+    # a mod's wild plant outside a top-level plants/ folder, an ambient mist, a named run piece
+    assert not pg.is_r6_counted({**base, "assetId": "tropicalskyrim:landscaping/plants/fern01"})
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:effects/fxmistlow01"})
+    assert not pg.is_r6_counted({**base, "assetId": "vanilla:architecture/farmhouse/fencefarm01"})

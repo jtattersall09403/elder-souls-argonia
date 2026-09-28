@@ -21,7 +21,7 @@ work, civic or storage piece count.
 | Distinct shells | ≥ 2 | ≥ 4 | ≥ 6 | ≥ 8 per culture quarter |
 | Top shell share among dwellings | ≤ 0.5 | ≤ 0.35 | ≤ 0.25 | ≤ 0.2 |
 | Two houses on one shell differ on ≥ 3 axes (porch or steps, openings, roof detail, condition, trade dressing, yaw or mirror) | yes | yes | yes | yes |
-| Pieces within 12 m per dwelling, p50 | ≥ 15 | ≥ 20 | ≥ 25 | ≥ 40 |
+| Pieces within 12 m per dwelling, p50 (0105 R6 count; R33 re-derived 2026-09-28) | ≥ 20 | ≥ 20 | ≥ 20 | ≥ 45 |
 | Minimum set per dwelling: door, light, roof detail, windows (unless "none by design", building-depth-and-variety.md §4), ≥ 5 personal clutter | yes | yes | yes | yes |
 | Non-dwelling share | 97 Part F bands | same | same | same |
 
@@ -41,7 +41,7 @@ settlement = 4 or more buildings within 45 m). Skyrim p50: 2 shells and a
 0.50 top-shell share at 4–6 buildings; 6 shells, 0.29 at 7–12; 13 shells,
 0.19 at 13–25; 26 shells at 26+. BM&V's Black Marsh villages repeat one
 shell 43–71 % of the time, the sparseness the owner reacted to. Vanilla
-houses carry 19.5–69.5 pieces within 12 m. The table's shell and share
+houses carry a p50 of 20–22 counted pieces within 12 m of the footprint at hamlet, village and town tier and 49 in the cities, under 0105 R6's count (measured in `tooling/.reports/16k/walk3/r33-dressing-count.md`, 0105 R33; the earlier "19.5–69.5" was an anchor-point mean over unrecorded mesh lists). The table's shell and share
 rows are the Skyrim p50s rounded to be at least as strict at village tier
 and above; the dressing rows sit at or below the vanilla range because
 marsh houses stand closer to water.

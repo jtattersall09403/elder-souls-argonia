@@ -67,7 +67,8 @@
    "pad": {
     "apronM": 1.5,
     "batter": true
-   }
+   },
+   "scale": 1.15
   },
   {
    "op": "place",
@@ -82,7 +83,8 @@
    "pad": {
     "apronM": 1.5,
     "batter": true
-   }
+   },
+   "scale": 1.15
   },
   {
    "op": "place",
@@ -102,25 +104,25 @@
   {
    "op": "place",
    "uid": "b-shed",
-   "asset": "kotm:argonia/mudhuts/shed",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantent02",
    "at": [
-    4721.5,
-    1866.0
+    4719.48,
+    1865.6
    ],
-   "yaw": 250.7,
+   "yaw": 70.7,
    "settle": true,
    "pad": {
-    "apronM": 1.5,
+    "apronM": 3.0,
     "batter": true
    }
   },
   {
    "op": "place",
    "uid": "hist",
-   "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+   "asset": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
    "at": [
     4743.0,
-    1876.0
+    1877.0
    ],
    "yaw": 250.0,
    "settle": true,
@@ -193,17 +195,6 @@
     1838.6
    ],
    "yaw": 167.5,
-   "settle": true
-  },
-  {
-   "op": "place",
-   "uid": "b-herald-rack",
-   "asset": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
-   "at": [
-    4755.58,
-    1839.62
-   ],
-   "yaw": 257.5,
    "settle": true
   },
   {
@@ -286,7 +277,7 @@
   {
    "op": "place",
    "uid": "b-minder-flower",
-   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
    "at": [
     4761.34,
     1864.99
@@ -310,8 +301,8 @@
    "uid": "b-fam1-candle",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
-    4721.84,
-    1881.21
+    4721.94,
+    1880.62
    ],
    "yaw": 17.0,
    "settle": true
@@ -341,7 +332,7 @@
   {
    "op": "place",
    "uid": "b-fam1-table",
-   "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+   "asset": "kotm:argonia/clutter/basketcontainer",
    "at": [
     4724.02,
     1881.25
@@ -365,8 +356,8 @@
    "uid": "b-fam1-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
    "at": [
-    4717.06,
-    1880.58
+    4716.71,
+    1880.09
    ],
    "yaw": 17.0,
    "settle": true
@@ -380,17 +371,6 @@
     1838.21
    ],
    "yaw": 157.3,
-   "settle": true
-  },
-  {
-   "op": "place",
-   "uid": "b-fam2-oven",
-   "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
-   "at": [
-    4731.42,
-    1840.92
-   ],
-   "yaw": 247.3,
    "settle": true
   },
   {
@@ -431,11 +411,26 @@
    "uid": "b-fam2-wood",
    "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
    "at": [
-    4729.61,
-    1840.63
+    4729.51,
+    1841.02
    ],
    "yaw": 157.3,
    "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b-fam2-fire",
+   "asset": "vanilla:clutter/woodfires/campfire01burning",
+   "at": [
+    4743.0,
+    1842.0
+   ],
+   "yaw": 157.3,
+   "settle": true,
+   "pad": {
+    "apronM": 0.5,
+    "batter": true
+   }
   },
   {
    "op": "place",
@@ -508,8 +503,8 @@
    "uid": "b-shed-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4723.01,
-    1864.38
+    4721.2,
+    1861.9
    ],
    "yaw": 99.5,
    "settle": true
@@ -519,8 +514,8 @@
    "uid": "b-shed-urn2",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4722.77,
-    1863.51
+    4722.2,
+    1861.7
    ],
    "yaw": 99.5,
    "settle": true
@@ -556,8 +551,8 @@
    "uid": "sh-totem1",
    "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
    "at": [
-    4738.29,
-    1872.28
+    4738.57,
+    1872.56
    ],
    "yaw": 20.0,
    "settle": true
@@ -567,8 +562,8 @@
    "uid": "sh-totem2",
    "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
    "at": [
-    4746.68,
-    1873.25
+    4746.28,
+    1873.94
    ],
    "yaw": 340.0,
    "settle": true
@@ -578,8 +573,8 @@
    "uid": "sh-chime",
    "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
    "at": [
-    4748.51,
-    1874.4
+    4748.11,
+    1875.09
    ],
    "yaw": 0.0,
    "settle": true
@@ -587,10 +582,10 @@
   {
    "op": "place",
    "uid": "sh-flower1",
-   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
    "at": [
-    4745.3,
-    1872.4
+    4744.17,
+    1872.81
    ],
    "yaw": 0.0,
    "settle": true
@@ -598,7 +593,7 @@
   {
    "op": "place",
    "uid": "sh-flower2",
-   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02",
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
    "at": [
     4738.28,
     1873.65
@@ -611,8 +606,8 @@
    "uid": "sh-candle1",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
-    4745.77,
-    1873.13
+    4745.37,
+    1873.82
    ],
    "yaw": 0.0,
    "settle": true
@@ -622,7 +617,7 @@
    "uid": "sh-candle2",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
-    4738.8,
+    4739.6,
     1871.4
    ],
    "yaw": 0.0,
@@ -644,8 +639,8 @@
    "uid": "sp-urn",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4717.8,
-    1871.0
+    4716.3,
+    1867.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -655,8 +650,8 @@
    "uid": "sp-flower",
    "asset": "histtree:skyfall/sleeping tree overhaul/histflower01",
    "at": [
-    4719.8,
-    1871.2
+    4720.6,
+    1869.4
    ],
    "yaw": 0.0,
    "settle": true
@@ -684,6 +679,186 @@
    "yaw": 80.0,
    "settle": true,
    "beached": true
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4776.0,
+    1857.5
+   ],
+   "yaw": 347.6,
+   "prefix": "y1-",
+   "parcel": "parcel.greenspring.lodge"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4773.0,
+    1858.5
+   ],
+   "yaw": 257.6,
+   "prefix": "y1-",
+   "parcel": "parcel.greenspring.lodge"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4764.0,
+    1830.0
+   ],
+   "yaw": 257.5,
+   "prefix": "y2-",
+   "parcel": "parcel.greenspring.heralds-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4755.0,
+    1824.0
+   ],
+   "yaw": 167.5,
+   "prefix": "y2-",
+   "parcel": "parcel.greenspring.heralds-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4758.0,
+    1872.0
+   ],
+   "yaw": 85.0,
+   "prefix": "y3-",
+   "parcel": "parcel.greenspring.minders-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4765.0,
+    1879.0
+   ],
+   "yaw": 355.0,
+   "prefix": "y3-",
+   "parcel": "parcel.greenspring.minders-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4723.0,
+    1880.0
+   ],
+   "yaw": 17.0,
+   "prefix": "y4-",
+   "parcel": "parcel.greenspring.spring-keepers-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4717.55,
+    1892.9
+   ],
+   "yaw": 197.0,
+   "prefix": "y4-",
+   "parcel": "parcel.greenspring.spring-keepers-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-nets",
+   "at": [
+    4714.17,
+    1890.55
+   ],
+   "yaw": 17.0,
+   "prefix": "y4-",
+   "parcel": "parcel.greenspring.spring-keepers-house"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4731.0,
+    1841.0
+   ],
+   "yaw": 247.3,
+   "prefix": "y5-",
+   "parcel": "parcel.greenspring.family-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4730.99,
+    1827.36
+   ],
+   "yaw": 157.3,
+   "prefix": "y5-",
+   "parcel": "parcel.greenspring.family-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-nets",
+   "at": [
+    4734.0,
+    1841.0
+   ],
+   "yaw": 247.3,
+   "prefix": "y5-",
+   "parcel": "parcel.greenspring.family-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-stores",
+   "at": [
+    4788.0,
+    1823.0
+   ],
+   "yaw": 256.3,
+   "prefix": "y6-",
+   "parcel": "parcel.greenspring.east-family-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-cookpot",
+   "at": [
+    4782.0,
+    1830.0
+   ],
+   "yaw": 346.3,
+   "prefix": "y6-",
+   "parcel": "parcel.greenspring.east-family-hut"
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "hist-village-nets",
+   "at": [
+    4779.0,
+    1830.0
+   ],
+   "yaw": 166.3,
+   "prefix": "y6-",
+   "parcel": "parcel.greenspring.east-family-hut"
   },
   {
    "op": "path",
@@ -1047,15 +1222,6 @@
   },
   {
    "op": "bind",
-   "uid": "b-herald-rack",
-   "kind": "assembly",
-   "id": "parcel.greenspring.heralds-house",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
    "uid": "b-herald-salt",
    "kind": "assembly",
    "id": "parcel.greenspring.heralds-house",
@@ -1200,15 +1366,6 @@
   },
   {
    "op": "bind",
-   "uid": "b-fam2-oven",
-   "kind": "assembly",
-   "id": "parcel.greenspring.family-hut",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
    "uid": "b-fam2-stand",
    "kind": "assembly",
    "id": "parcel.greenspring.family-hut",
@@ -1240,6 +1397,15 @@
    "kind": "assembly",
    "id": "parcel.greenspring.family-hut",
    "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b-fam2-fire",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "light",
    "on": "ground",
    "evidence": "measured"
   },
@@ -1434,6 +1600,573 @@
    "uid": "ld-plank",
    "kind": "assembly",
    "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y1-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.lodge",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y2-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.heralds-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y3-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.minders-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hn-net1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hn-net2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y4-hn-sack",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-keepers-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hn-net1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hn-net2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y5-hn-sack",
+   "kind": "assembly",
+   "id": "parcel.greenspring.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hv-store",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hv-basket1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hv-basket2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hv-closed",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hv-small",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hc-wood",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hc-pot",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hc-potloose",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hc-bucket",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hn-net1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hn-net2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "y6-hn-sack",
+   "kind": "assembly",
+   "id": "parcel.greenspring.east-family-hut",
    "layer": "clutter",
    "on": "ground",
    "evidence": "measured"

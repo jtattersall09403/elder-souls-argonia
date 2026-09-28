@@ -63,6 +63,11 @@
       "refId": "0826FED5",
       "standInAsset": "vanilla:clutter/glazedjugsmall01",
       "why": "A jug of bog brew stands here; a small glazed jug of its height takes its place."
+    },
+    {
+      "refId": "0826FEE6",
+      "standInAsset": "vanilla:clutter/common/crateopen01",
+      "why": "An open crate stands here; the vanilla open crate, of its shape and size, takes its place."
     }
   ]
 }

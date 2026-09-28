@@ -18468,6 +18468,268 @@
    "undersideCoverage": 0.151,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.06
+  },
+  {
+   "id": "vanilla:clutter/common/crateopen01",
+   "node": "es|bf39c0eae4|vanilla__clutter_common_crateopen01",
+   "category": "clutter",
+   "sizeM": [
+    0.437,
+    0.637,
+    0.337
+   ],
+   "originOffsetM": [
+    0.218,
+    0.318,
+    0.0
+   ],
+   "triangles": 284,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "cratewood01.dds",
+    "cratewood03.dds"
+   ],
+   "materials": [
+    "CrateCommon:0.Mat",
+    "CrateCommon:2.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
+  },
+  {
+   "id": "vanilla:clutter/hagraven/hagravenhangingball01",
+   "node": "es|d5d68c7b9a|__clutter_hagraven_hagravenhangingball01",
+   "category": "clutter",
+   "sizeM": [
+    0.305,
+    0.309,
+    1.96
+   ],
+   "originOffsetM": [
+    0.153,
+    0.151,
+    1.96
+   ],
+   "triangles": 760,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "fishingnet01.dds",
+    "hagravenbowl01.dds",
+    "taproot.dds"
+   ],
+   "materials": [
+    "HagravenHangingBall01:22.Mat",
+    "L1_Details:16.Mat",
+    "L1_Details:17.Mat"
+   ],
+   "glowMaterials": [
+    "HagravenHangingBall01:22.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_Details:17.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.96,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "glowFacingsDeg": [
+    43.4,
+    98.2,
+    163.1,
+    233.1,
+    289.2,
+    341.9
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.868,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.96
+  },
+  {
+   "id": "vanilla:clutter/hagraven/hagravenhangingball02",
+   "node": "es|8b643fe7fc|__clutter_hagraven_hagravenhangingball02",
+   "category": "clutter",
+   "sizeM": [
+    0.305,
+    0.305,
+    1.855
+   ],
+   "originOffsetM": [
+    0.153,
+    0.151,
+    1.855
+   ],
+   "triangles": 1376,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "fishingnet01.dds",
+    "hagravenbowl01.dds",
+    "taproot.dds"
+   ],
+   "materials": [
+    "HagravenHangingBall02:22.Mat",
+    "L1_Details:16.Mat.001",
+    "L1_Details:17.Mat.001"
+   ],
+   "glowMaterials": [
+    "HagravenHangingBall02:22.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L1_Details:17.Mat.001": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.855,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "glowFacingsDeg": [
+    27.6,
+    83.0,
+    135.4,
+    200.3,
+    256.7,
+    316.2
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.722,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.855
+  },
+  {
+   "id": "vanilla:plants/hangingmoss01",
+   "node": "es|97759d5482|vanilla__plants_hangingmoss01",
+   "category": "plant",
+   "sizeM": [
+    0.309,
+    0.537,
+    0.202
+   ],
+   "originOffsetM": [
+    0.135,
+    0.267,
+    0.101
+   ],
+   "triangles": 54,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "hangingmoss01.dds"
+   ],
+   "materials": [
+    "HangingMoss01:0.Mat"
+   ],
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.101,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.158,
+   "openBackYawDeg": 281.2,
+   "pivotAboveBaseM": 0.101
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\interior-farmhouse-v1.glb",
@@ -18475,8 +18737,8 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 199,
-  "OPAQUE": 374,
+  "MASK": 202,
+  "OPAQUE": 380,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -18510,16 +18772,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 80263736,
-  "bytesAfter": 16477968,
-  "images": 246,
-  "imageBytesAfter": 11990857,
+  "bytesBefore": 81629636,
+  "bytesAfter": 16778084,
+  "images": 249,
+  "imageBytesAfter": 12227312,
   "warnings": [],
-  "sha256": "ffb40d39fc9db7aabc54cd2899d3dae590e7b987b44c14886b6551bc2940543c",
+  "sha256": "eb6e695dcb35ddbce99322b1a26b2008e1cd27e1d45d2adf9d47aabfe955ead5",
   "sidecarBytes": {
-   "connectors": 195384,
-   "footprints": 361189,
-   "interiors": 137593
+   "connectors": 198352,
+   "footprints": 366509,
+   "interiors": 139280
   }
  }
 }

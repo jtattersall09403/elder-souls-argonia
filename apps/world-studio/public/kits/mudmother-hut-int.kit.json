@@ -1945,7 +1945,7 @@
     "p75": -0.4494,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "placedScaleMedian": 0.85,
    "placedScaleEvidence": {
@@ -1978,11 +1978,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.4494
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",

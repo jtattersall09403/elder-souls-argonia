@@ -322,6 +322,9 @@ _FOLDER_STEM_RULES: tuple[tuple[str, tuple[str, ...], str, tuple[str, ...]], ...
 )
 FOLDER_STEM_CONFIDENCE = 0.7
 
+#: a crate's mesh stem (R47); "desecrated" (the dead-soldier containers) is none
+_CRATE = re.compile(r"(?<!se)crate")
+
 _LOD_RE = re.compile(r"(_lod(_flat)?|_distant|lod_flat)\.nif$", re.I)
 
 
@@ -414,6 +417,12 @@ def classify(path: str) -> Classification:
                 confidence = 0.55
                 tags = tags + ("reclassified-by-name",)
                 break
+
+    if _CRATE.search(stem.rsplit(".", 1)[0]) and category not in ("lod", "effect"):
+        # R47 (planner ruling, 16k walk 3): a crate is clutter wherever its
+        # mod files it (`argonia/furniture/crateopen01`, `furniture/noble/
+        # noblecrate02`), as every published crate's kit category is.
+        category, confidence, tags = "clutter", 0.9, tags + ("crate",)
 
     biomes = tuple(dict.fromkeys(biomes + _hint_scan(norm, _BIOME_HINTS)))
     cultures = tuple(dict.fromkeys(cultures + _hint_scan(norm, _CULTURE_HINTS)))

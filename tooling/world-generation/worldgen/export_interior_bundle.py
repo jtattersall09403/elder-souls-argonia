@@ -64,7 +64,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
 import struct
 import sys
 from collections import Counter
@@ -395,6 +394,24 @@ def load_substitutions(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> d
     return {row["refId"]: row for row in doc.get("substitutions", [])}
 
 
+#: the one reason a missing piece may ship undrawn (planner ruling R51, 16k
+#: walk 3; decision 0102's third reason): the piece exists nowhere we may use
+#: after a completed search, recorded with the search in the cell's ``gaps[]``
+GAP_REASONS = frozenset({"asset-exists-nowhere"})
+
+
+def load_gaps(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> dict[str, dict]:
+    """refId -> ``{reason, search, why}`` for one cell's listed gaps (R51)."""
+    path = directory / f"{cell_edid}.json"
+    if not path.exists():
+        return {}
+    rows = json.loads(path.read_text()).get("gaps", [])
+    bad = [r.get("refId") for r in rows if r.get("reason") not in GAP_REASONS or not r.get("search")]
+    if bad:
+        raise ValueError(f"{path.name}: gaps {bad} need reason in {sorted(GAP_REASONS)} and a search")
+    return {row["refId"]: row for row in rows}
+
+
 def piece_class(base: dict | None, base_form: str | None, model: str | None,
                 absent: dict[str, dict]) -> tuple[str, str]:
     """``(class, source)`` of a missing piece, in the kit-manifest category
@@ -410,8 +427,8 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
         return "vegetation", "base record TREE (planner ruling R46, 16k walk 3)"
     if btype == "CONT":
         return "container", "base record CONT"
-    if model and _CRATE.search(model.rsplit("/", 1)[-1]):
-        # R47: a crate is clutter, as every published crate's kit category is
+    if model and "crate" in classify(model).tags:
+        # R47: a crate is clutter (asset_taxonomy.classify), ahead of its base type
         return "clutter", f"base record {btype}, a crate (planner ruling R47, 16k walk 3)"
     fixed = {"FURN": "furniture", "LIGH": "light", "DOOR": "door"}
     if btype in fixed:
@@ -424,9 +441,6 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
         return classify(model).category, f"base record {btype}, model taxonomy"
     return "unclassed", f"base record {btype} with no model"
 
-
-#: a crate's mesh stem (R47); "desecrated" (dead-soldier containers) is not one
-_CRATE = re.compile(r"(?<!se)crate")
 
 #: R45 (planner ruling, 16k walk 3): the kit categories a reference can rest on
 SURFACE_CATEGORIES = frozenset({"clutter", "furniture", "container", "item"})
@@ -442,6 +456,9 @@ SUPPORT_BASE_M = 0.08
 FLOOR_BAND_M = 0.2
 FLOOR_REACH_M = 6.0
 FURNITURE_BOUNDS_M = 0.6
+#: R49 (planner ruling, 16k walk 3): a reference with nothing under it is hung
+#: (a fixture) only when a wall or room-shell face lies within this reach
+WALL_REACH_M = 0.3
 
 
 def _local_point(q, piece) -> tuple[float, float, float]:
@@ -465,9 +482,11 @@ def support_of(q, placements: list[dict], bounds: dict[str, tuple]) -> tuple[str
     standing furniture; a structural piece is a room shell, wall or floor
     piece, whose floor is its top or lies within ``SHELL_FLOOR_M`` of its
     base), else on a ``wall`` (above the floor with nothing of
-    the cell's own under it: hung). Only the author's placed pieces count;
+    the cell's own under it and a wall or room-shell face within
+    ``WALL_REACH_M``: hung), else ``loose`` (R49: nothing under it and no
+    wall to hang from). Only the author's placed pieces count;
     a stand-in is never evidence. Returns the verdict and the pieces read."""
-    on, floor_tops, bases = [], [], []
+    on, floor_tops, bases, walls = [], [], [], []
     for p in placements:
         b = bounds.get(p["assetId"])
         if b is None:
@@ -492,6 +511,8 @@ def support_of(q, placements: list[dict], bounds: dict[str, tuple]) -> tuple[str
             # the top of a floor piece, or the floor of a room shell or wall
             # piece: near the bottom of its box (its top is the roof)
             floor_tops.append(p["id"])
+        if p.get("category") in STRUCTURAL_CATEGORIES and _face_distance((x, y, z), lo, hi, SHELL_FLOOR_M / s_) * s_ <= WALL_REACH_M:
+            walls.append(p["id"])
     if on:
         return "surface", sorted(on)
     if floor_tops:
@@ -500,7 +521,22 @@ def support_of(q, placements: list[dict], bounds: dict[str, tuple]) -> tuple[str
         top = max(bases)
         if q[1] - top[0] <= FLOOR_BAND_M:
             return "floor", [top[1]]
-    return "wall", []
+    if walls:
+        return "wall", sorted(walls)
+    return "loose", []
+
+
+def _face_distance(pt, lo, hi, floor_band: float) -> float:
+    """Distance (asset units) from ``pt`` to the nearest face a thing can hang
+    from (R49): a side face or, inside the box (a room shell), the ceiling;
+    never a top a thing stands on nor a face at floor height. ``pt`` must be
+    over ``floor_band`` above the box's base and below its top, else nothing
+    in this piece holds it up (``inf``)."""
+    if not (lo[2] + floor_band < pt[2] < hi[2]):
+        return math.inf
+    if lo[0] <= pt[0] <= hi[0] and lo[1] <= pt[1] <= hi[1]:
+        return min(pt[0] - lo[0], hi[0] - pt[0], pt[1] - lo[1], hi[1] - pt[1], hi[2] - pt[2])
+    return math.hypot(max(lo[0] - pt[0], 0.0, pt[0] - hi[0]), max(lo[1] - pt[1], 0.0, pt[1] - hi[1]))
 
 
 def class_by_placement(votes: dict[str, int], carried_m: float) -> str:
@@ -510,11 +546,16 @@ def class_by_placement(votes: dict[str, int], carried_m: float) -> str:
     cell's author set on it stands over ``FURNITURE_BOUNDS_M`` above the
     floor (``carried_m``, the only bounds a form in an absent master shows)
     and clutter otherwise; a form every reference of which hangs is a
-    ``fixture``."""
+    ``fixture`` only when every reference hangs within ``WALL_REACH_M`` of a
+    wall or shell face (R49), else clutter. A floor form with nothing on it is
+    clutter (R50)."""
     if votes.get("surface"):
         return "clutter"
     if votes.get("floor"):
         return "furniture" if carried_m > FURNITURE_BOUNDS_M else "clutter"
+    if votes.get("loose"):
+        # R49: a form with a reference hung from no wall is loose clutter
+        return "clutter"
     return "fixture"
 
 
@@ -766,6 +807,13 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             "kit": hit[0], "standInCategory": hit[1], "why": row["why"],
             "positionM": pos, "rotationDeg": rot, "scale": scale})
 
+    for rid, row in sorted(load_gaps(cell_edid).items()):
+        miss = next((d for d in drops if d["refId"] == rid and d["reason"] in MISSING_REASONS), None)
+        if miss is None:
+            raise ValueError(f"{cell_edid}: listed gap {rid} is not a missing piece of the cell")
+        miss.update({"reason": "listed-gap", "gapReason": row["reason"],
+                     "gapSearch": row["search"], "why": row.get("why")})
+
     for d in drops:
         if d["reason"] in MISSING_REASONS and d.get("class") in LISTED_DROP_CLASSES:
             d["reason"] = "listed-drop"
@@ -856,7 +904,7 @@ def check(bundle: dict) -> list[str]:
         problems.append(f"{bundle['cellId']}: {len(bundle['placements'])} placements + "
                         f"{len(bundle['drops'])} drops + {len(subs)} substitutions = {n}, "
                         f"the cell has {bundle['refCount']} references")
-    arch = [d for d in bundle["drops"] if d.get("reason") in MISSING_REASONS
+    arch = [d for d in bundle["drops"] if d.get("reason") in (*MISSING_REASONS, "listed-gap")
             and d.get("class") in ARCHITECTURE_CLASSES]
     if arch:
         problems.append(f"{bundle['cellId']}: {len(arch)} missing architecture pieces "
@@ -973,7 +1021,8 @@ def placement_rows(bundles: list[dict], bounds: dict[str, tuple]) -> dict[str, d
                 # no support of its own (anything higher may hang above it)
                 on_it = [oq[1] - q[1] for other, oq in refs
                          if other is not d and math.hypot(oq[0] - q[0], oq[2] - q[2]) <= 0.5
-                         and 0.1 < oq[1] - q[1] <= 2.5 and support_of(oq, pl, bounds)[0] == "wall"]
+                         and 0.1 < oq[1] - q[1] <= 2.5
+                         and support_of(oq, pl, bounds)[0] in ("wall", "loose")]
                 if on_it:
                     carried[form] = max(carried.get(form, 0.0), round(min(on_it), 3))
     out = {}

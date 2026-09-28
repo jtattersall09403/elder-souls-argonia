@@ -229,10 +229,10 @@
     "BosmerArmorMATY743.esm:0000845F": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose, 2 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 2,
-        "wall": 1
+        "loose": 1,
+        "surface": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -253,11 +253,11 @@
       ]
     },
     "Dawnguard.esm:00000801": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -277,11 +277,11 @@
       ]
     },
     "Dawnguard.esm:000008BD": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -289,11 +289,11 @@
       ]
     },
     "Dawnguard.esm:00000BB3": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -301,11 +301,11 @@
       ]
     },
     "Dawnguard.esm:00001C17": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 9
+        "loose": 9
       },
       "carriedM": 0.0,
       "cells": [
@@ -327,11 +327,11 @@
       ]
     },
     "Dawnguard.esm:000037D8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -339,11 +339,11 @@
       ]
     },
     "Dawnguard.esm:000037D9": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -351,11 +351,11 @@
       ]
     },
     "Dawnguard.esm:00003837": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -363,11 +363,11 @@
       ]
     },
     "Dawnguard.esm:00003838": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -375,11 +375,12 @@
       ]
     },
     "Dawnguard.esm:00003ACC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose, 1 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 1,
+        "wall": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -387,11 +388,11 @@
       ]
     },
     "Dawnguard.esm:00003D41": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -399,11 +400,11 @@
       ]
     },
     "Dawnguard.esm:00003D42": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -411,11 +412,11 @@
       ]
     },
     "Dawnguard.esm:00004BAC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -425,10 +426,10 @@
     "Dawnguard.esm:00004BB3": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -438,10 +439,10 @@
     "Dawnguard.esm:00004BB4": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 9 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 9
+        "loose": 9
       },
       "carriedM": 0.0,
       "cells": [
@@ -449,11 +450,11 @@
       ]
     },
     "Dawnguard.esm:00004BB5": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 11
+        "loose": 11
       },
       "carriedM": 0.0,
       "cells": [
@@ -463,10 +464,10 @@
     "Dawnguard.esm:00004D9D": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -476,10 +477,10 @@
     "Dawnguard.esm:00004DA2": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -487,11 +488,11 @@
       ]
     },
     "Dawnguard.esm:00004DA4": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -501,10 +502,10 @@
     "Dawnguard.esm:0000513E": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose, 2 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 2,
-        "wall": 3
+        "loose": 3,
+        "surface": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -526,11 +527,11 @@
       ]
     },
     "Dawnguard.esm:00005E77": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -538,11 +539,11 @@
       ]
     },
     "Dawnguard.esm:00006868": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 13
+        "loose": 13
       },
       "carriedM": 0.0,
       "cells": [
@@ -553,11 +554,11 @@
       ]
     },
     "Dawnguard.esm:000074C8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -565,11 +566,11 @@
       ]
     },
     "Dawnguard.esm:00007CDA": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 13
+        "loose": 13
       },
       "carriedM": 0.0,
       "cells": [
@@ -579,10 +580,10 @@
     "Dawnguard.esm:00008E4E": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose, 1 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 1,
-        "wall": 1
+        "loose": 1,
+        "surface": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -591,11 +592,11 @@
       ]
     },
     "Dawnguard.esm:0000933C": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 14 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 14 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 14
+        "loose": 14
       },
       "carriedM": 0.0,
       "cells": [
@@ -630,11 +631,11 @@
       ]
     },
     "Dawnguard.esm:00009669": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -642,11 +643,11 @@
       ]
     },
     "Dawnguard.esm:0000CADB": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -656,10 +657,10 @@
     "Dawnguard.esm:0000CADD": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -668,11 +669,11 @@
       ]
     },
     "Dawnguard.esm:0000D260": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 28
+        "loose": 28
       },
       "carriedM": 0.0,
       "cells": [
@@ -683,11 +684,11 @@
       ]
     },
     "Dawnguard.esm:0000D704": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -698,11 +699,11 @@
       ]
     },
     "Dawnguard.esm:0000E3E4": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -710,11 +711,11 @@
       ]
     },
     "Dawnguard.esm:0000EFB3": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 21 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 21 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 21
+        "loose": 21
       },
       "carriedM": 0.0,
       "cells": [
@@ -726,11 +727,11 @@
       ]
     },
     "Dawnguard.esm:0000EFB8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 17 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 17 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 17
+        "loose": 17
       },
       "carriedM": 0.0,
       "cells": [
@@ -741,11 +742,11 @@
       ]
     },
     "Dawnguard.esm:0000EFE3": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 6
+        "loose": 6
       },
       "carriedM": 0.0,
       "cells": [
@@ -753,11 +754,11 @@
       ]
     },
     "Dawnguard.esm:00010457": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -778,11 +779,11 @@
       ]
     },
     "Dawnguard.esm:00010F37": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 11
+        "loose": 11
       },
       "carriedM": 0.0,
       "cells": [
@@ -790,11 +791,11 @@
       ]
     },
     "Dawnguard.esm:000119F9": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -803,11 +804,11 @@
       ]
     },
     "Dawnguard.esm:00011A00": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 6
+        "loose": 6
       },
       "carriedM": 0.0,
       "cells": [
@@ -815,11 +816,12 @@
       ]
     },
     "Dawnguard.esm:00011A01": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 15 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 14 loose, 1 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 15
+        "loose": 14,
+        "wall": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -827,11 +829,11 @@
       ]
     },
     "Dawnguard.esm:00011D56": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -839,11 +841,11 @@
       ]
     },
     "Dawnguard.esm:00011D60": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -851,11 +853,11 @@
       ]
     },
     "Dawnguard.esm:00012ABC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -863,11 +865,11 @@
       ]
     },
     "Dawnguard.esm:00013213": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 24 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 24 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 24
+        "loose": 24
       },
       "carriedM": 0.0,
       "cells": [
@@ -875,11 +877,12 @@
       ]
     },
     "Dawnguard.esm:00013949": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose, 1 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 1,
+        "wall": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -887,11 +890,11 @@
       ]
     },
     "Dawnguard.esm:00013B82": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -912,11 +915,11 @@
       ]
     },
     "Dawnguard.esm:00013FF8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -926,11 +929,11 @@
       ]
     },
     "Dawnguard.esm:000144F2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -938,11 +941,11 @@
       ]
     },
     "Dawnguard.esm:00014B85": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -952,10 +955,10 @@
     "Dawnguard.esm:00014E97": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 10 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 10,
-        "wall": 2
+        "loose": 2,
+        "surface": 10
       },
       "carriedM": 0.0,
       "cells": [
@@ -966,11 +969,11 @@
       ]
     },
     "Dawnguard.esm:00014E98": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -981,10 +984,10 @@
     "Dawnguard.esm:00014FD1": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 20 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 20 loose, 2 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 2,
-        "wall": 20
+        "loose": 20,
+        "surface": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -996,11 +999,11 @@
       ]
     },
     "Dawnguard.esm:00015340": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1011,11 +1014,11 @@
       ]
     },
     "Dawnguard.esm:0001540C": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1023,11 +1026,11 @@
       ]
     },
     "Dawnguard.esm:0001607B": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1035,11 +1038,11 @@
       ]
     },
     "Dawnguard.esm:000176E5": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1061,10 +1064,10 @@
     "Dawnguard.esm:00017E92": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1072,11 +1075,11 @@
       ]
     },
     "Dawnguard.esm:00017E94": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1084,11 +1087,11 @@
       ]
     },
     "Dawnguard.esm:0001830E": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1096,11 +1099,11 @@
       ]
     },
     "Dawnguard.esm:000183EE": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1108,11 +1111,11 @@
       ]
     },
     "Dawnguard.esm:000189FF": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1120,11 +1123,11 @@
       ]
     },
     "Dawnguard.esm:00018BC2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1132,11 +1135,11 @@
       ]
     },
     "Dawnguard.esm:00019AC2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -1144,11 +1147,11 @@
       ]
     },
     "Dragonborn.esm:000173CC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -1156,11 +1159,11 @@
       ]
     },
     "Dragonborn.esm:00018486": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1168,11 +1171,11 @@
       ]
     },
     "Dragonborn.esm:00019534": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1180,11 +1183,11 @@
       ]
     },
     "Dragonborn.esm:00019C67": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1192,11 +1195,11 @@
       ]
     },
     "Dragonborn.esm:0001B640": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1204,11 +1207,11 @@
       ]
     },
     "Dragonborn.esm:0001B645": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1216,11 +1219,11 @@
       ]
     },
     "Dragonborn.esm:0001B93A": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1228,11 +1231,11 @@
       ]
     },
     "Dragonborn.esm:0001CD7D": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -1264,11 +1267,11 @@
       ]
     },
     "Dragonborn.esm:0001DFF9": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1276,11 +1279,11 @@
       ]
     },
     "Dragonborn.esm:0001E0B7": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1288,11 +1291,11 @@
       ]
     },
     "Dragonborn.esm:0001E139": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 29
+        "loose": 29
       },
       "carriedM": 0.0,
       "cells": [
@@ -1300,11 +1303,11 @@
       ]
     },
     "Dragonborn.esm:0001F14F": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -1312,11 +1315,11 @@
       ]
     },
     "Dragonborn.esm:0001F151": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1324,11 +1327,11 @@
       ]
     },
     "Dragonborn.esm:0001F152": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 22 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 22 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 22
+        "loose": 22
       },
       "carriedM": 0.0,
       "cells": [
@@ -1336,11 +1339,11 @@
       ]
     },
     "Dragonborn.esm:0001F158": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 6
+        "loose": 6
       },
       "carriedM": 0.0,
       "cells": [
@@ -1348,11 +1351,11 @@
       ]
     },
     "Dragonborn.esm:0001F159": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1360,11 +1363,11 @@
       ]
     },
     "Dragonborn.esm:0001FEBC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 8 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 8 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 8
+        "loose": 8
       },
       "carriedM": 0.0,
       "cells": [
@@ -1372,11 +1375,11 @@
       ]
     },
     "Dragonborn.esm:0001FEBD": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1384,11 +1387,11 @@
       ]
     },
     "Dragonborn.esm:0001FEC3": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1396,11 +1399,11 @@
       ]
     },
     "Dragonborn.esm:0001FEC4": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1494,11 +1497,11 @@
       ]
     },
     "Dragonborn.esm:000201B8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1506,11 +1509,11 @@
       ]
     },
     "Dragonborn.esm:000202C2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1518,11 +1521,11 @@
       ]
     },
     "Dragonborn.esm:000202C4": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1530,11 +1533,11 @@
       ]
     },
     "Dragonborn.esm:000202C6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1542,11 +1545,11 @@
       ]
     },
     "Dragonborn.esm:000202C7": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -1554,11 +1557,11 @@
       ]
     },
     "Dragonborn.esm:00020626": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 6 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 6
+        "loose": 6
       },
       "carriedM": 0.0,
       "cells": [
@@ -1578,11 +1581,11 @@
       ]
     },
     "Dragonborn.esm:0002073D": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 25 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 25 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 25
+        "loose": 25
       },
       "carriedM": 0.0,
       "cells": [
@@ -1590,11 +1593,11 @@
       ]
     },
     "Dragonborn.esm:00020740": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1602,11 +1605,11 @@
       ]
     },
     "Dragonborn.esm:00020745": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1614,11 +1617,11 @@
       ]
     },
     "Dragonborn.esm:00020748": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1626,11 +1629,11 @@
       ]
     },
     "Dragonborn.esm:00020749": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1638,11 +1641,11 @@
       ]
     },
     "Dragonborn.esm:0002074B": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1650,11 +1653,11 @@
       ]
     },
     "Dragonborn.esm:0002074C": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -1662,11 +1665,11 @@
       ]
     },
     "Dragonborn.esm:0002074E": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1674,11 +1677,11 @@
       ]
     },
     "Dragonborn.esm:0002074F": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1686,11 +1689,11 @@
       ]
     },
     "Dragonborn.esm:00020750": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1698,11 +1701,11 @@
       ]
     },
     "Dragonborn.esm:00020751": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1710,11 +1713,11 @@
       ]
     },
     "Dragonborn.esm:00020752": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1722,11 +1725,11 @@
       ]
     },
     "Dragonborn.esm:00020754": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1736,10 +1739,10 @@
     "Dragonborn.esm:000207E5": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 3 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 3,
-        "wall": 2
+        "loose": 2,
+        "surface": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -1749,11 +1752,11 @@
       ]
     },
     "Dragonborn.esm:000209AF": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 10
+        "loose": 10
       },
       "carriedM": 0.0,
       "cells": [
@@ -1761,11 +1764,11 @@
       ]
     },
     "Dragonborn.esm:000209B1": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1773,11 +1776,11 @@
       ]
     },
     "Dragonborn.esm:000209B2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -1785,11 +1788,11 @@
       ]
     },
     "Dragonborn.esm:000209B5": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1797,11 +1800,11 @@
       ]
     },
     "Dragonborn.esm:000209B6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -1809,11 +1812,11 @@
       ]
     },
     "Dragonborn.esm:000209BA": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1821,11 +1824,11 @@
       ]
     },
     "Dragonborn.esm:000209BB": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 9
+        "loose": 9
       },
       "carriedM": 0.0,
       "cells": [
@@ -1833,11 +1836,11 @@
       ]
     },
     "Dragonborn.esm:00020E65": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1845,11 +1848,11 @@
       ]
     },
     "Dragonborn.esm:00020FDA": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -1857,11 +1860,11 @@
       ]
     },
     "Dragonborn.esm:00020FEA": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -1871,10 +1874,10 @@
     "Dragonborn.esm:00021740": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.247 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.247 m above it",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.247,
       "cells": [
@@ -1911,10 +1914,10 @@
     "Dragonborn.esm:00021744": {
       "class": "furniture",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.901 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 floor, 1 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.901 m above it",
       "votes": {
         "floor": 7,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.901,
       "cells": [
@@ -1937,10 +1940,10 @@
     "Dragonborn.esm:00021746": {
       "class": "furniture",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.882 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 16 floor, 1 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.882 m above it",
       "votes": {
         "floor": 16,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.882,
       "cells": [
@@ -1966,10 +1969,10 @@
     "Dragonborn.esm:00021747": {
       "class": "furniture",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 floor, 2 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.885 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 floor, 2 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.885 m above it",
       "votes": {
         "floor": 2,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.885,
       "cells": [
@@ -1989,11 +1992,11 @@
       ]
     },
     "Dragonborn.esm:000244E8": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2025,11 +2028,11 @@
       ]
     },
     "Dragonborn.esm:00027862": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2037,11 +2040,11 @@
       ]
     },
     "Dragonborn.esm:00027BF9": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2049,11 +2052,11 @@
       ]
     },
     "Dragonborn.esm:00028548": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 20 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 20 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 20
+        "loose": 20
       },
       "carriedM": 0.0,
       "cells": [
@@ -2063,11 +2066,11 @@
     "Dragonborn.esm:00028B3E": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 14 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose, 14 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "surface": 14,
-        "wall": 1
+        "loose": 1,
+        "surface": 14
       },
       "carriedM": 0.0,
       "cells": [
@@ -2079,11 +2082,11 @@
       ]
     },
     "Dragonborn.esm:0002932D": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2091,11 +2094,11 @@
       ]
     },
     "Dragonborn.esm:0002932E": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -2103,11 +2106,11 @@
       ]
     },
     "Dragonborn.esm:0002956E": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 10 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 10
+        "loose": 10
       },
       "carriedM": 0.0,
       "cells": [
@@ -2139,11 +2142,11 @@
       ]
     },
     "Dragonborn.esm:0002AABA": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2151,11 +2154,11 @@
       ]
     },
     "Dragonborn.esm:0002AABE": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2175,11 +2178,11 @@
       ]
     },
     "Dragonborn.esm:0002B5D2": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2187,11 +2190,12 @@
       ]
     },
     "Dragonborn.esm:0002B5D3": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 115 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 112 loose, 3 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 115
+        "loose": 112,
+        "wall": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2209,11 +2213,11 @@
       ]
     },
     "Dragonborn.esm:0002B5D5": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -2222,11 +2226,11 @@
       ]
     },
     "Dragonborn.esm:0002B5D6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2234,11 +2238,11 @@
       ]
     },
     "Dragonborn.esm:0002B5FD": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2246,11 +2250,11 @@
       ]
     },
     "Dragonborn.esm:0002C464": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2258,11 +2262,11 @@
       ]
     },
     "Dragonborn.esm:0002C467": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2270,11 +2274,11 @@
       ]
     },
     "Dragonborn.esm:00031AD6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2282,11 +2286,11 @@
       ]
     },
     "Dragonborn.esm:00031F91": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2295,11 +2299,11 @@
       ]
     },
     "Dragonborn.esm:00032FF0": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2307,11 +2311,11 @@
       ]
     },
     "Dragonborn.esm:00033254": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2387,10 +2391,10 @@
     "Dragonborn.esm:00036793": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 29,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -2417,10 +2421,10 @@
     "Dragonborn.esm:00036794": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 4 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 26,
-        "wall": 4
+        "loose": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -2447,10 +2451,10 @@
     "Dragonborn.esm:00036795": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2458,11 +2462,11 @@
       ]
     },
     "Dragonborn.esm:00036A73": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2471,11 +2475,11 @@
       ]
     },
     "Dragonborn.esm:0003770B": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -2483,11 +2487,11 @@
       ]
     },
     "Dragonborn.esm:000383D6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -2495,11 +2499,11 @@
       ]
     },
     "Dragonborn.esm:00038524": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2507,11 +2511,11 @@
       ]
     },
     "Dragonborn.esm:00038BAD": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2520,11 +2524,11 @@
       ]
     },
     "Dragonborn.esm:0003972E": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 15 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 15 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 15
+        "loose": 15
       },
       "carriedM": 0.0,
       "cells": [
@@ -2533,11 +2537,11 @@
       ]
     },
     "Dragonborn.esm:00039732": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2545,11 +2549,11 @@
       ]
     },
     "Dragonborn.esm:00039BB5": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2557,11 +2561,11 @@
       ]
     },
     "Dragonborn.esm:00039BB7": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 7 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 7
+        "loose": 7
       },
       "carriedM": 0.0,
       "cells": [
@@ -2569,11 +2573,11 @@
       ]
     },
     "Dragonborn.esm:00039BBB": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2581,11 +2585,11 @@
       ]
     },
     "Dragonborn.esm:00039BBC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2593,11 +2597,11 @@
       ]
     },
     "Dragonborn.esm:00039D32": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2605,11 +2609,11 @@
       ]
     },
     "Dragonborn.esm:00039D43": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2629,11 +2633,11 @@
       ]
     },
     "Dragonborn.esm:0003A740": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2641,11 +2645,11 @@
       ]
     },
     "Dragonborn.esm:0003C4A7": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2665,11 +2669,11 @@
       ]
     },
     "Dragonborn.esm:0003D5DC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 13 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 13
+        "loose": 13
       },
       "carriedM": 0.0,
       "cells": [
@@ -2679,11 +2683,11 @@
       ]
     },
     "Dragonborn.esm:0003D5E6": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2693,10 +2697,10 @@
     "HearthFires.esm:000008CC": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 surface, 14 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 14 loose, 3 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 3,
-        "wall": 14
+        "loose": 14,
+        "surface": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -2717,11 +2721,11 @@
       ]
     },
     "HearthFires.esm:000009CC": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -2741,11 +2745,11 @@
       ]
     },
     "HearthFires.esm:00000BC0": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2951,10 +2955,10 @@
     "HearthFires.esm:0000C1DE": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose, 1 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 1,
-        "wall": 1
+        "loose": 1,
+        "surface": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -2977,10 +2981,10 @@
     "HearthFires.esm:00010463": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 4 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 4 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 4,
-        "wall": 2
+        "loose": 2,
+        "surface": 4
       },
       "carriedM": 0.0,
       "cells": [
@@ -2993,10 +2997,10 @@
     "HearthFires.esm:00010464": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 5 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 5 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 3,
-        "wall": 5
+        "loose": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -3008,10 +3012,10 @@
     "HearthFires.esm:00010468": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 5 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 5 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 5,
-        "wall": 2
+        "loose": 2,
+        "surface": 5
       },
       "carriedM": 0.0,
       "cells": [
@@ -3023,10 +3027,10 @@
     "HearthFires.esm:000110CC": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 1 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 1,
-        "wall": 2
+        "loose": 2,
+        "surface": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -3073,10 +3077,10 @@
     "ccBGSSSE001-Fish.esm:00000853": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -3088,10 +3092,10 @@
     "ccBGSSSE001-Fish.esm:000008F5": {
       "class": "furniture",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 1 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.95 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 floor, 1 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.95 m above it",
       "votes": {
         "floor": 3,
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.95,
       "cells": [
@@ -3133,11 +3137,12 @@
     "ccBGSSSE001-Fish.esm:00000D6B": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 1 surface, 3 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.787 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 26 floor, 1 loose, 1 surface, 2 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.787 m above it",
       "votes": {
         "floor": 26,
+        "loose": 1,
         "surface": 1,
-        "wall": 3
+        "wall": 2
       },
       "carriedM": 0.787,
       "cells": [
@@ -3166,11 +3171,12 @@
       ]
     },
     "ccBGSSSE001-Fish.esm:00000D72": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 9 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 8 loose, 1 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 9
+        "loose": 8,
+        "wall": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -3185,10 +3191,11 @@
     "ccBGSSSE001-Fish.esm:00000D73": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 floor, 4 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 28 floor, 3 loose, 1 wall (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 28,
-        "wall": 4
+        "loose": 3,
+        "wall": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -3220,10 +3227,10 @@
     "ccBGSSSE001-Fish.esm:00000D74": {
       "class": "furniture",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 wall (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.791 m above it",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 29 floor, 2 loose (support_of in worldgen/export_interior_bundle.py); the author set a piece 0.791 m above it",
       "votes": {
         "floor": 29,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.791,
       "cells": [
@@ -3268,10 +3275,10 @@
     "ccBGSSSE001-Fish.esm:000D101A": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -3283,10 +3290,10 @@
     "ccBGSSSE001-Fish.esm:000D101B": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 floor, 2 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
         "floor": 1,
-        "wall": 2
+        "loose": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -3296,11 +3303,11 @@
       ]
     },
     "ccBGSSSE025-AdvDSGS.esm:00000C73": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 11 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 11
+        "loose": 11
       },
       "carriedM": 0.0,
       "cells": [
@@ -3308,11 +3315,11 @@
       ]
     },
     "ccBGSSSE037-Curios.esl:00000809": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [
@@ -3344,11 +3351,11 @@
       ]
     },
     "ccBGSSSE037-Curios.esl:0000081F": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -3356,11 +3363,11 @@
       ]
     },
     "ccBGSSSE037-Curios.esl:0000082D": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 3
+        "loose": 3
       },
       "carriedM": 0.0,
       "cells": [
@@ -3370,10 +3377,10 @@
     "ccBGSSSE037-Curios.esl:00000836": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 3 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 3 loose, 2 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 2,
-        "wall": 3
+        "loose": 3,
+        "surface": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -3384,10 +3391,10 @@
     "ccBGSSSE037-Curios.esl:00000837": {
       "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 surface, 2 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 2 loose, 2 surface (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "surface": 2,
-        "wall": 2
+        "loose": 2,
+        "surface": 2
       },
       "carriedM": 0.0,
       "cells": [
@@ -3396,11 +3403,11 @@
       ]
     },
     "ccBGSSSE037-Curios.esl:0000083A": {
-      "class": "fixture",
+      "class": "clutter",
       "classedBy": "placement",
-      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 wall (support_of in worldgen/export_interior_bundle.py)",
+      "source": "planner ruling R45 (16k walk 3): no written source; its references sit 1 loose (support_of in worldgen/export_interior_bundle.py)",
       "votes": {
-        "wall": 1
+        "loose": 1
       },
       "carriedM": 0.0,
       "cells": [

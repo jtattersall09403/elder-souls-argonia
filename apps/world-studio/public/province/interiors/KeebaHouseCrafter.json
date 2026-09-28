@@ -57,7 +57,7 @@
  },
  "doors": [
   {
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.3",
+   "exteriorDoorId": "door.hist-heartland.greenspring.2",
    "interiorLoadDoorRef": "0809B4BD",
    "arrivalMarker": {
     "positionM": [
@@ -3635,6 +3635,142 @@
    "baseType": "LIGH"
   },
   {
+   "refId": "0809B578",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    105.2911,
+    83.6599,
+    63.1714
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B579",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    105.1231,
+    83.6601,
+    63.1507
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B57A",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    105.2046,
+    83.7356,
+    63.1664
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B57B",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    103.5985,
+    84.0897,
+    62.6366
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B57C",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    103.4301,
+    84.0901,
+    62.5737
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B57D",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    103.5167,
+    84.165,
+    62.6095
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "0809B57E",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "HearthFires.esm:00003043",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
+   "positionM": [
+    103.1637,
+    84.0898,
+    62.4961
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A Hearthfire household item sits here; its master is not ours, so the spot stays bare."
+  },
+  {
+   "refId": "080A0844",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "positionM": [
+    109.4187,
+    84.0858,
+    61.4707
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+  },
+  {
    "refId": "080A0871",
    "reason": "marker",
    "base": "SweepIdleMarker",
@@ -3685,167 +3821,6 @@
  ],
  "substitutions": [
   {
-   "id": "KeebaHouseCrafter.0809B578",
-   "refId": "0809B578",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    105.2911,
-    83.6599,
-    63.1714
-   ],
-   "rotationDeg": [
-    -0.128,
-    274.063,
-    -0.306
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B579",
-   "refId": "0809B579",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    105.1231,
-    83.6601,
-    63.1507
-   ],
-   "rotationDeg": [
-    -0.012,
-    91.643,
-    -0.073
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B57A",
-   "refId": "0809B57A",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    105.2046,
-    83.7356,
-    63.1664
-   ],
-   "rotationDeg": [
-    -0.066,
-    337.087,
-    0.4
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B57B",
-   "refId": "0809B57B",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    103.5985,
-    84.0897,
-    62.6366
-   ],
-   "rotationDeg": [
-    0.034,
-    296.973,
-    -0.293
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B57C",
-   "refId": "0809B57C",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    103.4301,
-    84.0901,
-    62.5737
-   ],
-   "rotationDeg": [
-    0.113,
-    111.805,
-    -0.133
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B57D",
-   "refId": "0809B57D",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    103.5167,
-    84.165,
-    62.6095
-   ],
-   "rotationDeg": [
-    0.088,
-    291.28,
-    -0.206
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.0809B57E",
-   "refId": "0809B57E",
-   "originalPath": null,
-   "baseForm": "HearthFires.esm:00003043",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Miscellaneous_Items: Clay xx003043 (Hearthfire)",
-   "standInAsset": "vanilla:clutter/ingredients/trollfat01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A lump of clay sits here; a lump of troll fat takes its place.",
-   "positionM": [
-    103.1637,
-    84.0898,
-    62.4961
-   ],
-   "rotationDeg": [
-    0.247,
-    177.113,
-    0.009
-   ],
-   "scale": 1.0
-  },
-  {
    "id": "KeebaHouseCrafter.080A0842",
    "refId": "080A0842",
    "originalPath": null,
@@ -3888,29 +3863,6 @@
     52.793,
     214.945,
     81.77
-   ],
-   "scale": 1.0
-  },
-  {
-   "id": "KeebaHouseCrafter.080A0844",
-   "refId": "080A0844",
-   "originalPath": null,
-   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
-   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
-   "positionM": [
-    109.4187,
-    84.0858,
-    61.4707
-   ],
-   "rotationDeg": [
-    -0.001,
-    1.926,
-    -0.005
    ],
    "scale": 1.0
   },
@@ -3970,7 +3922,7 @@
    "standInAsset": "vanilla:clutter/common/flute01",
    "kit": "interior-kotm-v1",
    "standInCategory": "clutter",
-   "why": "A bone flute lies here; its texture is not in the vault, so a wooden flute takes its place.",
+   "why": "A bone flute lies here; a wooden flute of its length takes its place.",
    "positionM": [
     106.6151,
     83.6451,
@@ -3986,13 +3938,14 @@
  ],
  "counts": {
   "placements": 144,
-  "drops": 11,
+  "drops": 19,
   "lights": 3,
-  "substitutions": 13,
+  "substitutions": 5,
   "missingByClass": {},
   "dropsByReason": {
    "actor": 4,
    "light-source": 3,
+   "listed-gap": 8,
    "marker": 4
   },
   "socketsByKind": {

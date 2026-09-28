@@ -9,5 +9,20 @@
       "standInAsset": "vanilla:clutter/deadanimals/deadpondfish05",
       "why": "A raw michinitl fish lies here; a dead pond fish takes its place."
     }
-  ]
+  ],
+  "gaps": [
+    {
+      "refId": "088B2753",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+      "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+    },
+    {
+      "refId": "088B2734",
+      "reason": "asset-exists-nowhere",
+      "search": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17) and interior-kotm-v1's textureNote: no published interior kit holds the same object; the piece lives only in a Creation Club or Dragonborn archive, which the vault does not hold",
+      "why": "A Dragonborn household item sits here; its master is not ours, so the spot stays bare."
+    }
+  ],
+  "gapRule": "Planner ruling R51 (16k walk 3, 2026-09-28; decision 0102's third reason): a missing piece with no same-object stand-in (R48) whose asset exists nowhere after the completed search ships as a listed gap, drawn by nothing."
 }
