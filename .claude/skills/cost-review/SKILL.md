@@ -60,7 +60,7 @@ threshold, so the slower ways never creep back:
 |---|---|---|
 | preflight runs per commit | > 1.5 | `tooling/.reports/preflight/runs.jsonl`, git log |
 | scoped preflight wall, p50 / runs over 60 s | > 30 s / > 0 | runs.jsonl `wallS` |
-| review-gate fires on non-code batches | > 0 | `.claude/review-stamp.json` paths |
+| review-gate fires on non-code batches | > 0 | `tooling/.reports/review/stamp.json` paths |
 | full miner runs (no `--assets`) | > 1 a week | memwatch `tool-timings.jsonl` |
 | lanes killed at their budget | > 2 a week | `tooling/.reports/budget/*.checkpoint` |
 

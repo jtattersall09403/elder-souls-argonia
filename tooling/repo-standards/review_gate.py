@@ -7,10 +7,11 @@ On `npm run preflight` (or preflight.mjs):
      packages/ apps/ tooling/); a batch with no code change -> allow, no review
   1. no uncommitted change              -> allow
   2. stamp matches the current diff      -> allow (already reviewed)
-  3. a WORKING-TREE stamp younger than FIX_WINDOW min (60, one review per
-     commit batch, 0106) -> allow (the fix cycle after a review); a `--range` stamp never exempts the working-tree diff
+  3. a WORKING-TREE stamp recorded at the current HEAD commit (one review
+     per commit batch, 0106) -> allow (the fix cycle after a review; a new
+     commit on HEAD starts a new batch); a `--range` stamp never exempts the working-tree diff
   4. otherwise run a headless Opus 5.5 (medium) review of the diff (read-only tools),
-     write .claude/review-findings.md and the stamp, then
+     write tooling/.reports/review/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
        - findings    -> exit 2: the findings are the refusal message; the
                         planner acts on CONFIRMED ones or says why not, then
@@ -22,8 +23,9 @@ Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews the
 uncommitted diff now. `--run --range <rev>[..<rev>]` reviews a COMMITTED diff
 instead (`--range db8034db` means `db8034db^..db8034db`), so a change that was
 committed before preflight still gets reviewed. A `--range` review never
-touches the working-tree stamp: it writes only .claude/review-findings-range.md
-and leaves the stamp file (and therefore the working-tree exemption) alone.
+touches the working-tree stamp: it writes only
+tooling/.reports/review/review-findings-range.md and leaves the stamp file
+(and therefore the working-tree exemption) alone.
 
 Pathspec (decision 0087 §3): `npm run preflight -- --paths <pathspec...>` (the
 hook reads it from the command) or `--run --paths <pathspec...>` reviews only
@@ -31,23 +33,27 @@ hook reads it from the command) or `--run --paths <pathspec...>` reviews only
 is measured on that diff alone. Stamps are keyed by the pathspec: a stamp (and
 its fix window) satisfies only a later run with the same pathspec, so one
 lane's review never masks another's or the whole tree's. Findings for a
-pathspec go to .claude/review-findings-<key>.md. No --paths: whole tree, as
-before.
+pathspec go to tooling/.reports/review/review-findings-<key>.md. No --paths:
+whole tree, as before.
 """
 import fcntl, hashlib, json, os, re, shlex, subprocess, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-STAMP = os.path.join(ROOT, ".claude", "review-stamp.json")
-FINDINGS = os.path.join(ROOT, ".claude", "review-findings.md")
-FINDINGS_RANGE = os.path.join(ROOT, ".claude", "review-findings-range.md")
-FIX_WINDOW_MIN = 60   # 0106: one review per commit batch; the batch's fix cycle is covered
+REPORT_DIR = os.path.join(ROOT, "tooling", ".reports", "review")
+STAMP = os.path.join(REPORT_DIR, "stamp.json")
+FINDINGS = os.path.join(REPORT_DIR, "review-findings.md")
+FINDINGS_RANGE = os.path.join(REPORT_DIR, "review-findings-range.md")
 MAX_DIFF_BYTES = 250_000
 TIMEOUT_S = 540
 MODEL = "claude-opus-5-5[1m]"  # owner 2026-09-19: Opus has headroom, review is judgement; 2026-09-23: Opus 5.5 at medium effort
-EFFORT = "medium"
+EFFORT = "high"   # 0106: one exhaustive review per batch, never rounds
 
 PROMPT = """You are the code reviewer for this repo (read CLAUDE.md's golden rules and
-docs/standards/engineering.md if you need them; both are short). Below is the
+docs/standards/engineering.md if you need them; both are short). This is the
+ONLY review this batch gets (0106: one thorough review per batch, never
+rounds): be exhaustive in one pass, cover every file in the diff, and report
+every correctness bug, every standards violation and every scaling problem
+you can verify, ranked most severe first. Below is the
 {what}. Review it for: correctness bugs; inefficient implementations
 where a simpler or cheaper one exists; violations of the engineering standards
 (stable IDs, player-visible strings in packages/text-catalogue, schemaVersion,
@@ -79,6 +85,7 @@ An item you could have verified and did not is not raised.
 Output ONLY a markdown list, most severe first, at most 12 items, each:
 - **CONFIRMED|PLAUSIBLE** `path:line` — one-sentence defect; one-sentence
   failure scenario (concrete input -> wrong result); evidence. No fix.
+End with one line: "Coverage: <files read>/<files in diff>".
 If nothing is worth raising, output exactly: NO FINDINGS
 
 DIFF:
@@ -244,6 +251,10 @@ def sh(*args):
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True).stdout
 
 
+def current_head():
+    return sh("git", "rev-parse", "HEAD").strip()
+
+
 # Design briefs are world prose that text-review owns; each is ~23 KB, so ~11
 # of them filled the 250 KB review cap (method review r3 finding D).
 # the per-place prose (design briefs, site dossiers) is text-review's, never
@@ -304,8 +315,8 @@ def read_stamp(paths=None):
 
 def stamp_lock_path():
     """The stamp's lock file: worldgen.atomic_write.write_lock_path, the one
-    convention (decision 0104 decision 9), so no untracked file appears under
-    .claude/. Imported here, not at module top: the hook runs on every Bash call."""
+    convention (decision 0104 decision 9), so no untracked file appears beside
+    the stamp. Imported here, not at module top: the hook runs on every Bash call."""
     # the module beside this script, never under ROOT (tests point ROOT at a scratch repo)
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "world-generation"))
     from worldgen.atomic_write import write_lock_path
@@ -314,7 +325,7 @@ def stamp_lock_path():
     return str(path)
 
 
-def write_stamp(h, status, n, paths=None):
+def write_stamp(h, status, n, paths=None, head=None):
     """Add or replace one stamp. The read-modify-write holds an exclusive flock
     on the stamp's lock file and replaces the stamp file by rename, so
     parallel preflights keep every lane's stamp and a reader never sees a
@@ -323,7 +334,9 @@ def write_stamp(h, status, n, paths=None):
     with open(stamp_lock_path(), "a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         stamps = read_stamps()
-        stamps[stamp_key(paths)] = {"hash": h, "paths": paths or [], "time": time.time(), "status": status, "findings": n}
+        stamps[stamp_key(paths)] = {"hash": h, "paths": paths or [], "time": time.time(),
+                                     "head": head if head is not None else current_head(),
+                                     "status": status, "findings": n}
         fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
         try:
             with os.fdopen(fd, "w") as f:
@@ -394,9 +407,10 @@ def main():
         return 0
     h = hashlib.sha256(diff.encode()).hexdigest()[:16]
     st = {} if rng else read_stamp(paths)
+    head = current_head()
     if not manual and st.get("hash") == h:
         return 0
-    if not manual and time.time() - st.get("time", 0) < FIX_WINDOW_MIN * 60:
+    if not manual and st.get("head") and st.get("head") == head:
         return 0
     what = f"diff {rng}" if rng else (f"uncommitted diff of {' '.join(paths)}" if paths else "uncommitted diff")
     if len(diff) > MAX_DIFF_BYTES:
@@ -409,7 +423,7 @@ def main():
     findings_path = os.path.join(os.path.dirname(FINDINGS), rel)
     if rc != 0 or not out:
         if not rng:
-            write_stamp(h, f"review failed: {err.strip()[:120]}", 0, paths)
+            write_stamp(h, f"review failed: {err.strip()[:120]}", 0, paths, head)
         sys.stderr.write(f"[review gate] the automatic review could not run ({err.strip()[:120]}); preflight allowed. "
                          "Run `python3 tooling/repo-standards/review_gate.py --run` to retry.\n")
         return 0
@@ -418,18 +432,18 @@ def main():
     with open(findings_path, "w") as f:
         f.write(f"# Automatic code review ({MODEL}), diff {h}, {time.strftime('%Y-%m-%d %H:%M')}\n\n{out}\n")
     if not rng:
-        write_stamp(h, "ok", n, paths)
+        write_stamp(h, "ok", n, paths, head)
     if n == 0:
         if manual:
             print("NO FINDINGS")
         return 0
     same = " with the same --paths" if paths else ""
     next_step = ("fix, then run `--run` (working tree) or preflight" if rng
-                 else f"run preflight again{same} (allowed for {FIX_WINDOW_MIN} min)")
+                 else f"run preflight again{same} (allowed while HEAD stays {head[:8]})")
     sys.stderr.write(
-        f"REVIEW REFUSED: {n} findings in .claude/{rel}\n"
+        f"REVIEW REFUSED: {n} findings in tooling/.reports/review/{rel}\n"
         f"[review gate, decision 0079 §8] a {MODEL} code review of the {what} ran before preflight and "
-        f"found {n} item(s) (saved at .claude/{rel}). Act on each CONFIRMED item or say in one line "
+        f"found {n} item(s) (saved at tooling/.reports/review/{rel}). Act on each CONFIRMED item or say in one line "
         f"why not (a phase plan, an owner ruling, the build-out skeleton); treat PLAUSIBLE items as questions. "
         f"Then {next_step}.\n\n{out}\n")
     return 0 if manual else 2

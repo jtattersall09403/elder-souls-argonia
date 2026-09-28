@@ -76,6 +76,40 @@ the addenda of 0105 (now rows of the rulings table).
 10. **Drift is measured weekly** by the `cost-review` skill's § Workflow
     drift, each measure with a red threshold.
 
+### Addendum 2026-09-28 (owner, after walk 4: "it might be fine now, but own this problem")
+
+11. **When an agent caused the defect, change the agent.** A defect whose
+    root cause is agent behaviour is fixed by changing what the agent reads
+    and does (skill step, reader checklist row, workbench command, brief
+    template), so it cannot recur; a test beside that change is welcome, a
+    test instead of it is a plaster. Every fix round names per defect the
+    instruction or tool that changed. Walk 4's evidence: a stable sunk to
+    its roof, a hanging flower stood on the ground, a boardwalk a body
+    height above its shore, two sign arms level and parallel, a lantern in
+    the floor, particle flames dropped by the exporter: every one visible
+    to a measurement or a render reader before the owner walked.
+12. **A batch is a fix round or a delivered chunk**, never a lane, a commit
+    or a file. In 16k: all the lanes' work between one owner walk and the
+    next packet. One preflight, one review, one text-review per batch.
+13. **The review runs once, exhaustively, never in rounds.** High effort,
+    a "this is the only pass" prompt with a coverage line, findings under
+    `tooling/.reports/review/` (never under `.claude/`), and the stamp
+    holds while HEAD is unchanged: fixes after the review are not
+    re-reviewed; the next commit batch gets its own review.
+14. **A budget stop is a diagnosis, never a result.** The planner reads the
+    stop note, finds the cause of the overrun (walk 3's causes: a survey
+    and scan pass re-run per round, 22–44 min a place; orient 12–17 min a
+    place; a stable sited by hand for 45 min; 3 preflights at 5 min), fixes
+    it in minutes, relaunches from the note. Work cut by a budget is never
+    handed to the owner as a gap.
+15. **Direct Blender for placement.** When the workbench lacks a placement
+    ability, the deliver agent runs its own script against the loaded scene
+    (`wb.py bpy`) and adds the command in the same lane; "needs a new
+    tool" is never a hand-off line (0079 rule 19 widened).
+16. **Reports live in `tooling/.reports/`** (per run, per area), never in
+    `.claude/`, the repo root or a docs folder; `.claude/` holds only
+    settings, agents and skills.
+
 ## Where each lives
 
 - `tooling/repo-standards/preflight.mjs`, `review_gate.py`,

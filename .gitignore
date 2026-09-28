@@ -27,9 +27,6 @@ apps/world-studio/public/province/water/**/*.png
 apps/world-studio/public/province/vegetation/**
 apps/world-studio/public/province/apron/**/*.png
 
-# decision 0079 §8: automatic review stamp and findings (per checkout)
-.claude/review-stamp.json
-.claude/review-findings*.md
-
 # lane reports in the codespace (2026-09-25 hand-off); /tmp is never used for anything that must survive
+# decision 0079 §8: automatic review stamp and findings live under tooling/.reports/review/ (covered below)
 tooling/.reports/

@@ -5,7 +5,7 @@ Prints five measures over the last N days (default 7), each with its red
 threshold, and exits 1 when any is red. Reads only local logs (< 1 s):
   preflight runs      tooling/.reports/preflight/runs.jsonl (preflight.mjs)
   commits             git log --since
-  review fires        .claude/review-stamp.json (review_gate.py)
+  review fires        tooling/.reports/review/stamp.json (review_gate.py)
   miner full runs     tooling/repo-standards/output/tool-timings.jsonl (memwatch)
   lanes over budget   tooling/.reports/budget/*.checkpoint (job_guard.sh --budget)
 
@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "tooling/.reports/preflight/runs.jsonl"
-STAMPS = ROOT / ".claude/review-stamp.json"
+STAMPS = ROOT / "tooling/.reports/review/stamp.json"
 TIMINGS = ROOT / "tooling/repo-standards/output/tool-timings.jsonl"
 BUDGET = ROOT / "tooling/.reports/budget"
 CODE = re.compile(r"^(packages|apps|tooling)/.+\.(py|ts|tsx|mjs|js)$|^(packages|apps|tooling)/?$")

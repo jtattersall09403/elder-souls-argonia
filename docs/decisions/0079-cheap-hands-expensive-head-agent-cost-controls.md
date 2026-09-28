@@ -220,6 +220,11 @@ turn-wasters left. The owner ruled the same day:
     lighting, render-script improvements) in place builds and all future
     builds; Fable's brief fixes the layout and the bars, Opus decides how to
     look at it. Standing note in `.claude/agents/deliver.md`.
+    **Widened 2026-09-28 (owner, walk 4):** the same agents place with
+    Blender directly when the workbench lacks a command (`wb.py bpy
+    <scene> <script>` loads the whole scene for their script: ray casts,
+    bounds, contacts), and add the missing command in the same lane.
+    "Needs a new placing tool" is never a hand-off line (0106 decision 15).
 
 ## Not done here
 
