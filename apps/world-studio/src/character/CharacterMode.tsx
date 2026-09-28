@@ -5,6 +5,7 @@ import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
+import { SettlementErrorLine } from "../SettlementErrorLine";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
@@ -57,7 +58,7 @@ import { useApronManifest } from "../apronMaterials";
 import { BoundaryWalls } from "@elder-souls/game-core/boundary/BoundaryWalls";
 import { useBoundaryMessage } from "@elder-souls/game-core/boundary/useBoundaryMessage";
 import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
-import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
+import type { SettlementLayerError, SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
@@ -187,6 +188,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Dev probe handle: the settlement layer's "rebuild now" (flash probe).
   const settlementRebuildRef = useRef<(() => void) | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // The settlement layer's failure, shown as a red line atop the HUD
+  // (decision 0052 addendum 2026-09-28; it was a magenta shape before).
+  const [settlementError, setSettlementError] = useState<SettlementLayerError | null>(null);
   const hudChannel = useMemo(() => createHudChannel(), []);
   const player = useRef<EcctrlHandle | null>(null);
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
@@ -531,6 +535,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 rebuildRef={settlementRebuildRef}
                 onDoors={setDoors}
                 kitCache={kitCache}
+                onError={setSettlementError}
               />
             )}
           </Suspense>
@@ -692,6 +697,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
         color: "#e6ecf5", font: "13px system-ui",
       }}>
+        <SettlementErrorLine error={settlementError} style={{ flexBasis: "100%" }} />
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => {
           const hud = hudChannel.latest;

@@ -72,6 +72,16 @@ const GATES = {
   // Every module requirements-test.txt declares must import (16h round 16:
   // rtree was declared but missing, and trimesh failed deep in a query).
   "python-deps":   ["cd tooling/world-generation && python3 -m worldgen.check_requirements", [/FAIL/, /Error/]],
+  // The composer's kit reach + dangling-reference gate over the sources, no
+  // build needed (<1 s; decision 0052 addendum 2026-09-28): a kit file the
+  // deployed site would prune while a manifest or bundle still names it.
+  // Also in repo-standards' npm test (so CI runs it); this entry names it.
+  "site-refs":     ["node tooling/repo-standards/check_site_refs.mjs", [/site-refs/]],
+  // The published place bundles through the runtime's own load checks, no
+  // WebGL, plus the two other tests that read the published bundles
+  // (decision 0052 addendum 2026-09-28); path-selected on the bundles, the
+  // kits and the settlement runtime, since game-core's npm test is not.
+  "bundle-load":   ["cd packages/game-core && npx vitest run src/settlement/publishedLoad.test.ts src/settlement/publishedResolve.test.ts src/settlement/shippedBundle.test.ts", [/FAIL/, /Error/, /Tests/]],
 };
 
 // RUNNER MODE: `npm run preflight -- --runner` runs every gate exactly as the
@@ -308,11 +318,16 @@ const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // tool-timings.jsonl, workbench 0.74 GiB at 4 workers on 2026-09-26, the
 // small gates rounded up); the order puts the heavy gates first.
 const GATE_PEAK_GIB = { placement: 3.8, water: 4.4, pipeline: 1.5, workbench: 1.0, typecheck: 1.2,
-  "npm-test": 2.0, rasters: 1.0, credits: 0.5, "python-deps": 0.5 };
+  "npm-test": 2.0, rasters: 1.0, credits: 0.5, "python-deps": 0.5, "site-refs": 0.2, "bundle-load": 0.5 };
+// Every gate in GATES runs in some wave: a gate missing from the lists below
+// joins the last wave (2026-09-28: two new gates were selected and never run
+// because the waves were a hand list).
 const TWO_WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "workbench", "npm-test", "credits", "python-deps"]];
+for (const g of Object.keys(GATES)) if (!TWO_WAVES.flat().includes(g)) TWO_WAVES[1].push(g);
 const plannedGib = selection.gates.reduce((sum, g) => sum + (GATE_PEAK_GIB[g] ?? 2), 0);
 const oneWave = usedBytes + (plannedGib + 1.5) * GIB <= ceilingGib * GIB;
-const WAVES = oneWave ? [Object.keys(GATE_PEAK_GIB)] : TWO_WAVES;
+const WAVES = oneWave
+  ? [[...new Set([...Object.keys(GATE_PEAK_GIB), ...Object.keys(GATES)])].filter((g) => g in GATES)] : TWO_WAVES;
 console.log(`preflight: ${oneWave ? "one wave" : "two waves"} (selected gates' own peaks ${plannedGib.toFixed(1)} GiB + 1.5 reserve + ${(usedBytes / GIB).toFixed(1)} used vs ${ceilingGib} GiB ceiling)`);
 const results = [];
 for (const wave of WAVES) {

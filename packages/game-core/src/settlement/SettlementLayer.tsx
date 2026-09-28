@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
@@ -117,6 +117,14 @@ export function flameManifestPath(kits: Record<string, { manifest: string }>): s
   const any = Object.values(kits)[0]?.manifest;
   const folder = any ? any.replace(/[^/]*$/, "") : "kits/";
   return `${folder}${FLAME_TEXTURE_KIT}.kit.json`;
+}
+
+/** A load failure as text: a failed image load rejects with an Event, which prints as "[object Event]". */
+function describeLoadError(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  const target = (error as { target?: { src?: unknown } } | null)?.target;
+  if (typeof target?.src === "string") return `could not load ${target.src}`;
+  return String(error);
 }
 
 const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
@@ -345,7 +353,7 @@ export function solidFrom(
 
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
-  rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures,
+  rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures, onError,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -356,6 +364,17 @@ export function SettlementLayer({
   const loadedBundle = useRef<AssembledSettlementBundle | null>(null);
   const [queryRevision, setQueryRevision] = useState(0);
   const [fatalError, setFatalError] = useState<Error | null>(null);
+  // An effect sprite (flame, smoke) that failed to load: reported, never fatal;
+  // the places draw without the sprite (decision 0052 addendum 2026-09-28).
+  // One slot per sprite, owned by the effect that loads it: each load clears
+  // its own slot when it starts (a new manifest), so a later success clears
+  // an earlier failure and the two never overwrite each other.
+  const [effectErrors, setEffectErrors] = useState<{ flame: string | null; smoke: string | null }>(
+    { flame: null, smoke: null });
+  const setEffectError = useCallback((sprite: "flame" | "smoke", message: string | null) =>
+    setEffectErrors((current) => (current[sprite] === message ? current : { ...current, [sprite]: message })), []);
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
   // Per-asset kit truth (designed sink, waterline, anchor class): the runtime
   // reads the SAME published manifest the compile measured (16h item 1).
@@ -520,6 +539,7 @@ export function SettlementLayer({
   const smokeManifest = smokeSource?.manifest ?? null;
   const smokeMissing = smokeSource?.missing ?? "";
   useEffect(() => {
+    setEffectError("smoke", null);
     if (smokeMissing) {
       setFatalError(new Error(smokeMissing));
       return undefined;
@@ -542,15 +562,14 @@ export function SettlementLayer({
       made.setAnchors(smokeAnchors.current);
       setSmoke(made);
     }).catch((error: unknown) => {
-      if (!cancelled) setFatalError(new Error(`settlement smoke texture failed: `
-        + `${error instanceof Error ? error.message : String(error)}`));
+      if (!cancelled) setEffectError("smoke", `settlement smoke texture failed: ${describeLoadError(error)}`);
     });
     return () => {
       cancelled = true;
       made?.dispose();
       setSmoke(null);
     };
-  }, [baseUrl, smokeManifest, smokeMissing, uniforms]);
+  }, [baseUrl, smokeManifest, smokeMissing, uniforms, setEffectError]);
 
   // The billboard flame texture: vanilla's candle flame, published by the
   // works-v1 build (`effectTextures`), loaded once per bundle. A fixture is
@@ -559,6 +578,7 @@ export function SettlementLayer({
   const flameManifest = useMemo(
     () => (bundle?.placements.length ? flameManifestPath(bundle.kits) : null), [bundle]);
   useEffect(() => {
+    setEffectError("flame", null);
     if (!flameManifest) return undefined;
     let cancelled = false;
     const manifestUrl = `${baseUrl}${flameManifest}`;
@@ -573,11 +593,10 @@ export function SettlementLayer({
       if (cancelled) { texture.dispose(); return; }
       lightFixtures.setFlameTexture(texture);   // disposes the one it replaces
     }).catch((error: unknown) => {
-      if (!cancelled) setFatalError(new Error(`settlement flame texture failed: `
-        + `${error instanceof Error ? error.message : String(error)}`));
+      if (!cancelled) setEffectError("flame", `settlement flame texture failed: ${describeLoadError(error)}`);
     });
     return () => { cancelled = true; };
-  }, [baseUrl, flameManifest, lightFixtures]);
+  }, [baseUrl, flameManifest, lightFixtures, setEffectError]);
 
   useFrame(({ camera, clock }) => {
     if (fatalError) return;
@@ -610,6 +629,19 @@ export function SettlementLayer({
     }
   });
 
+  // The host's readable line, and the console (decision 0052 addendum
+  // 2026-09-28: a failure shown only as a shape was unreadable three times).
+  useEffect(() => {
+    const report = fatalError ? { fatal: true, message: fatalError.message }
+      : effectErrors.flame || effectErrors.smoke
+        ? { fatal: false, message: [effectErrors.flame, effectErrors.smoke].filter(Boolean).join("; ") }
+        : null;
+    if (report) console.error(`[settlement] ${report.fatal ? "LAYER FAILED" : "effect failed"}: ${report.message}`);
+    onErrorRef.current?.(report);
+  }, [fatalError, effectErrors]);
+  // The host's line goes with the layer: hiding or unmounting it clears it.
+  useEffect(() => () => onErrorRef.current?.(null), []);
+
   useEffect(() => {
     if (!fatalError) return;
     onSolids?.([]);
@@ -633,7 +665,7 @@ export function SettlementLayer({
 
   useEffect(() => {
     // Every throw inside this build is the settlement layer's own failure and
-    // must surface as its own fatal sentinel. Uncaught, it unmounts the whole
+    // must surface as the layer's own fatal error (reported, nothing drawn). Uncaught, it unmounts the whole
     // React subtree the layer sits in — which is how one two-tier-LOD asset
     // took the studio's entire HUD down with it (2026-09-09).
     function* build(): Generator<void> {
@@ -992,11 +1024,11 @@ export function SettlementLayer({
       placementById]);
 
   // The live group and the depth twins go with the world: on unmount, a new
-  // baseUrl, or the fatal sentinel replacing the layer. A new set of bundles
+  // baseUrl, or a fatal error emptying the layer. A new set of bundles
   // in range (S8) is NOT a reason: the next build swaps in over the live
   // group, so the buildings on screen never blink while the player walks.
   useEffect(() => {
-    // Captured now: when the sentinel replaces the layer, React has already
+    // Captured now: when a fatal error empties the layer, React has already
     // detached the ref by the time this cleanup runs.
     const group = root.current;
     const twins = depthTwins.current;
@@ -1009,19 +1041,10 @@ export function SettlementLayer({
     };
   }, [baseUrl, fatalError]);
 
-  // A conspicuous runtime sentinel makes missing settlement data visible in
-  // both production and development even when the host has no ErrorBoundary.
-  // It contains no substitute world geometry: publication has failed closed.
-  if (fatalError) return (
-    <group key="settlement-layer-failed" name="settlement-layer-failed"
-      position={[focusRef.current.x, 30, focusRef.current.z]}
-      userData={{ error: fatalError.message }}>
-      <mesh>
-        <octahedronGeometry args={[18, 0]} />
-        <meshBasicMaterial color={0xff00ff} wireframe />
-      </mesh>
-    </group>
-  );
+  // Fail closed (owner ruling behind 2a1e8311): a refused bundle draws
+  // nothing of the layer. The failure is reported through `onError` (the
+  // studio HUD's red line) and the console, never as a shape in the world.
+  if (fatalError) return null;
   return (
     <>
       <group key="settlement-layer" ref={root} name="settlement-layer" />

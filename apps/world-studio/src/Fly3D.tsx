@@ -5,6 +5,8 @@ import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
+import { SettlementErrorLine } from "./SettlementErrorLine";
+import type { SettlementLayerError } from "@elder-souls/game-core/settlement/types";
 import { CityMarkers } from "./CityMarkers";
 import { ApronTerrain } from "./ApronTerrain";
 import {
@@ -276,6 +278,7 @@ export function Fly3D(props: Fly3DProps) {
     return height === null ? null : height * props.exaggeration;
   }, [store, chunkManifest, props.exaggeration]);
   const [canvasError, setCanvasError] = useState<string | null>(null);
+  const [settlementError, setSettlementError] = useState<SettlementLayerError | null>(null);
   const settlementEnvironment = useMemo(() => () => {
     const sample = lastWeatherSample();
     return sample
@@ -286,6 +289,10 @@ export function Fly3D(props: Fly3DProps) {
   return (
     <>
     {canvasError && <CanvasErrorBanner message={canvasError} />}
+    <SettlementErrorLine error={settlementError} style={{
+      position: "absolute", top: 10, left: "50%", transform: "translateX(-50%)", zIndex: 10,
+      background: "rgba(10,14,20,0.85)", padding: "6px 12px", borderRadius: 8, maxWidth: "80%",
+    }} />
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
@@ -355,7 +362,8 @@ export function Fly3D(props: Fly3DProps) {
             )}
             {!hiddenLayers.has("settlements") && (
               <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
-                groundAt={settlementGroundAt} environment={settlementEnvironment} />
+                groundAt={settlementGroundAt} environment={settlementEnvironment}
+                onError={setSettlementError} />
             )}
           </>
         ) : (

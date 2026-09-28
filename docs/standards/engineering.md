@@ -380,7 +380,13 @@ written rule is the weakest of the three layers below, so all three exist.
 Checked mechanically: `test_kit_compress.py` (in `npm run test:pipeline`),
 shown failing on all 21 uncompressed kits and on a startup total of 118.9 MB;
 the compose gates, shown failing by planting a reference to a kit that does
-not exist and to a chain-only raster.
+not exist and to a chain-only raster. Compose keeps kit files by resolved
+reference, never by folder name, and fails on any dangling reference in what
+it ships (`kit-reach.mjs`); preflight runs the same reach over the sources as
+gate `site-refs` (<1 s, no build) and every published place bundle through
+the runtime's file-decidable load refusals as gate `bundle-load` (decision
+0052 addendum 2026-09-28; both shown failing on a copy without
+`works-v1-fx/candleflame01.png`).
 
 Before merging to main, commit, then run `npm run preflight -- --runner` once:
 it runs the deploy gates from a clean clone of HEAD in a temp directory, with

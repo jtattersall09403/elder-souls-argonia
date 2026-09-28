@@ -80,3 +80,35 @@ and correctly so: they are transport failures, not data defects. The
 built from the placed kit set. A GLB that is present, non-empty and *corrupt*
 would still only fail in the browser; `_stage_assets` checks existence and size,
 not integrity. Queued in `docs/phases/P-polish/backlog.md`.
+
+## Addendum 2026-09-28 — refusals are readable and gated before deploy (16k walk 3)
+
+**Three incidents, one shared cause.** 2026-09-09 Lilmoth (collider budget)
+and Mazzatun (two-tier LOD chain) above, then 16k walk 3: every deployed
+place drew nothing. `tooling/pages-site/compose.mjs` pruned `kits/works-v1-fx/`
+because it derived a kit id from each folder name and kept only ids a shipped
+text file named as `kits/<id>`; the works-v1 manifest names the folder only by a
+path relative to itself (`effectTextures`). The deployed flame texture 404'd,
+the layer turned that into `fatalError`, and the fatal was drawn as a magenta
+wireframe octahedron at the player. Each time a load refusal was shown as a
+shape nobody could read and nothing had run the refusal before deploy.
+
+**What changed.**
+1. Compose keeps kit files by resolved reference, never by folder name
+   (`tooling/pages-site/kit-reach.mjs`, unit-tested with a sidecar `-fx`
+   fixture): the named kits' files, then every file their JSON resolves to,
+   to a fixpoint. It then refuses to ship any dangling reference (a kit
+   manifest's relative asset path, any live record's `kits/…` string).
+2. Preflight gate `site-refs` (`tooling/repo-standards/check_site_refs.mjs`)
+   runs that reach and gate over the sources in under a second, no build.
+3. Preflight gate `bundle-load` (`packages/game-core/src/settlement/publishedLoad.test.ts`,
+   also in `npm test`): every published bundle through the runtime's own
+   file-decidable refusals (schema, collision frame, kit files, manifest
+   parse, asset rows, LOD tier count, flame and smoke texture files);
+   path-selected on the bundles, the kits and the settlement runtime.
+4. The fatal draws nothing (fail-closed stands) and is reported through the
+   layer's injected `onError` (the studio HUD's red "SETTLEMENT LAYER
+   FAILED: …" line) and `console.error`. §4's shape sentinel is retired.
+5. A flame or smoke sprite that fails to load is not a refusal: the places
+   draw without it and the HUD line says so (`fatal: false`).
+

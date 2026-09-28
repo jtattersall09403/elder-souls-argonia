@@ -357,6 +357,19 @@ export interface SettlementLayerProps {
   kitCache?: import("./kitCache").KitCache;
   /** The scene's light fixtures (`lighting.ts`); absent, the layer makes its own. */
   lightFixtures?: import("./lighting").SettlementLightFixtures;
+  /** Injected error channel (decision 0052 addendum 2026-09-28): the host shows
+   * the layer's failure as a readable line; called with null once it clears. */
+  onError?: (error: SettlementLayerError | null) => void;
+}
+
+/**
+ * What the layer reports to its host. `fatal`: a bundle, kit manifest, schema,
+ * collision-frame or geometry refusal, and the layer draws nothing. Not fatal:
+ * an effect sprite (flame, smoke) failed to load, and the places draw without it.
+ */
+export interface SettlementLayerError {
+  fatal: boolean;
+  message: string;
 }
 
 /** What the runtime reads off a published kit manifest, per asset (16h item 1). */

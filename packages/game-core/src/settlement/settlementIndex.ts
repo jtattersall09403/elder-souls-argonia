@@ -111,6 +111,18 @@ export function assembleSettlementBundle(
       stats: { settlements: 0, settlementPlacements: 0, routeStructurePlacements: 0 },
     };
   }
+  // One set, one collision frame: the layer checks the assembled frame, so a
+  // set whose bundles disagree is refused here rather than drawn with every
+  // bundle but the first read in the wrong frame.
+  const frames = new Map<string, string[]>();
+  for (const p of ordered) {
+    const id = (p.placeId ?? p.routeId)!;
+    frames.set(p.collisionFrame, [...(frames.get(p.collisionFrame) ?? []), id]);
+  }
+  if (frames.size > 1) {
+    throw new Error(`mixed settlement collision frames: ${[...frames]
+      .map(([frame, ids]) => `${frame} (${ids.join(", ")})`).join("; ")}`);
+  }
   const settlements = places.map((p) => p.settlement!);
   const placements = ordered.flatMap((p) => p.placements)
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));

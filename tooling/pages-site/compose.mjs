@@ -4,6 +4,7 @@
  * the shipped ladder can display (16f round 4, decision 0073).
  *
  *   node tooling/pages-site/compose.mjs [--out site] [--warn-mb 750] [--fail-mb 900]
+ *     [--studio-dist apps/world-studio/dist] [--sandbox-dist apps/combat-sandbox/dist]
  *
  * Layout (unchanged since the first deploy): combat sandbox at the root path,
  * world studio under /studio/.
@@ -21,7 +22,12 @@
  *   1. `province/ladder.json` says which layers are hidden. A record that
  *      exists only to feed a hidden layer is DARK (table below).
  *   2. A kit under `kits/` ships iff some shipped text file (JS, HTML, CSS,
- *      JSON) that is not dark and not itself under `kits/` names `kits/<id>`.
+ *      JSON) that is not dark and not itself under `kits/` names `kits/<id>`;
+ *      then every file a kept kit's JSON names by a path relative to itself
+ *      (a sidecar folder such as `works-v1-fx/`, named only inside the
+ *      works-v1 manifest's `effectTextures`) ships too, to a fixpoint
+ *      (kit-reach.mjs). A folder's NAME is never evidence of use: pruning
+ *      `works-v1-fx/` by name emptied every deployed place (16k walk 3).
  *      Kits the app names in code (flora, groundcover, underwater, waterfall)
  *      are therefore always kept, even though the settlements index and
  *      its bundles also list flora; kits named only by a dark record, or by nothing at all
@@ -36,6 +42,9 @@
  *   - a dark record is missing from the build;
  *   - a kit the shipped code or a live record names is absent on disk;
  *   - after pruning, any shipped text file still names an excluded kit;
+ *   - after pruning, any live JSON holds a reference that does not resolve in
+ *     the composed site (a kit manifest's relative asset path, a bundle's
+ *     `kits/…` glb or manifest): kit-reach.mjs `danglingRefs`;
  *   - a chain-only raster is named by anything but the provenance manifest;
  *   - the composed site exceeds --fail-mb (warns above --warn-mb);
  *   - audio (standard 16, decision 0094): the shipped audio tree, counted
@@ -48,13 +57,15 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statS
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { kitRefs } from "./kit-ref.mjs";
+import { danglingRefs, kitIdOf, kitReach } from "./kit-reach.mjs";
 
 const root = resolve(fileURLToPath(new URL(".", import.meta.url)), "..", "..");
 const args = process.argv.slice(2);
 const opt = (name, dflt) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : dflt; };
 const OUT = resolve(root, opt("--out", "site"));
-const SANDBOX_DIST = resolve(root, "apps/combat-sandbox/dist");
-const STUDIO_DIST = resolve(root, "apps/world-studio/dist");
+// The two builds (overridable so the gates can be made to fail on a copy).
+const SANDBOX_DIST = resolve(root, opt("--sandbox-dist", "apps/combat-sandbox/dist"));
+const STUDIO_DIST = resolve(root, opt("--studio-dist", "apps/world-studio/dist"));
 // GitHub Pages' documented limit is 1 GB (1,000 MB in their prose; treated as
 // 1,000,000,000 bytes here to be safe against either reading). Fail at 900 MB
 // so a deploy never lands within a single kit (10–80 MB) of the cliff; warn at
@@ -152,19 +163,36 @@ const darkNamed = new Set();
 for (const r of dark) for (const id of kitRefs(readFileSync(join(studio, r), "utf8"))) darkNamed.add(id);
 
 const kitsDir = join(studio, "kits");
-const kitEntries = existsSync(kitsDir) ? readdirSync(kitsDir, { withFileTypes: true }) : [];
-const kitIds = new Set(kitEntries.map((e) => e.isDirectory() ? e.name : e.name.split(".")[0]));
+const kitRel = (f) => relative(kitsDir, f).split("\\").join("/");
+const kitFiles = existsSync(kitsDir) ? walk(kitsDir).map(kitRel) : [];
+const kitIds = new Set(kitFiles.map(kitIdOf));
 for (const [id, by] of referenced) if (!kitIds.has(id)) fail(`${by} names kits/${id} but no such kit is in the build`);
 
-const excluded = [...kitIds].filter((id) => !referenced.has(id)).sort();
+// Keep by resolved reference, never by folder name (kit-reach.mjs): the named
+// kits' files, then every file their JSON resolves to, to a fixpoint.
+const readKitJson = (r) => JSON.parse(readFileSync(join(kitsDir, r), "utf8"));
+const reach = kitReach(kitFiles, new Set(referenced.keys()), readKitJson);
+const prunedFiles = kitFiles.filter((f) => !reach.keep.has(f));
+const keptIds = new Set([...reach.keep].map(kitIdOf));
+const excluded = [...kitIds].filter((id) => !keptIds.has(id)).sort();
+const reachedBy = new Map();   // kit id kept only through a manifest reference -> that manifest
+for (const { from, to } of reach.resolved) if (!referenced.has(kitIdOf(to)) && !reachedBy.has(kitIdOf(to))) reachedBy.set(kitIdOf(to), `kits/${from}`);
 let excludedBytes = 0;
-for (const e of kitEntries) {
-  const id = e.isDirectory() ? e.name : e.name.split(".")[0];
-  if (referenced.has(id)) continue;
-  const p = join(kitsDir, e.name);
-  excludedBytes += e.isDirectory() ? bytesOf(p) : statSync(p).size;
-  rmSync(p, { recursive: true, force: true });
+for (const f of prunedFiles) {
+  const p = join(kitsDir, f);
+  excludedBytes += statSync(p).size;
+  rmSync(p, { force: true });
 }
+// Folders left empty by the prune go too.
+function sweep(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    const p = join(dir, e.name);
+    sweep(p);
+    if (readdirSync(p).length === 0) rmSync(p, { recursive: true, force: true });
+  }
+}
+if (existsSync(kitsDir)) sweep(kitsDir);
 
 // 3. Chain-only rasters: drop only if nothing but the provenance manifest names them.
 const chainDropped = [];
@@ -179,13 +207,22 @@ for (const r of CHAIN_ONLY) {
   chainDropped.push(r);
 }
 
-// 4. Post-prune gate: nothing shipped may still name an excluded kit.
+// 4. Post-prune gates: nothing shipped may still name an excluded kit, and no
+// shipped JSON may hold a reference that does not resolve (kit-reach.mjs
+// danglingRefs: kit manifests' relative asset paths, every `kits/…` string in
+// a live record such as the settlement and interior bundles' kit tables).
 const excludedSet = new Set(excluded);
 for (const f of walk(studio).filter(isText)) {
   for (const id of kitRefs(readFileSync(f, "utf8"))) {
     if (excludedSet.has(id) && !dark.has(rel(f)) && !rel(f).startsWith("kits/")) fail(`${rel(f)} names excluded kit ${id}`);
   }
 }
+const shippedRel = new Set(walk(studio).map(rel));
+const liveJson = [...shippedRel].filter((r) => r.endsWith(".json") && !dark.has(r));
+const t4 = performance.now();
+const dangling = danglingRefs(shippedRel, liveJson, (r) => JSON.parse(readFileSync(join(studio, r), "utf8")));
+for (const d of dangling) fail(`dangling reference: ${d.from} names ${d.ref}, which is not in the composed site`);
+console.log(`compose: dangling-reference gate over ${liveJson.length} JSON files: ${dangling.length} dangling (${Math.round(performance.now() - t4)} ms)`);
 
 // 5. Audio: counted once, reserved before any app ships it, one copy only.
 const audioRoot = resolve(root, "packages/audio/files");
@@ -222,7 +259,8 @@ console.log(`compose: audio ${fmt(audioBytes)} (budget ${audioBudget.failMB} MB)
 const after = bytesOf(OUT) + (audioCopies.length ? 0 : audioBytes);
 console.log(`compose: ladder through ${existsSync(ladderPath) ? JSON.parse(readFileSync(ladderPath, "utf8")).through : "(none)"}; hidden layers: ${hidden.join(", ") || "none"}; dark records: ${[...dark].join(", ") || "none"}`);
 console.log(`compose: kits kept (${referenced.size}): ${[...referenced].map(([id, by]) => `${id} <- ${by}`).join("; ")}`);
-console.log(`compose: kits excluded (${excluded.length}): ${excluded.map((id) => `${id}${darkNamed.has(id) ? "" : " (named by nothing)"}`).join(", ") || "none"}`);
+if (reachedBy.size) console.log(`compose: kept by manifest reference (${reachedBy.size}): ${[...reachedBy].map(([id, by]) => `${id} <- ${by}`).join("; ")}`);
+console.log(`compose: kits excluded (${excluded.length}): ${excluded.map((id) => `${id}${darkNamed.has(id) ? "" : " (named by nothing)"}`).join(", ") || "none"}; files pruned ${prunedFiles.length}`);
 if (chainDropped.length) console.log(`compose: chain-only rasters excluded: ${chainDropped.join(", ")}`);
 console.log(`compose: excluded ${fmt(excludedBytes)}`);
 // Kit sidecars (connectors/footprints/interiors) ship beside every kept kit

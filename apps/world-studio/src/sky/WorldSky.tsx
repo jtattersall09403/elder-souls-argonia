@@ -874,7 +874,15 @@ export function WorldSky({
     // while the deprecated PCFSoft value is set gets `sampler2D` shadow
     // samplers against PCF comparison textures (WaterPipeline.tsx explains).
     if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
-    if (anyNew) void gl.compileAsync(scene, camera).catch(() => {});
+    // `compile`, never `compileAsync` (16k walk 3): compileAsync registers
+    // EVERY material in the scene in a Set and polls each program's isReady
+    // on a timer; a material disposed while its program is still linking has
+    // its renderer properties removed, the poll reads `currentProgram` of a
+    // fresh empty entry and throws "Cannot read properties of undefined
+    // (reading 'isReady')" from the Set.forEach. Nothing here awaited the
+    // promise, so the poll bought nothing: `compile` starts the same
+    // parallel links and registers nothing.
+    if (anyNew) gl.compile(scene, camera);
   };
 
   const { sky, extras } = useMemo(() => createSkyDome(STAR_RADIUS * 1.6), []);

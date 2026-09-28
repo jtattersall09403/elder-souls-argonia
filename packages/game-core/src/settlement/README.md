@@ -93,8 +93,14 @@ Load-bearing contracts:
   fixed pool of 8 point lights (decay 2, no shadow) follows the nearest
   fixtures, re-chosen once a second; the rest glow only. The manager is the
   layer's own or injected (`lightFixtures` prop);
-- a failed bundle or kit load produces a conspicuous magenta failure sentinel;
-  it cannot silently degrade into a settlement-free landscape;
+- a failed bundle, manifest, schema, collision-frame or geometry load fails
+  the layer closed: nothing of it is drawn, `console.error` names the cause
+  and the injected `onError` hands the host `{fatal: true, message}` (the
+  studio shows "SETTLEMENT LAYER FAILED: …" in red atop the HUD). A flame or
+  smoke sprite that fails to load is NOT a refusal: the places draw without
+  it and `onError` reports `{fatal: false}`. `publishedLoad.test.ts` runs the
+  file-decidable refusals over every published bundle (preflight gate
+  `bundle-load`); decision 0052 addendum 2026-09-28;
 - materials carry aerial, rain wetness and all-tier window emission state in
   `userData`; `WorldSky` reapplies the hook after CSM. Rain height is measured
   from each instance's streamed ground line, and the same call creates an

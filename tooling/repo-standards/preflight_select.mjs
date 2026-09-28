@@ -60,6 +60,11 @@ export const GATE_INPUTS = {
   rasters: ["tooling/province-artefact/", "apps/world-studio/public/province/"],
   credits: ["README.md", "world/sources/assets/", "tooling/asset-pipeline/pipeline/config/kits/",
     "tooling/world-generation/worldgen/check_credits.py"],
+  "site-refs": ["tooling/pages-site/", "tooling/repo-standards/check_site_refs.mjs",
+    "apps/world-studio/public/", "apps/world-studio/src/", "apps/world-studio/index.html", "packages/"],
+  "bundle-load": ["apps/world-studio/public/kits/", "apps/world-studio/public/province/settlements/",
+    "apps/world-studio/public/province/interiors/", "packages/game-core/src/settlement/",
+    "packages/game-core/src/interior/"],
   "python-deps": ["tooling/world-generation/requirements-test.txt",
     "tooling/world-generation/worldgen/check_requirements.py"],
 };

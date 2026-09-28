@@ -2,8 +2,8 @@
  * The shipped bundle resolves through the runtime's own resolver (16h round 4).
  *
  * The layer builds every placement in draw range in one pass, and ONE throw
- * fails the whole layer closed (no buildings, the magenta sentinel at the
- * player). So every placement in the published bundle must resolve against
+ * fails the whole layer closed (no buildings; a red HUD line in the studio).
+ * So every placement in the published bundle must resolve against
  * the published kit manifests, with the same anchor-class rule the layer uses.
  * Flat ground stands in for terrain: only the record contract is under test.
  */

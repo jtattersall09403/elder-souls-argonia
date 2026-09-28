@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  SETTLEMENT_LOAD_ALL_BELOW, SettlementBundleSource, bundlesInRange, type SettlementIndex,
+  SETTLEMENT_LOAD_ALL_BELOW, SettlementBundleSource, assembleSettlementBundle, bundlesInRange,
+  type SettlementIndex,
   type SettlementPartBundle,
 } from "./settlementIndex";
 
@@ -71,5 +72,13 @@ describe("SettlementBundleSource (S8)", () => {
     expect(fetched.filter((u) => u.endsWith("index.json"))).toHaveLength(1);
     // the caller's range: 5.5 km from x = 0 reaches p00..p11 (5500 + 50 m)
     expect((await source.load({ x: 0, z: 0 }, 5500)).bundleIds).toHaveLength(12);
+  });
+
+  it("refuses a set whose bundles carry different collision frames", () => {
+    const a = part("place.a", 0);
+    const b = { ...part("place.b", 1), collisionFrame: "old-frame" };
+    expect(() => assembleSettlementBundle([a, b]))
+      .toThrow(/mixed settlement collision frames: f \(place\.a\); old-frame \(place\.b\)/);
+    expect(assembleSettlementBundle([a, part("place.c", 1)]).collisionFrame).toBe("f");
   });
 });

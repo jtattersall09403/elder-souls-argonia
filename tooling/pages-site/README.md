@@ -10,9 +10,13 @@ can display. GitHub Pages publishes at most 1 GB; the raw compose measured
 999 MB on 2026-09-18 with ~430 MB of architecture kits that
 `province/ladder.json` hides until 16h. The script derives the excluded set
 at build time — a kit ships iff shipped code or a record of a shown layer
-names `kits/<id>` — so un-hiding a layer ships its kits again with no list
-to edit. Gates fail the build on an unknown ladder layer, a named kit that
-is missing, a surviving reference to an excluded file, a "chain-only" raster
+names `kits/<id>`, and every file a kept kit's JSON names by a relative path
+ships with it (`kit-reach.mjs`: resolved references, never folder names; a
+sidecar such as `works-v1-fx/` is named only inside its manifest) — so
+un-hiding a layer ships its kits again with no list to edit. Gates fail the build on an unknown ladder layer, a named kit that
+is missing, a dangling reference in any shipped JSON (decision 0052
+addendum 2026-09-28; preflight runs the same check over the sources as gate
+`site-refs`), a surviving reference to an excluded file, a "chain-only" raster
 something now reads, or a site over 900 MB (warning over 750 MB).
 
 Run it locally after `npm run build` to see the size and the kept/excluded
