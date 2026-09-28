@@ -2647,10 +2647,10 @@
     "heightM": 1.03,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.0,
-     -2.37
+     0.02,
+     -0.37
     ],
-    "widthM": 4.74
+    "widthM": 0.77
    },
    {
     "evidence": "bounds",
@@ -2658,10 +2658,10 @@
     "heightM": 1.03,
     "normalDeg": 90.0,
     "positionInPiece": [
-     2.37,
-     0.0
+     0.4,
+     -0.01
     ],
-    "widthM": 4.74
+    "widthM": 0.73
    },
    {
     "evidence": "bounds",
@@ -2669,10 +2669,10 @@
     "heightM": 1.03,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.0,
-     2.37
+     0.02,
+     0.36
     ],
-    "widthM": 4.74
+    "widthM": 0.77
    },
    {
     "evidence": "bounds",
@@ -2680,10 +2680,10 @@
     "heightM": 1.03,
     "normalDeg": 270.0,
     "positionInPiece": [
-     -2.37,
-     0.0
+     -0.37,
+     -0.01
     ],
-    "widthM": 4.74
+    "widthM": 0.73
    }
   ]
  },

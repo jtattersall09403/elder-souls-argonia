@@ -1063,6 +1063,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4605
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1077,12 +1082,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.79,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.46,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4605
-   }
+   "pivotAboveBaseM": 0.46
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -2129,6 +2129,33 @@
     "DLC2DarkElfLantern04:1.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1.0,
+     "movementAmplitude": 1.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     -0.17,
+     -2.57,
+     0.28
+    ],
+    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): SLightStreetStreet01 (Skyrim.esm LIGH 000d0e40) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 4 argonianlanterns03 refs the mod places (none 3); offset is that ref's in the piece's frame, glTF Y-up metres (n 1). Mined 2026-09-28 (lane L16, /tmp/l16/lantern_lights.py, the kits2 brazier method)."
+   },
    "designedSinkM": {
     "p25": -2.1494,
     "p50": -2.1494,
@@ -2174,34 +2201,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149,
-   "light": {
-    "formId": "000d0e40",
-    "editorId": "SLightStreetStreet01",
-    "burnSeconds": -1,
-    "radiusUnits": 512,
-    "colourRgb": [
-     247,
-     139,
-     43
-    ],
-    "flicker": {
-     "frequency": 0.05,
-     "intensityAmplitude": 1.0,
-     "movementAmplitude": 1.0
-    },
-    "flags": [
-     "dynamic",
-     "flicker"
-    ],
-    "fixtureKind": "lantern",
-    "offsetM": [
-     -0.17,
-     -2.57,
-     0.28
-    ],
-    "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): SLightStreetStreet01 (Skyrim.esm LIGH 000d0e40) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 4 argonianlanterns03 refs the mod places (none 3); offset is that ref's in the piece's frame, glTF Y-up metres (n 1). Mined 2026-09-28 (lane L16, /tmp/l16/lantern_lights.py, the kits2 brazier method)."
-   }
+   "pivotAboveBaseM": 2.149
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -2235,6 +2235,33 @@
     "DLC2DarkElfLanternStatic06:1.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "000d0e40",
+    "editorId": "SLightStreetStreet01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     247,
+     139,
+     43
+    ],
+    "flicker": {
+     "frequency": 0.05,
+     "intensityAmplitude": 1.0,
+     "movementAmplitude": 1.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fixtureKind": "lantern",
+    "offsetM": [
+     0.0,
+     -0.55,
+     0.0
+    ],
+    "evidence": "The mod places its 3 argonianlanterns04 refs with no LIGH within 200 units (none 3). It is the short-cord sibling of argonianlanterns03 (same lantern body, 0.89 m cord against 2.15 m), so it takes 03's mined record (SLightStreetStreet01, n 1) with the light at its own lantern body, 0.55 m below the pivot; every Argonian lantern a place hangs is a lit fixture (planner brief L7 item 2, walk 3). Lane L16 2026-09-28."
+   },
    "designedSinkM": {
     "p25": -0.8895,
     "p50": -0.8895,
@@ -2286,34 +2313,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889,
-   "light": {
-    "formId": "000d0e40",
-    "editorId": "SLightStreetStreet01",
-    "burnSeconds": -1,
-    "radiusUnits": 512,
-    "colourRgb": [
-     247,
-     139,
-     43
-    ],
-    "flicker": {
-     "frequency": 0.05,
-     "intensityAmplitude": 1.0,
-     "movementAmplitude": 1.0
-    },
-    "flags": [
-     "dynamic",
-     "flicker"
-    ],
-    "fixtureKind": "lantern",
-    "offsetM": [
-     0.0,
-     -0.55,
-     0.0
-    ],
-    "evidence": "The mod places its 3 argonianlanterns04 refs with no LIGH within 200 units (none 3). It is the short-cord sibling of argonianlanterns03 (same lantern body, 0.89 m cord against 2.15 m), so it takes 03's mined record (SLightStreetStreet01, n 1) with the light at its own lantern body, 0.55 m below the pivot; every Argonian lantern a place hangs is a lit fixture (planner brief L7 item 2, walk 3). Lane L16 2026-09-28."
-   }
+   "pivotAboveBaseM": 0.889
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
@@ -2377,6 +2377,23 @@
     "fixtureKind": "candle",
     "evidence": "ArgonianLakeHouse.esl (Mud Mother Grove): Alikr_OrangeFlicker (Skyrim.esm LIGH 00094e65) is the nearest LIGH ref (< 200 units, same cell) to 1 of the 2 00GV_ArgonianCandle01 (STAT) refs the mod places (none 1); offset is that ref's in the piece's frame, glTF Y-up metres (n 1: the mod's only evidence). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
    },
+   "flames": [
+    {
+     "offsetM": [
+      -0.0015,
+      1.8374,
+      0.3376
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": -0.0288,
     "p50": -0.0288,
@@ -2981,12 +2998,12 @@
    },
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": -0.6723,
-    "p50": -0.6723,
-    "p75": -0.6723,
-    "n": 1,
+    "p25": -0.4023,
+    "p50": -0.4023,
+    "p75": -0.4023,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "plugin"
+    "evidence": "policy"
    },
    "settingClass": {
     "settings": {
@@ -3241,12 +3258,12 @@
    },
    "lodLevels": 3,
    "designedSinkM": {
-    "p25": -0.6723,
-    "p50": -0.6723,
-    "p75": -0.6723,
-    "n": 1,
+    "p25": -0.4023,
+    "p50": -0.4023,
+    "p75": -0.4023,
+    "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "swap:histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
+    "evidence": "policy"
    },
    "settingClass": {
     "settings": {
@@ -4131,6 +4148,38 @@
     "CandleLanternWithCandle:7.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": -0.4728,
     "p50": -0.4728,
@@ -4428,6 +4477,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0134
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4442,12 +4496,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.247,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.013,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0134
-   }
+   "pivotAboveBaseM": 0.013
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut03",
@@ -5862,6 +5911,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0257
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5876,12 +5930,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.443,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.386,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.0257
-   }
+   "pivotAboveBaseM": 2.386
   },
   {
    "id": "kotm:argonia/mudhuts/overhang03",
@@ -6025,12 +6074,12 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 42557352,
-  "bytesAfter": 19481360,
+  "bytesBefore": 42557272,
+  "bytesAfter": 19480744,
   "images": 74,
   "imageBytesAfter": 15815954,
   "warnings": [],
-  "sha256": "a9aadd062c8238f05bae9890ce6597956859801e6b4f4be6eaaf3d81c7af7715",
+  "sha256": "31570402567aa6b9f7ad80132af01b5338099f04a8a886dfd5ef6d07efe42014",
   "sidecarBytes": {
    "connectors": 48109,
    "footprints": 104670,

@@ -54,6 +54,7 @@
     "9.Mat",
     "Tri 0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -83,8 +84,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.812,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallgate02",
@@ -136,6 +136,7 @@
     "9.Mat.001",
     "Tri 0.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -143,6 +144,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.5,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -165,15 +173,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "placedScaleMedian": 1.5,
-   "placedScaleEvidence": {
-    "n": 3,
-    "p10": 1.0,
-    "p90": 1.5,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024arch01",
@@ -216,6 +216,7 @@
     "6.Mat.002",
     "7.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -10.4689,
     "p50": -10.4689,
@@ -245,8 +246,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.469,
-   "lodLevels": 3
+   "pivotAboveBaseM": 10.469
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall01",
@@ -297,6 +297,7 @@
     "9.Mat.002",
     "Tri 0.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -304,6 +305,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 42,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -326,15 +334,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "placedScaleMedian": 1.5,
-   "placedScaleEvidence": {
-    "n": 42,
-    "p10": 1.5,
-    "p90": 1.5,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall02",
@@ -385,6 +385,7 @@
     "9.Mat.003",
     "Tri 0.Mat.003"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -414,8 +415,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.68,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way",
@@ -466,6 +466,7 @@
     "9.Mat.004",
     "Tri 0.Mat.004"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -473,6 +474,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 6,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -495,15 +503,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.465,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "placedScaleMedian": 1.5,
-   "placedScaleEvidence": {
-    "n": 6,
-    "p10": 1.5,
-    "p90": 1.5,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way",
@@ -554,6 +554,7 @@
     "9.Mat.005",
     "Tri 0.Mat.005"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -583,8 +584,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner4way",
@@ -633,6 +633,7 @@
     "9.Mat.006",
     "Tri 0.Mat.006"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -662,8 +663,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.488,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallround01",
@@ -714,6 +714,7 @@
     "9.Mat.007",
     "Tri 0.Mat.007"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -743,8 +744,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.405,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01a",
@@ -793,6 +793,7 @@
     "9.Mat.008",
     "Tri 0.Mat.008"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -822,8 +823,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.369,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01b",
@@ -876,6 +876,7 @@
     "9.Mat.009",
     "Tri 0.Mat.009"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -905,8 +906,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.668,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallstair01",
@@ -961,6 +961,7 @@
     "9.Mat.010",
     "Tri 0.Mat.010"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -968,6 +969,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.5,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.5,
+    "p90": 1.5,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -990,15 +998,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.494,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "placedScaleMedian": 1.5,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 1.5,
-    "p90": 1.5,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall01a",
@@ -1049,6 +1049,7 @@
     "9.Mat.011",
     "Tri 0.Mat.011"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1078,8 +1079,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall02",
@@ -1128,6 +1128,7 @@
     "Tri Tri Tri 1.00 0.001 0.00 8.Mat",
     "Tri Tri Tri 1.00 0.001 0.00 9.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1157,8 +1158,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.689,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512pillar01",
@@ -1203,6 +1203,7 @@
     "7.Mat.013",
     "8.Mat.012"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -10.0243,
     "p50": -9.3614,
@@ -1210,6 +1211,13 @@
     "n": 10,
     "slopeTermMPerDeg": -0.20474,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.8,
+   "placedScaleEvidence": {
+    "n": 27,
+    "p10": 1.0,
+    "p90": 2.2,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -1227,15 +1235,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "placedScaleMedian": 1.8,
-   "placedScaleEvidence": {
-    "n": 27,
-    "p10": 1.0,
-    "p90": 2.2,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall01",
@@ -1284,6 +1284,7 @@
     "9.Mat.012",
     "Tri 0.Mat.012"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1313,8 +1314,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.725,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall02",
@@ -1363,6 +1363,7 @@
     "9.Mat.013",
     "Tri 0.Mat.013"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1392,8 +1393,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.729,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wallendcap",
@@ -1442,6 +1442,7 @@
     "9.Mat.014",
     "Tri 0.Mat.014"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1471,8 +1472,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.745,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledge",
@@ -1519,6 +1519,7 @@
     "8.Mat.016",
     "9.Mat.015"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1543,8 +1544,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgecorner",
@@ -1591,6 +1591,7 @@
     "8.Mat.017",
     "9.Mat.016"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8344,
     "p50": -11.8344,
@@ -1620,8 +1621,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.107,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect",
@@ -1674,6 +1674,7 @@
     "9.Mat.017",
     "Tri 0.Mat.015"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.3686,
     "p50": 6.3686,
@@ -1703,8 +1704,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.578,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/misc/ramp01",
@@ -1755,6 +1755,7 @@
     "9.Mat.018",
     "Tri 0.Mat.016"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -11.8342,
     "p50": -11.8342,
@@ -1784,8 +1785,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.411,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 11.834,
-   "lodLevels": 3
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/slope/1024wallslope256",
@@ -1836,6 +1836,7 @@
     "9.Mat.019",
     "Tri 0.Mat.017"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.2794,
     "p50": 1.2794,
@@ -1865,8 +1866,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.672,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 13.655,
-   "lodLevels": 3
+   "pivotAboveBaseM": 13.655
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01",
@@ -1901,6 +1901,7 @@
     "WRFenceStrGate01:10.Mat",
     "WRFenceStrGate01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4234,
     "p50": -0.239,
@@ -1925,8 +1926,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.161,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01",
@@ -1961,6 +1961,7 @@
     "Gate:10.Mat",
     "Gate:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4552,
     "p50": -0.4205,
@@ -1985,8 +1986,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.979,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.357,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.357
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
@@ -2021,6 +2021,13 @@
     "WRFenceBaseStr01:48.Mat",
     "WRFenceBaseStr01:49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBaseStr01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBaseStr01:49.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0247,
     "p50": 0.3809,
@@ -2045,8 +2052,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
@@ -2081,6 +2087,7 @@
     "WRFenceStr01:10.Mat",
     "WRFenceStr01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0406,
     "p50": 0.0,
@@ -2105,8 +2112,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.202,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
@@ -2141,6 +2147,13 @@
     "WRFenceBaseEnd01:48.Mat",
     "WRFenceBaseEnd01:49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBaseEnd01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBaseEnd01:49.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1984,
     "p50": 0.1605,
@@ -2165,8 +2178,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": 0.935,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.935
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
@@ -2201,6 +2213,13 @@
     "WRFenceBaseCor01:48.Mat",
     "WRFenceBaseCor01:49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBaseCor01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBaseCor01:49.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1021,
     "p50": 0.1519,
@@ -2225,8 +2244,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01",
@@ -2261,6 +2279,7 @@
     "WRFenceCor01:10.Mat",
     "WRFenceCor01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.7139,
     "p50": -0.1402,
@@ -2285,8 +2304,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.047,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01",
@@ -2321,6 +2339,13 @@
     "WRFenceBase4Way01:48.Mat",
     "WRFenceBase4Way01:49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBase4Way01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBase4Way01:49.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1233,
     "p50": 0.0706,
@@ -2345,8 +2370,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01",
@@ -2381,6 +2405,7 @@
     "WRFence4Way01:10.Mat",
     "WRFence4Way01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.7561,
     "p50": -0.7561,
@@ -2410,8 +2435,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.022,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.756,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01",
@@ -2446,6 +2470,13 @@
     "WRFenceBaseSupport01:48.Mat",
     "WRFenceBaseSupport01:49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBaseSupport01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBaseSupport01:49.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5901,
     "p50": 0.8135,
@@ -2470,8 +2501,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -2505,6 +2535,7 @@
     "RedoranBaseWall01:3.010.Mat",
     "RedoranBaseWall01:3.012.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.9905,
     "p50": -0.9905,
@@ -2534,8 +2565,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.543,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.991,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.991
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwall",
@@ -2567,6 +2597,7 @@
     "RedoranBaseWall01:2.005.Mat",
     "RedoranBaseWall01:3.008.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.3724,
     "p50": 6.3724,
@@ -2596,8 +2627,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallcorner",
@@ -2629,6 +2659,7 @@
     "RedoranBaseWall01:2.005.Mat.001",
     "RedoranBaseWall01:3.008.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.9103,
     "p50": -0.9103,
@@ -2658,8 +2689,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.115,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwalldivider",
@@ -2691,6 +2721,7 @@
     "RedoranBaseWall01:3.004.Mat",
     "RedoranBaseWall01:3.005.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.9686,
     "p50": -0.9686,
@@ -2720,8 +2751,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.969,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.969
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01",
@@ -2752,6 +2782,7 @@
    "materials": [
     "Archway.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -2781,8 +2812,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.453,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01",
@@ -2813,6 +2843,7 @@
    "materials": [
     "StonewallCurve01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2842,8 +2873,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02",
@@ -2874,6 +2904,7 @@
    "materials": [
     "StonewallCurve02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2903,8 +2934,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01",
@@ -2935,6 +2965,7 @@
    "materials": [
     "Pillar01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0498,
     "p50": 0.0569,
@@ -2959,8 +2990,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.302,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate",
@@ -2999,6 +3029,7 @@
     "objBox20.Mat",
     "objPlane02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1381,
     "p50": -0.1381,
@@ -3007,8 +3038,20 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-spread)"
    },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 3,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1381
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3023,20 +3066,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.63,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.138,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.1381
-   },
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 3,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.138
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal",
@@ -3069,6 +3099,7 @@
     "SBardsCollege_LOD:0.Mat",
     "SBardsCollege_LOD:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.1659,
     "p50": -2.1659,
@@ -3098,8 +3129,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.166,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.166
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallstraight01",
@@ -3122,7 +3152,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3132,6 +3162,7 @@
     "StockadeWallStraight01:0 - L1_Wood09:0.Mat",
     "StockadeWallStraight01:2 - L1_Wood09:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.6558,
     "p50": -1.3148,
@@ -3156,8 +3187,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.16,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerin01",
@@ -3180,7 +3210,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3190,6 +3220,7 @@
     "StockadeWallCornerIn01:0 - L1_Wood12:0.Mat",
     "StockadeWallCornerIn01:2 - L1_Wood12:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5734,
     "p50": 0.9655,
@@ -3214,8 +3245,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerout01",
@@ -3238,7 +3268,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3248,6 +3278,7 @@
     "StockadeWallCornerOut01:0 - L1_Wood11:0.Mat",
     "StockadeWallCornerOut01:2 - L1_Wood11:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5988,
     "p50": 1.2402,
@@ -3272,8 +3303,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallwalkway01",
@@ -3296,7 +3326,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3308,6 +3338,7 @@
     "StockadeWallWalkway01:1 - L2_Accessories:1.Mat",
     "StockadeWallWalkway01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8246,
     "p50": -1.4483,
@@ -3332,8 +3363,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.899,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.114,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadetower01",
@@ -3356,7 +3386,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3368,6 +3398,7 @@
     "StockadeTower01:1 - L1_Wood:1 - L2_Accessories01:1.Mat",
     "StockadeTower01:2 - Object14:2 - L1_Wood:2 - L2_Accessories01:2"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.4135,
     "p50": 0.6608,
@@ -3392,8 +3423,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.823,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadegate01",
@@ -3409,15 +3439,24 @@
     1.071,
     0.499
    ],
-   "triangles": 1040,
+   "triangles": 988,
    "lodRatios": [
     0.35,
     0.12
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
-   "droppedShapes": [],
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "ShadowTrim01",
+     "reason": "effect-no-texture"
+    },
+    {
+     "shape": "ShadowTrim02",
+     "reason": "effect-no-texture"
+    }
+   ],
    "textures": [
     "stockadeextra01.dds",
     "stockadewood01.dds"
@@ -3429,8 +3468,6 @@
     "L1_Wood:2.Mat",
     "L2_Supports02.Mat",
     "L2_Supports03.Mat",
-    "ShadowTrim01.Mat",
-    "ShadowTrim02.Mat",
     "StockadeGate01_L:0.Mat",
     "StockadeGate01_L:2.Mat",
     "StockadeGate01_R:0.Mat",
@@ -3438,6 +3475,7 @@
     "a_LeftDoor:0.Mat",
     "a_RightDoor:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2138,
     "p50": -0.0637,
@@ -3462,8 +3500,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.172,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.499,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.499
   },
   {
    "id": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
@@ -3486,7 +3523,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3507,6 +3544,17 @@
     "StockadeBarricade01-03:2.Mat",
     "StockadeBarricade01-03:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "EdgeTrim.001.Mat": 0.373,
+    "EdgeTrim.002.Mat": 0.373,
+    "EdgeTrim.Mat": 0.373
+   },
+   "decalMaterials": [
+    "EdgeTrim.001.Mat",
+    "EdgeTrim.002.Mat",
+    "EdgeTrim.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.1155,
     "p50": 0.2688,
@@ -3531,8 +3579,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.361,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "vanilla:clutter/stockade/stockadepike01",
@@ -3555,7 +3602,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -3565,6 +3612,7 @@
     "StockadePike01:0.Mat",
     "StockadePike01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.6775,
     "p50": 1.0286,
@@ -3589,8 +3637,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01",
@@ -3621,6 +3668,7 @@
    "materials": [
     "Arstone02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4515,
     "p50": -7.4515,
@@ -3650,8 +3698,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.205,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02",
@@ -3682,6 +3729,7 @@
    "materials": [
     "Arstone02.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4515,
     "p50": -7.4515,
@@ -3711,8 +3759,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.069,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03",
@@ -3743,6 +3790,7 @@
    "materials": [
     "Arstone02.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4515,
     "p50": -7.4515,
@@ -3772,8 +3820,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.451,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "composite:farmfence/wr-fence-run-3",
@@ -3817,6 +3864,19 @@
     "WRFenceBaseStr01:49.Mat.001",
     "WRFenceBaseStr01:49.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "WRFenceBaseEnd01:49.Mat.001": 0.502,
+    "WRFenceBaseEnd01:49.Mat.002": 0.502,
+    "WRFenceBaseStr01:49.Mat.001": 0.502,
+    "WRFenceBaseStr01:49.Mat.002": 0.502
+   },
+   "decalMaterials": [
+    "WRFenceBaseEnd01:49.Mat.001",
+    "WRFenceBaseEnd01:49.Mat.002",
+    "WRFenceBaseStr01:49.Mat.001",
+    "WRFenceBaseStr01:49.Mat.002"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.9348,
     "p50": -0.9348,
@@ -3846,11 +3906,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.935,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.935
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\enclosure-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\enclosure-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/dlc02/architecture/ravenrock/redoran/redoran03.dds",
@@ -3865,8 +3924,9 @@
   "textures/dlc02/architecture/ravenrock/redoran/redoran02_n.dds": "textures/architecture/redoran/redoran02_n.dds"
  },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 349
+  "MASK": 12,
+  "OPAQUE": 335,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -3899,16 +3959,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 31649156,
-  "bytesAfter": 13883064,
+  "bytesBefore": 31623712,
+  "bytesAfter": 13876676,
   "images": 41,
-  "imageBytesAfter": 10626903,
+  "imageBytesAfter": 10625125,
   "warnings": [],
-  "sha256": "75ad75c702bbb5e519e61a390039329505d329d64ef922a1346897f6d3aa3c18",
+  "sha256": "748fc721e0f3f2c87f8a044c251b1c0b29f379796c7fe0b9cd07af0209683509",
   "sidecarBytes": {
    "connectors": 33841,
-   "footprints": 52088,
-   "interiors": 38062
+   "footprints": 52090,
+   "interiors": 43104
   }
  }
 }

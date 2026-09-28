@@ -1562,7 +1562,7 @@
     "deg": 41.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 41\u00b0 in the piece's own frame carries 2.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 41\u00b0 in the piece's own frame carries 2.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 7.24,
@@ -1586,10 +1586,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 163.5,
+    "deg": 163.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 163\u00b0 in the piece's own frame carries 2.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 164\u00b0 in the piece's own frame carries 2.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 6.39,
@@ -1616,7 +1616,7 @@
     "deg": 99.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 99\u00b0 in the piece's own frame carries 5.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 99\u00b0 in the piece's own frame carries 5.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 5.77,

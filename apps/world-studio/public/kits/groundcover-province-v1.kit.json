@@ -47,6 +47,23 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0888,
+    "p50": 0.0888,
+    "p75": 0.0888,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0888
+   },
+   "designedWaterlineM": 0.0,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -61,24 +78,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.089,
-   "designedSinkM": {
-    "p25": 0.0888,
-    "p50": 0.0888,
-    "p75": 0.0888,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0888
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0,
-   "lodLevels": 2
+   "pivotAboveBaseM": -0.089
   },
   {
    "id": "bmv:landscape/grass/esurosebaywillowherb01",
@@ -126,6 +126,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -140,18 +151,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039,
-   "designedSinkM": {
-    "p25": -0.039,
-    "p50": -0.039,
-    "p75": -0.039,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.039
   },
   {
    "id": "tropical:landscape/grass/cattailgrass",
@@ -199,6 +199,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -213,18 +224,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.087
   },
   {
    "id": "tropical:landscape/grass/ferngrass01",
@@ -272,6 +272,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0048,
+    "p50": -0.0048,
+    "p75": -0.0048,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0048
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -286,23 +302,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": -0.0048,
-    "p50": -0.0048,
-    "p75": -0.0048,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0048
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "tropical:landscape/grass/grassplant01",
@@ -350,6 +350,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0439,
+    "p50": -0.0439,
+    "p75": -0.0439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0439
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -364,23 +380,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044,
-   "designedSinkM": {
-    "p25": -0.0439,
-    "p50": -0.0439,
-    "p75": -0.0439,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0439
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.044
   },
   {
    "id": "tropical:landscape/grass/grassfern01",
@@ -428,6 +428,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0439,
+    "p50": -0.0439,
+    "p75": -0.0439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0439
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -442,23 +458,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044,
-   "designedSinkM": {
-    "p25": -0.0439,
-    "p50": -0.0439,
-    "p75": -0.0439,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0439
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.044
   },
   {
    "id": "tropical:landscape/grass/marshgrassobj01",
@@ -506,6 +506,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -520,18 +531,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.213,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.096,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 1.096
   },
   {
    "id": "bmv:landscape/grass/solojunco",
@@ -579,6 +579,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -593,18 +604,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.1,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.1
   },
   {
    "id": "bmv:landscape/grass/vurt_marshplant1",
@@ -652,6 +652,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.051,
+    "p50": -0.051,
+    "p75": -0.051,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -666,18 +677,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.051,
-   "designedSinkM": {
-    "p25": -0.051,
-    "p50": -0.051,
-    "p75": -0.051,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.051
   },
   {
    "id": "bmv:landscape/grass/ewpsea03",
@@ -725,6 +725,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -739,18 +750,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/grass/ewpsea06",
@@ -798,6 +798,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -812,18 +823,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/grass/ewpshore11",
@@ -871,6 +871,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -885,18 +896,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/grass/ewpshore14",
@@ -944,6 +944,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.037,
+    "p50": -0.037,
+    "p75": -0.037,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -958,18 +969,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.037,
-   "designedSinkM": {
-    "p25": -0.037,
-    "p50": -0.037,
-    "p75": -0.037,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.037
   },
   {
    "id": "bmv:landscape/grass/ewpshore03a",
@@ -1017,6 +1017,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0416,
+    "p50": -0.0416,
+    "p75": -0.0416,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0416
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1031,23 +1047,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042,
-   "designedSinkM": {
-    "p25": -0.0416,
-    "p50": -0.0416,
-    "p75": -0.0416,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0416
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.042
   },
   {
    "id": "htbm:landscape/grass/ewpshore13",
@@ -1095,6 +1095,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1109,18 +1120,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "htbm:landscape/grass/ewpshore16",
@@ -1168,6 +1168,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1182,18 +1193,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/grass/ewplake07",
@@ -1241,6 +1241,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.021,
+    "p50": -0.021,
+    "p75": -0.021,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1255,18 +1266,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.021,
-   "designedSinkM": {
-    "p25": -0.021,
-    "p50": -0.021,
-    "p75": -0.021,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.021
   },
   {
    "id": "bmv:landscape/grass/rockgrasswater01",
@@ -1314,6 +1314,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0781,
+    "p50": -0.0781,
+    "p75": -0.0781,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0781
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1328,23 +1344,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.078,
-   "designedSinkM": {
-    "p25": -0.0781,
-    "p50": -0.0781,
-    "p75": -0.0781,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0781
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.078
   },
   {
    "id": "bmv:landscape/grass/vurt_greengrass",
@@ -1392,6 +1392,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1406,18 +1417,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/grass/vurt_yelgrass",
@@ -1465,6 +1465,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.13,
+    "p50": -0.13,
+    "p75": -0.13,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1479,18 +1490,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.304,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.13,
-   "designedSinkM": {
-    "p25": -0.13,
-    "p50": -0.13,
-    "p75": -0.13,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.13
   },
   {
    "id": "bmv:landscape/grass/vurt_bentgrass",
@@ -1538,6 +1538,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.1439,
+    "p50": -0.1439,
+    "p75": -0.1439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1439
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1552,23 +1568,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.304,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.144,
-   "designedSinkM": {
-    "p25": -0.1439,
-    "p50": -0.1439,
-    "p75": -0.1439,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1439
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.144
   },
   {
    "id": "bmv:landscape/grass/mixgrass01",
@@ -1616,6 +1616,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.1,
+    "p50": -0.1,
+    "p75": -0.1,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1630,18 +1641,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.1,
-   "designedSinkM": {
-    "p25": -0.1,
-    "p50": -0.1,
-    "p75": -0.1,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.1
   },
   {
    "id": "bmv:landscape/grass/forestgrass01",
@@ -1689,6 +1689,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1703,18 +1714,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057,
-   "designedSinkM": {
-    "p25": -0.057,
-    "p50": -0.057,
-    "p75": -0.057,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "bmv:landscape/grass/forestgrass02",
@@ -1762,6 +1762,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.035,
+    "p50": -0.035,
+    "p75": -0.035,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1776,18 +1787,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": 0.035,
-   "designedSinkM": {
-    "p25": -0.035,
-    "p50": -0.035,
-    "p75": -0.035,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover02",
@@ -1835,6 +1835,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1849,18 +1860,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057,
-   "designedSinkM": {
-    "p25": -0.057,
-    "p50": -0.057,
-    "p75": -0.057,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "bmv:landscape/grass/weedygroundcover",
@@ -1908,6 +1908,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.057,
+    "p50": -0.057,
+    "p75": -0.057,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1922,18 +1933,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057,
-   "designedSinkM": {
-    "p25": -0.057,
-    "p50": -0.057,
-    "p75": -0.057,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern",
@@ -1981,6 +1981,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1995,18 +2006,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": -0.005,
-    "p50": -0.005,
-    "p75": -0.005,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern2",
@@ -2054,6 +2054,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2068,18 +2079,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": -0.005,
-    "p50": -0.005,
-    "p75": -0.005,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "bmv:landscape/grass/vurt_brownplants",
@@ -2127,6 +2127,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2141,18 +2152,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039,
-   "designedSinkM": {
-    "p25": -0.039,
-    "p50": -0.039,
-    "p75": -0.039,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.039
   },
   {
    "id": "bmv:landscape/grass/vurt_strangeplant",
@@ -2200,6 +2200,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.039,
+    "p50": -0.039,
+    "p75": -0.039,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2214,18 +2225,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039,
-   "designedSinkM": {
-    "p25": -0.039,
-    "p50": -0.039,
-    "p75": -0.039,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.039
   },
   {
    "id": "bmv:landscape/grass/vurt_mgrass",
@@ -2273,6 +2273,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2287,18 +2298,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006,
-   "designedSinkM": {
-    "p25": -0.006,
-    "p50": -0.006,
-    "p75": -0.006,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "bmv:landscape/grass/vurt_greenyelplant",
@@ -2346,6 +2346,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2360,18 +2371,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006,
-   "designedSinkM": {
-    "p25": -0.006,
-    "p50": -0.006,
-    "p75": -0.006,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "bmv:landscape/grass/fieldgrass01",
@@ -2419,6 +2419,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.006,
+    "p50": -0.006,
+    "p75": -0.006,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2433,18 +2444,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006,
-   "designedSinkM": {
-    "p25": -0.006,
-    "p50": -0.006,
-    "p75": -0.006,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "bmv:landscape/grass/vurt_mixedplants",
@@ -2492,6 +2492,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.053,
+    "p50": -0.053,
+    "p75": -0.053,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2506,18 +2517,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": -0.053,
-    "p50": -0.053,
-    "p75": -0.053,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj01",
@@ -2565,6 +2565,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0199,
+    "p50": -0.0199,
+    "p75": -0.0199,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0199
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2579,23 +2595,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.256,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.02,
-   "designedSinkM": {
-    "p25": -0.0199,
-    "p50": -0.0199,
-    "p75": -0.0199,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0199
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.02
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj02",
@@ -2643,6 +2643,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0195,
+    "p50": -0.0195,
+    "p75": -0.0195,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0195
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2657,23 +2673,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.144,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.019,
-   "designedSinkM": {
-    "p25": -0.0195,
-    "p50": -0.0195,
-    "p75": -0.0195,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0195
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "vanilla:landscape/grass/rockgrass01",
@@ -2721,6 +2721,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0798,
+    "p50": -0.0798,
+    "p75": -0.0798,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0798
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2735,23 +2751,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.08,
-   "designedSinkM": {
-    "p25": -0.0798,
-    "p50": -0.0798,
-    "p75": -0.0798,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0798
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.08
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj01",
@@ -2799,6 +2799,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.124,
+    "p50": -0.124,
+    "p75": -0.124,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2813,18 +2824,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.124,
-   "designedSinkM": {
-    "p25": -0.124,
-    "p50": -0.124,
-    "p75": -0.124,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.124
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj02",
@@ -2872,6 +2872,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.018,
+    "p50": -0.018,
+    "p75": -0.018,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2886,18 +2897,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.132,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.018,
-   "designedSinkM": {
-    "p25": -0.018,
-    "p50": -0.018,
-    "p75": -0.018,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.018
   },
   {
    "id": "vanilla:landscape/grass/fallforestgrassobj01",
@@ -2945,6 +2945,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.108,
+    "p50": -0.108,
+    "p75": -0.108,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2959,18 +2970,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108,
-   "designedSinkM": {
-    "p25": -0.108,
-    "p50": -0.108,
-    "p75": -0.108,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.108
   },
   {
    "id": "vanilla:landscape/grass/tundragrassobj04",
@@ -3018,6 +3018,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0125,
+    "p50": -0.0125,
+    "p75": -0.0125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0125
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3032,23 +3048,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.19,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012,
-   "designedSinkM": {
-    "p25": -0.0125,
-    "p50": -0.0125,
-    "p75": -0.0125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0125
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.012
   },
   {
    "id": "vanilla:landscape/plants/swordfern01",
@@ -3096,6 +3096,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0099,
+    "p50": 0.0868,
+    "p75": 0.143,
+    "n": 128,
+    "slopeTermMPerDeg": 0.00205,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3110,18 +3121,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": 0.0099,
-    "p50": 0.0868,
-    "p75": 0.143,
-    "n": 128,
-    "slopeTermMPerDeg": 0.00205,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "vanilla:landscape/plants/swordfern05",
@@ -3169,6 +3169,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.1028,
+    "p75": 0.2985,
+    "n": 155,
+    "slopeTermMPerDeg": -0.00681,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3183,18 +3194,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.1028,
-    "p75": 0.2985,
-    "n": 155,
-    "slopeTermMPerDeg": -0.00681,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.048
   },
   {
    "id": "vanilla:landscape/plants/swordfern06",
@@ -3242,6 +3242,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0747,
+    "p75": 0.1632,
+    "n": 126,
+    "slopeTermMPerDeg": 0.00177,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3256,18 +3267,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.106,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.037,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0747,
-    "p75": 0.1632,
-    "n": 126,
-    "slopeTermMPerDeg": 0.00177,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.037
   },
   {
    "id": "vanilla:landscape/plants/reachfern01",
@@ -3315,6 +3315,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.1841,
+    "p50": -0.0205,
+    "p75": 0.0689,
+    "n": 98,
+    "slopeTermMPerDeg": -0.01198,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3329,18 +3340,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.12,
-   "designedSinkM": {
-    "p25": -0.1841,
-    "p50": -0.0205,
-    "p75": 0.0689,
-    "n": 98,
-    "slopeTermMPerDeg": -0.01198,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.12
   },
   {
    "id": "vanilla:landscape/plants/reachbush01",
@@ -3388,6 +3388,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0669,
+    "p75": 0.2854,
+    "n": 96,
+    "slopeTermMPerDeg": 0.03214,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3402,18 +3413,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.518,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0669,
-    "p75": 0.2854,
-    "n": 96,
-    "slopeTermMPerDeg": 0.03214,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.093
   },
   {
    "id": "bmv:landscape/grass/esuburdock",
@@ -3461,6 +3461,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.076,
+    "p50": -0.076,
+    "p75": -0.076,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3475,18 +3486,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.076,
-   "designedSinkM": {
-    "p25": -0.076,
-    "p50": -0.076,
-    "p75": -0.076,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.076
   },
   {
    "id": "bmv:landscape/grass/esusheepssorrel",
@@ -3534,6 +3534,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.073,
+    "p50": -0.073,
+    "p75": -0.073,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3548,18 +3559,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.073,
-   "designedSinkM": {
-    "p25": -0.073,
-    "p50": -0.073,
-    "p75": -0.073,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.073
   },
   {
    "id": "bmv:landscape/grass/esuheather02",
@@ -3607,6 +3607,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.064,
+    "p50": -0.064,
+    "p75": -0.064,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3621,18 +3632,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064,
-   "designedSinkM": {
-    "p25": -0.064,
-    "p50": -0.064,
-    "p75": -0.064,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.064
   },
   {
    "id": "bmv:landscape/grass/esufoxglove02",
@@ -3680,6 +3680,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.037,
+    "p50": -0.037,
+    "p75": -0.037,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3694,18 +3705,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.037,
-   "designedSinkM": {
-    "p25": -0.037,
-    "p50": -0.037,
-    "p75": -0.037,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.037
   },
   {
    "id": "bmv:landscape/grass/esuclover02red",
@@ -3753,6 +3753,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.031,
+    "p50": -0.031,
+    "p75": -0.031,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3767,18 +3778,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.031,
-   "designedSinkM": {
-    "p25": -0.031,
-    "p50": -0.031,
-    "p75": -0.031,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.031
   },
   {
    "id": "bmv:landscape/grass/vurt_eriophorum",
@@ -3826,6 +3826,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.005,
+    "p50": -0.005,
+    "p75": -0.005,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3840,18 +3851,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": -0.005,
-    "p50": -0.005,
-    "p75": -0.005,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "bmv:landscape/grass/vurt_notlupins",
@@ -3899,6 +3899,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0036,
+    "p50": 0.0036,
+    "p75": 0.0036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0036
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3913,23 +3929,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": -0.004,
-   "designedSinkM": {
-    "p25": 0.0036,
-    "p50": 0.0036,
-    "p75": 0.0036,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0036
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": -0.004
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover",
@@ -3977,6 +3977,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0629,
+    "p50": -0.0629,
+    "p75": -0.0629,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0629
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3991,23 +4007,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.063,
-   "designedSinkM": {
-    "p25": -0.0629,
-    "p50": -0.0629,
-    "p75": -0.0629,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0629
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.063
   },
   {
    "id": "bmv:landscape/grass/13grassobj",
@@ -4055,6 +4055,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.024,
+    "p50": -0.024,
+    "p75": -0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4069,18 +4080,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.371,
    "openBackYawDeg": 247.5,
-   "pivotAboveBaseM": 0.024,
-   "designedSinkM": {
-    "p25": -0.024,
-    "p50": -0.024,
-    "p75": -0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:landscape/grass/32grassobj",
@@ -4128,6 +4128,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.065,
+    "p50": -0.065,
+    "p75": -0.065,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4142,18 +4153,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065,
-   "designedSinkM": {
-    "p25": -0.065,
-    "p50": -0.065,
-    "p75": -0.065,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.065
   },
   {
    "id": "bmv:landscape/grass/36grassobj",
@@ -4201,6 +4201,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4215,18 +4226,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.096,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.096
   },
   {
    "id": "bmv:landscape/grass/dandelion-1k",
@@ -4274,6 +4274,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.02,
+    "p50": -0.02,
+    "p75": -0.02,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4288,18 +4299,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.442,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.02,
-   "designedSinkM": {
-    "p25": -0.02,
-    "p50": -0.02,
-    "p75": -0.02,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.02
   },
   {
    "id": "bmv:landscape/grass/woodanemone-white-2k",
@@ -4347,6 +4347,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.022,
+    "p50": -0.022,
+    "p75": -0.022,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4361,18 +4372,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 247.5,
-   "pivotAboveBaseM": 0.022,
-   "designedSinkM": {
-    "p25": -0.022,
-    "p50": -0.022,
-    "p75": -0.022,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.022
   },
   {
    "id": "vanilla:landscape/grass/waterkelpshort01",
@@ -4420,6 +4420,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": 0.2101,
+    "p75": 0.9403,
+    "n": 185,
+    "slopeTermMPerDeg": 0.04467,
+    "evidence": "swap:bmv:landscape/grass/waterkelpshort01"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4434,18 +4445,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.37,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024,
-   "designedSinkM": {
-    "p25": -0.1138,
-    "p50": 0.2101,
-    "p75": 0.9403,
-    "n": 185,
-    "slopeTermMPerDeg": 0.04467,
-    "evidence": "swap:bmv:landscape/grass/waterkelpshort01"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:landscape/grass/watercoralgrass01",
@@ -4493,6 +4493,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0319,
+    "p50": -0.0319,
+    "p75": -0.0319,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0319
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4507,23 +4523,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 0.032,
-   "designedSinkM": {
-    "p25": -0.0319,
-    "p50": -0.0319,
-    "p75": -0.0319,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0319
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.032
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj10",
@@ -4571,6 +4571,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0709,
+    "p50": -0.0709,
+    "p75": -0.0709,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0709
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4585,23 +4601,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.071,
-   "designedSinkM": {
-    "p25": -0.0709,
-    "p50": -0.0709,
-    "p75": -0.0709,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0709
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj05",
@@ -4649,6 +4649,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0418,
+    "p50": -0.0418,
+    "p75": -0.0418,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0418
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4663,23 +4679,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.042,
-   "designedSinkM": {
-    "p25": -0.0418,
-    "p50": -0.0418,
-    "p75": -0.0418,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0418
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.042
   },
   {
    "id": "drjacopo:landscape/grass/icelandicgrassdensedrj",
@@ -4727,6 +4727,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.3809,
+    "p50": 0.3809,
+    "p75": 0.3809,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.3809
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4741,23 +4757,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.111,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.14,
-   "designedSinkM": {
-    "p25": 0.3809,
-    "p50": 0.3809,
-    "p75": 0.3809,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.3809
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.14
   },
   {
    "id": "drjacopo:landscape/grass/tyroliangrasstalldrj",
@@ -4805,6 +4805,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.1236,
+    "p50": -0.1236,
+    "p75": -0.1236,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1236
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4819,23 +4835,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.124,
-   "designedSinkM": {
-    "p25": -0.1236,
-    "p50": -0.1236,
-    "p75": -0.1236,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1236
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.124
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01",
@@ -4883,6 +4883,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0825,
+    "p50": -0.0825,
+    "p75": -0.0825,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0825
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4897,23 +4913,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.082,
-   "designedSinkM": {
-    "p25": -0.0825,
-    "p50": -0.0825,
-    "p75": -0.0825,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0825
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.082
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01_short",
@@ -4961,6 +4961,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0648,
+    "p50": -0.0648,
+    "p75": -0.0648,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0648
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4975,23 +4991,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065,
-   "designedSinkM": {
-    "p25": -0.0648,
-    "p50": -0.0648,
-    "p75": -0.0648,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0648
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.065
   },
   {
    "id": "drjacopo:landscape/grass/swordferndrj",
@@ -5039,6 +5039,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.2724,
+    "p50": 0.2724,
+    "p75": 0.2724,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.2724
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5053,23 +5069,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.13,
-   "designedSinkM": {
-    "p25": 0.2724,
-    "p50": 0.2724,
-    "p75": 0.2724,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.2724
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.13
   },
   {
    "id": "drjacopo:landscape/grass/swordfern05",
@@ -5117,6 +5117,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.6084,
+    "p50": 0.6084,
+    "p75": 0.6084,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.6084
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5131,23 +5147,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.008,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.252,
-   "designedSinkM": {
-    "p25": 0.6084,
-    "p50": 0.6084,
-    "p75": 0.6084,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.6084
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.252
   },
   {
    "id": "drjacopo:landscape/grass/fernbrackenclusterdrj",
@@ -5195,6 +5195,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.5572,
+    "p50": 0.5572,
+    "p75": 0.5572,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5572
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5209,23 +5225,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.083,
-   "designedSinkM": {
-    "p25": 0.5572,
-    "p50": 0.5572,
-    "p75": 0.5572,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.5572
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.083
   },
   {
    "id": "drjacopo:landscape/grass/veratrumdrj",
@@ -5273,6 +5273,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0357,
+    "p50": -0.0357,
+    "p75": -0.0357,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0357
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5287,23 +5303,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "designedSinkM": {
-    "p25": -0.0357,
-    "p50": -0.0357,
-    "p75": -0.0357,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0357
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "drjacopo:landscape/grass/nettledrj",
@@ -5351,6 +5351,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0251,
+    "p50": -0.0251,
+    "p75": -0.0251,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0251
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5365,23 +5381,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025,
-   "designedSinkM": {
-    "p25": -0.0251,
-    "p50": -0.0251,
-    "p75": -0.0251,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0251
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.025
   },
   {
    "id": "hoddminir:ztree's/plants/braken",
@@ -5429,6 +5429,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0296,
+    "p50": -0.0296,
+    "p75": -0.0296,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0296
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5443,23 +5459,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.03,
-   "designedSinkM": {
-    "p25": -0.0296,
-    "p50": -0.0296,
-    "p75": -0.0296,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0296
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.03
   },
   {
    "id": "hoddminir:ztree's/plants/ladymantle",
@@ -5507,6 +5507,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0485,
+    "p50": -0.0485,
+    "p75": -0.0485,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0485
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5521,23 +5537,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048,
-   "designedSinkM": {
-    "p25": -0.0485,
-    "p50": -0.0485,
-    "p75": -0.0485,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0485
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.048
   },
   {
    "id": "hoddminir:ztree's/plants/celandine",
@@ -5585,6 +5585,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.0523,
+    "p50": -0.0523,
+    "p75": -0.0523,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0523
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5599,23 +5615,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052,
-   "designedSinkM": {
-    "p25": -0.0523,
-    "p50": -0.0523,
-    "p75": -0.0523,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0523
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.052
   },
   {
    "id": "vanilla:landscape/plants/swordferncluster01",
@@ -5663,6 +5663,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.0556,
+    "p50": 0.209,
+    "p75": 0.3266,
+    "n": 373,
+    "slopeTermMPerDeg": 0.00433,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5677,18 +5688,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.032,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087,
-   "designedSinkM": {
-    "p25": 0.0556,
-    "p50": 0.209,
-    "p75": 0.3266,
-    "n": 373,
-    "slopeTermMPerDeg": 0.00433,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.087
   },
   {
    "id": "vanilla:plants/floraspikygrass02",
@@ -5736,6 +5736,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": 0.1609,
+    "p50": 0.8757,
+    "p75": 1.9024,
+    "n": 1190,
+    "slopeTermMPerDeg": 0.16776,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5750,18 +5761,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "designedSinkM": {
-    "p25": 0.1609,
-    "p50": 0.8757,
-    "p75": 1.9024,
-    "n": 1190,
-    "slopeTermMPerDeg": 0.16776,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -5809,6 +5809,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 2,
+   "designedSinkM": {
+    "p25": -0.2344,
+    "p50": -0.2344,
+    "p75": -0.2344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5823,26 +5839,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234,
-   "designedSinkM": {
-    "p25": -0.2344,
-    "p50": -0.2344,
-    "p75": -0.2344,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2344
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 2
+   "pivotAboveBaseM": 0.234
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/landscape/grass/clovers_n.dds",
@@ -5855,7 +5855,8 @@
  },
  "alphaModes": {
   "MASK": 80,
-  "OPAQUE": 0
+  "OPAQUE": 0,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -5894,7 +5895,15 @@
   "imageBytesAfter": 4688787,
   "warnings": [],
   "sha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955",
-  "sidecarsExempt": "groundcover atlas: no snap edges, no footprints, no interiors",
-  "sidecarBytes": {}
+  "parts": {
+   "parts": 78,
+   "partBytes": 515080,
+   "textureFiles": 65,
+   "textureBytes": 3053911,
+   "bytes": 3568991,
+   "sourceSha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955"
+  },
+  "sidecarBytes": {},
+  "sidecarsExempt": "groundcover atlas: no snap edges, no footprints, no interiors"
  }
 }

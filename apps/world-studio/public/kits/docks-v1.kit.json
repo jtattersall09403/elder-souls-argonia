@@ -34,17 +34,7 @@
     "DockStrSol01:1.Mat",
     "DockStrSol01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.233,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.1169,
     "p50": -1.6423,
@@ -53,9 +43,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "water",
-   "designedWaterlineM": -1.5931,
-   "anchorClassEvidence": "plugin",
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 95,
@@ -63,9 +53,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -91,7 +78,24 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -1.5931,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.233,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.793,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol02",
@@ -126,6 +130,35 @@
     "DockStrSol02:1.Mat",
     "DockStrSol02:3 - L2_Ropes2:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
+   "designedWaterlineM": -0.4824,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -137,35 +170,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.35,
-    "p50": -0.35,
-    "p75": -0.35,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
-   "designedWaterlineM": -0.4824,
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 5,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.453,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.706
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -200,17 +208,7 @@
     "DockStrEnt01:1.Mat",
     "DockStrEnt01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.233,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.18,
     "p50": -0.7905,
@@ -219,9 +217,9 @@
     "slopeTermMPerDeg": -0.0112,
     "evidence": "plugin"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "policy",
-   "designedWaterlineM": -0.5473,
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 84,
@@ -229,9 +227,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -255,7 +250,24 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "policy",
+   "designedWaterlineM": -0.5473,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.233,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.732,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockstrent02",
@@ -290,6 +302,28 @@
     "DockStrEnt02:1.Mat",
     "DockStrEnt02:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 176,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -1.5931,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -301,28 +335,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.35,
-    "p50": -0.35,
-    "p75": -0.35,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": -1.5931,
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 176,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.696,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockstrent03",
@@ -357,6 +373,35 @@
     "DockStrEnt03:1.Mat",
     "DockStrEnt03:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 51,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
+   "designedWaterlineM": -1.3152,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -368,35 +413,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.35,
-    "p50": -0.35,
-    "p75": -0.35,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.3152,
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 51,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.763,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.218
   },
   {
    "id": "vanilla:architecture/docks/dockstrent04",
@@ -431,6 +451,35 @@
     "DockStrEnt04:1.Mat",
     "DockStrEnt04:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.35,
+    "p50": -0.35,
+    "p75": -0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
+   "designedWaterlineM": 0.12,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -442,35 +491,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.35,
-    "p50": -0.35,
-    "p75": -0.35,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 2,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "designedWaterlineM": 0.12,
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.759,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -505,17 +529,7 @@
     "DockStr4way01:1.Mat",
     "DockStr4way01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.157,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.35,
     "p50": -0.35,
@@ -524,16 +538,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -0.0273,
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 4,
@@ -541,9 +548,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
    "settingClass": {
     "settings": {
      "exterior": []
@@ -563,7 +567,31 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
+   "designedWaterlineM": -0.0273,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.157,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.815,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.157
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -598,17 +626,7 @@
     "DockCorSol01:1.Mat",
     "DockCorSol01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.218,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -4.6101,
     "p50": -0.9493,
@@ -617,8 +635,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 7,
@@ -626,9 +645,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -648,7 +664,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.218,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.756,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.218
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -683,17 +715,7 @@
     "DockStepsDown01:1.Mat",
     "DockStepsDown01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 6.317,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.35,
     "p50": -0.35,
@@ -702,15 +724,9 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-spread)"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.35,
-    "deckTopM": 0.0,
-    "deckClearanceM": 0.35
-   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 9,
@@ -718,9 +734,6 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -744,7 +757,30 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.35,
+    "deckTopM": 0.0,
+    "deckClearanceM": 0.35
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 6.317,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.87,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.317
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown02",
@@ -779,6 +815,28 @@
     "DockStepsDown02:1.Mat",
     "DockStepsDown02:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.5985,
+    "p50": -1.2193,
+    "p75": -0.3814,
+    "n": 19,
+    "slopeTermMPerDeg": 0.01046,
+    "evidence": "plugin"
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 38,
+    "p10": 1.0,
+    "p90": 1.8,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -3.4138,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -790,28 +848,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -4.5985,
-    "p50": -1.2193,
-    "p75": -0.3814,
-    "n": 19,
-    "slopeTermMPerDeg": 0.01046,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": -3.4138,
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 38,
-    "p10": 1.0,
-    "p90": 1.8,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.862,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.227
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdownend01",
@@ -846,6 +886,27 @@
     "DockStepsDownEnd01:1.Mat",
     "L2_Ropes03.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.6426,
+    "p50": 0.9337,
+    "p75": 1.1447,
+    "n": 15,
+    "slopeTermMPerDeg": 0.06089,
+    "evidence": "plugin"
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default",
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 23,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -857,27 +918,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.6426,
-    "p50": 0.9337,
-    "p75": 1.1447,
-    "n": 15,
-    "slopeTermMPerDeg": 0.06089,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 23,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.3,
-   "deckRiseEvidence": "default",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.774,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.31
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -910,17 +954,7 @@
     "DockColStr01:0.Mat",
     "DockColStr01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 10.615,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -5.6592,
     "p50": -5.2332,
@@ -929,9 +963,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5912,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -951,7 +982,24 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -1.5912,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.615,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.152,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.615
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr02",
@@ -984,6 +1032,23 @@
     "DockColStr02:0.Mat",
     "DockColStr02:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.9523,
+    "p50": 0.9523,
+    "p75": 0.9523,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9523
+   },
+   "designedWaterlineM": -1.5931,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -995,23 +1060,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.9523,
-    "p50": 0.9523,
-    "p75": 0.9523,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9523
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5931,
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.122,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.092
   },
   {
    "id": "vanilla:architecture/docks/dockcolstrsign01",
@@ -1044,6 +1096,23 @@
     "DockColStrSign01:0.Mat",
     "DockColStrSign01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.9858,
+    "p50": 3.9858,
+    "p75": 3.9858,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.9858
+   },
+   "designedWaterlineM": -1.5931,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1055,23 +1124,10 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 3.9858,
-    "p50": 3.9858,
-    "p75": 3.9858,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.9858
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -1.5931,
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.727,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.218
   },
   {
    "id": "vanilla:architecture/docks/dockcolstrsignrope01",
@@ -1104,6 +1160,22 @@
     "DockColStrSignRope01:0.Mat",
     "DockColStrSignRope01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.7326,
+    "p50": 3.7326,
+    "p75": 3.7326,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.7326
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1115,22 +1187,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 3.7326,
-    "p50": 3.7326,
-    "p75": 3.7326,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.7326
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -2.859
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -1161,17 +1221,7 @@
    "materials": [
     "DockRopeStr01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.464,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1180,8 +1230,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "wall",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1201,7 +1249,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.464,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.389,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.464
   },
   {
    "id": "vanilla:architecture/docks/dockropestr02",
@@ -1232,6 +1296,22 @@
    "materials": [
     "DockRopeStr02:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.464,
+    "p50": 0.464,
+    "p75": 0.464,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.464
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1243,22 +1323,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.464,
-    "p50": 0.464,
-    "p75": 0.464,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "wall",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.464
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.369,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.464
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentre",
@@ -1299,6 +1367,27 @@
     "Objekt07:4.Mat",
     "Objekt07:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1310,27 +1399,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.886,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrealt",
@@ -1371,6 +1443,27 @@
     "Objekt07:4.Mat.001",
     "Objekt07:5.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1117,
+    "p50": -0.1117,
+    "p75": -0.1117,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1117,
+    "deckTopM": 0.2383,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1382,27 +1475,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1117,
-    "p50": -0.1117,
-    "p75": -0.1117,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1117,
-    "deckTopM": 0.2383,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.773,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrenopost",
@@ -1441,6 +1517,27 @@
     "Objekt07:4.Mat.002",
     "Objekt07:5.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1452,27 +1549,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentresmall",
@@ -1511,6 +1591,27 @@
     "Objekt07:4.Mat.003",
     "Objekt07:5.Mat.003"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1522,27 +1623,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.751,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks3way",
@@ -1583,6 +1667,27 @@
     "Objekt03:4.Mat",
     "Objekt03:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1594,27 +1699,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.907,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks4way",
@@ -1656,6 +1744,27 @@
     "Objekt07:4.Mat.004",
     "Objekt07:5.Mat.004"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1667,27 +1776,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.909,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscorner",
@@ -1728,6 +1820,27 @@
     "Objekt07:4.Mat.005",
     "Objekt07:5.Mat.005"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1739,27 +1852,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksend",
@@ -1800,6 +1896,27 @@
     "Quader05:4.Mat",
     "Quader05:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1811,27 +1928,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.886,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksendnopost",
@@ -1870,6 +1970,27 @@
     "Quader05:4.Mat.001",
     "Quader05:5.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1125,
+    "p50": -0.1125,
+    "p75": -0.1125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.1125,
+    "deckTopM": 0.2375,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1881,27 +2002,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1125,
-    "p50": -0.1125,
-    "p75": -0.1125,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.1125,
-    "deckTopM": 0.2375,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.917,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.313
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockspilings",
@@ -1936,6 +2040,22 @@
     "Zylinder01:1.Mat",
     "Zylinder01:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.12,
+    "p50": -4.12,
+    "p75": -4.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.12
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1947,22 +2067,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -4.12,
-    "p50": -4.12,
-    "p75": -4.12,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.12
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.29,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.12
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockspilingsdamage",
@@ -1997,6 +2105,22 @@
     "Zylinder01:1.Mat.001",
     "Zylinder01:2.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.1998,
+    "p50": -4.1998,
+    "p75": -4.1998,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.1998
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2008,22 +2132,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -4.1998,
-    "p50": -4.1998,
-    "p75": -4.1998,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.1998
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.2
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockssteps",
@@ -2054,6 +2166,17 @@
    "materials": [
     "Objekt04.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2065,17 +2188,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.289,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.109
   },
   {
    "id": "bmv:sheogorad/dagon fel/cleat",
@@ -2108,6 +2224,17 @@
     "Objekt01:0.Mat",
     "Objekt01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1836,
+    "p50": -0.1836,
+    "p75": -0.1836,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2119,17 +2246,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1836,
-    "p50": -0.1836,
-    "p75": -0.1836,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.979,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.184
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockextension",
@@ -2163,6 +2283,27 @@
     "DockFrame.Mat",
     "PostsA.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2292,
+    "p50": 0.2292,
+    "p75": 0.2292,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2292,
+    "deckTopM": 0.5792,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2174,27 +2315,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.2292,
-    "p50": 0.2292,
-    "p75": 0.2292,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 0.2292,
-    "deckTopM": 0.5792,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.228
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockpostextension",
@@ -2225,6 +2349,22 @@
    "materials": [
     "PostsA.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0018,
+    "p50": -0.0018,
+    "p75": -0.0018,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0018
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2236,22 +2376,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0018,
-    "p50": -0.0018,
-    "p75": -0.0018,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0018
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.164,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockramp",
@@ -2285,6 +2413,22 @@
     "DockFrame.Mat.001",
     "PostsA.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.2281,
+    "p50": -3.2281,
+    "p75": -3.2281,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "stilt-foot",
+    "valueM": -3.2281
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2296,22 +2440,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -3.2281,
-    "p50": -3.2281,
-    "p75": -3.2281,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "stilt-foot",
-    "valueM": -3.2281
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.947,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.228
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockstepsfree",
@@ -2344,6 +2476,22 @@
     "Risers.Mat",
     "Steps.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.216,
+    "p50": 0.216,
+    "p75": 0.216,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.216
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2355,22 +2503,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.216,
-    "p50": 0.216,
-    "p75": 0.216,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.216
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.33
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockwsteps",
@@ -2407,6 +2543,27 @@
     "Risers.Mat.001",
     "Steps.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2292,
+    "p50": 0.2292,
+    "p75": 0.2292,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.2292,
+    "deckTopM": 0.5792,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2418,27 +2575,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.2292,
-    "p50": 0.2292,
-    "p75": 0.2292,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 0.2292,
-    "deckTopM": 0.5792,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.936,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.228
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockracked02",
@@ -2465,6 +2605,22 @@
    "droppedShapes": [],
    "textures": [],
    "materials": [],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.8582,
+    "p50": -0.8582,
+    "p75": -0.8582,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8582
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2476,22 +2632,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.8582,
-    "p50": -0.8582,
-    "p75": -0.8582,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.8582
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.864,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.858
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
@@ -2524,6 +2668,27 @@
     "TamuRope01.Mat",
     "TamuWoodDock01.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.3698,
+    "p50": 0.3698,
+    "p75": 0.3698,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "piled": true,
+   "deckRiseM": 1.14,
+   "deckRiseEvidence": "assetPlacement deckClearanceM",
+   "placedScaleMedian": 2.0,
+   "placedScaleEvidence": {
+    "n": 35,
+    "p10": 2.0,
+    "p90": 2.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2535,27 +2700,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 0.3698,
-    "p50": 0.3698,
-    "p75": 0.3698,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 2.0,
-   "placedScaleEvidence": {
-    "n": 35,
-    "p10": 2.0,
-    "p90": 2.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 1.14,
-   "deckRiseEvidence": "assetPlacement deckClearanceM",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.602,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.068
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
@@ -2588,6 +2736,34 @@
     "TamuRope01.Mat.001",
     "TamuWoodDock01.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.1552,
+    "p50": 1.1552,
+    "p75": 1.1552,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 2.0,
+   "placedScaleEvidence": {
+    "n": 22,
+    "p10": 2.0,
+    "p90": 2.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 1.1552,
+    "deckTopM": 1.5052,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2599,34 +2775,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 1.1552,
-    "p50": 1.1552,
-    "p75": 1.1552,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 1.1552,
-    "deckTopM": 1.5052,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 2.0,
-   "placedScaleEvidence": {
-    "n": 22,
-    "p10": 2.0,
-    "p90": 2.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.573,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.108
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
@@ -2659,6 +2811,34 @@
     "TamuRope01.Mat.002",
     "TamuWoodDock01.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.1348,
+    "p50": 1.1348,
+    "p75": 1.1348,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "placedScaleMedian": 2.0,
+   "placedScaleEvidence": {
+    "n": 15,
+    "p10": 2.0,
+    "p90": 2.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 1.1348,
+    "deckTopM": 1.4848,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2670,34 +2850,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": 1.1348,
-    "p50": 1.1348,
-    "p75": 1.1348,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 1.1348,
-    "deckTopM": 1.4848,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 2.0,
-   "placedScaleEvidence": {
-    "n": 15,
-    "p10": 2.0,
-    "p90": 2.0,
-    "source": "plugin"
-   },
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.557,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.108
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
@@ -2728,6 +2884,22 @@
    "materials": [
     "TamuWoodPlank:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0424,
+    "p50": -0.0424,
+    "p75": -0.0424,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0424
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2739,22 +2911,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0424,
-    "p50": -0.0424,
-    "p75": -0.0424,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0424
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.835,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.042
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank02",
@@ -2785,6 +2945,22 @@
    "materials": [
     "TamuWoodPlank:7.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0536,
+    "p50": -0.0536,
+    "p75": -0.0536,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0536
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2796,22 +2972,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0536,
-    "p50": -0.0536,
-    "p75": -0.0536,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0536
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.92,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.054
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank03",
@@ -2842,6 +3006,22 @@
    "materials": [
     "TamuWoodPlank:7.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0103,
+    "p50": -0.0103,
+    "p75": -0.0103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2853,22 +3033,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0103,
-    "p50": -0.0103,
-    "p75": -0.0103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0103
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.885,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank04",
@@ -2899,6 +3067,22 @@
    "materials": [
     "TamuWoodPlank:7.Mat.003"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0103,
+    "p50": -0.0103,
+    "p75": -0.0103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2910,22 +3094,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0103,
-    "p50": -0.0103,
-    "p75": -0.0103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0103
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.943,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01",
@@ -2956,6 +3128,22 @@
    "materials": [
     "TamuWoodPlank:7.Mat.004"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0103,
+    "p50": -0.0103,
+    "p75": -0.0103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2967,22 +3155,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0103,
-    "p50": -0.0103,
-    "p75": -0.0103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0103
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.702,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.01
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken02",
@@ -3013,6 +3189,22 @@
    "materials": [
     "TamuWoodPlankBroken:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0227,
+    "p50": -0.0227,
+    "p75": -0.0227,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0227
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3024,22 +3216,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0227,
-    "p50": -0.0227,
-    "p75": -0.0227,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0227
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.853,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.023
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken03",
@@ -3070,6 +3250,22 @@
    "materials": [
     "A02.008.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0294,
+    "p50": -0.0294,
+    "p75": -0.0294,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0294
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3081,22 +3277,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0294,
-    "p50": -0.0294,
-    "p75": -0.0294,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0294
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.943,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
@@ -3129,6 +3313,22 @@
     "TamuRope01.Mat.003",
     "TamuWoodPole01.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3140,22 +3340,10 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.109,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:docks/quay-run-2",
@@ -3193,6 +3381,28 @@
     "DockStrEnt02:1.Mat.001",
     "DockStrEnt02:3.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3062,
+    "p50": -0.3062,
+    "p75": -0.3062,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.672,
+   "deckRiseEvidence": "assetPlacement deckClearanceM",
+   "anchorClass": "water",
+   "anchorClassEvidence": "policy",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.3062,
+    "deckTopM": 0.0438,
+    "deckClearanceM": 0.35
+   },
+   "designedWaterlineM": -0.6282,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3204,28 +3414,10 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3062,
-    "p50": -0.3062,
-    "p75": -0.3062,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.3062,
-    "deckTopM": 0.0438,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "policy",
-   "designedWaterlineM": -0.6282,
-   "piled": true,
-   "deckRiseM": 0.672,
-   "deckRiseEvidence": "assetPlacement deckClearanceM",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.744,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.303
   },
   {
    "id": "composite:docks/quay-run-3",
@@ -3266,6 +3458,27 @@
     "DockStrEnt02:3.Mat.002",
     "DockStrEnt02:3.Mat.003"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.28,
+    "p50": -0.28,
+    "p75": -0.28,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell",
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.28,
+    "deckTopM": 0.07,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3277,30 +3490,13 @@
      "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
-   "designedSinkM": {
-    "p25": -0.28,
-    "p50": -0.28,
-    "p75": -0.28,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -0.28,
-    "deckTopM": 0.07,
-    "deckClearanceM": 0.35
-   },
-   "anchorClassEvidence": "unplaced",
-   "piled": true,
-   "deckRiseM": 0.35,
-   "deckRiseEvidence": "deck-top tell",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.712,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 6.303
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\docks-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\docks-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/shipwood01_n.dds"
@@ -3320,7 +3516,13 @@
  },
  "alphaModes": {
   "MASK": 0,
-  "OPAQUE": 149
+  "OPAQUE": 149,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
  },
  "compression": {
   "schemaVersion": 1,
@@ -3348,16 +3550,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 10748156,
-  "bytesAfter": 3673912,
+  "bytesBefore": 9293132,
+  "bytesAfter": 3673860,
   "images": 14,
   "imageBytesAfter": 2299696,
   "warnings": [],
-  "sha256": "8835677036f770c04e7320431f507f848115f30ad0319970827c2cd359d2ebb1",
+  "sha256": "6d409dc5ea8194d2ca2c69354c9fcf59f85e1ecbaf4da62472a9d406fe68b1fd",
   "sidecarBytes": {
-   "connectors": 38083,
-   "footprints": 56402,
-   "interiors": 31397
+   "connectors": 44210,
+   "footprints": 56336,
+   "interiors": 36849
   }
  }
 }

@@ -1,0 +1,166 @@
+{
+ "schemaVersion": 1,
+ "kit": "bmv-treehouse-int",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 3336864,
+  "sha256": "cc3144d64c33492d2b37d2b70df66f48f802a5d0cca6d02f074b383682514161"
+ },
+ "totals": {
+  "parts": 16,
+  "partBytes": 871400,
+  "textureFiles": 9,
+  "textureBytes": 2174864,
+  "bytes": 3046264
+ },
+ "assets": {
+  "bmv:architecture/citebosmer/houses/housechampint001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampint001-7b4539fa.glb",
+   "bytes": 84032,
+   "vertices": 4824,
+   "triangles": 7866,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v001": {
+   "file": "bmv_architecture_citebosmer_houses_housechampintwalla15v001-11299946.glb",
+   "bytes": 76188,
+   "vertices": 4577,
+   "triangles": 7800,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v002": {
+   "file": "bmv_architecture_citebosmer_houses_housechampintwalla15v002-61e7791a.glb",
+   "bytes": 59660,
+   "vertices": 3514,
+   "triangles": 5972,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/houseglandint001": {
+   "file": "bmv_architecture_citebosmer_houses_houseglandint001-b040c580.glb",
+   "bytes": 150544,
+   "vertices": 7905,
+   "triangles": 13040,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintet001-7b4b6351.glb",
+   "bytes": 150000,
+   "vertices": 8104,
+   "triangles": 12928,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet90v001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintet90v001-99b9846d.glb",
+   "bytes": 42800,
+   "vertices": 2046,
+   "triangles": 3232,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrcet90v001": {
+   "file": "bmv_architecture_citebosmer_houses_housetroncintrcet90v001-629f3d6e.glb",
+   "bytes": 90952,
+   "vertices": 5183,
+   "triangles": 8209,
+   "textures": [
+    "5c12a6264cc5d5da",
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/furniture/brazier": {
+   "file": "bmv_clutter_oaristys_the_witcher_furniture_brazier-a5b797ba.glb",
+   "bytes": 24652,
+   "vertices": 1530,
+   "triangles": 1712,
+   "textures": [
+    "06b0cd66b84660c9"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lamp_elven": {
+   "file": "bmv_clutter_oaristys_the_witcher_lamps_lamp_elven-9f896a29.glb",
+   "bytes": 38692,
+   "vertices": 2129,
+   "triangles": 2558,
+   "textures": [
+    "c09004c6ad01f672"
+   ]
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue": {
+   "file": "bmv_clutter_oaristys_the_witcher_lamps_lantern02_blue-e5c6af84.glb",
+   "bytes": 7904,
+   "vertices": 257,
+   "triangles": 238,
+   "textures": [
+    "79c2c49cddcc3566"
+   ]
+  },
+  "bmv:telvanni/tel_int_connector_01": {
+   "file": "bmv_telvanni_tel_int_connector_01-3d524a8a.glb",
+   "bytes": 12368,
+   "vertices": 691,
+   "triangles": 1150,
+   "textures": []
+  },
+  "bmv:telvanni/tel_int_gourdhouse01": {
+   "file": "bmv_telvanni_tel_int_gourdhouse01-75a3e8c6.glb",
+   "bytes": 59668,
+   "vertices": 3243,
+   "triangles": 4359,
+   "textures": []
+  },
+  "bmv:telvanni/telv_platform01": {
+   "file": "bmv_telvanni_telv_platform01-1e21e964.glb",
+   "bytes": 28532,
+   "vertices": 1407,
+   "triangles": 2618,
+   "textures": [
+    "0e11d0c0c2ecea98",
+    "9432c928946f6f96"
+   ]
+  },
+  "vanilla:clutter/barrel01": {
+   "file": "vanilla_clutter_barrel01-65266384.glb",
+   "bytes": 7116,
+   "vertices": 286,
+   "triangles": 396,
+   "textures": [
+    "940d11c16a11b275"
+   ]
+  },
+  "vanilla:furniture/common/commonbench01": {
+   "file": "vanilla_furniture_common_commonbench01-4045421c.glb",
+   "bytes": 9792,
+   "vertices": 396,
+   "triangles": 424,
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  },
+  "vanilla:furniture/commontabletwobenches": {
+   "file": "vanilla_furniture_commontabletwobenches-9aa52694.glb",
+   "bytes": 28500,
+   "vertices": 1795,
+   "triangles": 1636,
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  }
+ }
+}

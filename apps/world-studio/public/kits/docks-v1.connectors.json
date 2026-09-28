@@ -832,11 +832,11 @@
     "normalDeg": 54.3,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     3.48,
-     -2.5
+     1.74,
+     -1.25
     ],
     "template": "htbm:t0076",
-    "widthM": 3.13
+    "widthM": 3.12
    },
    {
     "count": 6,
@@ -846,22 +846,11 @@
     "normalDeg": 89.2,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     3.42,
-     -0.05
+     1.72,
+     -0.03
     ],
     "template": "htbm:t0031",
     "widthM": 1.86
-   },
-   {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 1.96,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     1.9,
-     0.02
-    ],
-    "widthM": 1.83
    },
    {
     "count": 3,
@@ -871,8 +860,8 @@
     "normalDeg": 115.6,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
     "positionInPiece": [
-     3.48,
-     1.67
+     1.75,
+     0.83
     ],
     "template": "htbm:t0078",
     "widthM": 2.35
@@ -889,57 +878,57 @@
     "widthM": 3.64
    },
    {
-    "count": 4,
+    "count": 5,
     "evidence": "co-placement",
     "face": "toward 188",
     "heightM": 1.96,
-    "normalDeg": 187.6,
+    "normalDeg": 187.5,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
     "positionInPiece": [
-     -0.78,
-     5.77
+     -0.38,
+     2.87
     ],
     "template": "htbm:t0066",
-    "widthM": 2.21
+    "widthM": 2.2
    },
    {
     "count": 5,
     "evidence": "co-placement",
     "face": "toward 197",
     "heightM": 1.96,
-    "normalDeg": 197.3,
+    "normalDeg": 197.2,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -0.74,
-     2.37
+     -0.37,
+     1.18
     ],
     "template": "htbm:t0053",
     "widthM": 2.67
    },
    {
-    "count": 3,
+    "count": 4,
     "evidence": "co-placement",
     "face": "toward 215",
     "heightM": 1.96,
-    "normalDeg": 215.4,
+    "normalDeg": 215.1,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
     "positionInPiece": [
-     -2.52,
-     3.55
+     -1.26,
+     1.79
     ],
     "template": "htbm:t0079",
-    "widthM": 3.28
+    "widthM": 3.27
    },
    {
     "count": 5,
     "evidence": "co-placement",
     "face": "toward 234",
     "heightM": 1.96,
-    "normalDeg": 234.5,
+    "normalDeg": 234.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
     "positionInPiece": [
-     -2.42,
-     1.73
+     -1.21,
+     0.86
     ],
     "template": "htbm:t0055",
     "widthM": 2.42
@@ -963,8 +952,8 @@
     "normalDeg": 271.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
     "positionInPiece": [
-     -2.46,
-     -0.06
+     -1.23,
+     -0.03
     ],
     "template": "htbm:t0054",
     "widthM": 1.88
@@ -974,11 +963,11 @@
     "evidence": "co-placement",
     "face": "toward 287",
     "heightM": 1.96,
-    "normalDeg": 287.3,
+    "normalDeg": 287.2,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -2.37,
-     -0.73
+     -1.18,
+     -0.36
     ],
     "template": "htbm:t0053",
     "widthM": 2.67
@@ -991,11 +980,11 @@
     "normalDeg": 324.3,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -2.5,
-     -3.48
+     -1.25,
+     -1.74
     ],
     "template": "htbm:t0076",
-    "widthM": 3.13
+    "widthM": 3.12
    }
   ],
   "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02": [
@@ -1011,43 +1000,32 @@
     "widthM": 3.65
    },
    {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 2.12,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     1.83,
-     -0.01
-    ],
-    "widthM": 1.84
-   },
-   {
-    "count": 4,
+    "count": 6,
     "evidence": "co-placement",
-    "face": "toward 91",
+    "face": "toward 90",
     "heightM": 1.96,
-    "normalDeg": 90.7,
+    "normalDeg": 90.3,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     3.4,
-     0.04
+     1.71,
+     0.01
     ],
     "template": "htbm:t0065",
-    "widthM": 1.86
+    "widthM": 1.85
    },
    {
-    "count": 4,
+    "count": 5,
     "evidence": "co-placement",
     "face": "toward 98",
     "heightM": 1.96,
-    "normalDeg": 97.6,
+    "normalDeg": 97.5,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     5.77,
-     0.78
+     2.87,
+     0.38
     ],
     "template": "htbm:t0066",
-    "widthM": 2.21
+    "widthM": 2.2
    },
    {
     "evidence": "bounds",
@@ -1061,15 +1039,15 @@
     "widthM": 3.65
    },
    {
-    "count": 3,
+    "count": 5,
     "evidence": "co-placement",
     "face": "toward 182",
     "heightM": 1.96,
-    "normalDeg": 181.7,
+    "normalDeg": 181.6,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -0.07,
-     2.54
+     -0.04,
+     1.26
     ],
     "template": "htbm:t0080",
     "widthM": 3.64
@@ -1082,36 +1060,39 @@
     "normalDeg": 269.7,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
     "positionInPiece": [
-     -3.62,
-     0.02
+     -1.81,
+     0.01
     ],
     "template": "htbm:t0067",
     "widthM": 1.85
    },
    {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 2.12,
-    "normalDeg": 270.0,
-    "positionInPiece": [
-     -1.82,
-     -0.01
-    ],
-    "widthM": 1.84
-   },
-   {
-    "count": 3,
+    "count": 4,
     "evidence": "co-placement",
     "face": "toward 305",
     "heightM": 1.96,
-    "normalDeg": 305.4,
+    "normalDeg": 305.1,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -3.55,
-     -2.52
+     -1.79,
+     -1.26
     ],
     "template": "htbm:t0079",
-    "widthM": 3.28
+    "widthM": 3.27
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 354",
+    "heightM": 2.12,
+    "normalDeg": 354.5,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     -0.08,
+     -0.82
+    ],
+    "template": "htbm:t0102",
+    "widthM": 2.06
    }
   ],
   "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01": [
@@ -1145,8 +1126,8 @@
     "normalDeg": 179.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
     "positionInPiece": [
-     0.07,
-     5.91
+     0.03,
+     2.96
     ],
     "template": "htbm:t0082",
     "widthM": 1.95
@@ -1170,22 +1151,25 @@
     "normalDeg": 205.6,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -1.67,
-     3.48
+     -0.84,
+     1.75
     ],
     "template": "htbm:t0078",
     "widthM": 2.35
    },
    {
-    "evidence": "bounds",
-    "face": "west",
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 264",
     "heightM": 2.12,
-    "normalDeg": 270.0,
+    "normalDeg": 264.5,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
     "positionInPiece": [
-     -0.96,
-     -0.01
+     -0.82,
+     0.08
     ],
-    "widthM": 1.84
+    "template": "htbm:t0102",
+    "widthM": 2.06
    },
    {
     "count": 5,
@@ -1195,8 +1179,8 @@
     "normalDeg": 271.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -2.46,
-     -0.06
+     -1.23,
+     -0.03
     ],
     "template": "htbm:t0054",
     "widthM": 1.88
@@ -1206,11 +1190,11 @@
     "evidence": "co-placement",
     "face": "toward 324",
     "heightM": 1.96,
-    "normalDeg": 324.5,
+    "normalDeg": 324.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
     "positionInPiece": [
-     -1.73,
-     -2.42
+     -0.86,
+     -1.21
     ],
     "template": "htbm:t0055",
     "widthM": 2.42
@@ -1223,8 +1207,8 @@
     "normalDeg": 359.4,
     "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
     "positionInPiece": [
-     -0.07,
-     -5.91
+     -0.03,
+     -2.96
     ],
     "template": "htbm:t0082",
     "widthM": 1.95
@@ -1713,15 +1697,18 @@
     "widthM": 7.33
    },
    {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 9.03,
-    "normalDeg": 270.0,
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.22,
+    "normalDeg": 269.9,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
     "positionInPiece": [
-     -3.67,
-     -0.05
+     -3.58,
+     0.01
     ],
-    "widthM": 4.38
+    "template": "bmv-blackmarsh:t0275",
+    "widthM": 4.39
    }
   ],
   "vanilla:architecture/docks/dockstepsdown02": [
@@ -1794,6 +1781,20 @@
     "widthM": 4.22
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 93",
+    "heightM": 9.02,
+    "normalDeg": 92.9,
+    "pairedWith": "vanilla:architecture/docks/dockstepsdownend01",
+    "positionInPiece": [
+     1.08,
+     0.06
+    ],
+    "template": "bmv-blackmarsh:t0198",
+    "widthM": 4.21
+   },
+   {
     "evidence": "bounds",
     "face": "south",
     "heightM": 9.02,
@@ -1805,15 +1806,32 @@
     "widthM": 2.38
    },
    {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 9.02,
-    "normalDeg": 270.0,
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.27,
+    "normalDeg": 270.5,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
     "positionInPiece": [
-     -3.67,
-     -0.13
+     -3.4,
+     -0.03
     ],
-    "widthM": 4.22
+    "template": "bmv-blackmarsh:t0177",
+    "widthM": 2.45
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 273",
+    "heightM": 9.02,
+    "normalDeg": 272.9,
+    "pairedWith": "vanilla:architecture/docks/dockstepsdownend01",
+    "positionInPiece": [
+     -1.08,
+     -0.06
+    ],
+    "template": "bmv-blackmarsh:t0198",
+    "widthM": 4.21
    }
   ],
   "vanilla:architecture/docks/dockstr4way01": [
@@ -1886,15 +1904,32 @@
     "widthM": 7.77
    },
    {
-    "evidence": "bounds",
-    "face": "south",
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 178",
     "heightM": 7.27,
-    "normalDeg": 180.0,
+    "normalDeg": 178.0,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
     "positionInPiece": [
-     -0.02,
-     3.65
+     0.1,
+     2.93
     ],
-    "widthM": 4.72
+    "template": "bmv-blackmarsh:t0055",
+    "widthM": 4.65
+   },
+   {
+    "count": 47,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 7.16,
+    "normalDeg": 179.8,
+    "pairedWith": "vanilla:architecture/docks/dockstrent02",
+    "positionInPiece": [
+     0.01,
+     3.55
+    ],
+    "template": "bmv-blackmarsh:t0003",
+    "widthM": 4.71
    },
    {
     "evidence": "bounds",
@@ -1906,6 +1941,34 @@
      -0.24
     ],
     "widthM": 7.77
+   },
+   {
+    "count": 15,
+    "evidence": "co-placement",
+    "face": "toward 358",
+    "heightM": 7.16,
+    "normalDeg": 357.6,
+    "pairedWith": "vanilla:architecture/docks/dockstrent02",
+    "positionInPiece": [
+     -0.14,
+     -3.52
+    ],
+    "template": "bmv-blackmarsh:t0063",
+    "widthM": 4.66
+   },
+   {
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 358",
+    "heightM": 7.27,
+    "normalDeg": 358.0,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
+    "positionInPiece": [
+     -0.1,
+     -2.93
+    ],
+    "template": "bmv-blackmarsh:t0055",
+    "widthM": 4.65
    }
   ],
   "vanilla:architecture/docks/dockstrent02": [
@@ -1932,15 +1995,18 @@
     "widthM": 7.74
    },
    {
-    "evidence": "bounds",
-    "face": "south",
+    "count": 46,
+    "evidence": "co-placement",
+    "face": "toward 181",
     "heightM": 7.16,
-    "normalDeg": 180.0,
+    "normalDeg": 181.4,
+    "pairedWith": "vanilla:architecture/docks/dockstrent02",
     "positionInPiece": [
-     -0.15,
-     3.65
+     -0.09,
+     3.46
     ],
-    "widthM": 4.8
+    "template": "bmv-blackmarsh:t0004",
+    "widthM": 4.84
    },
    {
     "evidence": "bounds",
@@ -1952,6 +2018,34 @@
      -0.22
     ],
     "widthM": 7.74
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 291",
+    "heightM": 7.16,
+    "normalDeg": 291.2,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -2.6,
+     -1.01
+    ],
+    "template": "bmv-valenwood:t1000",
+    "widthM": 8.19
+   },
+   {
+    "count": 47,
+    "evidence": "co-placement",
+    "face": "toward 360",
+    "heightM": 7.16,
+    "normalDeg": 359.8,
+    "pairedWith": "vanilla:architecture/docks/dockstrent01",
+    "positionInPiece": [
+     -0.01,
+     -3.55
+    ],
+    "template": "bmv-blackmarsh:t0003",
+    "widthM": 4.71
    }
   ],
   "vanilla:architecture/docks/dockstrent03": [
@@ -1967,6 +2061,48 @@
     "widthM": 4.43
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 3",
+    "heightM": 7.26,
+    "normalDeg": 3.4,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     0.2,
+     -3.49
+    ],
+    "template": "bmv-blackmarsh:t0199",
+    "widthM": 4.73
+   },
+   {
+    "count": 36,
+    "evidence": "co-placement",
+    "face": "toward 23",
+    "heightM": 7.26,
+    "normalDeg": 22.9,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     1.51,
+     -3.58
+    ],
+    "template": "bmv-blackmarsh:t0008",
+    "widthM": 6.93
+   },
+   {
+    "count": 48,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 7.26,
+    "normalDeg": 88.6,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     1.64,
+     -0.04
+    ],
+    "template": "bmv-blackmarsh:t0002",
+    "widthM": 7.82
+   },
+   {
     "evidence": "bounds",
     "face": "east",
     "heightM": 7.26,
@@ -1978,15 +2114,46 @@
     "widthM": 7.9
    },
    {
-    "evidence": "bounds",
-    "face": "south",
+    "count": 40,
+    "evidence": "co-placement",
+    "face": "toward 153",
     "heightM": 7.26,
-    "normalDeg": 180.0,
+    "normalDeg": 153.5,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
     "positionInPiece": [
-     -0.17,
-     3.78
+     1.75,
+     3.5
     ],
-    "widthM": 4.43
+    "template": "bmv-blackmarsh:t0007",
+    "widthM": 6.77
+   },
+   {
+    "count": 44,
+    "evidence": "co-placement",
+    "face": "toward 178",
+    "heightM": 7.26,
+    "normalDeg": 178.1,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     0.12,
+     3.54
+    ],
+    "template": "bmv-blackmarsh:t0005",
+    "widthM": 4.35
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 183",
+    "heightM": 7.26,
+    "normalDeg": 183.4,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     -0.2,
+     3.49
+    ],
+    "template": "bmv-blackmarsh:t0199",
+    "widthM": 4.73
    },
    {
     "evidence": "bounds",
@@ -1998,6 +2165,20 @@
      -0.17
     ],
     "widthM": 7.9
+   },
+   {
+    "count": 44,
+    "evidence": "co-placement",
+    "face": "toward 358",
+    "heightM": 7.26,
+    "normalDeg": 358.1,
+    "pairedWith": "vanilla:architecture/docks/dockstrent03",
+    "positionInPiece": [
+     -0.12,
+     -3.54
+    ],
+    "template": "bmv-blackmarsh:t0005",
+    "widthM": 4.35
    }
   ],
   "vanilla:architecture/docks/dockstrent04": [
@@ -2073,6 +2254,34 @@
     "widthM": 7.29
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 147",
+    "heightM": 7.22,
+    "normalDeg": 146.8,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     2.76,
+     4.22
+    ],
+    "template": "bmv-valenwood:t1003",
+    "widthM": 7.31
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 179",
+    "heightM": 7.22,
+    "normalDeg": 179.3,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     0.04,
+     3.25
+    ],
+    "template": "bmv-blackmarsh:t0035",
+    "widthM": 4.69
+   },
+   {
     "count": 5,
     "evidence": "co-placement",
     "face": "toward 180",
@@ -2087,6 +2296,34 @@
     "widthM": 4.69
    },
    {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 196",
+    "heightM": 7.16,
+    "normalDeg": 196.2,
+    "pairedWith": "vanilla:architecture/docks/dockstrent02",
+    "positionInPiece": [
+     -0.78,
+     2.68
+    ],
+    "template": "bmv-valenwood:t1000",
+    "widthM": 8.19
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 235",
+    "heightM": 7.22,
+    "normalDeg": 235.1,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -4.14,
+     2.88
+    ],
+    "template": "bmv-valenwood:t1003",
+    "widthM": 7.31
+   },
+   {
     "evidence": "bounds",
     "face": "west",
     "heightM": 7.22,
@@ -2096,6 +2333,20 @@
      0.0
     ],
     "widthM": 7.29
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 359",
+    "heightM": 7.22,
+    "normalDeg": 359.3,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -0.04,
+     -3.25
+    ],
+    "template": "bmv-blackmarsh:t0035",
+    "widthM": 4.69
    }
   ],
   "vanilla:architecture/docks/dockstrsol02": [
@@ -2125,8 +2376,8 @@
  },
  "counts": {
   "assets": 49,
-  "bounds": 156,
-  "co-placement": 22
+  "bounds": 147,
+  "co-placement": 47
  },
  "elongationRatio": 2.0,
  "kit": "docks-v1",

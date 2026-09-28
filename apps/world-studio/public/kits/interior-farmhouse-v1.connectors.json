@@ -2766,7 +2766,7 @@
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 0.91,
+    "heightM": 0.89,
     "normalDeg": 0.0,
     "positionInPiece": [
      0.0,
@@ -2777,7 +2777,7 @@
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 0.91,
+    "heightM": 0.89,
     "normalDeg": 180.0,
     "positionInPiece": [
      0.0,

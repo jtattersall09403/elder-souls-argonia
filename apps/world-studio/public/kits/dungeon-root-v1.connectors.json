@@ -4366,24 +4366,24 @@
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 5.72,
+    "heightM": 3.41,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.0,
+     0.06,
      -2.39
     ],
-    "widthM": 3.64
+    "widthM": 1.05
    },
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 5.72,
+    "heightM": 3.41,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.0,
-     5.46
+     0.06,
+     2.18
     ],
-    "widthM": 3.64
+    "widthM": 1.05
    }
   ],
   "mudmother:gv_meshes/argoniannest/archwaysticks": [

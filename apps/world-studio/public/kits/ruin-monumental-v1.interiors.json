@@ -141,6 +141,7 @@
   "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03": {
    "category": "ruin",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 1.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
@@ -644,10 +645,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 42.4,
+    "deg": 204.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 42\u00b0 in the piece's own frame carries 1.91x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 204\u00b0 in the piece's own frame carries 2.14x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,

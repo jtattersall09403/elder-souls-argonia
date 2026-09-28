@@ -220,6 +220,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.6389,
+    "p50": 2.8089,
+    "p75": 5.8521,
+    "n": 319,
+    "slopeTermMPerDeg": 0.02308,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -234,18 +245,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.303,
-   "designedSinkM": {
-    "p25": 0.6389,
-    "p50": 2.8089,
-    "p75": 5.8521,
-    "n": 319,
-    "slopeTermMPerDeg": 0.02308,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.303
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
@@ -279,6 +279,12 @@
     "RockCliff01:3.Mat",
     "RockCliff01:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockCliff01:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCliff01:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -291,6 +297,22 @@
      -0.022,
      0.0
     ]
+   },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": -4.9645,
+    "p50": -4.9645,
+    "p75": -4.9645,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.9645
    },
    "placement": {
     "schemaVersion": 1,
@@ -306,23 +328,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.199,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 4.964,
-   "designedSinkM": {
-    "p25": -4.9645,
-    "p50": -4.9645,
-    "p75": -4.9645,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.9645
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 1
+   "pivotAboveBaseM": 4.964
   },
   {
    "id": "bmv:landscape/trees/cedartree3",
@@ -1637,6 +1643,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.7683,
+    "p50": 1.6046,
+    "p75": 3.8213,
+    "n": 69,
+    "slopeTermMPerDeg": 0.04102,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 1.8007,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1651,19 +1669,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.07,
-   "designedSinkM": {
-    "p25": 0.7683,
-    "p50": 1.6046,
-    "p75": 3.8213,
-    "n": 69,
-    "slopeTermMPerDeg": 0.04102,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 1.8007,
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.07
   },
   {
    "id": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -1714,6 +1720,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0751,
+    "p50": 0.0751,
+    "p75": 0.3168,
+    "n": 490,
+    "slopeTermMPerDeg": 0.99354,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1728,18 +1745,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.914,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.245,
-   "designedSinkM": {
-    "p25": 0.0751,
-    "p50": 0.0751,
-    "p75": 0.3168,
-    "n": 490,
-    "slopeTermMPerDeg": 0.99354,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.245
   },
   {
    "id": "bmv:vvardenfell/flora/algrass03b",
@@ -1790,6 +1796,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.4708,
+    "p50": 1.104,
+    "p75": 2.6359,
+    "n": 569,
+    "slopeTermMPerDeg": 0.27076,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1804,18 +1821,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.317,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058,
-   "designedSinkM": {
-    "p25": 0.4708,
-    "p50": 1.104,
-    "p75": 2.6359,
-    "n": 569,
-    "slopeTermMPerDeg": 0.27076,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.058
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -2437,6 +2443,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 3.2032,
+    "p50": 3.2032,
+    "p75": 3.2032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.2032
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2451,23 +2473,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.936,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.903,
-   "designedSinkM": {
-    "p25": 3.2032,
-    "p50": 3.2032,
-    "p75": 3.2032,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.2032
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.903
   },
   {
    "id": "bmv:landscape/grass/vurt_reeds",
@@ -2518,6 +2524,23 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0888,
+    "p50": 0.0888,
+    "p75": 0.0888,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0888
+   },
+   "designedWaterlineM": 0.0,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2532,24 +2555,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.089,
-   "designedSinkM": {
-    "p25": 0.0888,
-    "p50": 0.0888,
-    "p75": 0.0888,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0888
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0,
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.089
   },
   {
    "id": "bmv:landscape/trees/gkblillipad2",
@@ -2602,6 +2608,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0847,
+    "p50": 0.6265,
+    "p75": 1.0551,
+    "n": 497,
+    "slopeTermMPerDeg": 0.19229,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.8411,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2616,19 +2634,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": 2.334,
-   "designedSinkM": {
-    "p25": -0.0847,
-    "p50": 0.6265,
-    "p75": 1.0551,
-    "n": 497,
-    "slopeTermMPerDeg": 0.19229,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.8411,
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.334
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
@@ -3339,6 +3345,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.4068,
+    "p50": 1.4068,
+    "p75": 1.4068,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.4068
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3353,23 +3375,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.795,
-   "designedSinkM": {
-    "p25": 1.4068,
-    "p50": 1.4068,
-    "p75": 1.4068,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.4068
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.795
   },
   {
    "id": "bmv:landscape/trees/beachpalm2",
@@ -3546,6 +3552,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0547,
+    "p50": -0.0547,
+    "p75": -0.0547,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0547
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3560,23 +3582,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.718,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055,
-   "designedSinkM": {
-    "p25": -0.0547,
-    "p50": -0.0547,
-    "p75": -0.0547,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0547
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.055
   },
   {
    "id": "bmv:landscape/grass/waterkelptall01",
@@ -3627,6 +3633,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": 0.4009,
+    "p75": 1.296,
+    "n": 150,
+    "slopeTermMPerDeg": 0.12734,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.7523,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3641,19 +3659,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09,
-   "designedSinkM": {
-    "p25": -0.1138,
-    "p50": 0.4009,
-    "p75": 1.296,
-    "n": 150,
-    "slopeTermMPerDeg": 0.12734,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.7523,
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "bmv:landscape/trees/cypress3",
@@ -4975,6 +4981,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0989,
+    "p50": 0.4708,
+    "p75": 1.1914,
+    "n": 524,
+    "slopeTermMPerDeg": 0.15377,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4989,18 +5006,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.835,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.941,
-   "designedSinkM": {
-    "p25": -0.0989,
-    "p50": 0.4708,
-    "p75": 1.1914,
-    "n": 524,
-    "slopeTermMPerDeg": 0.15377,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.941
   },
   {
    "id": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -5051,6 +5057,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.5796,
+    "p50": 2.309,
+    "p75": 13.4943,
+    "n": 18,
+    "slopeTermMPerDeg": 0.29932,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 1.4183,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -5065,19 +5083,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09,
-   "designedSinkM": {
-    "p25": 1.5796,
-    "p50": 2.309,
-    "p75": 13.4943,
-    "n": 18,
-    "slopeTermMPerDeg": 0.29932,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": 1.4183,
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "bmv:landscape/trees/cypress1",
@@ -6396,6 +6402,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.1093,
+    "p50": 0.3912,
+    "p75": 1.1988,
+    "n": 131,
+    "slopeTermMPerDeg": 0.53264,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6410,18 +6427,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.417,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.941,
-   "designedSinkM": {
-    "p25": -0.1093,
-    "p50": 0.3912,
-    "p75": 1.1988,
-    "n": 131,
-    "slopeTermMPerDeg": 0.53264,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.941
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -6472,6 +6478,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6486,18 +6503,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.309,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.303,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.303
   },
   {
    "id": "bmv:landscape/plants/fernlarge03",
@@ -6548,6 +6554,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.9047,
+    "p50": 0.9047,
+    "p75": 0.9047,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9047
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6562,23 +6584,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.056,
-   "designedSinkM": {
-    "p25": 0.9047,
-    "p50": 0.9047,
-    "p75": 0.9047,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9047
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.056
   },
   {
    "id": "bmv:landscape/plants/braken",
@@ -6629,6 +6635,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.8207,
+    "p50": 2.731,
+    "p75": 4.0965,
+    "n": 310,
+    "slopeTermMPerDeg": 0.27023,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6643,18 +6660,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.03,
-   "designedSinkM": {
-    "p25": 1.8207,
-    "p50": 2.731,
-    "p75": 4.0965,
-    "n": 310,
-    "slopeTermMPerDeg": 0.27023,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.03
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big1",
@@ -6713,6 +6719,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.5145,
+    "p50": -0.0069,
+    "p75": 0.6856,
+    "n": 98,
+    "slopeTermMPerDeg": 0.04317,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -6727,18 +6744,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.291,
-   "designedSinkM": {
-    "p25": -0.5145,
-    "p50": -0.0069,
-    "p75": 0.6856,
-    "n": 98,
-    "slopeTermMPerDeg": 0.04317,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 3.291
   },
   {
    "id": "bmv:landscape/trees/treewillow01a",
@@ -8051,6 +8057,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 20,
+    "slopeTermMPerDeg": 0.00183,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8065,18 +8082,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.179,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.066,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 20,
-    "slopeTermMPerDeg": 0.00183,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 4.066
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
@@ -8127,6 +8133,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8141,18 +8158,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.085,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.325,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.325
   },
   {
    "id": "bmv:landscape/trees/tropicalplant01",
@@ -8213,6 +8219,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0931,
+    "p50": 1.3903,
+    "p75": 5.0263,
+    "n": 4,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8227,18 +8244,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.062,
-   "designedSinkM": {
-    "p25": 0.0931,
-    "p50": 1.3903,
-    "p75": 5.0263,
-    "n": 4,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.062
   },
   {
    "id": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -8289,6 +8295,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.9479,
+    "p50": 1.9214,
+    "p75": 2.9879,
+    "n": 317,
+    "slopeTermMPerDeg": 0.07938,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8303,18 +8320,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.6,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.15,
-   "designedSinkM": {
-    "p25": 0.9479,
-    "p50": 1.9214,
-    "p75": 2.9879,
-    "n": 317,
-    "slopeTermMPerDeg": 0.07938,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.15
   },
   {
    "id": "bmv:landscape/grass/waterkelpshort01",
@@ -8365,6 +8371,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": 0.2101,
+    "p75": 0.9403,
+    "n": 185,
+    "slopeTermMPerDeg": 0.04467,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.595,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -8379,19 +8397,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.37,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024,
-   "designedSinkM": {
-    "p25": -0.1138,
-    "p50": 0.2101,
-    "p75": 0.9403,
-    "n": 185,
-    "slopeTermMPerDeg": 0.04467,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.595,
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:landscape/trees/treewillow02a",
@@ -9704,6 +9710,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0304,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 7,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -9718,18 +9735,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.925,
-   "designedSinkM": {
-    "p25": -0.0304,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 7,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.925
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
@@ -9780,6 +9786,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.2813,
+    "p50": 2.5695,
+    "p75": 4.4538,
+    "n": 296,
+    "slopeTermMPerDeg": 0.3816,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -9794,18 +9811,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.235,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.138,
-   "designedSinkM": {
-    "p25": 1.2813,
-    "p50": 2.5695,
-    "p75": 4.4538,
-    "n": 296,
-    "slopeTermMPerDeg": 0.3816,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.138
   },
   {
    "id": "bmv:landscape/plants/fern01",
@@ -9856,6 +9862,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.376,
+    "p50": 1.0436,
+    "p75": 2.5221,
+    "n": 322,
+    "slopeTermMPerDeg": 0.26805,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -9870,18 +9887,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.103,
-   "designedSinkM": {
-    "p25": 0.376,
-    "p50": 1.0436,
-    "p75": 2.5221,
-    "n": 322,
-    "slopeTermMPerDeg": 0.26805,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.103
   },
   {
    "id": "bmv:landscape/trees/treewillow03a",
@@ -11194,6 +11200,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.0068,
+    "n": 16,
+    "slopeTermMPerDeg": 0.00061,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -11208,18 +11225,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": 0.0,
-    "p75": 0.0068,
-    "n": 16,
-    "slopeTermMPerDeg": 0.00061,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "bmv:landscape/plants/chickweed",
@@ -11272,6 +11278,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.6717,
+    "p50": 2.2608,
+    "p75": 4.1018,
+    "n": 211,
+    "slopeTermMPerDeg": 0.03184,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -11286,18 +11303,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.01,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065,
-   "designedSinkM": {
-    "p25": 0.6717,
-    "p50": 2.2608,
-    "p75": 4.1018,
-    "n": 211,
-    "slopeTermMPerDeg": 0.03184,
-    "evidence": "plugin"
-   },
-   "anchorClass": "deck",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.065
   },
   {
    "id": "bmv:landscape/trees/beachpalm3",
@@ -11695,6 +11701,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.207,
+    "n": 8,
+    "slopeTermMPerDeg": 0.00874,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -11709,18 +11726,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.207,
-    "n": 8,
-    "slopeTermMPerDeg": 0.00874,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/trees/fanpalm1",
@@ -12355,6 +12361,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.5019,
+    "p75": 1.4072,
+    "n": 19,
+    "slopeTermMPerDeg": 0.03257,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -12369,18 +12386,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.484,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.5019,
-    "p75": 1.4072,
-    "n": 19,
-    "slopeTermMPerDeg": 0.03257,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.055
   },
   {
    "id": "bmv:landscape/trees/bambooplant",
@@ -12441,6 +12447,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -12455,18 +12472,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.013,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew1",
@@ -13626,6 +13632,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.9685,
+    "p50": 1.9685,
+    "p75": 1.9685,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.9685
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -13640,23 +13662,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.766,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.492,
-   "designedSinkM": {
-    "p25": 1.9685,
-    "p50": 1.9685,
-    "p75": 1.9685,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.9685
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.492
   },
   {
    "id": "bmv:landscape/trees/tropicalshrub01",
@@ -13707,6 +13713,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0043,
+    "p50": -0.0043,
+    "p75": -0.0043,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0043
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -13721,23 +13743,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "designedSinkM": {
-    "p25": -0.0043,
-    "p50": -0.0043,
-    "p75": -0.0043,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0043
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -14415,6 +14421,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 3.6057,
+    "p50": 3.6057,
+    "p75": 3.6057,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.6057
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -14429,23 +14451,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.97,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "designedSinkM": {
-    "p25": 3.6057,
-    "p50": 3.6057,
-    "p75": 3.6057,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.6057
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "bmv:landscape/trees/beachpalm1",
@@ -15116,6 +15122,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 16,
+    "slopeTermMPerDeg": -0.01249,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -15130,18 +15147,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.019,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.055,
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 16,
-    "slopeTermMPerDeg": -0.01249,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.055
   },
   {
    "id": "bmv:landscape/trees/hangingvines2",
@@ -15192,6 +15198,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -15206,18 +15223,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.212,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.325,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.325
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -15268,6 +15274,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -15282,18 +15299,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.809,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.809
   },
   {
    "id": "tropical:plants/tropical/manfern",
@@ -15373,6 +15379,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.4221,
+    "p50": -0.4221,
+    "p75": -0.4221,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4221
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -15387,23 +15409,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.004,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.422,
-   "designedSinkM": {
-    "p25": -0.4221,
-    "p50": -0.4221,
-    "p75": -0.4221,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4221
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.422
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
@@ -16722,6 +16728,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -16736,23 +16758,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.73,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew19v3",
@@ -17770,6 +17776,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 5.7838,
+    "p50": 5.7838,
+    "p75": 5.7838,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 5.7838
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -17784,23 +17806,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.978,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "designedSinkM": {
-    "p25": 5.7838,
-    "p50": 5.7838,
-    "p75": 5.7838,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 5.7838
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew21v3",
@@ -18180,6 +18186,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18194,18 +18211,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.813,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.052
   },
   {
    "id": "vanilla:landscape/rocks/rockl04",
@@ -18246,6 +18252,17 @@
      -0.1
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.9502,
+    "p50": 1.7251,
+    "p75": 2.5735,
+    "n": 459,
+    "slopeTermMPerDeg": 0.00877,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18260,18 +18277,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.429,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.69,
-   "designedSinkM": {
-    "p25": 0.9502,
-    "p50": 1.7251,
-    "p75": 2.5735,
-    "n": 459,
-    "slopeTermMPerDeg": 0.00877,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.69
   },
   {
    "id": "vanilla:landscape/rocks/rockl02",
@@ -18314,6 +18320,17 @@
      -0.164
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.4848,
+    "p50": 1.0643,
+    "p75": 1.5251,
+    "n": 875,
+    "slopeTermMPerDeg": -0.00237,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18328,18 +18345,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.573,
-   "designedSinkM": {
-    "p25": 0.4848,
-    "p50": 1.0643,
-    "p75": 1.5251,
-    "n": 875,
-    "slopeTermMPerDeg": -0.00237,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.573
   },
   {
    "id": "vanilla:landscape/rocks/rockm03",
@@ -18380,6 +18386,17 @@
      -0.138
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.7307,
+    "p50": 1.0964,
+    "p75": 1.4484,
+    "n": 562,
+    "slopeTermMPerDeg": 0.01351,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18394,18 +18411,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.791,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.47,
-   "designedSinkM": {
-    "p25": 0.7307,
-    "p50": 1.0964,
-    "p75": 1.4484,
-    "n": 562,
-    "slopeTermMPerDeg": 0.01351,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.47
   },
   {
    "id": "vanilla:landscape/rocks/rockm02",
@@ -18446,6 +18452,17 @@
      -0.036
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.558,
+    "p50": 0.8723,
+    "p75": 1.1358,
+    "n": 728,
+    "slopeTermMPerDeg": 0.0095,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18460,18 +18477,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336,
-   "designedSinkM": {
-    "p25": 0.558,
-    "p50": 0.8723,
-    "p75": 1.1358,
-    "n": 728,
-    "slopeTermMPerDeg": 0.0095,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.336
   },
   {
    "id": "vanilla:landscape/rocks/rocks03",
@@ -18512,6 +18518,17 @@
      -0.146
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.3704,
+    "p50": 0.5579,
+    "p75": 0.7499,
+    "n": 388,
+    "slopeTermMPerDeg": 0.01786,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18526,18 +18543,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.383,
-   "designedSinkM": {
-    "p25": 0.3704,
-    "p50": 0.5579,
-    "p75": 0.7499,
-    "n": 388,
-    "slopeTermMPerDeg": 0.01786,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.383
   },
   {
    "id": "bmv:landscape/trees/fanpalm3",
@@ -18951,6 +18957,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -18965,18 +18982,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 5,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/trees/treeofwolene4",
@@ -20293,6 +20299,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.4827,
+    "p75": 1.3678,
+    "n": 34,
+    "slopeTermMPerDeg": -0.11435,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -20307,18 +20324,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.4827,
-    "p75": 1.3678,
-    "n": 34,
-    "slopeTermMPerDeg": -0.11435,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew30v3",
@@ -21637,6 +21643,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 7.7915,
+    "p50": 7.7915,
+    "p75": 7.7915,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 7.7915
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -21651,23 +21673,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.749,
-   "designedSinkM": {
-    "p25": 7.7915,
-    "p50": 7.7915,
-    "p75": 7.7915,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 7.7915
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 4.749
   },
   {
    "id": "bmv:landscape/trees/fanpalm4",
@@ -22029,6 +22035,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.264,
+    "p50": -0.264,
+    "p75": -0.264,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.264
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -22043,23 +22065,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.498,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.264,
-   "designedSinkM": {
-    "p25": -0.264,
-    "p50": -0.264,
-    "p75": -0.264,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.264
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.264
   },
   {
    "id": "bmv:landscape/trees/fanpalm6",
@@ -22733,6 +22739,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -22747,18 +22764,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.036,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.867,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.867
   },
   {
    "id": "composite:jungle/anvil-canopy-tree",
@@ -24074,6 +24080,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.383,
+    "p50": 0.383,
+    "p75": 0.383,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.383
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -24088,23 +24110,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.383,
-   "designedSinkM": {
-    "p25": 0.383,
-    "p50": 0.383,
-    "p75": 0.383,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.383
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.383
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -25424,6 +25430,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.5194,
+    "p50": -0.5194,
+    "p75": -0.5194,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5194
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -25438,23 +25460,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.519,
-   "designedSinkM": {
-    "p25": -0.5194,
-    "p50": -0.5194,
-    "p75": -0.5194,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5194
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.519
   },
   {
    "id": "bmv:landscape/trees/scottish-pine22",
@@ -26769,6 +26775,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.7818,
+    "p50": 1.148,
+    "p75": 1.9107,
+    "n": 32,
+    "slopeTermMPerDeg": 0.04614,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 1.1738,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -26783,19 +26801,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.21,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "designedSinkM": {
-    "p25": 0.7818,
-    "p50": 1.148,
-    "p75": 1.9107,
-    "n": 32,
-    "slopeTermMPerDeg": 0.04614,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": 1.1738,
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen02jungle",
@@ -27276,6 +27282,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.2353,
+    "p50": -0.2353,
+    "p75": -0.2353,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2353
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -27290,23 +27312,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.235,
-   "designedSinkM": {
-    "p25": -0.2353,
-    "p50": -0.2353,
-    "p75": -0.2353,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2353
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.235
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen03jungle",
@@ -27735,6 +27741,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.6988,
+    "p50": 1.6092,
+    "p75": 3.2183,
+    "n": 89,
+    "slopeTermMPerDeg": 0.24778,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -27749,18 +27766,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.207,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.168,
-   "designedSinkM": {
-    "p25": 0.6988,
-    "p50": 1.6092,
-    "p75": 3.2183,
-    "n": 89,
-    "slopeTermMPerDeg": 0.24778,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.168
   },
   {
    "id": "bmv:landscape/trees/gkbtreeaspen05jungle",
@@ -27916,6 +27922,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.2276,
+    "p50": -0.2276,
+    "p75": -0.2276,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2276
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -27930,23 +27952,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.906,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.228,
-   "designedSinkM": {
-    "p25": -0.2276,
-    "p50": -0.2276,
-    "p75": -0.2276,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2276
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.228
   },
   {
    "id": "bmv:landscape/trees/hodalder01gkb",
@@ -28910,6 +28916,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 3.6686,
+    "p50": 3.6686,
+    "p75": 3.6686,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.6686
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -28924,23 +28946,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.953,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052,
-   "designedSinkM": {
-    "p25": 3.6686,
-    "p50": 3.6686,
-    "p75": 3.6686,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.6686
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.052
   },
   {
    "id": "bmv:landscape/trees/ztgorsebush02lightyellow",
@@ -28993,6 +28999,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.5403,
+    "p50": 1.5403,
+    "p75": 1.5403,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.5403
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -29007,23 +29029,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.254,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.541,
-   "designedSinkM": {
-    "p25": 1.5403,
-    "p50": 1.5403,
-    "p75": 1.5403,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.5403
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.541
   },
   {
    "id": "bmv:landscape/trees/flatpalm1",
@@ -29365,6 +29371,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.001,
+    "p50": 0.0,
+    "p75": 0.2756,
+    "n": 29,
+    "slopeTermMPerDeg": -0.00833,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -29379,18 +29396,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": -0.001,
-    "p50": 0.0,
-    "p75": 0.2756,
-    "n": 29,
-    "slopeTermMPerDeg": -0.00833,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/trees/flatpalm2",
@@ -29706,6 +29712,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0001,
+    "p75": 0.9814,
+    "n": 11,
+    "slopeTermMPerDeg": 0.01628,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -29720,18 +29737,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0001,
-    "p75": 0.9814,
-    "n": 11,
-    "slopeTermMPerDeg": 0.01628,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
@@ -31053,6 +31059,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_3"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 4.6362,
+    "p50": 4.6362,
+    "p75": 4.6362,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 4.6362
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -31067,23 +31089,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.624,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.524,
-   "designedSinkM": {
-    "p25": 4.6362,
-    "p50": 4.6362,
-    "p75": 4.6362,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 4.6362
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 3.524
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
@@ -32030,6 +32036,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 1.5363,
+    "p50": 1.5363,
+    "p75": 1.5363,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.5363
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -32044,23 +32066,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.993,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.468,
-   "designedSinkM": {
-    "p25": 1.5363,
-    "p50": 1.5363,
-    "p75": 1.5363,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.5363
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.468
   },
   {
    "id": "bmv:landscape/trees/datepalm2",
@@ -32209,6 +32215,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.7085,
+    "p50": 1.5039,
+    "p75": 1.9879,
+    "n": 25,
+    "slopeTermMPerDeg": 0.08363,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -32223,18 +32240,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.193,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.22,
-   "designedSinkM": {
-    "p25": 0.7085,
-    "p50": 1.5039,
-    "p75": 1.9879,
-    "n": 25,
-    "slopeTermMPerDeg": 0.08363,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.22
   },
   {
    "id": "bmv:landscape/trees/beachpalm5",
@@ -32918,6 +32924,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0028,
+    "p50": 0.0,
+    "p75": 0.0007,
+    "n": 15,
+    "slopeTermMPerDeg": 0.0074,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -32932,18 +32949,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.706,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.616,
-   "designedSinkM": {
-    "p25": -0.0028,
-    "p50": 0.0,
-    "p75": 0.0007,
-    "n": 15,
-    "slopeTermMPerDeg": 0.0074,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.616
   },
   {
    "id": "bmv:landscape/trees/fanpalm5",
@@ -33864,6 +33870,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -33878,18 +33895,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.628,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.317,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 4.317
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress1",
@@ -35208,6 +35214,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0076,
+    "p50": -0.0,
+    "p75": 0.0,
+    "n": 19,
+    "slopeTermMPerDeg": 0.00607,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -35222,18 +35239,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.173,
-   "designedSinkM": {
-    "p25": -0.0076,
-    "p50": -0.0,
-    "p75": 0.0,
-    "n": 19,
-    "slopeTermMPerDeg": 0.00607,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.173
   },
   {
    "id": "bmv:landscape/trees/gkbcyrodilcypress2",
@@ -36551,6 +36557,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.197,
+    "p50": -0.0147,
+    "p75": -0.0,
+    "n": 14,
+    "slopeTermMPerDeg": -0.10258,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -36565,18 +36582,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.154,
-   "designedSinkM": {
-    "p25": -0.197,
-    "p50": -0.0147,
-    "p75": -0.0,
-    "n": 14,
-    "slopeTermMPerDeg": -0.10258,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.154
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big6",
@@ -36631,6 +36637,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -4.8764,
+    "p50": -4.8764,
+    "p75": -4.8764,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.8764
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -36645,23 +36667,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.713,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.876,
-   "designedSinkM": {
-    "p25": -4.8764,
-    "p50": -4.8764,
-    "p75": -4.8764,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.8764
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 4.876
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush01",
@@ -36713,6 +36719,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -36727,18 +36744,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.697,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.005,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.005
   },
   {
    "id": "bmv:trdata/mushrooms/tr_oth_tallmush05",
@@ -36790,6 +36796,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_4"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -36804,18 +36821,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.701,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 5,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.085
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_01",
@@ -38130,6 +38136,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0062,
+    "p50": -0.0062,
+    "p75": -0.0062,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0062
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -38144,23 +38166,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.377,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006,
-   "designedSinkM": {
-    "p25": -0.0062,
-    "p50": -0.0062,
-    "p75": -0.0062,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0062
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.006
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_02",
@@ -39471,6 +39477,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0223,
+    "p50": -0.0223,
+    "p75": -0.0223,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0223
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -39485,23 +39507,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.407,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.022,
-   "designedSinkM": {
-    "p25": -0.0223,
-    "p50": -0.0223,
-    "p75": -0.0223,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0223
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.022
   },
   {
    "id": "bmv:vurt/deadtrees/dead_bc_tree_04",
@@ -40812,6 +40818,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -40826,18 +40843,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.134,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.209,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.209
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree11",
@@ -41997,6 +42003,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -42011,23 +42033,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.886,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
@@ -43345,6 +43351,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.2179,
+    "p50": -0.2179,
+    "p75": -0.2179,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2179
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -43359,23 +43381,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.218,
-   "designedSinkM": {
-    "p25": -0.2179,
-    "p50": -0.2179,
-    "p75": -0.2179,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2179
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.218
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew10",
@@ -44549,6 +44555,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -44563,18 +44580,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew3",
@@ -45450,6 +45456,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 13.9305,
+    "p50": 13.9305,
+    "p75": 13.9305,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 13.9305
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45464,23 +45486,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.902,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.361,
-   "designedSinkM": {
-    "p25": 13.9305,
-    "p50": 13.9305,
-    "p75": 13.9305,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 13.9305
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.361
   },
   {
    "id": "bmv:plants/trees/banana_tree",
@@ -45541,6 +45547,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0436,
+    "p50": -0.0436,
+    "p75": -0.0436,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0436
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45555,23 +45577,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.765,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044,
-   "designedSinkM": {
-    "p25": -0.0436,
-    "p50": -0.0436,
-    "p75": -0.0436,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0436
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.044
   },
   {
    "id": "bmv:landscape/plants/water lily1",
@@ -45626,6 +45632,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_5"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -8.6392,
+    "p50": -8.6392,
+    "p75": -8.6392,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -8.6392
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45640,23 +45662,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.639,
-   "designedSinkM": {
-    "p25": -8.6392,
-    "p50": -8.6392,
-    "p75": -8.6392,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -8.6392
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 8.639
   },
   {
    "id": "bmv:landscape/plants/water lily2",
@@ -45711,6 +45717,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_6"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -8.6881,
+    "p50": -8.6881,
+    "p75": -8.6881,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -8.6881
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45725,23 +45747,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.023,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.688,
-   "designedSinkM": {
-    "p25": -8.6881,
-    "p50": -8.6881,
-    "p75": -8.6881,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -8.6881
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 8.688
   },
   {
    "id": "bmv:landscape/trees/reedlarge1",
@@ -45792,6 +45798,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45806,18 +45823,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 56.2,
-   "pivotAboveBaseM": 0.243,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.243
   },
   {
    "id": "bmv:landscape/trees/reedmed1",
@@ -45868,6 +45874,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45882,18 +45899,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 78.8,
-   "pivotAboveBaseM": 0.243,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.243
   },
   {
    "id": "bmv:landscape/trees/reedsmall1",
@@ -45946,6 +45952,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -45960,18 +45977,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.307,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": 0.216,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.216
   },
   {
    "id": "bmv:landscape/trees/reedsmall2",
@@ -46024,6 +46030,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46038,18 +46055,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 11.2,
-   "pivotAboveBaseM": 0.216,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.216
   },
   {
    "id": "bmv:landscape/trees/gkblillipad",
@@ -46102,6 +46108,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46116,18 +46133,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": 2.334,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.334
   },
   {
    "id": "bmv:landscape/plants/espfernbraken01st",
@@ -46178,6 +46184,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.063,
+    "p50": -0.063,
+    "p75": -0.063,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46192,18 +46209,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.317,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.063,
-   "designedSinkM": {
-    "p25": -0.063,
-    "p50": -0.063,
-    "p75": -0.063,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.063
   },
   {
    "id": "bmv:landscape/plants/espfernbraken02st",
@@ -46254,6 +46260,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0372,
+    "p50": -0.0372,
+    "p75": -0.0372,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0372
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46268,23 +46290,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.106,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.037,
-   "designedSinkM": {
-    "p25": -0.0372,
-    "p50": -0.0372,
-    "p75": -0.0372,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0372
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.037
   },
   {
    "id": "bmv:landscape/plants/espfernbraken03st",
@@ -46335,6 +46341,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0484,
+    "p50": -0.0484,
+    "p75": -0.0484,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0484
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46349,23 +46371,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048,
-   "designedSinkM": {
-    "p25": -0.0484,
-    "p50": -0.0484,
-    "p75": -0.0484,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0484
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.048
   },
   {
    "id": "bmv:landscape/plants/espfernbraken04st",
@@ -46416,6 +46422,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.5493,
+    "p50": 0.5493,
+    "p75": 0.5493,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5493
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46430,23 +46452,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.053,
-   "designedSinkM": {
-    "p25": 0.5493,
-    "p50": 0.5493,
-    "p75": 0.5493,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.5493
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.053
   },
   {
    "id": "bmv:landscape/plants/espfernbraken05st",
@@ -46497,6 +46503,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0585,
+    "p50": -0.0585,
+    "p75": -0.0585,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0585
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46511,23 +46533,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": -0.0585,
-    "p50": -0.0585,
-    "p75": -0.0585,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0585
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/plants/espfernbraken06st",
@@ -46578,6 +46584,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.3237,
+    "p50": 0.3237,
+    "p75": 0.3237,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.3237
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46592,23 +46614,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.057,
-   "designedSinkM": {
-    "p25": 0.3237,
-    "p50": 0.3237,
-    "p75": 0.3237,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.3237
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.057
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster01",
@@ -46659,6 +46665,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0868,
+    "p50": -0.0868,
+    "p75": -0.0868,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0868
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46673,23 +46695,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.032,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087,
-   "designedSinkM": {
-    "p25": -0.0868,
-    "p50": -0.0868,
-    "p75": -0.0868,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0868
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.087
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster02",
@@ -46740,6 +46746,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.1488,
+    "p50": -0.1488,
+    "p75": -0.1488,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1488
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46754,23 +46776,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.149,
-   "designedSinkM": {
-    "p25": -0.1488,
-    "p50": -0.1488,
-    "p75": -0.1488,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1488
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.149
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster03",
@@ -46821,6 +46827,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.1157,
+    "p50": 0.1157,
+    "p75": 0.1157,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.1157
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46835,23 +46857,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.086,
-   "designedSinkM": {
-    "p25": 0.1157,
-    "p50": 0.1157,
-    "p75": 0.1157,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.1157
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.086
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster04",
@@ -46902,6 +46908,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0588,
+    "p50": -0.0588,
+    "p75": -0.0588,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0588
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46916,23 +46938,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059,
-   "designedSinkM": {
-    "p25": -0.0588,
-    "p50": -0.0588,
-    "p75": -0.0588,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0588
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.059
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster05",
@@ -46983,6 +46989,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.2963,
+    "p50": 0.2963,
+    "p75": 0.2963,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.2963
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -46997,23 +47019,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.013,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.085,
-   "designedSinkM": {
-    "p25": 0.2963,
-    "p50": 0.2963,
-    "p75": 0.2963,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.2963
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.085
   },
   {
    "id": "bmv:landscape/plants/espfernbrakencluster06",
@@ -47064,6 +47070,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0444,
+    "p50": -0.0444,
+    "p75": -0.0444,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0444
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47078,23 +47100,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.136,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044,
-   "designedSinkM": {
-    "p25": -0.0444,
-    "p50": -0.0444,
-    "p75": -0.0444,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0444
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.044
   },
   {
    "id": "bmv:landscape/plants/bigshrub-b(colorful)",
@@ -47145,6 +47151,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.4335,
+    "p50": -0.4335,
+    "p75": -0.4335,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4335
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47159,23 +47181,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.434,
-   "designedSinkM": {
-    "p25": -0.4335,
-    "p50": -0.4335,
-    "p75": -0.4335,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.4335
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.434
   },
   {
    "id": "bmv:landscape/plants/bigshrub-c(colorful)",
@@ -47226,6 +47232,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.4335,
+    "p50": -0.4335,
+    "p75": -0.4335,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4335
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47240,23 +47262,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.434,
-   "designedSinkM": {
-    "p25": -0.4335,
-    "p50": -0.4335,
-    "p75": -0.4335,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.4335
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.434
   },
   {
    "id": "bmv:landscape/grass/watercoralgrass01",
@@ -47307,6 +47313,23 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0319,
+    "p50": -0.0319,
+    "p75": -0.0319,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0319
+   },
+   "designedWaterlineM": 0.0,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47321,24 +47344,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 0.032,
-   "designedSinkM": {
-    "p25": -0.0319,
-    "p50": -0.0319,
-    "p75": -0.0319,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0319
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.0,
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.032
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06",
@@ -47389,6 +47395,23 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.9729,
+    "p50": -0.9729,
+    "p75": -0.9729,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.9729
+   },
+   "designedWaterlineM": 5.462,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47403,24 +47426,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973,
-   "designedSinkM": {
-    "p25": -0.9729,
-    "p50": -0.9729,
-    "p75": -0.9729,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.9729
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 5.462,
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.973
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -47471,6 +47477,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.9729,
+    "p50": -0.9729,
+    "p75": -0.9729,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.9729
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47485,23 +47507,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973,
-   "designedSinkM": {
-    "p25": -0.9729,
-    "p50": -0.9729,
-    "p75": -0.9729,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.9729
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.973
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -47552,6 +47558,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47566,18 +47583,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "depths:landscape/grass/waterkelptall03",
@@ -47628,6 +47634,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47642,18 +47659,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.323,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.801,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.801
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -47704,6 +47710,18 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 2.6662,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47718,19 +47736,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.358,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": 2.6662,
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:plants/floraswampfungalpod01",
@@ -47782,6 +47788,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0158,
+    "p50": -0.0,
+    "p75": 0.0035,
+    "n": 105,
+    "slopeTermMPerDeg": 5e-05,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47796,18 +47813,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.073,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.122,
-   "designedSinkM": {
-    "p25": -0.0158,
-    "p50": -0.0,
-    "p75": 0.0035,
-    "n": 105,
-    "slopeTermMPerDeg": 5e-05,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.122
   },
   {
    "id": "vanilla:plants/floraswampfungalpod02",
@@ -47858,6 +47864,22 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0816,
+    "p50": -0.0816,
+    "p75": -0.0816,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0816
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47872,23 +47894,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.073,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.082,
-   "designedSinkM": {
-    "p25": -0.0816,
-    "p50": -0.0816,
-    "p75": -0.0816,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0816
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.082
   },
   {
    "id": "vanilla:landscape/rocks/rockl01",
@@ -47929,6 +47935,17 @@
      -0.059
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.0694,
+    "p50": 1.7224,
+    "p75": 2.3129,
+    "n": 1052,
+    "slopeTermMPerDeg": -0.01422,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -47943,18 +47960,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848,
-   "designedSinkM": {
-    "p25": 1.0694,
-    "p50": 1.7224,
-    "p75": 2.3129,
-    "n": 1052,
-    "slopeTermMPerDeg": -0.01422,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.848
   },
   {
    "id": "vanilla:landscape/rocks/rockl03",
@@ -47995,6 +48001,17 @@
      -0.04
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.0009,
+    "p50": 1.4275,
+    "p75": 1.8292,
+    "n": 390,
+    "slopeTermMPerDeg": 0.01085,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48009,18 +48026,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.124,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.231,
-   "designedSinkM": {
-    "p25": 1.0009,
-    "p50": 1.4275,
-    "p75": 1.8292,
-    "n": 390,
-    "slopeTermMPerDeg": 0.01085,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.231
   },
   {
    "id": "vanilla:landscape/rocks/rockl05",
@@ -48061,6 +48067,17 @@
      0.163
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.0145,
+    "p50": 1.5698,
+    "p75": 2.0375,
+    "n": 297,
+    "slopeTermMPerDeg": 0.00847,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48075,18 +48092,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.353,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.253,
-   "designedSinkM": {
-    "p25": 1.0145,
-    "p50": 1.5698,
-    "p75": 2.0375,
-    "n": 297,
-    "slopeTermMPerDeg": 0.00847,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.253
   },
   {
    "id": "vanilla:landscape/rocks/rockm01",
@@ -48127,6 +48133,17 @@
      -0.116
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.4521,
+    "p50": 0.7591,
+    "p75": 1.0528,
+    "n": 711,
+    "slopeTermMPerDeg": 0.014,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48141,18 +48158,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.188,
-   "designedSinkM": {
-    "p25": 0.4521,
-    "p50": 0.7591,
-    "p75": 1.0528,
-    "n": 711,
-    "slopeTermMPerDeg": 0.014,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.188
   },
   {
    "id": "vanilla:landscape/rocks/rockm04",
@@ -48193,6 +48199,17 @@
      -0.041
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.4071,
+    "p50": 0.6557,
+    "p75": 0.8942,
+    "n": 375,
+    "slopeTermMPerDeg": 0.01421,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48207,18 +48224,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26,
-   "designedSinkM": {
-    "p25": 0.4071,
-    "p50": 0.6557,
-    "p75": 0.8942,
-    "n": 375,
-    "slopeTermMPerDeg": 0.01421,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.26
   },
   {
    "id": "vanilla:landscape/rocks/rocks01",
@@ -48259,6 +48265,17 @@
      0.017
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.4778,
+    "p50": 0.8173,
+    "p75": 1.0753,
+    "n": 300,
+    "slopeTermMPerDeg": 0.00729,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48273,18 +48290,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.424,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.205,
-   "designedSinkM": {
-    "p25": 0.4778,
-    "p50": 0.8173,
-    "p75": 1.0753,
-    "n": 300,
-    "slopeTermMPerDeg": 0.00729,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.205
   },
   {
    "id": "vanilla:landscape/rocks/rocks02",
@@ -48325,6 +48331,17 @@
      0.042
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.1598,
+    "p50": 0.3265,
+    "p75": 0.4856,
+    "n": 466,
+    "slopeTermMPerDeg": 0.01351,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48339,18 +48356,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.313,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.09,
-   "designedSinkM": {
-    "p25": 0.1598,
-    "p50": 0.3265,
-    "p75": 0.4856,
-    "n": 466,
-    "slopeTermMPerDeg": 0.01351,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.09
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl01wet",
@@ -48391,6 +48397,17 @@
      -0.059
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.6109,
+    "p50": 2.0747,
+    "p75": 2.414,
+    "n": 44,
+    "slopeTermMPerDeg": -0.028,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48405,18 +48422,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.848,
-   "designedSinkM": {
-    "p25": 1.6109,
-    "p50": 2.0747,
-    "p75": 2.414,
-    "n": 44,
-    "slopeTermMPerDeg": -0.028,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.848
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl02wet",
@@ -48459,6 +48465,17 @@
      -0.164
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.0934,
+    "p50": 1.5576,
+    "p75": 1.7585,
+    "n": 26,
+    "slopeTermMPerDeg": 0.02644,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48473,18 +48490,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.573,
-   "designedSinkM": {
-    "p25": 1.0934,
-    "p50": 1.5576,
-    "p75": 1.7585,
-    "n": 26,
-    "slopeTermMPerDeg": 0.02644,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.573
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl03wet",
@@ -48525,6 +48531,18 @@
      -0.04
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.1735,
+    "p50": 1.4969,
+    "p75": 1.6747,
+    "n": 7,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 2.1411,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48539,19 +48557,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.124,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.231,
-   "designedSinkM": {
-    "p25": 1.1735,
-    "p50": 1.4969,
-    "p75": 1.6747,
-    "n": 7,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 2.1411,
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.231
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl04wet",
@@ -48592,6 +48598,17 @@
      -0.1
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.1218,
+    "p50": 2.6614,
+    "p75": 3.7553,
+    "n": 14,
+    "slopeTermMPerDeg": -0.08984,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48606,18 +48623,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.429,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.69,
-   "designedSinkM": {
-    "p25": 1.1218,
-    "p50": 2.6614,
-    "p75": 3.7553,
-    "n": 14,
-    "slopeTermMPerDeg": -0.08984,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.69
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockl05wet",
@@ -48658,6 +48664,18 @@
      0.163
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.951,
+    "p50": 1.9546,
+    "p75": 2.1003,
+    "n": 18,
+    "slopeTermMPerDeg": -0.03819,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 2.3402,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48672,19 +48690,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.353,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.253,
-   "designedSinkM": {
-    "p25": 0.951,
-    "p50": 1.9546,
-    "p75": 2.1003,
-    "n": 18,
-    "slopeTermMPerDeg": -0.03819,
-    "evidence": "plugin"
-   },
-   "anchorClass": "water",
-   "designedWaterlineM": 2.3402,
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.253
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm02wet",
@@ -48725,6 +48731,17 @@
      -0.036
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.5158,
+    "p50": 0.8496,
+    "p75": 0.9903,
+    "n": 12,
+    "slopeTermMPerDeg": -0.01713,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48739,18 +48756,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.051,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.336,
-   "designedSinkM": {
-    "p25": 0.5158,
-    "p50": 0.8496,
-    "p75": 0.9903,
-    "n": 12,
-    "slopeTermMPerDeg": -0.01713,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.336
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel01wet",
@@ -48793,6 +48799,17 @@
      0.012
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.421,
+    "p50": 2.0785,
+    "p75": 2.2506,
+    "n": 28,
+    "slopeTermMPerDeg": -0.13689,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48807,18 +48824,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.711,
-   "designedSinkM": {
-    "p25": 1.421,
-    "p50": 2.0785,
-    "p75": 2.2506,
-    "n": 28,
-    "slopeTermMPerDeg": -0.13689,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.711
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel02wet",
@@ -48850,6 +48856,12 @@
     "RockPileL02Wet:18 - L2_RockPileL04:18.Mat",
     "RockPileL02Wet:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileL02Wet:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileL02Wet:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -48863,6 +48875,17 @@
      -0.545
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0627,
+    "p50": 0.2526,
+    "p75": 0.3638,
+    "n": 20,
+    "slopeTermMPerDeg": -0.00509,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48877,18 +48900,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.183,
-   "designedSinkM": {
-    "p25": 0.0627,
-    "p50": 0.2526,
-    "p75": 0.3638,
-    "n": 20,
-    "slopeTermMPerDeg": -0.00509,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.183
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilel03wet",
@@ -48923,6 +48935,12 @@
     "RockPileL03Wet:8.Mat",
     "RockPileL03Wet:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileL03Wet:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileL03Wet:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -48936,6 +48954,17 @@
      0.38
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.07,
+    "p50": 1.1736,
+    "p75": 1.3172,
+    "n": 24,
+    "slopeTermMPerDeg": 0.0146,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -48950,18 +48979,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.594,
-   "designedSinkM": {
-    "p25": 1.07,
-    "p50": 1.1736,
-    "p75": 1.3172,
-    "n": 24,
-    "slopeTermMPerDeg": 0.0146,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.594
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem02wet",
@@ -48994,6 +49012,12 @@
     "RockPileM02Wet:8.Mat",
     "RockPileM02Wet:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileM02Wet:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM02Wet:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49007,6 +49031,17 @@
      0.097
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.2164,
+    "p50": 0.2788,
+    "p75": 0.4441,
+    "n": 61,
+    "slopeTermMPerDeg": -0.00472,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49021,18 +49056,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49,
-   "designedSinkM": {
-    "p25": 0.2164,
-    "p50": 0.2788,
-    "p75": 0.4441,
-    "n": 61,
-    "slopeTermMPerDeg": -0.00472,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.49
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles01",
@@ -49075,6 +49099,17 @@
      0.194
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0771,
+    "p50": 0.168,
+    "p75": 0.2623,
+    "n": 1344,
+    "slopeTermMPerDeg": -0.00384,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49089,18 +49124,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.043,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.247,
-   "designedSinkM": {
-    "p25": 0.0771,
-    "p50": 0.168,
-    "p75": 0.2623,
-    "n": 1344,
-    "slopeTermMPerDeg": -0.00384,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.247
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles02",
@@ -49143,6 +49167,17 @@
      0.106
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.0908,
+    "p50": 0.2015,
+    "p75": 0.2974,
+    "n": 720,
+    "slopeTermMPerDeg": 0.00609,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49157,18 +49192,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.055,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.32,
-   "designedSinkM": {
-    "p25": 0.0908,
-    "p50": 0.2015,
-    "p75": 0.2974,
-    "n": 720,
-    "slopeTermMPerDeg": 0.00609,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.32
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles03",
@@ -49211,6 +49235,17 @@
      0.0
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.226,
+    "p50": 0.3568,
+    "p75": 0.4955,
+    "n": 616,
+    "slopeTermMPerDeg": -0.01395,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49225,18 +49260,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.279,
-   "designedSinkM": {
-    "p25": 0.226,
-    "p50": 0.3568,
-    "p75": 0.4955,
-    "n": 616,
-    "slopeTermMPerDeg": -0.01395,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.279
   },
   {
    "id": "vanilla:landscape/rocks/rockpiles04",
@@ -49279,6 +49303,17 @@
      -0.014
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.1078,
+    "p50": 0.227,
+    "p75": 0.3543,
+    "n": 716,
+    "slopeTermMPerDeg": 0.00603,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49293,18 +49328,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.503,
-   "designedSinkM": {
-    "p25": 0.1078,
-    "p50": 0.227,
-    "p75": 0.3543,
-    "n": 716,
-    "slopeTermMPerDeg": 0.00603,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.503
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem01",
@@ -49336,6 +49360,12 @@
     "RockPileM01:1 - L2_RockPileM01:1.Mat",
     "RockPileM01:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileM01:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM01:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49349,6 +49379,17 @@
      -0.047
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.1489,
+    "p50": 0.2828,
+    "p75": 0.4741,
+    "n": 683,
+    "slopeTermMPerDeg": -0.03565,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49363,18 +49404,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.584,
-   "designedSinkM": {
-    "p25": 0.1489,
-    "p50": 0.2828,
-    "p75": 0.4741,
-    "n": 683,
-    "slopeTermMPerDeg": -0.03565,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.584
   },
   {
    "id": "vanilla:landscape/rocks/rockpilem02",
@@ -49407,6 +49437,12 @@
     "RockPileM02:8.Mat",
     "RockPileM02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileM02:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileM02:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49420,6 +49456,17 @@
      0.097
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.1397,
+    "p50": 0.2529,
+    "p75": 0.3763,
+    "n": 2046,
+    "slopeTermMPerDeg": -0.00528,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49434,18 +49481,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.002,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.49,
-   "designedSinkM": {
-    "p25": 0.1397,
-    "p50": 0.2529,
-    "p75": 0.3763,
-    "n": 2046,
-    "slopeTermMPerDeg": -0.00528,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.49
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel01",
@@ -49488,6 +49524,17 @@
      0.012
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 1.6409,
+    "p50": 2.0534,
+    "p75": 2.4196,
+    "n": 1480,
+    "slopeTermMPerDeg": 0.04016,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49502,18 +49549,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.711,
-   "designedSinkM": {
-    "p25": 1.6409,
-    "p50": 2.0534,
-    "p75": 2.4196,
-    "n": 1480,
-    "slopeTermMPerDeg": 0.04016,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.711
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel02",
@@ -49545,6 +49581,12 @@
     "RockPileL02:1 - L2_RockPileL02:1.Mat",
     "RockPileL02:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileL02:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileL02:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49558,6 +49600,17 @@
      -0.545
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": -0.0961,
+    "p50": 0.135,
+    "p75": 0.3649,
+    "n": 427,
+    "slopeTermMPerDeg": 0.00746,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49572,18 +49625,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.02,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.183,
-   "designedSinkM": {
-    "p25": -0.0961,
-    "p50": 0.135,
-    "p75": 0.3649,
-    "n": 427,
-    "slopeTermMPerDeg": 0.00746,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.183
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel03",
@@ -49618,6 +49660,12 @@
     "RockPileL03:8.Mat",
     "RockPileL03:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileL03:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileL03:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49631,6 +49679,17 @@
      0.38
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.3123,
+    "p50": 0.7075,
+    "p75": 1.1023,
+    "n": 563,
+    "slopeTermMPerDeg": 0.0123,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49645,18 +49704,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.594,
-   "designedSinkM": {
-    "p25": 0.3123,
-    "p50": 0.7075,
-    "p75": 1.1023,
-    "n": 563,
-    "slopeTermMPerDeg": 0.0123,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.594
   },
   {
    "id": "vanilla:landscape/rocks/rockpilel04",
@@ -49690,6 +49738,12 @@
     "RockPileL04:3.Mat",
     "RockPileL04:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockPileL04:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockPileL04:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49703,6 +49757,17 @@
      -0.303
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.4772,
+    "p50": 0.7693,
+    "p75": 1.0451,
+    "n": 347,
+    "slopeTermMPerDeg": 0.00337,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49717,18 +49782,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.003,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.652,
-   "designedSinkM": {
-    "p25": 0.4772,
-    "p50": 0.7693,
-    "p75": 1.0451,
-    "n": 347,
-    "slopeTermMPerDeg": 0.00337,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.652
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff01",
@@ -49762,6 +49816,12 @@
     "RockCliff01:3.Mat.001",
     "RockCliff01:8.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "RockCliff01:8.Mat.001": 0.133
+   },
+   "decalMaterials": [
+    "RockCliff01:8.Mat.001"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49775,6 +49835,17 @@
      0.0
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 0.2664,
+    "p50": 1.2425,
+    "p75": 1.8155,
+    "n": 431,
+    "slopeTermMPerDeg": -0.03506,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49789,18 +49860,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.199,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 4.964,
-   "designedSinkM": {
-    "p25": 0.2664,
-    "p50": 1.2425,
-    "p75": 1.8155,
-    "n": 431,
-    "slopeTermMPerDeg": -0.03506,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 4.964
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff02",
@@ -49832,6 +49892,12 @@
     "RockCliff02:1.Mat",
     "RockCliff02:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockCliff02:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCliff02:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -49845,6 +49911,17 @@
      0.994
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 7.1914,
+    "p50": 8.5794,
+    "p75": 9.4462,
+    "n": 639,
+    "slopeTermMPerDeg": 0.01144,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49859,18 +49936,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.066,
    "openBackYawDeg": 258.8,
-   "pivotAboveBaseM": 0.389,
-   "designedSinkM": {
-    "p25": 7.1914,
-    "p50": 8.5794,
-    "p75": 9.4462,
-    "n": 639,
-    "slopeTermMPerDeg": 0.01144,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.389
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff03",
@@ -49913,6 +49979,17 @@
      -0.033
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 7.4698,
+    "p50": 8.631,
+    "p75": 9.5561,
+    "n": 827,
+    "slopeTermMPerDeg": 0.01987,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49927,18 +50004,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.237,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 1.516,
-   "designedSinkM": {
-    "p25": 7.4698,
-    "p50": 8.631,
-    "p75": 9.5561,
-    "n": 827,
-    "slopeTermMPerDeg": 0.01987,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.516
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff04",
@@ -49981,6 +50047,17 @@
      0.041
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 9.23,
+    "p50": 11.3906,
+    "p75": 12.7585,
+    "n": 346,
+    "slopeTermMPerDeg": 0.10306,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -49995,18 +50072,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": 281.2,
-   "pivotAboveBaseM": 0.36,
-   "designedSinkM": {
-    "p25": 9.23,
-    "p50": 11.3906,
-    "p75": 12.7585,
-    "n": 346,
-    "slopeTermMPerDeg": 0.10306,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.36
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff05",
@@ -50038,6 +50104,12 @@
     "RockCliff05:1.Mat",
     "RockCliff05:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockCliff05:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCliff05:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -50051,6 +50123,17 @@
      -0.017
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 4.4124,
+    "p50": 5.6308,
+    "p75": 6.6995,
+    "n": 264,
+    "slopeTermMPerDeg": 0.02249,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50065,18 +50148,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.174,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.036,
-   "designedSinkM": {
-    "p25": 4.4124,
-    "p50": 5.6308,
-    "p75": 6.6995,
-    "n": 264,
-    "slopeTermMPerDeg": 0.02249,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 1.036
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff06",
@@ -50117,6 +50189,17 @@
      -0.0
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 4.2434,
+    "p50": 5.6649,
+    "p75": 6.8916,
+    "n": 333,
+    "slopeTermMPerDeg": 0.01926,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50131,18 +50214,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.325,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.425,
-   "designedSinkM": {
-    "p25": 4.2434,
-    "p50": 5.6649,
-    "p75": 6.8916,
-    "n": 333,
-    "slopeTermMPerDeg": 0.01926,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.425
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff07",
@@ -50185,6 +50257,17 @@
      0.47
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 8.5068,
+    "p50": 9.795,
+    "p75": 10.6407,
+    "n": 472,
+    "slopeTermMPerDeg": 0.02308,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50199,18 +50282,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.078,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.091,
-   "designedSinkM": {
-    "p25": 8.5068,
-    "p50": 9.795,
-    "p75": 10.6407,
-    "n": 472,
-    "slopeTermMPerDeg": 0.02308,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 0.091
   },
   {
    "id": "vanilla:landscape/rocks/rockcliff08",
@@ -50243,6 +50315,12 @@
     "RockCliff08:8.Mat",
     "RockCliff08:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "RockCliff08:8.Mat": 0.133
+   },
+   "decalMaterials": [
+    "RockCliff08:8.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -50256,6 +50334,17 @@
      0.818
     ]
    },
+   "lodLevels": 1,
+   "designedSinkM": {
+    "p25": 2.6304,
+    "p50": 3.6559,
+    "p75": 4.3456,
+    "n": 392,
+    "slopeTermMPerDeg": 0.03589,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50270,18 +50359,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.35,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.353,
-   "designedSinkM": {
-    "p25": 2.6304,
-    "p50": 3.6559,
-    "p75": 4.3456,
-    "n": 392,
-    "slopeTermMPerDeg": 0.03589,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 1
+   "pivotAboveBaseM": 2.353
   },
   {
    "id": "vanilla:landscape/plants/deadshrub01",
@@ -50332,6 +50410,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0251,
+    "p50": 0.1873,
+    "p75": 0.3369,
+    "n": 1192,
+    "slopeTermMPerDeg": -0.00129,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50346,18 +50435,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.533,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": -0.003,
-   "designedSinkM": {
-    "p25": 0.0251,
-    "p50": 0.1873,
-    "p75": 0.3369,
-    "n": 1192,
-    "slopeTermMPerDeg": -0.00129,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub01",
@@ -50408,6 +50486,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0516,
+    "p50": 0.0323,
+    "p75": 0.1949,
+    "n": 106,
+    "slopeTermMPerDeg": 0.01085,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50422,18 +50511,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.196,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.221,
-   "designedSinkM": {
-    "p25": -0.0516,
-    "p50": 0.0323,
-    "p75": 0.1949,
-    "n": 106,
-    "slopeTermMPerDeg": 0.01085,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.221
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub02",
@@ -50484,6 +50562,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0735,
+    "p75": 0.1801,
+    "n": 113,
+    "slopeTermMPerDeg": -0.0,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50498,18 +50587,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.161,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.06,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0735,
-    "p75": 0.1801,
-    "n": 113,
-    "slopeTermMPerDeg": -0.0,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.06
   },
   {
    "id": "vanilla:landscape/plants/tundrashrub03",
@@ -50560,6 +50638,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0818,
+    "p50": 0.2309,
+    "p75": 0.3319,
+    "n": 188,
+    "slopeTermMPerDeg": 0.00333,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50574,18 +50663,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.096,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.221,
-   "designedSinkM": {
-    "p25": 0.0818,
-    "p50": 0.2309,
-    "p75": 0.3319,
-    "n": 188,
-    "slopeTermMPerDeg": 0.00333,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.221
   },
   {
    "id": "vanilla:landscape/plants/tundrascrub01",
@@ -50636,6 +50714,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0234,
+    "p50": 0.3245,
+    "p75": 1.2261,
+    "n": 172,
+    "slopeTermMPerDeg": 0.16511,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50650,18 +50739,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.42,
-   "designedSinkM": {
-    "p25": -0.0234,
-    "p50": 0.3245,
-    "p75": 1.2261,
-    "n": 172,
-    "slopeTermMPerDeg": 0.16511,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.42
   },
   {
    "id": "vanilla:landscape/plants/reachshrub01",
@@ -50712,6 +50790,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.1343,
+    "p75": 0.48,
+    "n": 140,
+    "slopeTermMPerDeg": -0.00245,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50726,18 +50815,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.572,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.22,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.1343,
-    "p75": 0.48,
-    "n": 140,
-    "slopeTermMPerDeg": -0.00245,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.22
   },
   {
    "id": "vanilla:landscape/plants/thicket01",
@@ -50788,6 +50866,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0196,
+    "p50": 0.2364,
+    "p75": 0.4613,
+    "n": 4374,
+    "slopeTermMPerDeg": 0.06658,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50802,18 +50891,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.316,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.114,
-   "designedSinkM": {
-    "p25": 0.0196,
-    "p50": 0.2364,
-    "p75": 0.4613,
-    "n": 4374,
-    "slopeTermMPerDeg": 0.06658,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.114
   },
   {
    "id": "vanilla:plants/floramountainflower01purple",
@@ -50864,6 +50942,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0025,
+    "p50": 0.0781,
+    "p75": 0.167,
+    "n": 531,
+    "slopeTermMPerDeg": -0.00218,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50878,18 +50967,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073,
-   "designedSinkM": {
-    "p25": -0.0025,
-    "p50": 0.0781,
-    "p75": 0.167,
-    "n": 531,
-    "slopeTermMPerDeg": -0.00218,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.073
   },
   {
    "id": "vanilla:plants/floramountainflower01blue",
@@ -50940,6 +51018,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0891,
+    "p75": 0.179,
+    "n": 410,
+    "slopeTermMPerDeg": 0.0023,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -50954,18 +51043,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0891,
-    "p75": 0.179,
-    "n": 410,
-    "slopeTermMPerDeg": 0.0023,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.073
   },
   {
    "id": "vanilla:plants/floramountainflower01red",
@@ -51016,6 +51094,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.1044,
+    "p75": 0.1986,
+    "n": 283,
+    "slopeTermMPerDeg": 0.00809,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51030,18 +51119,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.073,
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.1044,
-    "p75": 0.1986,
-    "n": 283,
-    "slopeTermMPerDeg": 0.00809,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 0.073
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog01",
@@ -51081,6 +51159,15 @@
     "Lichen.Mat",
     "TreePineForestLog01:0 - L1_LargeBranches:0 - L2_Branches:0 - L2"
    ],
+   "alphaMaskMaterials": {
+    "L2_Branches.Mat": 0.498,
+    "L2_Ivy.Mat": 0.498,
+    "L2_Splinters.Mat": 0.498,
+    "Lichen.Mat": 0.498
+   },
+   "decalMaterials": [
+    "Lichen.Mat"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51114,6 +51201,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.8376,
+    "p50": -0.6166,
+    "p75": -0.3361,
+    "n": 87,
+    "slopeTermMPerDeg": -0.01683,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51128,18 +51226,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.338,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.483,
-   "designedSinkM": {
-    "p25": -0.8376,
-    "p50": -0.6166,
-    "p75": -0.3361,
-    "n": 87,
-    "slopeTermMPerDeg": -0.01683,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.483
   },
   {
    "id": "vanilla:landscape/trees/treepineforestlog02",
@@ -51177,6 +51264,15 @@
     "Lichen.Mat.001",
     "TreePineForestLog02:0 - L2_Stubs:0 - L1_LargeBranches:0 - L2_Br"
    ],
+   "alphaMaskMaterials": {
+    "L2_Branches.Mat.001": 0.498,
+    "L2_Ivy.Mat.001": 0.498,
+    "L2_Splinters.Mat.001": 0.498,
+    "Lichen.Mat.001": 0.498
+   },
+   "decalMaterials": [
+    "Lichen.Mat.001"
+   ],
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51210,6 +51306,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.8117,
+    "p50": -0.4928,
+    "p75": -0.0,
+    "n": 72,
+    "slopeTermMPerDeg": -0.02606,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51224,18 +51331,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.365,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.037,
-   "designedSinkM": {
-    "p25": -0.8117,
-    "p50": -0.4928,
-    "p75": -0.0,
-    "n": 72,
-    "slopeTermMPerDeg": -0.02606,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 2.037
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump01",
@@ -51274,6 +51370,11 @@
     "TreePineForestStump01:0.Mat",
     "TreePineForestStump01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_Ivy.Mat.002": 0.498,
+    "L2_Roots.Mat": 0.498,
+    "L2_Splinters.Mat.002": 0.498
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51307,6 +51408,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": 0.4204,
+    "p50": 0.6464,
+    "p75": 0.9317,
+    "n": 86,
+    "slopeTermMPerDeg": 0.01852,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51321,18 +51433,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.409,
-   "designedSinkM": {
-    "p25": 0.4204,
-    "p50": 0.6464,
-    "p75": 0.9317,
-    "n": 86,
-    "slopeTermMPerDeg": 0.01852,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.409
   },
   {
    "id": "vanilla:landscape/trees/treepineforeststump02a",
@@ -51372,6 +51473,12 @@
     "L2_Splinters.Mat.003",
     "TreePineForestStump02A:0 - L2_Bark:0 - L2_Branches:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_Dirt:8.Mat": 0.5,
+    "L2_Ivy.Mat.003": 0.498,
+    "L2_Roots:2 - L2_Branches:2.Mat": 0.498,
+    "L2_Splinters.Mat.003": 0.498
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51405,6 +51512,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.0803,
+    "p50": 0.3619,
+    "p75": 0.4895,
+    "n": 21,
+    "slopeTermMPerDeg": 0.07177,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51419,18 +51537,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.278,
-   "designedSinkM": {
-    "p25": -0.0803,
-    "p50": 0.3619,
-    "p75": 0.4895,
-    "n": 21,
-    "slopeTermMPerDeg": 0.07177,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.278
   },
   {
    "id": "vanilla:landscape/trees/treeaspenlog01",
@@ -51468,6 +51575,12 @@
     "TreeAspenLog01:2.Mat",
     "TreeAspenLog01:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ExposedWood:3.Mat": 0.498,
+    "ExposedWood:4.Mat": 0.498,
+    "L1_Branches.Mat": 0.314,
+    "TreeAspenLog01:3.Mat": 0.498
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51501,6 +51614,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.3784,
+    "p50": -0.2504,
+    "p75": -0.1123,
+    "n": 122,
+    "slopeTermMPerDeg": 0.00543,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51515,18 +51639,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.151,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.972,
-   "designedSinkM": {
-    "p25": -0.3784,
-    "p50": -0.2504,
-    "p75": -0.1123,
-    "n": 122,
-    "slopeTermMPerDeg": 0.00543,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.972
   },
   {
    "id": "vanilla:landscape/trees/treeaspenstump01",
@@ -51563,6 +51676,11 @@
     "Splintered.Mat",
     "TreeAspenStump01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ExposedWood.Mat": 0.498,
+    "ExposedWood:3 - L1_Roots:3.Mat": 0.498,
+    "L2_Branches.Mat.002": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -51596,6 +51714,17 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_1"
    ],
+   "lodLevels": 4,
+   "designedSinkM": {
+    "p25": -0.1789,
+    "p50": -0.021,
+    "p75": 0.0,
+    "n": 149,
+    "slopeTermMPerDeg": 0.00247,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51610,21 +51739,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.027,
-   "designedSinkM": {
-    "p25": -0.1789,
-    "p50": -0.021,
-    "p75": 0.0,
-    "n": 149,
-    "slopeTermMPerDeg": 0.00247,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 4
+   "pivotAboveBaseM": 1.027
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/landscape/trees/bananabark1_n.dds",
@@ -51682,8 +51800,9 @@
   "textures/landscape/grass/seaweed02_n.dds": "textures/dos/plants/seaweed02_n.dds"
  },
  "alphaModes": {
-  "MASK": 343,
-  "OPAQUE": 121
+  "MASK": 378,
+  "OPAQUE": 86,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -51716,12 +51835,20 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 80452876,
-  "bytesAfter": 26861988,
+  "bytesBefore": 70544108,
+  "bytesAfter": 25109896,
   "images": 149,
-  "imageBytesAfter": 20877934,
+  "imageBytesAfter": 20900040,
   "warnings": [],
-  "sha256": "228bda25ad2db78e1c29dba1efde89dcae229ba21afd3afc044d9bccaaded198",
+  "sha256": "c494b77d7625c7b8b3d7c3bacb135a49fadc689140a248f4ef8108af4861b680",
+  "parts": {
+   "parts": 159,
+   "partBytes": 5390940,
+   "textureFiles": 138,
+   "textureBytes": 6868381,
+   "bytes": 12259321,
+   "sourceSha256": "c494b77d7625c7b8b3d7c3bacb135a49fadc689140a248f4ef8108af4861b680"
+  },
   "sidecarBytes": {},
   "sidecarsExempt": "vegetation atlas: no snap edges, no footprints, no interiors"
  }

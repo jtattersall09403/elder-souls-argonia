@@ -1,187 +1,187 @@
 {
  "assets": {
-  "depths:dos/misc/dugupground": [
+  "bmv:landscape/grass/riverbedpebbles": [
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 2.19,
-    "normalDeg": 0.0,
-    "positionInPiece": [
-     0.25,
-     -4.77
-    ],
-    "widthM": 10.11
-   },
-   {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 2.19,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     5.3,
-     -0.12
-    ],
-    "widthM": 9.29
-   },
-   {
-    "evidence": "bounds",
-    "face": "south",
-    "heightM": 2.19,
-    "normalDeg": 180.0,
-    "positionInPiece": [
-     0.25,
-     4.52
-    ],
-    "widthM": 10.11
-   },
-   {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 2.19,
-    "normalDeg": 270.0,
-    "positionInPiece": [
-     -4.81,
-     -0.12
-    ],
-    "widthM": 9.29
-   }
-  ],
-  "depths:dos/misc/tbp_coralbig": [
-   {
-    "evidence": "bounds",
-    "face": "north",
-    "heightM": 3.57,
-    "normalDeg": 0.0,
-    "positionInPiece": [
-     0.78,
-     -9.24
-    ],
-    "widthM": 16.82
-   },
-   {
-    "evidence": "bounds",
-    "face": "east",
-    "heightM": 3.57,
-    "normalDeg": 90.0,
-    "positionInPiece": [
-     9.19,
-     -0.28
-    ],
-    "widthM": 17.92
-   },
-   {
-    "evidence": "bounds",
-    "face": "south",
-    "heightM": 3.57,
-    "normalDeg": 180.0,
-    "positionInPiece": [
-     0.78,
-     8.68
-    ],
-    "widthM": 16.82
-   },
-   {
-    "evidence": "bounds",
-    "face": "west",
-    "heightM": 3.57,
-    "normalDeg": 270.0,
-    "positionInPiece": [
-     -7.63,
-     -0.28
-    ],
-    "widthM": 17.92
-   }
-  ],
-  "depths:dos/misc/tbp_coralmedium": [
-   {
-    "evidence": "bounds",
-    "face": "north",
-    "heightM": 3.17,
+    "heightM": 0.17,
     "normalDeg": 0.0,
     "positionInPiece": [
      0.0,
-     -5.44
+     -0.36
     ],
-    "widthM": 11.16
+    "widthM": 0.92
    },
    {
     "evidence": "bounds",
     "face": "east",
-    "heightM": 3.17,
+    "heightM": 0.17,
     "normalDeg": 90.0,
     "positionInPiece": [
-     5.58,
+     0.46,
      0.0
     ],
-    "widthM": 10.88
+    "widthM": 0.72
    },
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 3.17,
+    "heightM": 0.17,
     "normalDeg": 180.0,
     "positionInPiece": [
      0.0,
-     5.44
+     0.36
     ],
-    "widthM": 11.16
+    "widthM": 0.92
    },
    {
     "evidence": "bounds",
     "face": "west",
-    "heightM": 3.17,
+    "heightM": 0.17,
     "normalDeg": 270.0,
     "positionInPiece": [
-     -5.58,
+     -0.46,
      0.0
     ],
-    "widthM": 10.88
+    "widthM": 0.72
    }
   ],
-  "depths:landscape/grass/tbp_coralsmall01": [
+  "bmv:landscape/grass/smallpebbles": [
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 2.66,
+    "heightM": 0.11,
     "normalDeg": 0.0,
     "positionInPiece": [
-     -0.07,
-     -2.51
+     0.0,
+     -0.23
     ],
-    "widthM": 5.4
+    "widthM": 0.58
    },
    {
     "evidence": "bounds",
     "face": "east",
-    "heightM": 2.66,
+    "heightM": 0.11,
     "normalDeg": 90.0,
     "positionInPiece": [
-     2.63,
-     0.15
+     0.29,
+     0.0
     ],
-    "widthM": 5.32
+    "widthM": 0.46
    },
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 2.66,
+    "heightM": 0.11,
     "normalDeg": 180.0,
     "positionInPiece": [
-     -0.07,
-     2.81
+     0.0,
+     0.23
     ],
-    "widthM": 5.4
+    "widthM": 0.58
    },
    {
     "evidence": "bounds",
     "face": "west",
-    "heightM": 2.66,
+    "heightM": 0.11,
     "normalDeg": 270.0,
     "positionInPiece": [
-     -2.77,
-     0.15
+     -0.29,
+     0.0
     ],
-    "widthM": 5.32
+    "widthM": 0.46
+   }
+  ],
+  "depths:dos/boats/rowboatbrokenback": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.03
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.87
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   }
+  ],
+  "depths:dos/boats/rowboatbrokenfront": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.87
+    ],
+    "widthM": 2.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.36,
+     -1.44
+    ],
+    "widthM": 4.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.99
+    ],
+    "widthM": 2.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.36,
+     -1.44
+    ],
+    "widthM": 4.86
    }
   ],
   "depths:landscape/grass/tbp_seaweed01": [
@@ -277,6 +277,52 @@
    }
   ],
   "depths:landscape/grass/tbp_seaweed06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.37
+    ],
+    "widthM": 7.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.7,
+     0.0
+    ],
+    "widthM": 6.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.37
+    ],
+    "widthM": 7.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.7,
+     0.0
+    ],
+    "widthM": 6.74
+   }
+  ],
+  "depths:landscape/grass/tbp_seaweed06var1": [
    {
     "evidence": "bounds",
     "face": "north",
@@ -760,6 +806,1206 @@
     "widthM": 1.3
    }
   ],
+  "jokerine:_seaside/clam_large": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.12
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.02
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.16
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.17,
+     0.02
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "jokerine:_seaside/conch": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.16
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.16
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "jokerine:_seaside/coral": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.02
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.18
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.02
+    ],
+    "widthM": 0.32
+   }
+  ],
+  "jokerine:_seaside/coral_spiky": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -0.01
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.07
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     0.15
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.07
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "jokerine:_seaside/sanddollar": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.11
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "jokerine:_seaside/scallop_blue": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/scallop_greenwhite": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/scallop_purplewhite": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/scallop_red": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/scallop_slate": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/scallop_yellow": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.1
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "jokerine:_seaside/sponge": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.09
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -0.0
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.08
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -0.0
+    ],
+    "widthM": 0.17
+   }
+  ],
+  "jokerine:_seaside/starfish": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.15
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.15
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.16,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "shores:shoresofskyrim/seashell02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.07
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.07
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "shores:shoresofskyrim/seashell03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.08
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     -0.01
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.06
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -0.01
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "shores:shoresofskyrim/shorerock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     -0.03
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     -0.03
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "shores:shoresofskyrim/shorerock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.11
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.08
+   }
+  ],
+  "shores:shoresofskyrim/shorerock03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     -0.03
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.02
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     -0.03
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "shores:shoresofskyrim/shorerock04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     -0.03
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.02
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.05,
+     -0.03
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "shores:shoresofskyrim/shorerock05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.09
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     -0.02
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.04
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     -0.02
+    ],
+    "widthM": 0.13
+   }
+  ],
+  "shores:shoresofskyrim/shorerock06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.07,
+     -0.03
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.02
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     -0.03
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "shores:shoresofskyrim/shorerock07": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.03
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.01
+    ],
+    "widthM": 0.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.06
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.03,
+     0.01
+    ],
+    "widthM": 0.09
+   }
+  ],
+  "shores:shoresofskyrim/shorerock08": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.02
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     0.02
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.05
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     0.02
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "shores:shoresofskyrim/shorerock09": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.09
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     -0.02
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.04
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     -0.02
+    ],
+    "widthM": 0.13
+   }
+  ],
+  "shores:shoresofskyrim/shorerock10": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.08
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.06,
+     -0.03
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.06,
+     -0.03
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "shores:shoresofskyrim/shorerock11": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.04,
+     -0.04
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.02
+    ],
+    "widthM": 0.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.04,
+     -0.04
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "shores:shoresofskyrim/shorerock12": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.1
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.04
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "shores:shoresofskyrim/snailshell01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.02
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.02,
+     0.0
+    ],
+    "widthM": 0.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.03
+    ],
+    "widthM": 0.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.02,
+     0.0
+    ],
+    "widthM": 0.05
+   }
+  ],
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena": [
    {
     "evidence": "bounds",
@@ -1035,11 +2281,1143 @@
     ],
     "widthM": 3.07
    }
+  ],
+  "vanilla:clutter/barrel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/basket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   }
+  ],
+  "vanilla:clutter/bones/humanribcagefull": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.46
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "vanilla:clutter/bones/humanskull": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.13
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:clutter/bones/mammothskull1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.67
+    ],
+    "widthM": 2.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.29,
+     0.0
+    ],
+    "widthM": 3.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.67
+    ],
+    "widthM": 2.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.29,
+     0.0
+    ],
+    "widthM": 3.34
+   }
+  ],
+  "vanilla:clutter/bucket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.36
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.36
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.97
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.86
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.86
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:landscape/plants/kelpshortstatic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.46
+    ],
+    "widthM": 0.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     -0.07
+    ],
+    "widthM": 0.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.33
+    ],
+    "widthM": 0.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.36,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     -0.07
+    ],
+    "widthM": 0.79
+   }
+  ],
+  "vanilla:landscape/plants/kelptallstatic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.69
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.74,
+     0.0
+    ],
+    "widthM": 1.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.69
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.73,
+     0.0
+    ],
+    "widthM": 1.38
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockm01wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -1.29
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.7,
+     -0.12
+    ],
+    "widthM": 2.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     1.05
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.12
+    ],
+    "widthM": 2.34
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockm03wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -1.93
+    ],
+    "widthM": 4.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.95,
+     -0.14
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     1.65
+    ],
+    "widthM": 4.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.06,
+     -0.14
+    ],
+    "widthM": 3.58
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockm04wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.08,
+     -1.52
+    ],
+    "widthM": 2.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.3,
+     -0.04
+    ],
+    "widthM": 2.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.08,
+     1.44
+    ],
+    "widthM": 2.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.46,
+     -0.04
+    ],
+    "widthM": 2.96
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockpilem01wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.36
+    ],
+    "widthM": 7.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.8,
+     -0.05
+    ],
+    "widthM": 8.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     4.27
+    ],
+    "widthM": 7.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.83,
+     -0.05
+    ],
+    "widthM": 8.63
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockpilem03wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.48,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.41
+    ],
+    "widthM": 7.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.48,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.89,
+     0.0
+    ],
+    "widthM": 8.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.41
+    ],
+    "widthM": 7.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.48,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.89,
+     0.0
+    ],
+    "widthM": 8.82
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rocks01wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.15,
+     -0.61
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.79,
+     0.02
+    ],
+    "widthM": 1.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.15,
+     0.65
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.49,
+     0.02
+    ],
+    "widthM": 1.26
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rocks02wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.55
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.75,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.69,
+     0.04
+    ],
+    "widthM": 1.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.64
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.75,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.7,
+     0.04
+    ],
+    "widthM": 1.19
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rocks03wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.99
+    ],
+    "widthM": 1.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     -0.15
+    ],
+    "widthM": 1.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.7
+    ],
+    "widthM": 1.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.75,
+     -0.15
+    ],
+    "widthM": 1.69
+   }
+  ],
+  "vanilla:landscape/rocks/wetrocks/rockshelf01wet": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.78,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.43,
+     -8.29
+    ],
+    "widthM": 10.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.74,
+     -0.45
+    ],
+    "widthM": 15.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.78,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.43,
+     7.38
+    ],
+    "widthM": 10.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.6,
+     -0.45
+    ],
+    "widthM": 15.67
+   }
+  ],
+  "vanilla:landscape/trees/coastdriftwood01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.55,
+     -1.48
+    ],
+    "widthM": 3.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.0,
+     0.06
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.55,
+     1.6
+    ],
+    "widthM": 3.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.11,
+     0.06
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "vanilla:landscape/trees/coastdriftwood02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.24,
+     -0.57
+    ],
+    "widthM": 3.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.83,
+     0.53
+    ],
+    "widthM": 2.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.24,
+     1.62
+    ],
+    "widthM": 3.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     0.53
+    ],
+    "widthM": 2.19
+   }
+  ],
+  "vanilla:landscape/trees/coastdriftwood03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.48,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.81,
+     0.17
+    ],
+    "widthM": 1.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.48,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.89,
+     0.17
+    ],
+    "widthM": 1.33
+   }
+  ],
+  "vanilla:plants/clam01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.36
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     0.0
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.36
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.26,
+     0.0
+    ],
+    "widthM": 0.72
+   }
+  ],
+  "vanilla:plants/clamlarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.57
+    ],
+    "widthM": 0.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.3,
+     -0.13
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.31
+    ],
+    "widthM": 0.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.28,
+     -0.13
+    ],
+    "widthM": 0.88
+   }
+  ],
+  "vanilla:plants/clamthin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.41
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     -0.03
+    ],
+    "widthM": 0.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.35
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     -0.03
+    ],
+    "widthM": 0.76
+   }
+  ],
+  "vanilla:plants/nordicbarnaclecluster01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.09,
+     -0.42
+    ],
+    "widthM": 1.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     0.04
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.09,
+     0.5
+    ],
+    "widthM": 1.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.52,
+     0.04
+    ],
+    "widthM": 0.92
+   }
   ]
  },
  "counts": {
-  "assets": 23,
-  "bounds": 90,
+  "assets": 79,
+  "bounds": 296,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

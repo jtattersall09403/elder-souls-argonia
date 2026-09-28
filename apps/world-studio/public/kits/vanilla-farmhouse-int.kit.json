@@ -30,6 +30,17 @@
    "materials": [
     "FarmhouseDoor01:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1189,
+    "p50": -0.0903,
+    "p75": -0.047,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -41,17 +52,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1189,
-    "p50": -0.0903,
-    "p75": -0.047,
-    "n": 6,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouseldoor01",
@@ -74,7 +78,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "farmhouse01.dds",
@@ -84,6 +88,17 @@
     "Door:7.Mat",
     "DoorBlack.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1653,
+    "p50": -0.0761,
+    "p75": -0.0258,
+    "n": 13,
+    "slopeTermMPerDeg": 0.02685,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -95,17 +110,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1653,
-    "p50": -0.0761,
-    "p75": -0.0258,
-    "n": 13,
-    "slopeTermMPerDeg": 0.02685,
-    "evidence": "plugin"
-   },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01",
@@ -136,6 +144,22 @@
    "materials": [
     "FarmBColumn01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -147,22 +171,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.184,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02",
@@ -193,6 +205,22 @@
    "materials": [
     "FarmBColumn02:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -204,22 +232,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner01",
@@ -256,6 +272,25 @@
     "FarmBCorner01:19.Mat",
     "FarmBCorner01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBCorner01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -267,22 +302,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner02",
@@ -319,6 +342,25 @@
     "FarmBCorner02:19.Mat",
     "FarmBCorner02:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBCorner02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -330,22 +372,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner03",
@@ -382,6 +412,25 @@
     "FarmBCorner03:19.Mat",
     "FarmBCorner03:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBCorner03:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -393,22 +442,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbcorner04",
@@ -445,6 +482,25 @@
     "FarmBCorner04:19.Mat",
     "FarmBCorner04:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBCorner04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -456,22 +512,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider01",
@@ -504,6 +548,17 @@
     "FarmBDivider01:5.Mat",
     "FarmBDivider01:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -515,17 +570,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02",
@@ -558,6 +606,22 @@
     "FarmBDivider02:5.Mat",
     "FarmBDivider02:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -569,22 +633,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider03",
@@ -617,6 +669,22 @@
     "FarmBDivider03:5.Mat",
     "FarmBDivider03:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.2845,
+    "p50": 0.2845,
+    "p75": 0.2845,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.2845
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -628,22 +696,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.2845,
-    "p50": 0.2845,
-    "p75": 0.2845,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.2845
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbdivider04",
@@ -676,6 +732,22 @@
     "FarmBDivider04:5.Mat",
     "FarmBDivider04:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -687,22 +759,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner01",
@@ -741,6 +801,25 @@
     "FarmBICorner01:19.Mat",
     "FarmBICorner01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBICorner01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -752,22 +831,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.75,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner02",
@@ -806,6 +873,25 @@
     "FarmBICorner02:19.Mat",
     "FarmBICorner02:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBICorner02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -817,22 +903,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.75,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner03",
@@ -871,6 +945,25 @@
     "FarmBICorner03:19.Mat",
     "FarmBICorner03:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBICorner03:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -882,22 +975,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "deck",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.75,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbicorner04",
@@ -936,6 +1017,25 @@
     "FarmBICorner04:19.Mat",
     "FarmBICorner04:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBICorner04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -947,22 +1047,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.75,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01",
@@ -997,6 +1085,25 @@
     "FarmBMiddle01:19.Mat",
     "FarmBMiddle01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBMiddle01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1008,22 +1115,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02",
@@ -1058,6 +1153,25 @@
     "FarmBMiddle02:19.Mat",
     "FarmBMiddle02:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBMiddle02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1069,22 +1183,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01",
@@ -1107,7 +1209,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "farmhouse01.dds",
@@ -1117,6 +1219,22 @@
     "FarmBTrapdoor01:5.Mat",
     "Trapdoor:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.0299,
+    "p50": 3.0299,
+    "p75": 3.0299,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.0299
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1128,22 +1246,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 3.0299,
-    "p50": 3.0299,
-    "p75": 3.0299,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.0299
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.033
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -1176,6 +1282,22 @@
     "FarmBTrapdoor02:5.Mat",
     "Trapdoor:7.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1187,22 +1309,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.473,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall01",
@@ -1241,6 +1351,25 @@
     "FarmBWall01:19.Mat",
     "FarmBWall01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWall01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1252,22 +1381,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall02",
@@ -1306,6 +1423,25 @@
     "FarmBWall02:19.Mat",
     "FarmBWall02:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWall02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1317,22 +1453,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall03",
@@ -1371,6 +1495,25 @@
     "FarmBWall03:19.Mat",
     "FarmBWall03:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWall03:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1382,22 +1525,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwall04",
@@ -1436,6 +1567,25 @@
     "FarmBWall04:19.Mat",
     "FarmBWall04:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWall04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1447,22 +1597,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01",
@@ -1503,6 +1641,25 @@
     "FarmBWallEntrance01:5.Mat",
     "FarmBWallEntrance01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallEntrance01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1514,22 +1671,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02",
@@ -1570,6 +1715,25 @@
     "FarmBWallEntrance02:5.Mat",
     "FarmBWallEntrance02:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallEntrance02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1581,22 +1745,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03",
@@ -1637,6 +1789,25 @@
     "FarmBWallEntrance03:5.Mat",
     "FarmBWallEntrance03:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallEntrance03:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1648,22 +1819,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04",
@@ -1704,6 +1863,25 @@
     "FarmBWallEntrance04:5.Mat",
     "FarmBWallEntrance04:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallEntrance04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1715,22 +1893,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05",
@@ -1771,6 +1937,25 @@
     "FarmBWallEntrance05:5.Mat",
     "FarmBWallEntrance05:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallEntrance05:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0853,
+    "p50": -0.0853,
+    "p75": -0.0853,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0853
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1782,22 +1967,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0853,
-    "p50": -0.0853,
-    "p75": -0.0853,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0853
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.809,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.085
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01",
@@ -1836,6 +2009,25 @@
     "FarmBWallTrapdoor01:19.Mat",
     "FarmBWallTrapdoor01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWallTrapdoor01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1847,22 +2039,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.906,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwell01",
@@ -1905,6 +2085,32 @@
     "FarmBWell01:5.Mat",
     "FarmBWell01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWell01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -5.4905,
+    "p50": -5.4905,
+    "p75": -5.4905,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -5.4905
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1916,29 +2122,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -5.4905,
-    "p50": -5.4905,
-    "p75": -5.4905,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -5.4905
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 2,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.555,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.924
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbwellent01",
@@ -1977,6 +2164,25 @@
     "FarmBWellEnt01:19.Mat",
     "FarmBWellEnt01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmBWellEnt01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1988,22 +2194,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.945,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01",
@@ -2034,6 +2228,22 @@
    "materials": [
     "JailDoor01:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0427,
+    "p50": 0.0427,
+    "p75": 0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2045,22 +2255,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0427,
-    "p50": 0.0427,
-    "p75": 0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.043
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2basementent01",
@@ -2105,6 +2303,25 @@
     "FarmInt2BasementEnt01:6.Mat",
     "FarmInt2BasementEnt01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2BasementEnt01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.7267,
+    "p50": -3.7267,
+    "p75": -3.7267,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.7267
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2116,22 +2333,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -3.7267,
-    "p50": -3.7267,
-    "p75": -3.7267,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -3.7267
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.916,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.727
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor",
@@ -2176,6 +2381,26 @@
     "FarmInt2Doorway02:5.Mat",
     "FarmInt2Doorway02:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2Doorway02:19.Mat": 0.784,
+    "FarmInt2Doorway02:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1096,
+    "p50": -0.1096,
+    "p75": -0.1096,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.1096
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2187,22 +2412,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1096,
-    "p50": -0.1096,
-    "p75": -0.1096,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.1096
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.949,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.11
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway03",
@@ -2249,6 +2462,26 @@
     "FarmInt2Doorway03:6.Mat",
     "FarmInt2Doorway03:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2Doorway03:19.Mat": 0.784,
+    "FarmInt2Doorway03:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2260,22 +2493,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.949,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2doorway04",
@@ -2320,6 +2541,25 @@
     "FarmInt2Doorway04:6.Mat",
     "FarmInt2Doorway04:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2Doorway04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2331,22 +2571,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end01",
@@ -2395,6 +2623,30 @@
     "FarmInt2End01:5.Mat",
     "FarmInt2End01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmInt2End01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmInt2End01:19.Mat": 0.784,
+    "FarmInt2End01:25.Mat": 0.784,
+    "FarmInt2End01:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0227,
+    "p50": -0.0227,
+    "p75": -0.0227,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0227
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2406,22 +2658,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0227,
-    "p50": -0.0227,
-    "p75": -0.0227,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0227
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.651,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.023
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end02",
@@ -2470,6 +2714,30 @@
     "FarmInt2End02:5.Mat",
     "FarmInt2End02:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmInt2End02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmInt2End02:19.Mat": 0.784,
+    "FarmInt2End02:25.Mat": 0.784,
+    "FarmInt2End02:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2481,22 +2749,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.64,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2end03",
@@ -2545,6 +2805,30 @@
     "FarmInt2End03:5.Mat",
     "FarmInt2End03:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmInt2End03:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmInt2End03:19.Mat": 0.784,
+    "FarmInt2End03:25.Mat": 0.784,
+    "FarmInt2End03:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0227,
+    "p50": -0.0227,
+    "p75": -0.0227,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0227
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2556,22 +2840,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0227,
-    "p50": -0.0227,
-    "p75": -0.0227,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0227
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.651,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.023
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2hearth02",
@@ -2616,6 +2892,26 @@
     "FarmInt2Hearth02:5.Mat",
     "FarmInt2Hearth02:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2Hearth02:19.Mat": 0.784,
+    "FarmInt2Hearth02:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2627,22 +2923,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmint2wall01",
@@ -2685,6 +2969,25 @@
     "FarmInt2Wall01:5.Mat",
     "FarmInt2Wall01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmInt2Wall01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2696,22 +2999,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintcorner01",
@@ -2750,6 +3041,22 @@
     "FarmIntCorner01:18.Mat",
     "FarmIntCorner01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2761,22 +3068,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.863,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintdoorway01",
@@ -2817,6 +3112,22 @@
     "FarmIntDoorway01:5.Mat",
     "FarmIntDoorway01:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2828,22 +3139,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.931,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend01",
@@ -2890,6 +3189,29 @@
     "FarmIntEnd01:5.Mat",
     "FarmIntEnd01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntEnd01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntEnd01:25.Mat": 0.784,
+    "FarmIntEnd01:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2901,22 +3223,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.622,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend02",
@@ -2963,6 +3277,29 @@
     "FarmIntEnd02:5.Mat",
     "FarmIntEnd02:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntEnd02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntEnd02:25.Mat": 0.784,
+    "FarmIntEnd02:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2974,22 +3311,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.638,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintend03",
@@ -3036,6 +3365,29 @@
     "FarmIntEnd03:5.Mat",
     "FarmIntEnd03:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntEnd03:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntEnd03:25.Mat": 0.784,
+    "FarmIntEnd03:4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3047,22 +3399,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.638,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend01",
@@ -3105,6 +3449,28 @@
     "FarmIntInnEnd01:5.Mat",
     "FarmIntInnEnd01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3116,22 +3482,15 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    90.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.965,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend02",
@@ -3174,6 +3533,28 @@
     "FarmIntInnEnd02:5.Mat",
     "FarmIntInnEnd02:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3185,22 +3566,15 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.98,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend03",
@@ -3243,6 +3617,28 @@
     "FarmIntInnEnd03:5.Mat",
     "FarmIntInnEnd03:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd03:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd03:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5405,
+    "p50": -0.5405,
+    "p75": -0.5405,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5405
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3254,22 +3650,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5405,
-    "p50": -0.5405,
-    "p75": -0.5405,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5405
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.971,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.541
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend04",
@@ -3312,6 +3700,28 @@
     "FarmIntInnEnd04:5.Mat",
     "FarmIntInnEnd04:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd04:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd04:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5405,
+    "p50": -0.5405,
+    "p75": -0.5405,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5405
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3323,22 +3733,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5405,
-    "p50": -0.5405,
-    "p75": -0.5405,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5405
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.971,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.541
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend05",
@@ -3381,6 +3783,28 @@
     "FarmIntInnEnd05:5.Mat",
     "FarmIntInnEnd05:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd05:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd05:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.4422,
+    "p50": -3.4422,
+    "p75": -3.4422,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.4422
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3392,22 +3816,15 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -3.4422,
-    "p50": -3.4422,
-    "p75": -3.4422,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -3.4422
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.781,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.442
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnend06",
@@ -3450,6 +3867,28 @@
     "FarmIntInnEnd06:5.Mat",
     "FarmIntInnEnd06:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnEnd06:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnEnd06:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5405,
+    "p50": -0.5405,
+    "p75": -0.5405,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5405
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3461,22 +3900,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5405,
-    "p50": -0.5405,
-    "p75": -0.5405,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5405
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.955,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.541
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwall01",
@@ -3519,6 +3950,28 @@
     "FarmIntInnWall01:5.Mat",
     "FarmIntInnWall01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnWall01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnWall01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3530,22 +3983,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.912,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01",
@@ -3590,6 +4035,28 @@
     "FarmIntInnWallEntrance01:6.Mat",
     "FarmIntInnWallEntrance01:7.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntInnWallEntrance01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntInnWallEntrance01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3601,22 +4068,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.853,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhback01",
@@ -3659,6 +4118,28 @@
     "FarmIntLHBack01:5.Mat",
     "FarmIntLHBack01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntLHBack01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntLHBack01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3670,22 +4151,16 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    90.0,
+    180.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.966,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase01",
@@ -3718,6 +4193,22 @@
     "FarmIntLHBase01:16.Mat",
     "FarmIntLHBase01:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3729,22 +4220,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhbase02",
@@ -3777,6 +4256,22 @@
     "FarmIntLHBase02:16.Mat",
     "FarmIntLHBase02:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3788,22 +4283,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend01",
@@ -3846,6 +4329,28 @@
     "FarmIntLHEnd01:5.Mat",
     "FarmIntLHEnd01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntLHEnd01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntLHEnd01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3857,22 +4362,15 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.918,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhend02",
@@ -3915,6 +4413,28 @@
     "FarmIntLHEnd02:5.Mat",
     "FarmIntLHEnd02:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntLHEnd02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntLHEnd02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3926,22 +4446,15 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    90.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.9,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit01",
@@ -3978,6 +4491,25 @@
     "FarmIntLHFirePit01:2.Mat",
     "FarmIntLHFirePit01:23.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntLHFirePit01:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3989,22 +4521,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.016,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit02",
@@ -4041,6 +4561,25 @@
     "FarmIntLHFirePit02:2.Mat",
     "FarmIntLHFirePit02:23.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntLHFirePit02:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4052,22 +4591,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.004,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfirepit03",
@@ -4108,6 +4635,32 @@
     "FarmIntLHFirePit03:23.Mat",
     "FarmIntLHFirePit03:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntLHFirePit03:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4119,29 +4672,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.07,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhfront01",
@@ -4186,6 +4720,28 @@
     "FarmIntLHFront01:6.Mat",
     "FarmIntLHFront01:7.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntLHFront01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntLHFront01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4197,22 +4753,16 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    90.0,
+    180.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.768,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft01",
@@ -4247,6 +4797,25 @@
     "FarmIntLHLoft01:5.Mat",
     "FarmIntLHLoft01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntLHLoft01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.6413,
+    "p50": 3.6413,
+    "p75": 3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4258,22 +4827,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 3.6413,
-    "p50": 3.6413,
-    "p75": 3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.6413
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.543,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.039
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhloft02",
@@ -4308,6 +4865,25 @@
     "FarmIntLHLoft02:5.Mat",
     "FarmIntLHLoft02:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntLHLoft02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.6413,
+    "p50": 3.6413,
+    "p75": 3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4319,22 +4895,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 3.6413,
-    "p50": 3.6413,
-    "p75": 3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 3.6413
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.543,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.039
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhlofttop01",
@@ -4367,6 +4931,22 @@
     "FarmIntLHLoftTop01:5.Mat",
     "FarmIntLHLoftTop01:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4378,22 +4958,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintlhmid01",
@@ -4436,6 +5004,28 @@
     "FarmIntLHMid01:5.Mat",
     "FarmIntLHMid01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntLHMid01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntLHMid01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0284
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4447,22 +5037,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0284,
-    "p50": -0.0284,
-    "p75": -0.0284,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0284
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    0.0,
+    180.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.916,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwall01",
@@ -4501,6 +5083,22 @@
     "FarmIntWall01:18.Mat",
     "FarmIntWall01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4512,22 +5110,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth01",
@@ -4570,6 +5156,26 @@
     "FarmIntWallHearth01:23.Mat",
     "FarmIntWallHearth01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntWallHearth01:19.Mat": 0.784,
+    "FarmIntWallHearth01:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4581,22 +5187,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.946,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwallhearth02",
@@ -4641,6 +5235,26 @@
     "FarmIntWallHearth02:5.Mat",
     "FarmIntWallHearth02:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntWallHearth02:19.Mat": 0.784,
+    "FarmIntWallHearth02:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4652,22 +5266,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.934,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwbasementent01",
@@ -4708,6 +5310,25 @@
     "FarmIntWBasementEnt01:6.Mat",
     "FarmIntWBasementEnt01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntWBasementEnt01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3129,
+    "p50": -0.3129,
+    "p75": -0.3129,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3129
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4719,22 +5340,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3129,
-    "p50": -0.3129,
-    "p75": -0.3129,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.3129
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.916,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwooddoorway01",
@@ -4779,6 +5388,26 @@
     "FarmIntWoodDoorway01:6.Mat",
     "FarmIntWoodDoorway01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntWoodDoorway01:19.Mat": 0.784,
+    "FarmIntWoodDoorway01:23.Mat": 0.125
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.3853,
+    "p50": 3.3853,
+    "p75": 3.3853,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 3.3853
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4790,22 +5419,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 3.3853,
-    "p50": 3.3853,
-    "p75": 3.3853,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 3.3853
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.848,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -3.385
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend01",
@@ -4846,6 +5463,28 @@
     "FarmIntWoodEnd01:5.Mat",
     "FarmIntWoodEnd01:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntWoodEnd01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntWoodEnd01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.8732,
+    "p50": 2.8732,
+    "p75": 2.8732,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 2.8732
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4857,22 +5496,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 2.8732,
-    "p50": 2.8732,
-    "p75": 2.8732,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 2.8732
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -2.873
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodend02",
@@ -4913,6 +5544,28 @@
     "FarmIntWoodEnd02:5.Mat",
     "FarmIntWoodEnd02:6.Mat"
    ],
+   "glowMaterials": [
+    "FarmIntWoodEnd02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FarmIntWoodEnd02:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.8732,
+    "p50": 2.8732,
+    "p75": 2.8732,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 2.8732
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4924,22 +5577,14 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 2.8732,
-    "p50": 2.8732,
-    "p75": 2.8732,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 2.8732
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -2.873
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/farmintwoodwall01",
@@ -4976,6 +5621,25 @@
     "FarmIntWoodWall01:5.Mat",
     "FarmIntWoodWall01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FarmIntWoodWall01:19.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 3.3853,
+    "p50": 3.3853,
+    "p75": 3.3853,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 3.3853
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4987,31 +5651,20 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 3.3853,
-    "p50": 3.3853,
-    "p75": 3.3853,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 3.3853
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -3.385
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-farmhouse-int.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-farmhouse-int.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 412
+  "MASK": 74,
+  "OPAQUE": 338,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -5044,12 +5697,12 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 21815636,
-  "bytesAfter": 6862388,
-  "images": 13,
-  "imageBytesAfter": 3456263,
+  "bytesBefore": 21062756,
+  "bytesAfter": 7021112,
+  "images": 14,
+  "imageBytesAfter": 3610324,
   "warnings": [],
-  "sha256": "41692a0784cc1da7a04d2536d7e0bd6bec2412b38c81696f1e1accfcfb182e4d",
+  "sha256": "c44ff6427e0a01ca72755248b2bd86087a930e5c0015941a7d85fac28b9bb325",
   "sidecarBytes": {
    "connectors": 48838,
    "footprints": 71705,

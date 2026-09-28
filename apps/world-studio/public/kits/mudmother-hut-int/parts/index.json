@@ -1,0 +1,624 @@
+{
+ "schemaVersion": 1,
+ "kit": "mudmother-hut-int",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 11697380,
+  "sha256": "7ee5c8b536c1df80d0615fdd193373b86469245022a074f68ef5eccc770d12c0"
+ },
+ "totals": {
+  "parts": 64,
+  "partBytes": 1078088,
+  "textureFiles": 50,
+  "textureBytes": 10506344,
+  "bytes": 11584432
+ },
+ "assets": {
+  "mudmother:gv_meshes/argoniannest/argonianbone01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbone01-095bae0f.glb",
+   "bytes": 10612,
+   "vertices": 374,
+   "triangles": 556,
+   "textures": [
+    "c2340d176a740498"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbonechime01-e7904aea.glb",
+   "bytes": 86656,
+   "vertices": 3483,
+   "triangles": 5132,
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianbonechime02-7af9fe13.glb",
+   "bytes": 70532,
+   "vertices": 2764,
+   "triangles": 4058,
+   "textures": [
+    "514659983becd199",
+    "c2340d176a740498",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfence02-89397cea.glb",
+   "bytes": 11312,
+   "vertices": 337,
+   "triangles": 370,
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianfenceend-30c4fe9d.glb",
+   "bytes": 18192,
+   "vertices": 810,
+   "triangles": 1035,
+   "textures": [
+    "294b86688eadb39d",
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns01-cee108f0.glb",
+   "bytes": 78980,
+   "vertices": 4449,
+   "triangles": 3944,
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns04-ba4e1af6.glb",
+   "bytes": 23532,
+   "vertices": 1157,
+   "triangles": 1080,
+   "textures": [
+    "9166ed5cf28c02f1",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianpillow01": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianpillow01-09ab84bc.glb",
+   "bytes": 11680,
+   "vertices": 543,
+   "triangles": 930,
+   "textures": [
+    "b3cc7e56ee116b61"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantent02-62eb0eb3.glb",
+   "bytes": 25320,
+   "vertices": 1164,
+   "triangles": 1509,
+   "textures": [
+    "7bce63df5220db53",
+    "91fa583b2076b5ef"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantotem01-ded592da.glb",
+   "bytes": 16540,
+   "vertices": 698,
+   "triangles": 836,
+   "textures": [
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/banner01": {
+   "file": "mudmother_gv_meshes_argoniannest_banner01-bc006a84.glb",
+   "bytes": 4144,
+   "vertices": 35,
+   "triangles": 48,
+   "textures": [
+    "b1831e9d6e088fe6"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/basketfull": {
+   "file": "mudmother_gv_meshes_argoniannest_basketfull-c42dbcb2.glb",
+   "bytes": 27348,
+   "vertices": 1111,
+   "triangles": 1466,
+   "textures": [
+    "7871bf2b4e5484c5"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/basketsmall01": {
+   "file": "mudmother_gv_meshes_argoniannest_basketsmall01-3b43e8d1.glb",
+   "bytes": 7156,
+   "vertices": 243,
+   "triangles": 354,
+   "textures": [
+    "d8600deb7927b2d5"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/bookshelf": {
+   "file": "mudmother_gv_meshes_argoniannest_bookshelf-491b772b.glb",
+   "bytes": 20188,
+   "vertices": 797,
+   "triangles": 742,
+   "textures": [
+    "8b3bbba470aa5599",
+    "f6b38bffa5b31bca"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/candle01": {
+   "file": "mudmother_gv_meshes_argoniannest_candle01-891d893b.glb",
+   "bytes": 7004,
+   "vertices": 169,
+   "triangles": 220,
+   "textures": [
+    "e08eeabdc4f3aa5a"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01": {
+   "file": "mudmother_gv_meshes_argoniannest_cavegbalconyshelf01-5904b0f3.glb",
+   "bytes": 25244,
+   "vertices": 598,
+   "triangles": 888,
+   "textures": [
+    "b6f45c075fda8717"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/chitinchair01": {
+   "file": "mudmother_gv_meshes_argoniannest_chitinchair01-4adf96c6.glb",
+   "bytes": 24136,
+   "vertices": 1048,
+   "triangles": 1652,
+   "textures": [
+    "514659983becd199",
+    "b3cc7e56ee116b61"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/clam01": {
+   "file": "mudmother_gv_meshes_argoniannest_clam01-1b4591b9.glb",
+   "bytes": 5344,
+   "vertices": 101,
+   "triangles": 162,
+   "textures": [
+    "5ca7d2b81b727a90"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/drum01": {
+   "file": "mudmother_gv_meshes_argoniannest_drum01-e6a0353a.glb",
+   "bytes": 5080,
+   "vertices": 110,
+   "triangles": 120,
+   "textures": [
+    "2641d65d8deff2c6"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "file": "mudmother_gv_meshes_argoniannest_fishracksmall-a5fbdb96.glb",
+   "bytes": 19040,
+   "vertices": 828,
+   "triangles": 1136,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/hangingshelf": {
+   "file": "mudmother_gv_meshes_argoniannest_hangingshelf-4c54333c.glb",
+   "bytes": 24468,
+   "vertices": 918,
+   "triangles": 1290,
+   "textures": [
+    "514659983becd199",
+    "c664e8814422b515"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/mudhut01intnew": {
+   "file": "mudmother_gv_meshes_argoniannest_mudhut01intnew-3eeadea0.glb",
+   "bytes": 34240,
+   "vertices": 1286,
+   "triangles": 1589,
+   "textures": [
+    "33b72aee0644de17",
+    "b6f45c075fda8717"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/ovennew": {
+   "file": "mudmother_gv_meshes_argoniannest_ovennew-ab7d7889.glb",
+   "bytes": 38100,
+   "vertices": 986,
+   "triangles": 1430,
+   "textures": [
+    "589f64a9f5e275d4",
+    "79fbdf68efc7db17",
+    "8b66f61176f00086",
+    "fcfc1e67f9faa8e1"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/paintedurn01": {
+   "file": "mudmother_gv_meshes_argoniannest_paintedurn01-9ef89b29.glb",
+   "bytes": 23168,
+   "vertices": 918,
+   "triangles": 1202,
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/potterycup": {
+   "file": "mudmother_gv_meshes_argoniannest_potterycup-5103f06c.glb",
+   "bytes": 7084,
+   "vertices": 259,
+   "triangles": 286,
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate01": {
+   "file": "mudmother_gv_meshes_argoniannest_potteryplate01-ad2b1a5c.glb",
+   "bytes": 6448,
+   "vertices": 222,
+   "triangles": 264,
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate02": {
+   "file": "mudmother_gv_meshes_argoniannest_potteryplate02-77aa243d.glb",
+   "bytes": 6440,
+   "vertices": 222,
+   "triangles": 264,
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate03": {
+   "file": "mudmother_gv_meshes_argoniannest_potteryplate03-1ec1fc8d.glb",
+   "bytes": 4520,
+   "vertices": 76,
+   "triangles": 100,
+   "textures": [
+    "5132b15d996b9ffa"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "file": "mudmother_gv_meshes_argoniannest_roundfloor01-d53db449.glb",
+   "bytes": 40720,
+   "vertices": 1425,
+   "triangles": 1536,
+   "textures": [
+    "3073c6832a8ac479",
+    "b6f45c075fda8717"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/shelfsingle": {
+   "file": "mudmother_gv_meshes_argoniannest_shelfsingle-70ef7375.glb",
+   "bytes": 10916,
+   "vertices": 531,
+   "triangles": 466,
+   "textures": [
+    "001e498a370ed2dc"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/shellhalf": {
+   "file": "mudmother_gv_meshes_argoniannest_shellhalf-dd06db0b.glb",
+   "bytes": 5956,
+   "vertices": 167,
+   "triangles": 254,
+   "textures": [
+    "8b66f61176f00086"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "file": "mudmother_gv_meshes_argoniannest_sithisshrine-6912fb1d.glb",
+   "bytes": 21904,
+   "vertices": 1060,
+   "triangles": 1308,
+   "textures": [
+    "100a2e87bd8a08af",
+    "c44e76606c7f02e9"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "file": "mudmother_gv_meshes_argoniannest_thatchroofing-2b4425c1.glb",
+   "bytes": 3788,
+   "vertices": 25,
+   "triangles": 24,
+   "textures": [
+    "d0ea8af8344c8c57"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging01": {
+   "file": "mudmother_gv_meshes_argoniannest_wallhanging01-02f72c38.glb",
+   "bytes": 4636,
+   "vertices": 81,
+   "triangles": 94,
+   "textures": [
+    "90b45163eb46129f"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging02": {
+   "file": "mudmother_gv_meshes_argoniannest_wallhanging02-f3da7d45.glb",
+   "bytes": 4644,
+   "vertices": 81,
+   "triangles": 94,
+   "textures": [
+    "36750d6985a89a79"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging03": {
+   "file": "mudmother_gv_meshes_argoniannest_wallhanging03-9b99ab86.glb",
+   "bytes": 4644,
+   "vertices": 81,
+   "triangles": 94,
+   "textures": [
+    "5780529d1ce85953"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wovenchair01": {
+   "file": "mudmother_gv_meshes_argoniannest_wovenchair01-bb40a3d2.glb",
+   "bytes": 25864,
+   "vertices": 981,
+   "triangles": 1246,
+   "textures": [
+    "4a0508e107aa424d",
+    "8b3bbba470aa5599"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/wovenfence01": {
+   "file": "mudmother_gv_meshes_argoniannest_wovenfence01-671a522a.glb",
+   "bytes": 9192,
+   "vertices": 152,
+   "triangles": 192,
+   "textures": [
+    "91fa583b2076b5ef",
+    "be9d386a886e9cc7"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/woventable01": {
+   "file": "mudmother_gv_meshes_argoniannest_woventable01-b5085651.glb",
+   "bytes": 19196,
+   "vertices": 936,
+   "triangles": 1006,
+   "textures": [
+    "4a0508e107aa424d",
+    "8b3bbba470aa5599"
+   ]
+  },
+  "vanilla:architecture/riften/clutter/rtbanneranchor01": {
+   "file": "vanilla_architecture_riften_clutter_rtbanneranchor01-d1762862.glb",
+   "bytes": 4364,
+   "vertices": 69,
+   "triangles": 68,
+   "textures": [
+    "d523e0dcc46f5aba"
+   ]
+  },
+  "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01": {
+   "file": "vanilla_architecture_riften_interior_smallroomsingle_rifrmsmpartitionbeamtall01-d4d30f43.glb",
+   "bytes": 8080,
+   "vertices": 342,
+   "triangles": 274,
+   "textures": [
+    "d523e0dcc46f5aba"
+   ]
+  },
+  "vanilla:clutter/bones/trollskull": {
+   "file": "vanilla_clutter_bones_trollskull-93bc038d.glb",
+   "bytes": 16044,
+   "vertices": 624,
+   "triangles": 1076,
+   "textures": [
+    "03511e5dd23db2ca"
+   ]
+  },
+  "vanilla:clutter/chopping block/choppingblock01": {
+   "file": "vanilla_clutter_chopping_block_choppingblock01-2dc12119.glb",
+   "bytes": 5436,
+   "vertices": 126,
+   "triangles": 94,
+   "textures": [
+    "cd42a3997995599e"
+   ]
+  },
+  "vanilla:clutter/common/commoncounter01": {
+   "file": "vanilla_clutter_common_commoncounter01-e32e4e5b.glb",
+   "bytes": 10696,
+   "vertices": 502,
+   "triangles": 413,
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  },
+  "vanilla:clutter/common/commoncounterhanger01": {
+   "file": "vanilla_clutter_common_commoncounterhanger01-b4b9994e.glb",
+   "bytes": 13404,
+   "vertices": 798,
+   "triangles": 552,
+   "textures": [
+    "59e7d87c626226f2"
+   ]
+  },
+  "vanilla:clutter/containers/miscsack02largeflat": {
+   "file": "vanilla_clutter_containers_miscsack02largeflat-a3210c90.glb",
+   "bytes": 12040,
+   "vertices": 311,
+   "triangles": 490,
+   "textures": [
+    "6210191d543cd15b",
+    "9988966c66ea8405"
+   ]
+  },
+  "vanilla:clutter/containers/miscsack02small": {
+   "file": "vanilla_clutter_containers_miscsack02small-3a45195c.glb",
+   "bytes": 12112,
+   "vertices": 304,
+   "triangles": 476,
+   "textures": [
+    "6210191d543cd15b",
+    "9988966c66ea8405"
+   ]
+  },
+  "vanilla:clutter/containers/miscsack02smallflat": {
+   "file": "vanilla_clutter_containers_miscsack02smallflat-dee35497.glb",
+   "bytes": 12112,
+   "vertices": 309,
+   "triangles": 480,
+   "textures": [
+    "6210191d543cd15b",
+    "9988966c66ea8405"
+   ]
+  },
+  "vanilla:clutter/containers/miscsacklarge": {
+   "file": "vanilla_clutter_containers_miscsacklarge-a03fad27.glb",
+   "bytes": 12736,
+   "vertices": 529,
+   "triangles": 626,
+   "textures": [
+    "6210191d543cd15b"
+   ]
+  },
+  "vanilla:clutter/cookingspitsm01": {
+   "file": "vanilla_clutter_cookingspitsm01-c23a5c66.glb",
+   "bytes": 18848,
+   "vertices": 1224,
+   "triangles": 804,
+   "textures": [
+    "59e7d87c626226f2"
+   ]
+  },
+  "vanilla:clutter/cookingstone01": {
+   "file": "vanilla_clutter_cookingstone01-2292d51f.glb",
+   "bytes": 5448,
+   "vertices": 144,
+   "triangles": 208,
+   "textures": [
+    "f1e9d36362aa9247"
+   ]
+  },
+  "vanilla:clutter/hay/haybale01": {
+   "file": "vanilla_clutter_hay_haybale01-efc5c3d2.glb",
+   "bytes": 25056,
+   "vertices": 844,
+   "triangles": 836,
+   "textures": [
+    "4d172ca0868cbf4a",
+    "acebaba6fecd1651"
+   ]
+  },
+  "vanilla:clutter/hay/hayscatter04": {
+   "file": "vanilla_clutter_hay_hayscatter04-449f5826.glb",
+   "bytes": 4856,
+   "vertices": 43,
+   "triangles": 68,
+   "textures": [
+    "acebaba6fecd1651"
+   ]
+  },
+  "vanilla:clutter/hay/hayscatter05": {
+   "file": "vanilla_clutter_hay_hayscatter05-4fdf522a.glb",
+   "bytes": 4808,
+   "vertices": 40,
+   "triangles": 62,
+   "textures": [
+    "acebaba6fecd1651"
+   ]
+  },
+  "vanilla:clutter/hay/hayscatter06": {
+   "file": "vanilla_clutter_hay_hayscatter06-dbd55812.glb",
+   "bytes": 5080,
+   "vertices": 57,
+   "triangles": 92,
+   "textures": [
+    "acebaba6fecd1651"
+   ]
+  },
+  "vanilla:clutter/ingredients/hawkfeather01": {
+   "file": "vanilla_clutter_ingredients_hawkfeather01-9d4a950b.glb",
+   "bytes": 10140,
+   "vertices": 426,
+   "triangles": 528,
+   "textures": [
+    "935aad05cd29fd1e"
+   ]
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01": {
+   "file": "vanilla_dungeons_riften_clutter_riftenrwwoodbeam01-1696d817.glb",
+   "bytes": 5672,
+   "vertices": 157,
+   "triangles": 176,
+   "textures": [
+    "4b47a5a8e06a6115"
+   ]
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02": {
+   "file": "vanilla_dungeons_riften_clutter_riftenrwwoodbeam02-b8ca0b3e.glb",
+   "bytes": 5696,
+   "vertices": 157,
+   "triangles": 176,
+   "textures": [
+    "4b47a5a8e06a6115"
+   ]
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03": {
+   "file": "vanilla_dungeons_riften_clutter_riftenrwwoodbeam03-eade2e43.glb",
+   "bytes": 5700,
+   "vertices": 157,
+   "triangles": 176,
+   "textures": [
+    "4b47a5a8e06a6115"
+   ]
+  },
+  "vanilla:furniture/bedroll/bedrollhay01": {
+   "file": "vanilla_furniture_bedroll_bedrollhay01-87253b43.glb",
+   "bytes": 16872,
+   "vertices": 273,
+   "triangles": 406,
+   "textures": [
+    "6bbbbda6b33ae782",
+    "acebaba6fecd1651",
+    "c1a99c00c967fa72"
+   ]
+  },
+  "vanilla:furniture/common/commonchair01": {
+   "file": "vanilla_furniture_common_commonchair01-5b7f34d8.glb",
+   "bytes": 11844,
+   "vertices": 561,
+   "triangles": 592,
+   "textures": [
+    "f6b38bffa5b31bca"
+   ]
+  },
+  "vanilla:furniture/orcfurniture/orcshelf01": {
+   "file": "vanilla_furniture_orcfurniture_orcshelf01-eafc74ff.glb",
+   "bytes": 20800,
+   "vertices": 1204,
+   "triangles": 1000,
+   "textures": [
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:furniture/smallcookingpot": {
+   "file": "vanilla_furniture_smallcookingpot-008d21d1.glb",
+   "bytes": 32036,
+   "vertices": 1323,
+   "triangles": 1212,
+   "textures": [
+    "46c9cbe19fd13d88",
+    "59e7d87c626226f2",
+    "ace7c9ea587782ec"
+   ]
+  },
+  "vanilla:plants/wheat01": {
+   "file": "vanilla_plants_wheat01-e5d78eda.glb",
+   "bytes": 4240,
+   "vertices": 51,
+   "triangles": 41,
+   "textures": [
+    "942e7409db05e857"
+   ]
+  }
+ }
+}

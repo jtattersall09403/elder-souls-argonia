@@ -1,0 +1,569 @@
+{
+ "schemaVersion": 1,
+ "kit": "settlement-imperial-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 13856740,
+  "sha256": "f0320d067f5f4b07d2215cdf8bb0da2b8ddc204254e34188e4273e4218125576"
+ },
+ "totals": {
+  "parts": 50,
+  "partBytes": 1913308,
+  "textureFiles": 55,
+  "textureBytes": 11994960,
+  "bytes": 13908268
+ },
+ "assets": {
+  "bmv:architecture/phitt/aldredanyia/signpost": {
+   "file": "bmv_architecture_phitt_aldredanyia_signpost-eea43fed.glb",
+   "bytes": 15316,
+   "vertices": 353,
+   "triangles": 452,
+   "textures": [
+    "65707778a58cf3f6",
+    "c83180e21cad555f",
+    "d7be88ff8a19c46c"
+   ]
+  },
+  "composite:farmhouse/farmhouse01-with-door": {
+   "file": "composite_farmhouse_farmhouse01-with-door-6e1f680e.glb",
+   "bytes": 68500,
+   "vertices": 2783,
+   "triangles": 2590,
+   "textures": [
+    "289ab3078ad33017",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "composite:farmhouse/farmhouse02-with-door": {
+   "file": "composite_farmhouse_farmhouse02-with-door-8769041c.glb",
+   "bytes": 150480,
+   "vertices": 9209,
+   "triangles": 7671,
+   "textures": [
+    "289ab3078ad33017",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "9ce568051de6dbe7",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "composite:farmhouse/farmhouse02-with-walkway": {
+   "file": "composite_farmhouse_farmhouse02-with-walkway-59b3bb18.glb",
+   "bytes": 207524,
+   "vertices": 12479,
+   "triangles": 10035,
+   "textures": [
+    "289ab3078ad33017",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "9ce568051de6dbe7",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "composite:farmhouse/stonewall-run-3": {
+   "file": "composite_farmhouse_stonewall-run-3-094681e1.glb",
+   "bytes": 42328,
+   "vertices": 1808,
+   "triangles": 2711,
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "composite:farmhouse/stonewall-run-5": {
+   "file": "composite_farmhouse_stonewall-run-5-918f6faf.glb",
+   "bytes": 69460,
+   "vertices": 3005,
+   "triangles": 4532,
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "rowboats:dungeons/clutter/shipoar01": {
+   "file": "rowboats_dungeons_clutter_shipoar01-1e45ae54.glb",
+   "bytes": 5512,
+   "vertices": 138,
+   "triangles": 200,
+   "textures": [
+    "74a6dfe1e3e76c10"
+   ]
+  },
+  "rowboats:dungeons/ship/shiprowboat01": {
+   "file": "rowboats_dungeons_ship_shiprowboat01-7d9ec631.glb",
+   "bytes": 60268,
+   "vertices": 3595,
+   "triangles": 5484,
+   "textures": [
+    "74a6dfe1e3e76c10"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiiliccityferry01-3b38a7e0.glb",
+   "bytes": 109552,
+   "vertices": 5883,
+   "triangles": 8058,
+   "textures": [
+    "0b84bde9b0c005cf",
+    "16a394063568db72",
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "9f65d75e8da4f637",
+    "ecf73618c148beee"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicriverferry01-3f98f6e1.glb",
+   "bytes": 225136,
+   "vertices": 12835,
+   "triangles": 16645,
+   "textures": [
+    "0b84bde9b0c005cf",
+    "16a394063568db72",
+    "71cab37f68b713d2",
+    "9f65d75e8da4f637",
+    "9f7e4bcbaea95152",
+    "ecf73618c148beee"
+   ]
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01": {
+   "file": "sbot_bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicrowboat01-a47cebd7.glb",
+   "bytes": 70916,
+   "vertices": 3180,
+   "triangles": 3368,
+   "textures": [
+    "2d6d226f0a1c4e10",
+    "71cab37f68b713d2",
+    "940492f6816844fb",
+    "9fa3ff6589d43cab"
+   ]
+  },
+  "vanilla:architecture/docks/dockcolstr01": {
+   "file": "vanilla_architecture_docks_dockcolstr01-5f48edbb.glb",
+   "bytes": 11308,
+   "vertices": 268,
+   "triangles": 342,
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0"
+   ]
+  },
+  "vanilla:architecture/docks/dockcorsol01": {
+   "file": "vanilla_architecture_docks_dockcorsol01-930aac43.glb",
+   "bytes": 37504,
+   "vertices": 1763,
+   "triangles": 1682,
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockropestr01": {
+   "file": "vanilla_architecture_docks_dockropestr01-d073c1da.glb",
+   "bytes": 4560,
+   "vertices": 80,
+   "triangles": 96,
+   "textures": [
+    "70752238f00904ba"
+   ]
+  },
+  "vanilla:architecture/docks/dockstepsdown01": {
+   "file": "vanilla_architecture_docks_dockstepsdown01-0c365e50.glb",
+   "bytes": 34216,
+   "vertices": 1752,
+   "triangles": 1624,
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstr4way01": {
+   "file": "vanilla_architecture_docks_dockstr4way01-e5965dfa.glb",
+   "bytes": 30092,
+   "vertices": 1386,
+   "triangles": 1248,
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/docks/dockstrsol01": {
+   "file": "vanilla_architecture_docks_dockstrsol01-03aef258.glb",
+   "bytes": 33064,
+   "vertices": 1472,
+   "triangles": 1476,
+   "textures": [
+    "70752238f00904ba",
+    "d378708332c901b0",
+    "e64d916910e3ecd2"
+   ]
+  },
+  "vanilla:architecture/farmhouse/farmhouse01": {
+   "file": "vanilla_architecture_farmhouse_farmhouse01-d70824f2.glb",
+   "bytes": 61376,
+   "vertices": 2631,
+   "triangles": 2376,
+   "textures": [
+    "289ab3078ad33017",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/farmhouse01walkway": {
+   "file": "vanilla_architecture_farmhouse_farmhouse01walkway-3138256d.glb",
+   "bytes": 37600,
+   "vertices": 2220,
+   "triangles": 1554,
+   "textures": [
+    "9ce568051de6dbe7",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/farmhouse02": {
+   "file": "vanilla_architecture_farmhouse_farmhouse02-ad64c49e.glb",
+   "bytes": 143280,
+   "vertices": 9057,
+   "triangles": 7457,
+   "textures": [
+    "289ab3078ad33017",
+    "717c4c0b5888f777",
+    "97d57c3e2fb1241b",
+    "9ce568051de6dbe7",
+    "a5cfe76d422569c8",
+    "ab2b57bb8d2ac6f9",
+    "afde1885c83ac831",
+    "c2a94c30dc62a274",
+    "c664e8814422b515",
+    "e41c3232ecf9dd84",
+    "f993fa9ec17a5044"
+   ]
+  },
+  "vanilla:architecture/farmhouse/farmhouse02walkway": {
+   "file": "vanilla_architecture_farmhouse_farmhouse02walkway-8a05fed4.glb",
+   "bytes": 36916,
+   "vertices": 2162,
+   "triangles": 1518,
+   "textures": [
+    "9ce568051de6dbe7",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/fencewoven01": {
+   "file": "vanilla_architecture_farmhouse_fencewoven01-9232825e.glb",
+   "bytes": 12204,
+   "vertices": 428,
+   "triangles": 446,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "be9d386a886e9cc7"
+   ]
+  },
+  "vanilla:architecture/farmhouse/fencewoven02": {
+   "file": "vanilla_architecture_farmhouse_fencewoven02-d687ca5a.glb",
+   "bytes": 9912,
+   "vertices": 272,
+   "triangles": 258,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "be9d386a886e9cc7"
+   ]
+  },
+  "vanilla:architecture/farmhouse/ivy01": {
+   "file": "vanilla_architecture_farmhouse_ivy01-56c8c2a7.glb",
+   "bytes": 5004,
+   "vertices": 102,
+   "triangles": 76,
+   "textures": [
+    "c5d1966531db2191"
+   ]
+  },
+  "vanilla:architecture/farmhouse/ivy02": {
+   "file": "vanilla_architecture_farmhouse_ivy02-8c6bf564.glb",
+   "bytes": 7072,
+   "vertices": 250,
+   "triangles": 200,
+   "textures": [
+    "c5d1966531db2191"
+   ]
+  },
+  "vanilla:architecture/farmhouse/ivy03": {
+   "file": "vanilla_architecture_farmhouse_ivy03-3a3d4fe0.glb",
+   "bytes": 8268,
+   "vertices": 330,
+   "triangles": 286,
+   "textures": [
+    "c5d1966531db2191"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewall01-d18859d8.glb",
+   "bytes": 15944,
+   "vertices": 662,
+   "triangles": 1054,
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall02": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewall02-b4c52cbb.glb",
+   "bytes": 32400,
+   "vertices": 1434,
+   "triangles": 1942,
+   "textures": [
+    "591d2b4dcf0917f0",
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendl01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallendl01-f6cd6de3.glb",
+   "bytes": 14928,
+   "vertices": 611,
+   "triangles": 890,
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendr01": {
+   "file": "vanilla_architecture_farmhouse_stonewall_stonewallendr01-2ed36051.glb",
+   "bytes": 13644,
+   "vertices": 535,
+   "triangles": 767,
+   "textures": [
+    "717c4c0b5888f777"
+   ]
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs1": {
+   "file": "vanilla_architecture_farmhouse_walkway_walkwaystairs1-4ff575d5.glb",
+   "bytes": 11412,
+   "vertices": 170,
+   "triangles": 148,
+   "textures": [
+    "9ce568051de6dbe7",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs4": {
+   "file": "vanilla_architecture_farmhouse_walkway_walkwaystairs4-2f2a10f0.glb",
+   "bytes": 17820,
+   "vertices": 644,
+   "triangles": 504,
+   "textures": [
+    "9ce568051de6dbe7",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs8": {
+   "file": "vanilla_architecture_farmhouse_walkway_walkwaystairs8-471e9ad0.glb",
+   "bytes": 23128,
+   "vertices": 1108,
+   "triangles": 846,
+   "textures": [
+    "9ce568051de6dbe7",
+    "ab2b57bb8d2ac6f9",
+    "c2a94c30dc62a274"
+   ]
+  },
+  "vanilla:architecture/riften/rtstables01": {
+   "file": "vanilla_architecture_riften_rtstables01-f82c3944.glb",
+   "bytes": 48656,
+   "vertices": 2048,
+   "triangles": 1566,
+   "textures": [
+    "0c3da81445dd9d3e",
+    "11c3b5e8f1692d4e",
+    "3d2832e326bbc6ec",
+    "5d780726e6fb0629",
+    "9317c2f732828d90",
+    "d523e0dcc46f5aba"
+   ]
+  },
+  "vanilla:clutter/barrel01": {
+   "file": "vanilla_clutter_barrel01-65266384.glb",
+   "bytes": 7120,
+   "vertices": 286,
+   "triangles": 396,
+   "textures": [
+    "940d11c16a11b275"
+   ]
+  },
+  "vanilla:clutter/barrel02": {
+   "file": "vanilla_clutter_barrel02-fb5c7fcd.glb",
+   "bytes": 7116,
+   "vertices": 286,
+   "triangles": 396,
+   "textures": [
+    "422fe83eac860373"
+   ]
+  },
+  "vanilla:clutter/bucket01": {
+   "file": "vanilla_clutter_bucket01-cfff19d7.glb",
+   "bytes": 13936,
+   "vertices": 690,
+   "triangles": 764,
+   "textures": [
+    "a3cc35ebb0f81c80"
+   ]
+  },
+  "vanilla:clutter/common/candlelanternwithcandle01": {
+   "file": "vanilla_clutter_common_candlelanternwithcandle01-1e5326ce.glb",
+   "bytes": 21292,
+   "vertices": 922,
+   "triangles": 670,
+   "textures": [
+    "77c47ded97ff9a2f",
+    "e08eeabdc4f3aa5a"
+   ]
+  },
+  "vanilla:clutter/firewood/firewoodpilelarge01": {
+   "file": "vanilla_clutter_firewood_firewoodpilelarge01-9d094964.glb",
+   "bytes": 22624,
+   "vertices": 1142,
+   "triangles": 852,
+   "textures": [
+    "07e7b99d7dae4849",
+    "0a72978517779dfb"
+   ]
+  },
+  "vanilla:clutter/firewood/firewoodpilemedium01": {
+   "file": "vanilla_clutter_firewood_firewoodpilemedium01-a5d3c503.glb",
+   "bytes": 15568,
+   "vertices": 596,
+   "triangles": 472,
+   "textures": [
+    "07e7b99d7dae4849",
+    "0a72978517779dfb"
+   ]
+  },
+  "vanilla:clutter/firewood/firewoodpilesmall01": {
+   "file": "vanilla_clutter_firewood_firewoodpilesmall01-dfa0c56b.glb",
+   "bytes": 9776,
+   "vertices": 208,
+   "triangles": 158,
+   "textures": [
+    "07e7b99d7dae4849",
+    "0a72978517779dfb"
+   ]
+  },
+  "vanilla:clutter/hay/haymound01": {
+   "file": "vanilla_clutter_hay_haymound01-7eef939f.glb",
+   "bytes": 12608,
+   "vertices": 182,
+   "triangles": 232,
+   "textures": [
+    "acebaba6fecd1651"
+   ]
+  },
+  "vanilla:clutter/horsetrough/horsetrough01": {
+   "file": "vanilla_clutter_horsetrough_horsetrough01-2dddbb63.glb",
+   "bytes": 13044,
+   "vertices": 260,
+   "triangles": 205,
+   "textures": [
+    "289ab3078ad33017",
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:clutter/imperial/impwallsconcecandle01": {
+   "file": "vanilla_clutter_imperial_impwallsconcecandle01-084968bd.glb",
+   "bytes": 19940,
+   "vertices": 868,
+   "triangles": 937,
+   "textures": [
+    "04d131bf58a3467b",
+    "e08eeabdc4f3aa5a"
+   ]
+  },
+  "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": {
+   "file": "vanilla_clutter_signage_whiterun_signwrdrunkenhuntsman01-b563fbfb.glb",
+   "bytes": 14312,
+   "vertices": 360,
+   "triangles": 436,
+   "textures": [
+    "6d425ce29495cf24",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:clutter/signage/whiterun/signwrpost01": {
+   "file": "vanilla_clutter_signage_whiterun_signwrpost01-5e426628.glb",
+   "bytes": 9468,
+   "vertices": 167,
+   "triangles": 188,
+   "textures": [
+    "30ea7a2677571646",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:clutter/signage/whiterun/signwrstables01": {
+   "file": "vanilla_clutter_signage_whiterun_signwrstables01-8c3df2d9.glb",
+   "bytes": 12140,
+   "vertices": 391,
+   "triangles": 428,
+   "textures": [
+    "1218bea67ce76d23",
+    "c433d6e389dd996a"
+   ]
+  },
+  "vanilla:dungeons/imperial/clutterkits/impfreewall01": {
+   "file": "vanilla_dungeons_imperial_clutterkits_impfreewall01-3c050c38.glb",
+   "bytes": 32200,
+   "vertices": 948,
+   "triangles": 1104,
+   "textures": [
+    "0f34c19b0c6a67c8",
+    "245c6780c7d62347",
+    "886e412ce5a7ca34",
+    "c19b19b038b86e51",
+    "dd68379948e1c494"
+   ]
+  },
+  "vanilla:furniture/farm/farmbench01": {
+   "file": "vanilla_furniture_farm_farmbench01-28b9520e.glb",
+   "bytes": 6232,
+   "vertices": 216,
+   "triangles": 216,
+   "textures": [
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "vanilla:plants/chickennest01": {
+   "file": "vanilla_plants_chickennest01-006051cd.glb",
+   "bytes": 20632,
+   "vertices": 974,
+   "triangles": 1088,
+   "textures": [
+    "abf11a28c234ef01"
+   ]
+  }
+ }
+}

@@ -80,9 +80,9 @@
     "normalDeg": 90.0,
     "positionInPiece": [
      1.82,
-     -0.13
+     -0.04
     ],
-    "widthM": 0.8
+    "widthM": 0.61
    },
    {
     "evidence": "bounds",
@@ -91,9 +91,9 @@
     "normalDeg": 270.0,
     "positionInPiece": [
      -1.82,
-     -0.13
+     -0.04
     ],
-    "widthM": 0.8
+    "widthM": 0.61
    }
   ],
   "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01": [

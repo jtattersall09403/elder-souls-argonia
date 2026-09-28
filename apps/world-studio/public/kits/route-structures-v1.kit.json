@@ -44,6 +44,35 @@
     "WRCastleStairs01:49.Mat",
     "WRCastleStairs01:56.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRCastleStairs01:49.Mat": 0.502
+   },
+   "decalMaterials": [
+    "WRCastleStairs01:49.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3181,
+    "p50": -0.3181,
+    "p75": -0.3181,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.3181
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -55,29 +84,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3181,
-    "p50": -0.3181,
-    "p75": -0.3181,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.3181
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.012,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.318
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01",
@@ -133,6 +143,38 @@
     "WRWallTotem02:47.Mat",
     "WRWallTotem02:48.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRStairsPlatform01:15.Mat": 0.502,
+    "WRStairsPlatform01:32.Mat": 0.502,
+    "WRStairsPlatform01:58.Mat": 0.133
+   },
+   "decalMaterials": [
+    "WRStairsPlatform01:15.Mat",
+    "WRStairsPlatform01:58.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1469,
+    "p50": 0.1469,
+    "p75": 0.1469,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.1469
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -144,29 +186,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.1469,
-    "p50": 0.1469,
-    "p75": 0.1469,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.1469
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.147
   },
   {
    "id": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01",
@@ -209,6 +232,25 @@
     "WRBridgeStone01:47.Mat",
     "WRBridgeStone01:48.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRBridgeStone01:23.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.3769,
+    "p50": 0.3769,
+    "p75": 0.3769,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.3769
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -220,22 +262,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.3769,
-    "p50": 0.3769,
-    "p75": 0.3769,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.3769
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.656,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.377
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
@@ -270,6 +300,24 @@
     "StonewallTerraceStairs01:2.Mat",
     "StonewallTerraceStairs01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.7023,
+    "p50": 0.9743,
+    "p75": 1.2837,
+    "n": 16,
+    "slopeTermMPerDeg": -0.03169,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 16,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -281,24 +329,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.7023,
-    "p50": 0.9743,
-    "p75": 1.2837,
-    "n": 16,
-    "slopeTermMPerDeg": -0.03169,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 16,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.015,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.009
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01",
@@ -331,6 +365,22 @@
     "StonewallTerraceRampUp01:1.Mat",
     "StonewallTerraceRampUp01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.2619,
+    "p50": 2.2619,
+    "p75": 2.2619,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 2.2619
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -342,22 +392,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 2.2619,
-    "p50": 2.2619,
-    "p75": 2.2619,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 2.2619
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01",
@@ -390,6 +428,29 @@
     "StonewallTerraceRampDown01:1.Mat",
     "StonewallTerraceRampDown01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.1003,
+    "p50": 2.1003,
+    "p75": 2.1003,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 2,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 2.1003
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -401,29 +462,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 2.1003,
-    "p50": 2.1003,
-    "p75": 2.1003,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 2.1003
-   },
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 2,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.003,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -456,6 +498,24 @@
     "StonewallTerrace01:1.Mat",
     "StonewallTerrace01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.3486,
+    "p50": 0.7174,
+    "p75": 1.2738,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 5,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -467,24 +527,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.3486,
-    "p50": 0.7174,
-    "p75": 1.2738,
-    "n": 5,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 5,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 202.5,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -507,7 +553,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -515,6 +561,22 @@
    "materials": [
     "StraightS02.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.251,
+    "p50": -0.251,
+    "p75": -0.251,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.251
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -526,22 +588,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.251,
-    "p50": -0.251,
-    "p75": -0.251,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.251
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.251
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
@@ -564,7 +614,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark02.dds",
@@ -574,6 +624,22 @@
     "Box01:1.Mat",
     "Box01:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1496,
+    "p50": -0.1496,
+    "p75": -0.1496,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.1496
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -585,22 +651,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1496,
-    "p50": -0.1496,
-    "p75": -0.1496,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.1496
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.018,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.15
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
@@ -623,7 +677,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -635,6 +689,22 @@
     "Circle.004.Mat",
     "Circle.006.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4109,
+    "p50": -0.4109,
+    "p75": -0.4109,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4109
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -646,22 +716,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4109,
-    "p50": -0.4109,
-    "p75": -0.4109,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4109
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.411
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
@@ -684,7 +742,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -698,6 +756,22 @@
     "Circle.004.Mat.001",
     "Cube.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -2.7718,
+    "p50": -2.7718,
+    "p75": -2.7718,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -2.7718
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -709,22 +783,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -2.7718,
-    "p50": -2.7718,
-    "p75": -2.7718,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -2.7718
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.772
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
@@ -759,6 +821,17 @@
     "Esc128h64D01.002 1.Mat",
     "Esc128h64D01.002 1_1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -770,17 +843,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.379,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.542
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01",
@@ -815,6 +881,22 @@
     "Esc128h64D01.002 1.Mat.001",
     "Esc128h64D01.002 1_1.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.5421,
+    "p50": -1.5421,
+    "p75": -1.5421,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.5421
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -826,22 +908,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.5421,
-    "p50": -1.5421,
-    "p75": -1.5421,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.5421
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.379,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.542
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01",
@@ -884,17 +954,7 @@
     "Circle.381 0.Mat",
     "Circle.381 0_3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 1.516,
-    "buryCapM": 0.15,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "route-structure",
-     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.5156,
     "p50": -1.5156,
@@ -910,7 +970,21 @@
     "tell": "floor-plane",
     "valueM": -1.5156
    },
-   "lodLevels": 3
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.516,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.943,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.516
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01",
@@ -945,6 +1019,22 @@
     "Circle.369.Mat.001",
     "liane.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.5156,
+    "p50": -1.5156,
+    "p75": -1.5156,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.5156
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -956,22 +1046,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.5156,
-    "p50": -1.5156,
-    "p75": -1.5156,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -1.5156
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.516
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01",
@@ -1006,6 +1084,22 @@
     "Pass256DH64.007 1.Mat",
     "liane.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.5289,
+    "p50": -1.5289,
+    "p75": -1.5289,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.5289
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1017,22 +1111,10 @@
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.5289,
-    "p50": -1.5289,
-    "p75": -1.5289,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.5289
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.529
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldstairs01",
@@ -1055,7 +1137,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "stockadeextra01.dds",
@@ -1067,17 +1149,7 @@
     "StockadeScaffoldStairs01:1 - L1_Rail:1.Mat",
     "StockadeScaffoldStairs01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.2792,
     "p50": 0.5851,
@@ -1086,8 +1158,6 @@
     "slopeTermMPerDeg": 0.00273,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1120,7 +1190,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.843,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge01",
@@ -1143,7 +1229,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -1157,17 +1243,7 @@
     "StockadeScaffoldBridge01:1 - L1_Inside:1.Mat",
     "StockadeScaffoldBridge01:2 - L1_Ropes:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.546,
-    "buryCapM": 0.15,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "route-structure",
-     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5462,
     "p50": -0.5462,
@@ -1176,13 +1252,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.5462
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -1207,7 +1276,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5462
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.546,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.875,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.546
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridge02",
@@ -1230,7 +1320,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -1244,17 +1334,7 @@
     "StockadeScaffoldBridge02:1 - L1_Inside01:1.Mat",
     "StockadeScaffoldBridge02:2 - L1_Ropes:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.774,
-    "buryCapM": 0.15,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "route-structure",
-     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.7737,
     "p50": -0.7737,
@@ -1263,13 +1343,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.7737
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1293,7 +1366,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7737
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.774,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.815,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.774
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow",
@@ -1316,7 +1410,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -1330,17 +1424,7 @@
     "StockadeScaffoldBridgeNarrow:1 - L1_Inside:1.Mat",
     "StockadeScaffoldBridgeNarrow:2 - L1_Ropes:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": 0.877,
-    "buryCapM": 0.15,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "route-structure",
-     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.8768,
     "p50": -0.8768,
@@ -1349,13 +1433,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.8768
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -1372,10 +1449,31 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.8768
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.877,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.8,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.877
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-structures-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-structures-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {
@@ -1385,8 +1483,9 @@
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
  },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 87
+  "MASK": 5,
+  "OPAQUE": 82,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -1419,16 +1518,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 18892936,
-  "bytesAfter": 9182684,
+  "bytesBefore": 18494460,
+  "bytesAfter": 9178624,
   "images": 29,
-  "imageBytesAfter": 8226312,
+  "imageBytesAfter": 8222058,
   "warnings": [],
-  "sha256": "05a740c7bdb2ac01740c9d1829012c5ed2c901441bbadef9b9441cb851a6a2bd",
+  "sha256": "c72ac58ef023c8bf379b1179147a627e05cefbde1e6219d603d256f3c31aaa0f",
   "sidecarBytes": {
    "connectors": 13716,
    "footprints": 23869,
-   "interiors": 14935
+   "interiors": 19905
   }
  }
 }

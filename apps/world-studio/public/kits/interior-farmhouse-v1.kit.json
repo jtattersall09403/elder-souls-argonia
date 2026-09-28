@@ -645,6 +645,98 @@
     "Chains.Mat": 0.498
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -0.2291,
+      0.1322,
+      0.3935
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.2212,
+      0.1311,
+      0.396
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.4501,
+      0.1316,
+      0.0074
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.2271,
+      0.1348,
+      -0.3842
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.2232,
+      0.1314,
+      -0.3886
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.4514,
+      0.1319,
+      0.0018
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": -0.4123,
     "p50": -0.4123,
@@ -706,6 +798,68 @@
     "CandleHornFloor01:0.Mat"
    ],
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.3032,
+      1.8059,
+      0.0037
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0023,
+      1.8059,
+      0.3068
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.3029,
+      1.8059,
+      -0.0017
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0035,
+      1.8059,
+      -0.3034
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -767,6 +921,23 @@
     "CandleHornTable01:0.Mat"
    ],
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -0.0015,
+      0.2744,
+      0.1612
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -828,6 +999,23 @@
     "CandleHornWall01:0.Mat"
    ],
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -0.0015,
+      0.1369,
+      0.3376
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": -0.0055,
     "p50": -0.0055,
@@ -3206,6 +3394,23 @@
     "Glow.Mat"
    ],
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -0.0,
+      0.1136,
+      0.0
+     ],
+     "texture": "fx:fxfireatlas02-gradfireexplosion",
+     "atlas": [
+      4,
+      2
+     ],
+     "fps": 2.5,
+     "sizeM": 0.4619,
+     "source": "FlamesSmall01"
+    }
+   ],
    "designedSinkM": {
     "p25": -0.1612,
     "p50": -0.1612,
@@ -6811,14 +7016,14 @@
    "sizeM": [
     0.261,
     0.524,
-    0.91
+    0.887
    ],
    "originOffsetM": [
     0.131,
     0.127,
     0.311
    ],
-   "triangles": 906,
+   "triangles": 846,
    "lodRatios": [
     0.35,
     0.12
@@ -6826,9 +7031,25 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "none",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "GlowMesh:1",
+     "nifShape": "GlowMesh:1",
+     "reason": "billboard-glow",
+     "centreM": [
+      0.0,
+      0.589,
+      -0.154
+     ],
+     "edgeM": 0.458,
+     "extentM": [
+      0.235,
+      0.019,
+      0.458
+     ]
+    }
+   ],
    "textures": [
-    "fxglowwhite01.dds",
     "imperialwallsconce01.dds",
     "torch_d.dds",
     "torch_g.dds",
@@ -6836,17 +7057,43 @@
    ],
    "materials": [
     "GlowAddMesh.Mat",
-    "GlowMesh:1.Mat",
     "HeatRefraction:0.Mat",
     "TorchPermanent01:1.Mat",
     "TorchPermanent01:13.Mat"
    ],
    "alphaMaskMaterials": {
     "GlowAddMesh.Mat": 0.5,
-    "GlowMesh:1.Mat": 0.5,
     "TorchPermanent01:1.Mat": 0.502
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0,
+      0.5007,
+      -0.2105
+     ],
+     "texture": "fx:fxfireatlas04-gradflame01",
+     "atlas": [
+      1,
+      8
+     ],
+     "fps": 3.0,
+     "sizeM": 0.4294,
+     "source": "AddOnNode46 -> MPSTorchFire01/pFireballCore05"
+    }
+   ],
+   "glows": [
+    {
+     "offsetM": [
+      0.0,
+      0.589,
+      -0.154
+     ],
+     "sizeM": 0.458,
+     "texture": "fx:fxglowwhite01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6869,7 +7116,7 @@
     }
    },
    "undersideClosed": true,
-   "undersideCoverage": 1.0,
+   "undersideCoverage": 0.852,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.311
   },
@@ -9102,6 +9349,68 @@
     "GlazedCandlesStatic02:6.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0512,
+      0.1939,
+      -0.0379
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0524,
+      0.1662,
+      -0.0284
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0454,
+      0.1387,
+      0.0587
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0132,
+      0.1537,
+      0.0884
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -9630,6 +9939,23 @@
     "Scandle01:8.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0009,
+      0.3234,
+      0.0002
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -13197,6 +13523,38 @@
     "Ruins_FloorCandleLampSmall01:10.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0068,
+      0.3697,
+      -0.0628
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0016,
+      0.4028,
+      0.0394
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -13262,6 +13620,53 @@
     "Ruins_FloorCandleLampSmall02:8.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0259,
+      0.3403,
+      0.0511
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      0.0564,
+      0.3672,
+      -0.0044
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0348,
+      0.4311,
+      0.0126
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -13379,6 +13784,53 @@
     "GlazedCandlesStatic04:9.Mat": 0.89
    },
    "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      0.0196,
+      0.4614,
+      -0.0322
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0321,
+      0.4062,
+      0.0167
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -0.0083,
+      0.4211,
+      0.0743
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -18737,7 +19189,7 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 202,
+  "MASK": 201,
   "OPAQUE": 380,
   "BLEND": 0
  },
@@ -18772,12 +19224,12 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 81629636,
-  "bytesAfter": 16778084,
-  "images": 249,
-  "imageBytesAfter": 12227312,
+  "bytesBefore": 81608404,
+  "bytesAfter": 16765612,
+  "images": 248,
+  "imageBytesAfter": 12223017,
   "warnings": [],
-  "sha256": "eb6e695dcb35ddbce99322b1a26b2008e1cd27e1d45d2adf9d47aabfe955ead5",
+  "sha256": "e82731a5891754d0e7c5b41a40cd492861b06ff807ba7e98ae02a377871617cd",
   "sidecarBytes": {
    "connectors": 198352,
    "footprints": 366509,

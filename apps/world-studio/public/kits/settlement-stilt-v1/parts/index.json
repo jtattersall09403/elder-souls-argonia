@@ -1,0 +1,877 @@
+{
+ "schemaVersion": 1,
+ "kit": "settlement-stilt-v1",
+ "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
+ "source": {
+  "bytes": 16740104,
+  "sha256": "e9ae98159ed9b1044115fd3ecc5d533b0122591aa0c3eafe61105d3cb52deaad"
+ },
+ "totals": {
+  "parts": 83,
+  "partBytes": 4720524,
+  "textureFiles": 54,
+  "textureBytes": 11238231,
+  "bytes": 15958755
+ },
+ "assets": {
+  "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kiosk01-47fc08f9.glb",
+   "bytes": 181940,
+   "vertices": 8538,
+   "triangles": 14048,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskaccesd01-71dd0c35.glb",
+   "bytes": 9196,
+   "vertices": 167,
+   "triangles": 192,
+   "textures": [
+    "86df9127a5873beb",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskaccesi01-8d1e13cd.glb",
+   "bytes": 13092,
+   "vertices": 219,
+   "triangles": 236,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01": {
+   "file": "bmv_architecture_citebosmer_passerelles_kiosque_kioskbarrierei01-51d6e4db.glb",
+   "bytes": 10448,
+   "vertices": 453,
+   "triangles": 613,
+   "textures": [
+    "86df9127a5873beb"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc45r1280h0ldi01-42982dd1.glb",
+   "bytes": 216476,
+   "vertices": 13834,
+   "triangles": 20032,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passcirc90r448h256ldd01-d35c5e45.glb",
+   "bytes": 169396,
+   "vertices": 10834,
+   "triangles": 15532,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passend01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passend01-722cdcd4.glb",
+   "bytes": 47196,
+   "vertices": 2417,
+   "triangles": 3530,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passesc128h64d01-045e7214.glb",
+   "bytes": 36944,
+   "vertices": 1758,
+   "triangles": 2504,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjunctd01-86b0162d.glb",
+   "bytes": 64848,
+   "vertices": 3628,
+   "triangles": 5248,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passjuncxd01-abcee142.glb",
+   "bytes": 66900,
+   "vertices": 3797,
+   "triangles": 5506,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl128i01-f6667722.glb",
+   "bytes": 37308,
+   "vertices": 1748,
+   "triangles": 2504,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl256h64i01-c39181ac.glb",
+   "bytes": 64440,
+   "vertices": 3472,
+   "triangles": 5006,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01": {
+   "file": "bmv_architecture_citebosmer_passerelles_troncons_passl512h64i01-4626ab3f.glb",
+   "bytes": 116832,
+   "vertices": 6926,
+   "triangles": 10012,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "bmv:architecture/stilthouse/stilthousedooranim": {
+   "file": "bmv_architecture_stilthouse_stilthousedooranim-28c92f03.glb",
+   "bytes": 36204,
+   "vertices": 843,
+   "triangles": 560,
+   "textures": [
+    "e64d916910e3ecd2",
+    "e69f993b60ba2bc1"
+   ]
+  },
+  "bmv:architecture/stilthouse/stilthouseext": {
+   "file": "bmv_architecture_stilthouse_stilthouseext-a000a1f0.glb",
+   "bytes": 158400,
+   "vertices": 9476,
+   "triangles": 8196,
+   "textures": [
+    "e64d916910e3ecd2"
+   ]
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "file": "canoe_actors_sfss_canoe_canoe1-7525535c.glb",
+   "bytes": 228640,
+   "vertices": 13754,
+   "triangles": 9788,
+   "textures": [
+    "3dee5fd66dce8c0a",
+    "4aa6b2df8b9813ce",
+    "5ced709f1880dd4c",
+    "6210191d543cd15b",
+    "6dc005f6d00197e5",
+    "7db75a65070b2a7f",
+    "84e860a3ea484090",
+    "9988966c66ea8405",
+    "a0b9b6ed3bfdd573",
+    "a3cc35ebb0f81c80",
+    "dc9bb44de37c4b8c"
+   ]
+  },
+  "composite:stilt/bamboohut01-with-door": {
+   "file": "composite_stilt_bamboohut01-with-door-2a3adc2c.glb",
+   "bytes": 149020,
+   "vertices": 7248,
+   "triangles": 8149,
+   "textures": [
+    "28a617353e54d7fe",
+    "2d48a9a80d80c38d",
+    "614ff5cea62eb7f9",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "composite:stilt/bamboohut02-with-door": {
+   "file": "composite_stilt_bamboohut02-with-door-2bf8f8cc.glb",
+   "bytes": 148844,
+   "vertices": 7248,
+   "triangles": 8149,
+   "textures": [
+    "28a617353e54d7fe",
+    "614ff5cea62eb7f9",
+    "97d57c3e2fb1241b",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "composite:stilt/kiosk-with-access": {
+   "file": "composite_stilt_kiosk-with-access-1f0d629c.glb",
+   "bytes": 202180,
+   "vertices": 8924,
+   "triangles": 14476,
+   "textures": [
+    "86df9127a5873beb",
+    "d196912ed2f058ec",
+    "dee35dfb68b941e0"
+   ]
+  },
+  "composite:stilt/stilthouse-with-door": {
+   "file": "composite_stilt_stilthouse-with-door-abd8fef0.glb",
+   "bytes": 193492,
+   "vertices": 10319,
+   "triangles": 8756,
+   "textures": [
+    "e64d916910e3ecd2",
+    "e69f993b60ba2bc1"
+   ]
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_03": {
+   "file": "ferries_yamadori_ferries_plank_ferry_swamp_03-a1e127f5.glb",
+   "bytes": 27264,
+   "vertices": 1138,
+   "triangles": 851,
+   "textures": [
+    "19cd370427c58073",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": {
+   "file": "ferries_yamadori_ferries_rowboat_ferry_swamp_01-d8123e0b.glb",
+   "bytes": 62380,
+   "vertices": 4100,
+   "triangles": 3542,
+   "textures": [
+    "5ced709f1880dd4c",
+    "6dc005f6d00197e5",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "file": "ferryraft_snt_ferry_ferryraft01-6eb95622.glb",
+   "bytes": 109848,
+   "vertices": 5112,
+   "triangles": 3592,
+   "textures": [
+    "6dc005f6d00197e5",
+    "77c47ded97ff9a2f",
+    "8d8c9f84eae22a9d",
+    "a0b9b6ed3bfdd573",
+    "c849674e11618091",
+    "e08eeabdc4f3aa5a",
+    "e4eaf07169f1c690"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_ancient_sleeping_tree-fa601a83.glb",
+   "bytes": 579636,
+   "vertices": 39355,
+   "triangles": 38018,
+   "textures": [
+    "13cfdddbcd2ca2d7",
+    "2c7cd8889faa352f",
+    "7b7c1c5ed1e0f45e"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower01-ec210007.glb",
+   "bytes": 15568,
+   "vertices": 711,
+   "triangles": 949,
+   "textures": [
+    "5e5ae48043b74b2e",
+    "d843cf70d5b98c28"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_histflower02-b2f7ee53.glb",
+   "bytes": 15980,
+   "vertices": 739,
+   "triangles": 1006,
+   "textures": [
+    "5e5ae48043b74b2e",
+    "d843cf70d5b98c28"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn01": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn01-973e6d02.glb",
+   "bytes": 50752,
+   "vertices": 3063,
+   "triangles": 5642,
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn02": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn02-81d77a7d.glb",
+   "bytes": 41424,
+   "vertices": 2441,
+   "triangles": 4321,
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn03": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn03-af148076.glb",
+   "bytes": 36552,
+   "vertices": 2112,
+   "triangles": 3802,
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn04": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rockcairn04-bd1e865e.glb",
+   "bytes": 24888,
+   "vertices": 1329,
+   "triangles": 2352,
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/rune circle": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_rune_circle-08099992.glb",
+   "bytes": 16280,
+   "vertices": 825,
+   "triangles": 860,
+   "textures": [
+    "daa7c038433f96e2"
+   ]
+  },
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": {
+   "file": "histtree_skyfall_sleeping_tree_overhaul_windchimehavok-f0e4e99d.glb",
+   "bytes": 74800,
+   "vertices": 1672,
+   "triangles": 1716,
+   "textures": [
+    "0191be27727d4301",
+    "2c51eb8deaf8c6aa",
+    "fdacae5de90656fb"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01": {
+   "file": "there_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohut01-12ae7f8d.glb",
+   "bytes": 127732,
+   "vertices": 6153,
+   "triangles": 7138,
+   "textures": [
+    "28a617353e54d7fe",
+    "2d48a9a80d80c38d",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02": {
+   "file": "there_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohut02-a7e11b51.glb",
+   "bytes": 127632,
+   "vertices": 6153,
+   "triangles": 7138,
+   "textures": [
+    "28a617353e54d7fe",
+    "97d57c3e2fb1241b",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohutdoor01-2cf84724.glb",
+   "bytes": 22332,
+   "vertices": 1097,
+   "triangles": 1011,
+   "textures": [
+    "614ff5cea62eb7f9",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_chestwicker01-9b4d711f.glb",
+   "bytes": 14524,
+   "vertices": 523,
+   "triangles": 494,
+   "textures": [
+    "51e8c770ae87ec18"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01": {
+   "file": "e_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_orcawninghalf01-07c3da2d.glb",
+   "bytes": 64280,
+   "vertices": 3381,
+   "triangles": 3635,
+   "textures": [
+    "2d48a9a80d80c38d",
+    "dc4f3c7828673f51"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": {
+   "file": "re_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickerbasket01-ce6ae8cc.glb",
+   "bytes": 11028,
+   "vertices": 436,
+   "triangles": 590,
+   "textures": [
+    "27855f4d597ffa3c"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickerchair01-2945f576.glb",
+   "bytes": 36064,
+   "vertices": 1363,
+   "triangles": 1612,
+   "textures": [
+    "08a71e40d4da0f06",
+    "27855f4d597ffa3c",
+    "dcff439e64e45d53"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": {
+   "file": "ere_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_wickertable01-e2eb7b3d.glb",
+   "bytes": 25008,
+   "vertices": 768,
+   "triangles": 1064,
+   "textures": [
+    "08a71e40d4da0f06",
+    "27855f4d597ffa3c",
+    "a87ac81b0fcbbeb8"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform": {
+   "file": "_monsters_-_curse_of_cipactli_architecture_villages_kothringi_stilthouseplatform-0889d52d.glb",
+   "bytes": 77768,
+   "vertices": 4290,
+   "triangles": 3658,
+   "textures": [
+    "e64d916910e3ecd2"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddock01-20e421fb.glb",
+   "bytes": 63836,
+   "vertices": 3822,
+   "triangles": 4556,
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddock02-4f790591.glb",
+   "bytes": 64612,
+   "vertices": 3684,
+   "triangles": 4356,
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01": {
+   "file": "onsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddockshort01-35b12099.glb",
+   "bytes": 57128,
+   "vertices": 3161,
+   "triangles": 3742,
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01": {
+   "file": "be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplank01-7b98fcff.glb",
+   "bytes": 5156,
+   "vertices": 65,
+   "triangles": 76,
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01": {
+   "file": "sters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodplankbroken01-915c4c3d.glb",
+   "bytes": 5368,
+   "vertices": 70,
+   "triangles": 72,
+   "textures": [
+    "17f16e8738594ed3"
+   ]
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01": {
+   "file": "_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_woodpole01-02a2f3b0.glb",
+   "bytes": 16696,
+   "vertices": 590,
+   "triangles": 708,
+   "textures": [
+    "09430645ca1512ac",
+    "17f16e8738594ed3"
+   ]
+  },
+  "kotm:argonia/blackwood/docks3way": {
+   "file": "kotm_argonia_blackwood_docks3way-158ae215.glb",
+   "bytes": 20352,
+   "vertices": 766,
+   "triangles": 744,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/docks4way": {
+   "file": "kotm_argonia_blackwood_docks4way-863c2b09.glb",
+   "bytes": 22268,
+   "vertices": 896,
+   "triangles": 900,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockscentre": {
+   "file": "kotm_argonia_blackwood_dockscentre-d5bdbc2f.glb",
+   "bytes": 16756,
+   "vertices": 532,
+   "triangles": 492,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockscentrealt": {
+   "file": "kotm_argonia_blackwood_dockscentrealt-5a80aaab.glb",
+   "bytes": 16560,
+   "vertices": 508,
+   "triangles": 480,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockscentrenopost": {
+   "file": "kotm_argonia_blackwood_dockscentrenopost-08b68bdc.glb",
+   "bytes": 14896,
+   "vertices": 402,
+   "triangles": 300,
+   "textures": [
+    "d7be88ff8a19c46c",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockscentresmall": {
+   "file": "kotm_argonia_blackwood_dockscentresmall-7168c0b0.glb",
+   "bytes": 11032,
+   "vertices": 306,
+   "triangles": 252,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockscorner": {
+   "file": "kotm_argonia_blackwood_dockscorner-e97d7d5a.glb",
+   "bytes": 22996,
+   "vertices": 948,
+   "triangles": 948,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/docksend": {
+   "file": "kotm_argonia_blackwood_docksend-bcb78cdf.glb",
+   "bytes": 16500,
+   "vertices": 510,
+   "triangles": 492,
+   "textures": [
+    "65707778a58cf3f6",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/docksendnopost": {
+   "file": "kotm_argonia_blackwood_docksendnopost-4af419ae.glb",
+   "bytes": 12056,
+   "vertices": 380,
+   "triangles": 300,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockspilings": {
+   "file": "kotm_argonia_blackwood_dockspilings-2929154f.glb",
+   "bytes": 8980,
+   "vertices": 170,
+   "triangles": 208,
+   "textures": [
+    "65707778a58cf3f6",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/dockspilingsdamage": {
+   "file": "kotm_argonia_blackwood_dockspilingsdamage-695c08a7.glb",
+   "bytes": 6284,
+   "vertices": 133,
+   "triangles": 174,
+   "textures": [
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway01": {
+   "file": "kotm_argonia_blackwood_walkway01-efc4271c.glb",
+   "bytes": 53652,
+   "vertices": 2935,
+   "triangles": 2660,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway02": {
+   "file": "kotm_argonia_blackwood_walkway02-9aa17847.glb",
+   "bytes": 37436,
+   "vertices": 1922,
+   "triangles": 1726,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway03": {
+   "file": "kotm_argonia_blackwood_walkway03-f7f0f866.glb",
+   "bytes": 57756,
+   "vertices": 3097,
+   "triangles": 2896,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway04": {
+   "file": "kotm_argonia_blackwood_walkway04-8369bc6c.glb",
+   "bytes": 65464,
+   "vertices": 3571,
+   "triangles": 3196,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway05": {
+   "file": "kotm_argonia_blackwood_walkway05-1d3fe2b3.glb",
+   "bytes": 42284,
+   "vertices": 2080,
+   "triangles": 1802,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway06": {
+   "file": "kotm_argonia_blackwood_walkway06-14ee86cc.glb",
+   "bytes": 34056,
+   "vertices": 1558,
+   "triangles": 1420,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkway07": {
+   "file": "kotm_argonia_blackwood_walkway07-62168fb2.glb",
+   "bytes": 54664,
+   "vertices": 3210,
+   "triangles": 2896,
+   "textures": [
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "kotm:argonia/blackwood/walkwaystairs": {
+   "file": "kotm_argonia_blackwood_walkwaystairs-ea33fcd2.glb",
+   "bytes": 32600,
+   "vertices": 1563,
+   "triangles": 1178,
+   "textures": [
+    "d378708332c901b0",
+    "e212c9552b045d29",
+    "e78a7407be3f3a1e"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "file": "mudmother_gv_meshes_argoniannest_argonianlanterns02-bd1d6aac.glb",
+   "bytes": 30680,
+   "vertices": 1413,
+   "triangles": 1248,
+   "textures": [
+    "65707778a58cf3f6",
+    "9166ed5cf28c02f1"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "file": "mudmother_gv_meshes_argoniannest_argoniantotem01-ded592da.glb",
+   "bytes": 16532,
+   "vertices": 698,
+   "triangles": 836,
+   "textures": [
+    "514659983becd199"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "file": "mudmother_gv_meshes_argoniannest_fishracksmall-a5fbdb96.glb",
+   "bytes": 19040,
+   "vertices": 828,
+   "triangles": 1136,
+   "textures": [
+    "65707778a58cf3f6",
+    "ab2b57bb8d2ac6f9"
+   ]
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "file": "mudmother_gv_meshes_argoniannest_histtree-3801a71e.glb",
+   "bytes": 80832,
+   "vertices": 4420,
+   "triangles": 5224,
+   "textures": [
+    "12f59a45ee0e0dc5",
+    "9166ed5cf28c02f1"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackbrokepole01": {
+   "file": "vanilla_architecture_shackkit_shackbrokepole01-71553d45.glb",
+   "bytes": 6760,
+   "vertices": 54,
+   "triangles": 56,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackbrokewall01": {
+   "file": "vanilla_architecture_shackkit_shackbrokewall01-0e059d65.glb",
+   "bytes": 5300,
+   "vertices": 140,
+   "triangles": 96,
+   "textures": [
+    "5ced709f1880dd4c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackframelend01": {
+   "file": "vanilla_architecture_shackkit_shackframelend01-8baac8d2.glb",
+   "bytes": 12172,
+   "vertices": 473,
+   "triangles": 508,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackframelmid01": {
+   "file": "vanilla_architecture_shackkit_shackframelmid01-2751187c.glb",
+   "bytes": 9528,
+   "vertices": 278,
+   "triangles": 280,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackframerend02": {
+   "file": "vanilla_architecture_shackkit_shackframerend02-7ffbdcc1.glb",
+   "bytes": 9972,
+   "vertices": 302,
+   "triangles": 340,
+   "textures": [
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackroofcorner01": {
+   "file": "vanilla_architecture_shackkit_shackroofcorner01-b2e06bb4.glb",
+   "bytes": 4532,
+   "vertices": 40,
+   "triangles": 44,
+   "textures": [
+    "fc55878e8245544d"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackroofmid01": {
+   "file": "vanilla_architecture_shackkit_shackroofmid01-59006d66.glb",
+   "bytes": 3928,
+   "vertices": 16,
+   "triangles": 20,
+   "textures": [
+    "fc55878e8245544d"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackroofside01": {
+   "file": "vanilla_architecture_shackkit_shackroofside01-1cb84c6f.glb",
+   "bytes": 3988,
+   "vertices": 16,
+   "triangles": 20,
+   "textures": [
+    "fc55878e8245544d"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackwalll01": {
+   "file": "vanilla_architecture_shackkit_shackwalll01-9ec64022.glb",
+   "bytes": 4028,
+   "vertices": 28,
+   "triangles": 34,
+   "textures": [
+    "5ced709f1880dd4c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackwallr01": {
+   "file": "vanilla_architecture_shackkit_shackwallr01-fa6d0829.glb",
+   "bytes": 4024,
+   "vertices": 28,
+   "triangles": 34,
+   "textures": [
+    "5ced709f1880dd4c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackwalltopwindow01": {
+   "file": "vanilla_architecture_shackkit_shackwalltopwindow01-553e835c.glb",
+   "bytes": 12024,
+   "vertices": 264,
+   "triangles": 304,
+   "textures": [
+    "5ced709f1880dd4c",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackwallwindow01": {
+   "file": "vanilla_architecture_shackkit_shackwallwindow01-6eef4aea.glb",
+   "bytes": 12116,
+   "vertices": 264,
+   "triangles": 304,
+   "textures": [
+    "5ced709f1880dd4c",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  },
+  "vanilla:architecture/shackkit/shackwallwindow02": {
+   "file": "vanilla_architecture_shackkit_shackwallwindow02-59af6620.glb",
+   "bytes": 12144,
+   "vertices": 264,
+   "triangles": 304,
+   "textures": [
+    "5ced709f1880dd4c",
+    "ab2b57bb8d2ac6f9",
+    "e474a3736fe8c51c"
+   ]
+  }
+ }
+}

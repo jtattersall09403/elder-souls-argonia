@@ -1300,7 +1300,7 @@
     "normalDeg": 0.0,
     "positionInPiece": [
      -0.12,
-     -4.56
+     -4.57
     ],
     "widthM": 9.85
    },
@@ -1311,9 +1311,9 @@
     "normalDeg": 90.0,
     "positionInPiece": [
      4.81,
-     1.33
+     1.32
     ],
-    "widthM": 11.77
+    "widthM": 11.78
    },
    {
     "evidence": "bounds",
@@ -1333,9 +1333,9 @@
     "normalDeg": 270.0,
     "positionInPiece": [
      -5.04,
-     1.33
+     1.32
     ],
-    "widthM": 11.77
+    "widthM": 11.78
    }
   ],
   "hlaalu:hlaaluarchitecture/custom/baseentrance00": [

@@ -22,7 +22,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -37,6 +37,7 @@
     "__PrenotatoPerDuplicare_76.Mat",
     "group4_Plane.023.00.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -8.0377,
     "p50": -8.0377,
@@ -66,8 +67,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.098,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.038,
-   "lodLevels": 3
+   "pivotAboveBaseM": 8.038
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/house01base",
@@ -90,7 +90,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -100,6 +100,7 @@
     "__PrenotatoPerDuplicare_12.Mat",
     "__PrenotatoPerDuplicare_72.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.219,
     "p50": -0.219,
@@ -129,8 +130,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housebase00",
@@ -153,7 +153,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -163,6 +163,7 @@
     "__PrenotatoPerDuplicare_36.Mat",
     "__PrenotatoPerDuplicare_41.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.219,
     "p50": -0.219,
@@ -192,8 +193,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housebase01",
@@ -216,7 +216,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -229,6 +229,7 @@
     "windowbase00_group5_Plane.023.00.Mat",
     "windowbase00_group7_Plane.007.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.219,
     "p50": -0.219,
@@ -258,8 +259,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.219,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/housetall01",
@@ -282,7 +282,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -290,6 +290,7 @@
    "materials": [
     "Objekt01:4.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 7.6241,
     "p50": 7.6241,
@@ -319,8 +320,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -7.624,
-   "lodLevels": 3
+   "pivotAboveBaseM": -7.624
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/entrance00",
@@ -343,7 +343,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -355,6 +355,7 @@
     "__PrenotatoPerDuplicare_1.Mat",
     "__PrenotatoPerDuplicare_177.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4554,
     "p50": -7.4554,
@@ -384,8 +385,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.158,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.455
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/baseentrance00",
@@ -408,7 +408,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -423,6 +423,7 @@
     "windowbase00_group5_Plane.023.00.Mat.001",
     "windowbase00_group7_Plane.007.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6259,
     "p50": -0.6259,
@@ -452,8 +453,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.626
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/baseentrance01",
@@ -476,7 +476,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -488,6 +488,7 @@
     "__PrenotatoPerDuplicare_1.Mat.002",
     "__PrenotatoPerDuplicare_2.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6259,
     "p50": -0.6259,
@@ -517,8 +518,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.626,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.626
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/largewindow00",
@@ -551,6 +551,7 @@
     "Plane.023.03.Mat",
     "Plane.026.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 4.4006,
     "p50": 4.4006,
@@ -580,8 +581,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 0.0,
-   "pivotAboveBaseM": -4.401,
-   "lodLevels": 3
+   "pivotAboveBaseM": -4.401
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/roof",
@@ -604,7 +604,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "coppergreen02.dds",
@@ -614,6 +614,7 @@
     "polySurface29.Mat",
     "polySurface79.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.8184,
     "p50": 6.8184,
@@ -643,8 +644,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.121,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.818,
-   "lodLevels": 3
+   "pivotAboveBaseM": -6.818
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/dome",
@@ -667,7 +667,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -680,6 +680,7 @@
     "Objekt01:3.Mat",
     "Objekt01:4.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.6413,
     "p50": -3.6413,
@@ -709,8 +710,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.078,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/basetower00",
@@ -733,7 +733,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -743,6 +743,7 @@
     "__PrenotatoPerDuplicare_107.Mat",
     "__PrenotatoPerDuplicare_113.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -772,8 +773,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/basetower01",
@@ -796,7 +796,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -809,6 +809,7 @@
     "basewindow_group5_Plane.023.00.Mat",
     "basewindow_group7_Plane.007.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -838,8 +839,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.029,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/middletower00",
@@ -862,7 +862,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -872,6 +872,7 @@
     "__PrenotatoPerDuplicare_118.Mat",
     "__PrenotatoPerDuplicare_119.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.0352,
     "p50": 6.0352,
@@ -901,8 +902,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.035,
-   "lodLevels": 3
+   "pivotAboveBaseM": -6.035
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/middletower01",
@@ -925,7 +925,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -938,6 +938,7 @@
     "middelwindow_group8_Plane.007.Mat",
     "middelwindow_group8_Plane.023.01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.0352,
     "p50": 6.0352,
@@ -967,8 +968,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.041,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.035,
-   "lodLevels": 3
+   "pivotAboveBaseM": -6.035
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/toptower00",
@@ -991,7 +991,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -1001,6 +1001,7 @@
     "__PrenotatoPerDuplicare_135.Mat",
     "__PrenotatoPerDuplicare_138.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 12.1157,
     "p50": 12.1157,
@@ -1030,8 +1031,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -12.116,
-   "lodLevels": 3
+   "pivotAboveBaseM": -12.116
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/toptower01",
@@ -1054,7 +1054,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1067,6 +1067,7 @@
     "group5_Plane.025.Mat",
     "topwindow_group8_Plane.023.00.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 12.1157,
     "p50": 12.1157,
@@ -1096,8 +1097,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -12.116,
-   "lodLevels": 3
+   "pivotAboveBaseM": -12.116
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower00",
@@ -1120,7 +1120,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -1130,6 +1130,7 @@
     "__PrenotatoPerDuplicare_107.Mat.002",
     "__PrenotatoPerDuplicare_113.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1159,8 +1160,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower01",
@@ -1183,7 +1183,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1198,6 +1198,7 @@
     "group5_Plane.025.Mat.001",
     "topwindow_group8_Plane.023.00.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4554,
     "p50": -7.4554,
@@ -1227,8 +1228,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.455
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower02",
@@ -1251,7 +1251,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1264,6 +1264,7 @@
     "group5_Plane.025.Mat.002",
     "topwindow_group8_Plane.023.00.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1293,8 +1294,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower03",
@@ -1317,7 +1317,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1330,6 +1330,7 @@
     "group5_Plane.025.Mat.003",
     "middelwindow_group8_Plane.023.01.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1359,8 +1360,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower04",
@@ -1383,7 +1383,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1398,6 +1398,7 @@
     "group5_Plane.025.Mat.004",
     "topwindow_group8_Plane.023.00.Mat.003"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4554,
     "p50": -7.4554,
@@ -1427,8 +1428,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.455
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower05",
@@ -1451,7 +1451,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -1461,6 +1461,7 @@
     "__PrenotatoPerDuplicare_107.Mat.005",
     "__PrenotatoPerDuplicare_113.Mat.007"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1490,8 +1491,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower06",
@@ -1514,7 +1514,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1527,6 +1527,7 @@
     "group5_Plane.025.Mat.005",
     "topwindow_group8_Plane.023.00.Mat.004"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1556,8 +1557,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.086,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower07",
@@ -1580,7 +1580,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1593,6 +1593,7 @@
     "group5_Plane.025.Mat.006",
     "middelwindow_group8_Plane.023.01.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.159,
     "p50": -0.159,
@@ -1622,8 +1623,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.094,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.159,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.159
   },
   {
    "id": "hlaalu:hlaaluarchitecture/custom/tower08",
@@ -1646,7 +1646,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bronzecopper03.dds",
@@ -1661,6 +1661,7 @@
     "basewindow_group5_Plane.023.00.Mat.001",
     "group5_Plane.025.Mat.007"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.4554,
     "p50": -7.4554,
@@ -1690,8 +1691,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.129,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.455,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.455
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/miniwall",
@@ -1722,6 +1722,7 @@
    "materials": [
     "Sphere02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0632,
     "p50": 0.0632,
@@ -1751,8 +1752,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.296,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.063,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.063
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001",
@@ -1775,7 +1775,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -1783,6 +1783,7 @@
    "materials": [
     "Tri Cube.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1807,8 +1808,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002",
@@ -1831,7 +1831,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -1839,6 +1839,7 @@
    "materials": [
     "Tri Cube.003.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1863,8 +1864,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003",
@@ -1887,7 +1887,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -1895,6 +1895,7 @@
    "materials": [
     "Tri Cube.004.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1919,8 +1920,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001",
@@ -1943,7 +1943,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -1951,6 +1951,7 @@
    "materials": [
     "Tri Cube.005.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.0402,
     "p50": -3.0402,
@@ -1980,8 +1981,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001",
@@ -2004,7 +2004,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2012,6 +2012,7 @@
    "materials": [
     "Tri Cube.002.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.0402,
     "p50": -3.0402,
@@ -2041,8 +2042,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001",
@@ -2065,7 +2065,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2074,6 +2074,7 @@
     "Cube.012.Mat",
     "Tri Cube.016.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.4562,
     "p50": -2.4562,
@@ -2103,8 +2104,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.679,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.679
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001",
@@ -2127,7 +2127,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2135,6 +2135,7 @@
    "materials": [
     "Tri Cube.001.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.0402,
     "p50": -3.0402,
@@ -2164,8 +2165,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.04,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.04
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall",
@@ -2188,7 +2188,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2196,6 +2196,7 @@
    "materials": [
     "Wall01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2220,8 +2221,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a",
@@ -2244,7 +2244,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2252,6 +2252,7 @@
    "materials": [
     "Wall90.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.2845,
     "p50": 0.2845,
@@ -2281,8 +2282,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena",
@@ -2305,7 +2305,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2313,6 +2313,7 @@
    "materials": [
     "WallBroken01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3129,
     "p50": -0.3129,
@@ -2342,8 +2343,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb",
@@ -2366,7 +2366,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2374,6 +2374,7 @@
    "materials": [
     "WallBroken05.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3129,
     "p50": -0.3129,
@@ -2403,8 +2404,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc",
@@ -2427,7 +2427,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2435,6 +2435,7 @@
    "materials": [
     "WallBroken.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3129,
     "p50": -0.3129,
@@ -2464,8 +2465,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.158,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend",
@@ -2488,7 +2488,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2496,6 +2496,7 @@
    "materials": [
     "WallEnd.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2520,8 +2521,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera",
@@ -2544,7 +2544,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2552,6 +2552,7 @@
    "materials": [
     "WallHole01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3129,
     "p50": -0.3129,
@@ -2581,8 +2582,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb",
@@ -2605,7 +2605,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2613,6 +2613,7 @@
    "materials": [
     "WallHole02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3129,
     "p50": -0.3129,
@@ -2642,8 +2643,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.559,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.313,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/stairs01",
@@ -2666,7 +2666,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark02.dds",
@@ -2676,6 +2676,7 @@
     "Box01:1.Mat",
     "Box01:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1496,
     "p50": -0.1496,
@@ -2705,8 +2706,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.018,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.15,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.15
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01",
@@ -2729,7 +2729,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2737,6 +2737,7 @@
    "materials": [
     "StraightS02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.251,
     "p50": -0.251,
@@ -2766,8 +2767,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.251,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.251
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs",
@@ -2790,7 +2790,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -2799,6 +2799,7 @@
     "Object01:1:1.Mat",
     "Object01:1:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.476,
     "p50": -0.476,
@@ -2828,8 +2829,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.476,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.476
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1",
@@ -2852,7 +2852,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -2865,6 +2865,7 @@
     "ChamferBox.Mat",
     "Very good2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2642,
     "p50": -0.2642,
@@ -2894,8 +2895,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.995,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.264,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.264
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2",
@@ -2918,7 +2918,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -2933,6 +2933,7 @@
     "Object05.Mat",
     "Very good1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2599,
     "p50": -0.2599,
@@ -2962,8 +2963,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.26
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs",
@@ -2986,7 +2986,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3001,6 +3001,7 @@
     "StraightS1.Mat",
     "Very good0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2663,
     "p50": -0.2663,
@@ -3030,8 +3031,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.125,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.266,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.266
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence",
@@ -3054,7 +3054,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3064,6 +3064,7 @@
     "Box06.Mat",
     "Object02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5417,
     "p50": 0.5417,
@@ -3093,8 +3094,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.142
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend",
@@ -3117,7 +3117,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3127,6 +3127,7 @@
     "FenceSafecopy.Mat",
     "Object04.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1422,
     "p50": -0.1422,
@@ -3156,8 +3157,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.061,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.142
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost",
@@ -3180,7 +3180,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3190,6 +3190,7 @@
     "Box08.Mat",
     "Object03.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.7533,
     "p50": 1.7533,
@@ -3219,8 +3220,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.142,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.142
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01",
@@ -3243,7 +3243,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -3251,6 +3251,7 @@
    "materials": [
     "Box01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8109,
     "p50": -1.8109,
@@ -3280,8 +3281,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.811
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02",
@@ -3304,7 +3304,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -3312,6 +3312,7 @@
    "materials": [
     "Box02.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8109,
     "p50": -1.8109,
@@ -3341,8 +3342,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.811
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03",
@@ -3365,7 +3365,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds"
@@ -3373,6 +3373,7 @@
    "materials": [
     "Box03.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8109,
     "p50": -1.8109,
@@ -3402,8 +3403,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.811,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.811
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01",
@@ -3426,7 +3426,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3438,6 +3438,7 @@
     "Circle.004.Mat",
     "Circle.006.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4109,
     "p50": -0.4109,
@@ -3467,8 +3468,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.411,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.411
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
@@ -3491,7 +3491,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -3505,6 +3505,7 @@
     "Circle.004.Mat.001",
     "Cube.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.7718,
     "p50": -2.7718,
@@ -3534,8 +3535,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.772,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.772
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/tradehome",
@@ -3558,7 +3558,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtwood14.dds"
@@ -3568,6 +3568,7 @@
     "Box01:2.Mat.001",
     "Box01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -3597,8 +3598,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00",
@@ -3621,7 +3621,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "doorwood.dds",
@@ -3659,6 +3659,7 @@
     "MiddleBarrelTopped05 0.Mat",
     "MiddleBarrelTopped06 0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0043,
     "p50": -0.0043,
@@ -3688,8 +3689,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.625,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.004,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00",
@@ -3712,7 +3712,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "redcrate01.dds"
@@ -3727,6 +3727,7 @@
     "MiddleCrate06.009.Mat",
     "MiddleCrate06.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.101,
     "p50": -0.101,
@@ -3756,8 +3757,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.677,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.101,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.101
   },
   {
    "id": "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base",
@@ -3780,7 +3780,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtwood14.dds"
@@ -3788,6 +3788,7 @@
    "materials": [
     "Crane Base.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.1948,
     "p50": -1.1948,
@@ -3817,8 +3818,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.686,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.195,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.195
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane01",
@@ -3841,7 +3841,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cavebaseground01.dds",
@@ -3870,6 +3870,7 @@
     "Weightbox.Mat",
     "Wheelsright.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.032,
     "p50": -1.032,
@@ -3899,8 +3900,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.032
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane02",
@@ -3923,7 +3923,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cavebaseground01.dds",
@@ -3950,6 +3950,10 @@
     "Weightbox.Mat.001",
     "Wheelsright.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Cranerope01.Mat": 0.804
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.032,
     "p50": -1.032,
@@ -3979,8 +3983,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.032
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/crane03",
@@ -4003,7 +4006,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "barrel01.dds",
@@ -4032,6 +4035,10 @@
     "Weightbox.Mat.002",
     "Wheelsright.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "Cranerope01.Mat.001": 0.804
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.032,
     "p50": -1.032,
@@ -4061,8 +4068,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.547,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.032,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.032
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpostbase",
@@ -4085,7 +4091,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtceiling02.dds"
@@ -4093,6 +4099,7 @@
    "materials": [
     "Plane01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2134,
     "p50": -0.2134,
@@ -4122,8 +4129,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.213,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.213
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm",
@@ -4146,7 +4152,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtceiling02.dds"
@@ -4154,6 +4160,7 @@
    "materials": [
     "Cylinder06.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4178,8 +4185,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.236,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.633,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.633
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm",
@@ -4202,7 +4208,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtceiling02.dds"
@@ -4210,6 +4216,7 @@
    "materials": [
     "Cylinder06.00.00.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4234,8 +4241,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.262,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.64,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.64
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm",
@@ -4258,7 +4264,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dtceiling02.dds"
@@ -4266,6 +4272,7 @@
    "materials": [
     "Cylinder06.00.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.2595,
     "p50": 1.2595,
@@ -4295,8 +4302,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.312,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.646,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.646
   },
   {
    "id": "hlaalu:hlaaluarchitecture/objects/sbigplanter02t",
@@ -4319,7 +4325,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbulwark01.dds",
@@ -4332,6 +4338,7 @@
     "SBigPlanter02:2.Mat",
     "SBigPlanter02:22.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4361,8 +4368,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/house03",
@@ -4400,6 +4406,14 @@
     "Objekt03:3.Mat",
     "Objekt03:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Objekt01.Mat": 0.784,
+    "Objekt03:1.Mat": 0.784,
+    "Objekt03:2.Mat": 0.784,
+    "Objekt03:3.Mat": 0.784,
+    "Objekt03:4.Mat": 0.784
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.4472,
     "p50": -3.4472,
@@ -4407,6 +4421,13 @@
     "n": 24,
     "slopeTermMPerDeg": -0.03314,
     "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 32,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
@@ -4424,15 +4445,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.308,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.646,
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 32,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.646
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/overhang05",
@@ -4469,6 +4482,13 @@
     "Objekt02:2.Mat",
     "Objekt02:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Objekt02:0.Mat": 0.784,
+    "Objekt02:1.Mat": 0.784,
+    "Objekt02:2.Mat": 0.784,
+    "Objekt02:3.Mat": 0.784
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8036,
     "p50": -1.8036,
@@ -4476,6 +4496,13 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.7,
+   "placedScaleEvidence": {
+    "n": 27,
+    "p10": 1.7,
+    "p90": 1.7,
+    "source": "plugin"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
@@ -4498,15 +4525,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.804,
-   "placedScaleMedian": 1.7,
-   "placedScaleEvidence": {
-    "n": 27,
-    "p10": 1.7,
-    "p90": 1.7,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.804
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/window",
@@ -4541,6 +4560,12 @@
     "Objekt01:1.Mat.001",
     "Objekt01:2.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Objekt01:0.Mat.001": 0.784,
+    "Objekt01:1.Mat.001": 0.784,
+    "Objekt01:2.Mat.001": 0.784
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2159,
     "p50": -0.2159,
@@ -4570,8 +4595,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 90.0,
-   "pivotAboveBaseM": 0.796,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.796
   },
   {
    "id": "composite:phitt/marsh-house-03",
@@ -4579,7 +4603,7 @@
    "category": "architecture",
    "sizeM": [
     9.853,
-    11.768,
+    11.775,
     6.091
    ],
    "originOffsetM": [
@@ -4630,6 +4654,30 @@
     "Objekt03:3.Mat.001",
     "Objekt03:4.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Objekt01.Mat.001": 0.784,
+    "Objekt01:0.Mat.002": 0.784,
+    "Objekt01:0.Mat.003": 0.784,
+    "Objekt01:0.Mat.004": 0.784,
+    "Objekt01:0.Mat.005": 0.784,
+    "Objekt01:1.Mat.002": 0.784,
+    "Objekt01:1.Mat.003": 0.784,
+    "Objekt01:1.Mat.004": 0.784,
+    "Objekt01:1.Mat.005": 0.784,
+    "Objekt01:2.Mat.002": 0.784,
+    "Objekt01:2.Mat.003": 0.784,
+    "Objekt01:2.Mat.004": 0.784,
+    "Objekt01:2.Mat.005": 0.784,
+    "Objekt02:0.Mat.001": 0.784,
+    "Objekt02:1.Mat.001": 0.784,
+    "Objekt02:2.Mat.001": 0.784,
+    "Objekt02:3.Mat.001": 0.784,
+    "Objekt03:1.Mat.001": 0.784,
+    "Objekt03:2.Mat.001": 0.784,
+    "Objekt03:3.Mat.001": 0.784,
+    "Objekt03:4.Mat.001": 0.784
+   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -4.3062,
     "p50": -4.3062,
@@ -4659,19 +4707,19 @@
    "undersideClosed": false,
    "undersideCoverage": 0.275,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.306,
-   "lodLevels": 3
+   "pivotAboveBaseM": 4.306
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\hlaalu-domestic.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\hlaalu-domestic.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/sheogorad/velothi/trimexterior_dark_n.dds"
  ],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 273
+  "MASK": 35,
+  "OPAQUE": 238,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -4704,16 +4752,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 22012348,
-  "bytesAfter": 8421372,
+  "bytesBefore": 22009548,
+  "bytesAfter": 8421548,
   "images": 27,
-  "imageBytesAfter": 5423853,
+  "imageBytesAfter": 5424400,
   "warnings": [],
-  "sha256": "fb993c256f49c7aa7761a1eed1e922f8326305013d5f46dcc48aec401727092c",
+  "sha256": "df696cc9659f48d35655c9ce3d69354f60375058f77e03a547b423f248362740",
   "sidecarBytes": {
    "connectors": 71601,
-   "footprints": 73252,
-   "interiors": 55692
+   "footprints": 73184,
+   "interiors": 55688
   }
  }
 }

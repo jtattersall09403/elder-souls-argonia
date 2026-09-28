@@ -88,7 +88,7 @@
    "why": "too small to hold an interior (10.4 m\u00b2 plan, 1.8 m tall)"
   },
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": {
-   "category": "architecture",
+   "category": "door",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": null,
@@ -124,7 +124,7 @@
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.7 m tall)"
   },
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01": {
-   "category": "architecture",
+   "category": "door",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": null,

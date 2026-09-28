@@ -22,7 +22,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "impdirt01.dds",
@@ -40,6 +40,32 @@
     "DoorRight:4.Mat",
     "DoorRight:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Box01:6.Mat": 0.42,
+    "DoorLeft:6.Mat": 0.42,
+    "DoorRight:6.Mat": 0.42
+   },
+   "decalMaterials": [
+    "Box01:6.Mat",
+    "DoorLeft:6.Mat",
+    "DoorRight:6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0665,
+    "p50": 0.0665,
+    "p75": 0.0665,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0665
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -51,22 +77,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0665,
-    "p50": 0.0665,
-    "p75": 0.0665,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0665
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.572,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.067
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoordoubleload01",
@@ -82,15 +96,20 @@
     -3.407,
     -0.076
    ],
-   "triangles": 2446,
+   "triangles": 2425,
    "lodRatios": [
     0.35,
     0.12
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
-   "droppedShapes": [],
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "Box10:5",
+     "reason": "effect-no-texture"
+    }
+   ],
    "textures": [
     "impdirt01.dds",
     "impwall01.dds",
@@ -98,11 +117,32 @@
    ],
    "materials": [
     "Box10:2.Mat",
-    "Box10:5.Mat",
     "Box10:6.Mat",
     "DoorLeft01:4.Mat",
     "DoorRight01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Box10:6.Mat": 0.42
+   },
+   "decalMaterials": [
+    "Box10:6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0761,
+    "p50": 0.0761,
+    "p75": 0.0761,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0761
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -114,22 +154,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0761,
-    "p50": 0.0761,
-    "p75": 0.0761,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0761
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.812,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.076
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsingle01",
@@ -152,7 +180,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "impdirt01.dds",
@@ -168,6 +196,30 @@
     "FortRuinsDoorWall:3.Mat",
     "FortRuinsDoorWall:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FortRuinsDoor01:6.Mat": 0.42,
+    "FortRuinsDoorWall:6.Mat": 0.42
+   },
+   "decalMaterials": [
+    "FortRuinsDoor01:6.Mat",
+    "FortRuinsDoorWall:6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.092,
+    "p50": 0.092,
+    "p75": 0.092,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.092
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -179,22 +231,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.092,
-    "p50": 0.092,
-    "p75": 0.092,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.092
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.974,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.092
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsingleload01",
@@ -202,7 +242,7 @@
    "category": "door",
    "sizeM": [
     3.641,
-    0.8,
+    0.608,
     4.314
    ],
    "originOffsetM": [
@@ -210,15 +250,20 @@
     0.267,
     -0.095
    ],
-   "triangles": 2963,
+   "triangles": 2915,
    "lodRatios": [
     0.35,
     0.12
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
-   "droppedShapes": [],
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "FortRuinsDoorWall01:5",
+     "reason": "effect-no-texture"
+    }
+   ],
    "textures": [
     "impdirt01.dds",
     "impfloormuddy01.dds",
@@ -230,9 +275,27 @@
     "FortRuinsDoorLoad:6.Mat",
     "FortRuinsDoorWall01:2.Mat",
     "FortRuinsDoorWall01:3.Mat",
-    "FortRuinsDoorWall01:5.Mat",
     "FortRuinsDoorWall01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FortRuinsDoorLoad:6.Mat": 0.42,
+    "FortRuinsDoorWall01:6.Mat": 0.42
+   },
+   "decalMaterials": [
+    "FortRuinsDoorLoad:6.Mat",
+    "FortRuinsDoorWall01:6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1958,
+    "p50": 0.2333,
+    "p75": 0.2391,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -244,17 +307,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.1958,
-    "p50": 0.2333,
-    "p75": 0.2391,
-    "n": 3,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.735,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.095
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01",
@@ -277,7 +333,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "impwall01.dds",
@@ -287,6 +343,22 @@
     "FortRuinsDoorWall.Mat",
     "ImpWoodDoorSingleSmall01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5247,
+    "p50": -0.5247,
+    "p75": -0.5247,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.5247
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -298,22 +370,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5247,
-    "p50": -0.5247,
-    "p75": -0.5247,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.5247
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.604,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.525
   },
   {
    "id": "vanilla:dungeons/imperial/door/impwooddoorsinglesmallload01",
@@ -336,7 +396,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "impwall01.dds",
@@ -346,6 +406,17 @@
     "FortRuinsDoorWall01:2.Mat.001",
     "ImpWoodDoorSingleSmallLoad01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1642,
+    "p50": 0.0119,
+    "p75": 0.4191,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -357,17 +428,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1642,
-    "p50": 0.0119,
-    "p75": 0.4191,
-    "n": 6,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.648,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.518
   },
   {
    "id": "vanilla:dungeons/imperial/door/trapdoorladder01",
@@ -390,7 +454,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "ratwayirondoor01.dds",
@@ -400,6 +464,22 @@
     "TrapdoorLadder01:26.Mat",
     "TrapdoorLadder01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 5.4588,
+    "p50": 5.4588,
+    "p75": 5.4588,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 5.4588
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -411,22 +491,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 5.4588,
-    "p50": 5.4588,
-    "p75": 5.4588,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 5.4588
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.062
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjaildoor01",
@@ -459,6 +527,17 @@
     "Door01:23.Mat",
     "Handle01:22.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0284,
+    "p50": 0.0662,
+    "p75": 0.411,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -470,17 +549,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0284,
-    "p50": 0.0662,
-    "p75": 0.411,
-    "n": 3,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "hanging",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.075
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjaildoorframe01",
@@ -511,6 +583,17 @@
    "materials": [
     "ImpJailDoorframe01:23.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0284,
+    "p50": 0.0662,
+    "p75": 0.411,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -522,17 +605,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0284,
-    "p50": 0.0662,
-    "p75": 0.411,
-    "n": 3,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.6,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:dungeons/imperial/jail/impjailwall01",
@@ -563,17 +639,7 @@
    "materials": [
     "ImpJailWall01:23.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.0,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.1707,
     "p50": 0.1707,
@@ -589,7 +655,21 @@
     "tell": "foundation-top",
     "valueM": 0.1707
    },
-   "lodLevels": 3
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "interior-zero",
+     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.574,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall1way01",
@@ -631,6 +711,31 @@
     "ImpLHall1Way01:9 - L1_Brace:9.Mat",
     "L1_Brace.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat": 0.42,
+    "Alpha01:5 - L1_Brace:5.Mat": 0.42,
+    "AlphaStone.Mat": 0.31
+   },
+   "decalMaterials": [
+    "Alpha01.Mat",
+    "Alpha01:5 - L1_Brace:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3126,
+    "p50": -0.3126,
+    "p75": -0.3126,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.3126
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -642,22 +747,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3126,
-    "p50": -0.3126,
-    "p75": -0.3126,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.3126
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.313
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall2way01",
@@ -699,6 +792,31 @@
     "ImpLHall2Way01:9 - L1_Brace:9.Mat",
     "L1_Brace.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "AlphaMoss40.Mat": 0.42,
+    "AlphaMoss40:5 - L1_Brace:5.Mat": 0.42,
+    "AlphaStone.Mat.001": 0.31
+   },
+   "decalMaterials": [
+    "AlphaMoss40.Mat",
+    "AlphaMoss40:5 - L1_Brace:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.2036,
+    "p50": -0.2036,
+    "p75": -0.2036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2036
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -710,22 +828,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.2036,
-    "p50": -0.2036,
-    "p75": -0.2036,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.2036
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.999,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.204
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhall4way01",
@@ -765,6 +871,31 @@
     "ImpLHall4Way01:7.Mat",
     "ImpLHall4Way01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "AlphaMoss42:13.Mat": 0.42,
+    "AlphaMoss42:5.Mat": 0.42,
+    "AlphaStone03.Mat": 0.31
+   },
+   "decalMaterials": [
+    "AlphaMoss42:13.Mat",
+    "AlphaMoss42:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": -0.1138,
+    "p75": -0.1138,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1138
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -776,22 +907,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.1138,
-    "p50": -0.1138,
-    "p75": -0.1138,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.1138
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.985,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.114
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhalldoorl01",
@@ -833,6 +952,30 @@
     "ImpLHallDoorL01:7.Mat",
     "ImpLHallDoorL01:9 - L1_Brace:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "AlphaMoss64.Mat": 0.42,
+    "AlphaMoss64:5 - L1_Brace:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "AlphaMoss64.Mat",
+    "AlphaMoss64:5 - L1_Brace:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.192,
+    "p50": -0.192,
+    "p75": -0.192,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.192
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -844,22 +987,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.192,
-    "p50": -0.192,
-    "p75": -0.192,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.192
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.192
   },
   {
    "id": "vanilla:dungeons/imperial/largehall/implhallstairs01",
@@ -903,6 +1034,31 @@
     "ImpLHallStairs01:9 - L1_Brace21:9.Mat",
     "L1_Brace21.Mat"
    ],
+   "alphaMaskMaterials": {
+    "AlphaMoss59.Mat": 0.42,
+    "AlphaMoss59:5 - L1_Brace21:5.Mat": 0.42,
+    "AlphaStone.Mat.002": 0.31
+   },
+   "decalMaterials": [
+    "AlphaMoss59.Mat",
+    "AlphaMoss59:5 - L1_Brace21:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.1828,
+    "p50": 2.1828,
+    "p75": 2.1828,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 2.1828
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -914,22 +1070,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 2.1828,
-    "p50": 2.1828,
-    "p75": 2.1828,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 2.1828
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.239
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner01",
@@ -974,6 +1118,28 @@
     "ImpLRoomCorner01:7.Mat",
     "ImpLRoomCorner01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomCorner01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomCorner01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.482,
+    "p50": -0.482,
+    "p75": -0.482,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.482
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -985,22 +1151,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.482,
-    "p50": -0.482,
-    "p75": -0.482,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.482
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.982,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.482
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner02",
@@ -1045,6 +1199,28 @@
     "ImpLRoomCorner02:7.Mat",
     "ImpLRoomCorner02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomCorner02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomCorner02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5242,
+    "p50": -0.5242,
+    "p75": -0.5242,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5242
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1056,22 +1232,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5242,
-    "p50": -0.5242,
-    "p75": -0.5242,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5242
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.983,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.524
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner03",
@@ -1116,6 +1280,28 @@
     "ImpLRoomCorner03:7.Mat",
     "ImpLRoomCorner03:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomCorner03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomCorner03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5388,
+    "p50": -0.5388,
+    "p75": -0.5388,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5388
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1127,22 +1313,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5388,
-    "p50": -0.5388,
-    "p75": -0.5388,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5388
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.983,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.539
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomcorner04",
@@ -1187,6 +1361,28 @@
     "ImpLRoomCorner04:7.Mat",
     "ImpLRoomCorner04:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomCorner04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomCorner04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5673,
+    "p50": -0.5673,
+    "p75": -0.5673,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5673
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1198,22 +1394,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5673,
-    "p50": -0.5673,
-    "p75": -0.5673,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.5673
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.988,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.567
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor01",
@@ -1258,6 +1442,28 @@
     "ImpLRoomDoor01:7.Mat",
     "ImpLRoomDoor01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomDoor01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomDoor01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1269,22 +1475,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.967,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.501
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor02",
@@ -1329,6 +1523,28 @@
     "ImpLRoomDoor02:7.Mat",
     "ImpLRoomDoor02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomDoor02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomDoor02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1340,22 +1556,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.967,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.526
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor03",
@@ -1400,6 +1604,28 @@
     "ImpLRoomDoor03:7.Mat",
     "ImpLRoomDoor03:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomDoor03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomDoor03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1411,22 +1637,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.967,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.483
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomdoor04",
@@ -1471,6 +1685,28 @@
     "ImpLRoomDoor04:7.Mat",
     "ImpLRoomDoor04:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomDoor04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomDoor04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1482,22 +1718,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.967,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.518
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner01",
@@ -1538,6 +1762,28 @@
     "ImpLRoomICorner01:7.Mat",
     "ImpLRoomICorner01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomICorner01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomICorner01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.66,
+    "p50": -0.66,
+    "p75": -0.66,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.66
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1549,22 +1795,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.66,
-    "p50": -0.66,
-    "p75": -0.66,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.66
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.66
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner02",
@@ -1605,6 +1839,28 @@
     "ImpLRoomICorner02:7.Mat",
     "ImpLRoomICorner02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomICorner02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomICorner02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5815,
+    "p50": -0.5815,
+    "p75": -0.5815,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5815
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1616,22 +1872,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5815,
-    "p50": -0.5815,
-    "p75": -0.5815,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.5815
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.581
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner03",
@@ -1672,6 +1916,28 @@
     "ImpLRoomICorner03:7.Mat",
     "ImpLRoomICorner03:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomICorner03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomICorner03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.567,
+    "p50": -0.567,
+    "p75": -0.567,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.567
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1683,22 +1949,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.567,
-    "p50": -0.567,
-    "p75": -0.567,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.567
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.567
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomicorner04",
@@ -1739,6 +1993,28 @@
     "ImpLRoomICorner04:7.Mat",
     "ImpLRoomICorner04:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomICorner04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomICorner04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4834,
+    "p50": -0.4834,
+    "p75": -0.4834,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4834
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1750,22 +2026,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4834,
-    "p50": -0.4834,
-    "p75": -0.4834,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4834
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.483
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroommid01",
@@ -1804,6 +2068,28 @@
     "ImpLRoomMid01:7.Mat",
     "ImpLRoomMid01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomMid01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomMid01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.6615,
+    "p50": -0.6615,
+    "p75": -0.6615,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.6615
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1815,22 +2101,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.6615,
-    "p50": -0.6615,
-    "p75": -0.6615,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.6615
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.662
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroommid02",
@@ -1869,6 +2143,28 @@
     "ImpLRoomMid02:7.Mat",
     "ImpLRoomMid02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomMid02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomMid02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5631,
+    "p50": -0.5631,
+    "p75": -0.5631,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5631
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1880,22 +2176,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5631,
-    "p50": -0.5631,
-    "p75": -0.5631,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.5631
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.563
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroompillar01",
@@ -1934,6 +2218,28 @@
     "ImpLRoomPillar01:7.Mat",
     "ImpLRoomPillar01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomPillar01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomPillar01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.6541,
+    "p50": -0.6541,
+    "p75": -0.6541,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.6541
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1945,22 +2251,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.6541,
-    "p50": -0.6541,
-    "p75": -0.6541,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.6541
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.654
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall01",
@@ -2005,6 +2299,28 @@
     "ImpLRoomWall01:7.Mat",
     "ImpLRoomWall01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomWall01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomWall01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2016,22 +2332,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.984,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.516
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall02",
@@ -2076,6 +2380,28 @@
     "ImpLRoomWall02:7.Mat",
     "ImpLRoomWall02:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomWall02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomWall02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5751,
+    "p50": -0.5751,
+    "p75": -0.5751,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5751
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2087,22 +2413,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.5751,
-    "p50": -0.5751,
-    "p75": -0.5751,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.5751
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.986,
+   "openBackYawDeg": 270.0,
+   "pivotAboveBaseM": 0.575
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall03",
@@ -2147,6 +2461,28 @@
     "ImpLRoomWall03:7.Mat",
     "ImpLRoomWall03:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomWall03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomWall03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2158,22 +2494,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.988,
+   "openBackYawDeg": 0.0,
+   "pivotAboveBaseM": 0.637
   },
   {
    "id": "vanilla:dungeons/imperial/largeroom/implroomwall04",
@@ -2218,6 +2542,28 @@
     "ImpLRoomWall04:7.Mat",
     "ImpLRoomWall04:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpLRoomWall04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpLRoomWall04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 9.4058,
+    "p50": 9.4058,
+    "p75": 9.4058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 9.4058
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2229,22 +2575,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 9.4058,
-    "p50": 9.4058,
-    "p75": 9.4058,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 9.4058
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.988,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 0.658
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way01",
@@ -2281,6 +2615,28 @@
     "ImpHall1Way01:3.Mat",
     "ImpHall1Way01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.001": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.036,
+    "p50": 0.036,
+    "p75": 0.036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.036
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2292,22 +2648,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.036,
-    "p50": 0.036,
-    "p75": 0.036,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.036
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.036
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way128d01",
@@ -2344,6 +2688,28 @@
     "ImpHall1Way128D01:3.Mat",
     "ImpHall1Way128D01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.002": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.002"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.7069,
+    "p50": -1.7069,
+    "p75": -1.7069,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.7069
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2355,22 +2721,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -1.7069,
-    "p50": -1.7069,
-    "p75": -1.7069,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.7069
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.707
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall1way128u01",
@@ -2407,6 +2761,28 @@
     "ImpHall1Way128U01:3.Mat",
     "ImpHall1Way128U01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.003": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.003"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.2744,
+    "p50": 1.2744,
+    "p75": 1.2744,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.2744
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2418,22 +2794,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 1.2744,
-    "p50": 1.2744,
-    "p75": 1.2744,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.2744
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.995,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.114
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall2way01",
@@ -2470,6 +2834,28 @@
     "ImpHall2Way01:3.Mat",
     "ImpHall2Way01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.004": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.004"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0662,
+    "p50": 0.0662,
+    "p75": 0.0662,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0662
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2481,22 +2867,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0662,
-    "p50": 0.0662,
-    "p75": 0.0662,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0662
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.066
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall3way01",
@@ -2533,6 +2907,28 @@
     "ImpHall3Way01:3.Mat",
     "ImpHall3Way01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.005": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.005"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0038,
+    "p50": 0.0038,
+    "p75": 0.0038,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0038
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2544,22 +2940,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0038,
-    "p50": 0.0038,
-    "p75": 0.0038,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0038
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.989,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.004
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphall4way01",
@@ -2596,6 +2980,28 @@
     "ImpHall4Way01:3.Mat",
     "ImpHall4Way01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.006": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.006"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0204,
+    "p50": -0.0204,
+    "p75": -0.0204,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0204
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2607,22 +3013,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0204,
-    "p50": -0.0204,
-    "p75": -0.0204,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0204
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.987,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.02
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphalldeadend01",
@@ -2659,6 +3053,28 @@
     "ImpHallDeadEnd01:3.Mat",
     "ImpHallDeadEnd01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.007": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.007"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.036,
+    "p50": 0.036,
+    "p75": 0.036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.036
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2670,22 +3086,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.036,
-    "p50": 0.036,
-    "p75": 0.036,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.036
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.036
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphallstairs01",
@@ -2724,6 +3128,28 @@
     "ImpHallStairs01:3.Mat",
     "ImpHallStairs01:4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Alpha01.Mat.008": 0.42
+   },
+   "decalMaterials": [
+    "Alpha01.Mat.008"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.6054,
+    "p50": 1.6054,
+    "p75": 1.6054,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.6054
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2735,22 +3161,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 1.6054,
-    "p50": 1.6054,
-    "p75": 1.6054,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.6054
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "vanilla:dungeons/imperial/smallhall/imphallstairs02",
@@ -2787,6 +3201,22 @@
     "ImpHallStairs02:3.Mat",
     "ImpHallStairs02:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.6054,
+    "p50": 1.6054,
+    "p75": 1.6054,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.6054
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2798,22 +3228,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 1.6054,
-    "p50": 1.6054,
-    "p75": 1.6054,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.6054
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.902,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improombrace01",
@@ -2846,6 +3264,22 @@
     "ImpRoomBrace01:2.Mat",
     "ImpRoomBrace01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2857,22 +3291,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner01",
@@ -2909,6 +3331,28 @@
     "ImpRoomCorner01:5.Mat",
     "L1_Brace.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomCorner01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomCorner01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.024,
+    "p50": 0.024,
+    "p75": 0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.024
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2920,22 +3364,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.024,
-    "p50": 0.024,
-    "p75": 0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.024
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 225.0,
+   "pivotAboveBaseM": -0.024
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner02",
@@ -2972,6 +3404,28 @@
     "ImpRoomCorner02:5.Mat",
     "L1_Brace42.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomCorner02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomCorner02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.024,
+    "p50": 0.024,
+    "p75": 0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.024
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2983,22 +3437,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.024,
-    "p50": 0.024,
-    "p75": 0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.024
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 315.0,
+   "pivotAboveBaseM": -0.024
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner03",
@@ -3035,6 +3477,28 @@
     "ImpRoomCorner03:5.Mat",
     "L1_Brace41.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomCorner03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomCorner03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.024,
+    "p50": 0.024,
+    "p75": 0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.024
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3046,22 +3510,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.024,
-    "p50": 0.024,
-    "p75": 0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.024
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 45.0,
+   "pivotAboveBaseM": -0.024
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomcorner04",
@@ -3098,6 +3550,28 @@
     "ImpRoomCorner04:5.Mat",
     "L1_Brace40.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomCorner04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomCorner04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0118,
+    "p50": 0.0118,
+    "p75": 0.0118,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0118
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3109,22 +3583,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0118,
-    "p50": 0.0118,
-    "p75": 0.0118,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0118
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 135.0,
+   "pivotAboveBaseM": -0.012
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor01",
@@ -3161,6 +3623,28 @@
     "ImpRoomDoor01:5.Mat",
     "L1_Brace.Mat.003"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoor01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoor01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0283,
+    "p50": -0.0283,
+    "p75": -0.0283,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0283
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3172,22 +3656,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0283,
-    "p50": -0.0283,
-    "p75": -0.0283,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0283
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.028
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor02",
@@ -3224,6 +3696,28 @@
     "ImpRoomDoor02:5.Mat",
     "L1_Brace50.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoor02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoor02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0427,
+    "p50": -0.0427,
+    "p75": -0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3235,22 +3729,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0427,
-    "p50": -0.0427,
-    "p75": -0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor03",
@@ -3287,6 +3769,28 @@
     "ImpRoomDoor03:5.Mat",
     "L1_Brace52.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoor03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoor03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0323,
+    "p50": -0.0323,
+    "p75": -0.0323,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0323
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3298,22 +3802,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0323,
-    "p50": -0.0323,
-    "p75": -0.0323,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0323
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.032
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoor04",
@@ -3350,6 +3842,28 @@
     "ImpRoomDoor04:5.Mat",
     "L1_Brace51.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoor04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoor04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0497,
+    "p50": -0.0497,
+    "p75": -0.0497,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0497
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3361,22 +3875,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0497,
-    "p50": -0.0497,
-    "p75": -0.0497,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0497
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb01",
@@ -3413,6 +3915,28 @@
     "ImpRoomDoorB01:5.Mat",
     "L1_Brace53.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoorB01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoorB01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.026,
+    "p50": -0.026,
+    "p75": -0.026,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.026
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3424,22 +3948,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.026,
-    "p50": -0.026,
-    "p75": -0.026,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.026
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.026
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb02",
@@ -3476,6 +3988,28 @@
     "ImpRoomDoorB02:5.Mat",
     "L1_Brace54.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoorB02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoorB02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0467,
+    "p50": -0.0467,
+    "p75": -0.0467,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0467
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3487,22 +4021,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0467,
-    "p50": -0.0467,
-    "p75": -0.0467,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0467
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.047
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb03",
@@ -3539,6 +4061,28 @@
     "ImpRoomDoorB03:5.Mat",
     "L1_Brace55.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoorB03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoorB03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0017,
+    "p50": 0.0017,
+    "p75": 0.0017,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0017
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3550,22 +4094,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0017,
-    "p50": 0.0017,
-    "p75": 0.0017,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0017
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.972,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.002
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomdoorb04",
@@ -3602,6 +4134,28 @@
     "ImpRoomDoorB04:5.Mat",
     "L1_Brace56.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomDoorB04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomDoorB04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0739,
+    "p50": -0.0739,
+    "p75": -0.0739,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0739
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3613,22 +4167,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0739,
-    "p50": -0.0739,
-    "p75": -0.0739,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0739
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.973,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.074
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner01",
@@ -3665,6 +4207,28 @@
     "ImpRoomICorner01:5.Mat",
     "L1_Brace49.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomICorner01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomICorner01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0427,
+    "p50": -0.0427,
+    "p75": -0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3676,22 +4240,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0427,
-    "p50": -0.0427,
-    "p75": -0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.992,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner02",
@@ -3728,6 +4280,28 @@
     "ImpRoomICorner02:5.Mat",
     "L1_Brace48.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomICorner02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomICorner02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0448,
+    "p50": -0.0448,
+    "p75": -0.0448,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0448
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3739,22 +4313,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0448,
-    "p50": -0.0448,
-    "p75": -0.0448,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0448
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.992,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.045
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner03",
@@ -3791,6 +4353,28 @@
     "ImpRoomICorner03:5.Mat",
     "L1_Brace47.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomICorner03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomICorner03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0448,
+    "p50": -0.0448,
+    "p75": -0.0448,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0448
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3802,22 +4386,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0448,
-    "p50": -0.0448,
-    "p75": -0.0448,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0448
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.992,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.045
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomicorner04",
@@ -3854,6 +4426,28 @@
     "ImpRoomICorner04:5.Mat",
     "L1_Brace.Mat.004"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomICorner04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomICorner04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0427,
+    "p50": -0.0427,
+    "p75": -0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3865,22 +4459,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0427,
-    "p50": -0.0427,
-    "p75": -0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.992,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improommid01",
@@ -3917,6 +4499,28 @@
     "ImpRoomMid01:5.Mat",
     "L1_Brace.Mat.005"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomMid01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomMid01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0427,
+    "p50": -0.0427,
+    "p75": -0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3928,22 +4532,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0427,
-    "p50": -0.0427,
-    "p75": -0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall01",
@@ -3980,6 +4572,28 @@
     "ImpRoomWall01:5.Mat",
     "L1_Brace04.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomWall01:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomWall01:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.024,
+    "p50": 0.024,
+    "p75": 0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.024
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3991,22 +4605,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.024,
-    "p50": 0.024,
-    "p75": 0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.024
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.024
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall02",
@@ -4043,6 +4645,28 @@
     "ImpRoomWall02:5.Mat",
     "L1_Brace37.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomWall02:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomWall02:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 4.3841,
+    "p50": 4.3841,
+    "p75": 4.3841,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 4.3841
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4054,22 +4678,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 4.3841,
-    "p50": 4.3841,
-    "p75": 4.3841,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 4.3841
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 225.0,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall03",
@@ -4106,6 +4718,28 @@
     "ImpRoomWall03:5.Mat",
     "L1_Brace39.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomWall03:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomWall03:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.024,
+    "p50": 0.024,
+    "p75": 0.024,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.024
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4117,22 +4751,10 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": 0.024,
-    "p50": 0.024,
-    "p75": 0.024,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.024
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.974,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.024
   },
   {
    "id": "vanilla:dungeons/imperial/smallroom/improomwall04",
@@ -4169,6 +4791,28 @@
     "ImpRoomWall04:5.Mat",
     "L1_Brace38.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpRoomWall04:5.Mat": 0.42
+   },
+   "decalMaterials": [
+    "ImpRoomWall04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0427,
+    "p50": -0.0427,
+    "p75": -0.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -4180,31 +4824,25 @@
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0427,
-    "p50": -0.0427,
-    "p75": -0.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.0427
-   },
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": 45.0,
+   "pivotAboveBaseM": 0.043
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-imperial-int.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\vanilla-imperial-int.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 328
+  "MASK": 70,
+  "OPAQUE": 256,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
  },
  "compression": {
   "schemaVersion": 1,
@@ -4232,15 +4870,15 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 27296736,
-  "bytesAfter": 8504844,
+  "bytesBefore": 26098388,
+  "bytesAfter": 8503328,
   "images": 14,
-  "imageBytesAfter": 3842508,
+  "imageBytesAfter": 3842411,
   "warnings": [],
-  "sha256": "2572c4e3b579430b23dad53021fd42d1f95bd5d004bb6231a1e796df1242b2d2",
+  "sha256": "ec98e85b841a75b8a41d98340dcf7e69b6ddfef511148316fa0e9e4d70343846",
   "sidecarBytes": {
-   "connectors": 45274,
-   "footprints": 50933,
+   "connectors": 45276,
+   "footprints": 50829,
    "interiors": 36950
   }
  }

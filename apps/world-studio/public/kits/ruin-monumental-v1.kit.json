@@ -30,6 +30,22 @@
    "materials": [
     "Scene Root:0.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -41,22 +57,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02",
@@ -87,6 +91,22 @@
    "materials": [
     "Scene Root:0.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -98,22 +118,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03",
@@ -144,6 +152,22 @@
    "materials": [
     "Scene Root:0.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -155,22 +179,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05",
@@ -201,6 +213,22 @@
    "materials": [
     "Scene Root:0.Mat.003"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -212,22 +240,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
@@ -258,6 +274,22 @@
    "materials": [
     "qblock whole.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.9103,
+    "p50": -0.9103,
+    "p75": -0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -269,22 +301,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.9103,
-    "p50": -0.9103,
-    "p75": -0.9103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.9103
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
@@ -315,6 +335,22 @@
    "materials": [
     "qblock whole.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.9103,
+    "p50": -0.9103,
+    "p75": -0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -326,22 +362,10 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.9103,
-    "p50": -0.9103,
-    "p75": -0.9103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.9103
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01",
@@ -372,6 +396,22 @@
    "materials": [
     "abbrick.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -383,22 +423,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03",
@@ -429,6 +457,22 @@
    "materials": [
     "abbrick.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -440,22 +484,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.996,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05",
@@ -486,6 +518,22 @@
    "materials": [
     "Object001.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -497,22 +545,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.877,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01",
@@ -543,6 +579,22 @@
    "materials": [
     "Norm.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.0071,
+    "p50": -1.0071,
+    "p75": -1.0071,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.0071
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -554,22 +606,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.0071,
-    "p50": -1.0071,
-    "p75": -1.0071,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -1.0071
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 146.2,
+   "pivotAboveBaseM": 1.007
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02",
@@ -600,6 +640,17 @@
    "materials": [
     "abstrs.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -611,17 +662,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 4.043
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
@@ -652,6 +696,22 @@
    "materials": [
     "Object001.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.0427,
+    "p50": -4.0427,
+    "p75": -4.0427,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -4.0427
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -663,22 +723,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.0427,
-    "p50": -4.0427,
-    "p75": -4.0427,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -4.0427
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.043
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01",
@@ -709,6 +757,22 @@
    "materials": [
     "Object002.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.055,
+    "p50": -4.055,
+    "p75": -4.055,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -4.055
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -720,22 +784,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.055,
-    "p50": -4.055,
-    "p75": -4.055,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -4.055
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 225.0,
+   "pivotAboveBaseM": 4.055
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01",
@@ -766,6 +818,22 @@
    "materials": [
     "Object001.Mat.002"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.777,
+    "p50": -1.777,
+    "p75": -1.777,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -1.777
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -777,22 +845,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.777,
-    "p50": -1.777,
-    "p75": -1.777,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -1.777
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.098,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.777
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01",
@@ -823,6 +879,22 @@
    "materials": [
     "Object001.Mat.003"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0341,
+    "p50": 0.0341,
+    "p75": 0.0341,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0341
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -834,22 +906,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0341,
-    "p50": 0.0341,
-    "p75": 0.0341,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0341
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.034
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01",
@@ -882,6 +942,22 @@
     "Box002:2.Mat",
     "Box002:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0001,
+    "p50": -0.0001,
+    "p75": -0.0001,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0001
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -893,22 +969,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0001,
-    "p50": -0.0001,
-    "p75": -0.0001,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0001
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02",
@@ -944,6 +1008,22 @@
     "Object007:3.Mat",
     "Object007:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 6.3155,
+    "p50": 6.3155,
+    "p75": 6.3155,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.3155
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -955,22 +1035,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 6.3155,
-    "p50": 6.3155,
-    "p75": 6.3155,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 6.3155
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.056,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01",
@@ -1004,6 +1072,22 @@
     "Arledge:2.Mat",
     "Arledge:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.6609,
+    "p50": -4.6609,
+    "p75": -4.6609,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.6609
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1015,22 +1099,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.6609,
-    "p50": -4.6609,
-    "p75": -4.6609,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.6609
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.661
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03",
@@ -1063,6 +1135,22 @@
     "Arledge:2.Mat.001",
     "Arledge:3.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.7166,
+    "p50": -4.7166,
+    "p75": -4.7166,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.7166
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1074,22 +1162,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.7166,
-    "p50": -4.7166,
-    "p75": -4.7166,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.7166
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.717
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01",
@@ -1124,6 +1200,22 @@
     "Object002:2.Mat",
     "Object002:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -9.2457,
+    "p50": -9.2457,
+    "p75": -9.2457,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -9.2457
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1135,22 +1227,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -9.2457,
-    "p50": -9.2457,
-    "p75": -9.2457,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -9.2457
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.09,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 9.246
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02",
@@ -1181,6 +1261,22 @@
    "materials": [
     "ColBody.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1192,22 +1288,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02",
@@ -1240,6 +1324,22 @@
     "Arstone:1.Mat",
     "Arstone:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.8792,
+    "p50": -0.8792,
+    "p75": -0.8792,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.8792
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1251,22 +1351,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.8792,
-    "p50": -0.8792,
-    "p75": -0.8792,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.8792
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.176,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.879
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03",
@@ -1297,6 +1385,22 @@
    "materials": [
     "wing.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0001,
+    "p50": -0.0001,
+    "p75": -0.0001,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0001
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1308,22 +1412,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0001,
-    "p50": -0.0001,
-    "p75": -0.0001,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0001
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02",
@@ -1354,6 +1446,22 @@
    "materials": [
     "Object002.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.152,
+    "p50": -1.152,
+    "p75": -1.152,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.152
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1365,22 +1473,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.152,
-    "p50": -1.152,
-    "p75": -1.152,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -1.152
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.152
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01",
@@ -1415,6 +1511,22 @@
     "Object003:2.Mat",
     "Object003:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3499,
+    "p50": -0.3499,
+    "p75": -0.3499,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3499
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1426,22 +1538,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3499,
-    "p50": -0.3499,
-    "p75": -0.3499,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3499
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.711,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.35
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1",
@@ -1475,6 +1575,29 @@
     "SBardsCollegeTower_LOD:5.Mat",
     "SBardsCollegeTower_LOD:9.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -7.27,
+    "p50": -7.27,
+    "p75": -7.27,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 0.9,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.9,
+    "p90": 0.9,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -7.27
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1486,29 +1609,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -7.27,
-    "p50": -7.27,
-    "p75": -7.27,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -7.27
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 0.9,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 0.9,
-    "p90": 0.9,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.076,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.27
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone",
@@ -1541,6 +1645,29 @@
     "SBardsCollege_LOD:0.Mat",
     "SBardsCollege_LOD:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -16.1452,
+    "p50": -16.1452,
+    "p75": -16.1452,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 0.5,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 0.5,
+    "p90": 0.5,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -16.1452
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1552,29 +1679,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -16.1452,
-    "p50": -16.1452,
-    "p75": -16.1452,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -16.1452
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 0.5,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 0.5,
-    "p90": 0.5,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.371,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 16.145
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7",
@@ -1615,6 +1723,29 @@
     "SBryling House_LOD:21.Mat",
     "SBryling House_LOD:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.9485,
+    "p50": -4.9485,
+    "p75": -4.9485,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.6,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 1.6,
+    "p90": 1.6,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.9485
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1626,29 +1757,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.9485,
-    "p50": -4.9485,
-    "p75": -4.9485,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.9485
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 1.6,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 1.6,
-    "p90": 1.6,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.201,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.948
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -1679,6 +1791,22 @@
    "materials": [
     "SigilStone.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.3178,
+    "p50": -0.3178,
+    "p75": -0.3178,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3178
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1690,22 +1818,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.3178,
-    "p50": -0.3178,
-    "p75": -0.3178,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3178
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.599,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.318
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered",
@@ -1738,6 +1854,29 @@
     "serpent.Mat",
     "wings.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0174,
+    "p50": -0.0174,
+    "p75": -0.0174,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 5.0,
+   "placedScaleEvidence": {
+    "n": 1,
+    "p10": 5.0,
+    "p90": 5.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0174
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1749,29 +1888,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0174,
-    "p50": -0.0174,
-    "p75": -0.0174,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0174
-   },
-   "anchorClassEvidence": "unplaced",
-   "placedScaleMedian": 5.0,
-   "placedScaleEvidence": {
-    "n": 1,
-    "p10": 5.0,
-    "p90": 5.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.751,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess",
@@ -1802,6 +1922,22 @@
    "materials": [
     "statue.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.4405,
+    "p50": 0.4405,
+    "p75": 0.4405,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.4405
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1813,22 +1949,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.4405,
-    "p50": 0.4405,
-    "p75": 0.4405,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.4405
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.988,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01",
@@ -1859,6 +1983,22 @@
    "materials": [
     "Gargoyle:7.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0166,
+    "p50": 0.0166,
+    "p75": 0.0166,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0166
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1870,22 +2010,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0166,
-    "p50": 0.0166,
-    "p75": 0.0166,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0166
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.898,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.017
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone",
@@ -1916,6 +2044,22 @@
    "materials": [
     "stone.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0614,
+    "p50": -0.0614,
+    "p75": -0.0614,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0614
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1927,22 +2071,10 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0614,
-    "p50": -0.0614,
-    "p75": -0.0614,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0614
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.872,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.061
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
@@ -1973,6 +2105,17 @@
    "materials": [
     "pillar_pyramid.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.1236,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1984,17 +2127,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.1236,
-    "n": 5,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05",
@@ -2025,6 +2161,22 @@
    "materials": [
     "pillar_twisted.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0214,
+    "p50": -0.0214,
+    "p75": -0.0214,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0214
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2036,22 +2188,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0214,
-    "p50": -0.0214,
-    "p75": -0.0214,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0214
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.746,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.021
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01",
@@ -2086,6 +2226,22 @@
     "Object15:2.Mat",
     "Object15:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -7.6652,
+    "p50": -7.6652,
+    "p75": -7.6652,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -7.6652
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2097,22 +2253,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -7.6652,
-    "p50": -7.6652,
-    "p75": -7.6652,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -7.6652
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.117,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.665
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01",
@@ -2149,6 +2293,28 @@
     "Object424:2.Mat",
     "Object424:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Object424:16.Mat": 0.612
+   },
+   "decalMaterials": [
+    "Object424:16.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.6205,
+    "p50": -4.6205,
+    "p75": -4.6205,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -4.6205
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2160,22 +2326,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -4.6205,
-    "p50": -4.6205,
-    "p75": -4.6205,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -4.6205
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.056,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.621
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
@@ -2210,6 +2364,22 @@
     "Object05:2.Mat",
     "Object05:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 4.8571,
+    "p50": 4.8571,
+    "p75": 4.8571,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 4.8571
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2221,22 +2391,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 4.8571,
-    "p50": 4.8571,
-    "p75": 4.8571,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 4.8571
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.142,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.567
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01",
@@ -2267,6 +2425,22 @@
    "materials": [
     "totem.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0224,
+    "p50": -0.0224,
+    "p75": -0.0224,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0224
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2278,22 +2452,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0224,
-    "p50": -0.0224,
-    "p75": -0.0224,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0224
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.814,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.022
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -2324,6 +2486,22 @@
    "materials": [
     "totem.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0032,
+    "p50": -0.0032,
+    "p75": -0.0032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0032
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -2335,22 +2513,10 @@
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0032,
-    "p50": -0.0032,
-    "p75": -0.0032,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.0032
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.956,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01",
@@ -2383,17 +2549,7 @@
     "Base.Mat",
     "Skeleton.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.008,
-    "buryCapM": 0.75,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0083,
     "p50": -0.0083,
@@ -2409,7 +2565,21 @@
     "tell": "floor-plane",
     "valueM": -0.0083
    },
-   "lodLevels": 3
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.008,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.507,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.008
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01",
@@ -2440,6 +2610,17 @@
    "materials": [
     "Skulls.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0398,
+    "n": 7,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2451,17 +2632,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0398,
-    "n": 7,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.705,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.011
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8",
@@ -2496,6 +2670,22 @@
     "SBardsCollege_LOD:2.Mat.001",
     "SBardsCollege_LOD:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -21.2426,
+    "p50": -21.2426,
+    "p75": -21.2426,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -21.2426
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2507,22 +2697,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -21.2426,
-    "p50": -21.2426,
-    "p75": -21.2426,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -21.2426
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.742,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 21.243
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile",
@@ -2553,6 +2731,24 @@
    "materials": [
     "Object444:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.8448,
+    "p50": 3.1862,
+    "p75": 3.6413,
+    "n": 12,
+    "slopeTermMPerDeg": 0.05754,
+    "evidence": "plugin"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 12,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2564,24 +2760,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 2.8448,
-    "p50": 3.1862,
-    "p75": 3.6413,
-    "n": 12,
-    "slopeTermMPerDeg": 0.05754,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placedScaleMedian": 1.0,
-   "placedScaleEvidence": {
-    "n": 12,
-    "p10": 1.0,
-    "p90": 1.0,
-    "source": "plugin"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.569,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -1.657
   },
   {
    "id": "composite:ayleid/arblock-mass-2x2x2",
@@ -2619,6 +2801,22 @@
     "Scene Root:0.Mat.010",
     "Scene Root:0.Mat.011"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2630,22 +2828,10 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   },
   {
    "id": "composite:ayleid/arblock-mass-3x1x3",
@@ -2684,6 +2870,22 @@
     "Scene Root:0.Mat.019",
     "Scene Root:0.Mat.020"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4397,
+    "p50": -0.4397,
+    "p75": -0.4397,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4397
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2695,35 +2897,29 @@
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4397,
-    "p50": -0.4397,
-    "p75": -0.4397,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.4397
-   },
-   "anchorClassEvidence": "unplaced",
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.44
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\ruin-monumental-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\ruin-monumental-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {
-  "textures/actors/skeleton/skeleton.dds": "textures/here there be monsters - curse of cipactli/actors/ancient nordic sentinel/skeleton.dds",
-  "textures/actors/skeleton/skeleton_n.dds": "textures/here there be monsters - curse of cipactli/actors/ancient nordic sentinel/skeleton_n.dds",
-  "textures/here there be monsters - curse of cipactli/architecture/marble_n.dds": "textures/here there be monsters - curse of cipactli/architecture/xanmeer/marble_n.dds"
+  "textures/actors/skeleton/skeleton.dds": "textures/here there be monsters - curse of cipactli/weapons/kothringi/skeleton.dds",
+  "textures/actors/skeleton/skeleton_n.dds": "textures/here there be monsters - curse of cipactli/weapons/kothringi/skeleton_n.dds",
+  "textures/here there be monsters - curse of cipactli/architecture/marble_n.dds": "textures/here there be monsters - curse of cipactli/architecture/legion/marble_n.dds"
  },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 95
+  "MASK": 1,
+  "OPAQUE": 94,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
  },
  "compression": {
   "schemaVersion": 1,
@@ -2751,16 +2947,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 17472244,
-  "bytesAfter": 7643972,
+  "bytesBefore": 16787760,
+  "bytesAfter": 7686852,
   "images": 25,
-  "imageBytesAfter": 6026528,
+  "imageBytesAfter": 6069346,
   "warnings": [],
-  "sha256": "db3f5ed42b6ce8e21d6dd6a61e67019e36a6404a3ce01c8d3b275c61072ac402",
+  "sha256": "40be0fda2ff833831566991799cf257d8344833752b19cfb1f5b73507d32a691",
   "sidecarBytes": {
    "connectors": 31299,
    "footprints": 62927,
-   "interiors": 30564
+   "interiors": 35626
   }
  }
 }

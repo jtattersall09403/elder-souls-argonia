@@ -875,8 +875,8 @@
     "normalDeg": 280.2,
     "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
     "positionInPiece": [
-     -5.42,
-     -0.98
+     -4.52,
+     -0.81
     ],
     "template": "bmv-valenwood:t1213",
     "widthM": 3.95
@@ -889,8 +889,8 @@
     "normalDeg": 322.1,
     "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
     "positionInPiece": [
-     -2.36,
-     -3.03
+     -1.97,
+     -2.52
     ],
     "template": "bmv-valenwood:t1215",
     "widthM": 3.06
@@ -900,11 +900,11 @@
     "evidence": "co-placement",
     "face": "toward 329",
     "heightM": 3.03,
-    "normalDeg": 329.1,
+    "normalDeg": 329.2,
     "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
     "positionInPiece": [
-     -2.53,
-     -4.22
+     -2.1,
+     -3.52
     ],
     "template": "bmv-valenwood:t1214",
     "widthM": 3.35
@@ -3828,8 +3828,8 @@
     "normalDeg": 10.3,
     "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
     "positionInPiece": [
-     0.68,
-     -3.78
+     0.57,
+     -3.15
     ],
     "template": "bmv-valenwood:t1215",
     "widthM": 3.06
@@ -3842,8 +3842,8 @@
     "normalDeg": 17.3,
     "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
     "positionInPiece": [
-     1.46,
-     -4.7
+     1.22,
+     -3.92
     ],
     "template": "bmv-valenwood:t1214",
     "widthM": 3.35
@@ -3877,7 +3877,7 @@
     "widthM": 3.11
    },
    {
-    "count": 188,
+    "count": 194,
     "evidence": "co-placement",
     "face": "toward 45",
     "heightM": 3.03,
@@ -3891,18 +3891,18 @@
     "widthM": 3.08
    },
    {
-    "count": 154,
+    "count": 21,
     "evidence": "co-placement",
     "face": "toward 45",
     "heightM": 3.03,
-    "normalDeg": 45.1,
+    "normalDeg": 45.5,
     "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
     "positionInPiece": [
-     1.76,
-     -1.75
+     2.52,
+     -2.48
     ],
-    "template": "bmv-valenwood:t0113",
-    "widthM": 3.08
+    "template": "bmv-valenwood:t0483",
+    "widthM": 3.09
    },
    {
     "evidence": "bounds",
@@ -3955,7 +3955,7 @@
     "widthM": 2.2
    },
    {
-    "count": 188,
+    "count": 194,
     "evidence": "co-placement",
     "face": "toward 225",
     "heightM": 3.03,
@@ -3969,20 +3969,6 @@
     "widthM": 3.08
    },
    {
-    "count": 154,
-    "evidence": "co-placement",
-    "face": "toward 225",
-    "heightM": 3.03,
-    "normalDeg": 225.1,
-    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
-    "positionInPiece": [
-     -1.76,
-     1.75
-    ],
-    "template": "bmv-valenwood:t0113",
-    "widthM": 3.08
-   },
-   {
     "count": 3,
     "evidence": "co-placement",
     "face": "toward 225",
@@ -3990,11 +3976,25 @@
     "normalDeg": 225.3,
     "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
     "positionInPiece": [
-     -3.92,
-     3.88
+     -3.26,
+     3.23
     ],
     "template": "bmv-valenwood:t1213",
     "widthM": 3.95
+   },
+   {
+    "count": 21,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 3.03,
+    "normalDeg": 225.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -2.52,
+     2.48
+    ],
+    "template": "bmv-valenwood:t0483",
+    "widthM": 3.09
    },
    {
     "evidence": "bounds",

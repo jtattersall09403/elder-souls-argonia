@@ -40,17 +40,7 @@
     "MWImpArchWall01:4.Mat",
     "MWImpArchWall01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.25,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -59,13 +49,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 3,
@@ -96,7 +79,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.188,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
@@ -139,17 +143,7 @@
     "MWImpArchWall01Destroyed01:5.Mat",
     "MWImpArchWall01Destroyed01:6.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -158,13 +152,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 5,
@@ -192,7 +179,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.253,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
@@ -235,17 +243,7 @@
     "MWImpArchWall01Destroyed02:5.Mat",
     "MWImpArchWall01Destroyed02:6.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.004,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0036,
     "p50": -0.0036,
@@ -254,13 +252,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0036
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 3,
@@ -292,7 +283,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0036
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.004,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.235,
+   "openBackYawDeg": 270.0,
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01",
@@ -333,6 +345,30 @@
     "MWImpArchWallCorIn01:4.Mat",
     "MWImpArchWallCorIn01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -344,30 +380,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.137,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01",
@@ -410,6 +426,30 @@
     "MWImpArchWallCorIn01Destroyed01:5.Mat",
     "MWImpArchWallCorIn01Destroyed01:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -421,30 +461,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.213,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01",
@@ -485,6 +505,30 @@
     "MWImpArchWallCorOut01:4.Mat",
     "MWImpArchWallCorOut01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -496,30 +540,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.208,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01",
@@ -556,6 +580,30 @@
     "MWImpArchWalEntl01:2.Mat",
     "MWImpArchWalEntl01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -567,30 +615,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
@@ -631,17 +659,7 @@
     "MWImpArchWallGate01:4.Mat",
     "MWImpArchWallGate01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -650,13 +668,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 1,
@@ -680,7 +691,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.502,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01",
@@ -723,17 +755,7 @@
     "MWImpArchWallGate01Destroyed01:5.Mat",
     "MWImpArchWallGate01Destroyed01:6.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -742,13 +764,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 1,
@@ -772,7 +787,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.479,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
@@ -813,17 +849,7 @@
     "MWImpArchWallTower01:4.Mat",
     "MWImpArchWallTower01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -832,13 +858,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -865,7 +884,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.164,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01",
@@ -908,6 +948,30 @@
     "MWImpArchWallStairs01:5.Mat",
     "MWImpArchWallStairs01:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -919,30 +983,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.186,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02",
@@ -985,6 +1029,30 @@
     "MWImpArchWallStairs02:5.Mat",
     "MWImpArchWallStairs02:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -996,30 +1064,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.186,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03",
@@ -1058,6 +1106,30 @@
     "MWImpArchWallStairs03:3.Mat",
     "MWImpArchWallStairs03:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1069,30 +1141,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.023,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04",
@@ -1131,6 +1183,30 @@
     "MWImpArchWallStairs04:3.Mat",
     "MWImpArchWallStairs04:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1142,30 +1218,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.023,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01",
@@ -1198,17 +1254,7 @@
     "MWImpArchTowerBg01:0.Mat",
     "MWImpArchTowerBg01:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -1217,13 +1263,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "wall",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 0.87,
    "placedScaleEvidence": {
     "n": 8,
@@ -1253,7 +1292,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01",
@@ -1290,6 +1350,30 @@
     "MWImpArchTowerBgBase01:2.Mat",
     "MWImpArchTowerBgBase01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1301,30 +1385,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.09,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01",
@@ -1365,17 +1429,7 @@
     "MWImpArchTowerBgBaseTop01:4.Mat",
     "MWImpArchTowerBgBaseTop01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1384,13 +1438,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "wall",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -1417,7 +1464,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.02,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02",
@@ -1456,17 +1524,7 @@
     "MWImpArchTowerBgBaseTop02:3.Mat",
     "MWImpArchTowerBgBaseTop02:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1475,13 +1533,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 0.87,
    "placedScaleEvidence": {
     "n": 2,
@@ -1505,7 +1556,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.004,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01",
@@ -1538,6 +1610,30 @@
     "MWImpArchTowerSm01:0.Mat",
     "MWImpArchTowerSm01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1549,30 +1645,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01",
@@ -1609,6 +1685,30 @@
     "MWImpArchTowerSmBase01:2.Mat",
     "MWImpArchTowerSmBase01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1620,30 +1720,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.055,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01",
@@ -1684,6 +1764,30 @@
     "MWImpArchTowerSmBaseTop01:4.Mat",
     "MWImpArchTowerSmBaseTop01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1695,30 +1799,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.145,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01",
@@ -1759,6 +1843,30 @@
     "MWImpArchKeep01:4.Mat",
     "MWImpArchKeep01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1770,30 +1878,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.219,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02",
@@ -1834,17 +1922,7 @@
     "MWImpArchKeep02:4.Mat",
     "MWImpArchKeep02:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.641,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.6413,
     "p50": -3.6413,
@@ -1853,13 +1931,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 1.16,
    "placedScaleEvidence": {
     "n": 1,
@@ -1886,7 +1957,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.309,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01",
@@ -1921,6 +2013,30 @@
     "MWImpArchEntrance01:1.Mat",
     "MWImpArchEntrance01:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4482,
+    "p50": -0.4482,
+    "p75": -0.4482,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.4482
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1932,30 +2048,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.4482,
-    "p50": -0.4482,
-    "p75": -0.4482,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.4482
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.414,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.448
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02",
@@ -1990,17 +2086,7 @@
     "MWImpArchEntrance02:1.Mat",
     "MWImpArchEntrance02:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.626,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1845,
     "p50": -0.0988,
@@ -2009,8 +2095,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -2034,7 +2118,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.626,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.223,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.626
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
@@ -2075,17 +2175,7 @@
     "MWImpArchGuardTower01:4.Mat",
     "MWImpArchGuardTower01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.75,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -2094,13 +2184,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 1.28,
    "placedScaleEvidence": {
     "n": 1,
@@ -2127,7 +2210,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.27,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01",
@@ -2166,17 +2270,7 @@
     "MWImpArchGuardTower01Destroyed01:3.Mat",
     "MWImpArchGuardTower01Destroyed01:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -2185,13 +2279,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 1.3,
    "placedScaleEvidence": {
     "n": 2,
@@ -2222,7 +2309,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.098,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02",
@@ -2261,17 +2369,7 @@
     "MWImpArchGuardTower02:3.Mat",
     "MWImpArchGuardTower02:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 7.283,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.2827,
     "p50": -7.2827,
@@ -2280,13 +2378,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -7.2827
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 2,
@@ -2317,7 +2408,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.2827
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.266,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01",
@@ -2352,17 +2464,7 @@
     "MWImpArchFoundation01:1.Mat",
     "MWImpArchFoundation01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.5463,
     "p50": 6.6464,
@@ -2371,8 +2473,6 @@
     "slopeTermMPerDeg": 0.00599,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 18,
@@ -2396,7 +2496,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02",
@@ -2427,6 +2543,30 @@
    "materials": [
     "MWImpArchFoundation02:0.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -7.2827,
+    "p50": -7.2827,
+    "p75": -7.2827,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.2827
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2438,30 +2578,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -7.2827,
-    "p50": -7.2827,
-    "p75": -7.2827,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -7.2827
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01",
@@ -2496,17 +2616,7 @@
     "MWImpArchFreePlat01:1.Mat",
     "MWImpArchFreePlat01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 7.283,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.2827,
     "p50": -7.2827,
@@ -2515,13 +2625,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -7.2827
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -2548,7 +2651,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.2827
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01",
@@ -2587,17 +2711,7 @@
     "MWImpArchPlaza01:3.Mat",
     "MWImpArchPlaza01:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 7.283,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -7.2827,
     "p50": -7.2827,
@@ -2606,13 +2720,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -7.2827
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 1.1,
    "placedScaleEvidence": {
     "n": 1,
@@ -2639,7 +2746,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.2827
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.283,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01",
@@ -2676,17 +2804,7 @@
     "MWImpArchPool01:2.Mat",
     "MWImpArchPool01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 2.731,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.731,
     "p50": -2.731,
@@ -2695,13 +2813,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -2.731
-   },
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 0.8,
    "placedScaleEvidence": {
     "n": 4,
@@ -2732,7 +2843,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -2.731
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 2.731,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.016,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.731
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01",
@@ -2763,6 +2895,25 @@
    "materials": [
     "MWImpArchArrowslit01:0.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2774,25 +2925,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.832,
+   "openBackYawDeg": 146.2,
+   "pivotAboveBaseM": 0.004
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02",
@@ -2827,6 +2963,30 @@
     "MWImpArchArrowslit02:1.Mat",
     "MWImpArchArrowslit02:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.9345,
+    "p50": -1.9345,
+    "p75": -1.9345,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -1.9345
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2838,30 +2998,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -1.9345,
-    "p50": -1.9345,
-    "p75": -1.9345,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -1.9345
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 1.934
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01",
@@ -2894,6 +3034,30 @@
     "MWImpArchStoneWallStraight01:0.Mat",
     "MWImpArchStoneWallStraight01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.9103,
+    "p50": 0.9103,
+    "p75": 0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2905,30 +3069,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.9103,
-    "p50": 0.9103,
-    "p75": 0.9103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9103
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.125,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall",
@@ -2961,17 +3105,7 @@
     "MWImpArchStoneWallStraight01Tall:0.Mat",
     "MWImpArchStoneWallStraight01Tall:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.641,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.9103,
     "p50": 0.9103,
@@ -2980,13 +3114,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9103
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3003,7 +3130,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9103
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.125,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble",
@@ -3036,6 +3184,30 @@
     "MWImpArchStoneWallStraight01Rubble:0.Mat",
     "MWImpArchStoneWallStraight01Rubble:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.9103,
+    "p50": 0.9103,
+    "p75": 0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3047,30 +3219,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.9103,
-    "p50": 0.9103,
-    "p75": 0.9103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9103
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.055,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02",
@@ -3105,6 +3257,30 @@
     "MWImpArchStoneWallStraight02:1.Mat",
     "MWImpArchStoneWallStraight02:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3116,30 +3292,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.188,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall",
@@ -3174,6 +3330,30 @@
     "MWImpArchStoneWallStraight02Tall:1.Mat",
     "MWImpArchStoneWallStraight02Tall:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3185,30 +3365,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.188,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01",
@@ -3241,6 +3401,30 @@
     "MWImpArchStoneWallStraightShort01:0.Mat",
     "MWImpArchStoneWallStraightShort01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.9103,
+    "p50": 0.9103,
+    "p75": 0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3252,30 +3436,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.9103,
-    "p50": 0.9103,
-    "p75": 0.9103,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.9103
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.125,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02",
@@ -3310,6 +3474,30 @@
     "MWImpArchStoneWallStraightShort02:1.Mat",
     "MWImpArchStoneWallStraightShort02:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3321,30 +3509,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.184,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01",
@@ -3377,6 +3545,30 @@
     "MWImpArchStoneWallCor01:0.Mat",
     "MWImpArchStoneWallCor01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3388,30 +3580,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02",
@@ -3446,6 +3618,30 @@
     "MWImpArchStoneWallCor02:1.Mat",
     "MWImpArchStoneWallCor02:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3457,30 +3653,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.133,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01",
@@ -3513,6 +3689,30 @@
     "MWImpArchStoneWallPost01:0.Mat",
     "MWImpArchStoneWallPost01:1.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 1.1948,
+    "p50": 1.1948,
+    "p75": 1.1948,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.1948
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3524,30 +3724,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 1.1948,
-    "p50": 1.1948,
-    "p75": 1.1948,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 1.1948
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.234,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02",
@@ -3580,17 +3760,7 @@
     "MWImpArchStoneWallPost02:0.Mat",
     "MWImpArchStoneWallPost02:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 3.641,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.1936,
     "p50": -0.5436,
@@ -3599,8 +3769,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -3617,7 +3785,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.234,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03",
@@ -3652,6 +3836,30 @@
     "MWImpArchStoneWallPost03:1.Mat",
     "MWImpArchStoneWallPost03:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3663,30 +3871,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.238,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04",
@@ -3721,6 +3909,30 @@
     "MWImpArchStoneWallPost03:1.Mat.001",
     "MWImpArchStoneWallPost03:2.Mat.001"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3732,30 +3944,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.238,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01",
@@ -3790,17 +3982,7 @@
     "MWImpArchLedge01:1.Mat",
     "MWImpArchLedge01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -3809,8 +3991,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -3840,7 +4020,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.031,
+   "openBackYawDeg": 135.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02",
@@ -3877,17 +4073,7 @@
     "MWImpArchLedge02:2.Mat",
     "MWImpArchLedge02:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 5.3588,
     "p50": 5.6916,
@@ -3896,8 +4082,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 7,
@@ -3921,7 +4105,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.031,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01",
@@ -3958,6 +4158,30 @@
     "MWImpArchLedgeCorIn01:2.Mat",
     "MWImpArchLedgeCorIn01:3.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3969,30 +4193,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.013,
+   "openBackYawDeg": 22.5,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01",
@@ -4029,17 +4233,7 @@
     "MWImpArchLedgeCorOut01:2.Mat",
     "MWImpArchLedgeCorOut01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 5.4694,
     "p50": 5.9757,
@@ -4048,8 +4242,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 5,
@@ -4079,7 +4271,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.062,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01",
@@ -4110,17 +4318,7 @@
    "materials": [
     "MWImpArchLedgeMid01:0.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4129,13 +4327,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -4158,7 +4349,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02",
@@ -4189,17 +4401,7 @@
    "materials": [
     "MWImpArchLedgeMid02:0.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4208,13 +4410,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin refs static-supported)"
    },
-   "anchorClass": "deck",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -4240,7 +4435,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01",
@@ -4281,17 +4497,7 @@
     "MWImpArchLedgeStairs01:4.Mat",
     "MWImpArchLedgeStairs01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -4299,13 +4505,6 @@
     "n": 0,
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill (plugin-spread)"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
    },
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
@@ -4337,7 +4536,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.02,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01",
@@ -4378,6 +4598,30 @@
     "MWImpArchLedgeStairsL01:4.Mat",
     "MWImpArchLedgeStairsL01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4389,30 +4633,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.038,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01",
@@ -4445,17 +4669,7 @@
     "MWImpArchLedgeStairsMid01:0.Mat",
     "MWImpArchLedgeStairsMid01:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4464,8 +4678,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
    "placedScaleMedian": 1.07,
    "placedScaleEvidence": {
     "n": 1,
@@ -4489,7 +4701,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 90.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01",
@@ -4530,6 +4758,30 @@
     "MWImpArchLedgeStairsR01:4.Mat",
     "MWImpArchLedgeStairsR01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4541,30 +4793,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "bottom-step",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.038,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01",
@@ -4605,6 +4837,30 @@
     "MWImpArchBridge01:4.Mat",
     "MWImpArchBridge01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4616,30 +4872,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.805,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02",
@@ -4682,6 +4918,30 @@
     "MWImpArchBridge02:5.Mat",
     "MWImpArchBridge02:6.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.6413,
+    "p50": -3.6413,
+    "p75": -3.6413,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -3.6413
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4693,30 +4953,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -3.6413,
-    "p50": -3.6413,
-    "p75": -3.6413,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -3.6413
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.184,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01",
@@ -4755,17 +4995,7 @@
     "MWImpArchDock01:3.Mat",
     "MWImpArchDock01:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4774,13 +5004,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -4807,7 +5030,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02",
@@ -4848,17 +5092,7 @@
     "MWImpArchDock02:4.Mat",
     "MWImpArchDock02:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 9.1007,
     "p50": 9.2851,
@@ -4867,8 +5101,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 5,
@@ -4902,7 +5134,23 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.113,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
@@ -4941,17 +5189,7 @@
     "MWImpArchDockPlatFront01:3.Mat",
     "MWImpArchDockPlatFront01:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 10.924,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4960,14 +5198,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "water",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": -2.2448,
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 6,
@@ -4994,7 +5224,29 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.0
+   },
+   "designedWaterlineM": -2.2448,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.924,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.145,
+   "openBackYawDeg": 78.8,
+   "pivotAboveBaseM": 10.924
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01",
@@ -5025,17 +5277,7 @@
    "materials": [
     "MWImpArchDockPlatMid02:0.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1276,
     "p50": -0.1098,
@@ -5044,8 +5286,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -5065,7 +5305,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01",
@@ -5104,6 +5360,30 @@
     "MWImpArchDockPlatCorIn01:3.Mat",
     "MWImpArchDockPlatCorIn01:4.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -10.924,
+    "p50": -10.924,
+    "p75": -10.924,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -10.924
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5115,30 +5395,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -10.924,
-    "p50": -10.924,
-    "p75": -10.924,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -10.924
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.093,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.924
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
@@ -5177,17 +5437,7 @@
     "MWImpArchDockPlatCorOut01:3.Mat",
     "MWImpArchDockPlatCorOut01:4.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 10.924,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.7219,
     "p50": -1.1897,
@@ -5196,8 +5446,6 @@
     "slopeTermMPerDeg": 0.07319,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -5220,7 +5468,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 10.924,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.186,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.924
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01",
@@ -5261,6 +5525,30 @@
     "MWImpArchStableStraight01:4.Mat",
     "MWImpArchStableStraight01:5.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5272,30 +5560,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": -0.0,
-    "p50": -0.0,
-    "p75": -0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.916,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
@@ -5336,17 +5604,7 @@
     "MWImpArchStableEndL01:4.Mat",
     "MWImpArchStableEndL01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -5355,13 +5613,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -5388,7 +5639,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.826,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
@@ -5429,17 +5701,7 @@
     "MWImpArchStableEndR01:4.Mat",
     "MWImpArchStableEndR01:5.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -5448,13 +5710,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -5481,7 +5736,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.826,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01",
@@ -5518,17 +5794,7 @@
     "MWImpArchWell01:2.Mat",
     "MWImpArchWell01:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.455,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4552,
     "p50": -0.4552,
@@ -5537,13 +5803,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.4552
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [],
@@ -5569,7 +5828,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.4552
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.455,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.055,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.455
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01",
@@ -5600,6 +5880,25 @@
    "materials": [
     "MWImpArchFlagPole01:0.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5611,25 +5910,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.129,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.085
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01",
@@ -5664,17 +5948,7 @@
     "MWImpArchPedestal01:1.Mat",
     "MWImpArchPedestal01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -5683,13 +5957,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -5712,7 +5979,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.32,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02",
@@ -5747,17 +6035,7 @@
     "MWImpArchPedestal02:1.Mat",
     "MWImpArchPedestal02:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -5766,13 +6044,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -5790,7 +6061,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.273,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01",
@@ -5825,6 +6117,30 @@
     "MWmpArchPlanter01:1.Mat",
     "MWmpArchPlanter01:2.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.5121,
+    "p50": 0.5121,
+    "p75": 0.5121,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5121
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -5836,30 +6152,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.5121,
-    "p50": 0.5121,
-    "p75": 0.5121,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 0.5121
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01",
@@ -5892,17 +6188,7 @@
     "MWImpArchMooring01:0.Mat",
     "MWImpArchMooring01:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -5911,13 +6197,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "exterior": [
@@ -5934,12 +6213,33 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.065,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01",
    "node": "es|ef4c0b0d90|chitecture_keep_clutter_mwimparchsewer01",
-   "category": "architecture",
+   "category": "door",
    "sizeM": [
     2.048,
     2.048,
@@ -5957,7 +6257,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "mwimparchmetaldet01.dds",
@@ -5967,17 +6267,7 @@
     "MWImpArchSewer01:0.Mat",
     "MWImpArchSewer01:1.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.164,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1637,
     "p50": -0.1637,
@@ -5986,13 +6276,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "hanging",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -0.1637
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -6021,7 +6304,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.1637
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.164,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.105,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.164
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01",
@@ -6056,17 +6360,7 @@
     "MWImpArchAltar01:1.Mat",
     "MWImpArchAltar01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6075,13 +6369,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -6099,7 +6386,28 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.352,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01",
@@ -6134,17 +6442,7 @@
     "MWImpArchRubblePile01:1.Mat",
     "MWImpArchRubblePile01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.128,
-    "buryCapM": 0.75,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.6562,
     "p50": 0.8088,
@@ -6153,8 +6451,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 9,
@@ -6190,7 +6486,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.128,
+    "buryCapM": 0.75,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "dug-in",
+     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.031,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.128
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02",
@@ -6225,17 +6537,7 @@
     "MWImpArchRubblePile02:1.Mat",
     "MWImpArchRubblePile02:3.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.043,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.8202,
     "p50": 1.1653,
@@ -6244,8 +6546,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 3,
@@ -6286,7 +6586,23 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.043,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.025,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03",
@@ -6321,17 +6637,7 @@
     "MWImpArchRubblePile03:1.Mat",
     "MWImpArchRubblePile03:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.171,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1711,
     "p50": -0.1711,
@@ -6340,13 +6646,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": -0.1711
-   },
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 2,
@@ -6382,7 +6681,28 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1711
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.171,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.235,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.171
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01",
@@ -6413,17 +6733,7 @@
    "materials": [
     "MWImpArchRubblePiece01:0.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.053,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6432,8 +6742,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
     "n": 1,
@@ -6470,7 +6778,23 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.053,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.844,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.053
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02",
@@ -6501,6 +6825,25 @@
    "materials": [
     "MWImpArchRubblePiece02:0.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -6512,25 +6855,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "policy-fallback"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.998,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.478
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03",
@@ -6561,17 +6889,7 @@
    "materials": [
     "MWImpArchRubblePiece03:0.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 1.215,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6580,9 +6898,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "water",
-   "anchorClassEvidence": "plugin",
-   "designedWaterlineM": 0.18,
    "settingClass": {
     "settings": {
      "exterior": [
@@ -6599,7 +6914,24 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.18,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.215,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.986,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.215
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01",
@@ -6633,17 +6965,13 @@
     "MWImpArchFloorChunk01:1.Mat",
     "MWImpArchFloorChunk01:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
+   "alphaMaskMaterials": {
+    "MWImpArchFloorChunk01:0.Mat": 0.251
    },
+   "decalMaterials": [
+    "MWImpArchFloorChunk01:0.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1147,
     "p50": -0.0072,
@@ -6652,8 +6980,6 @@
     "slopeTermMPerDeg": -0.00384,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -6687,7 +7013,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02",
@@ -6721,17 +7063,13 @@
     "MWImpArchFloorChunk02:1.Mat",
     "MWImpArchFloorChunk02:2.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
+   "alphaMaskMaterials": {
+    "MWImpArchFloorChunk02:0.Mat": 0.251
    },
+   "decalMaterials": [
+    "MWImpArchFloorChunk02:0.Mat"
+   ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0466,
     "p50": 0.0,
@@ -6740,8 +7078,6 @@
     "slopeTermMPerDeg": -0.01617,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": [
@@ -6775,7 +7111,23 @@
     ],
     "evidence": "plugin"
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01",
@@ -6806,17 +7158,7 @@
    "materials": [
     "Object012ass002.Mat"
    ],
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": -0.0,
-    "buryCapM": 0.5,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -6825,13 +7167,6 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "plugin",
    "settingClass": {
     "settings": {
      "interior": []
@@ -6854,12 +7189,33 @@
      }
     }
    },
-   "lodLevels": 3
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.837,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01",
    "node": "es|202a9d00ea|hitecture_keep_doors_mwimparchdoorload01",
-   "category": "architecture",
+   "category": "door",
    "sizeM": [
     1.863,
     0.192,
@@ -6877,7 +7233,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "mwimparchdoor01.dds"
@@ -6886,6 +7242,30 @@
     "TM_MWDoor01LoadL:30.Mat",
     "TM_MWDoor01LoadR:42.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -6897,30 +7277,10 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": false,
+   "undersideCoverage": 0.309,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01",
@@ -6951,6 +7311,30 @@
    "materials": [
     "Object017.Mat"
    ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -6962,39 +7346,20 @@
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
-   "designedSinkM": {
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "n": 0,
-    "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
-   },
-   "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": 0.0
-   },
-   "anchorClassEvidence": "unplaced",
-   "settingClass": {
-    "settings": {},
-    "n": 0,
-    "interior": {},
-    "exterior": {},
-    "sourceCells": [],
-    "evidence": "unplaced"
-   },
-   "lodLevels": 3
+   "undersideClosed": true,
+   "undersideCoverage": 0.896,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\imperial-keep.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\imperial-keep.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 339
+  "MASK": 2,
+  "OPAQUE": 337,
+  "BLEND": 0
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -7027,16 +7392,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 20562996,
-  "bytesAfter": 7328792,
+  "bytesBefore": 18363932,
+  "bytesAfter": 7327624,
   "images": 15,
   "imageBytesAfter": 4290028,
   "warnings": [],
-  "sha256": "5c4992dab4ad710c1153e28f37a96d131c83c99c7aca6def98a3b63fef757964",
+  "sha256": "be5a7d4eaba7a2a6b2eb315a19a588738f93a4407c78bfd9b387a6b11b5a90fa",
   "sidecarBytes": {
-   "connectors": 63679,
-   "footprints": 82772,
-   "interiors": 65701
+   "connectors": 65406,
+   "footprints": 83211,
+   "interiors": 72284
   }
  }
 }

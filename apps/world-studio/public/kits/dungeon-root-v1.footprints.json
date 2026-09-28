@@ -14790,7 +14790,7 @@
   },
   "htbm:here there be monsters - curse of cipactli/trees/treeroottrap": {
    "areaM2": 1.98,
-   "depthM": 7.85,
+   "depthM": 4.57,
    "footprintM": [
     [
      -0.46,
@@ -14846,11 +14846,15 @@
     ]
    ],
    "groundBandM": 1.5,
-   "heightM": 5.72,
+   "heightM": 3.41,
    "planOutlineM": [
     [
-     -1.82,
-     -0.91
+     -0.46,
+     0.96
+    ],
+    [
+     0.05,
+     -2.23
     ],
     [
      0.13,
@@ -14869,19 +14873,31 @@
      -2.28
     ],
     [
-     1.82,
-     -0.91
+     0.58,
+     -2.2
     ],
     [
-     1.82,
-     5.46
+     0.59,
+     -2.11
     ],
     [
-     -1.82,
-     5.46
+     0.45,
+     -0.85
+    ],
+    [
+     -0.2,
+     2.06
+    ],
+    [
+     -0.22,
+     2.11
+    ],
+    [
+     -0.29,
+     2.18
     ]
    ],
-   "widthM": 3.64
+   "widthM": 1.05
   },
   "mudmother:gv_meshes/argoniannest/archwaysticks": {
    "areaM2": 8.92,
