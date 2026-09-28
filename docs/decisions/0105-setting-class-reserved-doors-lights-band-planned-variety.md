@@ -135,7 +135,7 @@ door) and the Phase 12 description (0062, 0103 decision 7); 0098's
     `waiting-on.json`, and the `ownerOkRule` check fails an op accepted at
     git HEAD (`ownerOk`) that changed without a `cause`.
 
-## Addendum 2 (walk 3 wave 2 close, 2026-09-28): planner rulings R14–R24
+## Addendum 2 (walk 3 wave 2 close, 2026-09-28): planner rulings R14–R30
 
 These are planner rulings on the wave-2 lanes' recommendations (no owner
 words were given for them).
@@ -194,6 +194,21 @@ words were given for them).
 24. **R24 A hand row the miner now measures is deleted.** The
     `histflower01/02-sick` rows in `placement-policies.json` were deleted once the
     sink miner resolved texture variants to their base's row.
+25. **R25 The Riften stable sits at sink 0.** A reviewed `assetPlacement` row
+    (`rtstables01`, designedSinkM 0.0) replaces the mesh-sill fallback (-0.91 m;
+    RiftenWorld has no LAND), and the layout carries no hand `y`.
+26. **R26 A `work` parcel takes a workplace cell.** `USE_CLASSES` gains
+    `work: (smithy, workshop, storage)` (`blueprint_interiors.py`). Claywater's
+    store hut is a `work` parcel and takes KeebaHouseSnailMinder.
+27. **R27 The stable is walked into.** It has no door record. The keeper's home
+    is the station house, and the design brief says so.
+28. **R28 A shell's porch face is a run end only when the plugin pairs it in
+    at least 2 placements**; otherwise it is optional. At Claywater the barn it
+    was raised for is gone, so no place uses it yet.
+29. **R29 The `histflower01-sick` sink goes through the miner.** Only its own row
+    is re-mined; until the row lands, places use `histflower02-sick`.
+30. **R30 Every REQUEST row is closed.** Each row is either applied or answered
+    with the rule that refuses it.
 
 ## Where each lives
 

@@ -5852,8 +5852,8 @@
           ],
           "wealth": "poor",
           "why": {
-            "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised above the high water.",
-            "playerPurpose": "The ford ferry in the wet season and the landing's side of LF83.",
+            "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised a little above the channel.",
+            "playerPurpose": "The ford ferry for carts and beasts; the landing's side of LF83.",
             "what": "The landing hamlet: three mud huts round an open common, the fish racks and the boats pulled up on the bank.",
             "whyHere": "The landing is older than the station; its polers came up from the mud-hut country and built as they do at home, on the dry point by the channel.",
             "whyNeighbours": "It faces the well-station across the ford. It keeps no Hist: its people's tree stands at Fenmarch Village (place.imperial-fringe.fenmarch-village, 1.7 km). They go home for the hatching."
@@ -5861,8 +5861,8 @@
         },
         {
           "centreM": [
-            327.496,
-            3072.992
+            322.246,
+            3074.975
           ],
           "cultureKit": "imperial",
           "id": "district.claywater-station.the-well",
@@ -5910,48 +5910,64 @@
               3069.227
             ],
             [
-              298.363,
-              3073.288
+              298.339,
+              3073.255
             ],
             [
-              325.183,
-              3098.586
+              326.198,
+              3100.632
             ],
             [
-              333.432,
-              3105.301
+              326.633,
+              3101.037
             ],
             [
-              335.093,
-              3105.719
+              328.128,
+              3102.092
             ],
             [
-              371.509,
-              3106.28
+              333.808,
+              3103.327
             ],
             [
-              377.577,
-              3106.28
+              334.919,
+              3103.222
             ],
             [
-              378.934,
-              3104.923
+              336.035,
+              3103.051
             ],
             [
-              380.54,
-              3103.281
+              337.162,
+              3102.6
             ],
             [
-              380.54,
-              3096.816
+              347.309,
+              3096.259
             ],
             [
-              365.571,
-              3080.175
+              348.037,
+              3095.477
             ],
             [
-              331.736,
-              3043.782
+              349.193,
+              3093.838
+            ],
+            [
+              349.389,
+              3092.346
+            ],
+            [
+              349.373,
+              3091.446
+            ],
+            [
+              344.81,
+              3069.169
+            ],
+            [
+              332.12,
+              3044.191
             ],
             [
               330.949,
@@ -6018,20 +6034,6 @@
           "thresholdM": [
             338.09,
             2974.29
-          ]
-        },
-        {
-          "facingDeg": 58.3,
-          "id": "door.imperial-fringe.claywater-station.4",
-          "interiorClaim": {
-            "culture": "imperial",
-            "owner": "the stablemaster",
-            "sizeClass": "large"
-          },
-          "parcelId": "parcel.claywater-station.stable-barn",
-          "thresholdM": [
-            337.123,
-            3086.072
           ]
         },
         {
@@ -6223,7 +6225,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Dry ground on a mud pad raised clear of the high water.",
+            "microGeography": "Dry ground on a mud pad raised clear of the wet bank.",
             "playerPurpose": "A home to enter and people to talk to about the well and the landing.",
             "what": "The family hut of the landing, where one household of the landing lives.",
             "whyHere": "The landing's families live on the dry point by the channel.",
@@ -6342,10 +6344,10 @@
           "spans": null,
           "use": "dock",
           "why": {
-            "microGeography": "Flood water at 35.24 m, more than a metre deep round the hull.",
-            "playerPurpose": "The ferry that carries the player across the flooded ford in the wet season.",
-            "what": "The ferry raft, moored in the flood water east of the landing.",
-            "whyHere": "The poler's ferry needs a hull afloat in the wet season.",
+            "microGeography": "Channel water at 35.24 m, more than a metre deep round the hull.",
+            "playerPurpose": "The ferry that carries carts, beasts and the player across the ford.",
+            "what": "The ferry raft, moored in the channel east of the landing.",
+            "whyHere": "Carts and beasts cross on it, so the hull stays afloat by the landing.",
             "whyNeighbours": "The cleats on the bank hold it; the landing path runs to it.",
             "whySpot": "The nearest water that floats it: at least a metre all round, east of the road."
           },
@@ -6421,81 +6423,14 @@
           "spans": null,
           "use": "dock",
           "why": {
-            "microGeography": "The deck stands a hand's breadth over the flood water; its piles go down into the bed.",
+            "microGeography": "The deck stands a hand's breadth over the channel; its piles go down into the bed.",
             "playerPurpose": "The way from the bank to the ferry raft.",
-            "what": "The landing stage: two plank dock spans on piles from the bank out over the flood water.",
+            "what": "The landing stage: two plank dock spans on piles from the bank out over the channel.",
             "whyHere": "The ferry raft needs a dry way out to water deep enough to float it.",
             "whyNeighbours": "The raft lies at its end; the cleats and the canoe are at its foot.",
             "whySpot": "From the bank east of the poler's pod, the shortest way to a metre of water."
           },
           "yawDeg": 116.7
-        },
-        {
-          "assetRef": null,
-          "buildingFamily": "vanilla-farmhouse-fence",
-          "centreM": [
-            363.6,
-            3084.55
-          ],
-          "districtId": "district.claywater-station.the-well",
-          "entrance": null,
-          "front": null,
-          "groundFit": null,
-          "id": "parcel.claywater-station.paddock-fence",
-          "interior": {
-            "kind": "none"
-          },
-          "notes": null,
-          "orientationWhy": "The fence runs along the road's east verge, with a gap at the paddock path.",
-          "polygon": [
-            [
-              362.503,
-              3082.842
-            ],
-            [
-              362.478,
-              3082.858
-            ],
-            [
-              362.476,
-              3082.967
-            ],
-            [
-              366.274,
-              3088.877
-            ],
-            [
-              367.837,
-              3091.284
-            ],
-            [
-              367.947,
-              3091.344
-            ],
-            [
-              367.994,
-              3091.325
-            ],
-            [
-              367.995,
-              3091.217
-            ],
-            [
-              362.619,
-              3082.874
-            ]
-          ],
-          "spans": null,
-          "use": "boundary",
-          "why": {
-            "microGeography": "It stands on the last dry ground above the channel.",
-            "playerPurpose": "It keeps the station's horses and the player's in the paddock overnight.",
-            "what": "A woven fence of two panels along the paddock's road side, with a gap.",
-            "whyHere": "Imperial stations fence the paddock where the animals stand.",
-            "whyNeighbours": "It holds the paddock between the road and the water; the open stalls stand at its south end.",
-            "whySpot": "East of the road, on the flat ground between the verge and the flood water."
-          },
-          "yawDeg": 57.0
         },
         {
           "assetRef": "composite:mud/kotm-house-pod",
@@ -6644,8 +6579,8 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Dry ground above the flood line on a mud pad raised clear of the high water.",
-            "playerPurpose": "The ford ferry in the wet season; the second counter of LF83.",
+            "microGeography": "Dry ground above the channel on a mud pad raised clear of the wet bank.",
+            "playerPurpose": "The ford ferry for carts and beasts; the second counter of LF83.",
             "what": "The poler's hut, where the crossing fee is paid.",
             "whyHere": "The landing hamlet lives by the crossing; the poler lives beside it.",
             "whyNeighbours": "The fish racks and the landing lie between it and the water; the common is to the west.",
@@ -6859,12 +6794,12 @@
           "spans": null,
           "use": "wall",
           "why": {
-            "microGeography": "The ground drops toward the barn below this end.",
-            "playerPurpose": "It closes the pad on the barn side, so the yard ends at a wall.",
+            "microGeography": "The ground drops toward the stable below this end.",
+            "playerPurpose": "It closes the pad on the stable side, so the yard ends at a wall.",
             "what": "A dry-stone retaining wall across the north-east end of the station house's pad.",
-            "whyHere": "This end of the pad stands highest over the slope down to the barn, so its edge needs holding.",
+            "whyHere": "This end of the pad stands highest over the slope down to the stable, so its edge needs holding.",
             "whyNeighbours": "It joins the back wall at the corner and stops short of the yard wall on the road side.",
-            "whySpot": "Across the pad's end toward the stable barn."
+            "whySpot": "Across the pad's north-east end, above the stable yard."
           },
           "yawDeg": 302.0
         },
@@ -7358,26 +7293,26 @@
             "what": "A dry-stone retaining wall across the south-west end of the station house's pad.",
             "whyHere": "The bench dips at the house's landing end. The wall keeps the pad from slumping there.",
             "whyNeighbours": "It joins the back wall at one corner and the road-side yard wall at the other.",
-            "whySpot": "Across the pad's end away from the barn, behind the woodpile and the hen's nest."
+            "whySpot": "Across the pad's end away from the stable, behind the woodpile and the hen's nest."
           },
           "yawDeg": 122.0
         },
         {
-          "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
-          "buildingFamily": "mw-imperial-stables",
+          "assetRef": "vanilla:architecture/riften/rtstables01",
+          "buildingFamily": "riften-stables",
           "centreM": [
-            377.0,
-            3100.0
+            334.6,
+            3087.6
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": {
-            "arcM": 2.11,
-            "bearingDeg": 267.5,
-            "interiorRef": "vanilla-imperial-int",
-            "kind": "opening",
+            "arcM": 1.56,
+            "bearingDeg": 258.0,
+            "interiorRef": null,
+            "kind": "open-front",
             "worldM": [
-              372.01,
-              3099.87
+              333.219,
+              3087.201
             ]
           },
           "front": null,
@@ -7387,121 +7322,62 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The open stalls face west to the road, their backs to the flood water.",
+          "orientationWhy": "The open stalls face west-south-west into the walled paddock, their backs to the road.",
           "polygon": [
             [
-              371.54,
-              3097.27
+              335.741,
+              3094.917
             ],
             [
-              375.92,
-              3097.72
+              335.095,
+              3095.262
             ],
             [
-              376.09,
-              3097.89
+              334.08,
+              3094.599
             ],
             [
-              376.54,
-              3098.35
+              332.679,
+              3092.432
             ],
             [
-              376.54,
-              3101.65
+              327.977,
+              3085.135
             ],
             [
-              376.09,
-              3102.11
+              327.989,
+              3083.795
             ],
             [
-              375.92,
-              3102.28
+              333.552,
+              3080.413
             ],
             [
-              371.54,
-              3102.28
+              334.221,
+              3080.125
+            ],
+            [
+              335.074,
+              3081.396
+            ],
+            [
+              340.886,
+              3090.488
+            ],
+            [
+              341.16,
+              3091.154
             ]
           ],
           "spans": null,
           "use": "storage",
           "why": {
-            "microGeography": "Flat ground half a metre above the flood water.",
+            "microGeography": "A levelled yard cut into the foot of the hillside.",
             "playerPurpose": "A stable where the player's horse is kept for the night.",
-            "what": "Two open stalls where travellers' horses stand for the night.",
+            "what": "An open stable of four stalls where travellers' horses stand for the night.",
             "whyHere": "A road station keeps a stable for animals that cannot come inside.",
-            "whyNeighbours": "The paddock fence runs north of it; the stablemaster's house faces it across the road.",
-            "whySpot": "East of the road on the flat ground by the water, the only level ground beside the paddock."
-          },
-          "yawDeg": 90.0
-        },
-        {
-          "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
-          "buildingFamily": "vanilla-farmhouse",
-          "centreM": [
-            334.0,
-            3088.0
-          ],
-          "districtId": "district.claywater-station.the-well",
-          "entrance": {
-            "arcM": null,
-            "bearingDeg": null,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "esp-door",
-            "radial": true,
-            "radiusM": 3.67,
-            "worldM": null
-          },
-          "front": null,
-          "groundFit": null,
-          "id": "parcel.claywater-station.stable-barn",
-          "interior": {
-            "kind": "dwelling"
-          },
-          "notes": null,
-          "orientationWhy": "Its deck door faces north-east over the road to the paddock; the stair climbs to the deck at its west corner.",
-          "polygon": [
-            [
-              335.548,
-              3097.61
-            ],
-            [
-              335.294,
-              3097.544
-            ],
-            [
-              327.674,
-              3085.349
-            ],
-            [
-              327.726,
-              3085.093
-            ],
-            [
-              336.834,
-              3079.402
-            ],
-            [
-              337.096,
-              3079.462
-            ],
-            [
-              344.716,
-              3091.657
-            ],
-            [
-              344.656,
-              3091.919
-            ]
-          ],
-          "spans": null,
-          "use": "dwelling",
-          "why": {
-            "microGeography": "The ground falls to the north; the house stands on a pad with a retaining wall on its low side.",
-            "playerPurpose": "The house of the man who takes the player's horse for the night.",
-            "what": "The stablemaster's house: the well-keeper's hand lives upstairs, reached by the outside stair to the deck.",
-            "whyHere": "A road station keeps someone by the horses at night.",
-            "whyNeighbours": "The paddock and the open stalls stand across the road; the stable path joins the house to the well.",
-            "whySpot": "West of the road, facing the paddock across it, the last level ground before the bench drops to the channel."
+            "whyNeighbours": "Stone walls close the paddock in front of the stalls on three sides; the station house stands to the north-west.",
+            "whySpot": "The levelled yard south-east of the station house, walled on three sides. Nowhere else near the road is level and wide enough for the stalls and a paddock."
           },
           "yawDeg": 238.0
         },
@@ -7521,7 +7397,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The wall runs along the barn's long north side, square to the pad.",
+          "orientationWhy": "The wall runs across the stable's north end, square to the pad.",
           "polygon": [
             [
               323.6,
@@ -7712,10 +7588,10 @@
           "use": "wall",
           "why": {
             "microGeography": "The bench rises above this edge toward the station house.",
-            "playerPurpose": "It keeps the bank off the barn's back wall.",
-            "what": "A dry-stone retaining wall along the north side of the stable barn's pad.",
-            "whyHere": "The pad is cut into the rising ground along the barn's back; the wall keeps the bank off it.",
-            "whyNeighbours": "It stops short of the pad's north-east corner, leaving a gap about 2.8 m wide where the stable path climbs onto the pad.",
+            "playerPurpose": "It keeps the bank off the stable's north end.",
+            "what": "A dry-stone retaining wall along the north side of the stable's pad.",
+            "whyHere": "The pad is cut into the rising ground at the stable's north end; the wall keeps the bank off it.",
+            "whyNeighbours": "It stops short of the pad's north-west corner, leaving the gap where the stable path turns in to the stalls.",
             "whySpot": "Along the pad's north edge, facing the station house."
           },
           "yawDeg": 148.0
@@ -7724,8 +7600,8 @@
           "assetRef": null,
           "buildingFamily": "vanilla-farmhouse-stonewall",
           "centreM": [
-            336.2,
-            3100.75
+            334.63,
+            3098.31
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -7736,202 +7612,202 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The wall runs along the barn's long south side, square to the pad.",
+          "orientationWhy": "The wall runs across the stable's south end, square to the pad.",
           "polygon": [
             [
-              334.968,
-              3101.119
+              333.398,
+              3098.679
             ],
             [
-              335.059,
-              3101.452
+              333.488,
+              3099.012
             ],
             [
-              335.269,
-              3101.638
+              333.699,
+              3099.198
             ],
             [
-              335.619,
-              3101.726
+              334.049,
+              3099.286
             ],
             [
-              335.998,
-              3101.69
+              334.428,
+              3099.25
             ],
             [
-              336.546,
-              3101.607
+              334.976,
+              3099.167
             ],
             [
-              336.915,
-              3101.459
+              335.345,
+              3099.019
             ],
             [
-              337.093,
-              3101.348
+              335.523,
+              3098.908
             ],
             [
-              337.998,
-              3100.57
+              336.428,
+              3098.13
             ],
             [
-              338.114,
-              3100.382
+              336.544,
+              3097.942
             ],
             [
-              339.984,
-              3099.541
+              338.414,
+              3097.101
             ],
             [
-              340.162,
-              3099.43
+              338.592,
+              3096.99
             ],
             [
-              341.067,
-              3098.652
+              339.497,
+              3096.212
             ],
             [
-              341.185,
-              3098.462
+              339.615,
+              3096.022
             ],
             [
-              343.063,
-              3097.617
+              341.493,
+              3095.177
             ],
             [
-              343.241,
-              3097.506
+              341.671,
+              3095.066
             ],
             [
-              344.146,
-              3096.728
+              342.576,
+              3094.288
             ],
             [
-              344.262,
-              3096.541
+              342.692,
+              3094.101
             ],
             [
-              346.132,
-              3095.699
+              344.562,
+              3093.259
             ],
             [
-              346.311,
-              3095.588
+              344.741,
+              3093.148
             ],
             [
-              346.494,
-              3095.39
+              344.924,
+              3092.95
             ],
             [
-              346.926,
-              3094.779
+              345.356,
+              3092.339
             ],
             [
-              346.954,
-              3094.561
+              345.384,
+              3092.121
             ],
             [
-              346.95,
-              3094.327
+              345.38,
+              3091.887
             ],
             [
-              346.827,
-              3094.074
+              345.257,
+              3091.634
             ],
             [
-              346.721,
-              3093.904
+              345.151,
+              3091.464
             ],
             [
-              346.561,
-              3093.78
+              344.991,
+              3091.34
             ],
             [
-              346.247,
-              3093.694
+              344.677,
+              3091.254
             ],
             [
-              345.53,
-              3093.847
+              343.96,
+              3091.407
             ],
             [
-              345.272,
-              3093.926
+              343.702,
+              3091.486
             ],
             [
-              345.094,
-              3094.037
+              343.524,
+              3091.597
             ],
             [
-              343.518,
-              3095.349
+              341.948,
+              3092.909
             ],
             [
-              343.298,
-              3095.371
+              341.728,
+              3092.931
             ],
             [
-              342.202,
-              3095.844
+              340.632,
+              3093.404
             ],
             [
-              342.024,
-              3095.955
+              340.454,
+              3093.515
             ],
             [
-              340.442,
-              3097.272
+              338.872,
+              3094.832
             ],
             [
-              340.22,
-              3097.295
+              338.65,
+              3094.855
             ],
             [
-              339.124,
-              3097.767
+              337.554,
+              3095.327
             ],
             [
-              338.945,
-              3097.879
+              337.375,
+              3095.439
             ],
             [
-              337.369,
-              3099.191
+              335.799,
+              3096.751
             ],
             [
-              337.15,
-              3099.213
+              335.58,
+              3096.773
             ],
             [
-              336.054,
-              3099.686
+              334.484,
+              3097.246
             ],
             [
-              335.876,
-              3099.797
+              334.306,
+              3097.357
             ],
             [
-              335.582,
-              3100.063
+              334.012,
+              3097.623
             ],
             [
-              335.24,
-              3100.478
+              333.67,
+              3098.037
             ],
             [
-              335.068,
-              3100.844
+              333.498,
+              3098.404
             ]
           ],
           "spans": null,
           "use": "wall",
           "why": {
             "microGeography": "The ground stands higher than the pad along most of this edge.",
-            "playerPurpose": "It keeps the bank off the barn's south wall.",
-            "what": "A dry-stone retaining wall along the south side of the stable barn's pad.",
-            "whyHere": "The barn's pad is cut into the ground on this side; the wall holds the bank back from the barn's south wall.",
-            "whyNeighbours": "It meets the east and west walls at the pad's corners.",
-            "whySpot": "Along the pad's south edge, a pace out from the barn wall."
+            "playerPurpose": "It keeps the bank off the stable's south end.",
+            "what": "A dry-stone retaining wall along the south side of the stable's pad.",
+            "whyHere": "The stable's pad is cut into the ground at this end; the wall holds the bank back from the stalls.",
+            "whyNeighbours": "It meets the west wall at the pad's south-west corner.",
+            "whySpot": "Along the pad's south edge, two paces out from the stable's end."
           },
           "yawDeg": 328.0
         },
@@ -7951,7 +7827,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The wall runs across the barn's west end, square to the pad.",
+          "orientationWhy": "The wall runs along the open front of the stalls, square to the pad.",
           "polygon": [
             [
               322.824,
@@ -7967,7 +7843,7 @@
             ],
             [
               323.091,
-              3088.344
+              3088.345
             ],
             [
               323.202,
@@ -7999,7 +7875,7 @@
             ],
             [
               326.933,
-              3094.492
+              3094.493
             ],
             [
               327.044,
@@ -8010,12 +7886,64 @@
               3095.576
             ],
             [
-              328.013,
-              3095.693
+              328.009,
+              3095.692
             ],
             [
-              329.2,
-              3094.951
+              328.851,
+              3097.562
+            ],
+            [
+              328.962,
+              3097.741
+            ],
+            [
+              329.16,
+              3097.924
+            ],
+            [
+              329.771,
+              3098.356
+            ],
+            [
+              329.989,
+              3098.384
+            ],
+            [
+              330.223,
+              3098.38
+            ],
+            [
+              330.476,
+              3098.257
+            ],
+            [
+              330.646,
+              3098.151
+            ],
+            [
+              330.77,
+              3097.991
+            ],
+            [
+              330.856,
+              3097.677
+            ],
+            [
+              330.703,
+              3096.96
+            ],
+            [
+              330.624,
+              3096.702
+            ],
+            [
+              330.513,
+              3096.524
+            ],
+            [
+              329.201,
+              3094.948
             ],
             [
               329.179,
@@ -8090,11 +8018,11 @@
           "use": "wall",
           "why": {
             "microGeography": "The ground rises above this end toward the bench.",
-            "playerPurpose": "It closes the barn's pad on the side that faces the landing.",
-            "what": "A dry-stone retaining wall across the west end of the stable barn's pad.",
-            "whyHere": "The pad is cut into the ground at the barn's west end; the wall keeps the slope from slumping onto it.",
+            "playerPurpose": "It closes the stable's pad on the side that faces the landing.",
+            "what": "A dry-stone retaining wall along the west edge of the stable's pad, in front of the stalls.",
+            "whyHere": "The pad is cut into the ground on its west side; the wall keeps the slope from slumping into the yard.",
             "whyNeighbours": "It joins the north and south walls at the pad's corners.",
-            "whySpot": "Across the pad's west end, a pace out from the barn."
+            "whySpot": "Along the pad's west edge, a few paces out from the stalls."
           },
           "yawDeg": 58.0
         },
@@ -8387,11 +8315,11 @@
             ]
           ],
           "spans": null,
-          "use": "dwelling",
+          "use": "work",
           "why": {
-            "microGeography": "Dry bank a metre above the flood water, its pad raised to clear the high water.",
-            "playerPurpose": "A household on the landing whose door the player can open.",
-            "what": "The landing's net and basket maker lives and works in this pod, beside the stored catch.",
+            "microGeography": "Dry bank a metre above the channel, its pad raised clear of the wet ground.",
+            "playerPurpose": "A workshop on the landing whose door the player can open.",
+            "what": "The landing's net and basket maker works in this pod, beside the stored catch.",
             "whyHere": "A landing needs its nets mended and its baskets woven close to the boats.",
             "whyNeighbours": "The landing steps run past its door; the poler's pod stands to the south-west.",
             "whySpot": "North of the landing steps on the dry bank, clear of the road."
@@ -8778,8 +8706,8 @@
               356.0,
               3084.0
             ],
-            "rejectedBecause": "One flat pad east of the road; the rest of the east side is flood water at 35.24 m, with no room for either half.",
-            "why": "The flat pad east of the road beside the flood water."
+            "rejectedBecause": "One flat pad east of the road; the rest of the east side is open water at 35.24 m, with no room for either half.",
+            "why": "The flat pad east of the road beside the channel."
           },
           {
             "chosen": true,
@@ -8799,12 +8727,12 @@
         "combatSpaces": 1,
         "districts": 2,
         "docks": 0,
-        "doors": 5,
+        "doors": 4,
         "fences": 0,
         "keptTrees": 0,
         "landmarks": 0,
         "networkTerminals": 2,
-        "parcels": 17,
+        "parcels": 15,
         "questSockets": 4,
         "sitingCandidates": 2,
         "ways": 8
@@ -8996,7 +8924,7 @@
         {
           "assetRef": null,
           "endsAt": [
-            "parcel.claywater-station.stable-barn"
+            "parcel.claywater-station.stable"
           ],
           "fenceClass": null,
           "gapAt": [],
@@ -9011,36 +8939,28 @@
               3070.5
             ],
             [
-              344.5,
-              3073.216
-            ],
-            [
-              344.5,
+              335.5,
               3075.216
             ],
             [
-              343.5,
-              3076.216
+              331.5,
+              3075.216
             ],
             [
-              342.0,
-              3076.0
+              322.5,
+              3083.216
             ],
             [
-              343.5,
-              3077.216
+              322.5,
+              3084.216
             ],
             [
-              343.5,
-              3082.1
+              328.5,
+              3089.216
             ],
             [
-              341.5,
-              3082.216
-            ],
-            [
-              337.123,
-              3086.072
+              330.277,
+              3088.704
             ]
           ],
           "routing": "terrain",
@@ -9050,20 +8970,32 @@
               3070.5
             ],
             [
-              342.0,
-              3076.0
+              333.5,
+              3074.8
             ],
             [
-              343.5,
-              3082.1
+              327.8,
+              3079.2
             ],
             [
-              337.6,
-              3085.7
+              323.8,
+              3082.0
+            ],
+            [
+              324.2,
+              3085.2
+            ],
+            [
+              327.92,
+              3088.27
+            ],
+            [
+              332.3,
+              3087.4
             ]
           ],
           "waterOk": null,
-          "why": "From the well junction to the stable barn, up onto its pad at the north-east corner, then between the barn and the east wall to the barn door.",
+          "why": "From the well junction round the outside of the north yard wall, then in at the yard's west side to the open front of the stalls.",
           "widthM": 1.2
         },
         {

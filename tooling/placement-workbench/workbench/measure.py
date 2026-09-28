@@ -247,11 +247,16 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
 def is_prop(cat: Catalogue, piece: Piece) -> bool:
     """A dressing piece seated by `prop_seat`: a ground piece that is no
     parcel's building, run member or landmark, owns no pad, and is neither
-    piled nor beached (those keep their own seat rules)."""
+    piled nor beached (those keep their own seat rules). Any class but `water`
+    settled with no parent is a prop: propSeatRule judges every unparented
+    piece but a water one by `prop_seat` (`rules.prop_seat_piece`), so the
+    settle selects the same set (L7b 2026-09-28: haymound01, `deck` 221 /
+    `ground` 193 after the mounts re-mine, was settled by `seat` 0.028 m
+    above the seat the rule judged)."""
     row = cat.row(piece.asset)
     return ((piece.role or {}).get("kind") not in ("parcel", "run", "landmark")
             and piece.pad is None and not piece.beached and not row.get("piled")
-            and (row.get("anchorClass") or "ground") == "ground")
+            and (row.get("anchorClass") or "ground") != "water")
 
 
 def prop_seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:

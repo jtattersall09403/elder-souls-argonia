@@ -37,7 +37,7 @@ def test_claywater_c6_is_the_union_of_its_district_hulls_and_passes():
     bp = _claywater()
     kinds, parcels = _counted(bp)
     one_hull = len(parcels) / B.built_hull_area_ha(bp, parcels)          # the old measure
-    assert one_hull < 8.0
+    assert one_hull < 15.0     # below the old M2 village band's floor (15-33/ha)
     _, band, buffer_m = B.density_column(bp, kinds, B.size_class(bp))
     area, per = B.district_hull_area_ha(bp, parcels, buffer_m)
     # the landing stage folded into the-landing (walk-2 residual, L73)

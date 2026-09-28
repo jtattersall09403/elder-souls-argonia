@@ -1030,12 +1030,7 @@
       "why": "A poler works this chain of minor waterways (waterway.mercantile-coast.bright-throat-village, waterway.mercantile-coast.glowfen-murkmire, waterway.mercantile-coast.oliis-ferry-stage and others), which joins Bright-Throat Village and Screen-Watch and Estuary Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
-      "available": [
-        {
-          "is": "wet",
-          "predicate": "seasonIs"
-        }
-      ],
+      "available": [],
       "craft": "native-plank-ferry",
       "crossing": {
         "entityId": "reach.183-1646",
@@ -1080,7 +1075,7 @@
         },
         "socketRef": "socket.claywater-station.npc-poler"
       },
-      "questUse": "The province's attested western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
+      "questUse": "The province's attested western exit. A cart or a beast of burden crosses only on this ferry, so the poler can shut the road to wagons.",
       "refusedIf": [],
       "serviceKind": "ferry",
       "severs": [
@@ -1094,9 +1089,9 @@
       },
       "water": {
         "class": "river",
-        "name": "the western road's flood reach"
+        "name": "the Claywater ford"
       },
-      "why": "Claywater Station's Argonian landing sits on the ford's north bank. Its poler lives beside the crossing. Each monsoon the ford floods and the Drowning Gate, up the road, swings its barrier shut; the poler then carries travellers over on the plank ferry. In the dry season they wade the ford and the ferry lies pulled up on the bank. While the water is up this is the only way onto the Blackwood Road out of the province, so the fare is a monopoly price."
+      "why": "Claywater Station's Argonian landing sits on the ford's north bank. Its poler lives beside the crossing. The ford is knee-deep and stony. The light-footed wade it. The poler takes carts, beasts and anyone who will not wade over on the plank ferry. A cart has no other way onto the Blackwood Road out of the province, so the fare is steep."
     },
     {
       "available": [],

@@ -75,26 +75,6 @@
     ],
     "yawDeg": 354.27
    }
-  },
-  {
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.5",
-   "interiorLoadDoorRef": "0809B4BD",
-   "arrivalMarker": {
-    "positionM": [
-     106.4963,
-     86.2485,
-     54.4948
-    ],
-    "yawDeg": 182.383
-   },
-   "loadDoor": {
-    "positionM": [
-     106.3737,
-     86.2704,
-     52.9487
-    ],
-    "yawDeg": 354.27
-   }
   }
  ],
  "ambient": {

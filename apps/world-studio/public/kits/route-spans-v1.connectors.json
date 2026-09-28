@@ -173,32 +173,74 @@
     "widthM": 3.02
    },
    {
-    "count": 6,
+    "count": 19,
     "evidence": "co-placement",
-    "face": "toward 4",
-    "heightM": 2.73,
-    "normalDeg": 3.8,
-    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "face": "toward 0",
+    "heightM": 0.28,
+    "normalDeg": 0.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     0.12,
-     -1.82
+     0.01,
+     -1.83
     ],
-    "template": "vanilla:t0469",
-    "widthM": 3.19
+    "template": "vanilla:t2429",
+    "widthM": 3.03
    },
    {
-    "count": 6,
+    "count": 16,
     "evidence": "co-placement",
-    "face": "toward 47",
+    "face": "toward 18",
     "heightM": 2.73,
-    "normalDeg": 47.0,
+    "normalDeg": 18.4,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
     "positionInPiece": [
-     1.95,
-     -1.81
+     1.82,
+     -5.46
     ],
-    "template": "vanilla:t0470",
+    "template": "vanilla:t2455",
+    "widthM": 3.73
+   },
+   {
+    "count": 19,
+    "evidence": "co-placement",
+    "face": "toward 27",
+    "heightM": 2.73,
+    "normalDeg": 26.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.82,
+     -3.64
+    ],
+    "template": "vanilla:t2427",
+    "widthM": 3.94
+   },
+   {
+    "count": 21,
+    "evidence": "co-placement",
+    "face": "toward 45",
+    "heightM": 2.73,
+    "normalDeg": 45.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.82,
+     -1.82
+    ],
+    "template": "vanilla:t2422",
     "widthM": 4.14
+   },
+   {
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 63",
+    "heightM": 0.28,
+    "normalDeg": 63.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     3.64,
+     -1.82
+    ],
+    "template": "vanilla:t2438",
+    "widthM": 3.94
    },
    {
     "evidence": "bounds",
@@ -212,32 +254,88 @@
     "widthM": 3.0
    },
    {
-    "count": 12,
+    "count": 22,
     "evidence": "co-placement",
-    "face": "toward 91",
-    "heightM": 2.73,
-    "normalDeg": 91.1,
-    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "face": "toward 90",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
      1.82,
-     0.04
+     0.0
     ],
-    "template": "vanilla:t0134",
-    "widthM": 3.01
+    "template": "vanilla:t2418",
+    "widthM": 3.0
    },
    {
-    "count": 6,
+    "count": 19,
     "evidence": "co-placement",
-    "face": "toward 139",
-    "heightM": 2.73,
-    "normalDeg": 139.2,
-    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "face": "toward 117",
+    "heightM": 0.28,
+    "normalDeg": 116.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     1.62,
-     1.87
+     3.64,
+     1.82
     ],
-    "template": "vanilla:t0468",
+    "template": "vanilla:t2430",
+    "widthM": 3.94
+   },
+   {
+    "count": 23,
+    "evidence": "co-placement",
+    "face": "toward 135",
+    "heightM": 0.28,
+    "normalDeg": 135.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.82,
+     1.82
+    ],
+    "template": "vanilla:t2409",
     "widthM": 4.14
+   },
+   {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 153",
+    "heightM": 0.28,
+    "normalDeg": 153.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.82,
+     3.64
+    ],
+    "template": "vanilla:t2444",
+    "widthM": 3.94
+   },
+   {
+    "count": 15,
+    "evidence": "co-placement",
+    "face": "toward 162",
+    "heightM": 0.28,
+    "normalDeg": 161.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.81,
+     5.46
+    ],
+    "template": "vanilla:t2469",
+    "widthM": 3.73
+   },
+   {
+    "count": 19,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 0.28,
+    "normalDeg": 179.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     0.01,
+     1.83
+    ],
+    "template": "vanilla:t2428",
+    "widthM": 3.03
    },
    {
     "evidence": "bounds",
@@ -251,31 +349,45 @@
     "widthM": 3.02
    },
    {
-    "count": 6,
+    "count": 16,
     "evidence": "co-placement",
-    "face": "toward 185",
+    "face": "toward 198",
     "heightM": 2.73,
-    "normalDeg": 184.9,
+    "normalDeg": 198.4,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
     "positionInPiece": [
-     -0.16,
-     1.82
+     -1.82,
+     5.46
     ],
-    "template": "vanilla:t0469",
-    "widthM": 3.19
+    "template": "vanilla:t2455",
+    "widthM": 3.73
    },
    {
-    "count": 6,
+    "count": 19,
     "evidence": "co-placement",
-    "face": "toward 228",
+    "face": "toward 207",
     "heightM": 2.73,
-    "normalDeg": 227.7,
+    "normalDeg": 206.6,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
     "positionInPiece": [
-     -1.97,
-     1.79
+     -1.82,
+     3.64
     ],
-    "template": "vanilla:t0470",
+    "template": "vanilla:t2427",
+    "widthM": 3.94
+   },
+   {
+    "count": 21,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 2.73,
+    "normalDeg": 225.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.82,
+     1.82
+    ],
+    "template": "vanilla:t2422",
     "widthM": 4.14
    },
    {
@@ -290,7 +402,7 @@
     "widthM": 3.0
    },
    {
-    "count": 12,
+    "count": 17,
     "evidence": "co-placement",
     "face": "toward 270",
     "heightM": 2.73,
@@ -316,6 +428,34 @@
     ],
     "template": "vanilla:t0468",
     "widthM": 4.14
+   },
+   {
+    "count": 15,
+    "evidence": "co-placement",
+    "face": "toward 333",
+    "heightM": 2.73,
+    "normalDeg": 333.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.82,
+     -3.64
+    ],
+    "template": "vanilla:t2467",
+    "widthM": 3.94
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 342",
+    "heightM": 2.73,
+    "normalDeg": 341.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.82,
+     -5.46
+    ],
+    "template": "vanilla:t2481",
+    "widthM": 3.73
    }
   ],
   "vanilla:clutter/stockade/stockadescaffoldbase4sided01": [
@@ -378,84 +518,140 @@
   ],
   "vanilla:clutter/stockade/stockadescaffoldtop0sided01": [
    {
-    "count": 17,
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 0",
     "heightM": 0.28,
-    "normalDeg": 0.2,
+    "normalDeg": 0.1,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     0.01,
-     -1.81
+     0.0,
+     -1.82
     ],
-    "template": "vanilla:t0100",
+    "template": "vanilla:t2456",
     "widthM": 3.53
    },
    {
-    "count": 6,
+    "count": 33,
     "evidence": "co-placement",
     "face": "toward 45",
     "heightM": 0.28,
-    "normalDeg": 44.8,
+    "normalDeg": 45.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     1.79,
+     1.8,
      -1.8
     ],
     "template": "vanilla:t1948",
     "widthM": 5.07
    },
    {
-    "count": 7,
+    "count": 66,
     "evidence": "co-placement",
-    "face": "toward 89",
+    "face": "toward 90",
     "heightM": 0.28,
-    "normalDeg": 88.9,
+    "normalDeg": 89.8,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     1.79,
-     -0.04
+     1.81,
+     -0.01
     ],
     "template": "vanilla:t0366",
-    "widthM": 3.76
+    "widthM": 3.74
    },
    {
-    "count": 14,
+    "count": 23,
+    "evidence": "co-placement",
+    "face": "toward 117",
+    "heightM": 0.28,
+    "normalDeg": 116.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     3.62,
+     1.82
+    ],
+    "template": "vanilla:t2411",
+    "widthM": 4.82
+   },
+   {
+    "count": 29,
+    "evidence": "co-placement",
+    "face": "toward 135",
+    "heightM": 0.28,
+    "normalDeg": 135.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.81,
+     1.82
+    ],
+    "template": "vanilla:t2404",
+    "widthM": 5.06
+   },
+   {
+    "count": 18,
+    "evidence": "co-placement",
+    "face": "toward 153",
+    "heightM": 0.28,
+    "normalDeg": 153.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.82,
+     3.64
+    ],
+    "template": "vanilla:t2438",
+    "widthM": 3.94
+   },
+   {
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 175",
     "heightM": 0.28,
-    "normalDeg": 175.2,
+    "normalDeg": 175.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     0.08,
-     0.96
+     0.09,
+     0.97
     ],
     "template": "vanilla:t0099",
-    "widthM": 3.82
+    "widthM": 3.83
    },
    {
-    "count": 17,
+    "count": 22,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 0.28,
-    "normalDeg": 180.1,
-    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
     "positionInPiece": [
      -0.0,
      1.82
     ],
-    "template": "vanilla:t0100",
-    "widthM": 3.53
+    "template": "vanilla:t2418",
+    "widthM": 3.0
    },
    {
-    "count": 6,
+    "count": 19,
+    "evidence": "co-placement",
+    "face": "toward 207",
+    "heightM": 0.28,
+    "normalDeg": 206.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.82,
+     3.64
+    ],
+    "template": "vanilla:t2430",
+    "widthM": 3.94
+   },
+   {
+    "count": 33,
     "evidence": "co-placement",
     "face": "toward 225",
     "heightM": 0.28,
-    "normalDeg": 224.8,
+    "normalDeg": 225.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -1.79,
+     -1.8,
      1.8
     ],
     "template": "vanilla:t1948",
@@ -476,6 +672,34 @@
     "widthM": 5.07
    },
    {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 243",
+    "heightM": 0.28,
+    "normalDeg": 243.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -3.64,
+     1.82
+    ],
+    "template": "vanilla:t2444",
+    "widthM": 3.94
+   },
+   {
+    "count": 15,
+    "evidence": "co-placement",
+    "face": "toward 252",
+    "heightM": 0.28,
+    "normalDeg": 251.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -5.46,
+     1.81
+    ],
+    "template": "vanilla:t2469",
+    "widthM": 3.73
+   },
+   {
     "count": 14,
     "evidence": "co-placement",
     "face": "toward 268",
@@ -490,18 +714,32 @@
     "widthM": 3.77
    },
    {
-    "count": 7,
+    "count": 66,
     "evidence": "co-placement",
-    "face": "toward 269",
+    "face": "toward 270",
     "heightM": 0.28,
-    "normalDeg": 268.9,
+    "normalDeg": 269.8,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -1.79,
-     0.04
+     -1.81,
+     0.01
     ],
     "template": "vanilla:t0366",
-    "widthM": 3.76
+    "widthM": 3.74
+   },
+   {
+    "count": 23,
+    "evidence": "co-placement",
+    "face": "toward 296",
+    "heightM": 0.28,
+    "normalDeg": 296.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -3.63,
+     -1.8
+    ],
+    "template": "vanilla:t2411",
+    "widthM": 4.82
    },
    {
     "count": 5,
@@ -518,18 +756,32 @@
     "widthM": 5.02
    },
    {
-    "count": 14,
+    "count": 29,
+    "evidence": "co-placement",
+    "face": "toward 315",
+    "heightM": 0.28,
+    "normalDeg": 315.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.81,
+     -1.81
+    ],
+    "template": "vanilla:t2404",
+    "widthM": 5.06
+   },
+   {
+    "count": 16,
     "evidence": "co-placement",
     "face": "toward 355",
     "heightM": 0.28,
-    "normalDeg": 355.2,
+    "normalDeg": 355.0,
     "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "positionInPiece": [
-     -0.08,
-     -0.96
+     -0.09,
+     -0.97
     ],
     "template": "vanilla:t0099",
-    "widthM": 3.82
+    "widthM": 3.83
    }
   ],
   "vanilla:clutter/stockade/stockadescaffoldtop2sided01": [
@@ -707,7 +959,7 @@
     "widthM": 4.73
    },
    {
-    "count": 35,
+    "count": 46,
     "evidence": "co-placement",
     "face": "toward 90",
     "heightM": 7.31,
@@ -715,13 +967,13 @@
     "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
     "positionInPiece": [
      1.82,
-     -0.0
+     0.0
     ],
     "template": "vanilla:t0021",
     "widthM": 10.79
    },
    {
-    "count": 26,
+    "count": 37,
     "evidence": "co-placement",
     "face": "toward 90",
     "heightM": 7.31,
@@ -770,7 +1022,7 @@
     "widthM": 4.73
    },
    {
-    "count": 26,
+    "count": 37,
     "evidence": "co-placement",
     "face": "toward 270",
     "heightM": 7.31,
@@ -784,7 +1036,7 @@
     "widthM": 10.79
    },
    {
-    "count": 34,
+    "count": 45,
     "evidence": "co-placement",
     "face": "toward 270",
     "heightM": 7.31,
@@ -811,7 +1063,7 @@
     "widthM": 7.28
    },
    {
-    "count": 34,
+    "count": 45,
     "evidence": "co-placement",
     "face": "toward 90",
     "heightM": 7.31,
@@ -858,7 +1110,7 @@
     "widthM": 10.79
    },
    {
-    "count": 35,
+    "count": 46,
     "evidence": "co-placement",
     "face": "toward 270",
     "heightM": 7.31,
@@ -874,7 +1126,7 @@
   ],
   "vanilla:dungeons/nordic/exterior/nortmpextplattower01": [
    {
-    "count": 22,
+    "count": 23,
     "evidence": "co-placement",
     "face": "toward 0",
     "heightM": 1.48,
@@ -888,7 +1140,7 @@
     "widthM": 2.87
    },
    {
-    "count": 7,
+    "count": 9,
     "evidence": "co-placement",
     "face": "toward 0",
     "heightM": 3.59,
@@ -1011,7 +1263,7 @@
     "widthM": 5.46
    },
    {
-    "count": 22,
+    "count": 23,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 1.48,
@@ -1025,7 +1277,7 @@
     "widthM": 2.87
    },
    {
-    "count": 12,
+    "count": 15,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 1.48,
@@ -1126,7 +1378,7 @@
     "widthM": 3.73
    },
    {
-    "count": 7,
+    "count": 9,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 3.59,
@@ -1151,7 +1403,7 @@
     "widthM": 3.48
    },
    {
-    "count": 12,
+    "count": 15,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 1.48,
@@ -1165,7 +1417,7 @@
     "widthM": 2.87
    },
    {
-    "count": 4,
+    "count": 7,
     "evidence": "co-placement",
     "face": "toward 180",
     "heightM": 3.59,
@@ -1290,7 +1542,7 @@
  "counts": {
   "assets": 23,
   "bounds": 58,
-  "co-placement": 43
+  "co-placement": 61
  },
  "elongationRatio": 2.0,
  "kit": "route-spans-v1",

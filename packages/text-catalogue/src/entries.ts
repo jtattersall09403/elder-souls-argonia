@@ -324,21 +324,21 @@ export const FERRY_TEXT: readonly TextEntry[] = [
     id: "text.ferry.drowning-gate.name",
     surface: "descriptive",
     text: "The Claywater ford ferry",
-    note: "The wet-season plank ferry over the flooded ford at Claywater Station, on the Blackwood Road. Run by the landing's poler (roster: Varro Draco, on `station.claywater-station.poler`); the id keeps its old Drowning Gate name (stable ids).",
+    note: "The plank ferry over the stony ford at Claywater Station, on the Blackwood Road. It carries carts, beasts and anyone who will not wade; the light-footed walk the knee-deep ford. Run by the landing's poler (roster: Varro Draco, on `station.claywater-station.poler`); the id keeps its old Drowning Gate name (stable ids).",
   },
   {
     id: "text.ferry.drowning-gate.hail",
     surface: "dialogue",
     text:
-      "The ford is under water until the rains stop. 15 drakes and I pole you across the ford. The well-keeper charges her own fee.",
+      "The raft takes carts, beasts and anyone who won't wade. 15 drakes and I pole you over the ford. The well-keeper charges her own fee.",
     note:
-      "Claywater Station's poler (roster: Varro Draco), who runs the plank ferry while the ford is flooded. The fare is a monopoly price. The last line points at LF83: the well and the landing charge the same travellers separately.",
+      "Claywater Station's poler (roster: Varro Draco), who poles carts, beasts and travellers who will not wade over the ford on the plank ferry. A cart has no other way over the water, so the fare is steep. The last line points at LF83: the well and the landing charge the same travellers separately.",
   },
   {
     id: "text.ferry.drowning-gate.refusal",
     surface: "dialogue",
-    text: "The ford is low. Walk it. Nobody pays me to watch them wade.",
-    note: "Dry season, when the ford is shallow enough to wade and the ferry lies pulled up on the bank.",
+    text: "You're travelling light. The ford's knee-deep and stony. Walk it and keep your drakes.",
+    note: "Shown when the ferry turns a traveller away (`refusedIf`; none is set yet). The poler sends the light-footed to wade the ford.",
   },
   {
     id: "text.ferry.blackrose-lake.name",

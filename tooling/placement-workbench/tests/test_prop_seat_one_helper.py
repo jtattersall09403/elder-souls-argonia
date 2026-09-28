@@ -68,3 +68,23 @@ def test_stair_replaces_the_wall_where_it_crosses_the_pad_edge(applied_layout, c
     stair.role = {"kind": "assembly", "layer": "steps", "on": "ground"}
     scene.add(stair)
     assert pads.pad_fit(cat, scene, b2, pad)["padRule"] is None
+
+
+HAY = "vanilla:clutter/hay/haymound01"
+
+
+def test_a_deck_class_prop_settled_on_the_ground_passes_prop_seat(applied_layout, cat):
+    """L7b 2026-09-28: the mounts re-mine made haymound01 `deck` (deck 221 /
+    ground 193); the settle seated it by `seat` (designed sink -0.028 m, so
+    0.028 m up) while propSeatRule judged it by `prop_seat`, and the hay
+    failed on flat ground. A deck-class piece settled with no parent is a
+    prop. Written failing first (0.028 m float on the old `is_prop`)."""
+    assert cat.row(HAY).get("anchorClass") == "deck"
+    scene = applied_layout(LAYOUT).view()
+    p = Piece("t-hay", HAY, 312.9, 2991.5, 0.0)
+    p.role = {"kind": "assembly", "layer": "clutter", "on": "ground"}
+    scene.add(p)
+    wb._settle(cat, scene, p, declared_pads=pads.scene_pads(cat, scene))
+    got = rules.prop_seat(cat, scene, uids=["t-hay"])
+    fails = [f for f in got["failures"] if "t-hay" in f]
+    assert not fails, fails

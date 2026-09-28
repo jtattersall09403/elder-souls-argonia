@@ -8,16 +8,16 @@
     "quest authoring (docs/quests/)"
   ],
   "summary": {
-    "rows": 14,
+    "rows": 13,
     "places": 2,
     "byPhase": {
       "phase-12": 1,
-      "phase-13": 13
+      "phase-13": 12
     },
     "byKind": {
       "bed": 1,
       "rumour": 1,
-      "service-station": 3,
+      "service-station": 2,
       "trade": 2,
       "witness": 7
     }
@@ -49,21 +49,6 @@
       "deliverable": "a service station: travel, healing, storage or repair",
       "interiorKind": "dwelling",
       "interiorRef": "interior-kotm-v1",
-      "socketRef": null,
-      "socketKind": null,
-      "questId": null
-    },
-    {
-      "id": "purpose.claywater-station.stable-barn.service-station",
-      "placeId": "place.imperial-fringe.claywater-station",
-      "parcelId": "parcel.claywater-station.stable-barn",
-      "kind": "service-station",
-      "tier": "major",
-      "note": "The stablemaster takes the player's horse for the night and keeps the paddock across the road.",
-      "deliveredBy": "phase-13",
-      "deliverable": "a service station: travel, healing, storage or repair",
-      "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null

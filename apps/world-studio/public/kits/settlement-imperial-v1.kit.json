@@ -52,6 +52,7 @@
     "Farmhouse01:25.Mat": 0.784,
     "Farmhouse01:4.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -114,8 +115,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02",
@@ -176,6 +176,7 @@
    "decalMaterials": [
     "L2_Rope:22.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -232,8 +233,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse01walkway",
@@ -275,6 +275,7 @@
    "decalMaterials": [
     "L2_Posts.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5634,
     "p50": -0.4018,
@@ -335,8 +336,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "vanilla:architecture/farmhouse/farmhouse02walkway",
@@ -378,6 +378,7 @@
    "decalMaterials": [
     "L2_Rope.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3891,
     "p50": -0.3144,
@@ -423,8 +424,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.905,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.641,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.641
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol01",
@@ -459,6 +459,7 @@
     "DockStrSol01:1.Mat",
     "DockStrSol01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.1169,
     "p50": -1.6423,
@@ -519,8 +520,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -555,6 +555,7 @@
     "DockCorSol01:1.Mat",
     "DockCorSol01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -4.6101,
     "p50": -0.9493,
@@ -608,8 +609,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.756,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.218,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.218
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -644,6 +644,7 @@
     "DockStr4way01:1.Mat",
     "DockStr4way01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.35,
     "p50": -0.35,
@@ -705,8 +706,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.815,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.157,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.157
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -741,6 +741,7 @@
     "DockStepsDown01:1.Mat",
     "DockStepsDown01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.35,
     "p50": -0.35,
@@ -805,8 +806,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.87,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.317,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.317
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -839,6 +839,7 @@
     "DockColStr01:0.Mat",
     "DockColStr01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -5.6592,
     "p50": -5.2332,
@@ -883,8 +884,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.152,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615,
-   "lodLevels": 3
+   "pivotAboveBaseM": 10.615
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -915,6 +915,7 @@
    "materials": [
     "DockRopeStr01:3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -958,8 +959,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.389,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.464,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.464
   },
   {
    "id": "rowboats:dungeons/ship/shiprowboat01",
@@ -992,6 +992,7 @@
     "ShipRowBoat01:3.Mat",
     "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1789,
     "p50": -0.1789,
@@ -1030,8 +1031,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.422,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.179,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.179
   },
   {
    "id": "rowboats:dungeons/clutter/shipoar01",
@@ -1062,6 +1062,7 @@
    "materials": [
     "ShipOar01:7.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0715,
     "p50": -0.0715,
@@ -1100,8 +1101,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.345,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.071,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.071
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
@@ -1148,6 +1148,7 @@
     "Flag.Mat": 0.196,
     "Impferrypontoon001.Mat": 0.078
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.507,
     "p50": -0.507,
@@ -1186,8 +1187,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.507,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.507
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
@@ -1234,6 +1234,7 @@
     "Flag.Mat.001": 0.392,
     "Pontoonalpha01.Mat": 0.059
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5827,
     "p50": -0.5827,
@@ -1272,8 +1273,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.909,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.583,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.583
   },
   {
    "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
@@ -1311,6 +1311,7 @@
     "shipwoodside.Mat",
     "trim.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4019,
     "p50": -0.4019,
@@ -1349,8 +1350,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.402,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.402
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven01",
@@ -1386,6 +1386,7 @@
    "alphaMaskMaterials": {
     "FenceWoven01:10 - L1_Posts02:10.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0966,
     "p50": 0.2089,
@@ -1443,8 +1444,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.382,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/fencewoven02",
@@ -1480,6 +1480,7 @@
    "alphaMaskMaterials": {
     "FenceWoven02:10 - L1_Posts01:10.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0955,
     "p50": 0.1488,
@@ -1539,8 +1540,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall01",
@@ -1571,6 +1571,7 @@
    "materials": [
     "Stonewall01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5004,
     "p50": 0.731,
@@ -1626,8 +1627,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.05,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewall02",
@@ -1660,6 +1660,7 @@
     "Stonewall02:1.Mat",
     "Stonewall02:4.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5195,
     "p50": 0.733,
@@ -1719,8 +1720,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.011,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
@@ -1751,6 +1751,7 @@
    "materials": [
     "StonewallEndL01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5125,
     "p50": 0.7716,
@@ -1806,8 +1807,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.093,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
@@ -1838,6 +1838,7 @@
    "materials": [
     "StonewallEndR01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.5003,
     "p50": 0.7838,
@@ -1893,8 +1894,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.04,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:farmhouse/farmhouse01-with-door",
@@ -1949,6 +1949,7 @@
     "Farmhouse01:25.Mat.001": 0.784,
     "Farmhouse01:4.Mat.001": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -2004,8 +2005,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.156,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-door",
@@ -2068,6 +2068,7 @@
    "decalMaterials": [
     "L2_Rope:22.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -2117,8 +2118,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.505,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "composite:farmhouse/farmhouse02-with-walkway",
@@ -2193,6 +2193,7 @@
     "L2_Rope.Mat.002",
     "L2_Rope:22.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.6513,
     "p50": -3.6513,
@@ -2247,8 +2248,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.527,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.651,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.651
   },
   {
    "id": "composite:farmhouse/stonewall-run-3",
@@ -2281,6 +2281,7 @@
     "StonewallEndL01:1.Mat.001",
     "StonewallEndR01:1.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2341,8 +2342,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.044,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:farmhouse/stonewall-run-5",
@@ -2377,6 +2377,7 @@
     "StonewallEndR01:1.Mat.002",
     "StonewallEndR01:1.Mat.003"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2437,8 +2438,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.035,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/imperial/impwallsconcecandle01",
@@ -2474,6 +2474,7 @@
    "alphaMaskMaterials": {
     "ImpWallSconceCandle01:8.Mat": 0.89
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3345,
     "p50": -0.3345,
@@ -2538,8 +2539,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.335
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -2584,6 +2584,7 @@
    "decalMaterials": [
     "ImpFreeWall01:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3414,
     "p50": -0.3414,
@@ -2644,8 +2645,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.562,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.341,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.341
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrpost01",
@@ -2691,6 +2691,7 @@
      0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.2481,
     "p50": 0.3537,
@@ -2732,8 +2733,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.173,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
@@ -2770,6 +2770,7 @@
    "alphaMaskMaterials": {
     "SignHuntsman:7.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0256,
     "p50": -0.0256,
@@ -2818,8 +2819,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.046,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.046
   },
   {
    "id": "vanilla:clutter/signage/whiterun/signwrstables01",
@@ -2855,6 +2855,7 @@
    "alphaMaskMaterials": {
     "SignStables:6.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0677,
     "p50": -0.0677,
@@ -2903,8 +2904,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.033,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.033
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -2935,6 +2935,7 @@
    "materials": [
     "Barrel01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0053,
     "p50": 0.0045,
@@ -3007,8 +3008,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/barrel02",
@@ -3039,6 +3039,7 @@
    "materials": [
     "Barrel02:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0,
     "p50": 0.0,
@@ -3111,8 +3112,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.77,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilelarge01",
@@ -3148,6 +3148,7 @@
    "alphaMaskMaterials": {
     "Firewood:14.Mat": 0.498
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0738,
@@ -3220,8 +3221,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.633,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.019,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilemedium01",
@@ -3257,6 +3257,7 @@
    "alphaMaskMaterials": {
     "Firewood:14.Mat.001": 0.498
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0631,
@@ -3329,8 +3330,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.753,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:clutter/firewood/firewoodpilesmall01",
@@ -3366,6 +3366,7 @@
    "alphaMaskMaterials": {
     "Firewood:14.Mat.002": 0.498
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.036,
@@ -3438,8 +3439,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.962,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.017
   },
   {
    "id": "vanilla:furniture/farm/farmbench01",
@@ -3470,6 +3470,7 @@
    "materials": [
     "FarmBench01:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0194,
     "p50": 0.0053,
@@ -3542,8 +3543,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/bucket01",
@@ -3574,6 +3574,7 @@
    "materials": [
     "Bucket01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0402,
     "p50": -0.013,
@@ -3646,8 +3647,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/hay/haymound01",
@@ -3687,6 +3687,7 @@
    "decalMaterials": [
     "HayMound01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0687,
     "p50": -0.0277,
@@ -3759,8 +3760,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
@@ -3802,6 +3802,7 @@
    "decalMaterials": [
     "L2_Rope.Mat.003"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2809,
     "p50": -0.2305,
@@ -3852,8 +3853,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.728,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
@@ -3895,6 +3895,7 @@
    "decalMaterials": [
     "L2_Rope.Mat.004"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.3481,
     "p50": -0.2598,
@@ -3952,8 +3953,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.816,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
@@ -3995,6 +3995,7 @@
    "decalMaterials": [
     "L2_Rope.Mat.005"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.286,
     "p50": -0.1422,
@@ -4052,8 +4053,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.848,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.821,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.821
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy01",
@@ -4087,6 +4087,7 @@
    "alphaMaskMaterials": {
     "Ivy01:12.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4133,8 +4134,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.501,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.501
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy02",
@@ -4168,6 +4168,7 @@
    "alphaMaskMaterials": {
     "Ivy02:12.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.1349,
     "p50": 0.1349,
@@ -4218,8 +4219,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.067
   },
   {
    "id": "vanilla:architecture/farmhouse/ivy03",
@@ -4253,6 +4253,7 @@
    "alphaMaskMaterials": {
     "Ivy03:12.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.1048,
     "p50": -0.6571,
@@ -4300,8 +4301,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 1.067,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.067
   },
   {
    "id": "vanilla:plants/chickennest01",
@@ -4337,6 +4337,7 @@
     "ChickenNest01:0.Mat",
     "ChickenNest01_1:0.Mat"
    ],
+   "lodLevels": 1,
    "designedSinkM": {
     "p25": -0.0277,
     "p50": -0.0263,
@@ -4390,8 +4391,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.233,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.096,
-   "lodLevels": 1
+   "pivotAboveBaseM": -0.096
   },
   {
    "id": "vanilla:architecture/riften/rtstables01",
@@ -4439,13 +4439,14 @@
    "decalMaterials": [
     "RTStables01:16.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
-    "p25": -0.9103,
-    "p50": -0.9103,
-    "p75": -0.9103,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "settingClass": {
     "settings": {
@@ -4480,13 +4481,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.91,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.9103
-   },
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:clutter/horsetrough/horsetrough01",
@@ -4523,6 +4518,7 @@
    "waterMaterials": [
     "WATER.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0264,
     "p50": 0.0097,
@@ -4578,8 +4574,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/common/candlelanternwithcandle01",
@@ -4615,6 +4610,7 @@
    "alphaMaskMaterials": {
     "CandleLanternWithCandle:7.Mat": 0.89
    },
+   "lodLevels": 3,
    "light": {
     "formId": "00088241",
     "editorId": "DefaultCandleLight01NSDesat",
@@ -4721,8 +4717,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -4762,6 +4757,7 @@
     "Zylinder01:1.Mat": 0.784,
     "Zylinder01:2.Mat": 0.784
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.3305,
     "p50": -1.8498,
@@ -4808,8 +4804,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.609,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.884,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.884
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
@@ -4853,15 +4848,15 @@
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
   "bytesBefore": 31252944,
-  "bytesAfter": 13856716,
+  "bytesAfter": 13856740,
   "images": 55,
   "imageBytesAfter": 11994960,
   "warnings": [],
-  "sha256": "019f53bb6563bc9603b76e082810be3112992a3d1ce08502bf0aed84ad71b486",
+  "sha256": "f0320d067f5f4b07d2215cdf8bb0da2b8ddc204254e34188e4273e4218125576",
   "sidecarBytes": {
    "connectors": 36912,
    "footprints": 61143,
-   "interiors": 41839
+   "interiors": 41874
   }
  }
 }

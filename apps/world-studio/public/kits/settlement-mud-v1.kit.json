@@ -30,6 +30,7 @@
    "materials": [
     "House.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5388,
     "p50": -0.5388,
@@ -88,8 +89,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.696,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.539,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.539
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -123,6 +123,7 @@
    "alphaMaskMaterials": {
     "WinterholdTowerIntFloor01:3.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6828,
     "p50": -0.6828,
@@ -168,8 +169,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.683,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.683
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -206,6 +206,7 @@
     "DLC2DweClutterPlatformGiant01:44.Mat",
     "DLC2DweClutterPlatformGiant01:8.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.002,
     "p50": -3.002,
@@ -251,8 +252,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.805,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.002,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.002
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -290,6 +290,7 @@
     "WRTrellisArch01:10.Mat": 0.502,
     "WRTrellisArch01:23.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 3.9947,
     "p50": 3.9947,
@@ -335,8 +336,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.198,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -3.995,
-   "lodLevels": 3
+   "pivotAboveBaseM": -3.995
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -370,6 +370,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingBridgePlatform01:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1723,
     "p50": -0.1723,
@@ -415,8 +416,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.172,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.172
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatformsmall",
@@ -450,6 +450,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingBridgePlatformSmall:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1571,
     "p50": -0.1571,
@@ -495,8 +496,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.157,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.157
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridge",
@@ -533,6 +533,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingBridge01:0.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0435,
     "p50": 0.0435,
@@ -572,8 +573,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.993,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.345,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.345
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridgestart",
@@ -613,6 +613,7 @@
     "DLC2RieklingBridgeStart01:0.Mat": 0.502,
     "DLC2RieklingBridgeStart01:1.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0119,
     "p50": -0.0119,
@@ -652,8 +653,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.564,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.564
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -689,6 +689,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingFence01:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0419,
     "p50": -0.0272,
@@ -729,8 +730,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.379,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.05,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -766,6 +766,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingFence02:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0161,
     "p50": 0.0161,
@@ -817,8 +818,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.608,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.016,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -854,6 +854,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingFenceEnd01:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0459,
     "p50": -0.0459,
@@ -905,8 +906,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.509,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.046,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -942,6 +942,7 @@
    "alphaMaskMaterials": {
     "HagravenFence01:20.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1546,
     "p50": -0.1546,
@@ -987,8 +988,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.091,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.155,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent01",
@@ -1029,6 +1029,7 @@
     "L1_Branches01:14.Mat": 0.176,
     "L1_Branches01:15.Mat": 0.275
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4605,
     "p50": -0.4605,
@@ -1081,8 +1082,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.79,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.46,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.46
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -1118,6 +1118,7 @@
    "alphaMaskMaterials": {
     "Furs.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4494,
     "p50": -0.4494,
@@ -1176,8 +1177,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.656,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.449,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.449
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -1213,6 +1213,7 @@
     "carapace.Mat",
     "crab.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0158,
     "p50": -0.0158,
@@ -1250,8 +1251,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.016,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -1284,6 +1284,7 @@
     "FishRack01:0.Mat",
     "L2_Ropes.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.2276,
     "p50": 0.2276,
@@ -1329,8 +1330,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.026,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.228,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
@@ -1376,6 +1376,7 @@
      -0.004
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1421,8 +1422,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -1470,6 +1470,7 @@
      -0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -1515,8 +1516,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.92,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -1563,6 +1563,7 @@
      -0.001
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0354,
     "p50": -0.0354,
@@ -1608,8 +1609,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.987,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.035,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
@@ -1640,6 +1640,7 @@
    "materials": [
     "Basket.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0003,
     "p50": 0.0003,
@@ -1685,8 +1686,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -1731,6 +1731,7 @@
      0.0
     ]
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0013,
     "p50": -0.0013,
@@ -1776,8 +1777,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1809,6 +1809,7 @@
     "DLC2RieklingTotem02:0.Mat",
     "DLC2RieklingTotem02:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0091,
     "p50": 0.1147,
@@ -1855,8 +1856,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.315,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.011
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1907,6 +1907,7 @@
     "Bone05.Mat": 0.5,
     "Skull.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.2694,
     "p50": -0.2694,
@@ -1952,8 +1953,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.674,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.269,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianskull01",
@@ -1987,6 +1987,7 @@
    "alphaMaskMaterials": {
     "DLC2RieklingSkull02:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2019,8 +2020,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.777,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.17,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.17
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -2053,6 +2053,7 @@
     "DLC2DarkElfLantern03:0.Mat",
     "DLC2DarkElfLantern03:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.6273,
     "p50": -2.6273,
@@ -2099,8 +2100,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.52,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.627,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.627
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -2133,6 +2133,7 @@
     "DLC2DarkElfLantern04:0.Mat",
     "DLC2DarkElfLantern04:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.1494,
     "p50": -2.1494,
@@ -2178,8 +2179,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.638,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.149,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.149
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
@@ -2212,6 +2212,7 @@
     "DLC2DarkElfLanternStatic06:0.Mat",
     "DLC2DarkElfLanternStatic06:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.8895,
     "p50": -0.8895,
@@ -2263,8 +2264,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.667,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.889,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.889
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
@@ -2300,6 +2300,7 @@
     "RieklingCandle:2.Mat",
     "RieklingCandle:3.Mat"
    ],
+   "lodLevels": 3,
    "light": {
     "formId": "00094e65",
     "editorId": "Alikr_OrangeFlicker",
@@ -2372,8 +2373,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.396,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -2409,6 +2409,7 @@
    "alphaMaskMaterials": {
     "AmethystEgg.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0654,
     "p50": 0.0654,
@@ -2454,8 +2455,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.937,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -2491,6 +2491,7 @@
    "alphaMaskMaterials": {
     "L1_WRTempleTree02.Mat": 0.51
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -8.8224,
     "p50": -8.8224,
@@ -2536,8 +2537,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.521,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.822,
-   "lodLevels": 3
+   "pivotAboveBaseM": 8.822
   },
   {
    "id": "bmv:architecture/huts/exterior/hutexterior",
@@ -2574,6 +2574,7 @@
     "WoodBeam:0.Mat",
     "WoodBeam:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.9378,
     "p50": -2.9378,
@@ -2626,8 +2627,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.938,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.938,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.938
   },
   {
    "id": "bmv:architecture/huts/exterior/hutdecking",
@@ -2664,6 +2664,7 @@
     "Tri Decking 2.Mat",
     "Tri Decking 3.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.7258,
     "p50": 6.7258,
@@ -2718,8 +2719,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
@@ -2758,6 +2758,7 @@
     "ShipOar01:6.Mat",
     "ShipWoodplanks04:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0426,
     "p50": -0.0426,
@@ -2796,8 +2797,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.783,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -2837,6 +2837,7 @@
     "ShipRowBoat01:3.Mat",
     "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0363,
     "p50": -0.0363,
@@ -2886,8 +2887,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
@@ -2930,6 +2930,7 @@
     "cedartree1:2.Mat": 0.502,
     "cedartree1:5.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6723,
     "p50": -0.6723,
@@ -2973,8 +2974,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.418
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
@@ -3011,6 +3011,7 @@
    "alphaMaskMaterials": {
     "Cylinder.Mat": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.1957,
     "p50": 6.1957,
@@ -3064,8 +3065,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854,
-   "lodLevels": 3
+   "pivotAboveBaseM": -5.854
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -3102,6 +3102,7 @@
    "alphaMaskMaterials": {
     "Cylinder.Mat.001": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.0086,
     "p50": 6.0086,
@@ -3155,8 +3156,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.009,
-   "lodLevels": 3
+   "pivotAboveBaseM": -6.009
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick",
@@ -3200,6 +3200,7 @@
     "cedartree1:2.Mat.001": 0.502,
     "cedartree1:5.Mat.001": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6723,
     "p50": -0.6723,
@@ -3243,8 +3244,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.901,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.418,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.418
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01-sick",
@@ -3282,6 +3282,7 @@
    "alphaMaskMaterials": {
     "Cylinder.Mat.002": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.1957,
     "p50": 6.1957,
@@ -3308,6 +3309,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.1957
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3330,13 +3336,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -5.854,
-   "lodLevels": 3,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": 6.1957
-   }
+   "pivotAboveBaseM": -5.854
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
@@ -3374,6 +3374,7 @@
    "alphaMaskMaterials": {
     "Cylinder.Mat.003": 0.502
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 6.0086,
     "p50": 6.0086,
@@ -3400,6 +3401,11 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 6.0086
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3422,13 +3428,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.473,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -6.009,
-   "lodLevels": 3,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "post-foot",
-    "valueM": 6.0086
-   }
+   "pivotAboveBaseM": -6.009
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -3459,6 +3459,7 @@
    "materials": [
     "RockCairn01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.001,
     "p50": -0.001,
@@ -3514,8 +3515,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.363,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
@@ -3546,6 +3546,7 @@
    "materials": [
     "RockCairn02:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.029,
     "p50": -0.029,
@@ -3601,8 +3602,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.738,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
@@ -3633,6 +3633,7 @@
    "materials": [
     "RockCairn03:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0775,
     "p50": -0.0775,
@@ -3681,8 +3682,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.841,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.077,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.077
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
@@ -3713,6 +3713,7 @@
    "materials": [
     "RockCairn04:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0288,
     "p50": -0.0288,
@@ -3761,8 +3762,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.787,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
@@ -3793,6 +3793,7 @@
    "materials": [
     "MountainCliff01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.606,
     "p50": -0.606,
@@ -3848,8 +3849,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.059,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.606,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.606
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
@@ -3901,6 +3901,7 @@
     "Vert10:0.Mat",
     "Vert10:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.2576,
     "p50": -1.2576,
@@ -3949,8 +3950,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.394,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.879,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.879
   },
   {
    "id": "canoe:actors/sfss/canoe/canoe1",
@@ -4009,6 +4009,7 @@
     "Object009:1.Mat",
     "Object009:2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1663,
     "p50": -0.1663,
@@ -4047,8 +4048,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.166,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.166
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -4101,6 +4101,7 @@
    "alphaMaskMaterials": {
     "CandleLanternWithCandle:7.Mat": 0.89
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.4728,
     "p50": -0.4728,
@@ -4148,8 +4149,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.892,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.473,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.473
   },
   {
    "id": "composite:mud/hut-with-entrance",
@@ -4209,6 +4209,7 @@
     "WoodBeam:0.Mat.001",
     "WoodBeam:1.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.6796,
     "p50": -3.4619,
@@ -4249,8 +4250,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.912,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.924,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.924
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut01",
@@ -4283,6 +4283,7 @@
     "Quader01:0.Mat",
     "Quader01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -2.8217,
     "p50": -2.8217,
@@ -4333,8 +4334,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.044,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.379,
-   "lodLevels": 3
+   "pivotAboveBaseM": 4.379
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut02",
@@ -4365,6 +4365,7 @@
    "materials": [
     "RuinsSpiderSac01:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0134,
     "p50": -0.0134,
@@ -4417,8 +4418,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.247,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.013,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.013
   },
   {
    "id": "kotm:argonia/mudhuts/mudhut03",
@@ -4449,6 +4449,7 @@
    "materials": [
     "RuinsSpiderSac04:0.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.4154,
     "p50": 0.4154,
@@ -4486,8 +4487,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.298,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.415,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.415
   },
   {
    "id": "kotm:argonia/mudhuts/smpodext01",
@@ -4518,6 +4518,7 @@
    "materials": [
     "dim_smallcorkpod.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4568,8 +4569,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.964,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.116,
-   "lodLevels": 3
+   "pivotAboveBaseM": 5.116
   },
   {
    "id": "kotm:argonia/mudhuts/smpodext02",
@@ -4600,6 +4600,7 @@
    "materials": [
     "dim_smallcorkpod2.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.0168,
     "p50": 1.6468,
@@ -4648,8 +4649,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.976,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 7.179,
-   "lodLevels": 3
+   "pivotAboveBaseM": 7.179
   },
   {
    "id": "composite:mud/pod-as-placed",
@@ -4680,6 +4680,7 @@
    "materials": [
     "dim_smallcorkpod2.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.0168,
     "p50": 1.6468,
@@ -4720,8 +4721,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.725,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.725
   },
   {
    "id": "composite:mud/kotm-house-pod",
@@ -4762,6 +4762,7 @@
     "dim_smallcorkpod4.Mat",
     "dim_smallcorkpod5.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 1.915,
     "p50": 1.9922,
@@ -4802,8 +4803,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.968,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.725,
-   "lodLevels": 3
+   "pivotAboveBaseM": 6.725
   },
   {
    "id": "kotm:argonia/mudhuts/lizardhouse",
@@ -4844,6 +4844,7 @@
     "Scene Root:19.Mat",
     "Scene Root:22.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -1.8984,
     "p50": -1.8984,
@@ -4905,8 +4906,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.271,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.898,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.898
   },
   {
    "id": "kotm:argonia/mudhuts/manorext",
@@ -4937,6 +4937,7 @@
    "materials": [
     "dim_corkpod9.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -4969,8 +4970,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.98,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 5.902,
-   "lodLevels": 3
+   "pivotAboveBaseM": 5.902
   },
   {
    "id": "kotm:argonia/mudhuts/shed",
@@ -5003,6 +5003,7 @@
     "dim_corkpod02.Mat",
     "dim_corkpod03.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -5046,8 +5047,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.963,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.614,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.614
   },
   {
    "id": "kotm:argonia/mudhuts/smpodextdoor",
@@ -5080,6 +5080,7 @@
     "dim_smallcorkpod4.Mat.001",
     "dim_smallcorkpod5.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.6921,
     "p50": 0.7693,
@@ -5134,8 +5135,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.31,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.636,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.636
   },
   {
    "id": "kotm:argonia/mudhuts/door01",
@@ -5171,6 +5171,7 @@
     "Door:29.Mat.001",
     "dim_corkmanor.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -5223,8 +5224,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": -0.006,
-   "lodLevels": 3
+   "pivotAboveBaseM": -0.006
   },
   {
    "id": "kotm:argonia/mudhuts/door02",
@@ -5258,6 +5258,7 @@
     "Door:22.Mat",
     "Object01.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0401,
     "p50": 0.0949,
@@ -5312,8 +5313,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.0,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "kotm:argonia/mudhuts/window01",
@@ -5346,6 +5346,7 @@
     "Objekt01:1.Mat",
     "TM_MWNordHouseChimney01:1.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.5536,
     "p50": -0.5536,
@@ -5401,8 +5402,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.418,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.554,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.554
   },
   {
    "id": "kotm:argonia/mudhuts/window02",
@@ -5435,6 +5435,7 @@
     "Kugel02:1.Mat",
     "TM_MWNordHouseChimney01:1.Mat.001"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.1746,
     "p50": -0.1746,
@@ -5490,8 +5491,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.373,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.175,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.175
   },
   {
    "id": "kotm:argonia/mudhuts/mudhutchimney",
@@ -5524,6 +5524,7 @@
     "TM_MWNordHouseChimney01:0.Mat",
     "TM_MWNordHouseChimney01:1.Mat.002"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.8181,
     "p50": 0.8181,
@@ -5578,8 +5579,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.237,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.353,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.353
   },
   {
    "id": "kotm:argonia/mudhuts/stairs01",
@@ -5610,6 +5610,7 @@
    "materials": [
     "Objekt04.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.6705,
     "p50": -0.2631,
@@ -5669,8 +5670,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.289,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.109,
-   "lodLevels": 3
+   "pivotAboveBaseM": 1.109
   },
   {
    "id": "kotm:argonia/mudhuts/stairs02",
@@ -5703,6 +5703,7 @@
     "RifRmSmSecondFloorStair01:1.Mat",
     "RifRmSmSecondFloorStair01:12.Mat"
    ],
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -3.474,
     "p50": -3.2607,
@@ -5758,8 +5759,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.4,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 3.67,
-   "lodLevels": 3
+   "pivotAboveBaseM": 3.67
   },
   {
    "id": "kotm:argonia/mudhuts/overhang01",
@@ -5799,6 +5799,7 @@
    "alphaMaskMaterials": {
     "Objekt02:3.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": -0.0257,
     "p50": -0.0257,
@@ -5851,8 +5852,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.443,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.386,
-   "lodLevels": 3
+   "pivotAboveBaseM": 2.386
   },
   {
    "id": "kotm:argonia/mudhuts/overhang03",
@@ -5892,6 +5892,7 @@
    "alphaMaskMaterials": {
     "Objekt02:0:0.Mat": 0.5
    },
+   "lodLevels": 3,
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -5935,8 +5936,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.185,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.548,
-   "lodLevels": 3
+   "pivotAboveBaseM": 0.548
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
@@ -5997,15 +5997,15 @@
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
   "bytesBefore": 42557352,
-  "bytesAfter": 19483320,
+  "bytesAfter": 19481360,
   "images": 74,
   "imageBytesAfter": 15815954,
   "warnings": [],
-  "sha256": "aa2fbb9f0d9b57462993363100f71bc8e230514a512e4dbd4337eb4b59f16ddf",
+  "sha256": "a9aadd062c8238f05bae9890ce6597956859801e6b4f4be6eaaf3d81c7af7715",
   "sidecarBytes": {
    "connectors": 48109,
    "footprints": 104670,
-   "interiors": 54440
+   "interiors": 54688
   }
  }
 }

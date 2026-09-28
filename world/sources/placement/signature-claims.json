@@ -6,14 +6,9 @@
    "signature": "farmhouse01-with-door | clutter:barrel02, clutter:farmbench01, clutter:firewoodpilemedium01, clutter:miscsacklarge, light:candlelanternwithcandle01"
   },
   {
-   "claimedAt": "2026-09-27T19:34:00Z",
+   "claimedAt": "2026-09-28T12:55:33Z",
    "placeId": "place.imperial-fringe.claywater-station",
-   "signature": "farmhouse02 | clutter:barrel02, clutter:firewoodpilelarge01, clutter:haymound01, clutter:horsetrough01, light:candlelanternwithcandle01"
-  },
-  {
-   "claimedAt": "2026-09-27T19:34:00Z",
-   "placeId": "place.imperial-fringe.claywater-station",
-   "signature": "genericwell01 | clutter:barrel01, clutter:barrel02, clutter:bmv:roadsignmedium01l, clutter:bucket01, clutter:cratesmall01, clutter:farmbench01, clutter:handcart01, clutter:horsetrough01, clutter:roadsignpost, light:candlelanternwithcandle01, light:impbrazier01"
+   "signature": "genericwell01 | clutter:barrel01, clutter:barrel02, clutter:bmv:roadsignmedium01l, clutter:bmv:roadsignmedium01r, clutter:bucket01, clutter:cratesmall01, clutter:farmbench01, clutter:handcart01, clutter:horsetrough01, clutter:roadsignpost, light:candlelanternwithcandle01, light:impbrazier01"
   },
   {
    "claimedAt": "2026-09-27T21:14:45Z",
@@ -41,24 +36,29 @@
    "signature": "kotm-house-pod | clutter:basketfull, clutter:paintedurn01, clutter:wovenchair01, clutter:wovenchair01, light:argoniancandle01"
   },
   {
+   "claimedAt": "2026-09-28T12:55:33Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "kotm-house-pod | clutter:basketfull, clutter:paintedurn01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-28T12:55:33Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "kotm-house-pod | clutter:basketsmall01, clutter:cookingstand01, clutter:miscsacklarge, clutter:paintedurn01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01"
+  },
+  {
    "claimedAt": "2026-09-27T21:14:45Z",
    "placeId": "place.hist-heartland.greenspring",
    "signature": "mudhut01 | clutter:basketfull, clutter:carapaceoven, clutter:cookingstand01, clutter:firewoodpilesmall01, clutter:paintedurn01, light:argoniancandle01"
   },
   {
-   "claimedAt": "2026-09-27T19:34:00Z",
-   "placeId": "place.imperial-fringe.claywater-station",
-   "signature": "mudhut01 | clutter:basketfull, clutter:paintedurn01, light:argoniancandle01"
-  },
-  {
-   "claimedAt": "2026-09-27T19:34:00Z",
-   "placeId": "place.imperial-fringe.claywater-station",
-   "signature": "mudhut01 | clutter:basketsmall01, clutter:cookingstand01, clutter:miscsacklarge, clutter:paintedurn01, clutter:spitpotopenloose01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01, light:argoniancandle01"
-  },
-  {
    "claimedAt": "2026-09-27T21:14:45Z",
    "placeId": "place.hist-heartland.greenspring",
    "signature": "mudhut01 | clutter:basketsmall01, clutter:paintedurn01, clutter:paintedurn01, clutter:wovenchair01, clutter:woventable01, light:argoniancandle01"
+  },
+  {
+   "claimedAt": "2026-09-28T12:55:33Z",
+   "placeId": "place.imperial-fringe.claywater-station",
+   "signature": "mwimparchstableendl01 | annex:mwimparchstableendr01, clutter:haymound01, clutter:horsetrough01"
   },
   {
    "claimedAt": "2026-09-27T21:19:00Z",
@@ -86,12 +86,6 @@
    "placeId": "place.imperial-fringe.claywater-station"
   },
   {
-   "cellId": "KeebaHouseCrafter",
-   "claimedAt": "2026-09-28T08:22:08Z",
-   "doorId": "door.imperial-fringe.claywater-station.5",
-   "placeId": "place.imperial-fringe.claywater-station"
-  },
-  {
    "cellId": "KeebaHouseFisher",
    "claimedAt": "2026-09-28T08:22:08Z",
    "doorId": "door.hist-heartland.greenspring.2",
@@ -101,6 +95,12 @@
    "cellId": "KeebaHouseFisher",
    "claimedAt": "2026-09-28T08:22:08Z",
    "doorId": "door.imperial-fringe.claywater-station.2",
+   "placeId": "place.imperial-fringe.claywater-station"
+  },
+  {
+   "cellId": "KeebaHouseSnailMinder",
+   "claimedAt": "2026-09-28T12:55:27Z",
+   "doorId": "door.imperial-fringe.claywater-station.5",
    "placeId": "place.imperial-fringe.claywater-station"
   }
  ],

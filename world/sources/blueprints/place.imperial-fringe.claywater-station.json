@@ -77,48 +77,64 @@
             0.416250702
           ],
           [
-            0.040464206,
-            0.416801487
+            0.040460949,
+            0.416796923
           ],
           [
-            0.044101588,
-            0.420232335
+            0.044239182,
+            0.420509876
           ],
           [
-            0.04522034,
-            0.421143008
+            0.044298226,
+            0.420564788
           ],
           [
-            0.045445576,
-            0.421199674
+            0.044500946,
+            0.420707808
           ],
           [
-            0.050384327,
-            0.421275817
+            0.045271212,
+            0.420875356
           ],
           [
-            0.051207232,
-            0.421275817
+            0.045421905,
+            0.420861024
           ],
           [
-            0.051391285,
-            0.421091763
+            0.045573283,
+            0.42083795
           ],
           [
-            0.051609095,
-            0.420869111
+            0.045726153,
+            0.420776744
           ],
           [
-            0.051609095,
-            0.419992256
+            0.04710233,
+            0.419916816
           ],
           [
-            0.049578976,
-            0.417735391
+            0.047201046,
+            0.419810671
           ],
           [
-            0.044990207,
-            0.412799772
+            0.047357829,
+            0.419588442
+          ],
+          [
+            0.047384375,
+            0.419386042
+          ],
+          [
+            0.047382165,
+            0.419264052
+          ],
+          [
+            0.046763428,
+            0.416242802
+          ],
+          [
+            0.04504232,
+            0.412855324
           ],
           [
             0.044883586,
@@ -242,8 +258,8 @@
           "what": "The landing hamlet: three mud huts round an open common, the fish racks and the boats pulled up on the bank.",
           "whyHere": "The landing is older than the station; its polers came up from the mud-hut country and built as they do at home, on the dry point by the channel.",
           "whyNeighbours": "It faces the well-station across the ford. It keeps no Hist: its people's tree stands at Fenmarch Village (place.imperial-fringe.fenmarch-village, 1.7 km). They go home for the hatching.",
-          "playerPurpose": "The ford ferry in the wet season and the landing's side of LF83.",
-          "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised above the high water."
+          "playerPurpose": "The ford ferry for carts and beasts; the landing's side of LF83.",
+          "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised a little above the channel."
         }
       }
     ],
@@ -311,26 +327,52 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 37.4413
+            "yMeasured": 37.4447
+          },
+          {
+            "id": "b1-bucket",
+            "asset": "vanilla:clutter/bucket01",
+            "atM": [
+              -0.2761,
+              5.5968
+            ],
+            "yaw": 178.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.45
           },
           {
             "id": "b1-lamp",
             "asset": "vanilla:clutter/common/candlelanternwithcandle01",
             "atM": [
-              0.0,
-              0.0
+              1.0929,
+              0.0379
             ],
-            "yaw": 0.0,
+            "yaw": 91.72,
             "on": "parent",
             "layer": "light",
             "evidence": "measured",
             "mountPair": {
-              "kind": "unmined",
-              "mountedOn": "b1-barrel",
-              "unmined": "reader-approved r1"
+              "kind": "band",
+              "mountedOn": "b1-post",
+              "n": 46
             },
-            "upM": 1.1335,
-            "host": "b1-barrel"
+            "upM": 1.3094,
+            "host": "b1-post"
+          },
+          {
+            "id": "b1-post",
+            "asset": "bmv:architecture/phitt/aldredanyia/signpost",
+            "atM": [
+              -4.1557,
+              5.4268
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 39.2998
           },
           {
             "id": "b1-sack",
@@ -472,141 +514,6 @@
         ]
       },
       {
-        "id": "parcel.claywater-station.stable-barn",
-        "districtId": "district.claywater-station.the-well",
-        "use": "dwelling",
-        "buildingFamily": "vanilla-farmhouse",
-        "interior": {
-          "kind": "dwelling"
-        },
-        "orientationWhy": "Its deck door faces north-east over the road to the paddock; the stair climbs to the deck at its west corner.",
-        "why": {
-          "what": "The stablemaster's house: the well-keeper's hand lives upstairs, reached by the outside stair to the deck.",
-          "whyHere": "A road station keeps someone by the horses at night.",
-          "whySpot": "West of the road, facing the paddock across it, the last level ground before the bench drops to the channel.",
-          "whyNeighbours": "The paddock and the open stalls stand across the road; the stable path joins the house to the well.",
-          "playerPurpose": "The house of the man who takes the player's horse for the night.",
-          "microGeography": "The ground falls to the north; the house stands on a pad with a retaining wall on its low side."
-        },
-        "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
-        "centreUV": [
-          0.045297308,
-          0.418796671
-        ],
-        "yawDeg": 238.0,
-        "pad": {
-          "datumM": 37.1,
-          "apronM": 2.0,
-          "apronBySide": {
-            "w": 3.5,
-            "e": 0.0
-          }
-        },
-        "assembly": [
-          {
-            "id": "b2-barrel",
-            "asset": "vanilla:clutter/barrel02",
-            "atM": [
-              -1.2292,
-              4.4203
-            ],
-            "yaw": 122.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 37.1
-          },
-          {
-            "id": "b2-lamp",
-            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
-            "atM": [
-              0.0,
-              0.0
-            ],
-            "yaw": 0.0,
-            "on": "parent",
-            "layer": "light",
-            "evidence": "measured",
-            "mountPair": {
-              "kind": "unmined",
-              "mountedOn": "b2-barrel",
-              "unmined": "reader-approved r1"
-            },
-            "upM": 1.1335,
-            "host": "b2-barrel"
-          },
-          {
-            "id": "b2-stair",
-            "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
-            "atM": [
-              -7.02,
-              -6.62
-            ],
-            "yaw": 90.55,
-            "on": "ground",
-            "layer": "steps",
-            "evidence": "vanilla:t0749",
-            "yMeasured": 38.0582
-          },
-          {
-            "id": "sty-wood",
-            "asset": "vanilla:clutter/firewood/firewoodpilelarge01",
-            "atM": [
-              -16.0589,
-              1.1675
-            ],
-            "yaw": 229.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 38.2862
-          }
-        ],
-        "footprint": [
-          [
-            0.045507215,
-            0.420099997
-          ],
-          [
-            0.045472858,
-            0.420091081
-          ],
-          [
-            0.044439396,
-            0.418437196
-          ],
-          [
-            0.044446444,
-            0.418402408
-          ],
-          [
-            0.045681682,
-            0.417630545
-          ],
-          [
-            0.045717189,
-            0.417638743
-          ],
-          [
-            0.046750651,
-            0.419292628
-          ],
-          [
-            0.046742454,
-            0.419328135
-          ]
-        ],
-        "scale": 1.0,
-        "yMeasured": 36.6782,
-        "playerPurpose": [
-          {
-            "kind": "service-station",
-            "tier": "major",
-            "note": "The stablemaster takes the player's horse for the night and keeps the paddock across the road."
-          }
-        ]
-      },
-      {
         "id": "parcel.claywater-station.the-well",
         "districtId": "district.claywater-station.the-well",
         "use": "civic",
@@ -654,7 +561,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 37.4452
+            "yMeasured": 37.4455
           },
           {
             "id": "isy-bench",
@@ -667,7 +574,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 37.4413
+            "yMeasured": 37.4447
           },
           {
             "id": "isy-bucket",
@@ -745,7 +652,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 34.0929
+            "yMeasured": 34.0832
           },
           {
             "id": "p1",
@@ -1445,11 +1352,11 @@
         "orientationWhy": "The wall runs across the pad's north-east end, square to the house.",
         "why": {
           "what": "A dry-stone retaining wall across the north-east end of the station house's pad.",
-          "whyHere": "This end of the pad stands highest over the slope down to the barn, so its edge needs holding.",
-          "whySpot": "Across the pad's end toward the stable barn.",
+          "whyHere": "This end of the pad stands highest over the slope down to the stable, so its edge needs holding.",
+          "whySpot": "Across the pad's north-east end, above the stable yard.",
           "whyNeighbours": "It joins the back wall at the corner and stops short of the yard wall on the road side.",
-          "playerPurpose": "It closes the pad on the barn side, so the yard ends at a wall.",
-          "microGeography": "The ground drops toward the barn below this end."
+          "playerPurpose": "It closes the pad on the stable side, so the yard ends at a wall.",
+          "microGeography": "The ground drops toward the stable below this end."
         },
         "pieces": [
           {
@@ -1689,7 +1596,7 @@
         "why": {
           "what": "A dry-stone retaining wall across the south-west end of the station house's pad.",
           "whyHere": "The bench dips at the house's landing end. The wall keeps the pad from slumping there.",
-          "whySpot": "Across the pad's end away from the barn, behind the woodpile and the hen's nest.",
+          "whySpot": "Across the pad's end away from the stable, behind the woodpile and the hen's nest.",
           "whyNeighbours": "It joins the back wall at one corner and the road-side yard wall at the other.",
           "playerPurpose": "It closes the pad on the landing side, behind the woodpile.",
           "microGeography": "The bench slopes away toward the landing below this end."
@@ -1928,13 +1835,13 @@
         "interior": {
           "kind": "none"
         },
-        "orientationWhy": "The wall runs along the barn's long south side, square to the pad.",
+        "orientationWhy": "The wall runs across the stable's south end, square to the pad.",
         "why": {
-          "what": "A dry-stone retaining wall along the south side of the stable barn's pad.",
-          "whyHere": "The barn's pad is cut into the ground on this side; the wall holds the bank back from the barn's south wall.",
-          "whySpot": "Along the pad's south edge, a pace out from the barn wall.",
-          "whyNeighbours": "It meets the east and west walls at the pad's corners.",
-          "playerPurpose": "It keeps the bank off the barn's south wall.",
+          "what": "A dry-stone retaining wall along the south side of the stable's pad.",
+          "whyHere": "The stable's pad is cut into the ground at this end; the wall holds the bank back from the stalls.",
+          "whySpot": "Along the pad's south edge, two paces out from the stable's end.",
+          "whyNeighbours": "It meets the west wall at the pad's south-west corner.",
+          "playerPurpose": "It keeps the bank off the stable's south end.",
           "microGeography": "The ground stands higher than the pad along most of this edge."
         },
         "pieces": [
@@ -1972,194 +1879,194 @@
           }
         ],
         "centreUV": [
-          0.045595674,
-          0.420525835
+          0.045382749,
+          0.42019492
         ],
         "yawDeg": 328.0,
         "footprint": [
           [
-            0.045428625,
-            0.420575847
+            0.0452157,
+            0.420244932
           ],
           [
-            0.045440863,
-            0.42062101
+            0.045227938,
+            0.420290095
           ],
           [
-            0.045469444,
-            0.420646291
+            0.045256519,
+            0.420315376
           ],
           [
-            0.045516883,
-            0.420658226
+            0.045303958,
+            0.420327311
           ],
           [
-            0.045568223,
-            0.420653343
+            0.045355298,
+            0.420322428
           ],
           [
-            0.045642633,
-            0.420642001
+            0.045429708,
+            0.420311086
           ],
           [
-            0.045692583,
-            0.420622002
+            0.045479658,
+            0.420291087
           ],
           [
-            0.04571673,
-            0.420606909
+            0.045503805,
+            0.420275994
           ],
           [
-            0.045839462,
-            0.420501442
+            0.045626537,
+            0.420170527
           ],
           [
-            0.045855228,
-            0.420475988
+            0.045642303,
+            0.420145073
           ],
           [
-            0.046108858,
-            0.420361876
+            0.045895933,
+            0.420030961
           ],
           [
-            0.046133052,
-            0.420346764
+            0.045920127,
+            0.420015849
           ],
           [
-            0.046255804,
-            0.420241281
+            0.046042879,
+            0.419910366
           ],
           [
-            0.046271739,
-            0.42021555
+            0.046058814,
+            0.419884635
           ],
           [
-            0.046526433,
-            0.420100952
+            0.046313508,
+            0.419770037
           ],
           [
-            0.046550566,
-            0.420085868
+            0.046337641,
+            0.419754953
           ],
           [
-            0.046673299,
-            0.419980401
+            0.046460374,
+            0.419649486
           ],
           [
-            0.04668906,
-            0.419954955
+            0.046476135,
+            0.41962404
           ],
           [
-            0.046942708,
-            0.419840835
+            0.046729783,
+            0.41950992
           ],
           [
-            0.046966902,
-            0.419825722
+            0.046753977,
+            0.419494807
           ],
           [
-            0.046991801,
-            0.419798949
+            0.046778876,
+            0.419468034
           ],
           [
-            0.047050291,
-            0.419716044
+            0.046837366,
+            0.419385129
           ],
           [
-            0.047054175,
-            0.41968643
+            0.04684125,
+            0.419355515
           ],
           [
-            0.047053602,
-            0.419654804
+            0.046840677,
+            0.419323889
           ],
           [
-            0.047036913,
-            0.419620413
+            0.046823988,
+            0.419289498
           ],
           [
-            0.047022557,
-            0.419597442
+            0.046809632,
+            0.419266527
           ],
           [
-            0.047000852,
-            0.419580621
+            0.046787927,
+            0.419249706
           ],
           [
-            0.046958301,
-            0.419568829
+            0.046745376,
+            0.419237914
           ],
           [
-            0.046861003,
-            0.419589657
+            0.046648078,
+            0.419258742
           ],
           [
-            0.046826016,
-            0.419600314
+            0.046613091,
+            0.419269399
           ],
           [
-            0.046801853,
-            0.41961542
+            0.046588928,
+            0.419284505
           ],
           [
-            0.046588104,
-            0.419793359
+            0.046375179,
+            0.419462444
           ],
           [
-            0.046558305,
-            0.419796371
+            0.04634538,
+            0.419465456
           ],
           [
-            0.046409709,
-            0.419860449
+            0.046196784,
+            0.419529534
           ],
           [
-            0.046385572,
-            0.419875527
+            0.046172647,
+            0.419544612
           ],
           [
-            0.046170921,
-            0.420054209
+            0.045957996,
+            0.419723294
           ],
           [
-            0.04614081,
-            0.420057251
+            0.045927885,
+            0.419726336
           ],
           [
-            0.045992191,
-            0.42012134
+            0.045779266,
+            0.419790425
           ],
           [
-            0.045968003,
-            0.420136461
+            0.045755078,
+            0.419805546
           ],
           [
-            0.045754252,
-            0.420314401
+            0.045541327,
+            0.419983486
           ],
           [
-            0.045724468,
-            0.420317413
+            0.045511543,
+            0.419986498
           ],
           [
-            0.045575873,
-            0.42038149
+            0.045362948,
+            0.420050575
           ],
           [
-            0.045551697,
-            0.420396594
+            0.045338772,
+            0.420065679
           ],
           [
-            0.045511841,
-            0.42043271
+            0.045298916,
+            0.420101795
           ],
           [
-            0.045465434,
-            0.420488878
+            0.045252509,
+            0.420157963
           ],
           [
-            0.045442153,
-            0.420538587
+            0.045229228,
+            0.420207672
           ]
         ]
       },
@@ -2171,13 +2078,13 @@
         "interior": {
           "kind": "none"
         },
-        "orientationWhy": "The wall runs along the barn's long north side, square to the pad.",
+        "orientationWhy": "The wall runs across the stable's north end, square to the pad.",
         "why": {
-          "what": "A dry-stone retaining wall along the north side of the stable barn's pad.",
-          "whyHere": "The pad is cut into the rising ground along the barn's back; the wall keeps the bank off it.",
+          "what": "A dry-stone retaining wall along the north side of the stable's pad.",
+          "whyHere": "The pad is cut into the rising ground at the stable's north end; the wall keeps the bank off it.",
           "whySpot": "Along the pad's north edge, facing the station house.",
-          "whyNeighbours": "It stops short of the pad's north-east corner, leaving a gap about 2.8 m wide where the stable path climbs onto the pad.",
-          "playerPurpose": "It keeps the bank off the barn's back wall.",
+          "whyNeighbours": "It stops short of the pad's north-west corner, leaving the gap where the stable path turns in to the stalls.",
+          "playerPurpose": "It keeps the bank off the stable's north end.",
           "microGeography": "The bench rises above this edge toward the station house."
         },
         "pieces": [
@@ -2414,13 +2321,13 @@
         "interior": {
           "kind": "none"
         },
-        "orientationWhy": "The wall runs across the barn's west end, square to the pad.",
+        "orientationWhy": "The wall runs along the open front of the stalls, square to the pad.",
         "why": {
-          "what": "A dry-stone retaining wall across the west end of the stable barn's pad.",
-          "whyHere": "The pad is cut into the ground at the barn's west end; the wall keeps the slope from slumping onto it.",
-          "whySpot": "Across the pad's west end, a pace out from the barn.",
+          "what": "A dry-stone retaining wall along the west edge of the stable's pad, in front of the stalls.",
+          "whyHere": "The pad is cut into the ground on its west side; the wall keeps the slope from slumping into the yard.",
+          "whySpot": "Along the pad's west edge, a few paces out from the stalls.",
           "whyNeighbours": "It joins the north and south walls at the pad's corners.",
-          "playerPurpose": "It closes the barn's pad on the side that faces the landing.",
+          "playerPurpose": "It closes the stable's pad on the side that faces the landing.",
           "microGeography": "The ground rises above this end toward the bench."
         },
         "pieces": [
@@ -2447,6 +2354,14 @@
               0.0
             ],
             "yaw": 0.0
+          },
+          {
+            "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+            "atM": [
+              10.87,
+              0.0
+            ],
+            "yaw": 0.0
           }
         ],
         "centreUV": [
@@ -2468,8 +2383,8 @@
             0.41879345
           ],
           [
-            0.043817795,
-            0.418843374
+            0.04381781,
+            0.4188434
           ],
           [
             0.043832903,
@@ -2500,8 +2415,8 @@
             0.419422556
           ],
           [
-            0.044338816,
-            0.419677169
+            0.04433886,
+            0.41967725
           ],
           [
             0.044353944,
@@ -2512,24 +2427,76 @@
             0.419824116
           ],
           [
-            0.044485309,
-            0.419839957
+            0.044484857,
+            0.419839877
           ],
           [
-            0.044646325,
-            0.419739343
+            0.044598977,
+            0.420093525
+          ],
+          [
+            0.04461409,
+            0.420117719
+          ],
+          [
+            0.044640863,
+            0.420142618
+          ],
+          [
+            0.044723768,
+            0.420201108
+          ],
+          [
+            0.044753382,
+            0.420204992
+          ],
+          [
+            0.044785008,
+            0.420204419
+          ],
+          [
+            0.044819335,
+            0.420187765
+          ],
+          [
+            0.04484237,
+            0.420173374
+          ],
+          [
+            0.044859191,
+            0.420151669
+          ],
+          [
+            0.044870983,
+            0.420109118
+          ],
+          [
+            0.044850155,
+            0.42001182
+          ],
+          [
+            0.044839513,
+            0.419976859
+          ],
+          [
+            0.044824392,
+            0.41995267
+          ],
+          [
+            0.044646453,
+            0.419738921
           ],
           [
             0.044643441,
             0.419709122
           ],
           [
-            0.044579339,
-            0.419560481
+            0.044579363,
+            0.419560526
           ],
           [
-            0.044564231,
-            0.419536315
+            0.044564285,
+            0.419536389
           ],
           [
             0.044385603,
@@ -2590,85 +2557,6 @@
         ]
       },
       {
-        "id": "parcel.claywater-station.paddock-fence",
-        "districtId": "district.claywater-station.the-well",
-        "use": "boundary",
-        "buildingFamily": "vanilla-farmhouse-fence",
-        "interior": {
-          "kind": "none"
-        },
-        "orientationWhy": "The fence runs along the road's east verge, with a gap at the paddock path.",
-        "why": {
-          "what": "A woven fence of two panels along the paddock's road side, with a gap.",
-          "whyHere": "Imperial stations fence the paddock where the animals stand.",
-          "whySpot": "East of the road, on the flat ground between the verge and the flood water.",
-          "whyNeighbours": "It holds the paddock between the road and the water; the open stalls stand at its south end.",
-          "playerPurpose": "It keeps the station's horses and the player's in the paddock overnight.",
-          "microGeography": "It stands on the last dry ground above the channel."
-        },
-        "pieces": [
-          {
-            "asset": "vanilla:architecture/farmhouse/fencewoven01",
-            "atM": [
-              0.0,
-              0.0
-            ],
-            "yaw": 0.0
-          },
-          {
-            "asset": "vanilla:architecture/farmhouse/fencewoven01",
-            "atM": [
-              6.0054,
-              0.0247
-            ],
-            "yaw": 0.0
-          }
-        ],
-        "centreUV": [
-          0.049311681,
-          0.41832878
-        ],
-        "yawDeg": 57.0,
-        "footprint": [
-          [
-            0.049162874,
-            0.418097149
-          ],
-          [
-            0.049159463,
-            0.418099364
-          ],
-          [
-            0.049159302,
-            0.418114059
-          ],
-          [
-            0.049674266,
-            0.418915665
-          ],
-          [
-            0.049886242,
-            0.419242079
-          ],
-          [
-            0.04990121,
-            0.419250185
-          ],
-          [
-            0.049907634,
-            0.41924763
-          ],
-          [
-            0.049907794,
-            0.419232935
-          ],
-          [
-            0.04917864,
-            0.418101504
-          ]
-        ]
-      },
-      {
         "id": "parcel.claywater-station.polers-hut",
         "districtId": "district.claywater-station.the-landing",
         "use": "dwelling",
@@ -2689,8 +2577,8 @@
           "whyHere": "The landing hamlet lives by the crossing; the poler lives beside it.",
           "whySpot": "The east end of the north strip, above the ford's north bank.",
           "whyNeighbours": "The fish racks and the landing lie between it and the water; the common is to the west.",
-          "playerPurpose": "The ford ferry in the wet season; the second counter of LF83.",
-          "microGeography": "Dry ground above the flood line on a mud pad raised clear of the high water."
+          "playerPurpose": "The ford ferry for carts and beasts; the second counter of LF83.",
+          "microGeography": "Dry ground above the channel on a mud pad raised clear of the wet bank."
         },
         "assetRef": "composite:mud/kotm-house-pod",
         "centreUV": [
@@ -2749,7 +2637,7 @@
           },
           {
             "id": "ahy-oven",
-            "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
+            "asset": "vanilla:clutter/woodfires/cookingstand01",
             "atM": [
               -3.5,
               -11.0
@@ -2758,7 +2646,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.3158
+            "yMeasured": 35.2969
           },
           {
             "id": "ahy-pot",
@@ -2788,7 +2676,7 @@
           },
           {
             "id": "ahy-table",
-            "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+            "asset": "kotm:argonia/clutter/basketcontainer",
             "atM": [
               -5.2,
               -8.3
@@ -2797,7 +2685,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.3
+            "yMeasured": 35.7953
           },
           {
             "id": "ahy-urn",
@@ -2901,20 +2789,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 34.6893
-          },
-          {
-            "id": "al-rack2",
-            "asset": "mudmother:gv_meshes/argoniannest/fishracksmall",
-            "atM": [
-              10.6524,
-              -7.1282
-            ],
-            "yaw": 330.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 35.0724
+            "yMeasured": 34.7384
           },
           {
             "id": "b4-lamp",
@@ -3124,7 +2999,7 @@
           "whySpot": "West of the road on the inside of its bend, the driest ground on the north bank.",
           "whyNeighbours": "The road runs past its door; the landing and the poler's pod are across the road to the east.",
           "playerPurpose": "A home to enter and people to talk to about the well and the landing.",
-          "microGeography": "Dry ground on a mud pad raised clear of the high water."
+          "microGeography": "Dry ground on a mud pad raised clear of the wet bank."
         },
         "assetRef": "composite:mud/kotm-house-pod",
         "centreUV": [
@@ -3210,7 +3085,7 @@
           },
           {
             "id": "b5-ahy-table",
-            "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+            "asset": "kotm:argonia/clutter/basketcontainer",
             "atM": [
               -9.5858,
               -5.1113
@@ -3219,7 +3094,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.891
+            "yMeasured": 36.3863
           },
           {
             "id": "b5-ahy-urn",
@@ -3246,6 +3121,19 @@
             "layer": "light",
             "evidence": "measured",
             "yMeasured": 35.9198
+          },
+          {
+            "id": "b5-pot",
+            "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+            "atM": [
+              -4.4,
+              -10.0
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 35.9903
           },
           {
             "id": "f2",
@@ -3384,19 +3272,19 @@
       {
         "id": "parcel.claywater-station.store-hut",
         "districtId": "district.claywater-station.the-landing",
-        "use": "dwelling",
+        "use": "work",
         "buildingFamily": "kotm-mudhut",
         "interior": {
           "kind": "dwelling"
         },
         "orientationWhy": "Its door faces east onto the store path, a few metres above the landing's dock where the catch comes ashore.",
         "why": {
-          "what": "The landing's net and basket maker lives and works in this pod, beside the stored catch.",
+          "what": "The landing's net and basket maker works in this pod, beside the stored catch.",
           "whyHere": "A landing needs its nets mended and its baskets woven close to the boats.",
           "whySpot": "North of the landing steps on the dry bank, clear of the road.",
           "whyNeighbours": "The landing steps run past its door; the poler's pod stands to the south-west.",
-          "playerPurpose": "A household on the landing whose door the player can open.",
-          "microGeography": "Dry bank a metre above the flood water, its pad raised to clear the high water."
+          "playerPurpose": "A workshop on the landing whose door the player can open.",
+          "microGeography": "Dry bank a metre above the channel, its pad raised clear of the wet ground."
         },
         "assetRef": "composite:mud/kotm-house-pod",
         "centreUV": [
@@ -3591,12 +3479,12 @@
         },
         "orientationWhy": "The raft lies with its long side to the bank for boarding.",
         "why": {
-          "what": "The ferry raft, moored in the flood water east of the landing.",
-          "whyHere": "The poler's ferry needs a hull afloat in the wet season.",
+          "what": "The ferry raft, moored in the channel east of the landing.",
+          "whyHere": "Carts and beasts cross on it, so the hull stays afloat by the landing.",
           "whySpot": "The nearest water that floats it: at least a metre all round, east of the road.",
           "whyNeighbours": "The cleats on the bank hold it; the landing path runs to it.",
-          "playerPurpose": "The ferry that carries the player across the flooded ford in the wet season.",
-          "microGeography": "Flood water at 35.24 m, more than a metre deep round the hull."
+          "playerPurpose": "The ferry that carries carts, beasts and the player across the ford.",
+          "microGeography": "Channel water at 35.24 m, more than a metre deep round the hull."
         },
         "assetRef": "ferryraft:snt/ferry/ferryraft01",
         "centreUV": [
@@ -3706,18 +3594,18 @@
         "id": "parcel.claywater-station.stable",
         "districtId": "district.claywater-station.the-well",
         "use": "storage",
-        "buildingFamily": "mw-imperial-stables",
+        "buildingFamily": "riften-stables",
         "interior": {
           "kind": "none"
         },
-        "orientationWhy": "The open stalls face west to the road, their backs to the flood water.",
+        "orientationWhy": "The open stalls face west-south-west into the walled paddock, their backs to the road.",
         "why": {
-          "what": "Two open stalls where travellers' horses stand for the night.",
+          "what": "An open stable of four stalls where travellers' horses stand for the night.",
           "whyHere": "A road station keeps a stable for animals that cannot come inside.",
-          "whySpot": "East of the road on the flat ground by the water, the only level ground beside the paddock.",
-          "whyNeighbours": "The paddock fence runs north of it; the stablemaster's house faces it across the road.",
+          "whySpot": "The levelled yard south-east of the station house, walled on three sides. Nowhere else near the road is level and wide enough for the stalls and a paddock.",
+          "whyNeighbours": "Stone walls close the paddock in front of the stalls on three sides; the station house stands to the north-west.",
           "playerPurpose": "A stable where the player's horse is kept for the night.",
-          "microGeography": "Flat ground half a metre above the flood water."
+          "microGeography": "A levelled yard cut into the foot of the hillside."
         },
         "services": [
           "stable"
@@ -3725,95 +3613,151 @@
         "fills": [
           "promise.claywater-station.service-stable"
         ],
-        "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
+        "assetRef": "vanilla:architecture/riften/rtstables01",
         "centreUV": [
-          0.051128998,
-          0.420424119
+          0.045378681,
+          0.418742423
         ],
-        "yawDeg": 90.0,
-        "scale": 1.0,
+        "yawDeg": 238.0,
         "pad": {
-          "datumM": 34.831,
-          "apronM": 0.5,
+          "datumM": 37.4,
+          "apronM": 2.0,
           "apronBySide": {
-            "s": 6.0
-          },
-          "batter": true
+            "w": 3.5,
+            "e": 0.0
+          }
         },
         "yMeasured": 34.831,
         "assembly": [
           {
-            "id": "st2",
-            "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
+            "id": "b2-barrel",
+            "asset": "vanilla:clutter/barrel02",
             "atM": [
-              4.5517,
-              0.0
+              6.6139,
+              -5.3006
             ],
-            "yaw": 0.0,
+            "yaw": 122.0,
             "on": "ground",
-            "layer": "annex",
+            "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 34.831
+            "yMeasured": 37.4
+          },
+          {
+            "id": "b2-lamp",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              1.0929,
+              0.0379
+            ],
+            "yaw": 91.72,
+            "on": "parent",
+            "layer": "light",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "band",
+              "mountedOn": "b2-post",
+              "n": 46
+            },
+            "upM": 1.3094,
+            "host": "b2-post"
+          },
+          {
+            "id": "b2-post",
+            "asset": "bmv:architecture/phitt/aldredanyia/signpost",
+            "atM": [
+              6.0414,
+              -5.8942
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 39.2498
           },
           {
             "id": "sty-hay",
             "asset": "vanilla:clutter/hay/haymound01",
             "atM": [
-              -4.7,
-              -0.5
-            ],
-            "yaw": 0.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 35.1912
-          },
-          {
-            "id": "sty-trough",
-            "asset": "vanilla:clutter/horsetrough/horsetrough01",
-            "atM": [
-              7.5,
-              1.5
+              1.176,
+              -6.2223
             ],
             "yaw": 270.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 34.831
+            "yMeasured": 37.4
+          },
+          {
+            "id": "sty-trough",
+            "asset": "vanilla:clutter/horsetrough/horsetrough01",
+            "atM": [
+              -1.3361,
+              -4.8441
+            ],
+            "yaw": 270.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 37.3903
+          },
+          {
+            "id": "sty-wood",
+            "asset": "vanilla:clutter/firewood/firewoodpilelarge01",
+            "atM": [
+              -0.3385,
+              7.3352
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 36.5857
           }
         ],
         "footprint": [
           [
-            0.050388509,
-            0.420053875
+            0.045533415,
+            0.419734797
           ],
           [
-            0.050982528,
-            0.420114904
+            0.045445862,
+            0.41978151
           ],
           [
-            0.051005583,
-            0.420137959
+            0.045308151,
+            0.419691648
           ],
           [
-            0.051066612,
-            0.420200345
+            0.045118131,
+            0.41939779
           ],
           [
-            0.051066612,
-            0.420647893
+            0.044480515,
+            0.418408102
           ],
           [
-            0.051005583,
-            0.420710279
+            0.044482113,
+            0.418226393
           ],
           [
-            0.050982528,
-            0.420733334
+            0.045236596,
+            0.417767733
           ],
           [
-            0.050388509,
-            0.420733334
+            0.045327311,
+            0.417728639
+          ],
+          [
+            0.04544302,
+            0.417901016
+          ],
+          [
+            0.046231127,
+            0.419134099
+          ],
+          [
+            0.046268352,
+            0.419224382
           ]
         ]
       },
@@ -3827,12 +3771,12 @@
         },
         "orientationWhy": "The two dock spans run from the dry bank straight out to the raft's berth.",
         "why": {
-          "what": "The landing stage: two plank dock spans on piles from the bank out over the flood water.",
+          "what": "The landing stage: two plank dock spans on piles from the bank out over the channel.",
           "whyHere": "The ferry raft needs a dry way out to water deep enough to float it.",
           "whySpot": "From the bank east of the poler's pod, the shortest way to a metre of water.",
           "whyNeighbours": "The raft lies at its end; the cleats and the canoe are at its foot.",
           "playerPurpose": "The way from the bank to the ferry raft.",
-          "microGeography": "The deck stands a hand's breadth over the flood water; its piles go down into the bed."
+          "microGeography": "The deck stands a hand's breadth over the channel; its piles go down into the bed."
         },
         "groundFit": "stilt",
         "pieces": [
@@ -4010,25 +3954,6 @@
         }
       },
       {
-        "id": "door.imperial-fringe.claywater-station.4",
-        "parcelId": "parcel.claywater-station.stable-barn",
-        "interiorClaim": {
-          "sizeClass": "large",
-          "culture": "imperial",
-          "interiorRef": "vanilla-farmhouse-int",
-          "owner": "the stablemaster",
-          "tier": "reserved",
-          "pool": "vanilla",
-          "why": "0 of the 9 cells linked to vanilla:architecture/farmhouse/farmhouse02 pass the fit rule (room footprint 0.6-1.7, at least the shell's storeys, an exterior load door for every entrance, use class, the acceptance gate)"
-        },
-        "thresholdUV": [
-          0.045720852,
-          0.418535194
-        ],
-        "facingDeg": 58.3,
-        "doorType": "load"
-      },
-      {
         "id": "door.imperial-fringe.claywater-station.5",
         "parcelId": "parcel.claywater-station.store-hut",
         "doorType": "load",
@@ -4038,18 +3963,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the landing's crafter",
           "tier": "A",
-          "cellId": "KeebaHouseCrafter",
+          "cellId": "KeebaHouseSnailMinder",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "0809B4BD",
+          "interiorLoadDoorRef": "08090C43",
           "arrivalMarker": {
             "positionM": [
-              106.4963,
-              86.2485,
-              54.4948
+              105.4125,
+              83.4645,
+              52.8801
             ],
             "yawDeg": 182.383
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving use:dwelling, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; chosen for this door: the crafter's house holds the benches and baskets of the landing's net and basket maker"
+          "why": "1 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseSnailMinder is a smithy serving use:work, room footprint ratio 1.61 to the shell, 2 storeys, 1 exterior load door; KeebaHouseCrafter was asked for but does not fit, so the most-used free cell is taken"
         },
         "thresholdUV": [
           0.045472259,
@@ -4197,25 +4122,37 @@
         "routing": "terrain",
         "widthM": 1.2,
         "endsAt": [
-          "parcel.claywater-station.stable-barn"
+          "parcel.claywater-station.stable"
         ],
-        "why": "From the well junction to the stable barn, up onto its pad at the north-east corner, then between the barn and the east wall to the barn door.",
+        "why": "From the well junction round the outside of the north yard wall, then in at the yard's west side to the open front of the stalls.",
         "via": [
           [
             0.046246653,
             0.416423309
           ],
           [
-            0.046382274,
-            0.417169223
+            0.045229498,
+            0.417006478
           ],
           [
-            0.046585705,
-            0.417996509
+            0.04445646,
+            0.417603209
           ],
           [
-            0.045785543,
-            0.418484743
+            0.043913977,
+            0.417982947
+          ],
+          [
+            0.043968226,
+            0.418416933
+          ],
+          [
+            0.044472735,
+            0.418833288
+          ],
+          [
+            0.045066753,
+            0.418715298
           ]
         ],
         "points": [
@@ -4224,36 +4161,28 @@
             0.416423309
           ],
           [
-            0.046721326,
-            0.416791637
-          ],
-          [
-            0.046721326,
+            0.045500739,
             0.417062879
           ],
           [
-            0.046585705,
-            0.417198499
+            0.044958257,
+            0.417062879
           ],
           [
-            0.046382274,
-            0.417169223
+            0.043737671,
+            0.418147844
           ],
           [
-            0.046585705,
-            0.41733412
+            0.043737671,
+            0.418283465
           ],
           [
-            0.046585705,
-            0.417996509
+            0.044551395,
+            0.418961568
           ],
           [
-            0.046314464,
-            0.418012223
-          ],
-          [
-            0.045720852,
-            0.418535194
+            0.044792333,
+            0.418892096
           ]
         ]
       },
@@ -4715,8 +4644,8 @@
             356.0,
             3084.0
           ],
-          "why": "The flat pad east of the road beside the flood water.",
-          "rejectedBecause": "One flat pad east of the road; the rest of the east side is flood water at 35.24 m, with no room for either half."
+          "why": "The flat pad east of the road beside the channel.",
+          "rejectedBecause": "One flat pad east of the road; the rest of the east side is open water at 35.24 m, with no room for either half."
         }
       ]
     },
@@ -4787,18 +4716,17 @@
         "sha256": "5ed27ca47c12e26f8deffdbec2c52e4a78ce69b4203a37ec04e52d13caa83a32"
       },
       "kits": {
-        "bmv-treehouse-int": "3a68e3c286813441f3afa0b1c0e009e5d041605eb1baef3041e941ff6917f707",
-        "docks-v1": "a1c848121f19a41b36245c87042e2d762fe5403c7756ab56a7ef49ae68ae8001",
-        "htbm-hut-int": "f81e2c66877c18bd53720715c4b33d8db024868f455a715cf7bb52ccf3c011d9",
-        "imperial-keep": "9fc34e79e1eda8aa818f31bde72b256d456216ac13707968ac31a3f61b836ca3",
-        "mudmother-hut-int": "2f765860358f47635f638a377f4d2171fa8d7d6aea52c45c8358daca98b5bd98",
-        "settlement-imperial-v1": "8fbeecb6e75e46f1ca3032ecc9e4c6fde8875617c195785f7bf7b414d372839c",
-        "settlement-mud-v1": "3d56d0aa9e141368f0f721113c3d95d7ba5408324be7d903238d70f71e6f9317",
-        "works-v1": "aec5bc2148b2bc913b690a1e2061989b8cfb4f738f7805d5746edcb075dec64c"
+        "bmv-treehouse-int": "b4eae3ff712c698e724481f7592dcb1ca9b041d0f64af19d910625f6fd363a68",
+        "docks-v1": "0cb952aeb346a9eb38300aa15ac39528500cade97b1ee2e329c8c9e28f202368",
+        "htbm-hut-int": "bf85583fe4c096bcdfc6add008b57bda7edcb8892d1267bf3a2c5f8d68969220",
+        "mudmother-hut-int": "b2665967c200718989a84c1cf32510b7cf415a15a1cadaac502fa14316b22ea1",
+        "settlement-imperial-v1": "f70e6478ef8234e2299ec4e4ec213185c689c45c861fdcb484a3801b4ffdd422",
+        "settlement-mud-v1": "30fb15f5458dba6b862d9b50d5f9c03493e1266f2bc7fe582bedc85c2a8c39ce",
+        "works-v1": "bbd9130abbc34fff7b36116517e94853a902368c31c0fae605edb6089cd70921"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "ad6603124b6fe2d6244130edcbbf25e8d2a91184e2d82f725daf915d481e19a2"
+        "sha256": "c1da221f6d4f883224777f456dae2615cfede419b1f70fc764c628b2fc033c91"
       }
     },
     "walkRoutes": {
@@ -5618,7 +5546,7 @@
             "door.imperial-fringe.claywater-station.1"
           ]
         },
-        "door:b2.0": {
+        "door:stable": {
           "points": [
             [
               309.72,
@@ -5886,2031 +5814,288 @@
               3047.93
             ],
             [
-              320.72,
+              319.22,
+              35.28,
+              3048.43
+            ],
+            [
+              319.22,
               35.28,
               3049.93
             ],
             [
-              321.22,
+              319.22,
               35.29,
               3050.43
             ],
             [
-              321.72,
-              35.35,
+              319.72,
+              35.31,
               3050.93
             ],
             [
-              322.72,
-              35.41,
-              3051.93
-            ],
-            [
-              323.22,
-              35.52,
-              3052.43
-            ],
-            [
-              323.72,
-              35.51,
-              3052.93
-            ],
-            [
-              324.22,
-              35.43,
-              3053.43
-            ],
-            [
-              324.72,
-              35.47,
-              3053.93
-            ],
-            [
-              325.22,
-              35.55,
-              3054.43
-            ],
-            [
-              325.72,
-              35.49,
-              3054.93
-            ],
-            [
-              326.22,
-              35.41,
-              3055.43
-            ],
-            [
-              326.72,
-              35.5,
-              3055.93
-            ],
-            [
-              327.22,
-              35.54,
-              3056.43
-            ],
-            [
-              327.72,
-              35.46,
-              3056.93
-            ],
-            [
-              328.22,
-              35.44,
-              3057.43
-            ],
-            [
-              328.72,
-              35.52,
-              3057.93
-            ],
-            [
-              329.22,
-              35.54,
-              3058.43
-            ],
-            [
-              330.22,
-              35.54,
-              3059.43
-            ],
-            [
-              331.72,
-              35.6,
-              3060.93
-            ],
-            [
-              332.22,
-              35.57,
-              3061.43
-            ],
-            [
-              332.72,
-              35.56,
-              3061.93
-            ],
-            [
-              333.22,
-              35.6,
-              3062.43
-            ],
-            [
-              333.72,
-              35.61,
-              3062.93
-            ],
-            [
-              333.72,
-              35.61,
-              3063.43
-            ],
-            [
-              334.22,
-              35.64,
-              3063.93
-            ],
-            [
-              334.72,
-              35.63,
-              3064.43
-            ],
-            [
-              335.22,
-              35.65,
-              3064.93
-            ],
-            [
-              335.22,
-              35.66,
-              3065.43
-            ],
-            [
-              335.72,
-              35.68,
-              3065.93
-            ],
-            [
-              336.22,
-              35.66,
-              3066.43
-            ],
-            [
-              336.72,
-              35.69,
-              3066.93
-            ],
-            [
-              336.72,
-              35.72,
-              3067.43
-            ],
-            [
-              337.22,
-              35.73,
-              3067.93
-            ],
-            [
-              339.22,
-              35.73,
-              3069.93
-            ],
-            [
-              340.22,
-              35.71,
-              3070.93
-            ],
-            [
-              340.22,
-              35.81,
-              3071.93
-            ],
-            [
-              340.72,
-              35.79,
-              3072.43
-            ],
-            [
-              340.72,
-              35.83,
-              3072.93
-            ],
-            [
-              340.72,
-              35.98,
-              3074.43
-            ],
-            [
-              340.72,
-              36.06,
-              3074.93
-            ],
-            [
-              340.72,
-              36.26,
-              3075.93
-            ],
-            [
-              340.72,
-              36.35,
-              3076.43
-            ],
-            [
-              340.72,
-              36.41,
-              3076.93
-            ],
-            [
-              340.72,
-              36.43,
-              3077.43
-            ],
-            [
-              340.72,
-              36.43,
-              3077.93
-            ],
-            [
-              340.72,
-              36.42,
-              3078.43
-            ],
-            [
-              340.72,
-              36.39,
-              3078.93
-            ],
-            [
-              340.72,
-              36.39,
-              3079.43
-            ],
-            [
-              340.72,
-              36.43,
-              3079.93
-            ],
-            [
-              340.72,
-              36.51,
-              3080.43
-            ],
-            [
-              340.72,
-              36.87,
-              3082.43
-            ],
-            [
-              340.72,
-              36.95,
-              3082.93
-            ],
-            [
-              340.72,
-              37.01,
-              3083.43
-            ],
-            [
-              340.72,
-              37.05,
-              3083.93
-            ]
-          ],
-          "routeM": 80.69,
-          "steepestDeg": 24.7,
-          "largestStepM": 0.0,
-          "deepestWadeM": 0.645
-        },
-        "door:b2": {
-          "points": [
-            [
-              309.72,
-              33.78,
-              3020.93
-            ],
-            [
-              309.72,
-              33.88,
-              3021.93
-            ],
-            [
-              309.72,
-              33.92,
-              3022.43
-            ],
-            [
-              309.72,
-              33.94,
-              3022.93
-            ],
-            [
-              309.72,
-              33.98,
-              3023.43
-            ],
-            [
-              309.72,
-              34.1,
-              3023.93
-            ],
-            [
-              309.22,
-              34.03,
-              3024.43
-            ],
-            [
-              308.72,
-              34.04,
-              3024.93
-            ],
-            [
-              308.72,
-              33.95,
-              3025.43
-            ],
-            [
-              307.22,
-              33.26,
-              3026.93
-            ],
-            [
-              307.22,
-              33.23,
-              3027.43
-            ],
-            [
-              307.22,
-              33.19,
-              3028.43
-            ],
-            [
-              307.22,
-              33.15,
-              3028.93
-            ],
-            [
-              307.22,
-              33.14,
-              3029.43
-            ],
-            [
-              307.22,
-              33.12,
-              3029.93
-            ],
-            [
-              307.22,
-              33.11,
-              3030.43
-            ],
-            [
-              307.22,
-              33.08,
-              3030.93
-            ],
-            [
-              307.22,
-              33.04,
-              3032.93
-            ],
-            [
-              307.22,
-              33.04,
-              3033.93
-            ],
-            [
-              307.22,
-              33.02,
-              3034.43
-            ],
-            [
-              307.22,
-              32.97,
-              3034.93
-            ],
-            [
-              307.22,
-              32.93,
-              3035.43
-            ],
-            [
-              307.22,
-              32.88,
-              3035.93
-            ],
-            [
-              307.22,
-              32.88,
-              3036.43
-            ],
-            [
-              307.22,
-              32.89,
-              3036.93
-            ],
-            [
-              307.22,
-              32.89,
-              3037.43
-            ],
-            [
-              307.72,
-              32.75,
-              3037.93
-            ],
-            [
-              307.72,
-              32.69,
-              3038.43
-            ],
-            [
-              307.72,
-              32.64,
-              3038.93
-            ],
-            [
-              308.22,
-              32.82,
-              3039.43
-            ],
-            [
-              308.72,
-              33.05,
-              3039.93
-            ],
-            [
-              309.22,
-              33.01,
-              3040.43
-            ],
-            [
-              309.72,
-              32.92,
-              3040.93
-            ],
-            [
-              310.22,
-              32.98,
-              3041.43
-            ],
-            [
-              310.72,
-              33.1,
-              3041.93
-            ],
-            [
-              311.22,
-              33.27,
-              3042.43
-            ],
-            [
-              311.72,
-              33.28,
-              3042.43
-            ],
-            [
-              312.22,
-              33.43,
-              3042.93
-            ],
-            [
-              312.72,
-              33.56,
-              3043.43
-            ],
-            [
-              313.22,
-              33.88,
-              3043.93
-            ],
-            [
-              313.72,
-              34.0,
-              3044.43
-            ],
-            [
-              313.72,
-              34.13,
-              3044.93
-            ],
-            [
-              313.72,
-              34.21,
-              3045.43
-            ],
-            [
-              314.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.72,
-              34.23,
-              3045.93
-            ],
-            [
-              316.22,
-              34.31,
-              3045.93
-            ],
-            [
-              316.72,
-              34.42,
-              3045.93
-            ],
-            [
-              317.22,
-              34.52,
-              3045.93
-            ],
-            [
-              317.72,
-              34.8,
-              3046.43
-            ],
-            [
-              318.22,
-              35.11,
-              3046.93
-            ],
-            [
-              318.22,
-              35.21,
-              3047.43
-            ],
-            [
-              318.72,
-              35.28,
-              3047.93
+              320.22,
+              35.37,
+              3051.43
             ],
             [
               320.72,
-              35.28,
-              3049.93
-            ],
-            [
-              321.22,
-              35.29,
-              3050.43
-            ],
-            [
-              321.72,
-              35.35,
-              3050.93
-            ],
-            [
-              322.72,
-              35.41,
+              35.45,
               3051.93
             ],
             [
-              323.22,
-              35.52,
-              3052.43
-            ],
-            [
-              323.72,
-              35.51,
-              3052.93
-            ],
-            [
-              324.22,
-              35.43,
-              3053.43
-            ],
-            [
-              324.72,
-              35.47,
-              3053.93
-            ],
-            [
-              325.22,
-              35.55,
-              3054.43
-            ],
-            [
-              325.72,
-              35.49,
-              3054.93
-            ],
-            [
-              326.22,
-              35.41,
-              3055.43
-            ],
-            [
-              326.72,
-              35.5,
-              3055.93
-            ],
-            [
-              327.22,
-              35.54,
-              3056.43
-            ],
-            [
-              327.72,
-              35.46,
-              3056.93
-            ],
-            [
-              328.22,
-              35.44,
-              3057.43
-            ],
-            [
-              328.72,
-              35.52,
-              3057.93
-            ],
-            [
-              329.22,
-              35.54,
-              3058.43
-            ],
-            [
-              330.22,
-              35.54,
-              3059.43
-            ],
-            [
-              331.72,
-              35.6,
-              3060.93
-            ],
-            [
-              332.22,
-              35.57,
-              3061.43
-            ],
-            [
-              332.72,
-              35.56,
-              3061.93
-            ],
-            [
-              333.22,
-              35.6,
-              3062.43
-            ],
-            [
-              333.72,
-              35.61,
-              3062.93
-            ],
-            [
-              333.72,
-              35.61,
-              3063.43
-            ],
-            [
-              334.22,
-              35.64,
-              3063.93
-            ],
-            [
-              334.72,
-              35.63,
-              3064.43
-            ],
-            [
-              335.22,
-              35.65,
-              3064.93
-            ],
-            [
-              335.22,
-              35.66,
-              3065.43
-            ],
-            [
-              335.72,
-              35.68,
-              3065.93
-            ],
-            [
-              336.22,
-              35.66,
-              3066.43
-            ],
-            [
-              336.72,
-              35.69,
-              3066.93
-            ],
-            [
-              336.72,
-              35.72,
-              3067.43
-            ],
-            [
-              337.22,
-              35.73,
-              3067.93
-            ],
-            [
-              339.22,
-              35.73,
-              3069.93
-            ],
-            [
-              340.22,
-              35.71,
-              3070.93
-            ],
-            [
-              340.22,
-              35.81,
-              3071.93
-            ],
-            [
-              340.72,
-              35.79,
-              3072.43
-            ],
-            [
-              340.72,
-              35.83,
-              3072.93
-            ],
-            [
-              340.72,
-              35.98,
-              3074.43
-            ],
-            [
-              340.72,
-              36.06,
-              3074.93
-            ],
-            [
-              340.72,
-              36.26,
-              3075.93
-            ],
-            [
-              340.72,
-              36.35,
-              3076.43
-            ],
-            [
-              340.72,
-              36.41,
-              3076.93
-            ],
-            [
-              340.72,
-              36.43,
-              3077.43
-            ],
-            [
-              340.72,
-              36.43,
-              3077.93
-            ],
-            [
-              340.72,
-              36.42,
-              3078.43
-            ],
-            [
-              340.72,
-              36.39,
-              3078.93
-            ],
-            [
-              340.72,
-              36.39,
-              3079.43
-            ],
-            [
-              340.72,
-              36.43,
-              3079.93
-            ],
-            [
-              340.72,
-              36.51,
-              3080.43
-            ],
-            [
-              340.72,
-              36.87,
-              3082.43
-            ],
-            [
-              340.72,
-              36.95,
-              3082.93
-            ],
-            [
-              340.72,
-              37.01,
-              3083.43
-            ],
-            [
-              340.72,
-              37.05,
-              3083.93
-            ]
-          ],
-          "routeM": 80.69,
-          "steepestDeg": 24.7,
-          "largestStepM": 0.0,
-          "deepestWadeM": 0.645,
-          "parcelId": "parcel.claywater-station.stable-barn",
-          "doorIds": [
-            "door.imperial-fringe.claywater-station.4"
-          ]
-        },
-        "door:b2.2": {
-          "points": [
-            [
-              309.72,
-              33.78,
-              3020.93
-            ],
-            [
-              309.72,
-              33.88,
-              3021.93
-            ],
-            [
-              309.72,
-              33.92,
-              3022.43
-            ],
-            [
-              309.72,
-              33.94,
-              3022.93
-            ],
-            [
-              309.72,
-              33.98,
-              3023.43
-            ],
-            [
-              309.72,
-              34.1,
-              3023.93
-            ],
-            [
-              309.22,
-              34.03,
-              3024.43
-            ],
-            [
-              308.72,
-              34.04,
-              3024.93
-            ],
-            [
-              308.72,
-              33.95,
-              3025.43
-            ],
-            [
-              307.22,
-              33.26,
-              3026.93
-            ],
-            [
-              307.22,
-              33.23,
-              3027.43
-            ],
-            [
-              307.22,
-              33.19,
-              3028.43
-            ],
-            [
-              307.22,
-              33.15,
-              3028.93
-            ],
-            [
-              307.22,
-              33.14,
-              3029.43
-            ],
-            [
-              307.22,
-              33.12,
-              3029.93
-            ],
-            [
-              307.22,
-              33.11,
-              3030.43
-            ],
-            [
-              307.22,
-              33.08,
-              3030.93
-            ],
-            [
-              307.22,
-              33.04,
-              3032.93
-            ],
-            [
-              307.22,
-              33.04,
-              3033.93
-            ],
-            [
-              307.22,
-              33.02,
-              3034.43
-            ],
-            [
-              307.22,
-              32.97,
-              3034.93
-            ],
-            [
-              307.22,
-              32.93,
-              3035.43
-            ],
-            [
-              307.22,
-              32.88,
-              3035.93
-            ],
-            [
-              307.22,
-              32.88,
-              3036.43
-            ],
-            [
-              307.22,
-              32.89,
-              3036.93
-            ],
-            [
-              307.22,
-              32.89,
-              3037.43
-            ],
-            [
-              307.72,
-              32.75,
-              3037.93
-            ],
-            [
-              307.72,
-              32.69,
-              3038.43
-            ],
-            [
-              307.72,
-              32.64,
-              3038.93
-            ],
-            [
-              308.22,
-              32.82,
-              3039.43
-            ],
-            [
-              308.72,
-              33.05,
-              3039.93
-            ],
-            [
-              309.22,
-              33.01,
-              3040.43
-            ],
-            [
-              309.72,
-              32.92,
-              3040.93
-            ],
-            [
-              310.22,
-              32.98,
-              3041.43
-            ],
-            [
-              310.72,
-              33.1,
-              3041.93
-            ],
-            [
-              311.22,
-              33.27,
-              3042.43
-            ],
-            [
-              311.72,
-              33.28,
-              3042.43
-            ],
-            [
-              312.22,
-              33.43,
-              3042.93
-            ],
-            [
-              312.72,
-              33.56,
-              3043.43
-            ],
-            [
-              313.22,
-              33.88,
-              3043.93
-            ],
-            [
-              313.72,
-              34.0,
-              3044.43
-            ],
-            [
-              313.72,
-              34.13,
-              3044.93
-            ],
-            [
-              313.72,
-              34.21,
-              3045.43
-            ],
-            [
-              314.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.72,
-              34.23,
-              3045.93
-            ],
-            [
-              316.22,
-              34.31,
-              3045.93
-            ],
-            [
-              316.72,
-              34.42,
-              3045.93
-            ],
-            [
-              317.22,
-              34.52,
-              3045.93
-            ],
-            [
-              317.72,
-              34.8,
-              3046.43
-            ],
-            [
-              318.22,
-              35.11,
-              3046.93
-            ],
-            [
-              318.22,
-              35.21,
-              3047.43
-            ],
-            [
-              318.72,
-              35.28,
-              3047.93
-            ],
-            [
-              320.72,
-              35.28,
-              3049.93
-            ],
-            [
               321.22,
-              35.29,
-              3050.43
+              35.51,
+              3052.43
             ],
             [
               321.72,
-              35.35,
-              3050.93
-            ],
-            [
-              322.72,
-              35.41,
-              3051.93
-            ],
-            [
-              323.22,
-              35.52,
-              3052.43
-            ],
-            [
-              323.72,
-              35.51,
-              3052.93
-            ],
-            [
-              324.22,
-              35.43,
-              3053.43
-            ],
-            [
-              324.72,
-              35.47,
-              3053.93
-            ],
-            [
-              325.22,
-              35.55,
-              3054.43
-            ],
-            [
-              325.72,
-              35.49,
-              3054.93
-            ],
-            [
-              326.22,
-              35.41,
-              3055.43
-            ],
-            [
-              326.72,
-              35.5,
-              3055.93
-            ],
-            [
-              327.22,
-              35.54,
-              3056.43
-            ],
-            [
-              327.72,
-              35.46,
-              3056.93
-            ],
-            [
-              328.22,
-              35.44,
-              3057.43
-            ],
-            [
-              328.72,
-              35.52,
-              3057.93
-            ],
-            [
-              329.22,
-              35.54,
-              3058.43
-            ],
-            [
-              330.22,
-              35.54,
-              3059.43
-            ],
-            [
-              331.72,
-              35.6,
-              3060.93
-            ],
-            [
-              332.22,
-              35.57,
-              3061.43
-            ],
-            [
-              332.72,
-              35.56,
-              3061.93
-            ],
-            [
-              333.22,
-              35.6,
-              3062.43
-            ],
-            [
-              333.72,
-              35.61,
-              3062.93
-            ],
-            [
-              333.72,
-              35.61,
-              3063.43
-            ],
-            [
-              334.22,
-              35.64,
-              3063.93
-            ],
-            [
-              334.72,
-              35.63,
-              3064.43
-            ],
-            [
-              335.22,
-              35.65,
-              3064.93
-            ],
-            [
-              335.22,
-              35.66,
-              3065.43
-            ],
-            [
-              335.72,
-              35.68,
-              3065.93
-            ],
-            [
-              336.22,
-              35.66,
-              3066.43
-            ],
-            [
-              336.72,
-              35.69,
-              3066.93
-            ],
-            [
-              336.72,
-              35.72,
-              3067.43
-            ],
-            [
-              337.22,
-              35.73,
-              3067.93
-            ],
-            [
-              339.22,
-              35.73,
-              3069.93
-            ],
-            [
-              340.22,
-              35.71,
-              3070.93
-            ],
-            [
-              340.22,
-              35.81,
-              3071.93
-            ],
-            [
-              340.72,
-              35.79,
-              3072.43
-            ],
-            [
-              340.72,
-              35.83,
-              3072.93
-            ],
-            [
-              340.72,
-              35.93,
-              3073.93
-            ],
-            [
-              341.22,
-              35.91,
-              3074.43
-            ],
-            [
-              341.22,
-              36.01,
-              3075.43
-            ],
-            [
-              341.22,
-              36.05,
-              3075.93
-            ],
-            [
-              341.22,
-              36.1,
-              3076.43
-            ],
-            [
-              341.22,
-              36.26,
-              3078.43
-            ],
-            [
-              341.22,
-              36.29,
-              3078.93
-            ],
-            [
-              341.22,
-              36.37,
-              3079.93
-            ],
-            [
-              341.22,
-              36.47,
-              3080.93
-            ],
-            [
-              341.22,
-              36.55,
-              3081.43
-            ],
-            [
-              341.22,
-              36.64,
-              3081.93
-            ],
-            [
-              341.22,
-              36.74,
-              3082.43
-            ],
-            [
-              341.22,
-              36.9,
-              3083.43
-            ],
-            [
-              341.22,
-              36.97,
-              3083.93
-            ],
-            [
-              341.22,
-              37.02,
-              3084.43
-            ]
-          ],
-          "routeM": 81.37,
-          "steepestDeg": 24.7,
-          "largestStepM": 0.0,
-          "deepestWadeM": 0.645
-        },
-        "door:st1": {
-          "points": [
-            [
-              309.72,
-              33.78,
-              3020.93
-            ],
-            [
-              309.72,
-              33.88,
-              3021.93
-            ],
-            [
-              309.72,
-              33.92,
-              3022.43
-            ],
-            [
-              309.72,
-              33.94,
-              3022.93
-            ],
-            [
-              309.72,
-              33.98,
-              3023.43
-            ],
-            [
-              309.72,
-              34.1,
-              3023.93
-            ],
-            [
-              309.22,
-              34.03,
-              3024.43
-            ],
-            [
-              308.72,
-              34.04,
-              3024.93
-            ],
-            [
-              308.72,
-              33.95,
-              3025.43
-            ],
-            [
-              307.22,
-              33.26,
-              3026.93
-            ],
-            [
-              307.22,
-              33.23,
-              3027.43
-            ],
-            [
-              307.22,
-              33.19,
-              3028.43
-            ],
-            [
-              307.22,
-              33.15,
-              3028.93
-            ],
-            [
-              307.22,
-              33.14,
-              3029.43
-            ],
-            [
-              307.22,
-              33.12,
-              3029.93
-            ],
-            [
-              307.22,
-              33.11,
-              3030.43
-            ],
-            [
-              307.22,
-              33.08,
-              3030.93
-            ],
-            [
-              307.22,
-              33.04,
-              3032.93
-            ],
-            [
-              307.22,
-              33.04,
-              3033.93
-            ],
-            [
-              307.22,
-              33.02,
-              3034.43
-            ],
-            [
-              307.22,
-              32.97,
-              3034.93
-            ],
-            [
-              307.22,
-              32.93,
-              3035.43
-            ],
-            [
-              307.22,
-              32.88,
-              3035.93
-            ],
-            [
-              307.22,
-              32.88,
-              3036.43
-            ],
-            [
-              307.22,
-              32.89,
-              3036.93
-            ],
-            [
-              307.22,
-              32.89,
-              3037.43
-            ],
-            [
-              307.72,
-              32.75,
-              3037.93
-            ],
-            [
-              307.72,
-              32.69,
-              3038.43
-            ],
-            [
-              307.72,
-              32.64,
-              3038.93
-            ],
-            [
-              308.22,
-              32.82,
-              3039.43
-            ],
-            [
-              308.72,
-              33.05,
-              3039.93
-            ],
-            [
-              309.22,
-              33.01,
-              3040.43
-            ],
-            [
-              309.72,
-              32.92,
-              3040.93
-            ],
-            [
-              310.22,
-              32.98,
-              3041.43
-            ],
-            [
-              310.72,
-              33.1,
-              3041.93
-            ],
-            [
-              311.22,
-              33.27,
-              3042.43
-            ],
-            [
-              311.72,
-              33.28,
-              3042.43
-            ],
-            [
-              312.22,
-              33.43,
-              3042.93
-            ],
-            [
-              312.72,
-              33.56,
-              3043.43
-            ],
-            [
-              313.22,
-              33.88,
-              3043.93
-            ],
-            [
-              313.72,
-              34.0,
-              3044.43
-            ],
-            [
-              313.72,
-              34.13,
-              3044.93
-            ],
-            [
-              313.72,
-              34.21,
-              3045.43
-            ],
-            [
-              314.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.72,
-              34.23,
-              3045.93
-            ],
-            [
-              316.22,
-              34.31,
-              3045.93
-            ],
-            [
-              316.72,
-              34.42,
-              3045.93
-            ],
-            [
-              317.22,
-              34.52,
-              3045.93
-            ],
-            [
-              317.72,
-              34.8,
-              3046.43
-            ],
-            [
-              318.22,
-              35.11,
-              3046.93
-            ],
-            [
-              318.22,
-              35.21,
-              3047.43
-            ],
-            [
-              318.72,
-              35.28,
-              3047.93
-            ],
-            [
-              320.72,
-              35.28,
-              3049.93
-            ],
-            [
-              321.22,
-              35.29,
-              3050.43
-            ],
-            [
-              321.72,
-              35.35,
-              3050.93
-            ],
-            [
-              322.72,
-              35.41,
-              3051.93
-            ],
-            [
-              323.22,
-              35.52,
-              3052.43
-            ],
-            [
-              323.72,
-              35.51,
-              3052.93
-            ],
-            [
-              324.22,
-              35.43,
-              3053.43
-            ],
-            [
-              324.72,
-              35.47,
-              3053.93
-            ],
-            [
-              325.22,
-              35.55,
-              3054.43
-            ],
-            [
-              325.72,
-              35.49,
-              3054.93
-            ],
-            [
-              326.22,
-              35.41,
-              3055.43
-            ],
-            [
-              326.72,
-              35.5,
-              3055.93
-            ],
-            [
-              327.22,
-              35.54,
-              3056.43
-            ],
-            [
-              327.72,
-              35.46,
-              3056.93
-            ],
-            [
-              328.22,
-              35.44,
-              3057.43
-            ],
-            [
-              328.72,
-              35.52,
-              3057.93
-            ],
-            [
-              329.22,
-              35.54,
-              3058.43
-            ],
-            [
-              330.22,
-              35.54,
-              3059.43
-            ],
-            [
-              331.72,
-              35.6,
-              3060.93
-            ],
-            [
-              332.22,
-              35.57,
-              3061.43
-            ],
-            [
-              332.72,
-              35.56,
-              3061.93
-            ],
-            [
-              333.22,
-              35.6,
-              3062.43
-            ],
-            [
-              333.72,
-              35.61,
-              3062.93
-            ],
-            [
-              334.22,
-              35.57,
-              3063.43
-            ],
-            [
-              334.72,
-              35.58,
-              3063.93
-            ],
-            [
-              335.22,
-              35.63,
-              3064.43
-            ],
-            [
-              335.72,
-              35.59,
-              3064.93
-            ],
-            [
-              336.22,
-              35.54,
-              3065.43
-            ],
-            [
-              337.22,
-              35.64,
-              3066.43
-            ],
-            [
-              337.72,
-              35.57,
-              3066.93
-            ],
-            [
-              338.22,
-              35.55,
-              3067.43
-            ],
-            [
-              338.72,
-              35.61,
-              3067.93
-            ],
-            [
-              339.22,
               35.62,
-              3068.43
+              3052.93
             ],
             [
-              339.72,
-              35.56,
-              3068.93
+              321.72,
+              35.92,
+              3054.43
             ],
             [
-              340.22,
-              35.57,
-              3069.43
+              322.22,
+              36.06,
+              3054.93
             ],
             [
-              340.72,
-              35.6,
-              3069.93
+              322.72,
+              36.14,
+              3055.43
             ],
             [
-              341.72,
-              35.5,
-              3070.93
+              322.72,
+              36.27,
+              3055.93
             ],
             [
-              342.72,
-              35.52,
-              3071.93
+              322.72,
+              36.37,
+              3056.43
             ],
             [
-              343.22,
-              35.46,
-              3072.43
+              322.72,
+              36.44,
+              3056.93
             ],
             [
-              343.72,
-              35.43,
-              3072.93
+              323.72,
+              36.68,
+              3057.93
             ],
             [
-              344.22,
-              35.47,
+              323.72,
+              36.73,
+              3058.43
+            ],
+            [
+              323.72,
+              36.81,
+              3059.43
+            ],
+            [
+              323.72,
+              36.88,
+              3059.93
+            ],
+            [
+              323.72,
+              36.9,
+              3060.93
+            ],
+            [
+              323.72,
+              36.89,
+              3061.43
+            ],
+            [
+              323.72,
+              36.89,
+              3061.93
+            ],
+            [
+              323.72,
+              36.87,
+              3062.43
+            ],
+            [
+              323.72,
+              36.9,
+              3062.93
+            ],
+            [
+              323.72,
+              36.98,
+              3063.43
+            ],
+            [
+              323.72,
+              37.11,
+              3063.93
+            ],
+            [
+              324.22,
+              37.15,
+              3064.43
+            ],
+            [
+              324.72,
+              37.21,
+              3064.93
+            ],
+            [
+              325.22,
+              37.34,
+              3065.43
+            ],
+            [
+              325.22,
+              37.44,
+              3065.93
+            ],
+            [
+              325.22,
+              37.45,
+              3066.43
+            ],
+            [
+              325.22,
+              37.45,
+              3071.43
+            ],
+            [
+              323.22,
+              37.45,
               3073.43
             ],
             [
-              344.72,
-              35.47,
-              3073.93
-            ],
-            [
-              345.22,
-              35.41,
-              3074.43
-            ],
-            [
-              345.72,
-              35.41,
-              3074.93
-            ],
-            [
-              346.22,
-              35.45,
+              323.22,
+              37.45,
               3075.43
             ],
             [
-              346.72,
-              35.38,
-              3075.93
-            ],
-            [
-              347.22,
-              35.3,
+              322.22,
+              37.45,
               3076.43
             ],
             [
-              347.72,
-              35.27,
+              322.22,
+              37.45,
               3076.93
             ],
             [
-              348.22,
-              35.23,
+              321.72,
+              37.45,
               3077.43
             ],
             [
-              348.72,
-              35.12,
+              321.72,
+              37.45,
               3077.93
             ],
             [
-              349.22,
-              35.02,
-              3078.43
-            ],
-            [
-              349.72,
-              34.95,
-              3078.93
-            ],
-            [
-              350.22,
-              34.86,
+              320.22,
+              37.45,
               3079.43
             ],
             [
-              350.72,
-              34.78,
+              320.22,
+              37.45,
               3079.93
             ],
             [
-              351.22,
-              34.73,
+              320.22,
+              37.47,
               3080.43
             ],
             [
-              351.72,
-              34.7,
+              320.22,
+              37.6,
               3080.93
             ],
             [
-              352.22,
-              34.69,
+              320.22,
+              37.84,
               3081.43
             ],
             [
-              352.72,
-              34.69,
+              320.72,
+              38.14,
               3081.93
             ],
             [
-              353.72,
-              34.79,
+              321.22,
+              38.23,
+              3081.93
+            ],
+            [
+              321.72,
+              38.58,
+              3082.43
+            ],
+            [
+              322.22,
+              38.38,
               3082.93
             ],
             [
-              355.22,
-              34.88,
+              322.22,
+              38.15,
+              3083.43
+            ],
+            [
+              322.22,
+              37.95,
+              3083.93
+            ],
+            [
+              322.72,
+              37.57,
               3084.43
             ],
             [
-              355.72,
-              34.88,
+              323.22,
+              37.47,
               3084.93
             ],
             [
-              358.22,
-              34.83,
-              3087.43
+              323.72,
+              37.43,
+              3085.43
             ],
             [
-              358.72,
-              34.83,
-              3087.93
+              324.22,
+              37.4,
+              3085.93
             ],
             [
-              359.22,
-              34.84,
-              3088.43
+              324.72,
+              37.4,
+              3086.43
             ],
             [
-              360.72,
-              34.9,
-              3089.93
+              327.22,
+              37.4,
+              3086.43
             ],
             [
-              361.22,
-              34.91,
-              3090.43
-            ],
-            [
-              362.22,
-              34.91,
-              3091.43
-            ],
-            [
-              363.72,
-              34.88,
-              3092.93
-            ],
-            [
-              364.22,
-              34.89,
-              3093.43
-            ],
-            [
-              365.22,
-              34.89,
-              3094.43
-            ],
-            [
-              366.72,
-              34.8,
-              3095.93
-            ],
-            [
-              367.22,
-              34.78,
-              3096.43
-            ],
-            [
-              367.72,
-              34.78,
-              3096.93
-            ],
-            [
-              368.22,
-              34.8,
-              3097.43
-            ],
-            [
-              369.22,
-              34.82,
-              3098.43
-            ],
-            [
-              370.22,
-              34.82,
-              3099.43
-            ],
-            [
-              370.72,
-              34.83,
-              3099.93
-            ],
-            [
-              371.22,
-              34.83,
-              3099.93
+              330.22,
+              37.4,
+              3089.43
             ]
           ],
-          "routeM": 109.59,
-          "steepestDeg": 24.7,
+          "routeM": 88.2,
+          "steepestDeg": 28.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.645,
           "parcelId": "parcel.claywater-station.stable"
         },
-        "door:st2": {
+        "door:stable.1": {
           "points": [
             [
               309.72,
@@ -8178,442 +6363,307 @@
               3047.93
             ],
             [
-              320.72,
+              319.22,
+              35.28,
+              3048.43
+            ],
+            [
+              319.22,
               35.28,
               3049.93
             ],
             [
-              321.22,
+              319.22,
               35.29,
               3050.43
             ],
             [
-              321.72,
-              35.35,
+              319.72,
+              35.31,
               3050.93
             ],
             [
-              322.72,
-              35.41,
+              320.22,
+              35.37,
+              3051.43
+            ],
+            [
+              320.72,
+              35.45,
               3051.93
             ],
             [
-              323.22,
-              35.52,
+              321.22,
+              35.51,
               3052.43
             ],
             [
-              323.72,
-              35.51,
+              321.72,
+              35.62,
               3052.93
             ],
             [
-              324.22,
-              35.43,
-              3053.43
-            ],
-            [
-              324.72,
-              35.47,
-              3053.93
-            ],
-            [
-              325.22,
-              35.55,
+              321.72,
+              35.92,
               3054.43
             ],
             [
-              325.72,
-              35.49,
+              322.22,
+              36.06,
               3054.93
             ],
             [
-              326.22,
-              35.41,
+              322.72,
+              36.14,
               3055.43
             ],
             [
-              326.72,
-              35.5,
+              322.72,
+              36.27,
               3055.93
             ],
             [
-              327.22,
-              35.54,
+              322.72,
+              36.37,
               3056.43
             ],
             [
-              327.72,
-              35.46,
+              322.72,
+              36.44,
               3056.93
             ],
             [
-              328.22,
-              35.44,
-              3057.43
-            ],
-            [
-              328.72,
-              35.52,
+              323.72,
+              36.68,
               3057.93
             ],
             [
-              329.22,
-              35.54,
+              323.72,
+              36.73,
               3058.43
             ],
             [
-              330.22,
-              35.54,
+              323.72,
+              36.81,
               3059.43
             ],
             [
-              331.72,
-              35.6,
+              323.72,
+              36.88,
+              3059.93
+            ],
+            [
+              323.72,
+              36.9,
               3060.93
             ],
             [
-              332.22,
-              35.57,
+              323.72,
+              36.89,
               3061.43
             ],
             [
-              332.72,
-              35.56,
+              323.72,
+              36.89,
               3061.93
             ],
             [
-              333.22,
-              35.6,
+              323.72,
+              36.87,
               3062.43
             ],
             [
-              333.72,
-              35.61,
+              323.72,
+              36.9,
               3062.93
             ],
             [
-              333.72,
-              35.61,
+              323.72,
+              36.98,
               3063.43
             ],
             [
-              334.22,
-              35.64,
+              323.72,
+              37.11,
               3063.93
             ],
             [
-              334.72,
-              35.63,
+              324.22,
+              37.15,
               3064.43
             ],
             [
-              335.22,
-              35.65,
+              324.72,
+              37.21,
               3064.93
             ],
             [
-              335.22,
-              35.66,
-              3065.43
-            ],
-            [
-              335.72,
-              35.68,
+              325.72,
+              37.47,
               3065.93
             ],
             [
-              336.22,
-              35.66,
+              326.22,
+              37.53,
               3066.43
             ],
             [
-              336.72,
-              35.69,
+              326.72,
+              37.52,
               3066.93
             ],
             [
-              337.22,
-              35.66,
+              327.22,
+              37.49,
               3067.43
             ],
             [
-              337.72,
-              35.67,
+              327.72,
+              37.47,
               3067.93
             ],
             [
-              338.22,
-              35.67,
+              328.22,
+              37.47,
               3068.43
             ],
             [
-              338.72,
-              35.68,
+              328.72,
+              37.6,
               3068.93
             ],
             [
-              339.22,
-              35.67,
+              329.22,
+              37.8,
               3069.43
             ],
             [
-              340.22,
-              35.67,
+              329.22,
+              37.88,
+              3069.93
+            ],
+            [
+              329.72,
+              38.03,
               3070.43
             ],
             [
-              340.72,
-              35.64,
+              330.22,
+              38.06,
               3070.93
             ],
             [
-              341.72,
-              35.6,
+              330.72,
+              38.06,
+              3071.43
+            ],
+            [
+              331.22,
+              38.07,
               3071.93
             ],
             [
-              342.22,
-              35.6,
+              331.72,
+              38.0,
               3072.43
             ],
             [
-              342.72,
-              35.56,
+              332.22,
+              37.99,
               3072.93
             ],
             [
-              343.22,
-              35.54,
+              332.72,
+              38.15,
               3073.43
             ],
             [
-              343.72,
-              35.54,
+              333.22,
+              38.28,
               3073.93
             ],
             [
-              344.72,
-              35.52,
-              3074.93
-            ],
-            [
-              345.22,
-              35.5,
-              3075.43
-            ],
-            [
-              345.72,
-              35.5,
-              3075.93
-            ],
-            [
-              346.22,
-              35.44,
-              3076.43
-            ],
-            [
-              346.72,
-              35.41,
+              336.22,
+              38.28,
               3076.93
             ],
             [
-              347.22,
-              35.35,
-              3077.43
-            ],
-            [
-              347.72,
-              35.3,
+              336.22,
+              38.28,
               3077.93
             ],
             [
-              348.22,
-              35.21,
+              336.22,
+              38.23,
               3078.43
             ],
             [
-              348.72,
-              35.13,
+              336.22,
+              38.16,
               3078.93
             ],
             [
-              349.22,
-              35.03,
+              336.22,
+              38.06,
               3079.43
             ],
             [
-              349.72,
-              34.95,
+              336.22,
+              37.95,
               3079.93
             ],
             [
-              350.22,
-              34.88,
-              3080.43
-            ],
-            [
-              350.72,
-              34.82,
+              336.22,
+              37.71,
               3080.93
             ],
             [
-              351.22,
-              34.77,
+              336.22,
+              37.57,
               3081.43
             ],
             [
-              351.72,
-              34.77,
+              336.72,
+              37.5,
               3081.93
             ],
             [
-              352.22,
-              34.8,
+              336.72,
+              37.41,
               3082.43
             ],
             [
-              353.22,
-              34.88,
+              336.72,
+              37.39,
+              3082.93
+            ],
+            [
+              337.22,
+              37.35,
               3083.43
             ],
             [
-              353.72,
-              34.93,
+              337.22,
+              37.38,
               3083.93
             ],
             [
-              354.22,
-              34.96,
+              337.72,
+              37.37,
               3084.43
             ],
             [
-              354.72,
-              34.98,
+              337.72,
+              37.39,
               3084.93
             ],
             [
-              355.72,
-              34.98,
-              3085.93
-            ],
-            [
-              356.72,
-              34.94,
-              3086.93
-            ],
-            [
-              357.72,
-              34.92,
-              3087.93
-            ],
-            [
-              358.22,
-              34.92,
-              3088.43
-            ],
-            [
-              358.72,
-              34.93,
-              3088.93
-            ],
-            [
-              359.72,
-              34.97,
-              3089.93
-            ],
-            [
-              360.22,
-              34.98,
-              3090.43
-            ],
-            [
-              360.72,
-              34.98,
-              3090.93
-            ],
-            [
-              362.22,
-              34.95,
-              3092.43
-            ],
-            [
-              363.22,
-              34.89,
-              3093.43
-            ],
-            [
-              364.22,
-              34.87,
-              3094.43
-            ],
-            [
-              364.72,
-              34.85,
-              3094.93
-            ],
-            [
-              365.22,
-              34.84,
-              3095.43
-            ],
-            [
-              366.22,
-              34.84,
-              3096.43
-            ],
-            [
-              367.22,
-              34.88,
-              3097.43
-            ],
-            [
-              367.72,
-              34.91,
-              3097.93
-            ],
-            [
-              368.22,
-              34.92,
-              3098.43
-            ],
-            [
-              368.72,
-              34.91,
-              3098.93
-            ],
-            [
-              369.22,
-              34.87,
-              3099.43
-            ],
-            [
-              370.22,
-              34.83,
-              3100.43
-            ],
-            [
-              370.72,
-              34.83,
-              3100.93
-            ],
-            [
-              370.72,
-              34.83,
-              3102.43
-            ],
-            [
-              371.22,
-              34.83,
-              3102.93
-            ],
-            [
-              371.22,
-              34.83,
-              3104.43
+              338.22,
+              37.38,
+              3085.43
             ]
           ],
-          "routeM": 113.77,
+          "routeM": 81.37,
           "steepestDeg": 24.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.645
@@ -11094,448 +9144,293 @@
               3046.93
             ],
             [
-              318.72,
-              35.19,
-              3046.93
-            ],
-            [
-              319.22,
-              35.23,
-              3046.93
-            ],
-            [
-              319.72,
-              35.28,
+              318.22,
+              35.21,
               3047.43
             ],
             [
-              322.22,
+              318.72,
+              35.28,
+              3047.93
+            ],
+            [
+              319.22,
+              35.28,
+              3048.43
+            ],
+            [
+              319.22,
               35.28,
               3049.93
             ],
             [
-              322.72,
+              319.22,
               35.29,
               3050.43
             ],
             [
-              323.22,
-              35.29,
+              319.72,
+              35.31,
               3050.93
             ],
             [
-              324.22,
-              35.39,
+              320.22,
+              35.37,
+              3051.43
+            ],
+            [
+              320.72,
+              35.45,
               3051.93
             ],
             [
-              324.72,
-              35.34,
+              321.22,
+              35.51,
               3052.43
             ],
             [
-              325.22,
-              35.3,
+              321.72,
+              35.62,
               3052.93
             ],
             [
-              325.72,
-              35.38,
-              3053.43
-            ],
-            [
-              326.22,
-              35.4,
-              3053.93
-            ],
-            [
-              326.72,
-              35.32,
+              321.72,
+              35.92,
               3054.43
             ],
             [
-              327.22,
-              35.33,
+              322.22,
+              36.06,
               3054.93
             ],
             [
-              327.72,
-              35.41,
+              322.72,
+              36.14,
               3055.43
             ],
             [
-              328.22,
-              35.37,
+              322.72,
+              36.27,
               3055.93
             ],
             [
-              328.72,
-              35.29,
+              322.72,
+              36.37,
               3056.43
             ],
             [
-              329.72,
-              35.39,
-              3057.43
+              322.72,
+              36.44,
+              3056.93
             ],
             [
-              330.22,
-              35.52,
+              323.72,
+              36.68,
               3057.93
             ],
             [
-              330.72,
-              35.54,
+              323.72,
+              36.73,
               3058.43
             ],
             [
-              331.22,
-              35.45,
-              3058.93
-            ],
-            [
-              331.72,
-              35.43,
+              323.72,
+              36.81,
               3059.43
             ],
             [
-              332.22,
-              35.55,
+              323.72,
+              36.88,
               3059.93
             ],
             [
-              332.72,
-              35.53,
-              3060.43
-            ],
-            [
-              333.22,
-              35.39,
+              323.72,
+              36.9,
               3060.93
             ],
             [
-              333.72,
-              35.46,
+              323.72,
+              36.89,
               3061.43
             ],
             [
-              334.22,
-              35.56,
+              323.72,
+              36.89,
               3061.93
             ],
             [
-              334.72,
-              35.54,
+              323.72,
+              36.87,
               3062.43
             ],
             [
-              335.72,
-              35.54,
+              323.72,
+              36.9,
+              3062.93
+            ],
+            [
+              323.72,
+              36.98,
               3063.43
             ],
             [
-              336.22,
-              35.55,
+              323.72,
+              37.11,
               3063.93
             ],
             [
-              336.72,
-              35.53,
+              324.22,
+              37.15,
               3064.43
             ],
             [
-              337.22,
-              35.53,
+              324.72,
+              37.21,
               3064.93
             ],
             [
-              337.72,
-              35.54,
+              325.22,
+              37.34,
               3065.43
             ],
             [
-              338.22,
-              35.53,
+              325.22,
+              37.44,
               3065.93
             ],
             [
-              339.22,
-              35.53,
-              3066.93
+              325.22,
+              37.45,
+              3066.43
             ],
             [
-              339.72,
-              35.56,
-              3067.43
-            ],
-            [
-              340.22,
-              35.53,
-              3067.93
-            ],
-            [
-              340.72,
-              35.53,
-              3068.43
-            ],
-            [
-              341.22,
-              35.48,
-              3068.93
-            ],
-            [
-              341.72,
-              35.47,
-              3069.43
-            ],
-            [
-              342.22,
-              35.48,
-              3069.93
-            ],
-            [
-              342.72,
-              35.46,
-              3070.43
-            ],
-            [
-              343.22,
-              35.41,
-              3070.93
-            ],
-            [
-              343.72,
-              35.39,
+              325.22,
+              37.45,
               3071.43
             ],
             [
-              344.22,
-              35.44,
-              3071.93
-            ],
-            [
-              344.72,
-              35.4,
-              3072.43
-            ],
-            [
-              345.22,
-              35.4,
-              3072.93
-            ],
-            [
-              345.72,
-              35.39,
+              323.22,
+              37.45,
               3073.43
             ],
             [
-              346.22,
-              35.43,
-              3073.93
-            ],
-            [
-              347.22,
-              35.41,
-              3073.93
-            ],
-            [
-              347.72,
-              35.39,
-              3074.43
-            ],
-            [
-              348.22,
-              35.42,
-              3074.93
-            ],
-            [
-              348.72,
-              35.35,
+              323.22,
+              37.45,
               3075.43
             ],
             [
-              349.22,
-              35.31,
-              3075.43
-            ],
-            [
-              349.72,
-              35.31,
-              3075.43
-            ],
-            [
-              350.22,
-              35.33,
-              3075.43
-            ],
-            [
-              350.72,
-              35.26,
-              3075.93
-            ],
-            [
-              351.22,
-              35.28,
-              3075.93
-            ],
-            [
-              351.72,
-              35.31,
+              322.22,
+              37.45,
               3076.43
             ],
             [
-              352.22,
-              35.28,
+              322.22,
+              37.45,
               3076.93
             ],
             [
-              352.72,
-              35.23,
+              321.72,
+              37.45,
               3077.43
             ],
             [
-              353.22,
-              35.24,
-              3077.43
-            ],
-            [
-              353.72,
-              35.29,
+              321.72,
+              37.45,
               3077.93
             ],
             [
-              354.22,
-              35.35,
-              3078.43
-            ],
-            [
-              354.72,
-              35.48,
-              3078.93
-            ],
-            [
-              355.22,
-              35.44,
+              320.22,
+              37.45,
               3079.43
             ],
             [
-              355.72,
-              35.48,
+              320.22,
+              37.45,
               3079.93
             ],
             [
-              356.22,
-              35.38,
+              320.22,
+              37.47,
               3080.43
             ],
             [
-              356.72,
-              35.41,
+              320.22,
+              37.6,
               3080.93
             ],
             [
-              357.22,
-              35.36,
+              320.22,
+              37.84,
               3081.43
             ],
             [
-              357.72,
-              35.25,
+              320.72,
+              38.14,
               3081.93
             ],
             [
-              358.72,
-              35.05,
+              321.22,
+              38.23,
+              3081.93
+            ],
+            [
+              321.72,
+              38.58,
+              3082.43
+            ],
+            [
+              322.22,
+              38.38,
               3082.93
             ],
             [
-              359.22,
-              34.97,
+              322.22,
+              38.15,
               3083.43
             ],
             [
-              359.72,
-              34.94,
+              322.22,
+              37.95,
               3083.93
             ],
             [
-              362.72,
-              34.94,
-              3086.93
+              322.72,
+              37.57,
+              3084.43
             ],
             [
-              363.22,
-              35.04,
-              3087.43
+              323.22,
+              37.47,
+              3084.93
             ],
             [
-              367.72,
-              35.04,
-              3091.93
+              323.72,
+              37.43,
+              3085.43
             ],
             [
-              369.72,
-              35.04,
-              3091.93
+              324.22,
+              37.4,
+              3085.93
             ],
             [
-              370.22,
-              35.04,
-              3092.43
+              324.72,
+              37.4,
+              3086.43
             ],
             [
-              370.72,
-              35.05,
-              3092.93
+              325.22,
+              37.4,
+              3086.43
             ],
             [
-              371.22,
-              35.13,
-              3093.43
-            ],
-            [
-              371.72,
-              35.23,
-              3093.93
-            ],
-            [
-              372.22,
-              35.26,
-              3094.43
-            ],
-            [
-              372.72,
-              35.32,
-              3094.43
-            ],
-            [
-              373.22,
-              35.34,
-              3094.43
-            ],
-            [
-              373.72,
-              35.38,
-              3094.43
-            ],
-            [
-              374.22,
-              35.41,
-              3094.43
-            ],
-            [
-              374.72,
-              35.45,
-              3094.43
-            ],
-            [
-              375.72,
-              35.45,
-              3094.43
+              327.22,
+              37.4,
+              3088.43
             ]
           ],
-          "routeM": 111.57,
-          "steepestDeg": 24.7,
+          "routeM": 84.78,
+          "steepestDeg": 28.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.645
         },
@@ -12523,398 +10418,288 @@
               3046.93
             ],
             [
-              318.72,
-              35.19,
-              3046.93
-            ],
-            [
-              319.22,
-              35.23,
-              3046.93
-            ],
-            [
-              319.72,
-              35.28,
+              318.22,
+              35.21,
               3047.43
             ],
             [
-              322.22,
+              318.72,
+              35.28,
+              3047.93
+            ],
+            [
+              319.22,
+              35.28,
+              3048.43
+            ],
+            [
+              319.22,
               35.28,
               3049.93
             ],
             [
-              322.72,
+              319.22,
               35.29,
               3050.43
             ],
             [
-              323.22,
-              35.29,
+              319.72,
+              35.31,
               3050.93
             ],
             [
-              324.22,
-              35.39,
+              320.22,
+              35.37,
+              3051.43
+            ],
+            [
+              320.72,
+              35.45,
               3051.93
             ],
             [
-              324.72,
-              35.34,
+              321.22,
+              35.51,
               3052.43
             ],
             [
-              325.22,
-              35.3,
+              321.72,
+              35.62,
               3052.93
             ],
             [
-              325.72,
-              35.38,
-              3053.43
-            ],
-            [
-              326.22,
-              35.4,
-              3053.93
-            ],
-            [
-              326.72,
-              35.32,
+              321.72,
+              35.92,
               3054.43
             ],
             [
-              327.22,
-              35.33,
+              322.22,
+              36.06,
               3054.93
             ],
             [
-              327.72,
-              35.41,
+              322.72,
+              36.14,
               3055.43
             ],
             [
-              328.22,
-              35.37,
+              322.72,
+              36.27,
               3055.93
             ],
             [
-              328.72,
-              35.29,
+              322.72,
+              36.37,
               3056.43
             ],
             [
-              329.72,
-              35.39,
-              3057.43
+              322.72,
+              36.44,
+              3056.93
             ],
             [
-              330.22,
-              35.52,
+              323.72,
+              36.68,
               3057.93
             ],
             [
-              330.72,
-              35.54,
+              323.72,
+              36.73,
               3058.43
             ],
             [
-              331.22,
-              35.45,
-              3058.93
-            ],
-            [
-              331.72,
-              35.43,
+              323.72,
+              36.81,
               3059.43
             ],
             [
-              332.22,
-              35.55,
+              323.72,
+              36.88,
               3059.93
             ],
             [
-              332.72,
-              35.53,
-              3060.43
-            ],
-            [
-              333.22,
-              35.39,
+              323.72,
+              36.9,
               3060.93
             ],
             [
-              333.72,
-              35.46,
+              323.72,
+              36.89,
               3061.43
             ],
             [
-              334.22,
-              35.56,
+              323.72,
+              36.89,
               3061.93
             ],
             [
-              334.72,
-              35.54,
+              323.72,
+              36.87,
               3062.43
             ],
             [
-              335.72,
-              35.54,
+              323.72,
+              36.9,
+              3062.93
+            ],
+            [
+              323.72,
+              36.98,
               3063.43
             ],
             [
-              336.22,
-              35.55,
+              323.72,
+              37.11,
               3063.93
             ],
             [
-              336.72,
-              35.53,
+              324.22,
+              37.15,
               3064.43
             ],
             [
-              337.22,
-              35.53,
+              324.72,
+              37.21,
               3064.93
             ],
             [
-              337.72,
-              35.54,
+              325.22,
+              37.34,
               3065.43
             ],
             [
-              338.22,
-              35.53,
+              325.22,
+              37.44,
               3065.93
             ],
             [
-              339.22,
-              35.53,
-              3066.93
+              325.22,
+              37.45,
+              3066.43
             ],
             [
-              339.72,
-              35.56,
-              3067.43
-            ],
-            [
-              340.22,
-              35.53,
-              3067.93
-            ],
-            [
-              340.72,
-              35.53,
-              3068.43
-            ],
-            [
-              341.22,
-              35.48,
-              3068.93
-            ],
-            [
-              341.72,
-              35.47,
-              3069.43
-            ],
-            [
-              342.22,
-              35.48,
-              3069.93
-            ],
-            [
-              342.72,
-              35.46,
-              3070.43
-            ],
-            [
-              343.22,
-              35.41,
-              3070.93
-            ],
-            [
-              343.72,
-              35.39,
+              325.22,
+              37.45,
               3071.43
             ],
             [
-              344.22,
-              35.44,
-              3071.93
-            ],
-            [
-              344.72,
-              35.4,
-              3072.43
-            ],
-            [
-              345.22,
-              35.4,
-              3072.93
-            ],
-            [
-              345.72,
-              35.39,
+              323.22,
+              37.45,
               3073.43
             ],
             [
-              346.22,
-              35.43,
-              3073.93
-            ],
-            [
-              347.22,
-              35.41,
-              3073.93
-            ],
-            [
-              347.72,
-              35.39,
-              3074.43
-            ],
-            [
-              348.22,
-              35.42,
-              3074.93
-            ],
-            [
-              348.72,
-              35.35,
+              323.22,
+              37.45,
               3075.43
             ],
             [
-              349.22,
-              35.31,
-              3075.43
-            ],
-            [
-              349.72,
-              35.31,
-              3075.43
-            ],
-            [
-              350.22,
-              35.33,
-              3075.43
-            ],
-            [
-              350.72,
-              35.26,
-              3075.93
-            ],
-            [
-              351.22,
-              35.28,
-              3075.93
-            ],
-            [
-              351.72,
-              35.31,
+              322.22,
+              37.45,
               3076.43
             ],
             [
-              352.22,
-              35.28,
+              322.22,
+              37.45,
               3076.93
             ],
             [
-              352.72,
-              35.23,
+              321.72,
+              37.45,
               3077.43
             ],
             [
-              353.22,
-              35.24,
-              3077.43
-            ],
-            [
-              353.72,
-              35.29,
+              321.72,
+              37.45,
               3077.93
             ],
             [
-              354.22,
-              35.35,
-              3078.43
-            ],
-            [
-              354.72,
-              35.48,
-              3078.93
-            ],
-            [
-              355.22,
-              35.44,
+              320.22,
+              37.45,
               3079.43
             ],
             [
-              355.72,
-              35.48,
+              320.22,
+              37.45,
               3079.93
             ],
             [
-              356.22,
-              35.38,
+              320.22,
+              37.47,
               3080.43
             ],
             [
-              356.72,
-              35.41,
+              320.22,
+              37.6,
               3080.93
             ],
             [
-              357.22,
-              35.36,
+              320.22,
+              37.84,
               3081.43
             ],
             [
-              357.72,
-              35.25,
+              320.72,
+              38.14,
               3081.93
             ],
             [
-              358.72,
-              35.05,
+              321.22,
+              38.23,
+              3081.93
+            ],
+            [
+              321.72,
+              38.58,
+              3082.43
+            ],
+            [
+              322.22,
+              38.38,
               3082.93
             ],
             [
-              359.22,
-              34.97,
+              322.22,
+              38.15,
               3083.43
             ],
             [
-              359.72,
-              34.94,
+              322.22,
+              37.95,
               3083.93
             ],
             [
-              360.22,
-              34.94,
+              322.72,
+              37.57,
               3084.43
             ],
             [
-              361.22,
-              34.94,
-              3084.43
+              323.22,
+              37.47,
+              3084.93
             ],
             [
-              363.22,
-              34.94,
+              323.72,
+              37.43,
+              3085.43
+            ],
+            [
+              324.22,
+              37.4,
+              3085.93
+            ],
+            [
+              324.72,
+              37.4,
               3086.43
             ],
             [
-              363.72,
-              35.04,
-              3086.93
-            ],
-            [
-              364.22,
-              35.04,
-              3087.43
+              326.72,
+              37.4,
+              3086.43
             ]
           ],
-          "routeM": 97.15,
-          "steepestDeg": 24.7,
+          "routeM": 83.46,
+          "steepestDeg": 28.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.645
         },
@@ -13738,64 +11523,84 @@
               2979.93
             ],
             [
-              320.22,
-              35.47,
-              2979.43
+              321.22,
+              35.38,
+              2978.93
+            ],
+            [
+              321.72,
+              35.38,
+              2978.43
             ],
             [
               323.72,
-              35.54,
-              2975.93
+              35.42,
+              2976.43
+            ],
+            [
+              325.72,
+              35.5,
+              2974.43
             ],
             [
               326.22,
-              35.69,
-              2973.43
+              35.53,
+              2973.93
             ],
             [
               326.72,
-              35.69,
+              35.55,
+              2973.43
+            ],
+            [
+              327.22,
+              35.55,
               2972.93
             ],
             [
-              327.22,
-              35.67,
+              327.72,
+              35.54,
               2972.43
             ],
             [
-              327.22,
-              35.77,
-              2971.93
-            ],
-            [
-              327.22,
-              35.84,
+              327.72,
+              35.74,
               2971.43
             ],
             [
-              327.22,
-              35.88,
+              328.22,
+              35.75,
               2970.93
             ],
             [
-              327.22,
-              35.89,
+              328.72,
+              35.79,
               2970.43
             ],
             [
-              327.22,
-              35.89,
-              2963.43
+              328.72,
+              35.87,
+              2969.93
             ],
             [
-              329.72,
+              328.72,
               35.89,
-              2960.93
+              2969.43
             ],
             [
-              332.72,
+              328.72,
               35.89,
-              2960.93
+              2962.43
+            ],
+            [
+              329.22,
+              35.89,
+              2961.93
+            ],
+            [
+              331.72,
+              35.89,
+              2961.93
             ],
             [
               334.72,
@@ -13803,7 +11608,7 @@
               2958.93
             ]
           ],
-          "routeM": 74.29,
+          "routeM": 74.0,
           "steepestDeg": 19.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -15541,138 +13346,198 @@
               3019.43
             ],
             [
-              310.72,
-              34.01,
+              309.72,
+              33.85,
+              3018.93
+            ],
+            [
+              309.72,
+              33.95,
               3018.43
             ],
             [
-              310.72,
-              33.98,
+              309.72,
+              34.07,
               3017.93
             ],
             [
-              310.72,
-              33.97,
+              309.72,
+              34.1,
               3017.43
             ],
             [
-              310.72,
-              33.97,
+              309.72,
+              34.11,
               3016.93
             ],
             [
-              310.72,
-              33.96,
+              309.72,
+              34.21,
               3016.43
             ],
             [
-              310.72,
-              33.97,
+              309.72,
+              34.3,
               3015.93
             ],
             [
-              310.72,
-              34.15,
+              309.72,
+              34.42,
+              3014.93
+            ],
+            [
+              309.72,
+              34.47,
               3014.43
             ],
             [
-              310.72,
-              34.22,
+              309.72,
+              34.54,
               3013.93
             ],
             [
-              311.22,
-              34.26,
+              309.72,
+              34.63,
               3013.43
             ],
             [
-              311.72,
-              34.35,
+              309.72,
+              34.64,
               3012.93
             ],
             [
-              312.22,
-              34.58,
+              309.22,
+              34.71,
               3012.43
             ],
             [
-              312.72,
-              34.83,
+              309.22,
+              34.75,
               3011.93
             ],
             [
-              313.22,
-              34.99,
-              3011.43
+              308.22,
+              34.77,
+              3010.93
             ],
             [
-              314.22,
-              35.13,
+              307.72,
+              34.74,
               3010.43
             ],
             [
-              314.72,
-              35.15,
+              307.22,
+              34.74,
               3009.93
             ],
             [
-              316.22,
-              35.18,
+              306.72,
+              34.75,
+              3009.43
+            ],
+            [
+              306.22,
+              34.79,
+              3008.93
+            ],
+            [
+              306.22,
+              34.81,
               3008.43
             ],
             [
-              317.72,
-              35.18,
+              306.22,
+              34.87,
+              3007.43
+            ],
+            [
+              306.22,
+              34.92,
               3006.93
             ],
             [
-              318.22,
-              35.19,
+              305.72,
+              34.96,
               3006.43
             ],
             [
-              318.72,
-              35.21,
+              305.72,
+              35.01,
               3005.93
             ],
             [
-              319.22,
-              35.22,
+              305.72,
+              35.08,
               3005.43
             ],
             [
-              319.72,
-              35.24,
-              3004.93
-            ],
-            [
-              320.22,
-              35.25,
+              305.72,
+              35.2,
               3004.43
             ],
             [
-              320.22,
-              35.29,
+              305.72,
+              35.25,
               3003.93
             ],
             [
-              320.22,
-              35.3,
+              305.72,
+              35.28,
               3003.43
             ],
             [
-              320.22,
+              305.72,
               35.3,
-              2996.93
+              3002.93
             ],
             [
-              315.22,
+              305.72,
+              35.3,
+              2995.43
+            ],
+            [
+              307.72,
+              35.3,
+              2993.43
+            ],
+            [
+              308.22,
+              35.3,
+              2993.43
+            ],
+            [
+              308.72,
+              35.3,
+              2992.93
+            ],
+            [
+              309.22,
+              35.3,
+              2992.93
+            ],
+            [
+              309.72,
+              35.3,
+              2992.43
+            ],
+            [
+              310.72,
+              35.3,
+              2992.43
+            ],
+            [
+              311.22,
+              35.3,
+              2991.93
+            ],
+            [
+              312.22,
               35.3,
               2991.93
             ]
           ],
-          "routeM": 35.56,
-          "steepestDeg": 19.7,
+          "routeM": 35.21,
+          "steepestDeg": 13.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -16745,15 +14610,15 @@
             [
               305.72,
               35.3,
-              2994.43
+              2994.93
             ],
             [
-              306.72,
+              307.72,
               35.3,
-              2993.43
+              2992.93
             ]
           ],
-          "routeM": 29.68,
+          "routeM": 30.59,
           "steepestDeg": 13.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -16928,15 +14793,15 @@
             [
               305.72,
               35.3,
-              2991.93
+              2993.43
             ],
             [
-              307.22,
+              307.72,
               35.3,
-              2990.43
+              2991.43
             ]
           ],
-          "routeM": 32.88,
+          "routeM": 32.09,
           "steepestDeg": 13.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -17369,10 +15234,10 @@
             [
               328.72,
               35.89,
-              2965.43
+              2964.43
             ]
           ],
-          "routeM": 63.55,
+          "routeM": 64.55,
           "steepestDeg": 19.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -17951,380 +15816,871 @@
               3023.43
             ],
             [
-              309.72,
-              34.1,
+              309.22,
+              33.91,
               3023.93
             ],
             [
-              309.22,
-              34.03,
+              308.72,
+              33.92,
               3024.43
             ],
             [
-              308.72,
-              34.04,
+              308.22,
+              34.03,
               3024.93
             ],
             [
-              308.72,
+              308.22,
               33.95,
               3025.43
             ],
             [
               307.22,
-              33.26,
+              33.49,
+              3026.43
+            ],
+            [
+              306.72,
+              33.27,
               3026.93
             ],
             [
-              307.22,
-              33.23,
+              306.72,
+              33.24,
               3027.43
             ],
             [
-              307.22,
-              33.19,
-              3028.43
-            ],
-            [
-              307.22,
-              33.15,
+              306.72,
+              33.18,
               3028.93
             ],
             [
-              307.22,
-              33.14,
-              3029.43
-            ],
-            [
-              307.22,
-              33.12,
+              306.72,
+              33.16,
               3029.93
             ],
             [
-              307.22,
-              33.11,
+              306.72,
+              33.14,
               3030.43
             ],
             [
-              307.22,
-              33.08,
-              3030.93
+              306.72,
+              33.11,
+              3031.93
             ],
             [
-              307.22,
-              33.04,
+              306.72,
+              33.11,
+              3032.43
+            ],
+            [
+              306.72,
+              33.07,
               3032.93
             ],
             [
-              307.22,
-              33.04,
-              3033.93
+              306.72,
+              33.06,
+              3033.43
             ],
             [
-              307.22,
-              33.02,
+              306.72,
+              33.06,
               3034.43
             ],
             [
-              307.22,
-              32.97,
+              306.72,
+              33.03,
               3034.93
             ],
             [
-              307.22,
-              32.93,
+              306.72,
+              32.98,
               3035.43
             ],
             [
-              307.22,
-              32.88,
+              306.72,
+              32.94,
               3035.93
             ],
             [
-              307.22,
-              32.88,
+              306.72,
+              32.87,
               3036.43
             ],
             [
-              307.22,
-              32.89,
+              306.72,
+              32.86,
               3036.93
             ],
             [
-              307.22,
-              32.89,
+              306.72,
+              32.87,
               3037.43
             ],
             [
-              307.72,
-              32.75,
-              3037.93
-            ],
-            [
-              307.72,
-              32.69,
+              306.72,
+              32.87,
               3038.43
             ],
             [
-              307.72,
-              32.64,
+              306.72,
+              32.81,
               3038.93
             ],
             [
-              308.22,
-              32.82,
+              306.72,
+              32.76,
               3039.43
             ],
             [
-              308.72,
-              33.05,
+              306.72,
+              32.72,
               3039.93
             ],
             [
-              309.22,
-              33.01,
+              306.72,
+              32.74,
               3040.43
             ],
             [
-              309.72,
-              32.92,
-              3040.93
-            ],
-            [
-              310.22,
-              32.98,
+              306.72,
+              32.8,
               3041.43
             ],
             [
-              310.72,
-              33.1,
+              306.72,
+              32.84,
               3041.93
             ],
             [
-              311.22,
-              33.27,
+              306.72,
+              32.89,
               3042.43
             ],
             [
-              311.72,
-              33.28,
-              3042.43
-            ],
-            [
-              312.22,
-              33.43,
-              3042.93
-            ],
-            [
-              312.72,
-              33.56,
+              306.72,
+              32.97,
               3043.43
             ],
             [
-              313.22,
-              33.88,
+              306.72,
+              33.04,
               3043.93
             ],
             [
-              313.72,
-              34.0,
-              3044.43
-            ],
-            [
-              313.72,
-              34.13,
+              305.72,
+              33.04,
               3044.93
             ],
             [
-              313.72,
-              34.21,
+              305.22,
+              33.05,
               3045.43
             ],
             [
-              314.22,
-              34.2,
+              304.72,
+              33.1,
               3045.93
             ],
             [
-              315.22,
-              34.2,
-              3045.93
-            ],
-            [
-              315.72,
-              34.23,
-              3045.93
-            ],
-            [
-              316.22,
-              34.31,
-              3045.93
-            ],
-            [
-              316.72,
-              34.42,
-              3045.93
-            ],
-            [
-              317.22,
-              34.52,
-              3045.93
-            ],
-            [
-              317.72,
-              34.8,
+              304.72,
+              33.17,
               3046.43
             ],
             [
-              317.72,
-              35.07,
+              304.22,
+              33.23,
               3046.93
             ],
             [
-              317.72,
-              35.15,
+              303.72,
+              33.63,
               3047.43
             ],
             [
-              317.72,
-              35.25,
+              303.22,
+              33.93,
               3047.93
             ],
             [
-              317.72,
-              35.33,
+              303.72,
+              34.18,
+              3047.93
+            ],
+            [
+              303.22,
+              34.48,
               3048.43
             ],
             [
-              317.72,
-              35.43,
+              303.72,
+              34.73,
+              3048.43
+            ],
+            [
+              303.22,
+              35.03,
               3048.93
             ],
             [
-              317.72,
-              35.48,
+              303.22,
+              35.24,
               3049.43
             ],
             [
-              317.72,
-              35.49,
-              3049.93
-            ],
-            [
-              317.72,
-              35.51,
-              3050.43
-            ],
-            [
-              317.72,
-              35.59,
-              3050.93
-            ],
-            [
-              317.72,
-              35.76,
-              3051.43
-            ],
-            [
-              317.72,
-              35.94,
-              3051.93
-            ],
-            [
-              317.72,
-              36.13,
+              300.22,
+              35.24,
               3052.43
             ],
             [
-              317.72,
-              36.22,
+              300.22,
+              35.24,
               3052.93
             ],
             [
-              318.22,
-              36.38,
+              300.22,
+              35.32,
               3053.43
             ],
             [
-              318.72,
-              36.48,
+              300.22,
+              35.49,
               3053.93
             ],
             [
-              319.22,
-              36.61,
-              3054.43
-            ],
-            [
-              319.22,
-              36.73,
+              300.22,
+              35.91,
               3054.93
             ],
             [
-              319.22,
-              36.93,
+              300.22,
+              36.15,
               3055.43
             ],
             [
-              319.22,
-              37.09,
+              299.72,
+              36.04,
               3055.93
             ],
             [
-              319.22,
-              37.19,
+              299.22,
+              36.08,
               3056.43
             ],
             [
-              319.22,
-              37.24,
-              3056.93
-            ],
-            [
-              319.22,
-              37.26,
+              298.22,
+              36.38,
               3057.43
             ],
             [
-              319.22,
-              37.26,
+              297.72,
+              36.42,
+              3057.93
+            ],
+            [
+              297.22,
+              36.48,
+              3058.43
+            ],
+            [
+              296.22,
+              36.76,
               3059.43
             ],
             [
-              319.22,
-              37.27,
+              295.72,
+              37.03,
               3059.93
             ],
             [
-              319.22,
-              37.29,
+              295.72,
+              37.22,
               3060.43
             ],
             [
-              319.22,
-              37.37,
+              295.72,
+              37.33,
+              3060.93
+            ],
+            [
+              295.72,
+              37.47,
               3061.43
             ],
             [
-              318.72,
-              37.43,
+              295.72,
+              37.65,
               3061.93
             ],
             [
-              318.22,
+              295.72,
+              37.82,
+              3062.43
+            ],
+            [
+              295.72,
+              37.97,
+              3062.93
+            ],
+            [
+              295.72,
+              38.08,
+              3063.43
+            ],
+            [
+              296.22,
+              38.2,
+              3063.93
+            ],
+            [
+              296.72,
+              38.22,
+              3064.43
+            ],
+            [
+              297.72,
+              38.22,
+              3065.43
+            ],
+            [
+              298.22,
+              38.16,
+              3065.93
+            ],
+            [
+              298.22,
+              38.02,
+              3066.93
+            ],
+            [
+              298.72,
+              37.79,
+              3067.43
+            ],
+            [
+              299.22,
+              37.63,
+              3067.93
+            ],
+            [
+              299.72,
+              37.51,
+              3067.93
+            ],
+            [
+              300.22,
+              37.46,
+              3067.93
+            ],
+            [
+              300.72,
+              37.45,
+              3067.43
+            ],
+            [
+              301.22,
+              37.45,
+              3066.93
+            ],
+            [
+              301.22,
+              37.45,
+              3066.43
+            ],
+            [
+              304.72,
+              37.45,
+              3062.93
+            ],
+            [
+              304.72,
               37.45,
               3062.43
             ],
             [
-              317.22,
+              308.22,
               37.45,
-              3063.43
+              3058.93
+            ],
+            [
+              310.22,
+              37.45,
+              3058.93
+            ],
+            [
+              310.72,
+              37.45,
+              3059.43
+            ],
+            [
+              312.72,
+              37.45,
+              3059.43
+            ],
+            [
+              314.72,
+              37.45,
+              3061.43
             ]
           ],
-          "routeM": 52.22,
-          "steepestDeg": 28.3,
+          "routeM": 77.69,
+          "steepestDeg": 29.8,
           "largestStepM": 0.0,
-          "deepestWadeM": 0.645
+          "deepestWadeM": 0.56
+        },
+        "socket:fill.ahy-table": {
+          "points": [
+            [
+              309.72,
+              33.78,
+              3020.93
+            ],
+            [
+              309.72,
+              33.8,
+              3020.43
+            ],
+            [
+              309.72,
+              33.87,
+              3019.93
+            ],
+            [
+              309.72,
+              33.89,
+              3019.43
+            ],
+            [
+              309.72,
+              33.85,
+              3018.93
+            ],
+            [
+              309.72,
+              33.95,
+              3018.43
+            ],
+            [
+              309.72,
+              34.07,
+              3017.93
+            ],
+            [
+              309.72,
+              34.1,
+              3017.43
+            ],
+            [
+              309.72,
+              34.11,
+              3016.93
+            ],
+            [
+              309.72,
+              34.21,
+              3016.43
+            ],
+            [
+              309.72,
+              34.3,
+              3015.93
+            ],
+            [
+              309.72,
+              34.42,
+              3014.93
+            ],
+            [
+              309.72,
+              34.47,
+              3014.43
+            ],
+            [
+              309.72,
+              34.54,
+              3013.93
+            ],
+            [
+              309.72,
+              34.63,
+              3013.43
+            ],
+            [
+              309.72,
+              34.64,
+              3012.93
+            ],
+            [
+              309.22,
+              34.71,
+              3012.43
+            ],
+            [
+              309.22,
+              34.75,
+              3011.93
+            ],
+            [
+              308.22,
+              34.77,
+              3010.93
+            ],
+            [
+              307.72,
+              34.74,
+              3010.43
+            ],
+            [
+              307.22,
+              34.74,
+              3009.93
+            ],
+            [
+              306.72,
+              34.75,
+              3009.43
+            ],
+            [
+              306.22,
+              34.79,
+              3008.93
+            ],
+            [
+              306.22,
+              34.81,
+              3008.43
+            ],
+            [
+              306.22,
+              34.87,
+              3007.43
+            ],
+            [
+              306.22,
+              34.92,
+              3006.93
+            ],
+            [
+              305.72,
+              34.96,
+              3006.43
+            ],
+            [
+              305.72,
+              35.01,
+              3005.93
+            ],
+            [
+              305.72,
+              35.08,
+              3005.43
+            ],
+            [
+              305.72,
+              35.2,
+              3004.43
+            ],
+            [
+              305.72,
+              35.25,
+              3003.93
+            ],
+            [
+              305.72,
+              35.28,
+              3003.43
+            ],
+            [
+              305.72,
+              35.3,
+              3002.93
+            ],
+            [
+              305.72,
+              35.3,
+              2994.93
+            ],
+            [
+              307.72,
+              35.3,
+              2992.93
+            ]
+          ],
+          "routeM": 30.59,
+          "steepestDeg": 13.7,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.b5-ahy-table": {
+          "points": [
+            [
+              309.72,
+              33.78,
+              3020.93
+            ],
+            [
+              309.72,
+              33.8,
+              3020.43
+            ],
+            [
+              309.72,
+              33.87,
+              3019.93
+            ],
+            [
+              309.72,
+              33.89,
+              3019.43
+            ],
+            [
+              310.72,
+              34.01,
+              3018.43
+            ],
+            [
+              310.72,
+              33.98,
+              3017.93
+            ],
+            [
+              310.72,
+              33.97,
+              3017.43
+            ],
+            [
+              310.72,
+              33.97,
+              3016.93
+            ],
+            [
+              310.72,
+              33.96,
+              3016.43
+            ],
+            [
+              310.72,
+              33.97,
+              3015.93
+            ],
+            [
+              310.72,
+              34.15,
+              3014.43
+            ],
+            [
+              310.72,
+              34.22,
+              3013.93
+            ],
+            [
+              311.22,
+              34.26,
+              3013.43
+            ],
+            [
+              311.72,
+              34.35,
+              3012.93
+            ],
+            [
+              312.22,
+              34.58,
+              3012.43
+            ],
+            [
+              312.72,
+              34.83,
+              3011.93
+            ],
+            [
+              313.22,
+              34.99,
+              3011.43
+            ],
+            [
+              314.22,
+              35.13,
+              3010.43
+            ],
+            [
+              314.72,
+              35.15,
+              3009.93
+            ],
+            [
+              316.22,
+              35.18,
+              3008.43
+            ],
+            [
+              317.72,
+              35.18,
+              3006.93
+            ],
+            [
+              318.22,
+              35.19,
+              3006.43
+            ],
+            [
+              318.72,
+              35.21,
+              3005.93
+            ],
+            [
+              319.22,
+              35.22,
+              3005.43
+            ],
+            [
+              319.72,
+              35.24,
+              3004.93
+            ],
+            [
+              320.22,
+              35.25,
+              3004.43
+            ],
+            [
+              320.22,
+              35.29,
+              3003.93
+            ],
+            [
+              320.22,
+              35.3,
+              3003.43
+            ],
+            [
+              320.22,
+              35.3,
+              2996.43
+            ],
+            [
+              320.22,
+              35.22,
+              2994.43
+            ],
+            [
+              320.22,
+              35.21,
+              2993.93
+            ],
+            [
+              320.22,
+              35.25,
+              2992.93
+            ],
+            [
+              320.22,
+              35.28,
+              2992.43
+            ],
+            [
+              320.22,
+              35.3,
+              2991.93
+            ],
+            [
+              320.22,
+              35.31,
+              2991.43
+            ],
+            [
+              320.22,
+              35.3,
+              2990.93
+            ],
+            [
+              320.22,
+              35.3,
+              2980.43
+            ],
+            [
+              320.22,
+              35.36,
+              2979.93
+            ],
+            [
+              321.22,
+              35.38,
+              2978.93
+            ],
+            [
+              321.72,
+              35.38,
+              2978.43
+            ],
+            [
+              323.72,
+              35.42,
+              2976.43
+            ],
+            [
+              325.72,
+              35.5,
+              2974.43
+            ],
+            [
+              326.22,
+              35.53,
+              2973.93
+            ],
+            [
+              326.72,
+              35.55,
+              2973.43
+            ],
+            [
+              327.22,
+              35.55,
+              2972.93
+            ],
+            [
+              327.72,
+              35.54,
+              2972.43
+            ],
+            [
+              327.72,
+              35.74,
+              2971.43
+            ],
+            [
+              328.22,
+              35.75,
+              2970.93
+            ],
+            [
+              328.72,
+              35.79,
+              2970.43
+            ],
+            [
+              328.72,
+              35.87,
+              2969.93
+            ],
+            [
+              328.72,
+              35.89,
+              2969.43
+            ],
+            [
+              328.72,
+              35.89,
+              2964.43
+            ]
+          ],
+          "routeM": 64.55,
+          "steepestDeg": 19.7,
+          "largestStepM": 0.0,
+          "deepestWadeM": 0.0
         },
         "socket:fill.b6-basket": {
           "points": [

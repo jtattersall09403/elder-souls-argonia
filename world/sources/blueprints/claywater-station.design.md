@@ -38,8 +38,8 @@
   each on its station socket.
 - **Travel station:** none (removed in 16k 1b lane D2); no boat lane leaves
   the landing. **Crossing:** the ford ferry
-  `ferry.imperial-fringe.drowning-gate` (wet season, native plank ferry,
-  15 gold) is Claywater's: its operator is `station.claywater-station.poler`
+  `ferry.imperial-fringe.drowning-gate` (native plank ferry for carts,
+  beasts and anyone who will not wade, 15 gold) is Claywater's: its operator is `station.claywater-station.poler`
   (`operator.socketRef`, `world/sources/routes/travel-services.json`), the
   rule tested in `worldgen/test_record_services.py`. Travel edge: the
   Gideon–Blackwood road only (the boat edge was removed in 1c, below).
@@ -75,7 +75,7 @@
   0.65 m deep; `world/sources/routes/water-crossings.json`), 28 m N of the
   anchor.
 - **A ferry already stands at that ford:** `ferry.imperial-fringe.drowning-gate`
-  (wet season, native plank ferry, 15 gold), landings at 311.8 / 3026.1 and
+  (native plank ferry, 15 gold), landings at 311.8 / 3026.1 and
   312.6 / 3041.8, run until 1c by the barrier keeper of the Drowning Gate, now by Claywater's poler
   (`world/sources/routes/travel-services.json` services[18], stations[0–1]).
   Both landings are inside Claywater's 65 m footprint.
@@ -163,9 +163,10 @@
 2. **The ferry is Claywater's.** `ferry.imperial-fringe.drowning-gate`'s two
    landings (311.8/3026.1, 312.6/3041.8) both lie inside Claywater's
    footprint at the ford; Claywater's roster NPC is a **poler**. The
-   crossing is the landing hamlet's living: in the wet season the poler
-   runs the plank ferry over the flooded ford; in the dry season travellers
-   walk the ford and the raft lies pulled up. Rule (new test, failing first
+   crossing is the landing hamlet's living. The ford is knee-deep and stony.
+   The light-footed walk it. The poler takes carts, beasts and anyone
+   who will not wade over on the plank ferry (0105 R5: the water never
+   rises, so no prose claims a flood). Rule (new test, failing first
    on this row): a travel-services row whose every landing lies within one
    place's footprint is owned by that place and its operator is one of that
    place's station sockets. The Drowning Gate keeps its barrier; its
@@ -175,7 +176,7 @@
 3. **Six buildings, the hamlet column.** The 400 m disc is 8 % buildable
    and the dry ground is two strips of ~24×17 m and ~70×15 m. Six buildings
    at the type's spacing fill them; a seventh would stand on the hillside
-   or in the flood margin. The hamlet column of `breadth-bars.json` (4–6
+   or at the water's edge. The hamlet column of `breadth-bars.json` (4–6
    buildings) applies, reason recorded here.
 
 ### Services (record fix, with the test lane 1c step 0 left open)
@@ -199,12 +200,12 @@ over the catalogue (374 records today), failing first on Claywater.
 |---|---|---|---|
 | **B1 Station house** | the well-keeper's house: lodging upstairs, the provisions counter at the door (rest-shelter, trade-access, `station.well-keeper`); door tier A onto DawnstarBrinasHouse | `composite:farmhouse/farmhouse01-with-door` at yaw 212, door facing 59° | 97 F imperial frontage to the street; L07 door ≤ 4 m from its way; 0103 |
 | **W The well** | the water point and the reason for the place; the cracked head is `evidence.the-cracked-well`; the well-keeper's station stands here | `vanilla:dungeons/mines/clutter/genericwell01` 4.6×4.6 | 97 F imperial: the well at the first junction off the road; record `why` |
-| **B2 Stable barn** | the stable the type recipe names; horses and the handcart; door `reserved`, pool `stable` (no plugin furnishes an open stable) | `vanilla:architecture/farmhouse/farmhouse02` 15.53×12.80 on a pad | type sheet; L19–L21; 0103 |
+| **B2 Stable** | the stable the type recipe names: open stalls walked into from the walled yard in front of them, horses, hay and trough (0105 R27: no door record; the well-keeper who tends it lives in the station house) | `vanilla:architecture/riften/rtstables01` 13.5×9.8 at yaw 238 on a pad cut 1.4 m into the slope (datum 37.4 m), stone retaining runs on its west, north and south edges (sink 0.0 by the reviewed `assetPlacement` row, R25) | type sheet; 0105 R2, R25, R27 |
 | **S1 Travellers' lean-to** | dropped: `farmhouse01walkway` is a walkway along a farmhouse wall, not a free-standing shelter. Its mined door (8 placements) opens into the house that it abuts. Its open side faces away from its path. No published kit carries an Imperial shelter piece. Road travellers sit on the bench by the brazier and pay for a bed in the station house | — | brief row: drop it if it reads as a walkway |
 | **F1 Road fire** | the station fire, always lit, by the well and the travellers' bench | one of the vanilla woodfires (15 in the gate-row pool) | type recipe; R3 |
-| **E1 Yard walls** | the Imperial yard: a stone wall along the road frontage with a gap at the well path, woven fence round the stable paddock (two enclosure kinds) | `composite:farmhouse/stonewall-run-5` / `-run-3`, `stonewallendl01/endr01`, `fencewoven01/02` | L16 Imperial fences yards; enclosure bar ≥ 1 |
+| **E1 Yard walls** | the Imperial yard: a stone wall along the road frontage with a gap at the well path; the stable yard's three dry-stone runs retain its cut pad (the woven fence went with the barn) | `composite:farmhouse/stonewall-run-5` / `-run-3`, `stonewallendl01/endr01`, `stonewall01` | L16 Imperial fences yards; 0101 R1 retaining runs |
 | **P1 Signpost** | "a lettered signpost" at the well junction, Gideon one way, Blackwood the other | the vanilla road-sign piece if any published kit carries it (check every kit manifest); if none, a **sourcing gap row** in the packet, no substitute | type recipe; CLAUDE.md no fakes |
-| **L1 Imperial lights** | a candle lantern on a barrel at each Imperial door (B1, B2), the brazier by the well on the `light` layer; B1's side-gable glow also faces its door (63° off) | `candlelanternwithcandle01` on `barrel02` (unmined small mount, shot in the render round), `impbrazier01` | 97 C16; 0102 decision 5; light kinds bar |
+| **L1 Imperial lights** | a candle lantern hung on a post at the station house door and at the stable yard's gap, the brazier by the well on the `light` layer; B1's side-gable glow also faces its door (63° off) | `candlelanternwithcandle01` on `bmv:.../aldredanyia/signpost` (mined band, n 46), `impbrazier01` | 97 C16; 0105 R3 |
 | **B4 Poler's hut** | the poler's home and the landing fee counter (LF83 counter 2); `station.poler` at the landing below it; door toward the common path; tier A onto KeebaHouseFisher | `composite:mud/kotm-house-pod` (the King of the Murkmire pod with its porch as the plugin places it), ground ring 12.1 × 11.4 m, door facing 188° | 97 C1 founding reason (§ Site); L16 no fence; 0103 |
 | **B5 Family hut** | the D1 family (n1 few); door onto the family path; `reserved`, pool `kotm` | `kotm:argonia/mudhuts/mudhut01` at yaw 70, door facing 180° | L21; 0103 |
 | **B6 Store hut** | fish store and smokehouse for the landing; nobody lives there, so no door record (interior `none`, L21) | `kotm:argonia/mudhuts/mudhut01` at yaw 40 | dressing vocabulary; L21 |
@@ -215,7 +216,7 @@ over the catalogue (374 records today), failing first on Claywater.
 | **L2 Argonian lights** | a candle stand within 2 m of each hut door (B4, B5, B6) and one in each hut yard. Two more stand at the landing: one by the plank boat, one by the poler's fish rack | `argoniancandle01` ×7 | 97 C16; light kinds bar (3 kinds with L1: candle lantern, candle stand, brazier) |
 | **PATHS** | worn ground: road → B1 door; road → well (the junction); well → B2; ford north bank → landing → B4 door → the common → B5 entrance → B6 | path paint (G1) | L14, L15; widths 97:341, :852 |
 | **SOCKETS** | `scene.the-street` on the road between the well junction and the ford's south bank (~316/3042); `evidence.the-cracked-well` at W; `station.well-keeper` at W; `station.poler` at LD | `questSockets[]` | L02 typed fields only |
-| **DOORS** | B1 tier A (DawnstarBrinasHouse), B4 tier A (KeebaHouseFisher), B5 `reserved` pool `kotm` (its fitting cells need Creation Club or HearthFires assets the vault does not hold: the owner's archive question, sourcing-log row 208), B2 `reserved` pool `stable`; B6 and S1 have no door record | blueprint door records, `blueprint_interiors --claim` | 0103; L21 |
+| **DOORS** | four tier A doors, four different cells: B1 DawnstarBrinasHouse, B4 KeebaHouseFisher, B5 KeebaHouseCrafter, B6 KeebaHouseSnailMinder (the store hut is a `work` parcel, 0105 R26); the stable has no door (R27); nothing is reserved (R2) | blueprint door records, `blueprint_interiors --claim` | 0103; 0105 R2, R4, R26 |
 | **SMOKE** | the brazier smokes at its mined fire socket; the farmhouses carry no chimney smoke (type sheet E1) | `fx:smoke-column` at `impbrazier01` | R3; R7 seen from a distance |
 | **GLOW** | window glow on B1 at night; B4 and B5 if their shells have windows | `fxambwindowglow01`, `wrlodwindowglow01` | item 28 (done); R7 |
 
@@ -244,8 +245,22 @@ drying frame). Personal clutter ≥ 5 per dwelling; no dressing asset above
 |---|---|---|---|---|---|
 | 1 | B1 station house | `composite:farmhouse/farmhouse01-with-door` | A | DawnstarBrinasHouse | the fit rule's pick of the 11 cells that Skyrim links to this shell |
 | 2 | B4 poler's hut | `composite:mud/kotm-house-pod` | A | KeebaHouseFisher | the fisher's house holds the rods and the fish rack that the poler's work needs |
-| 3 | B5 family hut | `kotm:argonia/mudhuts/mudhut01` | reserved | kotm | the cells that fit need Creation Club or HearthFires assets not in the vault |
-| 4 | B2 stable barn | `vanilla:architecture/farmhouse/farmhouse02` | reserved | stable | no plugin furnishes an open stable |
+| 3 | B5 family hut | `composite:mud/kotm-house-pod` | A | KeebaHouseCrafter | the fit rule's dwelling pick after the Fisher cell went to B4 |
+| 5 | B6 store hut | `composite:mud/kotm-house-pod` | A | KeebaHouseSnailMinder | a `work` parcel takes a workshop cell (R26); the net and basket maker works here |
+
+### Variety (0105 R4)
+
+| Building | Shell | Interior | Source pool |
+|---|---|---|---|
+| B1 station house | `composite:farmhouse/farmhouse01-with-door` | DawnstarBrinasHouse (1 storey, 1 exterior door, arrival marker paired) | vanilla farmhouse cells linked to farmhouse01 (11) |
+| B4 poler's hut | kotm pod | KeebaHouseFisher | cells linked to smpodext02 (4; Treeminder fails acceptance) |
+| B5 family hut | kotm pod | KeebaHouseCrafter | same pool |
+| B6 store hut | kotm pod | KeebaHouseSnailMinder | same pool, `work` use (R26) |
+| B2 stable | `rtstables01` | none: the stalls are open (R27) | none |
+
+No cell repeats (`interiors.variety` green). The three pods repeat one shell because the Argonian mud pool's buildable tier A cells all stand on it; each pod keeps its own porch bearing and yard set.
+
+The owner asked for a two-storey stablemaster's house with two exterior doors (walk 3). No such house stands now: the barn it described was removed under R27. The keeper's home is the station house. Its cell is one storey with one exterior load door, both measured on the claim.
 
 ### Sockets (0103 decisions 5–6; the layout's `socket` ops)
 
@@ -293,3 +308,10 @@ path; the approach path enters at the junction; a resting point (the
 fire and the bench beside it); a view back over the channel from the landing; nothing
 hidden behind a blank wall; night lights on both halves; a threshold
 (the ford); no dead ends.
+
+### Rounds (walk 3 fix round, rounds 12–13)
+
+- Stable: `farmhouse02` barn and the Morrowind keep stall ends replaced by the Riften stable on the barn's pad. The pad datum was raised to 37.4 m so the west retaining run stays within 2 m of ground change. A fourth stone piece (`b2w-w4`) closes the gap at the south-west corner. The south run moved 2.9 m in onto the pad edge. No pose within 28 m passes the scan without retaining runs (`round-13/scan-wide.json`).
+- Stable path now ends at the open front of the stalls and ends at the stable parcel. The paddock path that served the removed stalls was dropped.
+- Store hut is a `work` parcel and takes KeebaHouseSnailMinder (R26).
+- Ferry prose: carts, beasts and anyone who will not wade take the raft. The light-footed walk the knee-deep ford. No flood or wet-season claim remains (R5).

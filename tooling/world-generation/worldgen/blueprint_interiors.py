@@ -377,6 +377,12 @@ SERVICE_CLASSES = {
 USE_CLASSES = {
     "dwelling": ("dwelling",),
     "storage": ("storage", "barracks"),
+    # 0105 R26 (planner 2026-09-28): a parcel whose use is literally `work`
+    # takes a smithy or a storage cell (`cell_use_class`; storage is its
+    # bedless fallback). `workshop` is in the ruling's list but no cell is
+    # classed so yet. Keyed on the exact use, so quays, docks and pens (the
+    # `work` bucket in blueprint.USE_BUCKET) are unaffected.
+    "work": ("smithy", "workshop", "storage"),
 }
 
 CONFIG_KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "kits"

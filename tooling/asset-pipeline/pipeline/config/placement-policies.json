@@ -286,7 +286,9 @@
   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "plinth",
   "kotm:argonia/mudhuts/shed": "pad",
   "vanilla:architecture/docks/dockstrent02": "stilt",
-  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "pad"
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "pad",
+  "kotm:argonia/clutter/basketcontainer": "direct",
+  "kotm:argonia/clutter/saxhleelmetalpot01": "direct"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -382,7 +384,9 @@
   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": "frozen from the settlement-imperial-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.1422 m, n 39, evidence plugin",
   "kotm:argonia/mudhuts/shed": "Argonian mud shed on a declared pad (0101), same contact family as kotm:argonia/mudhuts/mudhut01; frozen from the settlement-mud-v1 manifest's fit (policy pad, designed-sink p50 0.0 m, n 0, evidence policy-fallback)",
   "vanilla:architecture/docks/dockstrent02": "frozen from the docks-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 -0.35 m, n 0, evidence mesh-sill (plugin-spread); a piled deck (piledDecks)",
-  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill"
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": "frozen from the imperial-keep manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-2 pieces 2026-09-27): designed-sink p50 0.0 m, n 0, evidence mesh-sill",
+  "kotm:argonia/clutter/basketcontainer": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.4953 m, n 9, evidence plugin",
+  "kotm:argonia/clutter/saxhleelmetalpot01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.0993 m, n 0, evidence mesh-sill"
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
@@ -431,6 +435,10 @@
   "vanilla:clutter/signage/whiterun/signwrpost01": {
    "anchorClass": "ground",
    "why": "Sign post 2.74 m tall with its base at the pivot and the arm at the top: it stands on the ground. The plugin vote splits deck 4 / ground 3 / wall 1 because Whiterun sets several posts on stone paving; the plugin sink (n 5) stays."
+  },
+  "vanilla:architecture/riften/rtstables01": {
+   "designedSinkM": 0.0,
+   "why": "Riften stable: the stall floor (a 49.3 m2 up-facing band at z 0.004 m) lies at the pivot and the stone foundation reaches 0.91 m below it. The stalls are walked into from the ground, so the pivot sits at the ground (sink 0) and the foundation is buried. The mesh-sill tell took the foundation's foot (-0.91 m, n 0: RiftenWorld has no LAND) and stood the stall floor 0.91 m in the air (0105 R25, planner 2026-09-28)."
   }
  },
  "piledDecks": {

@@ -1088,12 +1088,14 @@ def test_a_door_is_reachable_when_walk_rule_routed_it_by_id():
     assert cs.walk_route_reach(door, None) is None     # no walkRoutes: the legacy test
 
 
-def test_claywater_barn_door_passes_on_its_walk_route():
+def test_every_claywater_door_passes_on_its_walk_route():
     """r1: door.4 (the barn) failed the compile's own test
-    (boardwalkAccess=False, inHardClear=False) while walkRule reached it."""
+    (boardwalkAccess=False, inHardClear=False) while walkRule reached it. The
+    barn went in walk 3 (0105 R27); every door left must pass the same way."""
     bp = json.loads(CLAYWATER.read_text())["blueprint"]
-    barn = next(d for d in bp["doors"] if d["parcelId"].endswith("stable-barn"))
-    assert cs.walk_route_reach(barn, bp.get("walkRoutes")) is True
+    assert bp["doors"]
+    for door in bp["doors"]:
+        assert cs.walk_route_reach(door, bp.get("walkRoutes")) is True, door["id"]
 
 
 def test_the_flood_report_names_its_own_warnings():

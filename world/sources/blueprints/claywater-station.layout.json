@@ -26,76 +26,21 @@
   },
   {
    "op": "place",
-   "uid": "b2",
-   "asset": "vanilla:architecture/farmhouse/farmhouse02",
+   "uid": "stable",
+   "asset": "vanilla:architecture/riften/rtstables01",
    "at": [
-    334.0,
-    3088.0
+    334.6,
+    3087.6
    ],
    "yaw": 238.0,
-   "settle": true,
    "pad": {
     "apronM": 2.0,
     "apronBySide": {
      "w": 3.5,
      "e": 0.0
     },
-    "datumM": 37.1
+    "datumM": 37.4
    }
-  },
-  {
-   "op": "place",
-   "uid": "b2-stair",
-   "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
-   "at": [
-    334.0,
-    3088.0
-   ],
-   "yaw": 238.0,
-   "walkable": true
-  },
-  {
-   "op": "attach",
-   "child": "b2-stair",
-   "parent": "b2",
-   "template": "vanilla:t0749"
-  },
-  {
-   "op": "place",
-   "uid": "st1",
-   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01",
-   "at": [
-    377.0,
-    3100.0
-   ],
-   "yaw": 90.0,
-   "settle": true,
-   "pad": {
-    "apronM": 0.5,
-    "batter": true,
-    "apronBySide": {
-     "s": 6.0
-    }
-   }
-  },
-  {
-   "op": "place",
-   "uid": "st2",
-   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01",
-   "at": [
-    377.0,
-    3104.5
-   ],
-   "yaw": 90.0
-  },
-  {
-   "op": "snap",
-   "child": "st2",
-   "child_face": "west",
-   "parent": "st1",
-   "parent_face": "east",
-   "by": "geometry",
-   "settle": true
   },
   {
    "op": "place",
@@ -165,28 +110,6 @@
      "w": 3.5
     }
    }
-  },
-  {
-   "op": "place",
-   "uid": "fw1",
-   "asset": "vanilla:architecture/farmhouse/fencewoven01",
-   "at": [
-    363.6,
-    3084.55
-   ],
-   "yaw": 57.0,
-   "settle": true
-  },
-  {
-   "op": "place",
-   "uid": "fw2",
-   "asset": "vanilla:architecture/farmhouse/fencewoven01",
-   "at": [
-    366.85,
-    3089.6
-   ],
-   "yaw": 57.0,
-   "settle": true
   },
   {
    "op": "place",
@@ -325,13 +248,29 @@
   },
   {
    "op": "place",
+   "uid": "b1-post",
+   "asset": "bmv:architecture/phitt/aldredanyia/signpost",
+   "at": [
+    320.4,
+    3065.6
+   ],
+   "yaw": 212.0,
+   "settle": true
+  },
+  {
+   "op": "place",
    "uid": "b1-lamp",
    "asset": "vanilla:clutter/common/candlelanternwithcandle01",
    "at": [
-    319.8,
-    3065.0
+    320.4,
+    3065.6
    ],
    "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "b1-lamp",
+   "parent": "b1-post"
   },
   {
    "op": "place",
@@ -349,10 +288,10 @@
    "uid": "sty-hay",
    "asset": "vanilla:clutter/hay/haymound01",
    "at": [
-    377.5,
-    3095.3
+    328.7,
+    3089.9
    ],
-   "yaw": 90.0,
+   "yaw": 148.0,
    "settle": true
   },
   {
@@ -360,10 +299,10 @@
    "uid": "sty-trough",
    "asset": "vanilla:clutter/horsetrough/horsetrough01",
    "at": [
-    375.5,
-    3107.5
+    331.2,
+    3091.3
    ],
-   "yaw": 0.0,
+   "yaw": 148.0,
    "settle": true
   },
   {
@@ -371,10 +310,10 @@
    "uid": "sty-wood",
    "asset": "vanilla:clutter/firewood/firewoodpilelarge01",
    "at": [
-    343.5,
-    3101.0
+    341.0,
+    3084.0
    ],
-   "yaw": 107.0,
+   "yaw": 58.0,
    "settle": true
   },
   {
@@ -454,12 +393,56 @@
    "settle": true
   },
   {
+   "op": "swap",
+   "uid": "ahy-table",
+   "asset": "kotm:argonia/clutter/basketcontainer",
+   "resettle": true
+  },
+  {
+   "op": "swap",
+   "uid": "b5-ahy-table",
+   "asset": "kotm:argonia/clutter/basketcontainer",
+   "resettle": true
+  },
+  {
+   "op": "remove",
+   "uid": "al-rack2"
+  },
+  {
+   "op": "swap",
+   "uid": "ahy-oven",
+   "asset": "vanilla:clutter/woodfires/cookingstand01",
+   "resettle": true
+  },
+  {
    "op": "place",
    "uid": "f2",
    "asset": "vanilla:clutter/woodfires/cookingstand01",
    "at": [
     336.0,
     2958.5
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-bucket",
+   "asset": "vanilla:clutter/bucket01",
+   "at": [
+    317.2,
+    3063.4
+   ],
+   "yaw": 30.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b5-pot",
+   "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+   "at": [
+    334.6,
+    2958.0
    ],
    "yaw": 0.0,
    "settle": true
@@ -793,8 +776,8 @@
    "uid": "b2w-s1",
    "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
    "at": [
-    336.2,
-    3100.75
+    334.63,
+    3098.31
    ],
    "yaw": 328.0,
    "settle": true
@@ -804,8 +787,8 @@
    "uid": "b2w-s2",
    "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
    "at": [
-    340.09,
-    3098.31
+    338.52,
+    3095.87
    ],
    "yaw": 328.0
   },
@@ -823,8 +806,8 @@
    "uid": "b2w-s3",
    "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
    "at": [
-    343.16,
-    3096.39
+    341.59,
+    3093.95
    ],
    "yaw": 328.0
   },
@@ -842,8 +825,8 @@
    "uid": "b2w-s4",
    "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
    "at": [
-    346.22,
-    3094.47
+    344.65,
+    3092.03
    ],
    "yaw": 328.0
   },
@@ -972,20 +955,44 @@
    "settle": true
   },
   {
-   "op": "mount",
-   "child": "b1-lamp",
-   "parent": "b1-barrel",
-   "unmined": "reader-approved r1"
+   "op": "place",
+   "uid": "b2w-w4",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    330.82,
+    3096.02
+   ],
+   "yaw": 58.0
+  },
+  {
+   "op": "snap",
+   "child": "b2w-w4",
+   "child_face": "west",
+   "parent": "b2w-w3",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
   },
   {
    "op": "place",
    "uid": "b2-barrel",
    "asset": "vanilla:clutter/barrel02",
    "at": [
-    338.4,
-    3086.7
+    326.6,
+    3084.8
    ],
    "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b2-post",
+   "asset": "bmv:architecture/phitt/aldredanyia/signpost",
+   "at": [
+    326.4,
+    3085.6
+   ],
+   "yaw": 58.0,
    "settle": true
   },
   {
@@ -993,16 +1000,15 @@
    "uid": "b2-lamp",
    "asset": "vanilla:clutter/common/candlelanternwithcandle01",
    "at": [
-    338.4,
-    3086.7
+    326.4,
+    3085.6
    ],
    "yaw": 0.0
   },
   {
    "op": "mount",
    "child": "b2-lamp",
-   "parent": "b2-barrel",
-   "unmined": "reader-approved r1"
+   "parent": "b2-post"
   },
   {
    "op": "place",
@@ -1174,45 +1180,28 @@
      3070.5
     ],
     [
-     342.0,
-     3076.0
+     333.5,
+     3074.8
     ],
     [
-     343.5,
-     3082.1
+     327.8,
+     3079.2
     ],
     [
-     337.6,
-     3085.7
-    ]
-   ],
-   "width": 1.2,
-   "kind": "footpath"
-  },
-  {
-   "op": "path",
-   "action": "add",
-   "id": "route.claywater-station.paddock-path",
-   "points": [
-    [
-     357.0,
-     3088.5
+     323.8,
+     3082.0
     ],
     [
-     364.4,
-     3087.6
+     324.2,
+     3085.2
     ],
     [
-     368.0,
-     3092.0
+     327.92,
+     3088.27
     ],
     [
-     368.6,
-     3099.9
-    ],
-    [
-     371.3,
-     3099.9
+     332.3,
+     3087.4
     ]
    ],
    "width": 1.2,
@@ -1291,15 +1280,15 @@
   },
   {
    "op": "bind",
-   "uid": "b1",
+   "uid": "stable",
    "kind": "parcel",
-   "id": "parcel.claywater-station.station-house"
+   "id": "parcel.claywater-station.stable"
   },
   {
    "op": "bind",
-   "uid": "b2",
+   "uid": "b1",
    "kind": "parcel",
-   "id": "parcel.claywater-station.stable-barn"
+   "id": "parcel.claywater-station.station-house"
   },
   {
    "op": "bind",
@@ -1347,21 +1336,6 @@
   },
   {
    "op": "bind",
-   "uid": "st1",
-   "kind": "parcel",
-   "id": "parcel.claywater-station.stable"
-  },
-  {
-   "op": "bind",
-   "uid": "st2",
-   "kind": "assembly",
-   "id": "parcel.claywater-station.stable",
-   "layer": "annex",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
    "uid": "p1-board2",
    "kind": "assembly",
    "id": "parcel.claywater-station.the-well",
@@ -1369,20 +1343,6 @@
    "on": "parent",
    "evidence": "measured",
    "host": "p1"
-  },
-  {
-   "op": "bind",
-   "uid": "fw1",
-   "kind": "run",
-   "id": "parcel.claywater-station.paddock-fence",
-   "index": 0
-  },
-  {
-   "op": "bind",
-   "uid": "fw2",
-   "kind": "run",
-   "id": "parcel.claywater-station.paddock-fence",
-   "index": 1
   },
   {
    "op": "bind",
@@ -1493,6 +1453,43 @@
    "evidence": "measured"
   },
   {
+   "op": "note",
+   "uid": "b5-pot",
+   "text": "the pot for the common's cook fire"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-pot",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "note",
+   "uid": "b1-bucket",
+   "text": "water drawn from the well for the lodgers"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-bucket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-post",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
    "op": "bind",
    "uid": "b1-lamp",
    "kind": "assembly",
@@ -1500,7 +1497,7 @@
    "layer": "light",
    "on": "parent",
    "evidence": "measured",
-   "host": "b1-barrel"
+   "host": "b1-post"
   },
   {
    "op": "bind",
@@ -1524,16 +1521,7 @@
    "op": "bind",
    "uid": "sty-wood",
    "kind": "assembly",
-   "id": "parcel.claywater-station.stable-barn",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
-  },
-  {
-   "op": "bind",
-   "uid": "al-rack2",
-   "kind": "assembly",
-   "id": "parcel.claywater-station.polers-hut",
+   "id": "parcel.claywater-station.stable",
    "layer": "clutter",
    "on": "ground",
    "evidence": "measured"
@@ -1978,6 +1966,13 @@
    "index": 2
   },
   {
+   "op": "bind",
+   "uid": "b2w-w4",
+   "kind": "run",
+   "id": "parcel.claywater-station.stable-wall-west",
+   "index": 3
+  },
+  {
    "op": "path",
    "action": "add",
    "id": "route.claywater-station.family-path",
@@ -2031,7 +2026,16 @@
    "op": "bind",
    "uid": "b2-barrel",
    "kind": "assembly",
-   "id": "parcel.claywater-station.stable-barn",
+   "id": "parcel.claywater-station.stable",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b2-post",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable",
    "layer": "clutter",
    "on": "ground",
    "evidence": "measured"
@@ -2040,11 +2044,11 @@
    "op": "bind",
    "uid": "b2-lamp",
    "kind": "assembly",
-   "id": "parcel.claywater-station.stable-barn",
+   "id": "parcel.claywater-station.stable",
    "layer": "light",
    "on": "parent",
    "evidence": "measured",
-   "host": "b2-barrel"
+   "host": "b2-post"
   },
   {
    "op": "bind",
@@ -2203,8 +2207,8 @@
    "id": "socket.claywater-station.npc-well-keeper-stable",
    "kind": "npc",
    "at": [
-    365.4,
-    3087.6
+    327.8,
+    3087.0
    ],
    "rosterSlotId": "well-keeper",
    "role": "the well-keeper",
@@ -2229,7 +2233,7 @@
    "kind": "idle",
    "activity": "pole",
    "parcel": "parcel.claywater-station.ferry-raft",
-   "why": "The poler waits on the landing deck for fares and poles the raft over the ford in the wet season.",
+   "why": "The poler waits on the landing deck for fares and poles carts and beasts over the ford on the raft.",
    "at": [
     343.6,
     3005.9
@@ -2394,7 +2398,7 @@
      "food"
     ],
     "valueBand": "low",
-    "storyNote": "The poler's smoked catch, kept for the wet season when the crossing pays."
+    "storyNote": "The poler's smoked catch, hung to keep between fares."
    },
    "parcel": "parcel.claywater-station.polers-hut",
    "why": "The poler keeps smoked fish in the urn by the pod house."
@@ -2425,7 +2429,7 @@
    "host": "sty-wood",
    "itemClass": "tool",
    "valueBand": "low",
-   "parcel": "parcel.claywater-station.stable-barn",
+   "parcel": "parcel.claywater-station.stable",
    "why": "A hatchet and a hay fork lie by the stable's woodpile."
   },
   {
@@ -2551,15 +2555,6 @@
    ],
    "parcel": "parcel.claywater-station.the-well",
    "why": "Two boards on the post at the well junction point along the road, north-west over the ford toward Blackwood and south-east to Gideon."
-  },
-  {
-   "op": "bind",
-   "uid": "b2-stair",
-   "kind": "assembly",
-   "id": "parcel.claywater-station.stable-barn",
-   "layer": "steps",
-   "on": "ground",
-   "evidence": "vanilla:t0749"
   }
  ]
 }
