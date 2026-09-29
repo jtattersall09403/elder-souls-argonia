@@ -16,17 +16,27 @@
  * changes, the intensity column of its instances. Instance buffers are
  * rebuilt only in `setEmitters`.
  *
+ * The volume path (decision 0110): on the WebGPU backend each
+ * preset with a `volume` block also draws its fires as raymarched boxes
+ * (volumeFire.ts, one draw and one shared simulated field per preset), and
+ * its cards yield to them within `FIRE_VOLUME_REACH_M`. The backend is read
+ * from the renderer at the first draw (or given by `setBackend`); on WebGL 2
+ * nothing of the volume path is built and the cards draw every fire.
+ *
  * Owned by its caller (SettlementLightFixtures, a preview harness), never a
  * module singleton.
  */
 import * as THREE from "three";
+import type { WebGPURenderer } from "three/webgpu";
+import { activeBackend, type RendererBackend } from "../../render/createRenderer";
 import {
-  FIRE_BED_PRESETS, FIRE_PRESETS, FIRE_PRESET_ORDER, nightShareOfExposure,
+  FIRE_BED_PRESETS, FIRE_PRESETS, FIRE_PRESET_ORDER, FIRE_VOLUME_PRESETS, nightShareOfExposure,
   type FirePresetId,
 } from "./fireTypes";
 import {
   makeEmberMaterial, makeFireUniforms, makeFlameMaterial, makeFlameQuad, type FireUniforms,
 } from "./flameMaterial";
+import { makeVolumeBox, makeVolumeMaterial, VolumeFireField } from "./volumeFire";
 
 export interface FireEmitter {
   /** World position of the emitter (the wick, the fire bed's centre), m. */
@@ -48,6 +58,23 @@ function jitter(seed: number, k: number): number {
 
 const FLAME_FLOATS = 20;
 const EMBER_FLOATS = 12;
+const VOLUME_FLOATS = 12;
+
+/** One preset's volume draw (WebGPU only). */
+interface VolumeDraw {
+  field: VolumeFireField;
+  geometry: THREE.InstancedBufferGeometry;
+  mesh: THREE.Mesh;
+}
+
+/** The box a volume fire is drawn in, m: `[width, height]` at piece scale `scale`. */
+export function volumeBoxSize(preset: FirePresetId, scale: number): [number, number] {
+  const c = FIRE_PRESETS[preset];
+  const v = c.volume;
+  if (!v) return [0, 0];
+  const w = Math.max(c.shape.widthM * v.box.widthW, c.shape.widthM + 2 * c.layers.spreadM) * scale;
+  return [w, c.shape.heightM * v.box.heightH * scale];
+}
 
 export class FlameSystem {
   readonly group = new THREE.Group();
@@ -62,8 +89,15 @@ export class FlameSystem {
   private emberData = new Float32Array(0);
   private lastStrength: Float32Array = new Float32Array(0);
   private emitterList: FireEmitter[] = [];
+  private backend: RendererBackend | null = null;
+  private readonly layer: number | undefined;
+  /** Per volume preset: its instance rows and owners (built on every backend, drawn on WebGPU). */
+  private volumeData = new Map<FirePresetId, { data: Float32Array; owner: Int32Array }>();
+  private readonly volumes = new Map<FirePresetId, VolumeDraw>();
+  private readonly scratch = new THREE.Vector3();
 
   constructor(uniforms: FireUniforms = makeFireUniforms(), layer?: number) {
+    this.layer = layer;
     this.uniforms = uniforms;
     this.group.name = "fire-flames";
     this.flames = new THREE.Mesh(this.flameGeometry, makeFlameMaterial(uniforms));
@@ -80,8 +114,28 @@ export class FlameSystem {
     // (the water surface reads the same `toneMappingExposure`)
     this.flames.onBeforeRender = (renderer) => {
       this.uniforms.uNight.value = nightShareOfExposure(renderer.toneMappingExposure);
+      this.uniforms.uExposure.value = renderer.toneMappingExposure;
+      this.uniforms.uToneMapped.value = renderer.toneMapping === THREE.NoToneMapping ? 0 : 1;
+      if (this.backend === null) this.setBackend(activeBackend(renderer as unknown as WebGPURenderer));
     };
     this.embers.renderOrder = 1;
+  }
+
+  /**
+   * The backend the fires draw on. `webgpu` builds the volume draws for the
+   * volume presets; `webgl` draws cards only. Read from the renderer at the
+   * first draw when never set.
+   */
+  setBackend(backend: RendererBackend): void {
+    this.backend = backend;
+    this.rebuildVolumes();
+  }
+
+  /** Whether the volume path is live (WebGPU backend and at least one volume fire). */
+  get volumeFires(): number {
+    let n = 0;
+    for (const v of this.volumes.values()) n += v.geometry.instanceCount;
+    return n;
   }
 
   /** The emitters last set. */
@@ -125,7 +179,7 @@ export class FlameSystem {
           e.position.x + Math.cos(a) * r, e.position.y, e.position.z + Math.sin(a) * r, seed,
           c.shape.widthM * e.scale * sizeJ, c.shape.heightM * e.scale * sizeJ, c.turbulence, c.riseSpeed,
           0, palette, outer, c.shape.taper,
-          c.flicker.rateHz, c.flicker.amount, c.windResponse, 0,
+          c.flicker.rateHz, c.flicker.amount, c.windResponse, c.volume ? 1 : 0,
           c.motion.swayW, c.motion.pulse, c.motion.rateHz * (0.8 + 0.4 * jitter(e.seed, k + 11)), 0,
         );
         flameOwner.push(e.owner);
@@ -139,6 +193,20 @@ export class FlameSystem {
         emberOwner.push(e.owner);
       }
     }
+    const volumes = new Map<FirePresetId, { rows: number[]; owners: number[] }>();
+    for (const e of emitters) {
+      const c = FIRE_PRESETS[e.preset];
+      if (!c.volume) continue;
+      const [w, h] = volumeBoxSize(e.preset, e.scale);
+      const v = volumes.get(e.preset) ?? { rows: [], owners: [] };
+      v.rows.push(e.position.x, e.position.y, e.position.z, e.seed,
+        w, h, FIRE_PRESET_ORDER.indexOf(e.preset), 0,
+        c.flicker.rateHz, c.flicker.amount, c.windResponse, 0);
+      v.owners.push(e.owner);
+      volumes.set(e.preset, v);
+    }
+    this.volumeData = new Map([...volumes].map(([id, v]) =>
+      [id, { data: new Float32Array(v.rows), owner: Int32Array.from(v.owners) }]));
     this.flameData = new Float32Array(flames);
     this.emberData = new Float32Array(embers);
     this.flameOwner = Int32Array.from(flameOwner);
@@ -152,6 +220,68 @@ export class FlameSystem {
     this.emberGeometry.instanceCount = emberOwner.length;
     this.flames.visible = flameOwner.length > 0;
     this.embers.visible = emberOwner.length > 0;
+    if (this.backend === "webgpu") this.rebuildVolumes();
+  }
+
+  /** (Re)build the volume draws from `volumeData` (WebGPU only; fields are kept per preset). */
+  private rebuildVolumes(): void {
+    if (this.backend !== "webgpu") {
+      this.uniforms.uVolumeOn.value = 0;
+      return;
+    }
+    for (const id of FIRE_VOLUME_PRESETS) {
+      const rows = this.volumeData.get(id);
+      let draw = this.volumes.get(id);
+      if (!rows || rows.owner.length === 0) {
+        if (draw) draw.mesh.visible = false;
+        continue;
+      }
+      if (!draw) {
+        const field = new VolumeFireField(FIRE_PRESETS[id].volume!, `fire-volume-${id}`);
+        const geometry = makeVolumeBox();
+        const mesh = new THREE.Mesh(geometry, makeVolumeMaterial(this.uniforms, field));
+        mesh.name = `fire-volume-${id}`;
+        mesh.frustumCulled = false;
+        mesh.renderOrder = -1;
+        if (this.layer !== undefined) mesh.layers.set(this.layer);
+        draw = { field, geometry, mesh };
+        const d = draw;
+        // step the preset's shared field only when one of its fires is in reach
+        mesh.onBeforeRender = (renderer, _scene, camera) => {
+          const r = this.uniforms.uVolumeReach.value as number;
+          const data = this.volumeData.get(id)?.data;
+          if (!data) return;
+          const cam = camera.getWorldPosition(this.scratch);
+          for (let i = 0; i < data.length; i += VOLUME_FLOATS) {
+            const dx = data[i] - cam.x, dy = data[i + 1] - cam.y, dz = data[i + 2] - cam.z;
+            if (dx * dx + dy * dy + dz * dz < r * r) {
+              d.field.step(renderer as unknown as WebGPURenderer, this.uniforms.uTime.value as number);
+              return;
+            }
+          }
+        };
+        this.volumes.set(id, draw);
+        this.group.add(mesh);
+      }
+      bindInterleaved(draw.geometry, rows.data, VOLUME_FLOATS, [["iPosSeed", 0], ["iBox", 4], ["iAnim", 8]]);
+      draw.geometry.instanceCount = rows.owner.length;
+      draw.mesh.visible = true;
+    }
+    this.uniforms.uVolumeOn.value = 1;
+    this.writeVolumeIntensity();
+  }
+
+  private writeVolumeIntensity(): void {
+    for (const [id, draw] of this.volumes) {
+      const rows = this.volumeData.get(id);
+      if (!rows) continue;
+      for (let i = 0; i < rows.owner.length; i++) {
+        const s = this.lastStrength[rows.owner[i]];
+        rows.data[i * VOLUME_FLOATS + 7] = s < 0 ? 1 : s;
+      }
+      const attribute = draw.geometry.getAttribute("iBox") as THREE.InterleavedBufferAttribute | undefined;
+      if (attribute) attribute.data.needsUpdate = true;
+    }
   }
 
   /**
@@ -172,6 +302,7 @@ export class FlameSystem {
     for (let i = 0; i < this.emberOwner.length; i++) this.emberData[i * EMBER_FLOATS + 8] = this.lastStrength[this.emberOwner[i]];
     markDirty(this.flameGeometry);
     markDirty(this.emberGeometry);
+    this.writeVolumeIntensity();
   }
 
   dispose(): void {
@@ -180,6 +311,12 @@ export class FlameSystem {
     this.emberGeometry.dispose();
     (this.flames.material as THREE.Material).dispose();
     (this.embers.material as THREE.Material).dispose();
+    for (const v of this.volumes.values()) {
+      v.geometry.dispose();
+      (v.mesh.material as THREE.Material).dispose();
+      v.field.dispose();
+    }
+    this.volumes.clear();
   }
 }
 

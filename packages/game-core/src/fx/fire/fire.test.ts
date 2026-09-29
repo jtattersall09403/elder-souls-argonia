@@ -11,7 +11,11 @@ import {
   nightShareOfExposure, type FirePresetId,
 } from "./fireTypes";
 import { FlameSystem } from "./FlameSystem";
-import { FIRE_SHADER_SOURCES } from "./flameMaterial";
+import {
+  FIRE_VOLUME_REACH_M, makeEmberMaterial, makeFireUniforms, makeFlameMaterial, volumeShareAt,
+} from "./flameMaterial";
+import { acesRoundTripGrey } from "./fireNodes";
+import { FIRE_VOLUME_PRESETS, fireVolumeCost } from "./fireTypes";
 import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
@@ -44,13 +48,39 @@ describe("fire presets", () => {
   it("the config schema is renderer-agnostic (no three.js, no shader in fireTypes.ts)", () => {
     const source = readFileSync(join(__dirname, "fireTypes.ts"), "utf8")
       .replace(/\/\*[\s\S]*?\*\/|\/\/.*$/gm, "");
-    expect(source).not.toMatch(/from\s+["']three["']|ShaderMaterial|WebGL|glsl/i);
+    expect(source).not.toMatch(/from\s+["']three(\/\w+)?["']|Material\b|NodeMaterial|WebGL|WebGPU|tsl/i);
   });
 
-  it("the shader carries the TSL-mirror functions the WebGPU port writes 1:1", () => {
-    for (const fn of ["fireNoise", "fireFbm", "fireMask", "fireRamp", "fireFlicker"]) {
-      expect(FIRE_SHADER_SOURCES.common).toContain(fn);
+  it("the card materials are node graphs that write their own premultiplied colour", () => {
+    const u = makeFireUniforms();
+    for (const m of [makeFlameMaterial(u), makeEmberMaterial(u)]) {
+      expect(m.vertexNode).toBeTruthy();
+      expect(m.fragmentNode).toBeTruthy();
+      expect(m.premultipliedAlpha).toBe(false);
+      expect(m.depthWrite).toBe(false);
     }
+  });
+
+  it("the display-to-scene encode inverts the output tone map at the day and night exposures", () => {
+    for (const exposure of [3.9e-5, 1, 22]) {
+      for (const d of [0.05, 0.3, 0.6]) expect(acesRoundTripGrey(d, exposure)).toBeCloseTo(d, 2);
+    }
+  });
+
+  it("volumes are the large presets only; small flames stay cards on every backend", () => {
+    expect([...FIRE_VOLUME_PRESETS].sort()).toEqual(["brazier", "campfire", "hearth", "torchGround", "torchHandheld"]);
+    for (const id of ["candle", "lanternHanging", "lanternStanding"] as const) expect(FIRE_PRESETS[id].volume).toBeUndefined();
+  });
+
+  it("the volume cost stays inside the budget decision 0110 states", () => {
+    for (const id of FIRE_VOLUME_PRESETS) {
+      const cost = fireVolumeCost(FIRE_PRESETS[id].volume!);
+      expect(cost.cells).toBeLessThanOrEqual(16 * 32 * 16);
+      expect(cost.fieldMB).toBeLessThanOrEqual(0.25);
+      expect(cost.samplesPerPixel).toBeLessThanOrEqual(32);
+    }
+    expect(volumeShareAt(0)).toBe(1);
+    expect(volumeShareAt(FIRE_VOLUME_REACH_M + 1)).toBe(0);
   });
 
   it("flicker is the same function for light and flame: 1 +- amount, phased by seed", () => {
