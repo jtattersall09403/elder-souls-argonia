@@ -19,8 +19,13 @@ Module 65 §110 specifies four tiers. **T1/T2** (baked scatter) and **T3**
 bundles) are built, on plain `THREE.InstancedMesh`. **T4** (impostors beyond
 the instanced range) is not. Wind **is** shipped. `applyWindSway`
 (`packages/game-core/src/fx/windSway.ts`) patches the kit materials off the
-weather sample. It chains `onBeforeCompile` rather than replacing it, so CSM
-can still install its own hook afterwards.
+weather sample. Since the WebGPU port (decision 0107) every patch is a TSL
+node feature wrapping a slot of the kit material's node twin (`floraKit.ts`
+converts once at load); the baked scatter's batch material is built by
+`batchMaterial.ts` (`makeBatchMaterial`, full clone then wind + LOD fade +
+batch data), the ring's by `groundcoverMaterials.ts`. There are no depth
+twins: the shadow pass reuses the material's nodes. Harness scenes
+`src/harness/scenes/veg.ts` and `gc.ts` draw both on the real kits.
 
 ### Four mechanisms in the baked scatter (16g)
 

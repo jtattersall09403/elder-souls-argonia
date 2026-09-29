@@ -8,6 +8,7 @@
 import { describe, expect, it } from "vitest";
 import {
   BAYER4_THRESHOLDS,
+  createLodFadeUniforms,
   createLodHistory,
   LOD_FADE_S,
   LOD_FADE_SAMPLES,
@@ -122,5 +123,23 @@ describe("temporal rung cross-fade", () => {
     const ds = distancesOf(zero, 61, 0, 0, 0);
     expect(lodFadeFactorsOver([0, 60, 0, 0], ds)).toEqual({ fadeIn: 1, fadeOut: 1 });
     expect(lodFadeFactorsOver([60, LOD_OPEN_M, 0, 0], ds)).toEqual({ fadeIn: 1, fadeOut: 0 });
+  });
+
+  it("writes the node uniform's Vector2s exactly as the flat offsets", () => {
+    const u = createLodFadeUniforms();
+    expect(u.esLodHist.array.length).toBe(LOD_FADE_SAMPLES);
+    const a = createLodHistory();
+    const b = createLodHistory();
+    const flat = new Float32Array(LOD_FADE_SAMPLES * 2);
+    for (let f = 0; f < 40; f++) {
+      const t = f / FPS;
+      pushLodHistory(a, 3 * t, -2 * t, t, flat);
+      pushLodHistory(b, 3 * t, -2 * t, t, u.esLodHist.array);
+    }
+    for (let k = 0; k < LOD_FADE_SAMPLES; k++) {
+      expect(u.esLodHist.array[k].x).toBeCloseTo(flat[k * 2], 5);
+      expect(u.esLodHist.array[k].y).toBeCloseTo(flat[k * 2 + 1], 5);
+    }
+    expect(flat.some((v) => v !== 0)).toBe(true);
   });
 });

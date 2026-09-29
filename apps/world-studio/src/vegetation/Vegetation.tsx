@@ -36,25 +36,24 @@ import {
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
-  applyWindSwayWithShadow,
   updateWindSway,
   windStiffness,
 } from "@elder-souls/game-core/fx/windSway";
 import { sharedWindUniforms } from "./windUniforms";
 import {
-  applyLodFadeWithShadow,
   createLodFadeUniforms,
   createLodHistory,
   lodLadder,
   pushLodHistory,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
-  applyBatchData,
   BATCH_DATA_TEXELS,
   createBatchDataTexture,
   createBatchDataUniforms,
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
+import type { NodeMaterial } from "three/webgpu";
+import { makeBatchMaterial, type BatchMaterials, type VegShaderMode } from "./batchMaterial";
 import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
 import { isSolid, type FloraCollider, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import {
@@ -256,10 +255,9 @@ const URGENT_LEAD_M = 3;
  *   `0`        no batch patch at all (plain cloned kit material)
  *   `lod`      LOD fade + batch data only (no wind)
  *   `wind`     wind + batch data only (no fade)
- *   `noaerial` all three, but the haze traversal skips these materials
+ *   `noaerial` all three, with `fog = false` (the scene fogNode is the haze)
  * Read once, at module load.
  */
-type VegShaderMode = "all" | "off" | "lod" | "wind" | "noaerial";
 const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
   if (typeof window === "undefined") return "all";
   const v = new URLSearchParams(window.location.search).get("vegshader");
@@ -393,8 +391,7 @@ interface Batch {
    * Walking the province evicts and re-enters the same cells, so `geoFor`
    * takes from here rather than building (and later leaking) a new mesh. */
   geometryPool: Map<string, GeoMesh>;
-  material: THREE.Material;
-  depthMaterial: THREE.Material | undefined;
+  material: NodeMaterial;
   /** Data-texture slots: the capacity, the high-water mark and the slots
    * dropped cells gave back. */
   capacity: number;
@@ -405,7 +402,7 @@ interface Batch {
   isCard: boolean;
   /** This batch's rung is the one that casts the sun shadow (`batchKeyFor`). */
   casts: boolean;
-  /** Whether its depth material was patched with `shadowBandFromZero`. */
+  /** Whether its material's shadow slots were patched with `shadowBandFromZero`. */
   fromZero: boolean;
   /** Nearest visible tile this gating pass saw, in metres; Infinity when the
    * batch showed nothing. Drives the meshes' `renderOrder` (front to back). */
@@ -416,16 +413,6 @@ interface Batch {
   rungs: Set<CellRungEntry>;
 }
 
-/** The patched materials one batch KEY owns, kept across capacity growth. */
-interface BatchMaterials {
-  material: THREE.Material;
-  depthMaterial: THREE.Material | undefined;
-  uniforms: {
-    esBatchData: { value: THREE.DataTexture | null };
-    esOccMask: { value: THREE.DataTexture | null };
-    esOccParams: { value: THREE.Vector4 };
-  };
-}
 
 interface Cell {
   key: string;
@@ -646,7 +633,6 @@ export function Vegetation({
       live.clear();
       for (const owned of liveMaterials.values()) {
         owned.material.dispose();
-        owned.depthMaterial?.dispose();
       }
       liveMaterials.clear();
     };
@@ -731,13 +717,12 @@ export function Vegetation({
 
   const batchKeyFor = (
     material: THREE.Material,
-    depthMaterial: THREE.Material | undefined,
     geometry: THREE.BufferGeometry,
     near: boolean,
     isCard: boolean,
     casts: boolean,
     fromZero: boolean,
-  ) => `${material.uuid}|${depthMaterial?.uuid ?? "-"}|${attributeSignature(geometry)}`
+  ) => `${material.uuid}|${attributeSignature(geometry)}`
     + `|${near ? "near" : "far"}|${isCard ? "card" : "mesh"}`
     + `|${casts ? "cast" : "nocast"}|${fromZero ? "fromzero" : "ownband"}`;
 
@@ -760,54 +745,24 @@ export function Vegetation({
 
   const makeBatch = (
     key: string,
-    material: THREE.Material,
-    depthMaterial: THREE.Material | undefined,
+    material: NodeMaterial,
     near: boolean,
     isCard: boolean,
     casts: boolean,
     fromZero: boolean,
     capacity: number,
   ): Batch => {
-    // Materials are owned per batch KEY and patched ONCE. Cloning a patched
-    // material is not safe: `Material.copy` JSON-clones userData and drops
-    // `onBeforeCompile`, so every `apply*` guard would see a husk, return
-    // early, and the batch would draw with no LOD fade, wind or occlusion.
+    // Materials are owned per batch KEY and patched ONCE (`makeBatchMaterial`):
+    // a feature graph looks up the batch mark on the material it was applied
+    // to, so a clone of a patched material would draw without it.
     let owned = batchMaterials.current.get(key);
     if (!owned) {
-      const clone = material.clone();
-      const depthClone = depthMaterial?.clone();
-      const uniforms = {
-        esBatchData: { value: null as THREE.DataTexture | null },
-        esOccMask: batchUniforms.esOccMask,
-        esOccParams: batchUniforms.esOccParams,
-      };
-      // EVERY batch material is wind-patched, unconditionally: a batch key is
-      // a material, and a rock and a plant can share one glTF material, so a
-      // `sways` test here silenced whichever species did not create the batch.
-      // Stillness is per INSTANCE — a non-swaying species and every card copy
-      // carry stiffness -1 in the data texture.
-      // `?vegshader=…` (DEV diagnostic) drops patches one at a time.
-      if (VEG_SHADER_MODE !== "off") {
-        if (VEG_SHADER_MODE !== "lod") applyWindSwayWithShadow(clone, depthClone, wind);
-        if (VEG_SHADER_MODE !== "wind") {
-          // Only a casting batch's depth material takes `shadowBandFromZero`
-          // (the mid-rung shadow rule above); the colour material is never
-          // flagged, and `casts` is part of the batch key, so the flagged
-          // depth clone is its own instance.
-          applyLodFadeWithShadow(clone, depthClone, lodFade,
-            { shadowBandFromZero: fromZero });
-        }
-        applyBatchData(clone, depthClone, uniforms);
-      }
-      if (VEG_SHADER_MODE === "noaerial") {
-        clone.userData.esAerial = false;
-        if (depthClone) depthClone.userData.esAerial = false;
-      }
-      owned = { material: clone, depthMaterial: depthClone, uniforms };
+      owned = makeBatchMaterial(material, {
+        wind, lodFade, batchUniforms, fromZero, mode: VEG_SHADER_MODE,
+      });
       batchMaterials.current.set(key, owned);
     }
     const clone = owned.material;
-    const depthClone = owned.depthMaterial;
     const data = createBatchDataTexture(capacity);
     // The data texture is PER BATCH and re-pointed when the batch grows; the
     // occlusion mask and its window are shared by reference, so one sweep
@@ -815,7 +770,7 @@ export function Vegetation({
     owned.uniforms.esBatchData.value = data;
     return {
       key, geometries: new Map(), geoList: [], geometryPool: new Map(),
-      material: clone, depthMaterial: depthClone,
+      material: clone,
       capacity, nextData: 0, freeData: [],
       data, near, isCard, casts, fromZero,
       orderMin: Infinity, renderOrder: 0, rungs: new Set(),
@@ -853,7 +808,6 @@ export function Vegetation({
     // drew nearly as many triangles as the whole main pass.
     mesh.castShadow = batch.casts;
     mesh.receiveShadow = !batch.isCard;
-    if (batch.depthMaterial) mesh.customDepthMaterial = batch.depthMaterial;
     mesh.userData.perfTag = "veg";
     mesh.renderOrder = batch.renderOrder;
     mesh.count = 0;
@@ -988,7 +942,7 @@ export function Vegetation({
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     lodFade.esLodViewPos.value.copy(state.camera.position);
     pushLodHistory(lodHistory, state.camera.position.x, state.camera.position.z,
-      state.clock.elapsedTime, lodFade.esLodHist.value);
+      state.clock.elapsedTime, lodFade.esLodHist.array);
     cameraPos.current.copy(state.camera.position);
     if (!index || !root.current) return;
     const eye = cameraPos.current;
@@ -1546,12 +1500,11 @@ export function Vegetation({
 
   /** What `reserveBatches` needs to CREATE a batch for a key. */
   interface PartSpec {
-    material: THREE.Material;
-    depthMaterial: THREE.Material | undefined;
+    material: NodeMaterial;
     near: boolean;
     isCard: boolean;
     casts: boolean;
-    /** Whether this key's depth material takes `shadowBandFromZero`. */
+    /** Whether this key's material takes `shadowBandFromZero`. */
     fromZero: boolean;
   }
 
@@ -1587,11 +1540,11 @@ export function Vegetation({
       const keys: string[] = [];
       for (const part of entry.levels[level].parts) {
         const key = batchKeyFor(
-          part.material, part.depthMaterial, part.geometry,
+          part.material, part.geometry,
           near, isCard, casts, fromZero);
         if (!specs.has(key)) {
           specs.set(key, {
-            material: part.material, depthMaterial: part.depthMaterial,
+            material: part.material,
             near, isCard, casts, fromZero,
           });
         }
@@ -1617,7 +1570,7 @@ export function Vegetation({
       const batch = batches.current.get(key);
       if (!batch) {
         batches.current.set(key, makeBatch(
-          key, spec.material, spec.depthMaterial,
+          key, spec.material,
           spec.near, spec.isCard, spec.casts, spec.fromZero,
           Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5))));
       } else if (batch.nextData + Math.max(0, need - batch.freeData.length)
@@ -2100,7 +2053,7 @@ export function Vegetation({
         for (let partIndex = 0; partIndex < parts.length; partIndex++) {
           const part = parts[partIndex];
           const batch = batches.current.get(batchKeyFor(
-            part.material, part.depthMaterial, part.geometry,
+            part.material, part.geometry,
             near, isCard, casts, fromZero))!;
           touched.add(batch);
           const geometryKey = `${sb.species}|${level}|${partIndex}`;

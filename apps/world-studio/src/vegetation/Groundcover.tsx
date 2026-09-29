@@ -67,18 +67,14 @@ import {
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { placeGround, sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
+import { updateWindSway } from "@elder-souls/game-core/fx/windSway";
 import {
-  applyWindSway,
-  updateWindSway,
-} from "@elder-souls/game-core/fx/windSway";
-import {
-  applyLodFade,
   createLodFadeUniforms,
   LOD_BAND_ATTRIBUTE,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
-  applyCylindricalBillboard,
-} from "@elder-souls/game-core/fx/billboardQuad";
+  buildCardIndex, patchGroundcoverPart, type KitLevelPart,
+} from "./groundcoverMaterials";
 import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -402,63 +398,10 @@ function clumpAt(x: number, z: number, salt: number): number {
   return (c00 * (1 - sx) + c10 * sx) * (1 - sz) + (c01 * (1 - sx) + c11 * sx) * sz;
 }
 
-/**
- * Make `instanceColor` actually reach the pixel.
- *
- * three sets `USE_INSTANCING_COLOR` when a mesh has an `instanceColor`, and
- * its vertex chunk duly multiplies the instance colour into `vColor` — but
- * `color_fragment` applies `vColor` to `diffuseColor` only under `USE_COLOR`
- * / `USE_COLOR_ALPHA`, which come from `material.vertexColors`. Setting that
- * instead would define `USE_COLOR` and make the shader read a `color`
- * geometry attribute the kit meshes do not have, which is black grass. So the
- * fragment shader gets the missing two lines, chained onto whatever hook is
- * already there.
- *
- * Install/reapply is the same contract wind and the LOD fade use, and for the
- * same reason: `csm.setupMaterial` OVERWRITES `onBeforeCompile` with a plain
- * assignment, so without `reapplyGroundTint` in WorldSky's patch pass the
- * ground tint silently stopped reaching the pixel and the whole ring went
- * back to one flat kit green.
- */
-interface TintPatchState {
-  esGroundTint?: boolean;
-  esGroundTintWrapped?: THREE.Material["onBeforeCompile"];
-}
-
-function installGroundTint(material: THREE.Material): void {
-  const state = material.userData as TintPatchState;
-  state.esGroundTint = true;
-  const previous = material.onBeforeCompile;
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    if (shader.fragmentShader.includes("es-ground-tint")) return;
-    shader.fragmentShader = shader.fragmentShader.replace(
-      "#include <color_fragment>",
-      `#include <color_fragment>
-      // es-ground-tint
-      #if defined( USE_INSTANCING_COLOR ) && !defined( USE_COLOR ) && !defined( USE_COLOR_ALPHA )
-        diffuseColor.rgb *= vColor.rgb;
-      #endif`,
-    );
-  };
-  material.onBeforeCompile = wrapped;
-  state.esGroundTintWrapped = wrapped;
-  material.needsUpdate = true;
-}
-
-function applyGroundTint(material: THREE.Material): void {
-  if ((material.userData as TintPatchState).esGroundTint) return;
-  installGroundTint(material);
-}
-
-/** Restore the tint hook after CSM overwrote `onBeforeCompile`. No-op on
- * materials this layer never patched, so it is safe on a whole scene. */
-export function reapplyGroundTint(material: THREE.Material): void {
-  const state = material.userData as TintPatchState;
-  if (!state.esGroundTint) return;
-  if (material.onBeforeCompile === state.esGroundTintWrapped) return;
-  installGroundTint(material);
-}
+// The ground tint (`instanceColor`) needs no patch: a node material
+// multiplies `vInstanceColor` into its diffuse colour whenever the mesh has
+// an `instanceColor` (NodeMaterial.setupDiffuseColor), the step the classic
+// `color_fragment` skipped without `USE_COLOR` (decision 0107).
 
 // --- land-cover raster -------------------------------------------------------
 
@@ -752,48 +695,6 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
     })();
   }
   return regionPromise;
-}
-
-/**
- * The baked card for each species, read from the GLB ONCE.
- *
- * The kit builder gives a billboard level two mesh children tagged
- * `cardView: "a"` and `"b"` (glTF extras, never node names). Grass uses view A
- * only: a tuft has no distinguished profile worth two atlas slots, and one
- * card per species halves the card tier's draws. `buildFloraKit` does not
- * carry the view tag through its `parts`, so it is looked up here from the
- * scene graph and cached per species for the component's life.
- *
- * A species with no card (every species in the kit as it stands today, which
- * ships no billboard level at all) simply has no entry, and its mid and far
- * tiers fall back to level 0 — the ring is correct before the rebuilt kit
- * lands, just not yet cheap.
- */
-function buildCardIndex(gltf: { scene: THREE.Object3D }): Map<string, KitLevelPart> {
-  const cards = new Map<string, KitLevelPart>();
-  for (const root of gltf.scene.children) {
-    const extras = (root.userData ?? {}) as { assetId?: string };
-    const id = extras.assetId ?? (root.name ? root.name.replace("__", ":") : null);
-    if (!id) continue;
-    root.traverse((child) => {
-      const mesh = child as THREE.Mesh;
-      if (!mesh.isMesh || cards.has(id)) return;
-      const data = (mesh.userData ?? {}) as { billboard?: boolean; cardView?: string };
-      if (data.billboard !== true || data.cardView !== "a") return;
-      const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
-      // A card whose material lost its texture draws as a solid untextured
-      // rectangle at distance (the "grey slab" defect); skip it and let the
-      // species run on its mesh.
-      if (!(material as THREE.MeshStandardMaterial)?.map) return;
-      cards.set(id, { geometry: mesh.geometry, material });
-    });
-  }
-  return cards;
-}
-
-interface KitLevelPart {
-  geometry: THREE.BufferGeometry;
-  material: THREE.Material;
 }
 
 /**
@@ -1280,7 +1181,8 @@ export function Groundcover({
   // vegetation layer's: the two draw different kits, so no material is
   // shared, and one uniform object per layer keeps the dependency one-way.
   const lodFade = useMemo(() => createLodFadeUniforms(), []);
-  const cards = useMemo(() => buildCardIndex(gltf), [gltf]);
+  const cards = useMemo(
+    () => (kit ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
 
   useFrame((state) => {
     // Ground-cover stage of the frame (decision 0084 round 10).
@@ -1651,17 +1553,9 @@ export function Groundcover({
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
             const geometry = slotGeometry(part.geometry, slot);
-            applyGroundTint(part.material);
-            // Cards neither sway nor take the wind's per-instance tune: at a
-            // card's distance the motion is sub-pixel, and it would fight the
-            // billboard rotation that shares the same vertex seam.
-            if (bucket === BUCKET_NEAR || !card) applyWindSway(part.material, wind);
-            // Order is load-bearing: the fade declares `esLodViewPos`, the
-            // billboard reuses that declaration (see billboardQuad.ts).
-            applyLodFade(part.material, lodFade);
-            if (bucket !== BUCKET_NEAR && card) {
-              applyCylindricalBillboard(part.material, lodFade);
-            }
+            patchGroundcoverPart(part.material, {
+              wind, lodFade, billboard: bucket !== BUCKET_NEAR && card !== null,
+            });
             let mesh = meshPool.current.get(meshKey);
             if (!mesh || mesh.instanceMatrix.count < drawn) {
               // Grow by 1.5x so a ring that keeps creeping up by a few

@@ -1,0 +1,133 @@
+/**
+ * Harness scene "gc": one ground-cover tile's REAL materials on the studio's
+ * ground-cover kit (decision 0107/0109). The kit GLB is indexed by
+ * `buildFloraKit` and `buildCardIndex` (the loaders `Groundcover.tsx` uses) and
+ * every part is patched by `patchGroundcoverPart` (the ring's own: wind on the
+ * mesh tiers, the LOD fade on every tier, the cylindrical billboard on the
+ * card tiers). Three tiers, as the ring draws them: the near mesh, then the
+ * mid and far card copies, each with its `esLodBand` tier band on its own slot
+ * geometry view and a per-instance ground tint through `instanceColor`.
+ *
+ * The plants are a dense jittered patch in front of the camera (near) and
+ * further out (mid, far), not a streamed province tile; the tile generation
+ * and budget thin are CPU code with their own unit tests.
+ */
+import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
+import { createWindUniforms, updateWindSway } from "@elder-souls/game-core/fx/windSway";
+import { createLodFadeUniforms, LOD_BAND_ATTRIBUTE } from "@elder-souls/game-core/fx/lodFade";
+import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
+import { buildFloraKit, type KitManifest } from "../../vegetation/floraKit";
+import { buildCardIndex, patchGroundcoverPart } from "../../vegetation/groundcoverMaterials";
+import type { HarnessContext, HarnessScene } from "../types";
+
+const SPECIES = [
+  "tropical:landscape/grass/grassplant01",
+  "tropical:landscape/grass/ferngrass01",
+  "bmv:landscape/grass/solojunco",
+];
+/** Tier radii (m) and the ring's dither half-widths (Groundcover TIER_BAND_M). */
+const NEAR_M = 18;
+const MID_M = 45;
+const FAR_M = 110;
+const TIER_BAND_M: [number, number][] = [[0, 4], [4, 6], [6, 10]];
+
+/** Deterministic 0..1 hash. */
+function rand(i: number, salt: number): number {
+  const v = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453;
+  return v - Math.floor(v);
+}
+
+const scene: HarnessScene = {
+  name: "gc",
+  async build(ctx: HarnessContext) {
+    const base = import.meta.env.BASE_URL ?? "/";
+    const decoders = createKitDecoders(ctx.renderer, base);
+    const [gltf, manifest] = await Promise.all([
+      createKitLoader(decoders).loadAsync(`${base}kits/groundcover-province-v1.glb`),
+      fetch(`${base}kits/groundcover-province-v1.kit.json`).then((r) => r.json() as Promise<KitManifest>),
+    ]);
+    const kit = buildFloraKit(gltf, manifest);
+    const cards = buildCardIndex(gltf, kit);
+
+    const s = new THREE.Scene();
+    s.background = new THREE.Color(0x9cc4e4);
+    s.fog = new THREE.Fog(0x9cc4e4, 80, 400);
+    s.add(new THREE.HemisphereLight(0xcfe6ff, 0x5a4a30, 1.0));
+    const sun = new THREE.DirectionalLight(0xfff2dd, 2.6);
+    sun.position.set(30, 80, 20);
+    s.add(sun, sun.target);
+    s.add(new THREE.Mesh(
+      new THREE.PlaneGeometry(600, 600).rotateX(-Math.PI / 2),
+      new MeshStandardNodeMaterial({ color: 0x5a6e34, roughness: 1 }),
+    ));
+
+    const wind = createWindUniforms();
+    const lodFade = createLodFadeUniforms();
+    const matrix = new THREE.Matrix4();
+    const q = new THREE.Quaternion();
+    const up = new THREE.Vector3(0, 1, 0);
+    const scale = new THREE.Vector3();
+    const tiers = [
+      { band: [0, NEAR_M, TIER_BAND_M[0][0], TIER_BAND_M[0][1]], lo: 1, hi: NEAR_M + 4, count: 900 },
+      { band: [NEAR_M, MID_M, TIER_BAND_M[1][0], TIER_BAND_M[1][1]], lo: NEAR_M - 4, hi: MID_M + 6, count: 900 },
+      { band: [MID_M, FAR_M, TIER_BAND_M[2][0], TIER_BAND_M[2][1]], lo: MID_M - 6, hi: FAR_M + 10, count: 900 },
+    ] as const;
+    let species = 0;
+    SPECIES.forEach((id, si) => {
+      const entry = kit.get(id);
+      if (!entry) throw new Error(`gc harness: species ${id} not in the kit`);
+      species++;
+      const card = cards.get(id) ?? null;
+      tiers.forEach((tier, ti) => {
+        const near = ti === 0;
+        const parts = near || !card ? entry.levels[0].parts : [card];
+        parts.forEach((part, pi) => {
+          patchGroundcoverPart(part.material, { wind, lodFade, billboard: !near && card !== null });
+          const n = tier.count;
+          const bands = new THREE.InstancedBufferAttribute(new Float32Array(n * 4), 4);
+          for (let i = 0; i < n; i++) bands.setXYZW(i, tier.band[0], tier.band[1], tier.band[2], tier.band[3]);
+          const geometry = makeSlotGeometry(part.geometry, { [LOD_BAND_ATTRIBUTE]: bands });
+          const mesh = new THREE.InstancedMesh(geometry, part.material, n);
+          mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(n * 3), 3);
+          for (let i = 0; i < n; i++) {
+            // A wedge in front of the camera, species side by side.
+            const r = tier.lo + (tier.hi - tier.lo) * Math.sqrt(rand(i, si * 7 + ti));
+            const a = (rand(i, si * 13 + ti + 3) - 0.5) * 1.1 + (si - 1) * 0.35;
+            const k = 0.8 + rand(i, 5 + si) * 0.5;
+            q.setFromAxisAngle(up, rand(i, 9) * Math.PI * 2);
+            matrix.compose(new THREE.Vector3(Math.sin(a) * r, 0, -Math.cos(a) * r), q, scale.set(k, k, k));
+            mesh.setMatrixAt(i, matrix);
+            const tint = 0.75 + rand(i, 11 + pi) * 0.35;
+            mesh.setColorAt(i, new THREE.Color(tint * 0.95, tint, tint * 0.8));
+          }
+          mesh.instanceMatrix.needsUpdate = true;
+          mesh.instanceColor.needsUpdate = true;
+          mesh.frustumCulled = false;
+          s.add(mesh);
+        });
+      });
+    });
+    if (species === 0) throw new Error("gc harness: no species drawn");
+
+    const camera = new THREE.PerspectiveCamera(55, ctx.width / ctx.height, 0.1, 1000);
+    const place = (t: number) => {
+      camera.position.set(0, 1.7, 2 - t * 2);
+      camera.lookAt(0, 0.6, -30 - t * 2);
+      camera.updateMatrixWorld();
+      lodFade.esLodViewPos.value.copy(camera.position);
+    };
+    place(0);
+    return {
+      scene: s,
+      camera,
+      frame(t: number) {
+        updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 });
+        place(t);
+      },
+    };
+  },
+};
+
+export default scene;

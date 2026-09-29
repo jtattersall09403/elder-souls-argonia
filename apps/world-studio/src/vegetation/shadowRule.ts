@@ -13,7 +13,7 @@
  * in the main pass and 2.4 M more in the two shadow cascades, because the near
  * rung is the full mesh and is drawn again in every cascade.
  *
- * The casting rung's depth material is patched with `shadowBandFromZero` so it
+ * The casting rung's material takes `shadowBandFromZero` (its shadow slots) so it
  * covers the distances nearer than its own band too — needed only when the
  * caster is level 1; a level-0 caster's band already starts at zero.
  */

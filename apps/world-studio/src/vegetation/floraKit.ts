@@ -10,15 +10,17 @@
 
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import type { NodeMaterial } from "three/webgpu";
+import { toNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 
 export interface KitLevel {
   readonly parts: {
     geometry: THREE.BufferGeometry;
-    material: THREE.Material;
-    /** Alpha-tested foliage needs its own shadow depth material, or its
-     * shadow is the whole leaf-card quad rather than the leaf shape. */
-    depthMaterial?: THREE.Material;
+    /** The kit material's node twin, converted once at load (decision 0107).
+     * The shadow pass reuses it, alpha test included, so an alpha-tested
+     * leaf casts the leaf shape with no depth twin. */
+    material: NodeMaterial;
   }[];
   readonly triangles: number;
 }
@@ -175,9 +177,14 @@ export function buildFloraKit(
     manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
   );
   const kit: FloraKit = new Map();
-  // One depth material per source material: meshes share materials across
-  // LOD levels, and the shadow pass must alpha-test the same texture.
-  const depthMaterials = new Map<THREE.Material, THREE.MeshDepthMaterial>();
+  // One node twin per source material: meshes share materials across LOD
+  // levels, and the identity is what the renderer batches by.
+  const nodeTwins = new Map<THREE.Material, NodeMaterial>();
+  const nodeTwin = (m: THREE.Material): NodeMaterial => {
+    let twin = nodeTwins.get(m);
+    if (!twin) { twin = toNodeMaterial(m); nodeTwins.set(m, twin); }
+    return twin;
+  };
 
   for (const root of gltf.scene.children) {
     const id = assetIdOf(root);
@@ -190,17 +197,18 @@ export function buildFloraKit(
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       const level = levelOf(mesh);
-      const material0 = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      const source0 = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      const material0 = source0 ? nodeTwin(source0) : source0;
       if (isBillboard(mesh)) {
         // A card whose material lost its texture would draw as a solid
         // untextured rectangle at distance (the owner's "grey slab" defect).
         // Better to skip the card and let that species end on its last
         // decimated mesh level.
-        if (!(material0 as THREE.MeshStandardMaterial)?.map) return;
+        if (!(material0 as unknown as THREE.MeshStandardMaterial)?.map) return;
         billboardLevel = level;
         // Lift the card out of its baked-in canopy shade (round-4 lever).
         // Materials are shared across a species' cards, so brighten once.
-        const card = material0 as THREE.MeshStandardMaterial;
+        const card = material0 as unknown as THREE.MeshStandardMaterial;
         // Only AUTHORED cards need it: they bake canopy shade into the paint.
         // A baked card (`cardSource: "baked"`) was rendered under flat white
         // light by the kit builder, so brightening it would blow it out.
@@ -224,33 +232,18 @@ export function buildFloraKit(
       // through a canopy and costs the most on exactly the devices that can
       // least afford it (module 65 §111). Billboards are always cutout cards,
       // whatever the base asset's mode.
-      const std = material as THREE.MeshStandardMaterial;
+      const std = material as unknown as THREE.MeshStandardMaterial;
       if ((alphaTested.has(id) || isBillboard(mesh)) && std) {
         std.alphaTest = 0.5;
         std.transparent = false;
         std.depthWrite = true;
         std.side = THREE.DoubleSide;
       }
-      // Join the shared atmosphere: WorldSky's patchScene applies the aerial
-      // inscatter term to any material tagged esAerial (after its CSM patch).
-      // Unpatched, plants ignore haze/mist and read as dark cut-outs pasted
-      // over the weathered scene.
-      material.userData.esAerial = true;
-      let depthMaterial: THREE.MeshDepthMaterial | undefined;
-      if (std?.alphaTest) {
-        depthMaterial = depthMaterials.get(material);
-        if (!depthMaterial) {
-          depthMaterial = new THREE.MeshDepthMaterial({
-            depthPacking: THREE.RGBADepthPacking,
-            map: std.map,
-            alphaTest: std.alphaTest,
-            side: THREE.DoubleSide,
-          });
-          depthMaterials.set(material, depthMaterial);
-        }
-      }
+      // Plants join the shared atmosphere through `fog` (on by default): the
+      // aerial haze is the scene's fogNode (WorldSky), so an unhazed plant
+      // would read as a dark cut-out pasted over the weathered scene.
       const parts = byLevel.get(level) ?? [];
-      parts.push({ geometry: mesh.geometry, material, depthMaterial });
+      parts.push({ geometry: mesh.geometry, material });
       byLevel.set(level, parts);
       const index = mesh.geometry.getIndex();
       if (level === 0) {
@@ -273,7 +266,7 @@ export function buildFloraKit(
       for (const [level, parts] of byLevel) {
         if (level === 0 || level === billboardLevel) continue;
         for (const part of parts) {
-          const std = part.material as THREE.MeshStandardMaterial;
+          const std = part.material as unknown as THREE.MeshStandardMaterial;
           if (!std?.alphaTest) continue;
           const source = base.find((b) => b.material === part.material);
           if (source) part.geometry = source.geometry;
