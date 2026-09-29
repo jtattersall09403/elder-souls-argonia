@@ -66,7 +66,35 @@
    "asset": "mudmother:gv_meshes/argoniannest/drum01"
   },
   {
-   "asset": "mudmother:gv_meshes/argoniannest/candle01"
+   "asset": "mudmother:gv_meshes/argoniannest/candle01",
+   "light": {
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.32,
+     0.09,
+     1.08
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   }
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns01"

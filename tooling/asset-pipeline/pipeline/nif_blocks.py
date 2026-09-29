@@ -178,9 +178,14 @@ def _tex(path: str) -> str:
     return path
 
 
-def _geometry_properties(raw: bytes, bs_version: int) -> tuple[int, int]:
-    """NiGeometry (bsVersion 83): the shader and alpha property refs."""
+def _geometry_properties(raw: bytes, bs_version: int, kind: str = "NiTriShape") -> tuple[int, int]:
+    """The shader and alpha property refs of a geometry block: NiGeometry
+    (bsVersion 83: data, skin, materials) or BSTriShape (Skyrim SE, bsVersion
+    100: bounding sphere, skin, then the two refs; mudmother OvenNew's
+    `m_Flames:0`)."""
     _, p = av_fields(raw, bs_version)
+    if kind == "BSTriShape":
+        return struct.unpack_from("<2i", raw, p + 16 + 4)
     p += 8                                        # data, skin instance
     (nmat,) = struct.unpack_from("<I", raw, p); p += 4 + 8 * nmat
     p += 4 + 1                                    # active material, needs update
@@ -295,9 +300,10 @@ def billboard_glow_shapes(nif: Nif) -> list[dict]:
     return out
 
 
-#: Geometry blocks whose NiGeometry field layout `_geometry_properties` reads
-#: (BSLODTriShape is a NiTriShape with three LOD sizes appended).
-EFFECT_GEOMETRY = ("NiTriShape", "BSLODTriShape", "NiTriStrips")
+#: Geometry blocks whose property refs `_geometry_properties` reads
+#: (BSLODTriShape is a NiTriShape with three LOD sizes appended; BSTriShape
+#: is the Skyrim SE shape mod NIFs such as mudmother's ship).
+EFFECT_GEOMETRY = ("NiTriShape", "BSLODTriShape", "NiTriStrips", "BSTriShape")
 
 
 def effect_shape_shaders(nif: Nif) -> dict[str, dict]:
@@ -310,7 +316,7 @@ def effect_shape_shaders(nif: Nif) -> dict[str, dict]:
         if kind not in EFFECT_GEOMETRY:
             continue
         try:
-            shader_ref, _ = _geometry_properties(raw, nif.bs_version)
+            shader_ref, _ = _geometry_properties(raw, nif.bs_version, kind)
         except struct.error:
             continue
         if 0 <= shader_ref < len(nif.blocks) and nif.blocks[shader_ref][0] == "BSEffectShaderProperty":

@@ -736,7 +736,6 @@ def test_fire_card_gate_names_an_unflagged_flame_or_glow_card():
 
 @pytest.mark.parametrize("glb", sorted((build_kit.REPO_ROOT / "apps/world-studio/public/kits")
                                        .glob("*.glb")), ids=lambda p: p.stem)
-@pytest.mark.xfail(reason="rebuild blocked on leafcut-sample policy row", strict=False)
 def test_published_kit_ships_every_fire_card_additive(glb):
     """Walk 4: interior-farmhouse-v1 shipped fireplacewood01burning's
     Flames:0/1 cards MASK (solid streaks); its config row had no effect flag."""
@@ -930,3 +929,28 @@ def test_blender_scripts_compile():
     import py_compile
     for script in sorted((Path(__file__).parent / "blender").glob("*.py")):
         py_compile.compile(str(script), doraise=True)
+
+
+def test_effect_shape_shaders_reads_skyrim_se_bstrishape():
+    """mudmother OvenNew (bsVersion 100) draws its flame cards as BSTriShape
+    `m_Flames:0/1` and `m_Glow`: the reader returned no shapes and the kit
+    build refused `m_Flames:0.Mat` (walk 5). A BSTriShape's shader ref sits
+    after NiAVObject, the bounding sphere and the skin ref."""
+    from . import nif_blocks as nb
+    av = struct.pack("<iIii", 0, 0, -1, 14) + struct.pack("<3f", 0, 0, 0) \
+        + struct.pack("<9f", 1, 0, 0, 0, 1, 0, 0, 0, 1) + struct.pack("<f", 1) + struct.pack("<i", -1)
+    raw = av + struct.pack("<4f", 0, 0, 0, 1) + struct.pack("<iii", -1, 7, 8)
+    assert nb._geometry_properties(raw, 100, "BSTriShape") == (7, 8)
+    assert "BSTriShape" in nb.EFFECT_GEOMETRY
+
+
+OVEN_NEW = (build_kit.DEFAULT_VAULT / "skyrim-source/mod-sources/mud-mother-grove-146557/extracted"
+            / "Meshes/GV_Meshes/ArgonianNest/OvenNew.nif")
+
+
+@pytest.mark.skipif(not OVEN_NEW.is_file(), reason="vault absent")
+def test_oven_new_flame_cards_get_their_emissive_multiple():
+    from . import nif_blocks as nb
+    shaders = nb.effect_shape_shaders(nb.parse(OVEN_NEW.read_bytes()))
+    gains = build_kit.additive_gains(["m_Flames:0.Mat", "m_Flames:1.Mat", "m_Glow.Mat"], shaders)
+    assert gains == {"m_Flames:0.Mat": 1.75, "m_Flames:1.Mat": 1.5, "m_Glow.Mat": 1.0}
