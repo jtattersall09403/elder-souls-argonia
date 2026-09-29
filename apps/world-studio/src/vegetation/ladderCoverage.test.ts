@@ -11,14 +11,7 @@
  * out" — so the test walks every distance, not just the edges.
  */
 import { describe, expect, it } from "vitest";
-import {
-  BAYER4_THRESHOLDS,
-  LOD_CULL_BAND_M,
-  lodFadeFactors,
-  lodLadder,
-  lodPixelKept,
-} from "@elder-souls/game-core/fx/lodFade";
-import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
+import { lodLadder } from "@elder-souls/game-core/fx/lodFade";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 import {
   maxDrawDistance,
@@ -29,12 +22,11 @@ import {
   treeDrawDistance,
   HANDOVER_PX,
   SMALL_PLANT_TOP_TIER_M,
+  ladderCoverageFailures,
 } from "./floraKit";
 
 const CHUNK_M = 467.93;
 const HEIGHTS = [0.3, 0.8, 1.5, 3, 6, 12, 20, 30, 45];
-/** The lowest, a middle and the highest Bayer threshold. */
-const BAYERS = [BAYER4_THRESHOLDS[0], BAYER4_THRESHOLDS[7], BAYER4_THRESHOLDS[15]];
 
 describe("vegetation ladder band coverage", () => {
   it("covers every distance exactly once for every species shape and preset", () => {
@@ -57,26 +49,9 @@ describe("vegetation ladder band coverage", () => {
                   { heightM, meshLevels, category, submerged, folded },
                   preset.vegDrawScale, preset.name);
                 const ladder = lodLadder(rings, meshLevels, card, maxDraw);
-                // Contiguous from 0 to the draw distance.
-                expect(ladder[0].lo).toBe(0);
-                for (let i = 1; i < ladder.length; i++) expect(ladder[i].lo).toBe(ladder[i - 1].hi);
-                expect(ladder[ladder.length - 1].hi).toBeCloseTo(maxDraw, 6);
                 const vanishes = submerged || category !== "tree";
-                const rungs = cellRungs(ladder, vanishes);
-                const solidTo = vanishes ? maxDraw - LOD_CULL_BAND_M : maxDraw * 1.2;
-                // Every metre, and around every rung edge.
-                const ds: number[] = [];
-                for (let d = 0; d <= maxDraw + LOD_CULL_BAND_M + 1; d += 1) ds.push(d);
-                for (const r of ladder) for (const e of [-0.5, -1e-3, 0, 1e-3, 0.5]) ds.push(Math.max(0, r.hi + e));
-                for (const d of ds) {
-                  for (const bayer of BAYERS) {
-                    let kept = 0;
-                    for (const r of rungs) if (lodPixelKept(lodFadeFactors(r.band, d), bayer)) kept++;
-                    if (d < solidTo ? kept !== 1 : kept > 1) {
-                      failures.push(`${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels} card${hasCard} d${d} kept ${kept}`);
-                    }
-                  }
-                }
+                failures.push(...ladderCoverageFailures(ladder, vanishes, maxDraw,
+                  `${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels} card${hasCard}`));
                 checked++;
               }
             }

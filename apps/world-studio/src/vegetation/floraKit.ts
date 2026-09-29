@@ -11,6 +11,14 @@
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
+import {
+  BAYER4_THRESHOLDS,
+  LOD_CULL_BAND_M,
+  lodFadeFactors,
+  lodPixelKept,
+  type LodRung,
+} from "@elder-souls/game-core/fx/lodFade";
+import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
 
 export interface KitLevel {
   readonly parts: {
@@ -602,4 +610,45 @@ export function mergeFloraKits(first: FloraKit, second: FloraKit): FloraKit {
     if (!merged.has(id)) merged.set(id, species);
   }
   return merged;
+}
+
+/** The lowest, a middle and the highest Bayer threshold. */
+const COVERAGE_BAYERS = [BAYER4_THRESHOLDS[0], BAYER4_THRESHOLDS[7], BAYER4_THRESHOLDS[15]];
+
+/**
+ * The band-coverage invariant (walk 5, 2026-09-29) for one emitted ladder, as
+ * failure lines (empty = holds): the rungs run contiguously from 0 to
+ * `maxDraw`, and at every metre and around every rung edge each screen pixel
+ * is kept by EXACTLY one rung (inside the vanish window, at most one). A gap
+ * is a plant invisible at some distance that reappears nearer — the walk-5
+ * "pop in, then pop out". Shared by `ladderCoverage.test.ts` (every species
+ * shape) and the real-kit ladder tests (`floraKitFarOnly.test.ts`).
+ */
+export function ladderCoverageFailures(
+  ladder: readonly LodRung[],
+  vanishes: boolean,
+  maxDraw: number,
+  label: string,
+): string[] {
+  const failures: string[] = [];
+  if (ladder.length === 0 || ladder[0].lo !== 0) failures.push(`${label} does not start at 0`);
+  for (let i = 1; i < ladder.length; i++) {
+    if (ladder[i].lo !== ladder[i - 1].hi) failures.push(`${label} gap/overlap at rung ${i}`);
+  }
+  if (ladder.length && Math.abs(ladder[ladder.length - 1].hi - maxDraw) > 1e-6) {
+    failures.push(`${label} ends at ${ladder[ladder.length - 1].hi}, not ${maxDraw}`);
+  }
+  const rungs = cellRungs(ladder, vanishes);
+  const solidTo = vanishes ? maxDraw - LOD_CULL_BAND_M : maxDraw * 1.2;
+  const ds: number[] = [];
+  for (let d = 0; d <= maxDraw + LOD_CULL_BAND_M + 1; d += 1) ds.push(d);
+  for (const r of ladder) for (const e of [-0.5, -1e-3, 0, 1e-3, 0.5]) ds.push(Math.max(0, r.hi + e));
+  for (const d of ds) {
+    for (const bayer of COVERAGE_BAYERS) {
+      let kept = 0;
+      for (const r of rungs) if (lodPixelKept(lodFadeFactors(r.band, d), bayer)) kept++;
+      if (d < solidTo ? kept !== 1 : kept > 1) failures.push(`${label} d${d} kept ${kept}`);
+    }
+  }
+  return failures;
 }
