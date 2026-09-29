@@ -28,15 +28,16 @@ describe("ground overlays (decision 0102)", () => {
 
   it("applies to a grid through the same maths and never writes its input", () => {
     // a 1 m grid whose samples land exactly on the golden points' neighbours
-    const grid = { originM: [270, 2980] as const, metresPerSample: 1, nx: 100, ny: 130 };
+    const grid = { originM: [270, 2950] as const, metresPerSample: 1, nx: 100, ny: 160 };
     const heights = new Float32Array(grid.nx * grid.ny).fill(35);
     const out = applyGroundOverlays(heights, grid, fixture.overlays);
     expect(out).not.toBe(heights);
     expect(heights.every((h) => h === 35)).toBe(true);
-    // the family hut's core sample stands on its datum
-    const i = (2994 - 2980) * grid.nx + (284 - 270);
-    expect(out[i]).toBeCloseTo(overlayHeight(35, 284, 2994, fixture.overlays), 4);
-    expect(out[i]).toBeCloseTo(35.8, 4);
+    // the family hut's core sample stands on its graded pad: the recorded
+    // floor datum (35.891 m) less PAD_FLOOR_CLEARANCE_M (0.03 m, R75)
+    const i = (2967 - 2950) * grid.nx + (336 - 270);
+    expect(out[i]).toBeCloseTo(overlayHeight(35, 336, 2967, fixture.overlays), 4);
+    expect(out[i]).toBeCloseTo(35.861, 4);
     // a grid no overlay reaches comes back as the same array
     const far = { originM: [5000, 5000] as const, metresPerSample: 1, nx: 4, ny: 4 };
     const untouched = new Float32Array(16);

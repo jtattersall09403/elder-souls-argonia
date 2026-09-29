@@ -5,342 +5,18 @@
  "overlays": [
   {
    "bboxM": [
-    274.614,
-    2984.614,
-    293.386,
-    3003.386
-   ],
-   "blendM": 3.0,
-   "hardM": 0.0,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut",
-   "pieces": [
-    {
-     "datumM": 35.8,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.building",
-     "polygonM": [
-      [
-       278.366,
-       3003.386
-      ],
-      [
-       293.386,
-       2999.634
-      ],
-      [
-       289.634,
-       2984.614
-      ],
-      [
-       274.614,
-       2988.366
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    357.284,
-    3079.711,
-    357.59,
-    3087.07
-   ],
-   "blendM": 3.0,
-   "hardM": 2.7417599999999998,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence",
-   "pieces": [
-    {
-     "datumM": 35.196,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.1",
-     "polygonM": [
-      [
-       357.48,
-       3082.97
-      ],
-      [
-       357.51,
-       3082.97
-      ],
-      [
-       357.59,
-       3083.06
-      ],
-      [
-       357.58,
-       3086.98
-      ],
-      [
-       357.52,
-       3087.07
-      ],
-      [
-       357.47,
-       3087.06
-      ],
-      [
-       357.41,
-       3086.95
-      ],
-      [
-       357.41,
-       3084.08
-      ],
-      [
-       357.42,
-       3083.06
-      ]
-     ]
-    },
-    {
-     "datumM": 35.196,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.2",
-     "polygonM": [
-      [
-       357.412,
-       3080.88
-      ],
-      [
-       357.442,
-       3080.88
-      ],
-      [
-       357.523,
-       3080.97
-      ],
-      [
-       357.539,
-       3084.89
-      ],
-      [
-       357.48,
-       3084.98
-      ],
-      [
-       357.43,
-       3084.97
-      ],
-      [
-       357.369,
-       3084.861
-      ],
-      [
-       357.35,
-       3081.991
-      ],
-      [
-       357.353,
-       3080.971
-      ]
-     ]
-    },
-    {
-     "datumM": 35.135,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.3",
-     "polygonM": [
-      [
-       357.342,
-       3079.711
-      ],
-      [
-       357.372,
-       3079.721
-      ],
-      [
-       357.443,
-       3079.8
-      ],
-      [
-       357.491,
-       3081.86
-      ],
-      [
-       357.413,
-       3081.981
-      ],
-      [
-       357.363,
-       3081.971
-      ],
-      [
-       357.312,
-       3081.902
-      ],
-      [
-       357.284,
-       3079.822
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    301.107,
-    2993.061,
-    321.361,
-    3012.0
-   ],
-   "blendM": 3.0,
-   "hardM": 0.0,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut",
-   "pieces": [
-    {
-     "datumM": 35.3,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.building",
-     "polygonM": [
-      [
-       315.313,
-       2993.061
-      ],
-      [
-       301.107,
-       3000.594
-      ],
-      [
-       307.155,
-       3012.0
-      ],
-      [
-       321.361,
-       3004.468
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    320.647,
+    323.914,
     3069.554,
     328.653,
-    3081.566
+    3076.126
    ],
    "blendM": 3.0,
    "hardM": 2.7417599999999998,
    "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne",
+   "kind": "run",
    "pieces": [
     {
-     "datumM": 38.553,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.1",
-     "polygonM": [
-      [
-       320.911,
-       3081.491
-      ],
-      [
-       320.685,
-       3081.231
-      ],
-      [
-       320.654,
-       3080.941
-      ],
-      [
-       320.647,
-       3080.536
-      ],
-      [
-       320.773,
-       3080.013
-      ],
-      [
-       320.921,
-       3079.646
-      ],
-      [
-       321.032,
-       3079.468
-      ],
-      [
-       321.81,
-       3078.562
-      ],
-      [
-       322.001,
-       3078.446
-      ],
-      [
-       323.188,
-       3079.187
-      ],
-      [
-       323.167,
-       3079.41
-      ],
-      [
-       322.694,
-       3080.506
-      ],
-      [
-       322.583,
-       3080.684
-      ],
-      [
-       322.317,
-       3080.978
-      ],
-      [
-       321.86,
-       3081.294
-      ],
-      [
-       321.536,
-       3081.492
-      ],
-      [
-       321.183,
-       3081.566
-      ]
-     ]
-    },
-    {
-     "datumM": 38.512,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.2",
-     "polygonM": [
-      [
-       321.99,
-       3078.463
-      ],
-      [
-       322.839,
-       3076.576
-      ],
-      [
-       322.95,
-       3076.398
-      ],
-      [
-       323.728,
-       3075.492
-      ],
-      [
-       323.919,
-       3075.376
-      ],
-      [
-       325.106,
-       3076.118
-      ],
-      [
-       325.085,
-       3076.34
-      ],
-      [
-       324.613,
-       3077.436
-      ],
-      [
-       324.501,
-       3077.614
-      ],
-      [
-       323.177,
-       3079.204
-      ]
-     ]
-    },
-    {
-     "datumM": 38.512,
+     "datumM": 37.543,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.3",
      "polygonM": [
       [
@@ -386,7 +62,7 @@
      ]
     },
     {
-     "datumM": 38.565,
+     "datumM": 37.338,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.4",
      "polygonM": [
       [
@@ -455,354 +131,18 @@
   },
   {
    "bboxM": [
-    300.804,
-    3068.977,
-    318.973,
-    3080.83
-   ],
-   "blendM": 3.0,
-   "hardM": 2.7417599999999998,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw",
-   "pieces": [
-    {
-     "datumM": 38.736,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.1",
-     "polygonM": [
-      [
-       300.879,
-       3069.241
-      ],
-      [
-       301.139,
-       3069.015
-      ],
-      [
-       301.429,
-       3068.984
-      ],
-      [
-       301.834,
-       3068.977
-      ],
-      [
-       302.357,
-       3069.103
-      ],
-      [
-       302.724,
-       3069.251
-      ],
-      [
-       302.902,
-       3069.362
-      ],
-      [
-       303.808,
-       3070.14
-      ],
-      [
-       303.924,
-       3070.331
-      ],
-      [
-       303.183,
-       3071.518
-      ],
-      [
-       302.96,
-       3071.497
-      ],
-      [
-       301.864,
-       3071.024
-      ],
-      [
-       301.686,
-       3070.913
-      ],
-      [
-       301.392,
-       3070.647
-      ],
-      [
-       301.076,
-       3070.19
-      ],
-      [
-       300.878,
-       3069.866
-      ],
-      [
-       300.804,
-       3069.513
-      ]
-     ]
-    },
-    {
-     "datumM": 38.695,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.2",
-     "polygonM": [
-      [
-       303.907,
-       3070.32
-      ],
-      [
-       305.794,
-       3071.169
-      ],
-      [
-       305.972,
-       3071.28
-      ],
-      [
-       306.878,
-       3072.058
-      ],
-      [
-       306.994,
-       3072.249
-      ],
-      [
-       306.252,
-       3073.436
-      ],
-      [
-       306.03,
-       3073.415
-      ],
-      [
-       304.934,
-       3072.943
-      ],
-      [
-       304.756,
-       3072.831
-      ],
-      [
-       303.166,
-       3071.507
-      ]
-     ]
-    },
-    {
-     "datumM": 38.695,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.3",
-     "polygonM": [
-      [
-       306.986,
-       3072.244
-      ],
-      [
-       308.873,
-       3073.093
-      ],
-      [
-       309.051,
-       3073.204
-      ],
-      [
-       309.956,
-       3073.982
-      ],
-      [
-       310.073,
-       3074.173
-      ],
-      [
-       309.331,
-       3075.36
-      ],
-      [
-       309.108,
-       3075.339
-      ],
-      [
-       308.012,
-       3074.866
-      ],
-      [
-       307.834,
-       3074.755
-      ],
-      [
-       306.244,
-       3073.431
-      ]
-     ]
-    },
-    {
-     "datumM": 38.695,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.4",
-     "polygonM": [
-      [
-       310.064,
-       3074.167
-      ],
-      [
-       311.951,
-       3075.016
-      ],
-      [
-       312.129,
-       3075.128
-      ],
-      [
-       313.035,
-       3075.906
-      ],
-      [
-       313.151,
-       3076.096
-      ],
-      [
-       312.409,
-       3077.284
-      ],
-      [
-       312.187,
-       3077.262
-      ],
-      [
-       311.091,
-       3076.79
-      ],
-      [
-       310.913,
-       3076.678
-      ],
-      [
-       309.322,
-       3075.355
-      ]
-     ]
-    },
-    {
-     "datumM": 38.695,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.5",
-     "polygonM": [
-      [
-       313.143,
-       3076.091
-      ],
-      [
-       315.03,
-       3076.94
-      ],
-      [
-       315.208,
-       3077.051
-      ],
-      [
-       316.113,
-       3077.829
-      ],
-      [
-       316.23,
-       3078.02
-      ],
-      [
-       315.488,
-       3079.207
-      ],
-      [
-       315.265,
-       3079.186
-      ],
-      [
-       314.169,
-       3078.713
-      ],
-      [
-       313.991,
-       3078.602
-      ],
-      [
-       312.401,
-       3077.278
-      ]
-     ]
-    },
-    {
-     "datumM": 38.748,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.6",
-     "polygonM": [
-      [
-       316.213,
-       3078.009
-      ],
-      [
-       318.099,
-       3078.858
-      ],
-      [
-       318.278,
-       3078.969
-      ],
-      [
-       318.461,
-       3079.167
-      ],
-      [
-       318.914,
-       3079.744
-      ],
-      [
-       318.973,
-       3080.064
-      ],
-      [
-       318.932,
-       3080.263
-      ],
-      [
-       318.826,
-       3080.432
-      ],
-      [
-       318.652,
-       3080.654
-      ],
-      [
-       318.444,
-       3080.76
-      ],
-      [
-       318.235,
-       3080.83
-      ],
-      [
-       317.497,
-       3080.71
-      ],
-      [
-       317.239,
-       3080.632
-      ],
-      [
-       317.061,
-       3080.52
-      ],
-      [
-       315.471,
-       3079.197
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    298.717,
+    300.34,
     3055.454,
     306.723,
-    3067.466
+    3064.723
    ],
    "blendM": 3.0,
    "hardM": 2.7417599999999998,
    "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw",
+   "kind": "run",
    "pieces": [
     {
-     "datumM": 38.211,
+     "datumM": 37.313,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.1",
      "polygonM": [
       [
@@ -876,7 +216,7 @@
      ]
     },
     {
-     "datumM": 38.171,
+     "datumM": 37.446,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.2",
      "polygonM": [
       [
@@ -922,7 +262,7 @@
      ]
     },
     {
-     "datumM": 38.171,
+     "datumM": 37.617,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.3",
      "polygonM": [
       [
@@ -966,368 +306,23 @@
        3060.894
       ]
      ]
-    },
-    {
-     "datumM": 38.224,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.4",
-     "polygonM": [
-      [
-       301.538,
-       3064.706
-      ],
-      [
-       300.689,
-       3066.593
-      ],
-      [
-       300.578,
-       3066.771
-      ],
-      [
-       300.381,
-       3066.954
-      ],
-      [
-       299.803,
-       3067.407
-      ],
-      [
-       299.483,
-       3067.466
-      ],
-      [
-       299.285,
-       3067.425
-      ],
-      [
-       299.115,
-       3067.319
-      ],
-      [
-       298.893,
-       3067.145
-      ],
-      [
-       298.787,
-       3066.937
-      ],
-      [
-       298.717,
-       3066.729
-      ],
-      [
-       298.837,
-       3065.99
-      ],
-      [
-       298.916,
-       3065.732
-      ],
-      [
-       299.027,
-       3065.554
-      ],
-      [
-       300.351,
-       3063.964
-      ]
-     ]
     }
    ]
   },
   {
    "bboxM": [
-    324.818,
-    3076.545,
-    347.573,
-    3100.461
-   ],
-   "blendM": 3.0,
-   "hardM": 0.0,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn",
-   "pieces": [
-    {
-     "datumM": 37.215,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn.building",
-     "polygonM": [
-      [
-       347.573,
-       3092.454
-      ],
-      [
-       337.632,
-       3076.545
-      ],
-      [
-       324.818,
-       3084.552
-      ],
-      [
-       334.759,
-       3100.461
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    338.44,
-    3076.487,
-    348.396,
-    3091.552
-   ],
-   "blendM": 3.0,
-   "hardM": 2.7417599999999998,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east",
-   "pieces": [
-    {
-     "datumM": 36.461,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.1",
-     "polygonM": [
-      [
-       348.122,
-       3091.462
-      ],
-      [
-       347.789,
-       3091.552
-      ],
-      [
-       347.514,
-       3091.452
-      ],
-      [
-       347.147,
-       3091.28
-      ],
-      [
-       346.733,
-       3090.938
-      ],
-      [
-       346.467,
-       3090.644
-      ],
-      [
-       346.356,
-       3090.466
-      ],
-      [
-       345.883,
-       3089.37
-      ],
-      [
-       345.862,
-       3089.147
-      ],
-      [
-       347.049,
-       3088.406
-      ],
-      [
-       347.24,
-       3088.522
-      ],
-      [
-       348.018,
-       3089.428
-      ],
-      [
-       348.129,
-       3089.606
-      ],
-      [
-       348.277,
-       3089.973
-      ],
-      [
-       348.36,
-       3090.523
-      ],
-      [
-       348.396,
-       3090.901
-      ],
-      [
-       348.308,
-       3091.251
-      ]
-     ]
-    },
-    {
-     "datumM": 36.421,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.2",
-     "polygonM": [
-      [
-       345.873,
-       3089.164
-      ],
-      [
-       344.549,
-       3087.574
-      ],
-      [
-       344.437,
-       3087.396
-      ],
-      [
-       343.965,
-       3086.3
-      ],
-      [
-       343.944,
-       3086.078
-      ],
-      [
-       345.131,
-       3085.336
-      ],
-      [
-       345.322,
-       3085.452
-      ],
-      [
-       346.1,
-       3086.358
-      ],
-      [
-       346.211,
-       3086.536
-      ],
-      [
-       347.06,
-       3088.423
-      ]
-     ]
-    },
-    {
-     "datumM": 36.421,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.3",
-     "polygonM": [
-      [
-       343.949,
-       3086.086
-      ],
-      [
-       342.625,
-       3084.496
-      ],
-      [
-       342.514,
-       3084.318
-      ],
-      [
-       342.041,
-       3083.222
-      ],
-      [
-       342.02,
-       3082.999
-      ],
-      [
-       343.207,
-       3082.257
-      ],
-      [
-       343.398,
-       3082.374
-      ],
-      [
-       344.176,
-       3083.279
-      ],
-      [
-       344.287,
-       3083.457
-      ],
-      [
-       345.136,
-       3085.344
-      ]
-     ]
-    },
-    {
-     "datumM": 36.473,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.5",
-     "polygonM": [
-      [
-       340.107,
-       3079.938
-      ],
-      [
-       338.783,
-       3078.348
-      ],
-      [
-       338.672,
-       3078.169
-      ],
-      [
-       338.594,
-       3077.912
-      ],
-      [
-       338.44,
-       3077.194
-      ],
-      [
-       338.527,
-       3076.881
-      ],
-      [
-       338.651,
-       3076.72
-      ],
-      [
-       338.82,
-       3076.614
-      ],
-      [
-       339.074,
-       3076.492
-      ],
-      [
-       339.307,
-       3076.487
-      ],
-      [
-       339.525,
-       3076.516
-      ],
-      [
-       340.137,
-       3076.947
-      ],
-      [
-       340.334,
-       3077.131
-      ],
-      [
-       340.445,
-       3077.309
-      ],
-      [
-       341.294,
-       3079.196
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    323.596,
+    332.436,
     3076.434,
     335.582,
-    3084.467
+    3078.968
    ],
    "blendM": 3.0,
    "hardM": 2.7417599999999998,
    "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north",
+   "kind": "run",
    "pieces": [
     {
-     "datumM": 38.619,
+     "datumM": 37.209,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.1",
      "polygonM": [
       [
@@ -1399,768 +394,176 @@
        3076.522
       ]
      ]
-    },
-    {
-     "datumM": 38.579,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.2",
-     "polygonM": [
-      [
-       333.194,
-       3078.957
-      ],
-      [
-       331.604,
-       3080.281
-      ],
-      [
-       331.426,
-       3080.393
-      ],
-      [
-       330.33,
-       3080.865
-      ],
-      [
-       330.108,
-       3080.886
-      ],
-      [
-       329.366,
-       3079.699
-      ],
-      [
-       329.482,
-       3079.508
-      ],
-      [
-       330.388,
-       3078.73
-      ],
-      [
-       330.566,
-       3078.619
-      ],
-      [
-       332.453,
-       3077.77
-      ]
-     ]
-    },
-    {
-     "datumM": 38.579,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.3",
-     "polygonM": [
-      [
-       330.116,
-       3080.881
-      ],
-      [
-       328.526,
-       3082.205
-      ],
-      [
-       328.348,
-       3082.316
-      ],
-      [
-       327.252,
-       3082.789
-      ],
-      [
-       327.029,
-       3082.81
-      ],
-      [
-       326.287,
-       3081.623
-      ],
-      [
-       326.404,
-       3081.432
-      ],
-      [
-       327.309,
-       3080.654
-      ],
-      [
-       327.487,
-       3080.543
-      ],
-      [
-       329.374,
-       3079.694
-      ]
-     ]
-    },
-    {
-     "datumM": 38.631,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.4",
-     "polygonM": [
-      [
-       327.046,
-       3082.799
-      ],
-      [
-       325.456,
-       3084.123
-      ],
-      [
-       325.278,
-       3084.234
-      ],
-      [
-       325.02,
-       3084.313
-      ],
-      [
-       324.303,
-       3084.467
-      ],
-      [
-       323.989,
-       3084.38
-      ],
-      [
-       323.829,
-       3084.256
-      ],
-      [
-       323.723,
-       3084.086
-      ],
-      [
-       323.6,
-       3083.833
-      ],
-      [
-       323.596,
-       3083.599
-      ],
-      [
-       323.624,
-       3083.381
-      ],
-      [
-       324.056,
-       3082.769
-      ],
-      [
-       324.239,
-       3082.572
-      ],
-      [
-       324.417,
-       3082.461
-      ],
-      [
-       326.304,
-       3081.612
-      ]
-     ]
     }
    ]
   },
   {
    "bboxM": [
-    335.798,
-    3093.164,
-    347.784,
-    3101.196
+    335.786,
+    3091.253,
+    345.384,
+    3097.95
    ],
    "blendM": 3.0,
    "hardM": 2.7417599999999998,
    "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south",
+   "kind": "run",
    "pieces": [
     {
-     "datumM": 38.33,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.1",
-     "polygonM": [
-      [
-       335.888,
-       3100.922
-      ],
-      [
-       335.798,
-       3100.589
-      ],
-      [
-       335.898,
-       3100.314
-      ],
-      [
-       336.07,
-       3099.947
-      ],
-      [
-       336.412,
-       3099.533
-      ],
-      [
-       336.706,
-       3099.267
-      ],
-      [
-       336.884,
-       3099.156
-      ],
-      [
-       337.98,
-       3098.683
-      ],
-      [
-       338.203,
-       3098.662
-      ],
-      [
-       338.944,
-       3099.849
-      ],
-      [
-       338.828,
-       3100.04
-      ],
-      [
-       337.922,
-       3100.818
-      ],
-      [
-       337.744,
-       3100.929
-      ],
-      [
-       337.377,
-       3101.077
-      ],
-      [
-       336.827,
-       3101.16
-      ],
-      [
-       336.449,
-       3101.196
-      ],
-      [
-       336.099,
-       3101.108
-      ]
-     ]
-    },
-    {
-     "datumM": 38.289,
+     "datumM": 37.451,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.2",
      "polygonM": [
       [
-       338.186,
-       3098.673
+       335.786,
+       3096.763
       ],
       [
-       339.776,
-       3097.349
+       337.376,
+       3095.439
       ],
       [
-       339.954,
-       3097.237
+       337.554,
+       3095.327
       ],
       [
-       341.05,
-       3096.765
+       338.65,
+       3094.855
       ],
       [
-       341.272,
-       3096.744
+       338.872,
+       3094.834
       ],
       [
-       342.014,
-       3097.931
+       339.614,
+       3096.021
       ],
       [
-       341.898,
-       3098.122
+       339.498,
+       3096.212
       ],
       [
-       340.992,
-       3098.9
+       338.592,
+       3096.99
       ],
       [
-       340.814,
-       3099.011
+       338.414,
+       3097.101
       ],
       [
-       338.927,
-       3099.86
+       336.527,
+       3097.95
       ]
      ]
     },
     {
-     "datumM": 38.289,
+     "datumM": 37.393,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.3",
      "polygonM": [
       [
-       341.264,
-       3096.749
+       338.864,
+       3094.839
       ],
       [
-       342.854,
-       3095.425
+       340.454,
+       3093.515
       ],
       [
-       343.032,
-       3095.314
+       340.632,
+       3093.404
       ],
       [
-       344.128,
-       3094.841
+       341.728,
+       3092.931
       ],
       [
-       344.351,
-       3094.82
+       341.951,
+       3092.91
       ],
       [
-       345.093,
-       3096.007
+       342.693,
+       3094.097
       ],
       [
-       344.976,
-       3096.198
+       342.576,
+       3094.288
       ],
       [
-       344.071,
-       3096.976
+       341.671,
+       3095.066
       ],
       [
-       343.893,
-       3097.087
+       341.493,
+       3095.177
       ],
       [
-       342.006,
-       3097.936
+       339.606,
+       3096.026
       ]
      ]
     },
     {
-     "datumM": 38.342,
+     "datumM": 37.446,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.4",
      "polygonM": [
       [
-       344.334,
-       3094.831
+       341.934,
+       3092.921
       ],
       [
-       345.924,
-       3093.507
+       343.524,
+       3091.597
       ],
       [
-       346.102,
-       3093.396
+       343.702,
+       3091.486
       ],
       [
-       346.36,
-       3093.317
+       343.96,
+       3091.407
       ],
       [
-       347.077,
-       3093.164
+       344.677,
+       3091.253
       ],
       [
-       347.391,
-       3093.25
+       344.991,
+       3091.34
       ],
       [
-       347.551,
-       3093.374
+       345.151,
+       3091.464
       ],
       [
-       347.657,
-       3093.544
+       345.257,
+       3091.634
       ],
       [
-       347.78,
-       3093.797
+       345.38,
+       3091.887
       ],
       [
-       347.784,
-       3094.031
+       345.384,
+       3092.121
       ],
       [
-       347.756,
-       3094.249
+       345.356,
+       3092.339
       ],
       [
-       347.324,
-       3094.861
+       344.924,
+       3092.951
       ],
       [
-       347.141,
-       3095.058
+       344.741,
+       3093.148
       ],
       [
-       346.963,
-       3095.169
+       344.563,
+       3093.259
       ],
       [
-       345.076,
-       3096.018
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    324.094,
-    3085.598,
-    334.05,
-    3100.663
-   ],
-   "blendM": 3.0,
-   "hardM": 2.7417599999999998,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west",
-   "pieces": [
-    {
-     "datumM": 38.793,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.1",
-     "polygonM": [
-      [
-       324.368,
-       3085.688
-      ],
-      [
-       324.701,
-       3085.598
-      ],
-      [
-       324.976,
-       3085.698
-      ],
-      [
-       325.343,
-       3085.87
-      ],
-      [
-       325.757,
-       3086.212
-      ],
-      [
-       326.023,
-       3086.506
-      ],
-      [
-       326.134,
-       3086.684
-      ],
-      [
-       326.607,
-       3087.78
-      ],
-      [
-       326.628,
-       3088.003
-      ],
-      [
-       325.441,
-       3088.744
-      ],
-      [
-       325.25,
-       3088.628
-      ],
-      [
-       324.472,
-       3087.722
-      ],
-      [
-       324.361,
-       3087.544
-      ],
-      [
-       324.213,
-       3087.177
-      ],
-      [
-       324.13,
-       3086.627
-      ],
-      [
-       324.094,
-       3086.249
-      ],
-      [
-       324.182,
-       3085.899
-      ]
-     ]
-    },
-    {
-     "datumM": 38.753,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.2",
-     "polygonM": [
-      [
-       326.617,
-       3087.986
-      ],
-      [
-       327.941,
-       3089.576
-      ],
-      [
-       328.053,
-       3089.754
-      ],
-      [
-       328.525,
-       3090.85
-      ],
-      [
-       328.546,
-       3091.072
-      ],
-      [
-       327.359,
-       3091.814
-      ],
-      [
-       327.168,
-       3091.698
-      ],
-      [
-       326.39,
-       3090.792
-      ],
-      [
-       326.279,
-       3090.614
-      ],
-      [
-       325.43,
-       3088.727
-      ]
-     ]
-    },
-    {
-     "datumM": 38.753,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.3",
-     "polygonM": [
-      [
-       328.541,
-       3091.064
-      ],
-      [
-       329.865,
-       3092.654
-      ],
-      [
-       329.976,
-       3092.832
-      ],
-      [
-       330.449,
-       3093.928
-      ],
-      [
-       330.47,
-       3094.151
-      ],
-      [
-       329.283,
-       3094.893
-      ],
-      [
-       329.092,
-       3094.776
-      ],
-      [
-       328.314,
-       3093.871
-      ],
-      [
-       328.203,
-       3093.693
-      ],
-      [
-       327.354,
-       3091.806
-      ]
-     ]
-    },
-    {
-     "datumM": 38.753,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.4",
-     "polygonM": [
-      [
-       330.465,
-       3094.142
-      ],
-      [
-       331.788,
-       3095.733
-      ],
-      [
-       331.9,
-       3095.911
-      ],
-      [
-       332.372,
-       3097.007
-      ],
-      [
-       332.394,
-       3097.229
-      ],
-      [
-       331.206,
-       3097.971
-      ],
-      [
-       331.016,
-       3097.855
-      ],
-      [
-       330.238,
-       3096.949
-      ],
-      [
-       330.126,
-       3096.771
-      ],
-      [
-       329.277,
-       3094.884
-      ]
-     ]
-    },
-    {
-     "datumM": 38.806,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.5",
-     "polygonM": [
-      [
-       332.383,
-       3097.212
-      ],
-      [
-       333.707,
-       3098.802
-      ],
-      [
-       333.818,
-       3098.981
-      ],
-      [
-       333.896,
-       3099.238
-      ],
-      [
-       334.05,
-       3099.956
-      ],
-      [
-       333.963,
-       3100.269
-      ],
-      [
-       333.839,
-       3100.43
-      ],
-      [
-       333.67,
-       3100.536
-      ],
-      [
-       333.416,
-       3100.658
-      ],
-      [
-       333.183,
-       3100.663
-      ],
-      [
-       332.965,
-       3100.634
-      ],
-      [
-       332.353,
-       3100.203
-      ],
-      [
-       332.156,
-       3100.019
-      ],
-      [
-       332.045,
-       3099.841
-      ],
-      [
-       331.196,
-       3097.954
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    300.086,
-    3055.677,
-    327.914,
-    3080.323
-   ],
-   "blendM": 3.0,
-   "hardM": 0.0,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house",
-   "pieces": [
-    {
-     "datumM": 37.699,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.building",
-     "polygonM": [
-      [
-       300.086,
-       3067.584
-      ],
-      [
-       320.474,
-       3080.323
-      ],
-      [
-       327.914,
-       3068.416
-      ],
-      [
-       307.526,
-       3055.677
-      ]
-     ]
-    }
-   ]
-  },
-  {
-   "bboxM": [
-    254.531,
-    2992.178,
-    265.343,
-    3003.41
-   ],
-   "blendM": 3.0,
-   "hardM": 0.0,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut",
-   "pieces": [
-    {
-     "datumM": 36.095,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.building",
-     "polygonM": [
-      [
-       256.661,
-       3003.41
-      ],
-      [
-       265.343,
-       3001.405
-      ],
-      [
-       263.213,
-       2992.178
-      ],
-      [
-       254.531,
-       2994.182
+       342.676,
+       3094.108
       ]
      ]
     }
@@ -2176,9 +579,10 @@
    "blendM": 3.0,
    "hardM": 2.7417599999999998,
    "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall",
+   "kind": "run",
    "pieces": [
     {
-     "datumM": 37.255,
+     "datumM": 37.383,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.1",
      "polygonM": [
       [
@@ -2252,7 +656,7 @@
      ]
     },
     {
-     "datumM": 37.214,
+     "datumM": 37.376,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.2",
      "polygonM": [
       [
@@ -2298,7 +702,7 @@
      ]
     },
     {
-     "datumM": 37.214,
+     "datumM": 37.35,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.3",
      "polygonM": [
       [
@@ -2344,7 +748,7 @@
      ]
     },
     {
-     "datumM": 37.267,
+     "datumM": 37.234,
      "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.4",
      "polygonM": [
       [
@@ -2413,198 +817,215 @@
   },
   {
    "bboxM": [
-    320.882,
-    3062.581,
-    329.816,
-    3068.663
+    323.43,
+    2954.795,
+    348.563,
+    2980.015
    ],
-   "blendM": 3.0,
-   "hardM": 2.7417599999999998,
-   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north",
+   "blendM": 4.06,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut",
+   "kind": "building",
    "pieces": [
     {
-     "datumM": 37.185,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.1",
+     "datumM": 35.861,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.building",
      "polygonM": [
       [
-       329.741,
-       3068.399
+       335.413,
+       2980.015
       ],
       [
-       329.481,
-       3068.625
+       348.563,
+       2968.599
       ],
       [
-       329.191,
-       3068.656
+       336.58,
+       2954.795
       ],
       [
-       328.786,
-       3068.663
-      ],
-      [
-       328.263,
-       3068.537
-      ],
-      [
-       327.896,
-       3068.389
-      ],
-      [
-       327.718,
-       3068.278
-      ],
-      [
-       326.812,
-       3067.5
-      ],
-      [
-       326.696,
-       3067.309
-      ],
-      [
-       327.437,
-       3066.122
-      ],
-      [
-       327.66,
-       3066.143
-      ],
-      [
-       328.756,
-       3066.616
-      ],
-      [
-       328.934,
-       3066.727
-      ],
-      [
-       329.228,
-       3066.993
-      ],
-      [
-       329.544,
-       3067.45
-      ],
-      [
-       329.742,
-       3067.774
-      ],
-      [
-       329.816,
-       3068.127
+       323.43,
+       2966.212
       ]
      ]
-    },
+    }
+   ]
+  },
+  {
+   "bboxM": [
+    299.99,
+    2986.418,
+    323.563,
+    3010.376
+   ],
+   "blendM": 3.0,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut",
+   "kind": "building",
+   "pieces": [
     {
-     "datumM": 37.144,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.2",
+     "datumM": 35.27,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.building",
      "polygonM": [
       [
-       326.713,
-       3067.32
+       312.301,
+       3010.376
       ],
       [
-       324.826,
-       3066.471
+       323.563,
+       3000.599
       ],
       [
-       324.648,
-       3066.36
+       311.252,
+       2986.418
       ],
       [
-       323.742,
-       3065.582
-      ],
-      [
-       323.626,
-       3065.391
-      ],
-      [
-       324.368,
-       3064.204
-      ],
-      [
-       324.59,
-       3064.225
-      ],
-      [
-       325.686,
-       3064.697
-      ],
-      [
-       325.864,
-       3064.809
-      ],
-      [
-       327.454,
-       3066.133
+       299.99,
+       2996.195
       ]
      ]
-    },
+    }
+   ]
+  },
+  {
+   "bboxM": [
+    323.345,
+    3077.805,
+    343.098,
+    3099.159
+   ],
+   "blendM": 3.0,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable",
+   "kind": "building",
+   "pieces": [
     {
-     "datumM": 37.197,
-     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.3",
+     "datumM": 37.37,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.building",
      "polygonM": [
       [
-       323.643,
-       3065.401
+       323.345,
+       3084.408
       ],
       [
-       321.756,
-       3064.553
+       332.849,
+       3099.159
       ],
       [
-       321.578,
-       3064.441
+       343.098,
+       3092.557
       ],
       [
-       321.394,
-       3064.244
+       333.594,
+       3077.805
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "bboxM": [
+    300.086,
+    3055.677,
+    327.914,
+    3080.323
+   ],
+   "blendM": 3.0,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house",
+   "kind": "building",
+   "pieces": [
+    {
+     "datumM": 37.42,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.building",
+     "polygonM": [
+      [
+       300.086,
+       3067.584
       ],
       [
-       320.942,
-       3063.667
+       320.474,
+       3080.323
       ],
       [
-       320.882,
-       3063.346
+       327.914,
+       3068.416
       ],
       [
-       320.923,
-       3063.148
+       307.526,
+       3055.677
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "bboxM": [
+    315.418,
+    2972.437,
+    339.376,
+    2996.01
+   ],
+   "blendM": 3.0,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut",
+   "kind": "building",
+   "pieces": [
+    {
+     "datumM": 35.27,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.building",
+     "polygonM": [
+      [
+       339.376,
+       2983.699
       ],
       [
-       321.029,
-       3062.979
+       329.599,
+       2972.437
       ],
       [
-       321.203,
-       3062.757
+       315.418,
+       2984.748
       ],
       [
-       321.411,
-       3062.651
+       325.195,
+       2996.01
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "bboxM": [
+    321.19,
+    3060.39,
+    324.81,
+    3064.01
+   ],
+   "blendM": 1.0,
+   "hardM": 0.0,
+   "id": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well",
+   "kind": "building",
+   "pieces": [
+    {
+     "datumM": 36.926,
+     "placementId": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.building",
+     "polygonM": [
+      [
+       321.19,
+       3063.83
       ],
       [
-       321.62,
-       3062.581
+       324.63,
+       3064.01
       ],
       [
-       322.359,
-       3062.701
+       324.81,
+       3060.57
       ],
       [
-       322.616,
-       3062.779
-      ],
-      [
-       322.794,
-       3062.89
-      ],
-      [
-       324.384,
-       3064.214
+       321.37,
+       3060.39
       ]
      ]
     }
@@ -2615,98 +1036,98 @@
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut",
    "zone": "core",
-   "x": 284.0,
-   "z": 2994.0,
-   "baseM": 35.739,
-   "expectedM": 35.8
+   "x": 335.996,
+   "z": 2967.405,
+   "baseM": 36.2381,
+   "expectedM": 35.861
   },
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut",
    "zone": "blend",
-   "x": 277.594,
-   "z": 3004.672,
-   "baseM": 35.2283,
-   "expectedM": 35.51417096284574
+   "x": 350.584,
+   "z": 2968.791,
+   "baseM": 35.1471,
+   "expectedM": 35.50402368999524
   },
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut",
    "zone": "outside",
-   "x": 275.793,
-   "z": 3007.673,
-   "baseM": 35.1007,
-   "expectedM": 35.1007
+   "x": 334.763,
+   "z": 2994.06,
+   "baseM": 35.0542,
+   "expectedM": 35.0542
   },
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut",
    "zone": "core",
-   "x": 311.234,
-   "z": 3002.531,
-   "baseM": 35.0078,
-   "expectedM": 35.3
+   "x": 311.776,
+   "z": 2998.397,
+   "baseM": 35.0426,
+   "expectedM": 35.27
   },
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut",
    "zone": "blend",
-   "x": 315.906,
-   "z": 2991.683,
-   "baseM": 35.4837,
-   "expectedM": 35.39186631771695
+   "x": 312.367,
+   "z": 3011.875,
+   "baseM": 34.8685,
+   "expectedM": 35.06915920777351
   },
   {
    "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut",
    "zone": "outside",
-   "x": 317.291,
-   "z": 2988.469,
-   "baseM": 35.9828,
-   "expectedM": 35.9828
+   "x": 312.52,
+   "z": 3015.371,
+   "baseM": 34.5087,
+   "expectedM": 34.5087
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable",
    "zone": "core",
-   "x": 336.195,
-   "z": 3088.503,
+   "x": 333.221,
+   "z": 3088.482,
    "baseM": 37.3407,
-   "expectedM": 37.215
+   "expectedM": 37.37
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable",
    "zone": "blend",
-   "x": 348.99,
-   "z": 3092.946,
-   "baseM": 36.7024,
-   "expectedM": 37.778491171787195
+   "x": 321.958,
+   "z": 3083.836,
+   "baseM": 38.7219,
+   "expectedM": 38.04616470404778
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable",
    "zone": "outside",
-   "x": 355.13,
-   "z": 3095.078,
-   "baseM": 35.7042,
-   "expectedM": 35.7042
+   "x": 315.95,
+   "z": 3081.357,
+   "baseM": 38.5594,
+   "expectedM": 38.5594
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne",
    "zone": "core",
-   "x": 302.049,
-   "z": 3069.975,
-   "baseM": 38.6523,
-   "expectedM": 37.84852881004557
+   "x": 325.715,
+   "z": 3073.823,
+   "baseM": 37.4684,
+   "expectedM": 37.45190555062945
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne",
    "zone": "blend",
-   "x": 301.126,
-   "z": 3075.201,
-   "baseM": 39.5344,
-   "expectedM": 39.07376226441939
+   "x": 324.009,
+   "z": 3080.225,
+   "baseM": 38.4666,
+   "expectedM": 38.0043319445299
   },
   {
-   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw",
+   "pad": "patch.pad.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne",
    "zone": "outside",
-   "x": 291.778,
-   "z": 3063.535,
-   "baseM": 37.2247,
-   "expectedM": 37.2247
+   "x": 315.797,
+   "z": 3082.42,
+   "baseM": 39.3951,
+   "expectedM": 39.3951
   }
  ]
 }
