@@ -1,8 +1,8 @@
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 import * as TSL from "three/tsl";
 // Loose TSL (decision 0107 §1): the chained typings are too deep for tsc to
 // check usefully and cost minutes of type-checking; values are TslNode.
-const {Break, If, Loop, abs, bool, clamp, dot, float, floor, fract, ivec2, select, sign, textureLoad, textureSize, vec2, vec3, vec4} = TSL as TslNode;
+const {Break, If, Loop, abs, bool, clamp, dot, float, floor, fract, ivec2, max, sign, textureLoad, textureSize, vec2, vec3, vec4} = TSL as TslNode;
 
 /** Exact grid supercover for a bounded ripple impulse. Crossing a corner
  * requires both incident orthogonal cells, so diagonal ponds never couple. */
@@ -55,11 +55,13 @@ export function esRipplePath(ctx: RippleSupportNodes, from: TslNode, to: TslNode
   const start = floor(a).toVar(), end = floor(b).toVar(), delta = b.sub(a).toVar(), direction = sign(delta).toVar();
   const target = vec2(body).toVar();
   const hasX = abs(delta.x).greaterThan(1e-12), hasY = abs(delta.y).greaterThan(1e-12);
-  const interval = vec2(select(hasX, float(1).div(abs(delta.x)), 1e20), select(hasY, float(1).div(abs(delta.y)), 1e20)).toVar();
+  // sel() evaluates both sides: the unchosen division is guarded so it stays finite
+  const interval = vec2(sel(hasX, float(1).div(max(abs(delta.x), 1e-12)), float(1e20)),
+    sel(hasY, float(1).div(max(abs(delta.y), 1e-12)), float(1e20))).toVar();
   const cell = vec2(start).toVar();
   const next = vec2(
-    select(hasX, select(direction.x.greaterThan(0), start.x.add(1), start.x).sub(a.x).div(delta.x), 1e20),
-    select(hasY, select(direction.y.greaterThan(0), start.y.add(1), start.y).sub(a.y).div(delta.y), 1e20)).toVar();
+    sel(hasX, sel(direction.x.greaterThan(0), start.x.add(1), start.x).sub(a.x).div(sel(hasX, delta.x, float(1))), float(1e20)),
+    sel(hasY, sel(direction.y.greaterThan(0), start.y.add(1), start.y).sub(a.y).div(sel(hasY, delta.y, float(1))), float(1e20))).toVar();
   const connected = bool(false).toVar();
   Loop({ start: 0, end: 32, type: "int", condition: "<", name: "pathStep" }, () => {
     If(cell.x.equal(end.x).and(cell.y.equal(end.y)), () => { connected.assign(true); Break(); });
@@ -107,14 +109,14 @@ export function sampleIsolatedRipple(field: ArrayLike<number>, size: number, u: 
 export function esRippleTexel(field: TslNode, cell: TslNode): TslNode {
   const size = ivec2(textureSize(field, 0));
   const outside = cell.x.lessThan(0).or(cell.y.lessThan(0)).or(cell.x.greaterThanEqual(size.x)).or(cell.y.greaterThanEqual(size.y));
-  return select(outside, vec4(0), textureLoad(field, clamp(cell, ivec2(0), size.sub(1))));
+  return sel(outside, vec4(0), textureLoad(field, clamp(cell, ivec2(0), size.sub(1))));
 }
 export function esRippleSame(a: TslNode, b: TslNode): TslNode {
   return dot(abs(a.ba.sub(b.ba)), vec2(1)).lessThan(0.002);
 }
 function esRippleNeighbour(field: TslNode, cell: TslNode, reference: TslNode): TslNode {
   const value = esRippleTexel(field, cell);
-  return select(esRippleSame(value, reference), value.r, reference.r);
+  return sel(esRippleSame(value, reference), value.r, reference.r);
 }
 export function esIsolatedRipple(field: TslNode, uv: TslNode): TslNode {
   const size = vec2(textureSize(field, 0)), g = uv.mul(size).sub(0.5);

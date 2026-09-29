@@ -8,13 +8,13 @@ import { esConnectedStage, esOwnedRaster } from "./connectedStage";
 import { LOCAL_WATER_EDGE_M } from "../localPatchPresentation";
 import { esLocalWaterCaustic } from "./localWaterCaustics";
 import { wrapLightingFinish } from "./receiverLighting";
-import { claimFeature, wrapColor, type TslNode } from "../../render/nodes/materialNodes";
+import { claimFeature, sel, wrapColor, type TslNode } from "../../render/nodes/materialNodes";
 import type { LocalWaterSurfaceState } from "./types";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
 const {
   abs, cameraPosition, clamp, distance, dot, float, floor, fract, If, int, ivec2, max, min, mix,
-  normalWorld, positionWorld, select, sin, smoothstep, sqrt, step, texture, uniform, vec2, vec3, vec4,
+  normalWorld, positionWorld, sin, smoothstep, step, texture, uniform, vec2, vec3, vec4,
   Fn, materialRoughness,
 } = tsl as TslNode;
 
@@ -156,9 +156,9 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     return p.x.greaterThanEqual(0.0).and(p.y.greaterThanEqual(0.0))
       .and(p.x.lessThan(extent)).and(p.y.lessThan(extent));
   };
-  const stage = (p: TslNode, salinity: TslNode, season: TslNode): TslNode => select(
+  const stage = (p: TslNode, salinity: TslNode, season: TslNode): TslNode => sel(
     insideProvince(p).not(), vec3(-2.0, 1.0, 0.0),
-    select(u.uWetAccessParams.x.lessThan(0.5), vec3(-2.0, smoothstep(0.02, 0.15, salinity), season),
+    sel(u.uWetAccessParams.x.lessThan(0.5), vec3(-2.0, smoothstep(0.02, 0.15, salinity), season),
       esConnectedStage(p, u.uWetSurf, u.uWetSupport, u.uWetShore, P.z, P.w, u.uWetOrigin,
         u.uWetAccessParams.y, u.uWetAccessParams.z)));
   const surfaceUv = (xz: TslNode): TslNode => vec2(xz).sub(u.uWetOrigin).div(P.w).add(0.5).div(P.z);
@@ -191,9 +191,9 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w).toVar();
     const plain = mix(mix(s00, s10, f.x), mix(s01, s11, f.x), f.y).toVar();
     const weighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x)).div(wsum);
-    const bilinear = vec2(select(wsum.greaterThan(0.0), weighted, plain.x), plain.y);
-    return select(insideProvince(xz).not(), vec2(0.0, 25.5),
-      select(u.uWetNativeCoverage.greaterThan(0.5), native, bilinear));
+    const bilinear = vec2(sel(wsum.greaterThan(0.0), weighted, plain.x), plain.y);
+    return sel(insideProvince(xz).not(), vec2(0.0, 25.5),
+      sel(u.uWetNativeCoverage.greaterThan(0.5), native, bilinear));
   };
   // KEEP IN LOCKSTEP with waves.ts surfEnergyScale(wind, SEA.fetchMaxM): THE
   // surf energy knob, on the ocean's fetch. Constants rounded as the GLSL
@@ -241,7 +241,7 @@ export function waterReceiverCaustic(u: GroundWetnessUniforms, inputs: WaterRece
   // open sea. Receivers must use that same column and chemistry.
   // Every implicit-LOD sample is taken here, at the top of the graph (a
   // `select` branch is real control flow in WGSL).
-  const outside = select(n.insideProvince(receiver.xz), float(0.0), float(1.0)).toVar();
+  const outside = sel(n.insideProvince(receiver.xz), float(0.0), float(1.0)).toVar();
   const shore = mix(u.uWetShore.sample(suv).rgb, vec3(1.0, 0.0, 0.0), outside).toVar();
   const klass = mix(u.uWetKlass.sample(n.classUv(receiver.xz)).rgb, vec3(1.0 / 255.0, 0.25, 1.0), outside).toVar();
   const support = u.uWetSupport.sample(suv).toVar();
@@ -254,9 +254,9 @@ export function waterReceiverCaustic(u: GroundWetnessUniforms, inputs: WaterRece
   // "submerged" is exactly the sampled signed depth proxy standing above the
   // receiver (gating on uWetHasSupport alone zeroed caustics for every
   // fragment in the province, decision 0046 bundle).
-  const owned = select(u.uWetHasSupport.greaterThan(0.5), step(0.5, support.r), step(0.05, column.y));
+  const owned = sel(u.uWetHasSupport.greaterThan(0.5), step(0.5, support.r), step(0.05, column.y));
   const barred = u.uWetAccessParams.x.greaterThan(0.5).and(stage.x.greaterThan(offset.add(0.001)));
-  const supported = select(barred, float(0.0), mix(owned, 1.0, outside).mul(step(0.5, u.uWetParams.z))).toVar();
+  const supported = sel(barred, float(0.0), mix(owned, 1.0, outside).mul(step(0.5, u.uWetParams.z))).toVar();
   const focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
     u.uWetSun, supported, u.uWetTime, clamp(float(u.uWetWind).mul(0.3).add(0.45), 0.45, 1.0));
   const localBody = mix(support.gb.dot(vec2(65280.0, 255.0)), 65535.0, outside);
@@ -317,7 +317,7 @@ export function surfaceWetnessNode(u: GroundWetnessUniforms, inputs: SurfaceWetn
           const kPixel = clamp(ivec2(floor(kuv.mul(u.uWetKlassParams.x))), ivec2(0),
             ivec2(float(u.uWetKlassParams.x).sub(1.0)));
           const rawClass = u.uWetKlass.load(kPixel).r.mul(255.0);
-          const klass = select(u.uWetHasSupport.greaterThan(0.5).and(rawClass.lessThan(0.5)), float(4.0), rawClass);
+          const klass = sel(u.uWetHasSupport.greaterThan(0.5).and(rawClass.lessThan(0.5)), float(4.0), rawClass);
           const stage = n.stage(xz, k.b, ss.g).toVar();
           const offset = stage.y.mul(u.uWetLevels.x).add(stage.z.mul(u.uWetLevels.y)).toVar();
           const W = surface.x.add(offset);
@@ -326,7 +326,7 @@ export function surfaceWetnessNode(u: GroundWetnessUniforms, inputs: SurfaceWetn
           // The beach run-up band belongs to the sea: a coast or estuary class
           // is the open sea's shore; inland lakes and rivers keep a damp
           // contact edge, never run-up.
-          const fetch = select(klass.greaterThan(0.5).and(klass.lessThan(2.5)),
+          const fetch = sel(klass.greaterThan(0.5).and(klass.lessThan(2.5)),
             float(1.0).sub(clamp(max(k.g, ss.b), 0.0, 1.0).mul(0.85)), float(0.0));
           // KEEP IN LOCKSTEP with waves.ts swashMax(): the recent waterline
           const lift = float(Number((0.75 * SWASH.amplitudeM).toFixed(6))).mul(n.surfEnergy(u.uWetWindMS))
@@ -384,10 +384,10 @@ export function applyGroundWetness(material: NodeMaterial, uniforms: GroundWetne
   const full: SurfaceWetnessInputs = { ...defaultInputs(inputs.verticalScale ?? float(1.0)), ...inputs };
   const wet = surfaceWetnessNode(uniforms, full);
   const active = wet.greaterThan(0.003);
-  wrapColor(material, (c) => select(active, vec4(c.rgb.mul(float(1.0).sub(wet.mul(0.45))), c.a), c));
+  wrapColor(material, (c) => sel(active, vec4(c.rgb.mul(float(1.0).sub(wet.mul(0.45))), c.a), c));
   const m = material as NodeMaterial & { roughnessNode?: TslNode };
   const roughness = m.roughnessNode ? float(m.roughnessNode) : materialRoughness;
-  m.roughnessNode = select(active, mix(roughness, 0.3, wet.mul(0.8)), roughness);
+  m.roughnessNode = sel(active, mix(roughness, 0.3, wet.mul(0.8)), roughness);
   addReceiverCaustics(material, uniforms, full);
 }
 

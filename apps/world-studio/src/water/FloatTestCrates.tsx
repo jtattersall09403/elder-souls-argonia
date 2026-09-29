@@ -1,11 +1,9 @@
-import { useContext, useEffect, useMemo, useRef } from "react";
-import { MeshStandardMaterial } from "three";
+import { useEffect, useMemo, useRef } from "react";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import { RigidBody, useBeforePhysicsStep, type RapierRigidBody } from "@react-three/rapier";
 import type { Vec3, WorldWaterQuery } from "@elder-souls/contracts";
 import { PhysicsMassUnits, WaterRigidBodyDriver, type WaterWorld, type BuoyancyParams } from "@elder-souls/game-core/water/index";
 import { worldClock } from "../sky/timeState";
-import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
-import { applyAerialPerspective } from "../sky/aerial";
 import { wetnessUniforms } from "./groundWetness";
 import { applySubmergedCaustics } from "@elder-souls/game-core/water/render/causticReceiver";
 import { studioScaledWaterQuery } from "./studioScaledWaterQuery";
@@ -49,14 +47,14 @@ export function FloatTestCrates({ origin, waterWorld, verticalScale = 1 }: {
   waterWorld: () => WaterWorld | null;
   verticalScale?: number;
 }) {
-  const { csm } = useContext(SkyContext);
+  // Node material (decision 0107): CSM cascades live on the sun light
+  // (CSMShadowNode) and the aerial haze is scene.fogNode (fog: true), so the
+  // crates only add the submerged caustic term.
   const materials = useMemo(() => CRATES.map(crate => {
-    const material = new MeshStandardMaterial({ color: crate.color, roughness: 0.85 });
-    csm?.setupMaterial(material);
-    applyAerialPerspective(material, sharedAerialUniforms);
-    applySubmergedCaustics(material, wetnessUniforms, { value: verticalScale });
+    const material = new MeshStandardNodeMaterial({ color: crate.color, roughness: 0.85 });
+    applySubmergedCaustics(material, wetnessUniforms, verticalScale);
     return material;
-  }), [csm, verticalScale]);
+  }), [verticalScale]);
   useEffect(() => () => { for (const material of materials) material.dispose(); }, [materials]);
   const bodies = useRef<(RapierRigidBody | null)[]>([null, null, null]);
   const drivers = useMemo(() => CRATES.map((_, i) => new WaterRigidBodyDriver({

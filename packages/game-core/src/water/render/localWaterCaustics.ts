@@ -1,9 +1,9 @@
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 import { localWaterSurfaceNodes, type LocalWaterSurfaceUniforms } from "./localWaterSurfaceNodes";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
-const { Fn, clamp, dFdx, dFdy, exp, float, length, max, min, normalize, refract, select, smoothstep, vec2, vec3 } = tsl as TslNode;
+const { Fn, clamp, dFdx, dFdy, exp, float, length, max, min, normalize, refract, smoothstep, vec2, vec3 } = tsl as TslNode;
 
 /** Refraction-map Jacobian for the interactive surface (node twin of the old
  * LOCAL_WATER_CAUSTICS_GLSL). Unlike decorative caustic noise, moving a body
@@ -42,7 +42,7 @@ export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslN
   const off = float(u.uLocalWaterActive).lessThan(0.5).or(depth.lessThanEqual(0.03))
     .or(depth.greaterThan(12.0)).or(sun.y.lessThanEqual(0.05))
     .or(local.mask(p).lessThan(0.5)).or(neighbours.lessThan(0.5));
-  return select(off, float(0.0), value);
+  return sel(off, float(0.0), value);
   })();
 }
 

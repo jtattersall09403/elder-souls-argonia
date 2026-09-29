@@ -11,7 +11,7 @@ import * as TSLNS from "three/tsl";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Break, Fn, If, Loop, all, any, clamp, dot, exp, float, int, length, max, min, mix, select, smoothstep, texture, uniform, uniformArray, uv, vec2, vec4,
+  Break, Fn, If, Loop, all, any, clamp, dot, exp, float, int, length, max, min, mix, smoothstep, texture, uniform, uniformArray, uv, vec2, vec4,
 } = TSLNS as any;
 
 /**
@@ -240,6 +240,10 @@ export class FoamField {
   private readonly u: PassUniforms;
   private readonly pending: Injection[] = [];
   private initialized = false;
+  /** Renderer state saved around the pass, rewritten per frame (walk 5 perf). */
+  private readonly savedColor = Object.assign(new THREE.Color(), { a: 1 }) as unknown as Parameters<WebGPURenderer["getClearColor"]>[0];
+  private readonly savedViewport = new THREE.Vector4();
+  private readonly savedScissor = new THREE.Vector4();
   private disposed = false;
 
   constructor(opts: FoamFieldOptions) {
@@ -311,10 +315,10 @@ export class FoamField {
     const target = renderer.getRenderTarget();
     const tone = renderer.toneMapping;
     const autoClear = renderer.autoClear;
-    const color = renderer.getClearColor(new THREE.Color() as never) as unknown as THREE.Color;
+    const color = renderer.getClearColor(this.savedColor);
     const alpha = renderer.getClearAlpha();
-    const viewport = renderer.getViewport(new THREE.Vector4());
-    const scissor = renderer.getScissor(new THREE.Vector4());
+    const viewport = renderer.getViewport(this.savedViewport);
+    const scissor = renderer.getScissor(this.savedScissor);
     const scissorTest = renderer.getScissorTest();
     try {
       renderer.toneMapping = THREE.NoToneMapping;
@@ -329,7 +333,7 @@ export class FoamField {
       u.uPrev.value = this.a.texture;
       renderer.setRenderTarget(this.b);
       this.quad.render(renderer);
-      [this.a, this.b] = [this.b, this.a];
+      const swap = this.a; this.a = this.b; this.b = swap;
     } finally {
       renderer.setRenderTarget(target);
       renderer.setViewport(viewport); renderer.setScissor(scissor); renderer.setScissorTest(scissorTest);

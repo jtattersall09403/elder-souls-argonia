@@ -1,9 +1,9 @@
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 import { esRipplePath, ripplePathConnected, type RippleSupportNodes } from './rippleIsolation';
 import * as TSL from "three/tsl";
 // Loose TSL (decision 0107 §1): the chained typings are too deep for tsc to
 // check usefully and cost minutes of type-checking; values are TslNode.
-const {If, abs, bool, float, floor, fract, select, texture, vec2, vec4} = TSL as TslNode;
+const {If, abs, bool, float, floor, fract, texture, vec2, vec4} = TSL as TslNode;
 
 /** Leave slack inside the shared 32-iteration exact supercover. A longer
  * backtrace expires local history; it never slows the authored current. */
@@ -99,7 +99,7 @@ export function esRippleAdvection(ctx: RipplePassNodes, u: RippleAdvectionUnifor
               If(ctx.inside(tap).and(edge.a.greaterThan(0.5)).and(ctx.sameBody(edge.rg, boundary.rg)), () => {
                 admitted.assign(esRipplePath(ctx, source, tap, boundary.rg));
               });
-              result.assign(result.add(select(admitted, ctx.history(tap, edge).rg, centre.rg).mul(weight)));
+              result.assign(result.add(sel(admitted, ctx.history(tap, edge).rg, centre.rg).mul(weight)));
             });
           }
           out.assign(vec4(result, boundary.rg));

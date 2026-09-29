@@ -405,7 +405,7 @@ function makeContactFoam(u: WaterUniforms): (...args: TslNode[]) => TslNode {
     });
   });
   return min(c, 0.65);
-  }).setLayout({ name: "esContactFoam", type: "float", inputs: [{ name: "wp", type: "vec2" }] });
+  });  // inline: it reads uniforms and a uniform array, which a layout function does not declare (r184)
 }
 
 /** Fast water piling on whatever stands in it: a bow wave on the upstream
@@ -430,7 +430,7 @@ function makeContactRush(u: WaterUniforms): (...args: TslNode[]) => TslNode {
   });
   // gain <= 0.001 returned 0 in the GLSL; c * gain is 0 there to within 1e-3·c
   return sel(n(gain).lessThanEqual(0.001), float(0.0), clamp(n(c).mul(gain), 0.0, 1.0));
-  }).setLayout({ name: "esContactRush", type: "float", inputs: [{ name: "wp", type: "vec2" }, { name: "dir", type: "vec2" }, { name: "speed", type: "float" }] });
+  });  // inline: it reads uniforms and a uniform array, which a layout function does not declare (r184)
 }
 
 /** Plunge-pool foam: a churning disc plus an expanding ring per nearby cascade. */
@@ -452,7 +452,7 @@ function makePlungeFoam(u: WaterUniforms): (...args: TslNode[]) => TslNode {
     });
   });
   return min(f, 0.75);
-  }).setLayout({ name: "esPlungeFoam", type: "float", inputs: [{ name: "wp", type: "vec2" }, { name: "flow", type: "vec2" }] });
+  });  // inline: it reads uniforms and a uniform array, which a layout function does not declare (r184)
 }
 
 /** Tiered screen-space reflection: 18 steps, 1.12 growth. Returns vec4(rgb, confidence). */

@@ -372,10 +372,38 @@ describe("ripple mask refresh cost (walk 5 perf)", () => {
     expect(samples).toBe(0);
     expect(walked).toBe(0);
     expect(tex.version).toBe(version);
-    // The 1 s still-level safety cycle resamples, but unchanged rows upload nothing.
-    for (let f = 0; f < 40; f++) sim.step(renderer, 0, 0, 1 / 60);
-    expect(samples).toBeGreaterThan(0);
+    // No still-level safety cycle: ten more seconds of unchanged inputs sample nothing.
+    for (let f = 0; f < 600; f++) sim.step(renderer, 0, 0, 1 / 60);
+    expect(samples).toBe(0);
     expect(tex.version).toBe(version);
+    sim.dispose();
+  });
+
+  it("a chunk arriving under the patch refreshes the mask within the rate limit; one elsewhere does nothing", () => {
+    let samples = 0;
+    const ground = { lifted: false };
+    // Ground under x > 0 streams in dry once the chunk arrives.
+    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x) => {
+      samples++;
+      const depth = ground.lifted && x > 0 ? -0.5 : 0.6;
+      return { waterBodyId: depth > 0.02 ? "water.test.shore" : null, depth, surfaceHeight: 0 };
+    } });
+    sim.configureBoundary({ levelOffsets: () => ({ tide: 0, season: 0 }) } as unknown as WorldWaterQuery, () => 0);
+    const { renderer } = fakeRenderer();
+    const mask = (sim as unknown as { mask: RippleBoundaryMask }).mask;
+    sim.step(renderer, 0, 0, 1 / 60);
+    for (let f = 0; f < 30; f++) sim.step(renderer, 0, 0, 1 / 60);
+    ground.lifted = true;
+    samples = 0;
+    sim.groundChanged(500, 500, 532, 532);          // far chunk: ignored
+    for (let f = 0; f < 30; f++) sim.step(renderer, 0, 0, 1 / 60);
+    expect(samples).toBe(0);
+    sim.groundChanged(0, -32, 32, 0);               // overlaps the patch
+    let frames = 0;
+    while (mask.labelAt(4, 0) !== 0 && frames < 120) { sim.step(renderer, 0, 0, 1 / 60); frames++; }
+    expect(mask.labelAt(4, 0)).toBe(0);             // dry ground now in the mask
+    expect(frames).toBeLessThanOrEqual(12);        // 0.2 s rate limit, 16-row batches: was up to ~68 (1.13 s)
+    expect(mask.labelAt(-4, 0)).not.toBe(0);
     sim.dispose();
   });
 

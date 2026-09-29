@@ -1,8 +1,8 @@
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
-const { clamp, float, floor, int, ivec2, min, max, select, step, vec2, vec4 } = tsl as TslNode;
+const { clamp, float, floor, int, ivec2, min, max, step, vec2, vec4 } = tsl as TslNode;
 
 /** The uniform nodes the local-patch surface reads (a subset of the ground
  * wetness uniforms; the water material may pass its own). */
@@ -46,7 +46,7 @@ export function localWaterSurfaceNodes(u: LocalWaterSurfaceUniforms) {
     const g = vec2(p).sub(info.xy).div(info.z);
     const outside = float(u.uLocalWaterActive).lessThan(0.5)
       .or(min(g.x, g.y).lessThan(0.0)).or(max(g.x, g.y).greaterThanEqual(info.w));
-    return select(outside, float(0.0), step(1.5, texel(floor(g)).a));
+    return sel(outside, float(0.0), step(1.5, texel(floor(g)).a));
   };
 
   const cell = (c: TslNode): TslNode => {
@@ -80,7 +80,7 @@ export function localWaterSurfaceNodes(u: LocalWaterSurfaceUniforms) {
     const lower = vertex(i).mul(float(1.0).sub(f.x).sub(f.y)).add(b.mul(f.x)).add(c.mul(f.y));
     const upper = vertex(i.add(1.0)).mul(f.x.add(f.y).sub(1.0)).add(b.mul(float(1.0).sub(f.y)))
       .add(c.mul(float(1.0).sub(f.x)));
-    return select(mask(p).lessThan(0.5), vec4(0.0), select(f.x.add(f.y).lessThanEqual(1.0), lower, upper));
+    return sel(mask(p).lessThan(0.5), vec4(0.0), sel(f.x.add(f.y).lessThanEqual(1.0), lower, upper));
   };
 
   return { texel, weight, mask, cell, vertexPosition, vertex, surface };

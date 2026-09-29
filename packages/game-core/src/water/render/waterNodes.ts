@@ -25,7 +25,7 @@ import * as TSLNS from "three/tsl";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Fn, If, abs, clamp, cos, dot, exp, float, floor, fract, int, ivec2, length, max, min, mix, normalize, pow, select, sin, smoothstep, sqrt, step, vec2, vec3, vec4,
+  Fn, clamp, cos, dot, float, floor, fract, int, ivec2, max, min, mix, normalize, pow, sin, smoothstep, sqrt, step, vec2, vec3, vec4,
 } = TSLNS as any;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

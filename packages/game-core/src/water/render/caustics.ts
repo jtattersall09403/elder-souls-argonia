@@ -1,8 +1,8 @@
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
-const { clamp, dFdx, dFdy, exp, float, fwidth, length, max, min, refract, select, sin, smoothstep: nodeSmoothstep, sqrt, vec2, vec3 } = tsl as TslNode;
+const { clamp, dFdx, dFdy, exp, float, fwidth, length, max, min, refract, sin, smoothstep: nodeSmoothstep, sqrt, vec2, vec3 } = tsl as TslNode;
 
 /** Projected shallow-water light focusing shared by refraction and the
  * underwater composite. Coordinates are world metres (undo display-only
@@ -80,7 +80,7 @@ export function esCausticVisibility(depthM: TslNode, turbidity: TslNode, tannin:
     .mul(clamp(directLightVisibility, 0.0, 1.0))
     .mul(clamp(waveActivity, 0.0, 1.0))
     .mul(exp(extinction.negate().mul(opticalPath)));
-  return select(d.lessThanEqual(0.0).or(sunE.lessThanEqual(0.0)), float(0.0), value);
+  return sel(d.lessThanEqual(0.0).or(sunE.lessThanEqual(0.0)), float(0.0), value);
 }
 
 /** The four crossing capillary-gravity bands: direction, frequency, amplitude,

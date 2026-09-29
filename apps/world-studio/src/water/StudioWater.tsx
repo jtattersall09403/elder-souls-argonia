@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
 import { sharedLocalSurfaces, sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
 import { sharedChunkStore } from "../character/chunkStore";
 import { createWaterProbe, type WaterProbeSummary } from "@elder-souls/game-core/water/render/waterProbe";
-import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
+import { sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
 import { worldClock } from "../sky/timeState";
 import { waterTimeS, advanceWaterClock, waterTransportTimeS, waterTransportDeltaS, setWaterClockHidden } from "./waterClock";
@@ -62,7 +62,6 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
   /** Physical actor centre in true metres; fly mode falls back to camera. */
   surfaceFocus?: () => Vec3 | null;
 }) {
-  const { csm } = useContext(SkyContext);
   useEffect(() => {
     const visibility = () => setWaterClockHidden(document.hidden);
     visibility(); document.addEventListener('visibilitychange', visibility);
@@ -80,7 +79,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
       return layerSet;
     };
     return {
-    csm, surfaceFocus, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
+    surfaceFocus, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
     transportTimeS: waterTransportTimeS, transportDeltaS: waterTransportDeltaS,
     advanceClock: dt => advanceWaterClock(dt, worldClock.rate),
     rainIntensity: () => lastWeatherSample()?.rainIntensity ?? 0,
@@ -109,7 +108,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
     },
     onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
     };
-  }, [csm, surfaceFocus]);
+  }, [surfaceFocus]);
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);

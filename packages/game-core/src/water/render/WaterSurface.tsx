@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { MeshPhysicalNodeMaterial } from "three/webgpu";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
-import { useFrame } from "@react-three/fiber";
+import { useMarkedFrame } from "../../fx/frameSegments";
 import * as THREE from "three";
 import { getWindWaveScale, whitecapThreshold } from "@elder-souls/game-core/water/index";
 import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
@@ -176,7 +176,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   const falls = useMemo(() => {
     const cascades = assets.meta.cascades ?? [];
     return cascades.length
-      ? new WaterfallSheets(cascades, runtime.applyAerial,
+      ? new WaterfallSheets(cascades,
         { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures, kit: assets.waterfallKit,
           // The rock the crest leaves: the compiled surface raster carries the
           // still-water level W and the signed depth W − ground, so ground is
@@ -311,7 +311,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   }, [materials]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame(({ camera, gl }, delta) => {
+  useMarkedFrame("surface", ({ camera, gl }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     // Dev layer toggle (?waterLayers=): each of the four things the water
@@ -438,24 +438,27 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         for (const [k, v] of stamps.current) if (v.seen < stampFrame.current - 8) stamps.current.delete(k);
       }
     }
-    splashes.current = splashes.current.filter((s) => nowS - s.bornS < 2.0).slice(-MAX_CONTACT_BODIES);
-    const bodies: ContactBody[] = [
-      ...(contactBodies?.() ?? []),
-      ...splashes.current.map((s) => {
-        const age = Math.max(nowS - s.bornS, 0);
-        return {
-          x: s.x,
-          z: s.z,
-          radius: s.radius + age * 1.6,
-          strength: s.strength * Math.max(1 - age / 2.0, 0),
-        };
-      }),
-    ];
-    uniforms.uBodyCount.value = Math.min(bodies.length, MAX_CONTACT_BODIES);
-    for (let i = 0; i < uniforms.uBodyCount.value; i++) {
-      const b = bodies[i];
-      uniforms.uBodies.array[i].set(b.x, b.z, b.radius, b.strength);
+    // Live contacts then splashes, written straight into the uniforms: no
+    // filtered, sliced, mapped or spread arrays per frame (walk 5 perf).
+    const sp = splashes.current;
+    let kept = 0;
+    for (let r = 0; r < sp.length; r++) if (nowS - sp[r].bornS < 2.0) sp[kept++] = sp[r];
+    sp.length = kept;
+    if (sp.length > MAX_CONTACT_BODIES) sp.splice(0, sp.length - MAX_CONTACT_BODIES);
+    const live = contactBodies?.();
+    let nBodies = 0;
+    if (live) {
+      for (let i = 0; i < live.length && nBodies < MAX_CONTACT_BODIES; i++) {
+        const b = live[i];
+        uniforms.uBodies.array[nBodies++].set(b.x, b.z, b.radius, b.strength);
+      }
     }
+    for (let i = 0; i < sp.length && nBodies < MAX_CONTACT_BODIES; i++) {
+      const s = sp[i];
+      const age = Math.max(nowS - s.bornS, 0);
+      uniforms.uBodies.array[nBodies++].set(s.x, s.z, s.radius + age * 1.6, s.strength * Math.max(1 - age / 2.0, 0));
+    }
+    uniforms.uBodyCount.value = nBodies;
     if (ripple) {
       uniforms.uRipple.value = ripple.texture;
       uniforms.uRippleInfo.value.set(ripple.center.x, ripple.center.y, RIPPLE_PATCH_M, 1);

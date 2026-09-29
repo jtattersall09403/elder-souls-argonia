@@ -1,8 +1,8 @@
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 
 // Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
-const { abs, clamp, float, floor, fract, int, ivec2, max, min, select, vec2, vec3, vec4 } = tsl as TslNode;
+const { abs, clamp, float, floor, fract, int, ivec2, max, min, vec2, vec3, vec4 } = tsl as TslNode;
 
 /** WaterData's owner-aware access/tide/season sampler as node helpers (the
  * old CONNECTED_STAGE_GLSL). Packed RG16 is affine, but different owners'
@@ -27,7 +27,7 @@ function ownedCorners(worldXZ: TslNode, supportMap: TslNode, size: TslNode, mpp:
     const delta = abs(supportMap.load(p).gb.sub(owner));
     const foreign = delta.x.greaterThan(0.5 / 255.0).or(delta.y.greaterThan(0.5 / 255.0));
     const weight = (x === 0 ? float(1.0).sub(f.x) : f.x).mul(z === 0 ? float(1.0).sub(f.y) : f.y);
-    corners.push({ p, weight: select(foreign, float(0.0), weight) });
+    corners.push({ p, weight: sel(foreign, float(0.0), weight) });
   }
   return corners;
 }
