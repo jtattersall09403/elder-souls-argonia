@@ -182,13 +182,15 @@ class PluginSet:
     order, the main plugin last, so the last plugin to define a record owns
     it (an override beats the original it overrides)."""
 
-    def __init__(self, plugin: Path, paths: dict[str, Path]):
-        self.main = Plugin(plugin)
+    def __init__(self, plugin: Path, paths: dict[str, Path], cache=None):
+        from .plugin_cache import PluginCache
+        cache = cache if cache is not None else PluginCache()
+        self.main = cache.plugin(plugin)
         self.plugins = {}
         for master in self.main.masters:
             path = paths.get(master)
             if path is not None:
-                self.plugins[master] = Plugin(path)
+                self.plugins[master] = cache.plugin(path)
         self.plugins[self.main.path.name] = self.main
         self._record_index = None
 
@@ -234,35 +236,12 @@ class PluginSet:
         return owner.source_of(form_id), form_id & 0xFFFFFF
 
 
-_PLUGIN_SETS: dict = {}
-_PLUGIN_SETS_MAX = 4
-
-
-def _file_stamp(path: Path) -> tuple[str, int, int]:
-    st = path.stat()
-    return str(path.resolve()), st.st_mtime_ns, st.st_size
-
-
-def plugin_set(plugin: Path, paths: dict[str, Path]) -> PluginSet:
-    """`PluginSet(plugin, paths)`, parsed once per process. The key is the
-    plugin file (resolved path, mtime, size); a hit is reused only while every
-    master it loaded still resolves through `paths` to the same unchanged file
-    and no master it lacked has since appeared in `paths`. Read-only once
-    built, so sharing one between cells is safe."""
-    key = _file_stamp(Path(plugin))
-    hit = _PLUGIN_SETS.get(key)
-    if hit is not None:
-        pset, masters = hit
-        now = {m: _file_stamp(Path(paths[m])) if m in paths else None
-               for m in pset.main.masters}
-        if now == masters:
-            return pset
-    pset = PluginSet(Path(plugin), paths)
-    masters = {m: _file_stamp(Path(paths[m])) if m in paths else None for m in pset.main.masters}
-    if len(_PLUGIN_SETS) >= _PLUGIN_SETS_MAX:
-        _PLUGIN_SETS.clear()
-    _PLUGIN_SETS[key] = (pset, masters)
-    return pset
+def plugin_set(plugin: Path, paths: dict[str, Path], cache=None) -> PluginSet:
+    """`PluginSet(plugin, paths)` from `cache` (a `plugin_cache.PluginCache`
+    the caller owns: one set per unchanged plugin and masters, every file
+    parsed once however many sets share it; a fresh cache when None)."""
+    from .plugin_cache import PluginCache
+    return (cache if cache is not None else PluginCache()).plugin_set(Path(plugin), paths)
 
 
 def _ref_extras(rec) -> dict:
@@ -925,14 +904,14 @@ def swing_hinge(asset_id: str, model: str, bounds: dict[str, tuple] | None) -> d
 def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], registry,
                 kit_assets, pool_of, doors: list[dict] | None = None,
                 absent: dict[str, dict] | None = None,
-                kit_bounds: dict[str, tuple] | None = None) -> dict:
+                kit_bounds: dict[str, tuple] | None = None, cache=None) -> dict:
     """The bundle for one cell (see the module docstring). `doors` is the
     claiming places' door claims, `[{interiorLoadDoorRef, ...}]`: each ref is
     checked to be a load door of the cell and nothing of a claim is written
     (the output is the same whoever claims the cell)."""
     from .mine_door_links import asset_id_for
 
-    pset = plugin_set(paths[plugin_name], paths)
+    pset = plugin_set(paths[plugin_name], paths, cache)
     main = pset.main
     got = read_cell(main, cell_edid)
     if got is None:
@@ -1383,6 +1362,9 @@ def _environment():
     return paths, pools, registry_index()
 
 
+from .plugin_cache import PluginCache  # noqa: E402
+
+
 def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     from .blueprint_interiors import linked_shells
     paths, pools, registry = _environment()
@@ -1392,13 +1374,14 @@ def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     # rows that have a written source; the file is written once, at the end
     doc["forms"] = {f: r for f, r in doc["forms"].items() if r.get("classedBy") != "placement"}
     bundles = []
+    cache = PluginCache()                      # this job's plugins, parsed once
     for plugin, cell in sorted({(r["plugin"], r["interiorCell"])
                                 for rows in linked_shells().values() for r in rows}):
         if plugin not in paths:
             continue
         try:
             bundles.append(export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
-                                       absent=doc["forms"]))
+                                       absent=doc["forms"], cache=cache))
         except (SystemExit, ValueError) as err:
             print(f"  skip {plugin} {cell}: {err}")
     rows = placement_rows(bundles, bounds)
@@ -1423,7 +1406,7 @@ def blueprint_claims(data: dict) -> dict[tuple[str, str], list[dict]]:
 
 
 def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
-                  claims: list[dict] | None = None) -> dict:
+                  claims: list[dict] | None = None, cache=None) -> dict:
     """The shared cell file, as written: `export_cell`, the plugin's own
     arrival marker (its exterior partner's teleport, `profile_cell`) and the
     fixture light rule. Place-independent: `claims` only checks load door refs."""
@@ -1431,8 +1414,8 @@ def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
     from .interior_light import apply_light_rule
     paths, pools, registry = env
     bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
-                         doors=claims)
-    prof = profile_cell(world_for(plugin, paths.get), cell) or {}
+                         doors=claims, cache=cache)
+    prof = profile_cell(world_for(plugin, paths.get, cache), cell) or {}
     if prof.get("exteriorDoors"):
         # the plugin's first door to the outside: its arrival, and the exit door with it
         first = prof["exteriorDoors"][0]
@@ -1471,8 +1454,9 @@ def main() -> int:
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
+    cache = PluginCache()                      # this run's plugins, parsed once
     for (plugin, cell), cell_claims in claims.items():
-        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims)
+        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims, cache)
         problems = check(bundle) + validate_bundle(bundle)
         gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
         (out_dir / f"{cell}.json").write_text(json.dumps(bundle, indent=1) + "\n")

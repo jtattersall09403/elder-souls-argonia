@@ -42,6 +42,14 @@ def survey():
     return loaded
 
 
+@pytest.fixture(scope="session")
+def plugin_cache():
+    """One `plugin_cache.PluginCache` for the session: the vault plugins the
+    exporter and claim tests read (Skyrim.esm among them) are parsed once."""
+    from worldgen.plugin_cache import PluginCache
+    return PluginCache()
+
+
 # --------------------------------------------------------------------------- #
 # Test-reads map (lane 3A E, speed lane 2 Rec 1). With ES_TEST_READS=1 an
 # audit hook on "open" records which repo DATA files (under world/,

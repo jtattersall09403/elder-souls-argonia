@@ -106,7 +106,7 @@ def test_gate_fails_on_an_unlisted_reference():
     assert ex.check(fixed) == []
 
 
-def test_reexport_matches_the_published_bundle():
+def test_reexport_matches_the_published_bundle(plugin_cache):
     try:
         paths, pools, registry = ex._environment()
     except Exception as exc:  # pragma: no cover - no vault on the runner
@@ -118,7 +118,7 @@ def test_reexport_matches_the_published_bundle():
         pytest.skip(f"{bundle['plugin']} not in the local vault")
     from worldgen.interior_light import kit_lights
     again = ex.export_bundle(bundle["plugin"], bundle["cellId"], (paths, pools, registry),
-                             ex.published_kit_assets(), kit_lights(ex.KITS_DIR))
+                             ex.published_kit_assets(), kit_lights(ex.KITS_DIR), cache=plugin_cache)
     assert json.loads(json.dumps(again)) == bundle
 
 
@@ -281,14 +281,14 @@ def vault_env():
 
 
 @pytest.mark.parametrize("plugin,cell", LIGHT_CELLS, ids=[c for _, c in LIGHT_CELLS])
-def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin, cell):
+def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin_cache, plugin, cell):
     import struct
     paths, pools, registry = vault_env
     if plugin not in paths:
         pytest.skip(f"{plugin} not in the local vault")
     bundle = ex.export_cell(plugin, cell, paths, registry, ex.published_kit_assets(),
-                            lambda n: pools.get(n))
-    pset = ex.plugin_set(paths[plugin], paths)
+                            lambda n: pools.get(n), cache=plugin_cache)
+    pset = ex.plugin_set(paths[plugin], paths, plugin_cache)
     cell_rec, refs = ex.read_cell(pset.main, cell)
     base_of = {}
     for rec in refs:
@@ -408,13 +408,13 @@ def test_the_latest_plugin_in_load_order_owns_an_overridden_record(tmp_path):
     assert models == {0x10: "p10.nif", 0x11: "u11.nif", 0x12: "m12.nif"}
 
 
-def test_tropical_skyrims_wolfpelt_override_wins(vault_env):
+def test_tropical_skyrims_wolfpelt_override_wins(vault_env, plugin_cache):
     """The real case: Tropical Skyrim.esp overrides Skyrim.esm:03AD74 WolfPelt
     to the slaughterfish scale mesh; an export must draw the override."""
     paths, _pools, _registry = vault_env
     if "Tropical Skyrim.esp" not in paths or "Skyrim.esm" not in paths:
         pytest.skip("Tropical Skyrim.esp not in the local vault")
-    pset = ex.plugin_set(paths["Tropical Skyrim.esp"], paths)
+    pset = ex.plugin_set(paths["Tropical Skyrim.esp"], paths, plugin_cache)
     got, _ = ex.read_records(pset, {("Skyrim.esm", 0x03AD74)})
     info = ex._base_info(got[("Skyrim.esm", 0x03AD74)])
     assert info["editorId"] == "WolfPelt"
@@ -515,7 +515,7 @@ def test_each_place_door_record_holds_its_own_pairing():
                 assert isinstance(claim["interiorLoadDoorRef"], str) and "exteriorDoorId" not in claim
 
 
-def test_two_places_export_one_cell_file_in_either_order():
+def test_two_places_export_one_cell_file_in_either_order(plugin_cache):
     """Export the shared cells for place A then B, and B then A: the file is
     identical whichever order and whichever place, and names no place."""
     try:
@@ -533,7 +533,7 @@ def test_two_places_export_one_cell_file_in_either_order():
     for order in ((ca, cb), (cb, ca)):
         written = None
         for claims in order:
-            written = ex.export_bundle(*key, env, kits, lights, claims[key])
+            written = ex.export_bundle(*key, env, kits, lights, claims[key], plugin_cache)
         out[order[0] is ca] = json.dumps(written, sort_keys=True)
     assert out[True] == out[False]
     bundle = json.loads(out[True])

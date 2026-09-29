@@ -84,26 +84,28 @@ class PluginWorld:
     order, the main plugin last) and the last plugin to define a base object
     or a worldspace reference owns it, as the game resolves an override."""
 
-    def __init__(self, name: str, path_of):
+    def __init__(self, name: str, path_of, cache=None):
+        from .plugin_cache import PluginCache
+        cache = cache if cache is not None else PluginCache()
         self.name = name
         self.plugins: dict[str, Plugin] = {}
         self.missing: list[str] = []
-        main = Plugin(path_of(name))
+        main = cache.plugin(path_of(name))
         self.main = main
         for master in main.masters:
             p = path_of(master)
             if p is None:
                 self.missing.append(master)
                 continue
-            self.plugins[master] = Plugin(p)
+            self.plugins[master] = cache.plugin(p)
         self.plugins[name] = main
         self.bases: dict[tuple[str, int], object] = {}
         self.interior_refs: set[tuple[str, int]] = set()
         self.cells: dict[str, list] = {}
         for pname, plugin in self.plugins.items():
-            for fid, base in plugin.base_objects().items():
+            for fid, base in cache.base_objects(plugin).items():
                 self.bases[_key(plugin, fid)] = base          # load order: last wins
-            for cell in plugin.interior_cells(with_refs=True):
+            for cell in cache.interior_cells(plugin):
                 for ref in cell.refs:
                     self.interior_refs.add(_key(plugin, ref.form_id))
                 if pname == name and cell.editor_id:
@@ -442,16 +444,11 @@ def pair_doors(entrance_bearings: list[float | None], door_bearings: list[float]
     return pick, f"{n} entrances paired by bearing, worst {worst:.0f} deg off{spare}"
 
 
-_WORLDS: dict[str, PluginWorld] = {}
-
-
-def world_for(plugin: str, path_of) -> PluginWorld | None:
-    """Per-process cache (read-only plugin data, loaded once per plugin)."""
-    if plugin not in _WORLDS:
-        if path_of(plugin) is None:
-            return None
-        _WORLDS[plugin] = PluginWorld(plugin, path_of)
-    return _WORLDS[plugin]
+def world_for(plugin: str, path_of, cache=None) -> PluginWorld | None:
+    """The plugin's `PluginWorld` from `cache` (a `plugin_cache.PluginCache`
+    the caller owns; a fresh one when None, so nothing is shared)."""
+    from .plugin_cache import PluginCache
+    return (cache if cache is not None else PluginCache()).world(plugin, path_of)
 
 
 def plugin_paths() -> dict[str, Path]:
