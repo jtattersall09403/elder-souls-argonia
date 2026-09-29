@@ -60,8 +60,9 @@ with an object that must not have it: clone first (the old rule, unchanged).
   temporaries, giving NaN silently (black striped water). Use the branch-free `sel()` from
   `packages/game-core/src/render/nodes/materialNodes.ts`.
 - `Loop` and `If` only inside an `Fn(() => ...)`; a bare loop in a graph hangs the node builder.
-- No texture sampling inside a function given `setLayout`: the WebGL 2 build emits an undeclared
-  identifier. Pass the sampled value in instead.
+- A function given `setLayout` may not read uniforms, uniform arrays or textures: three 0.184 does not
+  declare them inside it (WGSL "struct member nodeUniformN not found", GLSL undeclared identifier).
+  Pass the values in as parameters, or leave the function inline.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
