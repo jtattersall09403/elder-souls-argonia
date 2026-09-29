@@ -321,3 +321,89 @@ describe("ripple render scheduling", () => {
     sim.dispose();
   });
 });
+
+describe("ripple mask refresh cost (walk 5 perf)", () => {
+  // A shore across the patch with a current, so labels, depth bytes and flow all vary.
+  const shore = (level: { tide: number }): RippleBoundarySampler => (x, z) => {
+    const depth = 0.4 + 0.08 * (x - 2) + 0.03 * Math.sin(z) + level.tide;
+    return { waterBodyId: depth > 0.02 ? "water.test.shore" : null, depth, surfaceHeight: level.tide, flowX: 0.1 * z, flowZ: 0.3 };
+  };
+  const sameMask = (a: RippleBoundaryMask, b: RippleBoundaryMask) => {
+    expect(Array.from(a.data)).toEqual(Array.from(b.data));
+    expect(Array.from(a.current)).toEqual(Array.from(b.current));
+    expect(a.hasCurrent).toBe(b.hasCurrent);
+  };
+
+  it("an origin change or an in-place row refresh gives the full-refresh output for the same inputs", () => {
+    const level = { tide: 0 };
+    const moved = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
+    moved.setLevelOffsets(0, 0); moved.update(0, 0, 0, 0);
+    moved.update(1.5, -2, 0, 1 / 60);
+    const fresh = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
+    fresh.setLevelOffsets(0, 0); fresh.update(1.5, -2, 0, 0);
+    sameMask(moved, fresh);
+    // Level move past the epsilon: the in-place cycle converges on a fresh full build.
+    level.tide = -0.05;
+    moved.setLevelOffsets(level.tide, 0);
+    for (let f = 0; f < 40; f++) moved.update(1.5, -2, 0, 1 / 60);
+    const after = new RippleBoundaryMask(32, 16, 0.2, shore(level), 4, 1);
+    after.setLevelOffsets(level.tide, 0); after.update(1.5, -2, 0, 0);
+    sameMask(moved, after);
+  });
+
+  it("does no mask work and uploads nothing across frames with unchanged inputs", () => {
+    let samples = 0;
+    const level = { tide: 0 };
+    const base = shore(level);
+    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x, z, e) => { samples++; return base(x, z, e); } });
+    sim.configureBoundary({ levelOffsets: () => ({ tide: level.tide, season: 0 }) } as unknown as WorldWaterQuery, () => 0);
+    const { renderer } = fakeRenderer();
+    const mask = (sim as unknown as { mask: RippleBoundaryMask }).mask;
+    const tex = (sim as unknown as { maskTexture: THREE.DataTexture }).maskTexture;
+    sim.step(renderer, 0, 0, 1 / 60);
+    const version = tex.version;
+    samples = 0;
+    let walked = 0;
+    for (let f = 0; f < 50; f++) { sim.step(renderer, 0, 0, 1 / 60); walked += mask.cellsWalked; }
+    expect(samples).toBe(0);
+    expect(walked).toBe(0);
+    expect(tex.version).toBe(version);
+    // The 1 s still-level safety cycle resamples, but unchanged rows upload nothing.
+    for (let f = 0; f < 40; f++) sim.step(renderer, 0, 0, 1 / 60);
+    expect(samples).toBeGreaterThan(0);
+    expect(tex.version).toBe(version);
+    sim.dispose();
+  });
+
+  it("uploads only the rows a level-driven refresh changed", () => {
+    const level = { tide: 0 };
+    // Only rows with z > 0 respond to the tide.
+    const sim = new RippleSim({ boundarySize: 32, patchM: 16, sampleBoundary: (x, z) => {
+      const depth = 0.4 + 0.08 * (x - 2) + (z > 0 ? level.tide : 0);
+      return { waterBodyId: depth > 0.02 ? "water.test.shore" : null, depth, surfaceHeight: 0 };
+    } });
+    sim.configureBoundary({ levelOffsets: () => ({ tide: level.tide, season: 0 }) } as unknown as WorldWaterQuery, () => 0);
+    const { renderer } = fakeRenderer();
+    const textures = sim as unknown as { maskTexture: THREE.DataTexture; currentTexture: THREE.DataTexture };
+    const consume = () => { for (const t of [textures.maskTexture, textures.currentTexture]) { t.onUpdate?.(t); } };
+    sim.step(renderer, 0, 0, 1 / 60); consume();
+    for (let f = 0; f < 12; f++) sim.step(renderer, 0, 0, 1 / 60);
+    level.tide = -0.004; // past the 1 mm epsilon, under the 8 mm stale clear
+    const rowsPerFrame: number[] = [];
+    for (let f = 0; f < 3; f++) {
+      sim.step(renderer, 0, 0, 1 / 60);
+      const ranges = textures.maskTexture.updateRanges;
+      expect(textures.currentTexture.updateRanges.length).toBe(ranges.length);
+      for (const r of ranges) {
+        expect(r.count).toBe(32 * 4);
+        expect(Math.floor(r.start / (32 * 4))).toBeGreaterThanOrEqual(16); // a z > 0 row
+      }
+      rowsPerFrame.push(ranges.length);
+      for (const t of [textures.maskTexture, textures.currentTexture]) t.clearUpdateRanges();
+      consume();
+    }
+    // 16-row batches: rows 0-15 (z < 0) unchanged, rows 16-31 each changed once.
+    expect(rowsPerFrame).toEqual([0, 16, 0]);
+    sim.dispose();
+  });
+});

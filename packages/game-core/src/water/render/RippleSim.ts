@@ -10,6 +10,8 @@ const MAX_DROPS = 32;
 const MAX_PATH_STAMPS = 6;
 const MIN_WET_MARGIN_M = 0.02;
 const MAX_STALE_STAGE_M = 0.008;
+/** Tide/season movement (m) that starts a level-driven mask refresh cycle. */
+const LEVEL_REFRESH_EPS_M = 0.001;
 
 export interface RippleBoundarySample {
   waterBodyId: string | null;
@@ -31,11 +33,17 @@ export interface RippleSimOptions {
   patchM?: number;
   boundarySize?: number;
   maskRefreshS?: number;
+  /** Refresh period while tide/season are still (default 1 s). */
+  staticRefreshS?: number;
   sampleBoundary?: RippleBoundarySampler;
 }
 
 /** CPU mask sampled at 0.5 m by default. Movement reuses overlapping samples;
- * tide/season changes refresh the complete patch at most five times per second.
+ * tide/season movement past LEVEL_REFRESH_EPS_M refreshes the complete patch at
+ * most once per `refreshS`; with still levels a slower `staticRefreshS` cycle
+ * picks up ground that streamed in under the patch (the sampler has no revision).
+ * Refreshes without movement rewrite their rows in place and flag only the rows
+ * whose bytes changed (`dirtyRows`), so the GPU upload is those rows alone.
  * RG = stable 16-bit local body label, B = depth / 4 m, A = wet support. */
 export class RippleBoundaryMask {
   readonly center = new THREE.Vector2(NaN, NaN);
@@ -57,8 +65,20 @@ export class RippleBoundaryMask {
   private season = 0;
   private hasLevels = false;
   private dirty = false;
+  /** Levels at the start of the current refresh cycle. */
+  private cycleTide = NaN;
+  private cycleSeason = NaN;
+  /** Row stages moved by a scroll/full rebuild since setLevelOffsets last looked. */
+  private stagesMoved = true;
+  private readonly rowHasCurrent: Uint8Array;
+  /** Rows whose data/current bytes changed since clearDirty(); `dirtyAll` = the arrays were rebuilt. */
+  readonly dirtyRows: Uint8Array;
+  dirtyAll = true;
+  /** Cells the last update() walked (instrumentation for tests and benchmarks). */
+  cellsWalked = 0;
 
-  constructor(readonly size = 128, readonly patchM = RIPPLE_PATCH_M, readonly refreshS = 0.2, sampler?: RippleBoundarySampler, private readonly refreshRows = size) {
+  constructor(readonly size = 128, readonly patchM = RIPPLE_PATCH_M, readonly refreshS = 0.2, sampler?: RippleBoundarySampler,
+    private readonly refreshRows = size, readonly staticRefreshS = refreshS) {
     this.data = new Uint8Array(size * size * 4);
     this.scratch = new Uint8Array(this.data.length);
     this.current = new Float32Array(size * size * 2);
@@ -66,8 +86,12 @@ export class RippleBoundaryMask {
     this.cornerLabels = new Uint16Array((size + 1) * (size + 1));
     this.rowStages = new Float64Array(size * 4).fill(NaN);
     this.scratchRowStages = new Float64Array(size * 4);
+    this.rowHasCurrent = new Uint8Array(size);
+    this.dirtyRows = new Uint8Array(size);
     this.sampler = sampler;
   }
+
+  clearDirty(): void { this.dirtyRows.fill(0); this.dirtyAll = false; }
 
   setSampler(sampler: RippleBoundarySampler): void { this.sampler = sampler; this.invalidate(); }
   invalidate(): void { this.age = Infinity; }
@@ -76,6 +100,10 @@ export class RippleBoundaryMask {
    * refresh cursor. A continuously moving tide cannot starve later rows. */
   setLevelOffsets(tide: number, season: number): boolean {
     if (!Number.isFinite(tide) || !Number.isFinite(season)) return false;
+    // Unchanged levels over unmoved stages: the last pass already cleared
+    // every row this one could (refreshed rows carry exactly these levels).
+    if (this.hasLevels && tide === this.tide && season === this.season && !this.stagesMoved) return false;
+    this.stagesMoved = false;
     let cleared = false;
     for (let row = 0; row < this.size; row++) {
       const i = row * 4;
@@ -87,16 +115,22 @@ export class RippleBoundaryMask {
         this.data.fill(0, row * this.size * 4, (row + 1) * this.size * 4);
         this.current.fill(0, row * this.size * 2, (row + 1) * this.size * 2);
         this.rowStages.fill(NaN, i, i + 4);
+        this.rowHasCurrent[row] = 0;
+        this.dirtyRows[row] = 1;
         cleared = true;
       }
     }
     this.tide = tide; this.season = season; this.hasLevels = true;
-    if (cleared) { this.dirty = true; this.rowsRemaining = this.size; this.age = 0; }
+    if (cleared) {
+      this.dirty = true; this.rowsRemaining = this.size; this.age = 0;
+      this.cycleTide = tide; this.cycleSeason = season;
+    }
     return cleared;
   }
 
   invalidateProgressively(): void {
     this.data.fill(0); this.current.fill(0); this.hasCurrent = false; this.rowStages.fill(NaN);
+    this.rowHasCurrent.fill(0); this.dirtyRows.fill(1);
     this.dirty = true; this.rowsRemaining = this.size; this.age = 0;
   }
 
@@ -106,16 +140,21 @@ export class RippleBoundaryMask {
     const cz = Math.round(focusZ / texel) * texel;
     this.age += Math.max(0, dt);
     const full = !Number.isFinite(this.age) || !Number.isFinite(this.center.x);
-    if (!full && !this.rowsRemaining && this.age + 1e-9 >= this.refreshS) {
+    if (!full && !this.rowsRemaining && this.age + 1e-9 >= this.refreshS && (this.age + 1e-9 >= this.staticRefreshS
+      || !(Math.abs(this.tide - this.cycleTide) <= LEVEL_REFRESH_EPS_M && Math.abs(this.season - this.cycleSeason) <= LEVEL_REFRESH_EPS_M))) {
       this.rowsRemaining = this.size;
       this.refreshRow = 0;
       this.age = 0;
+      this.cycleTide = this.tide; this.cycleSeason = this.season;
     }
     const rowStart = this.refreshRow;
     const rowCount = full ? this.size : Math.min(this.rowsRemaining, Math.max(1, this.refreshRows));
     const dx = Number.isFinite(this.center.x) ? Math.round((cx - this.center.x) / texel) : this.size;
     const dz = Number.isFinite(this.center.y) ? Math.round((cz - this.center.y) / texel) : this.size;
-    if (!full && !rowCount && dx === 0 && dz === 0 && !this.dirty) return false;
+    if (!full && !rowCount && dx === 0 && dz === 0 && !this.dirty) { this.cellsWalked = 0; return false; }
+    if (!full && dx === 0 && dz === 0) return this.refreshRowsInPlace(cx, cz, epoch, rowStart, rowCount);
+    this.cellsWalked = this.size * this.size;
+    this.rowHasCurrent.fill(0);
     const target = this.scratch;
     // Corner samples are shared by four cells: conservative support needs
     // about two samples/cell, not five. 65535 is the unsampled sentinel.
@@ -133,10 +172,68 @@ export class RippleBoundaryMask {
         target[i] = this.data[old]; target[i + 1] = this.data[old + 1];
         target[i + 2] = this.data[old + 2]; target[i + 3] = this.data[old + 3];
         this.currentScratch[ci] = this.current[old / 2]; this.currentScratch[ci + 1] = this.current[old / 2 + 1];
-        if (this.currentScratch[ci] !== 0 || this.currentScratch[ci + 1] !== 0) this.hasCurrent = true;
+        if (this.currentScratch[ci] !== 0 || this.currentScratch[ci + 1] !== 0) { this.hasCurrent = true; this.rowHasCurrent[z] = 1; }
         if (target[i + 3]) this.includeRowStage(z, oldZ);
         continue;
       }
+      this.sampleCell(target, this.currentScratch, x, z, cx, cz, texel, epoch, true);
+    }
+    this.scratch = this.data;
+    this.data = target;
+    [this.current, this.currentScratch] = [this.currentScratch, this.current];
+    this.rowStages.set(this.scratchRowStages);
+    this.dirty = false;
+    this.stagesMoved = true;
+    this.dirtyAll = true;
+    this.center.set(cx, cz);
+    if (full) {
+      this.age = 0; this.rowsRemaining = 0; this.refreshRow = 0;
+      this.cycleTide = this.tide; this.cycleSeason = this.season;
+    } else { this.rowsRemaining -= rowCount; this.refreshRow = (this.refreshRow + rowCount) % this.size; }
+    return true;
+  }
+
+  /** No movement: resample only the refresh rows, in place. Byte-identical to
+   * the scrolling walk with dx = dz = 0 (non-refresh cells and their row stages
+   * are copies of themselves); rows are flagged dirty only when they changed. */
+  private refreshRowsInPlace(cx: number, cz: number, epoch: number, rowStart: number, rowCount: number): boolean {
+    const texel = this.patchM / this.size;
+    const rowBytes = this.size * 4;
+    this.cornerLabels.fill(65535);
+    let changed = this.dirty;
+    for (let r = 0; r < rowCount; r++) {
+      const z = (rowStart + r) % this.size;
+      const i = z * 4;
+      this.scratchRowStages.fill(NaN, i, i + 4);
+      this.rowHasCurrent[z] = 0;
+      // Sample into the scratch row, then compare and copy back.
+      for (let x = 0; x < this.size; x++) this.sampleCell(this.scratch, this.currentScratch, x, z, cx, cz, texel, epoch, false);
+      const b0 = z * rowBytes, c0 = z * this.size * 2;
+      let rowChanged = false;
+      for (let k = 0; k < rowBytes; k++) if (this.scratch[b0 + k] !== this.data[b0 + k]) { rowChanged = true; break; }
+      if (!rowChanged) for (let k = 0; k < this.size * 2; k++) {
+        if (!Object.is(this.currentScratch[c0 + k], this.current[c0 + k])) { rowChanged = true; break; }
+      }
+      if (rowChanged) {
+        this.data.set(this.scratch.subarray(b0, b0 + rowBytes), b0);
+        this.current.set(this.currentScratch.subarray(c0, c0 + this.size * 2), c0);
+        this.dirtyRows[z] = 1;
+        changed = true;
+      }
+      this.rowStages[i] = this.scratchRowStages[i]; this.rowStages[i + 1] = this.scratchRowStages[i + 1];
+      this.rowStages[i + 2] = this.scratchRowStages[i + 2]; this.rowStages[i + 3] = this.scratchRowStages[i + 3];
+    }
+    this.hasCurrent = false;
+    for (let z = 0; z < this.size; z++) if (this.rowHasCurrent[z]) { this.hasCurrent = true; break; }
+    this.cellsWalked = rowCount * this.size;
+    this.dirty = false;
+    this.rowsRemaining -= rowCount; this.refreshRow = (this.refreshRow + rowCount) % this.size;
+    return changed;
+  }
+
+  private sampleCell(target: Uint8Array, current: Float32Array, x: number, z: number, cx: number, cz: number, texel: number, epoch: number, walk: boolean): void {
+      const i = (z * this.size + x) * 4;
+      const ci = i / 2;
       const sample = this.sampler?.(cx + (x + 0.5) * texel - this.patchM / 2, cz + (z + 0.5) * texel - this.patchM / 2, epoch);
       const id = this.sampler ? sample?.waterBodyId : "water.unbounded.default";
       const depth = this.sampler ? sample?.depth ?? 0 : 4;
@@ -163,20 +260,10 @@ export class RippleBoundaryMask {
       target[i + 1] = label >>> 8;
       target[i + 2] = label ? Math.min(255, Math.max(1, Math.round(depth / 4 * 255))) : 0;
       target[i + 3] = label ? 255 : 0;
-      this.currentScratch[ci] = label && Number.isFinite(sample?.flowX) ? sample!.flowX! : 0;
-      this.currentScratch[ci + 1] = label && Number.isFinite(sample?.flowZ) ? sample!.flowZ! : 0;
-      if (this.currentScratch[ci] !== 0 || this.currentScratch[ci + 1] !== 0) this.hasCurrent = true;
+      current[ci] = label && Number.isFinite(sample?.flowX) ? sample!.flowX! : 0;
+      current[ci + 1] = label && Number.isFinite(sample?.flowZ) ? sample!.flowZ! : 0;
+      if (current[ci] !== 0 || current[ci + 1] !== 0) { if (walk) this.hasCurrent = true; this.rowHasCurrent[z] = 1; }
       if (label) this.includeRowStage(z);
-    }
-    this.scratch = this.data;
-    this.data = target;
-    [this.current, this.currentScratch] = [this.currentScratch, this.current];
-    this.rowStages.set(this.scratchRowStages);
-    this.dirty = false;
-    this.center.set(cx, cz);
-    if (full) { this.age = 0; this.rowsRemaining = 0; this.refreshRow = 0; }
-    else { this.rowsRemaining -= rowCount; this.refreshRow = (this.refreshRow + rowCount) % this.size; }
-    return true;
   }
 
   /** Label at a world point, used to restrict each impulse to its origin body. */
@@ -344,6 +431,13 @@ export class RippleSim {
   private readonly pendingDrops: { x: number; z: number; radiusM: number; strength: number }[] = [];
   private readonly fastSampler?: RippleBoundarySampler;
   private readonly maxDropRadiusM: number;
+  private readonly maskMaterials: THREE.ShaderMaterial[];
+  /** A whole-texture upload is queued and not yet consumed: row ranges must not narrow it. */
+  private maskFullPending = true;
+  private currentFullPending = true;
+  private readonly savedColor = new THREE.Color();
+  private readonly savedViewport = new THREE.Vector4();
+  private readonly savedScissor = new THREE.Vector4();
   private epoch = () => 0;
   private levels?: (epochMinutes: number) => { tide: number; season: number };
   private initialized = false;
@@ -360,7 +454,9 @@ export class RippleSim {
     // Keep conservative half-metre banks without a 33k-query hitch every
     // fifth of a second. Initial/teleported support is complete immediately;
     // subsequent level changes refresh in bounded row batches.
-    this.mask = new RippleBoundaryMask(boundarySize, this.patchM, Math.max(0.1, options.maskRefreshS ?? 0.2), this.fastSampler, 16);
+    // Still levels re-check the patch once a second for ground that streamed in.
+    this.mask = new RippleBoundaryMask(boundarySize, this.patchM, Math.max(0.1, options.maskRefreshS ?? 0.2), this.fastSampler, 16,
+      Math.max(0.1, options.staticRefreshS ?? 1));
     this.scheduler = new RippleFrameScheduler(size, this.patchM);
     this.center = this.scheduler.center;
     this.maskTexture = new THREE.DataTexture(this.mask.data, boundarySize, boundarySize, THREE.RGBAFormat);
@@ -373,6 +469,8 @@ export class RippleSim {
     this.currentTexture.generateMipmaps = false;
     this.currentTexture.colorSpace = THREE.NoColorSpace;
     this.currentTexture.needsUpdate = true;
+    this.maskTexture.onUpdate = () => { this.maskFullPending = false; };
+    this.currentTexture.onUpdate = () => { this.currentFullPending = false; };
     const makeTarget = () => {
       const rt = new THREE.WebGLRenderTarget(size, size, { type: THREE.HalfFloatType, format: THREE.RGBAFormat,
         // Simulation taps are exact texel centres; linear filtering gives the
@@ -400,6 +498,7 @@ export class RippleSim {
       uDropBodies: { value: Array.from({ length: MAX_DROPS }, () => new THREE.Vector2()) },
       uDropCount: { value: 0 },
     });
+    this.maskMaterials = [this.copy, this.drop, this.update, this.advect];
     this.quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.copy);
     this.quad.frustumCulled = false;
     this.scene.add(this.quad);
@@ -461,20 +560,16 @@ export class RippleSim {
     const levels = this.levels?.(epoch);
     if (levels) this.setLevelOffsets(levels.tide, levels.season);
     const maskChanged = this.mask.update(this.center.x, this.center.y, epoch, deltaS);
-    if (maskChanged) {
-      this.maskTexture.image.data = this.mask.data; this.maskTexture.needsUpdate = true;
-      this.currentTexture.image.data = this.mask.current; this.currentTexture.needsUpdate = true;
-    }
-    for (const material of [this.copy, this.drop, this.update, this.advect]) {
-      material.uniforms.uMaskOffset.value.set((this.center.x - this.mask.center.x) / this.patchM, (this.center.y - this.mask.center.y) / this.patchM);
-    }
+    if (maskChanged) this.uploadMask();
+    const offsetX = (this.center.x - this.mask.center.x) / this.patchM, offsetZ = (this.center.y - this.mask.center.y) / this.patchM;
+    for (const material of this.maskMaterials) material.uniforms.uMaskOffset.value.set(offsetX, offsetZ);
     const target = renderer.getRenderTarget();
     const tone = renderer.toneMapping;
     const autoClear = renderer.autoClear;
-    const color = renderer.getClearColor(new THREE.Color());
+    const color = renderer.getClearColor(this.savedColor);
     const alpha = renderer.getClearAlpha();
-    const viewport = renderer.getViewport(new THREE.Vector4());
-    const scissor = renderer.getScissor(new THREE.Vector4());
+    const viewport = renderer.getViewport(this.savedViewport);
+    const scissor = renderer.getScissor(this.savedScissor);
     const scissorTest = renderer.getScissorTest();
     try {
       renderer.toneMapping = THREE.NoToneMapping;
@@ -535,6 +630,29 @@ export class RippleSim {
     this.a.dispose(); this.b.dispose(); this.maskTexture.dispose(); this.currentTexture.dispose();
     this.copy.dispose(); this.update.dispose(); this.drop.dispose(); this.advect.dispose();
     this.quad.geometry.dispose(); this.scene.clear();
+  }
+
+  /** Rebuilt arrays upload whole; in-place row refreshes upload only their
+   * changed rows (three's DataTexture updateRanges, one texSubImage2D per row:
+   * its ranges are counted in RGBA-element units and may not span rows, so the
+   * RG current texture's ranges are given in the same pixel*4 units). */
+  private uploadMask(): void {
+    const size = this.mask.size;
+    if (this.mask.dirtyAll) {
+      this.maskTexture.image.data = this.mask.data; this.maskTexture.clearUpdateRanges();
+      this.currentTexture.image.data = this.mask.current; this.currentTexture.clearUpdateRanges();
+      this.maskFullPending = this.currentFullPending = true;
+    } else {
+      const rows = this.mask.dirtyRows;
+      for (let z = 0; z < size; z++) {
+        if (!rows[z]) continue;
+        if (!this.maskFullPending) this.maskTexture.addUpdateRange(z * size * 4, size * 4);
+        if (!this.currentFullPending) this.currentTexture.addUpdateRange(z * size * 4, size * 4);
+      }
+    }
+    this.maskTexture.needsUpdate = true;
+    this.currentTexture.needsUpdate = true;
+    this.mask.clearDirty();
   }
 
   private renderPass(renderer: THREE.WebGLRenderer, material: THREE.ShaderMaterial): void {
