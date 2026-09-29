@@ -133,7 +133,7 @@ export function wrapShadowPosition(material: NodeMaterial, fn: (position: TslNod
  * `fn` receives a vec4 (rgb, alpha) node: material.color × map by default.
  */
 export function wrapColor(material: NodeMaterial, fn: (color: TslNode) => TslNode): void {
-  material.colorNode = fn(material.colorNode ? vec4(material.colorNode) : materialColor);
+  material.colorNode = fn(material.colorNode ? (vec4 as (n: TslNode) => TslNode)(material.colorNode) : materialColor);
   touch(material);
 }
 
