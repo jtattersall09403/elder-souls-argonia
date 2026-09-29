@@ -33,6 +33,8 @@ export interface InteriorDoorsProbe {
   cellId: string | null;
   originM: Vec3 | null;
   meshes: number;
+  /** Fire emitters the shown cell burns (interiorLoader `counts.fires`). */
+  fires: number;
   /** The shown cell's drawn bounds, world metres: [min, max]. */
   boundsM: [Vec3, Vec3] | null;
   candidate: string | null;
@@ -223,7 +225,9 @@ export function InteriorDoors({
     return () => { environment.current = null; env.restore(); };
   }, [shown, scene, gl]);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
+    // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
+    shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;
       // The body's own pose: `position()` is the controller's per-frame copy,
@@ -270,11 +274,16 @@ function probeState(
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
     shown.interior.group.updateMatrixWorld(true);
-    probeBox.setFromObject(shown.interior.group);
+    // the fire's instanced quads carry no bounds of their own: the cell's meshes only
+    probeBox.makeEmpty();
+    for (const child of shown.interior.group.children) {
+      if (child !== shown.interior.fire?.group) probeBox.expandByObject(child);
+    }
     if (!probeBox.isEmpty()) boundsM = [probeBox.min.toArray() as Vec3, probeBox.max.toArray() as Vec3];
   }
   return {
     cellId: transition.cellId, originM: shown?.originM ?? null, meshes: shown?.interior.counts.meshes ?? 0,
+    fires: shown?.interior.counts.fires ?? 0,
     boundsM, candidate: transition.candidate?.id ?? null, focused,
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
     loadS: shown?.interior.loadS ?? null,

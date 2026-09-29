@@ -6,13 +6,38 @@
  * and its plugin lights but, until wired, draws no flame at all: it hands
  * these emitters to a `FlameSystem` added to the cell's group, with every
  * owner at strength 1 (an interior's candles burn whatever the hour).
+ *
+ * A piece whose fire is additive flame CARDS (`flameCardMaterials`:
+ * fxfirewithembers01, the fire on a Keeba hut's floor hearth) has no mined
+ * emitter; it burns one bed at its base centre with its preset (`brazier`),
+ * and the loader stops drawing its cards (`isInteriorFlameCard`): the cards
+ * alone read as a glow with no flame (walk 5, owner).
  */
 import * as THREE from "three";
 import type { FireEmitter } from "./FlameSystem";
-import { manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta } from "./flameAnchors";
+import { firePresetFor } from "./fireTypes";
+import { manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta, type LocalFlameAnchor } from "./flameAnchors";
 
 export interface InteriorFirePlacement { id: string; kit: string; assetId: string }
-export type InteriorFireRow = FlameAnchorMeta & { sizeM?: number[]; originOffsetM?: number[] };
+export type InteriorFireRow = FlameAnchorMeta & {
+  sizeM?: number[]; originOffsetM?: number[];
+  /** The piece's additive flame-card materials (build_kit), replaced by the flame system inside. */
+  flameCardMaterials?: string[] | null;
+};
+
+/** A material the interior loader leaves undrawn: one of its piece's flame cards. */
+export function isInteriorFlameCard(row: InteriorFireRow | undefined, materialName: string): boolean {
+  return Boolean(row?.flameCardMaterials?.includes(materialName)) && !row?.flames?.length;
+}
+
+/** The local anchors of an interior piece: its mined emitters, else one bed at a flame-card piece's base centre. */
+export function interiorFlameAnchorsLocal(row: InteriorFireRow, box: THREE.Box3): LocalFlameAnchor[] {
+  if (row.flames?.length) return pieceFlameAnchorsLocal(row, box, false);
+  if (!row.flameCardMaterials?.length) return [];
+  const centre = box.getCenter(new THREE.Vector3());
+  return [{ local: new THREE.Vector3(centre.x, box.min.y, centre.z),
+    preset: firePresetFor({ id: row.id, category: row.category, anchorClass: row.anchorClass }), record: -1 }];
+}
 
 /** A stable 0..1 hash of a string (FNV-1a), as settlement/lighting.ts `hash01`. */
 function hash01(text: string): number {
@@ -33,12 +58,12 @@ export function interiorFireEmitters<P extends InteriorFirePlacement>(
   const scale = new THREE.Vector3();
   for (const p of placements) {
     const row = rowOf(p);
-    if (!row?.flames?.length) continue;
+    if (!row?.flames?.length && !row?.flameCardMaterials?.length) continue;
     const box = manifestBoxYUp(row);
     if (!box) continue;
     const matrix = matrixOf(p);
     scale.setFromMatrixScale(matrix);
-    for (const a of pieceFlameAnchorsLocal(row, box, false)) {
+    for (const a of interiorFlameAnchorsLocal(row, box)) {
       out.push({ position: a.local.clone().applyMatrix4(matrix), preset: a.preset,
         scale: Math.max(scale.x, scale.y, scale.z), seed: hash01(`${p.id}#${a.record}`), owner: 0 });
     }

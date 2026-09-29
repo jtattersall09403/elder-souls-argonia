@@ -183,7 +183,10 @@ export function firePresetFor(input: FirePresetInput): FirePresetId {
   const source = (input.flameSource ?? "").toLowerCase();
   if (kind === "campfire" || id.includes("campfire")) return "campfire";
   if (kind === "hearth" || id.includes("fireplace") || id.includes("hearth")) return "hearth";
-  if (kind === "brazier" || kind === "forge" || kind === "cook-fire" || id.includes("brazier")) return "brazier";
+  // fxfirewithembers01, the fire vanilla stands in a brazier's bowl and on a
+  // hut's floor hearth, is a brazier-sized bed wherever it stands
+  if (kind === "brazier" || kind === "forge" || kind === "cook-fire" || id.includes("brazier")
+    || id.includes("fxfirewithembers")) return "brazier";
   if (source.includes("torch") || kind === "torch" || (kind === "sconce" && id.includes("torch"))) return "torchGround";
   if (kind === "lantern" || id.includes("lantern")) {
     // a mined candle inside the lantern is that candle, hanging or not; a
