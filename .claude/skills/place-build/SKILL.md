@@ -272,6 +272,11 @@ Ends when: every Plan row is YES.
     python3 tooling/repo-standards/build_ledger.py stage --place <place-id> --stage readers --start
     python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json
 
+Lit pieces: add a day and a night close-up per fixture
+(`front:<uid>/2.5`, `front:<uid>/2.5@night`); the fire pass shows each
+resolved flame; presets, the contact sheet and the anchor check are in
+`references/fire.md`.
+
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
 `Workflow`, one Sonnet reader per image or contact sheet, one merged NO
