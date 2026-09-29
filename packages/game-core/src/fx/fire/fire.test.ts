@@ -2,7 +2,7 @@
  * The fire module (16k walk 5): presets, preset choice, instance expansion,
  * and the flame anchor check over every published place and interior.
  */
-import { readdirSync, readFileSync, existsSync } from "node:fs";
+import { readdirSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
@@ -12,7 +12,7 @@ import {
 } from "./fireTypes";
 import { FlameSystem } from "./FlameSystem";
 import { FIRE_SHADER_SOURCES } from "./flameMaterial";
-import { interiorFireEmitters } from "./interiorFires";
+import { interiorFireEmitters, interiorFlameAnchorsLocal, burnsInInterior } from "./interiorFires";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
 } from "./flameAnchors";
@@ -231,5 +231,116 @@ describe("flame anchor check (16k walk 5)", () => {
     const { checked, failures } = publishedAnchorFailures();
     expect(failures).toEqual([]);
     expect(checked).toBeGreaterThan(20);
+  });
+});
+
+// ---- coverage: every lit piece burns (16k walk 5 follow-up) -----------------
+
+/**
+ * Per published place and interior: the pieces that should burn (exterior: a
+ * light fixture or sprite holder, SettlementLayer's rule; interior:
+ * `burnsInInterior`) and how many resolve at least one flame. A lit piece
+ * holding a mounted fire (exterior `hostsOfFire`, interior a burning piece in
+ * its bounds) counts as covered by that fire. Greenspring's hist-lantern1-3
+ * (argonianlanterns03: a `light` record, no mined emitter) are the case that
+ * made this test: lit, drawn, no flame.
+ */
+function flameCoverage(): { where: string; burning: number; covered: number; uncovered: string[] }[] {
+  const rows = kitRows();
+  const out: { where: string; burning: number; covered: number; uncovered: string[] }[] = [];
+  for (const file of jsonFiles(join(PUBLIC, "province", "settlements"))) {
+    const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: Placement[] };
+    const placements = bundle.placements ?? [];
+    const hostsOfFire = new Set(placements.filter((p) => p.parentPlacementId
+      && drawsOwnFire(rows.get(`${p.kit}|${p.assetId}`) as never)).map((p) => p.parentPlacementId!));
+    const entry = { where: file.split("/").pop()!, burning: 0, covered: 0, uncovered: [] as string[] };
+    for (const p of placements) {
+      const row = rows.get(`${p.kit}|${p.assetId}`);
+      if (!row) continue;
+      const meta = row as never;
+      const fixture = isLightFixturePlacement({ kind: p.kind as never, layer: p.layer }, meta);
+      const holder = !fixture && isSpriteHolderPlacement({ kind: p.kind as never, layer: p.layer }, meta);
+      if (!fixture && !holder) continue;
+      const lit = Boolean(row.light?.fixtureKind) || drawsOwnFire(meta);
+      if (!lit) continue;
+      entry.burning += 1;
+      const box = manifestBoxYUp(row);
+      const anchors = box ? pieceFlameAnchorsLocal(row, box,
+        fixture && !drawsOwnFire(meta) && !hostsOfFire.has(p.id)) : [];
+      const bed = row.flameCardMaterials?.length && !row.flames?.length;
+      if (anchors.length || bed || hostsOfFire.has(p.id)) entry.covered += 1;
+      else entry.uncovered.push(`${p.id} (${row.id})`);
+    }
+    if (entry.burning) out.push(entry);
+  }
+  for (const file of jsonFiles(join(PUBLIC, "province", "interiors"))) {
+    const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements?: (Placement & { positionM?: number[] })[] };
+    if (!bundle.placements?.length) continue;
+    const placements = bundle.placements.filter((p) => p.positionM);
+    const rowOf = (p: Placement) => rows.get(`${p.kit}|${p.assetId}`);
+    const at = (p: Placement & { positionM?: number[] }) =>
+      new THREE.Matrix4().makeTranslation(p.positionM![0], p.positionM![1], p.positionM![2]);
+    const entry = { where: file.split("/").pop()!, burning: 0, covered: 0, uncovered: [] as string[] };
+    for (const p of placements) {
+      if (!burnsInInterior(rowOf(p))) continue;
+      entry.burning += 1;
+      const emitters = interiorFireEmitters([p], rowOf, at);
+      if (emitters.length) entry.covered += 1;
+      else entry.uncovered.push(`${p.id} (${p.assetId})`);
+    }
+    if (entry.burning) out.push(entry);
+  }
+  return out;
+}
+
+describe("every lit piece burns a flame", () => {
+  it("an interior light-only fixture burns a fallback flame; a brazier holding a bowl fire does not double it", () => {
+    const lantern = { id: "mudmother:gv_meshes/argoniannest/argonianlanterns03", anchorClass: "hanging",
+      light: { fixtureKind: "lantern" }, sizeM: [0.655, 0.639, 2.236], originOffsetM: [0.317, 0.317, 2.149] };
+    expect(burnsInInterior(lantern)).toBe(true);
+    const box = manifestBoxYUp(lantern)!;
+    const anchors = interiorFlameAnchorsLocal(lantern, box);
+    expect(anchors.map((a) => a.preset)).toEqual(["lanternHanging"]);
+    expect(flameAnchorFailures("lamp", lantern, box, anchors)).toEqual([]);
+    const brazier = { id: "vanilla:dungeons/braziers/brazier01", category: "brazier", light: { fixtureKind: "brazier" },
+      sizeM: [1, 1, 1], originOffsetM: [0.5, 0.5, 0] };
+    const bowl = { id: "vanilla:effects/fxfirewithembers01", flameCardMaterials: ["fire"],
+      sizeM: [0.5, 0.5, 0.5], originOffsetM: [0.25, 0.25, 0] };
+    const rowsById: Record<string, typeof brazier | typeof bowl> = { b: brazier, f: bowl };
+    const pl = [{ id: "b", kit: "k", assetId: "b", y: 0 }, { id: "f", kit: "k", assetId: "f", y: 0.8 }];
+    const emitters = interiorFireEmitters(pl, (p) => rowsById[p.assetId],
+      (p) => new THREE.Matrix4().makeTranslation(0, p.y, 0));
+    expect(emitters.map((e) => e.preset)).toEqual(["brazier"]);
+    expect(emitters).toHaveLength(1);
+    // alone, the brazier burns its own fallback
+    expect(interiorFireEmitters([pl[0]], (p) => rowsById[p.assetId], () => new THREE.Matrix4())).toHaveLength(1);
+  });
+
+  it("Greenspring's hist-lantern1-3 (lit, no mined emitter) each burn one lanternHanging flame in the lantern's body", () => {
+    const rows = kitRows();
+    const file = join(PUBLIC, "province", "settlements", "place.hist-heartland.greenspring.json");
+    const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements: Placement[] };
+    const lanterns = bundle.placements.filter((p) => /hist-lantern[123]$/.test(p.id));
+    expect(lanterns).toHaveLength(3);
+    for (const p of lanterns) {
+      const row = rows.get(`${p.kit}|${p.assetId}`)!;
+      expect(row.light?.fixtureKind).toBe("lantern");
+      expect(row.flames ?? []).toEqual([]);
+      expect(isLightFixturePlacement({ kind: p.kind as never, layer: p.layer }, row as never)).toBe(true);
+      const box = manifestBoxYUp(row)!;
+      const anchors = pieceFlameAnchorsLocal(row, box, !drawsOwnFire(row as never));
+      expect(anchors.map((a) => a.preset)).toEqual(["lanternHanging"]);
+      expect(flameAnchorFailures(p.id, row, box, anchors)).toEqual([]);
+    }
+  });
+
+  it("every lit piece of every published place and interior resolves a flame", () => {
+    const coverage = flameCoverage();
+    const greenspring = coverage.find((c) => c.where.includes("greenspring"));
+    expect(greenspring).toBeDefined();
+    if (process.env.FIRE_COVERAGE_OUT) {
+      writeFileSync(process.env.FIRE_COVERAGE_OUT, JSON.stringify(coverage, null, 1));
+    }
+    expect(coverage.flatMap((c) => c.uncovered)).toEqual([]);
   });
 });

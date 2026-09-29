@@ -12,11 +12,19 @@
  * emitter; it burns one bed at its base centre with its preset (`brazier`),
  * and the loader stops drawing its cards (`isInteriorFlameCard`): the cards
  * alone read as a glow with no flame (walk 5, owner).
+ *
+ * A LIT piece with neither (a kit row with a `light` record but no mined
+ * emitter and no cards: argonianlanterns03, a brazier whose bowl fire is a
+ * separate piece) burns one fallback flame (`fallbackFlameAnchorLocal`), as
+ * the exterior layer's fixtures do, unless another burning piece stands in
+ * its bounds (the brazier's fxfirewithembers01: that bed is its fire). Until
+ * 2026-09-29 such a row was skipped outright, so a lit fixture with no mined
+ * flame drew nothing (lessons L-fire-light-only).
  */
 import * as THREE from "three";
 import type { FireEmitter } from "./FlameSystem";
 import {
-  flameCardBedAnchorLocal, isFlameCardMaterial, manifestBoxYUp, pieceFlameAnchorsLocal,
+  FLAME_ANCHOR_SLACK_M, flameCardBedAnchorLocal, isFlameCardMaterial, manifestBoxYUp, pieceFlameAnchorsLocal,
   type FlameAnchorMeta, type LocalFlameAnchor,
 } from "./flameAnchors";
 
@@ -28,10 +36,24 @@ export function isInteriorFlameCard(row: InteriorFireRow | undefined, materialNa
   return isFlameCardMaterial(row, materialName);
 }
 
-/** The local anchors of an interior piece: its mined emitters, else one bed at a flame-card piece's base centre. */
-export function interiorFlameAnchorsLocal(row: InteriorFireRow, box: THREE.Box3): LocalFlameAnchor[] {
+/** Whether a kit row burns in an interior: mined emitters, flame cards, or a light fixture record. */
+export function burnsInInterior(row: InteriorFireRow | undefined): boolean {
+  return Boolean(row?.flames?.length || row?.flameCardMaterials?.length || row?.light?.fixtureKind);
+}
+
+/** Whether a row draws a fire of its own (mined emitters or flame cards), as settlement/lighting.ts `drawsOwnFire`. */
+function ownsFire(row: InteriorFireRow): boolean {
+  return Boolean(row.flames?.length || row.flameCardMaterials?.length);
+}
+
+/**
+ * The local anchors of an interior piece: its mined emitters, else one bed at
+ * a flame-card piece's base centre, else (a lit piece, `fallback`) one
+ * fallback flame.
+ */
+export function interiorFlameAnchorsLocal(row: InteriorFireRow, box: THREE.Box3, fallback = true): LocalFlameAnchor[] {
   const bed = flameCardBedAnchorLocal(row, box);
-  return bed ? [bed] : pieceFlameAnchorsLocal(row, box, false);
+  return bed ? [bed] : pieceFlameAnchorsLocal(row, box, fallback && Boolean(row.light?.fixtureKind));
 }
 
 /** A stable 0..1 hash of a string (FNV-1a), as settlement/lighting.ts `hash01`. */
@@ -51,14 +73,23 @@ export function interiorFireEmitters<P extends InteriorFirePlacement>(
 ): FireEmitter[] {
   const out: FireEmitter[] = [];
   const scale = new THREE.Vector3();
+  // where each piece with a fire of its own stands: a lit piece holding one
+  // in its bounds (a brazier's bowl fire) draws no fallback of its own
+  const ownFires: THREE.Vector3[] = [];
   for (const p of placements) {
     const row = rowOf(p);
-    if (!row?.flames?.length && !row?.flameCardMaterials?.length) continue;
+    if (row && ownsFire(row)) ownFires.push(new THREE.Vector3().setFromMatrixPosition(matrixOf(p)));
+  }
+  for (const p of placements) {
+    const row = rowOf(p);
+    if (!row || !burnsInInterior(row)) continue;
     const box = manifestBoxYUp(row);
     if (!box) continue;
     const matrix = matrixOf(p);
     scale.setFromMatrixScale(matrix);
-    for (const a of interiorFlameAnchorsLocal(row, box)) {
+    const hostsFire = !ownsFire(row) && ownFires.some((at) =>
+      box.clone().expandByScalar(FLAME_ANCHOR_SLACK_M).applyMatrix4(matrix).containsPoint(at));
+    for (const a of interiorFlameAnchorsLocal(row, box, !hostsFire)) {
       out.push({ position: a.local.clone().applyMatrix4(matrix), preset: a.preset,
         scale: Math.max(scale.x, scale.y, scale.z), seed: hash01(`${p.id}#${a.record}`), owner: 0 });
     }

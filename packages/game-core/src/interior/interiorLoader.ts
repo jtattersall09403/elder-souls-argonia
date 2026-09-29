@@ -10,14 +10,17 @@ import {
 } from "./bundle";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 import { FlameSystem } from "../fx/fire/FlameSystem";
-import { interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow } from "../fx/fire/interiorFires";
+import {
+  burnsInInterior, interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
+} from "../fx/fire/interiorFires";
 
 /** Per kit id, per asset id: the kit manifest rows a cell's fires read (fx/fire/interiorFires.ts). */
 export type InteriorFireRows = ReadonlyMap<string, ReadonlyMap<string, InteriorFireRow>>;
 
 /**
  * The fire rows of a published kit manifest (`kits/<kit>.kit.json`): only
- * the assets that burn (mined `flames` or `flameCardMaterials`), reduced to
+ * the assets that burn (`burnsInInterior`: mined `flames`, `flameCardMaterials`
+ * or a light fixture record, which burns a fallback flame), reduced to
  * the fields the anchors read. A manifest with no assets list is a named error.
  */
 export function interiorFireRowsFromManifest(manifest: unknown, source: string): Map<string, InteriorFireRow> {
@@ -25,7 +28,7 @@ export function interiorFireRowsFromManifest(manifest: unknown, source: string):
   if (!Array.isArray(assets)) throw new Error(`kit manifest ${source} has no assets list`);
   const out = new Map<string, InteriorFireRow>();
   for (const a of assets as (InteriorFireRow & { id?: string })[]) {
-    if (typeof a?.id !== "string" || !(a.flames?.length || a.flameCardMaterials?.length)) continue;
+    if (typeof a?.id !== "string" || !burnsInInterior(a)) continue;
     out.set(a.id, { id: a.id, category: a.category, anchorClass: a.anchorClass, light: a.light,
       flames: a.flames, sizeM: a.sizeM, originOffsetM: a.originOffsetM, flameCardMaterials: a.flameCardMaterials });
   }
