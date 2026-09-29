@@ -46,6 +46,9 @@ const {
 export const VOLUME_SUBSTEPS = 2;
 /** Steps run when a field is first used, so a fire lit on screen is already burning. */
 export const VOLUME_PREWARM_STEPS = 60;
+/** Detail noise texture edge (texels) and its noise period (cells). */
+const DETAIL_N = 32;
+const DETAIL_PERIOD = 4;
 /** Box bottom sits this share of the flame height below the emitter (as the cards' root). */
 const ROOT = FLAME_ROOT_SHARE;
 
@@ -89,7 +92,32 @@ export class VolumeFireField {
   private simTime = 0;
   private warmed = false;
 
+  /** Tiling detail noise (fix 3): rgb a displacement in -1..1, a an erosion
+   * fbm in 0..1; filled once by `detailKernel`, one fetch per ray sample. */
+  readonly detail: Storage3DTexture;
+  private readonly detailKernel: TslNode;
+
   constructor(readonly config: FireVolumeConfig, name: string) {
+    this.detail = makeGrid([DETAIL_N, DETAIL_N, DETAIL_N], `${name}-detail`);
+    this.detail.wrapS = this.detail.wrapT = this.detail.wrapR = THREE.RepeatWrapping;
+    this.detailKernel = Fn(() => {
+      const id = instanceIndex;
+      const coord = uvec3(id.mod(DETAIL_N), id.div(DETAIL_N).mod(DETAIL_N), id.div(DETAIL_N * DETAIL_N));
+      const t = vec3(coord).add(0.5).div(DETAIL_N);
+      const q = t.mul(DETAIL_PERIOD);
+      // tileable: the noise cross-faded with itself one period back on each
+      // axis (f(q) at t 0 meets f(q - P) at t 1), 8 evaluations once per cell
+      const tile = (f: (x: TslNode) => TslNode) => {
+        const P = DETAIL_PERIOD;
+        const along = (g: (x: TslNode) => TslNode, axis: TslNode, w: TslNode) => (x: TslNode) =>
+          mix(g(x), g(x.sub(axis)), w);
+        return along(along(along(f, vec3(P, 0, 0), t.x), vec3(0, P, 0), t.y), vec3(0, 0, P), t.z)(q);
+      };
+      const disp = tile((x) => T.mx_noise_vec3(x)).mul(1.6);
+      const ero = tile((x) => T.mx_noise_float(x.mul(2).add(7.7)).mul(0.33).add(T.mx_noise_float(x.add(3.1)).mul(0.67)))
+        .mul(0.8).add(0.5);
+      textureStore(this.detail, coord, vec4(disp, ero)).toWriteOnly();
+    })().compute(DETAIL_N * DETAIL_N * DETAIL_N).setName("fireVolumeDetail");
     this.a = makeGrid(config.grid, `${name}-a`);
     this.b = makeGrid(config.grid, `${name}-b`);
     this.kernels = [this.kernel(this.a, this.b), this.kernel(this.b, this.a)];
@@ -133,6 +161,7 @@ export class VolumeFireField {
   step(renderer: WebGPURenderer, timeS: number): void {
     if (!this.warmed) {
       this.warmed = true;
+      renderer.compute(this.detailKernel);
       this.uDt.value = 1 / 30;
       for (let i = 0; i < VOLUME_PREWARM_STEPS; i++) {
         this.simTime += 1 / 30;
@@ -153,6 +182,7 @@ export class VolumeFireField {
   dispose(): void {
     this.a.dispose();
     this.b.dispose();
+    this.detail.dispose();
   }
 }
 
@@ -226,6 +256,9 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const flipZ = T.mod(T.floor(variant.mul(0.5)), float(2));
     const swap = step(3.5, variant);
     const tAcc = float(0).toVar();
+    const cell = vec3(1 / c.grid[0], 1 / c.grid[1], 1 / c.grid[2]).mul(1.2);
+    const dScale = c.noiseScale * 3;
+    const dRise = c.riseSpeed * 0.5;
     const alpha = float(0).toVar();
     const row = int(vPalette.add(0.5));
     const base = u.uRamp.element(row.mul(3));
@@ -242,14 +275,24 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
         box.z.sub(vLean.y.mul(box.y).mul(box.y).mul(0.15)));
       const mx = mix(leaned.x, float(1).sub(leaned.x), flipX);
       const mz = mix(leaned.z, float(1).sub(leaned.z), flipZ);
-      const uvw = vec3(mix(mx, mz, swap), leaned.y, mix(mz, mx, swap));
+      const uvw0 = vec3(mix(mx, mz, swap), leaned.y, mix(mz, mx, swap));
+      // detail pass (fix 3): noise carried up with the flow at the preset's
+      // rise speed; it displaces the fetch by about one grid cell and erodes
+      // the cool edge into separate tongues, detail the 16x32x16 grid lacks
+      const dp = vec3(uvw0.x.mul(dScale), uvw0.y.mul(dScale * 0.55).sub(u.uTime.mul(dRise)), uvw0.z.mul(dScale))
+        .add(variant.mul(3.7));
+      const det = texture3D(field.detail, dp.div(DETAIL_PERIOD)).level(0);
+      const uvw = uvw0.add(det.xyz.mul(cell));
+      const hi = det.w;
       // flame envelope (judge (a), 2026-09-29: the raw field filled its box as a column): a
       // teardrop narrowing to the tip, widest a quarter up, and a fade over the top 30 %
       const r = length(T.vec2(box.x.sub(0.5), box.z.sub(0.5)));
       const halfW = T.sqrt(clamp(box.y.mul(4), 0.35, 1)).mul(T.pow(float(1).sub(clamp(box.y, 0, 1)), float(0.8))).mul(0.5);
       const env = float(1).sub(smoothstep(0.55, 1.0, r.div(max(halfW, 1e-3))))
         .mul(float(1).sub(smoothstep(0.7, 1.0, box.y)));
-      const temp = texture3D(field.a, uvw).level(0).r.mul(env);
+      const raw = texture3D(field.a, uvw).level(0).r.mul(env);
+      // erosion: hot cells survive, cool cells only where the detail noise is high
+      const temp = raw.mul(smoothstep(0.35, 0.65, hi.mul(0.8).add(raw.mul(0.5))));
       const a = float(1).sub(exp(temp.mul(sigma).mul(stepLen).negate()));
       // accumulate opacity-weighted temperature, not colour: the ramp is
       // applied once to the ray's temperature (the three.js example's order),

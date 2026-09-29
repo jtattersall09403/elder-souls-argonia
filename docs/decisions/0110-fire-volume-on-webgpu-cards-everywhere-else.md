@@ -122,15 +122,43 @@ cards have sharp licking tongues, and the body shows darker horizontal
 strata (a smooth row profile down the brazier's centre, no scanline
 period: the field's own layering, the source flicker advected upward,
 plus flat plateaus where the display clamp holds). The three.js reference
-image was not fetched by the judge. Whether that soft look is acceptable,
-or the volume needs a finer grid or a noise-detail pass, is the planner's
-call.
+image was not fetched by the judge. The planner chose a detail pass, not a finer grid.
 Timing after fix 2 (SwiftShader WebGPU, machine load average ~7.5 on 8
 cores with other lanes running): `fire-stress` 215, 60 and 82 ms against
 `fire-stress-cards` 35 and 14 ms, so volume/cards ~2-6x on SwiftShader, too
 noisy on this loaded machine to say more. SwiftShader is a ratio only; the
 device timing on the M2 / Adreno 740 is the owner's to take, and no device
 estimate is made here.
+
+Fix 3 (2026-09-29): detail noise. Each field fills a 32^3 tiling noise
+texture once (rgb displacement, a erosion fbm; tileable by cross-fading
+the noise with itself one period back on each axis). Every ray sample
+does one fetch of it at a coordinate carried up at half the preset's rise
+speed: it displaces the field fetch by about 1.2 grid cells, and erodes
+cool cells (`temp *= smoothstep(0.35, 0.65, 0.8*noise + 0.5*temp)`), so hot
+cells survive and the fringe breaks up. Computing the noise per sample
+instead (three Perlin evaluations x 32 steps) timed the harness out at
+240 s and was dropped.
+
+| SwiftShader WebGPU, `frameMs` | volumes | cards | ratio |
+|---|---|---|---|
+| before fix 3 (two runs each, load ~8) | 56, 54 | 22, 22 | ~2.5x |
+| after fix 3 (two runs each, load ~13) | 92, 81 | 39, 36 | ~2.3x |
+
+A ratio only, on a loaded shared machine; the device timing on the M2 /
+Adreno 740 is the owner's to take. At load ~13 four of the fix-3 harness
+runs reported `compileAsync did not settle within 60 s` (images still
+written); at load ~7 the same scenes compiled in time in fix 2.
+
+Judges after fix 3 (two fresh Sonnet agents): day/night, stress and
+streaks PASS. Volume look FAIL, narrowed: hot core and day visibility now
+pass, and the top is lobed rather than a smooth teardrop, but the lobes
+blend into one mass with a soft fringe, where the cards have thin,
+separated tongues with dark sky between them. No reference image of
+the three.js example was available: its published screenshot is an
+all-black capture, and the live example did not render within 70 s in
+SwiftShader. This is the owner's on-device judgement in the walk packet,
+not a further agent round.
 
 ## Why not
 

@@ -15,7 +15,10 @@ decision 0110). Two renderers read one preset table:
   temperature grid when the renderer runs on WebGPU
   (`activeBackend(renderer) === "webgpu"`, read at the first draw) and the
   camera is within 35 m (`FIRE_VOLUME_REACH_M`). Beyond that, and on WebGL,
-  the same fire is its cards; the two cross-fade over 5 m.
+  the same fire is its cards; the two cross-fade over 5 m. The ray
+  accumulates temperature and maps it once through the ramp; a 32^3
+  tiling detail-noise texture (filled once per field) displaces each
+  sample by about a grid cell and erodes the cool edge into tongues.
 
 Both write display-referred colour through `displayToScene` (the inverse of
 the frame's ACES tone map at the current exposure) with premultiplied
@@ -84,7 +87,12 @@ the campfire the largest and wildest.
    warning makes the run `ok: false` in `summary.json`. Cost: `fire-stress` (20 fires at
    night, 4-34 m, volumes on WebGPU) against `fire-stress-cards` (the same
    20 as cards) gives `frameMs` in `summary.json`; SwiftShader times are a
-   ratio only (decision 0110 § Measured).
+   ratio only (decision 0110 § Measured). A volume artefact: isolate it
+   first with `fire-diag-vol` (three braziers, volumes only, seeds 0.5,
+   0.55, 0.25) against `fire-diag-cards` (cards and embers only). Anything
+   the fragment stage thresholds (the seed's mirroring variant) is made
+   whole in the vertex stage: an interpolated value on a step edge flips
+   row by row and prints as horizontal streaks (0110 fix 2).
 2. **Anchor check** (in `npm test`, under 1 s):
    `packages/game-core/src/fx/fire/fire.test.ts` › "every flame of every
    published place and interior lies in its piece". Every anchor must lie
