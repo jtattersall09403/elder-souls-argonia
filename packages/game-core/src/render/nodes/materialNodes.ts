@@ -26,11 +26,13 @@ import {
   MeshNormalNodeMaterial,
   MeshToonNodeMaterial,
 } from "three/webgpu";
-import { bool, materialColor, output, positionLocal, vec4 } from "three/tsl";
+import { bool as tslBool, materialColor, output, positionLocal, vec4 } from "three/tsl";
 // TSL node values are typed loosely on purpose: the typings for chained TSL
 // expressions are too deep for tsc to check usefully (standard, 0107 §3).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TslNode = any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const bool = tslBool as (node: TslNode) => any;
 
 type NodeMaterialCtor = new () => NodeMaterial;
 
