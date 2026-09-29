@@ -347,6 +347,9 @@ MIN_FRAME_CLEAR = 0.85   # a frame with more of its probes blocked is rejected
 NEAR_VETO_M = 1.5
 NEAR_GRID = tuple((float(y), float(pt)) for pt in range(-40, 31, 5) for y in range(-50, 51, 5))
 OVERHEAD_M = 2.0         # a corner whose up ray hits within this stands under a landing
+MAX_PITCH_DEG = 25.0     # a view's centre ray stays within this of level (DawnstarBrinasHouse
+                         # doorway faced straight up into the canvas ceiling, 23:40 sheets)
+MIN_CENTRE_M = 3.0       # ... and runs at least this far before it hits anything
 FREE_CAP_M = 12.0        # the free distance ahead counts to this
 
 
@@ -367,7 +370,8 @@ def score_eye(cast, eye, target) -> float:
     and an uncapped 30 m line outscored a clean frame (Plantation corner-b
     kept a post over a third of its frame, walk 5). A frame with fewer
     than MIN_FRAME_CLEAR of its probes clear, or with any hit within
-    NEAR_VETO_M on the 5-degree NEAR_GRID (`near_hit`), scores 0."""
+    NEAR_VETO_M on the 5-degree NEAR_GRID (`near_hit`), or failing
+    `level_view`, scores 0."""
     d = [t - e for t, e in zip(target, eye)]
     n = math.sqrt(sum(v * v for v in d)) or 1e-9
     ahead = tuple(v / n for v in d)
@@ -379,9 +383,25 @@ def score_eye(cast, eye, target) -> float:
                         FAN_CLEAR_M) is None)
     frame = sum(1 for y, pt, bar in FRAME_PROBES
                 if cast(eye, _turn(ahead, y, pt), bar) is None) / len(FRAME_PROBES)
-    if frame < MIN_FRAME_CLEAR or near_hit(cast, eye, ahead):
+    if frame < MIN_FRAME_CLEAR or near_hit(cast, eye, ahead) or not level_view(ahead, hit):
         return 0.0
     return free * clear / FAN_RAYS * frame
+
+
+def level_view(ahead, hit) -> bool:
+    """The centre ray is within MAX_PITCH_DEG of level and runs MIN_CENTRE_M
+    before its first hit (`hit` None = nothing within ENCLOSED_M)."""
+    pitch = math.degrees(math.asin(max(-1.0, min(1.0, ahead[2]))))
+    return abs(pitch) <= MAX_PITCH_DEG + 1e-9 and (hit is None or hit >= MIN_CENTRE_M)
+
+
+def level_aim(eye, target):
+    """`target` moved on its vertical so the line from eye is within
+    MAX_PITCH_DEG of level (unchanged when it already is)."""
+    d = math.hypot(target[0] - eye[0], target[1] - eye[1])
+    lim = d * math.tan(math.radians(MAX_PITCH_DEG))
+    dz = max(-lim, min(lim, target[2] - eye[2]))
+    return (target[0], target[1], eye[2] + dz)
 
 
 def near_hit(cast, eye, ahead) -> bool:
@@ -423,23 +443,35 @@ def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
     along the door-to-hub line, EDGE_BACK_M back from the landing edge (the
     last on-floor point before a drop of more than DROP_M, or no floor);
     with no drop, DOOR_IN_M in from the door (never nearer the hub than
-    1 m); looking at `target`. When that view scores under MIN_SCORE_M
+    1 m); looking at `target`. The line runs on past a hub nearer the door
+    than the room's far wall less 1 m. When that view scores under MIN_SCORE_M
     (16k walk 5: the KeebaHouseCrafter doorway looked down at a rug, the
     Plantation's at hay bales), the first view scoring MIN_SCORE_M over the
     line's on-floor points at DOOR_STEP x 3 spacing (the edge end first),
     aimed at the target, then higher on the hub's vertical (half-way to eye
     height, then eye height less 0.3 m: from a landing, across the room
-    rather than down at its floor); none: the best-scoring. Returns (eye,
+    rather than down at its floor); none: the best-scoring. Every aim is
+    held within MAX_PITCH_DEG of level (`level_aim`). Returns (eye,
     target)."""
     dx, dy = hub[0] - door[0], hub[1] - door[1]
     length = math.hypot(dx, dy)
     u = (dx / length, dy / length) if length > 1e-6 else (1.0, 0.0)
     z = level_z + EYE_M
     target = tuple(target) if target is not None else (hub[0], hub[1], level_z + 1.0)
+    run = cast((door[0], door[1], z), (u[0], u[1], 0.0), ENCLOSED_M)
+    line = max(length, (run if run is not None else length) - 1.0)   # past a hub by the door
+
+    def aim(p, t):
+        """t, or a point MIN_CENTRE_M x 1.5 on along the line when t lies
+        nearer than MIN_CENTRE_M (DawnstarBrinasHouse: the hub stood 0.5 m
+        in from the door), held within MAX_PITCH_DEG of level."""
+        if math.hypot(t[0] - p[0], t[1] - p[1]) < MIN_CENTRE_M:
+            t = (p[0] + u[0] * MIN_CENTRE_M * 1.5, p[1] + u[1] * MIN_CENTRE_M * 1.5, t[2])
+        return level_aim(p, t)
     first = last = edge = None
     on = []
     s = DOOR_STEP
-    while s <= length:
+    while s <= line:
         p = (door[0] + u[0] * s, door[1] + u[1] * s, z)
         down = cast(p, (0.0, 0.0, -1.0), EYE_M + 3.0)
         fz = z - down if down is not None else None
@@ -456,20 +488,35 @@ def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
     else:
         at = min(DOOR_IN_M, max(length - 1.0, 0.0))
     eye = (door[0] + u[0] * at, door[1] + u[1] * at, z)
-    if score_eye(cast, eye, target) >= MIN_SCORE_M:
-        return eye, target
+    if score_eye(cast, eye, aim(eye, target)) >= MIN_SCORE_M:
+        return eye, aim(eye, target)
     aims = [target]
     if z - 0.3 > target[2]:
         aims += [(target[0], target[1], (target[2] + z) / 2.0), (target[0], target[1], z - 0.3)]
-    limit = edge - EDGE_BACK_M if edge is not None else max(length - 1.0, 0.0)
-    spots = [x for x in on[::3] if x <= limit + 1e-9][::-1]      # the edge end first
-    best = (score_eye(cast, eye, target), eye, target)
-    for t in aims:                   # the lowest aim that passes, from the spot nearest the edge
+    limit = edge - EDGE_BACK_M if edge is not None else max(line - 1.0, 0.0)
+    spots = [x for x in on[::3] if x <= limit + 1e-9]
+    spots = spots[::-1] if edge is not None else spots     # the edge end first, else the door end
+    best = (score_eye(cast, eye, aim(eye, target)), eye, aim(eye, target))
+    for t0 in aims:                  # the lowest aim that passes, from the spot nearest the edge
         for x in spots:
             p = (door[0] + u[0] * x, door[1] + u[1] * x, z)
+            t = aim(p, t0)           # never steeper than MAX_PITCH_DEG
             sc = score_eye(cast, p, t)
             if sc >= MIN_SCORE_M:
                 return p, t
+            if sc > best[0] + 1e-9:
+                best = (sc, p, t)
+    # the line is blocked (DawnstarBrinasHouse: a partition across it): the
+    # clearest level heading off it from the door-end spot, turned up to 80
+    # degrees either side, the smaller turn first
+    for yaw in (20.0, -20.0, 40.0, -40.0, 60.0, -60.0, 80.0, -80.0):
+        if best[0] >= MIN_SCORE_M:
+            break
+        for x in [at] + spots:
+            p = (door[0] + u[0] * x, door[1] + u[1] * x, z)
+            h = _rot_z((u[0], u[1], 0.0), yaw)
+            t = (p[0] + h[0] * MIN_CENTRE_M * 1.5, p[1] + h[1] * MIN_CENTRE_M * 1.5, z - 0.3)
+            sc = score_eye(cast, p, t)
             if sc > best[0] + 1e-9:
                 best = (sc, p, t)
     return best[1], best[2]
@@ -481,17 +528,20 @@ def eye_plan(cast, plan: dict, door) -> dict:
     (round the main floor's centroid), else on the arrival's level (round
     the arrival point); the doorway always on the arrival's level. Every
     view looks at the hub 1 m over the corners' floor (the doorway higher on
-    its vertical when that view fails, `doorway_eye`). {target, hub,
+    its vertical when that view fails, `doorway_eye`; None when no doorway
+    view scores MIN_SCORE_M, and the shot's fallback camera walks in,
+    DawnstarBrinasHouse). {target, hub,
     corners: [eye..], scores, doorway: (eye, target), cornerZ, doorZ}."""
     split = abs(plan["belowZ"] - plan["mainZ"]) > SPLIT_M
     corner_z = plan["mainZ"] if split else plan["belowZ"]
     hub = plan["centroid"] if split else plan["arrivalXY"]
     target = (hub[0], hub[1], corner_z + 1.0)
     corners = pick_corners(cast, candidate_eyes(cast, hub, corner_z), target, corner_z)
+    door_eye = doorway_eye(cast, door, hub, plan["belowZ"], target)
     return {"target": target, "hub": tuple(hub), "cornerZ": corner_z, "doorZ": plan["belowZ"],
             "corners": [c["eye"] for c in corners],
             "scores": [round(c["score"], 2) for c in corners],
-            "doorway": doorway_eye(cast, door, hub, plan["belowZ"], target)}
+            "doorway": door_eye if score_eye(cast, *door_eye) >= MIN_SCORE_M else None}
 
 
 def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, float]:

@@ -240,7 +240,7 @@ def clear_eye(scene, shot, eyes):
     target = tuple(eyes["target"])
     view = shot["view"]
     eye = None
-    if view == "doorway":
+    if view == "doorway" and eyes["doorway"] is not None:
         eye, target = eyes["doorway"]
     elif view in ("corner-a", "corner-b"):
         i = 0 if view == "corner-a" else 1
@@ -257,6 +257,7 @@ def clear_eye(scene, shot, eyes):
     m = Matrix(shot["matrix"])
     t = tuple(shot["targetBlender"])
     eye, moved = ir.settle_eye(cast, tuple(m.translation), t, shot["eyeHeightM"])
+    t = ir.level_aim(eye, t)             # within MAX_PITCH_DEG of level
     m = Matrix(ir._look_matrix(eye, t))
     return m, moved, (f"[wb-irender] warning {shot['name']} has no scored eye; fallback at "
                       f"{tuple(round(v, 2) for v in eye)} view clear {ir.view_clear(cast, eye, t):.2f}")
@@ -310,7 +311,8 @@ def main():
     eyes = ir.eye_plan(scene_cast(scene), plan, JOB["doorBlender"])
     print(f"[wb-irender] eyes hub {tuple(round(v, 2) for v in eyes['hub'])} corners on "
           f"{eyes['cornerZ']:.2f} scores {eyes['scores']} doorway on {eyes['doorZ']:.2f} at "
-          f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}")
+          + (f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}"
+             if eyes["doorway"] is not None else "none (fallback camera)"))
     for shot in shots:
         day = shot["row"] == "day"
         for s in sockets:

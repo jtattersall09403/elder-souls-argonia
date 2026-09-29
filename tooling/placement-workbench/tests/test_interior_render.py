@@ -463,3 +463,34 @@ def test_a_corner_under_a_low_overhang_is_rejected():
     free = ir.pick_corners(_solids_cast(_BOX12), ir.candidate_eyes(_solids_cast(_BOX12), (4.0, 4.0), 0.0),
                            (4.0, 4.0, 1.0), 0.0)
     assert free[0]["eye"][0] > 8.0          # without it the best corner stands there
+
+
+def _pitch_deg(eye, aim):
+    d = [a - e for a, e in zip(aim, eye)]
+    return math.degrees(math.atan2(d[2], math.hypot(d[0], d[1])))
+
+
+def test_a_view_steeper_than_max_pitch_or_blocked_near_its_centre_scores_nothing():
+    """DawnstarBrinasHouse doorway (23:40 sheets) faced straight up into the
+    canvas ceiling: a centre ray more than MAX_PITCH_DEG off level, or one
+    that hits within MIN_CENTRE_M, scores 0; the doorway eye's aim is held
+    within MAX_PITCH_DEG of level even when its target sits far above."""
+    cast = _solids_cast(_BOX12)
+    eye = (9.0, 4.0, 1.6)
+    assert ir.score_eye(cast, eye, (3.0, 4.0, 1.0)) >= ir.MIN_SCORE_M
+    assert ir.score_eye(cast, eye, (8.0, 4.0, 3.9)) == 0.0            # ~66 degrees up
+    assert ir.score_eye(cast, eye, (8.0, 4.0, 0.0)) == 0.0            # ~58 degrees down
+    wall = (6.5, 3.0, 0.0, 6.7, 5.0, 4.0)                             # 2.5 m ahead on the line
+    assert ir.score_eye(_solids_cast(_BOX12 + [wall]), eye, (3.0, 4.0, 1.0)) == 0.0
+    d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (4.0, 4.0), 0.0, target=(4.0, 4.0, 3.9))
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+
+
+def test_a_hub_by_the_door_gives_a_level_view_down_the_room():
+    """DawnstarBrinasHouse: the arrival hub 0.5 m in from the door; the
+    doorway view looks level down the room past it, its centre ray clear
+    MIN_CENTRE_M, not steeply at the hub."""
+    cast = _solids_cast(_BOX12)
+    d, aim = ir.doorway_eye(cast, (0.05, 4.0, 0.0), (0.55, 4.0), 0.0)
+    assert abs(_pitch_deg(d, aim)) <= ir.MAX_PITCH_DEG + 1e-6
+    assert aim[0] - d[0] >= ir.MIN_CENTRE_M and ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
