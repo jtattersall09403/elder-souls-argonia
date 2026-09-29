@@ -3,12 +3,12 @@ import { BufferAttribute, DoubleSide, DynamicDrawUsage, InstancedBufferAttribute
   Mesh, Sphere, Vector3, type Frustum } from "three";
 import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
-import { sceneEyeDepthNode } from "./WaterfallKitMaterial";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
+import { sceneEyeDepthNode } from "../../render/nodes/depthNodes";
 import type { WaterParticleUniforms } from "./WaterEffects";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
-const { attribute, clamp, cos, float, mix, positionGeometry, positionView, select, sin, smoothstep, varying, vec3, vec4 } =
+const { attribute, clamp, cos, float, mix, positionGeometry, positionView, sin, smoothstep, varying, vec3, vec4 } =
   tsl as unknown as Record<string, TslNode>;
 
 /** The crown sheet: a flared ring of fingers, lit like the spray, soft against the scene depth. */
@@ -33,7 +33,7 @@ function createCrownMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial {
   const edge = float(1).sub(smoothstep(0.82, 1.0, vCrown.y)).mul(smoothstep(0.0, 0.12, vCrown.y));
   const holes = smoothstep(-0.62, 0.12, sin(vCrown.x.mul(13.0)).add(float(1).sub(vCrown.y).mul(1.8)));
   const sceneZ = sceneEyeDepthNode(n.sceneDepth, n.resolution, n.cameraNear, n.cameraFar);
-  const soft = select(n.hasDepth.greaterThan(0.5), clamp(sceneZ.sub(viewDepth).div(0.12), 0.0, 1.0), float(1));
+  const soft = sel(n.hasDepth.greaterThan(0.5), clamp(sceneZ.sub(viewDepth).div(0.12), 0.0, 1.0), float(1));
   const alpha = vCrown.z.mul(edge).mul(holes).mul(soft).mul(n.lightVisibility);
   material.colorNode = vec4(n.lightColor, alpha);
   material.maskNode = alpha.greaterThanEqual(0.003);

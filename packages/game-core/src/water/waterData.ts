@@ -154,25 +154,6 @@ export function tideResponseOfClass(classIndex: number, classes: readonly string
   return name !== undefined && (TIDAL_CLASSES as readonly string[]).includes(name) ? 1 : 0;
 }
 
-/** GLSL twin of `tideResponseOfClass`, baked over the compiled class table
- * (index order from `water-meta.json` `klass.classes`). */
-export function tideResponseGlsl(classes: readonly string[]): string {
-  const tidal = classes
-    .map((name, i) => ((TIDAL_CLASSES as readonly string[]).includes(name) ? i : -1))
-    .filter((i) => i >= 0);
-  const test = tidal.length
-    ? tidal.map((i) => `ci == ${i}`).join(" || ")
-    : "false";
-  return `
-  // KEEP IN LOCKSTEP with tideResponseOfClass(): the tide moves the classes
-  // the graph calls tidal (${TIDAL_CLASSES.join(", ")}), never a salinity proxy.
-  float esTideResponse(float classIndex){
-    int ci = int(classIndex + 0.5);
-    return (${test}) ? 1.0 : 0.0;
-  }
-  `;
-}
-
 /** Signed depth at or below which a texel is BURIED (truly dry ground,
  * W = ground − 3): it never contributes to the level-surface interpolation.
  * Table cells (−2, 0] do, so the plane extends over the floodable band and a

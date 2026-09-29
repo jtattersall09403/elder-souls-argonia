@@ -1,6 +1,7 @@
 import * as THREE from "three";
-import { MeshPhysicalNodeMaterial, PhysicalLightingModel, RenderTarget } from "three/webgpu";
+import { MeshPhysicalNodeMaterial, PhysicalLightingModel } from "three/webgpu";
 import type { TslNode } from "../../render/nodes/materialNodes";
+import { createDepthPlaceholder, eyeDepthAtUvNode } from "../../render/nodes/depthNodes";
 import {
   STREAK_LAYERS, STREAK_BREATHE_AMPLITUDE, STREAK_BREATHE_PERIOD_S, STREAK_U_DRIFT_UVS, STREAK_WOBBLE_AMPLITUDE,
   STREAK_WOBBLE_FREQ,
@@ -26,7 +27,7 @@ import * as TSLNS from "three/tsl";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, perspectiveDepthToViewZ, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, select, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
+  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, select, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
 } = TSLNS as any;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -315,9 +316,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
   const placeholders = {
     color: placeholderTexture(),
-    // owned by a 1×1 target so the backend knows its sample count before
-    // the pipeline hands over the real scene depth
-    depth: new RenderTarget(1, 1, { depthTexture: new THREE.DepthTexture(1, 1) }).depthTexture as THREE.DepthTexture,
+    depth: createDepthPlaceholder(),
     ripple: placeholderTexture(),
   };
   const u = (v: number) => uniform(v) as WaterUniformNode<number>;
@@ -387,8 +386,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
 
 /** Eye depth (m, positive) of the scene depth texture at `uv`. */
 function esEyeDepth(u: WaterUniforms, uv: TslNode): TslNode {
-  const d = n(n(u.uSceneDepth).sample(uv)).x;
-  return n(perspectiveDepthToViewZ(d, cameraNear, cameraFar)).negate();
+  return eyeDepthAtUvNode(n(u.uSceneDepth), uv, cameraNear, cameraFar);
 }
 
 /** churn RINGS (annulus), textured later, capped well below solid. */
@@ -569,10 +567,6 @@ function esWhitewater(uu: TslNode, arcM: TslNode, t: TslNode, gain: TslNode, wob
 }
 
 export interface WaterMaterialContext {
-  /** Retired with decision 0107 (CSMShadowNode lives on the light); ignored. */
-  csm?: unknown;
-  /** Retired with decision 0107 (scene.fogNode hazes the water); ignored. */
-  applyAerial?: (material: THREE.Material) => void;
   assets: WaterAssets;
   uniforms: WaterUniforms;
   tier: WaterTier;

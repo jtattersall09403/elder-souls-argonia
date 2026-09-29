@@ -734,7 +734,8 @@ export class WaterfallSheets {
 
   setDepth(texture: THREE.Texture | null, near: number, far: number, width: number, height: number): void {
     const depth = this.underwater ? null : texture;
-    this.uniforms.uSceneDepth.value = texture ?? this.uniforms.depthPlaceholder;
+    // submerged, the kit and mist draw INTO the scene target: bind the placeholder
+    this.uniforms.uSceneDepth.value = depth ?? this.uniforms.depthPlaceholder;
     this.uniforms.uHasDepth.value = depth && near > 0 && far > near ? 1 : 0;
     this.uniforms.uCamNear.value = near;
     this.uniforms.uCamFar.value = far;

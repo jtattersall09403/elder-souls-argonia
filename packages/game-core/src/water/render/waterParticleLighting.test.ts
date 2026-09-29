@@ -21,13 +21,16 @@ describe("water particle HDR lighting", () => {
         // The previous 1.4 cap would crush the very same white material.
         expect(1.4 * rig.exposureTarget).toBeLessThan(screenLuminance / 100);
       }
+      // One radiance slot, written as the source colour, read by the sprites
+      // and the crowns alike; both tone-map in the renderer's output pass.
+      expect(fx.uniforms.lightColor.value.r).toBeCloseTo(light.radiance.x, 3);
+      expect(fx.uniforms.lightColor.value.b).toBeCloseTo(light.radiance.z, 3);
       const material = fx.object3d.material;
       expect(material.toneMapped).toBe(true);
-      expect(material.fragmentShader.match(/#include <tonemapping_fragment>/g)).toHaveLength(1);
-      expect(material.fragmentShader.match(/#include <colorspace_fragment>/g)).toHaveLength(1);
+      expect(material.colorNode).toBeTruthy();
       const crown = fx.object3d.children[0] as typeof fx.object3d;
-      expect(crown.material.uniforms.lightColor).toBe(material.uniforms.lightColor);
-      expect(crown.material.fragmentShader.match(/#include <tonemapping_fragment>/g)).toHaveLength(1);
+      expect(crown.material.toneMapped).toBe(true);
+      expect(crown.material.colorNode).toBeTruthy();
       fx.dispose();
     }
   });
@@ -37,8 +40,10 @@ describe("water particle HDR lighting", () => {
     expect(waterParticleRadiance(black, black, 1)).toEqual(black);
     const fx = new WaterEffects(); fx.setIllumination(black, black, -1, 20);
     expect(fx.diagnostics.illumination.visibility).toBe(0);
-    expect(fx.object3d.material.uniforms.lightVisibility.value).toBe(0);
-    expect(fx.object3d.material.fragmentShader).toContain("soft * lightVisibility");
+    // Alpha is shape x soft x lightVisibility: an unlit sky hides the spray
+    // rather than drawing it as black dust.
+    expect(fx.uniforms.lightVisibility.value).toBe(0);
+    expect(fx.uniforms.lightColor.value.r).toBe(0);
     fx.dispose();
     const ambient = { x: 100, y: 80, z: 60 }, direct = { x: 2000, y: 1800, z: 1400 };
     const a = waterParticleRadiance(ambient, direct, 1);

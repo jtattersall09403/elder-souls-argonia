@@ -5,7 +5,7 @@ import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
 import type { TslNode } from "../../render/nodes/materialNodes";
 import { waterParticleRadiance } from "./waterParticleLighting";
-import { createDepthPlaceholder, eyeDepthNode } from "./WaterfallKitMaterial";
+import { createDepthPlaceholder, eyeDepthNode } from "../../render/nodes/depthNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {

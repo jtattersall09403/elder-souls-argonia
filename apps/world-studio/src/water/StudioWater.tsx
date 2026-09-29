@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
 import { sharedLocalSurfaces, sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
 import { sharedChunkStore } from "../character/chunkStore";
 import { createWaterProbe, type WaterProbeSummary } from "@elder-souls/game-core/water/render/waterProbe";
-import { sharedAerialUniforms } from "../sky/WorldSky";
-import { applyAerialPerspective } from "../sky/aerial";
+import { sharedAerialUniforms, SkyContext } from "../sky/WorldSky";
 import { worldClock } from "../sky/timeState";
 import { waterTimeS, advanceWaterClock, waterTransportTimeS, waterTransportDeltaS, setWaterClockHidden } from "./waterClock";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -21,7 +20,7 @@ import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "@el
  * The Phase 8b water stack for a studio canvas: loads the compiled water
  * data once, picks a quality tier (auto by device, `?wq=low|high` override)
  * and mounts the surface + the shared render-pass pipeline. Mount INSIDE
- * `<WorldSky>` so the material sees the CSM context.
+ * `<WorldSky>` so the falls read the sky's CSMShadowNode (SkyContext).
  */
 
 declare global {
@@ -90,7 +89,6 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
       wind.z = (w?.windDirXZ[1] ?? 0) * (w?.windSpeedMS ?? 0);
       return wind;
     },
-    applyAerial: material => applyAerialPerspective(material, sharedAerialUniforms),
     sunDirection: sharedAerialUniforms.uSunDirW,
     ambient: sharedAerialUniforms.uHazeAmbient,
     sunLight: sharedAerialUniforms.uHazeSunLight,
@@ -109,6 +107,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
     onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
     };
   }, [surfaceFocus]);
+  const { csm } = useContext(SkyContext);
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);
@@ -161,6 +160,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
         contactBodies={contactBodies}
         localSurfaces={sharedLocalSurfaces(base)}
         onReady={onSurfaceReady}
+        sunShadow={csm}
       />
       <WaterPipeline
         runtime={runtime}

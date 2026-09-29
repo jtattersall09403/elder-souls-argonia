@@ -15,8 +15,8 @@ export interface LocalWaterSurfaceUniforms {
   uLocalWaterActive: TslNode;
 }
 
-/** TSL twin of LOCAL_WATER_SURFACE_GLSL (localPatchPresentation.ts; the CPU
- * twin is sampleLocalPatchSurface there). Piecewise mesh-triangle sampling,
+/** Node sampler of a local patch surface (the CPU twin is
+ * localPatchPresentation.ts `sampleLocalPatchSurface`). Piecewise mesh-triangle sampling,
  * with exact nearest ownership; each texel decoded BEFORE interpolation.
  * Every read is a texel fetch, so these are safe in any control flow.
  * `surface` declares locals (toVar): call it inside an `Fn` body. */

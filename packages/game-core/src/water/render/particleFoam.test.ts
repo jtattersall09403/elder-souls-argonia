@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { bubbleRingCoverage, PARTICLE_FOAM_GLSL } from './particleFoam';
+import { bubbleRingCoverage } from './particleFoam';
 
 it('resolves a hollow near bubble and smoothly integrates a subpixel ring', () => {
   expect(bubbleRingCoverage(0, 0.24, 0.006)).toBe(0);
@@ -13,12 +13,4 @@ it('resolves a hollow near bubble and smoothly integrates a subpixel ring', () =
     expect(bubbleRingCoverage(distance, 0.24, width)).toBeGreaterThanOrEqual(0);
     expect(bubbleRingCoverage(distance, 0.24, width)).toBeLessThanOrEqual(1);
   }
-});
-
-it('does not draw one identical bubble at each hard fract-cell centre', () => {
-  expect(PARTICLE_FOAM_GLSL).toContain('random.xy * 0.9');
-  expect(PARTICLE_FOAM_GLSL).toContain('y = -1; y <= 1');
-  expect(PARTICLE_FOAM_GLSL).toContain('x = -1; x <= 1');
-  expect(PARTICLE_FOAM_GLSL).toContain('outer - inner');
-  expect(PARTICLE_FOAM_GLSL).not.toContain('fract(cells) - 0.5');
 });

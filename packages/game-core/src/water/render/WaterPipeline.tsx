@@ -390,7 +390,7 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
       Math.max(amb.y, 1e-4) * (0.115 - 0.064 * turb) * 24.0,
       Math.max(amb.z, 1e-4) * (0.10 - 0.078 * turb) * 24.0,
     );
-    const bubbleTex = bubblePass.render(renderer as never, cam, h?.bubbles, underwater,
+    const bubbleTex = bubblePass.render(renderer, cam, h?.bubbles, underwater,
       drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
     if (bubbleTex) bu.uBubbleColor.value = bubbleTex;
     bu.uBubbleActive.value = bubbleTex ? 1 : 0;

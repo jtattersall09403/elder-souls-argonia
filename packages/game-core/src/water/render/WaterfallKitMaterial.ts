@@ -1,7 +1,8 @@
 import * as THREE from "three";
-import { MeshBasicNodeMaterial, RenderTarget } from "three/webgpu";
+import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
+import { createDepthPlaceholder, sceneEyeDepthNode } from "../../render/nodes/depthNodes";
 import { instanceMatrixNode, matrixColumn } from "../../fx/instanceNodes";
 import { STREAK_BREATHE_PERIOD_S, STREAK_BREATHE_AMPLITUDE, fallsIrradianceNode, fallsSunVisibilityNode,
   type FallsSunShadow } from "./whitewaterStreaks";
@@ -11,7 +12,7 @@ import { POOL_FADE_M } from "./WaterfallKitStack";
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   abs, attribute, cameraPosition, clamp, cos, cross, dFdx, dFdy, dot, float, max, normalize, positionLocal,
-  positionView, positionWorld, pow, screenCoordinate, select, smoothstep, texture, uniform, uv, varying, vec2,
+  positionView, positionWorld, pow, smoothstep, texture, uniform, uv, varying, vec2,
   vec3, vec4,
 } = tsl as unknown as Record<string, TslNode>;
 /**
@@ -68,11 +69,6 @@ export interface KitSharedUniforms {
   depthPlaceholder: THREE.DepthTexture;
 }
 
-/** A 1x1 depth texture: the stand-in a scene-depth texture node binds while there is none. */
-export function createDepthPlaceholder(): THREE.DepthTexture {
-  return new RenderTarget(1, 1, { depthTexture: new THREE.DepthTexture(1, 1) }).depthTexture as THREE.DepthTexture;
-}
-
 export function createKitSharedUniforms(): KitSharedUniforms {
   const depthPlaceholder = createDepthPlaceholder();
   return {
@@ -96,17 +92,6 @@ export function createKitSharedUniforms(): KitSharedUniforms {
 
 /** Edge-on fade: opacity 1 → 0 between cos 0.26 and cos 0.09 (audit §7). */
 export const KIT_FACING_FADE = { start: 0.09, full: 0.26 } as const;
-
-/** Perspective depth-buffer value (0..1) to eye distance (m). */
-export function eyeDepthNode(d: TslNode, near: TslNode, far: TslNode): TslNode {
-  return near.mul(far).div(far.sub(d.mul(far.sub(near))));
-}
-
-/** The scene's eye distance behind this fragment, from a depth texture node at `resolution`. */
-export function sceneEyeDepthNode(depth: TslNode, resolution: TslNode, near: TslNode, far: TslNode): TslNode {
-  const d = depth.sample(screenCoordinate.xy.div(resolution)).x;
-  return eyeDepthNode(d, near, far);
-}
 
 /**
  * Object-space position whose instance transform lands the world point with
@@ -187,7 +172,7 @@ export function createKitPieceMaterial(role: KitShapeRole, tex: THREE.Texture | 
   if (role.softDepthM > 0) {
     const sceneEye = sceneEyeDepthNode(u.uSceneDepth, u.uResolution, u.uCamNear, u.uCamFar);
     const fragEye = positionView.z.negate();
-    alpha = alpha.mul(select(u.uHasDepth.greaterThan(0.5), smoothstep(0, role.softDepthM, sceneEye.sub(fragEye)), float(1)));
+    alpha = alpha.mul(sel(u.uHasDepth.greaterThan(0.5), smoothstep(0, role.softDepthM, sceneEye.sub(fragEye)), float(1)));
   }
   material.maskNode = alpha.greaterThanEqual(0.004);
 
@@ -202,7 +187,7 @@ export function createKitPieceMaterial(role: KitShapeRole, tex: THREE.Texture | 
       const nt = texture(normalTex).sample(uv1.mul(2)).xyz.mul(2).sub(1);
       n = normalize(n.add(nt.mul(0.6)));
     }
-    n = select(dot(n, viewDir).lessThan(0), n.negate(), n);
+    n = sel(dot(n, viewDir).lessThan(0), n.negate(), n);
     const h = normalize(viewDir.add(u.uSunDir));
     const spec = pow(max(dot(n, h), 0), 48).mul(vis).mul(0.35);
     const sun = u.uSunLight.div(0.06);

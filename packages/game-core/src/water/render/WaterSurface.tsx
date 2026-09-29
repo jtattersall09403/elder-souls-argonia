@@ -12,6 +12,7 @@ import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeImpactBursts, cascadePathEmitters } from "./WaterCascadeSources";
 import { buildChannelStripGeometry } from "./ChannelStrips";
 import { WaterfallSheets } from "./WaterfallSheets";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import { FoamField } from "./FoamField";
 import { WaterFlowContacts } from "../flowContacts";
 import {
@@ -144,7 +145,7 @@ export interface WaterSurfaceHandle {
   stripDiagnostics: { count: number; triangles: number };
 }
 
-export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, localSurfaces, onReady }: {
+export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, localSurfaces, onReady, sunShadow }: {
   runtime: WaterRuntime;
   assets: WaterAssets;
   tier: WaterTier;
@@ -157,6 +158,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   /** The places' own pools (spring basins); drawn as strip-mode discs. */
   localSurfaces?: LocalWaterSurfaces;
   onReady?: (handle: WaterSurfaceHandle) => void;
+  /** The sun light's shadow node (the sky's CSMShadowNode); null/absent = open sun. */
+  sunShadow?: TslNode | null;
 }) {
   const uniforms = useMemo(() => createWaterUniforms(assets), [assets]);
   const materials = useMemo(
@@ -184,8 +187,11 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
           // buryM). The sheets sample it ACROSS each lip line.
           groundHeightM: (x, z) => assets.data.surfaceBase(x, z) - assets.data.depthProxy(x, z) })
       : null;
-  }, [assets, runtime.applyAerial]);
+  }, [assets]);
   useEffect(() => () => falls?.dispose(), [falls]);
+  // The kit and the mist read the sun's own shadow node (the sky's
+  // CSMShadowNode), so a fall in a shaded gorge is lit as shaded.
+  useEffect(() => { falls?.setSunShadow(sunShadow ?? null); }, [falls, sunShadow]);
   // Steep reaches (decision 0046 item 4) plus the ramps above: explicit
   // ribbons in the SAME shader (ES_STRIP whitewater), built once. The field
   // discards under them via the compiled owner mask.

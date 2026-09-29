@@ -1,12 +1,13 @@
 import * as THREE from "three";
 import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
 import { fallsIrradianceNode, fallsSunVisibilityNode } from "./whitewaterStreaks";
 import type { FallPath } from "./WaterfallSheets";
-import { liftedInstancePositionNode, sceneEyeDepthNode, type KitSharedUniforms } from "./WaterfallKitMaterial";
+import { liftedInstancePositionNode, type KitSharedUniforms } from "./WaterfallKitMaterial";
+import { sceneEyeDepthNode } from "../../render/nodes/depthNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
@@ -118,14 +119,14 @@ function mistDensity(p: TslNode, t: TslNode, v: MistVaryings, verticalScale: Tsl
   const radius = min(width.mul(MIST_CONE.lipRadiusFrac).add(f.mul(drop).mul(MIST_CONE.growPerM)), MIST_CONE.maxRadiusM);
   const q = length(p.sub(onAxis)).div(max(radius, 0.3));
   const q2 = float(1).sub(q.mul(q));
-  const cone = select(q.lessThan(1), q2.mul(q2).mul(f.mul(0.85).add(0.15)), float(0));
+  const cone = sel(q.lessThan(1), q2.mul(q2).mul(f.mul(0.85).add(0.15)), float(0));
   const domeR = v.params.z.mul(MIST_DOME.horizontalScale);
   const domeH = clamp(drop.mul(MIST_DOME.heightPerDropM), MIST_DOME.minHeightM, MIST_DOME.maxHeightM).mul(verticalScale);
   const dc = v.plunge.add(vec3(v.forward.x, 0, v.forward.y).mul(domeR).mul(0.25));
   const dd = p.sub(dc).div(vec3(domeR, domeH, domeR));
   const qd = dot(dd, dd);
   const qd2 = float(1).sub(qd);
-  const dome = select(qd.lessThan(1).and(p.y.greaterThanEqual(v.plunge.y.sub(0.5))), qd2.mul(qd2), float(0));
+  const dome = sel(qd.lessThan(1).and(p.y.greaterThanEqual(v.plunge.y.sub(0.5))), qd2.mul(qd2), float(0));
   // a drifting, breathing density: two octaves, rising and going downstream
   const drift = vec3(v.forward.x.mul(MIST_DRIFT.downstreamMS), -MIST_DRIFT.upMS, v.forward.y.mul(MIST_DRIFT.downstreamMS)).mul(t);
   const np = p.add(drift);

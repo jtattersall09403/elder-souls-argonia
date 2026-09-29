@@ -1,5 +1,5 @@
 /**
- * The wave model — ONE parameter table generating BOTH the GLSL vertex
+ * The wave model — ONE parameter table generating BOTH the node vertex
  * displacement and the CPU sampler used for buoyancy/swimming, so the water
  * you see is the water you float on (module 60 §38; decision 0025).
  *
@@ -12,8 +12,8 @@
  * band blends toward a standing wave in sheltered classes; every angular
  * frequency sits on the 2π/8192 s loop grid (Greenheck study §3.1 (2), §1.2).
  *
- * KEEP IN LOCKSTEP: `gerstnerGlsl()` bakes the same constants this module's
- * CPU functions use — change the table, both sides follow. The per-band
+ * KEEP IN LOCKSTEP: render/waterNodes.ts (`esWaveSampleEx`) reads the same
+ * constants this module's CPU functions use — change the table, both sides follow. The per-band
  * pseudo-random angle/phase hash is ported verbatim.
  *
  * Wave energy is scaled by local **exposure** — a product of fetch (shore
@@ -28,10 +28,6 @@ const clamp01 = (v: number) => Math.min(Math.max(v, 0), 1);
 const sstep = (e0: number, e1: number, x: number) => {
   const t = clamp01((x - e0) / (e1 - e0));
   return t * t * (3 - 2 * t);
-};
-const f = (v: number) => {
-  const s = String(v);
-  return s.includes(".") || s.includes("e") ? s : `${s}.0`;
 };
 
 export const WAVES = {
@@ -199,7 +195,7 @@ export function snapOmega(omega: number): number {
  * travelling (16c round 2, the owner's "whole ocean foams at once"). The
  * estuary is open sea water and travels; the pulse is kept for the small,
  * sheltered lake the owner likes.
- * KEEP IN LOCKSTEP with `standingRatioGlsl()`.
+ * KEEP IN LOCKSTEP with the node twin in render/waterNodes.ts.
  */
 export const STANDING_BY_CLASS: Readonly<Record<string, number>> = {
   none: 0, coast: 0, estuary: 0, river: 0, lake: 0.45, marsh: 0.5,
@@ -208,19 +204,6 @@ export function standingWaveRatio(className: string, shoreDistM: number): number
   const base = STANDING_BY_CLASS[className] ?? 0;
   return base * (1 - sstep(300, 800, shoreDistM));
 }
-/** GLSL twin over the compiled class table (index order from water-meta). */
-export function standingRatioGlsl(classes: readonly string[]): string {
-  const rows = classes.map((c, i) => `if (ci == ${i}) base = ${f(STANDING_BY_CLASS[c] ?? 0)};`).join("\n    ");
-  return /* glsl */ `
-  float esStandingRatio(float classIndex, float shoreDist) {
-    int ci = int(classIndex + 0.5);
-    float base = 0.0;
-    ${rows}
-    return base * (1.0 - smoothstep(300.0, 800.0, shoreDist));
-  }
-  `;
-}
-
 /**
  * Weather wind → wave-energy scale (Phase 8c, decision 0032): ONE shared
  * value multiplying wave exposure on BOTH the CPU query and the GPU vertex
@@ -257,7 +240,7 @@ export function windWaveSpeed(scale: number = windWaveScale): number {
  * same sea the swell is drawn from (1.0 at the floor wind on Topal Bay, ~1.4
  * at 10 m/s, ~2.4 at 17 m/s; a lee shore stays at the floor). Replaces the
  * old `surfWindScale` (a power of the wave-scale knob, blind to the fetch).
- * KEEP IN LOCKSTEP with the GLSL `esSurfEnergy` in `surfGlsl()`.
+ * KEEP IN LOCKSTEP with the node `esSurfEnergy` in render/waterNodes.ts.
  */
 export const SURF_ENERGY = { refRmsM: 0.22, min: 0.6, max: 3.5 } as const;
 export function surfEnergyScale(windMS: number, fetchM: number): number {
@@ -578,7 +561,7 @@ export function surfaceWaveAt(x: number, z: number, timeS: number, exposure: num
  * sinusoids travel DOWNSTREAM at (speed + 0.4) m/s with a lateral phase
  * wobble so the crests are not ruler-straight. ONE table generates the CPU
  * sampler (`flowWaveAt`, used by `WaterWorld.sample`) and the GLSL vertex
- * function (`flowWaveGlsl` → `esFlowWave`). KEEP IN LOCKSTEP.
+ * function (render/waterNodes.ts `esFlowWave`). KEEP IN LOCKSTEP.
  */
 export const FLOW_WAVE_MIN_SPEED_MS = 0.15;
 export const FLOW_WAVES = {
@@ -636,190 +619,3 @@ export function flowWaveAt(x: number, z: number, dirX: number, dirZ: number, spe
   return out;
 }
 
-/** GLSL twin: `esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal)`
- * returns the height; constants baked from FLOW_WAVES. Requires `esSnapOmega`
- * from `gerstnerGlsl()` to be declared first. */
-export function flowWaveGlsl(): string {
-  const rows = FLOW_WAVES.bands.map((b) => {
-    const k = (2 * Math.PI) / b.wavelengthM;
-    return `{
-      float lat = ${f(b.lateralAmp)} * sin(across * ${f(b.lateralK)} + ${f(b.phase0)});
-      float ph = ${f(k)} * along - esSnapOmega(${f(k)} * c) * t + lat + ${f(b.phase0)};
-      float a = amp * ${f(b.weight)};
-      h += a * sin(ph);
-      float dlat = ${f(b.lateralAmp)} * cos(across * ${f(b.lateralK)} + ${f(b.phase0)}) * ${f(b.lateralK)};
-      float cph = a * cos(ph);
-      dhx += cph * (${f(k)} * dir.x + dlat * -dir.y);
-      dhz += cph * (${f(k)} * dir.y + dlat * dir.x);
-    }`;
-  }).join("\n    ");
-  return /* glsl */ `
-  // KEEP IN LOCKSTEP with flowWaveAt().
-  float esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal) {
-    float amp = ${f(FLOW_WAVES.ampBase)} + ${f(FLOW_WAVES.ampPerMS)} * min(speed, ${f(FLOW_WAVES.ampSpeedCapMS)});
-    float along = dot(pos, dir);
-    float across = dot(pos, vec2(-dir.y, dir.x));
-    float c = speed + ${f(FLOW_WAVES.phaseSpeedAddMS)};
-    float h = 0.0, dhx = 0.0, dhz = 0.0;
-    ${rows}
-    normal = normalize(vec3(-dhx, 1.0, -dhz));
-    return h;
-  }
-  `;
-}
-
-/**
- * GLSL twin of the shore-surf closed forms (surfGroup / fetchExposure /
- * swashAt / shoreSwellAt). Included by BOTH the water vertex stage (geometry)
- * and the fragment stage (surf foam) — constants baked from the same tables.
- * `esShoreSwell` also returns dH/d(shoreDist) for the vertex normal tilt.
- * `energy` is `esSurfEnergy(uWindMS, fetchM)` (the CPU's surfEnergyScale);
- * `along` is `esAlongPhase(pos, shoreDir, t)`. `esSurfFoam` keeps a
- * four-argument overload (along = 0) for the persistent foam field, which
- * has no shore frame.
- */
-export function surfGlsl(): string {
-  return /* glsl */ `
-  float esSurfGroup(float d, float t) {
-    return 0.55 + 0.45 * sin(${f(GROUP_OMEGA)} * t - ${f(SWASH.groupK)} * d);
-  }
-  // KEEP IN LOCKSTEP with fetchExposure(): the compiled directional fetch.
-  float esFetchExp(float fetchM, float turb) {
-    return clamp(fetchM / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
-         * (1.0 - 0.85 * clamp(turb, 0.0, 1.0));
-  }
-  // KEEP IN LOCKSTEP with surfEnergyScale(): THE surf energy knob — the
-  // sea's rms height (seaRmsHeightM, inlined: the fragment stage has no
-  // esSeaRms) for the wind and the compiled fetch over the calm sea's rms.
-  float esSurfEnergy(float windMS, float fetchM) {
-    float u = max(${f(SEA.swellFloorWindMS)}, windMS);
-    float hs = min(0.0016 * u * sqrt(max(fetchM, 0.0) / 9.81), 0.21 * u * u / 9.81);
-    return clamp(hs * 0.25 / ${f(SURF_ENERGY.refRmsM)}, ${f(SURF_ENERGY.min)}, ${f(SURF_ENERGY.max)});
-  }
-  // KEEP IN LOCKSTEP with alongShorePhase(): crests arrive obliquely.
-  float esAlongPhase(vec2 pos, vec2 shoreDir, float t) {
-    float s = dot(pos, vec2(-shoreDir.y, shoreDir.x));
-    return ${f(ALONG_SHORE.amp)} * sin(${f(ALONG_K)} * s + ${f(ALONG_DRIFT_OMEGA)} * t) * dot(shoreDir, shoreDir);
-  }
-  // KEEP IN LOCKSTEP with swashSkew().
-  float esSwashSkew(float energy) {
-    return clamp(${f(SWASH.skew)} + ${f(SWASH.skewPerEnergy)} * (energy - 1.0), ${f(SWASH.skewMin)}, ${f(SWASH.skewMax)});
-  }
-  // KEEP IN LOCKSTEP with swashAt() — the moving waterline itself.
-  float esSwash(float d, float fetchExp, float t, float energy, float along) {
-    float envelope = max(1.0 - d / ${f(SWASH.bandM)}, 0.0) * clamp(fetchExp * 1.6, 0.0, 1.0);
-    if (envelope <= 0.0) return 0.0;
-    float th = ${f(SWASH_OMEGA)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)} + along;
-    float skewed = cos(th - esSwashSkew(energy) * sin(th));
-    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * energy * envelope * esSurfGroup(d, t);
-  }
-  // KEEP IN LOCKSTEP with shoreSwellAt() / shoreSwellProfile().
-  float esShoreSwell(float d, float depthM, float fetchExp, float t, float energy, float along, out float dHdd) {
-    float env = (1.0 - smoothstep(${f(SHORE_SWELL.buildNearM)}, ${f(SHORE_SWELL.buildFarM)}, d))
-              * (0.3 + 0.7 * smoothstep(${f(SHORE_SWELL.breakInnerM)}, ${f(SHORE_SWELL.breakOuterM)}, d))
-              * clamp(fetchExp * 2.0, 0.0, 1.0);
-    dHdd = 0.0;
-    if (env <= 0.0) return 0.0;
-    float shoal = clamp(pow(max(depthM, 0.3) / 2.0, -0.25), 1.0, 1.8);
-    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t + along;
-    float grp = esSurfGroup(d, t);
-    float a = ${f(SHORE_SWELL.amplitudeM)} * energy * env * shoal * grp;
-    // shoreward slope only: the along-shore phase gradient is a sixth of
-    // the shoreward one and is left out of the normal tilt
-    dHdd = a * (-sin(th) - ${f(2 * SHORE_SWELL.harmonic2)} * sin(2.0 * th) - ${f(3 * SHORE_SWELL.harmonic3)} * sin(3.0 * th)) * ${f(SHORE_SWELL.k)};
-    return a * (cos(th) + ${f(SHORE_SWELL.harmonic2)} * cos(2.0 * th) + ${f(SHORE_SWELL.harmonic3)} * cos(3.0 * th));
-  }
-  // Surf foam energy: a bore riding each arriving crest (peaking in the
-  // break zone, where the swell's energy goes) + backwash remnants after
-  // the crest passes. Same phase family as the swell — foam and geometry
-  // arrive together; storm seas foam harder (sqrt so calm still laps white).
-  float esSurfFoam(float d, float fetchExp, float t, float energy, float along) {
-    float env = (1.0 - smoothstep(2.0, ${f(SWASH.bandM)}, d)) * clamp(fetchExp * 1.8, 0.0, 1.0)
-              * clamp(sqrt(energy), 0.7, 1.9);
-    if (env <= 0.0) return 0.0;
-    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH_OMEGA)} * t + along;
-    float crest = cos(th - esSwashSkew(energy) * sin(th));
-    float grp = esSurfGroup(d, t);
-    float bore = smoothstep(0.45, 0.92, crest) * (0.5 + 0.5 * grp);
-    float back = smoothstep(0.2, 0.8, -crest) * 0.22 * grp;
-    return (bore + back) * env;
-  }
-  float esSurfFoam(float d, float fetchExp, float t, float energy) {
-    return esSurfFoam(d, fetchExp, t, energy, 0.0);
-  }
-  `;
-}
-
-/**
- * The GLSL twin: declares `esWaveSampleEx(vec2 pos, float exposure, float
- * shoreDist, float standing, float t)` (+ the legacy `esWaveSample(pos,
- * exposure, t)` = fully developed, travelling) plus the shared exposure
- * helper and `esSnapOmega`. Constants are baked from the SAME table the CPU
- * uses. `bandCount` lets the low tier truncate the spectrum.
- */
-export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
-  const bands = waveBands().slice(0, bandCount);
-  const rows = bands
-    .map(
-      (b) =>
-        `w = esWaveBand(pos, exposure * clamp(fetchM / ${f(b.fetchM)}, 0.0, 1.0), standing, t, ` +
-        `vec2(${f(b.dirX)}, ${f(b.dirZ)}), ${f(b.freq)}, ${f(b.amp)}, ${f(b.phaseSpeed)}, ${f(b.q)}, ${f(b.phase0)}, w);`,
-    )
-    .join("\n    ");
-  return /* glsl */ `
-  struct EsWave { vec3 disp; vec3 normal; float height; };
-
-  // KEEP IN LOCKSTEP with waveExposure(): the swell hands over to the shore
-  // swell across the handover band; the fetch is a separate per-band limit.
-  float esWaveExposure(float shoreDistM, float depthM, float turbidity) {
-    return smoothstep(${f(WAVES.handoverNearM)}, ${f(WAVES.handoverFarM)}, shoreDistM)
-         * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
-         * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
-  }
-
-  // KEEP IN LOCKSTEP with seaRmsHeightM(): JONSWAP fetch-limited growth
-  // under the Pierson-Moskowitz cap, a wind floor for the ever-present swell.
-  float esSeaRms(float windMS, float fetchM) {
-    float u = max(${f(SEA.swellFloorWindMS)}, windMS);
-    float hsFetch = 0.0016 * u * sqrt(max(fetchM, 0.0) / 9.81);
-    float hsFull = 0.21 * u * u / 9.81;
-    return min(hsFetch, hsFull) * 0.25;
-  }
-
-  // KEEP IN LOCKSTEP with snapOmega(): the loop grid of the folded wave clock.
-  float esSnapOmega(float omega) {
-    return max(1.0, floor(omega / ${f(OMEGA_QUANTUM)} + 0.5)) * ${f(OMEGA_QUANTUM)};
-  }
-
-  // KEEP IN LOCKSTEP with gerstnerAt(): travelling ↔ standing blend.
-  EsWave esWaveBand(vec2 pos, float exposure, float standing, float t, vec2 d,
-                    float freq, float amp, float omega, float q, float phase0, EsWave w) {
-    float a = amp * exposure;
-    float tr = 1.0 - standing;
-    float argS = freq * dot(d, pos) + phase0;
-    float tau = t * omega;
-    float sS = sin(argS), cS = cos(argS), sT = sin(tau), cT = cos(tau);
-    float hh = sS * cT + tr * cS * sT;
-    float dd = tr * cS * cT - sS * sT;
-    float wa = freq * a;
-    w.disp += vec3(q * a * d.x * dd, a * hh, q * a * d.y * dd);
-    w.normal -= vec3(d.x * wa * dd, q * wa * hh, d.y * wa * dd);
-    return w;
-  }
-
-  EsWave esWaveSampleEx(vec2 pos, float exposure, float fetchM, float standing, float t) {
-    EsWave w;
-    w.disp = vec3(0.0);
-    w.normal = vec3(0.0, 1.0, 0.0);
-    standing = clamp(standing, 0.0, 1.0);
-    ${rows}
-    w.height = w.disp.y;
-    w.normal = normalize(w.normal);
-    return w;
-  }
-
-  EsWave esWaveSample(vec2 pos, float exposure, float t) {
-    return esWaveSampleEx(pos, exposure, 1.0e9, 0.0, t);
-  }
-  `;
-}

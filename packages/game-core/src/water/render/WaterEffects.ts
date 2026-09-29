@@ -6,10 +6,10 @@ import {
 } from "three";
 import { MeshBasicNodeMaterial } from "three/webgpu";
 import * as tsl from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 import { WaterCrowns } from "./WaterCrowns";
 import { waterParticleRadiance } from "./waterParticleLighting";
-import { createDepthPlaceholder, sceneEyeDepthNode } from "./WaterfallKitMaterial";
+import { createDepthPlaceholder, sceneEyeDepthNode } from "../../render/nodes/depthNodes";
 import { cascadeEmission, waterSourceDistanceSquared, type Cascade } from "./WaterCascadeSources";
 import { advanceFallingSpray, fallingSprayTrajectory, type FallingSprayTrajectory } from './fallingSpray';
 import { waterParticleMotion } from './waterParticleMotion';
@@ -150,7 +150,7 @@ function createParticleMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial
   const centre0 = modelViewMatrix.mul(vec4(attribute("particlePosition", "vec3"), 1.0));
   // Foam lives on the water, never on a camera-facing billboard.
   const foam = style.z.greaterThan(1.5).and(style.z.lessThan(2.5));
-  const centre = select(foam,
+  const centre = sel(foam,
     centre0.add(modelViewMatrix.mul(vec4(corner.x, 0.0, corner.y, 0.0))),
     vec4(centre0.xy.add(corner), centre0.zw));
   material.vertexNode = cameraProjectionMatrix.mul(centre);
@@ -177,7 +177,7 @@ function createParticleMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial
     });
     const shape = edge.mul(detail);
     const sceneZ = sceneEyeDepthNode(n.sceneDepth, n.resolution, n.cameraNear, n.cameraFar);
-    const soft = select(n.hasDepth.greaterThan(0.5),
+    const soft = sel(n.hasDepth.greaterThan(0.5),
       tClamp(sceneZ.sub(vViewDepth).div(select(isMist, float(0.8), float(0.12))), 0.0, 1.0), float(1));
     const alpha = shape.mul(vStyle.x).mul(soft).mul(n.lightVisibility);
     return vec4(n.lightColor, alpha);
