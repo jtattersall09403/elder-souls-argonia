@@ -1995,6 +1995,11 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     # the outputs are about to be rewritten: a stamp left from the last build
     # must not vouch for a half-written one if this build fails
     stamp.unlink(missing_ok=True)
+    # Blender exits 0 on a Python error in its --python script, so a summary
+    # left from the last build would pass the check below for a build that
+    # never ran (walk 5: a broken blender/build_kit.py re-used 21:34's
+    # summary with the old GLB). The summary this build reads is its own.
+    summary_json.unlink(missing_ok=True)
     if kit.get("bakeCards"):
         card_dir.mkdir(parents=True, exist_ok=True)
     plan_path = work / "kit-plan.json"

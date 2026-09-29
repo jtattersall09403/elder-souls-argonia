@@ -922,3 +922,11 @@ def test_stem_fallback_never_takes_a_lod_texture():
     assert lod_only.find_by_stem("textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds") is None
     sibling = Names(["textures/plants/vurt_shroomstemmoss.dds"])
     assert sibling.find_by_stem("textures/plants/vurt_shroomstem.dds") == "textures/plants/vurt_shroomstemmoss.dds"
+
+
+def test_blender_scripts_compile():
+    # Blender exits 0 when its --python script fails to compile, so a syntax
+    # error in a blender/ script reached a kit build as a silent no-op (walk 5).
+    import py_compile
+    for script in sorted((Path(__file__).parent / "blender").glob("*.py")):
+        py_compile.compile(str(script), doraise=True)

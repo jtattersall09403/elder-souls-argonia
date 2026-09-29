@@ -1017,10 +1017,10 @@ def bake_asset_cards(asset, meshes, root, lo, hi, size):
         path = os.path.join(CARD_DIR, "%s-%s.png" % (safe, view))
         scene.render.filepath = path
         bpy.ops.render.render(write_still=True)
-    unclip_alpha(clipped)
         obj, uv = card_quad(asset, root, len(asset["lodRatios"]) + 1, view, corners)
         jobs.append({"assetId": asset["id"], "view": view, "path": path,
                      "res": resolution, "object": obj, "uv": uv})
+    unclip_alpha(clipped)
     for obj in bpy.data.objects:
         if obj.type == "MESH":
             obj.hide_render = False
