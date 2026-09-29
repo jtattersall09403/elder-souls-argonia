@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest, type GroundManifest } from "./groundMaterial";
+import { createGroundMaterial, useGroundManifest, type GroundManifest, type GroundUniforms } from "./groundMaterial";
 import { sharedAerialUniforms } from "./sky/WorldSky";
-import type { CSM } from "three/examples/jsm/csm/CSM.js";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
 
 /**
@@ -39,9 +39,8 @@ export function useApronMaterials(
   manifest: ApronManifest,
   matSet: string | undefined,
   verticalScale: number,
-  csm: CSM | null | undefined,
   sharedArrayTexture: THREE.DataArrayTexture | undefined,
-): { near: THREE.MeshStandardMaterial; far: THREE.MeshStandardMaterial } {
+): { near: MeshStandardNodeMaterial; far: MeshStandardNodeMaterial } {
   const { set, manifest: ground } = useGroundManifest(baseUrl, matSet);
   const images = useLoader(THREE.ImageLoader, ground.materials.map((m) => `${baseUrl}textures/ground/${set}/${m.file}`));
   const cliffNrmFiles = ["cliff_rock", "cliff_dirt"]
@@ -54,13 +53,12 @@ export function useApronMaterials(
   const materials = useMemo(() => {
     const build = (ctrl: THREE.Texture, tint: THREE.Texture, grad: THREE.Texture) =>
       createGroundMaterial(images, cliffNormals, ctrl, tint, grad, ground as GroundManifest,
-        verticalScale, sharedAerialUniforms, csm,
-        // No shore wetness out here: the apron has no swash band, and the four
-        // texture units it costs are the ones the fragment shader has left.
+        verticalScale, sharedAerialUniforms,
+        // No shore wetness out here: the apron has no swash band.
         { shoreWetness: false }, sharedArrayTexture);
     return { near: build(nearCtrl, nearTint, nearGrad), far: build(farCtrl, farTint, farGrad) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images, cliffNormals, ground, csm, sharedArrayTexture,
+  }, [images, cliffNormals, ground, sharedArrayTexture,
       nearCtrl, nearTint, nearGrad, farCtrl, farTint, farGrad]);
   useEffect(() => {
     const { near, far } = materials;
@@ -68,7 +66,7 @@ export function useApronMaterials(
   }, [materials]);
   useEffect(() => {
     for (const m of [materials.near, materials.far]) {
-      (m.userData.groundUniforms as { uVerticalScale: { value: number } }).uVerticalScale.value = verticalScale;
+      (m.userData.groundUniforms as GroundUniforms).uVerticalScale.value = verticalScale;
     }
   }, [materials, verticalScale]);
   return materials;

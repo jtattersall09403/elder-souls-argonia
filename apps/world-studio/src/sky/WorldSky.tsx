@@ -12,6 +12,7 @@ import {
   type MoonState,
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
+import { installFixtureLighting } from "@elder-souls/game-core/render/fixtureLights/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
@@ -236,12 +237,10 @@ export function WorldSky({
   // Debug handles for the headless probes (probe-sky, probe-air-diff,
   // diagnose-sky, probe-sampler-count). The studio always carries these
   // globals (STUDIO_TOOLS): deployed and local studio builds are identical
-  // (owner 2026-09-22).
+  // (owner 2026-09-22). `__RENDERER__` is studioRenderer.ts's.
   if (STUDIO_TOOLS) {
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
-    (window as unknown as { __RENDERER__?: WebGPURenderer }).__RENDERER__ =
-      gl as unknown as WebGPURenderer;
   }
 
   // Climate rasters as GPU textures for the haze term (shared uniforms):
@@ -328,6 +327,8 @@ export function WorldSky({
   // walk is a WeakSet look-up per visible mesh.
   const patched = useRef(new WeakSet<THREE.Material>());
   const patchScene = () => {
+    // fixture lamps are the renderer's lighting (render/fixtureLights; idempotent, before the first list)
+    installFixtureLighting(gl as unknown as WebGPURenderer);
     scene.traverseVisible((obj) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh) return;
@@ -476,6 +477,8 @@ export function WorldSky({
     void rig;
   };
 
+  // Per-frame scratch (walk 5 perf): the sun direction is rewritten, never allocated.
+  const sunDirScratch = useMemo(() => new THREE.Vector3(), []);
   useFrame((_s, delta) => {
     patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
@@ -540,7 +543,7 @@ export function WorldSky({
         sunOcclusion,
       },
     );
-    const sunDir = new THREE.Vector3(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
+    const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
 
     // Sky dome follows the camera so the horizon never clips.
     sky.position.copy(camera.position);
@@ -682,8 +685,8 @@ export function WorldSky({
     rig.moons.forEach((m: MoonState, i) => {
       const mesh = moonRefs.current[i];
       if (!mesh) return;
-      const dir = new THREE.Vector3(m.direction.x, m.direction.y, m.direction.z);
-      mesh.position.copy(camera.position).addScaledVector(dir, MOON_RADIUS);
+      mesh.position.set(camera.position.x + m.direction.x * MOON_RADIUS,
+        camera.position.y + m.direction.y * MOON_RADIUS, camera.position.z + m.direction.z * MOON_RADIUS);
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
       moonMats[i].uniforms.uSunDir.value.copy(sunDir);

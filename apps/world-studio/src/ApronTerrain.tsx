@@ -1,4 +1,4 @@
-import { Suspense, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { BorderApron } from "@elder-souls/game-core/terrain/BorderApron";
@@ -8,7 +8,7 @@ import { ChunkTerrain } from "./character/ChunkTerrain";
 import { hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./character/terrainHeightSampler";
 import { useApronMaterials } from "./apronMaterials";
-import { SkyContext } from "./sky/WorldSky";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
 import type { ChunkStore, ChunksManifest } from "./character/chunkStore";
 
 /**
@@ -23,7 +23,7 @@ import type { ChunkStore, ChunksManifest } from "./character/chunkStore";
 type TerrainProps = Omit<React.ComponentProps<typeof ChunkTerrain>, "apron" | "onGroundMaterial">;
 
 export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: ApronManifest | null }) {
-  const [ground, setGround] = useState<THREE.MeshStandardMaterial | null>(null);
+  const [ground, setGround] = useState<MeshStandardNodeMaterial | null>(null);
   const [materials, setMaterials] = useState<{ near: THREE.Material; far: THREE.Material } | null>(null);
   const store: ChunkStore = terrain.store;
   const manifest: ChunksManifest = terrain.manifest;
@@ -102,8 +102,7 @@ function ApronMaterials({ apron, matSet, verticalScale, sharedArrayTexture, onRe
   sharedArrayTexture: THREE.DataArrayTexture;
   onReady: (m: { near: THREE.Material; far: THREE.Material } | null) => void;
 }) {
-  const { csm } = useContext(SkyContext);
-  const materials = useApronMaterials(import.meta.env.BASE_URL, apron, matSet, verticalScale, csm, sharedArrayTexture);
+  const materials = useApronMaterials(import.meta.env.BASE_URL, apron, matSet, verticalScale, sharedArrayTexture);
   useEffect(() => {
     onReady(materials);
     return () => onReady(null);

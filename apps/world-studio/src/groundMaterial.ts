@@ -1,7 +1,18 @@
 import * as THREE from "three";
-import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { applyAerialPerspective, type AerialUniforms } from "./sky/aerial";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import * as TSL from "three/tsl";
+import type { AerialUniforms, UniformOf } from "./sky/aerial";
+import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { applyShoreWetness } from "./water/groundWetness";
+
+// TSL builders typed loosely (standard 0109 §1: the chained typings are too
+// deep for tsc to check usefully).
+type LooseFn = (...args: TslNode[]) => TslNode;
+const {
+  Fn, If, abs, clamp, float, floor, fract, int, ivec2, length, mix, normalize, pow, sign, smoothstep,
+  texture, textureLoad, uniform, uniformArray, uv, vec2, vec3, vec4,
+} = TSL as unknown as Record<string, LooseFn>;
+const { cameraPosition, cameraViewMatrix, positionWorld } = TSL as unknown as Record<string, TslNode>;
 
 /**
  * Ground-material splat shader (decision 0011), shared between the flyover's
@@ -14,11 +25,12 @@ import { applyShoreWetness } from "./water/groundWetness";
  * supply `uv` spanning the full province control map (u east 0→1, v = 1 at
  * north) and world-space positions in metres.
  *
- * Since Phase 8a the splat rides on MeshStandardMaterial via onBeforeCompile
- * (not a bespoke ShaderMaterial): albedo comes from the splat, the surface
- * normal from the province gradient map, and lighting/shadows (CSM)/IBL/tone
- * mapping are three.js's own — so the terrain is lit by the same sun, sky and
- * exposure as everything else in the scene (module 55 §96).
+ * The splat is a TSL node graph on a MeshStandardNodeMaterial (decision
+ * 0109): `colorNode` is the splat albedo, `normalNode` the province
+ * gradient-map normal (with the cliff relief), and lighting, cascaded
+ * shadows, IBL, the scene's aerial fog node and tone mapping are three.js's
+ * own, so the terrain is lit by the same sun, sky and exposure as
+ * everything else in the scene (module 55 §96).
  */
 
 export interface GroundManifest {
@@ -63,24 +75,33 @@ export const LITTER_BLEND_IDS = [23, 31, 36];
 export const LITTER_MATERIAL_ID = 21;
 
 export interface GroundUniforms {
-  uGrad: { value: THREE.Texture };
-  uVerticalScale: { value: number };
-  uTintStrength: { value: number };
+  /** Province slope-gradient texture node (`.value` swaps the texture). */
+  uGrad: UniformOf<THREE.Texture>;
+  uVerticalScale: UniformOf<number>;
+  uTintStrength: UniformOf<number>;
   /** Canopy sky-visibility darkening strength (module 55 §96), 0..1. */
-  uCanopyStrength: { value: number };
+  uCanopyStrength: UniformOf<number>;
 }
+
+/** Signed-sqrt gradient decode (see export_gradients); must match
+ * export_web_chunks.GRADIENT_CLAMP. */
+const GRADIENT_CLAMP = 8.0;
 
 /** Builds the splat material. The caller owns disposal of the material and of
  * `material.userData.tex` (the albedo array texture) when
  * `material.userData.ownsTex` is true; a material given a shared array borrows
- * it and disposes nothing. Live-tunable uniforms
- * are exposed on `material.userData.groundUniforms`.
+ * it and disposes nothing. Live-tunable uniforms (TSL uniform nodes: write
+ * `.value`) are exposed on `material.userData.groundUniforms`.
  *
  * The surface normal comes from one province-wide slope-gradient texture
  * (`gradTex`, written by `worldgen.export_web_chunks`) scaled by
- * `uVerticalScale` — NOT from vertex normals, which are computed per chunk and
+ * `uVerticalScale`, NOT from vertex normals, which are computed per chunk and
  * disagree along shared edges, painting a visible seam down every chunk
- * border. Chunk geometry therefore carries no normal attribute at all. */
+ * border. Chunk geometry therefore carries no normal attribute at all.
+ *
+ * The aerial haze is the scene's `fogNode` (the material keeps `fog: true`);
+ * the aerial uniforms are read here only for the climate-air raster (canopy
+ * darkening, shore-wetness shelter) and the province extent. */
 export function createGroundMaterial(
   images: HTMLImageElement[],
   cliffNormals: HTMLImageElement[],
@@ -90,13 +111,12 @@ export function createGroundMaterial(
   manifest: GroundManifest,
   verticalScale: number,
   aerialUniforms: AerialUniforms,
-  csm?: CSM | null,
   options: { shoreWetness?: boolean } = {},
   /** Reuse another material's albedo array instead of building a second one
    * (16d: the apron's two materials share the province's ~40 MB array). The
    * borrower sets `userData.ownsTex = false` and must not dispose it. */
   sharedArrayTexture?: THREE.DataArrayTexture,
-): THREE.MeshStandardMaterial {
+): MeshStandardNodeMaterial {
   const n = images.length;
   const size = 512;
   // Cliff materials (Phase 16b item 3): the two library slots the triplanar
@@ -107,11 +127,7 @@ export function createGroundMaterial(
   const hasCliff = !!cliffRock && !!cliffDirt;
   const cliffNrmOk = hasCliff && cliffNormals.length === 2;
   // The two cliff NORMAL maps ride in the SAME array texture as the albedos,
-  // as layers n and n+1: a second sampler2DArray for them took the fragment
-  // shader to 17 texture units with the flyover's 3 shadow cascades, over the
-  // 16 most GPUs allow, so the ground material failed to compile and the
-  // flyover drew no terrain at all (owner's console, 2026-09-13). Character
-  // mode has 2 cascades, exactly 16, which is why it still worked.
+  // as layers n and n+1 (one sampler, one allocation).
   const layers = n + (cliffNrmOk ? 2 : 0);
   const ownsTex = !sharedArrayTexture;
   let tex = sharedArrayTexture;
@@ -146,236 +162,174 @@ export function createGroundMaterial(
   const img = ctrl.image as { width: number; height: number };
 
   const groundUniforms: GroundUniforms = {
-    uGrad: { value: gradTex },
-    uVerticalScale: { value: verticalScale },
-    uTintStrength: { value: 1.0 },
-    uCanopyStrength: { value: 0.7 },
+    uGrad: texture(gradTex) as UniformOf<THREE.Texture>,
+    uVerticalScale: uniform(verticalScale) as UniformOf<number>,
+    uTintStrength: uniform(1.0) as UniformOf<number>,
+    uCanopyStrength: uniform(0.7) as UniformOf<number>,
   };
-  const staticUniforms = {
-    uTex: { value: tex },
-    uCtrl: { value: ctrl },
-    uTint: { value: tintTex },
-    uGradClamp: { value: 8.0 }, // must match export_web_chunks.GRADIENT_CLAMP (signed-sqrt encoding)
-    uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
-    uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
-    uAvgCol: { value: new Float32Array(manifest.materials.flatMap((m) => m.avgColor.map((c) => c / 255))) },
-    // per-material: 0 = rock cliff, 1 = dirt cliff
-    uCliffOf: { value: new Float32Array(manifest.materials.map((m) => (m.cliff === "rock" ? 0 : 1))) },
-    // albedo array layer indices of the two cliff slots (read by name)
-    uCliffLayer: { value: new THREE.Vector2(cliffRock?.id ?? 0, cliffDirt?.id ?? 0) },
-    uCliffNrmBase: { value: n },   // layer of the first cliff normal map in uTex (rock; dirt follows)
-    // Under-canopy litter (16f deliverable 10): where a crown covers the
-    // ground, bare rock covers read as leaf litter. The mask is the ALPHA of
-    // the province tint raster, written by worldgen/compile_scatter; per
-    // material, 1 = "blend me toward litter under a canopy".
-    uLitterOf: { value: new Float32Array(manifest.materials.map(
-      (m) => (LITTER_BLEND_IDS.includes(m.id) ? 1 : 0))) },
-    uLitterLayer: { value: LITTER_MATERIAL_ID },
-  };
+  const uTileM: TslNode = uniformArray(manifest.materials.map((m) => m.tileM), "float");
+  const uAvgCol: TslNode = uniformArray(manifest.materials.map((m) =>
+    new THREE.Vector3(m.avgColor[0] / 255, m.avgColor[1] / 255, m.avgColor[2] / 255)), "vec3");
+  // per-material: 0 = rock cliff, 1 = dirt cliff
+  const uCliffOf: TslNode = uniformArray(manifest.materials.map((m) => (m.cliff === "rock" ? 0 : 1)), "float");
+  // Under-canopy litter (16f deliverable 10): where a crown covers the
+  // ground, bare rock covers read as leaf litter. The mask is the ALPHA of
+  // the province tint raster, written by worldgen/compile_scatter; per
+  // material, 1 = "blend me toward litter under a canopy".
+  const uLitterOf: TslNode = uniformArray(manifest.materials.map(
+    (m) => (LITTER_BLEND_IDS.includes(m.id) ? 1 : 0)), "float");
+  // albedo array layer indices of the two cliff slots (read by name)
+  const cliffLayerRock: TslNode = float(cliffRock?.id ?? 0);
+  const cliffLayerDirt: TslNode = float(cliffDirt?.id ?? 0);
+  const ctrlSize: TslNode = vec2(img.width, img.height);
+  const ctrlMax: TslNode = ivec2(img.width - 1, img.height - 1);
+  const provinceUv: TslNode = uv();
+  const { uVerticalScale, uTintStrength, uCanopyStrength } = groundUniforms;
 
-  const material = new THREE.MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
+  const layer = (uvNode: TslNode, index: TslNode): TslNode => texture(tex!, uvNode).depth(int(index)).rgb;
+  // gradient-map normal (signed-sqrt decode, see export_gradients)
+  const gradientNormal = (): TslNode => {
+    const s = groundUniforms.uGrad.sample(provinceUv).rg.mul(2.0).sub(1.0);
+    const g = sign(s).mul(s).mul(s).mul(GRADIENT_CLAMP);
+    return normalize(vec3(g.x.negate().mul(uVerticalScale), 1.0, g.y.negate().mul(uVerticalScale)));
+  };
+  // Triplanar weights: pixel-constant, sharpened so flat ground stays a
+  // single cheap top sample (Phase 6b).
+  const triWeights = (nrm: TslNode): TslNode => {
+    const w = pow(abs(nrm), vec3(6.0));
+    return w.div(w.x.add(w.y).add(w.z));
+  };
+  // The cliff albedo layer this material's steep faces use (rock or dirt).
+  const cliffLayerOf = (i: TslNode): TslNode =>
+    sel(uCliffOf.element(i).lessThan(0.5), cliffLayerRock, cliffLayerDirt);
+
+  const splatColor = Fn(() => {
+    const nrm = gradientNormal().toVar("esNrmW");
+    const wp = positionWorld.toVar("esWorldPos");
+    const fade = smoothstep(1200.0, 5500.0, length(wp.sub(cameraPosition))).toVar("esFade");
+    const w = triWeights(nrm).toVar("esW");
+    const litter = texture(tintTex, provinceUv).a.toVar("esLitter");
+
+    // Triplanar sample: planar top projection stretches to smears on
+    // near-vertical faces, so the two side projections blend in by the
+    // surface normal. Side projections take the CLIFF texture at ITS tile
+    // size, not material i: a steep face is a rock or dirt cliff, never the
+    // ground texture smeared down it (Phase 16b item 3).
+    const triSample = (i: TslNode): TslNode => {
+      const c = w.y.mul(layer(wp.xz.div(uTileM.element(i)), i)).toVar();
+      const cl = cliffLayerOf(i).toVar();
+      const clTile = uTileM.element(int(cl)).toVar();
+      If(w.x.greaterThan(0.004), () => { c.addAssign(w.x.mul(layer(wp.zy.div(clTile), cl))); });
+      If(w.z.greaterThan(0.004), () => { c.addAssign(w.z.mul(layer(wp.xy.div(clTile), cl))); });
+      return c;
+    };
+    // Far field: the flat average colours. Steep texels average toward the
+    // cliff's colour by the same side weight, so distant cliffs stay cliff-
+    // coloured once the tiled samples have faded out.
+    const avgCol = (i: TslNode): TslNode =>
+      mix(uAvgCol.element(int(cliffLayerOf(i))), uAvgCol.element(i), w.y);
+    // Under a crown, a bare-rock texel reads as leaf litter: the rock forest
+    // floor of Argonia's uplands is covered, not swept (16f deliverable 10).
+    // The blend is on the SAMPLE, so the rock still shows through at the
+    // mask's soft edge and on the triplanar cliff faces. The litter sample
+    // depends only on the fragment, so it is taken once (every per-texel
+    // blend weight is at most `litter`, so none applies below 0.001).
+    const litterSample = vec3(0.0).toVar("esLitterSample");
+    If(litter.greaterThan(0.001), () => { litterSample.assign(triSample(int(LITTER_MATERIAL_ID))); });
+    const litterAvg = uAvgCol.element(int(LITTER_MATERIAL_ID));
+    const litterMix = (i: TslNode, c: TslNode): TslNode => {
+      const k = uLitterOf.element(i).mul(litter);
+      return sel(k.greaterThan(0.001), mix(c, litterSample, k), c);
+    };
+    // near: tiled texture of the texel's two materials; far: their flat
+    // average colours (kills distant tiling, Frostbite near/far pattern)
+    const texelCol = (tc: TslNode): TslNode => {
+      const c = textureLoad(ctrl, clamp(tc, ivec2(0, 0), ctrlMax)).toVar();
+      const i0 = int(c.r.mul(255.0).add(0.5)).toVar();
+      const i1 = int(c.g.mul(255.0).add(0.5)).toVar();
+      const near = mix(litterMix(i0, triSample(i0)), litterMix(i1, triSample(i1)), c.b);
+      const far = mix(mix(avgCol(i0), litterAvg, uLitterOf.element(i0).mul(litter)),
+        mix(avgCol(i1), litterAvg, uLitterOf.element(i1).mul(litter)), c.b);
+      return mix(near, far, fade).toVar();
+    };
+    const p = provinceUv.mul(ctrlSize).sub(0.5).toVar();
+    const p0 = ivec2(floor(p)).toVar();
+    const f = fract(p).toVar();
+    // ids can't be hardware-filtered: manual bilinear over 4 texels
+    const col = mix(
+      mix(texelCol(p0), texelCol(p0.add(ivec2(1, 0))), f.x),
+      mix(texelCol(p0.add(ivec2(0, 1))), texelCol(p0.add(ivec2(1, 1))), f.x),
+      f.y).toVar();
+    const macro = texture(ctrl, provinceUv).a;
+    col.mulAssign(float(0.84).add(float(0.32).mul(macro)));
+    // macro climate tint (coastal/wetness/latitude palette drift),
+    // with a live strength control for owner tuning
+    col.mulAssign(mix(vec3(1.0), texture(tintTex, provinceUv).rgb.mul(2.0), uTintStrength));
+    // canopy sky-visibility darkening (module 55 §96): jungle and rootland
+    // floors live in permanent dusk. Tier-1 approximation on albedo.
+    const canopy = aerialUniforms.uClimateAir.sample(provinceUv).b;
+    col.mulAssign(float(1.0).sub(uCanopyStrength.mul(canopy)));
+    return vec4(col, 1.0);
+  });
+
+  // The lighting normal, world space: the gradient-map normal, with the
+  // cliff relief on the SIDE projections where the set ships cliff normal
+  // maps (the gradient map is province-scale and knows nothing of a face's
+  // own strata). Tangent frames: X projection (u = world z, v = world y,
+  // face +-x), Z projection (u = world x, v = world y, face +-z).
+  const litNormal = Fn(() => {
+    const nrm = gradientNormal().toVar("esNrmL");
+    if (!cliffNrmOk) return nrm;
+    const wp = positionWorld.toVar("esWorldPosL");
+    const w = triWeights(nrm).toVar("esWL");
+    const p = provinceUv.mul(ctrlSize).sub(0.5);
+    const ci = int(textureLoad(ctrl, clamp(ivec2(floor(p)), ivec2(0, 0), ctrlMax)).r.mul(255.0).add(0.5)).toVar();
+    const clN = cliffLayerOf(ci).toVar();
+    const clT = uTileM.element(int(clN)).toVar();
+    // its normal map's layer: n for rock, n + 1 for dirt
+    const clNrm = float(n).add(sel(clN.equal(cliffLayerRock), 0.0, 1.0)).toVar();
+    const sx = sel(nrm.x.lessThan(0.0), -1.0, 1.0).toVar();
+    const sz = sel(nrm.z.lessThan(0.0), -1.0, 1.0).toVar();
+    const nx = vec3(nrm).toVar();
+    const nz = vec3(nrm).toVar();
+    If(w.x.greaterThan(0.004), () => {
+      const t = layer(wp.zy.div(clT), clNrm).mul(2.0).sub(1.0).toVar();
+      nx.assign(normalize(vec3(sx.mul(t.z), t.y, t.x)));
+    });
+    If(w.z.greaterThan(0.004), () => {
+      const t = layer(wp.xy.div(clT), clNrm).mul(2.0).sub(1.0).toVar();
+      nz.assign(normalize(vec3(t.x, t.y, sz.mul(t.z))));
+    });
+    return normalize(w.y.mul(nrm).add(w.x.mul(nx)).add(w.z.mul(nz)));
+  });
+
+  const material = new MeshStandardNodeMaterial({ roughness: 1.0, metalness: 0.0 });
+  material.name = "es-ground";
   // Fixture lights (render/fixtureLights, installed by the sky's scene walk):
   // a near terrain tile is 117 m across and holds a whole place's lamps, so
   // its fragments read up to 16 per tile, not the default 8.
   material.userData.esFixtureLightsPerObject = 16;
-
-  // CSM must install its hook first so the splat patch can chain after it.
-  csm?.setupMaterial(material);
-  const csmHook = material.onBeforeCompile;
-
-  material.onBeforeCompile = (shader, renderer) => {
-    csmHook?.call(material, shader, renderer);
-    Object.assign(shader.uniforms, staticUniforms, groundUniforms);
-    material.userData.patchInfo = { compiled: true };
-
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        /* glsl */ `#include <common>
-varying vec2 vProvinceUv;
-uniform sampler2D uGrad;
-uniform float uGradClamp;
-uniform float uVerticalScale;`,
-      )
-      .replace("#include <uv_vertex>", "#include <uv_vertex>\nvProvinceUv = uv;")
-      // Chunk geometry has no normal attribute (per-chunk normals seam at
-      // borders) — derive the vertex normal from the province gradient map so
-      // vNormal/transformedNormal and the shadow-projection path stay finite
-      // (a zero attribute normal would normalize to NaN and black the mesh).
-      .replace(
-        "#include <beginnormal_vertex>",
-        /* glsl */ `
-vec2 esVS = texture2D(uGrad, uv).rg * 2.0 - 1.0;
-vec2 esVG = sign(esVS) * esVS * esVS * uGradClamp;
-vec3 objectNormal = normalize(vec3(-esVG.x * uVerticalScale, 1.0, -esVG.y * uVerticalScale));`,
-      );
-
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        "#include <common>",
-        /* glsl */ `#include <common>
-#define ES_N ${n}
-varying vec2 vProvinceUv;
-uniform highp sampler2DArray uTex;
-uniform sampler2D uCtrl;
-uniform sampler2D uTint;
-uniform sampler2D uGrad;
-uniform float uVerticalScale;
-uniform float uGradClamp;
-uniform float uTintStrength;
-uniform float uCanopyStrength;
-uniform vec2 uCtrlSize;
-uniform float uTileM[ES_N];
-uniform vec3 uAvgCol[ES_N];
-uniform float uCliffOf[ES_N];
-uniform vec2 uCliffLayer;
-uniform float uLitterOf[ES_N];
-uniform float uLitterLayer;
-float esLitter;   // under-canopy litter coverage at this fragment (0..1)
-${cliffNrmOk ? "#define ES_CLIFF_NRM\nuniform float uCliffNrmBase;" : ""}
-vec3 esNrmW; // world-space gradient-map normal, shared by splat + lighting
-
-// The cliff albedo layer this material's steep faces use (rock or dirt).
-float esCliffLayer(int i) {
-  return uCliffOf[i] < 0.5 ? uCliffLayer.x : uCliffLayer.y;
-}
-
-// Triplanar sample (Phase 6b): planar top projection stretches to smears
-// on near-vertical faces, so blend the two side projections in by the
-// surface normal. Weights are pixel-constant, sharpened so flat ground
-// stays a single cheap top sample.
-vec3 esTriSample(int i, vec3 w, vec3 worldPos) {
-  vec3 c = w.y * texture(uTex, vec3(worldPos.xz / uTileM[i], float(i))).rgb;
-  // Side projections take the CLIFF texture at ITS tile size, not material i:
-  // a steep face is a rock or dirt cliff, never the ground texture smeared
-  // down it (Phase 16b item 3).
-  float esCl = esCliffLayer(i);
-  float esClTile = uTileM[int(esCl)];
-  if (w.x > 0.004) c += w.x * texture(uTex, vec3(worldPos.zy / esClTile, esCl)).rgb;
-  if (w.z > 0.004) c += w.z * texture(uTex, vec3(worldPos.xy / esClTile, esCl)).rgb;
-  return c;
-}
-// Far field: the flat average colours. Steep texels average toward the
-// cliff's colour by the same side weight, so distant cliffs stay cliff-
-// coloured once the tiled samples have faded out.
-vec3 esAvgCol(int i, vec3 w) {
-  return mix(uAvgCol[int(esCliffLayer(i))], uAvgCol[i], w.y);
-}
-// near: tiled texture of the texel's two materials; far: their flat
-// average colours (kills distant tiling, Frostbite near/far pattern)
-// Under a crown, a bare-rock texel reads as leaf litter: the rock forest
-// floor of Argonia's uplands is covered, not swept (16f deliverable 10).
-// The blend is on the SAMPLE, so the rock still shows through at the mask's
-// soft edge and on the triplanar cliff faces.
-vec3 esLitterMix(int i, vec3 c, vec3 w, vec3 worldPos) {
-  float k = uLitterOf[i] * esLitter;
-  if (k <= 0.001) return c;
-  return mix(c, esTriSample(int(uLitterLayer), w, worldPos), k);
-}
-vec3 esTexelCol(ivec2 tc, float fade, vec3 w, vec3 worldPos) {
-  vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
-  int i0 = int(c.r * 255.0 + 0.5);
-  int i1 = int(c.g * 255.0 + 0.5);
-  vec3 near_ = mix(esLitterMix(i0, esTriSample(i0, w, worldPos), w, worldPos),
-                   esLitterMix(i1, esTriSample(i1, w, worldPos), w, worldPos), c.b);
-  vec3 far_ = mix(mix(esAvgCol(i0, w), uAvgCol[int(uLitterLayer)], uLitterOf[i0] * esLitter),
-                  mix(esAvgCol(i1, w), uAvgCol[int(uLitterLayer)], uLitterOf[i1] * esLitter), c.b);
-  return mix(near_, far_, fade);
-}`,
-      )
-      .replace(
-        "#include <map_fragment>",
-        /* glsl */ `
-{
-  // gradient-map normal (signed-sqrt decode, see export_gradients) — computed
-  // here because the triplanar weights need it before the lighting does
-  vec2 esS = texture2D(uGrad, vProvinceUv).rg * 2.0 - 1.0;
-  vec2 esG = sign(esS) * esS * esS * uGradClamp;
-  esNrmW = normalize(vec3(-esG.x * uVerticalScale, 1.0, -esG.y * uVerticalScale));
-  float esDist = length(vEsWorldPos - cameraPosition);
-  float esFade = smoothstep(1200.0, 5500.0, esDist);
-  vec3 esW = pow(abs(esNrmW), vec3(6.0));
-  esW /= (esW.x + esW.y + esW.z);
-  esLitter = texture2D(uTint, vProvinceUv).a;
-  vec2 esP = vProvinceUv * uCtrlSize - 0.5;
-  ivec2 esP0 = ivec2(floor(esP));
-  vec2 esF = fract(esP);
-  // ids can't be hardware-filtered: manual bilinear over 4 texels
-  vec3 esCol = mix(
-    mix(esTexelCol(esP0, esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 0), esFade, esW, vEsWorldPos), esF.x),
-    mix(esTexelCol(esP0 + ivec2(0, 1), esFade, esW, vEsWorldPos), esTexelCol(esP0 + ivec2(1, 1), esFade, esW, vEsWorldPos), esF.x),
-    esF.y);
-  float esMacro = texture2D(uCtrl, vProvinceUv).a;
-  esCol *= 0.84 + 0.32 * esMacro;
-  // macro climate tint (coastal/wetness/latitude palette drift),
-  // with a live strength control for owner tuning
-  esCol *= mix(vec3(1.0), texture2D(uTint, vProvinceUv).rgb * 2.0, uTintStrength);
-  // canopy sky-visibility darkening (module 55 §96): jungle and rootland
-  // floors live in permanent dusk. Tier-1 approximation on albedo — the
-  // compiled per-chunk occlusion raster refines this in later phases.
-  float esCanopy = texture2D(uClimateAir, vProvinceUv).b;
-  esCol *= 1.0 - uCanopyStrength * esCanopy;
-  diffuseColor.rgb = esCol;
-#ifdef ES_CLIFF_NRM
-  // Cliff relief: the gradient map is province-scale and knows nothing of a
-  // face's own strata, so perturb the normal on the SIDE projections with the
-  // cliff normal map. Tangent frames: X projection (u = world z, v = world y,
-  // face +-x), Z projection (u = world x, v = world y, face +-z).
-  {
-    ivec2 esCtc = clamp(ivec2(floor(esP)), ivec2(0), ivec2(uCtrlSize) - 1);
-    int esCi = int(texelFetch(uCtrl, esCtc, 0).r * 255.0 + 0.5);
-    float esClN = esCliffLayer(esCi);
-    float esClT = uTileM[int(esClN)];
-    float esClNrm = uCliffNrmBase + (esClN == uCliffLayer.x ? 0.0 : 1.0);   // its normal map's layer
-    float esSx = esNrmW.x < 0.0 ? -1.0 : 1.0;
-    float esSz = esNrmW.z < 0.0 ? -1.0 : 1.0;
-    vec3 esNx = esNrmW;
-    vec3 esNz = esNrmW;
-    if (esW.x > 0.004) {
-      vec3 t = texture(uTex, vec3(vEsWorldPos.zy / esClT, esClNrm)).rgb * 2.0 - 1.0;
-      esNx = normalize(vec3(esSx * t.z, t.y, t.x));
-    }
-    if (esW.z > 0.004) {
-      vec3 t = texture(uTex, vec3(vEsWorldPos.xy / esClT, esClNrm)).rgb * 2.0 - 1.0;
-      esNz = normalize(vec3(t.x, t.y, esSz * t.z));
-    }
-    esNrmW = normalize(esW.y * esNrmW + esW.x * esNx + esW.z * esNz);
-  }
-#endif
-}`,
-      )
-      .replace(
-        "#include <normal_fragment_begin>",
-        /* glsl */ `
-float faceDirection = gl_FrontFacing ? 1.0 : - 1.0;
-vec3 normal = normalize((viewMatrix * vec4(esNrmW, 0.0)).xyz);
-vec3 nonPerturbedNormal = normal;`,
-      );
-    Object.assign(material.userData.patchInfo, {
-      vertexNormal: shader.vertexShader.includes("esVG"),
-      fragSplat: shader.fragmentShader.includes("esTexelCol"),
-      fragNormal: shader.fragmentShader.includes("nonPerturbedNormal = normal;"),
-      cliffSides: hasCliff,
-      cliffNormalMap: cliffNrmOk,
-      usesCsm: !!material.defines?.USE_CSM,
-    });
-  };
+  material.colorNode = splatColor();
+  const worldNormal = litNormal();
+  material.normalNode = worldNormal.transformDirection(cameraViewMatrix);
 
   // Shore wetness (8b round 2): darken + polish the swash band so retreating
-  // water leaves visibly wet ground. Chains between splat and aerial. It
-  // costs four texture units; skipped while the ladder hides the water layer
-  // (no water to be wet from), which keeps the fragment shader well under
-  // the 16-unit limit: 4 splat + 3 climate + 3 shadow cascades.
-  if (options.shoreWetness !== false) applyShoreWetness(material);
-  // The aerial term chains after the splat patch (it also declares
-  // uClimateAir + vEsWorldPos, which the splat code above uses).
-  applyAerialPerspective(material, aerialUniforms);
-  // The key must name EVERY option that changes the shader: a material built
-  // without shore wetness given the wet program's texture slots drew nothing
-  // ("two textures of different types use the same sampler location", the
-  // apron's first mount, 16d).
-  material.customProgramCacheKey = () =>
-    `es-ground-${n}-${cliffNrmOk ? 1 : 0}-${options.shoreWetness !== false ? "wet" : "dry"}`;
+  // water leaves visibly wet ground. Wraps the splat colour and roughness, so
+  // it runs after both are set. Skipped where there is no water to be wet
+  // from (the ladder hiding the water layer, the border apron).
+  const shoreWetness = options.shoreWetness !== false;
+  if (shoreWetness) {
+    applyShoreWetness(material, {
+      worldPosition: positionWorld,
+      worldNormal,
+      verticalScale: uVerticalScale,
+      climateAir: aerialUniforms.uClimateAir,
+      provinceExtent: aerialUniforms.uProvinceExtentM,
+    });
+  }
+  material.userData.patchInfo = {
+    compiled: true, nodeMaterial: true, cliffSides: hasCliff, cliffNormalMap: cliffNrmOk, shoreWetness,
+  };
 
   material.userData.tex = tex;
   material.userData.ownsTex = ownsTex;

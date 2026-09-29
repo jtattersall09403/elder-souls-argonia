@@ -20,6 +20,7 @@
  * passes it down through `FrameSegmentsContext`.
  */
 import { createContext, useContext } from "react";
+import { useFrame, type RenderCallback } from "@react-three/fiber";
 
 const AVG_FRAMES = 60;
 const MAX_FRAMES = 120;
@@ -77,6 +78,9 @@ export interface FrameSegmentStats {
   gpuWallTimeOnly: boolean;
 }
 
+/** The whole-frame subset of `FrameSegmentStats`, for a per-frame reader. */
+export type FrameGpuSummary = Pick<FrameSegmentStats, "gpuSumAvg" | "gpuSumMax" | "gpuSupported" | "gpuWallTimeOnly">;
+
 /** A 60-frame average / 120-frame maximum over per-frame per-label totals. */
 class Window {
   /** One map per frame; a label missing from a frame counts as 0 ms. */
@@ -106,21 +110,19 @@ class Window {
     });
   }
 
-  /** Per-frame totals over every label, for the whole-frame line. */
-  totals(): { avg: number; max: number } {
-    const sums = this.frames.map((f) => {
-      let s = 0;
-      for (const v of f.values()) s += v;
-      return s;
-    });
+  /** Per-frame totals over every label, for the whole-frame line, written
+   * into `out` (the HUD reads this every frame: no array, no object). */
+  totals(out: { avg: number; max: number }): void {
+    let sum = 0;
+    for (const f of this.frames) for (const v of f.values()) sum += v;
     let max = 0;
     for (const f of this.maxima) {
       let s = 0;
       for (const v of f.values()) s += v;
       max = Math.max(max, s);
     }
-    const avg = sums.length ? sums.reduce((a, b) => a + b, 0) / sums.length : 0;
-    return { avg, max };
+    out.avg = this.frames.length ? sum / this.frames.length : 0;
+    out.max = max;
   }
 }
 
@@ -141,6 +143,7 @@ export class FrameSegments {
   private cpuStart = 0;
   private cpuFrame = new Map<string, number>();
   private cpuWindow = new Window();
+  private readonly totalsScratch = { avg: 0, max: 0 };
 
   /**
    * Bind the renderer. Split from the constructor so the studio can make
@@ -254,8 +257,21 @@ export class FrameSegments {
     if (this.uidLabels.size > 4096) this.uidLabels.clear();
   }
 
+  /** The whole-frame GPU numbers only, written into `out`: the per-frame
+   * reader's path (the HUD's gpu line), allocation-free. `stats()` builds the
+   * per-label rows and is for the 1 Hz poll. */
+  gpuSummary(out: FrameGpuSummary): FrameGpuSummary {
+    this.gpuWindow.totals(this.totalsScratch);
+    out.gpuSumAvg = this.totalsScratch.avg;
+    out.gpuSumMax = this.totalsScratch.max;
+    out.gpuSupported = this.gpuSupported;
+    out.gpuWallTimeOnly = this.wallTimeOnly;
+    return out;
+  }
+
   stats(): FrameSegmentStats {
-    const totals = this.gpuWindow.totals();
+    const totals = { avg: 0, max: 0 };
+    this.gpuWindow.totals(totals);
     return {
       gpu: this.gpuWindow.stats(),
       cpu: this.cpuWindow.stats(),
@@ -290,4 +306,25 @@ export const FrameSegmentsContext = createContext<FrameSegments | null>(null);
 
 export function useFrameSegments(): FrameSegments | null {
   return useContext(FrameSegmentsContext);
+}
+
+/** CPU label for the priority-0 work no hook has claimed. */
+export const UNCLAIMED_CPU_LABEL = "other";
+
+/**
+ * `useFrame` whose main-thread time the HUD shows under `label` (walk 5 perf).
+ * The CPU clock charges everything to the last mark until the next one, so a
+ * hook that marks only its start also absorbs every unmarked hook after it
+ * (that is how the "char" row came to carry the combat runtime, the actors
+ * and the water surface). This marks the start AND hands the clock back to
+ * `UNCLAIMED_CPU_LABEL` at the end. No allocation per frame; no-op without a
+ * `FrameSegmentsContext` (the combat sandbox).
+ */
+export function useMarkedFrame(label: string, callback: RenderCallback, priority?: number): void {
+  const segments = useFrameSegments();
+  useFrame((state, delta, frame) => {
+    if (!segments) { callback(state, delta, frame); return; }
+    segments.cpuMark(label);
+    try { callback(state, delta, frame); } finally { segments.cpuMark(UNCLAIMED_CPU_LABEL); }
+  }, priority);
 }

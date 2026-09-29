@@ -52,8 +52,8 @@ import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import {
-  FrameSegments, FrameSegmentsContext, useFrameSegments,
-  type FrameSegmentStats, type SegmentStat, type GpuTimerSource, type TimedRenderer,
+  FrameSegments, FrameSegmentsContext, useFrameSegments, useMarkedFrame,
+  type FrameGpuSummary, type FrameSegmentStats, type SegmentStat, type GpuTimerSource, type TimedRenderer,
 } from "@elder-souls/game-core/fx/frameSegments";
 import { useHiddenLayers } from "../ladder";
 import { useApronManifest } from "../apronMaterials";
@@ -215,12 +215,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
-  // Canvas MSAA is OFF by default (dev 0a689e4d): the scene reaches the
-  // canvas through the water pipeline's samples:0 target as one blit, so
-  // canvas MSAA only smoothed the water edges and the precip/overlay passes.
-  // `?aa=1` creates the canvas with MSAA (the node renderer's `antialias`).
+  // Canvas MSAA is ON (owner ruling, walk 5: frames are never won by lowering
+  // visual quality). It smooths the water surface's edges and the
+  // precip/overlay passes; the scene itself reaches the canvas through the
+  // water pipeline's samples:0 target as one blit. DEV A/B switch: `?aa=0`
+  // creates the canvas without MSAA (the node renderer's `antialias`), so the
+  // resolve's cost can be measured.
   const canvasAa = useMemo(() => (
-    new URLSearchParams(window.location.search).get("aa") === "1"
+    new URLSearchParams(window.location.search).get("aa") !== "0"
   ), []);
   // The node renderer (decision 0107), built once by R3F: WebGPU where the
   // browser has it, WebGL 2 otherwise or with `?renderer=webgl`.
@@ -1062,6 +1064,8 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     cpuMaxWindow: number[];
     /** The one published stats object, rewritten in place every frame. */
     stats: FrameGpuStats;
+    /** The segment timer's whole-frame numbers, read into this every frame. */
+    segSummary: FrameGpuSummary;
   }>({
     triSamples: [], callSamples: [],
     frameBuckets: emptyBuckets(), bucketSamples: [],
@@ -1070,6 +1074,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
       avg: 0, max: 0, supported: false,
       tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
     },
+    segSummary: { gpuSumAvg: 0, gpuSumMax: 0, gpuSupported: false, gpuWallTimeOnly: false },
   });
 
   useEffect(() => {
@@ -1100,17 +1105,22 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     const frame = gpu.current.frameBuckets;
     let inShadow = false;
     const internals = renderer as unknown as {
-      _renderObjectDirect: (object: unknown, material: unknown, ...rest: unknown[]) => unknown;
+      _renderObjectDirect: (object: unknown, material: unknown, scene: unknown, camera: unknown,
+        lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) => unknown;
     };
     const renderObjectDirect = internals._renderObjectDirect;
-    internals._renderObjectDirect = function wrapped(object: unknown, material: unknown, ...rest: unknown[]) {
+    // Named parameters, not a rest array: this runs once per DRAW, and a
+    // `...rest` array per draw was hundreds of arrays a frame (walk 5 perf).
+    internals._renderObjectDirect = function wrapped(object: unknown, material: unknown, scene: unknown,
+      cam: unknown, lightsNode: unknown, group: unknown, clippingContext: unknown, passId: unknown) {
       const shadow = (material as { isShadowPassMaterial?: boolean } | null)?.isShadowPassMaterial === true;
       if (shadow !== inShadow) {
         inShadow = shadow;
         segments?.cpuMark(shadow ? "shadow" : "scene");
       }
       const before = renderer.info.render.triangles;
-      const out = renderObjectDirect.call(renderer, object, material, ...rest);
+      const out = renderObjectDirect.call(renderer, object, material, scene, cam, lightsNode, group,
+        clippingContext, passId);
       frame[bucketSlot(shadow, bucketIndexOf(object))] += renderer.info.render.triangles - before;
       return out;
     };
@@ -1154,7 +1164,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     g.frameBuckets.fill(0);
     info.reset();
 
-    const seg = segments?.stats();
+    const seg = segments?.gpuSummary(g.segSummary);
     // One object rewritten in place (walk 5 perf audit item 11). The
     // occlusion passes write hiddenChunks/hiddenSectors into it themselves,
     // so they persist between their evaluations without a copy.
@@ -1165,7 +1175,7 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     // Marked, not corrected: on Apple/Metal the GPU timestamp is wall time,
     // so the figure is an upper bound, not the pass's work (0084 r11).
     st.wall = Boolean(seg?.gpuWallTimeOnly);
-    st.source = seg?.gpuSource ?? "none";
+    st.source = segments?.gpuSource ?? "none";
     st.tris = mean(g.triSamples);
     st.calls = Math.round(mean(g.callSamples));
     st.cpu = Math.round(mean(g.cpuSamples) * 10) / 10;
@@ -1545,9 +1555,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     return () => { detach(); unregister(); };
   }, [adapter, position]);
 
-  useFrame((_, rawDelta) => {
-    // Character + physics stage of the frame (decision 0084 round 10).
-    segments?.cpuMark("char");
+  // Character + physics stage of the frame (decision 0084 round 10). The HUD
+  // splits it: "physics" is the fixed-step rapier loop, "char" the driver
+  // around it; "combat", "actors" and "surface" claim their own hooks and
+  // "other" is what no hook claims, all of which the "char" row used to
+  // absorb (walk 5 perf).
+  useMarkedFrame("char", (_, rawDelta) => driveCharacter(rawDelta));
+  const driveCharacter = (rawDelta: number) => {
     frameCount.current += 1;
     const delta = Math.min(rawDelta, 1 / 30);
     // Bounded fixed-step physics (Physics is mounted `paused`): at most 3
@@ -1570,6 +1584,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       prevPos.copy(currPos);
       prevQuat.copy(currQuat);
     } else {
+      segments?.cpuMark("physics");
       stepAccum.current = Math.min(stepAccum.current + rawDelta, 3 * DT);
       while (stepAccum.current >= DT) {
         prevPos.copy(currPos);
@@ -1591,6 +1606,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
           onWaterContact?.(position.x, position.y, position.z, adapter.verticalVelocity(), DT);
         }
       }
+      segments?.cpuMark("char");
     }
     input.update();
     const intent = inputToIntent(input);
@@ -1712,7 +1728,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       urlTimer.current = 3;
       onPositionKm(position.x / 1000, position.z / 1000);
     }
-  });
+  };
 
   useEffect(() => {
     const timer = window.setInterval(() => {

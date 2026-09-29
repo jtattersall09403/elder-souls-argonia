@@ -1,8 +1,9 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
-import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
+import type { MeshStandardNodeMaterial } from "three/webgpu";
+import { sharedAerialUniforms } from "../sky/WorldSky";
 import {
   LOD_REEVALUATE_M, SUB_TILE_DIVISIONS, SUB_TILE_LODS, drawsAsSubTiles, lodForDistance, lodForSubTile,
   type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest,
@@ -85,7 +86,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   loadingFallback?: React.ReactNode;
   /** The built ground material, once it exists: the apron's materials borrow
    * its albedo array rather than allocating a second one (16d). */
-  onGroundMaterial?: (material: THREE.MeshStandardMaterial) => void;
+  onGroundMaterial?: (material: MeshStandardNodeMaterial) => void;
 }) {
   const base = import.meta.env.BASE_URL;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
@@ -101,14 +102,13 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
-  const { csm } = useContext(SkyContext);
   const hiddenLayers = useHiddenLayers(base);
   const shoreWetness = !hiddenLayers.has("water");
   const material = useMemo(
     () => createGroundMaterial(images, cliffNormals, ctrl, tintTex, gradTex, ground,
-      verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm, { shoreWetness }),
+      verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, { shoreWetness }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, cliffNormals, ctrl, tintTex, gradTex, ground, csm, shoreWetness],
+    [images, cliffNormals, ctrl, tintTex, gradTex, ground, shoreWetness],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
@@ -125,7 +125,6 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     w.__GROUND_MATERIAL__ = material;
     w.__GROUND_DEBUG__ = () => ({
       patchInfo: material.userData.patchInfo ?? { compiled: false },
-      hasCsm: !!csm,
       type: material.type,
     });
     return () => {
@@ -134,7 +133,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       if (material.userData.ownsTex !== false) (material.userData.tex as THREE.DataArrayTexture).dispose();
       material.dispose();
     };
-  }, [material, csm]);
+  }, [material]);
   useEffect(() => {
     groundUniforms.uTintStrength.value = tintStrength ?? 1.0;
   }, [groundUniforms, tintStrength]);
