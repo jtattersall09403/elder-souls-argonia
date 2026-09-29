@@ -218,6 +218,19 @@ def test_landing_fails_a_deck_lifted_off_the_water(cw, cat, no_compile):
     assert any("over the water" in f for f in fails) and any("no step" in f for f in fails)
 
 
+def test_landing_builds_each_member_mesh_once_per_pose(cw, cat, compiled, monkeypatch):
+    """Review 5536a1d9: the deck probes reuse one world mesh (and its ray BVH)
+    per member and pose, instead of a copy per probe per end per pose; the
+    result is unchanged."""
+    expected = seat_rules.landing(cat, cw.view())
+    built = []
+    real = rules._world_mesh
+    monkeypatch.setattr(rules, "_world_mesh", lambda c, p: built.append(p.uid) or real(c, p))
+    assert seat_rules.landing(cat, cw.view()) == expected
+    deck = [u for u in built if u.startswith("land-dock")]
+    assert sorted(deck) == ["land-dock1", "land-dock2"], built
+
+
 # ---------------------------------------------------------------- fixtureSeatRule
 
 def test_fixture_seat_fails_a_lantern_sunk_into_the_ground_then_passes(cw, cat, no_compile):

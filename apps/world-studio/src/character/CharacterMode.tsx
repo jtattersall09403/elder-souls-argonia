@@ -61,6 +61,7 @@ import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementLayerError, SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { InteriorDoors, type InteriorDoorsProbe } from "./InteriorDoors";
+import { SoundEventBus } from "@elder-souls/audio";
 import { DoorOverlay, createDoorOverlayChannel } from "./doorOverlay";
 import { ScreenOverlay, createScreenOverlayChannel } from "./screenOverlay";
 import { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
@@ -248,6 +249,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const doorOverlay = useMemo(() => createDoorOverlayChannel(directInterior ? 1 : 0), [directInterior]);
   const screenOverlay = useMemo(() => createScreenOverlayChannel(), []);
   const interiorProbeRef = useRef<(() => InteriorDoorsProbe) | null>(null);
+  // The session's typed sound bus (decision 0095): swing doors say
+  // door.open/door.close on it. The studio attaches no AudioManager yet.
+  const [sounds] = useState(() => new SoundEventBus());
   // One activate press, one answer (doors, travel operators): the arbiter
   // the providers offer to and the driver resolves each frame; and the one
   // kit cache the settlement layer and the interior loader share.
@@ -615,6 +619,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               kitCache={kitCache}
               overlay={doorOverlay}
               probeRef={interiorProbeRef}
+              sounds={sounds}
             />
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they

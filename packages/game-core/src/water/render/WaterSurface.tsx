@@ -516,6 +516,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     <>
     <primitive object={effects.object3d} />
     {strips ? <primitive object={strips.mesh} /> : null}
+    {pools ? <primitive object={pools.mesh} /> : null}
     {falls ? <primitive object={falls.mesh} /> : null}
     <mesh
       ref={meshRef}

@@ -128,8 +128,12 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
 - Parts are published with the kit, for **scoped kits only**: a kit publishes
   parts when a published interior cell (`public/province/interiors/<cell>.json`
   `kits`) names it, because only the interior loader reads parts and every part
-  is a second copy that ships (walk 4: all 26 kits' parts would have taken the
-  site from 577 MB to ~834 MB; the 10 scoped kits' 131.7 MB give 709.0 MB).
+  is a second copy that ships, and then only for the assets those cells DRAW
+  (placements, stand-ins, swing doors: `kit_parts.mjs drawnAssets`,
+  `kit_compress.parts_drawn`; walk 4: every asset of the 10 scoped kits was
+  131.7 MB and a 709.0 MB site, drawn assets only are 19.3 MB and 597.3 MB).
+  A cell that starts drawing a new asset needs `kit_parts.mjs --all` rerun;
+  `kit_compress` check names the missing asset.
   `kit_compress` ends by running `node pipeline/kit_parts.mjs --kit <kit>` for a
   scoped kit and deletes an unscoped kit's parts folder; the writer cuts the
   published GLB into `public/kits/<kit>/parts/` (one GLB per asset, LOD0 only,

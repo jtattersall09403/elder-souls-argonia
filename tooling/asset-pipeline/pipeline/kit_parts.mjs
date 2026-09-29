@@ -9,9 +9,10 @@
  *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --all            # every SCOPED kit; prunes the rest
  *   node tooling/asset-pipeline/pipeline/kit_parts.mjs --all --check    # exit 1 if any part is stale or out of scope
  *
- * Scope (16k walk 4, lane PARTS): only the interior loader reads parts, so a
- * kit publishes parts only when a published interior cell bundle
- * (public/province/interiors/<cell>.json) names it in its `kits` table. A kit
+ * Scope (16k walk 4, lane PARTS; review 5536a1d9): only the interior loader
+ * reads parts, so a kit publishes parts only when a published interior cell
+ * bundle (public/province/interiors/<cell>.json) names it in its `kits`
+ * table, and then only for the assets those cells DRAW (`drawnAssets`). A kit
  * no cell names has its parts folder deleted: parts are a second copy of the
  * kit's LOD0 geometry, and every scoped megabyte ships to Pages.
  *
@@ -89,8 +90,12 @@ export function partFileName(assetId) {
 /** The runtime's LOD rule (settlement/kit.ts buildArchitectureKit): `extras.lod`, absent reads 0. */
 const lodOf = (node) => (typeof node.extras?.lod === "number" ? node.extras.lod : 0);
 
-/** Split one published kit GLB into parts. Returns { index, files: Map<relPath, Buffer> }. */
-export function splitKit(kitId, glbBytes) {
+/**
+ * Split one published kit GLB into parts. Returns { index, files: Map<relPath, Buffer> }.
+ * `only` (a Set of asset ids): split just those, the assets the interior cells
+ * draw (`drawnAssets`); every one must be in the GLB. Absent: every asset.
+ */
+export function splitKit(kitId, glbBytes, only = null) {
   const { json, bin } = readGlb(glbBytes);
   const decoded = new Map(); // bufferView index -> decoded bytes
   const viewBytes = (bvIndex) => {
@@ -119,7 +124,11 @@ export function splitKit(kitId, glbBytes) {
   for (const r of roots) {
     const node = json.nodes[r];
     const assetId = node.extras?.assetId;
-    if (typeof assetId === "string") ids.push([assetId, r]);
+    if (typeof assetId === "string" && (!only || only.has(assetId))) ids.push([assetId, r]);
+  }
+  if (only) {
+    const missing = [...only].filter((id) => !ids.some(([a]) => a === id)).sort();
+    if (missing.length) throw new Error(`${kitId}: interior cells draw asset(s) the kit GLB lacks: ${missing.join(", ")}`);
   }
   ids.sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0));
   const seen = new Set();
@@ -322,9 +331,10 @@ function buildPart(src, rootIndex, viewBytes) {
 }
 
 /** Write (or check) one kit's parts folder. Returns { changed: [rel], removed: [rel], index }. */
-export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false } = {}) {
+export function publishParts(kitId, { kitsDir = PUBLIC_KITS, check = false, assets = drawnAssets().get(kitId) } = {}) {
   const glbPath = join(kitsDir, `${kitId}.glb`);
-  const { index, files } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)));
+  if (!assets?.size) throw new Error(`kit_parts: no published interior cell draws an asset of ${kitId}`);
+  const { index, files } = splitKit(kitId, new Uint8Array(readFileSync(glbPath)), assets);
   const dir = join(kitsDir, kitId, "parts");
   const changed = [];
   for (const [rel, bytes] of files) {
@@ -352,6 +362,30 @@ export function scopedKits(interiorsDir = PUBLIC_INTERIORS) {
     for (const id of Object.keys(cell.kits ?? {})) ids.add(id);
   }
   return [...ids].sort();
+}
+
+/**
+ * kit -> Set of asset ids the published interior cells DRAW: their placements,
+ * their stand-ins (`substitutions[].standInAsset`) and their swing doors,
+ * the set interiorLoader.ts fetches (`drawnPlacements`, `swingDoorAssets`).
+ * A part is a second copy of its asset's LOD0 geometry, so no other asset of
+ * a named kit publishes one (review 5536a1d9).
+ */
+export function drawnAssets(interiorsDir = PUBLIC_INTERIORS) {
+  const drawn = new Map();
+  const add = (kit, assetId) => {
+    if (typeof kit !== "string" || typeof assetId !== "string") return;
+    if (!drawn.has(kit)) drawn.set(kit, new Set());
+    drawn.get(kit).add(assetId);
+  };
+  if (!existsSync(interiorsDir)) return drawn;
+  for (const f of readdirSync(interiorsDir).filter((n) => n.endsWith(".json")).sort()) {
+    const cell = JSON.parse(readFileSync(join(interiorsDir, f), "utf8"));
+    for (const p of cell.placements ?? []) add(p.kit, p.assetId);
+    for (const s of cell.substitutions ?? []) add(s.kit, s.standInAsset);
+    for (const d of cell.doors ?? []) if (d.doorType === "swing") add(d.kit, d.assetId);
+  }
+  return drawn;
 }
 
 /** Parts folders of kits outside the scope (to delete). */

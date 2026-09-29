@@ -119,6 +119,44 @@ def test_bake_palette_maps_grey_through_the_row_and_multiplies_alpha():
     assert out[0, 1].tolist() == [200, 100, 50, 128]
 
 
+def _blender_pixels(image) -> list[float]:
+    """An RGBA PIL image as Blender's `image.pixels`: floats, bottom row first."""
+    arr = np.asarray(image, dtype=np.uint8)[::-1]
+    return (arr.astype(np.float64) / 255.0).ravel().tolist()
+
+
+def _per_texel_bake(src, pal, pw, ph, alpha_from_palette):
+    """The per-texel loop effect_materials.bake_palette_image ran before the
+    review 5536a1d9 fix: the reference its numpy path must match byte for byte."""
+    prow = max(0, ph - 1 - min(bk.PALETTE_ROW, ph - 1))
+    base = prow * pw * 4
+    out = [0.0] * len(src)
+    for i in range(0, len(src), 4):
+        grey = (src[i] + src[i + 1] + src[i + 2]) / 3.0
+        u = min(pw - 1, max(0, int(round(grey * (pw - 1)))))
+        p = base + u * 4
+        out[i] = pal[p]; out[i + 1] = pal[p + 1]; out[i + 2] = pal[p + 2]
+        out[i + 3] = src[i + 3] * (pal[p + 3] if alpha_from_palette else 1.0)
+    return out
+
+
+@needs_vault
+@pytest.mark.parametrize("alpha_from_palette", [True, False])
+def test_card_palette_bake_is_byte_identical_to_the_per_texel_loop(alpha_from_palette):
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent / "blender"))
+    from effect_materials import bake_palette_pixels
+    grey, _, _ = bk.effect_texture_rgba("textures/effects/candleflame01.dds", bk.DEFAULT_VAULT, True)
+    palette, _, _ = bk.effect_texture_rgba("textures/effects/gradients/gradflame01.dds",
+                                           bk.DEFAULT_VAULT, True)
+    src, pal = _blender_pixels(grey), _blender_pixels(palette)
+    before = _per_texel_bake(src, pal, palette.size[0], palette.size[1], alpha_from_palette)
+    after = bake_palette_pixels(src, grey.size, pal, palette.size, alpha_from_palette)
+    to_bytes = lambda px: np.rint(np.asarray(px, dtype=np.float64) * 255.0).astype(np.uint8).tobytes()
+    assert len(after) == len(before)
+    assert to_bytes(after) == to_bytes(before)
+
+
 def test_additive_primitives_take_the_real_vertex_colour_as_color_0():
     gltf = {"materials": [{"name": "flame"}, {"name": "wood"}], "meshes": [{"primitives": [
         {"material": 0, "attributes": {"POSITION": 0, "COLOR_0": 1, "COLOR_1": 2}},
@@ -202,6 +240,15 @@ def test_additive_gains_are_the_nif_shapes_emissive_multiple(nif, expected, mesh
 def test_an_additive_material_with_no_shape_refuses():
     with pytest.raises(RuntimeError, match="Nowhere:0.Mat"):
         bk.additive_gains(["Nowhere:0.Mat"], {"Glow:2": {"emissiveMultiple": 2.5}})
+
+
+def test_blender_numeric_suffixes_resolve_to_the_same_shape():
+    # Blender renames a repeated material `X.Mat.001` (imperial-keep ships them)
+    shaders = {"Glow:2": {"emissiveMultiple": 2.5}}
+    gains = bk.additive_gains(["Glow:2.Mat", "Glow:2.Mat.001", "Glow:2.Mat.012"], shaders)
+    assert gains == {"Glow:2.Mat": 2.5, "Glow:2.Mat.001": 2.5, "Glow:2.Mat.012": 2.5}
+    # a shape whose own NIF name ends in digits after a dot is not stripped
+    assert bk.additive_gains(["Glow.2.Mat"], {"Glow.2": {"emissiveMultiple": 1.0}}) == {"Glow.2.Mat": 1.0}
 
 
 def test_published_flame_cards_carry_their_gain():

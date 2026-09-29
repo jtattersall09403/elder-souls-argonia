@@ -127,6 +127,7 @@ def test_parts_problems_name_a_missing_folder_another_glb_and_a_missing_file(tmp
     from . import kit_compress
     monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
     monkeypatch.setattr(kit_compress, "parts_scope", lambda: {"k"})
+    monkeypatch.setattr(kit_compress, "parts_drawn", lambda kit: {"x:a"})
     (tmp_path / "k.glb").write_bytes(b"glb-bytes")
     assert "no parts folder" in kit_compress.parts_problems("k")[0]
     parts = tmp_path / "k" / "parts"
@@ -142,6 +143,33 @@ def test_parts_problems_name_a_missing_folder_another_glb_and_a_missing_file(tmp
     assert kit_compress.parts_problems("k") == []
     (parts / "tex" / "abcd.ktx2").unlink()
     assert "tex/abcd.ktx2" in kit_compress.parts_problems("k")[0]
+
+
+def test_parts_cover_exactly_the_assets_the_cells_draw(tmp_path, monkeypatch):
+    """Review 5536a1d9: parts are cut only for the assets a cell draws
+    (placements, stand-ins, swing doors), so an index that lacks a drawn
+    asset or holds an undrawn one is stale."""
+    import hashlib
+    from . import kit_compress
+    cells = tmp_path / "interiors"
+    cells.mkdir()
+    (cells / "C.json").write_text(json.dumps({
+        "kits": {"k": {}}, "placements": [{"kit": "k", "assetId": "x:a"}],
+        "substitutions": [{"kit": "k", "standInAsset": "x:b"}],
+        "doors": [{"doorType": "swing", "kit": "k", "assetId": "x:door"}, {"doorType": "load"}]}))
+    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", cells)
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
+    assert kit_compress.parts_drawn("k") == {"x:a", "x:b", "x:door"}
+    (tmp_path / "k.glb").write_bytes(b"g")
+    parts = tmp_path / "k" / "parts"
+    parts.mkdir(parents=True)
+    rows = {a: {"file": f"{i}.glb", "bytes": 1, "textures": []} for i, a in enumerate(["x:a", "x:b", "x:extra"])}
+    for row in rows.values():
+        (parts / row["file"]).write_bytes(b"1")
+    (parts / "index.json").write_text(json.dumps(
+        {"source": {"sha256": hashlib.sha256(b"g").hexdigest()}, "assets": rows}))
+    problem = kit_compress.parts_problems("k")[0]
+    assert "x:door" in problem and "x:extra" in problem
 
 
 def test_parts_scope_is_the_kits_published_cells_name(tmp_path, monkeypatch):

@@ -102,6 +102,22 @@ def parts_scope() -> set[str]:
             for kit in json.loads(cell.read_text()).get("kits", {})}
 
 
+def parts_drawn(kit_id: str) -> set[str]:
+    """The assets of `kit_id` the published interior cells DRAW (placements,
+    stand-ins, swing doors): the only assets that get a part (kit_parts.mjs
+    `drawnAssets`, same rule; review 5536a1d9)."""
+    drawn: set[str] = set()
+    if not PUBLIC_INTERIORS.exists():
+        return drawn
+    for path in sorted(PUBLIC_INTERIORS.glob("*.json")):
+        cell = json.loads(path.read_text())
+        drawn |= {p["assetId"] for p in cell.get("placements", []) if p.get("kit") == kit_id}
+        drawn |= {s["standInAsset"] for s in cell.get("substitutions", []) if s.get("kit") == kit_id}
+        drawn |= {d["assetId"] for d in cell.get("doors", [])
+                  if d.get("doorType") == "swing" and d.get("kit") == kit_id}
+    return drawn
+
+
 def publish_parts(kit_id: str) -> dict | None:
     """Run kit_parts.mjs for one scoped kit; returns the parts index's totals.
     An unscoped kit's parts folder is deleted and None returned."""
@@ -118,8 +134,8 @@ def publish_parts(kit_id: str) -> dict | None:
 
 def parts_problems(kit_id: str) -> list[str]:
     """Why a kit's parts folder does not match its published GLB (empty = current):
-    the index must name the GLB's sha256 and every file it lists must exist at
-    its recorded size. Milliseconds; the writer is deterministic, so a current
+    the index must name the GLB's sha256, list exactly the assets the cells
+    draw (`parts_drawn`), and every file it lists must exist at its recorded size. Milliseconds; the writer is deterministic, so a current
     index means current parts."""
     fix = f"node tooling/asset-pipeline/pipeline/kit_parts.mjs --kit {kit_id}"
     folder = PUBLIC_KITS / kit_id / "parts"
@@ -134,6 +150,10 @@ def parts_problems(kit_id: str) -> list[str]:
     glb = PUBLIC_KITS / f"{kit_id}.glb"
     if index.get("source", {}).get("sha256") != hashlib.sha256(glb.read_bytes()).hexdigest():
         return [f"{kit_id}: parts were cut from another GLB ({fix})"]
+    drawn, cut = parts_drawn(kit_id), set(index["assets"])
+    if drawn != cut:
+        return [f"{kit_id}: parts do not match the assets the cells draw: missing "
+                f"{sorted(drawn - cut)[:5]}, undrawn {sorted(cut - drawn)[:5]} ({fix})"]
     missing = [row["file"] for row in index["assets"].values()
                if not (folder / row["file"]).exists() or (folder / row["file"]).stat().st_size != row["bytes"]]
     textures = {h for row in index["assets"].values() for h in row["textures"]}

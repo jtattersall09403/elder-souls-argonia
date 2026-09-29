@@ -190,6 +190,35 @@ export function isAlwaysLitFixture(meta: SettlementKitAssetMeta | undefined): bo
   return kind !== undefined && ALWAYS_LIT_KINDS.has(kind);
 }
 
+/**
+ * A piece that draws a fire of its own: mined flames (manifest `flames`) or
+ * additive flame cards (`flameCardMaterials`: fxfirewithembers01's).
+ */
+export function drawsOwnFire(meta: SettlementKitAssetMeta | undefined): boolean {
+  return (meta?.flames?.length ?? 0) > 0 || (meta?.flameCardMaterials?.length ?? 0) > 0;
+}
+
+/**
+ * Whether a piece's fire burns by day: its own fire kind, else its host's.
+ * The flame a brazier holds is a separate mounted effect (vanilla stands
+ * FXFireWithEmbers01 in the bowl, category `effect`, no LIGH record), so its
+ * kind is read from the brazier it is mounted on.
+ */
+export function burnsByDay(
+  meta: SettlementKitAssetMeta | undefined,
+  hostMeta: SettlementKitAssetMeta | undefined,
+): boolean {
+  return isAlwaysLitFixture(meta) || isAlwaysLitFixture(hostMeta);
+}
+
+/** What a piece's mount relation tells its fixture (`fixtureFromPiece`). */
+export interface FixtureMount {
+  /** The manifest row of the piece this one is mounted on. */
+  hostMeta?: SettlementKitAssetMeta;
+  /** A child that draws its own fire (`drawsOwnFire`) is mounted on this piece. */
+  hasMountedFire?: boolean;
+}
+
 /** Strength of a fixture at clock factor `clock`: the clock, or for a fire lerp(0.5, 1, clock). */
 export function fixtureFactor(clock: number, alwaysLit: boolean): number {
   return alwaysLit ? ALWAYS_LIT_DAY_FACTOR + (1 - ALWAYS_LIT_DAY_FACTOR) * clock : clock;
@@ -249,8 +278,10 @@ function fallbackFlame(id: string, position: THREE.Vector3): FixtureSprite {
  * Its flames are the NIF's own (manifest `flames`, mined from the particle
  * systems and AddOnNodes: a lantern's two wicks, a horn candelabrum's four)
  * and its glows the NIF's billboard discs (manifest `glows`). A piece with
- * neither and no flame cards of its own (`flameCardMaterials`) gets one
- * fallback candle flame on the top of its bounds. The point light stands at
+ * neither, no flame cards of its own (`flameCardMaterials`) and no mounted
+ * fire child (`mount.hasMountedFire`: the brazier's fxfirewithembers01) gets
+ * one fallback candle flame on the top of its bounds. It burns by day when
+ * its own kind or its host's is a fire (`burnsByDay`). The point light stands at
  * the LIGH record's `offsetM` where recorded (vanilla places that light
  * BESIDE and above the piece: lantern median 0.61 m off, brazier 1.3 m up),
  * else at the first flame. With `castsLight` false (a sprite holder) the
@@ -262,6 +293,7 @@ export function fixtureFromPiece(
   matrix: THREE.Matrix4,
   localBox: THREE.Box3,
   castsLight = true,
+  mount: FixtureMount = {},
 ): LightFixture {
   const { radiusM, colour } = fixtureLightOf(meta?.light);
   const scaleOf = new THREE.Vector3().setFromMatrixScale(matrix);
@@ -279,7 +311,7 @@ export function fixtureFromPiece(
     glow: true, towardCameraM: (g.towardCameraM ?? 0) * scale, seed: hash01(`${id}#glow${i}`),
     ...(g.tintRgb ? { tint: new THREE.Color(...g.tintRgb) } : {}),
   }));
-  if (castsLight && !flames.length && !(meta?.flameCardMaterials?.length)) {
+  if (castsLight && !drawsOwnFire(meta) && !mount.hasMountedFire) {
     const centre = localBox.getCenter(new THREE.Vector3());
     flames.push(fallbackFlame(id, new THREE.Vector3(centre.x, localBox.max.y + FLAME_SIZE_M * 0.4,
       centre.z).applyMatrix4(matrix)));
@@ -289,7 +321,7 @@ export function fixtureFromPiece(
     : (flames[0]?.position.clone()
       ?? localBox.getCenter(new THREE.Vector3()).setY(localBox.max.y).applyMatrix4(matrix));
   return { id, kind: "fixture", position: lightAt, radiusM, colour,
-    alwaysLit: isAlwaysLitFixture(meta), castsLight, flames: [...flames, ...glows] };
+    alwaysLit: burnsByDay(meta, mount.hostMeta), castsLight, flames: [...flames, ...glows] };
 }
 
 /** A fire socket's fixture (always lit): a fallback flame at the socket, light just above it. */

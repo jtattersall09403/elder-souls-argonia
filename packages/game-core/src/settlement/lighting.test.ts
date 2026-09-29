@@ -8,7 +8,7 @@ import * as lighting from "./lighting";
 import { describe, expect, it } from "vitest";
 import {
   ALWAYS_LIT_DAY_FACTOR, artificialLightFactor, fixtureFromFireSocket, fixtureFromPiece,
-  fixtureLightOf, FIXTURE_CANDELA, FIXTURE_DEFAULT_RADIUS_M, FIXTURE_LIGHT_RGB, isAlwaysLitFixture,
+  burnsByDay, drawsOwnFire, fixtureLightOf, FIXTURE_CANDELA, FIXTURE_DEFAULT_RADIUS_M, FIXTURE_LIGHT_RGB, isAlwaysLitFixture,
   isFireSocket, fixturesInBand, FLAME_FLICKER_ALPHA, FLAME_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD,
   FLAME_RISE, FLAME_TEXTURE_ASSET_ID, isLightFixturePlacement, isSpriteHolderPlacement,
   LIGHT_COUNT_STEPS, lightCountStep,
@@ -291,6 +291,38 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     manager.update(0, camera);
     expect(manager.lights.some((l) => l.visible)).toBe(false);
     manager.dispose();
+  });
+});
+
+describe("a brazier and its mounted fire (review 5536a1d9)", () => {
+  // works-v1: impbrazier01 has a LIGH record (fixtureKind brazier) and no
+  // flames; vanilla mounts fxfirewithembers01 (category effect, flame cards)
+  // in its bowl, and that child is what burns.
+  const box = new THREE.Box3(new THREE.Vector3(-0.5, 0, -0.5), new THREE.Vector3(0.5, 0.47, 0.5));
+  const brazier: SettlementKitAssetMeta = { category: "clutter", light: { formId: "00088243",
+    burnSeconds: -1, radiusUnits: 256, colourRgb: [197, 156, 112], flags: [], fixtureKind: "brazier" } };
+  const fire: SettlementKitAssetMeta = { category: "effect",
+    flameCardMaterials: ["Flames02grant01:0.Mat"], additiveMaterials: ["Flames02grant01:0.Mat"],
+    glows: [{ offsetM: [0, 0.487, 0], sizeM: 2.288, texture: "fx:glowslightflash" }] };
+
+  it("a brazier with a mounted fire draws no fallback candle flame", () => {
+    expect(drawsOwnFire(fire)).toBe(true);
+    expect(drawsOwnFire(brazier)).toBe(false);
+    const f = fixtureFromPiece("brazier", brazier, new THREE.Matrix4(), box, true, { hasMountedFire: true });
+    expect(f.flames).toHaveLength(0);
+    expect(f.castsLight).toBe(true);
+    // without the mounted fire the fallback still stands in
+    expect(fixtureFromPiece("bare", brazier, new THREE.Matrix4(), box).flames).toHaveLength(1);
+  });
+
+  it("the mounted fire burns by day because its host is a brazier", () => {
+    expect(isAlwaysLitFixture(fire)).toBe(false);
+    expect(burnsByDay(fire, brazier)).toBe(true);
+    expect(burnsByDay(fire, undefined)).toBe(false);
+    expect(burnsByDay(fire, { category: "clutter" })).toBe(false);
+    const glow = fixtureFromPiece("flame", fire, new THREE.Matrix4(), box, false, { hostMeta: brazier });
+    expect(glow.alwaysLit).toBe(true);
+    expect(glow.flames.every((s) => s.glow)).toBe(true);
   });
 });
 

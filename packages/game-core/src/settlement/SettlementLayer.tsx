@@ -60,7 +60,7 @@ import { trimeshFromGeometry } from "../physics/floraSolids";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import {
   FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
-  isAlwaysLitFixture, isFireSocket, isLightFixturePlacement, isSpriteHolderPlacement,
+  burnsByDay, drawsOwnFire, isFireSocket, isLightFixturePlacement, isSpriteHolderPlacement,
   SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
@@ -84,7 +84,7 @@ interface DrawBucket {
   /** An additive effect card (flame, glow overlay): drawn unlit and additive
    * under `fixtureFactor` (materials.ts), a fire's by day too. */
   flame?: boolean;
-  /** The card's piece burns by day (lighting.ts `isAlwaysLitFixture`). */
+  /** The card's piece, or the fire kind it is mounted on, burns by day (lighting.ts `burnsByDay`). */
   alwaysLit?: boolean;
 }
 
@@ -759,6 +759,14 @@ export function SettlementLayer({
         (p) => kitAssetMetaOf(manifests, p),
         groundAt);
       const smokeHere: SmokeAnchor[] = [];
+      // Hosts of a mounted fire (a brazier's fxfirewithembers01): their own
+      // fixture draws no fallback flame; the child's cards are the fire.
+      const hostsOfFire = new Set<string>();
+      for (const p of bundle.placements) {
+        if (p.parentPlacementId && drawsOwnFire(kitAssetMetaOf(manifests, p))) {
+          hostsOfFire.add(p.parentPlacementId);
+        }
+      }
 
       for (const placement of bundle.placements) {
         if (++sinceYield >= 64) { sinceYield = 0; yield; }
@@ -800,6 +808,9 @@ export function SettlementLayer({
         }
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         const meta = kitAssetMetaOf(manifests, placement);
+        const hostPlacement = placement.parentPlacementId
+          ? placementById.get(placement.parentPlacementId) : undefined;
+        const hostMeta = hostPlacement ? kitAssetMetaOf(manifests, hostPlacement) : undefined;
         const fixture = inDrawRange && isLightFixturePlacement(placement, meta);
         const spriteHolder = inDrawRange && !fixture && isSpriteHolderPlacement(placement, meta);
         // An additive (flame or glow card) material burns on every instance
@@ -810,7 +821,8 @@ export function SettlementLayer({
         if (inDrawRange) {
           const box = assetBox(`${placement.kit}|${placement.assetId}`, asset.levels[0]);
           if (fixture || spriteHolder) {
-            fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box, fixture));
+            fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box, fixture,
+              { hostMeta, hasMountedFire: hostsOfFire.has(placement.id) }));
           }
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           const piece = {
@@ -826,13 +838,17 @@ export function SettlementLayer({
           const level = ladderLevelAt(ladder, distance);
           const farMerged = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
           asset.levels[level].forEach((part, partIndex) => {
-            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}`;
+            // a flame part burns by day or not by what it is mounted on, so
+            // the same fire asset in a brazier and on its own are two buckets
+            const flamePart = ownFlames.has(part.material.name);
+            const litByDay = flamePart && burnsByDay(meta, hostMeta);
+            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}`;
             const bucket = buckets.get(key) ?? {
               part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
             };
-            if (ownFlames.has(part.material.name)) {
+            if (flamePart) {
               bucket.flame = true;
-              bucket.alwaysLit = isAlwaysLitFixture(meta);
+              bucket.alwaysLit = litByDay;
             }
             const partTransform = transform.clone().multiply(part.localMatrix);
             if (farMerged) {

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
-import type { SoundEvent } from "@elder-souls/audio";
+import { candidateSets, SoundEventBus, type SoundEvent } from "@elder-souls/audio";
 import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
@@ -65,6 +65,20 @@ describe("swing doors (16k walk 4)", () => {
     expect(door.open).toBe(false);
     expect(angleOf(door.leaf.quaternion)).toBeCloseTo(0, 3);
     expect(sounds.map((e) => e.type)).toEqual(["door.open", "door.close"]);
+  });
+
+  it("says door.open and door.close on the scene's SoundEventBus (review 5536a1d9: the studio passes its bus)", () => {
+    const door = buildSwingDoor("d1", pose(), leafAsset("a").levels[0]);
+    const bus = new SoundEventBus();
+    const heard: SoundEvent[] = [];
+    bus.subscribe((e) => heard.push(e));
+    const c = new SwingDoorController([door], { sounds: bus, bodies: () => [], setColliderEnabled: () => {} });
+    c.update(1 / 60, (id) => id === "d1");
+    settle(c, 1.1);
+    settle(c, 1.1, "d1");
+    expect(heard.map((e) => [e.type, "source" in e ? e.source : null])).toEqual([["door.open", "d1"], ["door.close", "d1"]]);
+    expect(candidateSets(heard[0])).toEqual(["door.open"]);
+    expect(candidateSets(heard[1])).toEqual(["door.close", "door.open"]);
   });
 
   it("eases over the record's openS: half way through the time is half way round", () => {

@@ -36,6 +36,7 @@ import functools
 import hashlib
 import json
 import os
+import re
 import shutil
 import struct
 import subprocess
@@ -46,6 +47,7 @@ from typing import Iterable
 
 from . import texture_variants
 from .bsa import BSAArchive
+from .effect_palette import PALETTE_ROW, bake_palette  # noqa: F401 (bk.PALETTE_ROW)
 from .build import (BUILD_DIR, TOOLCHAIN, TROPICAL_TEXTURES, _expand,
                     _referenced_textures, to_windows)
 from .models import ROOT
@@ -972,13 +974,7 @@ def apply_light_records(summary: dict, kit: dict) -> int:
 #: Where every flame and glow sprite texture is published and looked up:
 #: the runtime reads one manifest (lighting.ts `FLAME_TEXTURE_KIT`).
 FLAME_TEXTURE_KIT = "works-v1"
-#: The palette row a greyscale flame texture is baked through. Skyrim's
-#: GREYSCALE_TO_PALETTE indexes u by the texel's grey and v by the particle's
-#: colour/alpha over its life, which a single baked image cannot follow; row
-#: 48 of 64 is the full-alpha fire row of both vanilla fire gradients
-#: (gradflame01, gradfireexplosion: dark red -> orange -> white, alpha
-#: rising with grey), where the bottom rows turn blue (measured 2026-09-28).
-PALETTE_ROW = 48
+# PALETTE_ROW and bake_palette live in effect_palette.py (Blender imports them too).
 #: A grid line is a gutter when its summed alpha x grey is under this share
 #: of the brightest line of the same axis.
 ATLAS_GUTTER_SHARE = 0.03
@@ -1012,27 +1008,6 @@ def atlas_from_gutters(rgba) -> list[int]:
                 best = n
             n *= 2
         out.append(best)
-    return out
-
-
-def bake_palette(grey_rgba, palette_rgba, row: int = PALETTE_ROW, palette_alpha: bool = True):
-    """A greyscale effect texture through its palette, as RGBA: rgb is the
-    palette at u = the texel's grey on `row`, alpha the texel's alpha times
-    the palette's (GREYSCALE_ALPHA; `palette_alpha=False` keeps the texel's).
-    A deterministic transform of two sourced textures, so the runtime needs
-    no palette shader."""
-    import numpy as np
-    grey = np.asarray(grey_rgba, dtype=np.uint8)
-    pal = np.asarray(palette_rgba, dtype=np.uint8)
-    line = pal[min(row, pal.shape[0] - 1)]
-    lum = grey[..., :3].astype(np.float64).mean(-1)
-    u = np.clip(np.rint(lum / 255.0 * (line.shape[0] - 1)), 0, line.shape[0] - 1).astype(int)
-    out = np.empty_like(grey)
-    out[..., :3] = line[u, :3]
-    alpha = grey[..., 3].astype(np.float64)
-    if palette_alpha:
-        alpha = alpha * line[u, 3] / 255.0
-    out[..., 3] = np.rint(alpha).astype(np.uint8)
     return out
 
 
@@ -1196,19 +1171,21 @@ def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: P
     return written
 
 
-#: The suffix Blender's NIF import gives a shape's material (`Glow:2.Mat`).
-NIF_MATERIAL_SUFFIX = ".Mat"
+# `<shape>.Mat`, plus Blender's `.001`-style suffix on a repeated material name
+NIF_MATERIAL_NAME = re.compile(r"^(?P<shape>.*)\.Mat(?:\.\d{3,})?$")
 
 
 def additive_gains(additive_materials: list[str], shaders: dict[str, dict]) -> dict[str, float]:
     """Each additive material's gain: the emissive multiple of the NIF shape it
-    was imported from (material `<shape>.Mat`; `nif_blocks.effect_shape_shaders`).
+    was imported from (material `<shape>.Mat`, or `<shape>.Mat.001` where
+    Blender renamed a repeat; `nif_blocks.effect_shape_shaders`).
     Skyrim's effect shader draws texture x vertex colour x emissive multiple,
     so fxfirewithembers01's cards (vertex rgb <= 0.25) need their 1.6. A
     material with no effect-shader shape of its name refuses the build."""
     gains, missing = {}, []
     for name in additive_materials:
-        shape = name[:-len(NIF_MATERIAL_SUFFIX)] if name.endswith(NIF_MATERIAL_SUFFIX) else name
+        match = NIF_MATERIAL_NAME.match(name)
+        shape = match["shape"] if match else name
         shader = shaders.get(shape)
         if shader is None or shader.get("emissiveMultiple") is None:
             missing.append(name)
@@ -1614,7 +1591,7 @@ KIT_OUTPUT_FORMAT_VERSION = 3
 #: the stamp only through `KIT_OUTPUT_FORMAT_VERSION`.
 KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
     "build_kit.py", "build.py", "blender/build_kit.py",
-    "blender/effect_materials.py", "placement_metadata.py", "trunk_solids.py",
+    "blender/effect_materials.py", "effect_palette.py", "placement_metadata.py", "trunk_solids.py",
     "vet_kit.py", "measure_footprints.py", "interiors_index.py",
     "measure_connectors.py", "piece_front.py",
     "kit_compress.py", "texture_variants.py", "nif_blocks.py"))

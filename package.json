@@ -32,6 +32,7 @@
     "studio": "node tooling/repo-standards/studio-dev.mjs"
   },
   "devDependencies": {
+    "meshoptimizer": "1.1.1",
     "rolldown": "1.2.5"
   }
 }

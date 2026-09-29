@@ -9,7 +9,7 @@ import { SharedKtx2Textures } from "./sharedTextures";
 
 // A kit FIRE republished at output format 2 (16k walk 4); its parts are written
 // by tooling/asset-pipeline/pipeline/kit_parts.mjs.
-const KIT = "works-v1";
+const KIT = "interior-kotm-v1"; // the kit whose parts the cells draw most of (121)
 const KITS = new URL("../../../../apps/world-studio/public/kits/", import.meta.url);
 const PARTS = new URL(kitPartsDir({ id: KIT, glb: `${KIT}.glb`, manifest: "" }), KITS);
 
@@ -60,7 +60,9 @@ describe(`kit parts (${KIT}): a part GLB loads on its own and carries its asset'
     const index = parseKitPartsIndex(JSON.parse(readFileSync(new URL("index.json", PARTS), "utf8")), KIT, "index.json");
     const whole = buildArchitectureKit(await parse(new URL(`${KIT}.glb`, KITS)));
     expect(index.source.bytes).toBe(readFileSync(new URL(`${KIT}.glb`, KITS)).length);
-    expect(Object.keys(index.assets).sort()).toEqual([...whole.keys()].sort());
+    // parts are cut only for the assets the interior cells draw (review 5536a1d9)
+    expect(Object.keys(index.assets).length).toBeGreaterThan(0);
+    for (const id of Object.keys(index.assets)) expect(whole.has(id)).toBe(true);
     let checked = 0;
     let vertices = 0;
     for (const [assetId, row] of Object.entries(index.assets)) {

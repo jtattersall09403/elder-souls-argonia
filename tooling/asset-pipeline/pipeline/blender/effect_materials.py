@@ -10,6 +10,8 @@ two never drift.
 
 Imported inside Blender: the caller puts this directory on `sys.path`.
 """
+import sys
+from pathlib import Path
 
 
 def is_effect_material(material):
@@ -20,9 +22,12 @@ def is_effect_material(material):
 #: The PyNifly material property naming the effect shader's greyscale
 #: palette (BSEffectShaderProperty "Greyscale Texture").
 GREYSCALE_SLOT = "BSShaderTextureSet_Greyscale"
-#: The palette row a greyscale card is baked through: the same row, for the
-#: same reason, as pipeline/build_kit.py PALETTE_ROW (the flame sprites).
-PALETTE_ROW = 48
+#: The palette row and the bake are pipeline/effect_palette.py's, the same
+#: implementation the flame sprites use (build_kit.bake_palette).
+_PIPELINE_DIR = str(Path(__file__).resolve().parent.parent)
+if _PIPELINE_DIR not in sys.path:
+    sys.path.append(_PIPELINE_DIR)
+from effect_palette import PALETTE_ROW, bake_palette  # noqa: E402
 
 
 def _image_path(image):
@@ -44,31 +49,41 @@ def is_palette_image(material, image):
     return bool(stem) and name == stem or "/gradients/" in path
 
 
+def bake_palette_pixels(src, size, pal, palette_size, alpha_from_palette):
+    """Blender `pixels` (floats, bottom row first) of a greyscale card through
+    its palette's row PALETTE_ROW from the top, as a flat float32 array: the
+    8-bit bake of effect_palette.bake_palette, back in Blender's float form."""
+    import numpy as np
+    w, h = size
+    pw, ph = palette_size
+    to_u8 = lambda px, width, height: np.rint(
+        np.asarray(px, dtype=np.float32).reshape(height, width, 4) * 255.0).astype(np.uint8)
+    grey = to_u8(src, w, h)
+    # Blender rows run bottom first; bake_palette counts rows from the top.
+    palette = to_u8(pal, pw, ph)[::-1]
+    baked = bake_palette(grey, palette, PALETTE_ROW, alpha_from_palette)
+    return (baked.astype(np.float32) / 255.0).ravel()
+
+
 def bake_palette_image(source, palette, alpha_from_palette):
     """A greyscale card through its palette as a new packed image: rgb from
     the palette row PALETTE_ROW at u = the texel's grey, alpha the texel's
-    (times the palette's with GREYSCALE_ALPHA). Same rule as the sprite
-    textures (build_kit.bake_palette), done here because the card ships in
-    the GLB."""
+    (times the palette's with GREYSCALE_ALPHA). Same rule and code as the
+    sprite textures (effect_palette.bake_palette), done here because the
+    card ships in the GLB."""
     import bpy
+    import numpy as np
     w, h = source.size
     pw, ph = palette.size
     if not (w and h and pw and ph):
         return source
-    src = list(source.pixels[:])
-    pal = list(palette.pixels[:])
-    # Blender pixels run bottom row first: row PALETTE_ROW from the top.
-    prow = max(0, ph - 1 - min(PALETTE_ROW, ph - 1))
-    base = prow * pw * 4
-    out = [0.0] * len(src)
-    for i in range(0, len(src), 4):
-        grey = (src[i] + src[i + 1] + src[i + 2]) / 3.0
-        u = min(pw - 1, max(0, int(round(grey * (pw - 1)))))
-        p = base + u * 4
-        out[i] = pal[p]; out[i + 1] = pal[p + 1]; out[i + 2] = pal[p + 2]
-        out[i + 3] = src[i + 3] * (pal[p + 3] if alpha_from_palette else 1.0)
+    src = np.empty(w * h * 4, dtype=np.float32)
+    source.pixels.foreach_get(src)
+    pal = np.empty(pw * ph * 4, dtype=np.float32)
+    palette.pixels.foreach_get(pal)
+    out = bake_palette_pixels(src, (w, h), pal, (pw, ph), alpha_from_palette)
     baked = bpy.data.images.new(f"{source.name}+{palette.name}", w, h, alpha=True)
-    baked.pixels[:] = out
+    baked.pixels.foreach_set(out)
     baked.pack()
     return baked
 

@@ -446,13 +446,27 @@ def fixture_piece(cat, scene, ctx, p) -> tuple[dict, list]:
 # landingRule
 # --------------------------------------------------------------------------
 
-def _deck_top(cat, members, x: float, z: float, lift: dict | None = None) -> float | None:
+def _member_mesh(cat, q, meshes: dict | None):
+    """``q``'s world mesh, built once per (piece, pose) in ``meshes`` so its
+    ray BVH is built once too: the landing probes read each member up to
+    20 times per end, at two ends and two poses (review 5536a1d9)."""
+    from . import measure, rules
+    if meshes is None:
+        return rules._world_mesh(cat, q)
+    key = (q.uid, q.asset, measure._transform4(q).tobytes())
+    if key not in meshes:
+        meshes[key] = rules._world_mesh(cat, q)
+    return meshes[key]
+
+
+def _deck_top(cat, members, x: float, z: float, lift: dict | None = None,
+              meshes: dict | None = None) -> float | None:
     """The highest deck of ``members`` at (x, z), each raised by its ``lift``
-    (the compiled pivot minus the workbench's), or None."""
-    from .rules import _world_mesh
+    (the compiled pivot minus the workbench's), or None. ``meshes``: the
+    caller's (piece, pose) -> world mesh cache (`_member_mesh`)."""
     best = None
     for q in members:
-        mesh = _world_mesh(cat, q)
+        mesh = _member_mesh(cat, q, meshes)
         top = float(mesh.bounds[1][2]) + 1.0
         locs, _r, _t = mesh.ray.intersects_location([[x, -z, top]], [[0.0, 0.0, -1.0]],
                                                     multiple_hits=False)
@@ -462,13 +476,14 @@ def _deck_top(cat, members, x: float, z: float, lift: dict | None = None) -> flo
     return best
 
 
-def _deck_in(cat, members, end, ua, sign, lift=None) -> tuple[float | None, float | None]:
+def _deck_in(cat, members, end, ua, sign, lift=None,
+             meshes: dict | None = None) -> tuple[float | None, float | None]:
     """(deck top, how far inside) nearest the run end: read LANDING_INSET_M
     in, then on inward 0.1 m at a time up to 2 m (a dock's last metre may be
     bare posts)."""
     for k in range(20):
         d = LANDING_INSET_M + 0.1 * k
-        top = _deck_top(cat, members, end[0] + sign * ua[0] * d, end[1] + sign * ua[1] * d, lift)
+        top = _deck_top(cat, members, end[0] + sign * ua[0] * d, end[1] + sign * ua[1] * d, lift, meshes)
         if top is not None:
             return top, round(d, 2)
     return None, None
@@ -520,6 +535,7 @@ def landing(cat, scene) -> dict:
     step = rules.character()["stepM"]
     compiled = compiled_y(scene)
     rows, fails = {}, []
+    meshes: dict = {}
     for key, (members, a, b) in landing_runs(cat, scene, g).items():
         ua = np.subtract(b, a) / max(math.dist(a, b), 1e-9)
 
@@ -542,8 +558,8 @@ def landing(cat, scene) -> dict:
         r = {"members": uids, "waterLevelM": round(level, 3),
              "landEnd": [round(land_end[0], 2), round(land_end[1], 2)], "stepM": step}
         for where, lf in [("", None)] + ([("compiled", lift)] if lift else []):
-            deck_w, in_w = _deck_in(cat, members, water_end, ua, sign, lf)
-            deck_l, in_l = _deck_in(cat, members, land_end, ua, -sign, lf)
+            deck_w, in_w = _deck_in(cat, members, water_end, ua, sign, lf, meshes)
+            deck_l, in_l = _deck_in(cat, members, land_end, ua, -sign, lf, meshes)
             over = None if deck_w is None else round(deck_w - level, 2)
             drop = None if deck_l is None else round(deck_l - ground, 2)
             pre = "compiled" if where else ""

@@ -7,188 +7,13 @@
   "sha256": "280ddb5562721f0e341f39849c8b426568b7920948c31d952eea0edc13d6dcd1"
  },
  "totals": {
-  "parts": 181,
-  "partBytes": 5845624,
-  "textureFiles": 126,
-  "textureBytes": 6379558,
-  "bytes": 12225182
+  "parts": 121,
+  "partBytes": 2595672,
+  "textureFiles": 91,
+  "textureBytes": 4300639,
+  "bytes": 6896311
  },
  "assets": {
-  "kotm:argonia/blackwood/boat01": {
-   "file": "kotm_argonia_blackwood_boat01-3f4d122c.glb",
-   "bytes": 25608,
-   "vertices": 1424,
-   "triangles": 896,
-   "textures": [
-    "7c06f6b675d09bdb",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/blackwood/doorframe": {
-   "file": "kotm_argonia_blackwood_doorframe-672f79a0.glb",
-   "bytes": 5128,
-   "vertices": 88,
-   "triangles": 94,
-   "textures": [
-    "24f63fb182f6f591"
-   ]
-  },
-  "kotm:argonia/blackwood/hausneu01innen": {
-   "file": "kotm_argonia_blackwood_hausneu01innen-8124e017.glb",
-   "bytes": 50772,
-   "vertices": 2742,
-   "triangles": 2147,
-   "textures": [
-    "1b29282c80d29c23",
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/house04platform": {
-   "file": "kotm_argonia_blackwood_house04platform-67706c78.glb",
-   "bytes": 36444,
-   "vertices": 2536,
-   "triangles": 2788,
-   "textures": [
-    "24f63fb182f6f591",
-    "e487a56258e72505"
-   ]
-  },
-  "kotm:argonia/blackwood/house05platform": {
-   "file": "kotm_argonia_blackwood_house05platform-48f2d9f2.glb",
-   "bytes": 25008,
-   "vertices": 1564,
-   "triangles": 1732,
-   "textures": [
-    "24f63fb182f6f591",
-    "e487a56258e72505"
-   ]
-  },
-  "kotm:argonia/blackwood/house1in": {
-   "file": "kotm_argonia_blackwood_house1in-75e295de.glb",
-   "bytes": 32652,
-   "vertices": 1401,
-   "triangles": 1706,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/house2in": {
-   "file": "kotm_argonia_blackwood_house2in-fc38b697.glb",
-   "bytes": 56496,
-   "vertices": 3253,
-   "triangles": 4032,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/house2inb": {
-   "file": "kotm_argonia_blackwood_house2inb-1d8e42d1.glb",
-   "bytes": 83728,
-   "vertices": 4197,
-   "triangles": 5284,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/house4in": {
-   "file": "kotm_argonia_blackwood_house4in-13b13a9d.glb",
-   "bytes": 57796,
-   "vertices": 3420,
-   "triangles": 4048,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/housepartion01": {
-   "file": "kotm_argonia_blackwood_housepartion01-841c0693.glb",
-   "bytes": 29612,
-   "vertices": 1161,
-   "triangles": 1451,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/housepartion02": {
-   "file": "kotm_argonia_blackwood_housepartion02-c4c6d5c6.glb",
-   "bytes": 32416,
-   "vertices": 1381,
-   "triangles": 1694,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/housepartion04": {
-   "file": "kotm_argonia_blackwood_housepartion04-5e8e689b.glb",
-   "bytes": 54332,
-   "vertices": 3132,
-   "triangles": 3864,
-   "textures": [
-    "24f63fb182f6f591",
-    "2c3192f23448fe31",
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/housepartionwallwide": {
-   "file": "kotm_argonia_blackwood_housepartionwallwide-200c13dc.glb",
-   "bytes": 6052,
-   "vertices": 10,
-   "triangles": 6,
-   "textures": [
-    "e487a56258e72505",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/lumbermill01waterwheel01": {
-   "file": "kotm_argonia_blackwood_lumbermill01waterwheel01-4de49552.glb",
-   "bytes": 43892,
-   "vertices": 3048,
-   "triangles": 3080,
-   "textures": [
-    "24f63fb182f6f591",
-    "e487a56258e72505"
-   ]
-  },
-  "kotm:argonia/blackwood/lumbermill01waterwheel02": {
-   "file": "kotm_argonia_blackwood_lumbermill01waterwheel02-81852b5e.glb",
-   "bytes": 44500,
-   "vertices": 3048,
-   "triangles": 3080,
-   "textures": [
-    "24f63fb182f6f591",
-    "e487a56258e72505"
-   ]
-  },
-  "kotm:argonia/blackwood/plankwall01a": {
-   "file": "kotm_argonia_blackwood_plankwall01a-a9824455.glb",
-   "bytes": 4596,
-   "vertices": 80,
-   "triangles": 48,
-   "textures": [
-    "bab996046abd3394"
-   ]
-  },
   "kotm:argonia/blackwood/plankwall01b": {
    "file": "kotm_argonia_blackwood_plankwall01b-466b30b3.glb",
    "bytes": 8652,
@@ -205,27 +30,6 @@
    "triangles": 309,
    "textures": [
     "bab996046abd3394"
-   ]
-  },
-  "kotm:argonia/blackwood/roundhut02int": {
-   "file": "kotm_argonia_blackwood_roundhut02int-000d261e.glb",
-   "bytes": 50464,
-   "vertices": 1967,
-   "triangles": 1988,
-   "textures": [
-    "24f63fb182f6f591",
-    "7b345e68ad6d6e80",
-    "bcdc5c6bdc444f08",
-    "ed92dc656a5a17b3"
-   ]
-  },
-  "kotm:argonia/blackwood/shipplank02": {
-   "file": "kotm_argonia_blackwood_shipplank02-f118dc30.glb",
-   "bytes": 4680,
-   "vertices": 96,
-   "triangles": 104,
-   "textures": [
-    "e487a56258e72505"
    ]
   },
   "kotm:argonia/blackwood/shiveringhouse_01_inside": {
@@ -314,15 +118,6 @@
     "1c22339b88b9010b"
    ]
   },
-  "kotm:argonia/clutter/doll_spriggan": {
-   "file": "kotm_argonia_clutter_doll_spriggan-78f5e7a0.glb",
-   "bytes": 49056,
-   "vertices": 2513,
-   "triangles": 3044,
-   "textures": [
-    "1e3e92a4fd20e2c4"
-   ]
-  },
   "kotm:argonia/clutter/firewoodpilehuge01": {
    "file": "kotm_argonia_clutter_firewoodpilehuge01-4d4e2543.glb",
    "bytes": 40156,
@@ -338,16 +133,6 @@
    "bytes": 22848,
    "vertices": 1134,
    "triangles": 852,
-   "textures": [
-    "4021e21cf1e50df8",
-    "9a71da547f95fc8f"
-   ]
-  },
-  "kotm:argonia/clutter/firewoodpilemedium01": {
-   "file": "kotm_argonia_clutter_firewoodpilemedium01-8da6ad74.glb",
-   "bytes": 15660,
-   "vertices": 586,
-   "triangles": 472,
    "textures": [
     "4021e21cf1e50df8",
     "9a71da547f95fc8f"
@@ -379,17 +164,6 @@
    "bytes": 12048,
    "vertices": 248,
    "triangles": 306,
-   "textures": [
-    "5d6aedd71b9740f4",
-    "67ae0d42579c1eb0",
-    "75799bb94b2b9652"
-   ]
-  },
-  "kotm:argonia/clutter/hangingfeathers03": {
-   "file": "kotm_argonia_clutter_hangingfeathers03-3cc3085d.glb",
-   "bytes": 11820,
-   "vertices": 226,
-   "triangles": 288,
    "textures": [
     "5d6aedd71b9740f4",
     "67ae0d42579c1eb0",
@@ -432,15 +206,6 @@
    "triangles": 48,
    "textures": [
     "2b7c32ecca712308"
-   ]
-  },
-  "kotm:argonia/clutter/shell01": {
-   "file": "kotm_argonia_clutter_shell01-56a08179.glb",
-   "bytes": 24208,
-   "vertices": 1298,
-   "triangles": 2208,
-   "textures": [
-    "909b8eccf12f8b5c"
    ]
   },
   "kotm:argonia/clutter/spinningwheel": {
@@ -537,37 +302,6 @@
     "512113b74c34fe8a"
    ]
   },
-  "kotm:argonia/clutter/vossasatl01": {
-   "file": "kotm_argonia_clutter_vossasatl01-e765c59a.glb",
-   "bytes": 36952,
-   "vertices": 2223,
-   "triangles": 3712,
-   "textures": [
-    "b3976cef68a9a155"
-   ]
-  },
-  "kotm:argonia/clutter/vossasatl02": {
-   "file": "kotm_argonia_clutter_vossasatl02-742bd57e.glb",
-   "bytes": 9112,
-   "vertices": 321,
-   "triangles": 428,
-   "textures": [
-    "5343c3459c93d2be"
-   ]
-  },
-  "kotm:argonia/clutter/vossasatl03": {
-   "file": "kotm_argonia_clutter_vossasatl03-03253a91.glb",
-   "bytes": 78524,
-   "vertices": 4748,
-   "triangles": 5664,
-   "textures": [
-    "076e14ee727f6abc",
-    "2b243357b4f59617",
-    "3f2ce26380712cf3",
-    "5343c3459c93d2be",
-    "65b75b73a00b83a5"
-   ]
-  },
   "kotm:argonia/clutter/wallbasket01": {
    "file": "kotm_argonia_clutter_wallbasket01-6e222fa2.glb",
    "bytes": 8972,
@@ -620,27 +354,6 @@
    "triangles": 400,
    "textures": [
     "2b7c32ecca712308"
-   ]
-  },
-  "kotm:argonia/clutter/woodchoppingblock": {
-   "file": "kotm_argonia_clutter_woodchoppingblock-4f6b0977.glb",
-   "bytes": 44036,
-   "vertices": 2467,
-   "triangles": 1986,
-   "textures": [
-    "4021e21cf1e50df8",
-    "9a71da547f95fc8f",
-    "d1b457340880c52c"
-   ]
-  },
-  "kotm:argonia/clutter/woodpickup": {
-   "file": "kotm_argonia_clutter_woodpickup-5eeb165d.glb",
-   "bytes": 23772,
-   "vertices": 1264,
-   "triangles": 608,
-   "textures": [
-    "4021e21cf1e50df8",
-    "9a71da547f95fc8f"
    ]
   },
   "kotm:argonia/food/flatbread": {
@@ -702,16 +415,6 @@
     "f547bc6470506aa2"
    ]
   },
-  "kotm:argonia/furniture/bench01": {
-   "file": "kotm_argonia_furniture_bench01-21d5188e.glb",
-   "bytes": 14692,
-   "vertices": 720,
-   "triangles": 612,
-   "textures": [
-    "24f63fb182f6f591",
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/furniture/chair01": {
    "file": "kotm_argonia_furniture_chair01-3ed28d1e.glb",
    "bytes": 13704,
@@ -732,32 +435,11 @@
     "de5d89f4a58bb9b3"
    ]
   },
-  "kotm:argonia/furniture/furnbedfoottable01": {
-   "file": "kotm_argonia_furniture_furnbedfoottable01-a5c6a4ed.glb",
-   "bytes": 19992,
-   "vertices": 568,
-   "triangles": 412,
-   "textures": [
-    "24f63fb182f6f591",
-    "3cdaa8f8f0a4a7b9",
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/furniture/furnbook3shelf01": {
    "file": "kotm_argonia_furniture_furnbook3shelf01-77935d77.glb",
    "bytes": 16480,
    "vertices": 500,
    "triangles": 328,
-   "textures": [
-    "24f63fb182f6f591",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/furnbook4shelf01": {
-   "file": "kotm_argonia_furniture_furnbook4shelf01-a644afd7.glb",
-   "bytes": 17424,
-   "vertices": 588,
-   "triangles": 372,
    "textures": [
     "24f63fb182f6f591",
     "de5d89f4a58bb9b3"
@@ -774,17 +456,6 @@
     "de5d89f4a58bb9b3"
    ]
   },
-  "kotm:argonia/furniture/furncupboardsm01": {
-   "file": "kotm_argonia_furniture_furncupboardsm01-df9f1c2f.glb",
-   "bytes": 19980,
-   "vertices": 568,
-   "triangles": 412,
-   "textures": [
-    "24f63fb182f6f591",
-    "3cdaa8f8f0a4a7b9",
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/furniture/furndresser3dwr01": {
    "file": "kotm_argonia_furniture_furndresser3dwr01-4167c1e4.glb",
    "bytes": 25296,
@@ -794,28 +465,6 @@
     "24f63fb182f6f591",
     "3cdaa8f8f0a4a7b9",
     "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/furnwardrobe01": {
-   "file": "kotm_argonia_furniture_furnwardrobe01-99a929bd.glb",
-   "bytes": 47688,
-   "vertices": 2838,
-   "triangles": 2058,
-   "textures": [
-    "24f63fb182f6f591",
-    "3cdaa8f8f0a4a7b9",
-    "a807b8c838606560",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/hangingfoodrack01": {
-   "file": "kotm_argonia_furniture_hangingfoodrack01-7c6189df.glb",
-   "bytes": 14392,
-   "vertices": 775,
-   "triangles": 501,
-   "textures": [
-    "24f63fb182f6f591",
-    "77a79c8f3f2b5a74"
    ]
   },
   "kotm:argonia/furniture/rusticbed": {
@@ -837,16 +486,6 @@
    "bytes": 32556,
    "vertices": 1506,
    "triangles": 1372,
-   "textures": [
-    "4021e21cf1e50df8",
-    "6a8ef7976a684134"
-   ]
-  },
-  "kotm:argonia/furniture/rusticbench02": {
-   "file": "kotm_argonia_furniture_rusticbench02-fa1a1336.glb",
-   "bytes": 18024,
-   "vertices": 463,
-   "triangles": 468,
    "textures": [
     "4021e21cf1e50df8",
     "6a8ef7976a684134"
@@ -944,15 +583,6 @@
     "6a8ef7976a684134"
    ]
   },
-  "kotm:argonia/furniture/stool01": {
-   "file": "kotm_argonia_furniture_stool01-9014a728.glb",
-   "bytes": 20004,
-   "vertices": 920,
-   "triangles": 1100,
-   "textures": [
-    "de5d89f4a58bb9b3"
-   ]
-  },
   "kotm:argonia/furniture/table03": {
    "file": "kotm_argonia_furniture_table03-fdf0b11a.glb",
    "bytes": 10180,
@@ -966,16 +596,6 @@
   "kotm:argonia/furniture/table03end": {
    "file": "kotm_argonia_furniture_table03end-84d1526d.glb",
    "bytes": 10064,
-   "vertices": 372,
-   "triangles": 288,
-   "textures": [
-    "98b208b1639d4938",
-    "de5d89f4a58bb9b3"
-   ]
-  },
-  "kotm:argonia/furniture/table03sq": {
-   "file": "kotm_argonia_furniture_table03sq-b4668d5a.glb",
-   "bytes": 10224,
    "vertices": 372,
    "triangles": 288,
    "textures": [
@@ -1053,220 +673,6 @@
     "5d6aedd71b9740f4"
    ]
   },
-  "kotm:argonia/stockades/minewoodplanks02": {
-   "file": "kotm_argonia_stockades_minewoodplanks02-b3ec70be.glb",
-   "bytes": 5536,
-   "vertices": 148,
-   "triangles": 100,
-   "textures": [
-    "bab996046abd3394"
-   ]
-  },
-  "kotm:argonia/stockades/minewoodplanks04": {
-   "file": "kotm_argonia_stockades_minewoodplanks04-be2eb616.glb",
-   "bytes": 11452,
-   "vertices": 576,
-   "triangles": 384,
-   "textures": [
-    "bab996046abd3394"
-   ]
-  },
-  "kotm:argonia/stockades/stockadescaffoldbase0sided01": {
-   "file": "kotm_argonia_stockades_stockadescaffoldbase0sided01-8d97cbf2.glb",
-   "bytes": 9432,
-   "vertices": 296,
-   "triangles": 256,
-   "textures": [
-    "4021e21cf1e50df8",
-    "6d002826452cdef3"
-   ]
-  },
-  "kotm:argonia/stockades/stockadescaffoldtop0sided01": {
-   "file": "kotm_argonia_stockades_stockadescaffoldtop0sided01-0eb1c0d8.glb",
-   "bytes": 9760,
-   "vertices": 235,
-   "triangles": 123,
-   "textures": [
-    "6d002826452cdef3",
-    "bab996046abd3394"
-   ]
-  },
-  "kotm:argonia/stockades/stockadescaffoldtop0sided01b": {
-   "file": "kotm_argonia_stockades_stockadescaffoldtop0sided01b-6e179ec4.glb",
-   "bytes": 8388,
-   "vertices": 195,
-   "triangles": 103,
-   "textures": [
-    "6d002826452cdef3",
-    "bab996046abd3394"
-   ]
-  },
-  "kotm:argonia/trees/ctq_kapoktree01": {
-   "file": "kotm_argonia_trees_ctq_kapoktree01-23ac6433.glb",
-   "bytes": 199476,
-   "vertices": 13074,
-   "triangles": 13447,
-   "textures": [
-    "6265689193b30fe4",
-    "7a18b04a159422ca"
-   ]
-  },
-  "kotm:argonia/trees/ctq_kapoktree03": {
-   "file": "kotm_argonia_trees_ctq_kapoktree03-aa469618.glb",
-   "bytes": 216736,
-   "vertices": 14287,
-   "triangles": 14896,
-   "textures": [
-    "6265689193b30fe4",
-    "7a18b04a159422ca"
-   ]
-  },
-  "kotm:argonia/trees/ctq_kapoktree04": {
-   "file": "kotm_argonia_trees_ctq_kapoktree04-d9d4a782.glb",
-   "bytes": 211696,
-   "vertices": 13899,
-   "triangles": 14334,
-   "textures": [
-    "6265689193b30fe4",
-    "7a18b04a159422ca"
-   ]
-  },
-  "kotm:argonia/trees/ctq_kapoktree05": {
-   "file": "kotm_argonia_trees_ctq_kapoktree05-76b5a7e0.glb",
-   "bytes": 199956,
-   "vertices": 13140,
-   "triangles": 13704,
-   "textures": [
-    "6265689193b30fe4",
-    "7a18b04a159422ca"
-   ]
-  },
-  "kotm:argonia/trees/cypressdebris/cutlog01": {
-   "file": "kotm_argonia_trees_cypressdebris_cutlog01-bc47cead.glb",
-   "bytes": 9392,
-   "vertices": 160,
-   "triangles": 146,
-   "textures": [
-    "4021e21cf1e50df8",
-    "6a8ef7976a684134"
-   ]
-  },
-  "kotm:argonia/trees/cypressdebris/cutlog02": {
-   "file": "kotm_argonia_trees_cypressdebris_cutlog02-a3ce09c3.glb",
-   "bytes": 9800,
-   "vertices": 202,
-   "triangles": 132,
-   "textures": [
-    "4021e21cf1e50df8",
-    "6a8ef7976a684134"
-   ]
-  },
-  "kotm:argonia/trees/cypressdebris/cutlog04": {
-   "file": "kotm_argonia_trees_cypressdebris_cutlog04-f6e4fdef.glb",
-   "bytes": 11420,
-   "vertices": 292,
-   "triangles": 268,
-   "textures": [
-    "4021e21cf1e50df8",
-    "6a8ef7976a684134"
-   ]
-  },
-  "kotm:argonia/trees/greguire/palmoketree02full": {
-   "file": "kotm_argonia_trees_greguire_palmoketree02full-c257c83a.glb",
-   "bytes": 130308,
-   "vertices": 8513,
-   "triangles": 7462,
-   "textures": [
-    "89192993bef734a9",
-    "8bbec45e95965024",
-    "a8b0ee2069a1f22e",
-    "de0b625c4140e23d"
-   ]
-  },
-  "kotm:argonia/trees/greguire/palmoketree03full": {
-   "file": "kotm_argonia_trees_greguire_palmoketree03full-d107a577.glb",
-   "bytes": 128404,
-   "vertices": 8405,
-   "triangles": 7016,
-   "textures": [
-    "89192993bef734a9",
-    "8bbec45e95965024",
-    "a8b0ee2069a1f22e",
-    "de0b625c4140e23d"
-   ]
-  },
-  "kotm:argonia/trees/greguire/palmoketree04full": {
-   "file": "kotm_argonia_trees_greguire_palmoketree04full-cc79e99b.glb",
-   "bytes": 81448,
-   "vertices": 4914,
-   "triangles": 4492,
-   "textures": [
-    "89192993bef734a9",
-    "8bbec45e95965024",
-    "a8b0ee2069a1f22e",
-    "de0b625c4140e23d"
-   ]
-  },
-  "kotm:argonia/trees/hist trees/histtree01": {
-   "file": "kotm_argonia_trees_hist_trees_histtree01-2cf0a3e1.glb",
-   "bytes": 578948,
-   "vertices": 39359,
-   "triangles": 38018,
-   "textures": [
-    "05032215bf964d4a",
-    "176d7a1c79b09e0d",
-    "ea078023d94deaac"
-   ]
-  },
-  "kotm:argonia/trees/hist trees/histtreetrunk01": {
-   "file": "kotm_argonia_trees_hist_trees_histtreetrunk01-6eabf2b1.glb",
-   "bytes": 161896,
-   "vertices": 8797,
-   "triangles": 9838,
-   "textures": [
-    "05032215bf964d4a",
-    "c4e1fe6ed76fea18"
-   ]
-  },
-  "kotm:argonia/xanmeer/detail/ruinstable01": {
-   "file": "kotm_argonia_xanmeer_detail_ruinstable01-8e244deb.glb",
-   "bytes": 8860,
-   "vertices": 411,
-   "triangles": 210,
-   "textures": [
-    "24f63fb182f6f591"
-   ]
-  },
-  "kotm:argonia/xanmeer/interior/freefloor2x2": {
-   "file": "kotm_argonia_xanmeer_interior_freefloor2x2-8ca1ace1.glb",
-   "bytes": 3396,
-   "vertices": 7,
-   "triangles": 5,
-   "textures": [
-    "8015da70d00bfe77"
-   ]
-  },
-  "kotm:argonia/xanmeer/interior/freefloor3x3": {
-   "file": "kotm_argonia_xanmeer_interior_freefloor3x3-e2cd2848.glb",
-   "bytes": 3636,
-   "vertices": 36,
-   "triangles": 18,
-   "textures": [
-    "8015da70d00bfe77"
-   ]
-  },
-  "kotm:caen/mounted heads/murkmire/mounted crocodile big": {
-   "file": "kotm_caen_mounted_heads_murkmire_mounted_crocodile_big-9437e279.glb",
-   "bytes": 42132,
-   "vertices": 1754,
-   "triangles": 2277,
-   "textures": [
-    "2cef839b7c66c8cc",
-    "5f8e68f2496ee46c",
-    "c6008b6fb131670a",
-    "ec8da253f210f595"
-   ]
-  },
   "kotm:loliceptresource/barrel/miscbarrelopen01": {
    "file": "kotm_loliceptresource_barrel_miscbarrelopen01-59797b19.glb",
    "bytes": 67684,
@@ -1291,21 +697,6 @@
     "6b62fbeb16d2c788",
     "8e87fcd556f9017f",
     "9849de4fbd70b209"
-   ]
-  },
-  "kotm:loliceptresource/chest/workbenchchest01": {
-   "file": "kotm_loliceptresource_chest_workbenchchest01-059123c8.glb",
-   "bytes": 65120,
-   "vertices": 2813,
-   "triangles": 2346,
-   "textures": [
-    "3e13494d00546a1a",
-    "81688d83134fd28a",
-    "99ec066031db096c",
-    "a26fee4ec395c3a9",
-    "acb84f2287944e50",
-    "e91134392ae60b69",
-    "f600b8403acae0d9"
    ]
   },
   "kotm:loliceptresource/deco/quillinkwellpaper02": {
@@ -1405,15 +796,6 @@
    "textures": [
     "951aedbcaafc277d",
     "d1ac4df756c55d7a"
-   ]
-  },
-  "kotm:skinwalker21 creatures/sabrecat/megalania/skyrim/megalaniascales": {
-   "file": "kotm_skinwalker21_creatures_sabrecat_megalania_skyrim_megalaniascales-397f93e3.glb",
-   "bytes": 10240,
-   "vertices": 200,
-   "triangles": 276,
-   "textures": [
-    "383af9d1f734af99"
    ]
   },
   "vanilla:architecture/riften/clutter/rtchimney01": {
@@ -1724,16 +1106,6 @@
    "triangles": 1932,
    "textures": [
     "89e16d86368f2eee"
-   ]
-  },
-  "vanilla:clutter/ingredients/trollfat01": {
-   "file": "vanilla_clutter_ingredients_trollfat01-57487df2.glb",
-   "bytes": 12784,
-   "vertices": 345,
-   "triangles": 398,
-   "textures": [
-    "afc506912915caa5",
-    "bcefbff236d54ff9"
    ]
   },
   "vanilla:clutter/wallbasket03": {
