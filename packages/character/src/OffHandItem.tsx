@@ -5,6 +5,7 @@ import { useLayoutEffect, useMemo, type MutableRefObject } from "react";
 import * as THREE from "three";
 
 import { RIG_SOCKET_ROTATION } from "@elder-souls/game-core/anim/animationManifest";
+import { createGlowMaterial, type GlowMaterial } from "./glowMaterial";
 import { createRiggedBow } from "./riggedBow";
 import type { WeaponSocketTransform, WeaponVisualProfile } from "@elder-souls/game-core/core/types";
 
@@ -20,67 +21,6 @@ export type BowDrawRefs = {
   fraction: MutableRefObject<number>;
   release: MutableRefObject<number>;
 };
-
-/**
- * Skyrim's BSEffectShader falloff on the torch glow (part A diag): opacity 0.6
- * facing the viewer (cosine 1.0), rising to 1.0 at a cosine of 0.4226 and
- * below, so the flame's edges read brighter than its face.
- */
-const GLOW_FALLOFF = { startCos: 1, stopCos: 0.4226, startOpacity: 0.6, stopOpacity: 1 } as const;
-
-/**
- * The additive material for a flagged effect mesh: the GLB's own texture times
- * its vertex colours, opacity from the vertex alpha and the view falloff,
- * added onto what is behind it. No new art: everything comes from the mesh.
- */
-function createGlowMaterial(map: THREE.Texture | null) {
-  return new THREE.ShaderMaterial({
-    uniforms: {
-      map: { value: map },
-      intensity: { value: 1 },
-      falloff: { value: new THREE.Vector4(GLOW_FALLOFF.startCos, GLOW_FALLOFF.stopCos, GLOW_FALLOFF.startOpacity, GLOW_FALLOFF.stopOpacity) },
-    },
-    vertexShader: /* glsl */ `
-      #include <common>
-      #include <color_pars_vertex>
-      varying vec2 vGlowUv;
-      varying float vFacing;
-      void main() {
-        #include <color_vertex>
-        vGlowUv = uv;
-        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-        vFacing = abs(dot(normalize(normalMatrix * normal), normalize(-mvPosition.xyz)));
-        gl_Position = projectionMatrix * mvPosition;
-      }
-    `,
-    fragmentShader: /* glsl */ `
-      #include <common>
-      #include <color_pars_fragment>
-      uniform sampler2D map;
-      uniform float intensity;
-      uniform vec4 falloff;
-      varying vec2 vGlowUv;
-      varying float vFacing;
-      void main() {
-        vec4 texel = texture2D(map, vGlowUv);
-        vec4 tint = vec4(1.0);
-        #if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )
-          tint = vColor;
-        #endif
-        float t = clamp((vFacing - falloff.y) / max(1e-4, falloff.x - falloff.y), 0.0, 1.0);
-        float viewOpacity = mix(falloff.w, falloff.z, t);
-        gl_FragColor = vec4(texel.rgb * tint.rgb, texel.a * tint.a * viewOpacity * intensity);
-        #include <colorspace_fragment>
-      }
-    `,
-    vertexColors: true,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    toneMapped: false,
-    side: THREE.DoubleSide,
-  });
-}
 
 /**
  * Whatever is in the off hand: a shield, a bow, a torch or a second weapon.
@@ -130,17 +70,17 @@ export function OffHandItem({
     if (rig) {
       const rigged = createRiggedBow(gltf, rig);
       group.add(rigged.object);
-      return { group, rigged, glows: [] as THREE.ShaderMaterial[] };
+      return { group, rigged, glows: [] as GlowMaterial[] };
     }
     const instance = gltf.scene.clone(true);
-    const glows: THREE.ShaderMaterial[] = [];
+    const glows: GlowMaterial[] = [];
     instance.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return;
       if (object.userData.additive) {
         // An effect mesh the pipeline flagged additive (a torch's GlowAddMesh):
         // it adds light and casts nothing.
         const glow = createGlowMaterial((object.material as THREE.MeshStandardMaterial).map ?? null);
-        object.material = glow;
+        object.material = glow.material;
         object.castShadow = false;
         object.receiveShadow = false;
         glows.push(glow);
@@ -185,7 +125,7 @@ export function OffHandItem({
 
   useFrame((_, delta) => {
     // A glow burns as bright as the carried light it belongs to.
-    for (const glow of built.glows) glow.uniforms.intensity.value = glowIntensity?.current ?? 1;
+    for (const glow of built.glows) glow.intensity.value = glowIntensity?.current ?? 1;
     if (!built.rigged) return;
     const fraction = sheathed ? 0 : (bowDraw?.fraction.current ?? 0);
     built.rigged.update(fraction, bowDraw?.release.current ?? 0, delta);

@@ -15,6 +15,7 @@ export {
 } from "./SkeletalHurtbox";
 export { ArmourAttachments } from "./ArmourAttachments";
 export { OffHandItem } from "./OffHandItem";
+export { createGlowMaterial, glowViewOpacity, GLOW_FALLOFF, type GlowMaterial } from "./glowMaterial";
 export { CarriedLight, CARRIED_LIGHT_CANDELA } from "./CarriedLight";
 export { FirstPersonBow, type FirstPersonBowState } from "./FirstPersonBow";
 export { NockedArrow } from "./NockedArrow";

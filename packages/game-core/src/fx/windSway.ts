@@ -1,6 +1,6 @@
 /**
- * Wind sway for instanced vegetation — a vertex-shader injection shared by
- * every plant material in the world.
+ * Wind sway for instanced vegetation — a `positionNode` feature shared by
+ * every plant material in the world (decision 0107).
  *
  * The recipe is the standard one (research/rendering/vegetation-scatter-instancing-threejs.md
  * §4, after GPU Gems 3 ch. 16): displace along the wind direction, weighted by
@@ -9,12 +9,10 @@
  * so a forest never sways in unison; and a distance fade because nobody can
  * see a leaf move at 600 m.
  *
- * **The one thing that must not be got wrong**: alpha-tested foliage casts its
- * shadow through a *separate* `customDepthMaterial`. If the displacement is
- * injected into the colour material only, every tree's shadow stays still
- * while the tree moves and the whole effect reads as broken. `applyWindSway`
- * therefore takes both materials and shares one uniform block between them —
- * same uniforms object, same clock, same code. Detail (per-leaf) bending is
+ * **The one thing that must not be got wrong**: the shadow must sway with the
+ * tree. In node materials the shadow pass reuses `positionNode` (and
+ * `castShadowPositionNode`, which this also wraps when a feature set one), so
+ * there is no depth twin to forget. Detail (per-leaf) bending is
  * deliberately not implemented: our sourced meshes carry no authored vertex
  * colours to drive it, and main bending alone is the documented fallback.
  *
@@ -24,16 +22,28 @@
  */
 
 import * as THREE from "three";
-import { BATCH_DATA_HEAD } from "./batchData";
+import type { NodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+import { instanceDataNode } from "./batchData";
+import { instanceMatrixNode, matrixColumn } from "./instanceNodes";
+import {
+  claimFeature, wrapPosition, wrapShadowPosition, type TslNode,
+} from "../render/nodes/materialNodes";
 
-/** The uniform block a group of vegetation materials shares. */
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const {
+  cameraPosition, cos, dot, float, fract, length, mat3, max, min, pow, select, sin,
+  smoothstep, transpose, uniform, vec2, vec3,
+} = tsl as unknown as Record<string, TslNode>;
+
+/** The uniform block a group of vegetation materials shares (`uniform()` nodes; write `.value`). */
 export interface WindUniforms {
   /** Seconds, monotonic — the caller's elapsed clock, set by `updateWindSway`. */
-  esWindTime: { value: number };
+  esWindTime: { value: number } & TslNode;
   /** Travel direction (XZ unit) × strength, plus gustiness in `z`. */
-  esWindVec: { value: THREE.Vector3 };
+  esWindVec: { value: THREE.Vector3 } & TslNode;
   /** Beyond this distance from the camera, sway fades to nothing. */
-  esWindFadeM: { value: number };
+  esWindFadeM: { value: number } & TslNode;
 }
 
 /**
@@ -51,13 +61,14 @@ export const WIND_FADE_M = 220;
 export const WIND_METRES_PER_MS = 0.09;
 
 /**
- * Per-instance wind tuning, as a `vec2` instanced attribute:
+ * Per-instance wind tuning, as a `vec2` instanced attribute (or texel 1 of a
+ * batch's data texture, `batchData.ts`):
  *
  *   `.x` = stiffness − 1   `.y` = sink metres
  *
  * Both are offsets from the neutral value ON PURPOSE. An instanced draw whose
  * geometry lacks the attribute reads WebGL's generic default of `(0, 0)`,
- * which decodes to stiffness 1 and sink 0 — exactly the behaviour before this
+ * (what `optionalAttribute` reads for a missing one), which decodes to stiffness 1 and sink 0 — exactly the behaviour before this
  * existed. A missing attribute therefore degrades to the old look rather than
  * silently switching wind off altogether.
  */
@@ -108,9 +119,9 @@ export function windStiffness(trunkRadiusM: number, scale = 1): number {
 
 export function createWindUniforms(): WindUniforms {
   return {
-    esWindTime: { value: 0 },
-    esWindVec: { value: new THREE.Vector3(1, 0, 0) },
-    esWindFadeM: { value: WIND_FADE_M },
+    esWindTime: uniform(0) as WindUniforms["esWindTime"],
+    esWindVec: uniform(new THREE.Vector3(1, 0, 0)) as WindUniforms["esWindVec"],
+    esWindFadeM: uniform(WIND_FADE_M) as WindUniforms["esWindFadeM"],
   };
 }
 
@@ -137,199 +148,117 @@ export function updateWindSway(
   );
 }
 
-const VERTEX_HEAD = /* glsl */ `
-uniform float esWindTime;
-uniform vec3 esWindVec;
-uniform float esWindFadeM;
-
-#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
-  // vec2(stiffness - 1, sink metres). Unbound => (0, 0) => neutral.
-  // The foliage batches read the tune from their data texture instead.
-  attribute vec2 esWindTune;
-#endif
-${BATCH_DATA_HEAD}
-
-// Cheap hash for a per-instance phase, so neighbours are never in step.
-float esWindPhase(vec2 p) {
-  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+/**
+ * The per-instance phase hash (`esWindPhase`): `fract(sin(dot(p, (12.9898,
+ * 78.233))) · 43758.5453)`, 0..1. The node graph computes the same.
+ */
+export function windPhase(x: number, z: number): number {
+  const v = Math.sin(x * 12.9898 + z * 78.233) * 43758.5453;
+  return v - Math.floor(v);
 }
-`;
 
 /**
- * Injected after `project_vertex`'s prerequisites are set up but before the
- * position is used: three.js builds `transformed` in `begin_vertex`, and both
- * the colour and the depth material go through that same chunk — which is
- * exactly why the same injection works for both.
+ * The world-space sway offset of one vertex, the arithmetic the node graph
+ * runs (kept in TS so it is unit-tested without a GPU). `heightM` is the
+ * vertex height above the instance pivot, `origin` the instance pivot,
+ * `camera` the camera position, `windVec` = (dirX·strength, dirZ·strength,
+ * gustiness).
  */
-const VERTEX_BODY = /* glsl */ `
-{
-  // transformed is still in OBJECT space here — three.js applies
-  // instanceMatrix later, in project_vertex. That matters more than it looks:
-  // adding the wind offset straight to transformed would send it through each
-  // instance's own yaw rotation, so every tree in a stand would bend in a
-  // different direction. The offset is therefore computed in WORLD space and
-  // converted back into object space before it is applied.
-  #ifdef ES_BATCH_SLOTS
-    // The foliage batches: the tune rides texel 1 of the per-slot data
-    // texture (decision 0082 §5).
-    mat3 esBasis = mat3(instanceMatrix);
-    vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    vec2 esTune = esBatchTexel(1).xy;
-    float esStiffness = 1.0 + esTune.x;
-    float esSink = esTune.y;
-    float esRawHeight = (esBasis * transformed).y;
-    // Uniform instance scale, so squared length of any basis column gives s².
-    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
-  #elif defined(USE_INSTANCING)
-    mat3 esBasis = mat3(instanceMatrix);
-    vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    float esStiffness = 1.0 + esWindTune.x;
-    float esSink = esWindTune.y;
-    float esRawHeight = (esBasis * transformed).y;
-    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
-  #else
-    mat3 esBasis = mat3(1.0);
-    vec3 esInstanceOrigin = vec3(0.0);
-    float esStiffness = 1.0;
-    float esSink = 0.0;
-    float esRawHeight = transformed.y;
-    float esScaleSq = 1.0;
-  #endif
-  // Height above the GROUND LINE, not above the pivot. Terrain species are
-  // deliberately sunk (sink metres below the streamed ground) so a flat base
-  // never shows on a slope — but the pivot is then underground, and weighting
-  // from the pivot left the trunk already displaced where it meets the soil:
-  // the owner's round-6 "trunks look like they're swaying at their base, like
-  // they're moving in the ground". Rebasing here pins every plant at the exact
-  // point it enters the ground, whatever its sink.
-  float esHeight = max(0.0, esRawHeight - esSink);
-  float esWindStrength = length(esWindVec.xy);
-  if (esWindStrength > 0.0001 && esHeight > 0.01) {
-    float esPhase = esWindPhase(esInstanceOrigin.xz) * 6.2831853;
-    // Two sines at incommensurate rates plus a slow swell: a gust pattern
-    // that never visibly repeats without costing a noise texture fetch.
-    float esT = esWindTime;
-    float esGust =
-        sin(esT * 1.7 + esPhase)
-      + 0.5 * sin(esT * 2.9 + esPhase * 1.7)
-      + esWindVec.z * sin(esT * 0.31 + esPhase * 0.5);
-    // Weight by height^0.8: crowns swing, bases are pinned. Normalised
-    // against a nominal 10 m plant. The exponent was 1.5 in round 5 and that
-    // made every sub-2 m plant move by millimetres — literally invisible
-    // (owner: "couldn't see any movement in a thunderstorm"). 0.8 keeps
-    // trunk-pinning (weight still ~0 at the base) while a 1 m fern in a
-    // 13 m/s storm oscillates ~±9 cm and a 15 m crown leans ~1.5 m.
-    // Stiffness is the trunk-width term (windStiffness()): a fat buttressed
-    // giant and a whippy sapling no longer sway by the same amount.
-    float esWeight = pow(min(esHeight / 10.0, 1.6), 0.8) * esStiffness;
-    float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM,
-                                    length(cameraPosition - esInstanceOrigin));
-    // Half the displacement is oscillation, not standing lean — the moving
-    // part is what the eye reads as wind.
-    float esAmount = esWeight * esFade * (0.5 + 0.5 * esGust);
-    vec3 esWorldOffset = vec3(esWindVec.x, 0.0, esWindVec.y) * esAmount;
-    // Length-preserving correction: without it a bent plant visibly stretches.
-    float esLean = length(esWorldOffset);
-    esWorldOffset.y -= esHeight * (1.0 - cos(min(esLean / max(esHeight, 0.01), 1.0)));
-    // World -> object: the basis is rotation × uniform scale, so its inverse
-    // is transpose / s². (Written out because GLSL ES 1.00 has no
-    // transpose() and no inverse().)
-    mat3 esBasisT = mat3(
-      esBasis[0][0], esBasis[1][0], esBasis[2][0],
-      esBasis[0][1], esBasis[1][1], esBasis[2][1],
-      esBasis[0][2], esBasis[1][2], esBasis[2][2]);
-    transformed += (esBasisT * esWorldOffset) / esScaleSq;
-  }
-}
-`;
-
-interface WindPatchState {
-  esWindUniforms?: WindUniforms;
-  /** The exact wrapper we installed — identity-checked by `reapplyWindSway`. */
-  esWindWrapped?: THREE.Material["onBeforeCompile"];
-  esWindCacheKeyed?: boolean;
+export function windOffset(args: {
+  heightM: number;
+  origin: readonly [number, number, number];
+  camera: readonly [number, number, number];
+  timeS: number;
+  windVec: readonly [number, number, number];
+  fadeM?: number;
+  stiffness?: number;
+  sinkM?: number;
+}): [number, number, number] {
+  const { origin, camera, timeS: t, windVec } = args;
+  const fadeM = args.fadeM ?? WIND_FADE_M;
+  const height = Math.max(0, args.heightM - (args.sinkM ?? 0));
+  const strength = Math.hypot(windVec[0], windVec[1]);
+  if (!(strength > 0.0001 && height > 0.01)) return [0, 0, 0];
+  const phase = windPhase(origin[0], origin[2]) * 6.2831853;
+  const gust = Math.sin(t * 1.7 + phase) + 0.5 * Math.sin(t * 2.9 + phase * 1.7)
+    + windVec[2] * Math.sin(t * 0.31 + phase * 0.5);
+  const weight = Math.pow(Math.min(height / 10, 1.6), 0.8) * (args.stiffness ?? 1);
+  const dist = Math.hypot(camera[0] - origin[0], camera[1] - origin[1], camera[2] - origin[2]);
+  const e0 = fadeM * 0.6;
+  const u = Math.min(1, Math.max(0, (dist - e0) / (fadeM - e0)));
+  const fade = 1 - u * u * (3 - 2 * u);
+  const amount = weight * fade * (0.5 + 0.5 * gust);
+  const ox = windVec[0] * amount;
+  const oz = windVec[1] * amount;
+  const lean = Math.hypot(ox, oz);
+  const oy = -height * (1 - Math.cos(Math.min(lean / Math.max(height, 0.01), 1)));
+  return [ox, oy, oz];
 }
 
-function installWindHook(material: THREE.Material, uniforms: WindUniforms): void {
-  const state = material.userData as WindPatchState;
-  state.esWindUniforms = uniforms;
-  const previous = material.onBeforeCompile;
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    if (shader.vertexShader.includes("esWindVec")) return; // never double-bend
-    shader.uniforms.esWindTime = uniforms.esWindTime;
-    shader.uniforms.esWindVec = uniforms.esWindVec;
-    shader.uniforms.esWindFadeM = uniforms.esWindFadeM;
-    shader.vertexShader = shader.vertexShader
-      .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
-      .replace(
-        "#include <begin_vertex>",
-        `#include <begin_vertex>\n${VERTEX_BODY}`,
-      );
-  };
-  material.onBeforeCompile = wrapped;
-  state.esWindWrapped = wrapped;
-  if (!state.esWindCacheKeyed) {
-    // Without a cache key, a patched material with the same parameters as an
-    // unpatched one shares its compiled program and the injection silently
-    // never renders (the aerial patch keys every flora material to the SAME
-    // constant string, so this collision is not hypothetical).
-    state.esWindCacheKeyed = true;
-    const previousKey = material.customProgramCacheKey;
-    material.customProgramCacheKey = function (this: THREE.Material) {
-      return `${previousKey.call(this)}|es-wind`;
-    };
-  }
-  // Any material already compiled by an earlier frame has to be rebuilt, or
-  // the injection silently never runs.
-  material.needsUpdate = true;
+/**
+ * The node form of `windOffset` for the object-space position `p` (three
+ * applies the instance matrix AFTER `positionNode`, as it did after
+ * `begin_vertex`). The offset is computed in WORLD space so every tree in a
+ * stand bends the same way whatever its own yaw, then brought back to object
+ * space: the basis is rotation × uniform scale, so its inverse is basisᵀ/s².
+ */
+function swayNode(material: NodeMaterial, uniforms: WindUniforms, p: TslNode): TslNode {
+  const m = instanceMatrixNode();
+  const c0 = matrixColumn(m, 0);
+  const basis = mat3(c0, matrixColumn(m, 1), matrixColumn(m, 2));
+  const origin = matrixColumn(m, 3);
+  const scaleSq = max(dot(c0, c0), 1e-6);
+  const tune = instanceDataNode(material, 1, WIND_TUNE_ATTRIBUTE, "vec2");
+  const stiffness = float(1).add(tune.x);
+  const sink = tune.y;
+  // Height above the GROUND LINE, not above the (sunk) pivot: see windOffset.
+  const height = max(float(0), basis.mul(p).y.sub(sink));
+  const windVec = uniforms.esWindVec;
+  const strength = length(windVec.xy);
+  const phase = fract(sin(dot(origin.xz, vec2(12.9898, 78.233))).mul(43758.5453)).mul(6.2831853);
+  const t = uniforms.esWindTime;
+  const gust = sin(t.mul(1.7).add(phase))
+    .add(sin(t.mul(2.9).add(phase.mul(1.7))).mul(0.5))
+    .add(windVec.z.mul(sin(t.mul(0.31).add(phase.mul(0.5)))));
+  const weight = pow(min(height.div(10), 1.6), 0.8).mul(stiffness);
+  const fadeM = uniforms.esWindFadeM;
+  const fade = float(1).sub(smoothstep(fadeM.mul(0.6), fadeM, length(cameraPosition.sub(origin))));
+  const amount = weight.mul(fade).mul(gust.mul(0.5).add(0.5));
+  const flat = vec3(windVec.x, 0, windVec.y).mul(amount);
+  const lean = length(flat);
+  const drop = height.mul(float(1).sub(cos(min(lean.div(max(height, 0.01)), 1))));
+  const worldOffset = vec3(flat.x, flat.y.sub(drop), flat.z);
+  const offset = transpose(basis).mul(worldOffset).div(scaleSq);
+  const active = strength.greaterThan(0.0001).and(height.greaterThan(0.01));
+  return select(active, p.add(offset), p);
 }
 
 /**
  * Patch one material to sway. Safe to call repeatedly on the same material —
  * a material shared across LOD levels must only be patched once, or the
- * injection is applied twice and the plant bends double.
+ * plant bends double. Wraps `castShadowPositionNode` too when a feature has
+ * set one, so a separate shadow position still sways.
  */
 export function applyWindSway(
-  material: THREE.Material,
+  material: NodeMaterial,
   uniforms: WindUniforms,
 ): void {
-  const state = material.userData as WindPatchState;
-  if (state.esWindUniforms) return;
-  installWindHook(material, uniforms);
+  if (!claimFeature(material, "wind")) return;
+  wrapPosition(material, (p) => swayNode(material, uniforms, p));
+  if (material.castShadowPositionNode) {
+    wrapShadowPosition(material, (p) => swayNode(material, uniforms, p));
+  }
 }
 
 /**
- * Restore the sway hook after something else reassigned `onBeforeCompile`.
- *
- * `CSM.setupMaterial` (and anything like it) OVERWRITES `onBeforeCompile`
- * with a plain assignment, which is how round 5 shipped with trees that never
- * moved: the wind hook was installed at mesh build, then wiped ~1 s later by
- * the shadow-cascade patch pass. Whoever runs such a pass must call this on
- * each material afterwards — it is a no-op while our wrapper is still the
- * live hook, and re-wraps (chaining the newcomer, preserving the shader-level
- * double-patch guard) when it is not. Materials never touched by
- * `applyWindSway` are ignored, so it is safe to call on a whole scene.
- */
-export function reapplyWindSway(material: THREE.Material): void {
-  const state = material.userData as WindPatchState;
-  if (!state.esWindUniforms) return;
-  if (material.onBeforeCompile === state.esWindWrapped) return;
-  installWindHook(material, state.esWindUniforms);
-}
-
-/**
- * Patch a colour material AND its shadow-depth twin together.
- *
- * Always prefer this over calling `applyWindSway` twice by hand: the pairing
- * is the whole correctness condition, and having one call site for it is what
- * stops a future edit from re-detaching shadows from their trees.
+ * The old colour-and-depth-twin pairing: the shadow pass now reuses the
+ * colour material's `positionNode`, so `depthMaterial` is ignored.
  */
 export function applyWindSwayWithShadow(
-  material: THREE.Material,
+  material: NodeMaterial,
   depthMaterial: THREE.Material | undefined,
   uniforms: WindUniforms,
 ): void {
+  void depthMaterial;
   applyWindSway(material, uniforms);
-  if (depthMaterial) applyWindSway(depthMaterial, uniforms);
 }

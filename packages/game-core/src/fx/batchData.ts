@@ -6,19 +6,29 @@
  * shared by every instanced mesh of one batch, indexed by the instance's
  * permanent SLOT in that batch. The slot rides an `esSlot` instanced
  * attribute, because the visible copies are a compact prefix that moves as
- * copies are switched on and off, so no ordering the GPU can see is stable.
+ * copies are switched on and off, so no ordering the GPU can see is stable
+ * (which is also why the TSL `instanceIndex` is NOT the key).
  * Two RGBA float texels per slot: texel 2i is the band (dIn, dOut, wIn, wOut),
  * texel 2i+1 is (stiffness − 1, sink, 0, 0).
  *
- * The same head also carries the terrain-occlusion mask (`occlusionMask.ts`),
+ * The same uniforms also carry the terrain-occlusion mask (`occlusionMask.ts`),
  * because it is read from the same place and by the same instances.
  *
- * `lodFade` and `windSway` both need the head and either may be applied
- * first, so it is written once behind an `#ifndef ES_BATCH_DATA` guard and
- * emitted by all three patches; the preprocessor drops the duplicates.
+ * Node form (decision 0107): `applyBatchData` marks the material; `lodFade`
+ * and `windSway` read `batchTexel(material, k)` at BUILD time, so either may
+ * be applied before or after `applyBatchData` (the old `ES_BATCH_SLOTS`
+ * define). The texture uniforms are texture nodes: re-point a grown batch
+ * with `uniforms.esBatchData.value = texture`, as before. Clone first, then
+ * patch: the feature graphs look up the batch mark on the material they were
+ * applied to, and `clone()` does not carry the mark.
  */
 
 import * as THREE from "three";
+import * as tsl from "three/tsl";
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const { float, int, ivec2, texture, textureLoad, textureSize, uniform, vec4 } = tsl as unknown as Record<string, TslNode>;
+import type { TslNode } from "../render/nodes/materialNodes";
+import { optionalAttribute, whenInstanced } from "./instanceNodes";
 
 /** RGBA float texels per batch instance. */
 export const BATCH_DATA_TEXELS = 2;
@@ -31,12 +41,19 @@ function nextPow2(n: number): number {
   return w;
 }
 
-/** Uniforms every foliage batch material shares with its depth twin. */
+/** A texture node whose `.value` is the bound texture (swap it to re-point). */
+export interface TextureUniformNode {
+  value: THREE.Texture;
+}
+
+/** Uniforms every foliage batch material shares (the shadow pass reuses them). */
 export interface BatchDataUniforms {
-  esBatchData: { value: THREE.DataTexture | null };
-  esOccMask: { value: THREE.DataTexture | null };
-  /** (originCellX, originCellZ, size, cellM) of the occlusion mask. */
-  esOccParams: { value: THREE.Vector4 };
+  /** Per-slot data texture node; set `.value` to the batch's DataTexture. */
+  esBatchData: TextureUniformNode & TslNode;
+  /** Terrain-occlusion mask texture node (R > 0.5 = occluded). */
+  esOccMask: TextureUniformNode & TslNode;
+  /** (originCellX, originCellZ, size, cellM) of the occlusion mask, a `uniform()` node. */
+  esOccParams: { value: THREE.Vector4 } & TslNode;
 }
 
 /** The per-instance data texture for one batch, sized for its capacity. */
@@ -76,99 +93,100 @@ export function writeBatchInstance(
   data[at + 7] = 0;
 }
 
-export function createBatchDataUniforms(): BatchDataUniforms {
-  return {
-    esBatchData: { value: null },
-    esOccMask: { value: null },
-    esOccParams: { value: new THREE.Vector4(0, 0, 128, 32) },
-  };
+/**
+ * A 1×1 zero texture: what an unbound sampler read before a batch is filled.
+ * Same format as the texture that replaces it (RGBA float data; the R8
+ * occlusion mask), so the bind layout's sample type never changes on a swap.
+ */
+function placeholderTexture(occlusion = false): THREE.DataTexture {
+  const t = occlusion
+    ? new THREE.DataTexture(new Uint8Array(1), 1, 1, THREE.RedFormat, THREE.UnsignedByteType)
+    : new THREE.DataTexture(new Float32Array(4), 1, 1, THREE.RGBAFormat, THREE.FloatType);
+  t.minFilter = THREE.NearestFilter;
+  t.magFilter = THREE.NearestFilter;
+  t.generateMipmaps = false;
+  t.needsUpdate = true;
+  return t;
 }
 
 /**
- * The shared vertex head. Injected before `void main()`. Guarded so
- * `lodFade`, `windSway` and `applyBatchData` can all emit it, and gated on
- * `ES_BATCH_SLOTS`, the define `installBatchHook` prepends: the ground-cover
- * renderer is instanced too, and its materials carry no slot attribute and no
- * data texture.
+ * Fresh uniforms. `shared` hands over the occlusion mask and its window so
+ * every batch reads one sweep (the per-batch data texture node is always new).
  */
-export const BATCH_DATA_HEAD = /* glsl */ `
-#ifdef ES_BATCH_SLOTS
-#ifndef ES_BATCH_DATA
-#define ES_BATCH_DATA
-uniform highp sampler2D esBatchData;
-uniform highp sampler2D esOccMask;
-uniform vec4 esOccParams;
-attribute float esSlot;
-vec4 esBatchTexel(int k) {
-  int t = int(esSlot) * ${BATCH_DATA_TEXELS} + k;
-  ivec2 sz = textureSize(esBatchData, 0);
-  return texelFetch(esBatchData, ivec2(t % sz.x, t / sz.x), 0);
-}
-#endif
-#endif
-`;
-
-/** The define that turns the head and every `ES_BATCH_SLOTS` branch on. */
-export const ES_BATCH_SLOTS_DEFINE = "#define ES_BATCH_SLOTS\n";
-
-interface BatchPatchState {
-  esBatchUniforms?: BatchDataUniforms;
-  esBatchWrapped?: THREE.Material["onBeforeCompile"];
-  esBatchCacheKeyed?: boolean;
-}
-
-function installBatchHook(
-  material: THREE.Material,
-  uniforms: BatchDataUniforms,
-): void {
-  const state = material.userData as BatchPatchState;
-  state.esBatchUniforms = uniforms;
-  const previous = material.onBeforeCompile;
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    // The define goes at the very top, before any patch body that tests it,
-    // and before the early-out below: another patch may already have emitted
-    // the head, but nobody else emits the define.
-    if (!shader.vertexShader.includes(ES_BATCH_SLOTS_DEFINE.trim())) {
-      shader.vertexShader = ES_BATCH_SLOTS_DEFINE + shader.vertexShader;
-    }
-    shader.uniforms.esBatchData = uniforms.esBatchData;
-    shader.uniforms.esOccMask = uniforms.esOccMask;
-    shader.uniforms.esOccParams = uniforms.esOccParams;
-    if (shader.vertexShader.includes("esBatchTexel")) return;
-    shader.vertexShader = shader.vertexShader.replace(
-      "void main() {", `${BATCH_DATA_HEAD}\nvoid main() {`);
+export function createBatchDataUniforms(
+  shared?: Pick<BatchDataUniforms, "esOccMask" | "esOccParams">,
+): BatchDataUniforms {
+  return {
+    esBatchData: texture(placeholderTexture()) as BatchDataUniforms["esBatchData"],
+    esOccMask: shared?.esOccMask
+      ?? (texture(placeholderTexture(true)) as BatchDataUniforms["esOccMask"]),
+    esOccParams: shared?.esOccParams
+      ?? (uniform(new THREE.Vector4(0, 0, 128, 32)) as BatchDataUniforms["esOccParams"]),
   };
-  material.onBeforeCompile = wrapped;
-  state.esBatchWrapped = wrapped;
-  if (!state.esBatchCacheKeyed) {
-    state.esBatchCacheKeyed = true;
-    const previousKey = material.customProgramCacheKey;
-    material.customProgramCacheKey = function (this: THREE.Material) {
-      return `${previousKey.call(this)}|es-batch`;
-    };
-  }
-  material.needsUpdate = true;
 }
 
-/** Patch a colour material and its shadow-depth twin. Safe to call twice. */
+const BATCH_KEY = Symbol("esBatchUniforms");
+
+/** The batch uniforms a material was marked with, if any. Not copied by `clone()`. */
+export function batchUniformsOf(material: THREE.Material): BatchDataUniforms | undefined {
+  return (material as unknown as Record<symbol, BatchDataUniforms | undefined>)[BATCH_KEY];
+}
+
+/**
+ * Texel `k` of the compiled instance's slot: `esBatchData[esSlot * 2 + k]`,
+ * row-major over the texture's live width (read on the GPU, so a re-pointed,
+ * wider texture needs no rebuild).
+ */
+export function batchTexelNode(uniforms: BatchDataUniforms, k: number): TslNode {
+  const slot = optionalAttribute("esSlot", "float", () => float(0));
+  const t = int(slot).mul(BATCH_DATA_TEXELS).add(k);
+  const width = int(textureSize(uniforms.esBatchData, 0).x);
+  return textureLoad(uniforms.esBatchData, ivec2(t.mod(width), t.div(width)));
+}
+
+/**
+ * The per-instance vec4 a feature reads: batch texel `k` on a batch-marked
+ * instanced material, else the instanced attribute `attributeName`
+ * (zero when the geometry lacks it), else zero on a plain mesh. Decided at
+ * build time from the MATERIAL the feature patched (captured here, because in
+ * the shadow pass the builder's material is the shadow material).
+ */
+export function instanceDataNode(
+  material: THREE.Material,
+  k: number,
+  attributeName: string,
+  type: "vec4" | "vec2",
+): TslNode {
+  const zero = () => (type === "vec4" ? vec4(0, 0, 0, 0) : vec4(0, 0, 0, 0).xy);
+  return whenInstanced(
+    () => {
+      const batch = batchUniformsOf(material);
+      if (batch) {
+        const texel = batchTexelNode(batch, k);
+        return type === "vec4" ? texel : texel.xy;
+      }
+      return optionalAttribute(attributeName, type, zero);
+    },
+    zero,
+    type,
+  );
+}
+
+/**
+ * Mark a material as a foliage-batch material (its per-instance data comes
+ * from `uniforms`). Safe to call twice. The shadow pass reuses the colour
+ * material's nodes, so there is no depth twin: `depthMaterial` is accepted
+ * for the old call shape and ignored.
+ */
 export function applyBatchData(
   material: THREE.Material,
   depthMaterial: THREE.Material | undefined,
   uniforms: BatchDataUniforms,
 ): void {
-  const state = material.userData as BatchPatchState;
-  if (!state.esBatchUniforms) installBatchHook(material, uniforms);
-  if (depthMaterial) {
-    const depthState = depthMaterial.userData as BatchPatchState;
-    if (!depthState.esBatchUniforms) installBatchHook(depthMaterial, uniforms);
-  }
-}
-
-/** Restore the hook after something else (CSM) reassigned `onBeforeCompile`. */
-export function reapplyBatchData(material: THREE.Material): void {
-  const state = material.userData as BatchPatchState;
-  if (!state.esBatchUniforms) return;
-  if (material.onBeforeCompile === state.esBatchWrapped) return;
-  installBatchHook(material, state.esBatchUniforms);
+  void depthMaterial;
+  // Keyed on the symbol, not a userData flag: `clone()` JSON-copies userData
+  // but not the symbol, so a flag would make a clone look marked when it is not.
+  if (batchUniformsOf(material)) return;
+  (material as unknown as Record<symbol, BatchDataUniforms>)[BATCH_KEY] = uniforms;
+  material.needsUpdate = true;
 }

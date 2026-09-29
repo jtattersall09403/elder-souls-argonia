@@ -1,8 +1,8 @@
 /**
  * Distance-stepped LOD for instanced vegetation, rocks and dressing — the
- * companion injection to `windSway.ts`, the same shape (chained
- * `onBeforeCompile`, a shared uniform block, a cache-key suffix, a `reapply`
- * hook for the CSM pass that overwrites `onBeforeCompile`).
+ * companion node feature to `windSway.ts`, the same shape (a function that
+ * wraps a NodeMaterial's slots, a shared block of `uniform()` nodes;
+ * decision 0107, docs/standards/tsl-shaders.md).
  *
  * THE RULE (16f round 5, decision 0075; the Skyrim rule): a species has a
  * LADDER of distance intervals that tile the distance line from 0 to its draw
@@ -40,7 +40,7 @@
  *
  * `lodFadeFactors` and `lodPixelKept` below are the SAME arithmetic in
  * TypeScript, so the coverage invariant is unit-tested without a GPU; the
- * GLSL is asserted to carry the same comparison.
+ * node graph mirrors the same comparison (`lodBayer4` mirrors the dither).
  *
  * The per-instance band is an instanced `vec4` attribute, `esLodBand` =
  * (dIn, dOut, wIn, wOut) in metres: kept from `dIn` (stepped, or dithered
@@ -48,21 +48,32 @@
  * `dOut >= LOD_OPEN_M` (or `<= 0`) means "never out" — so (0,0,0,0), which
  * is what WebGL hands an unbound attribute, decodes to "fully visible".
  *
- * Distance is measured from `esLodViewPos`, an explicit uniform, NOT from the
- * built-in `cameraPosition`: in the shadow pass `cameraPosition` is the light,
+ * Distance is measured from `esLodViewPos`, an explicit uniform node, NOT from
+ * the built-in `cameraPosition`: in the shadow pass `cameraPosition` is the light,
  * which would fade a plant's shadow out while the plant stayed. The CPU side
  * measures from the same camera position (`Vegetation.tsx`), never from the
  * character.
  */
 
 import * as THREE from "three";
-import { BATCH_DATA_HEAD } from "./batchData";
+import type { NodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const {
+  bool, distance, float, floor, fract, int, ivec2, positionLocal, screenCoordinate, select,
+  smoothstep, step, textureLoad, uniform, vec2, vec3,
+} = tsl as unknown as Record<string, TslNode>;
+import { batchUniformsOf, instanceDataNode } from "./batchData";
+import { instanceMatrixNode, matrixColumn } from "./instanceNodes";
 import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
+import {
+  andMask, claimFeature, wrapPosition, type TslNode,
+} from "../render/nodes/materialNodes";
 
 /** The uniform block a group of vegetation materials shares. */
 export interface LodFadeUniforms {
-  /** The real camera's world position, set every frame by the renderer. */
-  esLodViewPos: { value: THREE.Vector3 };
+  /** The real camera's world position (`uniform()` node), set every frame: `.value.copy(camera.position)`. */
+  esLodViewPos: { value: THREE.Vector3 } & TslNode;
 }
 
 /** Instanced `vec4` attribute: (dIn, dOut, wIn, wOut), metres. */
@@ -125,7 +136,7 @@ export function lodLadder(
 }
 
 export function createLodFadeUniforms(): LodFadeUniforms {
-  return { esLodViewPos: { value: new THREE.Vector3() } };
+  return { esLodViewPos: uniform(new THREE.Vector3()) as LodFadeUniforms["esLodViewPos"] };
 }
 
 /** The vertex shader's `esLodRamp`: a hard step at `edge` when `w` is 0, else a smoothstep across `edge ± w`. */
@@ -186,201 +197,129 @@ export function lodCopyCollapsed(factors: { fadeIn: number; fadeOut: number }): 
   return factors.fadeIn <= 0 || factors.fadeOut > BAYER4_MAX;
 }
 
-const VERTEX_HEAD = /* glsl */ `
-uniform vec3 esLodViewPos;
-varying vec2 vEsLod;
-// A hard step at the edge when the half-width is 0 (smoothstep with equal
-// edges is undefined in GLSL), else a dither ramp across edge ± w.
-float esLodRamp(float edge, float w, float d) {
-  return w > 0.0 ? smoothstep(edge - w, edge + w, d) : step(edge, d);
-}
-
-#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
-  // vec4(dIn, dOut, wIn, wOut) metres. Unbound => (0,0,0,0) => fully visible.
-  // The foliage batches read the band from their data texture instead.
-  attribute vec4 esLodBand;
-#endif
-${BATCH_DATA_HEAD}
-`;
-
 /**
- * The vertex line that computes the inner edge, and the line that replaces it
- * under `shadowBandFromZero` (the depth material of a shadow-casting rung):
- * the copy casts from distance 0 up to its normal outer edge, so the mid rung
- * carries the shadow for everything nearer than its own band too. Patched as a
- * string swap, not a uniform, so the two variants are separate programs.
+ * The 4×4 ordered (Bayer) threshold at pixel (`x`, `y`), exactly as the mask
+ * node computes it from `screenCoordinate`: `bayer2(a) = fract(⌊a.x⌋/2 +
+ * ⌊a.y⌋²·3/4)`, `bayer4(a) = bayer2(a/2)/4 + bayer2(a)`. Every 4×4 tile holds
+ * each of `BAYER4_THRESHOLDS` once.
  */
-const VERTEX_IN_LINE =
-  "float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);";
-export const LOD_SHADOW_FROM_ZERO_LINE = "float esLodIn = 1.0; // shadowBandFromZero";
-
-const VERTEX_BODY = /* glsl */ `
-{
-  #ifdef ES_BATCH_SLOTS
-    // The foliage batches: the band rides texel 0 of the per-slot data
-    // texture (decision 0082 §5), because a batch's copies share one material
-    // and the band belongs to the rung, not the mesh.
-    vec3 esLodOrigin = instanceMatrix[3].xyz;
-    vec4 esBand = esBatchTexel(0);
-  #elif defined(USE_INSTANCING)
-    vec3 esLodOrigin = instanceMatrix[3].xyz;
-    vec4 esBand = esLodBand;
-  #else
-    vec3 esLodOrigin = vec3(0.0);
-    vec4 esBand = vec4(0.0);
-  #endif
-  float esLodD = distance(esLodViewPos.xz, esLodOrigin.xz);
-  // (fadeIn, fadeOut): both RAW smoothsteps — see lodFadeFactors(). The copy
-  // fading out at a ring must hold the bit-identical number the copy fading
-  // in holds, so the fragment test below partitions the pixels exactly.
-  float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);
-  float esLodOut = (esBand.y <= 0.0 || esBand.y >= 1e8)
-    ? 0.0
-    : esLodRamp(esBand.y, esBand.w, esLodD);
-  vEsLod = vec2(esLodIn, esLodOut);
-  // A copy that is fully faded out still costs a full transform, rasterisation
-  // and a discarded fragment for every pixel it covers — and the crossfade
-  // doubles how many such copies exist. Collapsing every vertex onto the
-  // pivot makes its triangles zero-area, so the rasteriser produces no
-  // fragments at all and the copy costs vertex work only. The fragment test
-  // below already discards EVERY pixel once esLodOut passes the largest Bayer
-  // threshold, so the collapse tail is BAYER4_MAX, not 1.
-  if (esLodIn <= 0.0 || esLodOut > ${BAYER4_MAX}) transformed = vec3(0.0);
-  #ifdef ES_BATCH_SLOTS
-  // Terrain occlusion, read from the incrementally swept mask rather than
-  // decided on the CPU per instance (decision 0082 §6). 0071's rule is
-  // unchanged: nothing nearer than OCCLUSION_MIN_DISTANCE_M is ever culled.
-  if (esLodD > ${OCCLUSION_MIN_DISTANCE_M.toFixed(1)}) {
-    ivec2 esOccCell =
-      ivec2(floor(esLodOrigin.xz / esOccParams.w)) - ivec2(esOccParams.xy);
-    int esOccSize = int(esOccParams.z);
-    if (esOccCell.x >= 0 && esOccCell.y >= 0
-        && esOccCell.x < esOccSize && esOccCell.y < esOccSize
-        && texelFetch(esOccMask, esOccCell, 0).r > 0.5) {
-      transformed = vec3(0.0);
-    }
-  }
-  #endif
+export function lodBayer4(x: number, y: number): number {
+  const b2 = (ax: number, ay: number) => {
+    const fx = Math.floor(ax);
+    const fy = Math.floor(ay);
+    const v = fx * 0.5 + fy * fy * 0.75;
+    return v - Math.floor(v);
+  };
+  return b2(x * 0.5, y * 0.5) * 0.25 + b2(x, y);
 }
-`;
 
-const FRAGMENT_HEAD = /* glsl */ `
-varying vec2 vEsLod;
-
-// 4x4 ordered (Bayer) dither, built arithmetically: GLSL ES 1.00 forbids
-// indexing a const array with a non-constant expression, so the usual lookup
-// table is not portable to WebGL1-class targets.
-float esBayer2(vec2 a) {
-  a = floor(a);
-  return fract(a.x * 0.5 + a.y * a.y * 0.75);
+function bayer2Node(a: TslNode): TslNode {
+  const f = floor(a);
+  return fract(f.x.mul(0.5).add(f.y.mul(f.y).mul(0.75)));
 }
-float esBayer4(vec2 a) {
-  return esBayer2(a * 0.5) * 0.25 + esBayer2(a);
+
+function bayer4Node(a: TslNode): TslNode {
+  return bayer2Node(a.mul(0.5)).mul(0.25).add(bayer2Node(a));
 }
-`;
 
-// FIRST thing in main(), before any texture fetch: a fragment the dither
-// rejects must not pay for sampling the albedo/normal/roughness maps it was
-// never going to use. (It runs before the alpha test rather than after it for
-// the same reason — and it is injected into the depth material too, so a
-// half-faded plant's shadow dissolves with it.)
-// Kept iff bayer < fadeIn AND bayer >= fadeOut (`lodPixelKept`): the
-// incoming copy at a ring keeps {bayer < s}, the outgoing keeps {bayer >= s}.
-const FRAGMENT_BODY = /* glsl */ `
-  float esLodBayer = esBayer4(gl_FragCoord.xy);
-  if (esLodBayer >= vEsLod.x || esLodBayer < vEsLod.y) discard;
-`;
-
-/** The fragment test, exported so a test can hold the GLSL to the mirror. */
-export const LOD_FRAGMENT_TEST = FRAGMENT_BODY;
-
-interface LodPatchState {
-  esLodUniforms?: LodFadeUniforms;
-  esLodWrapped?: THREE.Material["onBeforeCompile"];
-  esLodCacheKeyed?: boolean;
-  esLodShadowFromZero?: boolean;
+/** `esLodRamp`: a hard step at `edge` when `w` is 0, else a smoothstep across `edge ± w`. */
+function rampNode(edge: TslNode, w: TslNode, d: TslNode): TslNode {
+  return select(w.greaterThan(0), smoothstep(edge.sub(w), edge.add(w), d), step(edge, d));
 }
 
 /** Options for one patched material. */
 export interface LodFadeOptions {
   /**
-   * Depth materials only: ignore the copy's inner edge and cast from distance
-   * 0 (the outer edge is untouched). See `LOD_SHADOW_FROM_ZERO_LINE`.
+   * Shadow pass only: ignore the copy's inner edge and cast from distance 0
+   * (the outer edge is untouched), so the mid rung carries the shadow for
+   * everything nearer than its own band too. Becomes `maskShadowNode` and
+   * `castShadowPositionNode`; the colour pass is unchanged.
    */
   shadowBandFromZero?: boolean;
 }
 
-function installLodHook(
-  material: THREE.Material,
+/**
+ * Patch one material to step/dither-fade by its per-instance band. Safe to
+ * call repeatedly (a second call is a no-op). Reads the band from the batch
+ * data texture on a batch material (`applyBatchData`, either order), from the
+ * instanced `esLodBand` attribute otherwise, and treats a plain mesh as fully
+ * visible. On a batch material it also applies the terrain-occlusion mask.
+ */
+export function applyLodFade(
+  material: NodeMaterial,
   uniforms: LodFadeUniforms,
-  shadowFromZero: boolean,
+  options?: LodFadeOptions,
 ): void {
-  const state = material.userData as LodPatchState;
-  state.esLodUniforms = uniforms;
-  state.esLodShadowFromZero = shadowFromZero;
-  const body = shadowFromZero
-    ? VERTEX_BODY.replace(VERTEX_IN_LINE, LOD_SHADOW_FROM_ZERO_LINE)
-    : VERTEX_BODY;
-  const previous = material.onBeforeCompile;
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    if (shader.vertexShader.includes("esLodViewPos")) return; // never double-patch
-    shader.uniforms.esLodViewPos = uniforms.esLodViewPos;
-    shader.vertexShader = shader.vertexShader
-      .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
-      .replace("#include <begin_vertex>", `#include <begin_vertex>\n${body}`);
-    shader.fragmentShader = shader.fragmentShader.replace(
-      "void main() {",
-      `${FRAGMENT_HEAD}\nvoid main() {\n${FRAGMENT_BODY}`,
+  if (!claimFeature(material, "lodFade")) return;
+  const fromZero = options?.shadowBandFromZero === true;
+  const m = instanceMatrixNode();
+  const origin = matrixColumn(m, 3);
+  const band = instanceDataNode(material, 0, LOD_BAND_ATTRIBUTE, "vec4");
+  const d = distance(uniforms.esLodViewPos.xz, origin.xz);
+  // (fadeIn, fadeOut): both RAW ramps — see lodFadeFactors().
+  const fadeIn = select(band.x.lessThanEqual(0), float(1), rampNode(band.x, band.z, d));
+  const fadeOut = select(
+    band.y.lessThanEqual(0).or(band.y.greaterThanEqual(1e8)),
+    float(0),
+    rampNode(band.y, band.w, d),
+  );
+  // A fully faded copy collapses onto its pivot (object-space 0; the instance
+  // matrix is applied after positionNode): zero-area triangles, no
+  // fragments (the tail is BAYER4_MAX, where the mask already rejects all).
+  const outGone = fadeOut.greaterThan(BAYER4_MAX);
+  let collapse = fadeIn.lessThanEqual(0).or(outGone);
+  let shadowCollapse = outGone;
+  // Terrain occlusion, read from the swept mask (decision 0082 §6); nothing
+  // nearer than OCCLUSION_MIN_DISTANCE_M is ever culled (0071). Decided at
+  // build time like the old ES_BATCH_SLOTS define.
+  const batch = batchUniformsOf(material);
+  if (batch) {
+    const params = batch.esOccParams;
+    const cell = ivec2(floor(origin.xz.div(params.w))).sub(ivec2(params.xy));
+    const size = int(params.z);
+    const inside = cell.x.greaterThanEqual(0).and(cell.y.greaterThanEqual(0))
+      .and(cell.x.lessThan(size)).and(cell.y.lessThan(size));
+    const safe = ivec2(
+      cell.x.max(0).min(size.sub(1)),
+      cell.y.max(0).min(size.sub(1)),
     );
-  };
-  material.onBeforeCompile = wrapped;
-  state.esLodWrapped = wrapped;
-  if (!state.esLodCacheKeyed) {
-    state.esLodCacheKeyed = true;
-    const previousKey = material.customProgramCacheKey;
-    material.customProgramCacheKey = function (this: THREE.Material) {
-      const self = this.userData as LodPatchState;
-      return `${previousKey.call(this)}|es-lod${self.esLodShadowFromZero ? "-shadow0" : ""}`;
-    };
+    const occluded = d.greaterThan(OCCLUSION_MIN_DISTANCE_M).and(inside)
+      .and(textureLoad(batch.esOccMask, safe).r.greaterThan(0.5));
+    collapse = collapse.or(occluded);
+    shadowCollapse = shadowCollapse.or(occluded);
+  }
+  // Mask BEFORE this feature, for the from-zero shadow mask below.
+  const shadowBase = material.maskShadowNode ?? material.maskNode;
+  const previousShadowPosition = material.castShadowPositionNode;
+  const prePosition = material.positionNode ?? positionLocal;
+  wrapPosition(material, (p) => select(collapse, vec3(0, 0, 0), p));
+  const lod = vec2(fadeIn, fadeOut).toVarying("vEsLod");
+  const bayer = bayer4Node(screenCoordinate.xy);
+  // Kept iff bayer < fadeIn AND bayer >= fadeOut (`lodPixelKept`).
+  andMask(material, bayer.lessThan(lod.x).and(bayer.greaterThanEqual(lod.y)));
+  if (fromZero) {
+    const shadowLod = fadeOut.toVarying("vEsLodShadow");
+    const keep = bayer.greaterThanEqual(shadowLod);
+    material.maskShadowNode = shadowBase ? bool(shadowBase).and(keep) : keep;
+    // The shadow collapses on the outer edge (and occlusion) only, from the
+    // position as it was before this feature.
+    material.castShadowPositionNode = select(
+      shadowCollapse, vec3(0, 0, 0), previousShadowPosition ?? prePosition);
   }
   material.needsUpdate = true;
 }
 
-/** Patch one material to dither-fade. Safe to call repeatedly. */
-export function applyLodFade(
-  material: THREE.Material,
-  uniforms: LodFadeUniforms,
-  options?: LodFadeOptions,
-): void {
-  const state = material.userData as LodPatchState;
-  if (state.esLodUniforms) return;
-  installLodHook(material, uniforms, options?.shadowBandFromZero === true);
-}
-
 /**
- * Restore the fade hook after something else reassigned `onBeforeCompile`
- * (CSM does, with a plain assignment). Same contract as `reapplyWindSway`:
- * a no-op while our wrapper is live, and safe on materials never patched.
- */
-export function reapplyLodFade(material: THREE.Material): void {
-  const state = material.userData as LodPatchState;
-  if (!state.esLodUniforms) return;
-  if (material.onBeforeCompile === state.esLodWrapped) return;
-  installLodHook(material, state.esLodUniforms, state.esLodShadowFromZero === true);
-}
-
-/**
- * Patch a colour material AND its shadow-depth twin together — the same
- * pairing rule wind has, for the same reason: fade one and not the other and a
- * half-faded plant keeps a solid shadow.
+ * The old colour-and-depth-twin pairing. The shadow pass now reuses the
+ * colour material's nodes, so `depthMaterial` is ignored; `options` (the
+ * from-zero shadow band) applies to the colour material's shadow slots.
  */
 export function applyLodFadeWithShadow(
-  material: THREE.Material,
+  material: NodeMaterial,
   depthMaterial: THREE.Material | undefined,
   uniforms: LodFadeUniforms,
   options?: LodFadeOptions,
 ): void {
-  applyLodFade(material, uniforms);
-  if (depthMaterial) applyLodFade(depthMaterial, uniforms, options);
+  void depthMaterial;
+  applyLodFade(material, uniforms, options);
 }

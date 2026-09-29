@@ -7,8 +7,10 @@ import { describe, expect, it } from "vitest";
 import { createPlacementResolver } from "./anchoring";
 import {
   effectTextureFile, isSmokeColumnPlacement, SMOKE_COLUMN_ASSET_ID, SMOKE_MAX_DISTANCE_M,
-  SMOKE_NIGHT_BRIGHTNESS, SmokeColumns, smokeDistanceFade, smokePuff, smokeQuadsAt,
+  SMOKE_NIGHT_BRIGHTNESS, SmokeColumns, smokeDistanceFade, smokeNightScale, smokePuff, smokeQuadsAt,
 } from "./smokeColumn";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import { uniform } from "three/tsl";
 import { SETTLEMENT_COLLISION_FRAME, type SettlementPlacement } from "./types";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
@@ -109,22 +111,27 @@ describe("SmokeColumns draw", () => {
 });
 
 describe("smoke night dimming (16k fix 2 round 4 E3)", () => {
-  it("reads the settlement night uniform by reference and dims the colour by it", () => {
+  it("dims to SMOKE_NIGHT_BRIGHTNESS at full night, not at all by day", () => {
+    expect(smokeNightScale(0)).toBe(1);
+    expect(smokeNightScale(1)).toBeCloseTo(SMOKE_NIGHT_BRIGHTNESS, 9);
+    expect(smokeNightScale(0.5)).toBeCloseTo((1 + SMOKE_NIGHT_BRIGHTNESS) / 2, 9);
+  });
+
+  it("reads the settlement night uniform by reference in its colour slot", () => {
     const night = { value: 0 };
     const columns = new SmokeColumns(new THREE.Texture(), night);
-    const shader = {
-      uniforms: {} as Record<string, THREE.IUniform>,
-      vertexShader: "",
-      fragmentShader: "void main() {\n#include <map_fragment>\n}",
-    };
-    const material = columns.mesh.material as THREE.MeshBasicMaterial;
-    material.onBeforeCompile(shader as never, undefined as never);
-    expect(shader.uniforms.esSettlementNight).toBe(night);
-    expect(shader.fragmentShader).toContain("uniform float esSettlementNight;");
-    expect(shader.fragmentShader).toContain(
-      `diffuseColor.rgb *= mix(1.0, ${SMOKE_NIGHT_BRIGHTNESS.toFixed(3)}, esSettlementNight);`);
-    night.value = 1;
-    expect(shader.uniforms.esSettlementNight.value).toBe(1);
+    const material = columns.mesh.material as MeshBasicNodeMaterial;
+    expect(material.isNodeMaterial).toBe(true);
+    expect(material.colorNode).not.toBeNull();
+    // A classic { value } is bridged with reference(): it reads night.value each frame.
+    expect((columns.nightNode as { object?: unknown }).object).toBe(night);
+    // A uniform node is used as is.
+    const node = uniform(0.3);
+    expect(new SmokeColumns(new THREE.Texture(), node).nightNode).toBe(node);
+    expect(material.transparent).toBe(true);
+    expect(material.depthWrite).toBe(false);
+    expect(material.fog).toBe(true);
+    columns.dispose();
   });
 });
 

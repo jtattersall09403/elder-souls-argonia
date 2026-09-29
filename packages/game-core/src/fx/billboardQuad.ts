@@ -1,8 +1,7 @@
 /**
- * Cylindrical billboarding for baked card quads — the third injection in the
- * same family as `windSway.ts` and `lodFade.ts`, and deliberately the same
- * shape (chained `onBeforeCompile`, a cache-key suffix, a `reapply` hook for
- * the CSM pass that overwrites `onBeforeCompile` with a plain assignment).
+ * Cylindrical billboarding for baked card quads — the third node feature in
+ * the same family as `windSway.ts` and `lodFade.ts`, and deliberately the
+ * same shape (a function wrapping `positionNode`; decision 0107).
  *
  * What it is for: the ground-cover ring's mid and far tiers draw a species as
  * a single baked card instead of its full mesh. A card is only convincing
@@ -20,13 +19,21 @@
  * one camera position for the whole vegetation stack, and in the shadow pass
  * it is still the camera rather than the light (a card that turned to face the
  * sun would cast a shadow of a different shape than the one on screen).
- * `lodFade` declares that uniform when it is also installed, so the
- * declaration here is emitted only when it is not already in the source.
- * Install order therefore matters at the call site: apply the fade first.
+ * The two features share the one `uniform()` node, so install order no
+ * longer matters for declarations.
  */
 
-import * as THREE from "three";
+import type { NodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
 import type { LodFadeUniforms } from "./lodFade";
+import { instanceMatrixNode, matrixColumn, whenInstanced } from "./instanceNodes";
+import {
+  claimFeature, wrapPosition, wrapShadowPosition, type TslNode,
+} from "../render/nodes/materialNodes";
+
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const { dot, length, mat3, max, select, sqrt, transpose, vec2, vec3 } =
+  tsl as unknown as Record<string, TslNode>;
 
 /**
  * The world-space right vector of a cylindrical billboard, for a horizontal
@@ -43,103 +50,45 @@ export function billboardRightVector(vx: number, vz: number): [number, number] {
   return [vz / length, -vx / length];
 }
 
-const VERTEX_HEAD = /* glsl */ `
-vec2 esBillboardRight(vec2 v) {
-  float esBbLen = length(v);
-  return esBbLen > 1e-6 ? vec2(v.y, -v.x) / esBbLen : vec2(1.0, 0.0);
-}
-`;
-
-const VERTEX_BODY = /* glsl */ `
-{
-  #ifdef USE_INSTANCING
-    mat3 esBbBasis = mat3(instanceMatrix);
-    vec3 esBbOrigin = instanceMatrix[3].xyz;
+/**
+ * The node form: `p` is the object-space vertex (three applies the instance
+ * matrix AFTER `positionNode`, as it did after `begin_vertex`). The quad is
+ * rebuilt in WORLD space around its pivot — width along the view-facing right
+ * vector, height straight up — so the instance's own yaw is ignored, then
+ * brought back to object space (basisᵀ/s², the basis being rotation ×
+ * uniform scale) for the instance matrix to place. Only on an InstancedMesh
+ * (the old USE_INSTANCING).
+ */
+function billboardNode(uniforms: LodFadeUniforms, p: TslNode): TslNode {
+  return whenInstanced(() => {
+    const m = instanceMatrixNode();
+    const c0 = matrixColumn(m, 0);
+    const basis = mat3(c0, matrixColumn(m, 1), matrixColumn(m, 2));
+    const origin = matrixColumn(m, 3);
     // Uniform instance scale, so any basis column's length is s.
-    float esBbScaleSq = max(1e-6, dot(esBbBasis[0], esBbBasis[0]));
-    float esBbScale = sqrt(esBbScaleSq);
-    vec2 esBbRight2 = esBillboardRight(esLodViewPos.xz - esBbOrigin.xz);
-    vec3 esBbRight = vec3(esBbRight2.x, 0.0, esBbRight2.y);
-    // Forward completes the frame; a planar card has z ~ 0, so this only
-    // matters for a card whose quad is not exactly in its local XY plane.
-    vec3 esBbFwd = vec3(-esBbRight2.y, 0.0, esBbRight2.x);
-    // The quad is rebuilt in WORLD space around its pivot — width along the
-    // view-facing right vector, height straight up — so the instance's own
-    // yaw is ignored entirely and every card faces the viewer.
-    vec3 esBbWorld =
-        esBbRight * (transformed.x * esBbScale)
-      + vec3(0.0, transformed.y * esBbScale, 0.0)
-      + esBbFwd * (transformed.z * esBbScale);
-    // World -> object: the basis is rotation x uniform scale, so its inverse
-    // is transpose / s^2. (GLSL ES 1.00 has no transpose() or inverse().)
-    mat3 esBbBasisT = mat3(
-      esBbBasis[0][0], esBbBasis[1][0], esBbBasis[2][0],
-      esBbBasis[0][1], esBbBasis[1][1], esBbBasis[2][1],
-      esBbBasis[0][2], esBbBasis[1][2], esBbBasis[2][2]);
-    transformed = (esBbBasisT * esBbWorld) / esBbScaleSq;
-  #endif
-}
-`;
-
-interface BillboardPatchState {
-  esBillboardUniforms?: LodFadeUniforms;
-  esBillboardWrapped?: THREE.Material["onBeforeCompile"];
-  esBillboardCacheKeyed?: boolean;
-}
-
-function installBillboardHook(
-  material: THREE.Material,
-  uniforms: LodFadeUniforms,
-): void {
-  const state = material.userData as BillboardPatchState;
-  state.esBillboardUniforms = uniforms;
-  const previous = material.onBeforeCompile;
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    if (shader.vertexShader.includes("esBillboardRight")) return; // never twice
-    shader.uniforms.esLodViewPos = uniforms.esLodViewPos;
-    // `lodFade` declares the same uniform. Two declarations is a compile
-    // error, so emit ours only when the fade is not in this shader.
-    const declaration = shader.vertexShader.includes("uniform vec3 esLodViewPos")
-      ? "" : "uniform vec3 esLodViewPos;\n";
-    shader.vertexShader = shader.vertexShader
-      .replace("void main() {", `${declaration}${VERTEX_HEAD}\nvoid main() {`)
-      // After `begin_vertex` (which fills `transformed`) and before
-      // `project_vertex` applies the instance matrix — the same seam wind
-      // uses, and the reason the card's own yaw can be discarded here.
-      .replace("#include <begin_vertex>", `#include <begin_vertex>\n${VERTEX_BODY}`);
-  };
-  material.onBeforeCompile = wrapped;
-  state.esBillboardWrapped = wrapped;
-  if (!state.esBillboardCacheKeyed) {
-    state.esBillboardCacheKeyed = true;
-    const previousKey = material.customProgramCacheKey;
-    material.customProgramCacheKey = function (this: THREE.Material) {
-      return `${previousKey.call(this)}|es-bbq`;
-    };
-  }
-  material.needsUpdate = true;
+    const scaleSq = max(dot(c0, c0), 1e-6);
+    const scale = sqrt(scaleSq);
+    const v = uniforms.esLodViewPos.xz.sub(origin.xz);
+    const len = length(v);
+    const right2 = select(len.greaterThan(1e-6), vec2(v.y, v.x.negate()).div(len), vec2(1, 0));
+    const right = vec3(right2.x, 0, right2.y);
+    // Forward completes the frame; a planar card has z ~ 0.
+    const fwd = vec3(right2.y.negate(), 0, right2.x);
+    const world = right.mul(p.x.mul(scale))
+      .add(vec3(0, p.y.mul(scale), 0))
+      .add(fwd.mul(p.z.mul(scale)));
+    return transpose(basis).mul(world).div(scaleSq);
+  }, () => p, "vec3");
 }
 
 /** Patch one card material to face the viewer. Safe to call repeatedly. */
 export function applyCylindricalBillboard(
-  material: THREE.Material,
+  material: NodeMaterial,
   uniforms: LodFadeUniforms,
 ): void {
-  const state = material.userData as BillboardPatchState;
-  if (state.esBillboardUniforms) return;
-  installBillboardHook(material, uniforms);
-}
-
-/**
- * Restore the billboard hook after something else reassigned
- * `onBeforeCompile` (CSM does). Same contract as `reapplyWindSway`: a no-op
- * while our wrapper is live, safe on materials never patched. Call it AFTER
- * `reapplyLodFade` so the fade's uniform declaration is emitted first.
- */
-export function reapplyCylindricalBillboard(material: THREE.Material): void {
-  const state = material.userData as BillboardPatchState;
-  if (!state.esBillboardUniforms) return;
-  if (material.onBeforeCompile === state.esBillboardWrapped) return;
-  installBillboardHook(material, state.esBillboardUniforms);
+  if (!claimFeature(material, "billboard")) return;
+  wrapPosition(material, (p) => billboardNode(uniforms, p));
+  if (material.castShadowPositionNode) {
+    wrapShadowPosition(material, (p) => billboardNode(uniforms, p));
+  }
 }

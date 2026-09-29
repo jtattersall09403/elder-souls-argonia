@@ -18,6 +18,9 @@
  * clock (seconds) and wind are passed to `update` every frame.
  */
 import * as THREE from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+import { wrapColor, type TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { lodLadder } from "../fx/lodFade";
 import type { SettlementPlacement } from "./types";
@@ -48,6 +51,14 @@ export const SMOKE_ATLAS_TILES = 4;
  * (16k fix 2 round 4 ruling E3). */
 export const SMOKE_NIGHT_BRIGHTNESS = 0.2;
 export const SMOKE_CALM_WIND: SmokeWind = { dirXZ: [1, 0], speedMS: 1 };
+
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const { float, mix, reference, vec4 } = tsl as unknown as Record<string, TslNode>;
+
+/** The colour multiplier the smoke takes at night factor `night` (0 day, 1 night). */
+export function smokeNightScale(night: number): number {
+  return 1 + (SMOKE_NIGHT_BRIGHTNESS - 1) * night;
+}
 
 export interface SmokeWind {
   /** Travel direction, XZ unit vector. */
@@ -129,28 +140,32 @@ export class SmokeColumns {
   private anchors: SmokeAnchor[] = [];
   private source: readonly SmokeAnchor[] | null = null;
   private readonly geometry = new THREE.BufferGeometry();
-  private readonly material: THREE.MeshBasicMaterial;
+  private readonly material: MeshBasicNodeMaterial;
   private capacity = 0;
   private readonly right = new THREE.Vector3();
   private readonly up = new THREE.Vector3();
+  /** The night factor node the colour graph reads (exposed for tests). */
+  readonly nightNode: TslNode;
 
   /** ``night``: the settlement layer's own night-factor uniform
    * (`esSettlementNight`, 0 by day, 1 at night, `updateSettlementEnvironment`),
    * shared by reference so the smoke dims with the windows and no second
-   * clock read runs per frame; absent, the smoke never dims. */
-  constructor(texture: THREE.Texture, night: THREE.IUniform<number> = { value: 0 }) {
-    this.material = new THREE.MeshBasicMaterial({
+   * clock read runs per frame; absent, the smoke never dims. Either a
+   * `uniform()` node (used as is) or a classic `{ value }` object (read each
+   * frame through `reference`). */
+  constructor(texture: THREE.Texture, night: THREE.IUniform<number> | TslNode = { value: 0 }) {
+    this.material = new MeshBasicNodeMaterial({
       map: texture, transparent: true, depthWrite: false, vertexColors: true,
       side: THREE.DoubleSide, fog: true,
     });
     this.material.name = "settlement-smoke-column";
-    this.material.onBeforeCompile = (shader) => {
-      shader.uniforms.esSettlementNight = night;
-      shader.fragmentShader = `uniform float esSettlementNight;\n${shader.fragmentShader}`
-        .replace("#include <map_fragment>", `#include <map_fragment>\n`
-          + `diffuseColor.rgb *= mix(1.0, ${SMOKE_NIGHT_BRIGHTNESS.toFixed(3)}, esSettlementNight);`);
-    };
-    this.material.customProgramCacheKey = () => "settlement-smoke-night";
+    this.nightNode = (night as { isNode?: boolean }).isNode
+      ? night
+      : reference("value", "float", night);
+    // colour × map, then dimmed by the night factor (the old map_fragment
+    // seam; vertex colour and alpha multiply after, as before).
+    wrapColor(this.material, (c: TslNode) =>
+      vec4(c.rgb.mul(mix(float(1), float(SMOKE_NIGHT_BRIGHTNESS), this.nightNode)), c.a));
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;

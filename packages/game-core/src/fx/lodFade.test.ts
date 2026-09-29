@@ -1,28 +1,27 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import { bool } from "three/tsl";
 import {
   applyLodFade,
   createLodFadeUniforms,
+  lodBayer4,
   lodCopyCollapsed,
   lodFadeFactors,
   lodLadder,
   lodPixelKept,
-  reapplyLodFade,
   BAYER4_THRESHOLDS,
   LOD_CULL_BAND_M,
   LOD_OPEN_M,
-  LOD_FRAGMENT_TEST,
-  LOD_SHADOW_FROM_ZERO_LINE,
   applyLodFadeWithShadow,
 } from "./lodFade";
 import {
   applyBatchData,
+  batchUniformsOf,
   createBatchDataTexture,
   createBatchDataUniforms,
-  reapplyBatchData,
   writeBatchInstance,
 } from "./batchData";
-import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
 
 
 /** How many of `bands` keep the pixel with threshold `bayer` at distance `d`. */
@@ -112,160 +111,101 @@ describe("one copy per pixel", () => {
     }
   });
 
-  it("the GLSL discard is the mirror's comparison, both sides", () => {
-    expect(LOD_FRAGMENT_TEST).toContain("esLodBayer >= vEsLod.x || esLodBayer < vEsLod.y");
+  it("the node dither is a 4x4 Bayer tile holding every threshold once", () => {
+    for (const [ox, oy] of [[0, 0], [4, 8], [13, 2]]) {
+      const tile: number[] = [];
+      for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) tile.push(lodBayer4(ox + x + 0.5, oy + y + 0.5));
+      expect([...tile].sort((a, b) => a - b)).toEqual([...BAYER4_THRESHOLDS]);
+    }
   });
 });
 
 describe("applyLodFade", () => {
-  const compile = (material: THREE.Material) => {
-    const shader = {
-      uniforms: {} as Record<string, unknown>,
-      vertexShader: "void main() {\n#include <begin_vertex>\n}",
-      fragmentShader: "void main() {\n#include <alphatest_fragment>\n}",
-    };
-    material.onBeforeCompile(
-      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
-      null as unknown as THREE.WebGLRenderer,
-    );
-    return shader;
-  };
-
-  it("injects the band into the vertex shader and the discard before any texture fetch", () => {
-    const material = new THREE.MeshStandardMaterial();
+  it("fills the position (collapse) and mask (dither) slots", () => {
+    const material = new MeshStandardNodeMaterial();
     const uniforms = createLodFadeUniforms();
     applyLodFade(material, uniforms);
-    const shader = compile(material);
-    expect(shader.vertexShader).toContain("esLodBand");
-    // A fully faded copy is collapsed to zero-area triangles, not just
-    // discarded per fragment.
-    expect(shader.vertexShader).toContain("transformed = vec3(0.0)");
-    expect(shader.uniforms.esLodViewPos).toBe(uniforms.esLodViewPos);
-    // FIRST statement in main(): a rejected fragment must not sample a map.
-    const main = shader.fragmentShader.indexOf("void main() {");
-    const discard = shader.fragmentShader.indexOf("discard");
-    const alphaTest = shader.fragmentShader.indexOf("#include <alphatest_fragment>");
-    expect(discard).toBeGreaterThan(main);
-    expect(discard).toBeLessThan(alphaTest);
-    expect(
-      shader.fragmentShader
-        .slice(main + "void main() {".length, shader.fragmentShader.indexOf("float esLodBayer"))
-        .trim(),
-    ).toBe("");
+    expect(material.positionNode).not.toBeNull();
+    expect(material.maskNode).not.toBeNull();
+    // The shadow pass reuses the colour slots unless the flag asks otherwise.
+    expect(material.maskShadowNode).toBeNull();
+    expect(material.castShadowPositionNode).toBeNull();
+    expect((uniforms.esLodViewPos as { isNode?: boolean }).isNode).toBe(true);
+    expect(uniforms.esLodViewPos.value).toBeInstanceOf(THREE.Vector3);
   });
 
-  it("never patches twice, and survives an onBeforeCompile overwrite", () => {
-    const material = new THREE.MeshStandardMaterial();
+  it("never patches twice", () => {
+    const material = new MeshStandardNodeMaterial();
     const uniforms = createLodFadeUniforms();
     applyLodFade(material, uniforms);
+    const position = material.positionNode;
+    const mask = material.maskNode;
     applyLodFade(material, uniforms);
-    material.onBeforeCompile = () => undefined; // what CSM does
-    reapplyLodFade(material);
-    const shader = compile(material);
-    expect(shader.vertexShader.match(/varying vec2 vEsLod/g)).toHaveLength(1);
-    expect(material.customProgramCacheKey()).toContain("|es-lod");
+    expect(material.positionNode).toBe(position);
+    expect(material.maskNode).toBe(mask);
   });
 
-  it("casts from distance zero on the depth material only, under the flag", () => {
-    const material = new THREE.MeshStandardMaterial();
-    const depth = new THREE.MeshDepthMaterial();
-    applyLodFadeWithShadow(material, depth, createLodFadeUniforms(),
+  it("casts from distance zero in the shadow slots only, under the flag", () => {
+    const material = new MeshStandardNodeMaterial();
+    applyLodFadeWithShadow(material, undefined, createLodFadeUniforms(),
       { shadowBandFromZero: true });
-    const colour = compile(material);
-    const shadow = compile(depth);
-    expect(shadow.vertexShader).toContain(LOD_SHADOW_FROM_ZERO_LINE);
-    expect(colour.vertexShader).not.toContain(LOD_SHADOW_FROM_ZERO_LINE);
-    // The outer edge is untouched: the far rung and the cards still cast
-    // nothing, and the mid rung stops casting where its band ends.
-    expect(shadow.vertexShader).toContain("float esLodOut =");
-    expect(depth.customProgramCacheKey()).toContain("|es-lod-shadow0");
-    expect(material.customProgramCacheKey()).not.toContain("shadow0");
-    // Unflagged, both materials keep the normal inner edge.
-    const plain = new THREE.MeshDepthMaterial();
-    applyLodFade(plain, createLodFadeUniforms());
-    expect(compile(plain).vertexShader).not.toContain(LOD_SHADOW_FROM_ZERO_LINE);
+    // The shadow band differs from the colour band: its own mask and position.
+    expect(material.maskShadowNode).not.toBeNull();
+    expect(material.maskShadowNode).not.toBe(material.maskNode);
+    expect(material.castShadowPositionNode).not.toBeNull();
+    expect(material.castShadowPositionNode).not.toBe(material.positionNode);
+    // Unflagged, the shadow reuses the colour band.
+    const plain = new MeshStandardNodeMaterial();
+    applyLodFadeWithShadow(plain, undefined, createLodFadeUniforms());
+    expect(plain.maskShadowNode).toBeNull();
+    expect(plain.castShadowPositionNode).toBeNull();
   });
 
-  it("is a no-op on a material it never touched", () => {
-    const material = new THREE.MeshStandardMaterial();
-    const before = material.onBeforeCompile;
-    reapplyLodFade(material);
-    expect(material.onBeforeCompile).toBe(before);
-  });
-});
-
-describe("the ES_BATCH_SLOTS branch (0082 round 1, 0084 round 12)", () => {
-  it("injects both branches and reads the per-slot data texture", () => {
-    const material = new THREE.MeshStandardMaterial();
-    const shader = {
-      uniforms: {} as Record<string, unknown>,
-      vertexShader: "void main() {\n#include <begin_vertex>\n}",
-      fragmentShader: "void main() {\n}",
-    };
-    applyLodFade(material, createLodFadeUniforms());
-    material.onBeforeCompile(
-      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
-      null as unknown as THREE.WebGLRenderer,
-    );
-    expect(shader.vertexShader).toContain("#ifdef ES_BATCH_SLOTS");
-    expect(shader.vertexShader).toContain("#elif defined(USE_INSTANCING)");
-    expect(shader.vertexShader).toContain("esBatchTexel(0)");
-    expect(shader.vertexShader).toContain("instanceMatrix[3].xyz");
-    expect(shader.vertexShader).toContain("int(esSlot)");
-    // The terrain-occlusion collapse, read from the swept mask.
-    expect(shader.vertexShader).toContain("esOccMask");
-    expect(shader.vertexShader).toContain(
-      `esLodD > ${OCCLUSION_MIN_DISTANCE_M.toFixed(1)}`);
+  it("keeps an earlier feature's mask in the from-zero shadow mask", () => {
+    const material = new MeshStandardNodeMaterial();
+    const earlier = bool(true);
+    material.maskNode = earlier;
+    applyLodFade(material, createLodFadeUniforms(), { shadowBandFromZero: true });
+    expect(material.maskNode).not.toBe(earlier);
+    expect(material.maskShadowNode).not.toBeNull();
   });
 });
 
 describe("applyBatchData", () => {
-  it("binds its uniforms and survives the CSM onBeforeCompile overwrite", () => {
-    const material = new THREE.MeshStandardMaterial();
+  it("marks the material once, in either order with the fade", () => {
     const uniforms = createBatchDataUniforms();
-    applyBatchData(material, undefined, uniforms);
-    material.onBeforeCompile = () => undefined; // what CSM does
-    reapplyBatchData(material);
-    const shader = {
-      uniforms: {} as Record<string, unknown>,
-      vertexShader: "void main() {\n#include <begin_vertex>\n}",
-      fragmentShader: "void main() {\n}",
-    };
-    material.onBeforeCompile(
-      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
-      null as unknown as THREE.WebGLRenderer,
-    );
-    expect(shader.vertexShader).toContain("esBatchTexel");
-    expect(shader.uniforms.esBatchData).toBe(uniforms.esBatchData);
-    expect(shader.uniforms.esOccParams).toBe(uniforms.esOccParams);
+    const before = new MeshStandardNodeMaterial();
+    applyBatchData(before, undefined, uniforms);
+    applyLodFade(before, createLodFadeUniforms());
+    const after = new MeshStandardNodeMaterial();
+    applyLodFade(after, createLodFadeUniforms());
+    applyBatchData(after, undefined, uniforms);
+    expect(batchUniformsOf(before)).toBe(uniforms);
+    expect(batchUniformsOf(after)).toBe(uniforms);
+    const other = createBatchDataUniforms();
+    applyBatchData(before, undefined, other);
+    expect(batchUniformsOf(before)).toBe(uniforms);
+  });
+
+  it("shares the occlusion mask and window, never the data texture", () => {
+    const base = createBatchDataUniforms();
+    const batch = createBatchDataUniforms(base);
+    expect(batch.esOccMask).toBe(base.esOccMask);
+    expect(batch.esOccParams).toBe(base.esOccParams);
+    expect(batch.esBatchData).not.toBe(base.esBatchData);
   });
 
   it("a grown batch reuses the patched material and re-points its texture", () => {
-    // `Material.clone` JSON-copies userData and drops onBeforeCompile, so a
-    // batch that grows must REUSE its material, never re-clone it.
-    const material = new THREE.MeshStandardMaterial();
+    // A clone does not carry the batch mark, so a batch that grows must REUSE
+    // its material, never re-clone it.
+    const material = new MeshStandardNodeMaterial();
     const uniforms = createBatchDataUniforms();
     applyBatchData(material, undefined, uniforms);
-    const first = createBatchDataTexture(8);
-    uniforms.esBatchData.value = first;
-    // What growBatch does: same material object, a bigger data texture.
+    uniforms.esBatchData.value = createBatchDataTexture(8);
     const grown = createBatchDataTexture(16);
     uniforms.esBatchData.value = grown;
-    const shader = {
-      uniforms: {} as Record<string, unknown>,
-      vertexShader: "void main() {\n}",
-      fragmentShader: "void main() {\n}",
-    };
-    material.onBeforeCompile(
-      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
-      null as unknown as THREE.WebGLRenderer,
-    );
-    expect(shader.vertexShader).toContain("esBatchTexel");
-    expect(shader.uniforms.esBatchData).toBe(uniforms.esBatchData);
-    expect((shader.uniforms.esBatchData as { value: unknown }).value).toBe(grown);
-    // The husk a clone would have produced patches nothing.
-    const cloned = material.clone();
-    expect(cloned.userData.esBatchWrapped).toBeUndefined();
+    expect(batchUniformsOf(material)?.esBatchData.value).toBe(grown);
+    expect(batchUniformsOf(material.clone())).toBeUndefined();
   });
 
   it("writes two RGBA texels per instance", () => {

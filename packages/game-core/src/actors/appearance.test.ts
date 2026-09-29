@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 
-import { applyAppearance, clearAppearance } from "./appearance";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import {
+  applyAppearance, clearAppearance, skyrimRgbTint, SKYRIM_SKIN_DETAIL,
+} from "./appearance";
 import type { Appearance } from "./races";
 
 function body(names: string[]) {
@@ -57,23 +60,29 @@ describe("colouring a character", () => {
 
   it("uses Skyrim's FaceGen RGB overlay for a selectable skin tone", () => {
     const model = body(["Body"]);
-    const material = (model.children[0] as THREE.Mesh).material as THREE.MeshStandardMaterial;
-    const originalHook = material.onBeforeCompile;
+    const mesh = model.children[0] as THREE.Mesh;
+    const original = mesh.material as THREE.MeshStandardMaterial;
     const touched = applyAppearance(model, { ...appearance, skinTintMode: "skyrim-rgb-tint" });
-    const shader = {
-      uniforms: {} as Record<string, { value: unknown }>,
-      fragmentShader: "void main() {\n#include <map_fragment>\n}",
-    };
-    material.onBeforeCompile(shader as never, {} as never);
-    expect(shader.fragmentShader).toContain("skyrimTintOverlay");
-    expect(shader.fragmentShader).not.toContain("esSkinLuma");
-    expect(shader.uniforms.skyrimSkinTone).toBeDefined();
-    const tone = shader.uniforms.skyrimSkinTone.value as THREE.Color;
-    expect(tone.toArray()).toEqual([0.5, 0.4, 0.3]);
-    expect(shader.uniforms.skyrimSkinDetail).toBeDefined();
-    expect(material.color.getHex()).toBe(0xffffff);
+    const tinted = mesh.material as MeshStandardNodeMaterial;
+    // A node twin carries the overlay in its colour slot; the source is untouched.
+    expect(tinted).not.toBe(original);
+    expect(tinted.isNodeMaterial).toBe(true);
+    expect(tinted.colorNode).not.toBeNull();
+    expect(tinted.color.getHex()).toBe(0xffffff);
+    expect(original.color.getHex()).toBe(0xffffff);
     clearAppearance(touched);
-    expect(material.onBeforeCompile).toBe(originalHook);
+    expect(mesh.material).toBe(original);
+  });
+
+  it("the overlay is Skyrim's equation: mid grey under a tone, with the detail factor", () => {
+    // b² + 2·t·b − 2·t·b², × detail. A zero tone squares the base; a full
+    // tone gives 2b − b²; the mid tone leaves the base as is.
+    const [r0] = skyrimRgbTint([0.5, 0.5, 0.5], [0, 0, 0]);
+    expect(r0).toBeCloseTo(0.25 * SKYRIM_SKIN_DETAIL[0], 6);
+    const [r1] = skyrimRgbTint([0.5, 0.5, 0.5], [1, 1, 1]);
+    expect(r1).toBeCloseTo(0.75 * SKYRIM_SKIN_DETAIL[0], 6);
+    const [, g] = skyrimRgbTint([0.3, 0.3, 0.3], [0.5, 0.5, 0.5]);
+    expect(g).toBeCloseTo(0.3 * SKYRIM_SKIN_DETAIL[1], 6);
   });
 
   it("restores exactly what the asset shipped", () => {

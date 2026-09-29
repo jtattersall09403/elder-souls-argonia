@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
-import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import {
   applyCylindricalBillboard,
   billboardRightVector,
-  reapplyCylindricalBillboard,
 } from "./billboardQuad";
 import { applyLodFade, createLodFadeUniforms } from "./lodFade";
 
@@ -30,57 +29,30 @@ describe("billboardRightVector", () => {
   });
 });
 
-function compile(material: THREE.Material): { vertexShader: string; uniforms: Record<string, unknown> } {
-  const shader = {
-    vertexShader: "void main() {\n#include <begin_vertex>\n}",
-    fragmentShader: "void main() {\n}",
-    uniforms: {} as Record<string, unknown>,
-  };
-  material.onBeforeCompile(shader as never, null as never);
-  return shader;
-}
 
 describe("applyCylindricalBillboard", () => {
-  it("injects once and binds the shared view uniform", () => {
+  it("wraps the position slot once", () => {
     const uniforms = createLodFadeUniforms();
-    const material = new THREE.MeshStandardMaterial();
+    const material = new MeshStandardNodeMaterial();
     applyCylindricalBillboard(material, uniforms);
+    const once = material.positionNode;
+    expect(once).not.toBeNull();
     applyCylindricalBillboard(material, uniforms); // idempotent
-    const shader = compile(material);
-    expect(shader.vertexShader.split("esBillboardRight(vec2 v)").length - 1).toBe(1);
-    expect(shader.vertexShader.split("uniform vec3 esLodViewPos;").length - 1).toBe(1);
-    expect(shader.uniforms.esLodViewPos).toBe(uniforms.esLodViewPos);
-    expect(material.customProgramCacheKey()).toContain("|es-bbq");
+    expect(material.positionNode).toBe(once);
   });
 
-  it("declares the view uniform once when the LOD fade is installed too", () => {
+  it("composes with the LOD fade in either order on one view uniform", () => {
     const uniforms = createLodFadeUniforms();
-    const material = new THREE.MeshStandardMaterial();
+    const material = new MeshStandardNodeMaterial();
     applyLodFade(material, uniforms);
+    const faded = material.positionNode;
     applyCylindricalBillboard(material, uniforms);
-    const shader = compile(material);
-    expect(shader.vertexShader.split("uniform vec3 esLodViewPos;").length - 1).toBe(1);
-    // Both injections are present: the fade must survive the billboard patch.
-    expect(shader.vertexShader).toContain("vEsLod");
-    expect(shader.vertexShader).toContain("esBillboardRight");
-  });
-
-  it("re-installs after an overwrite, and is a no-op otherwise", () => {
-    const uniforms = createLodFadeUniforms();
-    const material = new THREE.MeshStandardMaterial();
-    applyCylindricalBillboard(material, uniforms);
-    const installed = material.onBeforeCompile;
-    reapplyCylindricalBillboard(material);
-    expect(material.onBeforeCompile).toBe(installed);
-    material.onBeforeCompile = () => undefined; // what csm.setupMaterial does
-    reapplyCylindricalBillboard(material);
-    expect(compile(material).vertexShader).toContain("esBillboardRight");
-  });
-
-  it("ignores materials it never patched", () => {
-    const material = new THREE.MeshStandardMaterial();
-    const before = material.onBeforeCompile;
-    reapplyCylindricalBillboard(material);
-    expect(material.onBeforeCompile).toBe(before);
+    // The billboard wraps the fade's position; the fade's mask survives.
+    expect(material.positionNode).not.toBe(faded);
+    expect(material.maskNode).not.toBeNull();
+    const reversed = new MeshStandardNodeMaterial();
+    applyCylindricalBillboard(reversed, uniforms);
+    applyLodFade(reversed, uniforms);
+    expect(reversed.maskNode).not.toBeNull();
   });
 });

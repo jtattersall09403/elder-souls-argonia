@@ -1,21 +1,24 @@
 import { describe, expect, it } from "vitest";
-import { BATCH_DATA_HEAD, createBatchDataTexture } from "./batchData";
+import { createBatchDataTexture, createBatchDataUniforms } from "./batchData";
 
-describe("batch data head", () => {
-  // GLSL ES has no implicit float -> int, and the slot rides a float
-  // attribute, so the cast is load-bearing: an uncast use fails to compile
-  // every foliage program (round-2 review, CONFIRMED; kept at round 12).
-  it("casts the slot attribute to int", () => {
-    expect(BATCH_DATA_HEAD).toContain("int(esSlot)");
+describe("batch data uniforms", () => {
+  it("are nodes whose value re-points without a rebuild", () => {
+    const uniforms = createBatchDataUniforms();
+    for (const u of Object.values(uniforms)) expect((u as { isNode?: boolean }).isNode).toBe(true);
+    const grown = createBatchDataTexture(64);
+    uniforms.esBatchData.value = grown;
+    expect(uniforms.esBatchData.value).toBe(grown);
+    expect(uniforms.esOccParams.value.toArray()).toEqual([0, 0, 128, 32]);
   });
 
-  it("declares the slot attribute inside its own guard", () => {
-    expect(BATCH_DATA_HEAD).toContain("attribute float esSlot;");
-    expect(BATCH_DATA_HEAD).toContain("#ifdef ES_BATCH_SLOTS");
-  });
-
-  it("carries no multi-draw index", () => {
-    expect(BATCH_DATA_HEAD).not.toContain("gl_DrawID");
+  it("start on placeholders of the formats that replace them", () => {
+    // The bind layout's sample type is fixed at build: an RGBA float data
+    // texture and an R8 occlusion mask replace them later.
+    const uniforms = createBatchDataUniforms();
+    const data = createBatchDataTexture(1);
+    expect(uniforms.esBatchData.value.format).toBe(data.format);
+    expect(uniforms.esBatchData.value.type).toBe(data.type);
+    expect(uniforms.esOccMask.value.format).toBe(1028); // RedFormat
   });
 });
 
