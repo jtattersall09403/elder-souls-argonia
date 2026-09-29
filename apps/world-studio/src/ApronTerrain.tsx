@@ -10,6 +10,7 @@ import { makeChunkHeightSampler } from "./character/terrainHeightSampler";
 import { useApronMaterials } from "./apronMaterials";
 import type { MeshStandardNodeMaterial } from "three/webgpu";
 import type { ChunkStore, ChunksManifest } from "./character/chunkStore";
+import { DATA_BASE } from "./dataBase";
 
 /**
  * The province's terrain with the border apron beyond it (16d).
@@ -86,7 +87,7 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
         </Suspense>
       )}
       {apron && materials && (
-        <BorderApron manifest={apron} baseUrl={import.meta.env.BASE_URL} materials={materials}
+        <BorderApron manifest={apron} baseUrl={DATA_BASE} materials={materials}
           verticalScale={scale} occluder={occluder} />
       )}
     </>
@@ -102,7 +103,7 @@ function ApronMaterials({ apron, matSet, verticalScale, sharedArrayTexture, onRe
   sharedArrayTexture: THREE.DataArrayTexture;
   onReady: (m: { near: THREE.Material; far: THREE.Material } | null) => void;
 }) {
-  const materials = useApronMaterials(import.meta.env.BASE_URL, apron, matSet, verticalScale, sharedArrayTexture);
+  const materials = useApronMaterials(DATA_BASE, apron, matSet, verticalScale, sharedArrayTexture);
   useEffect(() => {
     onReady(materials);
     return () => onReady(null);

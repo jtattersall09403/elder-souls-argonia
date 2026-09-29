@@ -14,6 +14,11 @@ const SANDBOX_BASE = "/elder-souls-argonia/";
 // at /elder-souls-argonia/webgpu/ beside main's studio); character files
 // still resolve against main's sandbox at SANDBOX_BASE.
 const STUDIO_BASE = process.env.ES_STUDIO_BASE || `${SANDBOX_BASE}studio/`;
+// VITE_ES_DATA_BASE points the build's data fetches (src/dataBase.ts) at
+// another studio on the same site (the webgpu build reads main's
+// /elder-souls-argonia/studio/). Such a build ships code only: public/ is
+// not copied, so the Pages site carries one set of rasters and kits.
+const DATA_ELSEWHERE = !!process.env.VITE_ES_DATA_BASE;
 
 /**
  * Serve `public/` from the DISK, not from Vite's start-up file list.
@@ -114,6 +119,7 @@ const TUNNEL_HOST = TUNNEL_URL ? new URL(TUNNEL_URL).host : "localhost";
 export default defineConfig(({ command }) => ({
   // Deployed under the Pages site at /studio/; local dev serves from root.
   base: command === "build" ? STUDIO_BASE : "/",
+  publicDir: command === "build" && DATA_ELSEWHERE ? false : "public",
   plugins: [freshPublicFiles(), react(), characterAssets({ sharedBase: SANDBOX_BASE }), basisTranscoder()],
   build: { target: "es2022", sourcemap: false },
   // Pre-bundle the heavy deps up front: discovering them on the first page

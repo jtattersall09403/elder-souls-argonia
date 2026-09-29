@@ -5,6 +5,7 @@ import { OVERLAY_LAYER } from "@elder-souls/game-core/water/render/waterMaterial
 import { cityMarkers, type CityMarkerSpec } from "./cityMarkerData";
 import { loadPlaces } from "./places/placesData";
 import { loadBlueprints } from "./blueprints/blueprintsData";
+import { DATA_BASE } from "./dataBase";
 
 /**
  * City beacons + name labels above the terrain, shared by the flyover and
@@ -34,7 +35,7 @@ const MAX_VISIBLE = 10;
 const LABEL_WIDTH_PER_M = 0.16;
 const LABEL_WIDTH_MIN_M = 40;
 const LABEL_WIDTH_MAX_M = 1000;
-export function CityMarkers({ groundAt, baseUrl = import.meta.env.BASE_URL }: {
+export function CityMarkers({ groundAt, baseUrl = DATA_BASE }: {
   /** World metres → terrain height (already vertically scaled). */
   groundAt: (xM: number, zM: number) => number;
   baseUrl?: string;

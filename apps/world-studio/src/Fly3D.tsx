@@ -34,6 +34,7 @@ import { groundHeightM } from "./vegetation/terrainHeight";
 import { lastWeatherSample } from "./weather/weatherState";
 import { worldClock } from "./sky/timeState";
 import { AUTHORED_UV_EXTENT_M, hydroPixelCenterToMetres, TERRAIN_SUPPORT_EXTENT_M } from "./provinceScale";
+import { DATA_BASE } from "./dataBase";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -77,7 +78,7 @@ function LanesOverlay({ heights, size, metresPerPixel, exaggeration }: {
 }) {
   const [lanes, setLanes] = useState<{ px: number[][]; land: number[] }[] | null>(null);
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}province/waterways.json`)
+    fetch(`${DATA_BASE}province/waterways.json`)
       .then((r) => r.json()).then((j) => setLanes(j.lanes)).catch(() => setLanes([]));
   }, []);
   const object = useMemo(() => {
@@ -244,7 +245,7 @@ export function Fly3D(props: Fly3DProps) {
   // The flyover renders the SAME chunked terrain as the character mode (same
   // sampling, same splat material), so relief judged from the air matches
   // what the character walks on. LOD follows the camera.
-  const store = useMemo(() => sharedChunkStore(import.meta.env.BASE_URL), []);
+  const store = useMemo(() => sharedChunkStore(DATA_BASE), []);
   const [chunkManifest, setChunkManifest] = useState<ChunksManifest | null>(null);
   const [ladderReady, setLadderReady] = useState(false);
   useEffect(() => {
@@ -255,17 +256,17 @@ export function Fly3D(props: Fly3DProps) {
     }).catch(() => setChunkManifest(null));
     // the ladder says which layers this build has; a layer mounted before it
     // arrives fetches its data (3 MB of water rasters) and is then unmounted
-    loadLadder(import.meta.env.BASE_URL).finally(() => setLadderReady(true));
+    loadLadder(DATA_BASE).finally(() => setLadderReady(true));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store]);
   const terrainExtentM = chunkManifest?.terrainSupportExtentM
     ?? chunkManifest?.extentM ?? TERRAIN_SUPPORT_EXTENT_M;
   const authoredExtentM = chunkManifest?.authoredUvExtentM ?? AUTHORED_UV_EXTENT_M;
   const focusRef = useRef({ x: start[0], z: start[2] });
-  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
+  const hiddenLayers = useHiddenLayers(DATA_BASE);
   // The land beyond the border (16d). Hidden by the ladder on a build whose
   // apron stage has not run on this ground.
-  const apronManifest = useApronManifest(import.meta.env.BASE_URL, ladderReady && !hiddenLayers.has("apron"));
+  const apronManifest = useApronManifest(DATA_BASE, ladderReady && !hiddenLayers.has("apron"));
   const markerGroundAt = useMemo(() => {
     const { heights, size, metresPerPixel, exaggeration } = props;
     return (xM: number, zM: number) => {
@@ -350,7 +351,7 @@ export function Fly3D(props: Fly3DProps) {
               <>
                 {VEGETATION_ENABLED && (
                 <Suspense fallback={null}>
-                  <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                  <Vegetation focusRef={focusRef} baseUrl={DATA_BASE}
                     verticalScale={props.exaggeration} onStats={props.onVegetationStats}
                     quality={FLY_QUALITY} />
                 </Suspense>
@@ -359,7 +360,7 @@ export function Fly3D(props: Fly3DProps) {
                     ground, province-wide (it needs no compiled bundles). */}
                 {GROUNDCOVER_ENABLED && (
                   <Suspense fallback={null}>
-                    <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                    <Groundcover focusRef={focusRef} baseUrl={DATA_BASE}
                       verticalScale={props.exaggeration} quality={FLY_QUALITY}
                       settlementsVisible={!hiddenLayers.has("settlements")} />
                   </Suspense>
@@ -367,10 +368,10 @@ export function Fly3D(props: Fly3DProps) {
               </>
             )}
             {!hiddenLayers.has("settlements") && (
-              <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
+              <SettlementLayer baseUrl={DATA_BASE} focusRef={focusRef}
                 groundAt={settlementGroundAt} environment={settlementEnvironment}
                 onError={setSettlementError}
-                localSurfaces={sharedLocalSurfaces(import.meta.env.BASE_URL)} />
+                localSurfaces={sharedLocalSurfaces(DATA_BASE)} />
             )}
           </>
         ) : (
@@ -385,7 +386,7 @@ export function Fly3D(props: Fly3DProps) {
         {/* Phase 8b water: rivers, lakes, marsh and sea from the compiled
             hydrology; tide + wet-season levels are world state (§36). */}
         {!hiddenLayers.has("water") && (
-          <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} farExtentM={30000} />
+          <StudioWater base={DATA_BASE} verticalScale={props.exaggeration} farExtentM={30000} />
         )}
       </WorldSky>
       {props.mode === "fly" ? (

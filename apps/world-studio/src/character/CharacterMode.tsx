@@ -84,6 +84,7 @@ import {
   type QualitySettings,
 } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
+import { DATA_BASE } from "../dataBase";
 
 
 // Module-level so a CharacterMode render does not create a new array and
@@ -175,7 +176,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   onExit: () => void;
   onFlyHere: (xKm: number, zKm: number) => void;
 }) {
-  const base = import.meta.env.BASE_URL;
+  const base = DATA_BASE;
   const store = useMemo(() => sharedChunkStore(base), [base]);
   const verticalScale = exaggeration ?? 5;
   // The resolver rides in a ref so a parent re-render (e.g. late raster loads)
@@ -198,8 +199,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const hudChannel = useMemo(() => createHudChannel(), []);
   const player = useRef<EcctrlHandle | null>(null);
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
-  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
-  const apronManifest = useApronManifest(import.meta.env.BASE_URL, !hiddenLayers.has("apron"));
+  const hiddenLayers = useHiddenLayers(DATA_BASE);
+  const apronManifest = useApronManifest(DATA_BASE, !hiddenLayers.has("apron"));
   // The square of built ground the boundary wall closes (16d): the manifest's
   // own value when it is loaded, the contract's otherwise.
   const terrainExtentM = manifest?.terrainSupportExtentM ?? TERRAIN_SUPPORT_EXTENT_M;
@@ -518,7 +519,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 {VEGETATION_ENABLED && (
                   <Vegetation
                     focusRef={focusRef}
-                    baseUrl={import.meta.env.BASE_URL}
+                    baseUrl={DATA_BASE}
                     verticalScale={verticalScale}
                     quality={quality}
                     onSolids={handleSolids}
@@ -530,7 +531,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 {GROUNDCOVER_ENABLED && (
                   <Groundcover
                     focusRef={focusRef}
-                    baseUrl={import.meta.env.BASE_URL}
+                    baseUrl={DATA_BASE}
                     verticalScale={verticalScale}
                     quality={quality}
                     settlementsVisible={!hiddenLayers.has("settlements")}
@@ -550,7 +551,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 onDoors={setDoors}
                 kitCache={kitCache}
                 onError={setSettlementError}
-                localSurfaces={sharedLocalSurfaces(import.meta.env.BASE_URL)}
+                localSurfaces={sharedLocalSurfaces(DATA_BASE)}
               />
             )}
           </Suspense>
@@ -558,7 +559,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               the wading player feeds a churn ring for contact foam. */}
           {!hiddenLayers.has("water") && waterPipelineEnabled && (
             <StudioWater
-              base={import.meta.env.BASE_URL}
+              base={DATA_BASE}
               verticalScale={verticalScale}
               farExtentM={12000}
               surfaceFocus={waterSurfaceFocus}

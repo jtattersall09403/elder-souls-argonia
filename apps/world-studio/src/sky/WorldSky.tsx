@@ -59,6 +59,7 @@ import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
+import { DATA_BASE } from "../dataBase";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -231,7 +232,7 @@ export function WorldSky({
 }) {
   const { scene, camera, gl } = useThree();
   const segments = useFrameSegments();
-  const base = import.meta.env.BASE_URL;
+  const base = DATA_BASE;
   const rainBudget = useMemo(() => rainDropBudget(), []);
   ensureAirPixels(base);
   // Debug handles for the headless probes (probe-sky, probe-air-diff,

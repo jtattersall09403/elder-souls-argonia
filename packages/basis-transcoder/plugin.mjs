@@ -1,6 +1,6 @@
 import { cpSync, createReadStream, existsSync, statSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 /**
  * Serve the Basis Universal transcoder that three.js's `KTX2Loader` needs
@@ -46,7 +46,7 @@ export default function basisTranscoder() {
     closeBundle() {
       if (!isBuild) return;
       for (const name of TRANSCODER_FILES) {
-        cpSync(join(SOURCE_DIR, name), join(root, outDir, "basis", name));
+        cpSync(join(SOURCE_DIR, name), join(resolve(root, outDir), "basis", name));
       }
     },
   };

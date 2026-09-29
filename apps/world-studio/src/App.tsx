@@ -34,6 +34,7 @@ import { SettlementNavigationHandoff } from "./navigation/settlementNavigationHa
 import {
   SettlementBundleSource, SettlementBundleSourceContext,
 } from "@elder-souls/game-core/settlement/settlementIndex";
+import { DATA_BASE } from "./dataBase";
 
 /** One probe site for `window.__STUDIO_GOTO__` (x/z in km, as the URL uses;
  * `t` the HH:MM clock string; `wet` +1 wet season, -1 dry, 0/absent calendar). */
@@ -125,7 +126,7 @@ function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclud
 export function App() {
   // The one settlement source every settlement reader shares (S8): the
   // index and each place bundle are fetched once per studio session.
-  const settlementSource = useMemo(() => new SettlementBundleSource(import.meta.env.BASE_URL), []);
+  const settlementSource = useMemo(() => new SettlementBundleSource(DATA_BASE), []);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mapViewportRef = useRef<HTMLDivElement>(null);
   const map = useMapZoom(mapViewportRef);
@@ -199,14 +200,14 @@ export function App() {
   // Clickable road/lane/track lines and the waterways toggle (?water=1, ?route=)
   // — drawn under the places dots by RoutesLayer.
   const [routesUrl, setRoutesUrl] = useState<RoutesUrlState>(() => parseRoutesUrl(urlParams));
-  const hiddenLayers = useHiddenLayers(import.meta.env.BASE_URL);
+  const hiddenLayers = useHiddenLayers(DATA_BASE);
   const [ladderReady, setLadderReady] = useState(false);
-  useEffect(() => { loadLadder(import.meta.env.BASE_URL).finally(() => setLadderReady(true)); }, []);
+  useEffect(() => { loadLadder(DATA_BASE).finally(() => setLadderReady(true)); }, []);
   const [placeNames, setPlaceNames] = useState<Record<string, string>>({});
   const placeName = useCallback((id: string) => placeNames[id] ?? id.split(".").pop() ?? id, [placeNames]);
   useEffect(() => {
     if (!showCatalogue || Object.keys(placeNames).length) return;
-    loadPlaces(import.meta.env.BASE_URL)
+    loadPlaces(DATA_BASE)
       .then((b) => setPlaceNames(Object.fromEntries((b.places ?? []).map((p) => [p.id, p.name]))))
       .catch(() => {});
   }, [showCatalogue, placeNames]);
@@ -215,7 +216,7 @@ export function App() {
   useEffect(() => {
     if (view === "map" || minimapOverlay) return;
     let alive = true;
-    loadMinimapOverlay(import.meta.env.BASE_URL).then((o) => { if (alive) setMinimapOverlay(o); }).catch(() => {});
+    loadMinimapOverlay(DATA_BASE).then((o) => { if (alive) setMinimapOverlay(o); }).catch(() => {});
     return () => { alive = false; };
   }, [view, minimapOverlay]);
   // World-time changes (scrub/date/rate/preset) bump this so the URL effect
@@ -278,7 +279,7 @@ export function App() {
   }, [gotoSite]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}textures/ground/index.json`)
+    fetch(`${DATA_BASE}textures/ground/index.json`)
       .then((r) => r.json())
       .then((j) => { setMatSets(j.sets); if (!urlParams.get("mats")) setMatSet(j.default); })
       .catch(() => {});
@@ -408,7 +409,7 @@ export function App() {
 
   // Load the height raster once; keep decoded heights for repaints and hover.
   useEffect(() => {
-    const base = import.meta.env.BASE_URL;
+    const base = DATA_BASE;
     (async () => {
       const m: ProvinceMeta = await loadProvinceMeta(base);
       // Shared with the Blueprint view's backdrop (map/provinceMap.ts); the
@@ -608,7 +609,7 @@ export function App() {
     // hides the water layer (its rasters are stale against this ground)
     if (!ladderReady || hiddenLayers.has("water")) return;
     let alive = true;
-    sharedWaterAssets(import.meta.env.BASE_URL).then(assets => {
+    sharedWaterAssets(DATA_BASE).then(assets => {
       if (alive) waterClassRef.current = assets;
     }).catch(() => { /* Water data optional in the map view. */ });
     return () => { alive = false; };
@@ -773,7 +774,7 @@ export function App() {
   const routeVectors = drawsVectorRoutes;
 
   const blueprintOverlay = showBlueprints ? (
-    <BlueprintView baseUrl={import.meta.env.BASE_URL} initial={blueprintUrl}
+    <BlueprintView baseUrl={DATA_BASE} initial={blueprintUrl}
       onUrlState={setBlueprintUrl} onClose={() => setShowBlueprints(false)} />
   ) : null;
 
@@ -863,7 +864,7 @@ export function App() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
-      <SettlementNavigationHandoff baseUrl={import.meta.env.BASE_URL}
+      <SettlementNavigationHandoff baseUrl={DATA_BASE}
         visible={view !== "map" && !hudHidden && ladderReady && !hiddenLayers.has("settlements")} />
       {blueprintOverlay}
       {view !== "map" && !hudHidden && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
@@ -998,14 +999,14 @@ export function App() {
         <canvas ref={canvasRef} onDoubleClick={onDoubleClick}
           style={{ width: "100%", display: "block", imageRendering: "pixelated", touchAction: "none" }} />
         {routeVectors && (
-          <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
+          <RoutesLayer baseUrl={DATA_BASE} showWater={routesUrl.showWater}
             showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
             onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
             placeName={placeName} subLayers={routesUrl.subLayers}
             onHover={(sections) => { routeTipRef.current = sections; }} />
         )}
         {showCatalogue && ladderReady && !hiddenLayers.has("places") && (
-          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
+          <PlacesLayer baseUrl={DATA_BASE} initial={placesUrl}
             onUrlState={setPlacesUrl} onFly={flyToFraction} />
         )}
       </div>

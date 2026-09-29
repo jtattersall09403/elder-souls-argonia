@@ -14,6 +14,7 @@ import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext
 import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
 import { makeChunkHeightSampler } from "./terrainHeightSampler";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
+import { DATA_BASE } from "../dataBase";
 
 /**
  * Chunked terrain renderer: every province chunk is its own mesh, LOD chosen
@@ -88,7 +89,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
    * its albedo array rather than allocating a second one (16d). */
   onGroundMaterial?: (material: MeshStandardNodeMaterial) => void;
 }) {
-  const base = import.meta.env.BASE_URL;
+  const base = DATA_BASE;
   const { set, manifest: ground } = useGroundManifest(base, matSet);
   const images = useLoader(THREE.ImageLoader,
     ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
