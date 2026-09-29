@@ -17,7 +17,9 @@ import { applyLodFade, createLodFadeUniforms, LOD_FRAGMENT_TEST } from "../fx/lo
  * and `frame_basis` of it. The three copies of the geometry must agree. */
 const PY_SELECT: { v: [number, number, number]; frames: [number, number][]; w: number[] }[] = [
   { v: [0.309426, 0.206284, 0.928279], frames: [[10, 3], [11, 3], [10, 4]], w: [0.642873, 0.214253, 0.142873] },
-  { v: [-0.952579, 0.136083, -0.272166], frames: [[1, 3], [1, 2], [0, 3]], w: [0.300057, 0.24998, 0.449964] },
+  { v: [-0.952579, 0.136083, -0.272166], frames: [[0, 2], [1, 3], [0, 3]], w: [0.249976, 0.550037, 0.199987] },
+  { v: [0.99619, 0.087156, 0.0], frames: [[10, 10], [11, 11], [11, 10]], w: [0.442526, 0.557474, 0.0] },
+  { v: [-0.8, 0.3, -0.2], frames: [[1, 2], [2, 3], [1, 3]], w: [0.038442, 0.269263, 0.692295] },
   { v: [0.0, 1.0, 0.0], frames: [[6, 6], [6, 5], [5, 6]], w: [0.0, 0.5, 0.5] },
   { v: [0.650945, -0.390567, -0.650945], frames: [[6, 11], [6, 10], [5, 11]], w: [0.499958, 4.2e-5, 0.5] },
 ];
@@ -62,6 +64,16 @@ describe("impostor frame geometry", () => {
       expect(gridDir(i, 0, 12)[1]).toBeCloseTo(0, 9);
       expect(gridDir(11, i, 12)[1]).toBeCloseTo(0, 9);
       for (let j = 0; j < 12; j++) expect(gridDir(i, j, 12)[1]).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it("a low view along +-X or +-Z leans on the on-axis horizon frame (split follows the axis diagonals)", () => {
+    const el = (5 * Math.PI) / 180;
+    for (const [x, z, corner] of [[1, 0, [11, 11]], [-1, 0, [0, 0]], [0, 1, [11, 0]], [0, -1, [0, 11]]] as const) {
+      const { frames, weights } = selectFrames([x * Math.cos(el), Math.sin(el), z * Math.cos(el)], 12);
+      const k = frames.findIndex((f) => f[0] === corner[0] && f[1] === corner[1]);
+      expect(k).toBeGreaterThanOrEqual(0);
+      expect(weights[k]).toBeGreaterThan(0.5);
     }
   });
 

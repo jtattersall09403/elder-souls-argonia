@@ -128,7 +128,8 @@ frames.
   radius, so it was never drawn.
 - **Octahedral impostor for the card rung** (walk-5 impostor lane; bake
   `pipeline/impostor_bake.py`, runtime game-core `vegetation/impostor.ts`):
-  a 12x12 hemi-octahedral atlas of the tree's own mesh (albedo, normal,
+  a 12x12 (14x14 where the card needs it) hemi-octahedral atlas of the
+  tree's own mesh (albedo, normal,
   depth), one quad per instance, three frames blended with a depth walk. It
   replaces the card rather than sitting before it (two triangles against
   four, every direction), and starts no nearer than the tree's impostor
@@ -144,8 +145,21 @@ frames.
   (`useFloraKit`, `withholdCards`). Against the corrected
   (NIF-cutoff) source, gkb2 and gkb8 ship (IoU min 0.857 / 0.888, card
   0.48-0.87 / 0.43-0.91, both judges PASS; 3.6 + 4.2 MB, 192 px frames:
-  160 px saves 17 %, not half); gkb9 is held (its card wins 2 of 10 views,
-  0.913 vs 0.887 and 0.921 vs 0.907). `tooling/.reports/16k/walk5/perf/impostor-ship.md`.
+  160 px saves 17 %, not half). gkb9 first lost views 3 and 7 (the +-X
+  azimuths, its card's face-on views) to its card. Root cause: every grid
+  cell split on its anti-diagonal, so the grid's main diagonal (+-X) was
+  never a triangle edge and a 5-degree view there blended two frames
+  5.7 degrees off-axis with the on-axis frame at weight 0.12. The split now
+  follows the axis diagonals per quadrant (`select_frames` / `selectFrames` /
+  the GLSL, one rule), which lifts views 3 and 7 on every species (gkb9
+  0.887/0.907 -> 0.908/0.922 on the same atlas) and changes no other view;
+  pinned extra frames were not needed. gkb9 and gkb2 then bake at grid 14
+  (1.36x bytes) to clear the card with margin in every view (gkb9 0.885-0.942
+  vs card 0.53-0.925; gkb2 0.836-0.93 vs 0.49-0.873; fresh judges had failed
+  gkb2's grid-12 crown in views 3/6/7); gkb3 (placed in palettes, never
+  baked before) and gkb8 stay at grid 12 (gkb3 0.89-0.954 vs 0.479-0.898).
+  All four ship, 2 Sonnet PASS each: 18,462,948 B, loaded after the startup
+  window (+10,649,088 B on the site). `tooling/.reports/16k/walk5/perf/impostor-ship.md`.
 - **The bar is silhouette IoU ≥ 0.90 in every one of 8 views on masks
   closed by a disc of 1.5 % of the tree's pixel height, and no view losing
   more than 5 % coverage**, rendered at the hand-over distance. Not raw

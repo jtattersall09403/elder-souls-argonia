@@ -96,7 +96,20 @@ def select_frames(v: np.ndarray, n: int = GRID):
     cell = np.clip(np.floor(grid), 0, n - 2)
     f = grid - cell
     c = cell.astype(int)
-    if f[0] + f[1] < 1:
+    h = (n - 1) / 2
+    if (c[0] + 0.5 - h) * (c[1] + 0.5 - h) > 0:
+        # Quadrants toward grid corners (0,0) and (n-1,n-1): split the cell
+        # along its main diagonal, so the grid's main diagonal (the +-X
+        # azimuths) is a triangle edge the way the anti-diagonal (+-Z) is
+        # elsewhere. One split everywhere left a +-X horizon view to two
+        # frames 5.7 degrees off-axis with the on-axis frame at weight 0.12.
+        if f[0] >= f[1]:
+            frames = [(c[0], c[1]), (c[0] + 1, c[1] + 1), (c[0] + 1, c[1])]
+            w = [1 - f[0], f[1], f[0] - f[1]]
+        else:
+            frames = [(c[0], c[1]), (c[0] + 1, c[1] + 1), (c[0], c[1] + 1)]
+            w = [1 - f[1], f[0], f[1] - f[0]]
+    elif f[0] + f[1] < 1:
         frames = [(c[0], c[1]), (c[0] + 1, c[1]), (c[0], c[1] + 1)]
         w = [1 - f[0] - f[1], f[0], f[1]]
     else:

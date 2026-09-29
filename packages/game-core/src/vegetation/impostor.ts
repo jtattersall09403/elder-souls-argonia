@@ -6,7 +6,8 @@
  * octahedral-impostor method). The vertex shader picks the three baked views
  * around the current view direction and projects the quad onto each of them;
  * the fragment shader blends the three taps by alpha-weighted barycentric
- * weights, and lights the pixel through the object-space normal atlas with
+ * weights (the cell's split diagonal follows the grid's axis diagonals, see
+ * `selectFrames`), and lights the pixel through the object-space normal atlas with
  * the material's own lights (sun, ambient, CSM, fixture lights: it IS a
  * `MeshStandardMaterial`, so WorldSky's per-frame patch walk treats it like
  * every other lit plant).
@@ -89,6 +90,14 @@ export function selectFrames(v: V3, n: number): { frames: [number, number][]; we
   const g = [((px + pz) * 0.5 + 0.5) * (n - 1), ((px - pz) * 0.5 + 0.5) * (n - 1)];
   const c = g.map((k) => Math.min(Math.max(Math.floor(k), 0), n - 2));
   const f = [g[0] - c[0], g[1] - c[1]];
+  const h = (n - 1) / 2;
+  if ((c[0] + 0.5 - h) * (c[1] + 0.5 - h) > 0) {
+    // Toward grid corners (0,0) and (n-1,n-1) the cell splits along its main
+    // diagonal, so the +-X azimuths run along a triangle edge as +-Z do.
+    return f[0] >= f[1]
+      ? { frames: [[c[0], c[1]], [c[0] + 1, c[1] + 1], [c[0] + 1, c[1]]], weights: [1 - f[0], f[1], f[0] - f[1]] }
+      : { frames: [[c[0], c[1]], [c[0] + 1, c[1] + 1], [c[0], c[1] + 1]], weights: [1 - f[1], f[0], f[1] - f[0]] };
+  }
   if (f[0] + f[1] < 1) {
     return {
       frames: [[c[0], c[1]], [c[0] + 1, c[1]], [c[0], c[1] + 1]],
@@ -154,14 +163,26 @@ const VERTEX_BODY = /* glsl */ `
   vec2 esImpG = (vec2(esImpQ.x + esImpQ.y, esImpQ.x - esImpQ.y) * 0.5 + 0.5) * (esImpGrid - 1.0);
   vec2 esImpC = clamp(floor(esImpG), vec2(0.0), vec2(esImpGrid - 2.0));
   vec2 esImpFr = esImpG - esImpC;
-  if (esImpFr.x + esImpFr.y < 1.0) {
+  vec2 esImpQd = esImpC + 0.5 - 0.5 * (esImpGrid - 1.0);
+  if (esImpQd.x * esImpQd.y > 0.0) {
+    // Main-diagonal split toward grid corners (0,0) and (n-1,n-1).
+    esImpF01 = vec4(esImpC, esImpC + vec2(1.0));
+    if (esImpFr.x >= esImpFr.y) {
+      esImpF2 = esImpC + vec2(1.0, 0.0);
+      esImpW = vec3(1.0 - esImpFr.x, esImpFr.y, esImpFr.x - esImpFr.y);
+    } else {
+      esImpF2 = esImpC + vec2(0.0, 1.0);
+      esImpW = vec3(1.0 - esImpFr.y, esImpFr.x, esImpFr.y - esImpFr.x);
+    }
+  } else if (esImpFr.x + esImpFr.y < 1.0) {
     esImpF01 = vec4(esImpC, esImpC + vec2(1.0, 0.0));
+    esImpF2 = esImpC + vec2(0.0, 1.0);
     esImpW = vec3(1.0 - esImpFr.x - esImpFr.y, esImpFr.x, esImpFr.y);
   } else {
     esImpF01 = vec4(esImpC + vec2(1.0), esImpC + vec2(1.0, 0.0));
+    esImpF2 = esImpC + vec2(0.0, 1.0);
     esImpW = vec3(esImpFr.x + esImpFr.y - 1.0, 1.0 - esImpFr.y, 1.0 - esImpFr.x);
   }
-  esImpF2 = esImpC + vec2(0.0, 1.0);
   esImpAx = esImpN * vec3(1.0, 0.0, 0.0);
   esImpAy = esImpN * vec3(0.0, 1.0, 0.0);
   esImpAz = esImpN * vec3(0.0, 0.0, 1.0);
