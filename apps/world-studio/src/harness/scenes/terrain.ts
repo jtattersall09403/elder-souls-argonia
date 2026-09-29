@@ -136,10 +136,13 @@ const terrain: HarnessScene = {
     camera.lookAt(focus.x + 60, focus.y - 10, focus.z + 60);
     camera.updateMatrixWorld();
 
-    // A box standing on the ground: its CSM shadow falls on the splat.
+    // A box standing on the ground: its CSM shadow falls on the splat. It is
+    // the scene's shadow caster, not a kit piece: mid grey (a light tan read
+    // as a white untextured slab under the noon sun on the sheet).
     const boxH = 14;
     const box = new THREE.Mesh(new THREE.BoxGeometry(6, boxH, 6),
-      new MeshStandardNodeMaterial({ color: 0xb8a58a, roughness: 0.8 }));
+      new MeshStandardNodeMaterial({ color: 0x5c5c5c, roughness: 0.9 }));
+    box.name = "harness-shadow-caster";
     box.position.set(focus.x, focus.y + boxH / 2 - 1, focus.z);
     box.castShadow = true;
     box.receiveShadow = true;

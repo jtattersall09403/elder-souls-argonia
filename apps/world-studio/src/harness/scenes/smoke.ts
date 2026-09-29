@@ -40,7 +40,7 @@ export default {
   async build(ctx: HarnessContext) {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x9cc4e4);
-    scene.fog = new THREE.Fog(0x9cc4e4, 60, 220);
+    scene.fog = new THREE.Fog(0x9cc4e4, 120, 400);
     scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x5a4a30, 1));
     const sun = new THREE.DirectionalLight(0xfff2dd, 2.5);
     sun.position.set(20, 60, 10);
@@ -57,13 +57,22 @@ export default {
       house.position.set(at.x, 3, at.z);
       scene.add(house);
     }
+    // A dark treeline behind the chimneys. The vanilla puff atlas averages
+    // alpha 0.057 and a puff peaks at 0.5, so a column over the pale sky moves
+    // luma by at most ~9 on BOTH renderers (lane L15 A/B, classic dev material
+    // vs node port: 454 vs 527 px changed, max 8.3 vs 9.7): the sheet would show
+    // no plume. The studio's plumes are read against hills and canopy.
+    const treeline = new THREE.Mesh(new THREE.PlaneGeometry(400, 50),
+      new MeshStandardNodeMaterial({ color: 0x1c2616, roughness: 1 }));
+    treeline.position.set(0, 25, -140);
+    scene.add(treeline);
     const night = { value: 0 };
     const smoke = new SmokeColumns(await smokeTexture(), night);
     smoke.setAnchors(houses.map((position, i) => ({ id: `harness.smoke.${i}`, position })));
     scene.add(smoke.mesh);
     const camera = new THREE.PerspectiveCamera(55, ctx.width / ctx.height, 0.5, 500);
-    camera.position.set(0, 8, 10);
-    camera.lookAt(0, 8, -40);
+    camera.position.set(0, 5, 4);
+    camera.lookAt(0, 11, -40);
     // The smoke sits on PRECIP_LAYER (drawn after water in the studio); the
     // harness camera sees every layer.
     camera.layers.enableAll();
