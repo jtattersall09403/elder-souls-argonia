@@ -14,6 +14,12 @@ else a flame-card bed, else a lit fixture's fallback) drawn by the render's
 fire pass (render_scene.py `add_fire_light_pass`), with the flame cards the
 loader hides left undrawn.
 
+The floor the eyes stand on is ray-cast in Blender (`floor_plan`): the
+floor straight below the arrival marker against the room's main floor, its
+largest walkable level by area; a marker off the main floor (a stair, a
+landing: the Lilmoth houses) puts every eye on the main floor, the corners
+around its surveyed point nearest the marker (`on_floor`).
+
 Three views: from the doorway looking in (the exit door, stepped toward the
 arrival marker, at eye height) and from two corners of the room: the eyes
 at the ends of the two longest free rays from the arrival point, 90+ degrees
@@ -57,7 +63,6 @@ LIGHT_INTENSITY_PER_FADE = math.pi   # interiorLoader.ts INTERIOR_LIGHT_INTENSIT
 LIGHT_DECAY = 2.0                    # interiorLoader.ts INTERIOR_LIGHT_DECAY
 AMBIENT_SCALE = math.pi              # interiorLoader.ts INTERIOR_AMBIENT_SCALE
 TIMEOUT_S = 600
-JOB_GUARD = paths.REPO_ROOT / "tooling" / "repo-standards" / "job_guard.sh"
 _C = np.array([[1.0, 0, 0, 0], [0, 0, -1.0, 0], [0, 1.0, 0, 0], [0, 0, 0, 1.0]])
 
 
@@ -289,7 +294,7 @@ CORNER_MIN_M = 2.5    # a ray shorter than this cannot hold a corner eye
 CORNER_APART_DEG = 90.0
 
 
-def corner_eyes(cast, origin, eye_h: float) -> list[tuple]:
+def corner_eyes(cast, origin, eye_h: float, alternates: bool = False) -> list[tuple]:
     """Two corner eyes seen from the arrival point (`origin`, at eye height):
     the horizontal ray from it that runs furthest to a wall, and the
     furthest one at least CORNER_APART_DEG from it; each eye stands
@@ -297,7 +302,10 @@ def corner_eyes(cast, origin, eye_h: float) -> list[tuple]:
     arrival point in plain sight (walk 5, KeebaHouseElder: plan corners of
     the bounds lay outside the shell, one behind the exit door's wall).
     A ray that hits nothing within ENCLOSED_M leaves the room (an opening)
-    and is skipped. Empty when no ray reaches CORNER_MIN_M."""
+    and is skipped. Empty when no ray reaches CORNER_MIN_M. `alternates`:
+    after the second eye, every further ray CORNER_APART_DEG from the first,
+    then every ray half that far round, longest first (the fallbacks when the second's view never clears:
+    16k walk 5, the Lilmoth houses' corner-b faced a post)."""
     rays = []
     for i in range(CORNER_DIRS):
         a = 2.0 * math.pi * i / CORNER_DIRS
@@ -319,7 +327,13 @@ def corner_eyes(cast, origin, eye_h: float) -> list[tuple]:
         gap = abs(r[1] - picked[0][1]) * 360.0 / CORNER_DIRS
         if min(gap, 360.0 - gap) >= CORNER_APART_DEG - 1e-6:
             picked.append(r)
-            break
+            if not alternates:
+                break
+    if alternates:           # then the rays at least half that far round, longest first
+        for r in rays[1:]:
+            gap = abs(r[1] - picked[0][1]) * 360.0 / CORNER_DIRS
+            if r not in picked and min(gap, 360.0 - gap) >= CORNER_APART_DEG / 2 - 1e-6:
+                picked.append(r)
     return [tuple(o + v * reach for o, v in zip(origin, d)) for reach, _, d in picked]
 
 
@@ -351,6 +365,121 @@ def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, fl
     return tuple(target), round(length, 2)
 
 
+FLOOR_GRID_M = 0.5    # the floor survey casts one column per cell of this plan grid
+HEADROOM_M = 1.8      # a walkable surface has this much clear above it, under a ceiling
+LEVEL_GAP_M = 0.3     # surface heights further apart than this are different levels
+MAX_HITS = 24         # surfaces one survey column passes through at most
+
+
+def column_floors(cast, x: float, y: float, top: float, bottom: float) -> list[float]:
+    """The walkable surfaces of one plan column (Blender frame): cast down
+    from `top`, and from just under every hit, to `bottom`; a hit is
+    walkable when the up ray from just over it runs at least HEADROOM_M and
+    hits a ceiling within ENCLOSED_M (a roof top has no ceiling; a slab's
+    underside or a surface under a shelf has no headroom), and the four
+    level rays at eye height EYE_M over it all hit within ENCLOSED_M (the
+    open ground under a stilt house is no room)."""
+    out, z = [], top
+    for _ in range(MAX_HITS):
+        hit = cast((x, y, z), (0.0, 0.0, -1.0), z - bottom)
+        if hit is None:
+            break
+        fz = z - hit
+        up = cast((x, y, fz + 0.05), (0.0, 0.0, 1.0), ENCLOSED_M)
+        if up is not None and up + 0.05 >= HEADROOM_M and all(
+                cast((x, y, fz + EYE_M), d, ENCLOSED_M) is not None
+                for d in ((1.0, 0.0, 0.0), (-1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, -1.0, 0.0))):
+            out.append(fz)
+        z = fz - 0.02
+    return out
+
+
+def floor_levels(heights, cell_m2: float) -> list[tuple[float, float]]:
+    """The room's walkable levels from the survey's surface heights: sorted
+    heights split wherever two neighbours lie more than LEVEL_GAP_M apart;
+    each level is (median height, floor area = samples x cell_m2), largest
+    area first (ties: the lower level)."""
+    hs = sorted(float(h) for h in heights)
+    if not hs:
+        return []
+    groups, cur = [], [hs[0]]
+    for h in hs[1:]:
+        if h - cur[-1] > LEVEL_GAP_M:
+            groups.append(cur)
+            cur = []
+        cur.append(h)
+    groups.append(cur)
+    levels = [(g[len(g) // 2], len(g) * cell_m2) for g in groups]
+    return sorted(levels, key=lambda lv: (-lv[1], lv[0]))
+
+
+def floor_plan(cast, lo_b, hi_b, arrival_b) -> dict:
+    """Which floor the eyes stand on (Blender frame; lo_b/hi_b the room
+    bounds, arrival_b the arrival marker). The floor straight below the
+    marker is ray-cast, never read from the marker's height; the room's
+    main floor is its largest walkable level by area (`floor_levels` over a
+    FLOOR_GRID_M survey). A marker whose floor is off the main level (a
+    stair, a landing: the Lilmoth houses, 16k walk 5) puts the eyes on the
+    main floor, over its surveyed column nearest the marker (`hub`)."""
+    top, bottom = hi_b[2] + 1.0, lo_b[2] - 1.0
+    ax, ay, az = arrival_b
+    below = cast((ax, ay, az + 0.5), (0.0, 0.0, -1.0), FLOOR_M + 0.5)
+    below_z = az + 0.5 - below if below is not None else az
+    cols = []
+    nx = max(1, int((hi_b[0] - lo_b[0]) / FLOOR_GRID_M))
+    ny = max(1, int((hi_b[1] - lo_b[1]) / FLOOR_GRID_M))
+    for i in range(nx + 1):
+        for j in range(ny + 1):
+            x, y = lo_b[0] + i * FLOOR_GRID_M, lo_b[1] + j * FLOOR_GRID_M
+            cols.extend((x, y, z) for z in column_floors(cast, x, y, top, bottom))
+    levels = floor_levels([c[2] for c in cols], FLOOR_GRID_M * FLOOR_GRID_M)
+    main = levels[0][0] if levels else below_z
+    on_main = abs(below_z - main) <= LEVEL_GAP_M
+    floor_z = below_z if on_main else main
+    if on_main or not cols:
+        hub = (ax, ay)
+    else:
+        on = [c for c in cols if abs(c[2] - main) <= LEVEL_GAP_M]
+        hub = min(on, key=lambda c: ((c[0] - ax) ** 2 + (c[1] - ay) ** 2, c[0], c[1]))[:2]
+    return {"arrivalZ": az, "belowZ": below_z, "mainZ": main, "onMain": on_main,
+            "floorZ": floor_z, "hub": tuple(hub),
+            "levels": [(round(z, 2), round(a, 1)) for z, a in levels[:4]]}
+
+
+def on_floor(shot: dict, plan: dict, arrival_floor: float) -> dict:
+    """The shot moved onto the plan's floor: its eye, its target and its
+    arrival eye rise or fall by floorZ - arrival_floor (the marker's own
+    height, which `cameras` used); off the main floor the corners' arrival
+    eye and every target over the arrival move to the hub."""
+    s = dict(shot)
+    dz = plan["floorZ"] - arrival_floor
+    dz_eye = dz
+    if not plan["onMain"]:
+        # the cap under a low ceiling was taken over the marker's floor
+        dz_eye += EYE_M - shot["eyeHeightM"]
+        s["eyeHeightM"] = EYE_M
+    m = [list(r) for r in shot["matrix"]]
+    m[2][3] += dz_eye
+    t = list(shot["targetBlender"])
+    t[2] += dz
+    if "arrivalEye" in shot:
+        e = list(shot["arrivalEye"])
+        e[2] += dz_eye
+        if not plan["onMain"]:
+            e[0], e[1] = plan["hub"]
+            t[0], t[1] = plan["hub"]
+        s["arrivalEye"] = e
+    s["matrix"], s["targetBlender"] = m, t
+    if not plan["onMain"] and "arrivalEye" not in shot:
+        s["matrix"] = _look_matrix([m[0][3], m[1][3], m[2][3]], t)
+        # the doorway's fallback: the door on its own level, looking down
+        # into the main room (a door on a landing over the room)
+        o = shot["matrix"]
+        s["alt"] = {"matrix": _look_matrix([o[0][3], o[1][3], o[2][3]], t),
+                    "eyeHeightM": shot["eyeHeightM"]}
+    return s
+
+
 def light_list(bundle: dict) -> list[dict]:
     """The cell's LIGH records as the loader adds them: a point light at the
     record's position (Blender frame), linear colour, three.js intensity
@@ -377,14 +506,16 @@ def ambient_of(bundle: dict) -> dict:
             "directional": srgb_to_linear(d) if d else None}
 
 
-def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str]]:
+def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str], list[str]]:
     """(fires in the render fire pass's shape {at, heightM, fallback, id},
-    the flame-card material names the loader leaves undrawn), per
+    the flame-card material names the loader leaves undrawn, the flame-card
+    materials of a piece with mined `flames`, which the loader draws and
+    the render draws emissive and additive), per
     fx/fire/interiorFires.ts: mined emitters; else a flame-card piece's one
     bed at its base centre; else a lit fixture's fallback (a hanging one's
     body, any other its top centre), unless a burning piece stands in its
     bounds."""
-    fires, cards, own, lit = [], set(), [], []
+    fires, cards, glow, own, lit = [], set(), set(), [], []
     for p in drawn_placements(bundle):
         row = row_of(p)
         if not row:
@@ -393,6 +524,7 @@ def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str]]:
         box = _box(row)
         flames = row.get("flames") or []
         if flames:
+            glow.update(row.get("flameCardMaterials") or [])
             beds = set()
             for f in flames:
                 src = f.get("source")
@@ -429,7 +561,7 @@ def fire_list(bundle: dict, row_of) -> tuple[list[dict], list[str]]:
             local = (c[0], hi[1], c[2])
         fires.append({"id": p["id"], "at": to_blender(_world(m, local)), "fallback": True,
                       "heightM": 0.12})
-    return fires, sorted(cards)
+    return fires, sorted(cards), sorted(glow - cards)
 
 
 def pieces(bundle: dict, cat) -> tuple[list[dict], list[str]]:
@@ -446,16 +578,6 @@ def pieces(bundle: dict, cat) -> tuple[list[dict], list[str]]:
     return out, missing
 
 
-def guarded(cmd: list[str]) -> list[str]:
-    """Blender under job_guard: it takes a slot and is exempt from the CPU
-    watchdog, which otherwise SIGSTOPs Cycles as the machine's heaviest
-    process (KeebaHouseElder 2026-09-29: 546 s of a 579 s run stopped).
-    Inside a guarded job (ES_JOB_GUARD set) the command runs as is."""
-    if os.environ.get("ES_JOB_GUARD") or not JOB_GUARD.exists():
-        return cmd
-    return ["bash", str(JOB_GUARD), "render-interior", "--", *cmd]
-
-
 def row_lookup(cat):
     def row_of(p):
         try:
@@ -467,7 +589,7 @@ def row_lookup(cat):
 
 def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
                     out: Path | None = None, res: tuple[int, int] = (640, 480),
-                    samples: int = 24) -> dict:
+                    samples: int = 24, survey_only: bool = False) -> dict:
     from PIL import Image, ImageDraw
     from .kits import glb_file_signature
     from .render import BLEND_CACHE
@@ -477,7 +599,8 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
     lo, hi = room_bounds(bundle, row_of)
     cams = cameras(bundle, lo, hi)
     job_pieces, missing = pieces(bundle, cat)
-    fires, cards = fire_list(bundle, row_of)
+    fires, cards, glow = fire_list(bundle, row_of)
+    arrive = bundle["arrivalMarker"]["positionM"]
     lights = light_list(bundle)
     out = Path(out or REPORTS / f"{cell}.png")
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -485,18 +608,26 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
     try:
         shots = [{**c, "name": f"{r}-{c['name']}", "row": r, "view": c["name"],
                   "out": str(work / f"{r}-{c['name']}.png")} for r in rows for c in cams]
-        job = {"pieces": job_pieces, "fires": fires, "flameCards": cards, "lights": lights,
+        job = {"pieces": job_pieces, "fires": fires, "flameCards": cards, "glowCards": glow,
+               "lights": lights, "arrivalBlender": to_blender(arrive),
+               "arrivalFloor": float(arrive[1]),
+               "boundsBlender": [to_blender([lo[0], lo[1], hi[2]]), to_blender([hi[0], hi[1], lo[2]])],
+               "surveyOnly": survey_only,
                **ambient_of(bundle), "shots": shots, "res": list(res), "samples": samples,
                "kitCache": {"dir": str(BLEND_CACHE),
                             "signatures": {g: glb_file_signature(Path(g))
                                            for g in sorted({p["glb"] for p in job_pieces})}}}
         (work / "job.json").write_text(json.dumps(job))
         t1 = time.time()
-        proc = subprocess.run(guarded([str(paths.LINUX_BLENDER), "-b", "--factory-startup",
-                                       "--python", str(BLENDER_SCRIPT)]), env=dict(os.environ, JOB=str(work / "job.json")),
+        proc = subprocess.run(paths.guarded([str(paths.LINUX_BLENDER), "-b", "--factory-startup",
+                                             "--python", str(BLENDER_SCRIPT)], "render-interior"),
+                              env=dict(os.environ, JOB=str(work / "job.json")),
                               capture_output=True, text=True, timeout=TIMEOUT_S)
         if proc.returncode != 0 or "[wb-irender] done" not in proc.stdout:
             raise RuntimeError("render-interior failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])
+        floors = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if l.startswith("[wb-irender] floor ")]
+        if survey_only:
+            return {"cell": cell, "floor": floors, "totalS": round(time.time() - t0, 2)}
         warnings = [l for l in proc.stdout.splitlines() if "[wb-render] missing" in l
                     or "[wb-render] warning" in l or "[wb-irender] warning" in l]
         stepped = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if "stepped" in l]
@@ -521,7 +652,7 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
             "views": [c["name"] for c in cams], "pieces": len(job_pieces),
             "missingMesh": missing, "lights": len(lights), "fires": len(fires),
             "fallbackFires": sum(1 for f in fires if f["fallback"]),
-            "hiddenFlameCards": cards, "warnings": warnings, "camerasStepped": stepped,
+            "hiddenFlameCards": cards, "emissiveFlameCards": glow, "floor": floors, "warnings": warnings, "camerasStepped": stepped,
             "prepS": round(t1 - t0, 2), "phaseS": phases,
             "queueS": round(t_start - t1, 2), "blenderS": round(t_end - t_start, 2),
             "totalS": round(time.time() - t0, 2)}

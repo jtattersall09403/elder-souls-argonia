@@ -61,8 +61,8 @@ def run(cat, scene, script: Path, out: Path, args: list | None = None,
         (work / "job.json").write_text(json.dumps(job))
         Path(out).parent.mkdir(parents=True, exist_ok=True)
         t1 = time.time()
-        proc = subprocess.run([str(paths.LINUX_BLENDER), "-b", "--factory-startup", "--python",
-                               str(BPY_SCRIPT)], env=dict(os.environ, JOB=str(work / "job.json")),
+        proc = subprocess.run(paths.guarded([str(paths.LINUX_BLENDER), "-b", "--factory-startup",
+                                            "--python", str(BPY_SCRIPT)], "bpy"), env=dict(os.environ, JOB=str(work / "job.json")),
                               capture_output=True, text=True, timeout=TIMEOUT_S)
         if proc.returncode != 0 or "[wb-bpy] done" not in proc.stdout:
             raise RuntimeError("wb.py bpy failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])

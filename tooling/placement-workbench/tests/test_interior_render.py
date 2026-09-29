@@ -103,13 +103,28 @@ def test_light_list_is_the_records_at_the_runtimes_intensity():
 
 
 def test_fires_are_mined_wicks_and_a_lit_fixtures_fallback():
-    fires, cards = ir.fire_list(BUNDLE, row_of)
+    fires, cards, glow = ir.fire_list(BUNDLE, row_of)
     by = {f["id"]: f for f in fires}
     assert not by["candle"]["fallback"]
     assert np.allclose(by["candle"]["at"], [2.0, 1.0, 1.3])        # wick 0.3 m up
     assert by["lamp"]["fallback"]
     assert np.allclose(by["lamp"]["at"], [-3.0, 2.0, 0.6])         # top centre
-    assert cards == []
+    assert cards == [] and glow == []
+
+
+def test_flame_cards_of_a_piece_with_flames_draw_emissive_and_a_bed_s_are_hidden():
+    """A piece with mined `flames` keeps its flame cards (the loader draws
+    them): the render draws them emissive. A flame-card bed without flames
+    (a hearth's fxfire) has its cards hidden and a proxy at its bed."""
+    rows = {"k:torch": {**CANDLE, "flameCardMaterials": ["TorchFlame:0.Mat"]},
+            "k:hearth": {"sizeM": [1.0, 1.0, 0.8], "originOffsetM": [0.5, 0.5, 0.0],
+                         "flameCardMaterials": ["Flames02:0.Mat"]}}
+    bundle = {"placements": [_p("t", "k:torch", [0.0, 0.0, 0.0]),
+                             _p("h", "k:hearth", [3.0, 0.0, 0.0])]}
+    fires, cards, glow = ir.fire_list(bundle, lambda p: rows.get(p["assetId"]))
+    assert glow == ["TorchFlame:0.Mat"] and cards == ["Flames02:0.Mat"]
+    assert {f["id"] for f in fires} == {"t", "h"}
+    assert next(f for f in fires if f["id"] == "h")["heightM"] >= 0.4      # a visible bed proxy
 
 
 def test_stand_ins_and_swing_doors_draw_as_the_loader_draws_them():
@@ -129,7 +144,7 @@ def test_stand_ins_and_swing_doors_draw_as_the_loader_draws_them():
             return (Path(f"/kits/{asset}.glb"), asset)
     pieces, missing = ir.pieces(bundle, Cat())
     assert {p["uid"] for p in pieces} == set(drawn) and not missing
-    fires, _ = ir.fire_list(bundle, row_of)
+    fires, _, _ = ir.fire_list(bundle, row_of)
     assert "sub" in {f["id"] for f in fires}                            # a stand-in candle burns
 
 
@@ -231,3 +246,131 @@ def test_eyes_stay_over_the_arrivals_floor_level():
     assert ir.on_level(cast, (4.0, 3.0, 1.6), 1.6) and not ir.on_level(cast, (12.0, 3.0, 1.6), 1.6)
     eye, _ = ir.settle_eye(cast, (20.0, 3.0, 1.6), (2.0, 3.0, 1.0), 1.6)
     assert eye[0] <= 8.0
+
+
+def _solids_cast(boxes):
+    """A ray cast against solid axis boxes (x0, y0, z0, x1, y1, z1), Blender
+    frame: the nearest entry face, or the exit face from inside a box (as
+    Blender's ray_cast hits back faces)."""
+    def cast(o, d, max_m):
+        best = None
+        for b in boxes:
+            tmin, tmax = -1e9, 1e9
+            for ax in range(3):
+                a, c = b[ax], b[ax + 3]
+                if abs(d[ax]) < 1e-12:
+                    if not a <= o[ax] <= c:
+                        tmin = tmax + 1
+                    continue
+                t1, t2 = sorted(((a - o[ax]) / d[ax], (c - o[ax]) / d[ax]))
+                tmin, tmax = max(tmin, t1), min(tmax, t2)
+            if tmin > tmax:
+                continue
+            hit = tmin if tmin > 1e-9 else tmax
+            if 1e-9 < hit <= max_m:
+                best = hit if best is None else min(best, hit)
+        return best
+    return cast
+
+
+# a 10 x 10 m room, floor top z 0, ceiling underside z 4, and a 2 m deep
+# landing along its west wall standing 1.4 m over the floor (the Lilmoth
+# houses: the arrival marker on a stair landing, the room below it)
+ROOM = [(-0.2, -0.2, -0.2, 10.2, 10.2, 0.0), (-0.2, -0.2, 4.0, 10.2, 10.2, 4.2),
+        (-0.2, -0.2, 0.0, 0.0, 10.2, 4.0), (10.0, -0.2, 0.0, 10.2, 10.2, 4.0),
+        (0.0, -0.2, 0.0, 10.0, 0.0, 4.0), (0.0, 10.0, 0.0, 10.0, 10.2, 4.0),
+        (0.0, 0.0, 0.0, 2.0, 10.0, 1.4)]
+
+
+def test_floor_levels_are_largest_area_first():
+    levels = ir.floor_levels([0.0] * 10 + [1.4] * 30 + [0.05] * 5, 0.25)
+    assert levels[0] == (1.4, 7.5) and levels[1][0] in (0.0, 0.05) and levels[1][1] == 3.75
+
+
+def test_an_arrival_off_the_main_floor_puts_the_eyes_on_the_largest_level():
+    """16k walk 5 (the Lilmoth houses): the eye height came from the arrival
+    marker's own y, on a stair landing, so every view looked up the stair
+    or into a wall. The floor below the marker is ray-cast; the main floor
+    is the largest walkable level by area; off it, the eyes move there."""
+    cast = _solids_cast(ROOM)
+    plan = ir.floor_plan(cast, (-0.2, -0.2, -0.2), (10.2, 10.2, 4.2), (1.0, 5.0, 1.45))
+    assert abs(plan["belowZ"] - 1.4) < 1e-6 and abs(plan["mainZ"]) < 1e-6
+    assert not plan["onMain"] and abs(plan["floorZ"]) < 1e-6
+    assert plan["levels"][0][1] > plan["levels"][1][1]
+    assert plan["hub"][0] > 2.0 and abs(plan["hub"][1] - 5.0) <= 0.5      # nearest main-floor column
+    on = ir.floor_plan(cast, (-0.2, -0.2, -0.2), (10.2, 10.2, 4.2), (5.0, 5.0, 0.02))
+    assert on["onMain"] and on["hub"] == (5.0, 5.0) and abs(on["floorZ"]) < 1e-6
+    corner = {"matrix": ir._look_matrix([8.0, 8.0, 2.45], [1.0, 5.0, 2.45]),
+              "targetBlender": [1.0, 5.0, 2.45], "arrivalEye": [1.0, 5.0, 2.45], "eyeHeightM": 1.6}
+    moved = ir.on_floor({**corner, "eyeHeightM": 1.0}, plan, 1.45)     # capped over the landing
+    assert moved["eyeHeightM"] == ir.EYE_M
+    assert np.allclose(moved["arrivalEye"], [*plan["hub"], 1.6])
+    assert np.allclose(moved["targetBlender"], [*plan["hub"], 1.0])
+    assert abs(moved["matrix"][2][3] - 1.6) < 1e-6
+    door = {"matrix": ir._look_matrix([0.5, 5.0, 3.05], [5.0, 5.0, 2.45]),
+            "targetBlender": [5.0, 5.0, 2.45], "eyeHeightM": 1.6}
+    moved = ir.on_floor(door, plan, 1.45)
+    assert abs(moved["matrix"][2][3] - 1.6) < 1e-6 and abs(moved["targetBlender"][2] - 1.0) < 1e-6
+
+
+def test_the_open_ground_under_a_stilt_house_is_no_level():
+    """A floor under a roof but open at eye height on every side is no room."""
+    cast = _solids_cast([(0.0, 0.0, -0.2, 10.0, 10.0, 0.0), (0.0, 0.0, 3.0, 10.0, 10.0, 3.2)])
+    assert ir.column_floors(cast, 5.0, 5.0, 4.0, -1.0) == []
+
+
+def test_every_blender_launch_runs_under_job_guard(monkeypatch, tmp_path):
+    """The cpu_watchdog SIGSTOPs the heaviest unguarded process (Cycles:
+    546 s of KeebaHouseElder's 579 s), so every workbench Blender launch
+    goes through paths.guarded."""
+    import json
+    import subprocess
+    from workbench import bpy_run, paths, render
+
+    class Launched(Exception):
+        pass
+    seen = []
+
+    def runner(cmd, *a, **k):
+        seen.append(cmd)
+        raise Launched
+    monkeypatch.delenv("ES_JOB_GUARD", raising=False)
+    monkeypatch.setattr(subprocess, "run", runner)
+    monkeypatch.setattr(paths, "OUTPUT", tmp_path)
+    monkeypatch.setattr(render, "scene_job", lambda *a, **k: {})
+    monkeypatch.setattr(bpy_run, "scene_job", lambda *a, **k: {})
+    monkeypatch.setattr(bpy_run, "runtime_posed", lambda cat, scene: (scene, []))
+    monkeypatch.setattr(bpy_run, "_frame", lambda *a: (np.zeros(3), np.ones(3)))
+    cell = tmp_path / "Cell.json"
+    cell.write_text(json.dumps(BUNDLE))
+    monkeypatch.setattr(ir, "bundle_path", lambda c: cell)
+
+    class Cat:
+        def raw_glb(self, asset):
+            return None
+
+        def row(self, asset):
+            raise KeyError(asset)
+    for launch in (lambda: render._launch(Cat(), None, [], 64, 1, None, (0, 0), 1.0),
+                   lambda: bpy_run.run(Cat(), None, tmp_path / "s.py", tmp_path / "o.json"),
+                   lambda: ir.render_interior(Cat(), "Cell", out=tmp_path / "c.png")):
+        try:
+            launch()
+        except Launched:
+            pass
+    assert len(seen) == 3
+    for cmd in seen:
+        assert cmd[:2] == ["bash", str(paths.JOB_GUARD)] and cmd[3] == "--"
+        assert cmd[4] == str(paths.LINUX_BLENDER)
+    monkeypatch.setenv("ES_JOB_GUARD", "1")
+    assert paths.guarded(["blender"]) == ["blender"]
+
+
+def test_corner_alternates_extend_the_two_corners():
+    """corner-b falls back to the next ray when its view never clears
+    (Lilmoth houses, corner-b faced a post): the alternates start with the
+    same two eyes."""
+    cast = _box_cast((0.0, 0.0, 0.0), (12.0, 8.0, 4.0))
+    two = ir.corner_eyes(cast, (4.0, 3.0, 1.6), 1.6)
+    more = ir.corner_eyes(cast, (4.0, 3.0, 1.6), 1.6, alternates=True)
+    assert len(two) == 2 and more[:2] == two and len(more) > 2
