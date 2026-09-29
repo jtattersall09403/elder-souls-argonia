@@ -13,7 +13,6 @@
 
 import { cloneNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 export { cloneNodeMaterial };
-import * as THREE from "three";
 import type { NodeMaterial } from "three/webgpu";
 import { applyWindSway, type WindUniforms } from "@elder-souls/game-core/fx/windSway";
 import { applyLodFade, type LodFadeUniforms } from "@elder-souls/game-core/fx/lodFade";
