@@ -1,0 +1,1590 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.dunmer-north.riverwalk",
+ "window": {
+  "centreKm": [
+   7.215,
+   0.57
+  ],
+  "halfM": 110.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "lw00",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7192.5,
+    534.0
+   ],
+   "yaw": 190.1,
+   "settle": true,
+   "walkable": true
+  },
+  {
+   "op": "place",
+   "uid": "lw01",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7191.3,
+    541.1
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw01",
+   "child_face": "south",
+   "parent": "lw00",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw02",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7190.1,
+    548.2
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw02",
+   "child_face": "south",
+   "parent": "lw01",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw03",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7188.9,
+    555.3
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw03",
+   "child_face": "south",
+   "parent": "lw02",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw04",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7187.7,
+    562.4
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw04",
+   "child_face": "south",
+   "parent": "lw03",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw05",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7186.5,
+    569.5
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw05",
+   "child_face": "south",
+   "parent": "lw04",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw06",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7185.3,
+    576.6
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw06",
+   "child_face": "south",
+   "parent": "lw05",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw07",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7184.1,
+    583.7
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw07",
+   "child_face": "south",
+   "parent": "lw06",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw08",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7182.9,
+    590.8
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw08",
+   "child_face": "south",
+   "parent": "lw07",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw09",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7181.7,
+    597.9
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw09",
+   "child_face": "south",
+   "parent": "lw08",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw10",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7180.5,
+    605.0
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw10",
+   "child_face": "south",
+   "parent": "lw09",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "lw11",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7179.3,
+    612.1
+   ],
+   "yaw": 190.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "lw11",
+   "child_face": "south",
+   "parent": "lw10",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "le00",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7183.6,
+    613.6
+   ],
+   "yaw": 100.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "le00",
+   "child_face": "south",
+   "parent": "lw11",
+   "parent_face": "west",
+   "by": "geometry",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "le01",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7190.8,
+    614.9
+   ],
+   "yaw": 100.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "le01",
+   "child_face": "south",
+   "parent": "le00",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "le02",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7198.0,
+    616.2
+   ],
+   "yaw": 100.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "le02",
+   "child_face": "south",
+   "parent": "le01",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "le03",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7205.200000000001,
+    617.5
+   ],
+   "yaw": 100.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "le03",
+   "child_face": "south",
+   "parent": "le02",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "le04",
+   "asset": "vanilla:architecture/docks/dockstrsol01",
+   "at": [
+    7212.400000000001,
+    618.8000000000001
+   ],
+   "yaw": 100.1,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "le04",
+   "child_face": "south",
+   "parent": "le03",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "fs00",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7231.3,
+    621.0
+   ],
+   "yaw": 11.3,
+   "settle": true,
+   "walkable": true
+  },
+  {
+   "op": "place",
+   "uid": "fs01",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7232.7,
+    614.0
+   ],
+   "yaw": 11.3,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "fs01",
+   "child_face": "south",
+   "parent": "fs00",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "place",
+   "uid": "fs02",
+   "asset": "vanilla:architecture/docks/dockstrent02",
+   "at": [
+    7234.1,
+    607.0
+   ],
+   "yaw": 11.3,
+   "walkable": true
+  },
+  {
+   "op": "snap",
+   "child": "fs02",
+   "child_face": "south",
+   "parent": "fs01",
+   "parent_face": "north",
+   "by": "evidence",
+   "settle": true,
+   "pick": 3
+  },
+  {
+   "op": "move",
+   "uid": "fs00",
+   "dy": -0.16
+  },
+  {
+   "op": "move",
+   "uid": "fs01",
+   "dy": -0.16
+  },
+  {
+   "op": "move",
+   "uid": "fs02",
+   "dy": -0.16
+  },
+  {
+   "op": "place",
+   "uid": "b-house",
+   "asset": "composite:mud/kotm-house-pod",
+   "at": [
+    7203.0,
+    510.0
+   ],
+   "yaw": 15.0,
+   "pad": {
+    "apronM": 1.0,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b-stage",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantent02",
+   "at": [
+    7232.0,
+    630.0
+   ],
+   "yaw": 270.0,
+   "pad": {
+    "apronM": 0.8,
+    "batter": true
+   }
+  },
+  {
+   "op": "place",
+   "uid": "raft",
+   "asset": "ferryraft:snt/ferry/ferryraft01",
+   "at": [
+    7235.6,
+    600.6
+   ],
+   "yaw": 11.3,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "lw00",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "lw01",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "lw02",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "lw03",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "lw04",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "lw05",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 5
+  },
+  {
+   "op": "bind",
+   "uid": "lw06",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 6
+  },
+  {
+   "op": "bind",
+   "uid": "lw07",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 7
+  },
+  {
+   "op": "bind",
+   "uid": "lw08",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 8
+  },
+  {
+   "op": "bind",
+   "uid": "lw09",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 9
+  },
+  {
+   "op": "bind",
+   "uid": "lw10",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 10
+  },
+  {
+   "op": "bind",
+   "uid": "lw11",
+   "kind": "run",
+   "id": "parcel.riverwalk.the-long-walk",
+   "index": 11
+  },
+  {
+   "op": "bind",
+   "uid": "le00",
+   "kind": "run",
+   "id": "parcel.riverwalk.islet-walk",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "le01",
+   "kind": "run",
+   "id": "parcel.riverwalk.islet-walk",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "le02",
+   "kind": "run",
+   "id": "parcel.riverwalk.islet-walk",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "le03",
+   "kind": "run",
+   "id": "parcel.riverwalk.islet-walk",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "le04",
+   "kind": "run",
+   "id": "parcel.riverwalk.islet-walk",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "fs00",
+   "kind": "run",
+   "id": "parcel.riverwalk.ferry-landing",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "fs01",
+   "kind": "run",
+   "id": "parcel.riverwalk.ferry-landing",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "fs02",
+   "kind": "run",
+   "id": "parcel.riverwalk.ferry-landing",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b-house",
+   "kind": "parcel",
+   "id": "parcel.riverwalk.crews-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b-stage",
+   "kind": "parcel",
+   "id": "parcel.riverwalk.stage-shelter"
+  },
+  {
+   "op": "bind",
+   "uid": "raft",
+   "kind": "parcel",
+   "id": "parcel.riverwalk.ferry-stage"
+  },
+  {
+   "op": "place",
+   "uid": "sh-totem1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    7211.3,
+    519.6
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sh-totem1",
+   "kind": "parcel",
+   "id": "parcel.riverwalk.shrine"
+  },
+  {
+   "op": "place",
+   "uid": "sh-totem2",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+   "at": [
+    7211.25,
+    520.65
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sh-totem2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sh-chime",
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+   "at": [
+    7211.2,
+    518.55
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sh-chime",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.shrine",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-candle1",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    7199.1,
+    517.1
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-candle1",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-urn1",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    7203.4,
+    518.2
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-urn1",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-urn2",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    7204.4,
+    517.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-urn2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+   "at": [
+    7205.2,
+    516.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-basket",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-sack",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    7197.1,
+    515.9
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-sack",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-chair1",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    7195.25,
+    511.8
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-chair1",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "c-chair2",
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+   "at": [
+    7196.65,
+    514.65
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "c-chair2",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "cc-pot",
+   "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+   "at": [
+    7211.2,
+    512.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "cc-pot",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "cc-wood",
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "at": [
+    7210.25,
+    512.75
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "cc-wood",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "cc-bucket",
+   "asset": "vanilla:clutter/bucket01",
+   "at": [
+    7210.2,
+    508.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "cc-bucket",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.crews-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "s-candle",
+   "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+   "at": [
+    7229.6,
+    628.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "s-candle",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sc-pot",
+   "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+   "at": [
+    7229.25,
+    632.85
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sc-pot",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sc-bucket",
+   "asset": "vanilla:clutter/bucket01",
+   "at": [
+    7230.0,
+    634.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sc-bucket",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "ss-store",
+   "asset": "kotm:argonia/clutter/basketcontainer",
+   "at": [
+    7234.65,
+    627.6
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "ss-store",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "ss-b1",
+   "asset": "kotm:argonia/clutter/basket01",
+   "at": [
+    7235.4,
+    629.25
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "ss-b1",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "ss-closed",
+   "asset": "vanilla:clutter/basketclosed01",
+   "at": [
+    7233.65,
+    626.7
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "ss-closed",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sn-net1",
+   "asset": "shores:shoresofskyrim/fishnet01",
+   "at": [
+    7237.5,
+    630.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sn-net1",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "sn-sack",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    7237.45,
+    631.45
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "sn-sack",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "s-oar",
+   "asset": "rowboats:dungeons/clutter/shipoar01",
+   "at": [
+    7240.0,
+    628.55
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "bind",
+   "uid": "s-oar",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "place",
+   "uid": "canoe",
+   "asset": "canoe:actors/sfss/canoe/canoe1",
+   "at": [
+    7244.5,
+    634.5
+   ],
+   "yaw": 100.0,
+   "settle": true,
+   "beached": true
+  },
+  {
+   "op": "bind",
+   "uid": "canoe",
+   "kind": "assembly",
+   "id": "parcel.riverwalk.stage-shelter",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.the-boards",
+   "points": [
+    [
+     7186.1,
+     573.0
+    ],
+    [
+     7187.8,
+     565.0
+    ]
+   ],
+   "width": 2.5,
+   "kind": "track"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.crews-path",
+   "points": [
+    [
+     7193.2,
+     530.5
+    ],
+    [
+     7196.6,
+     524.0
+    ],
+    [
+     7198.9,
+     519.1
+    ],
+    [
+     7200.3,
+     516.3
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.islet-path",
+   "points": [
+    [
+     7218.0,
+     620.5
+    ],
+    [
+     7224.0,
+     622.6
+    ],
+    [
+     7229.6,
+     624.0
+    ]
+   ],
+   "width": 1.5,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.stage-path",
+   "points": [
+    [
+     7224.0,
+     622.6
+    ],
+    [
+     7229.4,
+     628.4
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.riverwalk.shrine-path",
+   "points": [
+    [
+     7198.9,
+     519.1
+    ],
+    [
+     7210.3,
+     520.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-toll-holder-work",
+   "kind": "idle",
+   "activity": "stand",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll-holder calls the toll from the long house door, at the head of the boards.",
+   "at": [
+    7200.1,
+    517.0
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-toll-holder-home",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B556",
+   "activity": "sleep",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll-holder sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.npc-toll-holder",
+   "kind": "npc",
+   "at": [
+    7197.6,
+    521.6
+   ],
+   "rosterSlotId": "toll-holder",
+   "role": "the toll-holder",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll-holder takes the toll from every boat and walker; the takings stay with the toll-holder.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.riverwalk.idle-toll-holder-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.riverwalk.idle-toll-holder-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.riverwalk.idle-toll-holder-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.riverwalk.idle-toll-holder-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.riverwalk.occupant-toll-holder"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-stage-mistress-work",
+   "kind": "idle",
+   "host": "parcel.riverwalk.stage-shelter",
+   "activity": "work-at",
+   "parcel": "parcel.riverwalk.stage-shelter",
+   "why": "The stage-mistress takes the fares under the stage shelter."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-stage-mistress-home",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B557",
+   "activity": "sleep",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The stage-mistress sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.npc-stage-mistress",
+   "kind": "npc",
+   "at": [
+    7227.9,
+    626.4
+   ],
+   "rosterSlotId": "stage-mistress",
+   "role": "the stage-mistress",
+   "parcel": "parcel.riverwalk.stage-shelter",
+   "why": "The stage-mistress runs the ferry from the shelter by the landing.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.riverwalk.idle-stage-mistress-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.riverwalk.idle-stage-mistress-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.riverwalk.idle-stage-mistress-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.riverwalk.idle-stage-mistress-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.riverwalk.occupant-stage-mistress"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n1-work",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B562",
+   "activity": "work-at",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The household keeps the bunks and the stores in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n1-home",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B55D",
+   "activity": "sleep",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The household sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.npc-n1",
+   "kind": "npc",
+   "at": [
+    7199.4,
+    518.6
+   ],
+   "rosterSlotId": "n1",
+   "role": "a boardwalk household",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "A household of the boards lets bunks to the crews and sells them stores.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.riverwalk.idle-n1-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.riverwalk.idle-n1-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.riverwalk.idle-n1-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.riverwalk.idle-n1-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.riverwalk.occupant-n1"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n2-work",
+   "kind": "idle",
+   "host": "parcel.riverwalk.ferry-stage",
+   "activity": "pole",
+   "parcel": "parcel.riverwalk.ferry-stage",
+   "why": "The crew poles the canoe and the raft along the lane."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n2-home",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B55E",
+   "activity": "sleep",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The crew takes a bunk in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.npc-n2",
+   "kind": "npc",
+   "at": [
+    7229.8,
+    623.4
+   ],
+   "rosterSlotId": "n2",
+   "role": "a boat crew",
+   "parcel": "parcel.riverwalk.ferry-stage",
+   "why": "A boat crew stopping the night, who poles the canoe for passengers.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.riverwalk.idle-n2-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.riverwalk.idle-n2-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.riverwalk.idle-n2-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.riverwalk.idle-n2-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.riverwalk.occupant-n2",
+    "promise.riverwalk.operator-canoe-dunmer-north-riverwalk-the-tide-fair"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n3-work",
+   "kind": "idle",
+   "host": "parcel.riverwalk.shrine",
+   "activity": "tend",
+   "parcel": "parcel.riverwalk.shrine",
+   "why": "The toll hand keeps the shrine by the long house."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.idle-n3-home",
+   "kind": "idle",
+   "host": "KeebaHouseCrafter.0809B556",
+   "activity": "sleep",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll hand sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.npc-n3",
+   "kind": "npc",
+   "at": [
+    7207.2,
+    521.2
+   ],
+   "rosterSlotId": "n3",
+   "role": "a toll hand",
+   "parcel": "parcel.riverwalk.shrine",
+   "why": "A toll hand who backs the toll-holder in the nightly argument.",
+   "schedule": [
+    {
+     "dayPhase": "morning",
+     "socketId": "socket.riverwalk.idle-n3-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "afternoon",
+     "socketId": "socket.riverwalk.idle-n3-work",
+     "purpose": "work"
+    },
+    {
+     "dayPhase": "dusk",
+     "socketId": "socket.riverwalk.idle-n3-home",
+     "purpose": "home"
+    },
+    {
+     "dayPhase": "night",
+     "socketId": "socket.riverwalk.idle-n3-home",
+     "purpose": "home"
+    }
+   ],
+   "fills": [
+    "promise.riverwalk.occupant-n3"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.post-toll-holder",
+   "kind": "marker",
+   "at": [
+    7195.4,
+    526.6
+   ],
+   "zone": "post",
+   "parcel": "parcel.riverwalk.the-long-walk",
+   "why": "The head of the boards, where the toll-holder stops every walker.",
+   "fills": [
+    "promise.riverwalk.post-toll-holder"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.post-stage-mistress",
+   "kind": "marker",
+   "at": [
+    7229.6,
+    623.2
+   ],
+   "zone": "post",
+   "parcel": "parcel.riverwalk.ferry-stage",
+   "why": "The head of the ferry landing, where the stage-mistress takes the fares.",
+   "fills": [
+    "promise.riverwalk.post-stage-mistress"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.scene-the-long-walk",
+   "kind": "marker",
+   "at": [
+    7186.1,
+    573.0
+   ],
+   "zone": "scene",
+   "parcel": "parcel.riverwalk.the-long-walk",
+   "why": "Halfway along the boards, where the tracks from the west come onto them.",
+   "fills": [
+    "promise.riverwalk.scene-the-long-walk"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.evidence-the-plank-ages",
+   "kind": "marker",
+   "at": [
+    7181.9,
+    590.0
+   ],
+   "zone": "evidence",
+   "parcel": "parcel.riverwalk.the-long-walk",
+   "why": "A stretch of boards laid at different times, the new planks paler than the old.",
+   "fills": [
+    "promise.riverwalk.evidence-the-plank-ages"
+   ]
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.marker-house-door",
+   "kind": "marker",
+   "at": [
+    7200.1,
+    517.0
+   ],
+   "zone": "entrance",
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The long house door, the most-used door in the village."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.container-crews-stores",
+   "kind": "container",
+   "host": "c-basket",
+   "containerClass": "basket",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "food",
+     "tool"
+    ],
+    "valueBand": "low",
+    "storyNote": "Rope and dried food sold to the crews."
+   },
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The stores that the household sells to the crews, kept by the door."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.container-toll-takings",
+   "kind": "container",
+   "host": "c-urn1",
+   "containerClass": "urn",
+   "fillRule": "authored",
+   "lootTable": {
+    "itemClasses": [
+     "coin"
+    ],
+    "valueBand": "moderate",
+    "storyNote": "The day's toll, not yet paid on to either city."
+   },
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll-holder keeps the takings in a painted urn by the long house door."
+  },
+  {
+   "op": "socket",
+   "id": "socket.riverwalk.item-toll-tally",
+   "kind": "item",
+   "host": "KeebaHouseCrafter.0809B55B",
+   "itemClass": "book",
+   "valueBand": "low",
+   "contentPending": true,
+   "parcel": "parcel.riverwalk.crews-house",
+   "why": "The toll-holder's tally of who paid which city.",
+   "interiorCell": "KeebaHouseCrafter"
+  }
+ ]
+}

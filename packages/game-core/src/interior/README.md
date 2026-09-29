@@ -12,19 +12,21 @@ mounts it (`apps/world-studio/src/character/InteriorDoors.tsx`).
 | `doors.ts` | Which doors open (`doorAccess`: `interiorClaim.tier === "A"` with a `cellId`, not `reserved`), reach 1.5 m, prefetch 40 m, the interior-space lift, the prompt text ids. |
 | `interiorLoader.ts` | `InteriorLoader`: fetch, validate, fetch only the parts the cell draws (each kit's `parts/index.json` once, then one part GLB per (kit, assetId), in parallel, cached per pair; injected `loadPart`, the studio passes `createKitLoader` then `buildArchitectureKit` through the scene's `KitCache`), instantiate, cache per cellId. A drawn asset with no published part fails the cell with a line naming kit and asset, which the overlay shows as its red line. Light intensity = `(fade ?? 1) × INTERIOR_LIGHT_INTENSITY_PER_FADE`, the one number the owner tunes on a walk (0102 decision 3b). |
 | `kitParts.ts` | The parts contract: `kits/<kit>/parts/index.json` (schemaVersion 1, the source GLB's sha256, one row per asset: file, bytes, vertices, triangles, texture hashes), `kitPartsDir` (from the bundle's `glb` path), the validator. Written by `tooling/asset-pipeline/pipeline/kit_parts.mjs`. |
-| `doorTransition.ts` | `DoorTransition`: prompt and arbiter `candidate`, 0.4 s fade out, swap, hold at black until the cell's colliders exist, 0.4 s fade in. Entering by door D arrives at the bundle's `doors[]` marker for D (else the claim's `arrivalMarker`, else the bundle's); leaving returns to the door entered by (the transition keeps that door record, id and place), + 1 m outward; only a `doors[]` pairing naming another door of the SAME place redirects it (owner ruling B). Door claims are never read for the return: places share cells (Claywater Station and Greenspring both claim KeebaHouseFisher), and the old claim lookup put the player at the other place (walk 4 b). While the screen is black waiting for a cell, `loadingTextId` names the one line the overlay shows: `text.door.loading-named` ("Loading {name}…", `loadingName` = the entered door's `displayName` from the compiled place record) or `text.door.loading` when the door has none; the game reuses the same overlay. Swing doors are left out (`setDoors` keeps `loadDoorsOf`). |
+| `doorTransition.ts` | `DoorTransition`: prompt and arbiter `candidate`, 0.4 s fade out, swap, hold at black until the cell's colliders exist, 0.4 s fade in. Entering by door D arrives at D's `interiorClaim.arrivalMarker`, else the bundle's; leaving returns to the door entered by (the transition keeps that door record, id and place), + 1 m outward; only another door of the SAME place claiming the load door left by redirects it (owner ruling B). Another place's claim is never read: places share cells (Claywater Station and Greenspring both claim KeebaHouseFisher), and following it put the player at the other place (walk 4 b). While the screen is black waiting for a cell, `loadingTextId` names the one line the overlay shows: `text.door.loading-named` ("Loading {name}…", `loadingName` = the entered door's `displayName` from the compiled place record) or `text.door.loading` when the door has none; the game reuses the same overlay. Swing doors are left out (`setDoors` keeps `loadDoorsOf`). |
 | `interiorEnvironment.ts` | While inside: no IBL, exposure 1, the cell's fog, its fog colour as the renderer's clear colour with `scene.background` null, every light outside the cell hidden; restored on leave. Never a Color `scene.background`: three clears on every `render()` call when it is one, and the water pipeline's three on-screen passes after its blit then wiped the cell to flat fog-grey (walk 4 a). |
 
 ## Contract the exporter writes
 
 The shared fixture `__fixtures__/interior.fixture.json` IS the contract:
 the exporter's Python test and `interior.test.ts` both read it.
-`schemaVersion 2`, `cellId`, `plugin`, `frame`, `shellAssetId` (string or
-null), `refCount` (= placements + drops + substitutions + swing doors), `kits {id: {id, glb, manifest}}`,
+`schemaVersion 3` (2 still parses, its per-place door fields dropped), `cellId`, `plugin`, `frame`, `shellAssetId` (null from 3: the
+shell is the claiming parcel's `assetRef`), `refCount` (= placements + drops + substitutions + swing doors), `kits {id: {id, glb, manifest}}`,
 `arrivalMarker {positionM, yawDeg}`, `exitDoor {id, refId, positionM, yawDeg}`,
-`doors[]` (may be empty): `{doorType: "load", exteriorDoorId, interiorLoadDoorRef,
-arrivalMarker, loadDoor}`, `{doorType: "load", interiorLoadDoorRef, loadDoor,
-closed: true}`, then one `{doorType: "swing", id, refId, assetId, kit,
+`doors[]` (may be empty): one `{doorType: "load", interiorLoadDoorRef, loadDoor}`
+per load door of the cell (the file is shared by every place claiming the cell,
+so it carries nothing of any one place, decision 0104: the pairing and its
+arrival marker are the place door's `interiorClaim`; open or closed is read
+from the place entered from, `openLoadDoorRefs`), then one `{doorType: "swing", id, refId, assetId, kit,
 positionM, rotationDeg, scale, hinge {pivotM, axis, openAngleDeg, openS,
 source, leafBoundsM?}, initiallyOpen}` per DOOR reference with no XTEL
 teleport (not a placement; the hinge is the door NIF's animated node and its

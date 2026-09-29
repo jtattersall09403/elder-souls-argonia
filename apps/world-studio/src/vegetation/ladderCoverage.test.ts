@@ -11,14 +11,7 @@
  * out" — so the test walks every distance, not just the edges.
  */
 import { describe, expect, it } from "vitest";
-import {
-  BAYER4_THRESHOLDS,
-  LOD_CULL_BAND_M,
-  lodFadeFactors,
-  lodLadder,
-  lodPixelKept,
-} from "@elder-souls/game-core/fx/lodFade";
-import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
+import { lodLadder } from "@elder-souls/game-core/fx/lodFade";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 import {
   maxDrawDistance,
@@ -29,12 +22,11 @@ import {
   treeDrawDistance,
   HANDOVER_PX,
   SMALL_PLANT_TOP_TIER_M,
+  ladderCoverageFailures,
 } from "./floraKit";
 
 const CHUNK_M = 467.93;
 const HEIGHTS = [0.3, 0.8, 1.5, 3, 6, 12, 20, 30, 45];
-/** The lowest, a middle and the highest Bayer threshold. */
-const BAYERS = [BAYER4_THRESHOLDS[0], BAYER4_THRESHOLDS[7], BAYER4_THRESHOLDS[15]];
 
 describe("vegetation ladder band coverage", () => {
   it("covers every distance exactly once for every species shape and preset", () => {
@@ -57,26 +49,20 @@ describe("vegetation ladder band coverage", () => {
                   { heightM, meshLevels, category, submerged, folded },
                   preset.vegDrawScale, preset.name);
                 const ladder = lodLadder(rings, meshLevels, card, maxDraw);
-                // Contiguous from 0 to the draw distance.
-                expect(ladder[0].lo).toBe(0);
-                for (let i = 1; i < ladder.length; i++) expect(ladder[i].lo).toBe(ladder[i - 1].hi);
-                expect(ladder[ladder.length - 1].hi).toBeCloseTo(maxDraw, 6);
-                const vanishes = submerged || category !== "tree";
-                const rungs = cellRungs(ladder, vanishes);
-                const solidTo = vanishes ? maxDraw - LOD_CULL_BAND_M : maxDraw * 1.2;
-                // Every metre, and around every rung edge.
-                const ds: number[] = [];
-                for (let d = 0; d <= maxDraw + LOD_CULL_BAND_M + 1; d += 1) ds.push(d);
-                for (const r of ladder) for (const e of [-0.5, -1e-3, 0, 1e-3, 0.5]) ds.push(Math.max(0, r.hi + e));
-                for (const d of ds) {
-                  for (const bayer of BAYERS) {
-                    let kept = 0;
-                    for (const r of rungs) if (lodPixelKept(lodFadeFactors(r.band, d), bayer)) kept++;
-                    if (d < solidTo ? kept !== 1 : kept > 1) {
-                      failures.push(`${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels} card${hasCard} d${d} kept ${kept}`);
-                    }
+                // Every shipped mesh level is reached (round 13d: low skipped
+                // a two-level tree's far rung) wherever the draw distance
+                // reaches the last level's start.
+                const shown = ladder.filter((r) => r.hi > r.lo).map((r) => r.level);
+                const meshShown = shown.filter((l) => l < meshLevels);
+                if (meshLevels === 1 || rings[meshLevels - 2] < maxDraw) {
+                  const want = Array.from({ length: meshLevels }, (_, i) => i);
+                  if (JSON.stringify(meshShown) !== JSON.stringify(want)) {
+                    failures.push(`${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels}: rungs ${shown}`);
                   }
                 }
+                const vanishes = submerged || category !== "tree";
+                failures.push(...ladderCoverageFailures(ladder, vanishes, maxDraw,
+                  `${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels} card${hasCard}`));
                 checked++;
               }
             }
@@ -133,6 +119,46 @@ describe("screen-space hand-over", () => {
             preset.vegDrawScale, preset.name);
           expect(rings[0]).toBeGreaterThanOrEqual(SMALL_PLANT_TOP_TIER_M[preset.name]);
         }
+      }
+    }
+  });
+});
+
+describe("impostor rung (walk-5 impostor lane)", () => {
+  // Mangrove shapes: 8.6-13.1 m trees, impostor texel heights 140-180 px.
+  it("covers every distance exactly once with the impostor on the card rung", () => {
+    const failures: string[] = [];
+    for (const preset of Object.values(QUALITY_PRESETS)) {
+      for (const heightM of [8.6, 9.3, 13.1]) {
+        for (const impostorPx of [120, 172, 260]) {
+          for (const meshLevels of [1, 2, 3]) {
+            const maxDraw = treeDrawDistance(preset.vegChunkRing, CHUNK_M);
+            const rings = speciesRings(
+              { heightM, meshLevels, category: "tree", submerged: false,
+                folded: meshLevels === 1, impostorPx },
+              preset.vegDrawScale, preset.name);
+            const ladder = lodLadder(rings, meshLevels, meshLevels, maxDraw);
+            failures.push(...ladderCoverageFailures(ladder, false, maxDraw,
+              `${preset.name} h${heightM} px${impostorPx} L${meshLevels}`));
+          }
+        }
+      }
+    }
+    expect(failures.slice(0, 10)).toEqual([]);
+  }, 30_000);
+
+  it("starts no nearer than the impostor's texel height and never nearer than the card", () => {
+    for (const preset of Object.values(QUALITY_PRESETS)) {
+      for (const meshLevels of [1, 3]) {
+        const shape = { heightM: 9.3, meshLevels, category: "tree", submerged: false,
+          folded: meshLevels === 1 };
+        const card = speciesRings(shape, preset.vegDrawScale, preset.name);
+        const imp = speciesRings({ ...shape, impostorPx: 172 }, preset.vegDrawScale, preset.name);
+        const last = meshLevels === 1 ? 0 : 2;
+        expect(imp[last]).toBeGreaterThanOrEqual(card[last]);
+        expect(projectedHeightPx(9.3, imp[last])).toBeLessThanOrEqual(172 + 1e-6);
+        // Only the card rung moves: the mesh tiers keep their hand-overs.
+        if (meshLevels === 3) expect(imp.slice(0, 2)).toEqual(card.slice(0, 2));
       }
     }
   });

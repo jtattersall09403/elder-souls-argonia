@@ -1,5 +1,5 @@
 /**
- * Subsystem harness page (dev only; decision 0109). Owner ruling: no
+ * Subsystem harness page (dev only; decision 0111). Owner ruling: no
  * full-studio headless probes; one small page per subsystem instead.
  *
  *   harness.html?sys=<name>&renderer=webgl|webgpu&w=512&h=288

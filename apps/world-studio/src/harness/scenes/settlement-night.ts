@@ -1,5 +1,5 @@
 /**
- * Settlement at night (decision 0109 harness): the day scene's pieces at
+ * Settlement at night (decision 0111 harness): the day scene's pieces at
  * full night with 100 lantern fixture lights in the scene's
  * FixtureLightField (render/fixtureLights), lit through the renderer's
  * fixture lighting: warm pools on the ground and the hut walls.

@@ -32,6 +32,10 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat": 0.078,
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat": 0.627
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.381,
@@ -220,6 +224,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3471,
+     "share": 0.608,
+     "settings": {
+      "leafKeep": 0.7,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 2586,
+     "share": 0.453,
+     "settings": {
+      "leafKeep": 0.6,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.6389,
@@ -245,36 +286,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.303,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3471,
-     "share": 0.608,
-     "settings": {
-      "leafKeep": 0.7,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 2586,
-     "share": 0.453,
-     "settings": {
-      "leafKeep": 0.6,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.303
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
@@ -392,6 +404,10 @@
     "cedartree3_1.Mat",
     "cedartree3_2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "cedartree3_1.Mat": 0.314,
+    "cedartree3_2.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -1729,6 +1745,9 @@
    "materials": [
     "BSTriShape.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BSTriShape.Mat": 0.314
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -1894,6 +1913,12 @@
     "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.Mat",
     "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDriftWo"
    ],
+   "alphaMaskMaterials": {
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.001": 0.275,
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.002": 0.275,
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.Mat": 0.275,
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDriftWo": 0.176
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.743,
@@ -2533,6 +2558,9 @@
    "materials": [
     "BSX.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "BSX.Mat.001": 0.478
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -2617,6 +2645,10 @@
     "lillipad.Mat",
     "lillipad_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "lillipad.Mat": 0.314,
+    "lillipad_1.Mat": 0.314
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -2705,6 +2737,11 @@
     "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffT.Mat",
     "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffTree0"
    ],
+   "alphaMaskMaterials": {
+    "L1_ReachCliffTree01:1 - L2_ReachCliffTree01:1.Mat": 0.176,
+    "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffT.Mat": 0.275,
+    "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffTree0": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.028,
@@ -3445,6 +3482,12 @@
     "palmtree2_4.Mat",
     "palmtree2_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree2.Mat": 0.275,
+    "palmtree2_1.Mat": 0.275,
+    "palmtree2_2.Mat": 0.275,
+    "palmtree2_5.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -3642,6 +3685,9 @@
    "materials": [
     "CoastKelpTall01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "CoastKelpTall01:0.Mat": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -3730,6 +3776,16 @@
     "cypress3_6.Mat",
     "cypress3_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "cypress3.Mat": 0.314,
+    "cypress3_1.Mat": 0.784,
+    "cypress3_2.Mat": 0.314,
+    "cypress3_3.Mat": 0.314,
+    "cypress3_4.Mat": 0.314,
+    "cypress3_5.Mat": 0.784,
+    "cypress3_6.Mat": 0.784,
+    "cypress3_7.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.799,
@@ -5066,6 +5122,9 @@
    "materials": [
     "StaticKelpTall01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "StaticKelpTall01:0.Mat": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -5151,6 +5210,13 @@
     "cypress1_3.Mat",
     "cypress1_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "cypress1.Mat": 0.314,
+    "cypress1_1.Mat": 0.784,
+    "cypress1_2.Mat": 0.314,
+    "cypress1_3.Mat": 0.314,
+    "cypress1_4.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.794,
@@ -6487,6 +6553,9 @@
    "materials": [
     "L1_FloraHangingMoss02:0 - L2_FloraHangingMoss02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_FloraHangingMoss02:0 - L2_FloraHangingMoss02:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -6563,6 +6632,9 @@
    "materials": [
     "Ivy01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat": 0.392
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -6644,6 +6716,9 @@
    "materials": [
     "Ivy01:0.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.001": 0.588
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -6728,6 +6803,14 @@
     "plant_pmat1.001.Mat",
     "plant_pmat1.02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Tri plant_pmat2 0.Mat": 0.784,
+    "Tri plant_pmat2 02.Mat": 0.784,
+    "Tri plant_pmat2 03.Mat": 0.784,
+    "Tri plant_pmat2 1.Mat": 0.784,
+    "plant_pmat1.001.Mat": 0.784,
+    "plant_pmat1.02.Mat": 0.784
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_512_0",
@@ -6806,6 +6889,9 @@
     "ReachTree02:3.Mat",
     "ReachTree02:3_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ReachTree02:3_1.Mat": 0.235
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.988,
@@ -8086,6 +8172,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3772,
+     "share": 0.324,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 2398,
+     "share": 0.206,
+     "settings": {
+      "leafKeep": 0.2,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.0,
@@ -8111,36 +8234,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.179,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.066,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3772,
-     "share": 0.324,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 2398,
-     "share": 0.206,
-     "settings": {
-      "leafKeep": 0.2,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 4.066
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
@@ -8171,6 +8265,9 @@
    "materials": [
     "hangingvines.Mat"
    ],
+   "alphaMaskMaterials": {
+    "hangingvines.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -8247,6 +8344,9 @@
    "materials": [
     "TropicalPlant01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "TropicalPlant01:5.Mat": 0.502
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.15,
@@ -8333,6 +8433,9 @@
    "materials": [
     "Ivy01:0.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.002": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -8409,6 +8512,9 @@
    "materials": [
     "CoastKelpShort01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "CoastKelpShort01:0.Mat": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -8488,6 +8594,9 @@
     "ReachTree02:3.Mat.001",
     "ReachTree02:3_1.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "ReachTree02:3_1.Mat.001": 0.235
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.788,
@@ -9768,6 +9877,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3756,
+     "share": 0.324,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 3406,
+     "share": 0.294,
+     "settings": {
+      "leafKeep": 0.3,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.0304,
@@ -9793,36 +9939,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.925,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3756,
-     "share": 0.324,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 3406,
-     "share": 0.294,
-     "settings": {
-      "leafKeep": 0.3,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 2.925
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
@@ -9853,6 +9970,9 @@
    "materials": [
     "L2_ReachBush02:2 - L1_ReachBush02:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_ReachBush02:2 - L1_ReachBush02:2.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -9929,6 +10049,9 @@
    "materials": [
     "Ivy01:0.Mat.003"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.003": 0.392
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -10007,6 +10130,9 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat.002",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.001": 0.235
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.739,
@@ -11287,6 +11413,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 2016,
+     "share": 0.354,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 1546,
+     "share": 0.272,
+     "settings": {
+      "leafKeep": 0.3,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.0,
@@ -11312,36 +11475,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 2016,
-     "share": 0.354,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 1546,
-     "share": 0.272,
-     "settings": {
-      "leafKeep": 0.3,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "bmv:landscape/plants/chickweed",
@@ -11374,6 +11508,10 @@
     "Ivy01:0.Mat.004",
     "Ivy01:0_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.004": 0.275,
+    "Ivy01:0_1.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -11460,6 +11598,12 @@
     "palmtree3_4.Mat",
     "palmtree3_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree3.Mat": 0.275,
+    "palmtree3_1.Mat": 0.275,
+    "palmtree3_2.Mat": 0.275,
+    "palmtree3_5.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -11886,6 +12030,14 @@
     "palmtree1_6.Mat",
     "palmtree1_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree1.Mat": 0.275,
+    "palmtree1_1.Mat": 0.275,
+    "palmtree1_4.Mat": 0.275,
+    "palmtree1_5.Mat": 0.275,
+    "palmtree1_6.Mat": 0.275,
+    "palmtree1_7.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -12533,6 +12685,9 @@
    "materials": [
     "Bamboo:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Bamboo:2.Mat": 0.471
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.261,
@@ -12624,6 +12779,11 @@
     "jungletreenew1_2.Mat",
     "jungletreenew1_3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletreenew1_1.Mat": 0.275,
+    "jungletreenew1_2.Mat": 0.275,
+    "jungletreenew1_3.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.15,
@@ -13809,6 +13969,9 @@
    "materials": [
     "TropicalShrub01:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "TropicalShrub01:5.Mat": 0.314
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -13894,6 +14057,9 @@
     "jungletree12v3_2.Mat",
     "jungletree12v3_3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree12v3.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.223,
@@ -14608,6 +14774,12 @@
     "palmtree1_4.Mat.001",
     "palmtree1_5.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "palmtree1.Mat.001": 0.275,
+    "palmtree1_1.Mat.001": 0.275,
+    "palmtree1_2.Mat.001": 0.275,
+    "palmtree1_5.Mat.001": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -15294,6 +15466,9 @@
    "materials": [
     "hangingvines2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "hangingvines2.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -15370,6 +15545,9 @@
    "materials": [
     "L1_FloraHangingMoss03:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_FloraHangingMoss03:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -15450,6 +15628,10 @@
     "Plane.018.Mat",
     "Tri Tube.001.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Plane.003.Mat": 0.498,
+    "Plane.018.Mat": 0.498
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.692,
@@ -15564,6 +15746,11 @@
     "jungletree17_4.Mat",
     "jungletree17_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree17_3.Mat": 0.275,
+    "jungletree17_4.Mat": 0.275,
+    "jungletree17_5.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.697,
@@ -16911,6 +17098,10 @@
     "jungletree19v3_4.Mat",
     "jungletree19v3_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree19v3_1.Mat": 0.314,
+    "jungletree19v3_3.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.574,
@@ -17958,6 +18149,10 @@
     "jungletree21v3_3.Mat",
     "jungletree21v3_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree21v3_1.Mat": 0.314,
+    "jungletree21v3_3.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.556,
@@ -18703,6 +18898,14 @@
     "palmtree3_6.Mat",
     "palmtree3_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree3.Mat.001": 0.275,
+    "palmtree3_1.Mat.001": 0.275,
+    "palmtree3_4.Mat.001": 0.275,
+    "palmtree3_5.Mat.001": 0.275,
+    "palmtree3_6.Mat": 0.275,
+    "palmtree3_7.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -19135,6 +19338,11 @@
     "treeofwolene4_3.Mat",
     "treeofwolene4_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "treeofwolene4_2.Mat": 0.275,
+    "treeofwolene4_3.Mat": 0.275,
+    "treeofwolene4_4.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.403,
@@ -20479,6 +20687,10 @@
     "jungletree30v3_6.Mat",
     "jungletree30v3_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree30v3_1.Mat": 0.314,
+    "jungletree30v3_4.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.289,
@@ -21833,6 +22045,14 @@
     "palmtree4_6.Mat",
     "palmtree4_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree4.Mat": 0.275,
+    "palmtree4_1.Mat": 0.275,
+    "palmtree4_4.Mat": 0.275,
+    "palmtree4_5.Mat": 0.275,
+    "palmtree4_6.Mat": 0.275,
+    "palmtree4_7.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -22225,6 +22445,14 @@
     "palmtree6_6.Mat",
     "palmtree6_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree6.Mat": 0.275,
+    "palmtree6_1.Mat": 0.275,
+    "palmtree6_4.Mat": 0.275,
+    "palmtree6_5.Mat": 0.275,
+    "palmtree6_6.Mat": 0.275,
+    "palmtree6_7.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.376,
@@ -22916,6 +23144,11 @@
     "BedrollHay01:0.Mat.002",
     "BedrollHay01:0.Mat.003"
    ],
+   "alphaMaskMaterials": {
+    "BedrollHay01:0.Mat.001": 0.498,
+    "BedrollHay01:0.Mat.002": 0.706,
+    "BedrollHay01:0.Mat.003": 0.498
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.614,
@@ -24196,6 +24429,26 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 2892,
+     "share": 0.551,
+     "settings": {
+      "leafKeep": 0.55,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.383,
@@ -24226,23 +24479,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.383,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 2892,
-     "share": 0.551,
-     "settings": {
-      "leafKeep": 0.55,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": -0.383
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -24282,6 +24519,12 @@
     "CaveGEPillar06:9.Mat",
     "WRTempleTree02Roots:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BedrollHay01:0.Mat.004": 0.498,
+    "BedrollHay01:0.Mat.005": 0.706,
+    "BedrollHay01:0.Mat.006": 0.498,
+    "BedrollHay01:0.Mat.007": 0.706
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.9,
@@ -25562,6 +25805,26 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3926,
+     "share": 0.461,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.5194,
@@ -25592,23 +25855,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.519,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3926,
-     "share": 0.461,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.519
   },
   {
    "id": "bmv:landscape/trees/scottish-pine22",
@@ -25643,6 +25890,10 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.002",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.002": 0.471,
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_2.Mat": 0.235
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -26982,6 +27233,9 @@
     "gkbtreeaspen02:1.Mat",
     "gkbtreeaspen02:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "gkbtreeaspen02:2.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -27493,6 +27747,9 @@
     "gkbtreeaspen03:1.Mat",
     "gkbtreeaspen03:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "gkbtreeaspen03:2.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.233,
@@ -27947,6 +28204,9 @@
     "gkbtreeaspen05jungle:1.Mat",
     "gkbtreeaspen05jungle:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "gkbtreeaspen05jungle:1.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.15,
@@ -28135,6 +28395,10 @@
     "jungletree17v3_2.Mat",
     "jungletree17v3_3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree17v3_1.Mat": 0.314,
+    "jungletree17v3_3.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.617,
@@ -29127,6 +29391,9 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat.004",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.003"
    ],
+   "alphaMaskMaterials": {
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.003": 0.588
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -29214,6 +29481,11 @@
     "flatpalm1_2.Mat",
     "flatpalm1_3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "flatpalm1.Mat": 0.275,
+    "flatpalm1_1.Mat": 0.275,
+    "flatpalm1_3.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -29581,6 +29853,11 @@
     "flatpalm2_2.Mat",
     "flatpalm2_3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "flatpalm2.Mat": 0.275,
+    "flatpalm2_1.Mat": 0.275,
+    "flatpalm2_3.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.267,
@@ -29927,6 +30204,10 @@
     "ReachTree01:2 - L2_ReachTree01:2 - L1_ReachTree01:2.Mat",
     "ReachTree01_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_ReachTree01:1 - L1_ReachTree01:1.Mat": 0.176,
+    "ReachTree01:2 - L2_ReachTree01:2 - L1_ReachTree01:2.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.975,
@@ -31281,6 +31562,12 @@
     "ReachCliffTree02:2 - L1_ReachCliffTree02:2_1.Mat",
     "ReachCliffTree02:2 - L1_ReachCliffTree02:2_2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ReachCliffTree02:1 - L1_ReachCliffTree02:1.Mat": 0.176,
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2.Mat": 0.275,
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2_1.Mat": 0.275,
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2_2.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.826,
@@ -32253,6 +32540,11 @@
     "datepalm2_3.Mat",
     "datepalm2_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "datepalm2.Mat": 0.275,
+    "datepalm2_1.Mat": 0.275,
+    "datepalm2_2.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.761,
@@ -32429,6 +32721,12 @@
     "palmtree5_4.Mat",
     "palmtree5_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree5.Mat": 0.275,
+    "palmtree5_1.Mat": 0.275,
+    "palmtree5_2.Mat": 0.275,
+    "palmtree5_5.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.347,
@@ -33141,6 +33439,14 @@
     "palmtree5_6.Mat",
     "palmtree5_7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "palmtree5.Mat.001": 0.275,
+    "palmtree5_1.Mat.001": 0.275,
+    "palmtree5_4.Mat.001": 0.275,
+    "palmtree5_5.Mat.001": 0.275,
+    "palmtree5_6.Mat": 0.275,
+    "palmtree5_7.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.254,
@@ -34082,6 +34388,12 @@
     "gkbcyrodilcypress1_4.Mat",
     "gkbcyrodilcypress1_5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "gkbcyrodilcypress1_1.Mat": 0.275,
+    "gkbcyrodilcypress1_2.Mat": 0.275,
+    "gkbcyrodilcypress1_4.Mat": 0.275,
+    "gkbcyrodilcypress1_5.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -35425,6 +35737,11 @@
     "gkbcyrodilcypress2_3.Mat",
     "gkbcyrodilcypress2_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "gkbcyrodilcypress2_1.Mat": 0.275,
+    "gkbcyrodilcypress2_2.Mat": 0.275,
+    "gkbcyrodilcypress2_4.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.25,
@@ -36765,6 +37082,11 @@
     "Tri plant_pmat2.00 1.Mat",
     "plant_pmat1.00.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Tri plant_pmat2.00 0.Mat": 0.784,
+    "Tri plant_pmat2.00 1.Mat": 0.784,
+    "plant_pmat1.00.Mat": 0.784
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_512_4",
@@ -36847,6 +37169,9 @@
     "Circle.001 1.Mat",
     "Circle.002.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Circle.001 1.Mat": 0.784
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -36924,6 +37249,9 @@
     "Circle.001 1.Mat.001",
     "Circle.002.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Circle.001 1.Mat.001": 0.784
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_512_4",
@@ -37004,6 +37332,12 @@
     "plant_pmat2.001 1.Mat",
     "plant_pmat2.005 1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Tri plant_pmat2.00 0.Mat.001": 0.784,
+    "Tri plant_pmat2.00 1.Mat.001": 0.784,
+    "plant_pmat2.001 1.Mat": 0.784,
+    "plant_pmat2.005 1.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.544,
@@ -38345,6 +38679,9 @@
    "materials": [
     "None_BaldCypressN.002 3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "None_BaldCypressN.002 3.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 1.598,
@@ -39686,6 +40023,9 @@
    "materials": [
     "plant_pmat2.001.Mat"
    ],
+   "alphaMaskMaterials": {
+    "plant_pmat2.001.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.786,
@@ -41027,6 +41367,10 @@
     "jungletree11stick_3.Mat",
     "jungletree11stick_4.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree11stick_3.Mat": 0.314,
+    "jungletree11stick_4.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.151,
@@ -42219,6 +42563,10 @@
     "jungletree20stick_5.Mat",
     "jungletree20stick_6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree20stick_5.Mat": 0.275,
+    "jungletree20stick_6.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.168,
@@ -43566,6 +43914,10 @@
     "jungletree13_1.Mat",
     "jungletree13_2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletree10.Mat": 0.275,
+    "jungletree10_3.Mat": 0.275
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.3,
@@ -44766,6 +45118,11 @@
     "jungletreenew3.007.Mat",
     "jungletreenew3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "jungletreenew3.001.Mat": 0.314,
+    "jungletreenew3.003.Mat": 0.314,
+    "jungletreenew3.005.Mat": 0.314
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 2.403,
@@ -45665,6 +46022,9 @@
    "materials": [
     "banana_tree.Mat"
    ],
+   "alphaMaskMaterials": {
+    "banana_tree.Mat": 0.784
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionCapsule": {
     "radiusM": 0.15,
@@ -45760,6 +46120,11 @@
     "Ivy01:0_1.Mat.001",
     "Ivy01:0_2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.005": 0.196,
+    "Ivy01:0_1.Mat.001": 0.784,
+    "Ivy01:0_2.Mat": 0.588
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_512_5",
@@ -45845,6 +46210,11 @@
     "Ivy01:0_1.Mat.002",
     "Ivy01:0_2.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.006": 0.196,
+    "Ivy01:0_1.Mat.002": 0.784,
+    "Ivy01:0_2.Mat.001": 0.588
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_512_6",
@@ -45926,6 +46296,9 @@
    "materials": [
     "reedlarge1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "reedlarge1.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -46002,6 +46375,9 @@
    "materials": [
     "reedmed1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "reedmed1.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -46080,6 +46456,10 @@
     "reedsmall1.Mat",
     "reedsmall1_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "reedsmall1.Mat": 0.275,
+    "reedsmall1_1.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -46158,6 +46538,10 @@
     "reedsmall2.Mat",
     "reedsmall2_1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "reedsmall2.Mat": 0.275,
+    "reedsmall2_1.Mat": 0.275
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -46236,6 +46620,10 @@
     "lillipad.Mat.001",
     "lillipad_1.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "lillipad.Mat.001": 0.314,
+    "lillipad_1.Mat.001": 0.314
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -46312,6 +46700,9 @@
    "materials": [
     "Ivy01:0.Mat.007"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.007": 0.196
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46388,6 +46779,9 @@
    "materials": [
     "L2_SwordFern06:0 - L1_SwordFern06:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFern06:0 - L1_SwordFern06:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46469,6 +46863,9 @@
    "materials": [
     "L2_SwordFern05:0 - L1_SwordFern05:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFern05:0 - L1_SwordFern05:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46550,6 +46947,9 @@
    "materials": [
     "L2_SwordFern02:0 - L1_SwordFern02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFern02:0 - L1_SwordFern02:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46631,6 +47031,9 @@
    "materials": [
     "L2_SwordFern01:0 - L1_SwordFern01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFern01:0 - L1_SwordFern01:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46712,6 +47115,9 @@
    "materials": [
     "L2_SwordFern04:0 - L1_SwordFern04:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFern04:0 - L1_SwordFern04:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46793,6 +47199,9 @@
    "materials": [
     "L2_SwordFernCluster01:0 - L1_SwordFernCluster01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster01:0 - L1_SwordFernCluster01:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46874,6 +47283,9 @@
    "materials": [
     "L2_SwordFernCluster02:0 - L1_SwordFernCluster02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster02:0 - L1_SwordFernCluster02:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -46955,6 +47367,9 @@
    "materials": [
     "L2_SwordFernCluster03:0 - L1_SwordFernCluster03:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster03:0 - L1_SwordFernCluster03:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47036,6 +47451,9 @@
    "materials": [
     "L2_SwordFernCluster04:0 - L1_SwordFernCluster04:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster04:0 - L1_SwordFernCluster04:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47117,6 +47535,9 @@
    "materials": [
     "L2_SwordFernCluster05:0 - L1_SwordFernCluster05:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster05:0 - L1_SwordFernCluster05:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47198,6 +47619,9 @@
    "materials": [
     "L2_SwordFernCluster06:0 - L1_SwordFernCluster06:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_SwordFernCluster06:0 - L1_SwordFernCluster06:0.Mat": 0.216
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47279,6 +47703,9 @@
    "materials": [
     "Ivy01:0.Mat.008"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.008": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47360,6 +47787,9 @@
    "materials": [
     "Ivy01:0.Mat.009"
    ],
+   "alphaMaskMaterials": {
+    "Ivy01:0.Mat.009": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47441,6 +47871,9 @@
    "materials": [
     "coral:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "coral:0.Mat": 0.392
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47523,6 +47956,9 @@
    "materials": [
     "ShadowFoliage.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ShadowFoliage.Mat": 0.431
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47605,6 +48041,9 @@
    "materials": [
     "ShadowFoliage.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "ShadowFoliage.Mat.001": 0.004
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47686,6 +48125,9 @@
    "materials": [
     "CoastKelpTall01:0.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "CoastKelpTall01:0.Mat.001": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47762,6 +48204,9 @@
    "materials": [
     "CoastKelpTall01:0.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "CoastKelpTall01:0.Mat.002": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -47838,6 +48283,9 @@
    "materials": [
     "L1_StaticKelpShort01.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_StaticKelpShort01.Mat": 0.235
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47916,6 +48364,10 @@
     "FloraSwampfungalpod01:0 - L1_FloraSwampfungalpod01:0.Mat",
     "FloraSwampfungalpod01_1:0 - L1_FloraSwampfungalpod02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FloraSwampfungalpod01:0 - L1_FloraSwampfungalpod01:0.Mat": 0.502,
+    "FloraSwampfungalpod01_1:0 - L1_FloraSwampfungalpod02:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -47992,6 +48444,9 @@
    "materials": [
     "FloraSwampfungalpod02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FloraSwampfungalpod02:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -50538,6 +50993,9 @@
    "materials": [
     "DeadShrub01:0 - L2_DeadShrub01Snow05:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DeadShrub01:0 - L2_DeadShrub01Snow05:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -50614,6 +51072,9 @@
    "materials": [
     "L1_TundraShrub01.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_TundraShrub01.Mat": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -50690,6 +51151,9 @@
    "materials": [
     "L1_TundraShrub02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_TundraShrub02.Mat": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -50766,6 +51230,9 @@
    "materials": [
     "L1_TundraShrub03.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_TundraShrub03.Mat": 0.706
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -50842,6 +51309,9 @@
    "materials": [
     "L2_TundraScrub01:0 - L1_TundraScrub01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_TundraScrub01:0 - L1_TundraScrub01:0.Mat": 0.176
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -50918,6 +51388,9 @@
    "materials": [
     "L1_ReachShrub01:0 - L2_ReachShrub01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_ReachShrub01:0 - L2_ReachShrub01:0.Mat": 0.569
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_0",
@@ -50994,6 +51467,9 @@
    "materials": [
     "L1_Thicket01.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_Thicket01.Mat": 0.392
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_256_1",
@@ -51070,6 +51546,9 @@
    "materials": [
     "MountainFlower01Purple01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "MountainFlower01Purple01:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -51146,6 +51625,9 @@
    "materials": [
     "MountainFlower01Blue:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "MountainFlower01Blue:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -51222,6 +51704,9 @@
    "materials": [
     "MountainFlower01Red:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "MountainFlower01Red:0.Mat": 0.502
+   },
    "billboard": true,
    "cardSource": "baked",
    "cardAtlas": "es|cardatlas_128_0",
@@ -51983,12 +52468,12 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 73834768,
-  "bytesAfter": 25670384,
+  "bytesBefore": 73039528,
+  "bytesAfter": 25978468,
   "images": 149,
-  "imageBytesAfter": 20900040,
+  "imageBytesAfter": 21201950,
   "warnings": [],
-  "sha256": "27297eb50c072ec2c2c9a32f879dba62e6bf1a398bb6f24a1f94d536b6b3eab4",
+  "sha256": "68d7d907d16fcc3a28acc6f9dd3000cbbae25da4ed979442baa2d4f89414333c",
   "sidecarBytes": {},
   "sidecarsExempt": "vegetation atlas: no snap edges, no footprints, no interiors"
  }

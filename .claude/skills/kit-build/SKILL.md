@@ -86,6 +86,49 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets
   `convex`. An authored `collision` in the config always wins.
 
+## Tree tiers (flora kit mid/far levels, vegetation round 13)
+
+`pipeline/tree_tiers.py` writes the levels at build; `pipeline/tree_tiers_check.py`
+calibrates (`--calibrate`, `--bark-ladder`) and records the chosen settings
+into the kit config (`--record`), then step 1 rebuilds.
+
+- **A sample never lives in `pipeline/config/kits/`** (walk 5: a scratch
+  `leafcut-sample.json` left there failed every lane's build at the
+  placement-policy inventory). Sample a tier change with `tree_tiers_check`
+  (it renders from the source, no kit build); if a sample kit build is
+  unavoidable, give it a `kitPolicies` row and delete both the config and the
+  row before the lane hands back.
+- A calibrated level records only the keys its ladder varied plus the run's
+  `--set` keys; never copy defaults into `treeTiers.perAsset` (it outranks the kit).
+- **Bark-tube levels (`barkTube` 1 or 2) need an image-judge PASS before
+  `--record`** (owner 2026-09-29, round 13c): the silhouette IoU passed cones
+  over root flares, trunk breaks and flat canopy plates the judges caught.
+  Run 2 Sonnet judges in parallel on each chosen tier's contact sheet (trunk
+  and roots continuous, no cones or plates, no dark bands, canopy density,
+  colour) and write their verdicts beside the sheet as
+  `<cal dir>/<asset safe id>-<tier>.judge.json`,
+  `{"label": <level label>, "judges": [{"verdict": "PASS"|"FAIL", "note": ...}]}`.
+  `--record` refuses (exits, writes nothing) when the file is missing, names
+  another label, or has fewer than 2 verdicts or any FAIL
+  (`tree_tiers_check.judge_passed`). Leaf-only levels keep the IoU bar alone,
+  unless they land over the kit's share cap (next bullet).
+- The share cap is a setting, not a constant (round 13d): `treeTiers.maxShare`
+  (kit, default 0.70) and `treeTiers.maxShareByAsset.<id>` (written by
+  `--record` from a `--calibrate --max-share <x>` run). A level over the kit cap
+  needs the same 2-judge PASS file. `--tiers mid` renders one tier only (the
+  other keeps its kit row on `--record`); `--keeps mid=0.2,0.4` replaces the
+  leaf-keep ladder.
+- **Far stand-ins have their own bar** (lead, walk 5, decision 0108 §5): a
+  view-sampled FAR stand-in (the octahedral impostor, `pipeline/impostor_bake.py`)
+  ships when its silhouette IoU beats the card it replaces in EVERY view AND
+  2 Sonnet judges pass its sheet; the 0.90 same-view bar is for mesh tiers
+  only. `--publish` writes the GLB and `<kit>.impostors.json`; the runtime
+  loads them after the startup window, never in the startup payload.
+- **Leaf cutoff is the NIF's** (walk 5): a foliage material ships glTF MASK at
+  its NiAlphaProperty threshold / 255 (`blender/build_kit.py ni_alpha`), never
+  a fixed 0.5; the tier and impostor renders read the GLB's `alphaCutoff`
+  (`mat.alpha_threshold`), and the studio keeps it on mesh levels (cards 0.5).
+
 ## 1. Build (geometry + manifest + sidecars + publish)
 
     cd $P && ../../tooling/repo-standards/memwatch.sh \

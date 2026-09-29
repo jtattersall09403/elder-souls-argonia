@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from worldgen.interior_light import DARK_E, FILL_E, apply_light_rule, irradiance, light_report
+from worldgen.interior_light import DARK_E, FILL_E, apply_light_rule, irradiance, light_balance, light_report
 
 LOADER = Path(__file__).resolve().parents[3] / "packages/game-core/src/interior/interiorLoader.ts"
 LANTERN = {"radiusUnits": 256, "colourRgb": [242, 240, 223], "offsetM": [0.0, 0.6, 0.0],
@@ -59,3 +59,41 @@ def test_the_rule_is_idempotent():
     once = copy.deepcopy(b)
     apply_light_rule(b, {"lantern": LANTERN})
     assert b == once
+
+
+def test_the_balance_check_tells_a_fill_lit_room_from_a_source_lit_one():
+    pts = _floor() + [0, 1.2, 0]
+    flat = _bundle()
+    flat["ambient"]["intensity"] = 12.0          # the fill carries the room
+    assert light_balance(flat, pts)["flat"]
+    lit = _bundle()
+    lit["lights"] = [{"refId": f"L{i}", "positionM": [x, 2.0, z], "radiusM": 6.0, "colorRGB": [220, 140, 60],
+                      "fade": 3.0, "falloffExponent": 1.0} for i, (x, z) in enumerate([(-3, 0), (2, 0), (7, 0)])]
+    got = light_balance(lit, pts)
+    assert not got["flat"] and got["sourceLedFraction"] > 0.5
+    rep = light_report(flat, _floor(), strict_balance=True)
+    assert not rep["ok"] and any(f.startswith("flat:") for f in rep["failures"])
+    assert "flat:" not in " ".join(light_report(flat, _floor())["failures"])
+
+
+def test_exported_lights_follow_skyrims_curve_at_half_and_three_quarter_radius():
+    from worldgen.interior_light import SKYRIM_FIT_X, _runtime_shape, skyrim_curve
+    for r, fade in [(4.624, 2.5), (7.283, 1.0), (2.514, 2.0), (0.908, 3.0)]:
+        lt = {"radiusM": r, "fade": fade, "colorRGB": [180, 99, 28], "falloffExponent": 1.0, "raw": {}}
+        fit = skyrim_curve(lt)
+        assert not fit["capped"] and fit["recordFade"] == fade
+        for x in SKYRIM_FIT_X:
+            got = fit["fade"] * float(_runtime_shape(x, r, fit["falloffExponent"]))
+            assert abs(got / (fade * (1 - x * x)) - 1) < 0.06, (r, x, got)
+
+
+def test_the_near_field_cap_and_idempotence():
+    from worldgen.interior_light import MAX_NEAR_CHANNEL_E, NEAR_M, _runtime_shape, skyrim_curve, srgb_to_linear
+    hot = {"radiusM": 6.0, "fade": 9.0, "colorRGB": [255, 200, 120], "falloffExponent": 1.0, "raw": {}}
+    fit = skyrim_curve(hot)
+    near = fit["fade"] * float(_runtime_shape(NEAR_M / 6.0, 6.0, fit["falloffExponent"])) * srgb_to_linear([255, 200, 120]).max()
+    assert fit["capped"] and abs(near - MAX_NEAR_CHANNEL_E) < 1e-3
+    b = _bundle()
+    apply_light_rule(b, {"lantern": LANTERN})
+    hearth = b["lights"][0]
+    assert hearth["raw"]["recordFade"] == 2.5 and hearth["falloffExponent"] == 0.01 and hearth["fade"] != 2.5

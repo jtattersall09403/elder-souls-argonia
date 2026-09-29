@@ -1,6 +1,6 @@
 /**
  * Harness scene "fx": the shared vegetation node features on real package
- * code (decision 0109) — wind sway, LOD fade (a stepped rung, a dithered
+ * code (decision 0111) — wind sway, LOD fade (a stepped rung, a dithered
  * vanish, a from-zero shadow rung), the cylindrical billboard and the foliage
  * batch data texture with its occlusion mask. Noon light with shadows so the
  * shadow slots (maskShadowNode / castShadowPositionNode) compile too.

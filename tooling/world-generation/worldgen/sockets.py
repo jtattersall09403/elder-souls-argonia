@@ -10,6 +10,15 @@ Two sources, one shape:
   "yawDeg", "parcel", "why", <kind data>}``; ``at`` is in the layout's own
   province metres (the scene's x, z), ``host`` a scene uid (a bound yard-set
   or assembly member), a parcel id (its shell) or a compiled placement id;
+- an INTERIOR socket (``"interiorCell": <cellId>``, ``host`` a placement
+  id of that cell's published bundle, ``<cellId>.<formId>``): the cell must
+  be a tier A claim on one of the blueprint's doors; the socket stands at the
+  host's position in the cell's own frame with ``interiorCell`` set and the
+  claiming door's parcel. Anything that happens indoors (a home bed, a
+  counter, a ledger, a keeper's work spot) is authored this way, never on the
+  parcel's shell, whose pivot stands inside the walls of the overworld
+  (gate ``sockets.interior``; the cell's own furniture sockets are the
+  bundle's, ``export_interior_bundle``);
 - yard-set members whose kit category is ``container`` or ``furniture``
   (`yard_set_sockets`): a container yields a ``container`` socket (class from
   the asset's name family, fill rule the class default unless the set row
@@ -42,6 +51,8 @@ SOCKET_SCHEMA_VERSION = 1
 REPO_ROOT = Path(__file__).resolve().parents[3]
 VOCABULARY = REPO_ROOT / "world" / "sources" / "vocab" / "socket-vocabulary.json"
 YARD_SETS = REPO_ROOT / "world" / "sources" / "placement" / "yard-sets"
+INTERIORS = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
+"""The published tier A bundles (`export_interior_bundle.OUT_DIR`)."""
 REACH_KINDS = ("npc", "idle", "container")
 """The socket kinds walkRule targets in their own right (planner ruling 1,
 16k round 5); the reach gate is "its `socket:<id>` route exists"."""
@@ -50,7 +61,7 @@ FILL_PREFIX = "fill."
 assembly member (the scene uid's slug, so walkRule names the same socket),
 else ``fill.<placement id past the place id>`` (a ring dressing prop)."""
 SOCKET_CATEGORIES = ("container", "furniture")
-OP_KEYS = {"op", "id", "kind", "at", "host", "yawDeg", "parcel", "why",
+OP_KEYS = {"op", "id", "kind", "at", "host", "yawDeg", "parcel", "why", "interiorCell",
            # npc
            "rosterSlotId", "role", "schedule",
            # idle
@@ -137,6 +148,9 @@ def op_errors(op: dict, vocab: dict) -> list[str]:
         out += [f"socket {sid}: {why}" for why in fills_failures(op)]
     if "at" not in op and "host" not in op:
         out.append(f"socket {sid}: needs `at` [x, z] or `host`")
+    if op.get("interiorCell") and ("at" in op or not op.get("host")):
+        out.append(f"socket {sid}: an interior socket names a `host` placement of its cell, "
+                   f"never `at`")
     if "at" in op and not (isinstance(op["at"], list) and len(op["at"]) == 2):
         out.append(f"socket {sid}: `at` is [x, z] metres")
     for key in sorted(set(KIND_FIELDS) - {kind}):
@@ -301,6 +315,21 @@ def find_host(host: str, bp_id: str, placements: list[dict],
     return by_member.get(slug(host))
 
 
+def interior_claims(bp: dict) -> dict[str, dict]:
+    """cellId -> the blueprint door claiming it at tier A ({doorId, parcelId})."""
+    out = {}
+    for d in bp.get("doors") or []:
+        c = d.get("interiorClaim") or {}
+        if c.get("tier") == "A" and c.get("cellId"):
+            out.setdefault(c["cellId"], {"doorId": d.get("id"), "parcelId": d.get("parcelId")})
+    return out
+
+
+def load_bundle(cell_id: str, root: Path | None = None) -> dict | None:
+    path = Path(root or INTERIORS) / f"{cell_id}.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
 def _inside(poly, x: float, z: float) -> bool:
     """Even-odd point-in-polygon on the plan (x east, z south)."""
     hit = False
@@ -327,17 +356,20 @@ def walkable_surface_at(surfaces):
 
 def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict],
                     vocab: dict, category_of=None,
-                    surface_at=None) -> tuple[list[dict], list[str]]:
+                    surface_at=None, bundle_of=load_bundle) -> tuple[list[dict], list[str]]:
     """The compiled ``sockets[]`` and the errors resolving them: a hosted
     socket stands at its host's pivot, a free one on the padded ground; either
     is lifted onto the highest walkable placed surface under it when
     ``surface_at`` (`walkable_surface_at`) finds one above that (a socket on
     a deck stands on the deck top, never the terrain under it). With
     ``category_of``, every container placement left without a container
-    socket then gets its class default (`default_fill_ops`)."""
+    socket then gets its class default (`default_fill_ops`). An interior op
+    resolves on its cell's bundle (``bundle_of(cellId)``)."""
     out, errors, seen = [], [], set()
     index = host_index(placements)
-    _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen, index, surface_at)
+    interiors = {"claims": interior_claims(bp), "bundle_of": bundle_of, "cache": {}}
+    _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen, index, surface_at,
+                 interiors)
     if category_of is not None:
         hosted = {s["host"] for s in out if s["kind"] == "container" and s["host"]}
         _compile_ops(bp, placements, height_at,
@@ -347,8 +379,42 @@ def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict]
     return out, errors
 
 
+def _interior_row(op: dict, interiors: dict | None) -> tuple[dict | None, str | None]:
+    """The compiled row of an interior op, or the error resolving it."""
+    cell = op["interiorCell"]
+    claim = ((interiors or {}).get("claims") or {}).get(cell)
+    if claim is None:
+        return None, (f"sockets.interior: socket {op['id']} names cell {cell!r}, which no "
+                      f"door of this place claims at tier A")
+    cache = interiors["cache"]
+    if cell not in cache:
+        cache[cell] = interiors["bundle_of"](cell)
+    bundle = cache[cell]
+    if bundle is None:
+        return None, f"sockets.interior: socket {op['id']}: cell {cell!r} has no published bundle"
+    host = next((p for p in bundle.get("placements") or [] if p.get("id") == op["host"]), None)
+    if host is None:
+        return None, (f"sockets.interior: socket {op['id']}: host {op['host']!r} is no "
+                      f"placement of bundle {cell}")
+    reached = any(s.get("host") == host["id"] and s.get("kind") in REACH_KINDS
+                  for s in bundle.get("sockets") or [])
+    x, y, z = (float(v) for v in host["positionM"])
+    return {"id": op["id"], "kind": op["kind"],
+            "fills": list(op.get("fills") or []),
+            "owner": op.get("owner"), "valueTier": op.get("valueTier"),
+            "positionM": [round(x, 3), round(y, 3), round(z, 3)],
+            "yawDeg": round(float(op.get("yawDeg", (host.get("rotationDeg") or [0, 0, 0])[1]))
+                            % 360.0, 3),
+            "parcelId": op.get("parcel") or claim["parcelId"],
+            "interiorCell": cell, "interiorDoor": claim["doorId"],
+            # interior_walk reached the host from the cell's doors when the
+            # bundle's own furniture socket sits on it (the bundle's gate)
+            "interiorReached": reached,
+            "host": host["id"], "why": op.get("why") or ""}, None
+
+
 def _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen,
-                 index=None, surface_at=None) -> None:
+                 index=None, surface_at=None, interiors=None) -> None:
     for op in ops:
         errs = op_errors(op, vocab)
         if errs:
@@ -358,6 +424,19 @@ def _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen,
             errors.append(f"socket {op['id']}: id used twice")
             continue
         seen.add(op["id"])
+        if op.get("interiorCell"):
+            row, err = _interior_row(op, interiors)
+            if err:
+                errors.append(err)
+                continue
+            for f in KIND_FIELDS[op["kind"]]:
+                if f in op:
+                    row[f] = op[f]
+            if op["kind"] == "item" and "valueBand" not in row:
+                row["valueBand"] = (vocab["itemClasses"].get(row.get("itemClass")) or {}).get(
+                    "valueBand")
+            out.append(row)
+            continue
         host = None
         if op.get("host"):
             host = find_host(op["host"], bp["id"], placements, index)
@@ -478,6 +557,17 @@ def socket_gate_errors(bp: dict, rec: dict | None, sockets: list[dict], placemen
         elif not any(s.get("parcelId") in parcels for s in npcs):
             out.append(f"sockets.service: service {service!r} has no npc socket at "
                        f"{sorted(parcels)}")
+    # indoor things stand indoors: a socket hosted on the shell of a parcel
+    # whose door has a tier A cell stands at the shell pivot, inside the walls
+    # of the overworld (F2, 16k walk 5); it is authored in the cell instead
+    shells = {f"{bp['id']}.{c['parcelId']}.building": cell
+              for cell, c in interior_claims(bp).items()}
+    for s in sockets:
+        if not s.get("interiorCell") and s.get("host") in shells:
+            out.append(f"sockets.interior: {s['kind']} socket {s['id']} is hosted on the shell "
+                       f"of a building with tier A cell {shells[s['host']]}; author it in the "
+                       f"cell (`interiorCell`, `host`: a placement id of its bundle) or give it "
+                       f"`at` outside the door")
     # stations and signs (0104 decision 4): a station class the vocabulary
     # names, a sign arm per route or place
     for s in sockets:
@@ -503,6 +593,12 @@ def socket_gate_errors(bp: dict, rec: dict | None, sockets: list[dict], placemen
     routes = (bp.get("walkRoutes") or {}).get("routes") or {}
     for s in sockets:
         if s["kind"] not in REACH_KINDS or f"socket:{s['id']}" in routes:
+            continue
+        if s.get("interiorCell"):
+            if not s.get("interiorReached"):
+                out.append(f"sockets.reach: interior {s['kind']} socket {s['id']} is on "
+                           f"{s['host']}, which carries no reached furniture socket in bundle "
+                           f"{s['interiorCell']} (interior_walk); host it on one that does")
             continue
         out.append(f"sockets.reach: {s['kind']} socket {s['id']} is no walkRule target that "
                    f"passed (walkRoutes has no route socket:{s['id']}); `wb.py check` names "

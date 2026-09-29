@@ -320,3 +320,46 @@ def test_a_socket_on_a_deck_stands_on_the_deck_top_never_the_terrain():
     assert y["socket.t.off-deck"] == 7.0          # no deck: the padded ground
     assert y["socket.t.hosted"] == 10.0           # the barrel at (0, 0) is on the deck
     # ... whose top (9.5) is below the barrel's pivot: a host above the deck keeps its pivot
+
+
+CELL_BUNDLE = {"placements": [
+    {"id": "TestCell.0001", "positionM": [3.0, 0.5, -2.0], "rotationDeg": [0.0, 90.0, 0.0]},
+    {"id": "TestCell.0002", "positionM": [1.0, 0.0, 1.0], "rotationDeg": [0.0, 0.0, 0.0]}],
+    "sockets": [{"id": "socket.TestCell.0001", "kind": "idle", "host": "TestCell.0001"}]}
+SHELL = {"id": f"{BP}.parcel.a.building", "parcelId": "parcel.a", "assetId": "x:house",
+         "positionM": [9.0, 10.0, 9.0], "yawDeg": 0.0}
+
+
+def _compile_interior(ops):
+    bp = {"id": BP, "walkRoutes": {"routes": {}}, "doors": [
+        {"id": "door.a", "parcelId": "parcel.a", "interiorClaim": {"tier": "A", "cellId": "TestCell"}}]}
+    placements = [PLACEMENTS[2], SHELL]      # the chair and the shell: no container
+    socks, errors = sk.compile_sockets(bp, placements, lambda x, z: 7.0, ops, VOCAB,
+                                       bundle_of={"TestCell": CELL_BUNDLE}.get)
+    gates = sk.socket_gate_errors(bp, None, socks, placements, CATEGORY, {}, VOCAB)
+    return {s["id"]: s for s in socks}, errors, gates
+
+
+def test_an_interior_socket_stands_in_its_cell_frame_and_is_reached_by_its_bundle():
+    """F2 (16k walk 5): a home bed is authored in the tier A cell, never on the shell."""
+    by, errors, gates = _compile_interior([
+        {"op": "socket", "id": "bed", "kind": "idle", "activity": "sleep",
+         "interiorCell": "TestCell", "host": "TestCell.0001"}])
+    assert not errors and not gates, (errors, gates)
+    assert by["bed"]["interiorCell"] == "TestCell" and by["bed"]["parcelId"] == "parcel.a"
+    assert by["bed"]["positionM"] == [3.0, 0.5, -2.0] and by["bed"]["yawDeg"] == 90.0
+
+
+def test_interior_socket_defects_are_named():
+    _, errors, gates = _compile_interior([
+        {"op": "socket", "id": "a", "kind": "idle", "activity": "sleep",
+         "interiorCell": "OtherCell", "host": "OtherCell.1"},
+        {"op": "socket", "id": "b", "kind": "idle", "activity": "sleep",
+         "interiorCell": "TestCell", "host": "TestCell.9999"},
+        {"op": "socket", "id": "c", "kind": "idle", "activity": "stand",
+         "interiorCell": "TestCell", "host": "TestCell.0002"},
+        {"op": "socket", "id": "d", "kind": "item", "itemClass": "book", "host": "parcel.a"}])
+    assert any("no door of this place claims" in e for e in errors)
+    assert any("no placement of bundle TestCell" in e for e in errors)
+    assert any(g.startswith("sockets.reach") and " c " in g for g in gates)   # no reached host
+    assert any(g.startswith("sockets.interior") and " d " in g for g in gates)  # on the shell

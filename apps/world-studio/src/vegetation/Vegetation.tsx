@@ -677,6 +677,7 @@ export function Vegetation({
       const rings = speciesRings({
         heightM: entry.heightM, meshLevels, category: entry.category,
         submerged: entry.submerged, folded: entry.folded,
+        impostorPx: entry.impostorPx,
       }, drawScale, lodBand);
       const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
       const trunkRadius = entry.trunkRadiusM;

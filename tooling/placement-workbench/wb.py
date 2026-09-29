@@ -2453,8 +2453,31 @@ def run_whatchanged(argv) -> int:
     return 0
 
 
+def run_render_interior(argv) -> int:
+    """`wb.py render-interior CELL [--day | --night] [--out PNG]`: the
+    interior lighting contact sheet from the published bundle (doorway and
+    two corners; `day` = the runtime's lighting, `night` = the sources only;
+    both rows by default). workbench/interior_render.py."""
+    from workbench import interior_render
+    from workbench.kits import Catalogue
+    ap = argparse.ArgumentParser(prog="wb.py render-interior")
+    ap.add_argument("cell", help="the interior cell id (public/province/interiors/<cell>.json)")
+    one = ap.add_mutually_exclusive_group()
+    one.add_argument("--day", action="store_true", help="the runtime-lighting row only")
+    one.add_argument("--night", action="store_true", help="the sources-only row only")
+    ap.add_argument("--out", type=Path, default=None,
+                    help="PNG (default tooling/.reports/16k/interior-renders/<cell>.png)")
+    ap.add_argument("--samples", type=int, default=24)
+    a = ap.parse_args(argv)
+    rows = ("day",) if a.day else ("night",) if a.night else ("day", "night")
+    got = interior_render.render_interior(Catalogue(), a.cell, rows, a.out, samples=a.samples)
+    _emit(got)
+    print(got["png"])
+    return 0
+
+
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
-             "bpy": run_bpy,
+             "bpy": run_bpy, "render-interior": run_render_interior,
              "whatchanged": run_whatchanged}
 
 

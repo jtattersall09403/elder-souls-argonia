@@ -58,8 +58,10 @@ def test_contract_refuses_what_the_runtime_refuses():
         (lambda b: b["placements"][0].update(kit="nope"), "is not in the bundle's kits"),
         (lambda b: b["lights"][0].update(colorRGB=[1.0, 0.5, 0.2, 9]), "light 0 malformed"),
         (lambda b: b["lights"][0].pop("raw"), "light 0 raw malformed"),
-        (lambda b: b["doors"][0].pop("arrivalMarker"), "bad doors entry"),
-        (lambda b: b["doors"].append({"interiorLoadDoorRef": "X", "closed": True}), "bad doors entry"),
+        (lambda b: b["doors"][0].pop("loadDoor"), "bad doors entry"),
+        (lambda b: b["doors"][0].update(exteriorDoorId="door.x"), "per-place field"),
+        (lambda b: b["doors"][0].update(closed=True), "per-place field"),
+        (lambda b: b.update(shellAssetId="composite:mud/kotm-house-pod"), "shellAssetId is per place"),
         (lambda b: b.update(schemaVersion=1), "schemaVersion"),
         (lambda b: b["doors"][0].pop("doorType"), "doorType must be load or swing"),
     ):
@@ -73,13 +75,15 @@ def test_published_bundles_pass_the_contract(path):
     assert ex.validate_bundle(_load(path)) == []
 
 
-def test_closed_door_entry_passes_the_contract():
-    """Ruling 3 (round 3): an unpaired load door ships closed, with no exterior
-    door and no arrival marker."""
-    b = json.loads(ex.FIXTURE.read_text())
-    b["doors"].append({"doorType": "load", "interiorLoadDoorRef": "00000A02", "closed": True,
-                       "loadDoor": {"positionM": [3.0, 3.4, 0.0], "yawDeg": 90.0}})
-    assert ex.validate_bundle(b) == []
+@pytest.mark.parametrize("path", BUNDLES, ids=[p.stem for p in BUNDLES])
+def test_shared_cell_file_carries_no_per_place_field(path):
+    """0104: a cell file is shared by every place claiming the cell; the
+    pairing lives in the place's door record, never here."""
+    bundle = _load(path)
+    assert bundle["shellAssetId"] is None
+    for d in bundle["doors"]:
+        if d["doorType"] == "load":
+            assert set(d) == {"doorType", "interiorLoadDoorRef", "loadDoor"}
 
 
 def test_rotation_is_the_runtime_euler():
@@ -102,7 +106,7 @@ def test_gate_fails_on_an_unlisted_reference():
     assert ex.check(fixed) == []
 
 
-def test_reexport_matches_the_published_bundle():
+def test_reexport_matches_the_published_bundle(plugin_cache):
     try:
         paths, pools, registry = ex._environment()
     except Exception as exc:  # pragma: no cover - no vault on the runner
@@ -112,15 +116,9 @@ def test_reexport_matches_the_published_bundle():
     bundle = _load(BUNDLES[0])
     if bundle["plugin"] not in paths:
         pytest.skip(f"{bundle['plugin']} not in the local vault")
-    doors = [{k: d[k] for k in ("exteriorDoorId", "interiorLoadDoorRef", "arrivalMarker")}
-             for d in bundle["doors"] if d["doorType"] == "load" and not d.get("closed")]
-    again = ex.export_cell(bundle["plugin"], bundle["cellId"], paths, registry,
-                           ex.published_kit_assets(), lambda n: pools.get(n), doors=doors)
-    if not doors:
-        again["arrivalMarker"] = bundle["arrivalMarker"]
-    again["shellAssetId"] = bundle["shellAssetId"]
-    from worldgen.interior_light import apply_light_rule, kit_lights
-    apply_light_rule(again, kit_lights(ex.KITS_DIR))  # as main() does before it writes
+    from worldgen.interior_light import kit_lights
+    again = ex.export_bundle(bundle["plugin"], bundle["cellId"], (paths, pools, registry),
+                             ex.published_kit_assets(), kit_lights(ex.KITS_DIR), cache=plugin_cache)
     assert json.loads(json.dumps(again)) == bundle
 
 
@@ -283,14 +281,14 @@ def vault_env():
 
 
 @pytest.mark.parametrize("plugin,cell", LIGHT_CELLS, ids=[c for _, c in LIGHT_CELLS])
-def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin, cell):
+def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin_cache, plugin, cell):
     import struct
     paths, pools, registry = vault_env
     if plugin not in paths:
         pytest.skip(f"{plugin} not in the local vault")
     bundle = ex.export_cell(plugin, cell, paths, registry, ex.published_kit_assets(),
-                            lambda n: pools.get(n))
-    pset = ex.plugin_set(paths[plugin], paths)
+                            lambda n: pools.get(n), cache=plugin_cache)
+    pset = ex.plugin_set(paths[plugin], paths, plugin_cache)
     cell_rec, refs = ex.read_cell(pset.main, cell)
     base_of = {}
     for rec in refs:
@@ -410,13 +408,13 @@ def test_the_latest_plugin_in_load_order_owns_an_overridden_record(tmp_path):
     assert models == {0x10: "p10.nif", 0x11: "u11.nif", 0x12: "m12.nif"}
 
 
-def test_tropical_skyrims_wolfpelt_override_wins(vault_env):
+def test_tropical_skyrims_wolfpelt_override_wins(vault_env, plugin_cache):
     """The real case: Tropical Skyrim.esp overrides Skyrim.esm:03AD74 WolfPelt
     to the slaughterfish scale mesh; an export must draw the override."""
     paths, _pools, _registry = vault_env
     if "Tropical Skyrim.esp" not in paths or "Skyrim.esm" not in paths:
         pytest.skip("Tropical Skyrim.esp not in the local vault")
-    pset = ex.plugin_set(paths["Tropical Skyrim.esp"], paths)
+    pset = ex.plugin_set(paths["Tropical Skyrim.esp"], paths, plugin_cache)
     got, _ = ex.read_records(pset, {("Skyrim.esm", 0x03AD74)})
     info = ex._base_info(got[("Skyrim.esm", 0x03AD74)])
     assert info["editorId"] == "WolfPelt"
@@ -484,3 +482,111 @@ def test_a_static_door_nif_has_no_hinge_sequence():
     if data is None:
         pytest.skip("farmhousedoor01 not in the local vault")
     assert ex.door_hinge(data) is None
+
+
+# --------------------------------------------------------------------------- #
+# One cell, many places (2026-09-29): Riverwalk, Greenspring and Claywater
+# Station share KeebaHouseCrafter; the second export used to overwrite the
+# first place's exteriorDoorId in the shared file.
+# --------------------------------------------------------------------------- #
+BLUEPRINTS = ex.REPO_ROOT / "world" / "sources" / "blueprints"
+
+
+def _two_places():
+    a = json.loads((BLUEPRINTS / "place.hist-heartland.greenspring.json").read_text())
+    b = json.loads((BLUEPRINTS / "place.imperial-fringe.claywater-station.json").read_text())
+    return a, b
+
+
+def test_each_place_door_record_holds_its_own_pairing():
+    """The pairing's home is the place's door: its own id, the cell and the
+    load door ref; two places claiming one cell each keep their own door."""
+    a, b = _two_places()
+    ca, cb = ex.blueprint_claims(a), ex.blueprint_claims(b)
+    shared = set(ca) & set(cb)
+    assert shared, "Greenspring and Claywater Station share a claimed cell"
+    for bp in (a, b):
+        rec = bp.get("blueprint", bp)
+        prefix = "door." + rec["id"].split("place.", 1)[1] + "."
+        for d in rec["doors"]:
+            claim = d.get("interiorClaim") or {}
+            if claim.get("tier") == "A" and (claim["plugin"], claim["cellId"]) in shared:
+                assert d["id"].startswith(prefix)
+                assert isinstance(claim["interiorLoadDoorRef"], str) and "exteriorDoorId" not in claim
+
+
+def test_two_places_export_one_cell_file_in_either_order(plugin_cache):
+    """Export the shared cells for place A then B, and B then A: the file is
+    identical whichever order and whichever place, and names no place."""
+    try:
+        env = ex._environment()
+    except Exception as exc:  # pragma: no cover - no vault on the runner
+        pytest.skip(f"vault not available: {exc}")
+    from worldgen.interior_light import kit_lights
+    a, b = _two_places()
+    ca, cb = ex.blueprint_claims(a), ex.blueprint_claims(b)
+    key = sorted(set(ca) & set(cb))[0]
+    if key[0] not in env[0]:
+        pytest.skip(f"{key[0]} not in the local vault")
+    kits, lights = ex.published_kit_assets(), kit_lights(ex.KITS_DIR)
+    out = {}
+    for order in ((ca, cb), (cb, ca)):
+        written = None
+        for claims in order:
+            written = ex.export_bundle(*key, env, kits, lights, claims[key], plugin_cache)
+        out[order[0] is ca] = json.dumps(written, sort_keys=True)
+    assert out[True] == out[False]
+    bundle = json.loads(out[True])
+    assert ex.validate_bundle(bundle) == []
+    assert "door.hist-heartland" not in out[True] and "door.imperial-fringe" not in out[True]
+
+
+# --------------------------------------------------------------------------- #
+# Additions (decision 0109): kit pieces a builder adds to a tier A cell.
+# --------------------------------------------------------------------------- #
+_ADD_KITS = {"wall": ("k", "architecture"), "lantern": ("k", "light")}
+_ADD_BOUNDS = {"wall": ([6.0, 6.0, 3.0], [0.0, 0.0, 0.0])}
+_ADD_PLUGIN = [{"id": "C.00000001", "assetId": "wall", "kit": "k", "positionM": [0.0, 0.0, 0.0],
+                "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0, "category": "architecture"}]
+
+
+def _additions(tmp_path, rows):
+    (tmp_path / "C.json").write_text(json.dumps({"schemaVersion": 1, "cellId": "C", "additions": rows}))
+    return ex.load_additions("C", _ADD_PLUGIN, _ADD_KITS, _ADD_BOUNDS, directory=tmp_path)
+
+
+def _row(slug="table-candle", asset="lantern", pos=(1.0, 0.8, 1.0)):
+    return {"id": f"C:add:{slug}", "assetId": asset, "pos": list(pos), "rotZDeg": 90,
+            "zone": "table", "why": "The fisher mends nets here after dark."}
+
+
+def test_an_addition_is_appended_and_lit_by_the_rule(tmp_path):
+    from worldgen.interior_light import apply_light_rule
+    added = _additions(tmp_path, [_row("z-door", pos=(-2.0, 1.0, 2.0)), _row()])
+    assert [a["id"] for a in added] == ["C:add:table-candle", "C:add:z-door"]  # sorted by id
+    assert added[0]["source"] == "addition" and added[0]["kit"] == "k" and added[0]["zone"] == "table"
+    assert added[0]["rotationDeg"][1] == 90.0
+    bundle = {"cellId": "C", "refCount": 1, "drops": [], "placements": _ADD_PLUGIN + added,
+              "ambient": {"colorRGB": [44, 33, 27], "intensity": 1.0}, "lights": [],
+              "lighting": {"directionalRGB": [77, 62, 55]}}
+    assert ex.check(bundle) == []  # additions stand outside the refCount sum
+    did = apply_light_rule(bundle, {"lantern": {"radiusUnits": 256, "colourRgb": [242, 240, 223],
+                                                "offsetM": [0.0, 0.6, 0.0]}})
+    assert did["fixtureLights"] == 2
+    assert {lt["refId"] for lt in bundle["lights"]} == {"fixture:C:add:table-candle", "fixture:C:add:z-door"}
+
+
+@pytest.mark.parametrize("rows, why", [
+    ([_row(asset="nowhere")], "in no published kit"),
+    ([_row(), _row()], "duplicate id"),
+    ([_row(pos=(40.0, 0.0, 0.0))], "outside the cell"),
+    ([{**_row(), "id": "Other:add:x"}], "is not C:add:"),
+    ([{**_row(), "zone": "roof"}], "zone"),
+])
+def test_a_bad_addition_is_an_export_error(tmp_path, rows, why):
+    with pytest.raises(ValueError, match=why):
+        _additions(tmp_path, rows)
+
+
+def test_no_additions_file_adds_nothing(tmp_path):
+    assert ex.load_additions("C", _ADD_PLUGIN, _ADD_KITS, _ADD_BOUNDS, directory=tmp_path) == []

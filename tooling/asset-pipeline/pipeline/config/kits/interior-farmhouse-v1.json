@@ -42,16 +42,125 @@
       "asset": "vanilla:clutter/books/basicbook03a"
     },
     {
-      "asset": "vanilla:clutter/candles/candlehornchandelier01"
+      "asset": "vanilla:clutter/candles/candlehornchandelier01",
+      "light": {
+        "formId": "00059a93",
+        "editorId": "FarmInteriorLight01",
+        "burnSeconds": -1,
+        "radiusUnits": 512,
+        "colourRgb": [
+          198,
+          162,
+          100
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.4,
+          "movementAmplitude": 16.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          0.01,
+          -0.02,
+          0.02
+        ],
+        "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 75 of 257 candlehornchandelier01 refs (next: FarmInteriorShadowLight01 20; none 74); offset is the median of those 75 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
-      "asset": "vanilla:clutter/candles/candlehornfloor01"
+      "asset": "vanilla:clutter/candles/candlehornfloor01",
+      "light": {
+        "formId": "00059a93",
+        "editorId": "FarmInteriorLight01",
+        "burnSeconds": -1,
+        "radiusUnits": 512,
+        "colourRgb": [
+          198,
+          162,
+          100
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.4,
+          "movementAmplitude": 16.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          -0.43,
+          2.25,
+          0.25
+        ],
+        "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 58 of 458 candlehornfloor01 refs (next: RiftenLight01 29; none 230); offset is the median of those 58 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
-      "asset": "vanilla:clutter/candles/candlehorntable01"
+      "asset": "vanilla:clutter/candles/candlehorntable01",
+      "light": {
+        "formId": "00059a93",
+        "editorId": "FarmInteriorLight01",
+        "burnSeconds": -1,
+        "radiusUnits": 512,
+        "colourRgb": [
+          198,
+          162,
+          100
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.4,
+          "movementAmplitude": 16.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          0.16,
+          1.36,
+          0.16
+        ],
+        "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 91 of 992 candlehorntable01 refs (next: FarmInteriorFireLight01 83; none 369); offset is the median of those 91 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
-      "asset": "vanilla:clutter/candles/candlehornwall01"
+      "asset": "vanilla:clutter/candles/candlehornwall01",
+      "light": {
+        "formId": "00088238",
+        "editorId": "DefaultCandleLight01NS",
+        "burnSeconds": -1,
+        "radiusUnits": 256,
+        "colourRgb": [
+          236,
+          223,
+          170
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.2,
+          "movementAmplitude": 8.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "portalStrict"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          0.0,
+          -0.06,
+          1.11
+        ],
+        "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 78 of 679 candlehornwall01 refs (next: DefaultCandleLight01NSDesat 70; none 310); offset is the median of those 78 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:clutter/common/broom"
@@ -165,7 +274,36 @@
       "asset": "vanilla:clutter/wine/winebottle02b"
     },
     {
-      "asset": "vanilla:clutter/woodfires/fireplacewood01burning"
+      "asset": "vanilla:clutter/woodfires/fireplacewood01burning",
+      "effect": "additive",
+      "light": {
+        "formId": "00059b71",
+        "editorId": "FarmInteriorFireLight01",
+        "burnSeconds": -1,
+        "radiusUnits": 512,
+        "colourRgb": [
+          173,
+          103,
+          52
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.4,
+          "movementAmplitude": 2.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "shadowOmni"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          -0.01,
+          1.2,
+          0.03
+        ],
+        "evidence": "Skyrim.esm: FarmInteriorFireLight01 is the nearest LIGH ref (< 200 units, same cell) to 103 of 147 fireplacewood01burning refs (next: DefaultTorch01NS_FastDesat 7; none 14); offset is the median of those 103 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:furniture/common/commonbed01"
@@ -348,7 +486,36 @@
       "asset": "vanilla:clutter/common/strongbox01"
     },
     {
-      "asset": "vanilla:clutter/common/torchpermanent01"
+      "asset": "vanilla:clutter/common/torchpermanent01",
+      "effect": "additive",
+      "light": {
+        "formId": "000bcc9d",
+        "editorId": "DefaultTorch01NS_Fast",
+        "burnSeconds": -1,
+        "radiusUnits": 256,
+        "colourRgb": [
+          197,
+          156,
+          112
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.5,
+          "movementAmplitude": 16.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "portalStrict"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          0.03,
+          0.0,
+          -1.23
+        ],
+        "evidence": "Skyrim.esm: DefaultTorch01NS_Fast is the nearest LIGH ref (< 200 units, same cell) to 226 of 776 torchpermanent01 refs (next: BleakFallsDraugrTorch01NS 46; none 185); offset is the median of those 226 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:clutter/containers/miscsack02large"
@@ -465,7 +632,35 @@
       "asset": "vanilla:clutter/glazedbowl02"
     },
     {
-      "asset": "vanilla:clutter/glazedcandlesstatic02"
+      "asset": "vanilla:clutter/glazedcandlesstatic02",
+      "light": {
+        "formId": "000b9be7",
+        "editorId": "WRCandleFlickerNS",
+        "burnSeconds": -1,
+        "radiusUnits": 128,
+        "colourRgb": [
+          254,
+          234,
+          152
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.3,
+          "movementAmplitude": 16.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "portalStrict"
+        ],
+        "fade": 1.7,
+        "offsetM": [
+          0.02,
+          0.74,
+          0.35
+        ],
+        "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:clutter/glazedcup01"
@@ -492,7 +687,34 @@
       "asset": "vanilla:clutter/honeypot01"
     },
     {
-      "asset": "vanilla:clutter/imperial/impcandle01"
+      "asset": "vanilla:clutter/imperial/impcandle01",
+      "light": {
+        "formId": "0003611f",
+        "editorId": "SolitudeInnCandleDefault",
+        "burnSeconds": -1,
+        "radiusUnits": 256,
+        "colourRgb": [
+          226,
+          207,
+          150
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.3,
+          "movementAmplitude": 14.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker"
+        ],
+        "fade": 1.5,
+        "offsetM": [
+          0.08,
+          0.14,
+          0.09
+        ],
+        "evidence": "Skyrim.esm: SolitudeInnCandleDefault is the nearest LIGH ref (< 200 units, same cell) to 106 of 334 impcandle01 refs (next: SolitudeInnFiretDefault 22; none 170); offset is the median of those 106 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:clutter/ingredients/beefmeat"
@@ -672,10 +894,66 @@
       "asset": "vanilla:clutter/quest/tgparchment01"
     },
     {
-      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon"
+      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon",
+      "light": {
+        "formId": "00088238",
+        "editorId": "DefaultCandleLight01NS",
+        "burnSeconds": -1,
+        "radiusUnits": 256,
+        "colourRgb": [
+          236,
+          223,
+          170
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.2,
+          "movementAmplitude": 8.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "portalStrict"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          -0.13,
+          1.12,
+          -0.05
+        ],
+        "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
-      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02"
+      "asset": "vanilla:clutter/ruins/ruinsfloorcandlelampsmon02",
+      "light": {
+        "formId": "00088238",
+        "editorId": "DefaultCandleLight01NS",
+        "burnSeconds": -1,
+        "radiusUnits": 256,
+        "colourRgb": [
+          236,
+          223,
+          170
+        ],
+        "flicker": {
+          "frequency": 3.0,
+          "intensityAmplitude": 0.2,
+          "movementAmplitude": 8.0
+        },
+        "flags": [
+          "dynamic",
+          "flicker",
+          "portalStrict"
+        ],
+        "fade": 1.0,
+        "offsetM": [
+          0.03,
+          1.11,
+          0.05
+        ],
+        "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+      }
     },
     {
       "asset": "vanilla:clutter/shrines/shrinearkay"

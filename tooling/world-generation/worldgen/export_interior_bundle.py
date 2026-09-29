@@ -17,6 +17,13 @@ plugin's masters, and each lands in exactly one of two lists:
   2026-09-27, lane I): ``{refId, originalPath, baseForm, class, standInAsset,
   kit, standInCategory, why, id, positionM, rotationDeg, scale}``, from the
   tracked record ``world/sources/placement/kit-interiors/substitutions/<cell>.json``.
+* additions (decision 0109) — kit pieces the builder ADDS to the cell (a
+  candle on the table, a lantern by the door), from the tracked record
+  ``world/sources/placement/kit-interiors/additions/<cell>.json``: appended to
+  ``placements[]`` with ``source: "addition"``, sorted by their stable id
+  ``<cell>:add:<slug>``; they never move or remove a plugin reference and are
+  outside the ``refCount`` sum. The lighting rule then lights them like any
+  placement.
 
 Every missing piece carries its ``class``: the base record's type and model
 (``piece_class``), or, when its master is absent (Creation Club, HearthFires,
@@ -47,12 +54,19 @@ Each light keeps its base record's fade (FNAM, unitless: the runtime's
 intensity is fade times one tuned constant); a reference radius override
 (XRDS) counts only when positive, the raw value kept in ``raw``.
 
-Doors: ``doors[]`` pairs each claiming exterior door (the blueprint's door
-record) with its interior load door and arrival marker (owner ruling B,
-interiors round 2); every other load door of the cell follows as
-``{interiorLoadDoorRef, loadDoor, closed: true}`` (planner ruling 3, interiors
-round 3: shown with the closed line, never used); ``exitDoor``/
-``arrivalMarker`` are the first pair's, the default for ``?interior=``. Every
+Doors: the cell file is shared by every place that claims the cell
+(Greenspring, Claywater Station and Riverwalk all claim KeebaHouseCrafter), so
+it carries nothing about any one place (decision 0104: one home per fact).
+``doors[]`` lists every load door of the cell as ``{doorType: "load",
+interiorLoadDoorRef, loadDoor}`` in ref order; which exterior door pairs with
+which load door, and where entering by it arrives, is the PLACE's door record
+(``interiorClaim.{cellId, interiorLoadDoorRef, arrivalMarker}``), and the
+runtime reads open or closed from the place entered from (a load door no door
+of that place claims shows the closed line, planner ruling 3, interiors round
+3). ``exitDoor`` is the first load door; ``arrivalMarker`` is the plugin's own
+arrival (its exterior partner's teleport), the default for ``?interior=`` and
+for a claim without a marker; ``shellAssetId`` is null (the shell is the
+claiming parcel's ``assetRef``). Every
 entry carries ``doorType``: those are ``load``; a DOOR reference with NO XTEL
 teleport follows as a ``swing`` entry (owner 2026-09-28, schemaVersion 2)
 ``{doorType, id, refId, assetId, kit, positionM, rotationDeg, scale, hinge:
@@ -89,7 +103,12 @@ KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
 #: 2 (16k walk 4, owner 2026-09-28): `doors[]` entries carry `doorType`; a DOOR
 #: reference with no XTEL teleport is a `swing` entry, no longer a placement
-SCHEMA_VERSION = 2
+#: 3 (2026-09-29): the shared cell file carries no per-place field; load doors
+#: are `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing is the
+#: place's door record (`interiorClaim`)
+SCHEMA_VERSION = 3
+#: fields that belong to one claiming place, never to the shared cell file
+PER_PLACE_DOOR_FIELDS = ("exteriorDoorId", "arrivalMarker", "closed")
 #: a swing door whose NIF has no Open sequence opens this far (degrees)
 SWING_DEFAULT_OPEN_DEG = 90.0
 #: and over this long (seconds)
@@ -101,6 +120,9 @@ FIXTURE = (REPO_ROOT / "packages" / "game-core" / "src" / "interior" / "__fixtur
 
 KIT_INTERIORS = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
 SUBSTITUTIONS_DIR = KIT_INTERIORS / "substitutions"
+#: decision 0109: kit pieces a builder adds to a tier A cell (never a move or removal)
+ADDITIONS_DIR = KIT_INTERIORS / "additions"
+ADDITION_ZONES = frozenset({"bed", "table", "hearth", "work", "door", "store", "shrine"})
 ABSENT_MASTER_CLASSES = KIT_INTERIORS / "absent-master-classes.json"
 #: drop reasons that mean "the author drew something here we cannot draw"
 MISSING_REASONS = ("unresolved-base", "no-kit-asset")
@@ -160,13 +182,15 @@ class PluginSet:
     order, the main plugin last, so the last plugin to define a record owns
     it (an override beats the original it overrides)."""
 
-    def __init__(self, plugin: Path, paths: dict[str, Path]):
-        self.main = Plugin(plugin)
+    def __init__(self, plugin: Path, paths: dict[str, Path], cache=None):
+        from .plugin_cache import PluginCache
+        cache = cache if cache is not None else PluginCache()
+        self.main = cache.plugin(plugin)
         self.plugins = {}
         for master in self.main.masters:
             path = paths.get(master)
             if path is not None:
-                self.plugins[master] = Plugin(path)
+                self.plugins[master] = cache.plugin(path)
         self.plugins[self.main.path.name] = self.main
         self._record_index = None
 
@@ -212,35 +236,12 @@ class PluginSet:
         return owner.source_of(form_id), form_id & 0xFFFFFF
 
 
-_PLUGIN_SETS: dict = {}
-_PLUGIN_SETS_MAX = 4
-
-
-def _file_stamp(path: Path) -> tuple[str, int, int]:
-    st = path.stat()
-    return str(path.resolve()), st.st_mtime_ns, st.st_size
-
-
-def plugin_set(plugin: Path, paths: dict[str, Path]) -> PluginSet:
-    """`PluginSet(plugin, paths)`, parsed once per process. The key is the
-    plugin file (resolved path, mtime, size); a hit is reused only while every
-    master it loaded still resolves through `paths` to the same unchanged file
-    and no master it lacked has since appeared in `paths`. Read-only once
-    built, so sharing one between cells is safe."""
-    key = _file_stamp(Path(plugin))
-    hit = _PLUGIN_SETS.get(key)
-    if hit is not None:
-        pset, masters = hit
-        now = {m: _file_stamp(Path(paths[m])) if m in paths else None
-               for m in pset.main.masters}
-        if now == masters:
-            return pset
-    pset = PluginSet(Path(plugin), paths)
-    masters = {m: _file_stamp(Path(paths[m])) if m in paths else None for m in pset.main.masters}
-    if len(_PLUGIN_SETS) >= _PLUGIN_SETS_MAX:
-        _PLUGIN_SETS.clear()
-    _PLUGIN_SETS[key] = (pset, masters)
-    return pset
+def plugin_set(plugin: Path, paths: dict[str, Path], cache=None) -> PluginSet:
+    """`PluginSet(plugin, paths)` from `cache` (a `plugin_cache.PluginCache`
+    the caller owns: one set per unchanged plugin and masters, every file
+    parsed once however many sets share it; a fresh cache when None)."""
+    from .plugin_cache import PluginCache
+    return (cache if cache is not None else PluginCache()).plugin_set(Path(plugin), paths)
 
 
 def _ref_extras(rec) -> dict:
@@ -413,6 +414,64 @@ def load_substitutions(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> d
     if doc.get("cellId") != cell_edid:
         raise ValueError(f"{path.name}: cellId {doc.get('cellId')!r} is not {cell_edid}")
     return {row["refId"]: row for row in doc.get("substitutions", [])}
+
+
+def cell_extent(placements: list[dict], kit_bounds: dict[str, tuple]) -> tuple[list, list]:
+    """The cell's bounds in its own frame: the box around every plugin
+    placement's bounding sphere (radius from its kit ``sizeM`` and
+    ``originOffsetM`` times its scale; axis-free, so it never refuses a
+    point inside the room). Catches an addition authored in the wrong frame."""
+    lo, hi = [math.inf] * 3, [-math.inf] * 3
+    for p in placements:
+        size, origin = kit_bounds.get(p["assetId"]) or ([0.0] * 3, [0.0] * 3)
+        r = float(p.get("scale", 1.0)) * (math.hypot(*size) / 2 + math.hypot(*origin))
+        for i in range(3):
+            lo[i] = min(lo[i], p["positionM"][i] - r)
+            hi[i] = max(hi[i], p["positionM"][i] + r)
+    return lo, hi
+
+
+def load_additions(cell_edid: str, placements: list[dict], kit_assets: dict,
+                   kit_bounds: dict[str, tuple], directory: Path = ADDITIONS_DIR) -> list[dict]:
+    """The cell's additions (decision 0109) as placements, sorted by id; empty
+    when the cell has no file. Refuses (ValueError) an asset in no published
+    kit, a duplicate or foreign id, an unknown zone, a missing ``why`` and a
+    position outside ``cell_extent`` of the plugin placements."""
+    path = directory / f"{cell_edid}.json"
+    if not path.exists():
+        return []
+    doc = json.loads(path.read_text())
+    if doc.get("schemaVersion") != 1 or doc.get("cellId") != cell_edid:
+        raise ValueError(f"{path.name}: needs schemaVersion 1 and cellId {cell_edid}")
+    lo, hi = cell_extent(placements, kit_bounds)
+    taken = {p["id"] for p in placements}
+    out = []
+    for row in sorted(doc.get("additions") or [], key=lambda r: str(r.get("id"))):
+        aid = row.get("id")
+        if not (isinstance(aid, str) and aid.startswith(f"{cell_edid}:add:") and len(aid) > len(cell_edid) + 5):
+            raise ValueError(f"{path.name}: addition id {aid!r} is not {cell_edid}:add:<slug>")
+        if aid in taken:
+            raise ValueError(f"{path.name}: duplicate id {aid}")
+        taken.add(aid)
+        hit = kit_assets.get(row.get("assetId"))
+        if hit is None:
+            raise ValueError(f"{path.name}: {aid}: asset {row.get('assetId')!r} is in no published kit")
+        if row.get("zone") not in ADDITION_ZONES:
+            raise ValueError(f"{path.name}: {aid}: zone {row.get('zone')!r} not in {sorted(ADDITION_ZONES)}")
+        if not (isinstance(row.get("why"), str) and row["why"].strip()):
+            raise ValueError(f"{path.name}: {aid}: no why")
+        pos = row.get("pos")
+        if not (isinstance(pos, list) and len(pos) == 3 and all(isinstance(v, (int, float)) for v in pos)):
+            raise ValueError(f"{path.name}: {aid}: pos must be [x, y, z] metres")
+        if not all(lo[i] <= pos[i] <= hi[i] for i in range(3)):
+            raise ValueError(f"{path.name}: {aid}: pos {pos} is outside the cell "
+                             f"({[round(v, 2) for v in lo]}..{[round(v, 2) for v in hi]})")
+        out.append({"id": aid, "assetId": row["assetId"], "kit": hit[0],
+                    "positionM": [round(float(v), 4) + 0.0 for v in pos],
+                    "rotationDeg": game_rotation_deg((0.0, 0.0, math.radians(float(row.get("rotZDeg", 0.0))))),
+                    "scale": 1.0, "category": hit[1] or "clutter", "base": None, "baseType": None,
+                    "source": "addition", "zone": row["zone"]})
+    return out
 
 
 #: the one reason a missing piece may ship undrawn (planner ruling R51, 16k
@@ -845,13 +904,14 @@ def swing_hinge(asset_id: str, model: str, bounds: dict[str, tuple] | None) -> d
 def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], registry,
                 kit_assets, pool_of, doors: list[dict] | None = None,
                 absent: dict[str, dict] | None = None,
-                kit_bounds: dict[str, tuple] | None = None) -> dict:
+                kit_bounds: dict[str, tuple] | None = None, cache=None) -> dict:
     """The bundle for one cell (see the module docstring). `doors` is the
-    blueprint's pairing, `[{exteriorDoorId, interiorLoadDoorRef,
-    arrivalMarker}]` (game frame), in door order."""
+    claiming places' door claims, `[{interiorLoadDoorRef, ...}]`: each ref is
+    checked to be a load door of the cell and nothing of a claim is written
+    (the output is the same whoever claims the cell)."""
     from .mine_door_links import asset_id_for
 
-    pset = plugin_set(paths[plugin_name], paths)
+    pset = plugin_set(paths[plugin_name], paths, cache)
     main = pset.main
     got = read_cell(main, cell_edid)
     if got is None:
@@ -1047,6 +1107,13 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         if d["reason"] in MISSING_REASONS and d.get("class") in LISTED_DROP_CLASSES:
             d["reason"] = "listed-drop"
 
+    additions = []
+    if (ADDITIONS_DIR / f"{cell_edid}.json").exists():
+        if kit_bounds is None:
+            kit_bounds = published_kit_bounds()
+        additions = load_additions(cell_edid, placements + substitutions, kit_assets, kit_bounds)
+    placements.extend(additions)
+
     lighting = decode_lighting(xcll) if xcll else {}
     template = None
     if ltmp:
@@ -1065,30 +1132,16 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                         lighting[f] = template[f]
         lighting["template"] = template.get("editorId")
 
-    pairs = []
     for d in doors or []:
-        load = load_doors.get(d["interiorLoadDoorRef"])
-        if load is None:
+        if d["interiorLoadDoorRef"] not in load_doors:
             raise SystemExit(f"{cell_edid}: the claim pairs load door {d['interiorLoadDoorRef']}, "
                              f"which is not a load door of the cell")
-        pairs.append({"doorType": "load", "exteriorDoorId": d["exteriorDoorId"],
-                      "interiorLoadDoorRef": d["interiorLoadDoorRef"],
-                      "arrivalMarker": d["arrivalMarker"],
-                      "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
-    # Planner ruling 3 (interiors round 3): every load door of the cell no
-    # exterior door pairs with ships CLOSED (the runtime shows the closed line
-    # and does nothing): the farmhouse's upper door, a cellar, a jail.
-    paired_refs = {d["interiorLoadDoorRef"] for d in pairs}
-    if pairs:
-        for rid in sorted(load_doors):
-            if rid not in paired_refs:
-                load = load_doors[rid]
-                pairs.append({"doorType": "load", "interiorLoadDoorRef": rid, "closed": True,
-                              "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
-    first = load_doors.get(pairs[0]["interiorLoadDoorRef"]) if pairs else (
-        next(iter(sorted(load_doors.values(), key=lambda d: d["refId"])), None))
-    arrival = (pairs[0]["arrivalMarker"] if pairs else
-               ({"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None))
+    pairs = [{"doorType": "load", "interiorLoadDoorRef": rid,
+              "loadDoor": {"positionM": load_doors[rid]["positionM"],
+                           "yawDeg": load_doors[rid]["yawDeg"]}}
+             for rid in sorted(load_doors)]
+    first = load_doors[pairs[0]["interiorLoadDoorRef"]] if pairs else None
+    arrival = {"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None
     kits = sorted({p["kit"] for p in placements} | {s["kit"] for s in substitutions}
                   | {w["kit"] for w in swings})
     return {
@@ -1120,6 +1173,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                                                   if d["reason"] in MISSING_REASONS).items())),
             "dropsByReason": dict(sorted(Counter(d["reason"] for d in drops).items())),
             "socketsByKind": dict(sorted(Counter(s["kind"] for s in sockets).items())),
+            **({"additions": len(additions)} if additions else {}),
         },
     }
 
@@ -1130,9 +1184,10 @@ def check(bundle: dict) -> list[str]:
     problems = []
     subs = bundle.get("substitutions") or []
     swings = [d for d in bundle.get("doors") or [] if d.get("doorType") == "swing"]
-    n = len(bundle["placements"]) + len(bundle["drops"]) + len(subs) + len(swings)
+    placed = [p for p in bundle["placements"] if p.get("source") != "addition"]
+    n = len(placed) + len(bundle["drops"]) + len(subs) + len(swings)
     if n != bundle["refCount"]:
-        problems.append(f"{bundle['cellId']}: {len(bundle['placements'])} placements + "
+        problems.append(f"{bundle['cellId']}: {len(placed)} placements + "
                         f"{len(bundle['drops'])} drops + {len(subs)} substitutions + "
                         f"{len(swings)} swing doors = {n}, "
                         f"the cell has {bundle['refCount']} references")
@@ -1197,8 +1252,8 @@ def validate_bundle(b: dict) -> list[str]:
     for key in ("cellId", "plugin", "frame"):
         if not isinstance(b.get(key), str) or not b.get(key):
             bad.append(f"no {key}")
-    if b.get("shellAssetId") is not None and not isinstance(b.get("shellAssetId"), str):
-        bad.append("shellAssetId is neither a string nor null")
+    if b.get("shellAssetId") is not None:
+        bad.append("shellAssetId is per place (the claiming parcel's assetRef); the shared cell file carries null")
     kits = b.get("kits")
     if not isinstance(kits, dict) or not all(
             isinstance(v, dict) and v.get("id") == k and isinstance(v.get("glb"), str)
@@ -1217,11 +1272,12 @@ def validate_bundle(b: dict) -> list[str]:
         if not (isinstance(d, dict) and d.get("doorType") == "load"):
             bad.append(f"bad doors entry {d!r:.80} (doorType must be load or swing)")
             continue
-        closed = isinstance(d, dict) and d.get("closed") is True
-        if not (isinstance(d, dict) and isinstance(d.get("interiorLoadDoorRef"), str)
-                and _marker(d.get("loadDoor"))
-                and (closed or (isinstance(d.get("exteriorDoorId"), str) and _marker(d.get("arrivalMarker"))))):
+        if not (isinstance(d.get("interiorLoadDoorRef"), str) and _marker(d.get("loadDoor"))):
             bad.append(f"bad doors entry {d!r:.80}")
+        per_place = [k for k in PER_PLACE_DOOR_FIELDS if k in d]
+        if per_place:
+            bad.append(f"load door {d.get('interiorLoadDoorRef')}: per-place field(s) {per_place} "
+                       f"in the shared cell file (the place's door record holds them, 0104)")
     for p in b.get("placements") or []:
         if p.get("kit") not in kits:
             bad.append(f"{p.get('id')}: kit {p.get('kit')!r} is not in the bundle's kits")
@@ -1261,7 +1317,7 @@ def placement_rows(bundles: list[dict], bounds: dict[str, tuple]) -> dict[str, d
     carried: dict[str, float] = {}
     cells: dict[str, set] = {}
     for b in bundles:
-        pl = b["placements"]
+        pl = [p for p in b["placements"] if p.get("source") != "addition"]
         refs = [(d, d.get("positionM")) for d in b["drops"] if d.get("positionM")]
         refs += [(p, p["positionM"]) for p in pl]
         for d in b["drops"]:
@@ -1306,6 +1362,9 @@ def _environment():
     return paths, pools, registry_index()
 
 
+from .plugin_cache import PluginCache  # noqa: E402
+
+
 def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     from .blueprint_interiors import linked_shells
     paths, pools, registry = _environment()
@@ -1315,13 +1374,14 @@ def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     # rows that have a written source; the file is written once, at the end
     doc["forms"] = {f: r for f, r in doc["forms"].items() if r.get("classedBy") != "placement"}
     bundles = []
+    cache = PluginCache()                      # this job's plugins, parsed once
     for plugin, cell in sorted({(r["plugin"], r["interiorCell"])
                                 for rows in linked_shells().values() for r in rows}):
         if plugin not in paths:
             continue
         try:
             bundles.append(export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
-                                       absent=doc["forms"]))
+                                       absent=doc["forms"], cache=cache))
         except (SystemExit, ValueError) as err:
             print(f"  skip {plugin} {cell}: {err}")
     rows = placement_rows(bundles, bounds)
@@ -1330,6 +1390,43 @@ def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     print(f"{len(rows)} forms classed by placement: "
           + json.dumps(Counter(r["class"] for r in rows.values())))
     return 0
+
+
+def blueprint_claims(data: dict) -> dict[tuple[str, str], list[dict]]:
+    """``{(plugin, cellId): [interiorClaim, ...]}`` for every tier A door of a
+    place blueprint, in door order. The claim stays in the place's door record;
+    the exporter only checks its load door ref against the cell."""
+    bp = data.get("blueprint", data)
+    out: dict[tuple[str, str], list[dict]] = {}
+    for door in bp.get("doors", []) or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("tier") == "A":
+            out.setdefault((claim["plugin"], claim["cellId"]), []).append(claim)
+    return out
+
+
+def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
+                  claims: list[dict] | None = None, cache=None) -> dict:
+    """The shared cell file, as written: `export_cell`, the plugin's own
+    arrival marker (its exterior partner's teleport, `profile_cell`) and the
+    fixture light rule. Place-independent: `claims` only checks load door refs."""
+    from .interior_cells import game_marker, profile_cell, world_for
+    from .interior_light import apply_light_rule
+    paths, pools, registry = env
+    bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
+                         doors=claims, cache=cache)
+    prof = profile_cell(world_for(plugin, paths.get, cache), cell) or {}
+    if prof.get("exteriorDoors"):
+        # the plugin's first door to the outside: its arrival, and the exit door with it
+        first = prof["exteriorDoors"][0]
+        bundle["arrivalMarker"] = game_marker(first["arrivalMarker"])
+        load = next((d for d in bundle["doors"] if d["doorType"] == "load"
+                     and d["interiorLoadDoorRef"] == first["refId"]), None)
+        if load is not None:
+            bundle["exitDoor"] = {"id": f"{cell}.{first['refId']}", "refId": first["refId"],
+                                  **load["loadDoor"]}
+    apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
+    return bundle
 
 
 def main() -> int:
@@ -1344,42 +1441,22 @@ def main() -> int:
     args = ap.parse_args()
     if args.class_absent_by_placement:
         return _write_placement_rows()
-    jobs: list[tuple[str, str, str | None]] = []
-    pairs: dict[tuple[str, str], list[dict]] = {}
     if args.blueprint:
-        data = json.loads(Path(args.blueprint).read_text())
-        bp = data.get("blueprint", data)
-        parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
-        for door in bp.get("doors", []) or []:
-            claim = door.get("interiorClaim") or {}
-            if claim.get("tier") == "A":
-                shell = (parcels.get(door.get("parcelId")) or {}).get("assetRef")
-                jobs.append((claim["plugin"], claim["cellId"], shell))
-                pairs.setdefault((claim["plugin"], claim["cellId"]), []).append({
-                    "exteriorDoorId": door["id"],
-                    "interiorLoadDoorRef": claim["interiorLoadDoorRef"],
-                    "arrivalMarker": claim["arrivalMarker"]})
+        claims = blueprint_claims(json.loads(Path(args.blueprint).read_text()))
     elif args.plugin and args.cell:
-        jobs.append((args.plugin, args.cell, None))
+        claims = {(args.plugin, args.cell): []}
     else:
         ap.error("--plugin and --cell, or --blueprint")
-    paths, pools, registry = _environment()
+    env = _environment()
     kit_assets = published_kit_assets()
-    from .interior_light import apply_light_rule, kit_lights
+    from .interior_light import kit_lights
     fixture_lights = kit_lights(KITS_DIR)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
-    for plugin, cell, shell in dict.fromkeys(jobs):
-        bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
-                             doors=pairs.get((plugin, cell)))
-        bundle["shellAssetId"] = shell
-        if not any(d["doorType"] == "load" for d in bundle["doors"]):
-            from .interior_cells import game_marker, profile_cell, world_for
-            prof = profile_cell(world_for(plugin, paths.get), cell, shell) or {}
-            if prof.get("exteriorDoors"):
-                bundle["arrivalMarker"] = game_marker(prof["exteriorDoors"][0]["arrivalMarker"])
-        apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
+    cache = PluginCache()                      # this run's plugins, parsed once
+    for (plugin, cell), cell_claims in claims.items():
+        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims, cache)
         problems = check(bundle) + validate_bundle(bundle)
         gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
         (out_dir / f"{cell}.json").write_text(json.dumps(bundle, indent=1) + "\n")

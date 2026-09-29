@@ -1,5 +1,5 @@
 /**
- * Node-material composition helpers (decision 0109, docs/standards/tsl-shaders.md).
+ * Node-material composition helpers (decision 0111, docs/standards/tsl-shaders.md).
  *
  * Every shader customisation in the game is a TSL node graph on a NodeMaterial.
  * These helpers replace the old string-patch hooks of the WebGL renderer: a feature
@@ -28,7 +28,7 @@ import {
 } from "three/webgpu";
 import { bool as tslBool, float, materialColor, output, positionLocal, select, vec4 } from "three/tsl";
 // TSL node values are typed loosely on purpose: the typings for chained TSL
-// expressions are too deep for tsc to check usefully (standard, 0109 §3).
+// expressions are too deep for tsc to check usefully (standard, 0111 §3).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TslNode = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -190,7 +190,7 @@ export function claimFeature(material: THREE.Material, feature: string): boolean
  * Branch-free select: `c ? a : b` as arithmetic, so the node builder never lowers
  * it to an if/else that reads temporaries declared in one branch (three
  * 0.184 does that for `select` on computed operands and the result is NaN,
- * silently; decision 0109 gotchas). Both operands are evaluated: keep them
+ * silently; decision 0111 gotchas). Both operands are evaluated: keep them
  * finite (guard a division the unchosen side would make by zero).
  */
 export function sel(c: TslNode, a: TslNode, b: TslNode): TslNode {

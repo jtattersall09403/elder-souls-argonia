@@ -48,7 +48,8 @@ describe("published settlement bundle", () => {
     expect(() => createPlacementResolver(cyclic, meta, () => 0)(cyclic[0]))
       .toThrow(/mount cycle: t\.a -> t\.b -> t\.a/);
     const water = { ...a, id: "t.w", anchorClass: "water" as const, waterLevelM: 1,
-      parentPlacementId: undefined };
+      parentPlacementId: undefined, yFinal: undefined };
+    // (a yFinal water piece is drawn at its measured y and needs no waterline)
     expect(() => createPlacementResolver([water], meta, () => 0)(water))
       .toThrow(/t\.w: .* has no designedWaterlineM/);
   });

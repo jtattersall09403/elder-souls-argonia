@@ -1,4 +1,4 @@
-# 0109 — One renderer, one shader path: WebGPURenderer with TSL node materials, WebGL 2 as its fallback backend
+# 0111 — One renderer, one shader path: WebGPURenderer with TSL node materials, WebGL 2 as its fallback backend
 
 **Date:** 2026-09-29. **Status:** accepted (WebGPU lane lead, 16k walk 5, on the
 owner's instruction "migrate to WebGPU", tmp/16k-user-instruction.md, and the

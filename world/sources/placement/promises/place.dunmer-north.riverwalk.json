@@ -1,0 +1,167 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.dunmer-north.riverwalk",
+ "generator": "python3 -m worldgen.blueprint_promises --id <place-id> --write (decision 0104); never hand-edit a row but its `unfilled` block",
+ "derivedFrom": [
+  {
+   "file": "world/sources/catalogue/places-dunmer-north.json",
+   "sha256": "45ed306ab04051899f02199ce9f52bc2420bd10972791f803b99c323cbdb5237"
+  },
+  {
+   "file": "world/sources/routes/travel-services.json",
+   "sha256": "b31d925a55f6b106ddde6f2e0722b284e276efc90b287970cd18bca3dd44a49b"
+  }
+ ],
+ "promises": [
+  {
+   "id": "promise.riverwalk.evidence-the-plank-ages",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].sockets.evidence[evidence.riverwalk.the-plank-ages]"
+   },
+   "text": "Riverwalk has the evidence socket evidence.riverwalk.the-plank-ages.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.occupant-n1",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].contents.npcs[n1]"
+   },
+   "text": "Riverwalk has few family occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.occupant-n2",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].contents.npcs[n2]"
+   },
+   "text": "Riverwalk has few crew occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.occupant-n3",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].contents.npcs[n3]"
+   },
+   "text": "Riverwalk has few rank-and-file occupants.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.occupant-stage-mistress",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].notableNpcSlots[stage-mistress]"
+   },
+   "text": "The stage-mistress lives and works at Riverwalk.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.occupant-toll-holder",
+   "kind": "occupant",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].notableNpcSlots[toll-holder]"
+   },
+   "text": "The toll-holder lives and works at Riverwalk.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.operator-canoe-dunmer-north-riverwalk-the-tide-fair",
+   "kind": "operator",
+   "source": {
+    "file": "world/sources/routes/travel-services.json",
+    "path": "services[canoe.dunmer-north.riverwalk-the-tide-fair].operator"
+   },
+   "text": "The canoe poler runs the canoe service from Riverwalk.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.post-stage-mistress",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].sockets.post[post.riverwalk.stage-mistress]"
+   },
+   "text": "Riverwalk has the post socket post.riverwalk.stage-mistress.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.post-toll-holder",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].sockets.post[post.riverwalk.toll-holder]"
+   },
+   "text": "Riverwalk has the post socket post.riverwalk.toll-holder.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.safe-interior",
+   "kind": "safeInterior",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].classification.class"
+   },
+   "text": "Riverwalk has one safe interior (danger D0, quests 20 section 12).",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.scene-the-long-walk",
+   "kind": "socketBucket",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].sockets.scene[scene.riverwalk.the-long-walk]"
+   },
+   "text": "Riverwalk has the scene socket scene.riverwalk.the-long-walk.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.service-ferry",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].services[ferry]"
+   },
+   "text": "Riverwalk offers the ferry service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.service-lodging",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].services[lodging]"
+   },
+   "text": "Riverwalk offers the lodging service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.service-shrine",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].services[shrine]"
+   },
+   "text": "Riverwalk offers the shrine service.",
+   "unfilled": null
+  },
+  {
+   "id": "promise.riverwalk.service-trader",
+   "kind": "service",
+   "source": {
+    "file": "world/sources/catalogue/places-dunmer-north.json",
+    "path": "places[place.dunmer-north.riverwalk].services[trader]"
+   },
+   "text": "Riverwalk offers the trader service.",
+   "unfilled": null
+  }
+ ]
+}

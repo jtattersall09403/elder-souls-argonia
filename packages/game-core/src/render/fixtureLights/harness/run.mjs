@@ -1,4 +1,4 @@
-// Fixture-light bench (16k walk 5, lane L8; decision 0109 harness): drives the
+// Fixture-light bench (16k walk 5, lane L8; decision 0111 harness): drives the
 // studio harness page's settlement-night scene (100 lantern lamps over real
 // mud-kit pieces) once per lighting mode and backend, and prints one JSON
 // line per run: CPU ms per frame (render call), GPU ms per frame (WebGPU

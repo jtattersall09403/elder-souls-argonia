@@ -645,6 +645,33 @@
     "Chains.Mat": 0.498
    },
    "lodLevels": 3,
+   "light": {
+    "formId": "00059a93",
+    "editorId": "FarmInteriorLight01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     198,
+     162,
+     100
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.4,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.01,
+     -0.02,
+     0.02
+    ],
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 75 of 257 candlehornchandelier01 refs (next: FarmInteriorShadowLight01 20; none 74); offset is the median of those 75 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -798,6 +825,33 @@
     "CandleHornFloor01:0.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "00059a93",
+    "editorId": "FarmInteriorLight01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     198,
+     162,
+     100
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.4,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     -0.43,
+     2.25,
+     0.25
+    ],
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 58 of 458 candlehornfloor01 refs (next: RiftenLight01 29; none 230); offset is the median of those 58 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -921,6 +975,33 @@
     "CandleHornTable01:0.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "00059a93",
+    "editorId": "FarmInteriorLight01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     198,
+     162,
+     100
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.4,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.16,
+     1.36,
+     0.16
+    ],
+    "evidence": "Skyrim.esm: FarmInteriorLight01 is the nearest LIGH ref (< 200 units, same cell) to 91 of 992 candlehorntable01 refs (next: FarmInteriorFireLight01 83; none 369); offset is the median of those 91 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -999,6 +1080,34 @@
     "CandleHornWall01:0.Mat"
    ],
    "lodLevels": 3,
+   "light": {
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.0,
+     -0.06,
+     1.11
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 78 of 679 candlehornwall01 refs (next: DefaultCandleLight01NSDesat 70; none 310); offset is the median of those 78 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -2111,8 +2220,8 @@
     "EdgeBlood01.Mat"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat": 0.0,
-    "EdgeBlood01.Mat": 0.0
+    "EdgeBlood.Mat": 0.004,
+    "EdgeBlood01.Mat": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat",
@@ -2184,8 +2293,8 @@
     "EdgeBlood01.Mat.001"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.001": 0.0,
-    "EdgeBlood01.Mat.001": 0.0
+    "EdgeBlood.Mat.001": 0.004,
+    "EdgeBlood01.Mat.001": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat.001",
@@ -3351,16 +3460,16 @@
    "node": "es|6a40cbb46b|clutter_woodfires_fireplacewood01burning",
    "category": "clutter",
    "sizeM": [
-    1.622,
+    1.491,
     1.414,
-    2.697
+    1.665
    ],
    "originOffsetM": [
-    0.811,
+    0.746,
     0.706,
     0.161
    ],
-   "triangles": 314,
+   "triangles": 298,
    "lodRatios": [
     0.35,
     0.12
@@ -3368,32 +3477,67 @@
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
-   "droppedShapes": [],
+   "droppedShapes": [
+    {
+     "shape": "Plane03:0",
+     "reason": "refraction-only"
+    }
+   ],
    "textures": [
     "ash01.dds",
     "fxfireatlas04.dds",
-    "gradfireexplosion.dds.002",
-    "vaportilenormal_n.dds",
-    "woodfires01.dds"
+    "woodfires01.dds",
+    "woodfires01_g.dds"
    ],
    "materials": [
     "Ash.Mat",
     "Flames:0.Mat",
     "Flames:1.Mat",
     "Glow.Mat",
-    "Plane03:0.Mat",
     "Wood.Mat"
    ],
    "alphaMaskMaterials": {
-    "Ash.Mat": 0.149,
-    "Flames:0.Mat": 0.5,
-    "Flames:1.Mat": 0.5,
-    "Glow.Mat": 0.5
+    "Ash.Mat": 0.149
    },
-   "decalMaterials": [
+   "additiveMaterials": [
+    "Flames:0.Mat",
+    "Flames:1.Mat",
     "Glow.Mat"
    ],
+   "additiveGains": {
+    "Flames:0.Mat": 1.75,
+    "Flames:1.Mat": 1.5,
+    "Glow.Mat": 1.25
+   },
    "lodLevels": 3,
+   "light": {
+    "formId": "00059b71",
+    "editorId": "FarmInteriorFireLight01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     173,
+     103,
+     52
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.4,
+     "movementAmplitude": 2.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "shadowOmni"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     -0.01,
+     1.2,
+     0.03
+    ],
+    "evidence": "Skyrim.esm: FarmInteriorFireLight01 is the nearest LIGH ref (< 200 units, same cell) to 103 of 147 fireplacewood01burning refs (next: DefaultTorch01NS_FastDesat 7; none 14); offset is the median of those 103 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -3410,6 +3554,10 @@
      "sizeM": 0.4619,
      "source": "FlamesSmall01"
     }
+   ],
+   "flameCardMaterials": [
+    "Flames:0.Mat",
+    "Flames:1.Mat"
    ],
    "designedSinkM": {
     "p25": -0.1612,
@@ -3623,6 +3771,9 @@
    "materials": [
     "HangingElvesEar01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HangingElvesEar01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -3679,6 +3830,9 @@
    "materials": [
     "HangingFrostMirriam01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HangingFrostMirriam01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -3860,7 +4014,7 @@
     "SteelMace:0.Mat"
    ],
    "alphaMaskMaterials": {
-    "Edge Blood01.Mat": 0.0,
+    "Edge Blood01.Mat": 0.004,
     "EdgeBlood05.Mat": 0.039
    },
    "decalMaterials": [
@@ -5397,8 +5551,8 @@
     "EdgeBlood01.Mat.002"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.002": 0.0,
-    "EdgeBlood01.Mat.002": 0.0
+    "EdgeBlood.Mat.002": 0.004,
+    "EdgeBlood01.Mat.002": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat.002",
@@ -6502,7 +6656,7 @@
     "Scb.Mat.001"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood01.Mat.003": 0.0
+    "EdgeBlood01.Mat.003": 0.004
    },
    "decalMaterials": [
     "EdgeBlood01.Mat.003"
@@ -7014,16 +7168,16 @@
    "node": "es|f09ba3af7d|vanilla__clutter_common_torchpermanent01",
    "category": "clutter",
    "sizeM": [
-    0.261,
-    0.524,
-    0.887
+    0.169,
+    0.312,
+    0.881
    ],
    "originOffsetM": [
-    0.131,
-    0.127,
+    0.074,
+    0.029,
     0.311
    ],
-   "triangles": 846,
+   "triangles": 786,
    "lodRatios": [
     0.35,
     0.12
@@ -7032,6 +7186,10 @@
    "alphaTest": false,
    "collision": "none",
    "droppedShapes": [
+    {
+     "shape": "HeatRefraction:0",
+     "reason": "refraction-only"
+    },
     {
      "shape": "GlowMesh:1",
      "nifShape": "GlowMesh:1",
@@ -7052,20 +7210,51 @@
    "textures": [
     "imperialwallsconce01.dds",
     "torch_d.dds",
-    "torch_g.dds",
-    "vaportilenormal_n.dds"
+    "torch_g.dds"
    ],
    "materials": [
     "GlowAddMesh.Mat",
-    "HeatRefraction:0.Mat",
     "TorchPermanent01:1.Mat",
     "TorchPermanent01:13.Mat"
    ],
    "alphaMaskMaterials": {
-    "GlowAddMesh.Mat": 0.5,
     "TorchPermanent01:1.Mat": 0.502
    },
+   "additiveMaterials": [
+    "GlowAddMesh.Mat"
+   ],
+   "additiveGains": {
+    "GlowAddMesh.Mat": 1.25
+   },
    "lodLevels": 3,
+   "light": {
+    "formId": "000bcc9d",
+    "editorId": "DefaultTorch01NS_Fast",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     197,
+     156,
+     112
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.5,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.03,
+     0.0,
+     -1.23
+    ],
+    "evidence": "Skyrim.esm: DefaultTorch01NS_Fast is the nearest LIGH ref (< 200 units, same cell) to 226 of 776 torchpermanent01 refs (next: BleakFallsDraugrTorch01NS 46; none 185); offset is the median of those 226 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -9349,6 +9538,34 @@
     "GlazedCandlesStatic02:6.Mat": 0.89
    },
    "lodLevels": 3,
+   "light": {
+    "formId": "000b9be7",
+    "editorId": "WRCandleFlickerNS",
+    "burnSeconds": -1,
+    "radiusUnits": 128,
+    "colourRgb": [
+     254,
+     234,
+     152
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 16.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.7,
+    "offsetM": [
+     0.02,
+     0.74,
+     0.35
+    ],
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 65 of 307 glazedcandlesstatic02 refs (next: SolitudeInnFirePlacesDefault 38; none 82); offset is the median of those 65 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -9939,6 +10156,33 @@
     "Scandle01:8.Mat": 0.89
    },
    "lodLevels": 3,
+   "light": {
+    "formId": "0003611f",
+    "editorId": "SolitudeInnCandleDefault",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     226,
+     207,
+     150
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 14.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "fade": 1.5,
+    "offsetM": [
+     0.08,
+     0.14,
+     0.09
+    ],
+    "evidence": "Skyrim.esm: SolitudeInnCandleDefault is the nearest LIGH ref (< 200 units, same cell) to 106 of 334 impcandle01 refs (next: SolitudeInnFiretDefault 22; none 170); offset is the median of those 106 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -10836,7 +11080,7 @@
     "icewraithteeth:0.Mat"
    ],
    "alphaMaskMaterials": {
-    "icewraithteeth:0.Mat": 0.0
+    "icewraithteeth:0.Mat": 0.004
    },
    "lodLevels": 3,
    "designedSinkM": {
@@ -13523,6 +13767,34 @@
     "Ruins_FloorCandleLampSmall01:10.Mat": 0.89
    },
    "lodLevels": 3,
+   "light": {
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     -0.13,
+     1.12,
+     -0.05
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 262 of 2241 ruinsfloorcandlelampsmon refs (next: DefaultCandleLight01NSDesat 168; none 1189); offset is the median of those 262 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -13620,6 +13892,34 @@
     "Ruins_FloorCandleLampSmall02:8.Mat": 0.89
    },
    "lodLevels": 3,
+   "light": {
+    "formId": "00088238",
+    "editorId": "DefaultCandleLight01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     236,
+     223,
+     170
+    ],
+    "flicker": {
+     "frequency": 3.0,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 8.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.0,
+    "offsetM": [
+     0.03,
+     1.11,
+     0.05
+    ],
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 256 of 1515 ruinsfloorcandlelampsmon02 refs (next: DefaultCandleLight01NSDesat 132; none 780); offset is the median of those 256 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   },
    "flames": [
     {
      "offsetM": [
@@ -16984,6 +17284,9 @@
    "materials": [
     "BirdEgg02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BirdEgg02:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17040,6 +17343,9 @@
    "materials": [
     "BirdEgg03:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BirdEgg03:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17096,6 +17402,9 @@
    "materials": [
     "Cabbage01:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Cabbage01:1.Mat": 0.522
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17349,6 +17658,9 @@
    "glowMaterials": [
     "DeathBell01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DeathBell01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17411,6 +17723,9 @@
    "materials": [
     "DragonsTongue01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DragonsTongue01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17467,6 +17782,9 @@
    "materials": [
     "ElvesEar01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ElvesEar01:0.Mat": 0.439
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17523,6 +17841,9 @@
    "materials": [
     "FrostMirriam01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FrostMirriam01:0.Mat": 0.439
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17635,6 +17956,9 @@
    "materials": [
     "Gourd01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Gourd01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17691,6 +18015,9 @@
    "materials": [
     "JazBay01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "JazBay01:0.Mat": 0.51
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17747,6 +18074,9 @@
    "materials": [
     "Lavender01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Lavender01:0.Mat": 0.392
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -17803,6 +18133,9 @@
    "materials": [
     "MountainFlower01Purple:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "MountainFlower01Purple:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18043,6 +18376,9 @@
    "materials": [
     "Snowberry Branch:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Snowberry Branch:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18099,6 +18435,9 @@
    "materials": [
     "SpikyGrass03:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SpikyGrass03:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18155,6 +18494,9 @@
    "materials": [
     "SwampFungalPod02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SwampFungalPod02:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18211,6 +18553,9 @@
    "materials": [
     "Thistle01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Thistle01:0.Mat": 0.4
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18267,6 +18612,9 @@
    "materials": [
     "TundraCotton01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "TundraCotton01:0.Mat": 0.502
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -18401,8 +18749,8 @@
     "Scb.Mat.002"
    ],
    "alphaMaskMaterials": {
-    "DaggerBloodFX.Mat": 0.0,
-    "DaggerBloodLighting01.Mat": 0.0
+    "DaggerBloodFX.Mat": 0.004,
+    "DaggerBloodLighting01.Mat": 0.004
    },
    "decalMaterials": [
     "DaggerBloodFX.Mat",
@@ -18471,8 +18819,8 @@
     "Scb.Mat.003"
    ],
    "alphaMaskMaterials": {
-    "BloodFX.Mat": 0.0,
-    "BloodLighting.Mat": 0.0
+    "BloodFX.Mat": 0.004,
+    "BloodLighting.Mat": 0.004
    },
    "decalMaterials": [
     "BloodFX.Mat",
@@ -18541,8 +18889,8 @@
     "Scb.Mat.004"
    ],
    "alphaMaskMaterials": {
-    "BloodEffects.Mat": 0.0,
-    "BloodLighting.Mat.001": 0.0
+    "BloodEffects.Mat": 0.004,
+    "BloodLighting.Mat.001": 0.004
    },
    "decalMaterials": [
     "BloodEffects.Mat",
@@ -18611,8 +18959,8 @@
     "WarAxeBloodLighting01.Mat"
    ],
    "alphaMaskMaterials": {
-    "WarAxeBloodFX01.Mat": 0.0,
-    "WarAxeBloodLighting01.Mat": 0.0
+    "WarAxeBloodFX01.Mat": 0.004,
+    "WarAxeBloodLighting01.Mat": 0.004
    },
    "decalMaterials": [
     "WarAxeBloodFX01.Mat",
@@ -18679,8 +19027,8 @@
     "SteelGreatsword:0.Mat"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.003": 0.0,
-    "EdgeBlood01.Mat.004": 0.0
+    "EdgeBlood.Mat.003": 0.004,
+    "EdgeBlood01.Mat.004": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat.003",
@@ -18749,8 +19097,8 @@
     "SteelSword:0.Mat"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.004": 0.0,
-    "EdgeBlood01.Mat.005": 0.0
+    "EdgeBlood.Mat.004": 0.004,
+    "EdgeBlood01.Mat.005": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat.004",
@@ -18819,8 +19167,8 @@
     "SteelWarAxe:0.Mat"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.005": 0.0,
-    "EdgeBlood01.Mat.006": 0.0
+    "EdgeBlood.Mat.005": 0.004,
+    "EdgeBlood01.Mat.006": 0.004
    },
    "decalMaterials": [
     "EdgeBlood.Mat.005",
@@ -18887,7 +19235,7 @@
     "EdgeBlood01.Mat.007"
    ],
    "alphaMaskMaterials": {
-    "EdgeBlood.Mat.006": 0.0,
+    "EdgeBlood.Mat.006": 0.004,
     "EdgeBlood01.Mat.007": 0.039
    },
    "decalMaterials": [
@@ -19156,6 +19504,9 @@
    "materials": [
     "HangingMoss01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HangingMoss01:0.Mat": 0.627
+   },
    "lodLevels": 1,
    "designedSinkM": {
     "p25": 0.0,
@@ -19189,9 +19540,9 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 201,
-  "OPAQUE": 380,
-  "BLEND": 0
+  "MASK": 197,
+  "OPAQUE": 378,
+  "BLEND": 4
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -19224,15 +19575,23 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 81608404,
-  "bytesAfter": 16765612,
-  "images": 248,
-  "imageBytesAfter": 12223017,
+  "bytesBefore": 81927808,
+  "bytesAfter": 16825852,
+  "images": 249,
+  "imageBytesAfter": 12288289,
   "warnings": [],
-  "sha256": "e82731a5891754d0e7c5b41a40cd492861b06ff807ba7e98ae02a377871617cd",
+  "sha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a",
+  "parts": {
+   "parts": 88,
+   "partBytes": 1449896,
+   "textureFiles": 93,
+   "textureBytes": 4518158,
+   "bytes": 5968054,
+   "sourceSha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a"
+  },
   "sidecarBytes": {
-   "connectors": 198352,
-   "footprints": 366509,
+   "connectors": 198712,
+   "footprints": 366064,
    "interiors": 139280
   }
  }

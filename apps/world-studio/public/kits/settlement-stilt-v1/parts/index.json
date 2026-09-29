@@ -3,8 +3,8 @@
  "kit": "settlement-stilt-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 16740104,
-  "sha256": "e9ae98159ed9b1044115fd3ecc5d533b0122591aa0c3eafe61105d3cb52deaad"
+  "bytes": 20007348,
+  "sha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846"
  },
  "totals": {
   "parts": 1,

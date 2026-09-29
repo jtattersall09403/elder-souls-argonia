@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "DawnstarBrinasHouse",
  "plugin": "Skyrim.esm",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:farmhouse/farmhouse01-with-door",
+ "shellAssetId": null,
  "refCount": 141,
  "kits": {
   "bmv-treehouse-int": {
@@ -63,16 +63,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.1",
    "interiorLoadDoorRef": "00013CC1",
-   "arrivalMarker": {
-    "positionM": [
-     -23.6671,
-     0.0,
-     12.7593
-    ],
-    "yawDeg": 0.0
-   },
    "loadDoor": {
     "positionM": [
      -23.6639,
@@ -2600,9 +2591,9 @@
     162,
     100
    ],
-   "fade": 1.0,
+   "fade": 0.921,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "FarmInteriorLight01",
    "raw": {
     "xrdsUnits": -205.385,
@@ -2612,7 +2603,9 @@
      "fadeOffset": 0.5,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 1.0
-    }
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2628,9 +2621,9 @@
     103,
     52
    ],
-   "fade": 1.0,
+   "fade": 0.921,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "FarmInteriorFireLight01",
    "raw": {
     "xrdsUnits": -106.584,
@@ -2640,7 +2633,9 @@
      "fadeOffset": 2.0,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 50.0
-    }
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2656,9 +2651,9 @@
     162,
     100
    ],
-   "fade": 1.0,
+   "fade": 0.921,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "FarmInteriorShadowLight01",
    "raw": {
     "xrdsUnits": -249.915,
@@ -2668,7 +2663,9 @@
      "fadeOffset": 0.5,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 50.0
-    }
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2684,9 +2681,9 @@
     185,
     168
    ],
-   "fade": 1.0,
+   "fade": 0.921,
    "flags": 1,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "FarmInteriorBounce01",
    "raw": {
     "xrdsUnits": -251.43,
@@ -2696,7 +2693,9 @@
      "fadeOffset": 0.5,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 1.0
-    }
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2712,9 +2711,9 @@
     162,
     100
    ],
-   "fade": 1.0,
+   "fade": 0.921,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "FarmInteriorShadowLight01",
    "raw": {
     "xrdsUnits": -242.992,
@@ -2724,7 +2723,9 @@
      "fadeOffset": 0.5,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 50.0
-    }
+    },
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
    }
   }
  ],

@@ -1,6 +1,6 @@
 /**
  * Segmented frame timer (decision 0084, performance round 10; node renderer
- * since decision 0109).
+ * since decision 0111).
  *
  * GPU: the renderer's own timestamp queries (`trackTimestamp: true`). Every
  * render pass three runs (each `renderer.render`, each shadow map, each

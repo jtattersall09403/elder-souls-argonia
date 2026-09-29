@@ -1,5 +1,5 @@
 /**
- * The flame-card and ember materials (16k walk 5; TSL port under decision 0109, volume hand-off decision 0110):
+ * The flame-card and ember materials (16k walk 5; TSL port under decision 0111, volume hand-off decision 0110):
  * NodeMaterials over instanced unit quads, consuming `FireConfig`
  * (fireTypes.ts). One graph for both backends of the node renderer; on the
  * WebGPU backend the large presets' cards hand over to the raymarched volume

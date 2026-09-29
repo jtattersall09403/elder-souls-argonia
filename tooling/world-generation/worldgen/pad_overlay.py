@@ -376,18 +376,23 @@ def missing_overlays(settlement: dict, placements_by_id: dict) -> list[str]:
 
 
 FIXTURE_PLACE = "place.imperial-fringe.claywater-station"
-FIXTURE_PADS = ("family-hut", "polers-hut", "stable-barn", "retaining-wall-nw")
+FIXTURE_PADS = ("family-hut", "polers-hut", "stable", "retaining-wall-ne")   # current Claywater pad parcels
 
 
 def golden_fixture(bundle: dict, height_at) -> dict:
     """Twelve points on Claywater's pads (a core, a blend-ring and an outside
     point on each of FIXTURE_PADS), the frozen ground under each and the
     padded height this module gives: the fixture the TypeScript twin reads."""
-    site = next(s for s in bundle["settlements"] if s["id"] == FIXTURE_PLACE)
+    site = next((s for s in bundle["settlements"] if s["id"] == FIXTURE_PLACE), None)
+    if site is None:
+        raise SystemExit(f"--fixture: {FIXTURE_PLACE} is not in the published bundle")
     overlays = site["groundOverlays"]["pads"]
     points = []
     for suffix in FIXTURE_PADS:
-        o = next(o for o in overlays if o["id"].endswith("." + suffix))
+        o = next((o for o in overlays if o["id"].endswith("." + suffix)), None)
+        if o is None:
+            raise SystemExit(f"--fixture: no pad overlay ending '.{suffix}' on {FIXTURE_PLACE}; "
+                             f"FIXTURE_PADS is stale (pads: {sorted(q['id'].rsplit('.', 1)[-1] for q in overlays)})")
         poly = o["pieces"][0]["polygonM"]
         cx = sum(x for x, _ in poly) / len(poly)
         cz = sum(z for _, z in poly) / len(poly)
@@ -406,6 +411,9 @@ def golden_fixture(bundle: dict, height_at) -> dict:
                           for q in overlays)
                 if "outside" not in wanted and far:
                     wanted["outside"] = out
+        lost = [zone for zone in ("core", "blend", "outside") if zone not in wanted]
+        if lost:
+            raise SystemExit(f"--fixture: pad {suffix} has no clear {lost} point; pick another pad")
         for zone in ("core", "blend", "outside"):
             x, z = (round(v, 3) for v in wanted[zone])
             base = round(float(height_at(x, z)), 4)

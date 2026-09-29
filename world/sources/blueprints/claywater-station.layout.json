@@ -2280,10 +2280,11 @@
    "op": "socket",
    "id": "socket.claywater-station.idle-well-keeper-home",
    "kind": "idle",
-   "host": "parcel.claywater-station.station-house",
+   "host": "DawnstarBrinasHouse.000E0461",
    "activity": "sleep",
    "parcel": "parcel.claywater-station.station-house",
-   "why": "The well-keeper sleeps in the station house."
+   "why": "The well-keeper sleeps in the station house.",
+   "interiorCell": "DawnstarBrinasHouse"
   },
   {
    "op": "socket",
@@ -2405,10 +2406,11 @@
    "op": "socket",
    "id": "socket.claywater-station.idle-poler-home",
    "kind": "idle",
-   "host": "parcel.claywater-station.polers-hut",
+   "host": "KeebaHouseFisher.080A5B5E",
    "activity": "sleep",
    "parcel": "parcel.claywater-station.polers-hut",
-   "why": "The poler sleeps in the pod house above the landing."
+   "why": "The poler sleeps in the pod house above the landing.",
+   "interiorCell": "KeebaHouseFisher"
   },
   {
    "op": "socket",
@@ -2465,10 +2467,11 @@
    "op": "socket",
    "id": "socket.claywater-station.idle-family-home",
    "kind": "idle",
-   "host": "parcel.claywater-station.family-hut",
+   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
    "parcel": "parcel.claywater-station.family-hut",
-   "why": "The family sleeps in its hut."
+   "why": "The family sleeps in its hut.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -2511,10 +2514,14 @@
    "op": "socket",
    "id": "socket.claywater-station.idle-travellers-sleep",
    "kind": "idle",
-   "host": "parcel.claywater-station.station-house",
+   "host": "DawnstarBrinasHouse.000E03FF",
    "activity": "sleep",
    "parcel": "parcel.claywater-station.station-house",
-   "why": "Travellers pay for a bed upstairs in the station house."
+   "why": "Travellers pay for a bed in the station house.",
+   "interiorCell": "DawnstarBrinasHouse",
+   "fills": [
+    "promise.claywater-station.service-lodging"
+   ]
   },
   {
    "op": "socket",
@@ -2605,22 +2612,24 @@
    "op": "socket",
    "id": "socket.claywater-station.item-station-lantern",
    "kind": "item",
-   "host": "parcel.claywater-station.station-house",
+   "host": "DawnstarBrinasHouse.000E041B",
    "itemClass": "misc-household",
    "valueBand": "low",
    "parcel": "parcel.claywater-station.station-house",
-   "why": "The station house's spare lantern for travellers who walk on after dark."
+   "why": "The station house's spare lantern for travellers who walk on after dark.",
+   "interiorCell": "DawnstarBrinasHouse"
   },
   {
    "op": "socket",
    "id": "socket.claywater-station.item-station-ledger",
    "kind": "item",
-   "host": "parcel.claywater-station.station-house",
+   "host": "DawnstarBrinasHouse.000E040C",
    "itemClass": "book",
    "valueBand": "low",
    "contentPending": true,
    "parcel": "parcel.claywater-station.station-house",
-   "why": "The well-keeper's ledger of water drawn and beds let."
+   "why": "The well-keeper's ledger of water drawn and beds let.",
+   "interiorCell": "DawnstarBrinasHouse"
   },
   {
    "op": "socket",

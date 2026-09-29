@@ -1,0 +1,103 @@
+{
+ "schemaVersion": 1,
+ "kit": "flora-province-v1",
+ "derivation": "rendered from the kit's own source mesh and textures (pipeline/impostor_bake.py); no new art",
+ "frameBasis": "right = normalize(cross(Y, d)), up = cross(d, right); glTF object space",
+ "grid": "hemi-octahedral, vertex spacing (border = horizon), atlas row j from the top",
+ "impostors": [
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
+   "file": "bmv__landscape_trees_mangrovereachtree0gkb2.glb",
+   "grid": 12,
+   "framePx": 192,
+   "normalFramePx": 96,
+   "cellM": 15.6001,
+   "centreM": [
+    0.7328,
+    3.0484,
+    -0.123
+   ],
+   "boundsM": [
+    [
+     -3.4675,
+     -3.524,
+     -4.154
+    ],
+    [
+     4.9331,
+     9.6208,
+     3.9081
+    ]
+   ],
+   "contentPx": 161.8,
+   "bytes": 3614156,
+   "sha256": "ee679530f304183fd177429eeaed6390b72bcf8ce165f150e554fc92d37cc091",
+   "judge": {
+    "px": 162,
+    "iouMin": 0.857,
+    "worstLoss": 0.022,
+    "cardIou": [
+     0.858,
+     0.627,
+     0.874,
+     0.643,
+     0.865,
+     0.609,
+     0.857,
+     0.676,
+     0.635,
+     0.483
+    ],
+    "pass": true
+   },
+   "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb2.glb"
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
+   "file": "bmv__landscape_trees_mangrovereachtree0gkb8.glb",
+   "grid": 12,
+   "framePx": 192,
+   "normalFramePx": 96,
+   "cellM": 12.6702,
+   "centreM": [
+    0.0941,
+    1.8241,
+    -0.0503
+   ],
+   "boundsM": [
+    [
+     -4.8422,
+     -2.4678,
+     -5.0582
+    ],
+    [
+     5.0304,
+     6.1161,
+     4.9576
+    ]
+   ],
+   "contentPx": 130.1,
+   "bytes": 4199704,
+   "sha256": "cc0c9a59bb6746281d4bea337e14c506cebd6d9e5299ac7222f0beeadaed68b4",
+   "judge": {
+    "px": 130,
+    "iouMin": 0.888,
+    "worstLoss": 0.022,
+    "cardIou": [
+     0.905,
+     0.712,
+     0.908,
+     0.712,
+     0.91,
+     0.71,
+     0.913,
+     0.705,
+     0.664,
+     0.427
+    ],
+    "pass": true
+   },
+   "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb8.glb"
+  }
+ ]
+}

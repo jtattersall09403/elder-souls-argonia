@@ -1,6 +1,6 @@
 /**
  * Shared builder for the settlement harness scenes (settlement-day,
- * settlement-night; decision 0109): REAL kit pieces from the published mud
+ * settlement-night; decision 0111): REAL kit pieces from the published mud
  * kit (public/kits/settlement-mud-v1), loaded through the settlement kit
  * loader (assets/kitLoader createKitLoader + settlement/kit
  * buildArchitectureKit, which converts each glTF material to its node twin

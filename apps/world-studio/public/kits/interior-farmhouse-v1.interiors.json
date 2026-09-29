@@ -1032,14 +1032,14 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 320.7,
+    "deg": 321.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 321\u00b0 in the piece's own frame carries 4.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 321\u00b0 in the piece's own frame carries 3.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
-   "heightM": 0.89,
+   "heightM": 0.88,
    "interior": "none",
-   "planAreaM2": 0.11,
+   "planAreaM2": 0.05,
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.9 m tall)"
@@ -3274,17 +3274,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 17.6,
+    "deg": 17.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 18\u00b0 in the piece's own frame carries 2.60x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 17\u00b0 in the piece's own frame carries 2.27x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
-   "heightM": 2.7,
+   "heightM": 1.67,
    "interior": "none",
-   "planAreaM2": 2.19,
+   "planAreaM2": 2.1,
    "provenance": [],
    "sizeClass": "small",
-   "why": "too small to hold an interior (2.2 m\u00b2 plan, 2.7 m tall)"
+   "why": "too small to hold an interior (2.1 m\u00b2 plan, 1.7 m tall)"
   },
   "vanilla:critters/bee/beehivehusk": {
    "category": "creature",

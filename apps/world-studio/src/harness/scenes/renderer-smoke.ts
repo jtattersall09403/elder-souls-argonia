@@ -1,5 +1,5 @@
 /**
- * Harness renderer smoke test (decision 0109): proves the page, the renderer
+ * Harness renderer smoke test (decision 0111): proves the page, the renderer
  * and the runner end to end. A lit node-material cube casts a shadow on a
  * plane under a noon sun, with one point light; nothing subsystem-specific.
  * (Named apart from "smoke", which is the settlement chimney-smoke scene.)

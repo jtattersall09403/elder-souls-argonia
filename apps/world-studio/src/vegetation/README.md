@@ -55,6 +55,14 @@ twins: the shadow pass reuses the material's nodes. Harness scenes
   another tree's picture). `test_shipped_flora_cards_are_baked_from_their_own_mesh`
   reads the shipped GLB and fails on any card whose hash or frame is not
   this asset's.
+- **A card rung can be an octahedral impostor instead** (walk-5 impostor
+  lane, decision 0108 §5). `useFloraKit` reads `kits/<kit>.impostors.json`
+  (written by `pipeline/impostor_bake.py --publish`, passing species only),
+  loads each impostor GLB and `installImpostors` (floraKit.ts) swaps it in
+  for the species' card level; `speciesRings` then starts that rung no
+  nearer than the tree's impostor texel height. The shader is game-core
+  `vegetation/impostor.ts`; `WorldSky` re-installs it after CSM. No sidecar
+  ships today (none of the three mangroves reached the silhouette bar).
 - **Nothing that is not a plant sways.** `KitSpecies.sways` is false for the
   manifest categories `rock`, `deadfall`, `container`, `misc`, `ruin`,
   `architecture` and `clutter` (66 species). Their materials are never

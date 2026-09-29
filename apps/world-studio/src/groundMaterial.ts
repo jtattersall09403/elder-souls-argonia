@@ -5,7 +5,7 @@ import type { AerialUniforms, UniformOf } from "./sky/aerial";
 import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { applyShoreWetness } from "./water/groundWetness";
 
-// TSL builders typed loosely (standard 0109 §1: the chained typings are too
+// TSL builders typed loosely (standard 0111 §1: the chained typings are too
 // deep for tsc to check usefully).
 type LooseFn = (...args: TslNode[]) => TslNode;
 const {
@@ -26,7 +26,7 @@ const { cameraPosition, cameraViewMatrix, positionWorld } = TSL as unknown as Re
  * north) and world-space positions in metres.
  *
  * The splat is a TSL node graph on a MeshStandardNodeMaterial (decision
- * 0109): `colorNode` is the splat albedo, `normalNode` the province
+ * 0111): `colorNode` is the splat albedo, `normalNode` the province
  * gradient-map normal (with the cliff relief), and lighting, cascaded
  * shadows, IBL, the scene's aerial fog node and tone mapping are three.js's
  * own, so the terrain is lit by the same sun, sky and exposure as

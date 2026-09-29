@@ -48,7 +48,9 @@ for mat in bpy.data.materials:
         src = sock.links[0].from_socket
         cmp = nt.nodes.new("ShaderNodeMath")
         cmp.operation = "GREATER_THAN"
-        cmp.inputs[1].default_value = 0.5
+        # the glTF importer sets alpha_threshold from the material's alphaCutoff
+        # (the NIF's own threshold since walk 5), as three.js alphaTest reads it
+        cmp.inputs[1].default_value = mat.alpha_threshold if mat.blend_method == "CLIP" else 0.5
         nt.links.new(src, cmp.inputs[0])
         nt.links.new(cmp.outputs[0], sock)
     mat.blend_method = "CLIP"

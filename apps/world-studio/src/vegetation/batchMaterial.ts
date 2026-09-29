@@ -1,7 +1,7 @@
 /**
  * One foliage batch's patched node material, outside React so the renderer
  * (`Vegetation.tsx`) and the harness scene (`harness/scenes/veg.ts`) build the
- * SAME material from a kit part (decision 0109).
+ * SAME material from a kit part (decision 0111).
  *
  * The kit material is already a NodeMaterial (`floraKit.ts` converts it once
  * at load). The batch clones it, then patches the clone: wind, the LOD fade

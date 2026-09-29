@@ -609,7 +609,19 @@ def vault_holds_mesh(model: str, registry: dict, manifest: set[str]) -> bool:
     return key in registry or key in manifest
 
 
-def bundle_sourcing(plugin: str, cell: str) -> dict:
+def process_plugin_cache():
+    """This process's `plugin_cache.PluginCache`, held in the per-process
+    environment `bundle_sourcing` already keeps (paths, pools, registry), so
+    `plugin_profile` and `bundle_sourcing` parse each plugin once between them
+    whoever calls them (``--claim``, the batch pre-pass). A caller that owns
+    its own cache passes it as ``cache=``."""
+    if "cache" not in _SOURCING_ENV:
+        from .plugin_cache import PluginCache
+        _SOURCING_ENV["cache"] = PluginCache()
+    return _SOURCING_ENV["cache"]
+
+
+def bundle_sourcing(plugin: str, cell: str, cache=None) -> dict:
     """``{unsourced, misses, gate}`` for one cell, from its bundle as
     `export_interior_bundle` builds it against the published kits and its
     recorded stand-ins: ``unsourced`` the missing pieces we hold nowhere (a
@@ -631,7 +643,8 @@ def bundle_sourcing(plugin: str, cell: str) -> dict:
                     if manifest_path.exists() else set())
         _SOURCING_ENV["env"] = (paths, pools, registry, manifest, ex.published_kit_assets())
     paths, pools, registry, manifest, kit_assets = _SOURCING_ENV["env"]
-    bundle = ex.export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n))
+    bundle = ex.export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
+                            cache=cache if cache is not None else process_plugin_cache())
     gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
     gate = ex.check(bundle)
     if gaps:
@@ -843,13 +856,14 @@ from .interior_cells import game_marker  # noqa: E402
 _PROFILE_PATHS: dict[str, Path] | None = None
 
 
-def plugin_profile(plugin: str, cell: str, shell: str | None) -> dict | None:
+def plugin_profile(plugin: str, cell: str, shell: str | None, cache=None) -> dict | None:
     """The cell's measured profile, read from its plugin (`interior_cells`)."""
     global _PROFILE_PATHS
     from . import interior_cells as ic
     if _PROFILE_PATHS is None:
         _PROFILE_PATHS = ic.plugin_paths()
-    world = ic.world_for(plugin, _PROFILE_PATHS.get)
+    world = ic.world_for(plugin, _PROFILE_PATHS.get,
+                         cache if cache is not None else process_plugin_cache())
     return ic.profile_cell(world, cell, shell) if world is not None else None
 
 
@@ -970,6 +984,11 @@ def main() -> int:
                          "pre-pass claim table (worldgen.batch_prepass)")
     args = ap.parse_args()
     if args.claim:
+        # every cell read from its plugin is a heavy job (Greenspring
+        # 2026-09-29: minutes of CPU); run it where the watchdog cannot
+        # stop it and a heavy slot bounds it (worldgen.job_guard).
+        from .job_guard import reexec_guarded
+        reexec_guarded("interiors-claim", "worldgen.blueprint_interiors")
         return claim_main(Path(args.claim), [p for p in args.parcels.split(",") if p],
                           use_table=not args.no_table)
     if not args.report:

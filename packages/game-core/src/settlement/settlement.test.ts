@@ -209,6 +209,20 @@ describe("settlement placement contract", () => {
     expect(() => waterPlacementY(hull, NaN)).toThrow(/no designedWaterlineM/);
   });
 
+  it("draws a workbench-seated (yFinal) water piece at its measured y, not the kit waterline", () => {
+    // Claywater walk 5: dockstrent02 (waterline -1.5931) seated at 35.51 over
+    // water 35.24 was drawn at 36.83.
+    const dock: SettlementPlacement = {
+      ...placement, id: "dock", anchorClass: "water", waterLevelM: 35.24,
+      positionM: [0, 35.51, 0], yFinal: true,
+    };
+    const lookup = { groundAt: () => 0, designedSinkM: 0, designedWaterlineM: -1.5931, parentTransform: () => null };
+    const seated = resolvePlacement(dock, "water", lookup)!;
+    expect(new THREE.Vector3().setFromMatrixPosition(seated.matrix).y).toBeCloseTo(35.51);
+    const floated = resolvePlacement({ ...dock, yFinal: undefined }, "water", lookup)!;
+    expect(new THREE.Vector3().setFromMatrixPosition(floated.matrix).y).toBeCloseTo(36.8331);
+  });
+
   it("does not guess a height while a streamed sample is absent", () => {
     const anchored = anchorPlacement(placement, (x) => x === 0 ? null : 1, -4);
     expect(anchored.complete).toBe(false);

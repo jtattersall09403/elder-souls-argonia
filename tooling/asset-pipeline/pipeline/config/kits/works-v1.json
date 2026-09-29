@@ -88,7 +88,36 @@
  },
  "assets": [
   {
-   "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01"
+   "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01",
+   "effect": "additive",
+   "light": {
+    "formId": "000b15ee",
+    "editorId": "LightForgeFire01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     226,
+     140,
+     63
+    ],
+    "flicker": {
+     "frequency": 2.0,
+     "intensityAmplitude": 0.3,
+     "movementAmplitude": 12.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "fade": 1.35,
+    "offsetM": [
+     -0.08,
+     1.13,
+     0.12
+    ],
+    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+   }
   },
   {
    "asset": "vanilla:clutter/blacksmith/blacksmithnovicebellows01"
@@ -319,7 +348,8 @@
    "asset": "mudmother:gv_meshes/argoniannest/carapaceoven"
   },
   {
-   "asset": "mudmother:gv_meshes/argoniannest/ovennew"
+   "asset": "mudmother:gv_meshes/argoniannest/ovennew",
+   "effect": "additive"
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/basketfull"

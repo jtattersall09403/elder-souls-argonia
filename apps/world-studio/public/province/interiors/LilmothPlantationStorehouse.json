@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "LilmothPlantationStorehouse",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:mud/hut-with-entrance",
+ "shellAssetId": null,
  "refCount": 122,
  "kits": {
   "htbm-hut-int": {
@@ -49,48 +49,26 @@
  },
  "arrivalMarker": {
   "positionM": [
-   97.6755,
-   80.3666,
-   75.3957
+   108.9917,
+   85.6409,
+   76.1673
   ],
-  "yawDeg": 176.654
+  "yawDeg": 278.113
  },
  "exitDoor": {
-  "id": "LilmothPlantationStorehouse.088B271D",
-  "refId": "088B271D",
+  "id": "LilmothPlantationStorehouse.088B26FB",
+  "refId": "088B26FB",
   "positionM": [
-   97.6776,
-   80.4602,
-   74.2038
+   109.9096,
+   85.608,
+   76.1626
   ],
-  "yawDeg": 0.0
+  "yawDeg": 90.0
  },
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.hist-heartland.greenspring.6",
-   "interiorLoadDoorRef": "088B271D",
-   "arrivalMarker": {
-    "positionM": [
-     97.6755,
-     80.3666,
-     75.3957
-    ],
-    "yawDeg": 176.654
-   },
-   "loadDoor": {
-    "positionM": [
-     97.6776,
-     80.4602,
-     74.2038
-    ],
-    "yawDeg": 0.0
-   }
-  },
-  {
-   "doorType": "load",
    "interiorLoadDoorRef": "088B26FB",
-   "closed": true,
    "loadDoor": {
     "positionM": [
      109.9096,
@@ -98,6 +76,18 @@
      76.1626
     ],
     "yawDeg": 90.0
+   }
+  },
+  {
+   "doorType": "load",
+   "interiorLoadDoorRef": "088B271D",
+   "loadDoor": {
+    "positionM": [
+     97.6776,
+     80.4602,
+     74.2038
+    ],
+    "yawDeg": 0.0
    }
   }
  ],
@@ -107,7 +97,8 @@
    33,
    27
   ],
-  "intensity": 1.0
+  "intensity": 8.189,
+  "rule": "interior-light-floor"
  },
  "fog": {
   "colorRGB": [
@@ -2237,13 +2228,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2259,13 +2252,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2281,13 +2276,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2303,13 +2300,15 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.604,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowDefault",
    "raw": {
     "xrdsUnits": 26.533,
-    "baseRadiusUnits": 384
+    "baseRadiusUnits": 384,
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   }
  ],

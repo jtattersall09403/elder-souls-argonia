@@ -355,18 +355,40 @@
   },
   "bmv:architecture/stilthouse/stilthouseext": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    0.31,
-    -3.16
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 6.1,
+     "kind": "open-front",
+     "offsetM": [
+      -0.07,
+      -2.77
+     ],
+     "sideDeg": 352.76
+    },
+    {
+     "arcM": 5.35,
+     "kind": "open-front",
+     "offsetM": [
+      0.58,
+      -2.82
+     ],
+     "sideDeg": 0.13
+    }
    ],
+   "doorwaysMeasuredAboveFloorM": 1.25,
    "entrance": {
-    "arcM": 5.35,
-    "kind": "open-front",
+    "arcM": 1.89,
+    "centreShiftM": 0.02,
+    "clearM": 2.3,
+    "kind": "opening",
     "offsetM": [
-     0.58,
-     -2.82
+     1.97,
+     -2.96
     ],
-    "sideDeg": 0.13
+    "rayConfirmed": true,
+    "sideDeg": 15.0,
+    "sillYM": -1.22,
+    "widthM": 1.5
    },
    "floorOffsetM": 6.0,
    "frontFaceFraction": 1.0,
@@ -379,17 +401,7 @@
     0.57,
     2.26
    ],
-   "provenance": [
-    {
-     "arcM": 6.1,
-     "kind": "open-front",
-     "offsetM": [
-      -0.07,
-      -2.77
-     ],
-     "sideDeg": 352.76
-    }
-   ],
+   "provenance": [],
    "ringFraction": 0.819,
    "roofOverhead": true,
    "sizeClass": "large",
@@ -624,10 +636,18 @@
   },
   "composite:stilt/stilthouse-with-door": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    2.82,
-    -3.16
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 10.43,
+     "kind": "open-front",
+     "offsetM": [
+      2.43,
+      -2.7
+     ],
+     "sideDeg": 20.58
+    }
    ],
+   "doorwaysMeasuredAboveFloorM": 1.25,
    "entrance": {
     "count": 1,
     "doorAsset": "bmv:architecture/stilthouse/stilthousedooranim",
@@ -653,13 +673,18 @@
    ],
    "provenance": [
     {
-     "arcM": 10.43,
-     "kind": "open-front",
+     "arcM": 1.89,
+     "centreShiftM": 0.02,
+     "clearM": 2.3,
+     "kind": "opening",
      "offsetM": [
-      2.43,
-      -2.7
+      1.97,
+      -2.96
      ],
-     "sideDeg": 20.58
+     "rayConfirmed": true,
+     "sideDeg": 15.0,
+     "sillYM": -1.22,
+     "widthM": 1.5
     }
    ],
    "ringFraction": 0.917,
@@ -671,6 +696,55 @@
    "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "the BM&V stilt house exterior ships no interior; its deck-level room is dressed from the farmhouse interior tileset"
+  },
+  "composite:stilt/swamp-house-with-landing": {
+   "category": "architecture",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 3.7,
+     "kind": "open-front",
+     "offsetM": [
+      -3.37,
+      -7.36
+     ],
+     "sideDeg": 313.26
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 0.6,
+   "entrance": {
+    "arcM": 0.82,
+    "centreShiftM": 0.47,
+    "clearM": 1.9,
+    "kind": "opening",
+    "offsetM": [
+     -6.53,
+     -0.38
+    ],
+    "rayConfirmed": true,
+    "sideDeg": 262.5,
+    "sillYM": 2.73,
+    "widthM": 2.4
+   },
+   "floorOffsetM": 6.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.76,
+   "heightM": 16.14,
+   "interior": "shell",
+   "medianWallM": 1.96,
+   "planAreaM2": 374.98,
+   "planCentreM": [
+    2.75,
+    -1.6
+   ],
+   "provenance": [],
+   "ringFraction": 0.889,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "storeyLevelsM": [
+    6.0
+   ],
+   "storeys": 1,
+   "why": "measured to enclose a volume \u2014 89% of the ring at 1.6 m hits a wall, there is a roof overhead and 2.0 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
   },
   "ferries:yamadori/ferries/plank_ferry_swamp_03": {
    "category": "misc",
@@ -926,12 +1000,17 @@
     },
     {
      "arcM": 1.58,
+     "centreShiftM": -0.0,
+     "clearM": 2.95,
      "kind": "open-front",
      "offsetM": [
       -2.62,
       -1.51
      ],
-     "sideDeg": 300.0
+     "rayConfirmed": true,
+     "sideDeg": 300.0,
+     "sillYM": -0.91,
+     "widthM": 1.65
     }
    ],
    "ringFraction": 0.917,
@@ -999,12 +1078,17 @@
     },
     {
      "arcM": 1.58,
+     "centreShiftM": -0.0,
+     "clearM": 2.95,
      "kind": "open-front",
      "offsetM": [
       -2.61,
       -1.52
      ],
-     "sideDeg": 300.0
+     "rayConfirmed": true,
+     "sideDeg": 300.0,
+     "sillYM": -0.91,
+     "widthM": 1.65
     }
    ],
    "ringFraction": 0.917,
@@ -1497,6 +1581,26 @@
   },
   "kotm:argonia/blackwood/walkway01": {
    "category": "misc",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.01,
+     "kind": "leaf",
+     "offsetM": [
+      2.92,
+      7.2
+     ],
+     "sideDeg": 192.5
+    },
+    {
+     "arcM": 4.48,
+     "kind": "open-front",
+     "offsetM": [
+      3.2,
+      0.31
+     ],
+     "sideDeg": 206.95
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -1551,9 +1655,25 @@
   },
   "kotm:argonia/blackwood/walkway03": {
    "category": "misc",
-   "doorwayProbeCentreM": [
-    -14.72,
-    0.56
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.56,
+     "kind": "opening",
+     "offsetM": [
+      -4.58,
+      -1.68
+     ],
+     "sideDeg": 44.59
+    },
+    {
+     "arcM": 1.52,
+     "kind": "opening",
+     "offsetM": [
+      -3.1,
+      0.06
+     ],
+     "sideDeg": 68.01
+    }
    ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
@@ -1562,7 +1682,7 @@
     "deg": 41.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 41\u00b0 in the piece's own frame carries 2.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 41\u00b0 in the piece's own frame carries 2.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 7.24,
@@ -1582,11 +1702,49 @@
   },
   "kotm:argonia/blackwood/walkway04": {
    "category": "misc",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.04,
+     "kind": "opening",
+     "offsetM": [
+      3.03,
+      3.45
+     ],
+     "sideDeg": 97.5
+    },
+    {
+     "arcM": 1.0,
+     "kind": "opening",
+     "offsetM": [
+      1.13,
+      3.34
+     ],
+     "sideDeg": 267.5
+    },
+    {
+     "arcM": 1.9,
+     "kind": "opening",
+     "offsetM": [
+      3.09,
+      3.47
+     ],
+     "sideDeg": 98.13
+    },
+    {
+     "arcM": 1.14,
+     "kind": "opening",
+     "offsetM": [
+      7.03,
+      0.78
+     ],
+     "sideDeg": 63.59
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 163.6,
+    "deg": 163.7,
     "evidence": "asymmetry",
     "outside": true,
     "why": "the band at 164\u00b0 in the piece's own frame carries 2.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
@@ -1609,6 +1767,17 @@
   },
   "kotm:argonia/blackwood/walkway05": {
    "category": "misc",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.12,
+     "kind": "leaf",
+     "offsetM": [
+      -1.09,
+      -0.45
+     ],
+     "sideDeg": 35.0
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -1639,12 +1808,7 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": {
-    "deg": 223.0,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 223\u00b0 in the piece's own frame carries 5.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 1.0,
    "headroomM": 6.16,
    "heightM": 7.11,
@@ -1663,6 +1827,35 @@
   },
   "kotm:argonia/blackwood/walkway07": {
    "category": "misc",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 0.97,
+     "kind": "opening",
+     "offsetM": [
+      8.07,
+      -14.17
+     ],
+     "sideDeg": 62.5
+    },
+    {
+     "arcM": 5.79,
+     "kind": "open-front",
+     "offsetM": [
+      8.8,
+      -14.27
+     ],
+     "sideDeg": 64.12
+    },
+    {
+     "arcM": 1.12,
+     "kind": "opening",
+     "offsetM": [
+      0.32,
+      -6.88
+     ],
+     "sideDeg": 191.23
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -1770,12 +1963,17 @@
    "category": "misc",
    "entrance": {
     "arcM": 0.93,
+    "centreShiftM": -0.88,
+    "clearM": 2.95,
     "kind": "opening",
     "offsetM": [
      5.27,
      2.7
     ],
-    "sideDeg": 105.0
+    "rayConfirmed": true,
+    "sideDeg": 105.0,
+    "sillYM": -0.82,
+    "widthM": 3.3
    },
    "floorOffsetM": 8.0,
    "frontFaceFraction": 0.733,

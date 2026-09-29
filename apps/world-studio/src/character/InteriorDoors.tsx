@@ -13,7 +13,8 @@ import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rap
 import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
 import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
 import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
-import { DoorTransition } from "@elder-souls/game-core/interior/doorTransition";
+import { DoorTransition, type InteriorSource } from "@elder-souls/game-core/interior/doorTransition";
+import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "@elder-souls/game-core/render/fixtureLights/index";
 import { InteriorEnvironment } from "@elder-souls/game-core/interior/interiorEnvironment";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
 import {
@@ -44,6 +45,10 @@ export interface InteriorDoorsProbe {
   error: string | null;
   /** The shown cell's load time, request to built (InteriorLoader). */
   loadS: number | null;
+  /** The shown cell's shader link, seconds, while the screen was black (null until linked). */
+  linkS: number | null;
+  /** The last entry's black hold, door press to reveal (`DoorTransition.enterS`): the loader timer. */
+  enterS: number | null;
 }
 
 /**
@@ -83,8 +88,14 @@ export function InteriorDoors({
   const { world, rapier } = useRapier();
   const scene = useThree((s) => s.scene);
   const gl = useThree((s) => s.gl);
+  const camera = useThree((s) => s.camera);
   const [shown, setShown] = useState<Shown | null>(null);
-  const resident = useRef(false);
+  // The cell is drawn only once its programs are linked (`linked === shown`).
+  const [linked, setLinked] = useState<Shown | null>(null);
+  const linkS = useRef<number | null>(null);
+  // The fade lifts only when the colliders are in AND the linked cell is drawn.
+  const collidersIn = useRef(false);
+  const drawn = useRef(false);
   const opened = useRef(false);
 
   const loader = useMemo(() => {
@@ -98,12 +109,25 @@ export function InteriorDoors({
     });
   }, [baseUrl, decoders, kitCache]);
 
+  const linker = useMemo(() => new InteriorLinker(gl, scene), [gl, scene]);
+  useEffect(() => () => linker.dispose(), [linker]);
+
+  // A cell the doors prefetch is linked as soon as it is built, against the
+  // inside's lighting (`InteriorLinker.warm`), so entering finds it compiled.
+  const interiors = useMemo<InteriorSource>(() => ({
+    request: (cellId) => loader.request(cellId).then((interior) => { linker.warm(interior, camera); return interior; }),
+    ready: (cellId) => loader.ready(cellId),
+    failure: (cellId) => loader.failure(cellId),
+  }), [loader, linker, camera]);
+
   const transition = useMemo(() => new DoorTransition({
-    controller, interiors: loader, bodyCentreHeightM, groundAt,
-    showInterior: (interior, originM) => { resident.current = false; setShown({ interior, originM }); },
+    controller, interiors, bodyCentreHeightM, groundAt,
+    showInterior: (interior, originM) => {
+      collidersIn.current = false; drawn.current = false; setShown({ interior, originM });
+    },
     showExterior: () => setShown(null),
-    interiorResident: () => resident.current,
-  }), [controller, loader, bodyCentreHeightM, groundAt]);
+    interiorResident: () => collidersIn.current && drawn.current,
+  }), [controller, interiors, bodyCentreHeightM, groundAt]);
 
   useEffect(() => { transition.setDoors(doors); }, [transition, doors]);
   useEffect(() => { onInside(shown !== null); }, [shown, onInside]);
@@ -127,9 +151,9 @@ export function InteriorDoors({
       }
       bodies.push(body);
     }
-    resident.current = true;
+    collidersIn.current = true;
     return () => {
-      resident.current = false;
+      collidersIn.current = false;
       if (!bodySetAlive(bodySet)) return;
       for (const body of bodies) world.removeRigidBody(body);
     };
@@ -225,9 +249,30 @@ export function InteriorDoors({
     return () => { environment.current = null; env.restore(); };
   }, [shown, scene, gl]);
 
+  // The cell's programs are linked while the screen is black (F3): the
+  // environment above has already hidden the exterior's lights and set the
+  // cell's fog, so the detached group compiles against exactly the light
+  // state it is drawn under. Drawing it unlinked made its first visible frame
+  // compile every program synchronously (5-11 s on the owner's M2).
+  useEffect(() => {
+    if (!shown) { setLinked(null); linkS.current = null; return undefined; }
+    let live = true;
+    const startedMs = performance.now();
+    shown.interior.group.position.set(...shown.originM);
+    linker.link(shown.interior.group, camera, scene).then(() => {
+      if (!live) return;
+      linkS.current = (performance.now() - startedMs) / 1000;
+      setLinked(shown);
+    });
+    return () => { live = false; };
+  }, [shown, linker, camera, scene]);
+  // after the commit that mounted the linked group: the fade may lift
+  useEffect(() => { drawn.current = shown !== null && linked === shown; }, [shown, linked]);
+
   // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
   const bodyPos = useMemo(() => new THREE.Vector3(), []);
   const answers = useMemo(() => (doorId: string) => interaction.answers(doorId), [interaction]);
+  const reportedHold = useRef<number | null>(null);
   useFrame((state, delta) => {
     // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
     shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
@@ -256,23 +301,113 @@ export function InteriorDoors({
       : swingDoor && focus ? { kind: "swing", textId: focus.promptTextId, doorId: swingDoor.id } : null);
     overlay.setError(transition.lastError?.message ?? null);
     overlay.setLoading(transition.loadingTextId, transition.loadingName);
+    // the loader timer (F3): one line per entry, door press to reveal
+    if (transition.enterS !== null && transition.enterS !== reportedHold.current) {
+      reportedHold.current = transition.enterS;
+      console.info(`interior ${transition.cellId ?? "?"}: black hold ${fmtS(transition.enterS)} `
+        + `(load ${fmtS(shown?.interior.loadS ?? null)}, link ${fmtS(linkS.current)})`);
+    }
   });
 
   useEffect(() => {
     if (!probeRef) return undefined;
     probeRef.current = () => probeState(shown, transition,
-      transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay);
+      transition.prompt ? interaction.isFocused(transition.prompt.doorId) : false, overlay, linkS.current);
     return () => { probeRef.current = null; };
   }, [probeRef, shown, transition, interaction, overlay]);
 
-  if (shown) return <primitive object={shown.interior.group} position={shown.originM} />;
+  if (shown) return linked === shown ? <primitive object={shown.interior.group} position={shown.originM} /> : null;
   return exteriorSwing.length ? <>{exteriorSwing.map((d) => <primitive key={d.id} object={d.object} />)}</> : null;
 }
 
 const probeBox = new THREE.Box3();
+const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
+
+/**
+ * Links a cell's shader programs before the cell is drawn (F3), the way the
+ * settlement layer links a build (SettlementLayer `compileAsync`): the sky's
+ * lit preparer patches every material first (CSM, fixture lights), then
+ * `compileAsync` links in parallel where the driver can
+ * (KHR_parallel_shader_compile). A program's key depends on where the scene
+ * pass draws: the water pipeline draws the scene into a linear, un-tone-mapped
+ * target, the bare scene draws to the screen. `scene.onBeforeRender` records
+ * which for the pass that draws layer 0, and the link binds a 1x1 target of
+ * the same kind while it compiles, so the key it links is the one drawn.
+ */
+class InteriorLinker {
+  private drawsToTarget = false;
+  private readonly scratch = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  private readonly warmed = new WeakSet<LoadedInterior>();
+  private readonly hook: THREE.Scene["onBeforeRender"];
+  private readonly previous: THREE.Scene["onBeforeRender"];
+
+  constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
+    const previous = scene.onBeforeRender;
+    this.previous = previous;
+    const hook: THREE.Scene["onBeforeRender"] = (...args) => {
+      const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.WebGLRenderTarget | null];
+      if (camera.layers.isEnabled(0)) this.drawsToTarget = target !== null;
+      previous.apply(scene, args);
+    };
+    this.hook = hook;
+    scene.onBeforeRender = hook;
+  }
+
+  /** Patch and link `group` (detached, lights under it) against `target`'s lights and fog. */
+  link(group: THREE.Object3D, camera: THREE.Camera, target: THREE.Scene): Promise<void> {
+    const prepare = litPreparerOf(this.scene);
+    if (prepare) prepare(group);
+    else {
+      const field = fixtureLightFieldOf(this.scene);
+      group.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
+          && field.install(mesh.material as THREE.Material)) field.attach(mesh);
+      });
+    }
+    group.updateMatrixWorld(true);
+    const bound = this.gl.getRenderTarget();
+    if (this.drawsToTarget) this.gl.setRenderTarget(this.scratch);
+    let linking: Promise<unknown>;
+    try {
+      linking = this.gl.compileAsync(group, camera, target);
+    } catch (err) {
+      linking = Promise.reject(err);
+    } finally {
+      this.gl.setRenderTarget(bound);
+    }
+    // never hold the black screen on a link that does not resolve
+    const cap = new Promise<void>((resolve) => { setTimeout(resolve, INTERIOR_LINK_WAIT_MS); });
+    return Promise.race([linking.then(() => undefined, (err: unknown) => {
+      console.error("interior: shader link failed", err);
+    }), cap]);
+  }
+
+  /**
+   * Link a prefetched cell before it is entered: inside, every light but the
+   * cell's own is hidden and the fog is the cell's (InteriorEnvironment), so
+   * a bare scene holding only that fog gives the same program keys.
+   */
+  warm(interior: LoadedInterior, camera: THREE.Camera): void {
+    if (this.warmed.has(interior) || interior.group.parent) return;
+    this.warmed.add(interior);
+    const inside = new THREE.Scene();
+    inside.fog = interior.fog;
+    void this.link(interior.group, camera, inside);
+  }
+
+  dispose(): void {
+    if (this.scene.onBeforeRender === this.hook) this.scene.onBeforeRender = this.previous;
+    this.scratch.dispose();
+  }
+}
+
+/** The longest the black hold waits on a link (the settlement layer's cap). */
+const INTERIOR_LINK_WAIT_MS = 4000;
 
 function probeState(
   shown: Shown | null, transition: DoorTransition, focused: boolean, overlay: DoorOverlayChannel,
+  linkS: number | null,
 ): InteriorDoorsProbe {
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
@@ -290,5 +425,6 @@ function probeState(
     boundsM, candidate: transition.candidate?.id ?? null, focused,
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
     loadS: shown?.interior.loadS ?? null,
+    linkS, enterS: transition.enterS,
   };
 }

@@ -117,23 +117,33 @@ describe("interior bundle", () => {
 describe("interior bundle contract (the shared fixture)", () => {
   it("parses the fixture the exporter test reads: plugin, frame, refCount, exit door, pairings, light raw fields", () => {
     const b = parseInteriorBundle(structuredClone(fixture), "fixture");
-    expect([b.plugin, b.shellAssetId, b.refCount]).toEqual(["Fixture.esp", "fixture:shell/hut01", 10]);
+    expect([b.plugin, b.shellAssetId, b.refCount]).toEqual(["Fixture.esp", null, 10]);
     expect(b.exitDoor).toMatchObject({ id: "fixture.hut-int.exit", refId: "00000A01" });
-    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([{ doorType: "load", exteriorDoorId: "door.fixture.1", interiorLoadDoorRef: "00000A01",
-      arrivalMarker: { positionM: [0, 0, 2.5], yawDeg: 0 }, loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } }]);
+    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([{ doorType: "load", interiorLoadDoorRef: "00000A01",
+      loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } }]);
     expect(b.lights.map((l) => [l.refId, l.fade, l.raw.xrdsUnits])).toEqual([
       ["00000B01", 1.5, null], ["00000B02", 1, -120.5]]);
     // acceptance (0103 decision 3): references = placements + drops
     // walk 4: plus the swing doors, which are doors[] entries and not placements
     expect(b.placements.length + b.drops.length + b.doors.filter((d) => d.doorType === "swing").length).toBe(b.refCount);
-    expect(parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: null }, "x").shellAssetId).toBeNull();
+    expect(parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: "s" }, "x").shellAssetId).toBe("s");
+  });
+
+  it("reads a schema 2 file and drops the per-place pairing it carried (one place's, overwritten by the next)", () => {
+    const old = structuredClone(fixture) as { schemaVersion: number; doors: Record<string, unknown>[] };
+    old.schemaVersion = 2;
+    Object.assign(old.doors[0], { exteriorDoorId: "door.other-place.1", arrivalMarker: { positionM: [9, 9, 9], yawDeg: 0 } });
+    old.doors.push({ doorType: "load", interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } });
+    const b = parseInteriorBundle(old, "x");
+    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([
+      { doorType: "load", interiorLoadDoorRef: "00000A01", loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } },
+      { doorType: "load", interiorLoadDoorRef: "UPPER", loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }]);
   });
 
   it("refuses a malformed door pairing, a light without its fade field, a missing drops list", () => {
     const pairing = structuredClone(fixture) as { doors: unknown[] };
-    pairing.doors = [{ doorType: "load", exteriorDoorId: "door.x", interiorLoadDoorRef: "00000A01",
-      arrivalMarker: { positionM: [0, 0, 2.5], yawDeg: 0 } }];      // no loadDoor
-    expect(() => parseInteriorBundle(pairing, "x")).toThrow(/door pairing 0 malformed/);
+    pairing.doors = [{ doorType: "load", interiorLoadDoorRef: "00000A01" }];      // no loadDoor
+    expect(() => parseInteriorBundle(pairing, "x")).toThrow(/load door 0 malformed/);
     const light = structuredClone(fixture) as { lights: Record<string, unknown>[] };
     delete light.lights[0].fade;
     expect(() => parseInteriorBundle(light, "x")).toThrow(/light 0 malformed/);
@@ -285,10 +295,12 @@ describe("DoorTransition", () => {
     controller.teleport({ x: 100, y: 0, z: 202.5 });   // gravity pulled the body down
     await run(t, 0.1);
     expect(controller.pos.y).toBeCloseTo(INTERIOR_SPACE_LIFT_M + BODY);
+    expect(t.enterS).toBeNull();                        // the hold has not ended
     resident.now = true;
     await run(t, 2 * DOOR_FADE_S);
     expect(t.fade).toBe(0);
     expect(t.loadingTextId).toBeNull();
+    expect(t.enterS).toBeGreaterThanOrEqual(0);         // the loader timer, press to reveal (F3)
   });
 
   it("opens a cell directly at its arrival marker (studio ?interior=)", async () => {
@@ -307,13 +319,16 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
   const twoDoor = structuredClone(fixture);
   twoDoor.exitDoor = { id: "fixture.hut-int.exit-1", refId: "LOAD1", positionM: [-3, 0, 0], yawDeg: 270 };
   twoDoor.doors = [
-    { doorType: "load", exteriorDoorId: "door.one", interiorLoadDoorRef: "LOAD1", arrivalMarker: { positionM: [-2, 0, 0], yawDeg: 90 },
+    { doorType: "load", interiorLoadDoorRef: "LOAD1",
       loadDoor: { positionM: [-3, 0, 0], yawDeg: 270 } },
-    { doorType: "load", exteriorDoorId: "door.two", interiorLoadDoorRef: "LOAD2", arrivalMarker: { positionM: [2, 0, 0], yawDeg: 270 },
+    { doorType: "load", interiorLoadDoorRef: "LOAD2",
       loadDoor: { positionM: [3, 0, 0], yawDeg: 90 } },
   ];
-  const one = door({ id: "door.one", thresholdM: [96, 200], facingDeg: 270 });
-  const two = door({ id: "door.two", thresholdM: [104, 200], facingDeg: 90 });
+  // the pairing is each place door's own claim (0104), never the shared cell file
+  const claim = (ref: string, x: number, yawDeg: number) => ({ tier: "A", cellId: "fixture.hut-int",
+    interiorLoadDoorRef: ref, arrivalMarker: { positionM: [x, 0, 0] as Vec3, yawDeg } });
+  const one = door({ id: "door.one", thresholdM: [96, 200], facingDeg: 270, interiorClaim: claim("LOAD1", -2, 90) });
+  const two = door({ id: "door.two", thresholdM: [104, 200], facingDeg: 90, interiorClaim: claim("LOAD2", 2, 270) });
 
   it("entering by door 2 arrives at door 2's marker; leaving by load door 1 returns outside door 1", async () => {
     const { t, controller, shown } = rig([one, two], { x: 104.3, y: 10 + BODY, z: 200 }, undefined, twoDoor);
@@ -347,7 +362,7 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
     expect(controller.pos.z).toBeCloseTo(200);
   });
 
-  it("a door the bundle does not pair falls back to the claim's marker, then the bundle's", async () => {
+  it("a claim without a load door ref still arrives at its marker, and one without a marker at the bundle's", async () => {
     const claimed = door({ id: "door.three", thresholdM: [100, 200],
       interiorClaim: { tier: "A", cellId: "fixture.hut-int", arrivalMarker: { positionM: [1, 0, -1], yawDeg: 0 } } });
     const a = rig([claimed], undefined, undefined, twoDoor);
@@ -360,12 +375,12 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
 
   it("a load door no exterior door pairs with is closed: the closed line, and pressing does nothing", async () => {
     const withClosed = { ...structuredClone(twoDoor), doors: [twoDoor.doors[0],
-      { doorType: "load", interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }] as unknown[] };
+      { doorType: "load", interiorLoadDoorRef: "UPPER", loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }] as unknown[] };
     const parsed = parseInteriorBundle(structuredClone(withClosed), "x");
-    expect(parsed.doors[1]).toMatchObject({ interiorLoadDoorRef: "UPPER", closed: true });
+    expect(parsed.doors[1]).toMatchObject({ interiorLoadDoorRef: "UPPER" });
     const bad = structuredClone(withClosed) as { doors: Record<string, unknown>[] };
     delete bad.doors[1].loadDoor;
-    expect(() => parseInteriorBundle(bad, "x")).toThrow(/door pairing 1 malformed/);
+    expect(() => parseInteriorBundle(bad, "x")).toThrow(/load door 1 malformed/);
 
     const { t, controller, shown } = rig([one], { x: 96.3, y: 10 + BODY, z: 200 }, undefined,
       withClosed as unknown as typeof twoDoor);
@@ -381,11 +396,12 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
 
   it("two places claim one cell: leaving returns to the door of the place entered from, at its ground (walk 4 b)", async () => {
     // Claywater (place.a, ground 10 m) and Greenspring (place.b, 4.4 km away,
-    // ground -5 m) both claim the cell; the bundle pairs its load door 1 with
-    // Greenspring's door and Claywater's claim names the same load door.
+    // ground -5 m) both claim the cell's load door 1, each in its own door
+    // record; the shared cell file names neither.
     const a = door({ id: "door.a", settlementId: "place.a", thresholdM: [100, 200], facingDeg: 90,
       interiorClaim: { tier: "A", cellId: "fixture.hut-int", interiorLoadDoorRef: "LOAD1" } });
-    const b = door({ id: "door.one", settlementId: "place.b", thresholdM: [4500, 1850], facingDeg: 270 });
+    const b = door({ id: "door.one", settlementId: "place.b", thresholdM: [4500, 1850], facingDeg: 270,
+      interiorClaim: claim("LOAD1", -2, 90) });
     const ground = (x: number) => (x > 1000 ? -5 : 10);
     const { t, controller, shown } = rig([a, b], { x: 100.3, y: 10 + BODY, z: 200 }, undefined, twoDoor, ground);
     await run(t, 3 * DOOR_FADE_S, true);
@@ -411,8 +427,8 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
   });
 
   it("leaving by another door of the same place stands on that door's ground, not the entry height", async () => {
-    const low = door({ id: "door.one", thresholdM: [96, 200], facingDeg: 270 });
-    const high = door({ id: "door.two", thresholdM: [104, 200], facingDeg: 90 });
+    const low = { ...one };
+    const high = { ...two };
     const ground = (x: number) => (x < 100 ? 2 : 10);
     const { t, controller } = rig([low, high], { x: 104.3, y: 10 + BODY, z: 200 }, undefined, twoDoor, ground);
     await run(t, 3 * DOOR_FADE_S, true);

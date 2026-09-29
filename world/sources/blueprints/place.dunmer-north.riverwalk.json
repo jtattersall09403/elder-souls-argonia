@@ -1,0 +1,6894 @@
+{
+  "schemaVersion": 2,
+  "blueprint": {
+    "id": "place.dunmer-north.riverwalk",
+    "seed": "place.dunmer-north.riverwalk",
+    "causalModel": {
+      "founding": "The northern trunk's mid-point: a village strung along a channel because the channel is the street.",
+      "siteAdvantages": "A day's run from either end of the trunk boat lane, which passes close enough to hail.",
+      "occupantsMotive": "It lives on the ferry, the toll and feeding boat crews.",
+      "pressures": "Alten Corimont's captain and Thorn's field-owners both think the toll should be theirs.",
+      "wouldChangeIf": "Would be bypassed if a deeper channel opened south."
+    },
+    "boundary": [
+      [
+        0.974570232,
+        0.067267859
+      ],
+      [
+        0.979452577,
+        0.067267859
+      ],
+      [
+        0.979452577,
+        0.07133648
+      ],
+      [
+        0.976740163,
+        0.073235169
+      ],
+      [
+        0.975655198,
+        0.08137241
+      ],
+      [
+        0.980266301,
+        0.08137241
+      ],
+      [
+        0.980808784,
+        0.080287445
+      ],
+      [
+        0.982707473,
+        0.080287445
+      ],
+      [
+        0.983249956,
+        0.083542341
+      ],
+      [
+        0.983249956,
+        0.087068479
+      ],
+      [
+        0.976468922,
+        0.087068479
+      ],
+      [
+        0.97212906,
+        0.0832711
+      ],
+      [
+        0.973214025,
+        0.073235169
+      ],
+      [
+        0.974298991,
+        0.071607721
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.riverwalk.the-cove",
+        "kind": "boardwalk-village",
+        "cultureKit": "argonian-mud",
+        "wealth": "modest",
+        "boundary": [
+          [
+            0.976435316,
+            0.067568619
+          ],
+          [
+            0.975886791,
+            0.067740933
+          ],
+          [
+            0.975660009,
+            0.06794607
+          ],
+          [
+            0.975490433,
+            0.068232174
+          ],
+          [
+            0.975374152,
+            0.068487773
+          ],
+          [
+            0.974702487,
+            0.071794825
+          ],
+          [
+            0.972679203,
+            0.082472536
+          ],
+          [
+            0.972671577,
+            0.082515361
+          ],
+          [
+            0.972612845,
+            0.083015667
+          ],
+          [
+            0.972566084,
+            0.083550833
+          ],
+          [
+            0.972797764,
+            0.083856216
+          ],
+          [
+            0.9728224,
+            0.083877772
+          ],
+          [
+            0.980531959,
+            0.086304626
+          ],
+          [
+            0.98122636,
+            0.086222931
+          ],
+          [
+            0.981452461,
+            0.085996831
+          ],
+          [
+            0.981634518,
+            0.085581822
+          ],
+          [
+            0.982091729,
+            0.081256195
+          ],
+          [
+            0.982072965,
+            0.081106287
+          ],
+          [
+            0.981812616,
+            0.080287445
+          ],
+          [
+            0.980808784,
+            0.080287445
+          ],
+          [
+            0.980266301,
+            0.08137241
+          ],
+          [
+            0.975655198,
+            0.08137241
+          ],
+          [
+            0.976740163,
+            0.073235169
+          ],
+          [
+            0.979055135,
+            0.071614689
+          ],
+          [
+            0.978122129,
+            0.068680221
+          ],
+          [
+            0.977906636,
+            0.068250521
+          ],
+          [
+            0.977738192,
+            0.068048074
+          ],
+          [
+            0.977542979,
+            0.067845734
+          ],
+          [
+            0.97716903,
+            0.06758053
+          ],
+          [
+            0.976882369,
+            0.067558572
+          ]
+        ],
+        "notes": "Plank walks over a cove joining a dry spit to a dry islet, with a ferry landing off the islet.",
+        "why": {
+          "what": "The cove, the boards over it, the spit at their head and the islet at their foot.",
+          "whyHere": "The shallows between the spit and the islet carry the tracks from the west.",
+          "whySpot": "A cove under a cliff, sheltered from the open sea.",
+          "whyNeighbours": "Two villages lie inland to the west; the boat lane runs past the islet.",
+          "playerPurpose": "Rest, trade, the toll and the ferry.",
+          "microGeography": "Knee-deep black water over mud between two low mud shelves."
+        }
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.riverwalk.the-long-walk",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "dock",
+        "buildingFamily": "vanilla-docks",
+        "interior": {
+          "kind": "none"
+        },
+        "groundFit": "stilt",
+        "orientationWhy": "The boards run from the spit down the cove along the line the tracks from the west already follow, so every walker passes the toll.",
+        "why": {
+          "what": "The long walk: plank spans on piles from the spit down the cove.",
+          "whyHere": "The channel is the street; the boards carry the tracks over knee-deep water where there is no dry footing.",
+          "whySpot": "From the spit's south shore down the cove to where it turns for the islet.",
+          "whyNeighbours": "The long house stands at its head on the spit.",
+          "playerPurpose": "The way through the village: the only dry route across the cove.",
+          "microGeography": "Planks a hand's breadth over black water on sunk piles; the boards are of different ages."
+        },
+        "pieces": [
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              -0.0,
+              0.0
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.08,
+              -7.28
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.16,
+              -14.56
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.24,
+              -21.84
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.32,
+              -29.12
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.4,
+              -36.4
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.48,
+              -43.68
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.56,
+              -50.96
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.64,
+              -58.24
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.72,
+              -65.52
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.8,
+              -72.8
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.88,
+              -80.08
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.35
+          }
+        ],
+        "centreUV": [
+          0.975451767,
+          0.072421445
+        ],
+        "yawDeg": 190.1,
+        "footprint": [
+          [
+            0.975255041,
+            0.071886352
+          ],
+          [
+            0.975234823,
+            0.071899315
+          ],
+          [
+            0.973212759,
+            0.082570588
+          ],
+          [
+            0.973208482,
+            0.082594607
+          ],
+          [
+            0.973152567,
+            0.083070914
+          ],
+          [
+            0.973124719,
+            0.083389632
+          ],
+          [
+            0.973139251,
+            0.083408787
+          ],
+          [
+            0.973161946,
+            0.08341281
+          ],
+          [
+            0.973682017,
+            0.083137688
+          ],
+          [
+            0.973702502,
+            0.083123402
+          ],
+          [
+            0.973810648,
+            0.082701875
+          ],
+          [
+            0.975832723,
+            0.072030552
+          ],
+          [
+            0.975836998,
+            0.072006544
+          ],
+          [
+            0.97582383,
+            0.071987669
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.islet-walk",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "dock",
+        "buildingFamily": "vanilla-docks",
+        "interior": {
+          "kind": "none"
+        },
+        "groundFit": "stilt",
+        "orientationWhy": "The spans turn east at the foot of the long walk and come ashore on the islet.",
+        "why": {
+          "what": "The islet walk: plank spans from the foot of the long walk east to the islet.",
+          "whyHere": "The ferry lands on the islet.",
+          "whySpot": "Along the north shore of the islet, where the water is shallowest.",
+          "whyNeighbours": "It joins the long walk at its south end.",
+          "playerPurpose": "The way to the islet and the ferry.",
+          "microGeography": "Planks over shallow water, coming ashore on the islet's mud."
+        },
+        "pieces": [
+          {
+            "asset": "vanilla:architecture/docks/dockstrsol01",
+            "atM": [
+              0.0,
+              -0.0
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.3
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrsol01",
+            "atM": [
+              0.0,
+              -7.28
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.3
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrsol01",
+            "atM": [
+              0.0,
+              -14.56
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.3
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrsol01",
+            "atM": [
+              0.0,
+              -21.84
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.3
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrsol01",
+            "atM": [
+              0.0,
+              -29.12
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.3
+          }
+        ],
+        "centreUV": [
+          0.974243034,
+          0.083273204
+        ],
+        "yawDeg": 100.1,
+        "footprint": [
+          [
+            0.973827895,
+            0.082889309
+          ],
+          [
+            0.973808775,
+            0.082903841
+          ],
+          [
+            0.973707945,
+            0.0834699
+          ],
+          [
+            0.973720871,
+            0.083490141
+          ],
+          [
+            0.978104263,
+            0.084270947
+          ],
+          [
+            0.978423263,
+            0.084297466
+          ],
+          [
+            0.978442171,
+            0.0842843
+          ],
+          [
+            0.978533019,
+            0.083774291
+          ],
+          [
+            0.978519824,
+            0.083755373
+          ],
+          [
+            0.978211052,
+            0.083671447
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.ferry-landing",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "dock",
+        "buildingFamily": "vanilla-docks",
+        "interior": {
+          "kind": "none"
+        },
+        "groundFit": "stilt",
+        "orientationWhy": "Three spans run from the islet's north-east shore out to where the bed drops away.",
+        "why": {
+          "what": "The ferry landing: three plank spans from the islet out to deep water.",
+          "whyHere": "The raft draws more water than the cove holds.",
+          "whySpot": "The islet's north-east shore, the nearest dry footing to water deep enough for the raft.",
+          "whyNeighbours": "The stage shelter is behind it; the raft lies at its end.",
+          "playerPurpose": "The way from the islet to the ferry raft.",
+          "microGeography": "Planks a hand's breadth over the water, out to where the bed drops away."
+        },
+        "pieces": [
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.19
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.08,
+              -7.28
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.19
+          },
+          {
+            "asset": "vanilla:architecture/docks/dockstrent02",
+            "atM": [
+              0.16,
+              -14.56
+            ],
+            "yaw": 0.0,
+            "yMeasured": 0.19
+          }
+        ],
+        "centreUV": [
+          0.980713849,
+          0.084220444
+        ],
+        "yawDeg": 11.3,
+        "footprint": [
+          [
+            0.981396485,
+            0.08197391
+          ],
+          [
+            0.980870737,
+            0.082238093
+          ],
+          [
+            0.980849957,
+            0.082251947
+          ],
+          [
+            0.980732995,
+            0.082671166
+          ],
+          [
+            0.98032479,
+            0.084603273
+          ],
+          [
+            0.980320014,
+            0.084627186
+          ],
+          [
+            0.980332783,
+            0.084646333
+          ],
+          [
+            0.980899295,
+            0.084759535
+          ],
+          [
+            0.980919803,
+            0.084747036
+          ],
+          [
+            0.981332788,
+            0.082791012
+          ],
+          [
+            0.98139867,
+            0.082315961
+          ],
+          [
+            0.981433189,
+            0.081997875
+          ],
+          [
+            0.981419092,
+            0.081978428
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.crews-house",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "dwelling",
+        "buildingFamily": "kotm-mudhut",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "services": [
+          "lodging",
+          "trader"
+        ],
+        "fills": [
+          "promise.riverwalk.service-lodging",
+          "promise.riverwalk.service-trader"
+        ],
+        "orientationWhy": "Its door turns south-west to the head of the boards.",
+        "playerPurpose": [
+          {
+            "kind": "bed",
+            "tier": "medium",
+            "note": "Bunks let to boat crews stopping the night."
+          },
+          {
+            "kind": "trade",
+            "tier": "medium",
+            "note": "The household sells rope, food and boat stores."
+          }
+        ],
+        "why": {
+          "what": "The long house, a mud house on the spit where the village sleeps and the crews take a bunk.",
+          "whyHere": "The village lives on crews stopping halfway along the boat lane; the spit is the only dry ground big enough for a house.",
+          "whySpot": "The spit's one level shelf, a few steps from the head of the boards.",
+          "whyNeighbours": "The shrine stands beside its door; the boards start below it.",
+          "playerPurpose": "A safe bed for the night; stores for the water.",
+          "microGeography": "A mud house on a low mud pad on the spit."
+        },
+        "assetRef": "composite:mud/kotm-house-pod",
+        "centreUV": [
+          0.976875784,
+          0.069166549
+        ],
+        "yawDeg": 15.0,
+        "pad": {
+          "datumM": 0.83,
+          "apronM": 1.0,
+          "batter": true
+        },
+        "yMeasured": -1.1622,
+        "assembly": [
+          {
+            "id": "c-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "atM": [
+              3.7815,
+              5.6125
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.7997
+          },
+          {
+            "id": "c-candle1",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              -1.9295,
+              7.8675
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 0.8288
+          },
+          {
+            "id": "c-chair1",
+            "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+            "atM": [
+              -7.0201,
+              3.7445
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.8001
+          },
+          {
+            "id": "c-chair2",
+            "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+            "atM": [
+              -4.9301,
+              6.1351
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.8
+          },
+          {
+            "id": "c-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              -4.1719,
+              7.226
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.9356
+          },
+          {
+            "id": "c-urn1",
+            "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+            "atM": [
+              2.5087,
+              7.8171
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.7618
+          },
+          {
+            "id": "c-urn2",
+            "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+            "atM": [
+              3.2676,
+              6.7855
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.7841
+          },
+          {
+            "id": "cc-bucket",
+            "asset": "vanilla:clutter/bucket01",
+            "atM": [
+              6.5406,
+              -3.409
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.8065
+          },
+          {
+            "id": "cc-pot",
+            "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+            "atM": [
+              8.5418,
+              0.1959
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.8993
+          },
+          {
+            "id": "cc-wood",
+            "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
+            "atM": [
+              7.7147,
+              0.7799
+            ],
+            "yaw": 345.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.764
+          }
+        ],
+        "footprint": [
+          [
+            0.975893496,
+            0.068656233
+          ],
+          [
+            0.975972066,
+            0.068483527
+          ],
+          [
+            0.976084814,
+            0.068293302
+          ],
+          [
+            0.97616265,
+            0.068222895
+          ],
+          [
+            0.976524461,
+            0.068109235
+          ],
+          [
+            0.976867711,
+            0.068101521
+          ],
+          [
+            0.976977776,
+            0.068109952
+          ],
+          [
+            0.977187788,
+            0.068258892
+          ],
+          [
+            0.977333937,
+            0.068410376
+          ],
+          [
+            0.977449698,
+            0.068549506
+          ],
+          [
+            0.977618078,
+            0.068885261
+          ],
+          [
+            0.977633415,
+            0.068990462
+          ],
+          [
+            0.977643643,
+            0.06920381
+          ],
+          [
+            0.977595924,
+            0.069439541
+          ],
+          [
+            0.977540821,
+            0.069566585
+          ],
+          [
+            0.977350476,
+            0.069773927
+          ],
+          [
+            0.97726216,
+            0.069841526
+          ],
+          [
+            0.977115221,
+            0.069913073
+          ],
+          [
+            0.976665,
+            0.070099924
+          ],
+          [
+            0.976612061,
+            0.070098375
+          ],
+          [
+            0.976530397,
+            0.070083514
+          ],
+          [
+            0.976436008,
+            0.070042778
+          ],
+          [
+            0.97636216,
+            0.069993505
+          ],
+          [
+            0.97632857,
+            0.069956424
+          ],
+          [
+            0.976125936,
+            0.069701349
+          ],
+          [
+            0.975943045,
+            0.069445949
+          ],
+          [
+            0.975899239,
+            0.069331715
+          ],
+          [
+            0.97585912,
+            0.069057004
+          ],
+          [
+            0.975863327,
+            0.068826464
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.stage-shelter",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "civic",
+        "buildingFamily": "kotm-mudhut",
+        "interior": {
+          "kind": "none"
+        },
+        "kind": "building",
+        "orientationWhy": "Its open front turns west to the path from the islet walk.",
+        "why": {
+          "what": "The stage shelter, an open tent where the stage-mistress takes the fares.",
+          "whyHere": "The ferry is the village's living; it lands on the islet.",
+          "whySpot": "The islet's east shelf, beside the ferry landing.",
+          "whyNeighbours": "The ferry landing runs out from the shore north of it.",
+          "playerPurpose": "Passage on the ferry.",
+          "microGeography": "A hide tent on a low mud pad on the islet."
+        },
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
+        "centreUV": [
+          0.980808784,
+          0.085441031
+        ],
+        "yawDeg": 270.0,
+        "scale": 0.85,
+        "pad": {
+          "datumM": 0.365,
+          "apronM": 0.8,
+          "batter": true
+        },
+        "yMeasured": 0.747,
+        "assembly": [
+          {
+            "id": "canoe",
+            "asset": "canoe:actors/sfss/canoe/canoe1",
+            "atM": [
+              -4.5,
+              12.5
+            ],
+            "yaw": 190.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": -0.5297
+          },
+          {
+            "id": "s-candle",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              1.6,
+              -2.4
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "yMeasured": 0.3643
+          },
+          {
+            "id": "s-oar",
+            "asset": "rowboats:dungeons/clutter/shipoar01",
+            "atM": [
+              1.45,
+              8.0
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.4758
+          },
+          {
+            "id": "sc-bucket",
+            "asset": "vanilla:clutter/bucket01",
+            "atM": [
+              -4.4,
+              -2.0
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.3625
+          },
+          {
+            "id": "sc-pot",
+            "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
+            "atM": [
+              -2.85,
+              -2.75
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.4343
+          },
+          {
+            "id": "sn-net1",
+            "asset": "shores:shoresofskyrim/fishnet01",
+            "atM": [
+              -0.4,
+              5.5
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.2366
+          },
+          {
+            "id": "sn-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              -1.45,
+              5.45
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.3655
+          },
+          {
+            "id": "ss-b1",
+            "asset": "kotm:argonia/clutter/basket01",
+            "atM": [
+              0.75,
+              3.4
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.5944
+          },
+          {
+            "id": "ss-closed",
+            "asset": "vanilla:clutter/basketclosed01",
+            "atM": [
+              3.3,
+              1.65
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.3279
+          },
+          {
+            "id": "ss-store",
+            "asset": "kotm:argonia/clutter/basketcontainer",
+            "atM": [
+              2.4,
+              2.65
+            ],
+            "yaw": 90.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.8303
+          }
+        ],
+        "footprint": [
+          [
+            0.980583993,
+            0.08575228
+          ],
+          [
+            0.980565548,
+            0.085738447
+          ],
+          [
+            0.980529812,
+            0.085710781
+          ],
+          [
+            0.980526354,
+            0.085705017
+          ],
+          [
+            0.980567854,
+            0.085144768
+          ],
+          [
+            0.980583993,
+            0.08513324
+          ],
+          [
+            0.980975936,
+            0.085175893
+          ],
+          [
+            0.980996686,
+            0.085196643
+          ],
+          [
+            0.981103895,
+            0.085441031
+          ],
+          [
+            0.980996686,
+            0.085685419
+          ],
+          [
+            0.980975936,
+            0.085706169
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.ferry-stage",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "dock",
+        "buildingFamily": "native-craft",
+        "interior": {
+          "kind": "none"
+        },
+        "services": [
+          "ferry"
+        ],
+        "fills": [
+          "promise.riverwalk.service-ferry"
+        ],
+        "orientationWhy": "The raft lies off the end of the landing for boarding.",
+        "why": {
+          "what": "The ferry raft, moored off the end of the landing.",
+          "whyHere": "Passengers and freight cross on it to the other stations of the lane.",
+          "whySpot": "The first water deep enough to float it, north of the islet.",
+          "whyNeighbours": "The landing runs out to it from the islet.",
+          "playerPurpose": "The ferry that carries the player along the lane.",
+          "microGeography": "Open water more than a metre deep over a level bed."
+        },
+        "assetRef": "ferryraft:snt/ferry/ferryraft01",
+        "centreUV": [
+          0.981297018,
+          0.081453783
+        ],
+        "yawDeg": 11.3,
+        "yMeasured": 0.0,
+        "footprint": [
+          [
+            0.981137116,
+            0.081153526
+          ],
+          [
+            0.981137913,
+            0.081149536
+          ],
+          [
+            0.981139774,
+            0.081147142
+          ],
+          [
+            0.981145624,
+            0.08113863
+          ],
+          [
+            0.98114722,
+            0.081137566
+          ],
+          [
+            0.981227546,
+            0.081150851
+          ],
+          [
+            0.981452302,
+            0.081195761
+          ],
+          [
+            0.981520926,
+            0.08121224
+          ],
+          [
+            0.981540876,
+            0.081223141
+          ],
+          [
+            0.98154567,
+            0.081261441
+          ],
+          [
+            0.981467292,
+            0.081743665
+          ],
+          [
+            0.981466229,
+            0.081748985
+          ],
+          [
+            0.981464367,
+            0.081751379
+          ],
+          [
+            0.98146357,
+            0.081755369
+          ],
+          [
+            0.98145639,
+            0.081763615
+          ],
+          [
+            0.981454795,
+            0.081764679
+          ],
+          [
+            0.98114572,
+            0.081691856
+          ],
+          [
+            0.98107683,
+            0.081676707
+          ],
+          [
+            0.981057146,
+            0.081664476
+          ],
+          [
+            0.981046769,
+            0.081640274
+          ],
+          [
+            0.981051818,
+            0.081615006
+          ],
+          [
+            0.981136053,
+            0.081158846
+          ]
+        ]
+      },
+      {
+        "id": "parcel.riverwalk.shrine",
+        "districtId": "district.riverwalk.the-cove",
+        "use": "shrine",
+        "buildingFamily": "argonian-shrine",
+        "interior": {
+          "kind": "none"
+        },
+        "services": [
+          "shrine"
+        ],
+        "fills": [
+          "promise.riverwalk.service-shrine"
+        ],
+        "orientationWhy": "The totems face the long house yard.",
+        "why": {
+          "what": "A small shrine of totems and a chime on the spit.",
+          "whyHere": "Crews leave an offering before they go back on the water.",
+          "whySpot": "Beside the long house yard, on its flat ground.",
+          "whyNeighbours": "The head of the boards is a few steps away.",
+          "playerPurpose": "A shrine blessing before the water.",
+          "microGeography": "The spit's dry mud beside the long house."
+        },
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+        "centreUV": [
+          0.978001435,
+          0.070468507
+        ],
+        "yawDeg": 0.0,
+        "yMeasured": 0.41,
+        "assembly": [
+          {
+            "id": "sh-chime",
+            "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
+            "atM": [
+              -0.1,
+              -1.05
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 1.7206
+          },
+          {
+            "id": "sh-totem2",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+            "atM": [
+              -0.05,
+              1.05
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 0.551
+          }
+        ],
+        "footprint": [
+          [
+            0.977948543,
+            0.070494275
+          ],
+          [
+            0.977959393,
+            0.07043867
+          ],
+          [
+            0.977962105,
+            0.070437314
+          ],
+          [
+            0.977962105,
+            0.070437314
+          ],
+          [
+            0.978038053,
+            0.070437314
+          ],
+          [
+            0.978039409,
+            0.070437314
+          ],
+          [
+            0.978040765,
+            0.07043867
+          ],
+          [
+            0.978050258,
+            0.070494275
+          ],
+          [
+            0.978050258,
+            0.070502412
+          ],
+          [
+            0.978047546,
+            0.070503768
+          ],
+          [
+            0.97804619,
+            0.070503768
+          ],
+          [
+            0.977952612,
+            0.070503768
+          ],
+          [
+            0.977951255,
+            0.070503768
+          ],
+          [
+            0.977948543,
+            0.070502412
+          ]
+        ]
+      }
+    ],
+    "doors": [
+      {
+        "id": "door.dunmer-north.riverwalk.1",
+        "parcelId": "parcel.riverwalk.crews-house",
+        "doorType": "load",
+        "fills": [
+          "promise.riverwalk.safe-interior"
+        ],
+        "interiorClaim": {
+          "culture": "argonian",
+          "interiorRef": "interior-kotm-v1",
+          "sizeClass": "large",
+          "tier": "A",
+          "cellId": "KeebaHouseCrafter",
+          "plugin": "King of the Murkmire.esp",
+          "interiorLoadDoorRef": "0809B4BD",
+          "arrivalMarker": {
+            "positionM": [
+              106.4963,
+              86.2485,
+              54.4948
+            ],
+            "yawDeg": 182.383
+          },
+          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving lodging, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
+        },
+        "thresholdUV": [
+          0.976535783,
+          0.069958573
+        ],
+        "facingDeg": 203.2
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.riverwalk.the-boards",
+        "kind": "track",
+        "routing": "straight",
+        "widthM": 2.5,
+        "endsAt": [
+          "parcel.riverwalk.the-long-walk"
+        ],
+        "why": "The last stretch of the track from the west, where it comes onto the boards halfway across the cove.",
+        "via": [
+          [
+            0.974583794,
+            0.077710652
+          ],
+          [
+            0.974814349,
+            0.076625686
+          ]
+        ],
+        "points": [
+          [
+            0.974583794,
+            0.077710652
+          ],
+          [
+            0.974956888,
+            0.076652695
+          ]
+        ]
+      },
+      {
+        "id": "route.riverwalk.crews-path",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.5,
+        "endsAt": [
+          "parcel.riverwalk.the-long-walk",
+          "parcel.riverwalk.crews-house"
+        ],
+        "why": "From the head of the boards up the spit to the long house door.",
+        "via": [
+          [
+            0.975546701,
+            0.071946773
+          ],
+          [
+            0.976007811,
+            0.071065238
+          ],
+          [
+            0.976319739,
+            0.070400697
+          ],
+          [
+            0.976509608,
+            0.070020959
+          ]
+        ],
+        "points": [
+          [
+            0.975548163,
+            0.071938565
+          ],
+          [
+            0.976535783,
+            0.069958573
+          ]
+        ]
+      },
+      {
+        "id": "route.riverwalk.shrine-path",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [],
+        "why": "From the long house yard to the shrine.",
+        "via": [
+          [
+            0.976319739,
+            0.070400697
+          ],
+          [
+            0.977865815,
+            0.070522755
+          ]
+        ],
+        "points": [
+          [
+            0.976319739,
+            0.070400697
+          ],
+          [
+            0.977865815,
+            0.070522755
+          ]
+        ]
+      },
+      {
+        "id": "route.riverwalk.islet-path",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.5,
+        "endsAt": [
+          "parcel.riverwalk.islet-walk",
+          "parcel.riverwalk.ferry-landing"
+        ],
+        "why": "Across the islet from the boards to the ferry landing.",
+        "via": [
+          [
+            0.978910094,
+            0.084152634
+          ],
+          [
+            0.979723818,
+            0.084437438
+          ],
+          [
+            0.980483294,
+            0.084627307
+          ]
+        ],
+        "points": [
+          [
+            0.978479294,
+            0.084075896
+          ],
+          [
+            0.980473859,
+            0.084674523
+          ]
+        ]
+      },
+      {
+        "id": "route.riverwalk.stage-path",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [],
+        "why": "From the islet path to the stage shelter.",
+        "via": [
+          [
+            0.979723818,
+            0.084437438
+          ],
+          [
+            0.98045617,
+            0.085224038
+          ]
+        ],
+        "points": [
+          [
+            0.979723818,
+            0.084437438
+          ],
+          [
+            0.98045617,
+            0.085224038
+          ]
+        ]
+      }
+    ],
+    "canals": [],
+    "boardwalks": [],
+    "fences": [],
+    "docks": [],
+    "landmarks": [],
+    "questSockets": [
+      {
+        "id": "socket.riverwalk.q-scene-the-long-walk",
+        "kind": "scene",
+        "socketRef": "scene.riverwalk.the-long-walk",
+        "position": [
+          0.974583794,
+          0.077710652
+        ],
+        "parcel": "parcel.riverwalk.the-long-walk"
+      },
+      {
+        "id": "socket.riverwalk.q-evidence-the-plank-ages",
+        "kind": "evidence",
+        "socketRef": "evidence.riverwalk.the-plank-ages",
+        "position": [
+          0.974014187,
+          0.080016203
+        ],
+        "parcel": "parcel.riverwalk.the-long-walk"
+      },
+      {
+        "id": "socket.riverwalk.q-post-toll-holder",
+        "kind": "post",
+        "socketRef": "post.riverwalk.toll-holder",
+        "position": [
+          0.975899315,
+          0.071499224
+        ],
+        "parcel": "parcel.riverwalk.the-long-walk"
+      },
+      {
+        "id": "socket.riverwalk.q-post-stage-mistress",
+        "kind": "post",
+        "socketRef": "post.riverwalk.stage-mistress",
+        "position": [
+          0.980483294,
+          0.08451881
+        ],
+        "parcel": "parcel.riverwalk.ferry-stage"
+      }
+    ],
+    "travelServices": [
+      {
+        "id": "travel.riverwalk.ferry-channel-cross-village",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.channel-cross-village",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-hissmir",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.hissmir",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-murkwater",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.murkwater",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-reedmoor-stilts",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.reedmoor-stilts",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-stormhold",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.stormhold",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-the-last-landing",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.the-last-landing",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.ferry-the-tide-fair",
+        "kind": "ferry",
+        "toPlaceId": "place.dunmer-north.the-tide-fair",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.canoe-the-tide-fair",
+        "kind": "water-taxi",
+        "toPlaceId": "place.dunmer-north.the-tide-fair",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      },
+      {
+        "id": "travel.riverwalk.boat-stormhold",
+        "kind": "boat",
+        "toPlaceId": "place.dunmer-north.stormhold",
+        "parcel": "parcel.riverwalk.ferry-stage"
+      }
+    ],
+    "occupants": [
+      {
+        "slotId": "toll-holder",
+        "ladderRef": "modest-d1 official",
+        "cultureRole": "the toll-holder",
+        "worksAt": "parcel.riverwalk.crews-house",
+        "livesAt": "parcel.riverwalk.crews-house"
+      },
+      {
+        "slotId": "stage-mistress",
+        "ladderRef": "modest-d1 merchant",
+        "cultureRole": "the stage-mistress",
+        "worksAt": "parcel.riverwalk.stage-shelter",
+        "livesAt": "parcel.riverwalk.crews-house"
+      },
+      {
+        "slotId": "n1",
+        "ladderRef": "modest-d1 villager",
+        "cultureRole": "a boardwalk household that keeps the long house",
+        "worksAt": "parcel.riverwalk.crews-house",
+        "livesAt": "parcel.riverwalk.crews-house"
+      },
+      {
+        "slotId": "n2",
+        "ladderRef": "modest-d1 boatman",
+        "cultureRole": "a boat crew stopping the night",
+        "worksAt": "parcel.riverwalk.ferry-stage",
+        "livesAt": "parcel.riverwalk.crews-house"
+      },
+      {
+        "slotId": "n3",
+        "ladderRef": "modest-d1 guard",
+        "cultureRole": "a toll hand",
+        "worksAt": "parcel.riverwalk.shrine",
+        "livesAt": "parcel.riverwalk.crews-house"
+      }
+    ],
+    "approaches": [
+      {
+        "id": "approach.riverwalk.west-tracks",
+        "mode": "walk",
+        "fromRouteId": "track.dunmer-north.riverwalk",
+        "firstSeen": "parcel.riverwalk.the-long-walk",
+        "viaUV": [
+          [
+            0.971854591,
+            0.081194492
+          ]
+        ],
+        "sequence": "Coming along the track from the west, the line of boards shows first across the water, then the long house on the spit at their head and the stage shelter on the islet at their foot.",
+        "wayfinding": "The track meets the boards at their midpoint. The toll and the long house lie north; the islet and the ferry lie south, then east."
+      }
+    ],
+    "networkTerminals": [
+      {
+        "id": "terminal.riverwalk.west-tracks",
+        "routeId": "track.dunmer-north.riverwalk",
+        "entryUV": [
+          0.974583794,
+          0.077710652
+        ],
+        "wayId": "route.riverwalk.the-boards",
+        "kind": "footpath",
+        "why": "The tracks from the villages to the west end on the boards halfway across the cove."
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.riverwalk.the-spit",
+        "aroundIds": [
+          "route.riverwalk.the-boards"
+        ],
+        "clearanceClass": "open",
+        "why": "The dry spit at the head of the boards, the only open footing in the village.",
+        "boundary": [
+          [
+            0.975483711,
+            0.0767821
+          ],
+          [
+            0.975493858,
+            0.076729839
+          ],
+          [
+            0.975498833,
+            0.076676835
+          ],
+          [
+            0.97549859,
+            0.076623599
+          ],
+          [
+            0.97549313,
+            0.076570643
+          ],
+          [
+            0.975482505,
+            0.076518477
+          ],
+          [
+            0.975466818,
+            0.076467604
+          ],
+          [
+            0.975446221,
+            0.076418513
+          ],
+          [
+            0.975420911,
+            0.076371678
+          ],
+          [
+            0.975391132,
+            0.076327549
+          ],
+          [
+            0.975357171,
+            0.076286551
+          ],
+          [
+            0.975319355,
+            0.07624908
+          ],
+          [
+            0.975278048,
+            0.076215495
+          ],
+          [
+            0.975233649,
+            0.076186121
+          ],
+          [
+            0.975186584,
+            0.076161241
+          ],
+          [
+            0.975137307,
+            0.076141093
+          ],
+          [
+            0.975086293,
+            0.076125872
+          ],
+          [
+            0.975034032,
+            0.076115725
+          ],
+          [
+            0.974981028,
+            0.07611075
+          ],
+          [
+            0.974927792,
+            0.076110993
+          ],
+          [
+            0.974874836,
+            0.076116453
+          ],
+          [
+            0.97482267,
+            0.076127078
+          ],
+          [
+            0.974771797,
+            0.076142765
+          ],
+          [
+            0.974722706,
+            0.076163362
+          ],
+          [
+            0.974675871,
+            0.076188672
+          ],
+          [
+            0.974631742,
+            0.076218451
+          ],
+          [
+            0.974590744,
+            0.076252412
+          ],
+          [
+            0.974553273,
+            0.076290228
+          ],
+          [
+            0.974519688,
+            0.076331535
+          ],
+          [
+            0.974490314,
+            0.076375934
+          ],
+          [
+            0.974465434,
+            0.076422999
+          ],
+          [
+            0.974445286,
+            0.076472276
+          ],
+          [
+            0.974072192,
+            0.077530233
+          ],
+          [
+            0.974056971,
+            0.077581247
+          ],
+          [
+            0.974046824,
+            0.077633508
+          ],
+          [
+            0.974041849,
+            0.077686512
+          ],
+          [
+            0.974042092,
+            0.077739748
+          ],
+          [
+            0.974047552,
+            0.077792704
+          ],
+          [
+            0.974058177,
+            0.07784487
+          ],
+          [
+            0.974073864,
+            0.077895743
+          ],
+          [
+            0.974094461,
+            0.077944834
+          ],
+          [
+            0.974119771,
+            0.077991669
+          ],
+          [
+            0.97414955,
+            0.078035798
+          ],
+          [
+            0.974183511,
+            0.078076796
+          ],
+          [
+            0.974221327,
+            0.078114267
+          ],
+          [
+            0.974262634,
+            0.078147852
+          ],
+          [
+            0.974307033,
+            0.078177226
+          ],
+          [
+            0.974354098,
+            0.078202106
+          ],
+          [
+            0.974403375,
+            0.078222254
+          ],
+          [
+            0.974454389,
+            0.078237475
+          ],
+          [
+            0.97450665,
+            0.078247622
+          ],
+          [
+            0.974559654,
+            0.078252597
+          ],
+          [
+            0.97461289,
+            0.078252354
+          ],
+          [
+            0.974665846,
+            0.078246894
+          ],
+          [
+            0.974718012,
+            0.078236269
+          ],
+          [
+            0.974768885,
+            0.078220582
+          ],
+          [
+            0.974817976,
+            0.078199985
+          ],
+          [
+            0.974864811,
+            0.078174675
+          ],
+          [
+            0.97490894,
+            0.078144896
+          ],
+          [
+            0.974949938,
+            0.078110935
+          ],
+          [
+            0.974987409,
+            0.078073119
+          ],
+          [
+            0.975020994,
+            0.078031812
+          ],
+          [
+            0.975050368,
+            0.077987413
+          ],
+          [
+            0.975075248,
+            0.077940348
+          ],
+          [
+            0.975095396,
+            0.077891071
+          ],
+          [
+            0.97546849,
+            0.076833114
+          ]
+        ]
+      }
+    ],
+    "clearance": {
+      "hardClear": [],
+      "thinned": [],
+      "kept": []
+    },
+    "variants": [
+      {
+        "id": "variant.riverwalk.base",
+        "changedRefs": [],
+        "serviceOverrides": {},
+        "ambience": "boardwalk-village"
+      }
+    ],
+    "scaleGrounding": {
+      "loreSource": "settlement-register row Riverwalk (M3 boardwalk village on the northern trunk); record occupants D1 households, D2 crews, D2 toll hands; notable slots toll-holder, stage-mistress",
+      "population": "8-14",
+      "households": 1,
+      "buildingsPlanned": 7,
+      "npcsPlanned": 5,
+      "why": "One household and the crews who stop the night share the long house. The spit is the only dry shelf big enough for a house; the islet takes a tent. Three plank walks join them, with a shrine and a ferry raft."
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/riverwalk.json",
+      "candidates": [
+        {
+          "id": "candidate.riverwalk.the-cove",
+          "positionM": [
+            7200.0,
+            570.0
+          ],
+          "chosen": true,
+          "why": "A dry spit and a dry islet on either side of a knee-deep cove, on the line the western tracks already follow, with water deep enough for a ferry off the islet."
+        },
+        {
+          "id": "candidate.riverwalk.plotted-anchor",
+          "positionM": [
+            7197.1,
+            584.0
+          ],
+          "why": "The plotted anchor in the middle of the cove.",
+          "rejectedBecause": "Open water under 1 m deep with no dry footing; no building stands in water here."
+        }
+      ]
+    },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe",
+          "why"
+        ],
+        "evidenceRefs": [
+          "parcel.riverwalk.the-long-walk",
+          "parcel.riverwalk.stage-shelter",
+          "parcel.riverwalk.ferry-stage",
+          "parcel.riverwalk.crews-house",
+          "approach.riverwalk.west-tracks"
+        ]
+      }
+    ],
+    "budget": {
+      "maxInstances": 200,
+      "maxUniqueMaterials": 180,
+      "maxTextureMB": 64,
+      "maxColliders": 200
+    },
+    "assetConstraints": [],
+    "proseRefs": [
+      {
+        "sourcePath": "causalModel.pressures",
+        "placeRef": "place.pirate-freeholds.alten-corimont"
+      }
+    ],
+    "authoredOn": {
+      "wbSchemaVersion": 1,
+      "ground": {
+        "centreM": [
+          7215.0,
+          570.0
+        ],
+        "halfM": 110.0,
+        "chunks": {
+          "chunk_15_0": "c0ca681ad9fdbc9679cf5a40c241ff7aeb3da562a4d36bec725ea066fb473469",
+          "chunk_15_1": "c99b4aadac7dd20c703f500512a76036f18ba6ff18c1bc685b54cb003bedf9f5"
+        },
+        "sha256": "3a5b59f2c5e0eb1bdc5605eb87cf312bf493a6d11ae7b7392c50349320a933fc"
+      },
+      "kits": {
+        "docks-v1": "1d9a68f780dacb0456d7a1cc7697a9d2c7020ceeb4cbab0ca6413b945d9b41da",
+        "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
+        "mudmother-hut-int": "ceb731c39f8ee185d6498e85ed7c943005819e16d6935b264fcacb7b751b78a5",
+        "settlement-imperial-v1": "38ddf6f620faaf0d10f88b75427de14dba04de4bd361d52da3a0c42312d33f88",
+        "settlement-mud-v1": "571820c863a8fba782fd3758ea2d1d4f71fe2b4015f0d079e3bd45369fa03b96",
+        "works-v1": "6470a4a8a573ba663dc50533e89dbe212536453b67fe1118839d72a5256e3402"
+      },
+      "layout": {
+        "path": "world/sources/blueprints/riverwalk.layout.json",
+        "sha256": "c8e4bb5a99e41659d611d2b22695aa8f46eb3151dccb3e26ebae09397d75ef79"
+      }
+    },
+    "walkRoutes": {
+      "schemaVersion": 1,
+      "cellM": 0.5,
+      "stepM": 0.45,
+      "slopeMaxDeg": 30.0,
+      "wadeMaxM": 0.7,
+      "routes": {
+        "door:b-house": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              536.15
+            ],
+            [
+              7190.34,
+              0.35,
+              535.65
+            ],
+            [
+              7190.34,
+              0.35,
+              533.65
+            ],
+            [
+              7190.84,
+              0.35,
+              533.15
+            ],
+            [
+              7190.84,
+              0.35,
+              530.65
+            ],
+            [
+              7190.84,
+              0.46,
+              530.15
+            ],
+            [
+              7191.34,
+              0.79,
+              529.65
+            ],
+            [
+              7191.84,
+              1.11,
+              529.15
+            ],
+            [
+              7192.34,
+              1.44,
+              528.65
+            ],
+            [
+              7192.84,
+              1.84,
+              528.15
+            ],
+            [
+              7192.84,
+              2.18,
+              527.15
+            ],
+            [
+              7192.84,
+              2.34,
+              526.65
+            ],
+            [
+              7192.84,
+              2.34,
+              526.15
+            ],
+            [
+              7193.84,
+              2.38,
+              525.15
+            ],
+            [
+              7194.34,
+              2.41,
+              524.65
+            ],
+            [
+              7194.34,
+              2.35,
+              524.15
+            ],
+            [
+              7194.34,
+              2.25,
+              523.15
+            ],
+            [
+              7194.34,
+              2.14,
+              522.65
+            ],
+            [
+              7194.84,
+              1.85,
+              522.15
+            ],
+            [
+              7195.34,
+              1.55,
+              521.65
+            ],
+            [
+              7195.84,
+              1.24,
+              521.15
+            ],
+            [
+              7196.34,
+              1.04,
+              520.65
+            ],
+            [
+              7196.84,
+              0.96,
+              520.65
+            ],
+            [
+              7197.34,
+              0.86,
+              520.15
+            ],
+            [
+              7197.84,
+              0.81,
+              519.65
+            ],
+            [
+              7198.34,
+              0.8,
+              519.15
+            ],
+            [
+              7199.84,
+              0.8,
+              517.65
+            ],
+            [
+              7199.84,
+              0.8,
+              517.15
+            ]
+          ],
+          "routeM": 62.55,
+          "steepestDeg": 29.6,
+          "largestStepM": 0.114,
+          "deepestWadeM": 0.0,
+          "parcelId": "parcel.riverwalk.crews-house",
+          "doorIds": [
+            "door.dunmer-north.riverwalk.1"
+          ]
+        },
+        "opening:b-stage": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7210.84,
+              0.3,
+              619.15
+            ],
+            [
+              7213.34,
+              0.3,
+              621.65
+            ],
+            [
+              7213.84,
+              0.33,
+              622.15
+            ],
+            [
+              7214.84,
+              0.37,
+              622.15
+            ],
+            [
+              7215.34,
+              0.38,
+              622.15
+            ],
+            [
+              7216.84,
+              0.44,
+              622.15
+            ],
+            [
+              7217.34,
+              0.45,
+              622.15
+            ],
+            [
+              7217.84,
+              0.48,
+              622.15
+            ],
+            [
+              7218.34,
+              0.5,
+              622.15
+            ],
+            [
+              7219.34,
+              0.52,
+              622.15
+            ],
+            [
+              7219.84,
+              0.55,
+              622.15
+            ],
+            [
+              7220.34,
+              0.56,
+              622.15
+            ],
+            [
+              7220.84,
+              0.56,
+              622.15
+            ],
+            [
+              7221.84,
+              0.58,
+              622.15
+            ],
+            [
+              7223.34,
+              0.55,
+              622.15
+            ],
+            [
+              7223.84,
+              0.53,
+              622.15
+            ],
+            [
+              7224.34,
+              0.58,
+              622.65
+            ],
+            [
+              7224.84,
+              0.61,
+              623.15
+            ],
+            [
+              7225.34,
+              0.63,
+              623.65
+            ],
+            [
+              7225.84,
+              0.6,
+              624.15
+            ],
+            [
+              7226.34,
+              0.6,
+              624.65
+            ],
+            [
+              7226.84,
+              0.56,
+              624.65
+            ],
+            [
+              7227.34,
+              0.61,
+              625.15
+            ],
+            [
+              7227.84,
+              0.53,
+              625.65
+            ],
+            [
+              7228.34,
+              0.44,
+              626.15
+            ],
+            [
+              7228.84,
+              0.36,
+              626.65
+            ],
+            [
+              7229.34,
+              0.34,
+              627.15
+            ]
+          ],
+          "routeM": 95.85,
+          "steepestDeg": 7.6,
+          "largestStepM": 0.05,
+          "deepestWadeM": 0.0
+        },
+        "opening:sh-totem1": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7199.34,
+              0.1,
+              526.15
+            ],
+            [
+              7199.84,
+              -0.1,
+              525.65
+            ],
+            [
+              7200.34,
+              -0.02,
+              525.15
+            ],
+            [
+              7200.84,
+              0.08,
+              524.65
+            ],
+            [
+              7201.34,
+              -0.04,
+              524.15
+            ],
+            [
+              7201.84,
+              -0.1,
+              523.65
+            ],
+            [
+              7202.84,
+              0.16,
+              523.65
+            ],
+            [
+              7203.34,
+              0.3,
+              523.65
+            ],
+            [
+              7203.84,
+              0.33,
+              523.65
+            ],
+            [
+              7204.34,
+              0.33,
+              523.15
+            ],
+            [
+              7204.84,
+              0.34,
+              522.65
+            ],
+            [
+              7205.34,
+              0.34,
+              522.15
+            ],
+            [
+              7206.84,
+              0.34,
+              522.15
+            ],
+            [
+              7207.34,
+              0.35,
+              522.15
+            ],
+            [
+              7207.84,
+              0.37,
+              521.65
+            ],
+            [
+              7208.84,
+              0.43,
+              520.65
+            ],
+            [
+              7209.34,
+              0.44,
+              520.65
+            ],
+            [
+              7209.84,
+              0.45,
+              520.15
+            ]
+          ],
+          "routeM": 66.86,
+          "steepestDeg": 24.5,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.idle-toll-holder-work": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              536.15
+            ],
+            [
+              7190.34,
+              0.35,
+              535.65
+            ],
+            [
+              7190.34,
+              0.35,
+              533.65
+            ],
+            [
+              7190.84,
+              0.35,
+              533.15
+            ],
+            [
+              7190.84,
+              0.35,
+              530.65
+            ],
+            [
+              7190.84,
+              0.46,
+              530.15
+            ],
+            [
+              7191.34,
+              0.79,
+              529.65
+            ],
+            [
+              7191.84,
+              1.11,
+              529.15
+            ],
+            [
+              7192.34,
+              1.44,
+              528.65
+            ],
+            [
+              7192.84,
+              1.84,
+              528.15
+            ],
+            [
+              7193.84,
+              2.56,
+              527.15
+            ],
+            [
+              7194.34,
+              2.93,
+              526.65
+            ],
+            [
+              7194.84,
+              2.78,
+              526.15
+            ],
+            [
+              7195.84,
+              2.1,
+              525.15
+            ],
+            [
+              7196.34,
+              1.73,
+              524.65
+            ],
+            [
+              7196.34,
+              1.48,
+              524.15
+            ],
+            [
+              7197.34,
+              0.68,
+              523.15
+            ],
+            [
+              7197.34,
+              0.44,
+              522.65
+            ],
+            [
+              7197.84,
+              0.53,
+              522.15
+            ],
+            [
+              7198.34,
+              0.66,
+              521.65
+            ],
+            [
+              7198.84,
+              0.76,
+              521.15
+            ],
+            [
+              7199.34,
+              0.78,
+              520.65
+            ],
+            [
+              7199.34,
+              0.8,
+              519.65
+            ],
+            [
+              7199.84,
+              0.8,
+              519.15
+            ],
+            [
+              7199.84,
+              0.8,
+              518.15
+            ]
+          ],
+          "routeM": 61.8,
+          "steepestDeg": 29.6,
+          "largestStepM": 0.114,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.npc-toll-holder": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              536.15
+            ],
+            [
+              7190.34,
+              0.35,
+              535.65
+            ],
+            [
+              7190.34,
+              0.35,
+              533.65
+            ],
+            [
+              7190.84,
+              0.35,
+              533.15
+            ],
+            [
+              7190.84,
+              0.35,
+              530.65
+            ],
+            [
+              7190.84,
+              0.46,
+              530.15
+            ],
+            [
+              7191.34,
+              0.79,
+              529.65
+            ],
+            [
+              7191.84,
+              1.11,
+              529.15
+            ],
+            [
+              7192.34,
+              1.44,
+              528.65
+            ],
+            [
+              7192.84,
+              1.84,
+              528.15
+            ],
+            [
+              7193.84,
+              2.56,
+              527.15
+            ],
+            [
+              7194.34,
+              2.93,
+              526.65
+            ],
+            [
+              7194.84,
+              2.78,
+              526.15
+            ],
+            [
+              7195.84,
+              2.1,
+              525.15
+            ],
+            [
+              7196.34,
+              1.73,
+              524.65
+            ],
+            [
+              7196.34,
+              1.48,
+              524.15
+            ],
+            [
+              7197.34,
+              0.68,
+              523.15
+            ],
+            [
+              7197.34,
+              0.44,
+              522.65
+            ]
+          ],
+          "routeM": 56.23,
+          "steepestDeg": 29.6,
+          "largestStepM": 0.114,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.idle-stage-mistress-work": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7210.84,
+              0.3,
+              619.15
+            ],
+            [
+              7213.34,
+              0.3,
+              621.65
+            ],
+            [
+              7213.84,
+              0.33,
+              622.15
+            ],
+            [
+              7214.84,
+              0.37,
+              622.15
+            ],
+            [
+              7215.34,
+              0.38,
+              622.15
+            ],
+            [
+              7216.84,
+              0.44,
+              622.15
+            ],
+            [
+              7217.34,
+              0.45,
+              622.15
+            ],
+            [
+              7217.84,
+              0.48,
+              622.15
+            ],
+            [
+              7218.34,
+              0.5,
+              622.15
+            ],
+            [
+              7219.34,
+              0.52,
+              622.15
+            ],
+            [
+              7219.84,
+              0.55,
+              622.15
+            ],
+            [
+              7220.34,
+              0.56,
+              622.15
+            ],
+            [
+              7220.84,
+              0.56,
+              622.15
+            ],
+            [
+              7221.84,
+              0.58,
+              622.15
+            ],
+            [
+              7223.34,
+              0.55,
+              622.15
+            ],
+            [
+              7223.84,
+              0.53,
+              622.15
+            ],
+            [
+              7224.34,
+              0.58,
+              622.65
+            ],
+            [
+              7224.84,
+              0.61,
+              623.15
+            ],
+            [
+              7225.34,
+              0.63,
+              623.65
+            ],
+            [
+              7225.84,
+              0.6,
+              624.15
+            ],
+            [
+              7226.34,
+              0.6,
+              624.65
+            ],
+            [
+              7226.84,
+              0.56,
+              624.65
+            ],
+            [
+              7227.34,
+              0.61,
+              625.15
+            ],
+            [
+              7227.84,
+              0.53,
+              625.65
+            ],
+            [
+              7228.34,
+              0.44,
+              626.15
+            ],
+            [
+              7228.84,
+              0.36,
+              626.65
+            ],
+            [
+              7229.34,
+              0.34,
+              627.15
+            ]
+          ],
+          "routeM": 95.85,
+          "steepestDeg": 7.6,
+          "largestStepM": 0.05,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.npc-stage-mistress": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7210.84,
+              0.3,
+              619.15
+            ],
+            [
+              7213.34,
+              0.3,
+              621.65
+            ],
+            [
+              7213.84,
+              0.33,
+              622.15
+            ],
+            [
+              7214.84,
+              0.37,
+              622.15
+            ],
+            [
+              7215.34,
+              0.38,
+              622.15
+            ],
+            [
+              7216.84,
+              0.44,
+              622.15
+            ],
+            [
+              7217.34,
+              0.45,
+              622.15
+            ],
+            [
+              7217.84,
+              0.48,
+              622.15
+            ],
+            [
+              7218.34,
+              0.5,
+              622.15
+            ],
+            [
+              7219.34,
+              0.52,
+              622.15
+            ],
+            [
+              7219.84,
+              0.55,
+              622.15
+            ],
+            [
+              7220.34,
+              0.56,
+              622.15
+            ],
+            [
+              7220.84,
+              0.56,
+              622.15
+            ],
+            [
+              7221.84,
+              0.58,
+              622.15
+            ],
+            [
+              7223.34,
+              0.55,
+              622.15
+            ],
+            [
+              7223.84,
+              0.6,
+              622.65
+            ],
+            [
+              7224.34,
+              0.64,
+              623.15
+            ],
+            [
+              7224.84,
+              0.67,
+              623.65
+            ],
+            [
+              7225.34,
+              0.67,
+              624.15
+            ],
+            [
+              7225.84,
+              0.64,
+              624.65
+            ],
+            [
+              7226.34,
+              0.69,
+              625.15
+            ],
+            [
+              7226.84,
+              0.69,
+              625.65
+            ]
+          ],
+          "routeM": 92.71,
+          "steepestDeg": 4.1,
+          "largestStepM": 0.05,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.npc-n1": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              536.15
+            ],
+            [
+              7190.34,
+              0.35,
+              535.65
+            ],
+            [
+              7190.34,
+              0.35,
+              533.65
+            ],
+            [
+              7190.84,
+              0.35,
+              533.15
+            ],
+            [
+              7190.84,
+              0.35,
+              530.65
+            ],
+            [
+              7190.84,
+              0.46,
+              530.15
+            ],
+            [
+              7191.34,
+              0.79,
+              529.65
+            ],
+            [
+              7191.84,
+              1.11,
+              529.15
+            ],
+            [
+              7192.34,
+              1.44,
+              528.65
+            ],
+            [
+              7192.84,
+              1.84,
+              528.15
+            ],
+            [
+              7193.84,
+              2.56,
+              527.15
+            ],
+            [
+              7194.34,
+              2.93,
+              526.65
+            ],
+            [
+              7194.84,
+              2.78,
+              526.15
+            ],
+            [
+              7195.84,
+              2.1,
+              525.15
+            ],
+            [
+              7196.34,
+              1.73,
+              524.65
+            ],
+            [
+              7196.34,
+              1.48,
+              524.15
+            ],
+            [
+              7197.34,
+              0.68,
+              523.15
+            ],
+            [
+              7197.34,
+              0.44,
+              522.65
+            ],
+            [
+              7197.84,
+              0.53,
+              522.15
+            ],
+            [
+              7198.34,
+              0.66,
+              521.65
+            ],
+            [
+              7198.84,
+              0.76,
+              521.15
+            ],
+            [
+              7198.84,
+              0.8,
+              520.65
+            ],
+            [
+              7198.84,
+              0.8,
+              519.65
+            ]
+          ],
+          "routeM": 59.88,
+          "steepestDeg": 29.6,
+          "largestStepM": 0.114,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.idle-n2-work": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7195.34,
+              0.3,
+              614.15
+            ],
+            [
+              7196.84,
+              0.3,
+              614.15
+            ],
+            [
+              7201.34,
+              0.3,
+              618.65
+            ],
+            [
+              7215.84,
+              0.3,
+              618.65
+            ],
+            [
+              7216.34,
+              -0.02,
+              619.15
+            ],
+            [
+              7217.34,
+              -0.02,
+              619.15
+            ],
+            [
+              7217.84,
+              -0.01,
+              619.15
+            ],
+            [
+              7218.34,
+              0.09,
+              619.15
+            ],
+            [
+              7218.84,
+              0.24,
+              619.15
+            ],
+            [
+              7219.34,
+              0.25,
+              619.15
+            ],
+            [
+              7219.84,
+              0.25,
+              619.15
+            ],
+            [
+              7220.34,
+              0.26,
+              619.15
+            ],
+            [
+              7221.84,
+              0.26,
+              619.15
+            ],
+            [
+              7223.84,
+              0.22,
+              619.15
+            ],
+            [
+              7225.34,
+              0.16,
+              619.15
+            ],
+            [
+              7225.84,
+              -0.03,
+              619.15
+            ],
+            [
+              7226.34,
+              -0.11,
+              619.15
+            ],
+            [
+              7226.84,
+              -0.15,
+              619.15
+            ],
+            [
+              7227.34,
+              -0.17,
+              619.15
+            ],
+            [
+              7227.84,
+              -0.09,
+              619.15
+            ],
+            [
+              7228.34,
+              -0.11,
+              619.15
+            ],
+            [
+              7228.84,
+              -0.14,
+              619.15
+            ],
+            [
+              7229.34,
+              0.19,
+              618.65
+            ],
+            [
+              7229.34,
+              0.19,
+              618.15
+            ],
+            [
+              7229.84,
+              0.19,
+              617.65
+            ],
+            [
+              7229.84,
+              0.19,
+              616.15
+            ],
+            [
+              7230.34,
+              0.19,
+              615.65
+            ],
+            [
+              7230.34,
+              0.19,
+              613.65
+            ],
+            [
+              7230.84,
+              0.19,
+              613.15
+            ],
+            [
+              7230.84,
+              0.19,
+              611.15
+            ],
+            [
+              7231.34,
+              0.19,
+              610.65
+            ],
+            [
+              7231.34,
+              0.19,
+              608.65
+            ],
+            [
+              7231.84,
+              0.19,
+              608.15
+            ],
+            [
+              7231.84,
+              0.19,
+              606.15
+            ],
+            [
+              7234.34,
+              0.19,
+              603.65
+            ]
+          ],
+          "routeM": 110.01,
+          "steepestDeg": 24.9,
+          "largestStepM": 0.328,
+          "deepestWadeM": 0.138
+        },
+        "socket:socket.riverwalk.npc-n2": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7214.34,
+              0.3,
+              619.15
+            ],
+            [
+              7215.34,
+              0.3,
+              620.15
+            ],
+            [
+              7215.84,
+              0.27,
+              620.65
+            ],
+            [
+              7217.34,
+              0.3,
+              620.65
+            ],
+            [
+              7217.84,
+              0.32,
+              620.65
+            ],
+            [
+              7219.34,
+              0.35,
+              620.65
+            ],
+            [
+              7219.84,
+              0.37,
+              620.65
+            ],
+            [
+              7220.84,
+              0.37,
+              620.65
+            ],
+            [
+              7221.34,
+              0.38,
+              620.65
+            ],
+            [
+              7221.84,
+              0.38,
+              620.65
+            ],
+            [
+              7222.84,
+              0.36,
+              620.65
+            ],
+            [
+              7223.34,
+              0.36,
+              620.65
+            ],
+            [
+              7225.34,
+              0.28,
+              620.65
+            ],
+            [
+              7225.84,
+              0.24,
+              620.65
+            ],
+            [
+              7226.34,
+              0.21,
+              621.15
+            ],
+            [
+              7226.84,
+              0.16,
+              621.65
+            ],
+            [
+              7227.34,
+              0.14,
+              622.15
+            ],
+            [
+              7227.84,
+              0.1,
+              622.15
+            ],
+            [
+              7228.34,
+              0.11,
+              622.65
+            ],
+            [
+              7228.84,
+              0.19,
+              622.65
+            ]
+          ],
+          "routeM": 93.47,
+          "steepestDeg": 9.3,
+          "largestStepM": 0.082,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.idle-n3-work": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7199.34,
+              0.1,
+              526.15
+            ],
+            [
+              7199.84,
+              -0.1,
+              525.65
+            ],
+            [
+              7200.34,
+              -0.02,
+              525.15
+            ],
+            [
+              7200.84,
+              0.08,
+              524.65
+            ],
+            [
+              7201.34,
+              -0.04,
+              524.15
+            ],
+            [
+              7201.84,
+              -0.1,
+              523.65
+            ],
+            [
+              7202.84,
+              0.16,
+              523.65
+            ],
+            [
+              7203.34,
+              0.3,
+              523.65
+            ],
+            [
+              7203.84,
+              0.33,
+              523.65
+            ],
+            [
+              7204.34,
+              0.33,
+              523.15
+            ],
+            [
+              7204.84,
+              0.34,
+              522.65
+            ],
+            [
+              7205.34,
+              0.34,
+              522.15
+            ],
+            [
+              7206.84,
+              0.34,
+              522.15
+            ],
+            [
+              7207.34,
+              0.35,
+              522.15
+            ],
+            [
+              7207.84,
+              0.37,
+              521.65
+            ],
+            [
+              7208.84,
+              0.43,
+              520.65
+            ],
+            [
+              7209.34,
+              0.44,
+              520.65
+            ],
+            [
+              7209.84,
+              0.45,
+              520.15
+            ]
+          ],
+          "routeM": 66.86,
+          "steepestDeg": 24.5,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.npc-n3": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7199.34,
+              0.1,
+              526.15
+            ],
+            [
+              7199.84,
+              -0.1,
+              525.65
+            ],
+            [
+              7200.34,
+              -0.02,
+              525.15
+            ],
+            [
+              7200.84,
+              0.08,
+              524.65
+            ],
+            [
+              7201.34,
+              -0.04,
+              524.15
+            ],
+            [
+              7201.84,
+              -0.1,
+              523.65
+            ],
+            [
+              7202.84,
+              0.16,
+              523.65
+            ],
+            [
+              7203.34,
+              0.3,
+              523.65
+            ],
+            [
+              7203.84,
+              0.33,
+              523.65
+            ],
+            [
+              7204.34,
+              0.33,
+              523.15
+            ],
+            [
+              7204.84,
+              0.34,
+              522.65
+            ],
+            [
+              7205.34,
+              0.34,
+              522.15
+            ],
+            [
+              7206.34,
+              0.34,
+              522.15
+            ]
+          ],
+          "routeM": 62.53,
+          "steepestDeg": 24.5,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.container-crews-stores": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7198.84,
+              0.6,
+              526.15
+            ],
+            [
+              7199.84,
+              0.2,
+              525.15
+            ],
+            [
+              7200.34,
+              0.29,
+              524.65
+            ],
+            [
+              7200.84,
+              0.17,
+              524.15
+            ],
+            [
+              7200.84,
+              0.21,
+              523.65
+            ],
+            [
+              7200.84,
+              0.1,
+              523.15
+            ],
+            [
+              7200.84,
+              0.03,
+              522.65
+            ],
+            [
+              7201.34,
+              0.18,
+              522.15
+            ],
+            [
+              7201.84,
+              0.34,
+              521.65
+            ],
+            [
+              7202.34,
+              0.51,
+              521.15
+            ],
+            [
+              7202.84,
+              0.59,
+              520.65
+            ],
+            [
+              7202.84,
+              0.61,
+              520.15
+            ],
+            [
+              7203.34,
+              0.61,
+              519.65
+            ],
+            [
+              7203.84,
+              0.62,
+              519.15
+            ],
+            [
+              7204.34,
+              0.66,
+              518.65
+            ],
+            [
+              7205.34,
+              0.72,
+              517.65
+            ]
+          ],
+          "routeM": 64.86,
+          "steepestDeg": 19.4,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:socket.riverwalk.container-toll-takings": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7198.84,
+              0.6,
+              526.15
+            ],
+            [
+              7199.84,
+              0.2,
+              525.15
+            ],
+            [
+              7200.34,
+              0.29,
+              524.65
+            ],
+            [
+              7200.84,
+              0.17,
+              524.15
+            ],
+            [
+              7200.84,
+              0.21,
+              523.65
+            ],
+            [
+              7200.84,
+              0.1,
+              523.15
+            ],
+            [
+              7200.84,
+              0.03,
+              522.65
+            ],
+            [
+              7201.34,
+              0.18,
+              522.15
+            ],
+            [
+              7201.84,
+              0.34,
+              521.65
+            ],
+            [
+              7202.34,
+              0.51,
+              521.15
+            ],
+            [
+              7202.84,
+              0.59,
+              520.65
+            ],
+            [
+              7202.84,
+              0.61,
+              520.15
+            ],
+            [
+              7202.84,
+              0.64,
+              519.65
+            ]
+          ],
+          "routeM": 61.82,
+          "steepestDeg": 19.4,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.c-urn2": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              537.15
+            ],
+            [
+              7195.34,
+              0.35,
+              531.65
+            ],
+            [
+              7195.84,
+              0.12,
+              531.15
+            ],
+            [
+              7196.34,
+              0.14,
+              531.15
+            ],
+            [
+              7196.84,
+              0.23,
+              531.15
+            ],
+            [
+              7197.34,
+              0.31,
+              531.15
+            ],
+            [
+              7197.84,
+              0.38,
+              531.15
+            ],
+            [
+              7198.34,
+              0.58,
+              530.65
+            ],
+            [
+              7198.84,
+              0.49,
+              530.15
+            ],
+            [
+              7198.84,
+              0.59,
+              529.65
+            ],
+            [
+              7198.84,
+              0.57,
+              529.15
+            ],
+            [
+              7198.84,
+              0.42,
+              528.65
+            ],
+            [
+              7198.84,
+              0.31,
+              528.15
+            ],
+            [
+              7198.84,
+              0.33,
+              527.65
+            ],
+            [
+              7198.84,
+              0.37,
+              527.15
+            ],
+            [
+              7198.84,
+              0.42,
+              526.65
+            ],
+            [
+              7198.84,
+              0.6,
+              526.15
+            ],
+            [
+              7199.84,
+              0.2,
+              525.15
+            ],
+            [
+              7200.34,
+              0.29,
+              524.65
+            ],
+            [
+              7200.84,
+              0.17,
+              524.15
+            ],
+            [
+              7200.84,
+              0.21,
+              523.65
+            ],
+            [
+              7200.84,
+              0.1,
+              523.15
+            ],
+            [
+              7200.84,
+              0.03,
+              522.65
+            ],
+            [
+              7201.34,
+              0.18,
+              522.15
+            ],
+            [
+              7201.84,
+              0.34,
+              521.65
+            ],
+            [
+              7202.34,
+              0.51,
+              521.15
+            ],
+            [
+              7202.84,
+              0.59,
+              520.65
+            ],
+            [
+              7202.84,
+              0.61,
+              520.15
+            ],
+            [
+              7203.34,
+              0.61,
+              519.65
+            ],
+            [
+              7203.84,
+              0.62,
+              519.15
+            ],
+            [
+              7204.34,
+              0.66,
+              518.65
+            ]
+          ],
+          "routeM": 63.44,
+          "steepestDeg": 19.4,
+          "largestStepM": 0.23,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.c-sack": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              554.65
+            ],
+            [
+              7186.84,
+              0.35,
+              554.15
+            ],
+            [
+              7186.84,
+              0.35,
+              551.65
+            ],
+            [
+              7187.34,
+              0.35,
+              551.15
+            ],
+            [
+              7187.34,
+              0.35,
+              549.65
+            ],
+            [
+              7187.84,
+              0.35,
+              549.15
+            ],
+            [
+              7187.84,
+              0.35,
+              546.65
+            ],
+            [
+              7188.34,
+              0.35,
+              546.15
+            ],
+            [
+              7188.34,
+              0.35,
+              544.15
+            ],
+            [
+              7188.84,
+              0.35,
+              543.65
+            ],
+            [
+              7188.84,
+              0.35,
+              541.65
+            ],
+            [
+              7189.34,
+              0.35,
+              541.15
+            ],
+            [
+              7189.34,
+              0.35,
+              538.65
+            ],
+            [
+              7189.84,
+              0.35,
+              538.15
+            ],
+            [
+              7189.84,
+              0.35,
+              536.15
+            ],
+            [
+              7190.34,
+              0.35,
+              535.65
+            ],
+            [
+              7190.34,
+              0.35,
+              533.65
+            ],
+            [
+              7190.84,
+              0.35,
+              533.15
+            ],
+            [
+              7190.84,
+              0.35,
+              530.65
+            ],
+            [
+              7190.84,
+              0.46,
+              530.15
+            ],
+            [
+              7191.34,
+              0.79,
+              529.65
+            ],
+            [
+              7191.84,
+              1.11,
+              529.15
+            ],
+            [
+              7192.34,
+              1.44,
+              528.65
+            ],
+            [
+              7192.84,
+              1.84,
+              528.15
+            ],
+            [
+              7192.84,
+              2.18,
+              527.15
+            ],
+            [
+              7192.84,
+              2.34,
+              526.65
+            ],
+            [
+              7192.84,
+              2.34,
+              526.15
+            ],
+            [
+              7192.84,
+              2.39,
+              525.65
+            ],
+            [
+              7192.84,
+              2.45,
+              525.15
+            ],
+            [
+              7192.84,
+              2.5,
+              524.65
+            ],
+            [
+              7192.84,
+              2.43,
+              524.15
+            ],
+            [
+              7192.84,
+              2.25,
+              523.65
+            ],
+            [
+              7192.84,
+              2.06,
+              523.15
+            ],
+            [
+              7192.84,
+              1.86,
+              522.65
+            ],
+            [
+              7194.34,
+              1.38,
+              521.15
+            ],
+            [
+              7194.84,
+              1.2,
+              520.65
+            ],
+            [
+              7194.84,
+              1.13,
+              520.15
+            ],
+            [
+              7194.84,
+              1.04,
+              519.65
+            ],
+            [
+              7194.84,
+              0.96,
+              519.15
+            ],
+            [
+              7195.34,
+              0.93,
+              518.65
+            ],
+            [
+              7195.84,
+              0.89,
+              518.15
+            ],
+            [
+              7196.34,
+              0.84,
+              517.65
+            ],
+            [
+              7196.34,
+              0.84,
+              517.15
+            ]
+          ],
+          "routeM": 60.77,
+          "steepestDeg": 29.6,
+          "largestStepM": 0.114,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.ss-store": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7213.84,
+              0.3,
+              619.15
+            ],
+            [
+              7215.34,
+              0.3,
+              620.65
+            ],
+            [
+              7215.84,
+              0.31,
+              621.15
+            ],
+            [
+              7216.34,
+              0.33,
+              621.15
+            ],
+            [
+              7216.84,
+              0.34,
+              621.15
+            ],
+            [
+              7217.34,
+              0.36,
+              621.15
+            ],
+            [
+              7217.84,
+              0.37,
+              621.15
+            ],
+            [
+              7218.34,
+              0.39,
+              621.15
+            ],
+            [
+              7219.34,
+              0.41,
+              621.15
+            ],
+            [
+              7219.84,
+              0.43,
+              621.15
+            ],
+            [
+              7220.34,
+              0.43,
+              621.15
+            ],
+            [
+              7220.84,
+              0.44,
+              621.15
+            ],
+            [
+              7221.34,
+              0.44,
+              621.15
+            ],
+            [
+              7221.84,
+              0.45,
+              621.15
+            ],
+            [
+              7223.84,
+              0.41,
+              621.15
+            ],
+            [
+              7224.34,
+              0.38,
+              621.15
+            ],
+            [
+              7224.84,
+              0.36,
+              621.15
+            ],
+            [
+              7225.34,
+              0.33,
+              621.15
+            ],
+            [
+              7225.84,
+              0.33,
+              621.65
+            ],
+            [
+              7226.34,
+              0.31,
+              622.15
+            ],
+            [
+              7227.34,
+              0.25,
+              623.15
+            ],
+            [
+              7228.84,
+              0.37,
+              624.65
+            ],
+            [
+              7229.34,
+              0.39,
+              625.15
+            ],
+            [
+              7229.84,
+              0.36,
+              625.65
+            ],
+            [
+              7230.34,
+              0.35,
+              626.15
+            ],
+            [
+              7230.84,
+              0.34,
+              626.15
+            ],
+            [
+              7231.84,
+              0.34,
+              627.15
+            ],
+            [
+              7232.84,
+              0.34,
+              627.15
+            ],
+            [
+              7233.34,
+              0.33,
+              627.15
+            ]
+          ],
+          "routeM": 99.83,
+          "steepestDeg": 4.0,
+          "largestStepM": 0.05,
+          "deepestWadeM": 0.0
+        },
+        "socket:fill.sn-sack": {
+          "points": [
+            [
+              7186.34,
+              0.35,
+              573.15
+            ],
+            [
+              7186.34,
+              0.35,
+              576.15
+            ],
+            [
+              7185.34,
+              0.35,
+              577.15
+            ],
+            [
+              7185.34,
+              0.35,
+              580.65
+            ],
+            [
+              7184.84,
+              0.35,
+              581.15
+            ],
+            [
+              7184.84,
+              0.35,
+              588.15
+            ],
+            [
+              7184.34,
+              0.35,
+              588.65
+            ],
+            [
+              7184.34,
+              0.35,
+              590.65
+            ],
+            [
+              7183.84,
+              0.35,
+              591.15
+            ],
+            [
+              7183.84,
+              0.35,
+              593.15
+            ],
+            [
+              7183.34,
+              0.35,
+              593.65
+            ],
+            [
+              7183.34,
+              0.35,
+              595.65
+            ],
+            [
+              7182.84,
+              0.35,
+              596.15
+            ],
+            [
+              7182.84,
+              0.35,
+              598.15
+            ],
+            [
+              7182.34,
+              0.35,
+              598.65
+            ],
+            [
+              7182.34,
+              0.35,
+              601.15
+            ],
+            [
+              7181.84,
+              0.35,
+              601.65
+            ],
+            [
+              7181.84,
+              0.35,
+              602.15
+            ],
+            [
+              7181.34,
+              0.35,
+              602.65
+            ],
+            [
+              7181.34,
+              0.35,
+              606.15
+            ],
+            [
+              7180.84,
+              0.35,
+              606.65
+            ],
+            [
+              7180.84,
+              0.35,
+              609.15
+            ],
+            [
+              7180.34,
+              0.35,
+              609.65
+            ],
+            [
+              7180.34,
+              0.35,
+              610.65
+            ],
+            [
+              7180.84,
+              0.3,
+              611.15
+            ],
+            [
+              7181.34,
+              0.3,
+              611.65
+            ],
+            [
+              7183.84,
+              0.3,
+              611.65
+            ],
+            [
+              7184.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.34,
+              0.3,
+              612.15
+            ],
+            [
+              7186.84,
+              0.3,
+              612.65
+            ],
+            [
+              7189.34,
+              0.3,
+              612.65
+            ],
+            [
+              7189.84,
+              0.3,
+              613.15
+            ],
+            [
+              7191.84,
+              0.3,
+              613.15
+            ],
+            [
+              7192.34,
+              0.3,
+              613.65
+            ],
+            [
+              7194.84,
+              0.3,
+              613.65
+            ],
+            [
+              7200.34,
+              0.3,
+              619.15
+            ],
+            [
+              7213.84,
+              0.3,
+              619.15
+            ],
+            [
+              7215.34,
+              0.3,
+              620.65
+            ],
+            [
+              7215.84,
+              0.31,
+              621.15
+            ],
+            [
+              7216.34,
+              0.33,
+              621.15
+            ],
+            [
+              7216.84,
+              0.34,
+              621.15
+            ],
+            [
+              7217.34,
+              0.36,
+              621.15
+            ],
+            [
+              7217.84,
+              0.37,
+              621.15
+            ],
+            [
+              7218.34,
+              0.39,
+              621.15
+            ],
+            [
+              7219.34,
+              0.41,
+              621.15
+            ],
+            [
+              7219.84,
+              0.43,
+              621.15
+            ],
+            [
+              7220.34,
+              0.43,
+              621.15
+            ],
+            [
+              7220.84,
+              0.44,
+              621.15
+            ],
+            [
+              7221.34,
+              0.44,
+              621.15
+            ],
+            [
+              7221.84,
+              0.45,
+              621.15
+            ],
+            [
+              7223.84,
+              0.41,
+              621.15
+            ],
+            [
+              7224.34,
+              0.38,
+              621.15
+            ],
+            [
+              7224.84,
+              0.36,
+              621.15
+            ],
+            [
+              7225.34,
+              0.33,
+              621.15
+            ],
+            [
+              7225.84,
+              0.33,
+              621.65
+            ],
+            [
+              7226.34,
+              0.31,
+              622.15
+            ],
+            [
+              7227.34,
+              0.25,
+              623.15
+            ],
+            [
+              7228.84,
+              0.37,
+              624.65
+            ],
+            [
+              7229.34,
+              0.39,
+              625.15
+            ],
+            [
+              7229.84,
+              0.36,
+              625.65
+            ],
+            [
+              7230.34,
+              0.35,
+              626.15
+            ],
+            [
+              7230.84,
+              0.34,
+              626.15
+            ],
+            [
+              7231.84,
+              0.34,
+              627.15
+            ],
+            [
+              7232.84,
+              0.34,
+              627.15
+            ],
+            [
+              7234.34,
+              0.34,
+              628.65
+            ],
+            [
+              7234.34,
+              0.34,
+              629.15
+            ],
+            [
+              7234.84,
+              0.34,
+              629.65
+            ],
+            [
+              7235.34,
+              0.33,
+              630.15
+            ],
+            [
+              7235.84,
+              0.32,
+              630.15
+            ],
+            [
+              7236.34,
+              0.29,
+              630.65
+            ]
+          ],
+          "routeM": 104.57,
+          "steepestDeg": 4.0,
+          "largestStepM": 0.05,
+          "deepestWadeM": 0.0
+        }
+      }
+    }
+  }
+}

@@ -158,7 +158,12 @@ def ni_alpha(mat):
     if not flags & (NI_ALPHA_BLEND | NI_ALPHA_TEST):
         return False, None
     if flags & NI_ALPHA_TEST:
-        return True, round(int(mat.get("NiAlphaProperty_threshold", 128)) / 255.0, 3)
+        # Test function bits 10-12 are GREATER (4) on every flora and kit NIF
+        # we ship (alpha * 255 > threshold passes); glTF MASK keeps alpha >=
+        # cutoff, so threshold / 255 is the same test to one texel level. A
+        # threshold of 0 would read as "no test" in three.js (alphaTest 0):
+        # floor it at one level.
+        return True, round(max(int(mat.get("NiAlphaProperty_threshold", 128)), 1) / 255.0, 3)
     return True, 0.5
 
 
@@ -301,6 +306,13 @@ def rebuild_material(mat, double_sided, effect=None):
         if double_sided and diffuse.depth in (32, 64):   # alpha-tested foliage
             tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
             ALPHA_TESTED_IMAGES.add(diffuse.name)
+            # Foliage is cut at the NIF's own NiAlphaProperty threshold, not a
+            # fixed 0.5: the mangroves test at 45-70/255, so at 0.5 every mesh
+            # level drew bare branches under a card baked with a full crown
+            # (walk-5 impostor lane). No NiAlphaProperty: set_alpha_modes'
+            # 0.5 default stands.
+            if alpha_wanted:
+                ALPHA_MASK_MATERIALS[mat.name] = alpha_cutoff
         elif alpha_wanted and diffuse.depth in (32, 64):  # NIF cutout, not foliage
             tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
             ALPHA_TESTED_IMAGES.add(diffuse.name)
@@ -925,6 +937,39 @@ def card_quad(asset, root, level, view, corners):
     return obj, uv
 
 
+def clip_alpha_for_bake(meshes):
+    """Hard-clip every alpha-linked material on `meshes` at its shipped cutoff
+    (the NIF's NiAlphaProperty threshold, ALPHA_MASK_MATERIALS, else 0.5) for
+    the card render, so the card shows the crown the mesh levels draw: a
+    soft-alpha render gave the mangroves a full canopy their meshes never
+    drew (walk-5 impostor lane). Returns what `unclip_alpha` restores."""
+    done, clipped = set(), []
+    for obj in meshes:
+        for slot in obj.material_slots:
+            mat = slot.material
+            if mat is None or mat.name in done or not mat.use_nodes:
+                continue
+            done.add(mat.name)
+            tree = mat.node_tree
+            for node in list(tree.nodes):
+                if node.type != "BSDF_PRINCIPLED" or not node.inputs["Alpha"].is_linked:
+                    continue
+                source = node.inputs["Alpha"].links[0].from_socket
+                cmp = tree.nodes.new("ShaderNodeMath")
+                cmp.operation = "GREATER_THAN"
+                cmp.inputs[1].default_value = ALPHA_MASK_MATERIALS.get(mat.name, 0.5)
+                tree.links.new(source, cmp.inputs[0])
+                tree.links.new(cmp.outputs[0], node.inputs["Alpha"])
+                clipped.append((tree, cmp, source, node))
+    return clipped
+
+
+def unclip_alpha(clipped):
+    for tree, cmp, source, node in clipped:
+        tree.links.new(source, node.inputs["Alpha"])
+        tree.nodes.remove(cmp)
+
+
 def bake_asset_cards(asset, meshes, root, lo, hi, size):
     """Render this asset's two views and build its crossed card.
 
@@ -965,6 +1010,7 @@ def bake_asset_cards(asset, meshes, root, lo, hi, size):
           (cx, cy - half, z1), (cx, cy + half, z1)]),
     ]
     jobs = []
+    clipped = clip_alpha_for_bake(meshes)
     for view, location, rotation, corners in plan:
         cam.location = location
         cam.rotation_euler = rotation
@@ -974,6 +1020,7 @@ def bake_asset_cards(asset, meshes, root, lo, hi, size):
         obj, uv = card_quad(asset, root, len(asset["lodRatios"]) + 1, view, corners)
         jobs.append({"assetId": asset["id"], "view": view, "path": path,
                      "res": resolution, "object": obj, "uv": uv})
+    unclip_alpha(clipped)
     for obj in bpy.data.objects:
         if obj.type == "MESH":
             obj.hide_render = False

@@ -75,6 +75,12 @@
   },
   {
    "cellId": "KeebaHouseCrafter",
+   "claimedAt": "2026-09-29T17:56:49Z",
+   "doorId": "door.dunmer-north.riverwalk.1",
+   "placeId": "place.dunmer-north.riverwalk"
+  },
+  {
+   "cellId": "KeebaHouseCrafter",
    "claimedAt": "2026-09-28T16:27:33Z",
    "doorId": "door.hist-heartland.greenspring.2",
    "placeId": "place.hist-heartland.greenspring"

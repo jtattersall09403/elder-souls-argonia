@@ -1,4 +1,4 @@
-# Shaders are TSL node materials (decision 0109)
+# Shaders are TSL node materials (decision 0111)
 
 Every app renders with three's `WebGPURenderer` (`packages/game-core/src/render/createRenderer.ts`):
 the WebGPU backend where the browser has it, its WebGL 2 backend (`forceWebGL`) otherwise or with
@@ -124,7 +124,7 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - Many point lights: never add a `PointLight` per lamp. Fixture lamps go through the fixture light
   field (`packages/game-core/src/render/fixtureLights/`, `installFixtureLighting(renderer)`): one
   texture of lamps, the nearest 8 per object (16 for terrain), on both backends. three's
-  `TiledLighting` was measured and rejected (decision 0109 §3). Draw settlement meshes per cell, never
+  `TiledLighting` was measured and rejected (decision 0111 §3). Draw settlement meshes per cell, never
   as one settlement-wide instanced mesh (it would get only the 8 lamps nearest its centre).
 
 ## 7. Tests

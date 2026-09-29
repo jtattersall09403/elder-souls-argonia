@@ -13,7 +13,7 @@
  * Also flags a TSL `select(` call (bare or `.select(` on a node) in any file
  * that imports from "three/tsl" or "three/webgpu", except materialNodes.ts, home of the
  * branch-free `sel()`: three 0.184 may lower select() on computed operands
- * to an if/else reading unassigned temporaries (silent NaN, decision 0109).
+ * to an if/else reading unassigned temporaries (silent NaN, decision 0111).
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, dirname, extname } from "node:path";
@@ -40,7 +40,7 @@ const TSL_IMPORT = /from\s+["']three\/(?:tsl|webgpu)["']/;
 // A call, not the word in a comment or a destructuring list.
 const SELECT_CALL = /(?:^|[^\w$])select\s*\(/;
 const SELECT_EXEMPT = "materialNodes.ts";
-const SELECT_MSG = "select() call: use sel() from render/nodes/materialNodes (decision 0109 gotcha)";
+const SELECT_MSG = "select() call: use sel() from render/nodes/materialNodes (decision 0111 gotcha)";
 const stripComment = (line) => line.replace(/\/\/.*$/, "");
 
 function walk(dir, out) {

@@ -1,6 +1,6 @@
 /**
  * Harness scene "gc": one ground-cover tile's REAL materials on the studio's
- * ground-cover kit (decision 0109). The kit GLB is indexed by
+ * ground-cover kit (decision 0111). The kit GLB is indexed by
  * `buildFloraKit` and `buildCardIndex` (the loaders `Groundcover.tsx` uses) and
  * every part is patched by `patchGroundcoverPart` (the ring's own: wind on the
  * mesh tiers, the LOD fade on every tier, the cylindrical billboard on the

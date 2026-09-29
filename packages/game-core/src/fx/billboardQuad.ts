@@ -1,7 +1,7 @@
 /**
  * Cylindrical billboarding for baked card quads — the third node feature in
  * the same family as `windSway.ts` and `lodFade.ts`, and deliberately the
- * same shape (a function wrapping `positionNode`; decision 0109).
+ * same shape (a function wrapping `positionNode`; decision 0111).
  *
  * What it is for: the ground-cover ring's mid and far tiers draw a species as
  * a single baked card instead of its full mesh. A card is only convincing

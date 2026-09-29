@@ -17,11 +17,14 @@ averaged over the five faces a player looks at from 1.2 m above a walk node:
 the floor (up) and the four horizontal directions (walls, furniture fronts).
 
 ``apply_light_rule`` is the interior lighting rule (place-build
-doors-interiors-sockets.md § 7): (1) every lit fixture placement whose kit asset
+doors-interiors-sockets.md § 7): (1) every lit fixture placement (a plugin
+reference or a builder's addition, decision 0109) whose kit asset
 carries a mined LIGH (``light`` in its kit manifest) and has no plugin light within
 ``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) the cell
-ambient's intensity is raised so the unlit mean reaches ``FILL_E``. Both are derived
-from records, idempotent, and run by the exporter before it writes the bundle.
+ambient's intensity is raised so the unlit mean reaches ``FILL_E``; (3) every light's
+exported ``fade`` and ``falloffExponent`` are set so the runtime curve above follows
+Skyrim's own point-light curve (``skyrim_curve``). All are derived from records,
+idempotent, and run by the exporter before it writes the bundle.
 
 A node is DARK when ``E < DARK_E``: an albedo-0.3 wall then reflects under
 0.015 linear, under ~30/255 after ACES at exposure 1 (reads black). The bar
@@ -46,6 +49,33 @@ FILL_E = 0.15
 #: A lit fixture within this of a plugin light is already lit by it (the plugins place
 #: the LIGH beside the lantern: 0.61 m median for candlelanternwithcandle01).
 FIXTURE_LIT_M = 1.0
+#: The balance check (``light_balance``): a walked spot is source-led when the cell's
+#: lights give at least this share of its E, and a room is flat when under
+#: ``MIN_SOURCE_LED_FRACTION`` of its walked floor is source-led. Every tier A cell
+#: measured 0-12 % source-led before the fill and 0-4 % after it (2026-09-29); the
+#: 30 % bar is a chosen value, to be confirmed against the reader's row-48 renders. With the
+#: Skyrim curve (step 3) DawnstarBrinasHouse reads 91 %, the Keeba and Lilmoth cells 0-12 %:
+#: their few 2.5-4.6 m lights cover under 40 % of the floor even at a 0.04 fill (60-88 %
+#: of it then reads dark), so there the fill still carries the room (lamp coverage, not curve).
+SOURCE_LED_SHARE = 0.5
+MIN_SOURCE_LED_FRACTION = 0.30
+#: Skyrim's point-light attenuation (the Creation Engine Lighting shader as reconstructed by
+#: Community Shaders, package/Shaders/Lighting.hlsl: ``intensityFactor = saturate(lightDist /
+#: radius); intensityMultiplier = 1 - intensityFactor * intensityFactor``, times the light's
+#: colour x fade, no 1/pi): E(d) = lum * fade * (1 - (d/r)^2), lighting the room to its radius.
+#: The runtime's decay-2 curve spent the same record's light in the first metre (KeebaHouseFisher
+#: 080A5A97, r 4.62 m fade 2.5: E/lum 1.83 at 2 m, 0.19 at 3.5 m; Skyrim 2.03 and 1.07). So the
+#: exporter fits the two fields the runtime already reads: three's window alone,
+#: (1 - x^4)^2, already falls a little faster than 1 - x^2 between 0.5 r and 0.75 r (0.53 vs
+#: 0.58), so the best inverse-power is the least the bundle allows (``falloffExponent`` must be
+#: > 0, bundle.ts) and ``fade`` is the log-least-squares match at 0.5 r and 0.75 r (+-5 %).
+SKYRIM_FIT_X = (0.5, 0.75)
+SKYRIM_FALLOFF_EXPONENT = 0.01
+#: The cap: at 0.5 m from the light (0.5 r for a light under 1 m) no linear colour channel of
+#: ``fade * colour * attenuation`` exceeds this: an albedo-0.8 (white linen, plaster) surface
+#: then reflects <= 2.0 linear, ~0.89 after three's ACES at exposure 1 (~242/255), not clipped.
+MAX_NEAR_CHANNEL_E = 2.5
+NEAR_M = 0.5
 _NORMALS = np.array([[0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]], float)
 _LUMA = np.array([0.2126, 0.7152, 0.0722])
 
@@ -75,6 +105,33 @@ def irradiance(bundle: dict, points: np.ndarray) -> np.ndarray:
         cos = np.clip((v / np.maximum(d, 1e-6)[:, None]) @ _NORMALS.T, 0, 1)
         per_normal += lum * att[:, None] * cos
     return per_normal.mean(axis=1)
+
+
+def _runtime_shape(x: np.ndarray, r: float, falloff: float) -> np.ndarray:
+    """The runtime attenuation per unit intensity at x = d / r (module docstring)."""
+    x = np.asarray(x, float)
+    return np.clip(1 - x ** 4, 0, 1) ** 2 / np.maximum((x * r) ** (INTERIOR_LIGHT_DECAY * falloff), 0.01)
+
+
+def skyrim_curve(light: dict) -> dict:
+    """``fade`` and ``falloffExponent`` for one light so the runtime follows Skyrim's
+    ``fade * (1 - (d/r)^2)`` at ``SKYRIM_FIT_X`` (see the constant), capped by
+    ``MAX_NEAR_CHANNEL_E``. Reads the record's fade from ``raw.recordFade`` once set (idempotent)."""
+    raw = light.get("raw") or {}
+    rec = raw["recordFade"] if "recordFade" in raw else light.get("fade")
+    rec_fade = 1.0 if rec is None else float(rec)
+    r = float(light["radiusM"])
+    xs = np.asarray(SKYRIM_FIT_X, float)
+    target = rec_fade * (1 - xs ** 2)
+    fade = float(np.exp(np.mean(np.log(target / _runtime_shape(xs, r, SKYRIM_FALLOFF_EXPONENT)))))
+    near_x = min(NEAR_M, 0.5 * r) / r
+    peak = fade * float(_runtime_shape(near_x, r, SKYRIM_FALLOFF_EXPONENT)) * float(srgb_to_linear(light["colorRGB"]).max())
+    capped = peak > MAX_NEAR_CHANNEL_E
+    if capped:
+        fade *= MAX_NEAR_CHANNEL_E / peak
+    return {"fade": round(fade, 4), "falloffExponent": SKYRIM_FALLOFF_EXPONENT, "recordFade": rec,
+            "recordFalloffExponent": raw.get("recordFalloffExponent", light.get("falloffExponent")),
+            "capped": capped}
 
 
 def kit_lights(kits_dir) -> dict[str, dict]:
@@ -111,6 +168,13 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
                       "falloffExponent": 1.0, "base": lt.get("editorId") or "fixture",
                       "raw": {"xrdsUnits": None, "baseRadiusUnits": lt["radiusUnits"]}})
     bundle["lights"] = plugin + added
+    capped = 0
+    for light in bundle["lights"]:
+        fit = skyrim_curve(light)
+        light["fade"], light["falloffExponent"] = fit["fade"], fit["falloffExponent"]
+        light.setdefault("raw", {}).update(recordFade=fit["recordFade"],
+                                           recordFalloffExponent=fit["recordFalloffExponent"])
+        capped += fit["capped"]
     amb = bundle["ambient"]
     amb_lum = float(_LUMA @ srgb_to_linear(amb["colorRGB"]))
     d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
@@ -119,11 +183,31 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
     amb["intensity"] = round(max(1.0, need), 3)
     amb["rule"] = "interior-light-floor"
     bundle.setdefault("counts", {})["lights"] = len(bundle["lights"])
-    return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"]}
+    return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"], "cappedLights": capped}
 
 
-def light_report(bundle: dict, nodes: np.ndarray) -> dict:
-    """The rule's numbers for one bundle over its floor nodes ([x, floor y, z])."""
+def light_balance(bundle: dict, points: np.ndarray) -> dict:
+    """Is the room lit by its sources, or flat under the fill? (the automated half
+    of the "readable, warm, lit by its sources, not flat" check; the judged half is
+    reader-checklist row 48). At each point the lights' share of ``E`` is
+    ``(E - E_unlit) / E``; a point is SOURCE-LED when that share is at least
+    ``SOURCE_LED_SHARE``. Flat when under ``MIN_SOURCE_LED_FRACTION`` of the
+    points are source-led: a raised ambient then carries the room, and a render
+    reads evenly grey rather than pooled around its hearth and lanterns."""
+    pts = np.asarray(points, float).reshape(-1, 3)
+    e = irradiance(bundle, pts)
+    unlit = irradiance({**bundle, "lights": []}, pts)
+    share = np.where(e > 0, (e - unlit) / np.maximum(e, 1e-9), 0.0)
+    led = float((share >= SOURCE_LED_SHARE).mean())
+    return {"sourceLedFraction": round(led, 3), "medianSourceShare": round(float(np.median(share)), 3),
+            "contrastP90P10": round(float(np.percentile(e, 90) / max(np.percentile(e, 10), 1e-9)), 2),
+            "minSourceLedFraction": MIN_SOURCE_LED_FRACTION,
+            "flat": led < MIN_SOURCE_LED_FRACTION}
+
+
+def light_report(bundle: dict, nodes: np.ndarray, strict_balance: bool = False) -> dict:
+    """The rule's numbers for one bundle over its floor nodes ([x, floor y, z]).
+    ``strict_balance``: a flat cell (``light_balance``) is a failure, not only a flag."""
     nodes = np.asarray(nodes, float).reshape(-1, 3)
     if not len(nodes):
         return {"ok": False, "nodes": 0, "failures": ["no floor node to sample"]}
@@ -133,6 +217,7 @@ def light_report(bundle: dict, nodes: np.ndarray) -> dict:
         "nodes": int(len(nodes)), "lights": len(bundle.get("lights") or []),
         "medianE": round(float(np.median(e)), 4), "p10E": round(float(np.percentile(e, 10)), 4),
         "darkFraction": round(dark, 3), "darkE": DARK_E, "maxDarkFraction": MAX_DARK_FRACTION,
+        **light_balance(bundle, nodes + [0.0, EYE_M, 0.0]),
         "failures": [],
     }
     if not out["lights"]:
@@ -140,11 +225,15 @@ def light_report(bundle: dict, nodes: np.ndarray) -> dict:
     if dark > MAX_DARK_FRACTION:
         out["failures"].append(f"{dark:.0%} of the walked floor reads dark (E < {DARK_E}); "
                                f"bar {MAX_DARK_FRACTION:.0%}")
+    if strict_balance and out["flat"]:
+        out["failures"].append(f"flat: {out['sourceLedFraction']:.0%} of the walked floor gets at least "
+                               f"{SOURCE_LED_SHARE:.0%} of its light from the cell's lights; bar "
+                               f"{MIN_SOURCE_LED_FRACTION:.0%} (the ambient carries the room)")
     out["ok"] = not out["failures"]
     return out
 
 
-def light_bundle(bundle: dict, kits_dir=None, reached: bool = False) -> dict:
+def light_bundle(bundle: dict, kits_dir=None, reached: bool = False, strict_balance: bool = False) -> dict:
     """Measure the light over the bundle's standable floor nodes (interior_walk's
     layered grid); `reached` keeps only nodes reached from the doors (slower: the joins)."""
     from worldgen import interior_walk as iw
@@ -156,7 +245,7 @@ def light_bundle(bundle: dict, kits_dir=None, reached: bool = False) -> dict:
         nodes = walk.get("reachedPositions") or []
     else:
         nodes = iw.walk_mesh(mesh, owner, starts, [], nodes_only=True).get("positions") or []
-    return light_report(bundle, np.asarray(nodes, float))
+    return light_report(bundle, np.asarray(nodes, float), strict_balance)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -168,6 +257,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--apply", action="store_true",
                     help="apply the rule to the bundles and write them (what the exporter does on export)")
     ap.add_argument("--reached", action="store_true", help="only nodes reached from the doors (slow)")
+    ap.add_argument("--balance", action="store_true",
+                    help="fail a flat cell (light_balance), not only flag it")
     a = ap.parse_args(argv)
     bad = 0
     lights_by_asset = kit_lights(Path(__file__).resolve().parents[3] / "apps" / "world-studio"
@@ -178,7 +269,7 @@ def main(argv: list[str] | None = None) -> int:
             did = apply_light_rule(b, lights_by_asset)
             path.write_text(json.dumps(b, indent=1) + "\n")
             print(json.dumps({"cell": path.stem, "applied": did}))
-        rep = light_bundle(json.loads(path.read_text()), reached=a.reached)
+        rep = light_bundle(json.loads(path.read_text()), reached=a.reached, strict_balance=a.balance)
         bad += not rep["ok"]
         print(json.dumps({"cell": path.stem, **rep}))
     return 1 if bad else 0

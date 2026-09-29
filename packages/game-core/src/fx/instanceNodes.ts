@@ -1,6 +1,6 @@
 /**
  * Per-object node helpers the vegetation features share (wind sway, LOD fade,
- * batch data, billboards; decision 0109).
+ * batch data, billboards; decision 0111).
  *
  * Why these exist. A feature's `positionNode` sees the PRE-instance,
  * object-space position: the generated vertex shader assigns `positionNode`

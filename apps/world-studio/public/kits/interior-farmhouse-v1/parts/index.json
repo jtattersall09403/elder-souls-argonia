@@ -3,15 +3,15 @@
  "kit": "interior-farmhouse-v1",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 16765612,
-  "sha256": "e82731a5891754d0e7c5b41a40cd492861b06ff807ba7e98ae02a377871617cd"
+  "bytes": 16825852,
+  "sha256": "41e70c2501d089d4862b21b392b72dec425390e9d230742d82410cbe25dd381a"
  },
  "totals": {
   "parts": 88,
-  "partBytes": 1453848,
-  "textureFiles": 94,
-  "textureBytes": 4489701,
-  "bytes": 5943549
+  "partBytes": 1449896,
+  "textureFiles": 93,
+  "textureBytes": 4518158,
+  "bytes": 5968054
  },
  "assets": {
   "vanilla:architecture/farmhouse/farmhouseldoor01": {
@@ -184,7 +184,7 @@
   },
   "vanilla:clutter/chopping block/axe01": {
    "file": "vanilla_clutter_chopping_block_axe01-878fb04e.glb",
-   "bytes": 11948,
+   "bytes": 11972,
    "vertices": 380,
    "triangles": 470,
    "textures": [
@@ -403,7 +403,7 @@
   },
   "vanilla:clutter/dining set/basicfork01": {
    "file": "vanilla_clutter_dining_set_basicfork01-bcefbf78.glb",
-   "bytes": 10552,
+   "bytes": 10576,
    "vertices": 316,
    "triangles": 264,
    "textures": [
@@ -414,7 +414,7 @@
   },
   "vanilla:clutter/dining set/basicknife01": {
    "file": "vanilla_clutter_dining_set_basicknife01-9e0dc14a.glb",
-   "bytes": 10416,
+   "bytes": 10440,
    "vertices": 252,
    "triangles": 222,
    "textures": [
@@ -737,15 +737,14 @@
   },
   "vanilla:clutter/woodfires/fireplacewood01burning": {
    "file": "vanilla_clutter_woodfires_fireplacewood01burning-6cd10783.glb",
-   "bytes": 25704,
-   "vertices": 366,
-   "triangles": 314,
+   "bytes": 21512,
+   "vertices": 351,
+   "triangles": 298,
    "textures": [
-    "07d01cd726723172",
+    "467ad373f19428e8",
     "6a5907947a1c24ed",
     "75c46031cfe3fb54",
-    "86a0dd1585cc36c6",
-    "f5c46ca9c767d7ca"
+    "acac1b10de5d5fde"
    ]
   },
   "vanilla:critters/bee/beehivehusk": {
@@ -806,7 +805,7 @@
   },
   "vanilla:plants/deathbell01": {
    "file": "vanilla_plants_deathbell01-c50b243c.glb",
-   "bytes": 5992,
+   "bytes": 6020,
    "vertices": 93,
    "triangles": 130,
    "textures": [
@@ -816,7 +815,7 @@
   },
   "vanilla:plants/dragonstongue01": {
    "file": "vanilla_plants_dragonstongue01-46071954.glb",
-   "bytes": 5488,
+   "bytes": 5516,
    "vertices": 129,
    "triangles": 103,
    "textures": [
@@ -825,7 +824,7 @@
   },
   "vanilla:plants/hangingelvesear01": {
    "file": "vanilla_plants_hangingelvesear01-2ab727ba.glb",
-   "bytes": 3940,
+   "bytes": 3964,
    "vertices": 33,
    "triangles": 28,
    "textures": [
@@ -834,7 +833,7 @@
   },
   "vanilla:plants/hangingfrostmirriam01": {
    "file": "vanilla_plants_hangingfrostmirriam01-b03f8c81.glb",
-   "bytes": 4132,
+   "bytes": 4156,
    "vertices": 46,
    "triangles": 39,
    "textures": [
@@ -852,7 +851,7 @@
   },
   "vanilla:plants/hangingmoss01": {
    "file": "vanilla_plants_hangingmoss01-2f515338.glb",
-   "bytes": 5048,
+   "bytes": 5072,
    "vertices": 69,
    "triangles": 54,
    "textures": [
@@ -861,7 +860,7 @@
   },
   "vanilla:plants/lavender01": {
    "file": "vanilla_plants_lavender01-6fe736fe.glb",
-   "bytes": 6912,
+   "bytes": 6940,
    "vertices": 202,
    "triangles": 158,
    "textures": [
@@ -879,7 +878,7 @@
   },
   "vanilla:weapons/steel/steelmace": {
    "file": "vanilla_weapons_steel_steelmace-70e2f24c.glb",
-   "bytes": 37964,
+   "bytes": 37976,
    "vertices": 1776,
    "triangles": 1912,
    "textures": [

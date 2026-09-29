@@ -72,6 +72,7 @@ from collections import Counter
 from pathlib import Path
 
 from .atomic_write import atomic_write_bytes
+from .job_guard import guarded  # shared with blueprint_interiors --claim
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WB = REPO_ROOT / "tooling" / "placement-workbench" / "wb.py"
@@ -177,7 +178,8 @@ def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, st
     summary_path = gates_output(place_id) / "apply" / f"{place_id}.json"
     for stale in (summary_path, derived_blueprint_path(place_id)):
         stale.unlink(missing_ok=True)
-    got = subprocess.run(cmd, cwd=WB.parent, capture_output=True, text=True, env=wb_env(place_id))
+    got = subprocess.run(guarded(cmd, "place-gates"), cwd=WB.parent, capture_output=True,
+                         text=True, env=wb_env(place_id))
     tail = (got.stdout + got.stderr).strip().splitlines()[-1:] or [f"exit {got.returncode}"]
     if summary_path.exists():
         summary = json.loads(summary_path.read_text(encoding="utf-8"))

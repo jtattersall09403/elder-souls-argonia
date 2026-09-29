@@ -371,6 +371,9 @@ def _claim_world(tmp_path, monkeypatch):
     monkeypatch.setattr(pg, "BLUEPRINTS", blueprints)
     monkeypatch.setattr(pg, "WB", wb)
     monkeypatch.setattr(pg, "WB_SHARED", tmp_path / "out")
+    # the fake apply is instant: queueing it for a heavy job_guard slot cost
+    # this test 41 s of a 43 s scoped run on a busy machine (2026-09-29)
+    monkeypatch.setattr(pg, "guarded", lambda cmd, lane: cmd)
     claims = tmp_path / "claims.json"
     claims.write_text(json.dumps({"schemaVersion": 1, "claims": []}))
     return pid, claims

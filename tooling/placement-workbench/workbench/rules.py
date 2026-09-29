@@ -73,6 +73,11 @@ SIGN_HEIGHT_M = (1.5, 2.4)   # ... the board's centre this high over the ground 
                              # the owner's lower arm at 1.55 m, planner ruling 4 2026-09-28)
 SIGN_BOARD_TOKENS = ("roadsign",)  # a board: the name says roadsign and not signpost
 BERTH_REACH_M = 1.0          # berthReachRule: a way or landing end within this of the hull
+                             # (of a floor service's floor edge: `floor_services`)
+FLOOR_TOP_BAND_M = 0.15      # floor service: a cell is its floor within this of walkTopM's top
+                             # (BM&V swamp house: its landing plank's deck 0.14 m under it)
+FLOOR_RAY_HEAD_M = 0.5       # ... the floor is read by rays down from this over its top
+FLOOR_LATTICE_M = 0.5        # ... its plan outline sampled on this lattice (berth, prop seat)
 BERTH_DRY_M = 0.2            # ... its other end on ground this far over the water
 BERTH_WAY_TOKENS = ("dock", "plank", "walkway", "bridge", "pier", "jetty", "landing",
                    "steps", "ramp", "boardwalk", "stage")
@@ -258,6 +263,86 @@ def _piled_deck_y(cat, p) -> float | None:
     return float(p.y) + (float(top) * p.scale if isinstance(top, (int, float)) else 0.0)
 
 
+def _walk_top_y(cat, p) -> float | None:
+    """A piece's walked floor height: its seated pivot + the manifest
+    `walkTopM` over the pivot (placement_metadata: a house on piles, the
+    floor the compile's `walkable_surfaces` stands sockets on), or None."""
+    top = cat.row(p.asset).get("walkTopM")
+    if p.y is None or not isinstance(top, (int, float)):
+        return None
+    return float(p.y) + float(top) * p.scale
+
+
+def _parcel_interiors(scene) -> dict:
+    """{parcel id: interior kind} from the place's blueprint (none on disk: {})."""
+    bp = paths.BLUEPRINTS / f"{scene.placeId}.json"
+    if not bp.exists():
+        return {}
+    parcels = json.loads(bp.read_text())["blueprint"].get("parcels") or []
+    return {q["id"]: q for q in parcels if q.get("id")}
+
+
+def floor_services(cat, scene) -> dict:
+    """{uid: {parcel, services, floorY}} of every open-floor house: a parcel
+    piece whose manifest row carries `walkTopM` and whose blueprint parcel
+    has `interior: none` (no door, no cell). Its floor is its service area
+    (the entrance, the parcel's services and its D0 safe ground): walkRule
+    reaches the floor, berthReachRule measures to the floor's edge and
+    propSeatRule seats what stands on it on the floor. A house with a door
+    (any other interior kind) is judged by its doorway as before."""
+    parcels = _parcel_interiors(scene)
+    out = {}
+    for p in scene.pieces:
+        role = p.role or {}
+        if role.get("kind") != "parcel":
+            continue
+        y = _walk_top_y(cat, p)
+        rec = parcels.get(role.get("id")) or {}
+        if y is None or (rec.get("interior") or {}).get("kind") != "none":
+            continue
+        out[p.uid] = {"parcel": role["id"], "floorY": y,
+                      "services": ["entrance"] + list(rec.get("services") or [])}
+    return out
+
+
+def _floor_heights(cat, p, floor_y: float, xs, zs) -> np.ndarray:
+    """The walk surface of a walkTopM piece at province points: the first
+    mesh hit of a ray down from FLOOR_RAY_HEAD_M over its floor top (its
+    floor, or its landing where that reaches out; never its roof), NaN where
+    the ray meets nothing."""
+    xs, zs = np.asarray(xs, float), np.asarray(zs, float)
+    out = np.full(len(xs), np.nan)
+    if not len(xs):
+        return out
+    mesh = _world_mesh(cat, p)
+    origins = np.column_stack([xs, -zs, np.full(len(xs), floor_y + FLOOR_RAY_HEAD_M)])
+    dirs = np.tile([0.0, 0.0, -1.0], (len(xs), 1))
+    locs, rays, _t = mesh.ray.intersects_location(origins, dirs, multiple_hits=False)
+    out[rays] = locs[:, 2]
+    return out
+
+
+def floor_outline(cat, p, floor_y: float):
+    """The plan region of a floor service's floor (shapely, province
+    metres): the FLOOR_LATTICE_M cells within its footprint whose surface
+    (`_floor_heights`) lies within FLOOR_TOP_BAND_M of the floor top."""
+    from shapely import contains_xy
+    from shapely.geometry import Polygon, box
+    from shapely.ops import unary_union
+    poly = Polygon(measure.footprint_province(cat, p))
+    x0, z0, x1, z1 = poly.bounds
+    gx, gz = np.meshgrid(np.arange(x0, x1 + FLOOR_LATTICE_M, FLOOR_LATTICE_M),
+                         np.arange(z0, z1 + FLOOR_LATTICE_M, FLOOR_LATTICE_M))
+    xs, zs = gx.ravel(), gz.ravel()
+    keep = contains_xy(poly, xs, zs)
+    xs, zs = xs[keep], zs[keep]
+    h = _floor_heights(cat, p, floor_y, xs, zs)
+    on = np.abs(h - floor_y) <= FLOOR_TOP_BAND_M        # NaN compares False
+    half = FLOOR_LATTICE_M / 2
+    return unary_union([box(x - half, z - half, x + half, z + half)
+                        for x, z in zip(xs[on], zs[on])])
+
+
 def _piled_box(cat, p):
     """A piled deck's walk plan box: its mesh's kit-frame plan bounds, turned
     and placed by the pose (province metres), never the footprint rectangle
@@ -288,6 +373,13 @@ def _surface_m(cat, scene, ground, x: float, z: float) -> float:
             continue
         poly = Polygon(measure.footprint_province(cat, p))
         if not poly.contains(Point(x, z)):
+            continue
+        floor = _walk_top_y(cat, p)
+        if floor is not None:
+            # a house on piles is walked on its floor, never its roof
+            got = float(_floor_heights(cat, p, floor, [x], [z])[0])
+            if np.isfinite(got):
+                h = max(h, got)
             continue
         mesh = _world_mesh(cat, p)
         top = float(mesh.bounds[1][2]) + 1.0
@@ -489,8 +581,18 @@ class WalkGrid:
         inside = contains_xy(poly, self.X, self.Z)
         if not inside.any():
             return
-        mesh = _world_mesh(cat, p)
         iz, ix = np.nonzero(inside)
+        floor = _walk_top_y(cat, p)
+        if floor is not None:
+            # a house on piles (walkTopM): its floor and landing, read from
+            # over the floor top, so the roof is never the walk surface
+            h = _floor_heights(cat, p, floor, self.X[iz, ix], self.Z[iz, ix])
+            hit = np.isfinite(h)
+            self.H[iz[hit], ix[hit]] = h[hit]
+            self.src[iz[hit], ix[hit]] = i
+            self.decks.append(p.uid)
+            return
+        mesh = _world_mesh(cat, p)
         top = float(mesh.bounds[1][2]) + 1.0
         origins = np.column_stack([self.X[iz, ix], -self.Z[iz, ix], np.full(len(iz), top)])
         dirs = np.tile([0.0, 0.0, -1.0], (len(iz), 1))
@@ -598,6 +700,20 @@ def _opening_cells(grid: WalkGrid, target: dict):
     return cells, None if cells else f"no free cell within {OPENING_REACH_M} m of its outline"
 
 
+def _floor_cells(grid: WalkGrid, scene, target: dict):
+    """A floor service's cells: free cells the piece's own floor surfaces
+    within FLOOR_TOP_BAND_M of its walkTopM top (`floor_services`)."""
+    i = grid.uids.index(target["uid"])
+    y = target["floorY"]
+    if not scene.piece(target["uid"]).walkable:
+        return [], (f"its floor (walkTopM top {y:.2f} m) is no walk surface: the piece is "
+                    f"not placed walkable")
+    on = (grid.src == i) & (grid.block < 0) & (np.abs(grid.H - y) <= FLOOR_TOP_BAND_M)
+    cells = list(zip(*np.nonzero(on)))
+    return cells, None if cells else (f"no walk cell on its floor (walkTopM top {y:.2f} m, "
+                                      f"band {FLOOR_TOP_BAND_M} m)")
+
+
 def _why_unreached(grid: WalkGrid, dist: np.ndarray, goal) -> dict:
     """The reached cell nearest the goal and the edge out of it toward the
     goal that fails: the blocking cell and the reason (slope, step, obstacle)."""
@@ -688,9 +804,18 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
     csr = grid.graph()
     s = start[0] * grid.nx + start[1]
     dist, pred = dijkstra(csr, directed=False, indices=s, return_predecessors=True)
-    for t in doors(cat, scene, every=True) + openings(cat, scene) + socket_targets(cat, scene):
+    floors = floor_services(cat, scene)
+    # an open-floor house is served on its floor, never at a doorway record
+    floor_targets = [{"id": f"floor:{uid}", "uid": uid, "kind": "floor", **f}
+                     for uid, f in floors.items()]
+    for t in ([d for d in doors(cat, scene, every=True) if d["uid"] not in floors]
+              + floor_targets + openings(cat, scene) + socket_targets(cat, scene)):
         row = {k: t[k] for k in ("id", "uid", "kind")}
         what = t["kind"]
+        if t["kind"] == "floor":
+            row.update(parcel=t["parcel"], services=t["services"],
+                       floorY=round(t["floorY"], 3))
+            what = f"floor (walkTopM top {t['floorY']:.2f} m, serving {', '.join(t['services'])})"
         if t["kind"] == "socket":
             what = f"{t['socketKind']} socket {t['id'].removeprefix('socket:')}"
             if t["reason"]:
@@ -708,6 +833,7 @@ def walk(cat, scene, keep_points: bool = False) -> dict:
                     out["sealed"].append({**row, "sealedBy": seal})
                     continue
         cells, why = (_door_cells(grid, scene, t) if t["kind"] == "door"
+                      else _floor_cells(grid, scene, t) if t["kind"] == "floor"
                       else _opening_cells(grid, t))
         if not cells:
             row.update(ok=False, reason=why)
@@ -764,8 +890,8 @@ def walk_routes(cat, scene) -> dict:
                         **{k: t[k] for k in ("routeM", "steepestDeg", "largestStepM",
                                              "deepestWadeM")},
                         **({"parcelId": parcel_of[t["uid"]]}
-                           if t.get("kind") == "door" and t.get("bound")
-                           and parcel_of.get(t.get("uid")) else {})}
+                           if (t.get("kind") == "floor" or t.get("kind") == "door"
+                               and t.get("bound")) and parcel_of.get(t.get("uid")) else {})}
               for t in got["targets"] if t.get("ok")}
     return {"schemaVersion": SCHEMA_VERSION, "cellM": CELL_M, "stepM": got["stepM"],
             "slopeMaxDeg": SLOPE_MAX_DEG, "wadeMaxM": WADE_MAX_M, "routes": routes}
@@ -1049,7 +1175,9 @@ def _set_members(scene) -> dict:
 
 
 def _prop_seat_ctx(cat, scene):
-    return {"g": _ground(cat, scene), "members": _set_members(scene)}
+    floors = [(uid, f, floor_outline(cat, scene.piece(uid), f["floorY"]))
+              for uid, f in floor_services(cat, scene).items()]
+    return {"g": _ground(cat, scene), "members": _set_members(scene), "floors": floors}
 
 
 def prop_seat_piece(cat, scene, ctx, p) -> tuple[dict, list]:
@@ -1060,12 +1188,25 @@ def prop_seat_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     row = cat.row(p.asset)
     parent = _parent_of(scene, p)
     r = {}
+    from shapely.geometry import Point
+    floor = next(((uid, f) for uid, f, poly in ctx.get("floors") or ()
+                  if poly.contains(Point(p.x, p.z))), None)
     if parent is not None and parent.y is not None:
         got = measure.contact(cat, p, parent)
         r = {"on": parent.uid, "gapM": got["gapM"], "bandM": [0.0, up]}
         if got["gapM"] > up:
             failures.append(f"{p.uid}: stands {got['gapM']:.3f} m off {parent.uid} "
                             f"(> {up} m)")
+    elif floor is not None:
+        # on an open-floor house's floor: seated on that floor, inside its
+        # service area (`floor_services`), never on the water under it
+        uid, f = floor
+        gap = _lowest_m(cat, p) - f["floorY"]
+        r = {"on": f"floor:{uid}", "inside": f["parcel"], "gapM": round(gap, 3),
+             "bandM": [-down, up]}
+        if gap > up or gap < -down:
+            failures.append(f"{p.uid}: stands {gap:+.3f} m off the floor of {uid} "
+                            f"(walkTopM top {f['floorY']:.2f} m; band -{down}..+{up} m)")
     else:
         fl = measure.float_under(cat, g, p)
         seat = measure.prop_seat(cat, g, p)     # the settle's own seat (one helper)
@@ -1743,30 +1884,52 @@ def berth_reach(cat, scene) -> dict:
     ferry or boat hull) has a way or landing piece (BERTH_WAY_TOKENS) with
     one end within BERTH_REACH_M of the hull and the other on dry ground
     (BERTH_DRY_M over the water there); every idle or npc socket placed by
-    `at` stands on dry ground or a walkable deck, never in water."""
+    `at` stands on dry ground or a walkable deck, never in water. An
+    open-floor house (`floor_services`) is reached at its floor's edge
+    (`floor_outline`: its own landing included), by a way piece other than
+    itself or the end of a laid path."""
     from shapely.geometry import Point, Polygon
     g = _ground(cat, scene)
     rows, failures = {}, []
     ways = [q for q in scene.pieces if q.y is not None and _has(q.asset, BERTH_WAY_TOKENS)]
+    floors = floor_services(cat, scene)
+    outlines = []            # (parcel, floor outline): a socket on one is inside its service
+    path_ends = [(f"path:{pa['id']}", (tuple(pa["pointsM"][k]), tuple(pa["pointsM"][-1 - k])))
+                 for pa in scene.paths if len(pa["pointsM"]) >= 2 for k in (0, -1)]
     for p in scene.pieces:
         if p.y is None or (p.role or {}).get("kind") != "parcel":
             continue
         if (cat.row(p.asset).get("anchorClass") or "ground") != "water":
             continue
-        hull = Polygon(measure.footprint_province(cat, p))
+        floor = floors.get(p.uid)
+        hull = (floor_outline(cat, p, floor["floorY"]) if floor
+                else Polygon(measure.footprint_province(cat, p)))
+        if floor:
+            outlines.append((floor["parcel"], hull))
+        if hull.is_empty:
+            rows[p.uid] = {"to": "floor", "floorY": round(floor["floorY"], 3)}
+            failures.append(f"{p.uid}: its floor (walkTopM top {floor['floorY']:.2f} m) has no "
+                            f"surface within {FLOOR_TOP_BAND_M} m in its plan")
+            continue
         level = g.water_level(p.x, p.z)
         best = None
-        for q in ways:
-            for near, far in _way_ends(cat, scene, q):
-                gap = hull.distance(Point(near))
-                dry = float(g.chunk_height(*far)) - (level if level is not None else -1e9)
-                if best is None or (gap, -dry) < (best[1], -best[2]):
-                    best = (q.uid, gap, dry)
+        ends = [(q.uid, e) for q in ways if not (floor and q.uid == p.uid)
+                for e in _way_ends(cat, scene, q)]
+        if floor:
+            ends += path_ends
+        for q_uid, (near, far) in ends:
+            gap = hull.distance(Point(near))
+            dry = float(g.chunk_height(*far)) - (level if level is not None else -1e9)
+            if best is None or (gap, -dry) < (best[1], -best[2]):
+                best = (q_uid, gap, dry)
         r = {"waterLevelM": level, "way": best and best[0],
              "gapM": best and round(best[1], 2), "farEndOverWaterM": best and round(best[2], 2)}
+        if floor:
+            r.update(to="floor", floorY=round(floor["floorY"], 3))
         rows[p.uid] = r
         if best is None or best[1] > BERTH_REACH_M or best[2] < BERTH_DRY_M:
-            failures.append(f"{p.uid}: no way or landing reaches the berth from dry ground "
+            failures.append(f"{p.uid}: no way or landing reaches the "
+                            f"{'floor edge' if floor else 'berth'} from dry ground "
                             f"(nearest {r['way']}: gap {r['gapM']} m, far end "
                             f"{r['farEndOverWaterM']} m over the water; bars {BERTH_REACH_M} m, "
                             f"{BERTH_DRY_M} m)")
@@ -1780,6 +1943,9 @@ def berth_reach(cat, scene) -> dict:
         depth = (level - ground) if (level is not None and g.wet(x, z)) else 0.0
         deck = _surface_m(cat, scene, g, x, z) - ground
         rows[f"socket:{s['id']}"] = {"depthM": round(depth, 2), "deckM": round(deck, 2)}
+        inside = next((pid for pid, poly in outlines if poly.contains(Point(x, z))), None)
+        if inside:
+            rows[f"socket:{s['id']}"]["inside"] = inside
         if depth > 0.0 and deck <= 0.0:
             failures.append(f"socket {s['id']}: stands in {depth:.2f} m of water, not on dry "
                             f"ground or a deck")

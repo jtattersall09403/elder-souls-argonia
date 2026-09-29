@@ -103,6 +103,25 @@ def test_set_alpha_modes_masks_foliage_and_clears_everything_else(tmp_path):
     assert data[20 + chunk_length + 8:] == b"\x00\x00\x00\x00"
 
 
+def test_set_alpha_modes_cuts_foliage_at_the_nif_threshold(tmp_path):
+    # Walk 5: the mangroves' leaves test at 45/255 in their NIF; a fixed 0.5
+    # drew bare branches. A foliage material with an NiAlphaProperty ships at
+    # its own cutoff, one without keeps 0.5, and the baked card stays 0.5.
+    glb = tmp_path / "kit.glb"
+    _make_glb(glb, {"asset": {"version": "2.0"}, "materials": [
+        {"name": "leaf", "alphaMode": "BLEND"}, {"name": "bark", "alphaMode": "BLEND"},
+        {"name": "card", "alphaMode": "BLEND"}]})
+    summary = {"assets": [{"alphaTest": True, "materials": ["leaf", "bark"],
+                           "alphaMaskMaterials": {"leaf": 0.176},
+                           "billboardMaterials": ["card"]}]}
+    assert set_alpha_modes(glb, summary) == {"MASK": 3, "OPAQUE": 0, "BLEND": 0}
+    data = glb.read_bytes()
+    chunk_length = struct.unpack_from("<I", data, 12)[0]
+    cut = {m["name"]: m.get("alphaCutoff")
+           for m in json.loads(data[20:20 + chunk_length])["materials"]}
+    assert cut == {"leaf": 0.176, "bark": 0.5, "card": 0.5}
+
+
 def test_set_alpha_modes_masks_a_nif_cutout_at_its_own_threshold(tmp_path):
     # 16h check-in 2 item 8: an NiAlphaProperty on a non-foliage piece (the
     # HTBM hut fringe, test 0x12ec) shipped OPAQUE; it is a MASK now.
@@ -699,6 +718,32 @@ def test_published_kit_has_no_untextured_lod0_material(kit_id):
     assert errors == []
 
 
+def test_fire_card_gate_names_an_unflagged_flame_or_glow_card():
+    fx = {"BS_Shader_Block_Name": "BSEffectShaderProperty"}
+    gltf = {"materials": [
+        {"name": "Flames:0.Mat", "extras": dict(fx)},
+        {"name": "Glow.Mat", "extras": {**fx, "additive": True}},
+        {"name": "EdgeBlood.Mat", "extras": dict(fx)},
+        {"name": "Flames:1.Mat", "extras": {"BS_Shader_Block_Name": "BSLightingShaderProperty"}},
+        {"name": "Flames:2.Mat", "extras": dict(fx)}],
+        "meshes": [{"primitives": [{"material": i}]} for i in range(5)],
+        "nodes": [{"name": f"es|{i}", "mesh": i} for i in range(4)]
+                 + [{"name": "es|4__lod1", "mesh": 4}]}
+    summary = {"assets": [{"id": "kit:fire", "materials": ["Flames:0.Mat"]}]}
+    errors = build_kit.unflagged_fire_card_errors(gltf, summary)
+    assert [e.split(":")[0] for e in errors] == ["Flames"] and "(kit:fire)" in errors[0]
+
+
+@pytest.mark.parametrize("glb", sorted((build_kit.REPO_ROOT / "apps/world-studio/public/kits")
+                                       .glob("*.glb")), ids=lambda p: p.stem)
+def test_published_kit_ships_every_fire_card_additive(glb):
+    """Walk 4: interior-farmhouse-v1 shipped fireplacewood01burning's
+    Flames:0/1 cards MASK (solid streaks); its config row had no effect flag."""
+    manifest = glb.with_suffix(".kit.json")
+    summary = json.loads(manifest.read_text()) if manifest.is_file() else {}
+    assert build_kit.unflagged_fire_card_errors(build_kit.read_gltf_json(glb), summary) == []
+
+
 def test_untextured_gate_passes_textured_additive_and_judged_materials():
     gltf = {"materials": [
         {"name": "wood", "pbrMetallicRoughness": {"baseColorTexture": {"index": 0}}},
@@ -857,3 +902,55 @@ def test_every_published_manifest_lod_levels_equal_its_glb():
             if asset["id"] in levels and asset.get("lodLevels") != levels[asset["id"]]:
                 bad.append(f"{manifest.name}:{asset['id']} {asset.get('lodLevels')} != {levels[asset['id']]}")
     assert not bad, f"{len(bad)} rows: {bad[:5]}"
+
+
+def test_stem_fallback_never_takes_a_lod_texture():
+    """A LOD distance copy (`textures/lod/*lod.dds`) is never the stem
+    stand-in for a full-size diffuse (walk 5: KotM's 256² whwoodboards02lod
+    beat vanilla's exact path); a real longer-named sibling still is."""
+    class Names(build_kit.Source):
+        def __init__(self, names):
+            self.names = names
+
+        def names_available(self):
+            return self.names
+
+    lod_only = Names(["textures/lod/whwoodboards02lod.dds",
+                      "textures/lod/ceramic01teal_dlod.dds"])
+    assert lod_only.find_by_stem("textures/architecture/windhelm/whwoodboards02.dds") is None
+    assert lod_only.find_by_stem("textures/_resourcepack/_genericmaterials/ceramic/ceramic01teal_d.dds") is None
+    sibling = Names(["textures/plants/vurt_shroomstemmoss.dds"])
+    assert sibling.find_by_stem("textures/plants/vurt_shroomstem.dds") == "textures/plants/vurt_shroomstemmoss.dds"
+
+
+def test_blender_scripts_compile():
+    # Blender exits 0 when its --python script fails to compile, so a syntax
+    # error in a blender/ script reached a kit build as a silent no-op (walk 5).
+    import py_compile
+    for script in sorted((Path(__file__).parent / "blender").glob("*.py")):
+        py_compile.compile(str(script), doraise=True)
+
+
+def test_effect_shape_shaders_reads_skyrim_se_bstrishape():
+    """mudmother OvenNew (bsVersion 100) draws its flame cards as BSTriShape
+    `m_Flames:0/1` and `m_Glow`: the reader returned no shapes and the kit
+    build refused `m_Flames:0.Mat` (walk 5). A BSTriShape's shader ref sits
+    after NiAVObject, the bounding sphere and the skin ref."""
+    from . import nif_blocks as nb
+    av = struct.pack("<iIii", 0, 0, -1, 14) + struct.pack("<3f", 0, 0, 0) \
+        + struct.pack("<9f", 1, 0, 0, 0, 1, 0, 0, 0, 1) + struct.pack("<f", 1) + struct.pack("<i", -1)
+    raw = av + struct.pack("<4f", 0, 0, 0, 1) + struct.pack("<iii", -1, 7, 8)
+    assert nb._geometry_properties(raw, 100, "BSTriShape") == (7, 8)
+    assert "BSTriShape" in nb.EFFECT_GEOMETRY
+
+
+OVEN_NEW = (build_kit.DEFAULT_VAULT / "skyrim-source/mod-sources/mud-mother-grove-146557/extracted"
+            / "Meshes/GV_Meshes/ArgonianNest/OvenNew.nif")
+
+
+@pytest.mark.skipif(not OVEN_NEW.is_file(), reason="vault absent")
+def test_oven_new_flame_cards_get_their_emissive_multiple():
+    from . import nif_blocks as nb
+    shaders = nb.effect_shape_shaders(nb.parse(OVEN_NEW.read_bytes()))
+    gains = build_kit.additive_gains(["m_Flames:0.Mat", "m_Flames:1.Mat", "m_Glow.Mat"], shaders)
+    assert gains == {"m_Flames:0.Mat": 1.75, "m_Flames:1.Mat": 1.5, "m_Glow.Mat": 1.0}

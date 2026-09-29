@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "KeebaHouseCrafter",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:mud/kotm-house-pod",
+ "shellAssetId": null,
  "refCount": 168,
  "kits": {
   "interior-farmhouse-v1": {
@@ -58,16 +58,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.hist-heartland.greenspring.1",
    "interiorLoadDoorRef": "0809B4BD",
-   "arrivalMarker": {
-    "positionM": [
-     106.4963,
-     86.2485,
-     54.4948
-    ],
-    "yawDeg": 182.383
-   },
    "loadDoor": {
     "positionM": [
      106.3737,
@@ -2880,13 +2871,15 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.7379,
    "flags": 12297,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowSlow",
    "raw": {
     "xrdsUnits": 325.075,
-    "baseRadiusUnits": 384
+    "baseRadiusUnits": 384,
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2902,13 +2895,15 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.8152,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 246.638,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2924,13 +2919,15 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.7563,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 47.398,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2946,13 +2943,15 @@
     240,
     223
    ],
-   "fade": null,
+   "fade": 0.9083,
    "flags": 0,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "DefaultCandleLight01NSDesat",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
    }
   }
  ],

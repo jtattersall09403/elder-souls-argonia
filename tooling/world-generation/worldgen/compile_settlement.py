@@ -987,8 +987,12 @@ def walkable_surfaces(placements: list[dict], shelf: "KitShelf") -> list[tuple]:
         if asset.get("anchorClass") not in WALKABLE_ANCHOR_CLASSES or "positionM" not in pl:
             continue
         pos = pl["positionM"]
-        out.append((_plan_footprint_m(asset, pos, float(pl.get("yawDeg") or 0.0),
-                                      float(pl.get("scale") or 1.0)), float(pos[1]), pl["id"]))
+        scale = float(pl.get("scale") or 1.0)
+        # a deck is walked at its pivot; a house on piles at its floor, the
+        # manifest walkTopM over the pivot (placement_metadata)
+        top = float(pos[1]) + float(asset.get("walkTopM") or 0.0) * scale
+        out.append((_plan_footprint_m(asset, pos, float(pl.get("yawDeg") or 0.0), scale),
+                    top, pl["id"]))
     return out
 
 

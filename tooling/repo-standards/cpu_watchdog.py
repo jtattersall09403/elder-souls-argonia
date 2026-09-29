@@ -2,7 +2,8 @@
 """CPU watchdog daemon (owner ruling 2026-09-25, after the second codespace
 crash at 100 % CPU): watches the whole machine's CPU with no agent involved,
 pauses the heaviest processes while the machine is saturated and clears
-stale ones. Started by tooling/bootstrap/on-start.sh through cpu_watchdog.sh
+stale ones. A paused target gets one line on its own stderr (STOP_NOTICE)
+and another when it resumes, so a paused job never reads as a hang. Started by tooling/bootstrap/on-start.sh through cpu_watchdog.sh
 (nohup, one instance: flock on <dir>/watchdog.lock). Log: <dir>/watchdog.log,
 state: <dir>/watchdog.state.json (dir = ES_WD_DIR, default /tmp/es-jobs).
 
@@ -184,6 +185,28 @@ def real_signal(pid: int, sig: int) -> None:
     os.kill(pid, sig)
 
 
+# A paused job says so on its own stderr (npm-test hang, walk 5 2026-09-29: two
+# lanes read a paused `npm test` as a 300 s hang), so it never looks hung.
+STOP_NOTICE = ("cpu_watchdog: PAUSED this job (machine CPU {cpu:.0f}%). It is not hung: it "
+               "resumes by itself once the machine calms. Run heavy jobs and test runs as "
+               "`bash tooling/repo-standards/job_guard.sh <lane> -- <command>`, which is never "
+               "paused. Log: /tmp/es-jobs/watchdog.log")
+
+
+def real_notify(pid: int, line: str) -> None:
+    """Append one line to the process's stderr; never blocks, never raises."""
+    try:
+        fd = os.open(f"/proc/{pid}/fd/2", os.O_WRONLY | os.O_APPEND | os.O_NONBLOCK | os.O_NOCTTY)
+    except OSError:
+        return
+    try:
+        os.write(fd, ("\n" + line + "\n").encode())
+    except OSError:
+        pass
+    finally:
+        os.close(fd)
+
+
 # ---------------------------------------------------------------- the decision core
 
 @dataclass
@@ -218,6 +241,11 @@ class Watchdog:
     last_dt: float = 0.0
     last_t: float | None = None
     guard_pgids: set = field(default_factory=set)        # process groups holding a job_guard job
+    notify_fn: object = None                             # (pid, line): tell the paused job itself
+
+    def notify(self, pid: int, line: str) -> None:
+        if self.notify_fn is not None:
+            self.notify_fn(pid, line)
 
     # --- helpers
     @staticmethod
@@ -394,6 +422,7 @@ class Watchdog:
                                else f"still >= {c.stop_until:g}% while throttling")
                         self.log_fn(f"STOP pid {p.pid} target {label} cpu {pc:.0f}% ({self.short(p)}): "
                                     f"machine {cpu:.0f}% {why}; heaviest throttleable")
+                        self.notify(p.pid, STOP_NOTICE.format(cpu=cpu))
         if cpu < c.resume_below:
             if self.low_since is None:
                 self.low_since = t
@@ -406,6 +435,7 @@ class Watchdog:
                 self.log_fn(f"CONT pid {s.pid} target {s.label} cpu {s.cpu:.0f}% when stopped ({s.cmd}): "
                             f"machine under {c.resume_below:g}% for {t - self.low_since:.0f} s; oldest stopped; "
                             f"paused {t - s.since:.0f} s")
+                self.notify(s.pid, f"cpu_watchdog: resumed this job after {t - s.since:.0f} s paused.")
             self.low_since = t
 
     def sweep(self, procs: dict, deltas: dict, t: float) -> None:
@@ -577,7 +607,8 @@ def main() -> int:
             log(f"DRYRUN signal {signal.Signals(sig).name} -> pid {pid}")
     else:
         signal_fn = real_signal
-    wd = Watchdog(cfg, sampler, reader, signal_fn, clock, log, self_pids=ancestors(os.getpid()))
+    wd = Watchdog(cfg, sampler, reader, signal_fn, clock, log, self_pids=ancestors(os.getpid()),
+                  notify_fn=None if os.environ.get("ES_WD_DRY_RUN") == "1" else real_notify)
     try:
         with open(state_path) as f:
             wd.adopt(json.load(f), reader())

@@ -1,5 +1,5 @@
 /**
- * The fire's shared TSL maths (decision 0109; docs/standards/tsl-shaders.md):
+ * The fire's shared TSL maths (decision 0111; docs/standards/tsl-shaders.md):
  * hash, value noise, fbm, the teardrop mask, the 3-band ramp, the per-card
  * wobble, the flicker, and the display-to-scene encode both fire renderers
  * (cards, flameMaterial.ts; volumes, volumeFire.ts) end with.

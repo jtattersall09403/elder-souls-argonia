@@ -1,6 +1,6 @@
 /**
  * Harness scene "veg": the vegetation layer's REAL batch materials on the
- * studio's flora kit (decision 0109). The land kit GLB is loaded and
+ * studio's flora kit (decision 0111). The land kit GLB is loaded and
  * indexed by `buildFloraKit` (the loader `useFloraKit` uses), each species'
  * ladder comes from `speciesRings` + `lodLadder` + `cellRungs` exactly as
  * `Vegetation.tsx` builds it, and every rung × part is an InstancedMesh whose

@@ -224,15 +224,21 @@ def validate_policy_inventory(
 
     configured_kits: set[str] = set()
     configured_assets: set[str] = set()
+    config_of: dict[str, Path] = {}
     for path in sorted(kit_config_dir.glob("*.json")):
         doc = json.loads(path.read_text())
         configured_kits.add(doc["id"])
+        config_of[doc["id"]] = path
         configured_assets.update(
             normalize_asset_id(row["asset"])
             for row in doc.get("assets", []) if isinstance(row.get("asset"), str)
         )
     for kit_id in sorted(configured_kits - set(kit_policies)):
-        findings.append(f"kit {kit_id!r} has no authored placement policy")
+        findings.append(
+            f"kit {kit_id!r} has no authored placement policy (config "
+            f"{config_of[kit_id]}): add a kitPolicies row to placement-policies.json, "
+            "or, if it is a scratch or sample config, move it out of config/kits "
+            "(a sample build never lives there: kit-build skill)")
     for kit_id, policy_id in sorted(kit_policies.items()):
         if policy_id not in policies:
             findings.append(f"kit {kit_id!r} names unknown policy {policy_id!r}")
@@ -276,7 +282,12 @@ def validate_policy_inventory(
 
 
 ASSET_PLACEMENT_FIELDS = ("anchorClass", "designedSinkM", "designedWaterlineM", "deckClearanceM",
-                          "placeUse")
+                          "placeUse", "walkTopM")
+"""``walkTopM``: the height of a water-class piece's walked floor over its
+pivot (metres, unscaled piece frame), for a piece whose floor is not at its
+pivot (a house on piles: BM&V's swamp house floor 2.725 m over it). Copied to
+the manifest; ``compile_settlement.walkable_surfaces`` stands sockets on it
+instead of on the pivot (Riverwalk long house, 2026-09-29)."""
 PLACE_USES = ("ruin-only", "hanging-only")
 """``placeUse`` (16k fix 2, interiors r8 (a)): ``ruin-only`` keeps a piece out
 of a living place (the workbench ``place`` op refuses it without ``--ruin``);
@@ -312,7 +323,7 @@ def _asset_placement_row_findings(
         findings.append(f"{where}: anchorClass must be one of {sorted(ANCHOR_CLASSES)}")
     if "placeUse" in row and row["placeUse"] not in PLACE_USES:
         findings.append(f"{where}: placeUse must be one of {list(PLACE_USES)}")
-    for key in ("designedSinkM", "designedWaterlineM", "deckClearanceM"):
+    for key in ("designedSinkM", "designedWaterlineM", "deckClearanceM", "walkTopM"):
         if key in row and not _is_number(row[key]):
             findings.append(f"{where}: {key} must be finite metres")
     if "deckClearanceM" in row and ("designedSinkM" in row or "designedWaterlineM" in row):
@@ -320,6 +331,8 @@ def _asset_placement_row_findings(
                         "beside a designedSinkM or designedWaterlineM")
     if "designedWaterlineM" in row and row.get("anchorClass", "water") != "water":
         findings.append(f"{where}: designedWaterlineM only belongs on anchorClass water")
+    if "walkTopM" in row and row.get("anchorClass") != "water":
+        findings.append(f"{where}: walkTopM only belongs on anchorClass water")
     if not isinstance(row.get("why"), str) or not row["why"].strip():
         findings.append(f"{where}: needs a why")
     return findings
@@ -627,6 +640,10 @@ def apply_placement_metadata(
             asset["designedWaterlineM"] = waterline
         else:
             asset.pop("designedWaterlineM", None)
+        if anchor_class == "water" and _is_number(row.get("walkTopM")):
+            asset["walkTopM"] = float(row["walkTopM"])
+        else:
+            asset.pop("walkTopM", None)
         asset["placement"] = {
             "schemaVersion": 1,
             "anchorMode": policy["anchorMode"],

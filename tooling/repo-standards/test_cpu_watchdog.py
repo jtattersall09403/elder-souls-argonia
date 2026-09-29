@@ -91,6 +91,19 @@ def test_stop_heaviest_one_per_sample_then_continue_oldest_first():
     assert any(l.startswith("STOP pid 11 ") and "machine 90%" in l for l in w.logs)
 
 
+def test_a_paused_job_is_told_on_its_own_stderr_at_stop_and_resume():
+    # npm-test hang (walk 5): a paused job must never read as a hang
+    w = World([96, 96, 96, 50] + [50] * 8, [P(10, 150, "yes")])
+    told = []
+    dog = w.dog()
+    dog.notify_fn = lambda pid, line: told.append((pid, line))
+    w.run(dog, 3)
+    assert told and told[0][0] == 10 and "PAUSED" in told[0][1] and "job_guard.sh" in told[0][1]
+    w.run(dog, 9)
+    assert w.signals[-1] == (10, "SIGCONT")
+    assert told[-1][0] == 10 and "resumed this job after" in told[-1][1]
+
+
 def test_default_threshold_is_95():
     w = World([94] * 6 + [96] * 3, [P(10, 150, "yes")])
     dog = w.dog()

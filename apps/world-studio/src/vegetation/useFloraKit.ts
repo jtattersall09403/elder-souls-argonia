@@ -14,7 +14,14 @@ import {
   collidersFor,
   type FloraCollider,
 } from "@elder-souls/game-core/physics/floraSolids";
-import { buildFloraKit, mergeFloraKits, type FloraKit, type KitManifest } from "./floraKit";
+import {
+  buildFloraKit, installImpostors, mergeFloraKits, withholdCards,
+  type FloraKit, type KitLevel, type KitManifest,
+} from "./floraKit";
+import { FRAME_WORK_STARTUP_MS } from "@elder-souls/game-core/scheduling/frameWork";
+import {
+  impostorPart, type ImpostorSidecar,
+} from "@elder-souls/game-core/vegetation/impostor";
 import { sharedChunkStore, type ChunkStore, type ChunksManifest } from "../character/chunkStore";
 import type { VegetationIndex } from "./vegetationBundle";
 import { STUDIO_TOOLS } from "../studioTools";
@@ -45,6 +52,46 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     (loader) => configureKitLoader(loader, decoders));
   const [underwaterGltf, setUnderwaterGltf] = useState<GLTF | null>(null);
   const [underwaterWanted, setUnderwaterWanted] = useState(false);
+  // Octahedral impostors (the flora kit's sidecar, `<kit>.impostors.json`):
+  // installed over the card level of their species. They are NOT startup
+  // payload (test_kit_compress STARTUP_KITS): the sidecar (a few hundred
+  // bytes) is read at once so those species withhold their card
+  // (`withholdCards`: the last mesh level runs to the draw distance), and the
+  // GLBs load only after the startup window (FRAME_WORK_STARTUP_MS), while
+  // the kits and the first chunks own the network. No sidecar (or an empty
+  // one) leaves every card as it is.
+  type Impostors = Map<string, { part: KitLevel["parts"][number]; contentPx: number }>;
+  const [impostors, setImpostors] = useState<Impostors | null>(null);
+  const [impostorsPending, setImpostorsPending] = useState<string[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    fetch(`${baseUrl}kits/flora-province-v1.impostors.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<ImpostorSidecar>) : null))
+      .then((sidecar) => {
+        if (cancelled || !sidecar?.impostors.length) return;
+        setImpostorsPending(sidecar.impostors.map((record) => record.id));
+        timer = setTimeout(() => {
+          const loader = createKitLoader(decoders);
+          const loaded: Impostors = new Map();
+          Promise.all(sidecar.impostors.map(async (record) => {
+            const g = await loader.loadAsync(`${baseUrl}kits/${record.path}`);
+            const part = impostorPart(record, g.scene);
+            if (part) loaded.set(record.id, { part, contentPx: record.contentPx });
+          }))
+            .then(() => { if (!cancelled) setImpostors(loaded); })
+            .catch((error: unknown) => {
+              // The withheld cards come back: never a species with neither.
+              console.error("[vegetation] impostors failed to load", error);
+              if (!cancelled) setImpostorsPending([]);
+            });
+        }, FRAME_WORK_STARTUP_MS);
+      })
+      .catch((error: unknown) => {
+        console.error("[vegetation] impostor sidecar failed to load", error);
+      });
+    return () => { cancelled = true; if (timer !== undefined) clearTimeout(timer); };
+  }, [baseUrl, decoders]);
   useEffect(() => {
     if (!underwaterWanted) return;
     let cancelled = false;
@@ -88,7 +135,10 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     // First wins on a duplicate id: a few assets (tbp_seaweed06,
     // waterkelptall02/03) ship in both kits, and the palettes were authored
     // against the land kit's copy.
-    const land = buildFloraKit(gltf, manifest);
+    const built = buildFloraKit(gltf, manifest);
+    const land = impostors
+      ? installImpostors(built, impostors)
+      : impostorsPending.length ? withholdCards(built, impostorsPending) : built;
     const merged = underwaterGltf
       ? mergeFloraKits(land, buildFloraKit(underwaterGltf, underwaterManifest, true))
       : land;
@@ -96,7 +146,7 @@ export function useFloraKit(baseUrl: string): FloraKitState {
       console.info(`[vegetation] kit: ${merged.size} assets (flora${underwaterGltf ? " + underwater" : ""})`);
     }
     return merged;
-  }, [gltf, underwaterGltf, manifest, underwaterManifest]);
+  }, [gltf, underwaterGltf, manifest, underwaterManifest, impostors, impostorsPending]);
 
   return {
     kit, index, manifest, underwaterManifest, chunksManifest, store,
