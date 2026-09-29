@@ -52,7 +52,10 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import type { WebGPURenderer } from "three/webgpu";
+import { GpuCullPool, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
+import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
@@ -710,19 +713,24 @@ function sharedRegionRaster(baseUrl: string): Promise<ControlRaster> {
  */
 const SLOT_GEOMETRIES = Symbol("esSlotGeometries");
 
-function slotGeometry(source: THREE.BufferGeometry, slot: number): THREE.BufferGeometry {
-  if (slot === 0) return source;
+function slotGeometry(
+  source: THREE.BufferGeometry, slot: number, gpuCull = false,
+): THREE.BufferGeometry {
+  // The GPU cull path puts its indirect args and output attributes on the
+  // geometry, so slot 0 gets its own view too (never the kit's geometry).
+  if (slot === 0 && !gpuCull) return source;
   const host = source as unknown as
     { [SLOT_GEOMETRIES]?: Map<number, THREE.BufferGeometry> };
   const cache = host[SLOT_GEOMETRIES] ?? (host[SLOT_GEOMETRIES] = new Map());
-  const cached = cache.get(slot);
+  const key = gpuCull ? -1 - slot : slot;
+  const cached = cache.get(key);
   if (cached) return cached;
   // The band attribute is the view's own; `bandAttribute` grows it in place.
   const view = makeSlotGeometry(source, {
     [LOD_BAND_ATTRIBUTE]: new THREE.InstancedBufferAttribute(
       new Float32Array(64 * 4), 4),
   });
-  cache.set(slot, view);
+  cache.set(key, view);
   return view;
 }
 
@@ -743,6 +751,66 @@ function bandAttribute(
 }
 
 // Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
+
+// --- GPU cull path (lane L9b) ------------------------------------------------
+
+/** Frames between read-backs of the GPU's kept counts (HUD only). */
+const GC_COUNT_READ_FRAMES = 30;
+
+/** One ground-cover mesh on the GPU cull path: its draw and the CPU staging
+ * rows a fill writes (matrices, the tint at 3 and 4 floats a row, the band). */
+interface GcDraw {
+  draw: PooledDraw;
+  matrices: Float32Array;
+  colours: Float32Array;
+  colours4: Float32Array;
+  bands: Float32Array;
+}
+
+/** Register a new ground-cover mesh with the pool: the page's payload 0 is
+ * its tint (`instanceColor`, 4 floats a row = WGSL's vec3 array stride) and
+ * payload 1 its geometry's `esLodBand`. */
+export function registerGcDraw(
+  pool: GpuCullPool, mesh: THREE.InstancedMesh,
+  source: THREE.BufferGeometry, capacity: number,
+): GcDraw {
+  if (!source.boundingSphere) source.computeBoundingSphere();
+  const draw = pool.addDraw(mesh, {
+    capacity, sphere: source.boundingSphere!, band: null, casts: false, fromZero: false,
+  });
+  mesh.instanceColor = draw.system.payloads[0] as unknown as THREE.InstancedBufferAttribute;
+  mesh.geometry.setAttribute(LOD_BAND_ATTRIBUTE, draw.system.payloads[1]);
+  return {
+    draw,
+    matrices: new Float32Array(capacity * 16),
+    colours: new Float32Array(capacity * 3),
+    colours4: new Float32Array(capacity * 4),
+    bands: new Float32Array(capacity * 4),
+  };
+}
+
+/** Write a mesh's first `drawn` staged rows as its whole candidate list. */
+export function fillGcDraw(pool: GpuCullPool, gc: GcDraw, drawn: number): void {
+  for (let i = 0; i < drawn; i++) {
+    gc.colours4[i * 4] = gc.colours[i * 3];
+    gc.colours4[i * 4 + 1] = gc.colours[i * 3 + 1];
+    gc.colours4[i * 4 + 2] = gc.colours[i * 3 + 2];
+  }
+  pool.fillDraw(gc.draw, gc.matrices.subarray(0, drawn * 16),
+    [gc.colours4.subarray(0, drawn * 4), gc.bands.subarray(0, drawn * 4)]);
+}
+
+/** Detach a mesh from the pool (the page's tint and band leave it too). */
+export function releaseGcDraw(
+  pool: GpuCullPool | null, mesh: THREE.InstancedMesh, gc: GcDraw,
+): void {
+  if (!pool) return;
+  pool.removeDraw(gc.draw);
+  mesh.instanceColor = null;
+  if (mesh.geometry.getAttribute(LOD_BAND_ATTRIBUTE) === (gc.draw.system.payloads[1] as unknown)) {
+    mesh.geometry.deleteAttribute(LOD_BAND_ATTRIBUTE);
+  }
+}
 
 // --- component ---------------------------------------------------------------
 
@@ -1181,6 +1249,23 @@ export function Groundcover({
   // vegetation layer's: the two draw different kits, so no material is
   // shared, and one uniform object per layer keeps the dependency one-way.
   const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  // THE switch point (lane L9b): on the WebGPU backend with
+  // `indirect-first-instance` every plant is a candidate of a GPU cull
+  // (frustum + its mesh's tier band, per plant) written once per fill, and
+  // the per-frame wedge culler does not run. Payload 0 is the ground tint
+  // (the mesh's `instanceColor`), payload 1 the per-plant LOD band.
+  const gl = useThree((st) => st.gl) as unknown as WebGPURenderer;
+  const gcCull = useMemo(
+    () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade, payloads: 2 }) : null),
+    [gl, lodFade]);
+  /** GPU path: each pooled mesh's draw and its CPU staging rows. */
+  const gcDraws = useRef(new Map<THREE.InstancedMesh, GcDraw>());
+  const gcFrame = useRef(0);
+  useEffect(() => () => {
+    for (const [mesh, d] of gcDraws.current) releaseGcDraw(gcCull, mesh, d);
+    gcDraws.current.clear();
+    gcCull?.dispose();
+  }, [gcCull]);
   const cards = useMemo(
     () => (kit ? buildCardIndex(gltf, kit) : new Map<string, KitLevelPart>()), [gltf, kit]);
 
@@ -1316,12 +1401,22 @@ export function Groundcover({
     // not submitted. Tested every frame against the live camera.
     let live = 0; let submitted = 0; let draws = 0;
     const list = meshList.current;
-    if (SECTOR_SLOTS > 1) {
+    if (gcCull) {
+      // GPU path: the compute pass is the cull; nothing per mesh here.
+      state.camera.updateMatrixWorld();
+      gcCull.update(gl, state.camera, null);
+      if (gcFrame.current++ % GC_COUNT_READ_FRAMES === 0) gcCull.refreshCounts(gl);
+      for (const d of gcDraws.current.values()) {
+        live += d.draw.filled;
+        submitted += d.draw.kept;
+        if (d.draw.filled > 0) draws++;
+      }
+    } else if (SECTOR_SLOTS > 1) {
       const camera = state.camera;
       camera.updateMatrixWorld();
       culler.test(culler.frustumOf(camera));
     }
-    for (let i = 0; i < list.length; i++) {
+    for (let i = 0; i < (gcCull ? 0 : list.length); i++) {
       const mesh = list[i];
       const show = SECTOR_SLOTS === 1 || culler.visible[mesh.userData.gcSector as number] === 1;
       mesh.visible = show;
@@ -1552,7 +1647,7 @@ export function Groundcover({
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
-            const geometry = slotGeometry(part.geometry, slot);
+            const geometry = slotGeometry(part.geometry, slot, gcCull !== null);
             patchGroundcoverPart(part.material, {
               wind, lodFade, billboard: bucket !== BUCKET_NEAR && card !== null,
             });
@@ -1566,6 +1661,13 @@ export function Groundcover({
               // no frame renders between them. The vanishing was the
               // whole-cache wipe (0084 round 11 addendum).
               const previous = mesh ?? null;
+              // GPU path: the old mesh shares this geometry, so it leaves the
+              // page before the new one joins it.
+              if (previous && gcCull) {
+                const old = gcDraws.current.get(previous);
+                if (old) releaseGcDraw(gcCull, previous, old);
+                gcDraws.current.delete(previous);
+              }
               const capacity = Math.max(64, Math.ceil(drawn * 1.5));
               mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
               // DEV triangle attribution bucket (HUD line 3).
@@ -1590,13 +1692,15 @@ export function Groundcover({
               meshPool.current.set(meshKey, mesh);
               if (previous) { group.remove(previous); previous.dispose(); }
               meshList.current = [...meshPool.current.values()];
+              if (gcCull) gcDraws.current.set(mesh, registerGcDraw(gcCull, mesh, part.geometry, capacity));
             }
-            const matrices = mesh.instanceMatrix.array as Float32Array;
-            const colours = mesh.instanceColor!.array as Float32Array;
+            const gc = gcDraws.current.get(mesh) ?? null;
+            const matrices = gc ? gc.matrices : mesh.instanceMatrix.array as Float32Array;
+            const colours = gc ? gc.colours : mesh.instanceColor!.array as Float32Array;
             // The band is per TILE RECORD, not per mesh: the merged card mesh
             // holds MID and FAR records, which cross different boundaries.
-            const bands = bandAttribute(geometry, drawn);
-            const bandArray = bands.array as Float32Array;
+            const bands = gc ? null : bandAttribute(geometry, drawn);
+            const bandArray = gc ? gc.bands : bands!.array as Float32Array;
             let at = 0;
             for (const t of slotTiles.tiles) {
               const sp = t.species;
@@ -1621,10 +1725,20 @@ export function Groundcover({
                 at += restN;
               }
             }
-            bands.needsUpdate = true;
-            mesh.count = drawn;
-            mesh.instanceMatrix.needsUpdate = true;
-            mesh.instanceColor!.needsUpdate = true;
+            if (gc) {
+              // The draw's band: its tier's, or for the merged card mesh the
+              // union of MID and FAR (the cull keeps a superset; the shader
+              // still fades each plant by its own band).
+              gcCull!.setBand(gc.draw, bucket === BUCKET_NEAR
+                ? tierBands[0]
+                : unionBand(tierBands[1], tierBands[2]));
+              fillGcDraw(gcCull!, gc, drawn);
+            } else {
+              bands!.needsUpdate = true;
+              mesh.count = drawn;
+              mesh.instanceMatrix.needsUpdate = true;
+              mesh.instanceColor!.needsUpdate = true;
+            }
             // The sphere from the tiles' extents (a wedge), never by
             // reading the matrices back; the height term covers the plants.
             const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
@@ -1643,7 +1757,10 @@ export function Groundcover({
     // Everything the pool holds that this rebuild did not fill draws nothing
     // — `count = 0` — but keeps its buffers for the next crossing.
     for (const [meshKey, mesh] of meshPool.current) {
-      if (!liveMeshes.has(meshKey)) mesh.count = 0;
+      if (liveMeshes.has(meshKey)) continue;
+      const gc = gcDraws.current.get(mesh);
+      if (gc) fillGcDraw(gcCull!, gc, 0);
+      else mesh.count = 0;
     }
 
     const tFilled = performance.now();
@@ -2108,6 +2225,8 @@ export function Groundcover({
   // The pool outlives every rebuild, so it is dropped once, on unmount.
   useEffect(() => () => {
     for (const mesh of meshPool.current.values()) {
+      const gc = gcDraws.current.get(mesh);
+      if (gc) releaseGcDraw(gcCull, mesh, gc);
       mesh.removeFromParent();
       mesh.dispose();
     }

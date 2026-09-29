@@ -25,7 +25,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
   speciesRings,
@@ -52,7 +52,9 @@ import {
   createBatchDataUniforms,
   writeBatchInstance,
 } from "@elder-souls/game-core/fx/batchData";
-import type { NodeMaterial } from "three/webgpu";
+import type { NodeMaterial, WebGPURenderer } from "three/webgpu";
+import { GpuCullPool, cullSphereOf, type PooledDraw } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
+import { unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import { makeBatchMaterial, type BatchMaterials, type VegShaderMode } from "./batchMaterial";
 import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
 import { isSolid, type FloraCollider, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
@@ -209,6 +211,13 @@ const MASK_CELLS_PER_FRAME = 64;
  * needs, and instance rows a brand-new geometry mesh reserves. */
 const MIN_BATCH_CAPACITY = 256;
 const MIN_GEO_CAPACITY = 64;
+/** GPU cull path: frames between read-backs of the kept counts (HUD only). */
+const COUNT_READ_FRAMES = 30;
+
+/** The gate's apply callback on the GPU cull path: the compute pass decides
+ * visibility per copy, so a tile flip writes nothing. */
+function noFlip(): void {}
+
 /** How long a pooled geometry mesh may sit unused before it is disposed, and
  * how many may sit pooled at once across every batch: crossing several biomes
  * inside a minute would otherwise hold the union of them all at peak capacity
@@ -353,6 +362,12 @@ interface GeoMesh {
   /** Rows written since the last flush, as disjoint spans (never one
    * min..max range: a frame touches rows at both ends of the buffer). */
   dirty: UploadSpans;
+  /** GPU cull path only: the mesh's draw in the pool (null until its first
+   * copy, and while pooled) and the union of the LOD bands its copies carry. */
+  cull: PooledDraw | null;
+  cullBand: [number, number, number, number] | null;
+  /** The sphere the cull tests (`cullSphereOf`: an impostor's is its quad's). */
+  cullSphere: THREE.Sphere | null;
 }
 
 /** One species × rung of one cell, tiled, with the instances it owns. The
@@ -471,6 +486,15 @@ export function Vegetation({
   /** The camera's recent positions, for the temporal rung cross-fade. */
   const lodHistory = useMemo(() => createLodHistory(), []);
   const batchUniforms = useMemo(() => createBatchDataUniforms(), []);
+  // THE switch point (lane L9b): on the WebGPU backend with
+  // `indirect-first-instance`, a compute pass culls every copy per frame
+  // (frustum, swept sun shadow, LOD band) and the draws are indirect; the
+  // gate below still runs for the stats and the render order, but no tile
+  // flip writes or uploads a row. Everywhere else the CPU tile path below.
+  const gl = useThree((s) => s.gl) as unknown as WebGPURenderer;
+  const gpuCull = useMemo(
+    () => (GpuCullPool.supported(gl) ? new GpuCullPool({ lodFade }) : null), [gl, lodFade]);
+  useEffect(() => () => gpuCull?.dispose(), [gpuCull]);
   const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
   const maskTexture = useMemo(() => {
     const texture = new THREE.DataTexture(
@@ -625,6 +649,7 @@ export function Vegetation({
         // strip-then-dispose helper.
         for (const geo of [...batch.geoList, ...batch.geometryPool.values()]) {
           group?.remove(geo.mesh);
+          releaseCull(geo);
           disposeShallowGeometry(geo);
         }
         batch.geometryPool.clear();
@@ -835,6 +860,7 @@ export function Vegetation({
       orderOf: new Int32Array(capacity).fill(-1),
       slotOf: new Int32Array(capacity),
       count: 0, dirty: newUploadSpans(),
+      cull: null, cullBand: null, cullSphere: null,
     };
   };
 
@@ -849,6 +875,37 @@ export function Vegetation({
     const mesh = new THREE.InstancedMesh(geometry, batch.material, capacity);
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     configureGeoMesh(batch, mesh);
+    if (gpuCull) {
+      // GPU path: no visible prefix to carry. The draw moves to rows of the
+      // new capacity and every live slot's candidate is written again (slot
+      // ids survive, so the rungs' id arrays stay valid).
+      const band = geo.cullBand;
+      releaseCull(geo);
+      root.current?.add(mesh);
+      root.current?.remove(geo.mesh);
+      disposeShallowGeometry(geo);
+      const grow = <T extends Int32Array>(a: T, fill?: number): T => {
+        const out = new Int32Array(capacity) as T;
+        if (fill !== undefined) out.fill(fill);
+        out.set(a);
+        return out;
+      };
+      const src = new Array<Float32Array | null>(capacity).fill(null);
+      for (let i = 0; i < geo.src.length; i++) src[i] = geo.src[i];
+      geo.src = src;
+      geo.srcIndex = grow(geo.srcIndex);
+      geo.dataSlot = grow(geo.dataSlot);
+      geo.orderOf = grow(geo.orderOf, -1);
+      geo.slotOf = grow(geo.slotOf);
+      geo.geometry = geometry;
+      geo.mesh = mesh;
+      geo.capacity = capacity;
+      if (band) {
+        ensureCull(batch, geo, band);
+        for (let slot = 0; slot < geo.next; slot++) writeCandidate(geo, slot);
+      }
+      return;
+    }
     (mesh.instanceMatrix.array as Float32Array).set(
       (geo.mesh.instanceMatrix.array as Float32Array).subarray(0, geo.count * 16));
     (geometry.getAttribute("esSlot").array as Float32Array).set(
@@ -914,6 +971,7 @@ export function Vegetation({
         configureGeoMesh(batch, pooled.mesh);
         pooled.orderOf.fill(-1);
         pooled.src.fill(null);
+        pooled.cullBand = null;   // registered again by its first copy
         clearUploadSpans(pooled.dirty);
         root.current?.add(pooled.mesh);
         geo = pooled;
@@ -1115,7 +1173,7 @@ export function Vegetation({
       // loops below are over the ~120 batches, not over their copies.
       if (VEG_ORDER_ENABLED) {
         for (const batch of batches.current.values()) batch.orderMin = Infinity;
-        gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
+        gateSpecies(allSpecies.current, eye, fwd, gpuCull ? noFlip : enqueueTile,
           gateStats.current, undefined, markOrder, view ?? undefined);
         for (const batch of batches.current.values()) {
           if (batch.orderMin === Infinity) continue;
@@ -1125,8 +1183,8 @@ export function Vegetation({
           for (const geo of batch.geoList) geo.mesh.renderOrder = next;
         }
       } else {
-        gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current,
-          undefined, undefined, view ?? undefined);
+        gateSpecies(allSpecies.current, eye, fwd, gpuCull ? noFlip : enqueueTile,
+          gateStats.current, undefined, undefined, view ?? undefined);
       }
     }
     const gatingMs = performance.now() - gateStart;
@@ -1186,6 +1244,14 @@ export function Vegetation({
     // Site (b): this frame's gate pass, flip drain and eviction, pushed
     // before r3f renders.
     flushAllDirty();
+
+    // GPU path: this frame's cull, after every candidate write above.
+    if (gpuCull) {
+      state.camera.updateMatrixWorld();
+      gpuCull.update(gl, state.camera,
+        VEG_CAST_SHADOW ? shadowOf(sunLight.current) ?? null : null);
+      if (c.frame % COUNT_READ_FRAMES === 0) gpuCull.refreshCounts(gl);
+    }
 
     /** Build order: distance, plus a chunk's width for a cell wholly outside
      * the view cone (the camera's own cell and its neighbours never are). */
@@ -1268,7 +1334,8 @@ export function Vegetation({
           // the instance buffers, and its texel pair in the data texture.
           for (let i = 0; i < ids.length; i++) {
             const slot = ids[i];
-            setSlotVisible(geo, slot, false);
+            if (geo.cull) gpuCull!.clearCandidate(geo.cull, slot);
+            else setSlotVisible(geo, slot, false);
             batch.freeData.push(geo.dataSlot[slot]);
             geo.src[slot] = null;   // the cell's placements go with its slots
             geo.free.push(slot);
@@ -1292,6 +1359,7 @@ export function Vegetation({
       // walk re-enters the same cells constantly. Out of the scene at
       // `count = 0` it costs nothing per frame and keeps its capacity.
       root.current?.remove(geo.mesh);
+      releaseCull(geo);
       geo.mesh.count = 0;
       geo.count = 0;
       clearUploadSpans(geo.dirty);
@@ -1482,6 +1550,8 @@ export function Vegetation({
   const scaleVec = useMemo(() => new THREE.Vector3(), []);
   /** Camera forward, re-derived each frame for the gate's view test. */
   const forwardVec = useMemo(() => new THREE.Vector3(), []);
+  const candidateScratch = useMemo(() => new Float32Array(16), []);
+  const candidateMatrix = useMemo(() => new THREE.Matrix4(), []);
   const sunDir = useMemo(() => new THREE.Vector3(), []);
   const forwardScratch = useMemo(() => new THREE.Vector3(), []);
 
@@ -1608,6 +1678,50 @@ export function Vegetation({
     if (reused !== undefined) return reused;
     if (batch.nextData >= batch.capacity) growBatchData(batch, MIN_BATCH_CAPACITY);
     return batch.nextData++;
+  }
+
+  // ---- GPU cull path (lane L9b) --------------------------------------------
+
+  /** Register a geometry mesh with the pool on its first copy, or widen its
+   * draw's band to cover a copy of another band (a quality change rebuilds
+   * cells one by one, so old and new ladders share meshes for a while): the
+   * cull keeps the union, the shader still collapses each copy by its own. */
+  function ensureCull(
+    batch: Batch, geo: GeoMesh, band: readonly [number, number, number, number],
+  ): void {
+    if (!gpuCull) return;
+    const prev = geo.cullBand;
+    if (geo.cull && prev && prev[0] === band[0] && prev[1] === band[1]
+        && prev[2] === band[2] && prev[3] === band[3]) return;
+    const next = unionBand(prev, band);
+    geo.cullBand = next;
+    if (geo.cull) { gpuCull.setBand(geo.cull, next); return; }
+    if (!geo.cullSphere) {
+      if (!geo.source.boundingSphere) geo.source.computeBoundingSphere();
+      geo.cullSphere = geo.source.boundingSphere!;
+    }
+    geo.cull = gpuCull.addDraw(geo.mesh, {
+      capacity: geo.capacity,
+      sphere: geo.cullSphere,
+      band: next,
+      casts: batch.casts,
+      fromZero: batch.fromZero,
+    });
+  }
+
+  /** Detach a mesh from the pool (before it is pooled or disposed). */
+  function releaseCull(geo: GeoMesh): void {
+    if (!geo.cull) return;
+    gpuCull?.removeDraw(geo.cull);
+    geo.cull = null;
+  }
+
+  /** One slot's candidate: its composed matrix and data slot. */
+  function writeCandidate(geo: GeoMesh, slot: number): void {
+    if (!geo.cull || !geo.src[slot]) return;
+    composeSlot(geo, slot, candidateScratch, 0);
+    candidateMatrix.fromArray(candidateScratch);
+    gpuCull!.setCandidate(geo.cull, slot, candidateMatrix, geo.dataSlot[slot]);
   }
 
   /** Compose one slot's matrix from its cell record straight into `row` of a
@@ -1799,7 +1913,7 @@ export function Vegetation({
     // delete or replay into a fresh mesh. `applyTile` is idempotent.
     for (let t = 0; t < GATE_TILE_COUNT; t++) {
       rung.state[t] = 0;
-      applyTile(rung, t, false);
+      if (!gpuCull) applyTile(rung, t, false);
     }
     rung.onTiles = 0;
   }
@@ -1819,6 +1933,7 @@ export function Vegetation({
     ids: Int32Array,
   ): Int32Array {
     const rung = sb.rungs[rungIndex];
+    if (gpuCull) ensureCull(batch, geo, rung.band);
     for (let i = 0; i < sb.count; i++) {
       const slot = geo.free.pop() ?? geo.next++;
       const dataSlot = allocDataSlot(batch);
@@ -1833,6 +1948,7 @@ export function Vegetation({
       writeBatchInstance(
         batch.data, dataSlot, rung.band, stiffness, sb.windTune[i * 2 + 1]);
       ids[i] = slot;
+      if (gpuCull) writeCandidate(geo, slot);
     }
     return ids;
   }
@@ -2059,6 +2175,7 @@ export function Vegetation({
           touched.add(batch);
           const geometryKey = `${sb.species}|${level}|${partIndex}`;
           const geo = geoFor(batch, geometryKey, part.geometry, sb.count);
+          if (gpuCull && !geo.cullSphere) geo.cullSphere = cullSphereOf(part.geometry, part.material);
           const ids = addCopies(
             batch, geo, sb, rungIndex, new Int32Array(sb.count));
           partBatches.push(batch);
@@ -2097,7 +2214,8 @@ export function Vegetation({
       // LATER changes only.
       if (Number.isFinite(cameraPos.current.x)) {
         gateSpecies([speciesEntry], cameraPos.current, cameraFwd.current,
-          applyTile as (rung: GateRung, tile: number, visible: boolean) => void,
+          gpuCull ? noFlip
+            : applyTile as (rung: GateRung, tile: number, visible: boolean) => void,
           fillStats.current, undefined, undefined, gateView.current ?? undefined);
       }
       return speciesEntry;
@@ -2130,6 +2248,13 @@ export function Vegetation({
     let instancedRanges = 0;
     for (const batch of batches.current.values()) {
       for (const geo of batch.geoList) {
+        if (geo.cull) {
+          // GPU path: every registered draw is issued (indirect, maybe
+          // empty); the instances are the GPU's kept set at the last read-back.
+          draws++;
+          instancedRanges += geo.cull.kept;
+          continue;
+        }
         if (geo.count === 0) continue;
         draws++;
         instancedRanges += geo.count;

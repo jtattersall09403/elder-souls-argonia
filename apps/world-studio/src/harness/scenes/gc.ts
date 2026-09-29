@@ -13,6 +13,11 @@
  * and budget thin are CPU code with their own unit tests. Lit at noon like
  * the game: the rig's sun, the studio sky dome, PMREM sky light and
  * hemisphere (harness/skyScene.ts addStudioSky), hazed by the aerial fog node.
+ *
+ * GPU cull (lane L9b): on the WebGPU backend every mesh has a twin registered
+ * through the studio's own `registerGcDraw` / `fillGcDraw` (Groundcover.tsx)
+ * with its tier band set as the ring sets it; `&cull=gpu|cpu` and
+ * `&measure=1` as in the veg scene (`measureCullParity`).
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
@@ -27,6 +32,9 @@ import { createAerialFogNode, createAerialUniforms } from "../../sky/aerial";
 import { computeLightRig } from "../../sky/lightRig";
 import { aimSun } from "../../sky/skyObjects";
 import { addStudioSky } from "../skyScene";
+import { GpuCullPool } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
+import { fillGcDraw, registerGcDraw } from "../../vegetation/Groundcover";
+import { cullParams, measureCullParity } from "./veg";
 import type { HarnessContext, HarnessScene } from "../types";
 
 const SPECIES = [
@@ -93,6 +101,11 @@ const scene: HarnessScene = {
       { band: [NEAR_M, MID_M, TIER_BAND_M[1][0], TIER_BAND_M[1][1]], lo: NEAR_M - 4, hi: MID_M + 6, count: 900 },
       { band: [MID_M, FAR_M, TIER_BAND_M[2][0], TIER_BAND_M[2][1]], lo: MID_M - 6, hi: FAR_M + 10, count: 900 },
     ] as const;
+    const { cull, measure } = cullParams();
+    const pool = cull !== "cpu" && GpuCullPool.supported(ctx.renderer)
+      ? new GpuCullPool({ lodFade, payloads: 2 }) : null;
+    const cpuMeshes: THREE.InstancedMesh[] = [];
+    const gpuMeshes: THREE.InstancedMesh[] = [];
     let species = 0;
     SPECIES.forEach((id, si) => {
       const entry = kit.get(id);
@@ -125,6 +138,19 @@ const scene: HarnessScene = {
           mesh.instanceColor.needsUpdate = true;
           mesh.frustumCulled = false;
           s.add(mesh);
+          cpuMeshes.push(mesh);
+          if (pool) {
+            const twin = new THREE.InstancedMesh(makeSlotGeometry(part.geometry, {}), part.material, n);
+            twin.frustumCulled = false;
+            const gc = registerGcDraw(pool, twin, part.geometry, n);
+            gc.matrices.set(mesh.instanceMatrix.array as Float32Array);
+            gc.colours.set(mesh.instanceColor.array as Float32Array);
+            gc.bands.set(bands.array as Float32Array);
+            pool.setBand(gc.draw, [tier.band[0], tier.band[1], tier.band[2], tier.band[3]]);
+            fillGcDraw(pool, gc, n);
+            s.add(twin);
+            gpuMeshes.push(twin);
+          }
         });
       });
     });
@@ -139,6 +165,20 @@ const scene: HarnessScene = {
     };
     place(0);
     const sky = addStudioSky(ctx.renderer, s, camera, rig, sunDir, aerial, { bakeAtBuild: true });
+    const setPath = (p: "cpu" | "gpu") => {
+      for (const m of cpuMeshes) m.visible = p === "cpu";
+      for (const m of gpuMeshes) m.visible = p === "gpu";
+    };
+    let path: "cpu" | "gpu" = pool && cull !== "cpu" ? "gpu" : "cpu";
+    const step = () => { if (pool && path === "gpu") pool.update(ctx.renderer, camera, null); };
+    setPath(path);
+    if (pool && measure) {
+      aerial.uEsFogCam.value.copy(camera.position);
+      await measureCullParity("gc", ctx.renderer, s, camera,
+        (p) => { path = p; setPath(p); }, step);
+      path = cull === "cpu" ? "cpu" : "gpu";
+      setPath(path);
+    }
     return {
       scene: s,
       camera,
@@ -147,6 +187,7 @@ const scene: HarnessScene = {
         place(t);
         aerial.uEsFogCam.value.copy(camera.position);
         sky.frame(t);
+        step();
       },
     };
   },

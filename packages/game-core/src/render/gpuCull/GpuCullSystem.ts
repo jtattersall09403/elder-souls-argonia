@@ -59,6 +59,17 @@ const {
   uint, float, max, min, smoothstep, step, distance, length,
 } = tsl as unknown as Record<string, any>;
 
+/** `addUpdateRange`, merged into the last range when the two touch: slots
+ * are handed out in order, so a cell fill is a few ranges, not one per copy
+ * (each range is its own `writeBuffer`). */
+function addRange(attr: THREE.BufferAttribute, start: number, count: number): void {
+  const ranges = attr.updateRanges;
+  const last = ranges[ranges.length - 1];
+  if (last && last.start + last.count === start) last.count += count;
+  else if (last && start + count === last.start) { last.start = start; last.count += count; }
+  else attr.addUpdateRange(start, count);
+}
+
 /** Workgroup size of both compute passes. */
 const WG = 64;
 
@@ -88,6 +99,10 @@ export interface GpuCullSystemOptions {
   maxDraws: number;
   /** The lodFade uniforms the draws' materials read (camera position + history). */
   lodFade: LodFadeUniforms;
+  /** Extra vec4 per-row channels copied with a kept candidate (ground cover's
+   * tint and its per-row LOD band); 0 by default. Output channel `c` is
+   * `payloads[c]`, bound by the caller (an `instanceColor`, a band attribute). */
+  payloads?: number;
 }
 
 /** Whether the renderer can run the GPU path. */
@@ -107,11 +122,18 @@ export class GpuCullSystem {
   readonly slots: StorageInstancedBufferAttribute;
   /** Indirect draw args, `INDIRECT_STRIDE` u32 per draw. */
   readonly indirect: IndirectStorageBufferAttribute;
+  /** Output vec4 payload channels (`options.payloads`), row for row with `matrices`. */
+  readonly payloads: StorageInstancedBufferAttribute[];
 
-  private readonly candMat: StorageBufferAttribute;
+  /** Candidates, `stride` vec4 a row: the matrix's four columns, then one
+   * per payload channel. One buffer, and the draws' info + band one more:
+   * WebGPU allows 8 storage buffers per compute stage (the payload-carrying
+   * ground-cover cull uses all 8). */
+  private readonly cand: StorageBufferAttribute;
+  private readonly stride: number;
   private readonly candInfo: StorageBufferAttribute;
-  private readonly drawBand: StorageBufferAttribute;
-  private readonly drawInfo: StorageBufferAttribute;
+  /** Per draw two vec4: (radius, centreY, flags, base), then the LOD band. */
+  private readonly draws: StorageBufferAttribute;
   private readonly rowsAlloc: RangeAllocator;
   private readonly freeDraws: number[] = [];
   private nextDraw = 0;
@@ -131,12 +153,15 @@ export class GpuCullSystem {
     this.matrices = new StorageInstancedBufferAttribute(new Float32Array(rows * 16), 16);
     this.slots = new StorageInstancedBufferAttribute(new Float32Array(rows), 1);
     this.indirect = new IndirectStorageBufferAttribute(new Uint32Array(maxDraws * INDIRECT_STRIDE), 1);
-    this.candMat = new StorageBufferAttribute(new Float32Array(rows * 16), 4);
+    const channels = options.payloads ?? 0;
+    this.stride = 4 + channels;
+    this.cand = new StorageBufferAttribute(new Float32Array(rows * this.stride * 4), 4);
+    this.payloads = Array.from({ length: channels },
+      () => new StorageInstancedBufferAttribute(new Float32Array(rows * 4), 4));
     const info = new Uint32Array(rows * 2);
     for (let r = 0; r < rows; r++) info[r * 2] = EMPTY_DRAW;
     this.candInfo = new StorageBufferAttribute(info, 2);
-    this.drawBand = new StorageBufferAttribute(new Float32Array(maxDraws * 4), 4);
-    this.drawInfo = new StorageBufferAttribute(new Float32Array(maxDraws * 4), 4);
+    this.draws = new StorageBufferAttribute(new Float32Array(maxDraws * 8), 4);
     this.rowsAlloc = new RangeAllocator(rows);
 
     this.uPlanes = uniformArray(Array.from({ length: 6 }, () => new THREE.Vector4()), "vec4");
@@ -153,12 +178,13 @@ export class GpuCullSystem {
 
   private buildCull(indirectAtomic: TslNode): TslNode {
     const { rows, maxDraws, lodFade } = this.options;
-    const candMat = storage(this.candMat, "vec4", rows * 4).toReadOnly();
+    const S = this.stride;
+    const cand = storage(this.cand, "vec4", rows * S).toReadOnly();
     const candInfo = storage(this.candInfo, "uvec2", rows).toReadOnly();
-    const drawBand = storage(this.drawBand, "vec4", maxDraws).toReadOnly();
-    const drawInfo = storage(this.drawInfo, "vec4", maxDraws).toReadOnly();
+    const draws = storage(this.draws, "vec4", maxDraws * 2).toReadOnly();
     const outMat = storage(this.matrices, "vec4", rows * 4);
     const outSlot = storage(this.slots, "float", rows);
+    const outPay = this.payloads.map((a) => storage(a, "vec4", rows));
     const planes = this.uPlanes;
     const sun = this.uSun;
     const high = this.uHigh;
@@ -183,11 +209,12 @@ export class GpuCullSystem {
       const ci = candInfo.element(i).toVar();
       const d = ci.x;
       If(d.equal(uint(EMPTY_DRAW)), () => { Return(); });
-      const c0 = candMat.element(i.mul(4)).toVar();
-      const c1 = candMat.element(i.mul(4).add(1)).toVar();
-      const c2 = candMat.element(i.mul(4).add(2)).toVar();
-      const c3 = candMat.element(i.mul(4).add(3)).toVar();
-      const di = drawInfo.element(d).toVar(); // (radius, centreY, flags, base)
+      const at = i.mul(S).toVar();
+      const c0 = cand.element(at).toVar();
+      const c1 = cand.element(at.add(1)).toVar();
+      const c2 = cand.element(at.add(2)).toVar();
+      const c3 = cand.element(at.add(3)).toVar();
+      const di = draws.element(d.mul(2)).toVar(); // (radius, centreY, flags, base)
       const flags = uint(di.z);
       const scale = max(max(length(c0.xyz), length(c1.xyz)), length(c2.xyz));
       const r = di.x.mul(scale).toVar();
@@ -207,7 +234,7 @@ export class GpuCullSystem {
 
       // 2. The LOD band, every edge moved BAND_EPS_M the permissive way.
       If(flags.bitAnd(uint(DRAW_NO_BAND)).equal(uint(0)), () => {
-        const band = drawBand.element(d).toVar();
+        const band = draws.element(d.mul(2).add(1)).toVar();
         const origin = c3.xz;
         const fromZero = flags.bitAnd(uint(DRAW_FROM_ZERO)).notEqual(uint(0));
         const noIn = fromZero.or(band.x.lessThanEqual(0));
@@ -226,6 +253,7 @@ export class GpuCullSystem {
       outMat.element(row.mul(4).add(2)).assign(c2);
       outMat.element(row.mul(4).add(3)).assign(c3);
       outSlot.element(row).assign(float(ci.y));
+      for (let c = 0; c < outPay.length; c++) outPay[c].element(row).assign(cand.element(at.add(4 + c)));
     })();
   }
 
@@ -249,21 +277,18 @@ export class GpuCullSystem {
     const args = indirectArgs(indexed, count, 0, base);
     const ind = this.indirect.array as Uint32Array;
     ind.set(args, index * INDIRECT_STRIDE);
-    this.indirect.addUpdateRange(index * INDIRECT_STRIDE, INDIRECT_STRIDE);
+    addRange(this.indirect, index * INDIRECT_STRIDE, INDIRECT_STRIDE);
     this.indirect.needsUpdate = true;
 
     const s = opts.sphere;
     const radius = s.radius + Math.hypot(s.center.x, s.center.z);
     const flags = (opts.casts ? DRAW_CASTS : 0) | (opts.fromZero ? DRAW_FROM_ZERO : 0)
       | (opts.band ? 0 : DRAW_NO_BAND);
-    (this.drawInfo.array as Float32Array).set([radius, s.center.y, flags, base], index * 4);
-    this.drawInfo.addUpdateRange(index * 4, 4);
-    this.drawInfo.needsUpdate = true;
-    if (opts.band) {
-      (this.drawBand.array as Float32Array).set(opts.band, index * 4);
-      this.drawBand.addUpdateRange(index * 4, 4);
-      this.drawBand.needsUpdate = true;
-    }
+    const dr = this.draws.array as Float32Array;
+    dr.set([radius, s.center.y, flags, base], index * 8);
+    dr.set(opts.band ?? [0, 0, 0, 0], index * 8 + 4);
+    addRange(this.draws, index * 8, 8);
+    this.draws.needsUpdate = true;
 
     mesh.instanceMatrix = this.matrices as unknown as THREE.InstancedBufferAttribute;
     mesh.count = Math.max(1, opts.capacity);
@@ -277,38 +302,86 @@ export class GpuCullSystem {
   /** Write candidate `k` (0..capacity-1) of `draw`: its instance matrix and batch-data slot. */
   setCandidate(draw: GpuCullDraw, k: number, matrix: THREE.Matrix4, dataSlot: number): void {
     const row = draw.base + k;
-    (this.candMat.array as Float32Array).set(matrix.elements, row * 16);
+    (this.cand.array as Float32Array).set(matrix.elements, row * this.stride * 4);
     const info = this.candInfo.array as Uint32Array;
     info[row * 2] = draw.index;
     info[row * 2 + 1] = dataSlot;
     this.touch(row, 1);
   }
 
+  /**
+   * Write `n = matrices.length / 16` candidates of `draw` from row `k0`: their
+   * column-major matrices, one batch-data slot for all, and one vec4 per row
+   * per payload channel. One upload range per buffer.
+   */
+  setCandidateRange(
+    draw: GpuCullDraw, k0: number, matrices: Float32Array,
+    payloads: readonly Float32Array[] = [], dataSlot = 0,
+  ): void {
+    const n = matrices.length / 16;
+    if (n <= 0) return;
+    const row = draw.base + k0;
+    const cand = this.cand.array as Float32Array;
+    const w = this.stride * 4;
+    const channels = Math.min(this.payloads.length, payloads.length);
+    const info = this.candInfo.array as Uint32Array;
+    for (let k = 0; k < n; k++) {
+      const at = (row + k) * w;
+      cand.set(matrices.subarray(k * 16, k * 16 + 16), at);
+      for (let c = 0; c < channels; c++) {
+        cand.set(payloads[c].subarray(k * 4, k * 4 + 4), at + 16 + c * 4);
+      }
+      info[(row + k) * 2] = draw.index;
+      info[(row + k) * 2 + 1] = dataSlot;
+    }
+    this.touch(row, n);
+  }
+
+  /** Switch candidates `[k0, k0 + n)` of `draw` off. */
+  clearCandidateRange(draw: GpuCullDraw, k0: number, n: number): void {
+    if (n <= 0) return;
+    const row = draw.base + k0;
+    const info = this.candInfo.array as Uint32Array;
+    for (let k = 0; k < n; k++) info[(row + k) * 2] = EMPTY_DRAW;
+    addRange(this.candInfo, row * 2, n * 2);
+    this.candInfo.needsUpdate = true;
+  }
+
   /** Switch candidate `k` of `draw` off (its cell was dropped). */
   clearCandidate(draw: GpuCullDraw, k: number): void {
     const row = draw.base + k;
     (this.candInfo.array as Uint32Array)[row * 2] = EMPTY_DRAW;
-    this.candInfo.addUpdateRange(row * 2, 2);
+    addRange(this.candInfo, row * 2, 2);
     this.candInfo.needsUpdate = true;
+  }
+
+  /** Replace a draw's LOD band (a layer widening it to the union of the
+   * bands its copies carry; null = frustum only). */
+  setBand(draw: GpuCullDraw, band: readonly [number, number, number, number] | null): void {
+    const dr = this.draws.array as Float32Array;
+    dr[draw.index * 8 + 2] = (dr[draw.index * 8 + 2] & ~DRAW_NO_BAND) | (band ? 0 : DRAW_NO_BAND);
+    if (band) dr.set(band, draw.index * 8 + 4);
+    addRange(this.draws, draw.index * 8, 8);
+    this.draws.needsUpdate = true;
   }
 
   /** Give a draw's rows and indirect slot back (its mesh leaves the scene). */
   removeDraw(draw: GpuCullDraw): void {
     const info = this.candInfo.array as Uint32Array;
     for (let k = 0; k < draw.capacity; k++) info[(draw.base + k) * 2] = EMPTY_DRAW;
-    this.candInfo.addUpdateRange(draw.base * 2, draw.capacity * 2);
+    addRange(this.candInfo, draw.base * 2, draw.capacity * 2);
     this.candInfo.needsUpdate = true;
     (this.indirect.array as Uint32Array).fill(0, draw.index * INDIRECT_STRIDE, (draw.index + 1) * INDIRECT_STRIDE);
-    this.indirect.addUpdateRange(draw.index * INDIRECT_STRIDE, INDIRECT_STRIDE);
+    addRange(this.indirect, draw.index * INDIRECT_STRIDE, INDIRECT_STRIDE);
     this.indirect.needsUpdate = true;
     this.rowsAlloc.release(draw.base, draw.capacity);
     this.freeDraws.push(draw.index);
   }
 
   private touch(row: number, n: number): void {
-    this.candMat.addUpdateRange(row * 16, n * 16);
-    this.candMat.needsUpdate = true;
-    this.candInfo.addUpdateRange(row * 2, n * 2);
+    addRange(this.cand, row * this.stride * 4, n * this.stride * 4);
+    this.cand.needsUpdate = true;
+    addRange(this.candInfo, row * 2, n * 2);
     this.candInfo.needsUpdate = true;
   }
 
@@ -318,6 +391,17 @@ export class GpuCullSystem {
    * lodFade uniforms must already hold this frame's camera and history.
    */
   update(renderer: WebGPURenderer, camera: THREE.Camera, sweep: SunSweep | null): void {
+    renderer.compute(this.prepare(camera, sweep) as any);
+  }
+
+  /** Draws registered now (0 = the dispatch can be skipped). */
+  get drawCount(): number {
+    return this.nextDraw - this.freeDraws.length;
+  }
+
+  /** `update` without the dispatch: sets the uniforms and returns the two
+   * compute nodes, so a pool of systems runs ONE `renderer.compute` call. */
+  prepare(camera: THREE.Camera, sweep: SunSweep | null): TslNode[] {
     this.projView.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
     this.frustum.setFromProjectionMatrix(this.projView, (camera as any).coordinateSystem);
     this.frustum.planes.forEach((pl, p) => {
@@ -325,7 +409,7 @@ export class GpuCullSystem {
     });
     this.uSun.value.set(sweep?.x ?? 0, sweep?.z ?? 0, sweep?.perM ?? 0);
     this.uHigh.value = this.high;
-    renderer.compute([this.resetNode, this.cullNode] as any);
+    return [this.resetNode, this.cullNode];
   }
 
   /** The planes `update` last used (6 × nx, ny, nz, d), for a CPU twin. */

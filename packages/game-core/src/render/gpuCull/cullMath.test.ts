@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { lodCopyCollapsed, lodFadeFactorsOver } from "../../fx/lodFade";
 import {
   DRAW_CASTS, DRAW_FROM_ZERO, RangeAllocator, bandKeeps, candidateKept, indirectArgs,
-  sphereSweptInFrustum,
+  sphereSweptInFrustum, unionBand, sunSweepOf, LOD_OPEN_M, LOD_FADE_SAMPLES,
 } from "./cullMath";
 
 const planesOf = (camera: THREE.PerspectiveCamera): Float32Array => {
@@ -73,5 +73,32 @@ describe("gpuCull cullMath", () => {
     a.release(y, 40);
     expect(a.available).toBe(100);
     expect(a.alloc(100)).toBe(0);
+  });
+});
+
+describe("unionBand / sunSweepOf (lane L9b)", () => {
+  it("keeps the nearest inner edge, the farthest or open outer edge, the widest ramps", () => {
+    expect(unionBand(null, [10, 50, 2, 4])).toEqual([10, 50, 2, 4]);
+    expect(unionBand([10, 50, 2, 4], [40, 120, 6, 3])).toEqual([10, 120, 6, 4]);
+    expect(unionBand([10, 50, 2, 4], [0, LOD_OPEN_M, 0, 0])).toEqual([0, 0, 2, 4]);
+  });
+  it("a copy either band keeps, the union keeps", () => {
+    const a: [number, number, number, number] = [20, 60, 4, 6];
+    const b: [number, number, number, number] = [60, 110, 6, 10];
+    const u = unionBand(a, b);
+    const hist = new Float32Array(LOD_FADE_SAMPLES * 2);
+    for (let d = 0; d < 140; d += 0.5) {
+      if (bandKeeps(a, d, 0, 0, 0, hist, false) || bandKeeps(b, d, 0, 0, 0, hist, false)) {
+        expect(bandKeeps(u, d, 0, 0, 0, hist, false)).toBe(true);
+      }
+    }
+  });
+  it("sweeps away from the sun, null below the horizon", () => {
+    const s = sunSweepOf(3, 4, 0)!;
+    expect(s.x).toBeCloseTo(-1);
+    expect(s.z).toBeCloseTo(0);
+    expect(s.perM).toBeCloseTo(0.75);
+    expect(sunSweepOf(1, -1, 0)).toBeNull();
+    expect(sunSweepOf(0, 1, 0)).toEqual({ x: 0, z: 0, perM: 0 });
   });
 });

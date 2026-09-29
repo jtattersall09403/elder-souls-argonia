@@ -118,6 +118,36 @@ export function bandKeeps(
   return !lodCopyCollapsed(lodFadeFactorsOver(widened, distances));
 }
 
+/**
+ * The union of two LOD bands `[dIn, dOut, wIn, wOut]`: a band that keeps every
+ * copy either keeps (nearest inner edge, farthest or open outer edge, widest
+ * ramps). A draw whose copies carry different bands (a quality change
+ * rebuilding cells one by one, ground cover's merged MID + FAR card mesh) is
+ * culled against the union; the shader still fades each copy by its own.
+ */
+export function unionBand(
+  a: readonly [number, number, number, number] | null,
+  b: readonly [number, number, number, number],
+): [number, number, number, number] {
+  if (!a) return [b[0], b[1], b[2], b[3]];
+  const open = (d: number) => d <= 0 || d >= LOD_OPEN_M;
+  return [
+    Math.min(a[0], b[0]),
+    open(a[1]) || open(b[1]) ? 0 : Math.max(a[1], b[1]),
+    Math.max(a[2], b[2]),
+    Math.max(a[3], b[3]),
+  ];
+}
+
+/** The sun sweep for a light whose rays travel along (`dx`, `dy`, `dz`)
+ * (light position minus target, i.e. towards the light); null when the sun
+ * is at or below the horizon. */
+export function sunSweepOf(dx: number, dy: number, dz: number): SunSweep | null {
+  const horizontal = Math.hypot(dx, dz);
+  if (dy <= 1e-3 || horizontal < 1e-6) return horizontal < 1e-6 ? { x: 0, z: 0, perM: 0 } : null;
+  return { x: -dx / horizontal, z: -dz / horizontal, perM: horizontal / dy };
+}
+
 /** Re-exported so the graph and the tests read one constant. */
 export { BAYER4_MAX, LOD_FADE_SAMPLES, LOD_OPEN_M };
 
