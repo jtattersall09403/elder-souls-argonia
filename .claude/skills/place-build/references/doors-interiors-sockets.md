@@ -259,6 +259,9 @@ least 50 %. Under 30 % the cell is `flat` (a failure with `--balance`, a
 flag without it). The judged half is reader row 48, on renders of the cell
 under the same light model. On 2026-09-29 all eight tier A cells measured
 flat after the rule (0–4 % source-led, the fill at ambient ×4.8–8.2).
+A light reference's XRDS radius counts only when positive and at least a
+quarter of its LIGH's base radius (`export_interior_bundle.light_radius_units`):
+KotM carries negative and sliver values (a 0.38 m Lilmoth hearth light).
 
 **The renders** (reader row 48): `python3 tooling/placement-workbench/wb.py
 render-interior <cell>` (~40 s a cell, one Blender launch) writes
