@@ -165,7 +165,8 @@
       "asset": "vanilla:clutter/wine/winebottle02b"
     },
     {
-      "asset": "vanilla:clutter/woodfires/fireplacewood01burning"
+      "asset": "vanilla:clutter/woodfires/fireplacewood01burning",
+      "effect": "additive"
     },
     {
       "asset": "vanilla:furniture/common/commonbed01"
@@ -348,7 +349,8 @@
       "asset": "vanilla:clutter/common/strongbox01"
     },
     {
-      "asset": "vanilla:clutter/common/torchpermanent01"
+      "asset": "vanilla:clutter/common/torchpermanent01",
+      "effect": "additive"
     },
     {
       "asset": "vanilla:clutter/containers/miscsack02large"

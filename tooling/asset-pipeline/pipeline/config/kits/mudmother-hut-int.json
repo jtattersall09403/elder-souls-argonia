@@ -38,7 +38,8 @@
    "asset": "mudmother:gv_meshes/argoniannest/argonianpillow01"
   },
   {
-   "asset": "mudmother:gv_meshes/argoniannest/ovennew"
+   "asset": "mudmother:gv_meshes/argoniannest/ovennew",
+   "effect": "additive"
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/potterycup"

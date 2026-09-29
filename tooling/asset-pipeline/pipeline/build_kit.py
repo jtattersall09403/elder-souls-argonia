@@ -140,6 +140,14 @@ class Source:
                 continue
             if cstem.endswith(suffixes):
                 continue
+            # A distance (LOD) texture is never a stand-in for a full-size
+            # diffuse: KotM's `textures/lod/whwoodboards02lod.dds` (256²)
+            # beat vanilla's exact full-size path in the pool's own tier
+            # (walk 5 interior renders). An archive-absent file whose only
+            # copy is a LOD one takes it through an explicit
+            # `textureAliases` row instead.
+            if "/lod/" in f"/{candidate.lower()}" or "lod" in cstem[len(stem):]:
+                continue
             if len(cstem) < best_len:
                 best, best_len = candidate, len(cstem)
         return best
@@ -1301,17 +1309,17 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
         name: 0.5 for asset in summary["assets"] if asset.get("alphaTest")
         for name in asset.get("materials", [])
     }
+    # Any piece whose NIF tests or blends alpha (an NiAlphaProperty,
+    # blender/build_kit.py ALPHA_MASK_MATERIALS) is a cutout at the NIF's own
+    # threshold: never opaque (16h check-in 2 item 8), and foliage too, never
+    # the fixed 0.5 (walk 5: the mangroves test at 45-70/255).
+    for asset in summary["assets"]:
+        masked.update(asset.get("alphaMaskMaterials", {}))
     # Billboard cards are cutouts whatever the base asset's mode.
     masked.update({
         name: 0.5 for asset in summary["assets"]
         for name in asset.get("billboardMaterials", [])
     })
-    # A non-foliage piece whose NIF tests or blends alpha (an NiAlphaProperty,
-    # blender/build_kit.py ALPHA_MASK_MATERIALS) is a cutout at the NIF's own
-    # threshold, never opaque (16h check-in 2 item 8).
-    for asset in summary["assets"]:
-        for name, cutoff in asset.get("alphaMaskMaterials", {}).items():
-            masked.setdefault(name, cutoff)
     # A NIF decal overlay (SLSF1 Decal / Dynamic_Decal, blender/build_kit.py
     # DECAL_MATERIALS) carries the material extra `decal: true`, the field the
     # settlement runtime reads (`SettlementKitMaterialExtras`, materials.ts
@@ -1484,6 +1492,44 @@ def untextured_material_errors(gltf: dict, summary: dict,
     return errors
 
 
+#: An effect-shader card that is fire or its glow (Flames:0, GlowAddMesh,
+#: m_Glow): shipped without `"effect": "additive"` it draws as a solid,
+#: alpha-masked streak (walk 4: fireplacewood01burning, ovennew, the forge).
+FIRE_CARD_NAME = re.compile(r"flame|fire|glow", re.I)
+
+
+def unflagged_fire_card_errors(gltf: dict, summary: dict) -> list[str]:
+    """Every LOD0 BSEffectShaderProperty material named as a flame or glow card
+    that is not additive: its piece's kit-config row lacks `"effect":
+    "additive"`. The fire layer mines the NIF's particle flames for every
+    piece, but a piece's own flame cards export additive only under the flag,
+    so a fire piece added without it shipped solid cards (walk 4)."""
+    owners: dict[str, list[str]] = {}
+    for asset in summary.get("assets", []):
+        for name in asset.get("materials", []):
+            owners.setdefault(name, []).append(asset["id"])
+    materials = gltf.get("materials", [])
+    used: set[int] = set()
+    for node in gltf.get("nodes", []):
+        if "mesh" not in node or "__lod" in (node.get("name") or ""):
+            continue
+        for primitive in gltf["meshes"][node["mesh"]].get("primitives", []):
+            if primitive.get("material") is not None:
+                used.add(primitive["material"])
+    errors = []
+    for index in sorted(used):
+        material = materials[index]
+        extras = material.get("extras") or {}
+        name = material.get("name") or ""
+        if (extras.get("BS_Shader_Block_Name") != "BSEffectShaderProperty"
+                or extras.get("additive") or not FIRE_CARD_NAME.search(name)):
+            continue
+        errors.append(f"{name}: flame/glow effect card not additive "
+                      f"({', '.join(sorted(owners.get(name, ['?'])))}): set "
+                      '"effect": "additive" on the piece\'s kit-config row')
+    return errors
+
+
 def normalise_nif_texture(path: str) -> str:
     """A NIF texture slot string as `textureAliases` keys it (slash, lower)."""
     return str(path).replace("\\", "/").strip().lower()
@@ -1503,9 +1549,11 @@ def nif_texture_alias_files(kit: dict, data_root: Path) -> dict[str, str]:
 
 
 def read_gltf_json(glb: Path) -> dict:
-    data = glb.read_bytes()
-    length, = struct.unpack_from("<I", data, 12)
-    return json.loads(data[20:20 + length])
+    """The GLB's JSON chunk, read without the binary chunk."""
+    with open(glb, "rb") as fh:
+        head = fh.read(20)
+        length, = struct.unpack_from("<I", head, 12)
+        return json.loads(fh.read(length))
 
 
 def glb_lod_levels(glb: Path) -> dict[str, int]:
@@ -2001,11 +2049,12 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     if fire:
         print(f"[kit] flame and glow sprites: {fire}")
     apply_placement_metadata(summary, kit["id"])
-    untextured = untextured_material_errors(read_gltf_json(output_glb), summary,
-                                            notes["texturesMissing"])
+    built_gltf = read_gltf_json(output_glb)
+    untextured = (untextured_material_errors(built_gltf, summary, notes["texturesMissing"])
+                  + unflagged_fire_card_errors(built_gltf, summary))
     if untextured:
-        raise RuntimeError(f"kit build refused ({kit_id}), untextured LOD0 materials "
-                           "would ship:\n  " + "\n  ".join(untextured))
+        raise RuntimeError(f"kit build refused ({kit_id}), untextured or unflagged "
+                           "effect LOD0 materials would ship:\n  " + "\n  ".join(untextured))
     facings = apply_glow_facings(output_glb, summary)
     if facings:
         print(f"[kit] glow facings: {facings}")

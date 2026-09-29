@@ -88,7 +88,8 @@
  },
  "assets": [
   {
-   "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01"
+   "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01",
+   "effect": "additive"
   },
   {
    "asset": "vanilla:clutter/blacksmith/blacksmithnovicebellows01"
@@ -319,7 +320,8 @@
    "asset": "mudmother:gv_meshes/argoniannest/carapaceoven"
   },
   {
-   "asset": "mudmother:gv_meshes/argoniannest/ovennew"
+   "asset": "mudmother:gv_meshes/argoniannest/ovennew",
+   "effect": "additive"
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/basketfull"
