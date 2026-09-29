@@ -20,8 +20,10 @@ the floor (up) and the four horizontal directions (walls, furniture fronts).
 doors-interiors-sockets.md § 7): (1) every lit fixture placement whose kit asset
 carries a mined LIGH (``light`` in its kit manifest) and has no plugin light within
 ``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) the cell
-ambient's intensity is raised so the unlit mean reaches ``FILL_E``. Both are derived
-from records, idempotent, and run by the exporter before it writes the bundle.
+ambient's intensity is raised so the unlit mean reaches ``FILL_E``; (3) every light's
+exported ``fade`` and ``falloffExponent`` are set so the runtime curve above follows
+Skyrim's own point-light curve (``skyrim_curve``). All are derived from records,
+idempotent, and run by the exporter before it writes the bundle.
 
 A node is DARK when ``E < DARK_E``: an albedo-0.3 wall then reflects under
 0.015 linear, under ~30/255 after ACES at exposure 1 (reads black). The bar
@@ -50,9 +52,29 @@ FIXTURE_LIT_M = 1.0
 #: lights give at least this share of its E, and a room is flat when under
 #: ``MIN_SOURCE_LED_FRACTION`` of its walked floor is source-led. Every tier A cell
 #: measured 0-12 % source-led before the fill and 0-4 % after it (2026-09-29); the
-#: 30 % bar is a chosen value, to be confirmed against the reader's row-48 renders.
+#: 30 % bar is a chosen value, to be confirmed against the reader's row-48 renders. With the
+#: Skyrim curve (step 3) DawnstarBrinasHouse reads 91 %, the Keeba and Lilmoth cells 0-12 %:
+#: their few 2.5-4.6 m lights cover under 40 % of the floor even at a 0.04 fill (60-88 %
+#: of it then reads dark), so there the fill still carries the room (lamp coverage, not curve).
 SOURCE_LED_SHARE = 0.5
 MIN_SOURCE_LED_FRACTION = 0.30
+#: Skyrim's point-light attenuation (the Creation Engine Lighting shader as reconstructed by
+#: Community Shaders, package/Shaders/Lighting.hlsl: ``intensityFactor = saturate(lightDist /
+#: radius); intensityMultiplier = 1 - intensityFactor * intensityFactor``, times the light's
+#: colour x fade, no 1/pi): E(d) = lum * fade * (1 - (d/r)^2), lighting the room to its radius.
+#: The runtime's decay-2 curve spent the same record's light in the first metre (KeebaHouseFisher
+#: 080A5A97, r 4.62 m fade 2.5: E/lum 1.83 at 2 m, 0.19 at 3.5 m; Skyrim 2.03 and 1.07). So the
+#: exporter fits the two fields the runtime already reads: three's window alone,
+#: (1 - x^4)^2, already falls a little faster than 1 - x^2 between 0.5 r and 0.75 r (0.53 vs
+#: 0.58), so the best inverse-power is the least the bundle allows (``falloffExponent`` must be
+#: > 0, bundle.ts) and ``fade`` is the log-least-squares match at 0.5 r and 0.75 r (+-5 %).
+SKYRIM_FIT_X = (0.5, 0.75)
+SKYRIM_FALLOFF_EXPONENT = 0.01
+#: The cap: at 0.5 m from the light (0.5 r for a light under 1 m) no linear colour channel of
+#: ``fade * colour * attenuation`` exceeds this: an albedo-0.8 (white linen, plaster) surface
+#: then reflects <= 2.0 linear, ~0.89 after three's ACES at exposure 1 (~242/255), not clipped.
+MAX_NEAR_CHANNEL_E = 2.5
+NEAR_M = 0.5
 _NORMALS = np.array([[0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]], float)
 _LUMA = np.array([0.2126, 0.7152, 0.0722])
 
@@ -82,6 +104,33 @@ def irradiance(bundle: dict, points: np.ndarray) -> np.ndarray:
         cos = np.clip((v / np.maximum(d, 1e-6)[:, None]) @ _NORMALS.T, 0, 1)
         per_normal += lum * att[:, None] * cos
     return per_normal.mean(axis=1)
+
+
+def _runtime_shape(x: np.ndarray, r: float, falloff: float) -> np.ndarray:
+    """The runtime attenuation per unit intensity at x = d / r (module docstring)."""
+    x = np.asarray(x, float)
+    return np.clip(1 - x ** 4, 0, 1) ** 2 / np.maximum((x * r) ** (INTERIOR_LIGHT_DECAY * falloff), 0.01)
+
+
+def skyrim_curve(light: dict) -> dict:
+    """``fade`` and ``falloffExponent`` for one light so the runtime follows Skyrim's
+    ``fade * (1 - (d/r)^2)`` at ``SKYRIM_FIT_X`` (see the constant), capped by
+    ``MAX_NEAR_CHANNEL_E``. Reads the record's fade from ``raw.recordFade`` once set (idempotent)."""
+    raw = light.get("raw") or {}
+    rec = raw["recordFade"] if "recordFade" in raw else light.get("fade")
+    rec_fade = 1.0 if rec is None else float(rec)
+    r = float(light["radiusM"])
+    xs = np.asarray(SKYRIM_FIT_X, float)
+    target = rec_fade * (1 - xs ** 2)
+    fade = float(np.exp(np.mean(np.log(target / _runtime_shape(xs, r, SKYRIM_FALLOFF_EXPONENT)))))
+    near_x = min(NEAR_M, 0.5 * r) / r
+    peak = fade * float(_runtime_shape(near_x, r, SKYRIM_FALLOFF_EXPONENT)) * float(srgb_to_linear(light["colorRGB"]).max())
+    capped = peak > MAX_NEAR_CHANNEL_E
+    if capped:
+        fade *= MAX_NEAR_CHANNEL_E / peak
+    return {"fade": round(fade, 4), "falloffExponent": SKYRIM_FALLOFF_EXPONENT, "recordFade": rec,
+            "recordFalloffExponent": raw.get("recordFalloffExponent", light.get("falloffExponent")),
+            "capped": capped}
 
 
 def kit_lights(kits_dir) -> dict[str, dict]:
@@ -118,6 +167,13 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
                       "falloffExponent": 1.0, "base": lt.get("editorId") or "fixture",
                       "raw": {"xrdsUnits": None, "baseRadiusUnits": lt["radiusUnits"]}})
     bundle["lights"] = plugin + added
+    capped = 0
+    for light in bundle["lights"]:
+        fit = skyrim_curve(light)
+        light["fade"], light["falloffExponent"] = fit["fade"], fit["falloffExponent"]
+        light.setdefault("raw", {}).update(recordFade=fit["recordFade"],
+                                           recordFalloffExponent=fit["recordFalloffExponent"])
+        capped += fit["capped"]
     amb = bundle["ambient"]
     amb_lum = float(_LUMA @ srgb_to_linear(amb["colorRGB"]))
     d_rgb = (bundle.get("lighting") or {}).get("directionalRGB")
@@ -126,7 +182,7 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
     amb["intensity"] = round(max(1.0, need), 3)
     amb["rule"] = "interior-light-floor"
     bundle.setdefault("counts", {})["lights"] = len(bundle["lights"])
-    return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"]}
+    return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"], "cappedLights": capped}
 
 
 def light_balance(bundle: dict, points: np.ndarray) -> dict:

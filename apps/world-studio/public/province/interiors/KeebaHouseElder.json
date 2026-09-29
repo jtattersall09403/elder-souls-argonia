@@ -3211,9 +3211,9 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.747,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowDefault",
    "raw": {
     "xrdsUnits": -65.265,
@@ -3223,7 +3223,9 @@
      "fadeOffset": 0.0,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 12.348
-    }
+    },
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -3239,9 +3241,9 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.6763,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowDefault",
    "raw": {
     "xrdsUnits": 104.169,
@@ -3251,7 +3253,9 @@
      "fadeOffset": 0.0,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 21.529
-    }
+    },
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -3267,13 +3271,15 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.7989,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 157.324,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -3289,9 +3295,9 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.6502,
    "flags": 4105,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowDefault",
    "raw": {
     "xrdsUnits": 63.865,
@@ -3301,7 +3307,9 @@
      "fadeOffset": 0.0,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 20.107
-    }
+    },
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -3317,9 +3325,9 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.7649,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 60.5,
@@ -3329,7 +3337,9 @@
      "fadeOffset": 0.0,
      "endDistanceCap": 0.0,
      "shadowDepthBias": 2.681
-    }
+    },
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   }
  ],

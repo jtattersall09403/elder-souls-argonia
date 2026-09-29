@@ -1838,13 +1838,15 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.604,
    "flags": 12297,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowSlow",
    "raw": {
     "xrdsUnits": 26.533,
-    "baseRadiusUnits": 384
+    "baseRadiusUnits": 384,
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -1860,13 +1862,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -1882,13 +1886,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -1904,13 +1910,15 @@
     99,
     28
    ],
-   "fade": 2.5,
+   "fade": 2.2707,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesDefault",
    "raw": {
     "xrdsUnits": null,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
    }
   }
  ],

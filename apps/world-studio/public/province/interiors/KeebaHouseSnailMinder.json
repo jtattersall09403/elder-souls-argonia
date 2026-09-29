@@ -2277,13 +2277,15 @@
     121,
     51
    ],
-   "fade": 3.0,
+   "fade": 2.7379,
    "flags": 12297,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowSlow",
    "raw": {
     "xrdsUnits": 325.075,
-    "baseRadiusUnits": 384
+    "baseRadiusUnits": 384,
+    "recordFade": 3.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2299,13 +2301,15 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.8252,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 325.075,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   },
   {
@@ -2321,13 +2325,15 @@
     96,
     7
    ],
-   "fade": 2.0,
+   "fade": 1.8252,
    "flags": 9,
-   "falloffExponent": 1.0,
+   "falloffExponent": 0.01,
    "base": "SolitudeInnFiretDefault",
    "raw": {
     "xrdsUnits": 325.075,
-    "baseRadiusUnits": 256
+    "baseRadiusUnits": 256,
+    "recordFade": 2.0,
+    "recordFalloffExponent": 1.0
    }
   }
  ],
