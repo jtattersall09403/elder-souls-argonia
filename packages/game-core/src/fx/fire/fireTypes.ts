@@ -19,7 +19,7 @@
  * torch (fx/carriedLight) draws the same config at its hand bone later.
  */
 
-export const FIRE_CONFIG_SCHEMA_VERSION = 1 as const;
+export const FIRE_CONFIG_SCHEMA_VERSION = 2 as const;
 
 /** Linear RGB, 0..1 (display-referred: the flame is drawn untonemapped). */
 export type FireRgb = readonly [number, number, number];
@@ -41,15 +41,22 @@ export interface FireConfig {
    * tip's narrowing (0 a rounded blob, 1 a sharp tongue). */
   shape: { widthM: number; heightM: number; taper: number };
   /** Cards per emitter: `core` bright inner cards and `outer` wider, cooler,
-   * more turbulent cards, spread over a fire bed of radius `spreadM`. A
-   * candle is 1 + 0; a campfire 2 + 3. */
+   * more turbulent cards, spread over a fire bed of radius `spreadM`. Every
+   * preset has at least 3 cards (a candle 2 + 1, a campfire 3 + 3): one card
+   * reads as a static sprite however its noise scrolls (judge 2, walk 5). */
   layers: { core: number; outer: number; spreadM: number };
   /** Noise distortion of the mask, 0 (still) .. 1 (wild licking tongues). */
   turbulence: number;
   /** Upward scroll of the noise, flame heights per second. */
   riseSpeed: number;
-  /** The temperature ramp: base (coolest, at the fringe and the root) ->
-   * mid -> tip (hottest, the core's upper body). */
+  /** Per-card motion, each card on its own phase (its seed): horizontal
+   * sway of the upper body (`swayW`, in card widths at the tip), width and
+   * height pulsing (`pulse`, share), at `rateHz`. Small for a candle so it
+   * stays a candle, large for a campfire so its tongues part and merge. */
+  motion: { swayW: number; pulse: number; rateHz: number };
+  /** The temperature ramp, three bands up the flame: `base` (dark red /
+   * orange, the root and the fringe) -> `mid` (bright yellow-white, the
+   * body) -> `tip` (pale, fading to transparent at the top). */
   ramp: { base: FireRgb; mid: FireRgb; tip: FireRgb };
   /** Brightness flicker: rate (Hz) and share (0..1). The same function and
    * seed drive the point light (lighting.ts), so flame and light agree. */
@@ -68,25 +75,25 @@ export interface FireConfig {
   gain: { day: number; night: number };
 }
 
-const CANDLE_RAMP = { base: [0.55, 0.1, 0.01], mid: [1.0, 0.5, 0.08], tip: [1.0, 0.9, 0.62] } as const;
-const WOOD_RAMP = { base: [0.45, 0.03, 0.0], mid: [1.0, 0.3, 0.02], tip: [1.0, 0.75, 0.3] } as const;
+const CANDLE_RAMP = { base: [0.75, 0.1, 0.0], mid: [1.0, 0.86, 0.42], tip: [1.0, 0.5, 0.08] } as const;
+const WOOD_RAMP = { base: [0.6, 0.05, 0.0], mid: [1.0, 0.8, 0.3], tip: [1.0, 0.38, 0.03] } as const;
 
 /** The presets, smallest and calmest first. */
 export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   candle: {
-    schemaVersion: 1, id: "candle",
+    schemaVersion: 2, id: "candle",
     shape: { widthM: 0.035, heightM: 0.085, taper: 0.8 },
-    layers: { core: 1, outer: 0, spreadM: 0 },
-    turbulence: 0.12, riseSpeed: 1.1, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.003 },
+    turbulence: 0.22, riseSpeed: 1.1, motion: { swayW: 0.45, pulse: 0.12, rateHz: 2.2 }, ramp: CANDLE_RAMP,
     flicker: { rateHz: 5, amount: 0.08 }, windResponse: 0.25,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   lanternStanding: {
-    schemaVersion: 1, id: "lanternStanding",
+    schemaVersion: 2, id: "lanternStanding",
     shape: { widthM: 0.04, heightM: 0.095, taper: 0.8 },
-    layers: { core: 1, outer: 0, spreadM: 0 },
-    turbulence: 0.1, riseSpeed: 1.0, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.004 },
+    turbulence: 0.2, riseSpeed: 1.0, motion: { swayW: 0.4, pulse: 0.1, rateHz: 2.0 }, ramp: CANDLE_RAMP,
     flicker: { rateHz: 4, amount: 0.06 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
@@ -94,55 +101,55 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   lanternHanging: {
     // a lantern body with no mined candle (the Argonian cord lanterns): one
     // bigger flame at the body's centre, reading through the cage
-    schemaVersion: 1, id: "lanternHanging",
+    schemaVersion: 2, id: "lanternHanging",
     shape: { widthM: 0.07, heightM: 0.15, taper: 0.7 },
-    layers: { core: 1, outer: 0, spreadM: 0 },
-    turbulence: 0.14, riseSpeed: 1.0, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.008 },
+    turbulence: 0.24, riseSpeed: 1.0, motion: { swayW: 0.4, pulse: 0.12, rateHz: 1.8 }, ramp: CANDLE_RAMP,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   torchGround: {
-    schemaVersion: 1, id: "torchGround",
+    schemaVersion: 2, id: "torchGround",
     shape: { widthM: 0.16, heightM: 0.38, taper: 0.6 },
-    layers: { core: 1, outer: 1, spreadM: 0.02 },
-    turbulence: 0.45, riseSpeed: 2.0, ramp: WOOD_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.03 },
+    turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.35,
     embers: { count: 3, riseM: 0.8, sizeM: 0.012, lifeS: 1.4 },
     smokeHandOffM: 0.45, gain: { day: 1.0, night: 0.95 },
   },
   torchHandheld: {
-    schemaVersion: 1, id: "torchHandheld",
+    schemaVersion: 2, id: "torchHandheld",
     shape: { widthM: 0.14, heightM: 0.34, taper: 0.6 },
-    layers: { core: 1, outer: 1, spreadM: 0.02 },
-    turbulence: 0.45, riseSpeed: 2.0, ramp: WOOD_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.03 },
+    turbulence: 0.45, riseSpeed: 2.0, motion: { swayW: 0.45, pulse: 0.22, rateHz: 2.6 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.45,
     embers: { count: 3, riseM: 0.7, sizeM: 0.012, lifeS: 1.2 },
     smokeHandOffM: 0.4, gain: { day: 1.0, night: 0.95 },
   },
   brazier: {
-    schemaVersion: 1, id: "brazier",
+    schemaVersion: 2, id: "brazier",
     shape: { widthM: 0.3, heightM: 0.55, taper: 0.55 },
-    layers: { core: 1, outer: 2, spreadM: 0.12 },
-    turbulence: 0.55, riseSpeed: 2.2, ramp: WOOD_RAMP,
+    layers: { core: 2, outer: 2, spreadM: 0.12 },
+    turbulence: 0.55, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.2 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 6, amount: 0.12 }, windResponse: 0.3,
     embers: { count: 6, riseM: 1.4, sizeM: 0.014, lifeS: 1.8 },
     smokeHandOffM: 0.8, gain: { day: 1.0, night: 0.95 },
   },
   hearth: {
-    schemaVersion: 1, id: "hearth",
+    schemaVersion: 2, id: "hearth",
     shape: { widthM: 0.34, heightM: 0.62, taper: 0.55 },
-    layers: { core: 1, outer: 3, spreadM: 0.2 },
-    turbulence: 0.6, riseSpeed: 2.2, ramp: WOOD_RAMP,
+    layers: { core: 2, outer: 3, spreadM: 0.2 },
+    turbulence: 0.6, riseSpeed: 2.2, motion: { swayW: 0.5, pulse: 0.28, rateHz: 2.0 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5.5, amount: 0.12 }, windResponse: 0.1,
     embers: { count: 6, riseM: 1.2, sizeM: 0.014, lifeS: 1.8 },
     smokeHandOffM: 0.9, gain: { day: 1.0, night: 0.95 },
   },
   campfire: {
-    schemaVersion: 1, id: "campfire",
+    schemaVersion: 2, id: "campfire",
     shape: { widthM: 0.42, heightM: 0.85, taper: 0.5 },
-    layers: { core: 2, outer: 3, spreadM: 0.22 },
-    turbulence: 0.72, riseSpeed: 2.5, ramp: WOOD_RAMP,
+    layers: { core: 3, outer: 3, spreadM: 0.22 },
+    turbulence: 0.72, riseSpeed: 2.5, motion: { swayW: 0.55, pulse: 0.3, rateHz: 1.9 }, ramp: WOOD_RAMP,
     flicker: { rateHz: 5, amount: 0.15 }, windResponse: 0.4,
     embers: { count: 10, riseM: 2.2, sizeM: 0.016, lifeS: 2.4 },
     smokeHandOffM: 1.2, gain: { day: 1.0, night: 0.95 },

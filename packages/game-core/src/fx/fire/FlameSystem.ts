@@ -5,9 +5,10 @@
  * A caller hands `setEmitters` one `FireEmitter` per mined flame record (the
  * emitter's FINAL world position: the piece's full draw matrix applied to the
  * record's `offsetM`, hang and mount included). Each emitter expands by its
- * preset's `layers`: a candle, lantern or torch is one core card (a torch
- * adds one outer card); a brazier, hearth or campfire is 1-2 core cards and
- * 2-3 outer cards spread over its fire bed. Embers are `embers.count` quads
+ * preset's `layers`: every preset is at least 3 cards (a candle, lantern or
+ * torch 2 core + 1 outer; a brazier, hearth or campfire 2-3 core and 2-3
+ * outer spread over its fire bed), each on its own seed, so each sways and
+ * pulses on its own phase (`motion`) and the silhouette changes over time. Embers are `embers.count` quads
  * per emitter animated wholly in the vertex stage from the emitter's seed.
  *
  * Per frame the CPU writes only uniforms (time, wind, the day/night blend
@@ -45,7 +46,7 @@ function jitter(seed: number, k: number): number {
   return x - Math.floor(x);
 }
 
-const FLAME_FLOATS = 16;
+const FLAME_FLOATS = 20;
 const EMBER_FLOATS = 12;
 
 export class FlameSystem {
@@ -116,13 +117,16 @@ export class FlameSystem {
         // core cards cluster at the centre, outer cards ring the bed
         const r = (outer ? 0.6 + 0.4 * jitter(e.seed, k) : 0.3 * jitter(e.seed, k)) * c.layers.spreadM * e.scale;
         const a = (k / Math.max(1, cards) + jitter(e.seed, k + 7)) * Math.PI * 2;
-        const sizeJ = bed ? 0.8 + 0.4 * jitter(e.seed, k + 3) : 1;
+        // the first card is the full flame; the others vary in size, so the
+        // cards read as separate tongues, not one sprite drawn three times
+        const sizeJ = bed ? 0.8 + 0.4 * jitter(e.seed, k + 3) : k === 0 ? 1 : 0.7 + 0.25 * jitter(e.seed, k + 3);
         const seed = (e.seed + k * 0.618034) % 1;
         flames.push(
           e.position.x + Math.cos(a) * r, e.position.y, e.position.z + Math.sin(a) * r, seed,
           c.shape.widthM * e.scale * sizeJ, c.shape.heightM * e.scale * sizeJ, c.turbulence, c.riseSpeed,
           0, palette, outer, c.shape.taper,
           c.flicker.rateHz, c.flicker.amount, c.windResponse, 0,
+          c.motion.swayW, c.motion.pulse, c.motion.rateHz * (0.8 + 0.4 * jitter(e.seed, k + 11)), 0,
         );
         flameOwner.push(e.owner);
       }
@@ -141,7 +145,7 @@ export class FlameSystem {
     this.emberOwner = Int32Array.from(emberOwner);
     this.lastStrength = new Float32Array(owners).fill(-1);
     bindInterleaved(this.flameGeometry, this.flameData, FLAME_FLOATS,
-      [["iPosSeed", 0], ["iShape", 4], ["iParams", 8], ["iAnim", 12]]);
+      [["iPosSeed", 0], ["iShape", 4], ["iParams", 8], ["iAnim", 12], ["iMotion", 16]]);
     bindInterleaved(this.emberGeometry, this.emberData, EMBER_FLOATS,
       [["iPosSeed", 0], ["iEmber", 4], ["iParams", 8]]);
     this.flameGeometry.instanceCount = flameOwner.length;

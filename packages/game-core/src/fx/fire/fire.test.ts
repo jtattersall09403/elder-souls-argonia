@@ -85,24 +85,30 @@ describe("preset choice reads the piece's records", () => {
 });
 
 describe("FlameSystem", () => {
-  it("expands a candle to 1 card, a campfire to its core + outer cards over its bed, with embers", () => {
+  it("expands a candle to its 3 cards, a campfire to its core + outer cards over its bed, with embers", () => {
     const fire = new FlameSystem();
     fire.setEmitters([
       { position: new THREE.Vector3(0, 1, 0), preset: "candle", scale: 1, seed: 0.1, owner: 0 },
       { position: new THREE.Vector3(10, 0, 0), preset: "campfire", scale: 1, seed: 0.4, owner: 1 },
     ]);
     const c = FIRE_PRESETS.campfire;
-    expect(fire.flameInstances).toBe(1 + c.layers.core + c.layers.outer);
+    const k = FIRE_PRESETS.candle.layers.core + FIRE_PRESETS.candle.layers.outer;
+    expect(k).toBeGreaterThanOrEqual(3);
+    expect(fire.flameInstances).toBe(k + c.layers.core + c.layers.outer);
     expect(fire.emberInstances).toBe(c.embers.count);
-    for (let i = 1; i < fire.flameInstances; i++) {
+    for (let i = k; i < fire.flameInstances; i++) {
       const p = fire.flamePosition(i);
       expect(Math.hypot(p.x - 10, p.z)).toBeLessThanOrEqual(c.layers.spreadM + 1e-6);
       expect(fire.flameOwnerOf(i)).toBe(1);
     }
-    expect(fire.flamePosition(0).toArray()).toEqual([0, 1, 0]);
+    for (let i = 0; i < k; i++) {
+      const p = fire.flamePosition(i);
+      expect(p.y).toBe(1);
+      expect(Math.hypot(p.x, p.z)).toBeLessThanOrEqual(FIRE_PRESETS.candle.layers.spreadM + 1e-6);
+    }
     fire.update(0, (o) => (o === 0 ? 0.25 : 1));
     expect(fire.flameIntensity(0)).toBeCloseTo(0.25, 6);
-    expect(fire.flameIntensity(1)).toBe(1);
+    expect(fire.flameIntensity(k)).toBe(1);
     fire.dispose();
   });
 });

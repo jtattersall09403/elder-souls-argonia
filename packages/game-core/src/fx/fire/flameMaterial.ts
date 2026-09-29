@@ -20,6 +20,7 @@
  *   iShape    vec4  width m, height m, turbulence 0..1, rise (heights/s)
  *   iParams   vec4  intensity 0..1, palette row, layer (0 core, 1 outer), taper
  *   iAnim     vec4  flicker Hz, flicker share, wind response, unused
+ *   iMotion   vec4  sway (card widths at the tip), pulse share, motion Hz, unused
  *
  * ---- TSL MIRROR CANDIDATE ------------------------------------------------
  * Everything between the TSL-MIRROR markers below (`FIRE_GLSL_COMMON`: hash,
@@ -81,10 +82,16 @@ float fireMask(vec2 p, float taper) {
   float d = abs(p.x) / max(width, 1e-3);
   return (1.0 - smoothstep(0.55, 1.0, d)) * smoothstep(-0.04, 0.22, p.y) * (1.0 - smoothstep(0.85, 1.0, p.y));
 }
-// the 3-stop temperature ramp (webgpu_volume_fire): base -> mid -> tip
+// the 3-band temperature ramp up the flame, t 0 root .. 1 top: a dark
+// red/orange base band, a bright yellow-white body band, a pale tip band;
+// narrow transitions, so the three bands read as bands, not one blend
 vec3 fireRamp(float t, vec3 base, vec3 mid, vec3 tip) {
-  vec3 low = mix(base, mid, smoothstep(0.0, 0.5, t));
-  return mix(low, tip, smoothstep(0.45, 1.0, t));
+  vec3 low = mix(base, mid, smoothstep(0.2, 0.32, t));
+  return mix(low, tip, smoothstep(0.5, 0.64, t));
+}
+// smooth 1-D noise in -1..1 (the per-card sway and pulse)
+float fireWobble(float t, float seed) {
+  return 2.0 * fireNoise(vec2(t, seed * 57.0)) - 1.0;
 }
 float fireFlicker(float t, float seed, float rateHz, float amount) {
   float phase = seed * 6.2831853;
@@ -101,6 +108,7 @@ attribute vec4 iPosSeed;
 attribute vec4 iShape;
 attribute vec4 iParams;
 attribute vec4 iAnim;
+attribute vec4 iMotion;
 uniform float uTime;
 uniform vec2 uWind;
 uniform float uMinAngle;
@@ -130,8 +138,17 @@ void main() {
   w *= grow; h *= grow;
   // the outer layer is wider and a little shorter
   if (iParams.z > 0.5) { w *= 1.45; h *= 0.9; }
+  // per-card motion on the card's own phase: width and height pulse (the
+  // flame breathes, taller when thinner), the upper body sways sideways
+  float mt = uTime * iMotion.z;
+  float seed = iPosSeed.w;
+  float pw = fireWobble(mt * 1.3, seed + 0.31);
+  float ph = fireWobble(mt * 1.7, seed + 0.67);
+  w *= 1.0 + iMotion.y * pw;
+  h *= 1.0 + iMotion.y * (0.8 * ph - 0.3 * pw);
   float y = position.y; // 0 root .. 1 tip
-  vec3 p = at + right * position.x * w + vec3(0.0, (y - ${FLAME_ROOT_SHARE.toFixed(3)}) * h, 0.0);
+  float sway = iMotion.x * w * (0.7 * fireWobble(mt, seed) + 0.3 * fireWobble(mt * 2.9, seed + 0.13));
+  vec3 p = at + right * (position.x * w + sway * y * y) + vec3(0.0, (y - ${FLAME_ROOT_SHARE.toFixed(3)}) * h, 0.0);
   // wind leans the upper body, quadratic in height
   p.xz += uWind * iAnim.z * h * y * y;
   gl_Position = projectionMatrix * viewMatrix * vec4(p, 1.0);
@@ -183,10 +200,16 @@ void main() {
   vec3 base = uRamp[row * 3];
   vec3 mid = uRamp[row * 3 + 1];
   vec3 tip = uRamp[row * 3 + 2];
-  // the ramp's temperature: the tip colour only in the hottest core, the
-  // orange body over most of the flame, the dark red at the fringe and root
-  float temp = clamp(pow(heat, 1.4) * 1.15, 0.0, 1.0);
-  vec3 col = fireRamp(temp, base, mid, tip);
+  // the ramp's band coordinate: height up the (distorted) flame, pushed
+  // down to the base band at the cool fringe, so the root and the edges are
+  // dark red, the body bright yellow-white, the top the pale tip
+  float band = clamp(p.y, 0.0, 1.0);
+  band = mix(band, 0.0, (1.0 - smoothstep(0.08, 0.4, mask)) * (1.0 - band * 0.5));
+  // the outer cards are the cooler flanks: orange tongues, red at the root
+  band = mix(band, max(band, 0.62), outer);
+  vec3 col = fireRamp(band, base, mid, tip);
+  // the tip thins to transparent over the top third
+  heat *= 1.0 - 0.85 * smoothstep(0.55, 0.95, p.y);
   vec2 gainDN = uGain[row];
   float gain = mix(gainDN.x, gainDN.y, uNight);
   // core covers (alpha), fringe adds (colour with no alpha)

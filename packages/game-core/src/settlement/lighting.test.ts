@@ -21,6 +21,9 @@ import { FIXTURE_LIGHTS_MAX } from "../render/fixtureLights";
 
 const hm = (h: number, m = 0) => h * 60 + m;
 
+/** Flame cards one emitter of a preset draws (every preset is 3 or more, fire walk 5). */
+const cardsOf = (id: keyof typeof FIRE_PRESETS) => FIRE_PRESETS[id].layers.core + FIRE_PRESETS[id].layers.outer;
+
 describe("artificialLightFactor", () => {
   it("is 1 from 17:30 to 06:30, 0 from 06:50 to 17:10, linear between", () => {
     for (const t of [hm(17, 30), hm(20), hm(0), hm(3), hm(6, 30)]) expect(artificialLightFactor(t)).toBe(1);
@@ -137,7 +140,7 @@ describe("light fixtures", () => {
     manager.update(0, at(2));
     expect(lit(manager)).toHaveLength(100);
     expect(manager.field.count).toBe(100);
-    expect(flameQuads(manager)).toBe(120);
+    expect(flameQuads(manager)).toBe(120 * cardsOf("candle"));
     // no three light is made for any fixture: the program never sees a count
     expect(pointLights(manager)).toBe(0);
     manager.dispose();
@@ -173,7 +176,7 @@ describe("light fixtures", () => {
     const manager = new SettlementLightFixtures({ value: 1 });
     manager.setFixtures([...ring(1, 240, "near"), ...ring(1, 260, "far")]);
     manager.update(0, at(0));
-    expect(flameQuads(manager)).toBe(2);
+    expect(flameQuads(manager)).toBe(2 * cardsOf("candle"));
     const material = manager.group.getObjectByName("fire-flame-cards") as THREE.Mesh;
     expect((material.material as THREE.ShaderMaterial).uniforms.uMaxDistance.value).toBe(250);
     expect(manager.field.count).toBe(0);
@@ -291,7 +294,7 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     manager.update(1, camera);
     near(intensityOf(manager, "brazier"), FIXTURE_CANDELA, FIRE_PRESETS.brazier.flicker.amount);
     near(intensityOf(manager, "candle"), FIXTURE_CANDELA, FIRE_PRESETS.candle.flicker.amount);
-    expect(drawn(manager)).toEqual(Array(brazierCards + 1).fill(1));
+    expect(drawn(manager)).toEqual(Array(brazierCards + cardsOf("candle")).fill(1));
     manager.dispose();
   });
 
@@ -371,9 +374,11 @@ describe("the NIF's own flames (16k walk 4)", () => {
       new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2), new THREE.Vector3(2, 2, 2));
     manager.setFixtures([fixtureFromPiece("l", lantern, matrix, bounds)]);
     manager.update(0, camera(0, 3));
-    expect(manager.fire.flameInstances).toBe(2);
+    const n = cardsOf("lanternStanding");
+    expect(manager.fire.flameInstances).toBe(2 * n);
     const wick = new THREE.Vector3(...lantern.flames![1].offsetM).applyMatrix4(matrix);
-    expect(manager.fire.flamePosition(1).distanceTo(wick)).toBeLessThan(1e-5);
+    // the second wick's cards stand on it, within the preset's bed at scale 2
+    expect(manager.fire.flamePosition(n).distanceTo(wick)).toBeLessThanOrEqual(FIRE_PRESETS.lanternStanding.layers.spreadM * 2 + 1e-5);
     manager.dispose();
   });
 
@@ -429,7 +434,7 @@ describe("sprite holders: mined flames on a piece that is no light fixture (16k 
     manager.setFixtures(built(raft));
     const c = new THREE.PerspectiveCamera(); c.position.set(0, 2, 3); c.updateMatrixWorld();
     manager.update(0, c);
-    expect(manager.fire.flameInstances).toBe(2);
+    expect(manager.fire.flameInstances).toBe(2 * cardsOf("candle"));
     expect(manager.litIds).toHaveLength(0);
     expect(manager.field.count).toBe(0);
     // place_gates' fixture count stays light fixtures only
