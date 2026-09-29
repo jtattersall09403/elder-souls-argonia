@@ -55,9 +55,25 @@ def test_placement_matrix_is_the_runtimes_yaw_clockwise_from_north():
     assert np.allclose(b[:3, 3], [1.0, -3.0, 2.0])
 
 
-def test_room_bounds_are_the_architecture_boxes():
+def test_room_bounds_are_every_drawn_pieces_box():
     lo, hi = ir.room_bounds(BUNDLE, row_of)
     assert np.allclose(lo, [-5.0, 0.0, -4.0]) and np.allclose(hi, [5.0, 4.0, 4.0])
+
+
+def test_no_camera_stands_under_the_arrival_floor():
+    """KeebaHouseElder (walk 5): the only `architecture` pieces were a lower
+    level's fences, the shell was `misc`, and the ceiling cap put every eye
+    under the floor. Bounds take every piece; the eye stays >= MIN_EYE_M up."""
+    bundle = {**BUNDLE, "arrivalMarker": {"positionM": [0.0, 3.9, 3.0], "yawDeg": 0.0},
+              "placements": [_p("fence", "k:wall", [0.0, -4.0, 0.0], cat="architecture"),
+                             _p("shell", "k:wall", [0.0, 3.9, 0.0])]}
+    lo, hi = ir.room_bounds(bundle, row_of)
+    assert hi[1] >= 7.9
+    for c in ir.cameras(bundle, lo, hi):
+        assert c["eyeGame"][1] >= 3.9 + ir.MIN_EYE_M - 1e-6
+    low = {**bundle, "placements": [bundle["placements"][0]]}
+    for c in ir.cameras(low, *ir.room_bounds(low, row_of)):
+        assert c["eyeGame"][1] >= 3.9 + ir.MIN_EYE_M - 1e-6
 
 
 def test_cameras_stand_in_the_doorway_and_two_opposite_corners():

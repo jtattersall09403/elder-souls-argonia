@@ -45,6 +45,7 @@ INTERIORS = paths.PROVINCE / "interiors"
 REPORTS = paths.REPO_ROOT / "tooling" / ".reports" / "16k" / "interior-renders"
 BLENDER_SCRIPT = paths.WORKBENCH / "blender" / "render_interior.py"
 EYE_M = 1.6                     # camera height above the arrival marker's floor
+MIN_EYE_M = 1.0                 # the ceiling cap never takes the eye lower than this
 DOOR_STEP_M = 0.4               # the doorway camera stands this far in from the door
 CORNER_INSET = 0.18             # corners stand this fraction of the room's extent in
 LENS_MM = 14.0                  # ~104 deg horizontal: a small room reads whole
@@ -136,13 +137,14 @@ def _world(m: np.ndarray, local) -> np.ndarray:
 
 
 def room_bounds(bundle: dict, row_of) -> tuple[np.ndarray, np.ndarray]:
-    """(min, max) game-frame bounds of the room: the architecture pieces'
-    manifest boxes through their matrices (every drawn piece when the cell
-    has none), the arrival marker and exit door included."""
-    places = drawn_placements(bundle)
-    arch = [p for p in places if p.get("category") == "architecture"] or places
+    """(min, max) game-frame bounds of the room: every drawn piece's
+    manifest box through its matrix, the arrival marker and exit door
+    included. Never the `architecture` category alone: a mod shell is filed
+    `misc` (KotM's pod and Murkmire shells), and KeebaHouseElder's only
+    `architecture` pieces were the woven fences of the lower level, so the
+    ceiling cap put every camera 0.12 m under the arrival floor (walk 5)."""
     pts = []
-    for p in arch:
+    for p in drawn_placements(bundle):
         box = _box(row_of(p) or {})
         if box is None:
             pts.append(np.array(p["positionM"], float))
@@ -182,7 +184,10 @@ def cameras(bundle: dict, lo: np.ndarray, hi: np.ndarray) -> list[dict]:
     arrive = np.array(bundle["arrivalMarker"]["positionM"], float)
     door = np.array((bundle.get("exitDoor") or bundle["arrivalMarker"])["positionM"], float)
     floor = arrive[1]
-    eye_y = min(floor + EYE_M, hi[1] - 0.2)
+    # Eye height, lowered under a low ceiling but never below MIN_EYE_M
+    # over the arrival floor: a camera under the floor draws the floor's
+    # underside across half the frame (walk 5, KeebaHouseElder).
+    eye_y = max(floor + MIN_EYE_M, min(floor + EYE_M, hi[1] - 0.2))
     centre = (lo + hi) / 2
     look_at = np.array([centre[0], floor + 1.0, centre[2]])
     inward = arrive - door
