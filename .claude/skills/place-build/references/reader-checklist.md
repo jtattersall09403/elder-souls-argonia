@@ -13,7 +13,7 @@ it). **Readers get only the `reader` rows**; a `rule:` row is never
 pasted into a reader's prompt, because a red there is already a check
 failure. A row with a measured half and a looked-at half stays
 `reader`. When a new rule starts measuring a `reader` row, retag it in
-the same change. Tally: 18 `reader`, 18 `rule:` (the round-1 review
+the same change. Tally: 22 `reader`, 18 `rule:` (the round-1 review
 estimated ~24 measurable; rows 4, 6, 11, 17, 19 and 28 are partly
 measured and stay `reader` until a rule covers the whole row).
 
@@ -98,6 +98,15 @@ because the owner walked every one of them before a rule measured it.
 42. Is any lantern, candle or brazier sunk into the floor, deck or ground it stands on? (owner walk 4) `reader`, `rule:fixtureSeatRule`
 43. When reporting a direction (an arrow, a facing, a raised arm), does the reader state it as screen-left or screen-right with the camera bearing, never "the same way" or "pointing at X"? The planner compares the stated side against `signRule`'s `pointsDeg` before briefing a fix. (owner walk 4: a reader misread a correct sign) `reader`
 
+## Owner walk-5 defects (close-up, section and night shots; round-recipe 3a)
+
+Each reader is given its shot and the designer's expected value first.
+
+44. On a cutaway through a floor, deck or pad that meets the ground (`cutaway --focus UID --cut M`): is the floor clearly above the ground or clearly below it, never lying on the same plane over a patch (grey and grass sharing one surface flicker)? Give the gap. The measured half is a `bpy` ray ring under the floor: a gap under 0.05 m over more than 1 m² is a NO. (owner walk 5, the Claywater stable floor) `reader`
+45. On the front of each piece the fix list moved: does the base stand where the expectations say (the published `positionM[1]` from the SKILL § 5 read-back, drawn against the red ground line), not where it stood last walk? (owner walk 5, the Claywater landing claimed lowered, unchanged) `reader`
+46. On an iso without overlays: does every way read as worn or paved ground distinct from the grass either side, not only as a cleared strip? The workbench's orange top-view line is the layout, not the paint; every way must also have a published `groundPaint` entry (§ 5 read-back). (owner walk 5, Greenspring's paths) `reader`
+47. On a night shot through each lit doorway into the interior: is the floor, the far wall and the hearth or main furnishing lit, with no room left black? (owner walk 5, the Greenspring huts) `reader`
+
 ## Walk only (never asked of the reader)
 
 Colliders (L27), visibility at range and the flicker, flash and camera
@@ -108,8 +117,8 @@ on the owner's walk.
 - **Interiors** (L50, L51; Gate "Interiors"): each tier A door entered
   from the studio (the door itself, or `?view=character&interior=<cellId>`),
   the room read as the maker's furnished room under its own lights, and
-  the way back out onto the same doorstep. Owner-only: it is a GPU look,
-  never a reader row. That the cell is shipped and its bundle count
+  the way back out onto the same doorstep. The final look is the owner's
+  GPU walk; whether any room is left black is asked first (row 47). That the cell is shipped and its bundle count
   matches is a gate (the exporter's acceptance, `test_export_interior_bundle.py`), not a question.
 - **Sockets** (L52): the `?sockets=1` markers are shown on the walk for
   the owner's eye only; their data is gated by the compile.

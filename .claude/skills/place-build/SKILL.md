@@ -274,10 +274,14 @@ Ends when: every Plan row is YES.
 
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
-`Workflow`, one Sonnet reader per image, one merged NO list
-(`references/round-recipe.md` step 3); each gets only the `reader`-tagged
-rows of `references/reader-checklist.md` for its view. UNSURE or a black
-image means a closer or lit re-render next round, never a guess.
+`Workflow`, one Sonnet reader per image or contact sheet, one merged NO
+list (`references/round-recipe.md` step 3); each gets only the
+`reader`-tagged rows of `references/reader-checklist.md` for its view:
+readers judge only what `check` cannot measure. A NO, an UNSURE, a black
+image or a `check` number near its bar is settled on the geometry at the
+next launch (round-recipe 3a: `--focus --span` close-up, `cutaway --cut`
+section, `@night`, or a `wb.py bpy` contact/ray script), never guessed.
+A fix round renders the published place (round-recipe 3b).
 
 **A round is one batch.** Every reader NO and every `check` failure, one
 layout edit, one `apply`, then at most one Blender round; nothing is fixed
@@ -321,8 +325,20 @@ without that is an escalation to the planner, never a packet.
   once per batch, here only), `npm run docs:check`, ONE `npm run preflight
   -- --paths <the batch's files>` (0106; its review reads code only), deploy.
 
+- **Verify against the published result** (R74). Every numeric or
+  positional claim bound for a packet or fix-round report ("lowered 1 m",
+  "path painted", "lamp inside the lantern") is read back from
+  `apps/world-studio/public/province/settlements/<place-id>.json`, never
+  from the layout op, the scene or memory of the edit: a pose is
+  `placements[].positionM` (y = `[1]`, `yFinal: true`) and `yawDeg`; a
+  painted way is `settlement.groundPaint.entries[]` (`polygonM`); a
+  socket is `settlement.sockets`; a door is `doors[]`. Compare against
+  the previous published value (`git show <walked rev>:<that file>`);
+  unchanged where a change was claimed is a defect, found here.
+
 Ends when: 0 compile errors, every per-place gate green, the place
-published; the batch gates run when the batch's last place gets here.
+published and every claim read back; the batch gates run when the
+batch's last place gets here.
 
 ## 6. The walk packet (16k § Owner check-ins)
 
@@ -343,7 +359,8 @@ records and the runtime, never written from memory. Sections, in order:
    prints (R35: generated from the layout diff, each piece named by its
    manifest `displayName`), grouped under the cause each fixes. A piece it
    reports unnamed is named from its record before posting, never from
-   memory.
+   memory; a line claiming a move or a height carries the published
+   before/after value from the § 5 read-back (R74).
 4. **The numbers, one line:** `check` 0 failures, reader 0 NOs, promises
    filled N of N, colliders, lights, interiors shipped. The full
    `walktable` goes to `tooling/.reports/16k/<place>-walk-N/`, its links on
@@ -385,8 +402,10 @@ deploy is green; collapse old packets with `owner_inbox.py --collapse`.
    ruling naming the cause. The inner loop of steps 2–4 runs to zero
    `check` failures and zero reader NOs; a reader NO on something the
    owner called right goes to the planner, not fixed.
-4. Then `place_gates`, then the place joins the next **batch** deploy and
-   its walk packet, whose § What changed is `wb.py whatchanged` (R35).
+4. Then `place_gates` and the § 5 read-back of every fix against the
+   published bundle (R74; a fix not visible there is not done), then the
+   place joins the next **batch** deploy and its walk packet, whose
+   § What changed is `wb.py whatchanged` (R35).
    Never a preflight and deploy per place.
 
 Ends when: every "wrong" is a lessons row with its gate or its tooling
