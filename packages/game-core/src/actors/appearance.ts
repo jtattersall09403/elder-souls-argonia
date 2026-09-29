@@ -4,7 +4,7 @@ import * as tsl from "three/tsl";
 
 import type { Appearance } from "./races";
 import {
-  isNodeMaterial, toNodeMaterial, wrapColor, type TslNode,
+  cloneNodeMaterial, isNodeMaterial, toNodeMaterial, wrapColor, type TslNode,
 } from "../render/nodes/materialNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
@@ -68,7 +68,7 @@ function skyrimRgbTintMaterial(
   // normalised floats. They are shader constants, not an sRGB texture sample,
   // so converting them through Three's sRGB transfer curve makes every race
   // substantially darker than Skyrim does.
-  const node = isNodeMaterial(material) ? material.clone() : toNodeMaterial(material.clone());
+  const node = isNodeMaterial(material) ? cloneNodeMaterial(material) : toNodeMaterial(material.clone());
   (node as unknown as { color: THREE.Color }).color.set(0xffffff);
   const tone = vec3(tint[0], tint[1], tint[2]);
   const detail = vec3(...SKYRIM_SKIN_DETAIL);

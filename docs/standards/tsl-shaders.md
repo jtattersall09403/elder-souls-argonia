@@ -63,6 +63,9 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - A function given `setLayout` may not read uniforms, uniform arrays or textures: three 0.184 does not
   declare them inside it (WGSL "struct member nodeUniformN not found", GLSL undeclared identifier).
   Pass the values in as parameters, or leave the function inline.
+- `NodeMaterial.clone()` is NOT a copy in three 0.184 (it drops map, color, roughness, side): clone
+  node materials with `cloneNodeMaterial` from `render/nodes/materialNodes.ts`. The harness checks
+  brightness, so a white untextured slab can pass it: look at the sheet.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
