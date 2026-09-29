@@ -1,0 +1,198 @@
+{
+ "schemaVersion": 1,
+ "cellId": "LilmothPlantationStorehouse",
+ "additions": [
+  {
+   "id": "LilmothPlantationStorehouse:add:table-candlehorntable-01",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "pos": [
+    101.137,
+    81.244,
+    74.135
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "A candle on the table."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-02",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    104.196,
+    91.471,
+    75.439
+   ],
+   "rotZDeg": 270,
+   "zone": "store",
+   "why": "Lights the dresser."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-03",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    108.646,
+    83.141,
+    76.506
+   ],
+   "rotZDeg": 180,
+   "zone": "store",
+   "why": "Lights the crates."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-04",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    108.236,
+    86.559,
+    78.281
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the crates and the stairs."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-05",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    96.056,
+    83.447,
+    78.277
+   ],
+   "rotZDeg": 90,
+   "zone": "store",
+   "why": "Lights the rolled rugs."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-06",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    108.95,
+    82.491,
+    75.439
+   ],
+   "rotZDeg": 270,
+   "zone": "store",
+   "why": "Lights the firewood."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-07",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    100.58,
+    87.041,
+    75.439
+   ],
+   "rotZDeg": 270,
+   "zone": "bed",
+   "why": "Lights the rug."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-08",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    105.86,
+    83.649,
+    77.905
+   ],
+   "rotZDeg": 90,
+   "zone": "store",
+   "why": "Lights the barrels."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:door-candlehornwall-09",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    109.454,
+    85.965,
+    77.439
+   ],
+   "rotZDeg": 270,
+   "zone": "door",
+   "why": "Lights the way in by the door."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornchandelier-10",
+   "assetId": "vanilla:clutter/candles/candlehornchandelier01",
+   "pos": [
+    97.486,
+    87.089,
+    75.939
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the open middle of the room."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-11",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    104.707,
+    85.98,
+    72.752
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the rug and the dresser."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-12",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    107.207,
+    82.098,
+    72.752
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the rug and the stairs."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:store-candlehornwall-13",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    103.863,
+    91.47,
+    78.407
+   ],
+   "rotZDeg": 90,
+   "zone": "store",
+   "why": "Lights the dresser and the woven railing."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-14",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    99.737,
+    82.098,
+    79.097
+   ],
+   "rotZDeg": 180,
+   "zone": "bed",
+   "why": "Lights the bed."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-15",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    101.736,
+    88.015,
+    79.097
+   ],
+   "rotZDeg": 180,
+   "zone": "bed",
+   "why": "Lights the woven railing."
+  },
+  {
+   "id": "LilmothPlantationStorehouse:add:hearth-candlehornwall-16",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "pos": [
+    104.854,
+    82.741,
+    79.939
+   ],
+   "rotZDeg": 270,
+   "zone": "hearth",
+   "why": "Lights the stove."
+  }
+ ]
+}
