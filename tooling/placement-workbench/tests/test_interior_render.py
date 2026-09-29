@@ -217,22 +217,6 @@ def test_a_view_whose_target_is_out_of_sight_fails():
     assert ir.view_clear(cast, (9.0, 5.0, 1.6), (15.0, 5.0, 1.0)) == 1.0
 
 
-def test_corner_eyes_stand_inside_far_from_the_arrival_point_and_apart():
-    """walk 5: plan corners of the bounds lay outside the shell. Corners
-    come from the arrival point's longest free rays, 90+ degrees apart."""
-    cast = _box_cast((0.0, 0.0, 0.0), (12.0, 6.0, 4.0))
-    origin = (3.0, 3.0, 1.6)
-    eyes = ir.corner_eyes(cast, origin, 1.6)
-    assert len(eyes) == 2
-    for e in eyes:
-        assert ir.is_inside(cast, e)
-        assert ir.view_clear(cast, e, (3.0, 3.0, 1.0)) == 1.0
-    assert eyes[0][0] > 10.0                        # the long axis first
-    v = [[e[i] - origin[i] for i in range(2)] for e in eyes]
-    assert v[0][0] * v[1][0] + v[0][1] * v[1][1] <= 1e-6   # >= 90 degrees apart
-    assert ir.corner_eyes(_box_cast((0.0, 0.0, 0.0), (2.0, 2.0, 4.0)), (1.0, 1.0, 1.6), 1.6) == []
-
-
 def test_eyes_stay_over_the_arrivals_floor_level():
     """walk 5 (KeebaHouseElder corner-a): an eye over the lower level framed
     the upper floor's edge. A floor 2 m lower beyond x = 8 is off level."""
@@ -366,11 +350,88 @@ def test_every_blender_launch_runs_under_job_guard(monkeypatch, tmp_path):
     assert paths.guarded(["blender"]) == ["blender"]
 
 
-def test_corner_alternates_extend_the_two_corners():
-    """corner-b falls back to the next ray when its view never clears
-    (Lilmoth houses, corner-b faced a post): the alternates start with the
-    same two eyes."""
-    cast = _box_cast((0.0, 0.0, 0.0), (12.0, 8.0, 4.0))
-    two = ir.corner_eyes(cast, (4.0, 3.0, 1.6), 1.6)
-    more = ir.corner_eyes(cast, (4.0, 3.0, 1.6), 1.6, alternates=True)
-    assert len(two) == 2 and more[:2] == two and len(more) > 2
+def _gap_deg(a, b, hub):
+    aa = math.atan2(a[1] - hub[1], a[0] - hub[0])
+    bb = math.atan2(b[1] - hub[1], b[0] - hub[0])
+    g = abs(math.degrees(aa - bb)) % 360.0
+    return min(g, 360.0 - g)
+
+
+def test_scored_corners_stand_inside_apart_and_see_the_hub():
+    """A 12 x 8 m room, the hub in it: two candidates 90+ degrees apart
+    round the hub, both over the floor, each scoring MIN_SCORE_M or more,
+    the best one down the long axis; a room too small to hold a 3 m score
+    has no corners (the plan camera is the fallback)."""
+    cast = _solids_cast([(-1.0, -1.0, -0.2, 13.0, 9.0, 0.0), (-1.0, -1.0, 4.0, 13.0, 9.0, 4.2),
+                         (-1.0, -1.0, 0.0, 0.0, 9.0, 4.0), (12.0, -1.0, 0.0, 13.0, 9.0, 4.0),
+                         (0.0, -1.0, 0.0, 12.0, 0.0, 4.0), (0.0, 8.0, 0.0, 12.0, 9.0, 4.0)])
+    hub, target = (4.0, 4.0), (4.0, 4.0, 1.0)
+    cands = ir.candidate_eyes(cast, hub, 0.0)
+    assert len(cands) == ir.CORNER_DIRS * len(ir.CANDIDATE_FRACS)
+    picked = ir.pick_corners(cast, cands, target, 0.0)
+    assert len(picked) == 2
+    for c in picked:
+        assert c["score"] >= ir.MIN_SCORE_M and ir.floor_ok(cast, c["eye"], 0.0)
+        assert 0.0 < c["eye"][0] < 12.0 and 0.0 < c["eye"][1] < 8.0 and c["eye"][2] == ir.EYE_M
+    assert picked[0]["eye"][0] > 5.0                 # looks back down the long axis
+    assert _gap_deg(picked[0]["eye"], picked[1]["eye"], hub) >= ir.CORNER_APART_DEG - 1e-6
+    tiny = _solids_cast([(-1.0, -1.0, -0.2, 2.0, 2.0, 0.0), (-1.0, -1.0, 4.0, 2.0, 2.0, 4.2),
+                         (-1.0, -1.0, 0.0, 0.0, 2.0, 4.0), (1.5, -1.0, 0.0, 2.0, 2.0, 4.0),
+                         (0.0, -1.0, 0.0, 1.5, 0.0, 4.0), (0.0, 1.5, 0.0, 1.5, 2.0, 4.0)])
+    assert ir.pick_corners(tiny, ir.candidate_eyes(tiny, (0.75, 0.75), 0.0),
+                           (0.75, 0.75, 1.0), 0.0) == []
+
+
+def test_an_eye_behind_a_post_is_scored_out():
+    """16k walk 5 (the Lilmoth houses): corner-b faced a post 0.05 m clear.
+    An eye right behind a post scores its hit (~0) times a blocked fan, under
+    MIN_SCORE_M; no picked corner has the post within FAN_CLEAR_M across
+    its view."""
+    walls = [(-1.0, -1.0, -0.2, 13.0, 9.0, 0.0), (-1.0, -1.0, 4.0, 13.0, 9.0, 4.2),
+             (-1.0, -1.0, 0.0, 0.0, 9.0, 4.0), (12.0, -1.0, 0.0, 13.0, 9.0, 4.0),
+             (0.0, -1.0, 0.0, 12.0, 0.0, 4.0), (0.0, 8.0, 0.0, 12.0, 9.0, 4.0)]
+    post = (8.5, 3.8, 0.0, 8.9, 4.2, 4.0)
+    cast = _solids_cast(walls + [post])
+    target = (4.0, 4.0, 1.0)
+    assert ir.score_eye(cast, (9.0, 4.0, 1.6), target) < ir.MIN_SCORE_M
+    picked = ir.pick_corners(cast, ir.candidate_eyes(cast, (4.0, 4.0), 0.0), target, 0.0)
+    assert len(picked) == 2
+    for c in picked:
+        e = c["eye"]
+        assert not (8.4 <= e[0] <= 12.0 and 3.4 <= e[1] <= 4.6)     # not behind the post
+        assert ir.score_eye(cast, e, target) == c["score"] >= ir.MIN_SCORE_M
+
+
+# a 10 x 10 m room, ceiling underside z 6, and a 3 m wide landing along its
+# west wall standing 3 m over the floor, the door in the west wall on it
+# (KeebaHouseElder, the Lilmoth houses: the arrival on a landing)
+TALL = [(-0.2, -0.2, -0.2, 10.2, 10.2, 0.0), (-0.2, -0.2, 6.0, 10.2, 10.2, 6.2),
+        (-0.2, -0.2, 0.0, 0.0, 10.2, 6.0), (10.0, -0.2, 0.0, 10.2, 10.2, 6.0),
+        (0.0, -0.2, 0.0, 10.0, 0.0, 6.0), (0.0, 10.0, 0.0, 10.0, 10.2, 6.0),
+        (0.0, 0.0, 0.0, 3.0, 10.0, 3.0)]
+
+
+def test_a_landing_over_the_main_floor_splits_the_eyes():
+    """Arrival 3 m over the main floor (> SPLIT_M): the corners stand on the
+    main floor round its centroid, the doorway on the landing EDGE_BACK_M
+    back from its edge on the door-to-hub line, and every view looks at
+    the hub 1 m over the main floor."""
+    cast = _solids_cast(TALL)
+    plan = ir.floor_plan(cast, (-0.2, -0.2, -0.2), (10.2, 10.2, 6.2), (1.0, 5.0, 3.05))
+    assert abs(plan["belowZ"] - 3.0) < 1e-6 and abs(plan["mainZ"]) < 1e-6
+    assert 4.5 <= plan["centroid"][0] <= 8.0 and 4.0 <= plan["centroid"][1] <= 6.0
+    eyes = ir.eye_plan(cast, plan, (0.05, 5.0, 3.0))
+    assert eyes["cornerZ"] == plan["mainZ"] and eyes["doorZ"] == plan["belowZ"]
+    assert eyes["target"] == (*plan["centroid"], 1.0)
+    assert len(eyes["corners"]) == 2
+    for e in eyes["corners"]:
+        assert e[0] > 3.0 and abs(e[2] - ir.EYE_M) < 1e-9       # on the main floor, off the landing
+    d, aim = eyes["doorway"]
+    assert abs(d[2] - (3.0 + ir.EYE_M)) < 1e-9
+    # the edge eye looks steeply down past the landing's own floor (walk 5,
+    # KeebaHouseCrafter): the view that scores looks across the room
+    assert 0.0 < d[0] <= 3.0 - ir.EDGE_BACK_M + 1e-9 and aim[2] > eyes["target"][2]
+    assert ir.score_eye(cast, d, aim) >= ir.MIN_SCORE_M
+    # no drop on the line (arrival on the main floor): 1.2 m in from the door
+    flat, _ = ir.doorway_eye(cast, (3.05, 5.0, 0.0), (8.0, 5.0), 0.0)
+    assert abs(flat[0] - (3.05 + ir.DOOR_IN_M)) < 1e-9 and abs(flat[2] - ir.EYE_M) < 1e-9

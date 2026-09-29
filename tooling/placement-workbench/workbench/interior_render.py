@@ -16,16 +16,17 @@ loader hides left undrawn.
 
 The floor the eyes stand on is ray-cast in Blender (`floor_plan`): the
 floor straight below the arrival marker against the room's main floor, its
-largest walkable level by area; a marker off the main floor (a stair, a
-landing: the Lilmoth houses) puts every eye on the main floor, the corners
-around its surveyed point nearest the marker (`on_floor`).
-
-Three views: from the doorway looking in (the exit door, stepped toward the
-arrival marker, at eye height) and from two corners of the room: the eyes
-at the ends of the two longest free rays from the arrival point, 90+ degrees
-apart, looking back at it (`corner_eyes`). Every eye then walks toward its
-target until it is inside the room with the target in sight and nothing
-within 3 m ahead (`settle_eye`); a view that never gets there is a warning.
+largest walkable level by area. The eyes come from a scored search
+(`eye_plan`): candidates along 24 free rays from the hub (`candidate_eyes`),
+each scored by its free distance toward the hub times the clear fraction of
+a 60-degree fan (`score_eye`); the corners are the two best 90+ degrees
+apart (`pick_corners`); the doorway stands at the landing edge on the
+door-to-hub line or 1.2 m in (`doorway_eye`). An arrival more than 1.5 m
+off the main floor (the Lilmoth houses, KeebaHouseElder) puts the corners
+on the main floor round its centroid and the doorway on the arrival's
+level; every view looks at the hub 1 m over the corners' floor. A view
+with no scored eye falls back to its plan camera walked by `settle_eye`,
+with a warning.
 Two rows: `day` = the runtime's lighting (ambient + directional + records +
 fires); `night` = the SOURCES ONLY (ambient and directional off). The runtime
 lights an interior the same at every hour (interiorLoader.ts: "an interior
@@ -222,11 +223,9 @@ def cameras(bundle: dict, lo: np.ndarray, hi: np.ndarray) -> list[dict]:
                     "matrix": _look_matrix(to_blender(eye), to_blender(at)),
                     "targetBlender": to_blender(at), "eyeHeightM": round(float(eye_y - floor), 3),
                     "lens": LENS_MM})
-    # corners are re-placed in Blender from the arrival point (`corner_eyes`);
-    # the plan corners above are the fallback when no ray from it runs free
-    arrival_eye = to_blender([arrive[0], eye_y, arrive[2]])
-    out[1]["fromArrival"], out[2]["fromArrival"] = 0, 1
-    out[1]["arrivalEye"] = out[2]["arrivalEye"] = arrival_eye
+    # Blender re-places every eye from the floor plan (`eye_plan`); these
+    # are the fallbacks when the plan has no eye for a view
+    out[1]["arrivalEye"] = out[2]["arrivalEye"] = to_blender([arrive[0], eye_y, arrive[2]])
     return out
 
 
@@ -288,53 +287,193 @@ def view_clear(cast, p, target) -> float:
     return score
 
 
-CORNER_DIRS = 24      # horizontal rays from the arrival point that pick the corners
-CORNER_BACK_M = 0.6   # a corner eye stands this far short of the wall its ray hits
-CORNER_MIN_M = 2.5    # a ray shorter than this cannot hold a corner eye
+CORNER_DIRS = 24      # horizontal rays from the hub that seed the candidate eyes
+CANDIDATE_FRACS = (0.35, 0.55, 0.75)   # candidates stand at these fractions of a free ray
+FAN_RAYS = 9          # the view fan: this many rays across FAN_SPAN_DEG toward the target
+FAN_SPAN_DEG = 60.0
+FAN_CLEAR_M = 3.0     # a fan ray is clear when nothing lies within this
+MIN_SCORE_M = 3.0     # a candidate scoring below this is rejected
 CORNER_APART_DEG = 90.0
+SPLIT_M = 1.5         # arrival and main floor further apart: corners on main, doorway on arrival
+DOOR_IN_M = 1.2       # no drop on the door-to-hub line: the doorway eye stands this far in
+EDGE_BACK_M = 0.4     # ... else this far back from the landing edge
+DROP_M = 0.5          # a floor this far below the level is a drop (the landing edge)
+DOOR_STEP = 0.1       # the doorway walk samples the door-to-hub line at this spacing
 
 
-def corner_eyes(cast, origin, eye_h: float, alternates: bool = False) -> list[tuple]:
-    """Two corner eyes seen from the arrival point (`origin`, at eye height):
-    the horizontal ray from it that runs furthest to a wall, and the
-    furthest one at least CORNER_APART_DEG from it; each eye stands
-    CORNER_BACK_M short of its wall, so it is inside the room with the
-    arrival point in plain sight (walk 5, KeebaHouseElder: plan corners of
-    the bounds lay outside the shell, one behind the exit door's wall).
-    A ray that hits nothing within ENCLOSED_M leaves the room (an opening)
-    and is skipped. Empty when no ray reaches CORNER_MIN_M. `alternates`:
-    after the second eye, every further ray CORNER_APART_DEG from the first,
-    then every ray half that far round, longest first (the fallbacks when the second's view never clears:
-    16k walk 5, the Lilmoth houses' corner-b faced a post)."""
-    rays = []
+def floor_ok(cast, p, level_z: float) -> bool:
+    """The floor under eye p is its level: no more than LEVEL_TOL_M above
+    it and no more than SPLIT_M below (a step down within the room is still
+    the room; a landing's edge over the room below is not)."""
+    down = cast(p, (0.0, 0.0, -1.0), p[2] - level_z + SPLIT_M)
+    if down is None:
+        return False
+    fz = p[2] - down
+    return level_z - SPLIT_M <= fz <= level_z + LEVEL_TOL_M
+
+
+def candidate_eyes(cast, hub, level_z: float) -> list[dict]:
+    """Candidate eyes on one level (Blender frame): CORNER_DIRS horizontal
+    rays from the hub at eye height (level_z + EYE_M); along each ray that
+    hits a wall within ENCLOSED_M (a free one leaves the room), a candidate
+    at each CANDIDATE_FRACS of its free length. Each is {eye, ray, frac}."""
+    z = level_z + EYE_M
+    out = []
     for i in range(CORNER_DIRS):
         a = 2.0 * math.pi * i / CORNER_DIRS
         d = (math.cos(a), math.sin(a), 0.0)
-        hit = cast(origin, d, ENCLOSED_M)
+        hit = cast((hub[0], hub[1], z), d, ENCLOSED_M)
         if hit is None:
             continue
-        reach = hit - CORNER_BACK_M
-        while reach >= CORNER_MIN_M and not on_level(
-                cast, tuple(o + v * reach for o, v in zip(origin, d)), eye_h):
-            reach -= STEP_M
-        if reach >= CORNER_MIN_M:
-            rays.append((reach, i, d))
-    if not rays:
+        for f in CANDIDATE_FRACS:
+            out.append({"eye": (hub[0] + d[0] * hit * f, hub[1] + d[1] * hit * f, z),
+                        "ray": i, "frac": f})
+    return out
+
+
+# The frame probes past the brief's level fan (yaw, pitch off the line to
+# the target, bar): the 14 mm lens spans ~104 x 88 degrees, so a table top
+# or a sack under the frame's lower half (Lilmoth Glassworks corner-a,
+# KeebaHouseCrafter), a post or a ladder at its edge (Plantation and
+# Glassworks corner-b) or a landing's underside over it (KeebaHouseElder
+# corner-a) fills it while the level fan runs clear. A grid every 10
+# degrees across the frame.
+FRAME_ROWS = ((30.0, 3.0), (15.0, 2.5), (0.0, 3.0), (-15.0, 2.5), (-30.0, 2.0), (-42.0, 1.8))
+FRAME_PROBES = tuple((float(y), pt, bar) for pt, bar in FRAME_ROWS for y in range(-50, 51, 10))
+MIN_FRAME_CLEAR = 0.85   # a frame with more of its probes blocked is rejected
+FREE_CAP_M = 12.0        # the free distance ahead counts to this
+
+
+def _turn(ahead, yaw_deg: float, pitch_deg: float):
+    """`ahead` turned by yaw about z and its pitch raised by pitch_deg."""
+    yaw = math.atan2(ahead[1], ahead[0]) + math.radians(yaw_deg)
+    pitch = math.asin(max(-1.0, min(1.0, ahead[2]))) + math.radians(pitch_deg)
+    return (math.cos(pitch) * math.cos(yaw), math.cos(pitch) * math.sin(yaw), math.sin(pitch))
+
+
+def score_eye(cast, eye, target) -> float:
+    """The free distance straight ahead from eye toward target (ENCLOSED_M
+    when nothing is hit), times the fraction of FAN_RAYS level rays across
+    FAN_SPAN_DEG toward the target that run FAN_CLEAR_M clear (16k walk 5:
+    corner-b faced a post at 0.05 m, the Plantation doorway hay bales),
+    times the fraction of the FRAME_PROBES that run their bar clear. The
+    free distance counts to FREE_CAP_M: past it a room view gains nothing,
+    and an uncapped 30 m line outscored a clean frame (Plantation corner-b
+    kept a post over a third of its frame, walk 5). A frame with fewer
+    than MIN_FRAME_CLEAR of its probes clear scores 0."""
+    d = [t - e for t, e in zip(target, eye)]
+    n = math.sqrt(sum(v * v for v in d)) or 1e-9
+    ahead = tuple(v / n for v in d)
+    hit = cast(eye, ahead, ENCLOSED_M)
+    free = min(FREE_CAP_M, ENCLOSED_M if hit is None else hit)
+    half = FAN_SPAN_DEG / 2.0
+    clear = sum(1 for k in range(FAN_RAYS)
+                if cast(eye, _rot_z(ahead, -half + k * FAN_SPAN_DEG / (FAN_RAYS - 1)),
+                        FAN_CLEAR_M) is None)
+    frame = sum(1 for y, pt, bar in FRAME_PROBES
+                if cast(eye, _turn(ahead, y, pt), bar) is None) / len(FRAME_PROBES)
+    if frame < MIN_FRAME_CLEAR:
+        return 0.0
+    return free * clear / FAN_RAYS * frame
+
+
+def pick_corners(cast, cands, target, level_z: float) -> list[dict]:
+    """The two best-scoring candidates at least CORNER_APART_DEG apart round
+    the hub (their seed rays), each on its floor (`floor_ok`) and scoring
+    MIN_SCORE_M or more; fewer when the room has none."""
+    scored = []
+    for c in cands:
+        if not floor_ok(cast, c["eye"], level_z):
+            continue
+        s = score_eye(cast, c["eye"], target)
+        if s >= MIN_SCORE_M:
+            scored.append({**c, "score": s})
+    scored.sort(key=lambda c: (-c["score"], c["ray"], c["frac"]))
+    if not scored:
         return []
-    rays.sort(key=lambda r: (-r[0], r[1]))
-    picked = [rays[0]]
-    for r in rays[1:]:
-        gap = abs(r[1] - picked[0][1]) * 360.0 / CORNER_DIRS
+    picked = [scored[0]]
+    for c in scored[1:]:
+        gap = abs(c["ray"] - picked[0]["ray"]) * 360.0 / CORNER_DIRS
         if min(gap, 360.0 - gap) >= CORNER_APART_DEG - 1e-6:
-            picked.append(r)
-            if not alternates:
-                break
-    if alternates:           # then the rays at least half that far round, longest first
-        for r in rays[1:]:
-            gap = abs(r[1] - picked[0][1]) * 360.0 / CORNER_DIRS
-            if r not in picked and min(gap, 360.0 - gap) >= CORNER_APART_DEG / 2 - 1e-6:
-                picked.append(r)
-    return [tuple(o + v * reach for o, v in zip(origin, d)) for reach, _, d in picked]
+            picked.append(c)
+            break
+    return picked
+
+
+def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:
+    """The doorway eye (Blender frame) on the door's level and its target:
+    along the door-to-hub line, EDGE_BACK_M back from the landing edge (the
+    last on-floor point before a drop of more than DROP_M, or no floor);
+    with no drop, DOOR_IN_M in from the door (never nearer the hub than
+    1 m); looking at `target`. When that view scores under MIN_SCORE_M
+    (16k walk 5: the KeebaHouseCrafter doorway looked down at a rug, the
+    Plantation's at hay bales), the first view scoring MIN_SCORE_M over the
+    line's on-floor points at DOOR_STEP x 3 spacing (the edge end first),
+    aimed at the target, then higher on the hub's vertical (half-way to eye
+    height, then eye height less 0.3 m: from a landing, across the room
+    rather than down at its floor); none: the best-scoring. Returns (eye,
+    target)."""
+    dx, dy = hub[0] - door[0], hub[1] - door[1]
+    length = math.hypot(dx, dy)
+    u = (dx / length, dy / length) if length > 1e-6 else (1.0, 0.0)
+    z = level_z + EYE_M
+    target = tuple(target) if target is not None else (hub[0], hub[1], level_z + 1.0)
+    first = last = edge = None
+    on = []
+    s = DOOR_STEP
+    while s <= length:
+        p = (door[0] + u[0] * s, door[1] + u[1] * s, z)
+        down = cast(p, (0.0, 0.0, -1.0), EYE_M + 3.0)
+        fz = z - down if down is not None else None
+        if fz is not None and abs(fz - level_z) <= DROP_M:
+            first = s if first is None else first
+            last = s
+            on.append(s)
+        elif last is not None and (fz is None or fz < level_z - DROP_M):
+            edge = last
+            break
+        s += DOOR_STEP
+    if edge is not None:
+        at = max(first, edge - EDGE_BACK_M)
+    else:
+        at = min(DOOR_IN_M, max(length - 1.0, 0.0))
+    eye = (door[0] + u[0] * at, door[1] + u[1] * at, z)
+    if score_eye(cast, eye, target) >= MIN_SCORE_M:
+        return eye, target
+    aims = [target]
+    if z - 0.3 > target[2]:
+        aims += [(target[0], target[1], (target[2] + z) / 2.0), (target[0], target[1], z - 0.3)]
+    limit = edge - EDGE_BACK_M if edge is not None else max(length - 1.0, 0.0)
+    spots = [x for x in on[::3] if x <= limit + 1e-9][::-1]      # the edge end first
+    best = (score_eye(cast, eye, target), eye, target)
+    for t in aims:                   # the lowest aim that passes, from the spot nearest the edge
+        for x in spots:
+            p = (door[0] + u[0] * x, door[1] + u[1] * x, z)
+            sc = score_eye(cast, p, t)
+            if sc >= MIN_SCORE_M:
+                return p, t
+            if sc > best[0] + 1e-9:
+                best = (sc, p, t)
+    return best[1], best[2]
+
+
+def eye_plan(cast, plan: dict, door) -> dict:
+    """The three eyes (Blender frame) from the floor plan: the corners on the
+    main floor when it lies more than SPLIT_M from the arrival's level
+    (round the main floor's centroid), else on the arrival's level (round
+    the arrival point); the doorway always on the arrival's level. Every
+    view looks at the hub 1 m over the corners' floor (the doorway higher on
+    its vertical when that view fails, `doorway_eye`). {target, hub,
+    corners: [eye..], scores, doorway: (eye, target), cornerZ, doorZ}."""
+    split = abs(plan["belowZ"] - plan["mainZ"]) > SPLIT_M
+    corner_z = plan["mainZ"] if split else plan["belowZ"]
+    hub = plan["centroid"] if split else plan["arrivalXY"]
+    target = (hub[0], hub[1], corner_z + 1.0)
+    corners = pick_corners(cast, candidate_eyes(cast, hub, corner_z), target, corner_z)
+    return {"target": target, "hub": tuple(hub), "cornerZ": corner_z, "doorZ": plan["belowZ"],
+            "corners": [c["eye"] for c in corners],
+            "scores": [round(c["score"], 2) for c in corners],
+            "doorway": doorway_eye(cast, door, hub, plan["belowZ"], target)}
 
 
 def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, float]:
@@ -376,9 +515,10 @@ def column_floors(cast, x: float, y: float, top: float, bottom: float) -> list[f
     from `top`, and from just under every hit, to `bottom`; a hit is
     walkable when the up ray from just over it runs at least HEADROOM_M and
     hits a ceiling within ENCLOSED_M (a roof top has no ceiling; a slab's
-    underside or a surface under a shelf has no headroom), and the four
-    level rays at eye height EYE_M over it all hit within ENCLOSED_M (the
-    open ground under a stilt house is no room)."""
+    underside or a surface under a shelf has no headroom), and at least 3
+    of the four level rays at eye height EYE_M over it hit within
+    ENCLOSED_M (the open ground under a stilt house is no room; a small
+    arrival room with a window or a door still is)."""
     out, z = [], top
     for _ in range(MAX_HITS):
         hit = cast((x, y, z), (0.0, 0.0, -1.0), z - bottom)
@@ -386,9 +526,9 @@ def column_floors(cast, x: float, y: float, top: float, bottom: float) -> list[f
             break
         fz = z - hit
         up = cast((x, y, fz + 0.05), (0.0, 0.0, 1.0), ENCLOSED_M)
-        if up is not None and up + 0.05 >= HEADROOM_M and all(
+        if up is not None and up + 0.05 >= HEADROOM_M and sum(
                 cast((x, y, fz + EYE_M), d, ENCLOSED_M) is not None
-                for d in ((1.0, 0.0, 0.0), (-1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, -1.0, 0.0))):
+                for d in ((1.0, 0.0, 0.0), (-1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, -1.0, 0.0))) >= 3:
             out.append(fz)
         z = fz - 0.02
     return out
@@ -428,9 +568,9 @@ def floor_plan(cast, lo_b, hi_b, arrival_b) -> dict:
     cols = []
     nx = max(1, int((hi_b[0] - lo_b[0]) / FLOOR_GRID_M))
     ny = max(1, int((hi_b[1] - lo_b[1]) / FLOOR_GRID_M))
-    for i in range(nx + 1):
-        for j in range(ny + 1):
-            x, y = lo_b[0] + i * FLOOR_GRID_M, lo_b[1] + j * FLOOR_GRID_M
+    for i in range(nx):         # cell centres: never a column on the bounds' own faces
+        for j in range(ny):
+            x, y = lo_b[0] + (i + 0.5) * FLOOR_GRID_M, lo_b[1] + (j + 0.5) * FLOOR_GRID_M
             cols.extend((x, y, z) for z in column_floors(cast, x, y, top, bottom))
     levels = floor_levels([c[2] for c in cols], FLOOR_GRID_M * FLOOR_GRID_M)
     main = levels[0][0] if levels else below_z
@@ -441,8 +581,15 @@ def floor_plan(cast, lo_b, hi_b, arrival_b) -> dict:
     else:
         on = [c for c in cols if abs(c[2] - main) <= LEVEL_GAP_M]
         hub = min(on, key=lambda c: ((c[0] - ax) ** 2 + (c[1] - ay) ** 2, c[0], c[1]))[:2]
+    on = [c for c in cols if abs(c[2] - main) <= LEVEL_GAP_M]
+    if on:        # the main floor's centroid, snapped to its nearest surveyed column
+        mx, my = sum(c[0] for c in on) / len(on), sum(c[1] for c in on) / len(on)
+        centroid = min(on, key=lambda c: ((c[0] - mx) ** 2 + (c[1] - my) ** 2, c[0], c[1]))[:2]
+    else:
+        centroid = (ax, ay)
     return {"arrivalZ": az, "belowZ": below_z, "mainZ": main, "onMain": on_main,
-            "floorZ": floor_z, "hub": tuple(hub),
+            "floorZ": floor_z, "hub": tuple(hub), "centroid": tuple(centroid),
+            "arrivalXY": (ax, ay),
             "levels": [(round(z, 2), round(a, 1)) for z, a in levels[:4]]}
 
 
@@ -611,6 +758,7 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
         job = {"pieces": job_pieces, "fires": fires, "flameCards": cards, "glowCards": glow,
                "lights": lights, "arrivalBlender": to_blender(arrive),
                "arrivalFloor": float(arrive[1]),
+               "doorBlender": to_blender((bundle.get("exitDoor") or bundle["arrivalMarker"])["positionM"]),
                "boundsBlender": [to_blender([lo[0], lo[1], hi[2]]), to_blender([hi[0], hi[1], lo[2]])],
                "surveyOnly": survey_only,
                **ambient_of(bundle), "shots": shots, "res": list(res), "samples": samples,
@@ -628,6 +776,7 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
         floors = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if l.startswith("[wb-irender] floor ")]
         if survey_only:
             return {"cell": cell, "floor": floors, "totalS": round(time.time() - t0, 2)}
+        eyes = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if l.startswith("[wb-irender] eyes ")]
         warnings = [l for l in proc.stdout.splitlines() if "[wb-render] missing" in l
                     or "[wb-render] warning" in l or "[wb-irender] warning" in l]
         stepped = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if "stepped" in l]
@@ -652,7 +801,7 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
             "views": [c["name"] for c in cams], "pieces": len(job_pieces),
             "missingMesh": missing, "lights": len(lights), "fires": len(fires),
             "fallbackFires": sum(1 for f in fires if f["fallback"]),
-            "hiddenFlameCards": cards, "emissiveFlameCards": glow, "floor": floors, "warnings": warnings, "camerasStepped": stepped,
+            "hiddenFlameCards": cards, "emissiveFlameCards": glow, "floor": floors, "eyes": eyes, "warnings": warnings, "camerasStepped": stepped,
             "prepS": round(t1 - t0, 2), "phaseS": phases,
             "queueS": round(t_start - t1, 2), "blenderS": round(t_end - t_start, 2),
             "totalS": round(time.time() - t0, 2)}

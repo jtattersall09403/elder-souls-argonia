@@ -229,45 +229,37 @@ def floor_survey(scene):
     return plan
 
 
-def clear_eye(scene, shot, corners):
-    """The shot's camera matrix. A corner shot stands at its eye from
-    interior_render.corner_eyes (from the arrival point; `corners` caches
-    them across the rows), aimed at its target; then every eye walks along
-    its line to the target until interior_render.settle_eye accepts it
-    (inside the room, its view clear), so its aim holds. Returns (matrix,
-    metres moved, warning or None)."""
-    from mathutils import Vector
-    m, target = Matrix(shot["matrix"]), tuple(shot["targetBlender"])
+def clear_eye(scene, shot, eyes):
+    """The shot's camera matrix from interior_render.eye_plan (`eyes`,
+    computed once for the cell): the doorway at the landing edge or 1.2 m
+    in, the corners the two best-scoring candidates 90+ degrees apart, all
+    looking at the hub. A view the plan has no eye for falls back to its
+    fallback camera walked by interior_render.settle_eye, with a warning.
+    Returns (matrix, metres moved, warning or None)."""
     cast = scene_cast(scene)
-    tries = [(m, shot["eyeHeightM"])]
-    if shot.get("alt"):
-        tries.append((Matrix(shot["alt"]["matrix"]), shot["alt"]["eyeHeightM"]))
-    if "fromArrival" in shot:
-        key = tuple(shot["arrivalEye"])
-        if key not in corners:
-            corners[key] = ir.corner_eyes(cast, key, shot["eyeHeightM"], alternates=True)
-        eyes = corners[key]
-        pick = eyes[:1] if shot["fromArrival"] == 0 else eyes[1:]
-        if pick:
-            tries = [(Matrix(ir._look_matrix(e, target)), shot["eyeHeightM"]) for e in pick]
-    best = None
-    for m, eye_h in tries:   # corner-b: the next ray when a view never clears
-        eye, moved = ir.settle_eye(cast, tuple(m.translation), target, eye_h)
-        ok = ir.is_inside(cast, eye) and ir.on_level(cast, eye, eye_h)
-        score = (ok, ir.view_clear(cast, eye, target))
-        if best is None or score > best[4]:
-            best = (m, eye, moved, eye_h, score)
-        if score == (True, 1.0):
-            break
-    m, eye, moved, eye_h, _ = best
-    m.translation = Vector(eye)
-    inside = ir.is_inside(cast, eye) and ir.on_level(cast, eye, eye_h)
-    clear = ir.view_clear(cast, eye, target)
-    warn = None
-    if not inside or clear < 1.0:
-        warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
-                f"inside and level={inside} view clear {clear:.2f} of 1")
-    return m, moved, warn
+    target = tuple(eyes["target"])
+    view = shot["view"]
+    eye = None
+    if view == "doorway":
+        eye, target = eyes["doorway"]
+    elif view in ("corner-a", "corner-b"):
+        i = 0 if view == "corner-a" else 1
+        eye = eyes["corners"][i] if i < len(eyes["corners"]) else None
+    if eye is not None:
+        score = ir.score_eye(cast, eye, target)
+        warn = None
+        if score < ir.MIN_SCORE_M:
+            warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
+                    f"scores {score:.2f} m, under {ir.MIN_SCORE_M}")
+        print(f"[wb-irender] eyes {shot['name']} at {tuple(round(v, 2) for v in eye)} "
+              f"aim {tuple(round(v, 2) for v in target)} score {score:.2f}")
+        return Matrix(ir._look_matrix(eye, target)), 0.0, warn
+    m = Matrix(shot["matrix"])
+    t = tuple(shot["targetBlender"])
+    eye, moved = ir.settle_eye(cast, tuple(m.translation), t, shot["eyeHeightM"])
+    m = Matrix(ir._look_matrix(eye, t))
+    return m, moved, (f"[wb-irender] warning {shot['name']} has no scored eye; fallback at "
+                      f"{tuple(round(v, 2) for v in eye)} view clear {ir.view_clear(cast, eye, t):.2f}")
 
 
 def main():
@@ -315,7 +307,10 @@ def main():
         scene.collection.objects.link(sun)
         sun.rotation_euler = (0.0, 0.0, 0.0)        # straight down
     lap("lights")
-    corners = {}
+    eyes = ir.eye_plan(scene_cast(scene), plan, JOB["doorBlender"])
+    print(f"[wb-irender] eyes hub {tuple(round(v, 2) for v in eyes['hub'])} corners on "
+          f"{eyes['cornerZ']:.2f} scores {eyes['scores']} doorway on {eyes['doorZ']:.2f} at "
+          f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}")
     for shot in shots:
         day = shot["row"] == "day"
         for s in sockets:
@@ -326,7 +321,7 @@ def main():
         cam_data.lens = shot.get("lens", 14.0)
         cam_data.clip_start = 0.05
         cam_data.clip_end = 500.0
-        m, moved, warn = clear_eye(scene, shot, corners)
+        m, moved, warn = clear_eye(scene, shot, eyes)
         if warn:
             print(warn)
         cam.matrix_world = m
