@@ -213,11 +213,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
-  // Canvas MSAA is OFF by default (walk 5 perf audit item 4): the scene
-  // renders into the water pipeline's samples:0 target and reaches the canvas
-  // as one full-screen blit, so a multisampled canvas only smoothed the water
-  // surface's edges and the precip/overlay passes, for a full-screen resolve
-  // every frame. `?aa=1` restores it for an A/B.
+  // Canvas MSAA is ON (owner ruling, walk 5: frames are never won by lowering
+  // visual quality). It smooths the water surface's edges and the
+  // precip/overlay passes; the scene itself reaches the canvas through the
+  // water pipeline's samples:0 target as one blit. DEV A/B switch: `?aa=0`
+  // creates the canvas without MSAA, so the resolve's cost can be measured.
   const canvasAa = useMemo(() => (
     new URLSearchParams(window.location.search).get("aa") === "1"
   ), []);
