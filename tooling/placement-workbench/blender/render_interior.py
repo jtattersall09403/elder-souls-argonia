@@ -11,7 +11,8 @@ loader does, never with the render's sky or sun:
 - each LIGH record is a shadowless point light; three.js intensity I
   (candela) is Cycles power 4*pi*I W (Cycles: outgoing = albedo * P /
   (4 pi^2 d^2); three.js: albedo / pi * I / d^2, measured on a white plane),
-  times three.js's range window (1 - (d/r)^4)^2 in the light's own nodes;
+  times three.js's range window (1 - (d/r)^4)^2 in the light's own nodes,
+  and d^(2-decay) so the falloff is three.js's 1/d^decay for any decay;
 - the AmbientLight (never occluded in three.js) is each material's albedo
   times ambient/pi added as emission; the directional is a shadowless sun
   from straight above at strength pi;
@@ -139,9 +140,20 @@ def record_light(i, rec, scene):
     sq.operation = "POWER"
     sq.inputs[1].default_value = 2.0
     nt.links.new(one.outputs[0], sq.inputs[0])
-    nt.links.new(sq.outputs[0], em.inputs["Strength"])
-    if abs(rec.get("decay", 2.0) - 2.0) > 1e-6:
-        print(f"[wb-irender] warning: light {rec.get('refId')} decay {rec['decay']} drawn as 2")
+    strength = sq.outputs[0]
+    decay = rec.get("decay", 2.0)
+    if abs(decay - 2.0) > 1e-6:
+        # Cycles falls off as 1/d^2; three.js as 1/d^decay: times d^(2-decay)
+        fall = nt.nodes.new("ShaderNodeMath")
+        fall.operation = "POWER"
+        fall.inputs[1].default_value = 2.0 - decay
+        nt.links.new(path.outputs["Ray Length"], fall.inputs[0])
+        mul = nt.nodes.new("ShaderNodeMath")
+        mul.operation = "MULTIPLY"
+        nt.links.new(sq.outputs[0], mul.inputs[0])
+        nt.links.new(fall.outputs[0], mul.inputs[1])
+        strength = mul.outputs[0]
+    nt.links.new(strength, em.inputs["Strength"])
     obj = bpy.data.objects.new(f"light{i}", data)
     obj.location = rec["at"]
     scene.collection.objects.link(obj)
@@ -151,18 +163,47 @@ def record_light(i, rec, scene):
 CLEAR_M = 1.5      # a view with anything nearer than this across its frame steps in
 FAN_DEG = (-40.0, -20.0, 0.0, 20.0, 40.0)   # the rays across the frame's width that must be clear
 STEP_M = 0.7
+ENCLOSED_M = 30.0  # inside = every horizontal ray and the up ray hit within this
+FLOOR_M = 3.0      # ... and a floor lies within this below the eye
+
+
+def is_inside(scene, dg, eye):
+    """True when 8 horizontal rays and 1 up ray all hit geometry within
+    ENCLOSED_M and a floor is hit within FLOOR_M below: the eye stands in a
+    room, not outside its shell looking at the void (walk 5: KeebaHouseElder's
+    corners, room box widened by lower-level poles and an outer floor)."""
+    from mathutils import Vector
+    rays = [Vector((math.cos(a), math.sin(a), 0.0))
+            for a in (i * math.pi / 4.0 for i in range(8))] + [Vector((0.0, 0.0, 1.0))]
+    for ray in rays:
+        if not scene.ray_cast(dg, eye, ray, distance=ENCLOSED_M)[0]:
+            return False
+    return scene.ray_cast(dg, eye, Vector((0.0, 0.0, -1.0)), distance=FLOOR_M)[0]
+
+
+def step_inside(scene, dg, eye, target):
+    """Step from the eye toward the target until is_inside holds; the target
+    itself when no step on the way is inside. Returns (eye, metres moved)."""
+    d = target - eye
+    n = max(1, int(d.length / STEP_M))
+    for i in range(n + 1):
+        p = eye + d * (i / n)
+        if is_inside(scene, dg, p):
+            return p, (p - eye).length
+    return target.copy(), d.length
 
 
 def clear_eye(scene, matrix, target):
-    """Step the camera toward its target while anything stands nearer than
+    """Step the camera inside the room first (step_inside), then toward its
+    target while anything stands nearer than
     CLEAR_M on a fan of rays across the frame (a pillar, a shelf or a wall
     of the corner fills the frame otherwise); at most six steps, never
     within 2 m of the target."""
     from mathutils import Euler, Vector
     m = Matrix(matrix)
     eye, target = m.translation.copy(), Vector(target)
-    moved = 0.0
     dg = bpy.context.evaluated_depsgraph_get()
+    eye, moved = step_inside(scene, dg, eye, target)
     for _ in range(6):
         d = target - eye
         if d.length < 2.0 + STEP_M:
