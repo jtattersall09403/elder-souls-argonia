@@ -37,7 +37,7 @@ function backdropMaterial(hex: number, exposure: number): MeshBasicNodeMaterial 
 
 /** A row of fires over a sky/ground backdrop at one exposure. */
 export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: readonly FirePresetId[], heightM: number,
-  spacingM: number) {
+  spacingM: number, opts: { seeds?: readonly number[]; show?: (name: string) => boolean } = {}) {
   ctx.renderer.toneMappingExposure = look.exposure;
   const scene = new THREE.Scene();
   const width = spacingM * (presets.length + 1);
@@ -51,7 +51,7 @@ export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: rea
   fire.setBackend(ctx.backend);
   fire.setEmitters(presets.map((preset, i) => ({
     position: new THREE.Vector3((i - (presets.length - 1) / 2) * spacingM, 0.02, 0),
-    preset, scale: heightM / FIRE_PRESETS[preset].shape.heightM, seed: (0.37 + i * 0.13) % 1, owner: i,
+    preset, scale: heightM / FIRE_PRESETS[preset].shape.heightM, seed: opts.seeds?.[i] ?? (0.37 + i * 0.13) % 1, owner: i,
   })));
   scene.add(fire.group);
   const fov = 36;
@@ -69,6 +69,8 @@ export function buildFireScene(ctx: HarnessContext, look: FireLook, presets: rea
     camera,
     frame(t: number) {
       fire.update(3.7 + t, () => 1, { x: 0.3, y: 0 });
+      // diagnostic layer isolation (fire-diag-*.ts): hide the draws `show` rejects
+      if (opts.show) for (const o of fire.group.children) o.visible = opts.show(o.name);
     },
   };
 }

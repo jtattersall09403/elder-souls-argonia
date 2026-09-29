@@ -96,19 +96,41 @@ faintness was its coverage: the cards cover with `smoothstep(0.3, 0.75,
 heat)`, the volume covered with its raw optical alpha, a soft gradient the
 sky showed through. By day the volume's coverage is now the same kind of
 step on the ray's alpha (`smoothstep(0.12, 0.55, alpha)`), relaxing to the
-raw alpha by night. De-banding: the IGN start offset stays, and each sample
-is jittered inside its grid cell (a per-pixel IGN hash walked by the golden
-ratio per step; stochastic filtering of the 16x32x16 field).
-Fix 1 measured (SwiftShader WebGPU, 512x288, `/tmp/harness/<scene>-fix1`):
-flame-orange pixels in the volume strip of the day shot 1796 (was 1417;
-the cards 1287); `fire-stress` 73 ms against `fire-stress-cards` 41 ms, a
-volume/cards ratio of ~1.8 on SwiftShader only. Device timing on the M2 /
-Adreno 740 is the owner's to take; no estimate is made here. Judges (two
-fresh Sonnet agents): day/night and stress PASS; volume-vs-reference FAIL:
-the volumes still read softer-edged than the cards by day with a diffuse
-hot core, and the horizontal streaks on the brazier in `fire-close` are
-unchanged by the in-cell jitter, so they are not field or step banding;
-their cause is still open.
+raw alpha by night. Flame-orange pixels in the day shot's volume strip:
+1796 (was 1417; the cards 1287).
+
+Fix 2 (2026-09-29), after isolation (harness `fire-diag-vol` /
+`fire-diag-cards`: three braziers, volume only vs cards and embers only).
+- The horizontal streaks were in the volume draw alone, on seeds 0.5 and
+  0.25 and not 0.55: the fragment stage thresholded the INTERPOLATED seed
+  (`step(0.5, fract(seed*2))` etc.), and a seed on a step edge flipped the
+  mirroring variant row by row. Not texture wrap/filter, not the compute
+  writes, not the box slab test. The variant (0..7) is now made whole in
+  the vertex stage and rounded in the fragment stage; streaks gone in the
+  diag and `fire-close` renders. The fix-1 in-cell sample jitter did not
+  touch them and is removed; the IGN start offset stays.
+- Colour order: the raymarch accumulated per-sample colour, so the core
+  was an average of red, orange and white. It now accumulates
+  opacity-weighted temperature and maps the ray's temperature once through
+  a sharp ramp (hot kernel `smoothstep(0.62, 0.78, t)`), as the three.js
+  example does; the brazier, hearth and campfire now show a near-white base.
+
+Judges after fix 2 (two fresh Sonnet agents): day/night, stress and
+streaks PASS; volume look FAIL. What is still short, against the card
+close-up: the volume's silhouette is a soft, blurred teardrop where the
+cards have sharp licking tongues, and the body shows darker horizontal
+strata (a smooth row profile down the brazier's centre, no scanline
+period: the field's own layering, the source flicker advected upward,
+plus flat plateaus where the display clamp holds). The three.js reference
+image was not fetched by the judge. Whether that soft look is acceptable,
+or the volume needs a finer grid or a noise-detail pass, is the planner's
+call.
+Timing after fix 2 (SwiftShader WebGPU, machine load average ~7.5 on 8
+cores with other lanes running): `fire-stress` 215, 60 and 82 ms against
+`fire-stress-cards` 35 and 14 ms, so volume/cards ~2-6x on SwiftShader, too
+noisy on this loaded machine to say more. SwiftShader is a ratio only; the
+device timing on the M2 / Adreno 740 is the owner's to take, and no device
+estimate is made here.
 
 ## Why not
 
