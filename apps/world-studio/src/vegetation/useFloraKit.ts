@@ -14,7 +14,12 @@ import {
   collidersFor,
   type FloraCollider,
 } from "@elder-souls/game-core/physics/floraSolids";
-import { buildFloraKit, mergeFloraKits, type FloraKit, type KitManifest } from "./floraKit";
+import {
+  buildFloraKit, installImpostors, mergeFloraKits, type FloraKit, type KitLevel, type KitManifest,
+} from "./floraKit";
+import {
+  impostorPart, type ImpostorSidecar,
+} from "@elder-souls/game-core/vegetation/impostor";
 import { sharedChunkStore, type ChunkStore, type ChunksManifest } from "../character/chunkStore";
 import type { VegetationIndex } from "./vegetationBundle";
 import { STUDIO_TOOLS } from "../studioTools";
@@ -45,6 +50,31 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     (loader) => configureKitLoader(loader, decoders));
   const [underwaterGltf, setUnderwaterGltf] = useState<GLTF | null>(null);
   const [underwaterWanted, setUnderwaterWanted] = useState(false);
+  // Octahedral impostors (the flora kit's sidecar, `<kit>.impostors.json`):
+  // loaded after the kit, installed over the card level of their species.
+  // No sidecar (or an empty one) leaves every card as it is.
+  type Impostors = Map<string, { part: KitLevel["parts"][number]; contentPx: number }>;
+  const [impostors, setImpostors] = useState<Impostors | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${baseUrl}kits/flora-province-v1.impostors.json`)
+      .then((r) => (r.ok ? (r.json() as Promise<ImpostorSidecar>) : null))
+      .then(async (sidecar) => {
+        if (!sidecar?.impostors.length) return;
+        const loader = createKitLoader(decoders);
+        const loaded: Impostors = new Map();
+        await Promise.all(sidecar.impostors.map(async (record) => {
+          const g = await loader.loadAsync(`${baseUrl}kits/${record.path}`);
+          const part = impostorPart(record, g.scene);
+          if (part) loaded.set(record.id, { part, contentPx: record.contentPx });
+        }));
+        if (!cancelled) setImpostors(loaded);
+      })
+      .catch((error: unknown) => {
+        console.error("[vegetation] impostors failed to load", error);
+      });
+    return () => { cancelled = true; };
+  }, [baseUrl, decoders]);
   useEffect(() => {
     if (!underwaterWanted) return;
     let cancelled = false;
@@ -88,7 +118,8 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     // First wins on a duplicate id: a few assets (tbp_seaweed06,
     // waterkelptall02/03) ship in both kits, and the palettes were authored
     // against the land kit's copy.
-    const land = buildFloraKit(gltf, manifest);
+    const built = buildFloraKit(gltf, manifest);
+    const land = impostors ? installImpostors(built, impostors) : built;
     const merged = underwaterGltf
       ? mergeFloraKits(land, buildFloraKit(underwaterGltf, underwaterManifest, true))
       : land;
@@ -96,7 +127,7 @@ export function useFloraKit(baseUrl: string): FloraKitState {
       console.info(`[vegetation] kit: ${merged.size} assets (flora${underwaterGltf ? " + underwater" : ""})`);
     }
     return merged;
-  }, [gltf, underwaterGltf, manifest, underwaterManifest]);
+  }, [gltf, underwaterGltf, manifest, underwaterManifest, impostors]);
 
   return {
     kit, index, manifest, underwaterManifest, chunksManifest, store,

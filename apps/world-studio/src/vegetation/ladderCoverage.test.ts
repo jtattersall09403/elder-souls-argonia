@@ -112,3 +112,43 @@ describe("screen-space hand-over", () => {
     }
   });
 });
+
+describe("impostor rung (walk-5 impostor lane)", () => {
+  // Mangrove shapes: 8.6-13.1 m trees, impostor texel heights 140-180 px.
+  it("covers every distance exactly once with the impostor on the card rung", () => {
+    const failures: string[] = [];
+    for (const preset of Object.values(QUALITY_PRESETS)) {
+      for (const heightM of [8.6, 9.3, 13.1]) {
+        for (const impostorPx of [120, 172, 260]) {
+          for (const meshLevels of [1, 2, 3]) {
+            const maxDraw = treeDrawDistance(preset.vegChunkRing, CHUNK_M);
+            const rings = speciesRings(
+              { heightM, meshLevels, category: "tree", submerged: false,
+                folded: meshLevels === 1, impostorPx },
+              preset.vegDrawScale, preset.name);
+            const ladder = lodLadder(rings, meshLevels, meshLevels, maxDraw);
+            failures.push(...ladderCoverageFailures(ladder, false, maxDraw,
+              `${preset.name} h${heightM} px${impostorPx} L${meshLevels}`));
+          }
+        }
+      }
+    }
+    expect(failures.slice(0, 10)).toEqual([]);
+  }, 30_000);
+
+  it("starts no nearer than the impostor's texel height and never nearer than the card", () => {
+    for (const preset of Object.values(QUALITY_PRESETS)) {
+      for (const meshLevels of [1, 3]) {
+        const shape = { heightM: 9.3, meshLevels, category: "tree", submerged: false,
+          folded: meshLevels === 1 };
+        const card = speciesRings(shape, preset.vegDrawScale, preset.name);
+        const imp = speciesRings({ ...shape, impostorPx: 172 }, preset.vegDrawScale, preset.name);
+        const last = meshLevels === 1 ? 0 : 2;
+        expect(imp[last]).toBeGreaterThanOrEqual(card[last]);
+        expect(projectedHeightPx(9.3, imp[last])).toBeLessThanOrEqual(172 + 1e-6);
+        // Only the card rung moves: the mesh tiers keep their hand-overs.
+        if (meshLevels === 3) expect(imp.slice(0, 2)).toEqual(card.slice(0, 2));
+      }
+    }
+  });
+});

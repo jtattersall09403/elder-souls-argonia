@@ -19,6 +19,7 @@ import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
 import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
+import { reapplyImpostor } from "@elder-souls/game-core/vegetation/impostor";
 import { reapplyGroundTint } from "../vegetation/Groundcover";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
@@ -862,6 +863,9 @@ export function WorldSky({
           // it and every distant grass card faces wherever the scatter
           // pointed it — edge-on half the time.
           reapplyCylindricalBillboard(m);
+          // The octahedral impostor rung (vegetation/impostor.ts) rides the
+          // same seam: lose it and the far mangroves draw as bare quads.
+          reapplyImpostor(m);
           // And the ground-cover tint hook, for the same reason: without it
           // `instanceColor` never reaches the pixel and the whole ring goes
           // back to one flat kit green over the painted ground.

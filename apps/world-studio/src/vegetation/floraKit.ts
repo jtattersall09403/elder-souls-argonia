@@ -68,6 +68,10 @@ export interface KitSpecies {
    * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
    * — drawing them puts geometry underground or in the sky either way. */
   readonly suspect: boolean;
+  /** Set where the species' card level draws an octahedral IMPOSTOR
+   * (`installImpostors`): the tree's height in impostor texels. The rung
+   * never starts where the tree is taller than that on screen. */
+  readonly impostorPx?: number;
 }
 
 export type FloraKit = Map<string, KitSpecies>;
@@ -563,13 +567,21 @@ export function speciesRings(
     category: string | null;
     submerged: boolean;
     folded: boolean;
+    /** `KitSpecies.impostorPx`: the card rung is an impostor. */
+    impostorPx?: number;
   },
   drawScale: number,
   band: QualitySettings["name"] = "low",
 ): number[] {
   const small = species.category !== "tree" && !species.submerged;
+  // An impostor rung starts no nearer than where the tree's projected height
+  // falls to its texel height (screen-size hand-over; walk-5 impostor lane).
+  const impostorFrom = species.impostorPx
+    ? distanceAtPx(species.heightM, species.impostorPx) * (species.submerged ? SUBMERGED_LOD_SCALE : 1)
+    : 0;
   if (species.meshLevels <= 1) {
-    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band);
+    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band)
+      .map((r) => Math.max(r, impostorFrom));
     if (!small) return rings;
     const floor = SMALL_PLANT_TOP_TIER_M[band];
     return rings.map((r) => Math.max(r, floor));
@@ -590,11 +602,35 @@ export function speciesRings(
   rings[0] = Math.max(rings[0], floor0 * scale);
   // The card never comes nearer than the folded ladder put it: a species that
   // gained tiers only ever gains mesh distance.
-  rings[2] = Math.max(rings[2], lodRings(h, drawScale, species.submerged, true, band)[0]);
+  rings[2] = Math.max(rings[2], lodRings(h, drawScale, species.submerged, true, band)[0],
+    impostorFrom);
   // Two mesh levels: the second runs to the card, so rings 1 and 2 are one.
   if (species.meshLevels === 2) rings[1] = rings[2];
   for (let i = 1; i < rings.length; i++) rings[i] = Math.max(rings[i], rings[i - 1]);
   return rings;
+}
+
+/**
+ * Swap a species' CARD level for its octahedral impostor (walk-5 impostor
+ * lane; decision 0108 §5). The impostor takes the card's rung, not a new one:
+ * it is two triangles against the card's four and reads the tree from every
+ * direction, so a card after it would only be a worse picture of the same
+ * thing. A species with no card, or whose impostor GLB lacks a texture,
+ * keeps what it had. `parts` come from game-core `impostorPart`.
+ */
+export function installImpostors(
+  kit: FloraKit,
+  impostors: ReadonlyMap<string, { part: KitLevel["parts"][number]; contentPx: number }>,
+): FloraKit {
+  const out: FloraKit = new Map(kit);
+  for (const [id, { part, contentPx }] of impostors) {
+    const species = kit.get(id);
+    if (!species || species.billboardIndex === null) continue;
+    const levels = species.levels.map((level, i) =>
+      i === species.billboardIndex ? { parts: [part], triangles: 2 } : level);
+    out.set(id, { ...species, levels, impostorPx: contentPx });
+  }
+  return out;
 }
 
 /**
