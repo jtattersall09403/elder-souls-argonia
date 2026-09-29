@@ -12,7 +12,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table."
+   "why": "Lights the sake bottle and cooked snail meat."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-02",
@@ -24,7 +24,7 @@
    ],
    "rotZDeg": 270,
    "zone": "store",
-   "why": "Lights the dresser."
+   "why": "Lights the ledger and the dried lavender."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-03",
@@ -36,7 +36,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the crates."
+   "why": "Lights the crates stacked by the wall."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-04",
@@ -48,7 +48,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "Lights the crates and the stairs."
+   "why": "Lights the small crates near the stairs."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-05",
@@ -60,7 +60,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the rolled rugs."
+   "why": "Lights the open barrel by the rug."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-06",
@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 270,
    "zone": "store",
-   "why": "Lights the firewood."
+   "why": "Lights the rugs piled near the wall."
   },
   {
    "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-07",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 270,
    "zone": "bed",
-   "why": "Lights the rug."
+   "why": "Lights the single bed by the plank wall."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-08",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the barrels."
+   "why": "Lights the barrel amid scattered hay."
   },
   {
    "id": "LilmothPlantationStorehouse:add:door-candlehornwall-09",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 270,
    "zone": "door",
-   "why": "Lights the way in by the door."
+   "why": "Lights the threshold rug by the door."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornchandelier-10",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "Lights the open middle of the room."
+   "why": "Lights the open floor facing the pilings."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-11",
@@ -132,7 +132,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "Lights the rug and the dresser."
+   "why": "Lights the basket against the plank wall."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-12",
@@ -144,7 +144,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "Lights the rug and the stairs."
+   "why": "Lights the rug facing the dock pilings."
   },
   {
    "id": "LilmothPlantationStorehouse:add:store-candlehornwall-13",
@@ -156,7 +156,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the dresser and the woven railing."
+   "why": "Lights the honey pot and the ledger."
   },
   {
    "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-14",
@@ -168,7 +168,7 @@
    ],
    "rotZDeg": 180,
    "zone": "bed",
-   "why": "Lights the bed."
+   "why": "Lights the baskets stacked by the bed."
   },
   {
    "id": "LilmothPlantationStorehouse:add:bed-candlehornwall-15",
@@ -180,7 +180,7 @@
    ],
    "rotZDeg": 180,
    "zone": "bed",
-   "why": "Lights the woven railing."
+   "why": "Lights the bed beside the dresser."
   },
   {
    "id": "LilmothPlantationStorehouse:add:hearth-candlehornwall-16",
@@ -192,7 +192,7 @@
    ],
    "rotZDeg": 270,
    "zone": "hearth",
-   "why": "Lights the stove."
+   "why": "Lights the sake bottles by the hearth."
   }
  ]
 }

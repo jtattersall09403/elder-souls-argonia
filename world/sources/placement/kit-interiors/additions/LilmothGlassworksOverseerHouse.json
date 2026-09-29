@@ -12,7 +12,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table."
+   "why": "Lights the table facing the dock pilings."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-02",
@@ -24,7 +24,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the stove."
+   "why": "Lights the second candle at the table's end."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-03",
@@ -36,7 +36,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the shelves."
+   "why": "Lights the pair of glazed cups."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-04",
@@ -48,7 +48,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the south table."
+   "why": "Lights the candles clustered on the south table."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-05",
@@ -60,7 +60,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the crates."
+   "why": "Lights the double bed across the room."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-06",
@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the woven railing."
+   "why": "Lights the plank wall by the bed."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-07",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the dresser."
+   "why": "Lights the woven fence dividing the store."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-08",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the dresser and the rolled rugs."
+   "why": "Lights the fence facing the dock pilings."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-09",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the crates and the cupboard."
+   "why": "Lights the iron pot and the plate."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornchandelier-10",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "Lights the open middle of the room."
+   "why": "Lights the dresser across the open floor."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-11",
@@ -132,7 +132,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the table."
+   "why": "Lights the jug beside the chair."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-12",
@@ -144,7 +144,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the crates and the stairs."
+   "why": "Lights the basket against the plank wall."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-13",
@@ -156,7 +156,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the stairs."
+   "why": "Lights the stairs above the crates."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-14",
@@ -168,7 +168,7 @@
    ],
    "rotZDeg": 90,
    "zone": "store",
-   "why": "Lights the woven railing and the table."
+   "why": "Lights the second chair by the table."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-15",
@@ -180,7 +180,7 @@
    ],
    "rotZDeg": 180,
    "zone": "store",
-   "why": "Lights the firewood."
+   "why": "Lights the lower stair by the table."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-16",
@@ -192,7 +192,7 @@
    ],
    "rotZDeg": 270,
    "zone": "store",
-   "why": "Lights the cupboard."
+   "why": "Lights the far wall above the cupboard."
   },
   {
    "id": "LilmothGlassworksOverseerHouse:add:hearth-candlehornfloor-17",
@@ -204,7 +204,7 @@
    ],
    "rotZDeg": 0,
    "zone": "hearth",
-   "why": "Lights the stairs and the cook pot."
+   "why": "Lights the stairs by the cellar door."
   }
  ]
 }

@@ -12,7 +12,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table."
+   "why": "Lights the wooden bowl beside the lantern."
   },
   {
    "id": "KeebaHouseFisher:add:table-glazedcandles-02",
@@ -24,7 +24,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the firewood."
+   "why": "Lights the carved doll left on the table."
   },
   {
    "id": "KeebaHouseFisher:add:table-glazedcandles-03",
@@ -36,7 +36,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the north table."
+   "why": "Lights the open book on the table."
   },
   {
    "id": "KeebaHouseFisher:add:store-argonianlanterns-04",
@@ -48,7 +48,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the bed."
+   "why": "Lights the bed across the room."
   },
   {
    "id": "KeebaHouseFisher:add:store-argonianlanterns-05",
@@ -60,7 +60,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the cupboard."
+   "why": "Lights the cupboard by the hearth floor."
   },
   {
    "id": "KeebaHouseFisher:add:bed-argonianlanterns-06",
@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the bed and the rug."
+   "why": "Lights the sleeping mat and its rug."
   },
   {
    "id": "KeebaHouseFisher:add:bed-argonianlanterns-07",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the bed and the window."
+   "why": "Lights the bed beneath the window."
   },
   {
    "id": "KeebaHouseFisher:add:store-argonianlanterns-08",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the stairs."
+   "why": "Lights the stairway rail of woven reed."
   }
  ]
 }

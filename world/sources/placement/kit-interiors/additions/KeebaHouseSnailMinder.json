@@ -12,7 +12,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table."
+   "why": "Lights the low table by the chair."
   },
   {
    "id": "KeebaHouseSnailMinder:add:table-glazedcandles-02",
@@ -24,7 +24,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the stairs."
+   "why": "Lights the tongs and drying snail meat."
   },
   {
    "id": "KeebaHouseSnailMinder:add:table-glazedcandles-03",
@@ -36,7 +36,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the bed."
+   "why": "Lights the knife on the second table."
   },
   {
    "id": "KeebaHouseSnailMinder:add:table-glazedcandles-04",
@@ -48,7 +48,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the window."
+   "why": "Lights the honeycomb and lichen basket."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-05",
@@ -60,7 +60,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the shelves."
+   "why": "Lights the shelf of drying lichen."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-06",
@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the cupboard."
+   "why": "Lights the chair by the woven fence."
   },
   {
    "id": "KeebaHouseSnailMinder:add:door-argonianlanterns-07",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 0,
    "zone": "door",
-   "why": "Lights the way in by the door."
+   "why": "Lights the doorway through the reed fence."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-08",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the shelves and the stairs."
+   "why": "Lights the roof post and the ledger."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-09",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the window."
+   "why": "Lights the bench beneath the fence rail."
   },
   {
    "id": "KeebaHouseSnailMinder:add:bed-argonianlanterns-10",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the stairs."
+   "why": "Lights the bedding laid against the wall."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-11",
@@ -132,7 +132,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the stairs and the window."
+   "why": "Lights the window above the stairs."
   },
   {
    "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-12",
@@ -144,7 +144,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the walk to the stairs."
+   "why": "Lights the passage past the roof post."
   }
  ]
 }

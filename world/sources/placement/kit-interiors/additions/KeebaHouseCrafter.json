@@ -12,7 +12,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table."
+   "why": "Lights the book left open on the table."
   },
   {
    "id": "KeebaHouseCrafter:add:table-glazedcandles-02",
@@ -24,7 +24,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the stairs."
+   "why": "Lights the plate set out for supper."
   },
   {
    "id": "KeebaHouseCrafter:add:table-glazedcandles-03",
@@ -36,7 +36,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the table by the bed."
+   "why": "Lights the vase of dried reeds."
   },
   {
    "id": "KeebaHouseCrafter:add:table-glazedcandles-04",
@@ -48,7 +48,7 @@
    ],
    "rotZDeg": 0,
    "zone": "table",
-   "why": "A candle on the south table."
+   "why": "Lights the pair of glazed vases."
   },
   {
    "id": "KeebaHouseCrafter:add:bed-argonianlanterns-05",
@@ -60,7 +60,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the bed."
+   "why": "Lights the storage urns beside the bed."
   },
   {
    "id": "KeebaHouseCrafter:add:bed-argonianlanterns-06",
@@ -72,7 +72,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the bed and the firewood."
+   "why": "Lights the firewood stacked by the bed."
   },
   {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-07",
@@ -84,7 +84,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the rug."
+   "why": "Lights the rug inside the doorway."
   },
   {
    "id": "KeebaHouseCrafter:add:bed-argonianlanterns-08",
@@ -96,7 +96,7 @@
    ],
    "rotZDeg": 0,
    "zone": "bed",
-   "why": "A lantern over the bed and the stairs."
+   "why": "Lights the stair rail woven from reed."
   },
   {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-09",
@@ -108,7 +108,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the shelves."
+   "why": "Lights the shelf beneath the window."
   },
   {
    "id": "KeebaHouseCrafter:add:store-argonianlanterns-10",
@@ -120,7 +120,7 @@
    ],
    "rotZDeg": 0,
    "zone": "store",
-   "why": "A lantern over the stairs."
+   "why": "Lights the hanging feathers by the shelves."
   }
  ]
 }
