@@ -102,8 +102,24 @@ def blender_matrix(m: np.ndarray) -> np.ndarray:
     return _C @ m @ np.linalg.inv(_C)
 
 
+def substitution_placement(s: dict) -> dict:
+    """interiorLoader.ts `substitutionPlacement`: a stand-in draws its
+    `standInAsset` in its `standInCategory`."""
+    return {"id": s["id"], "assetId": s["standInAsset"], "kit": s["kit"],
+            "positionM": s["positionM"], "rotationDeg": s["rotationDeg"], "scale": s["scale"],
+            "category": s.get("standInCategory")}
+
+
 def drawn_placements(bundle: dict) -> list[dict]:
-    return list(bundle.get("placements") or []) + list(bundle.get("substitutions") or [])
+    """Everything the loader draws (interiorLoader.ts `drawnPlacements`, then
+    the swing doors it builds from `doors[]` with doorType `swing`); load
+    doors carry no mesh of their own."""
+    swing = [{"id": d["id"], "assetId": d["assetId"], "kit": d["kit"],
+              "positionM": d["positionM"], "rotationDeg": d["rotationDeg"],
+              "scale": d["scale"], "category": "door"}
+             for d in bundle.get("doors") or [] if d.get("doorType") == "swing"]
+    return (list(bundle.get("placements") or [])
+            + [substitution_placement(x) for x in bundle.get("substitutions") or []] + swing)
 
 
 def _box(row: dict):

@@ -94,3 +94,24 @@ def test_fires_are_mined_wicks_and_a_lit_fixtures_fallback():
     assert by["lamp"]["fallback"]
     assert np.allclose(by["lamp"]["at"], [-3.0, 2.0, 0.6])         # top centre
     assert cards == []
+
+
+def test_stand_ins_and_swing_doors_draw_as_the_loader_draws_them():
+    bundle = dict(BUNDLE, substitutions=[{
+        "id": "sub", "refId": "1", "standInAsset": "k:candle", "kit": "k",
+        "standInCategory": "clutter", "positionM": [1.0, 0.0, 1.0],
+        "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0}],
+        doors=[{"doorType": "load", "interiorLoadDoorRef": "2", "loadDoor": {}},
+               {"doorType": "swing", "id": "sw", "assetId": "k:wall", "kit": "k",
+                "positionM": [0.0, 0.0, 0.0], "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0}])
+    drawn = {p["id"]: p for p in ir.drawn_placements(bundle)}
+    assert drawn["sub"]["assetId"] == "k:candle" and drawn["sub"]["category"] == "clutter"
+    assert drawn["sw"]["assetId"] == "k:wall" and len(drawn) == 5      # the load door draws nothing
+
+    class Cat:
+        def raw_glb(self, asset):
+            return (Path(f"/kits/{asset}.glb"), asset)
+    pieces, missing = ir.pieces(bundle, Cat())
+    assert {p["uid"] for p in pieces} == set(drawn) and not missing
+    fires, _ = ir.fire_list(bundle, row_of)
+    assert "sub" in {f["id"] for f in fires}                            # a stand-in candle burns
