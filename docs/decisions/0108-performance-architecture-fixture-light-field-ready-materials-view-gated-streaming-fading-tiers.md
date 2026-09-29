@@ -116,9 +116,13 @@ frames.
   bark kept whole and the leaves carded passes the bar only at 97-100 % of
   the source (gkb9 0.97, gkb8 0.99, gkb2 0.99; leaves are 5-19 % of their
   triangles), so no mangrove mid ships and their only lever is the far
-  impostor. (The source was rendered with the 0.5 leaf cutoff the next
-  bullet's lane found wrong; leaves at 5-19 % of the triangles bound any
-  leaf method at 0.81-0.95 whatever the cutoff.) The share cap is a setting (`treeTiers.maxShare`, per asset
+  impostor. (The source was rendered with the 0.5 leaf cutoff since found
+  wrong; leaves at 5-19 % of the triangles bound any leaf method at
+  0.81-0.95 whatever the cutoff.) **Leaf cutoff is the NIF's** (walk 5):
+  every foliage material ships glTF MASK at its NiAlphaProperty threshold /
+  255 (the mangroves 45-70, 0.18-0.27; 111 of 112 alpha-tested flora species
+  changed), the card bake clips at the same cutoff, and the studio keeps
+  it on mesh levels (cards stay 0.5). The share cap is a setting (`treeTiers.maxShare`, per asset
   `maxShareByAsset`; an over-cap level needs the judges). tundrashrub03's far
   tier is removed: its draw distance ends inside the small-plant full-mesh
   radius, so it was never drawn.
@@ -128,10 +132,20 @@ frames.
   depth), one quad per instance, three frames blended with a depth walk. It
   replaces the card rather than sitting before it (two triangles against
   four, every direction), and starts no nearer than the tree's impostor
-  texel height. Same bar as the tiers, then both image judges; only a
-  passing species is published. None ships: the mangroves score 0.69-0.87
-  (the card they would replace scores 0.35-0.53) and pass both judges
-  (`tooling/.reports/16k/walk5/perf/impostor.md`).
+  texel height. **Its bar is its own** (lead, walk 5): a view-sampled far
+  stand-in ships when its silhouette IoU beats the card it replaces in
+  every view (`impostor_bake.beats_card`, same views and masks) AND 2
+  Sonnet judges pass its sheets (`judges_passed`); the 0.90 same-view bar
+  below is for mesh tiers only (no view-sampled stand-in of a twiggy tree
+  can reach it: the source's own silhouette changes 19-22 % per 3 degrees,
+  `impostor.md`). Impostors are not startup payload: the studio reads the
+  sidecar at once, withholds those species' cards (the last mesh level runs
+  to the draw distance) and loads the GLBs after the 6 s startup window
+  (`useFloraKit`, `withholdCards`). Against the corrected
+  (NIF-cutoff) source, gkb2 and gkb8 ship (IoU min 0.857 / 0.888, card
+  0.48-0.87 / 0.43-0.91, both judges PASS; 3.6 + 4.2 MB, 192 px frames:
+  160 px saves 17 %, not half); gkb9 is held (its card wins 2 of 10 views,
+  0.913 vs 0.887 and 0.921 vs 0.907). `tooling/.reports/16k/walk5/perf/impostor-ship.md`.
 - **The bar is silhouette IoU ≥ 0.90 in every one of 8 views on masks
   closed by a disc of 1.5 % of the tree's pixel height, and no view losing
   more than 5 % coverage**, rendered at the hand-over distance. Not raw
