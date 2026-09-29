@@ -19,14 +19,16 @@
  *   (build_kit mine_fire_layer): Skyrim draws flames as particle systems (the
  *   piece's own, or an `AddOnNodeN` resolved through Skyrim.esm ADDN to an
  *   MPS NIF), which never convert to meshes. Each manifest `flames` entry is
- *   one camera-facing additive quad at its emitter, a flipbook over the
- *   texture's atlas (frame = floor(t x fps + seed x frames) mod frames) with
- *   per-quad size and brightness flicker from the same seed, never smaller
- *   than `FLAME_MIN_ANGLE_RAD` so it reads at 50 m. Each `glows` entry (a NIF
+ *   an emitter drawn by the fire module (fx/fire, 16k walk 5): procedural
+ *   flame cards whose preset (candle, lantern, torch, brazier, hearth,
+ *   campfire: fireTypes.ts) is read from the piece's records, placed at the
+ *   emitter through the piece's final draw matrix, readable by day and by
+ *   night (flameMaterial.ts). Each `glows` entry (a NIF
  *   billboard glow disc, dropped from the mesh) is a still additive sprite
  *   tinted the fixture colour. A piece with neither and no flame cards of its
- *   own (`flameCardMaterials`: fxfirewithembers01) gets one fallback candle
- *   flame on its bounds' top. Kit materials flagged `additive` are drawn
+ *   own (`flameCardMaterials`: fxfirewithembers01) gets one fallback flame
+ *   (fx/fire/flameAnchors.ts: a hanging lantern's at its body, any other on
+ *   its bounds' top). Kit materials flagged `additive` are drawn
  *   unlit and additive by materials.ts under `fixtureFactor`, never the lamp
  *   clock alone. All sprite textures are works-v1 `effectTextures`.
  * - A lit window is no fixture (walk 3 ruling R11): its glow is the kit's
@@ -56,6 +58,10 @@
 import * as THREE from "three";
 import { MINUTES_PER_DAY } from "@elder-souls/world-time";
 import { lightSourceFromRecord } from "../fx/carriedLight";
+import { FlameSystem } from "../fx/fire/FlameSystem";
+import { pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
+import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
+import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import type { SettlementKitAssetMeta, SettlementKitLight, SettlementPlacement } from "./types";
 
@@ -103,20 +109,14 @@ export const LIGHT_COUNT_STEPS: readonly number[] = [0, 4, 8, 16];
  * point light (up to `LIGHTS_CAP`); further out only its sprite and emissive
  * show. Also the radius of the place check rule's fixture-density count. */
 export const LIGHTS_ACTIVE_M = 200;
-/** Fallback flame edge (m), and how far away any flame sprite is still drawn. */
+/** Fallback flame edge (m), and how far away any flame or glow sprite is
+ * still drawn (the fire module's own reach, fx/fire/flameMaterial.ts). */
 export const FLAME_SIZE_M = 0.25;
-export const FLAME_MAX_DISTANCE_M = 250;
+export const FLAME_MAX_DISTANCE_M = FIRE_MAX_DISTANCE_M;
 export const FLAME_FADE_M = 30;
-/** A flame sprite never draws smaller than this angle (radians, ~4 px at
- * 1080p): a 3.6 cm candle flame then still reads as a point of fire at 50 m. */
-export const FLAME_MIN_ANGLE_RAD = 0.004;
-/** A flame quad's centre stands this share of its edge above its emitter:
- * the particles are born at the wick and rise. */
-export const FLAME_RISE = 0.35;
-/** Flicker: a flame's edge and brightness swing by up to these shares, phased
- * per quad by the hash of the fixture id and the flame's index. */
-export const FLAME_FLICKER_SIZE = 0.12;
-export const FLAME_FLICKER_ALPHA = 0.2;
+/** A flame never draws smaller than this angle (radians, ~4 px at 1080p): a
+ * 3.6 cm candle flame then still reads as a point of fire at 50 m. */
+export const FLAME_MIN_ANGLE_RAD = FIRE_MIN_ANGLE_RAD;
 /** A glow sprite's brightness at full strength (the NIF discs are soft,
  * vertex-alpha-faded halos, not solid light), tinted `FIXTURE_LIGHT_RGB`. */
 export const GLOW_ALPHA = 0.35;
@@ -153,6 +153,11 @@ export interface FixtureSprite {
   towardCameraM?: number;
   /** 0..1 from the fixture id and the sprite's index: frame phase and flicker. */
   seed: number;
+  /** A flame's fire preset (fx/fire/fireTypes.ts); `position` is then its
+   * emitter (the wick, the bed's centre) in world space. Absent on a glow. */
+  preset?: FirePresetId;
+  /** The piece's scale (the fire's cards scale with it); absent: 1. */
+  pieceScale?: number;
 }
 
 export interface LightFixture {
@@ -266,21 +271,24 @@ function srgbColour(rgb: readonly [number, number, number]): THREE.Color {
   return new THREE.Color().setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255, THREE.SRGBColorSpace);
 }
 
-function fallbackFlame(id: string, position: THREE.Vector3): FixtureSprite {
+function fallbackFlame(id: string, position: THREE.Vector3, preset: FirePresetId): FixtureSprite {
   return { position, sizeM: FLAME_SIZE_M, texture: FLAME_TEXTURE_ASSET_ID,
     atlas: FALLBACK_FLAME_ATLAS, frames: FALLBACK_FLAME_ATLAS[0] * FALLBACK_FLAME_ATLAS[1],
-    fps: FALLBACK_FLAME_FPS, glow: false, seed: hash01(`${id}#fallback`) };
+    fps: FALLBACK_FLAME_FPS, glow: false, seed: hash01(`${id}#fallback`), preset };
 }
 
 /**
  * The fixture of one placed piece. `matrix` is its final draw transform
- * (placement scale included); `localBox` its LOD0 bounds in its own frame.
+ * (placement, mount, hang and scale: the matrix its mesh draws with);
+ * `localBox` its LOD0 bounds in its own frame. Every flame is its local
+ * anchor (fx/fire/flameAnchors.ts `pieceFlameAnchorsLocal`) times `matrix`.
  * Its flames are the NIF's own (manifest `flames`, mined from the particle
  * systems and AddOnNodes: a lantern's two wicks, a horn candelabrum's four)
  * and its glows the NIF's billboard discs (manifest `glows`). A piece with
  * neither, no flame cards of its own (`flameCardMaterials`) and no mounted
  * fire child (`mount.hasMountedFire`: the brazier's fxfirewithembers01) gets
- * one fallback candle flame on the top of its bounds. It burns by day when
+ * one fallback flame (`fallbackFlameAnchorLocal`: a hanging lantern's at its
+ * body, never its cord's top; else the top of its bounds). It burns by day when
  * its own kind or its host's is a fire (`burnsByDay`). The point light stands at
  * the LIGH record's `offsetM` where recorded (vanilla places that light
  * BESIDE and above the piece: lantern median 0.61 m off, brazier 1.3 m up),
@@ -298,24 +306,23 @@ export function fixtureFromPiece(
   const { radiusM, colour } = fixtureLightOf(meta?.light);
   const scaleOf = new THREE.Vector3().setFromMatrixScale(matrix);
   const scale = Math.max(scaleOf.x, scaleOf.y, scaleOf.z);
-  const flames: FixtureSprite[] = (meta?.flames ?? []).map((f, i) => ({
-    position: new THREE.Vector3(f.offsetM[0], f.offsetM[1] + f.sizeM * FLAME_RISE, f.offsetM[2])
-      .applyMatrix4(matrix),
-    sizeM: f.sizeM * scale, texture: f.texture, atlas: f.atlas,
-    frames: f.frames ?? (f.atlas ? f.atlas[0] * f.atlas[1] : 1),
-    fps: f.fps, glow: false, seed: hash01(`${id}#${i}`),
-  }));
+  const hostKind = mount.hostMeta?.light?.fixtureKind ?? mount.hostMeta?.category;
+  const anchors = pieceFlameAnchorsLocal(meta, localBox,
+    castsLight && !drawsOwnFire(meta) && !mount.hasMountedFire, hostKind);
+  const flames: FixtureSprite[] = anchors.map((a) => {
+    const position = a.local.clone().applyMatrix4(matrix);
+    const f = a.record >= 0 ? meta!.flames![a.record] : undefined;
+    if (!f) return { ...fallbackFlame(id, position, a.preset), pieceScale: scale };
+    return { position, sizeM: f.sizeM * scale, pieceScale: scale, texture: f.texture, atlas: f.atlas,
+      frames: f.frames ?? (f.atlas ? f.atlas[0] * f.atlas[1] : 1),
+      fps: f.fps, glow: false, seed: hash01(`${id}#${a.record}`), preset: a.preset };
+  });
   const glows: FixtureSprite[] = (meta?.glows ?? []).map((g, i) => ({
     position: new THREE.Vector3(...g.offsetM).applyMatrix4(matrix),
     sizeM: g.sizeM * scale, texture: g.texture, atlas: null, frames: 1, fps: 0,
     glow: true, towardCameraM: (g.towardCameraM ?? 0) * scale, seed: hash01(`${id}#glow${i}`),
     ...(g.tintRgb ? { tint: new THREE.Color(...g.tintRgb) } : {}),
   }));
-  if (castsLight && !drawsOwnFire(meta) && !mount.hasMountedFire) {
-    const centre = localBox.getCenter(new THREE.Vector3());
-    flames.push(fallbackFlame(id, new THREE.Vector3(centre.x, localBox.max.y + FLAME_SIZE_M * 0.4,
-      centre.z).applyMatrix4(matrix)));
-  }
   const offset = meta?.light?.offsetM;
   const lightAt = offset ? new THREE.Vector3(...offset).applyMatrix4(matrix)
     : (flames[0]?.position.clone()
@@ -324,12 +331,12 @@ export function fixtureFromPiece(
     alwaysLit: burnsByDay(meta, mount.hostMeta), castsLight, flames: [...flames, ...glows] };
 }
 
-/** A fire socket's fixture (always lit): a fallback flame at the socket, light just above it. */
+/** A fire socket's fixture (always lit): a hearth fire at the socket, light just above it. */
 export function fixtureFromFireSocket(id: string, socketAt: THREE.Vector3): LightFixture {
   const { radiusM, colour } = fixtureLightOf(undefined);
   return { id, kind: "fixture", radiusM, colour, alwaysLit: true, castsLight: true,
     position: socketAt.clone().add(new THREE.Vector3(0, 0.3, 0)),
-    flames: [fallbackFlame(id, socketAt.clone())] };
+    flames: [fallbackFlame(id, socketAt.clone(), "hearth")] };
 }
 
 /** The smallest step of `LIGHT_COUNT_STEPS` that holds `count` lights (the cap past the last). */
@@ -371,16 +378,20 @@ interface SpriteBatch {
  * The fixtures of the loaded settlements: a point light on each burning
  * fixture in the band (`fixturesInBand`, at most `LIGHTS_CAP`), the visible
  * count padded to a `LIGHT_COUNT_STEPS` step with zero-intensity lights, and
- * every flame and glow sprite within `FLAME_MAX_DISTANCE_M` as additive
- * camera-facing quads on the post-water layer (like rain and smoke: drawn
- * after the water surface, depth-tested, tone-mapped in its own shader), one
- * draw per sprite texture (a handful: candle flame, the fire atlases, the glow
- * disc). `factor` is the settlement night uniform (`artificialLightFactor`),
- * shared by reference.
+ * every flame drawn by the fire module (`fire`, fx/fire/FlameSystem.ts: two
+ * instanced draws for all fires) and every glow disc within
+ * `FLAME_MAX_DISTANCE_M` as an additive camera-facing quad, all on the
+ * post-water layer (like rain and smoke: drawn after the water surface,
+ * depth-tested), one glow draw per sprite texture. A lit fixture's point light
+ * flickers with its first flame (`fireFlicker`, the same seed and preset rate
+ * the shader uses), so light and flame breathe together. `factor` is the
+ * settlement night uniform (`artificialLightFactor`), shared by reference.
  */
 export class SettlementLightFixtures {
   readonly group = new THREE.Group();
   readonly lights: THREE.PointLight[] = [];
+  /** Every fixture's flames (fx/fire): cards and embers, on the post-water layer. */
+  readonly fire = new FlameSystem(undefined, PRECIP_LAYER);
   private fixtures: LightFixture[] = [];
   private assigned: number[] = [];
   /** Lights shown now: a `LIGHT_COUNT_STEPS` step, changed only at a refresh. */
@@ -397,6 +408,7 @@ export class SettlementLightFixtures {
 
   constructor(private readonly factor: THREE.IUniform<number>) {
     this.group.name = "settlement-light-fixtures";
+    this.group.add(this.fire.group);
   }
 
   /** Grows the light pool to `count` (never past `LIGHTS_CAP`); lights are never made ahead of need. */
@@ -447,7 +459,7 @@ export class SettlementLightFixtures {
     return this.batches.get(textureId)?.mesh;
   }
 
-  /** Quads drawn this frame for one texture. */
+  /** Glow quads drawn this frame for one texture (flames: `fire`). */
   spriteQuads(textureId: string = FLAME_TEXTURE_ASSET_ID): number {
     return this.batches.get(textureId)?.drawn ?? 0;
   }
@@ -457,12 +469,19 @@ export class SettlementLightFixtures {
     this.refreshAt = -Infinity;
     const counts = new Map<string, number>();
     this.alwaysLitSprites = 0;
-    for (const fixture of fixtures) {
+    const emitters: FireEmitterInput[] = [];
+    fixtures.forEach((fixture, owner) => {
       for (const sprite of fixture.flames) {
+        if (!sprite.glow) {
+          emitters.push({ position: sprite.position, preset: sprite.preset ?? "candle",
+            scale: pieceScaleOf(sprite), seed: sprite.seed, owner });
+          continue;
+        }
         counts.set(sprite.texture, (counts.get(sprite.texture) ?? 0) + 1);
         if (fixture.alwaysLit) this.alwaysLitSprites += 1;
       }
-    }
+    });
+    this.fire.setEmitters(emitters);
     for (const [textureId, count] of counts) {
       const batch = this.batch(textureId);
       if (count > batch.capacity) allocateQuads(batch, count);
@@ -497,21 +516,26 @@ export class SettlementLightFixtures {
         light.color.copy(fixture.colour);
         light.userData.candela = FIXTURE_CANDELA;
         light.userData.alwaysLit = fixture.alwaysLit;
+        light.userData.flicker = flickerOf(fixture);
       });
     }
     const factor = this.factor.value;
     // Between refreshes the clock may put lamps out: the light drops to zero
     // and stays visible, so the renderer's light count changes only at a refresh.
     this.lights.forEach((light, slot) => {
+      const flicker = light.userData.flicker as FixtureFlicker | undefined;
       light.intensity = this.assigned[slot] === undefined ? 0
-        : (light.userData.candela ?? 0) * fixtureFactor(factor, light.userData.alwaysLit === true);
+        : (light.userData.candela ?? 0) * fixtureFactor(factor, light.userData.alwaysLit === true)
+          * (flicker ? fireFlicker(timeS, flicker.seed, flicker.rateHz, flicker.amount) : 1);
     });
+    this.fire.update(timeS, (owner) => fixtureFactor(factor, this.fixtures[owner]?.alwaysLit === true));
     this.updateSprites(timeS, factor);
   }
 
   dispose(): void {
     this.group.removeFromParent();
     this.lights.forEach((light) => light.dispose());
+    this.fire.dispose();
     for (const batch of this.batches.values()) {
       const material = batch.mesh.material as THREE.MeshBasicMaterial;
       material.map?.dispose();
@@ -527,6 +551,7 @@ export class SettlementLightFixtures {
         const strength = fixtureFactor(factor, fixture.alwaysLit);
         if (strength <= 0) continue;
         for (const sprite of fixture.flames) {
+          if (!sprite.glow) continue;
           const batch = this.batches.get(sprite.texture);
           if (!batch?.mesh.visible) continue;
           this.writeQuad(batch, sprite, strength, timeS);
@@ -545,32 +570,21 @@ export class SettlementLightFixtures {
     }
   }
 
-  /** One camera-facing quad: flipbook cell, flicker and distance fade. */
+  /** One camera-facing glow quad: flipbook cell and distance fade. */
   private writeQuad(batch: SpriteBatch, sprite: FixtureSprite, strength: number, timeS: number): void {
     this.centre.copy(sprite.position);
     const distance = this.cameraAt.distanceTo(this.centre);
     if (distance > FLAME_MAX_DISTANCE_M || batch.drawn >= batch.capacity) return;
     const fade = Math.min(1, (FLAME_MAX_DISTANCE_M - distance) / FLAME_FADE_M) * strength;
-    let size = sprite.sizeM;
-    let brightness = fade;
-    let r = 1; let g = 1; let b = 1;
-    if (sprite.glow) {
-      // the disc is set off toward the viewer, as its billboard node does
-      if (sprite.towardCameraM) {
-        this.toCamera.copy(this.cameraAt).sub(this.centre).normalize();
-        this.centre.addScaledVector(this.toCamera, sprite.towardCameraM);
-      }
-      brightness *= GLOW_ALPHA;
-      const tint = sprite.tint ?? this.glowTint;
-      r = tint.r; g = tint.g; b = tint.b;
-    } else {
-      const phase = sprite.seed * Math.PI * 2;
-      const swing = 0.5 + 0.25 * Math.sin(timeS * 7.3 + phase) + 0.25 * Math.sin(timeS * 12.9 + phase * 1.7);
-      size *= 1 + FLAME_FLICKER_SIZE * (swing - 0.5) * 2;
-      brightness *= 1 - FLAME_FLICKER_ALPHA * swing;
-      // never smaller than FLAME_MIN_ANGLE_RAD, so a candle still reads at 50 m
-      size = Math.max(size, distance * FLAME_MIN_ANGLE_RAD);
+    const size = sprite.sizeM;
+    // the disc is set off toward the viewer, as its billboard node does
+    if (sprite.towardCameraM) {
+      this.toCamera.copy(this.cameraAt).sub(this.centre).normalize();
+      this.centre.addScaledVector(this.toCamera, sprite.towardCameraM);
     }
+    const brightness = fade * GLOW_ALPHA;
+    const tint = sprite.tint ?? this.glowTint;
+    const r = tint.r; const g = tint.g; const b = tint.b;
     const [cols, rows] = sprite.atlas ?? [1, 1];
     const frame = sprite.fps > 0 && sprite.frames > 1
       ? Math.floor(timeS * sprite.fps + sprite.seed * sprite.frames) % sprite.frames : 0;
@@ -593,6 +607,24 @@ export class SettlementLightFixtures {
     }
     batch.drawn += 1;
   }
+}
+
+/** The fire module's emitter, as the fixtures hand it over. */
+type FireEmitterInput = Parameters<FlameSystem["setEmitters"]>[0][number];
+
+/** A lit fixture's light flicker: its first flame's seed and preset rate. */
+interface FixtureFlicker { seed: number; rateHz: number; amount: number }
+
+function flickerOf(fixture: LightFixture): FixtureFlicker | undefined {
+  const flame = fixture.flames.find((f) => !f.glow && f.preset);
+  if (!flame?.preset) return undefined;
+  const { rateHz, amount } = FIRE_PRESETS[flame.preset].flicker;
+  return { seed: flame.seed, rateHz, amount };
+}
+
+/** A flame's piece scale: its mined edge over the record's (1 for a fallback). */
+function pieceScaleOf(sprite: FixtureSprite): number {
+  return sprite.pieceScale ?? 1;
 }
 
 function allocateQuads(batch: SpriteBatch, quads: number): void {
