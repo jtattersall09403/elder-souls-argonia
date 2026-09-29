@@ -32,6 +32,7 @@
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
+import { toEpochMinutes } from "@elder-souls/world-time";
 import { createKitDecoders, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { createWindUniforms, updateWindSway, windStiffness } from "@elder-souls/game-core/fx/windSway";
 import {
@@ -53,6 +54,9 @@ import { castsShadowFor } from "../../vegetation/shadowRule";
 import { GpuCullPool, cullSphereOf } from "@elder-souls/game-core/render/gpuCull/GpuCullPool";
 import { sunSweepOf, unionBand } from "@elder-souls/game-core/render/gpuCull/cullMath";
 import type { WebGPURenderer } from "three/webgpu";
+import { createAerialFogNode, createAerialUniforms } from "../../sky/aerial";
+import { computeLightRig } from "../../sky/lightRig";
+import { addStudioSky } from "../skyScene";
 import type { HarnessContext, HarnessScene } from "../types";
 
 /** `&cull=` and `&measure` from the harness page URL. */
@@ -155,11 +159,27 @@ const scene: HarnessScene = {
     const kit = installImpostors(buildFloraKit(gltf, manifest), impostors);
 
     const s = new THREE.Scene();
-    s.background = new THREE.Color(0x9cc4e4);
-    s.fog = new THREE.Fog(0x9cc4e4, 150, 900);
-    s.add(new THREE.HemisphereLight(0xcfe6ff, 0x5a4a30, 0.9));
-    const sun = new THREE.DirectionalLight(0xfff2dd, 2.6);
-    sun.position.set(40, 90, 10);
+    // Lit as the studio lights it at noon (veg-cull's rig): the rig's sun,
+    // the aerial fog node, and the sky dome + PMREM sky IBL + hemisphere from
+    // addStudioSky (below, once the camera exists). A bare hemisphere and sun
+    // leave the canopy's shaded side near-black (lane L15 A/B).
+    const epoch = toEpochMinutes({ era: 4, year: 201, month: 7, day: 17, minuteOfDay: 12 * 60 });
+    const rig = computeLightRig(epoch, 0.6, 0.5);
+    const sunDir = new THREE.Vector3(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
+    const aerial = createAerialUniforms();
+    aerial.uProvinceExtentM.value = 20_000;
+    aerial.uSunDirW.value.copy(sunDir);
+    aerial.uHazeSunLight.value.set(...rig.hazeSunLight);
+    aerial.uHazeAmbient.value.set(...rig.hazeAmbient);
+    aerial.uMistStrength.value = rig.mistStrength;
+    aerial.uFogLum.value.set(...rig.fogLum);
+    aerial.uFogSunLum.value.set(...rig.fogSunLum);
+    (s as THREE.Scene & { fogNode?: unknown }).fogNode = createAerialFogNode(aerial);
+    ctx.renderer.toneMappingExposure = rig.exposureTarget;
+    const sun = new THREE.DirectionalLight(0xffffff, rig.sunIntensity);
+    sun.color.setRGB(...rig.sunColor);
+    // 100 m out along the rig's sun: inside the 300 m shadow camera.
+    sun.position.copy(sunDir).multiplyScalar(100);
     sun.castShadow = true;
     sun.shadow.mapSize.set(1024, 1024);
     Object.assign(sun.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, far: 300 });
@@ -275,6 +295,8 @@ const scene: HarnessScene = {
       pushLodHistory(history, camera.position.x, camera.position.z, t, lodFade.esLodHist.array);
     };
     place(0);
+    const sky = addStudioSky(ctx.renderer, s, camera, rig, sunDir, aerial, { bakeAtBuild: true });
+    aerial.uEsFogCam.value.copy(camera.position);
     const sweep = sunSweepOf(
       sun.position.x - sun.target.position.x, sun.position.y - sun.target.position.y,
       sun.position.z - sun.target.position.z);
@@ -298,6 +320,8 @@ const scene: HarnessScene = {
       frame(t: number) {
         updateWindSway(wind, t, { windDirXZ: [0.8, 0.6], windSpeedMS: 9, gustiness: 0.5 });
         place(t);
+        aerial.uEsFogCam.value.copy(camera.position);
+        sky.frame(t);
         step();
       },
     };

@@ -60,6 +60,11 @@ with an object that must not have it: clone first (the old rule, unchanged).
   temporaries, giving NaN silently (black striped water). Use the branch-free `sel()` from
   `packages/game-core/src/render/nodes/materialNodes.ts`.
 - `Loop` and `If` only inside an `Fn(() => ...)`; a bare loop in a graph hangs the node builder.
+- A shared `.toVar()` node (three's `normalWorld`, `positionView`, ...) is assigned where it is FIRST
+  built. If that is inside an `If` (CSMShadowNode's per-cascade normal bias), every later reader outside
+  the branch reads it unassigned: zero on WebGPU, undefined on WebGL, so the backends split. Build it
+  at the top first (`normalWorld.toStack()`); `createSunCascades` in apps/world-studio/src/sky/skyObjects.ts
+  does this for the sun cascades (lane L16: far terrain IBL beyond the last cascade, 6 luma).
 - A function given `setLayout` may not read uniforms, uniform arrays or textures: three 0.184 does not
   declare them inside it (WGSL "struct member nodeUniformN not found", GLSL undeclared identifier).
   Pass the values in as parameters, or leave the function inline.

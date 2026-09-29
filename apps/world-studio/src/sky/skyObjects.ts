@@ -657,6 +657,16 @@ export function createSunCascades(opts: SunCascadeOptions): { sun: THREE.Directi
     lightMargin: 400,
   });
   csm.fade = true;
+  // Build `normalWorld` at the top of the cascade Fn. Its first use is the
+  // cascades' normal bias, inside the per-cascade `If`; a TSL var is emitted
+  // where it is first built, so beyond the last cascade the lighting (IBL,
+  // hemisphere) read it unassigned: zero on WebGPU, garbage on WebGL, and
+  // the two backends split by 6 luma on far terrain (lane L16).
+  const setupShadowPosition = csm.setupShadowPosition.bind(csm);
+  csm.setupShadowPosition = (builder) => {
+    setupShadowPosition(builder);
+    (TSL_TYPED.normalWorld as unknown as { toStack(): void }).toStack();
+  };
   sun.shadow.shadowNode = csm as unknown as typeof sun.shadow.shadowNode;
   return { sun, csm };
 }
