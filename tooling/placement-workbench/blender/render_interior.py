@@ -31,6 +31,9 @@ from mathutils import Matrix  # noqa: E402
 
 import render_scene as rs  # noqa: E402  (reads JOB; its main() runs only as __main__)
 
+sys.path.insert(0, os.path.dirname(HERE))
+from workbench import interior_render as ir  # noqa: E402  (the eye rule, unit-tested there)
+
 JOB = rs.JOB
 
 
@@ -160,71 +163,48 @@ def record_light(i, rec, scene):
     return obj
 
 
-CLEAR_M = 1.5      # a view with anything nearer than this across its frame steps in
-FAN_DEG = (-40.0, -20.0, 0.0, 20.0, 40.0)   # the rays across the frame's width that must be clear
-STEP_M = 0.7
-ENCLOSED_M = 30.0  # inside = every horizontal ray and the up ray hit within this
-FLOOR_M = 3.0      # ... and a floor lies within this below the eye
-
-
-def is_inside(scene, dg, eye):
-    """True when 8 horizontal rays and 1 up ray all hit geometry within
-    ENCLOSED_M and a floor is hit within FLOOR_M below: the eye stands in a
-    room, not outside its shell looking at the void (walk 5: KeebaHouseElder's
-    corners, room box widened by lower-level poles and an outer floor)."""
+def clear_eye(scene, shot, corners):
+    """The shot's camera matrix. A corner shot stands at its eye from
+    interior_render.corner_eyes (from the arrival point; `corners` caches
+    them across the rows), aimed at its target; then every eye walks along
+    its line to the target until interior_render.settle_eye accepts it
+    (inside the room, its view clear), so its aim holds. Returns (matrix,
+    metres moved, warning or None)."""
     from mathutils import Vector
-    rays = [Vector((math.cos(a), math.sin(a), 0.0))
-            for a in (i * math.pi / 4.0 for i in range(8))] + [Vector((0.0, 0.0, 1.0))]
-    for ray in rays:
-        if not scene.ray_cast(dg, eye, ray, distance=ENCLOSED_M)[0]:
-            return False
-    return scene.ray_cast(dg, eye, Vector((0.0, 0.0, -1.0)), distance=FLOOR_M)[0]
-
-
-def step_inside(scene, dg, eye, target):
-    """Step from the eye toward the target until is_inside holds; the target
-    itself when no step on the way is inside. Returns (eye, metres moved)."""
-    d = target - eye
-    n = max(1, int(d.length / STEP_M))
-    for i in range(n + 1):
-        p = eye + d * (i / n)
-        if is_inside(scene, dg, p):
-            return p, (p - eye).length
-    return target.copy(), d.length
-
-
-def clear_eye(scene, matrix, target):
-    """Step the camera inside the room first (step_inside), then toward its
-    target while anything stands nearer than
-    CLEAR_M on a fan of rays across the frame (a pillar, a shelf or a wall
-    of the corner fills the frame otherwise); at most six steps, never
-    within 2 m of the target."""
-    from mathutils import Euler, Vector
-    m = Matrix(matrix)
-    eye, target = m.translation.copy(), Vector(target)
+    m, target = Matrix(shot["matrix"]), tuple(shot["targetBlender"])
     dg = bpy.context.evaluated_depsgraph_get()
-    eye, moved = step_inside(scene, dg, eye, target)
-    for _ in range(6):
-        d = target - eye
-        if d.length < 2.0 + STEP_M:
-            break
-        ahead = d.normalized()
-        near = CLEAR_M
-        for deg in FAN_DEG:
-            ray = ahead.copy()
-            ray.rotate(Euler((0.0, 0.0, math.radians(deg))))
-            ok, loc, *_ = scene.ray_cast(dg, eye, ray, distance=CLEAR_M)
-            if ok:
-                near = min(near, (loc - eye).length)
-        if near >= CLEAR_M:
-            break
-        eye = eye + ahead * STEP_M
-        moved += STEP_M
-    m.translation = eye
-    return m, round(moved, 2)
+
+    def cast(origin, direction, max_m):
+        o = Vector(origin)
+        ok, loc, *_ = scene.ray_cast(dg, o, Vector(direction), distance=max_m)
+        return (loc - o).length if ok else None
+    if "fromArrival" in shot:
+        key = tuple(shot["arrivalEye"])
+        if key not in corners:
+            corners[key] = ir.corner_eyes(cast, key, shot["eyeHeightM"])
+        eyes = corners[key]
+        if shot["fromArrival"] < len(eyes):
+            m = Matrix(ir._look_matrix(eyes[shot["fromArrival"]], target))
+    eye, moved = ir.settle_eye(cast, tuple(m.translation), target, shot["eyeHeightM"])
+    m.translation = Vector(eye)
+    inside = ir.is_inside(cast, eye) and ir.on_level(cast, eye, shot["eyeHeightM"])
+    clear = ir.view_clear(cast, eye, target)
+    warn = None
+    if not inside or clear < 1.0:
+        warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
+                f"inside and level={inside} view clear {clear:.2f} of 1")
+    return m, moved, warn
 
 
 def main():
+    import time
+    t = [time.time(), time.process_time()]
+    print(f"[wb-irender] start {t[0]:.3f}")
+
+    def lap(what):
+        now, cpu = time.time(), time.process_time()
+        print(f"[wb-irender] time {what} {now - t[0]:.2f} cpu {cpu - t[1]:.2f}")
+        t[0], t[1] = now, cpu
     scene, cam, cam_data = setup()
     world = bpy.data.collections.new("world")
     scene.collection.children.link(world)
@@ -238,6 +218,7 @@ def main():
             print(f"[wb-render] missing {p['assetId']} in {p['glb']}")
             continue
         rs.copy_tree(root, world, Matrix(p["matrix"]), None, uid=p["uid"])
+    lap("import")
     sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [])
     rs.add_fire_light_pass(world, JOB.get("fires"))
     for obj in world.objects:          # the proxies are markers, never light sources
@@ -253,6 +234,8 @@ def main():
         sun = bpy.data.objects.new("directional", sd)
         scene.collection.objects.link(sun)
         sun.rotation_euler = (0.0, 0.0, 0.0)        # straight down
+    lap("lights")
+    corners = {}
     for shot in JOB["shots"]:
         day = shot["row"] == "day"
         for s in sockets:
@@ -263,12 +246,16 @@ def main():
         cam_data.lens = shot.get("lens", 14.0)
         cam_data.clip_start = 0.05
         cam_data.clip_end = 500.0
-        m, moved = clear_eye(scene, shot["matrix"], shot["targetBlender"])
+        m, moved, warn = clear_eye(scene, shot, corners)
+        if warn:
+            print(warn)
         cam.matrix_world = m
+        lap(f"{shot['name']}-eye")
         if moved:
-            print(f"[wb-irender] {shot['name']} stepped {moved} m in past a blocker")
+            print(f"[wb-irender] {shot['name']} stepped {moved} m toward its target")
         scene.render.filepath = shot["out"]
         bpy.ops.render.render(write_still=True)
+        lap(f"{shot['name']}-render")
         print(f"[wb-irender] wrote {shot['out']}")
     print("[wb-irender] done")
 

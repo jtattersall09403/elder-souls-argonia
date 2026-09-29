@@ -15,7 +15,11 @@ fire pass (render_scene.py `add_fire_light_pass`), with the flame cards the
 loader hides left undrawn.
 
 Three views: from the doorway looking in (the exit door, stepped toward the
-arrival marker, at eye height) and from two opposite corners of the room.
+arrival marker, at eye height) and from two corners of the room: the eyes
+at the ends of the two longest free rays from the arrival point, 90+ degrees
+apart, looking back at it (`corner_eyes`). Every eye then walks toward its
+target until it is inside the room with the target in sight and nothing
+within 3 m ahead (`settle_eye`); a view that never gets there is a warning.
 Two rows: `day` = the runtime's lighting (ambient + directional + records +
 fires); `night` = the SOURCES ONLY (ambient and directional off). The runtime
 lights an interior the same at every hour (interiorLoader.ts: "an interior
@@ -53,6 +57,7 @@ LIGHT_INTENSITY_PER_FADE = math.pi   # interiorLoader.ts INTERIOR_LIGHT_INTENSIT
 LIGHT_DECAY = 2.0                    # interiorLoader.ts INTERIOR_LIGHT_DECAY
 AMBIENT_SCALE = math.pi              # interiorLoader.ts INTERIOR_AMBIENT_SCALE
 TIMEOUT_S = 600
+JOB_GUARD = paths.REPO_ROOT / "tooling" / "repo-standards" / "job_guard.sh"
 _C = np.array([[1.0, 0, 0, 0], [0, 0, -1.0, 0], [0, 1.0, 0, 0], [0, 0, 0, 1.0]])
 
 
@@ -180,7 +185,10 @@ def cameras(bundle: dict, lo: np.ndarray, hi: np.ndarray) -> list[dict]:
     """The three views (Blender frame): `doorway` from the exit door stepped
     DOOR_STEP_M toward the arrival marker at eye height, looking at the room
     centre; `corner-a` / `corner-b` from two opposite plan corners (inset by
-    CORNER_INSET of the extent), looking at the centre, a little down."""
+    CORNER_INSET of the extent), looking at the arrival point 1 m over its
+    floor (the bounds' centre can lie outside the room: KeebaHouseElder's
+    lower-level poles widen them). Blender then walks each eye along its
+    line toward its target until `settle_eye` accepts it."""
     arrive = np.array(bundle["arrivalMarker"]["positionM"], float)
     door = np.array((bundle.get("exitDoor") or bundle["arrivalMarker"])["positionM"], float)
     floor = arrive[1]
@@ -190,6 +198,7 @@ def cameras(bundle: dict, lo: np.ndarray, hi: np.ndarray) -> list[dict]:
     eye_y = max(floor + MIN_EYE_M, min(floor + EYE_M, hi[1] - 0.2))
     centre = (lo + hi) / 2
     look_at = np.array([centre[0], floor + 1.0, centre[2]])
+    arrival_at = np.array([arrive[0], floor + 1.0, arrive[2]])
     inward = arrive - door
     inward[1] = 0.0
     if np.linalg.norm(inward) < 1e-3:          # arrival on the door: step toward the centre
@@ -202,12 +211,144 @@ def cameras(bundle: dict, lo: np.ndarray, hi: np.ndarray) -> list[dict]:
     a = np.array([lo[0] + ext[0] * CORNER_INSET, eye_y, lo[2] + ext[2] * CORNER_INSET])
     b = np.array([hi[0] - ext[0] * CORNER_INSET, eye_y, hi[2] - ext[2] * CORNER_INSET])
     out = []
-    for name, eye in (("doorway", d_eye), ("corner-a", a), ("corner-b", b)):
+    for name, eye, at in (("doorway", d_eye, look_at), ("corner-a", a, arrival_at),
+                          ("corner-b", b, arrival_at)):
         out.append({"name": name, "eyeGame": [round(float(v), 3) for v in eye],
-                    "matrix": _look_matrix(to_blender(eye), to_blender(look_at)),
-                    "targetBlender": to_blender(look_at),
+                    "matrix": _look_matrix(to_blender(eye), to_blender(at)),
+                    "targetBlender": to_blender(at), "eyeHeightM": round(float(eye_y - floor), 3),
                     "lens": LENS_MM})
+    # corners are re-placed in Blender from the arrival point (`corner_eyes`);
+    # the plan corners above are the fallback when no ray from it runs free
+    arrival_eye = to_blender([arrive[0], eye_y, arrive[2]])
+    out[1]["fromArrival"], out[2]["fromArrival"] = 0, 1
+    out[1]["arrivalEye"] = out[2]["arrivalEye"] = arrival_eye
     return out
+
+
+# The eye rule (Blender frame, z up), run inside Blender with the scene's ray
+# cast: `cast(origin, direction, max_m)` -> hit distance or None.
+STEP_M = 0.35       # the eye walks toward its target in steps of this
+ENCLOSED_M = 30.0   # inside = 8 horizontal rays and the up ray hit within this
+FLOOR_M = 3.0       # ... and a floor lies within this below the eye
+AHEAD_M = 3.0       # a blocked forward line scores its hit over this (walk 5: corner-a faced a wall)
+CLEAR_M = 1.5       # ... and every ray of the fan across the frame this far
+FAN_DEG = (-40.0, -20.0, 20.0, 40.0)
+NEAR_TARGET_M = 2.0  # the eye never walks nearer its target than this
+
+
+LEVEL_TOL_M = 0.5   # the floor under an eye lies within this of its eye height below
+
+
+def on_level(cast, p, eye_h) -> bool:
+    """The floor under p is the arrival's level: eye_h below, within
+    LEVEL_TOL_M (walk 5, KeebaHouseElder corner-a stood over the lower
+    level and framed the upper floor's edge across half the view)."""
+    down = cast(p, (0.0, 0.0, -1.0), eye_h + LEVEL_TOL_M)
+    return down is not None and abs(down - eye_h) <= LEVEL_TOL_M
+
+
+def _rot_z(v, deg):
+    c, s = math.cos(math.radians(deg)), math.sin(math.radians(deg))
+    return (v[0] * c - v[1] * s, v[0] * s + v[1] * c, v[2])
+
+
+def is_inside(cast, p) -> bool:
+    """8 horizontal rays and the up ray all hit within ENCLOSED_M and a floor
+    lies within FLOOR_M below: the eye stands in a room, not outside its
+    shell looking at the void (walk 5: KeebaHouseElder's corners)."""
+    rays = [(math.cos(a), math.sin(a), 0.0) for a in (i * math.pi / 4.0 for i in range(8))]
+    if any(cast(p, r, ENCLOSED_M) is None for r in rays + [(0.0, 0.0, 1.0)]):
+        return False
+    return cast(p, (0.0, 0.0, -1.0), FLOOR_M) is not None
+
+
+def view_clear(cast, p, target) -> float:
+    """How clear the view from p toward target is, as a fraction of its bar
+    (1 = the view passes): the target itself is in sight (nothing on the
+    line to within 0.2 m of it; walk 5, KeebaHouseElder corner-b framed a
+    rock wall past a pod's opening), nothing within AHEAD_M straight ahead
+    even past the target (walk 5: corner-a faced a wall at close range),
+    nothing within CLEAR_M on the fan across the frame. A blocked line
+    scores its hit / max(AHEAD_M, line), below 1."""
+    d = [t - q for t, q in zip(target, p)]
+    n = math.sqrt(sum(v * v for v in d)) or 1e-9
+    ahead = tuple(v / n for v in d)
+    reach = max(n - 0.2, AHEAD_M)
+    hit = cast(p, ahead, reach)
+    score = 1.0 if hit is None or (hit >= n - 0.2 and hit >= AHEAD_M) else min(hit / reach, 0.99)
+    for deg in FAN_DEG:
+        hit = cast(p, _rot_z(ahead, deg), CLEAR_M)
+        if hit is not None:
+            score = min(score, hit / CLEAR_M)
+    return score
+
+
+CORNER_DIRS = 24      # horizontal rays from the arrival point that pick the corners
+CORNER_BACK_M = 0.6   # a corner eye stands this far short of the wall its ray hits
+CORNER_MIN_M = 2.5    # a ray shorter than this cannot hold a corner eye
+CORNER_APART_DEG = 90.0
+
+
+def corner_eyes(cast, origin, eye_h: float) -> list[tuple]:
+    """Two corner eyes seen from the arrival point (`origin`, at eye height):
+    the horizontal ray from it that runs furthest to a wall, and the
+    furthest one at least CORNER_APART_DEG from it; each eye stands
+    CORNER_BACK_M short of its wall, so it is inside the room with the
+    arrival point in plain sight (walk 5, KeebaHouseElder: plan corners of
+    the bounds lay outside the shell, one behind the exit door's wall).
+    A ray that hits nothing within ENCLOSED_M leaves the room (an opening)
+    and is skipped. Empty when no ray reaches CORNER_MIN_M."""
+    rays = []
+    for i in range(CORNER_DIRS):
+        a = 2.0 * math.pi * i / CORNER_DIRS
+        d = (math.cos(a), math.sin(a), 0.0)
+        hit = cast(origin, d, ENCLOSED_M)
+        if hit is None:
+            continue
+        reach = hit - CORNER_BACK_M
+        while reach >= CORNER_MIN_M and not on_level(
+                cast, tuple(o + v * reach for o, v in zip(origin, d)), eye_h):
+            reach -= STEP_M
+        if reach >= CORNER_MIN_M:
+            rays.append((reach, i, d))
+    if not rays:
+        return []
+    rays.sort(key=lambda r: (-r[0], r[1]))
+    picked = [rays[0]]
+    for r in rays[1:]:
+        gap = abs(r[1] - picked[0][1]) * 360.0 / CORNER_DIRS
+        if min(gap, 360.0 - gap) >= CORNER_APART_DEG - 1e-6:
+            picked.append(r)
+            break
+    return [tuple(o + v * reach for o, v in zip(origin, d)) for reach, _, d in picked]
+
+
+def settle_eye(cast, eye, target, eye_h: float | None = None) -> tuple[tuple, float]:
+    """Walk the eye from `eye` toward `target` in STEP_M steps (never nearer
+    the target than NEAR_TARGET_M) and stand it at the first step that is
+    inside the room (`is_inside`), over the arrival's floor level when
+    `eye_h` is given (`on_level`), with its view clear (`view_clear` = 1):
+    the target in sight, nothing within AHEAD_M ahead or CLEAR_M across the
+    frame. Walking the line toward the target keeps the aim. No such step:
+    the inside step with the clearest view; no inside step: the target. Returns (eye, metres moved)."""
+    d = [t - e for t, e in zip(target, eye)]
+    length = math.sqrt(sum(v * v for v in d))
+    reach = max(0.0, length - NEAR_TARGET_M)
+    n = int(reach / STEP_M)
+    best, best_score = None, -1.0
+    for i in range(n + 1):
+        k = (i * STEP_M) / length if length > 1e-9 else 0.0
+        p = tuple(e + v * k for e, v in zip(eye, d))
+        if not is_inside(cast, p) or (eye_h is not None and not on_level(cast, p, eye_h)):
+            continue
+        score = view_clear(cast, p, target)
+        if score >= 1.0:
+            return p, round(i * STEP_M, 2)
+        if score > best_score:
+            best, best_score = (p, round(i * STEP_M, 2)), score
+    if best is not None:
+        return best
+    return tuple(target), round(length, 2)
 
 
 def light_list(bundle: dict) -> list[dict]:
@@ -305,6 +446,16 @@ def pieces(bundle: dict, cat) -> tuple[list[dict], list[str]]:
     return out, missing
 
 
+def guarded(cmd: list[str]) -> list[str]:
+    """Blender under job_guard: it takes a slot and is exempt from the CPU
+    watchdog, which otherwise SIGSTOPs Cycles as the machine's heaviest
+    process (KeebaHouseElder 2026-09-29: 546 s of a 579 s run stopped).
+    Inside a guarded job (ES_JOB_GUARD set) the command runs as is."""
+    if os.environ.get("ES_JOB_GUARD") or not JOB_GUARD.exists():
+        return cmd
+    return ["bash", str(JOB_GUARD), "render-interior", "--", *cmd]
+
+
 def row_lookup(cat):
     def row_of(p):
         try:
@@ -341,14 +492,20 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
                                            for g in sorted({p["glb"] for p in job_pieces})}}}
         (work / "job.json").write_text(json.dumps(job))
         t1 = time.time()
-        proc = subprocess.run([str(paths.LINUX_BLENDER), "-b", "--factory-startup", "--python",
-                               str(BLENDER_SCRIPT)], env=dict(os.environ, JOB=str(work / "job.json")),
+        proc = subprocess.run(guarded([str(paths.LINUX_BLENDER), "-b", "--factory-startup",
+                                       "--python", str(BLENDER_SCRIPT)]), env=dict(os.environ, JOB=str(work / "job.json")),
                               capture_output=True, text=True, timeout=TIMEOUT_S)
         if proc.returncode != 0 or "[wb-irender] done" not in proc.stdout:
             raise RuntimeError("render-interior failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])
         warnings = [l for l in proc.stdout.splitlines() if "[wb-render] missing" in l
                     or "[wb-render] warning" in l or "[wb-irender] warning" in l]
         stepped = [l.split("] ", 1)[1] for l in proc.stdout.splitlines() if "stepped" in l]
+        started = [float(l.split()[2]) for l in proc.stdout.splitlines()
+                   if l.startswith("[wb-irender] start ")]
+        t_start = started[0] if started else t1
+        phases = {l.split()[2]: [float(l.split()[3]), float(l.split()[5])] for l in proc.stdout.splitlines()
+                  if l.startswith("[wb-irender] time ")}
+        t_end = time.time()
         rx, ry = res
         sheet = Image.new("RGB", (len(cams) * rx, len(rows) * ry), "black")
         draw = ImageDraw.Draw(sheet)
@@ -365,5 +522,6 @@ def render_interior(cat, cell: str, rows: tuple[str, ...] = ("day", "night"),
             "missingMesh": missing, "lights": len(lights), "fires": len(fires),
             "fallbackFires": sum(1 for f in fires if f["fallback"]),
             "hiddenFlameCards": cards, "warnings": warnings, "camerasStepped": stepped,
-            "prepS": round(t1 - t0, 2), "blenderS": round(time.time() - t1, 2),
+            "prepS": round(t1 - t0, 2), "phaseS": phases,
+            "queueS": round(t_start - t1, 2), "blenderS": round(t_end - t_start, 2),
             "totalS": round(time.time() - t0, 2)}
