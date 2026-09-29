@@ -26,7 +26,7 @@ import {
   MeshNormalNodeMaterial,
   MeshToonNodeMaterial,
 } from "three/webgpu";
-import { bool as tslBool, materialColor, output, positionLocal, vec4 } from "three/tsl";
+import { bool as tslBool, float, materialColor, mix, output, positionLocal, select, vec4 } from "three/tsl";
 // TSL node values are typed loosely on purpose: the typings for chained TSL
 // expressions are too deep for tsc to check usefully (standard, 0107 §3).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -183,4 +183,15 @@ export function claimFeature(material: THREE.Material, feature: string): boolean
   if (material.userData[key]) return false;
   material.userData[key] = true;
   return true;
+}
+
+/**
+ * Branch-free select: `c ? a : b` as a mix, so the node builder never lowers
+ * it to an if/else that reads temporaries declared in one branch (three
+ * 0.184 does that for `select` on computed operands and the result is NaN,
+ * silently; decision 0107 gotchas). Both operands are evaluated: keep them
+ * finite.
+ */
+export function sel(c: TslNode, a: TslNode, b: TslNode): TslNode {
+  return (mix as (...n: TslNode[]) => TslNode)(b, a, (select as (...n: TslNode[]) => TslNode)(c, float(1.0), float(0.0)));
 }

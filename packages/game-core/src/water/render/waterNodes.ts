@@ -40,9 +40,8 @@ const n = (v: TslNode): any => v;
  * Both operands are evaluated, as the GLSL ternaries were on a GPU; every
  * operand is finite (divisions are guarded with max()).
  */
-export function sel(c: TslNode, a: TslNode, b: TslNode): TslNode {
-  return mix(b, a, select(c, float(1.0), float(0.0)));
-}
+import { sel } from "../../render/nodes/materialNodes";
+export { sel };
 
 /* ------------------------------------------------------------------ *
  * Noise (adapted from WaterThreeJS, MIT) — NOISE_GLSL twin.

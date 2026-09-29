@@ -50,6 +50,21 @@ Loaded classic materials (GLTF, kit loaders) are converted ONCE at load with `to
 `convertObjectMaterials`, then features wrap their slots. A feature never mutates a material shared
 with an object that must not have it: clone first (the old rule, unchanged).
 
+### Gotchas proven on this port (each cost a lane an hour)
+
+- `positionNode` is object space BEFORE the instance matrix (three 0.184, proven from the generated
+  shader, although `NodeMaterial.setupPosition` reads the other way). Read instance matrices with
+  `instanceMatrixNode` / `matrixColumn` from `packages/game-core/src/fx/instanceNodes.ts`; never
+  `m.element(i)` on a buffer-backed matrix (it indexes the buffer).
+- Never `select()` on computed values: the builder may lower it to if/else that reads unassigned
+  temporaries, giving NaN silently (black striped water). Use the branch-free `sel()` from
+  `packages/game-core/src/render/nodes/materialNodes.ts`.
+- `Loop` and `If` only inside an `Fn(() => ...)`; a bare loop in a graph hangs the node builder.
+- No texture sampling inside a function given `setLayout`: the WebGL 2 build emits an undeclared
+  identifier. Pass the sampled value in instead.
+- Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
+  intermediate value, route it to `outputNode` behind a harness switch.
+
 ## 3. Uniforms
 
 - A per-frame value owned by a system is a `uniform(value)` node held by the object that owns the
