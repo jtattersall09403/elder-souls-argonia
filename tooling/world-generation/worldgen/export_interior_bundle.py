@@ -17,6 +17,13 @@ plugin's masters, and each lands in exactly one of two lists:
   2026-09-27, lane I): ``{refId, originalPath, baseForm, class, standInAsset,
   kit, standInCategory, why, id, positionM, rotationDeg, scale}``, from the
   tracked record ``world/sources/placement/kit-interiors/substitutions/<cell>.json``.
+* additions (decision 0109) — kit pieces the builder ADDS to the cell (a
+  candle on the table, a lantern by the door), from the tracked record
+  ``world/sources/placement/kit-interiors/additions/<cell>.json``: appended to
+  ``placements[]`` with ``source: "addition"``, sorted by their stable id
+  ``<cell>:add:<slug>``; they never move or remove a plugin reference and are
+  outside the ``refCount`` sum. The lighting rule then lights them like any
+  placement.
 
 Every missing piece carries its ``class``: the base record's type and model
 (``piece_class``), or, when its master is absent (Creation Club, HearthFires,
@@ -113,6 +120,9 @@ FIXTURE = (REPO_ROOT / "packages" / "game-core" / "src" / "interior" / "__fixtur
 
 KIT_INTERIORS = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
 SUBSTITUTIONS_DIR = KIT_INTERIORS / "substitutions"
+#: decision 0109: kit pieces a builder adds to a tier A cell (never a move or removal)
+ADDITIONS_DIR = KIT_INTERIORS / "additions"
+ADDITION_ZONES = frozenset({"bed", "table", "hearth", "work", "door", "store", "shrine"})
 ABSENT_MASTER_CLASSES = KIT_INTERIORS / "absent-master-classes.json"
 #: drop reasons that mean "the author drew something here we cannot draw"
 MISSING_REASONS = ("unresolved-base", "no-kit-asset")
@@ -425,6 +435,64 @@ def load_substitutions(cell_edid: str, directory: Path = SUBSTITUTIONS_DIR) -> d
     if doc.get("cellId") != cell_edid:
         raise ValueError(f"{path.name}: cellId {doc.get('cellId')!r} is not {cell_edid}")
     return {row["refId"]: row for row in doc.get("substitutions", [])}
+
+
+def cell_extent(placements: list[dict], kit_bounds: dict[str, tuple]) -> tuple[list, list]:
+    """The cell's bounds in its own frame: the box around every plugin
+    placement's bounding sphere (radius from its kit ``sizeM`` and
+    ``originOffsetM`` times its scale; axis-free, so it never refuses a
+    point inside the room). Catches an addition authored in the wrong frame."""
+    lo, hi = [math.inf] * 3, [-math.inf] * 3
+    for p in placements:
+        size, origin = kit_bounds.get(p["assetId"]) or ([0.0] * 3, [0.0] * 3)
+        r = float(p.get("scale", 1.0)) * (math.hypot(*size) / 2 + math.hypot(*origin))
+        for i in range(3):
+            lo[i] = min(lo[i], p["positionM"][i] - r)
+            hi[i] = max(hi[i], p["positionM"][i] + r)
+    return lo, hi
+
+
+def load_additions(cell_edid: str, placements: list[dict], kit_assets: dict,
+                   kit_bounds: dict[str, tuple], directory: Path = ADDITIONS_DIR) -> list[dict]:
+    """The cell's additions (decision 0109) as placements, sorted by id; empty
+    when the cell has no file. Refuses (ValueError) an asset in no published
+    kit, a duplicate or foreign id, an unknown zone, a missing ``why`` and a
+    position outside ``cell_extent`` of the plugin placements."""
+    path = directory / f"{cell_edid}.json"
+    if not path.exists():
+        return []
+    doc = json.loads(path.read_text())
+    if doc.get("schemaVersion") != 1 or doc.get("cellId") != cell_edid:
+        raise ValueError(f"{path.name}: needs schemaVersion 1 and cellId {cell_edid}")
+    lo, hi = cell_extent(placements, kit_bounds)
+    taken = {p["id"] for p in placements}
+    out = []
+    for row in sorted(doc.get("additions") or [], key=lambda r: str(r.get("id"))):
+        aid = row.get("id")
+        if not (isinstance(aid, str) and aid.startswith(f"{cell_edid}:add:") and len(aid) > len(cell_edid) + 5):
+            raise ValueError(f"{path.name}: addition id {aid!r} is not {cell_edid}:add:<slug>")
+        if aid in taken:
+            raise ValueError(f"{path.name}: duplicate id {aid}")
+        taken.add(aid)
+        hit = kit_assets.get(row.get("assetId"))
+        if hit is None:
+            raise ValueError(f"{path.name}: {aid}: asset {row.get('assetId')!r} is in no published kit")
+        if row.get("zone") not in ADDITION_ZONES:
+            raise ValueError(f"{path.name}: {aid}: zone {row.get('zone')!r} not in {sorted(ADDITION_ZONES)}")
+        if not (isinstance(row.get("why"), str) and row["why"].strip()):
+            raise ValueError(f"{path.name}: {aid}: no why")
+        pos = row.get("pos")
+        if not (isinstance(pos, list) and len(pos) == 3 and all(isinstance(v, (int, float)) for v in pos)):
+            raise ValueError(f"{path.name}: {aid}: pos must be [x, y, z] metres")
+        if not all(lo[i] <= pos[i] <= hi[i] for i in range(3)):
+            raise ValueError(f"{path.name}: {aid}: pos {pos} is outside the cell "
+                             f"({[round(v, 2) for v in lo]}..{[round(v, 2) for v in hi]})")
+        out.append({"id": aid, "assetId": row["assetId"], "kit": hit[0],
+                    "positionM": [round(float(v), 4) + 0.0 for v in pos],
+                    "rotationDeg": game_rotation_deg((0.0, 0.0, math.radians(float(row.get("rotZDeg", 0.0))))),
+                    "scale": 1.0, "category": hit[1] or "clutter", "base": None, "baseType": None,
+                    "source": "addition", "zone": row["zone"]})
+    return out
 
 
 #: the one reason a missing piece may ship undrawn (planner ruling R51, 16k
@@ -1060,6 +1128,13 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         if d["reason"] in MISSING_REASONS and d.get("class") in LISTED_DROP_CLASSES:
             d["reason"] = "listed-drop"
 
+    additions = []
+    if (ADDITIONS_DIR / f"{cell_edid}.json").exists():
+        if kit_bounds is None:
+            kit_bounds = published_kit_bounds()
+        additions = load_additions(cell_edid, placements + substitutions, kit_assets, kit_bounds)
+    placements.extend(additions)
+
     lighting = decode_lighting(xcll) if xcll else {}
     template = None
     if ltmp:
@@ -1119,6 +1194,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                                                   if d["reason"] in MISSING_REASONS).items())),
             "dropsByReason": dict(sorted(Counter(d["reason"] for d in drops).items())),
             "socketsByKind": dict(sorted(Counter(s["kind"] for s in sockets).items())),
+            **({"additions": len(additions)} if additions else {}),
         },
     }
 
@@ -1129,9 +1205,10 @@ def check(bundle: dict) -> list[str]:
     problems = []
     subs = bundle.get("substitutions") or []
     swings = [d for d in bundle.get("doors") or [] if d.get("doorType") == "swing"]
-    n = len(bundle["placements"]) + len(bundle["drops"]) + len(subs) + len(swings)
+    placed = [p for p in bundle["placements"] if p.get("source") != "addition"]
+    n = len(placed) + len(bundle["drops"]) + len(subs) + len(swings)
     if n != bundle["refCount"]:
-        problems.append(f"{bundle['cellId']}: {len(bundle['placements'])} placements + "
+        problems.append(f"{bundle['cellId']}: {len(placed)} placements + "
                         f"{len(bundle['drops'])} drops + {len(subs)} substitutions + "
                         f"{len(swings)} swing doors = {n}, "
                         f"the cell has {bundle['refCount']} references")
@@ -1261,7 +1338,7 @@ def placement_rows(bundles: list[dict], bounds: dict[str, tuple]) -> dict[str, d
     carried: dict[str, float] = {}
     cells: dict[str, set] = {}
     for b in bundles:
-        pl = b["placements"]
+        pl = [p for p in b["placements"] if p.get("source") != "addition"]
         refs = [(d, d.get("positionM")) for d in b["drops"] if d.get("positionM")]
         refs += [(p, p["positionM"]) for p in pl]
         for d in b["drops"]:

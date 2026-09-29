@@ -539,3 +539,54 @@ def test_two_places_export_one_cell_file_in_either_order():
     bundle = json.loads(out[True])
     assert ex.validate_bundle(bundle) == []
     assert "door.hist-heartland" not in out[True] and "door.imperial-fringe" not in out[True]
+
+
+# --------------------------------------------------------------------------- #
+# Additions (decision 0109): kit pieces a builder adds to a tier A cell.
+# --------------------------------------------------------------------------- #
+_ADD_KITS = {"wall": ("k", "architecture"), "lantern": ("k", "light")}
+_ADD_BOUNDS = {"wall": ([6.0, 6.0, 3.0], [0.0, 0.0, 0.0])}
+_ADD_PLUGIN = [{"id": "C.00000001", "assetId": "wall", "kit": "k", "positionM": [0.0, 0.0, 0.0],
+                "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0, "category": "architecture"}]
+
+
+def _additions(tmp_path, rows):
+    (tmp_path / "C.json").write_text(json.dumps({"schemaVersion": 1, "cellId": "C", "additions": rows}))
+    return ex.load_additions("C", _ADD_PLUGIN, _ADD_KITS, _ADD_BOUNDS, directory=tmp_path)
+
+
+def _row(slug="table-candle", asset="lantern", pos=(1.0, 0.8, 1.0)):
+    return {"id": f"C:add:{slug}", "assetId": asset, "pos": list(pos), "rotZDeg": 90,
+            "zone": "table", "why": "The fisher mends nets here after dark."}
+
+
+def test_an_addition_is_appended_and_lit_by_the_rule(tmp_path):
+    from worldgen.interior_light import apply_light_rule
+    added = _additions(tmp_path, [_row("z-door", pos=(-2.0, 1.0, 2.0)), _row()])
+    assert [a["id"] for a in added] == ["C:add:table-candle", "C:add:z-door"]  # sorted by id
+    assert added[0]["source"] == "addition" and added[0]["kit"] == "k" and added[0]["zone"] == "table"
+    assert added[0]["rotationDeg"][1] == 90.0
+    bundle = {"cellId": "C", "refCount": 1, "drops": [], "placements": _ADD_PLUGIN + added,
+              "ambient": {"colorRGB": [44, 33, 27], "intensity": 1.0}, "lights": [],
+              "lighting": {"directionalRGB": [77, 62, 55]}}
+    assert ex.check(bundle) == []  # additions stand outside the refCount sum
+    did = apply_light_rule(bundle, {"lantern": {"radiusUnits": 256, "colourRgb": [242, 240, 223],
+                                                "offsetM": [0.0, 0.6, 0.0]}})
+    assert did["fixtureLights"] == 2
+    assert {lt["refId"] for lt in bundle["lights"]} == {"fixture:C:add:table-candle", "fixture:C:add:z-door"}
+
+
+@pytest.mark.parametrize("rows, why", [
+    ([_row(asset="nowhere")], "in no published kit"),
+    ([_row(), _row()], "duplicate id"),
+    ([_row(pos=(40.0, 0.0, 0.0))], "outside the cell"),
+    ([{**_row(), "id": "Other:add:x"}], "is not C:add:"),
+    ([{**_row(), "zone": "roof"}], "zone"),
+])
+def test_a_bad_addition_is_an_export_error(tmp_path, rows, why):
+    with pytest.raises(ValueError, match=why):
+        _additions(tmp_path, rows)
+
+
+def test_no_additions_file_adds_nothing(tmp_path):
+    assert ex.load_additions("C", _ADD_PLUGIN, _ADD_KITS, _ADD_BOUNDS, directory=tmp_path) == []

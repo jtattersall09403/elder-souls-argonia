@@ -272,3 +272,19 @@ at every hour, so this row shows what the cell's own lights reach), and a
 flame proxy at every fire the loader burns (orange; magenta = a lit
 fixture's fallback). `--day` / `--night` render one row. A reader judges
 readable, warm, lit by its sources, not flat.
+
+**Design the lighting first time** (decision 0109). A dim or flat tier A
+cell is fixed with more sources, never a higher fill. Every living zone of
+a tier A cell (bed, table, hearth, work, door) has a flame fixture within
+2 m, and there is at least one lit fixture per 12 m² of walkable floor.
+Prefer the plugin's own fixture kinds (candles, candle-horns, lanterns)
+placed where a resident would: on the table, beside the bed, on the hearth
+wall, and beside the door on the inside. Write them in
+`world/sources/placement/kit-interiors/additions/<cellId>.json` (shape and
+refusals in its README; additions only add, never move or remove a plugin
+reference), then re-export from `tooling/world-generation`:
+`python3 -m worldgen.export_interior_bundle --plugin "King of the Murkmire.esp" --cell <cellId>`
+(or `--blueprint <place>.json` for every claimed cell). Each fixture whose
+kit asset carries a `light` gets it from the rule's step 1. Verify:
+`light_balance` source-led ≥ 70 % and the render-interior readers pass
+readable, warm, lit by its sources.

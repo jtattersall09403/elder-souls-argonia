@@ -17,7 +17,8 @@ averaged over the five faces a player looks at from 1.2 m above a walk node:
 the floor (up) and the four horizontal directions (walls, furniture fronts).
 
 ``apply_light_rule`` is the interior lighting rule (place-build
-doors-interiors-sockets.md § 7): (1) every lit fixture placement whose kit asset
+doors-interiors-sockets.md § 7): (1) every lit fixture placement (a plugin
+reference or a builder's addition, decision 0109) whose kit asset
 carries a mined LIGH (``light`` in its kit manifest) and has no plugin light within
 ``FIXTURE_LIT_M`` gets that light, ``refId: "fixture:<placement id>"``; (2) the cell
 ambient's intensity is raised so the unlit mean reaches ``FILL_E``; (3) every light's
