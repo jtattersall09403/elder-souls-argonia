@@ -647,6 +647,28 @@ export function installImpostors(
 }
 
 /**
+ * Withhold the card of every species whose impostor is still downloading
+ * (walk-5 impostor ship): the impostors load after the startup window, never
+ * in the startup payload, and until they arrive the species' last MESH level
+ * runs to the draw distance (no card rung, `lodLadder` with a null card), so
+ * coverage has no gap and the tree never shows a card it is about to swap.
+ */
+export function withholdCards(kit: FloraKit, ids: Iterable<string>): FloraKit {
+  const out: FloraKit = new Map(kit);
+  for (const id of ids) {
+    const species = kit.get(id);
+    if (!species || species.billboardIndex === null
+      || species.billboardIndex !== species.levels.length - 1) continue;
+    out.set(id, {
+      ...species,
+      levels: species.levels.slice(0, species.billboardIndex),
+      billboardIndex: null,
+    });
+  }
+  return out;
+}
+
+/**
  * Merges two built kits into one index. The renderer draws species from both
  * the land kit (`flora-province-v1`) and the 16f underwater band kit
  * (`underwater-v1`), and a handful of ids ship in BOTH (tbp_seaweed06,

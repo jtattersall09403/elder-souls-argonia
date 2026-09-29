@@ -31,6 +31,7 @@ import {
   treeDrawDistance,
   type KitManifest,
   type KitSpecies,
+  withholdCards,
 } from "./floraKit";
 
 const KITS = join(__dirname, "../../public/kits");
@@ -167,5 +168,31 @@ describe("far-only tier chain (a published mid + far tree, mid dropped)", () => 
     }
     expect(failures.slice(0, 10)).toEqual([]);
     expect(farDrawn).toBe(Object.values(QUALITY_PRESETS).length);
+  });
+});
+
+describe("a card withheld while its impostor downloads (withholdCards)", () => {
+  const { species } = loadSpecies();
+  const held = withholdCards(new Map([[ID, species]]), [ID]).get(ID) as KitSpecies;
+
+  it("drops only the card level", () => {
+    expect(held.billboardIndex).toBeNull();
+    expect(held.levels).toEqual(species.levels.slice(0, 2));
+  });
+
+  it("covers every distance with the last mesh level to the draw distance", () => {
+    const failures: string[] = [];
+    for (const preset of Object.values(QUALITY_PRESETS)) {
+      const maxDraw = treeDrawDistance(preset.vegChunkRing, CHUNK_M);
+      const rings = speciesRings({
+        heightM: held.heightM, meshLevels: held.levels.length, category: held.category,
+        submerged: held.submerged, folded: held.folded,
+      }, preset.vegDrawScale, preset.name);
+      const ladder = lodLadder(rings, held.levels.length, held.billboardIndex, maxDraw);
+      expect(ladder.map((r) => r.level), preset.name).toEqual([0, 1]);
+      expect(ladder[ladder.length - 1].hi).toBe(maxDraw);
+      failures.push(...ladderCoverageFailures(ladder, false, maxDraw, preset.name));
+    }
+    expect(failures).toEqual([]);
   });
 });
