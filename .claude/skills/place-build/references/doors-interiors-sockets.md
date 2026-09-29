@@ -250,3 +250,12 @@ light model (`test_interior_light.py` pins the constants). Bar: at most
 30 % of nodes under `DARK_E` 0.12. `--reached` keeps only nodes reached
 from the doors (~30 s a cell); `--apply` applies the rule to a published
 bundle in place.
+
+**Flat or lit by its sources.** Raising the ambient passes the dark bar but
+can leave a room evenly grey. The same run reports `light_balance`: the
+share of each spot's E that comes from the cell's lights, and
+`sourceLedFraction`, the fraction of the walked floor where that share is at
+least 50 %. Under 30 % the cell is `flat` (a failure with `--balance`, a
+flag without it). The judged half is reader row 48, on renders of the cell
+under the same light model. On 2026-09-29 all eight tier A cells measured
+flat after the rule (0–4 % source-led, the fill at ambient ×4.8–8.2).

@@ -89,7 +89,8 @@
    33,
    27
   ],
-  "intensity": 1.0
+  "intensity": 8.189,
+  "rule": "interior-light-floor"
  },
  "fog": {
   "colorRGB": [
@@ -2195,6 +2196,50 @@
     "xrdsUnits": 176.76,
     "baseRadiusUnits": 256
    }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher.080A5B93",
+   "positionM": [
+    108.6461,
+    87.7843,
+    51.8883
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    242,
+    240,
+    223
+   ],
+   "fade": null,
+   "flags": 0,
+   "falloffExponent": 1.0,
+   "base": "DefaultCandleLight01NSDesat",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher.080A5B94",
+   "positionM": [
+    103.6327,
+    84.2922,
+    56.2108
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    242,
+    240,
+    223
+   ],
+   "fade": null,
+   "flags": 0,
+   "falloffExponent": 1.0,
+   "base": "DefaultCandleLight01NSDesat",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
   }
  ],
  "sockets": [
@@ -3085,7 +3130,7 @@
  "counts": {
   "placements": 105,
   "drops": 9,
-  "lights": 3,
+  "lights": 5,
   "substitutions": 12,
   "swingDoors": 0,
   "missingByClass": {},

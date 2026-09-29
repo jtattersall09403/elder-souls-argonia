@@ -107,7 +107,8 @@
    33,
    27
   ],
-  "intensity": 1.0
+  "intensity": 8.189,
+  "rule": "interior-light-floor"
  },
  "fog": {
   "colorRGB": [

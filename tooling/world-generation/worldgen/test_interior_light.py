@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from worldgen.interior_light import DARK_E, FILL_E, apply_light_rule, irradiance, light_report
+from worldgen.interior_light import DARK_E, FILL_E, apply_light_rule, irradiance, light_balance, light_report
 
 LOADER = Path(__file__).resolve().parents[3] / "packages/game-core/src/interior/interiorLoader.ts"
 LANTERN = {"radiusUnits": 256, "colourRgb": [242, 240, 223], "offsetM": [0.0, 0.6, 0.0],
@@ -59,3 +59,18 @@ def test_the_rule_is_idempotent():
     once = copy.deepcopy(b)
     apply_light_rule(b, {"lantern": LANTERN})
     assert b == once
+
+
+def test_the_balance_check_tells_a_fill_lit_room_from_a_source_lit_one():
+    pts = _floor() + [0, 1.2, 0]
+    flat = _bundle()
+    flat["ambient"]["intensity"] = 12.0          # the fill carries the room
+    assert light_balance(flat, pts)["flat"]
+    lit = _bundle()
+    lit["lights"] = [{"refId": f"L{i}", "positionM": [x, 2.0, z], "radiusM": 6.0, "colorRGB": [220, 140, 60],
+                      "fade": 3.0, "falloffExponent": 1.0} for i, (x, z) in enumerate([(-3, 0), (2, 0), (7, 0)])]
+    got = light_balance(lit, pts)
+    assert not got["flat"] and got["sourceLedFraction"] > 0.5
+    rep = light_report(flat, _floor(), strict_balance=True)
+    assert not rep["ok"] and any(f.startswith("flat:") for f in rep["failures"])
+    assert "flat:" not in " ".join(light_report(flat, _floor())["failures"])

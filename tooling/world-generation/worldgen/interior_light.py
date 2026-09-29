@@ -46,6 +46,13 @@ FILL_E = 0.15
 #: A lit fixture within this of a plugin light is already lit by it (the plugins place
 #: the LIGH beside the lantern: 0.61 m median for candlelanternwithcandle01).
 FIXTURE_LIT_M = 1.0
+#: The balance check (``light_balance``): a walked spot is source-led when the cell's
+#: lights give at least this share of its E, and a room is flat when under
+#: ``MIN_SOURCE_LED_FRACTION`` of its walked floor is source-led. Every tier A cell
+#: measured 0-12 % source-led before the fill and 0-4 % after it (2026-09-29); the
+#: 30 % bar is a chosen value, to be confirmed against the reader's row-48 renders.
+SOURCE_LED_SHARE = 0.5
+MIN_SOURCE_LED_FRACTION = 0.30
 _NORMALS = np.array([[0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]], float)
 _LUMA = np.array([0.2126, 0.7152, 0.0722])
 
@@ -122,8 +129,28 @@ def apply_light_rule(bundle: dict, lights_by_asset: dict[str, dict]) -> dict:
     return {"fixtureLights": len(added), "ambientIntensity": amb["intensity"]}
 
 
-def light_report(bundle: dict, nodes: np.ndarray) -> dict:
-    """The rule's numbers for one bundle over its floor nodes ([x, floor y, z])."""
+def light_balance(bundle: dict, points: np.ndarray) -> dict:
+    """Is the room lit by its sources, or flat under the fill? (the automated half
+    of the "readable, warm, lit by its sources, not flat" check; the judged half is
+    reader-checklist row 48). At each point the lights' share of ``E`` is
+    ``(E - E_unlit) / E``; a point is SOURCE-LED when that share is at least
+    ``SOURCE_LED_SHARE``. Flat when under ``MIN_SOURCE_LED_FRACTION`` of the
+    points are source-led: a raised ambient then carries the room, and a render
+    reads evenly grey rather than pooled around its hearth and lanterns."""
+    pts = np.asarray(points, float).reshape(-1, 3)
+    e = irradiance(bundle, pts)
+    unlit = irradiance({**bundle, "lights": []}, pts)
+    share = np.where(e > 0, (e - unlit) / np.maximum(e, 1e-9), 0.0)
+    led = float((share >= SOURCE_LED_SHARE).mean())
+    return {"sourceLedFraction": round(led, 3), "medianSourceShare": round(float(np.median(share)), 3),
+            "contrastP90P10": round(float(np.percentile(e, 90) / max(np.percentile(e, 10), 1e-9)), 2),
+            "minSourceLedFraction": MIN_SOURCE_LED_FRACTION,
+            "flat": led < MIN_SOURCE_LED_FRACTION}
+
+
+def light_report(bundle: dict, nodes: np.ndarray, strict_balance: bool = False) -> dict:
+    """The rule's numbers for one bundle over its floor nodes ([x, floor y, z]).
+    ``strict_balance``: a flat cell (``light_balance``) is a failure, not only a flag."""
     nodes = np.asarray(nodes, float).reshape(-1, 3)
     if not len(nodes):
         return {"ok": False, "nodes": 0, "failures": ["no floor node to sample"]}
@@ -133,6 +160,7 @@ def light_report(bundle: dict, nodes: np.ndarray) -> dict:
         "nodes": int(len(nodes)), "lights": len(bundle.get("lights") or []),
         "medianE": round(float(np.median(e)), 4), "p10E": round(float(np.percentile(e, 10)), 4),
         "darkFraction": round(dark, 3), "darkE": DARK_E, "maxDarkFraction": MAX_DARK_FRACTION,
+        **light_balance(bundle, nodes + [0.0, EYE_M, 0.0]),
         "failures": [],
     }
     if not out["lights"]:
@@ -140,11 +168,15 @@ def light_report(bundle: dict, nodes: np.ndarray) -> dict:
     if dark > MAX_DARK_FRACTION:
         out["failures"].append(f"{dark:.0%} of the walked floor reads dark (E < {DARK_E}); "
                                f"bar {MAX_DARK_FRACTION:.0%}")
+    if strict_balance and out["flat"]:
+        out["failures"].append(f"flat: {out['sourceLedFraction']:.0%} of the walked floor gets at least "
+                               f"{SOURCE_LED_SHARE:.0%} of its light from the cell's lights; bar "
+                               f"{MIN_SOURCE_LED_FRACTION:.0%} (the ambient carries the room)")
     out["ok"] = not out["failures"]
     return out
 
 
-def light_bundle(bundle: dict, kits_dir=None, reached: bool = False) -> dict:
+def light_bundle(bundle: dict, kits_dir=None, reached: bool = False, strict_balance: bool = False) -> dict:
     """Measure the light over the bundle's standable floor nodes (interior_walk's
     layered grid); `reached` keeps only nodes reached from the doors (slower: the joins)."""
     from worldgen import interior_walk as iw
@@ -156,7 +188,7 @@ def light_bundle(bundle: dict, kits_dir=None, reached: bool = False) -> dict:
         nodes = walk.get("reachedPositions") or []
     else:
         nodes = iw.walk_mesh(mesh, owner, starts, [], nodes_only=True).get("positions") or []
-    return light_report(bundle, np.asarray(nodes, float))
+    return light_report(bundle, np.asarray(nodes, float), strict_balance)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -168,6 +200,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--apply", action="store_true",
                     help="apply the rule to the bundles and write them (what the exporter does on export)")
     ap.add_argument("--reached", action="store_true", help="only nodes reached from the doors (slow)")
+    ap.add_argument("--balance", action="store_true",
+                    help="fail a flat cell (light_balance), not only flag it")
     a = ap.parse_args(argv)
     bad = 0
     lights_by_asset = kit_lights(Path(__file__).resolve().parents[3] / "apps" / "world-studio"
@@ -178,7 +212,7 @@ def main(argv: list[str] | None = None) -> int:
             did = apply_light_rule(b, lights_by_asset)
             path.write_text(json.dumps(b, indent=1) + "\n")
             print(json.dumps({"cell": path.stem, "applied": did}))
-        rep = light_bundle(json.loads(path.read_text()), reached=a.reached)
+        rep = light_bundle(json.loads(path.read_text()), reached=a.reached, strict_balance=a.balance)
         bad += not rep["ok"]
         print(json.dumps({"cell": path.stem, **rep}))
     return 1 if bad else 0

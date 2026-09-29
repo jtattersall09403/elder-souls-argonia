@@ -2403,19 +2403,34 @@
    "op": "socket",
    "id": "socket.greenspring.idle-n1-work",
    "kind": "idle",
-   "host": "parcel.greenspring.lodge",
+   "host": "KeebaHouseCrafter.0809B55A",
    "activity": "stand",
    "parcel": "parcel.greenspring.lodge",
-   "why": "The bed-keeper sells beds and rope at the lodge door."
+   "why": "The bed-keeper sells beds and rope from the chest inside the lodge.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
    "id": "socket.greenspring.idle-n1-home",
    "kind": "idle",
-   "host": "parcel.greenspring.lodge",
+   "host": "KeebaHouseCrafter.0809B557",
    "activity": "sleep",
    "parcel": "parcel.greenspring.lodge",
-   "why": "The bed-keeper sleeps in the lodge."
+   "why": "The bed-keeper sleeps in the lodge.",
+   "interiorCell": "KeebaHouseCrafter"
+  },
+  {
+   "op": "socket",
+   "id": "socket.greenspring.idle-lodge-guest-bed",
+   "kind": "idle",
+   "interiorCell": "KeebaHouseCrafter",
+   "host": "KeebaHouseCrafter.0809B55D",
+   "activity": "sleep",
+   "parcel": "parcel.greenspring.lodge",
+   "why": "Guests who pay the bed-keeper sleep in the lodge's upper room.",
+   "fills": [
+    "promise.greenspring.service-lodging"
+   ]
   },
   {
    "op": "socket",
@@ -2461,19 +2476,21 @@
    "op": "socket",
    "id": "socket.greenspring.idle-root-herald-work",
    "kind": "idle",
-   "host": "parcel.greenspring.heralds-house",
+   "host": "KeebaHouseFisher.08951857",
    "activity": "work-at",
    "parcel": "parcel.greenspring.heralds-house",
-   "why": "The root-herald trades at the door of the house."
+   "why": "The root-herald trades from the chest in the house.",
+   "interiorCell": "KeebaHouseFisher"
   },
   {
    "op": "socket",
    "id": "socket.greenspring.idle-root-herald-home",
    "kind": "idle",
-   "host": "parcel.greenspring.heralds-house",
+   "host": "KeebaHouseFisher.080A5B53",
    "activity": "sleep",
    "parcel": "parcel.greenspring.heralds-house",
-   "why": "The root-herald sleeps in the house."
+   "why": "The root-herald sleeps in the house.",
+   "interiorCell": "KeebaHouseFisher"
   },
   {
    "op": "socket",
@@ -2526,10 +2543,11 @@
    "op": "socket",
    "id": "socket.greenspring.idle-tree-minder-home",
    "kind": "idle",
-   "host": "parcel.greenspring.minders-house",
+   "host": "KeebaHouseElder.080CC29B",
    "activity": "sleep",
    "parcel": "parcel.greenspring.minders-house",
-   "why": "The tree-minder sleeps in the house beside the tree."
+   "why": "The tree-minder sleeps in the house beside the tree.",
+   "interiorCell": "KeebaHouseElder"
   },
   {
    "op": "socket",
@@ -2583,10 +2601,11 @@
    "op": "socket",
    "id": "socket.greenspring.idle-spring-keeper-home",
    "kind": "idle",
-   "host": "parcel.greenspring.spring-keepers-house",
+   "host": "LilmothGlassworksOverseerHouse.08879843",
    "activity": "sleep",
    "parcel": "parcel.greenspring.spring-keepers-house",
-   "why": "The spring-keeper sleeps in the house above the spring."
+   "why": "The spring-keeper sleeps in the house above the spring.",
+   "interiorCell": "LilmothGlassworksOverseerHouse"
   },
   {
    "op": "socket",
@@ -2630,19 +2649,20 @@
    "op": "socket",
    "id": "socket.greenspring.idle-n2-work",
    "kind": "idle",
-   "host": "parcel.greenspring.family-hut",
+   "host": "b-fam2-stand",
    "activity": "cook",
    "parcel": "parcel.greenspring.family-hut",
-   "why": "The family cooks at the oven in front of the hut."
+   "why": "The family cooks at the fire stand in front of the hut."
   },
   {
    "op": "socket",
    "id": "socket.greenspring.idle-n2-home",
    "kind": "idle",
-   "host": "parcel.greenspring.family-hut",
+   "host": "LilmothIronworksOverseerHouse.08864E38",
    "activity": "sleep",
    "parcel": "parcel.greenspring.family-hut",
-   "why": "The family sleeps in the hut."
+   "why": "The family sleeps in the hut.",
+   "interiorCell": "LilmothIronworksOverseerHouse"
   },
   {
    "op": "socket",
