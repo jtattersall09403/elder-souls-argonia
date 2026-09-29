@@ -419,3 +419,19 @@ triangles and keep the full reach and the rest scale down to the floor. The
 HUD's `gc:`
 line carries `mesh <n>M`, the triangles of the live NEAR-tier instances at the
 last rebuild, so the cut is visible from the running studio.
+
+### Addendum 2026-09-29 (walk 5): the gate is a frustum test
+
+The behind-the-camera latch (off beyond ~120° from the view line, never
+within 40 m) submitted about two thirds of the ring off screen. The gate now
+tests each tile's box against the camera's four side planes widened by 15°
+(switch on) / 25° (switch off), a hysteresis latch in the tile's state byte
+(`cellGating.viewPlanesFor`, `GateView`); the pass re-runs every 8° of yaw or
+pitch. A casting rung's tile is kept when its box swept along the sun's
+shadow (`GateView.shadow`, capped 120 m; none at night) touches the view. The
+band test measures to the pivots (the shader's `esLodOrigin`), not to the
+reach-grown box. A from-zero caster (the mid rung, `shadowBandFromZero`) is
+gated from 0 m. Switch-ons the shader needs now (camera within 3 m of the
+rung's own band) drain first and past the 1.5 ms flip budget, up to 6 ms.
+Measured with the harness `apps/world-studio/src/vegetation/__measure__/`
+(`VEG_MEASURE=1`): report `tooling/.reports/16k/walk5/perf/veg.md`.

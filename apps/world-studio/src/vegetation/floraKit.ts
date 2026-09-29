@@ -454,7 +454,7 @@ export function treeDrawDistance(chunkRing: number, chunkMetres: number): number
  * scaled ring never falls inside the one before it (the round-4 inverted
  * ladder). A FOLDED species has one reach, not three: it IS scaled by
  * `drawScale` (there is no near rung to protect — the card takes over), but
- * never below `MIN_MESH_LOD_REACH_M`. Rung edges are hard steps since 2026-09-21 (`LOD_BAND_M` is 0), so
+ * never below `MIN_MESH_LOD_REACH_M`. Rung edges are hard steps in distance (`LOD_BAND_M` is 0; since walk 5 they cross-fade in time, `LOD_FADE_S`), so
  * there is no minimum band width left to enforce: a narrow rung is simply a
  * short interval, not a fade that never completes. `band` picks the mid
  * reach row (`LOD_REACH_BY_BAND`); callers pass the quality preset's name.

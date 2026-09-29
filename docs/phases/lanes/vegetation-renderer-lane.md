@@ -334,6 +334,17 @@ Round 12 accepted by the owner 2026-09-22: 57 fps at rest (was 22), plants
 and ground cover visually unchanged. Details and readings in
 [0084 § Owner reading after round 12](../../decisions/0084-the-frame-is-a-triangle-budget.md).
 
+## Walk 5 (2026-09-29): round 13 delivered, frustum gate, temporal fades
+
+Round 13 shipped part-aware mid/far tiers for six heavy trees (commit
+1a2b3ff4, report `tooling/.reports/16k/walk5/perf/round13.md`; the
+mangroves follow). The renderer reads them (commit 952f8180): the gate culls
+against the widened view frustum, rung edges cross-fade over 0.4 s, the
+ladder hands over by screen size, bushes hold full mesh to 50 m in medium
+(decision 0075 and 0082 walk-5 addenda). Numbers: `tooling/.reports/16k/walk5/perf/veg.md`;
+re-measure with `VEG_MEASURE=1 npx vitest run src/vegetation/__measure__`
+in `apps/world-studio`.
+
 ## Round 13 brief: a part-aware mid tier for the heavy trees (planner, 2026-09-22)
 
 **Why.** Decimation shredded alpha-tested leaves because a simplifier deletes
