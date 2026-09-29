@@ -1,4 +1,9 @@
 import * as THREE from "three";
+import { NodeMaterial } from "three/webgpu";
+import {
+  Discard, Fn, If, abs, dot, float, length, normalize, positionWorld, pow, smoothstep, uniform, uv, vec4,
+} from "three/tsl";
+import type { TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
@@ -27,70 +32,59 @@ import { PRECIP_LAYER } from "../water/render/waterMaterial";
  * the shaft as the eye approaches its axis.
  */
 
-const VERTEX = /* glsl */ `
-varying vec2 vUv;
-varying vec3 vWorld;
-varying vec3 vAxisW;
+/**
+ * The shaft's node material: the cone's own vertex stage (the InstancedMesh
+ * applies each shaft's matrix), and a fragment that fades the shaft across
+ * its width, at both ends, edge-on and near the lens.
+ */
+function buildShaftMaterial(u: SunShaftUniforms): NodeMaterial {
+  const vUv: TslNode = uv();
+  const vWorld: TslNode = positionWorld;
+  const material = new NodeMaterial();
+  material.fragmentNode = Fn(() => {
+    // Soft across the shaft's width. uv.x runs around the tube, so this is a
+    // fade around its circumference — the near and far walls both peak at the
+    // middle, which is where the eye looks through the most air.
+    const r: TslNode = abs(vUv.x.sub(0.5)).mul(2.0);
+    const radial: TslNode = pow(float(1.0).sub(smoothstep(0.0, 1.0, r)), 1.2);
 
-void main() {
-  vUv = uv;
-  vec4 wp = modelMatrix * vec4(position, 1.0);
-  vWorld = wp.xyz;
-  // The cone is built along +Y in local space; the instance's rotation puts
-  // that along the sun direction, so this recovers the axis in world space.
-  vAxisW = normalize(mat3(modelMatrix) * vec3(0.0, 1.0, 0.0));
-  gl_Position = projectionMatrix * viewMatrix * wp;
+    // Fade at both ends: no hard rim where the cone starts or stops.
+    const lenFade: TslNode = smoothstep(0.0, 0.18, vUv.y).mul(float(1.0).sub(smoothstep(0.6, 1.0, vUv.y)));
+
+    // Edge-on fade. Looking ALONG the shaft is exactly the angle at which a
+    // billboard betrays itself as a surface, so drop it there. Looking across
+    // the shaft is where a real light shaft is most visible anyway.
+    const view: TslNode = normalize(vWorld.sub(u.uCam));
+    const along: TslNode = abs(dot(view, u.uAxis));
+    // Only the last few degrees, not a broad band. At 0.72 this removed the
+    // shaft for any camera looking DOWN at one that also points down — which
+    // is the default third-person view.
+    const edgeOn: TslNode = float(1.0).sub(smoothstep(0.93, 0.995, along));
+
+    // Never let a shaft sit on the lens: fade any the camera is inside or
+    // nearly inside. Kept tight — the ring is only ~26 m wide.
+    const nearFade: TslNode = smoothstep(0.8, 3.5, length(vWorld.sub(u.uCam)));
+
+    const a: TslNode = radial.mul(lenFade).mul(edgeOn).mul(nearFade).mul(u.uIntensity);
+    If(a.lessThanEqual(0.002), () => {
+      Discard();
+    });
+    // uColour is SCENE-LINEAR RADIANCE, anchored against exposure on the CPU;
+    // the renderer applies its tone map and output encode (toneMapped on).
+    return vec4(u.uColour, a);
+  })();
+  return material;
 }
-`;
 
-const FRAGMENT = /* glsl */ `
-uniform vec3 uColour;
-uniform float uIntensity;
-uniform vec3 uCam;
-
-varying vec2 vUv;
-varying vec3 vWorld;
-varying vec3 vAxisW;
-
-void main() {
-  // Soft across the shaft's width. uv.x runs around the tube, so this is a
-  // fade around its circumference — the near and far walls both peak at the
-  // middle, which is where the eye looks through the most air.
-  float r = abs(vUv.x - 0.5) * 2.0;
-  float radial = pow(1.0 - smoothstep(0.0, 1.0, r), 1.2);
-
-  // Fade at both ends: no hard rim where the cone starts or stops.
-  float lenFade = smoothstep(0.0, 0.18, vUv.y) * (1.0 - smoothstep(0.6, 1.0, vUv.y));
-
-  // Edge-on fade. Looking ALONG the shaft is exactly the angle at which a
-  // billboard betrays itself as a surface, so drop it there. Looking across
-  // the shaft is where a real light shaft is most visible anyway.
-  vec3 view = normalize(vWorld - uCam);
-  float along = abs(dot(view, vAxisW));
-  // Only the last few degrees, not a broad band. At 0.72 this removed the
-  // shaft for any camera looking DOWN at one that also points down — which
-  // is the default third-person view, so the shafts were being faded out
-  // exactly where they were meant to be seen.
-  float edgeOn = 1.0 - smoothstep(0.93, 0.995, along);
-
-  // Never let a shaft sit on the lens: fade any the camera is inside or
-  // nearly inside, or one can fill the screen as a wall. Kept tight — the
-  // ring is only ~26 m wide, so a 9 m fade erased most of it.
-  float nearFade = smoothstep(0.8, 3.5, length(vWorld - uCam));
-
-  float a = radial * lenFade * edgeOn * nearFade * uIntensity;
-  if (a <= 0.002) discard;
-  // uColour is SCENE-LINEAR RADIANCE, anchored against exposure on the CPU.
-  // The two chunks below are the renderer's own tone map and output encode,
-  // which a ShaderMaterial does not get for free the way a built-in material
-  // does; omitting them renders a custom shader dark and muddy next to
-  // everything else in the frame.
-  gl_FragColor = vec4(uColour, a);
-
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
+/** The shafts' uniforms: `uniform()` nodes written through `.value`. */
+export interface SunShaftUniforms {
+  uColour: { value: THREE.Color } & TslNode;
+  uIntensity: { value: number } & TslNode;
+  uCam: { value: THREE.Vector3 } & TslNode;
+  /** World-space shaft axis (every shaft shares the sun's rotation): the
+   * direction the light travels, -sunDir. */
+  uAxis: { value: THREE.Vector3 } & TslNode;
 }
-`;
 
 /** Screen brightness of a shaft at full strength. */
 const SHAFT_SCREEN = 0.30;
@@ -123,7 +117,8 @@ export const SUN_SHAFT_DEFAULTS: SunShaftConfig = {
  */
 export class SunShafts {
   readonly mesh: THREE.InstancedMesh;
-  readonly material: THREE.ShaderMaterial;
+  readonly material: NodeMaterial;
+  readonly uniforms: SunShaftUniforms;
   private readonly geometry: THREE.BufferGeometry;
   private readonly offsets: THREE.Vector3[] = [];
   private readonly anchor = new THREE.Vector3(NaN, NaN, NaN);
@@ -145,20 +140,20 @@ export class SunShafts {
     // pivot, which is the canopy opening.
     this.geometry.translate(0, -0.5, 0);
 
-    this.material = new THREE.ShaderMaterial({
-      uniforms: {
-        uColour: { value: new THREE.Color(1.0, 0.93, 0.74) },
-        uIntensity: { value: 0 },
-        uCam: { value: new THREE.Vector3() },
-      },
-      vertexShader: VERTEX,
-      fragmentShader: FRAGMENT,
-      transparent: true,
-      depthWrite: false,
-      depthTest: true,
-      blending: THREE.AdditiveBlending,
-      side: THREE.DoubleSide,
-    });
+    this.uniforms = {
+      uColour: uniform(new THREE.Color(1.0, 0.93, 0.74)),
+      uIntensity: uniform(0),
+      uCam: uniform(new THREE.Vector3()),
+      uAxis: uniform(new THREE.Vector3(0, -1, 0)),
+    };
+    this.material = buildShaftMaterial(this.uniforms);
+    this.material.name = "air:sun-shafts";
+    this.material.transparent = true;
+    this.material.depthWrite = false;
+    this.material.depthTest = true;
+    this.material.blending = THREE.AdditiveBlending;
+    this.material.side = THREE.DoubleSide;
+    this.material.fog = false;
 
     this.mesh = new THREE.InstancedMesh(this.geometry, this.material, config.count);
     this.mesh.frustumCulled = false;
@@ -199,14 +194,15 @@ export class SunShafts {
     this.mesh.visible = on;
     if (!on) return;
 
-    (this.material.uniforms.uIntensity as { value: number }).value = intensity;
-    (this.material.uniforms.uCam.value as THREE.Vector3).copy(camera.position);
+    const u = this.uniforms;
+    u.uIntensity.value = intensity;
+    u.uCam.value.copy(camera.position);
     // Exposure-anchored radiance. THE BUG THAT MADE THESE INVISIBLE was
     // multiplying BY exposure at the call site: exposureTarget is a PHYSICAL
     // exposure (~2e-4 in daylight), so the shafts were scaled down about
     // 5000x exactly when they were supposed to show.
     const k = SHAFT_SCREEN / Math.max(exposure, 1e-6);
-    (this.material.uniforms.uColour.value as THREE.Color).setRGB(
+    u.uColour.value.setRGB(
       colour.r * k,
       colour.g * k,
       colour.b * k,
@@ -223,6 +219,9 @@ export class SunShafts {
     // ground, so the cone hangs along -sunDir from its opening.
     const axis = this.pos.copy(sunDir).multiplyScalar(-1).normalize();
     this.q.setFromUnitVectors(this.up, axis);
+    // The cone's +Y after that rotation, in world space (the fragment's
+    // edge-on fade reads it; every shaft shares it).
+    u.uAxis.value.copy(axis);
 
     // Height so the shaft ENDS near the ground instead of hanging in the air.
     // A shaft leaves the canopy and travels down-sun; over its own length it

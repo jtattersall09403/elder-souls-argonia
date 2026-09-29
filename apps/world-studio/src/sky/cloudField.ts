@@ -1,4 +1,22 @@
 import * as THREE from "three";
+import * as TSL_TYPED from "three/tsl";
+import type { TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import type { UniformOf } from "./aerial";
+// TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  clamp,
+  dot,
+  float,
+  mix,
+  normalize,
+  pow,
+  select,
+  smoothstep,
+  texture,
+  uniform,
+  vec2
+} = TSL_TYPED as unknown as Record<string, any>;
 
 /**
  * The ONE cloud field (Phase 8c round 2, decision 0032): a deterministic
@@ -8,7 +26,7 @@ import * as THREE from "three";
  * behind, and glow through, cloud). Lockstep is guaranteed by construction:
  * both sides sample the SAME seeded lattice (a repeat-wrapped DataTexture on
  * the GPU, the same Float32Array bilinearly on the CPU) and the layer maths
- * is baked into the GLSL from the constants below — change `CLOUD`, both
+ * is built into the TSL graph from the constants below — change `CLOUD`, both
  * sides follow (the waves.ts pattern).
  *
  * Layer character comes from the weather state profile (states.ts):
@@ -103,107 +121,105 @@ export function cloudNoiseTexture(): THREE.DataTexture {
 }
 
 // ---------------------------------------------------------------------------
-// GLSL side
+// GPU side (TSL, decision 0107)
 // ---------------------------------------------------------------------------
 
-const f = (v: number) => {
-  const s = String(v);
-  return s.includes(".") || s.includes("e") ? s : `${s}.0`;
-};
-
-/** Uniform declarations every cloud-sampling shader shares. */
-export const CLOUD_UNIFORMS_GLSL = /* glsl */ `
-uniform sampler2D uCloudNoise;
-uniform vec3 uCloudCov;
-uniform float uCloudDens;
-uniform float uCloudPuff;
-uniform float uCloudScroll;
-uniform float uCloudFront;
-uniform vec2 uCloudDir;
-uniform float uCloudTime;
-`;
-
-/** One shared uniform value-set (single objects — every material that
- * Object.assigns these sees each frame's WorldSky update for free). */
+/** One shared uniform node set (every material that builds the field from
+ * this object sees each frame's WorldSky `.value` write for free). */
 export function createCloudUniforms() {
   return {
-    uCloudNoise: { value: cloudNoiseTexture() },
-    uCloudCov: { value: new THREE.Vector3(0, 0, 0) },
-    uCloudDens: { value: 0 },
-    uCloudPuff: { value: 1 },
-    uCloudScroll: { value: 1 },
-    uCloudFront: { value: 0 },
-    uCloudDir: { value: new THREE.Vector2(1, 0) },
-    uCloudTime: { value: 0 },
+    uCloudNoise: texture(cloudNoiseTexture()) as UniformOf<THREE.Texture>,
+    uCloudCov: uniform(new THREE.Vector3(0, 0, 0)) as UniformOf<THREE.Vector3>,
+    uCloudDens: uniform(0) as UniformOf<number>,
+    uCloudPuff: uniform(1) as UniformOf<number>,
+    uCloudScroll: uniform(1) as UniformOf<number>,
+    uCloudFront: uniform(0) as UniformOf<number>,
+    uCloudDir: uniform(new THREE.Vector2(1, 0)) as UniformOf<THREE.Vector2>,
+    uCloudTime: uniform(0) as UniformOf<number>,
   };
 }
 export type CloudUniforms = ReturnType<typeof createCloudUniforms>;
 
-/** The field functions. KEEP IN LOCKSTEP with the CPU twins below — both are
- * generated/written from the same `CLOUD` table. */
-export function cloudFieldGlsl(): string {
-  const oct = CLOUD.octaves
-    .map(([w, fr, ox, oy]) => `n += ${f(w)} * esCloudN(p * ${f(fr)} + vec2(${f(ox)}, ${f(oy)}));`)
-    .join("\n  ");
-  return /* glsl */ `
-float esCloudN(vec2 p) {
-  return texture2D(uCloudNoise, (p + 0.5) / ${f(CLOUD.lattice)}).r;
-}
-float esCloudFbm(vec2 p) {
-  float n = 0.0;
-  ${oct}
-  return n;
-}
-// Squall shelf wall: coverage shift by azimuth — piles up on the UPWIND
-// horizon (where the line approaches from), thins downwind so lighter sky
-// shows behind the front. Applied to BOTH the mid deck and the low scud.
-float esFrontShift(vec3 d) {
-  if (uCloudFront <= 0.001) return 0.0;
-  vec2 az = normalize(d.xz + vec2(1e-4, 0.0));
-  float front = smoothstep(-0.25, 0.55, dot(az, -uCloudDir));
-  return uCloudFront * (${f(CLOUD.frontGain)} * front - ${f(CLOUD.frontThin)} * (1.0 - front));
-}
-float esCloudMid(vec3 d, out float n) {
-  vec2 uv = d.xz / (d.y * 0.8 + 0.055) * ${f(CLOUD.midScale)}
-          + uCloudDir * (uCloudTime * ${f(CLOUD.midScroll)} * uCloudScroll);
-  n = (esCloudFbm(uv) + ${f(CLOUD.midDetail)} * esCloudFbm(uv * ${f(CLOUD.midDetailScale)} + 7.7))
-    / ${f(1 + CLOUD.midDetail)};
-  float cov = clamp(uCloudCov.y + esFrontShift(d), 0.0, 1.0);
-  float soft = mix(${f(CLOUD.softSheet)}, ${f(CLOUD.softPuff)}, uCloudPuff);
-  float m = smoothstep(1.0 - cov, 1.0 - cov + soft, n);
-  return pow(m, mix(1.0, 1.5, uCloudPuff)) * uCloudDens;
-}
-float esCloudLow(vec3 d) {
-  vec2 uv = d.xz / (d.y * 0.4 + 0.09) * ${f(CLOUD.lowScale)}
-          + uCloudDir * (uCloudTime * ${f(CLOUD.lowScroll)} * uCloudScroll);
-  float n = esCloudFbm(uv * ${f(CLOUD.lowFreq)} + 11.0);
-  float cov = clamp(uCloudCov.x + ${f(CLOUD.lowFrontMul)} * esFrontShift(d), 0.0, 1.0);
-  float m = smoothstep(1.0 - cov, 1.0 - cov + 0.3, n);
-  return m * uCloudDens * 0.85;
-}
-float esCloudHigh(vec3 d) {
-  vec2 q = d.xz / (d.y + 0.06);
-  vec2 perp = vec2(uCloudDir.y, -uCloudDir.x);
-  vec2 uv = vec2(dot(q, uCloudDir) * ${f(CLOUD.highAniso)}, dot(q, perp)) * ${f(CLOUD.highScale)};
-  uv.x += uCloudTime * ${f(CLOUD.highScroll)} * uCloudScroll;
-  float n = esCloudFbm(uv * ${f(CLOUD.highFreq)});
-  return smoothstep(1.0 - uCloudCov.z, 1.0 - uCloudCov.z + 0.32, n) * ${f(CLOUD.highAlpha)};
-}
-float esCloudAlpha(vec3 d) {
-  if (d.y <= ${f(CLOUD.horizonLo)}) return 0.0;
-  float nMid;
-  float a = esCloudHigh(d);
-  float am = esCloudMid(d, nMid);
-  a += am * (1.0 - a);
-  float al = esCloudLow(d);
-  a += al * (1.0 - a);
-  return a * smoothstep(${f(CLOUD.horizonLo)}, ${f(CLOUD.horizonHi)}, d.y);
-}
-`;
+/** The field functions as TSL builders. KEEP IN LOCKSTEP with the CPU twins
+ * below — both are written from the same `CLOUD` table. `vertex` samples the
+ * lattice at LOD 0 (the star vertex stage has no derivatives). */
+export function cloudFieldNodes(u: CloudUniforms, options: { vertex?: boolean } = {}) {
+  const esCloudN = (p: TslNode): TslNode => {
+    const s = u.uCloudNoise.sample(p.add(0.5).div(CLOUD.lattice));
+    return (options.vertex ? s.level(0) : s).r;
+  };
+  const esCloudFbm = (p: TslNode): TslNode => {
+    let n: TslNode = float(0);
+    for (const [w, fr, ox, oy] of CLOUD.octaves) {
+      n = n.add(esCloudN(p.mul(fr).add(vec2(ox, oy))).mul(w));
+    }
+    return n;
+  };
+  // Squall shelf wall: coverage shift by azimuth — piles up on the UPWIND
+  // horizon (where the line approaches from), thins downwind so lighter sky
+  // shows behind the front. Applied to BOTH the mid deck and the low scud.
+  // (The old `if (uCloudFront <= 0.001) return 0` is exact as a select.)
+  const esFrontShift = (d: TslNode): TslNode => {
+    const az = normalize(d.xz.add(vec2(1e-4, 0)));
+    const front = smoothstep(-0.25, 0.55, dot(az, u.uCloudDir.negate()));
+    const shift = u.uCloudFront.mul(
+      front.mul(CLOUD.frontGain).sub(float(1).sub(front).mul(CLOUD.frontThin)),
+    );
+    return select(u.uCloudFront.lessThanEqual(0.001), float(0), shift);
+  };
+  /** Mid deck: `alpha` and the raw noise `n` (the dome shades bases by it). */
+  const esCloudMid = (d: TslNode): { alpha: TslNode; n: TslNode } => {
+    const uvm = d.xz
+      .div(d.y.mul(0.8).add(0.055))
+      .mul(CLOUD.midScale)
+      .add(u.uCloudDir.mul(u.uCloudTime.mul(CLOUD.midScroll).mul(u.uCloudScroll)))
+      .toVar();
+    const n = esCloudFbm(uvm)
+      .add(esCloudFbm(uvm.mul(CLOUD.midDetailScale).add(7.7)).mul(CLOUD.midDetail))
+      .div(1 + CLOUD.midDetail)
+      .toVar();
+    const cov = clamp(u.uCloudCov.y.add(esFrontShift(d)), 0, 1);
+    const soft = mix(CLOUD.softSheet, CLOUD.softPuff, u.uCloudPuff);
+    const m = smoothstep(float(1).sub(cov), float(1).sub(cov).add(soft), n);
+    return { alpha: pow(m, mix(1.0, 1.5, u.uCloudPuff)).mul(u.uCloudDens), n };
+  };
+  const esCloudLow = (d: TslNode): TslNode => {
+    const uvl = d.xz
+      .div(d.y.mul(0.4).add(0.09))
+      .mul(CLOUD.lowScale)
+      .add(u.uCloudDir.mul(u.uCloudTime.mul(CLOUD.lowScroll).mul(u.uCloudScroll)));
+    const n = esCloudFbm(uvl.mul(CLOUD.lowFreq).add(11.0));
+    const cov = clamp(u.uCloudCov.x.add(esFrontShift(d).mul(CLOUD.lowFrontMul)), 0, 1);
+    const m = smoothstep(float(1).sub(cov), float(1).sub(cov).add(0.3), n);
+    return m.mul(u.uCloudDens).mul(0.85);
+  };
+  const esCloudHigh = (d: TslNode): TslNode => {
+    const q = d.xz.div(d.y.add(0.06));
+    const perp = vec2(u.uCloudDir.y, u.uCloudDir.x.negate());
+    const uvh = vec2(
+      dot(q, u.uCloudDir).mul(CLOUD.highAniso).mul(CLOUD.highScale)
+        .add(u.uCloudTime.mul(CLOUD.highScroll).mul(u.uCloudScroll)),
+      dot(q, perp).mul(CLOUD.highScale),
+    );
+    const n = esCloudFbm(uvh.mul(CLOUD.highFreq));
+    return smoothstep(float(1).sub(u.uCloudCov.z), float(1).sub(u.uCloudCov.z).add(0.32), n)
+      .mul(CLOUD.highAlpha);
+  };
+  /** Total premultiplied alpha toward unit direction `d`. Below
+   * `horizonLo` the closing smoothstep is 0, which is the old early return. */
+  const esCloudAlpha = (d: TslNode): TslNode => {
+    const a = esCloudHigh(d).toVar();
+    const am = esCloudMid(d).alpha;
+    a.addAssign(am.mul(float(1).sub(a)));
+    const al = esCloudLow(d);
+    a.addAssign(al.mul(float(1).sub(a)));
+    return a.mul(smoothstep(CLOUD.horizonLo, CLOUD.horizonHi, d.y));
+  };
+  return { esCloudFbm, esFrontShift, esCloudMid, esCloudLow, esCloudHigh, esCloudAlpha };
 }
 
 // ---------------------------------------------------------------------------
-// CPU twins (KEEP IN LOCKSTEP with the GLSL above)
+// CPU twins (KEEP IN LOCKSTEP with the TSL above)
 // ---------------------------------------------------------------------------
 
 function latticeAt(x: number, y: number): number {
@@ -214,7 +230,7 @@ function latticeAt(x: number, y: number): number {
   return data[yi * L + xi];
 }
 
-/** Bilinear sample matching `texture2D(uCloudNoise, (p + 0.5) / lattice)`
+/** Bilinear sample matching the GPU lattice sample at `(p + 0.5) / lattice`
  * with linear filtering on a repeat-wrapped texture: texel centres sit at
  * integer p, so the fractional part interpolates neighbouring texels. */
 function cloudN(px: number, py: number): number {
@@ -286,7 +302,7 @@ function cloudHigh(d: [number, number, number], p: CloudParams): number {
 }
 
 /** Total premultiplied cloud alpha toward unit direction `d` — the CPU twin
- * of `esCloudAlpha`. Drives sun dimming when a cumulus crosses the sun and
+ * of the TSL `esCloudAlpha`. Drives sun dimming when a cumulus crosses the sun and
  * per-moon occlusion (moons vanish behind thick cloud, glow through thin). */
 export function cloudAlphaTowards(d: [number, number, number], p: CloudParams): number {
   if (d[1] <= CLOUD.horizonLo) return 0;

@@ -1,8 +1,8 @@
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { Sky } from "three/examples/jsm/objects/Sky.js";
-import { CSM } from "three/examples/jsm/csm/CSM.js";
+import { PMREMGenerator, type NodeMaterial, type RenderTarget, type WebGPURenderer } from "three/webgpu";
+import type { CSMShadowNode } from "three/examples/jsm/csm/CSMShadowNode.js";
 import {
   dayPhaseAt,
   sunAt,
@@ -13,22 +13,37 @@ import {
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
-import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
-import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
-import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
-import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
-import { reapplyGroundTint } from "../vegetation/Groundcover";
+import { isNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
-import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
 import {
-  CLOUD_UNIFORMS_GLSL,
+  aerialRasterLoaded,
+  applyMipAlphaBoost,
+  createAerialFogNode,
+  createAerialUniforms,
+  type AerialRasterKey,
+  type AerialUniforms,
+} from "./aerial";
+import {
   cloudAlphaTowards,
-  cloudFieldGlsl,
   cloudParamsFrom,
   createCloudUniforms,
   type CloudParams,
 } from "./cloudField";
+import {
+  MOON_RADIUS,
+  STAR_POOL,
+  STAR_RADIUS,
+  flattenCatalogue,
+  starAttributes,
+  aimSun,
+  copySkyUniforms,
+  createMoonMaterial,
+  createSkyDome,
+  createStarLayer,
+  createSunCascades,
+  writeDomeFromRig,
+} from "./skyObjects";
 import { computeLightRig, type LightRig } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
@@ -43,11 +58,10 @@ import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
 import { sunShaftIntensity } from "@elder-souls/game-core/air/sunShafts";
 import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
-import { reapplySettlementSurface } from "@elder-souls/game-core/settlement/materials";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
- * dome (three's bundled Sky addon) lifted onto the physical lux scale and
+ * dome (three's bundled SkyMesh addon, TSL) lifted onto the physical lux scale and
  * crossfaded into an authored night dome; the thirteen canonical
  * constellations, guardian planets, Southron pole star and drifting Serpent;
  * Masser and Secunda as lit spheres (phase falls out of the sun direction);
@@ -62,7 +76,9 @@ export const sharedAerialUniforms: AerialUniforms = createAerialUniforms();
 (window as unknown as { __AERIAL_UNIFORMS__?: AerialUniforms }).__AERIAL_UNIFORMS__ =
   sharedAerialUniforms;
 
-export const SkyContext = createContext<{ csm: CSM | null }>({ csm: null });
+/** The sun's cascaded shadows (CSMShadowNode on the sun's shadow). Node
+ * cascades patch nothing: consumers no longer set materials up for them. */
+export const SkyContext = createContext<{ csm: CSMShadowNode | null }>({ csm: null });
 
 /** The ONE cloud-field uniform set (cloudField.ts): shared by the main dome,
  * the PMREM bake dome and the star/serpent shaders — one WorldSky write per
@@ -70,8 +86,6 @@ export const SkyContext = createContext<{ csm: CSM | null }>({ csm: null });
  * the clouds the dome draws. */
 const cloudUniforms = createCloudUniforms();
 
-const STAR_RADIUS = 28_000;
-const MOON_RADIUS = 26_000;
 const DEG = Math.PI / 180;
 
 /** Optional latitude override (studio debug slider; null = package constant). */
@@ -128,334 +142,10 @@ function canopyAt(xM: number, zM: number, extentM: number): number {
   return airPixels.data[(py * airPixels.w + px) * 4 + 2] / 255;
 }
 
-// ---------- sky dome (Preetham day + authored night, one patched shader) ----------
+// ---------- authored stars (catalogue in skyObjects.ts) ----------
 
-interface SkyExtras {
-  uSkyLum: { value: number };
-  uSkyFade: { value: number };
-  uSunAltDeg: { value: number };
-  uNightBoost: { value: number };
-  uBeltLum: { value: number };
-  uNightZenith: { value: THREE.Color };
-  uNightHorizon: { value: THREE.Color };
-  uGroundLum: { value: THREE.Color };
-  uHorizonLum: { value: THREE.Color };
-  uDawnLum: { value: number };
-  uDawnDir: { value: THREE.Vector2 };
-  uTwiGrade: { value: number };
-  uMoonGlowDirA: { value: THREE.Vector3 };
-  uMoonGlowDirB: { value: THREE.Vector3 };
-  uMoonGlowColA: { value: THREE.Color };
-  uMoonGlowColB: { value: THREE.Color };
-  uMoonGlowWide: { value: THREE.Vector2 };
-  uDawnCore: { value: THREE.Color };
-  uDawnSpread: { value: THREE.Color };
-  uDawnWash: { value: THREE.Color };
-  /** Phase 8c weather clouds: colours (exposure-anchored nits, lightRig),
-   * silver-lining glow light, lightning. Coverage/shape/scroll live in the
-   * SHARED cloudUniforms; fog colours/densities live in the SHARED aerial
-   * uniforms (round 5: the dome runs the same fog march as the surfaces). */
-  uCloudBright: { value: THREE.Color };
-  uCloudDark: { value: THREE.Color };
-  uGlowDir: { value: THREE.Vector3 };
-  uGlowCol: { value: THREE.Color };
-  uFlash: { value: number };
-  /** Round 3: sunset/sunrise cloud light colour + [deck, cirrus] amounts. */
-  uCloudSunset: { value: THREE.Color };
-  uCloudSunsetAmt: { value: THREE.Vector2 };
-}
+export { STAR_POOL };
 
-function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
-  const sky = new Sky();
-  sky.scale.setScalar(scale);
-  const mat = sky.material;
-  const extras: SkyExtras = {
-    uSkyLum: { value: 16_000 },
-    uSkyFade: { value: 1 },
-    uSunAltDeg: { value: 45 },
-    uNightBoost: { value: 1 },
-    uBeltLum: { value: 0 },
-    uNightZenith: { value: new THREE.Color(0, 0, 0) },
-    uNightHorizon: { value: new THREE.Color(0, 0, 0) },
-    uGroundLum: { value: new THREE.Color(0, 0, 0) },
-    uHorizonLum: { value: new THREE.Color(0, 0, 0) },
-    uDawnLum: { value: 0 },
-    uDawnDir: { value: new THREE.Vector2(0, 1) },
-    uTwiGrade: { value: 0 },
-    uMoonGlowDirA: { value: new THREE.Vector3(0, -1, 0) },
-    uMoonGlowDirB: { value: new THREE.Vector3(0, -1, 0) },
-    uMoonGlowColA: { value: new THREE.Color(0, 0, 0) },
-    uMoonGlowColB: { value: new THREE.Color(0, 0, 0) },
-    uMoonGlowWide: { value: new THREE.Vector2(14, 20) },
-    uDawnCore: { value: new THREE.Color(1.0, 0.58, 0.28) },
-    uDawnSpread: { value: new THREE.Color(1.0, 0.45, 0.5) },
-    uDawnWash: { value: new THREE.Color(0.55, 0.35, 0.62) },
-    uCloudBright: { value: new THREE.Color(0, 0, 0) },
-    uCloudDark: { value: new THREE.Color(0, 0, 0) },
-    uGlowDir: { value: new THREE.Vector3(0, 1, 0) },
-    uGlowCol: { value: new THREE.Color(0, 0, 0) },
-    uFlash: { value: 0 },
-    uCloudSunset: { value: new THREE.Color(0, 0, 0) },
-    uCloudSunsetAmt: { value: new THREE.Vector2(0, 0) },
-  };
-  // The SHARED aerial uniforms ride along (round 5): the dome fog march reads
-  // the same rasters, regime conditions and fog colours as every surface —
-  // both domes (main + PMREM bake) share the very objects, so one WorldSky
-  // write per frame updates them all.
-  Object.assign(mat.uniforms, extras, cloudUniforms, sharedAerialUniforms);
-  mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
-  mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform float uTwiGrade;\nuniform vec3 uDawnCore;\nuniform vec3 uDawnSpread;\nuniform vec3 uDawnWash;\nuniform vec3 uMoonGlowDirA;\nuniform vec3 uMoonGlowDirB;\nuniform vec3 uMoonGlowColA;\nuniform vec3 uMoonGlowColB;\nuniform vec2 uMoonGlowWide;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
-    AERIAL_DOME_PARS_GLSL +
-    CLOUD_UNIFORMS_GLSL +
-    cloudFieldGlsl() +
-    mat.fragmentShader.replace(
-      "gl_FragColor = vec4( texColor, 1.0 );",
-      /* glsl */ `
-      // Preetham emits NaN/negatives/INFINITIES at and below the horizon; the
-      // PMREM env bake integrates the whole sphere, and one bad texel poisons
-      // the env map and wrecks every lit material. Do NOT trust isnan() — real
-      // drivers (ANGLE/Metal fast-math) often optimise it away (owner gate
-      // 2026-08-25: driver-dependent white-out). Instead the below-horizon
-      // half is REPLACED deterministically with a CPU-computed ground-bounce
-      // colour (which also gives the IBL a sane lower hemisphere), and the
-      // above-horizon values are clamped through a NaN-collapsing min/max
-      // chain (max(NaN, x) selects x on every mainstream GPU).
-      texColor = min(max(texColor, vec3(0.0)), vec3(50.0));
-      // Lift the Preetham dome's relative HDR onto the scene's lux scale.
-      texColor *= uSkyLum;
-      // TROPICAL TWILIGHT GRADE, part 1 — kill the green (owner 2026-09-10).
-      // Measured: at low sun the cross-/anti-solar horizon sky runs through
-      // hue 46°→143° (yellow-green) with G up to +0.19 above the R/B midline.
-      // That green is Preetham's horizon extinction, not anything the real
-      // atmosphere does. Clamp G back toward the midline over the low-sun
-      // band only (uTwiGrade is a bell — zero at noon and deep night, so
-      // neither can shift), weighted to the horizon where the artefact lives.
-      // The energy removed is handed to the authored palette below rather
-      // than discarded, so the band reads coral/violet instead of grey.
-      // The clamp is ALWAYS ON, weighted to the horizon where the artefact
-      // lives: a green sky is never right at any hour, so gating this on
-      // twilight would just leave the same defect in the mid-morning. It is
-      // self-limiting — where the sky is properly warm or properly blue the
-      // green channel is not the maximum and this subtracts nothing.
-      float esHzW = pow(1.0 - clamp(direction.y, 0.0, 1.0), 1.5);
-      float esGreenOver = max(texColor.g - max(texColor.r, texColor.b), 0.0) * esHzW;
-      texColor.g -= esGreenOver;
-      // Hand it back as warm + violet, roughly luminance-preserving.
-      texColor += esGreenOver * vec3(0.62, 0.0, 0.55);
-      // Only the palette WASH below is twilight-gated.
-      float esGreenExcess = esGreenOver * uTwiGrade;
-      // DIRECTIONAL twilight (research doc §8c): the anti-solar sky runs
-      // ~3.5° "later" into dusk than the solar side, so night sweeps across
-      // the dome from opposite the sunset instead of arriving as one rim.
-      vec2 esAzDir = direction.xz;
-      float esAzLen = max(length(esAzDir), 1e-4);
-      float esCosAz = clamp(dot(esAzDir / esAzLen, uDawnDir), -1.0, 1.0);
-      float esD = -uSunAltDeg;
-      float esA = 3.5 * (1.0 - smoothstep(5.0, 9.0, esD));
-      float esAltEff = uSunAltDeg - esA * (1.0 - esCosAz) * 0.5;
-      float esFade = smoothstep(-9.0, -1.0, esAltEff);
-      // Night dome, boosted so its SCREEN brightness is already the night
-      // level whenever it shows (uNightBoost — kills the black gap between
-      // sunset and starlight).
-      vec3 esNight = (uNightZenith
-        + (uNightHorizon - uNightZenith) * pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0))
-        * uNightBoost;
-      texColor = mix(esNight, texColor, esFade);
-      // Earth's shadow (anti-solar dark blue-grey segment, top climbing
-      // ~1.4°/° of sun depression) with the Belt of Venus rose band above,
-      // both dissolving by ~7° depression (research §8c).
-      float esWAnti = max(0.0, -esCosAz);
-      float esElevDeg = degrees(asin(clamp(direction.y, -1.0, 1.0)));
-      float esShadowIn = smoothstep(0.3, 1.2, esD) * (1.0 - smoothstep(5.0, 7.5, esD));
-      float esTop = 1.4 * esD;
-      float esBelow = 1.0 - smoothstep(esTop - 2.0, esTop + 1.5, esElevDeg);
-      texColor *= 1.0 - 0.4 * esWAnti * esShadowIn * esBelow;
-      float esBelt = exp(-pow((esElevDeg - esTop - 4.0) / 4.0, 2.0));
-      texColor += vec3(0.95, 0.45, 0.42) * uBeltLum * esWAnti * esBelt;
-      // Twilight glow (owner round 3): tropical dawn/dusk gradient anchored
-      // at the sun's azimuth — molten orange core, coral/magenta spread,
-      // violet-indigo wash opposite. uDawnLum is exposure-anchored on the
-      // CPU so the on-screen brightness follows one smooth authored bell.
-      {
-        float esAz = esCosAz * 0.5 + 0.5;
-        float esHz = pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
-        // Palette re-tuned round 6 to the owner's tropical references:
-        // golden-peach core, coral-pink spread, lavender wash — pastel and
-        // light, never a saturated crimson band. The three colours now
-        // arrive as uniforms (owner 2026-09-10): the rig re-rolls them once
-        // per calendar day inside the same tropical family, so consecutive
-        // dawns share a look without being the same picture twice.
-        texColor += uDawnLum * esHz * (
-            uDawnCore * pow(esAz, 5.0) * 1.05
-          + uDawnSpread * pow(esAz, 2.0) * 0.55
-          + uDawnWash * 0.20);
-        // TROPICAL TWILIGHT GRADE, part 2 — spend the green the clamp above
-        // removed on the same palette, so the low-sun band gains coral and
-        // violet exactly where it used to gain green.
-        texColor += esGreenExcess * esHz * (uDawnSpread * 0.8 + uDawnWash * 0.4);
-      }
-      // MOON GLOW (owner 2026-09-10, Elysium reference). Drawn INTO the dome
-      // rather than as a sprite, which buys correct compositing for free:
-      // the dome is the farthest surface, so the moon's own disc (26 000,
-      // depth-writing) covers the glow's centre, and the cloud block BELOW
-      // this composites over it — so a moon behind thick cloud loses its
-      // halo without any extra occlusion test.
-      //
-      // Two terms, per the real thing: a tight aureole from aerosol forward-
-      // scatter hugging the disc, and a wide soft skirt. The 22-degree ice
-      // halo is a distinct ring rather than a gradient and is deliberately
-      // not modelled. uMoonGlowWide widens the skirt under thin cloud (which
-      // is what a cirrus veil actually does to moonlight); thick cloud kills
-      // the whole term via the CPU-side occlusion already in uMoonGlowCol.
-      {
-        float esAngA = acos(clamp(dot(direction, uMoonGlowDirA), -1.0, 1.0));
-        float esAngB = acos(clamp(dot(direction, uMoonGlowDirB), -1.0, 1.0));
-        // Round 2: the first version was too tight to notice — the aureole
-        // was gone within 2-3 degrees of a disc that is itself about 1 wide.
-        // Slower exponents and a fatter skirt give a halo with some reach.
-        // Round 3 (owner: "looks great, reduce the halo size a bit") — the
-        // aureole exponents and the skirt widths are both tightened by about
-        // a third. Brightness is unchanged; only the reach comes in.
-        vec3 esMoonGlow =
-            uMoonGlowColA * (exp(-esAngA * 32.0) * 0.75
-              + 1.0 / (1.0 + pow(esAngA * uMoonGlowWide.x, 2.0)) * 0.40)
-          + uMoonGlowColB * (exp(-esAngB * 48.0) * 0.55
-              + 1.0 / (1.0 + pow(esAngB * uMoonGlowWide.y, 2.0)) * 0.25);
-        // Two full moons close together would otherwise sum to a flat white
-        // patch; a Reinhard knee on this term alone lets the overlap
-        // saturate gracefully instead of clipping.
-        texColor += esMoonGlow / (1.0 + esMoonGlow);
-      }
-      // Weather cloud layers (Phase 8c round 2): the SHARED cloud field
-      // (cloudField.ts — the same functions the star shader and the CPU
-      // sun/moon occlusion evaluate) drawn INTO the dome so the PMREM IBL
-      // sees the deck. Colours arrive exposure-anchored from the CPU
-      // (uCloudBright/uCloudDark, lightRig) — cloudy skies stay inside the
-      // §8d screen envelope by construction. Premultiplied back-to-front
-      // over-composite: cirrus, then the weather-bearing mid deck (with
-      // shaded bases, silver-lining edge glow toward the sun/moon and the
-      // squall shelf wall inside esCloudMid), then ragged low scud.
-      if (direction.y > 0.012 && (uCloudCov.x + uCloudCov.y + uCloudCov.z) > 0.003) {
-        float esCA = 0.0;
-        vec3 esCC = vec3(0.0);
-        // Sunset/sunrise cloud light (round 3): strongest toward the sun's
-        // azimuth (esAz01), fading to a soft rose on the anti-solar side —
-        // the CPU-anchored uCloudSunset is the reddened transmitted sunlight.
-        float esAz01 = esCosAz * 0.5 + 0.5;
-        vec3 esSetCol = uCloudSunset * mix(vec3(0.78, 0.72, 0.95), vec3(1.0), pow(esAz01, 2.0));
-        { // high cirrus — thin, bright, stretched along the wind; catches
-          // fire brightest and keeps its glow into dusk (uCloudSunsetAmt.y)
-          float a = esCloudHigh(direction);
-          vec3 col = mix(uCloudBright, esSetCol,
-            uCloudSunsetAmt.y * (0.35 + 0.65 * pow(esAz01, 2.0)));
-          esCC += col * (a * (1.0 - esCA));
-          esCA += a * (1.0 - esCA);
-        }
-        { // mid deck
-          float nMid;
-          float a = esCloudMid(direction, nMid);
-          float shade = smoothstep(0.45, 0.95, nMid);
-          vec3 col = mix(uCloudBright, uCloudDark, shade);
-          // lit faces and thin parts colour most; thick bases stay shadowed
-          col = mix(col, esSetCol,
-            uCloudSunsetAmt.x * (0.2 + 0.8 * pow(esAz01, 3.0)) * (1.0 - 0.65 * shade));
-          esCC += col * (a * (1.0 - esCA));
-          // Silver lining (research §8.1): a band-pass on the layer alpha
-          // isolates the thin edge zone; gated by angular proximity to the
-          // glow light (sun by day, Masser by night) so only edges facing
-          // the light catch it.
-          float esEdge = smoothstep(0.03, 0.18, a) * (1.0 - smoothstep(0.25, 0.6, a));
-          float esToGlow = pow(max(dot(direction, uGlowDir), 0.0), 6.0);
-          esCC += uGlowCol * (esEdge * esToGlow * (1.0 - esCA));
-          esCA += a * (1.0 - esCA);
-        }
-        { // low scud — fast, ragged, storm-dark; a whisper of the sunset
-          float a = esCloudLow(direction);
-          vec3 col = mix(uCloudBright * 0.85, uCloudDark, 0.75);
-          col = mix(col, esSetCol, uCloudSunsetAmt.x * 0.22 * pow(esAz01, 3.0));
-          esCC += col * (a * (1.0 - esCA));
-          esCA += a * (1.0 - esCA);
-        }
-        // lightning glow lives inside the cloud body
-        esCC += uFlash * uCloudBright * 3.0 * esCA;
-        float esHzFade = smoothstep(0.012, 0.09, direction.y);
-        texColor = mix(texColor, esCC / max(esCA, 1e-4), esCA * esHzFade);
-      }
-      // Below the horizon (hard branch, not mix(): mix(x, NaN, 0.0) is still
-      // NaN): first a distance-haze band — so looking off the province edge
-      // reads as hazy distance, not a flat brown void (owner round 3) — then
-      // the ground-bounce colour for the IBL's deep lower hemisphere.
-      if (direction.y < -0.02) {
-        float esToGround = 1.0 - smoothstep(-0.34, -0.08, direction.y);
-        texColor = mix(uHorizonLum, uGroundLum, esToGround);
-      } else {
-        texColor = mix(uHorizonLum, texColor, smoothstep(-0.02, 0.012, direction.y));
-      }
-      // Fog banks on the SKY (round 5): the same regime densities the aerial
-      // term integrates over surfaces are marched along this sky ray, so a
-      // cap-cloud bank or sea-fog wall is visible against open sky — lit by
-      // the same derived fog colours, from outside AND from within (being
-      // inside a bank falls out of the march's first samples; this replaces
-      // the round-2 camera-altitude veil). Output is a mix toward
-      // exposure-anchored fog colours, so the screen envelope still holds
-      // (skyScreenModel).
-      texColor = esSkyFog(texColor, direction);
-      // Stay below the half-float ceiling (65504): the PMREM env bake renders
-      // into a HalfFloat target, and any overflow becomes Infinity there and
-      // poisons the environment lighting.
-      texColor = min(texColor, vec3(60000.0));
-      gl_FragColor = vec4( texColor, 1.0 );`,
-    );
-  return { sky, extras };
-}
-
-function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky): void {
-  const a = from.material.uniforms;
-  const b = to.material.uniforms;
-  // The cloud-field uniforms (uCloudCov/Dens/Puff/Scroll/Front/Dir/Time/
-  // Noise) AND the aerial fog uniforms (round 5: rasters, regime conditions,
-  // fog colours, march camera) are SHARED objects between both dome
-  // materials — no copy needed.
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uTwiGrade", "uFlash"]) {
-    b[k].value = a[k].value;
-  }
-  (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
-  (b.uMoonGlowDirA.value as THREE.Vector3).copy(a.uMoonGlowDirA.value as THREE.Vector3);
-  (b.uMoonGlowDirB.value as THREE.Vector3).copy(a.uMoonGlowDirB.value as THREE.Vector3);
-  (b.uMoonGlowColA.value as THREE.Color).copy(a.uMoonGlowColA.value as THREE.Color);
-  (b.uMoonGlowColB.value as THREE.Color).copy(a.uMoonGlowColB.value as THREE.Color);
-  (b.uMoonGlowWide.value as THREE.Vector2).copy(a.uMoonGlowWide.value as THREE.Vector2);
-  (b.uDawnCore.value as THREE.Color).copy(a.uDawnCore.value as THREE.Color);
-  (b.uDawnSpread.value as THREE.Color).copy(a.uDawnSpread.value as THREE.Color);
-  (b.uDawnWash.value as THREE.Color).copy(a.uDawnWash.value as THREE.Color);
-  (b.uCloudBright.value as THREE.Color).copy(a.uCloudBright.value as THREE.Color);
-  (b.uCloudDark.value as THREE.Color).copy(a.uCloudDark.value as THREE.Color);
-  (b.uCloudSunset.value as THREE.Color).copy(a.uCloudSunset.value as THREE.Color);
-  (b.uCloudSunsetAmt.value as THREE.Vector2).copy(a.uCloudSunsetAmt.value as THREE.Vector2);
-  (b.uGlowDir.value as THREE.Vector3).copy(a.uGlowDir.value as THREE.Vector3);
-  (b.uGlowCol.value as THREE.Color).copy(a.uGlowCol.value as THREE.Color);
-  (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
-  (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
-  (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
-  (b.uGroundLum.value as THREE.Color).copy(a.uGroundLum.value as THREE.Color);
-  (b.uHorizonLum.value as THREE.Color).copy(a.uHorizonLum.value as THREE.Color);
-}
-
-// ---------- authored stars ----------
-
-interface FlatStar {
-  ra: number; // radians
-  dec: number;
-  mag: number;
-  /** Density rank 0..1: the star shows when rank ≤ the density uniform.
-   * Authored constellation stars are 0 (always shown). */
-  rank: number;
-}
-
-/** Background-star pool size; the density slider reveals a fraction of it.
- * Owner-locked default (round 8): ×0.5 ≈ 3 300 background stars. */
-export const STAR_POOL = 13_200;
 let starDensityMult = 0.5;
 export function setStarDensityMult(v: number): void {
   starDensityMult = Math.min(2, Math.max(0.1, v));
@@ -463,155 +153,6 @@ export function setStarDensityMult(v: number): void {
 export function getStarDensityMult(): number {
   return starDensityMult;
 }
-
-function flattenCatalogue(): FlatStar[] {
-  const out: FlatStar[] = [];
-  for (const c of catalogue.constellations) {
-    const cosDec = Math.max(0.2, Math.cos(c.decDeg * DEG));
-    for (const [dRa, dDec, mag] of c.stars as [number, number, number][]) {
-      out.push({ ra: (c.raDeg + dRa / cosDec) * DEG, dec: (c.decDeg + dDec) * DEG, mag, rank: 0 });
-    }
-    const p = (c as { planet?: { dRaDeg: number; dDecDeg: number; magnitude: number } }).planet;
-    if (p) {
-      out.push({
-        ra: (c.raDeg + p.dRaDeg / cosDec) * DEG,
-        dec: (c.decDeg + p.dDecDeg) * DEG,
-        mag: p.magnitude,
-        rank: 0,
-      });
-    }
-  }
-  out.push({
-    ra: catalogue.poleStar.raDeg * DEG,
-    dec: catalogue.poleStar.decDeg * DEG,
-    mag: catalogue.poleStar.magnitude,
-    rank: 0,
-  });
-  // Background field (owner round 3, count raised rounds 4–5): the sky
-  // between the thirteen authored constellations must not be empty. Faint
-  // stars from a SEEDED generator (deterministic — same sky every night),
-  // magnitudes below the constellation stars so the authored figures still
-  // lead. They share the buffer, so they wheel with the constellations.
-  let seed = 0x5eed5;
-  const rnd = () => {
-    seed = (seed * 1664525 + 1013904223) >>> 0;
-    return seed / 4294967296;
-  };
-  for (let i = 0; i < STAR_POOL; i++) {
-    out.push({
-      ra: 2 * Math.PI * rnd(),
-      dec: Math.asin(2 * rnd() - 1), // uniform on the sphere
-      mag: 2.6 + 2.8 * Math.pow(rnd(), 0.7),
-      rank: (i + 1) / STAR_POOL, // density slider reveals in this order
-    });
-  }
-  return out;
-}
-
-const starVertexGlsl = () => /* glsl */ `
-attribute float aSize;
-attribute float aLum;
-attribute float aMag;
-attribute float aRank;
-uniform float uSunAltDeg;
-uniform float uStarFrac;
-uniform vec2 uDawnDir;
-varying float vLum;
-${CLOUD_UNIFORMS_GLSL}
-${cloudFieldGlsl()}
-void main() {
-  // Density slider: background stars beyond the revealed fraction vanish.
-  float esDensity = aRank <= uStarFrac ? 1.0 : 0.0;
-  // Staged star appearance (research §8c): brighter magnitudes switch on at
-  // shallower sun depressions (mag -1 by ~3°, mag 6 by ~18°), and the
-  // anti-solar sky — which darkens first — shows its stars first.
-  float esD = -uSunAltDeg;
-  vec2 esAz = normalize(position.xz + vec2(1e-5, 0.0));
-  float esCosAz = clamp(dot(esAz, uDawnDir), -1.0, 1.0);
-  float esDEff = esD + 3.5 * (1.0 - smoothstep(5.0, 9.0, esD)) * (1.0 - esCosAz) * 0.5;
-  float esOn = 3.0 + 2.14 * (aMag + 1.0);
-  vLum = aLum * esDensity * smoothstep(esOn - 2.0, esOn, esDEff);
-  // Per-star cloud occlusion (round 2): each star samples the SAME cloud
-  // field the dome draws — broken night cover blots out patches of stars
-  // while gaps keep theirs, which is what makes a cloudy night READ cloudy.
-  vLum *= 1.0 - esCloudAlpha(normalize(position));
-  vec4 mv = modelViewMatrix * vec4(position, 1.0);
-  gl_PointSize = aSize;
-  gl_Position = projectionMatrix * mv;
-}`;
-
-const STAR_FRAGMENT = /* glsl */ `
-uniform float uOpacity;
-varying float vLum;
-void main() {
-  vec2 d = gl_PointCoord - 0.5;
-  float falloff = smoothstep(0.5, 0.12, length(d));
-  gl_FragColor = vec4(vec3(vLum) * falloff * uOpacity, 1.0);
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
-}`;
-
-// ---------- moons as lit spheres ----------
-
-const MOON_VERTEX = /* glsl */ `
-varying vec3 vN;
-varying vec3 vWp;
-void main() {
-  vN = normalize(position);
-  vWp = (modelMatrix * vec4(position, 1.0)).xyz;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-}`;
-
-const MOON_FRAGMENT = /* glsl */ `
-uniform vec3 uSunDir;
-uniform vec3 uTint;
-uniform float uDayDim;
-varying vec3 vN;
-varying vec3 vWp;
-
-float esMoonHash(vec3 p) {
-  return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453);
-}
-float esMoonNoise(vec3 p) {
-  vec3 i = floor(p);
-  vec3 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
-  float n000 = esMoonHash(i);
-  float n100 = esMoonHash(i + vec3(1, 0, 0));
-  float n010 = esMoonHash(i + vec3(0, 1, 0));
-  float n110 = esMoonHash(i + vec3(1, 1, 0));
-  float n001 = esMoonHash(i + vec3(0, 0, 1));
-  float n101 = esMoonHash(i + vec3(1, 0, 1));
-  float n011 = esMoonHash(i + vec3(0, 1, 1));
-  float n111 = esMoonHash(i + vec3(1, 1, 1));
-  return mix(mix(mix(n000, n100, f.x), mix(n010, n110, f.x), f.y),
-             mix(mix(n001, n101, f.x), mix(n011, n111, f.x), f.y), f.z);
-}
-
-void main() {
-  // Real sun direction (even below the local horizon — the moons are in
-  // space), so phase and terminator are correct by construction (§95). The
-  // disc is DISPLAY-REFERRED (scene tone mapping deliberately skipped): the
-  // night exposure floor clips any physically-scaled luminance to a flat
-  // white circle (owner round 3), so the moon is authored in output space
-  // like most games do. Additive blend: the dark side melts into daylight,
-  // the lit side glows over the night dome. uDayDim washes the disc against
-  // the bright day dome (round 2's "moons add light" report).
-  vec3 n = normalize(vN);
-  // pow > 1 SHARPENS the terminator: the round-3 report "moons always look
-  // full at night" was gibbous phases washing out under the old softening —
-  // the ephemeris itself is verified correct (crescents pre-dawn, halves at
-  // midnight rise/set, ~51 min/night rise drift).
-  float lit = pow(max(dot(n, uSunDir), 0.0), 1.35);
-  // Procedural maria/highlands mottling, stable on the sphere; limb
-  // darkening from the view angle so the disc reads as a globe.
-  float esMar = esMoonNoise(n * 3.1) + 0.5 * esMoonNoise(n * 7.7) + 0.25 * esMoonNoise(n * 16.3);
-  float esPat = 0.68 + 0.32 * smoothstep(0.55, 1.15, esMar);
-  vec3 esView = normalize(cameraPosition - vWp);
-  float esLimb = 0.45 + 0.55 * pow(max(dot(n, esView), 0.0), 0.6);
-  gl_FragColor = vec4(uTint * (0.005 + 0.68 * lit) * esPat * esLimb * uDayDim, 1.0);
-  #include <colorspace_fragment>
-}`;
 
 export interface SkyDebugState {
   epochMinutes: number;
@@ -699,34 +240,38 @@ export function WorldSky({
   if (STUDIO_TOOLS) {
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
-    (window as unknown as { __RENDERER__?: THREE.WebGLRenderer }).__RENDERER__ =
-      gl as unknown as THREE.WebGLRenderer;
+    (window as unknown as { __RENDERER__?: WebGPURenderer }).__RENDERER__ =
+      gl as unknown as WebGPURenderer;
   }
 
-  // Climate rasters as GPU textures for the haze term (shared uniforms).
+  // Climate rasters as GPU textures for the haze term (shared uniforms):
+  // each is a TextureNode whose `.value` swaps from the zero placeholder to
+  // the decoded raster, re-pointing every sample of it.
   useEffect(() => {
-    if (!sharedAerialUniforms.uClimateAir.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-air.png`, (t) => {
+    const rasters: [AerialRasterKey, string][] = [
+      ["uClimateAir", "climate-air"],
+      ["uClimateWeather", "climate-weather"],
+      ["uClimateVis", "climate-vis"],
+    ];
+    for (const [key, name] of rasters) {
+      if (aerialRasterLoaded(sharedAerialUniforms, key)) continue;
+      new THREE.TextureLoader().load(`${base}province/${name}.png`, (t) => {
         t.colorSpace = THREE.NoColorSpace;
         t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateAir.value = t;
-      });
-    }
-    if (!sharedAerialUniforms.uClimateWeather.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-weather.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateWeather.value = t;
-      });
-    }
-    if (!sharedAerialUniforms.uClimateVis.value) {
-      new THREE.TextureLoader().load(`${base}province/climate-vis.png`, (t) => {
-        t.colorSpace = THREE.NoColorSpace;
-        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-        sharedAerialUniforms.uClimateVis.value = t;
+        sharedAerialUniforms[key].value = t;
       });
     }
   }, [base]);
+
+  // THE scene fog is the aerial inscatter (decision 0107): every node
+  // material with `fog = true` is hazed by this one node.
+  useEffect(() => {
+    const fogScene = scene as THREE.Scene & { fogNode?: unknown };
+    fogScene.fogNode = createAerialFogNode(sharedAerialUniforms);
+    return () => {
+      fogScene.fogNode = null;
+    };
+  }, [scene]);
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
   // both modes (module 55 §96 — tone mapping is part of the light system).
@@ -744,156 +289,82 @@ export function WorldSky({
   // Cascaded shadow maps: mandatory for a sun over kilometres of terrain.
   // Character play needs crisp near shadows; the flyover trades texel size for
   // mountain-scale reach.
-  const csm = useMemo(() => {
+  const { sun, csm } = useMemo(() => {
     // ?smsize= lets headless probes shrink the cascade maps (software GL).
     const params = new URLSearchParams(window.location.search);
     const smsize = Number(params.get("smsize")) || 2048;
-    // Character play: ONE cascade over 160 m (2026-09-21). Every cascade
-    // re-draws every caster in its slice, and at rest the jungle hands the
-    // shadow pass 2.5 M caster triangles — so the second cascade was a second
-    // pass over most of them for shadows past the distance anyone reads. One
-    // 2048 px map over 120 m is ~6 cm a texel, crisper than the two it
-    // replaces. The flyover keeps 3 for mountain-scale reach. Round 9: the
-    // reach is 120 m, not 160 — the casters are full meshes and the cascade
-    // frustum is what bounds them, and Skyrim's exterior shadow distance is
-    // ~114 m (decision 0084).
-    // ?csm=<cascades>,<maxFar> overrides both in character mode, so the two
-    // arrangements can be compared on the same spot (?csm=2,300).
+    // Character play: ONE cascade over 120 m (2026-09-21, round 9). Every
+    // cascade re-draws every caster in its slice, so a second cascade was a
+    // second pass over most of the jungle's 2.5 M caster triangles for
+    // shadows past the distance anyone reads; Skyrim's exterior shadow
+    // distance is ~114 m (decision 0084). The flyover keeps 3 for
+    // mountain-scale reach. ?csm=<cascades>,<maxFar> overrides both in
+    // character mode, so the two arrangements can be compared on the same
+    // spot (?csm=2,300).
     const csmParam = (params.get("csm") ?? "").split(",").map(Number);
     const csmCascades = Number.isFinite(csmParam[0]) && csmParam[0] > 0
       ? Math.round(csmParam[0]) : null;
     const csmFar = Number.isFinite(csmParam[1]) && csmParam[1] > 0 ? csmParam[1] : null;
-    const c = new CSM({
-      camera: camera as THREE.PerspectiveCamera,
-      parent: scene,
+    return createSunCascades({
       cascades: mode === "character" ? (csmCascades ?? 1) : 3,
       shadowMapSize: smsize,
       maxFar: mode === "character" ? (csmFar ?? 120) : 6000,
-      mode: "practical",
-      // Small depth bias + normal-offset bias: the old large depth bias
-      // pushed shadows off their casters (~0.5 m "hovering character" gap,
-      // owner round 5). Normal bias fights acne without detaching contacts.
-      shadowBias: -6e-5,
-      lightMargin: 400,
     });
-    c.fade = true;
-    for (const l of c.lights) l.shadow.normalBias = 0.05;
-    // Tag the cascade lights so discarded-render orphans are identifiable:
-    // constructing CSM mutates the scene (adds lights) during render, and
-    // React may throw a suspended render away WITHOUT running any cleanup.
-    for (const l of c.lights) l.name = "csm-cascade";
-    return c;
-  }, [camera, scene, mode]);
-  useEffect(() => {
-    // Sweep orphaned cascade lights from discarded renders (owner gate defect
-    // 2026-08-25: suspense retries leaked 8 CSMs = 24 stray shadow-casting
-    // intensity-3 white lights — night terrain lit like day, frame rate dead).
-    const live = new Set<THREE.Object3D>(csm.lights);
-    const strays = scene.children.filter(
-      (o) => o.name === "csm-cascade" && !live.has(o),
-    );
-    for (const s of strays) {
-      scene.remove((s as THREE.DirectionalLight).target);
-      scene.remove(s);
-    }
-    return () => {
-      // BOTH calls: CSM.dispose() restores materials but does NOT detach the
-      // cascade lights — that is remove()'s job.
-      csm.remove();
-      csm.dispose();
-    };
-  }, [csm, scene]);
+  }, [mode]);
+  // The sun joins the scene through JSX below, so a discarded render leaves
+  // nothing behind; the cascade proxies are added by the node at first use
+  // and removed by dispose().
+  useEffect(() => () => {
+    csm.dispose();
+    sun.dispose();
+  }, [csm, sun]);
 
-  // Any lit material that enters the scene (character GLBs, sea, props) must
-  // be CSM-patched or the per-cascade lights each add full-strength lighting.
+  // Alpha-tested foliage tagged esAerial keeps the old aerial patch's
+  // mip-alpha coverage boost (the haze itself is the scene fog node now);
+  // nothing else needs patching since node cascades never reassign a
+  // material's shader. Runs before EVERY render (dev 02aaca40, 16k walk 5):
+  // a material first drawn unpatched compiled one way and relinked up to a
+  // second later, the startup flash. Only new materials cost anything; the
+  // walk is a WeakSet look-up per visible mesh.
   const patched = useRef(new WeakSet<THREE.Material>());
   const patchScene = () => {
-    let anyNew = false;
-    scene.traverse((obj) => {
+    scene.traverseVisible((obj) => {
       const mesh = obj as THREE.Mesh;
       if (!mesh.isMesh) return;
       const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       for (const m of mats) {
-        const lit = m as THREE.MeshStandardMaterial;
-        if (!lit || patched.current.has(m) || csm.shaders.has(m)) {
-          patched.current.add(m);
-          continue;
-        }
-        if (lit.isMeshStandardMaterial || (m as THREE.MeshLambertMaterial).isMeshLambertMaterial) {
-          csm.setupMaterial(m);
-          // Materials tagged esAerial (vegetation kit) join the one aerial
-          // inscatter authority AFTER the CSM patch — csm.setupMaterial
-          // overwrites onBeforeCompile, so the order is load-bearing. Without
-          // this, plants ignored haze/mist/fog entirely: unfogged dark green
-          // on hazed-out pale terrain, reading as black specks pasted in
-          // front of the weather (owner, Phase 10 round 2).
-          if (m.userData?.esAerial) {
-            applyAerialPerspective(m, sharedAerialUniforms);
-          }
-          // Same overwrite hazard, same load-bearing order: the wind-sway
-          // hook the vegetation installed at mesh build is wiped by
-          // csm.setupMaterial too. This shipped as "trees never move" in
-          // round 5. reapplyWindSway is a no-op on materials wind never
-          // touched.
-          reapplyWindSway(m);
-          // The LOD crossfade hook is wiped by exactly the same assignment,
-          // and losing it costs more than losing wind: the dither discard
-          // stops, both copies of a crossfading instance draw solid, and
-          // vegetation doubles up at every ring.
-          reapplyLodFade(m);
-          // The batched-foliage head (per-instance band, wind tune and the
-          // occlusion mask) rides the same assignment. Lose it and every
-          // batched instance reads a zero band: every rung of every species
-          // draws solid at every distance, unfaded and unoccluded.
-          reapplyBatchData(m);
-          // The card tier's cylindrical billboard rides the same vertex seam
-          // and is wiped by the same assignment; restored AFTER the fade,
-          // which owns the `esLodViewPos` declaration the card reuses. Lose
-          // it and every distant grass card faces wherever the scatter
-          // pointed it — edge-on half the time.
-          reapplyCylindricalBillboard(m);
-          // And the ground-cover tint hook, for the same reason: without it
-          // `instanceColor` never reaches the pixel and the whole ring goes
-          // back to one flat kit green over the painted ground.
-          reapplyGroundTint(m);
-          // Architecture wetness/window emission uses the same defensive
-          // contract: CSM owns the first patch, then the settlement surface
-          // hook is restored and chains it (Round B checklist item 12).
-          reapplySettlementSurface(m);
-          m.needsUpdate = true;
-          anyNew = true;
-        }
+        if (!m || patched.current.has(m)) continue;
         patched.current.add(m);
+        if (m.userData?.esAerial && isNodeMaterial(m)) applyMipAlphaBoost(m as NodeMaterial);
       }
     });
-    // Newly patched programs compile off the main thread where the driver
-    // supports it (KHR_parallel_shader_compile) — synchronous first-use
-    // compiles of the big CSM shaders are the load-time frame stalls.
-    // This compiles OUTSIDE the water pipeline's frame, so it must see the
-    // same shadow type the shadow maps are built with: a program compiled
-    // while the deprecated PCFSoft value is set gets `sampler2D` shadow
-    // samplers against PCF comparison textures (WaterPipeline.tsx explains).
-    if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
-    // `compile`, never `compileAsync` (16k walk 3): compileAsync registers
-    // EVERY material in the scene in a Set and polls each program's isReady
-    // on a timer; a material disposed while its program is still linking has
-    // its renderer properties removed, the poll reads `currentProgram` of a
-    // fresh empty entry and throws "Cannot read properties of undefined
-    // (reading 'isReady')" from the Set.forEach. Nothing here awaited the
-    // promise, so the poll bought nothing: `compile` starts the same
-    // parallel links and registers nothing.
-    if (anyNew) gl.compile(scene, camera);
   };
+  const patchRef = useRef(patchScene);
+  patchRef.current = patchScene;
+  const patchFrame = useRef({ frame: 0, patched: -1 });
+  // a layout effect: installed at commit, before the first frame renders
+  useLayoutEffect(() => {
+    const previous = scene.onBeforeRender;
+    scene.onBeforeRender = function (...args) {
+      previous.apply(this, args);
+      // the water pipeline renders the scene several times a frame: patch once
+      if (patchFrame.current.patched === patchFrame.current.frame) return;
+      patchFrame.current.patched = patchFrame.current.frame;
+      patchRef.current();
+    };
+    return () => { scene.onBeforeRender = previous; };
+  }, [scene]);
 
-  const { sky, extras } = useMemo(() => createSkyDome(STAR_RADIUS * 1.6), []);
+  const dome = useMemo(() => createSkyDome(STAR_RADIUS * 1.6, sharedAerialUniforms, cloudUniforms), []);
+  const { sky, extras } = dome;
   const bake = useMemo(() => {
-    const b = createSkyDome(100);
+    const b = createSkyDome(100, sharedAerialUniforms, cloudUniforms);
     const bakeScene = new THREE.Scene();
     bakeScene.add(b.sky);
     return { ...b, scene: bakeScene };
   }, []);
-  const pmrem = useMemo(() => new THREE.PMREMGenerator(gl), [gl]);
-  const envRT = useRef<THREE.WebGLRenderTarget | null>(null);
+  const pmrem = useMemo(() => new PMREMGenerator(gl as unknown as WebGPURenderer), [gl]);
+  const envRT = useRef<RenderTarget | null>(null);
   useEffect(
     () => () => {
       sky.material.dispose();
@@ -907,83 +378,23 @@ export function WorldSky({
 
   // Stars.
   const stars = useMemo(() => flattenCatalogue(), []);
-  const starGeom = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stars.length * 3), 3));
-    const size = new Float32Array(stars.length);
-    const lum = new Float32Array(stars.length);
-    const mag = new Float32Array(stars.length);
-    const rank = new Float32Array(stars.length);
-    stars.forEach((s, i) => {
-      rank[i] = s.rank;
-      size[i] = Math.max(1.4, 5.2 - s.mag) * Math.min(2, window.devicePixelRatio || 1);
-      // Bright enough to read as constellations under the night exposures
-      // (owner round 2, brightened round 5); day is handled by the staged
-      // twilight visibility in the vertex stage.
-      lum[i] = 1.5 * Math.pow(10, -0.4 * s.mag);
-      mag[i] = s.mag;
-    });
-    g.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
-    g.setAttribute("aLum", new THREE.BufferAttribute(lum, 1));
-    g.setAttribute("aMag", new THREE.BufferAttribute(mag, 1));
-    g.setAttribute("aRank", new THREE.BufferAttribute(rank, 1));
-    g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), STAR_RADIUS * 2);
-    return g;
-  }, [stars]);
-  const starMat = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        uniforms: {
-          uOpacity: { value: 0 },
-          uSunAltDeg: { value: 45 },
-          uStarFrac: { value: 0.5 },
-          uDawnDir: { value: new THREE.Vector2(0, 1) },
-          ...cloudUniforms,
-        },
-        vertexShader: starVertexGlsl(),
-        fragmentShader: STAR_FRAGMENT,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        transparent: true,
-      }),
-    [],
+  const starLayer = useMemo(
+    () => createStarLayer("stars", starAttributes(stars, window.devicePixelRatio || 1), cloudUniforms),
+    [stars],
   );
 
   // The Serpent: four dark "unstars" (canon), drawn as occluding smudges.
-  const serpentGeom = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(4 * 3), 3));
+  const serpentLayer = useMemo(() => {
     const size = new Float32Array(4).fill(9 * Math.min(2, window.devicePixelRatio || 1));
     const lum = new Float32Array(4).fill(1);
-    g.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
-    g.setAttribute("aLum", new THREE.BufferAttribute(lum, 1));
-    g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), STAR_RADIUS * 2);
-    return g;
+    return createStarLayer("serpent", { size, lum }, cloudUniforms);
   }, []);
-  const serpentMat = useMemo(
-    () =>
-      new THREE.ShaderMaterial({
-        uniforms: {
-          uOpacity: { value: 0 },
-          uSunAltDeg: { value: 45 },
-          uStarFrac: { value: 1 },
-          uDawnDir: { value: new THREE.Vector2(0, 1) },
-          ...cloudUniforms,
-        },
-        vertexShader: starVertexGlsl(),
-        fragmentShader: /* glsl */ `
-uniform float uOpacity;
-varying float vLum;
-void main() {
-  vec2 d = gl_PointCoord - 0.5;
-  float falloff = smoothstep(0.5, 0.2, length(d));
-  gl_FragColor = vec4(vec3(0.0), falloff * uOpacity * vLum);
-}`,
-        blending: THREE.NormalBlending,
-        depthWrite: false,
-        transparent: true,
-      }),
-    [],
+  useEffect(
+    () => () => {
+      starLayer.mesh.material.dispose();
+      serpentLayer.mesh.material.dispose();
+    },
+    [starLayer, serpentLayer],
   );
 
   // Moons. Display-referred discs (see MOON_FRAGMENT) — tints carry the
@@ -995,28 +406,7 @@ void main() {
     ],
     [],
   );
-  const moonMats = useMemo(
-    () =>
-      moonDefs.map(
-        (d) =>
-          new THREE.ShaderMaterial({
-            uniforms: {
-              uSunDir: { value: new THREE.Vector3(0, 1, 0) },
-              uTint: { value: d.tint },
-              uDayDim: { value: 1 },
-            },
-            vertexShader: MOON_VERTEX,
-            fragmentShader: MOON_FRAGMENT,
-            blending: THREE.AdditiveBlending,
-            transparent: true,
-            // Moons WRITE depth (round 8): stars sit farther out (28 000 vs
-            // 26 000) and draw after, so the moon's body occludes them —
-            // stars were showing through the discs.
-            depthWrite: true,
-          }),
-      ),
-    [moonDefs],
-  );
+  const moonMats = useMemo(() => moonDefs.map((d) => createMoonMaterial(d.tint)), [moonDefs]);
   const moonRefs = useRef<(THREE.Mesh | null)[]>([]);
   const airRef = useRef<AmbientAirConditions | null>(null);
   // The compiled water surface, so the over-water species hover from the
@@ -1041,8 +431,6 @@ void main() {
   // than judged by eye (module 85: agents read measurements).
   const lastAirAmounts = useRef<Record<string, number>>({});
   const lastShaftAmount = useRef(0);
-  const starsRef = useRef<THREE.Points>(null);
-  const serpentRef = useRef<THREE.Points>(null);
   const hemiRef = useRef<THREE.HemisphereLight>(null);
   const moonLightRef = useRef<THREE.DirectionalLight>(null);
   const moonLightTarget = useMemo(() => new THREE.Object3D(), []);
@@ -1054,7 +442,6 @@ void main() {
     lastEpoch: Number.NaN,
     envBakes: 0,
     lastNotify: 0,
-    lastPatch: 0,
     lastFrustumUpdate: 0,
     waterWaveScale: NaN,
     waterWaveResume: false,
@@ -1069,7 +456,7 @@ void main() {
     const lst = localSiderealAngle(epochMinutes);
     if (Math.abs(lst - state.current.lastLst) < 0.0005) return;
     state.current.lastLst = lst;
-    const pos = starGeom.getAttribute("position") as THREE.BufferAttribute;
+    const pos = starLayer.position;
     stars.forEach((s, i) => {
       const h = toHorizontal(s.dec, lst - s.ra, latitudeOverrideRad);
       pos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
@@ -1080,7 +467,7 @@ void main() {
     const d = epochDays(epochMinutes);
     const ra = (w.baseRaDeg + w.raAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.raPeriodDays)) * DEG;
     const dec = (w.baseDecDeg + w.decAmplitudeDeg * Math.sin((2 * Math.PI * d) / w.decPeriodDays + 1.3)) * DEG;
-    const spos = serpentGeom.getAttribute("position") as THREE.BufferAttribute;
+    const spos = serpentLayer.position;
     (catalogue.serpent.unstars as [number, number, number][]).forEach(([dRa, dDec], i) => {
       const h = toHorizontal(dec + dDec * DEG, lst - (ra + dRa * DEG), latitudeOverrideRad);
       spos.setXYZ(i, h.direction.x * STAR_RADIUS, h.direction.y * STAR_RADIUS, h.direction.z * STAR_RADIUS);
@@ -1090,6 +477,7 @@ void main() {
   };
 
   useFrame((_s, delta) => {
+    patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
     // (decision 0084 round 10).
     segments?.cpuMark("sky");
@@ -1156,34 +544,7 @@ void main() {
 
     // Sky dome follows the camera so the horizon never clips.
     sky.position.copy(camera.position);
-    const u = sky.material.uniforms;
-    (u.sunPosition.value as THREE.Vector3).copy(sunDir);
-    u.turbidity.value = rig.turbidity;
-    u.rayleigh.value = rig.rayleigh;
-    u.mieCoefficient.value = rig.mieCoefficient;
-    u.mieDirectionalG.value = rig.mieDirectionalG;
-    extras.uSkyLum.value = rig.skyLuminance;
-    extras.uSkyFade.value = rig.skyFade;
-    extras.uSunAltDeg.value = (rig.sun.altitude * 180) / Math.PI;
-    extras.uNightBoost.value = rig.nightBoost;
-    extras.uBeltLum.value = rig.beltLum;
-    extras.uNightZenith.value.setRGB(...rig.nightZenith);
-    extras.uNightHorizon.value.setRGB(...rig.nightHorizon);
-    extras.uGroundLum.value.setRGB(...rig.groundBounce);
-    extras.uHorizonLum.value.setRGB(...rig.horizonHaze);
-    extras.uDawnLum.value = rig.dawnLum;
-    extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
-    extras.uTwiGrade.value = rig.twilightGrade;
-    extras.uDawnCore.value.setRGB(...rig.dawnCore);
-    extras.uDawnSpread.value.setRGB(...rig.dawnSpread);
-    extras.uDawnWash.value.setRGB(...rig.dawnWash);
-    extras.uCloudBright.value.setRGB(...rig.cloudBright);
-    extras.uCloudDark.value.setRGB(...rig.cloudDarkCol);
-    extras.uGlowDir.value.set(...rig.cloudGlowDir);
-    extras.uGlowCol.value.setRGB(...rig.cloudGlowCol);
-    extras.uFlash.value = flash;
-    extras.uCloudSunset.value.setRGB(...rig.cloudSunsetCol);
-    extras.uCloudSunsetAmt.value.set(rig.cloudSunsetAmt[0], rig.cloudSunsetAmt[1]);
+    writeDomeFromRig(dome, rig, sunDir, flash);
     // One write updates the dome, the PMREM bake dome and the star shaders.
     cloudUniforms.uCloudCov.value.set(cloudParams.covLow, cloudParams.covMid, cloudParams.covHigh);
     cloudUniforms.uCloudDens.value = cloudParams.density;
@@ -1205,22 +566,15 @@ void main() {
       Math.exp(-camYTrue / 200) * wx.mist.weather * 8 * 0.4;
     const camFogNow = 1 - Math.exp(-9e-5 * camFogDensity * 700);
 
-    // Sun (CSM's cascade lights ARE the sun).
-    csm.lightDirection.copy(sunDir).negate();
-    for (const light of csm.lights) {
-      light.color.setRGB(...rig.sunColor);
-      light.intensity = rig.sunIntensity;
-      light.castShadow = rig.sunCastsShadows;
-    }
-    csm.update();
+    // Sun: one light, its shadow the cascade node (CSMShadowNode fits the
+    // cascade proxies to the camera frustum every frame by itself).
+    aimSun(sun, sunDir, camera.position, rig);
     const nowMs = performance.now();
     if (nowMs - state.current.lastFrustumUpdate > 500) {
       state.current.lastFrustumUpdate = nowMs;
-      csm.updateFrustums();
-      if (nowMs - state.current.lastPatch > 1000) {
-        state.current.lastPatch = nowMs;
-        patchScene();
-      }
+      // Re-split after a projection change (fov/aspect/far); the node is
+      // initialised at its first shadow render, so skip until then.
+      if (csm.camera) csm.updateFrustums();
     }
 
     // Moonlight: Masser as a cool, weak key (no shadows at Tier 1).
@@ -1229,12 +583,12 @@ void main() {
       const l = moonLightRef.current;
       l.intensity = rig.moonIntensity;
       l.color.setRGB(...rig.moonColor);
-      l.position
-        .copy(camera.position)
-        .addScaledVector(
-          new THREE.Vector3(masser.direction.x, masser.direction.y, masser.direction.z),
-          2000,
-        );
+      const d = masser.direction;
+      l.position.set(
+        camera.position.x + d.x * 2000,
+        camera.position.y + d.y * 2000,
+        camera.position.z + d.z * 2000,
+      );
       moonLightTarget.position.copy(camera.position);
       l.target = moonLightTarget;
     }
@@ -1316,13 +670,15 @@ void main() {
     // cloud field in its vertex stage (gaps keep their stars), and each moon
     // gets a CPU sample toward its direction — it dims behind thin cloud
     // and vanishes behind a storm deck, instead of the old global dim.
-    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost;
-    (starMat.uniforms.uStarFrac as { value: number }).value = Math.min(1, 0.5 * starDensityMult);
-    (starMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
-    (starMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
-    (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity;
-    (serpentMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
-    (serpentMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
+    const su = starLayer.uniforms;
+    su.uOpacity.value = rig.nightBoost;
+    su.uStarFrac.value = Math.min(1, 0.5 * starDensityMult);
+    su.uSunAltDeg.value = sunAltDeg;
+    su.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
+    const pu = serpentLayer.uniforms;
+    pu.uOpacity.value = 0.55 * rig.starOpacity;
+    pu.uSunAltDeg.value = sunAltDeg;
+    pu.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
     rig.moons.forEach((m: MoonState, i) => {
       const mesh = moonRefs.current[i];
       if (!mesh) return;
@@ -1330,7 +686,7 @@ void main() {
       mesh.position.copy(camera.position).addScaledVector(dir, MOON_RADIUS);
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
-      (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
+      moonMats[i].uniforms.uSunDir.value.copy(sunDir);
       // Day wash (stronger after round 3 — a rising daytime moon must not
       // visibly lighten the sky) × rise/set fade × low-altitude extinction
       // (a moon in the horizon murk is barely there, day or night) × cloud
@@ -1341,7 +697,7 @@ void main() {
       const moonOcc = cloudAlphaTowards([m.direction.x, m.direction.y, m.direction.z], cloudParams);
       const dayDim =
         (1 - 0.88 * rig.skyFade) * horizonFade * extinction * Math.pow(1 - moonOcc, 1.6);
-      (moonMats[i].uniforms.uDayDim as { value: number }).value = dayDim;
+      moonMats[i].uniforms.uDayDim.value = dayDim;
       mesh.visible = m.altitude > -0.1;
 
       // Halo (owner 2026-09-10). Rides the disc's own visibility term, so it
@@ -1469,9 +825,9 @@ void main() {
     ) {
       state.current.lastBakeSunY = sunDir.y;
       state.current.lastBakeCover = bakeCover;
-      copySkyUniforms(sky as Sky & { material: THREE.ShaderMaterial }, bake.sky);
-      bake.sky.material.uniforms.showSunDisc.value = 0;
-      bake.sky.material.uniforms.uFlash.value = 0; // flashes never tint the IBL
+      copySkyUniforms(dome, bake);
+      bake.sky.showSunDisc.value = 0;
+      bake.extras.uFlash.value = 0; // flashes never tint the IBL
       const rt = pmrem.fromScene(bake.scene, 0, 0.1, 1100);
       scene.environment = rt.texture;
       envRT.current?.dispose();
@@ -1516,7 +872,7 @@ void main() {
       triangles: (window as unknown as {
         __STUDIO_GPU_MS__?: { lastTris?: number };
       }).__STUDIO_GPU_MS__?.lastTris ?? gl.info.render.triangles,
-      sunLightIntensity: csm.lights[0]?.intensity ?? 0,
+      sunLightIntensity: sun.intensity,
       shadowMapEnabled: gl.shadowMap.enabled,
       hemiIntensity: hemiRef.current?.intensity ?? -1,
     } as SkyDebugState;
@@ -1529,33 +885,23 @@ void main() {
       {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer
           radius — so star fragments behind a disc fail the depth test and
           never shine through the moon's body. */}
-      <points
-        ref={starsRef}
-        geometry={starGeom}
-        material={starMat}
-        renderOrder={-8}
-        frustumCulled={false}
-      />
-      <points
-        ref={serpentRef}
-        geometry={serpentGeom}
-        material={serpentMat}
-        renderOrder={-7}
-        frustumCulled={false}
-      />
+      <primitive object={starLayer.mesh} renderOrder={-8} />
+      <primitive object={serpentLayer.mesh} renderOrder={-7} />
       {moonDefs.map((d, i) => (
         <mesh
           key={d.id}
           ref={(m) => {
             moonRefs.current[i] = m;
           }}
-          material={moonMats[i]}
+          material={moonMats[i].material}
           renderOrder={-9}
           frustumCulled={false}
         >
           <sphereGeometry args={[1, 48, 24]} />
         </mesh>
       ))}
+      <primitive object={sun} />
+      <primitive object={sun.target} />
       <hemisphereLight ref={hemiRef} intensity={0} />
       <directionalLight ref={moonLightRef} intensity={0} />
       <primitive object={moonLightTarget} />

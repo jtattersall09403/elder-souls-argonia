@@ -1,42 +1,50 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import {
-  AERIAL_VARYING_VERTEX,
+  aerialRasterLoaded,
   applyAerialPerspective,
+  createAerialFogNode,
   createAerialUniforms,
+  mipAlphaBoost,
 } from "./aerial";
 
-describe("the aerial varying's placement branch (decision 0082 round 2)", () => {
-  it("transforms by instanceMatrix", () => {
-    expect(AERIAL_VARYING_VERTEX).toContain("#ifdef USE_INSTANCING");
-    expect(AERIAL_VARYING_VERTEX).toContain("instanceMatrix * esWp");
+describe("aerial perspective as the scene fog node (decision 0107)", () => {
+  it("builds one fog node over shared uniform nodes", () => {
+    const u = createAerialUniforms();
+    const fog = createAerialFogNode(u);
+    expect(fog.isNode).toBe(true);
+    // `.value` writes keep working for every CPU writer (WorldSky, water).
+    u.uSunDirW.value.set(0, 0, 1);
+    expect(u.uSunDirW.value.z).toBe(1);
   });
 
-  it("injects the branch into a patched material's vertex shader", () => {
-    const material = new THREE.MeshStandardMaterial();
-    applyAerialPerspective(material, createAerialUniforms());
-    const shader = {
-      uniforms: {},
-      vertexShader: "#include <common>\nvoid main(){\n#include <worldpos_vertex>\n}",
-      fragmentShader: "#include <common>\n#include <tonemapping_fragment>",
-    };
-    material.onBeforeCompile(
-      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
-      null as unknown as THREE.WebGLRenderer,
-    );
-    expect(shader.vertexShader).toContain("#ifdef USE_INSTANCING");
-    expect(shader.vertexShader).toContain("instanceMatrix");
+  it("rasters start as the zero placeholder and swap by value", () => {
+    const u = createAerialUniforms();
+    expect(aerialRasterLoaded(u, "uClimateAir")).toBe(false);
+    u.uClimateAir.value = new THREE.Texture();
+    expect(aerialRasterLoaded(u, "uClimateAir")).toBe(true);
+    expect(aerialRasterLoaded(u, "uClimateVis")).toBe(false);
   });
 
-  it("appends its cache key and wraps only once", () => {
-    const material = new THREE.MeshStandardMaterial();
-    applyAerialPerspective(material, createAerialUniforms());
-    applyAerialPerspective(material, createAerialUniforms());
-    const key = material.customProgramCacheKey();
-    // Appended (three's default key is the onBeforeCompile source, which the
-    // other patches also contribute to), and appended once.
-    expect(key.endsWith("|es-aerial")).toBe(true);
-    expect(key.split("|es-aerial").length - 1).toBe(1);
-    expect(key.length).toBeGreaterThan("|es-aerial".length);
+  it("the deprecated call only joins the fog and boosts alpha-tested maps once", () => {
+    const plain = new MeshStandardNodeMaterial();
+    plain.fog = false;
+    applyAerialPerspective(plain);
+    expect(plain.fog).toBe(true);
+    expect(plain.colorNode).toBeNull();
+
+    const leaf = new MeshStandardNodeMaterial({ alphaTest: 0.5, map: new THREE.Texture() });
+    applyAerialPerspective(leaf);
+    const first = leaf.colorNode;
+    expect(first).not.toBeNull();
+    applyAerialPerspective(leaf);
+    expect(leaf.colorNode).toBe(first);
+  });
+
+  it("mip-alpha boost: 1 at mip 0, capped at 2 from mip 4", () => {
+    expect(mipAlphaBoost(0)).toBe(1);
+    expect(mipAlphaBoost(2)).toBe(1.5);
+    expect(mipAlphaBoost(9)).toBe(2);
   });
 });

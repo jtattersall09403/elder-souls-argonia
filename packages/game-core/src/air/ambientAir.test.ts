@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { AIR_PATCH_BAND, AIR_SPECIES, AIR_WATER_MIN_DEPTH_M, AirSwarm, airAmounts, airHoverFloorY, airPatchBand,
+import { AIR_PATCH_BAND, AIR_SPECIES, AIR_SPRITE_MAX_PX, airBlinkEnvelope, airSpriteSize, AIR_WATER_MIN_DEPTH_M, AirSwarm, airAmounts, airHoverFloorY, airPatchBand,
   airWaterGate, seededRandom, type AirConditions } from "./ambientAir";
 import { SunShafts, sunShaftIntensity } from "./sunShafts";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
@@ -228,37 +228,59 @@ describe("the swarm is deterministic (standard 4)", () => {
   });
 });
 
-// GLSL ES 3.00 §3.7 keywords reserved for future use. Using one as an
-// identifier is a COMPILE error on every WebGL 2 driver, and a swarm whose
-// shader did not compile draws nothing while every number about it looks
-// fine. `patch` shipped in this file's vertex shader on 2026-09-11.
-const GLSL_RESERVED = [
-  "patch", "sample", "subroutine", "common", "partition", "active", "asm",
-  "class", "union", "enum", "typedef", "template", "this", "resource", "goto",
-  "inline", "noinline", "public", "static", "extern", "external", "interface",
-  "long", "short", "double", "half", "fixed", "unsigned", "superp", "input",
-  "output", "hvec2", "hvec3", "hvec4", "dvec2", "dvec3", "dvec4", "fvec2",
-  "fvec3", "fvec4", "sampler3DRect", "filter", "sizeof", "cast", "namespace",
-  "using",
-];
+describe("the swarm and shaft materials are node materials with their slots filled (decision 0107)", () => {
+  it("every species builds a transparent, non-writing, unfogged node material drawn as instanced quads", () => {
+    for (const species of Object.values(AIR_SPECIES)) {
+      const sw = new AirSwarm(species, seededRandom(5));
+      const m = sw.material;
+      expect(m.isNodeMaterial, species.id).toBe(true);
+      expect(m.vertexNode, species.id).toBeTruthy();
+      expect(m.fragmentNode, species.id).toBeTruthy();
+      expect(m.transparent).toBe(true);
+      expect(m.depthWrite).toBe(false);
+      expect(m.depthTest).toBe(true);
+      expect(m.fog).toBe(false);
+      expect(m.blending).toBe(species.additive ? THREE.AdditiveBlending : THREE.NormalBlending);
+      const g = sw.points.geometry as THREE.InstancedBufferGeometry;
+      expect(g.instanceCount).toBe(species.count);
+      expect(g.getAttribute("aBase").count).toBe(species.count);
+      expect(sw.points.renderOrder).toBe(6);
+      sw.dispose();
+    }
+  });
+  it("the sun shafts are an additive, double-sided, unfogged node material", () => {
+    const sh = new SunShafts(undefined, seededRandom(6));
+    expect(sh.material.isNodeMaterial).toBe(true);
+    expect(sh.material.fragmentNode).toBeTruthy();
+    expect(sh.material.blending).toBe(THREE.AdditiveBlending);
+    expect(sh.material.side).toBe(THREE.DoubleSide);
+    expect(sh.material.depthWrite).toBe(false);
+    expect(sh.material.fog).toBe(false);
+    expect(sh.mesh.renderOrder).toBe(5);
+    sh.dispose();
+  });
+});
 
-describe("air shaders use no GLSL reserved word as an identifier", () => {
-  const swarm = new AirSwarm(AIR_SPECIES.fireflies, seededRandom(1));
-  const sources = [swarm.material.vertexShader, swarm.material.fragmentShader];
-  for (const word of GLSL_RESERVED) {
-    it(`never declares or assigns "${word}"`, () => {
-      for (const src of sources) {
-        // Strip comments, then look for the word used as a variable: declared
-        // with a type before it, assigned as a bare name, or read as the last
-        // factor of an expression.
-        const code = src.replace(/\/\/.*$/gm, "");
-        const used = new RegExp(
-          `(\\b(float|int|vec[234]|bool|mat[234])\\s+${word}\\b)|(\\b${word}\\s*=[^=])|([*+/-]\\s*${word}\\s*;)`,
-        );
-        expect(code, `${word} used as an identifier`).not.toMatch(used);
-      }
-    });
-  }
+describe("blink envelope and sprite size (the maths the vertex stage mirrors)", () => {
+  it("a firefly is dark at the start of its period, peaks early and is dark for most of it", () => {
+    expect(airBlinkEnvelope(0)).toBe(0);
+    expect(airBlinkEnvelope(0.16)).toBeCloseTo(1, 9);
+    expect(airBlinkEnvelope(0.3)).toBeGreaterThan(0);
+    expect(airBlinkEnvelope(0.3)).toBeLessThan(1);
+    for (const ph of [0.6, 0.75, 0.99]) expect(airBlinkEnvelope(ph)).toBe(0);
+    // the phase wraps
+    expect(airBlinkEnvelope(1.16)).toBeCloseTo(airBlinkEnvelope(0.16), 9);
+  });
+  it("sprites scale with 1/distance, clamp at the maximum and fade below a pixel", () => {
+    const near = airSpriteSize(22, 1, 1, 1);
+    expect(near.px).toBe(AIR_SPRITE_MAX_PX);
+    expect(near.alpha).toBe(1);
+    expect(airSpriteSize(22, 1, 1, 10).px).toBeCloseTo(22, 9);
+    expect(airSpriteSize(22, 1, 2, 10).px).toBeCloseTo(44, 9);
+    const far = airSpriteSize(9, 1, 1, 180);
+    expect(far.px).toBe(1);
+    expect(far.alpha).toBeCloseTo(0.25, 9);
+  });
 });
 
 describe("the air layer draws after the water surface", () => {
@@ -297,23 +319,21 @@ describe("over water the band hovers from the SURFACE, not the ground (owner 202
     expect(airHoverFloorY(AIR_SPECIES.fireflies, 12.0, 0)).toBeNull();
   });
 
-  it("the vertex stage applies the same floor from the compiled surface raster", () => {
+  it("binding the compiled surface raster switches the floor on and off", () => {
     const sw = new AirSwarm(AIR_SPECIES.midges, seededRandom(1));
-    const vert = sw.material.vertexShader;
-    expect(vert).toContain("world.y = max(world.y, esAirFloor(world.xz, aSeed.y));");
-    expect(vert).toContain("return w + uAirHover.z + uAirHover.x + bandFrac * uAirHover.y;");
+    expect(sw.material.vertexNode).toBeTruthy();
     // binding the surface enables it; clearing it hands the band back to the ground
     sw.setWater({ texture: new THREE.Texture(), size: 4, metresPerPixel: 10, minM: -10, spanM: 20, depthMinM: -6,
       depthSpanM: 30.6, buriedM: -2.5, liftM: () => -0.2 });
-    expect((sw.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(1);
-    expect((sw.material.uniforms.uAirHover.value as THREE.Vector3).z).toBeCloseTo(-0.2, 9);
+    expect((sw.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(1);
+    expect((sw.uniforms.uAirHover.value as THREE.Vector3).z).toBeCloseTo(-0.2, 9);
     sw.setWater(null);
-    expect((sw.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
+    expect((sw.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
     // pollen has no hover height: binding does nothing
     const pollen = new AirSwarm(AIR_SPECIES.pollen, seededRandom(2));
     pollen.setWater({ texture: new THREE.Texture(), size: 4, metresPerPixel: 10, minM: -10, spanM: 20, depthMinM: -6,
       depthSpanM: 30.6, buriedM: -2.5, liftM: () => 0 });
-    expect((pollen.material.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
+    expect((pollen.uniforms.uAirWaterDepth.value as THREE.Vector4).w).toBe(0);
     sw.dispose(); pollen.dispose();
   });
 });
@@ -331,15 +351,23 @@ describe("hover species exist only over standing water, in localised knots (owne
     expect(airWaterGate(0.4, -0.3)).toBe(0);
   });
 
-  it("the vertex stage gates alpha on the same texel it takes the floor from", () => {
+  it("binding a surface to a hover species enables the gate; the habitat alone never does", () => {
+    const water = { texture: new THREE.Texture(), habitat: new THREE.Texture(), size: 4, metresPerPixel: 10, minM: -10,
+      spanM: 20, depthMinM: -6, depthSpanM: 30.6, buriedM: -2.5, liftM: () => 0 };
     const sw = new AirSwarm(AIR_SPECIES.dragonflies, seededRandom(1));
-    const vert = sw.material.vertexShader;
-    expect(vert).toContain("float esWaterGate = esAirWaterGate(world.xz);");
-    expect(vert).toContain(`return step(${AIR_WATER_MIN_DEPTH_M.toFixed(2)}, depth);`);
-    expect(vert).toContain("vAlpha = fade * blink * uAmount * haze * near * esPatch * esWaterGate;");
-    // without a bound surface nothing is gated (a scene with no water rasters)
-    expect(vert).toContain("if (uAirWaterDepth.w < 0.5) return 1.0;");
-    sw.dispose();
+    sw.setWater(water);
+    expect(sw.uniforms.uAirWaterDepth.value.w).toBe(1);
+    expect(sw.uniforms.uAirWaterTex.value).toBe(water.texture);
+    expect(sw.uniforms.uAirHabitatW.value.w).toBe(1);
+    // fireflies bind the raster for the habitat but keep the ground
+    const ff = new AirSwarm(AIR_SPECIES.fireflies, seededRandom(1));
+    ff.setWater(water);
+    expect(ff.uniforms.uAirWaterDepth.value.w).toBe(0);
+    expect(ff.uniforms.uAirHabitat.value).toBe(water.habitat);
+    ff.setWater(null);
+    expect(ff.uniforms.uAirHabitatW.value.w).toBe(0);
+    expect(ff.uniforms.uAirHabitat.value).not.toBe(water.habitat);
+    sw.dispose(); ff.dispose();
   });
 
   it("hover species use the high patch band so most of the water is empty; the ground species keep the broad one", () => {
@@ -348,13 +376,13 @@ describe("hover species exist only over standing water, in localised knots (owne
       // knots tens of metres apart, wider than the clump
       expect(AIR_SPECIES[id].patchM).toBeGreaterThanOrEqual(40);
       const sw = new AirSwarm(AIR_SPECIES[id], seededRandom(2));
-      expect((sw.material.uniforms.uPatchBand.value as THREE.Vector2).toArray()).toEqual([...AIR_PATCH_BAND.water]);
+      expect((sw.uniforms.uPatchBand.value as THREE.Vector2).toArray()).toEqual([...AIR_PATCH_BAND.water]);
       sw.dispose();
     }
     for (const id of ["fireflies", "pollen", "leaves"]) expect(airPatchBand(AIR_SPECIES[id])).toEqual(AIR_PATCH_BAND.ground);
     expect(AIR_PATCH_BAND.water[0]).toBeGreaterThan(AIR_PATCH_BAND.ground[1] * 0.75);
     const sw = new AirSwarm(AIR_SPECIES.fireflies, seededRandom(3));
-    expect(sw.material.vertexShader).toContain("smoothstep(uPatchBand.x, uPatchBand.y, esAirNoise(esPatchUV))");
+    expect(sw.uniforms.uPatchBand.value.toArray()).toEqual([...AIR_PATCH_BAND.ground]);
     sw.dispose();
   });
 });

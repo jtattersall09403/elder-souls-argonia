@@ -1,12 +1,19 @@
 import * as THREE from "three";
+import { NodeMaterial } from "three/webgpu";
+import {
+  Discard, Fn, If, abs, attribute, cameraProjectionMatrix, clamp, cos, dot, exp, float, floor, fract, ivec2, length,
+  max, min, mix, mod, modelViewMatrix, normalize, positionGeometry, pow, select, sin, smoothstep, step, texture,
+  textureLoad, uniform, varying, vec2, vec3, vec4, viewportSize,
+} from "three/tsl";
+import type { TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
  * Ambient air particles — fireflies, pollen, motes, midges (module 55 polish
  * tier, owner 2026-09-10).
  *
- * One mechanism, several species. Every species is a single `THREE.Points`
- * draw whose whole motion is computed in the vertex shader from static
+ * One mechanism, several species. Every species is a single instanced-quad
+ * draw whose whole motion is computed in the vertex stage from static
  * per-particle attributes, so there is no CPU work per frame beyond writing a
  * handful of uniforms, and no spawning or despawning ever happens.
  *
@@ -42,8 +49,8 @@ export interface AirSpecies {
   topBelowCameraM: number;
   depthM: number;
   /** Sprite size in pixels at 10 m. Big enough that the halo has pixels to
-   * be soft in — a 3 px sprite can only ever be a dot. Clamped to 48 in the
-   * shader, under the 64 some drivers impose on gl_PointSize. */
+   * be soft in — a 3 px sprite can only ever be a dot. Clamped to
+   * AIR_SPRITE_MAX_PX in the vertex stage. */
   sizePx: number;
 
   /**
@@ -72,7 +79,7 @@ export interface AirSpecies {
   drift: [number, number, number];
   windFollow: number;
   /** Blink period range [min, max] seconds; [0,0] means none. The envelope
-   * SHAPE lives in the vertex shader; this is only its rate. */
+   * SHAPE lives in airBlinkEnvelope; this is only its rate. */
   blink: [number, number];
   /** Clump radius. 0 scatters uniformly; >0 gathers particles into knots,
    * which is what stops a swarm reading as even fog. */
@@ -131,7 +138,7 @@ export interface AirWaterSurface {
  * The floor a particle over water hovers from: the water surface (still
  * level plus the lift) plus the species' hover height, or null where there
  * is no water under it (dry ground: the terrain bounds the band). CPU twin
- * of the vertex stage's `esAirFloor`; `bandFrac` (0..1, per particle) spreads
+ * of the vertex stage's `floorY`; `bandFrac` (0..1, per particle) spreads
  * the swarm up through the hover band so it never sits on one plane.
  */
 export function airHoverFloorY(species: AirSpecies, waterSurfaceY: number | null, bandFrac: number): number | null {
@@ -145,7 +152,7 @@ export function airHoverFloorY(species: AirSpecies, waterSurfaceY: number | null
  * after the tide/season lift. Before this gate the hover floor only lifted
  * the band where there was water and every dry lowland cell still drew the
  * species at full alpha ("they are everywhere in the lowlands, not just
- * over water"). CPU twin of the vertex stage's `esAirWaterGate`; returns the
+ * over water"). CPU twin of the vertex stage's `waterGate`; returns the
  * alpha factor, 1 or 0.
  */
 export const AIR_WATER_MIN_DEPTH_M = 0.15;
@@ -158,232 +165,273 @@ export function airWaterGate(signedDepthM: number, liftM: number): number {
  * a species is drawn where the noise clears the band. Hover species use a
  * high band so roughly a third of the water carries a knot and the rest is
  * empty (localised groups, not an even haze); the ground species keep the
- * broad band. The GLSL reads these through `uPatchBand`.
+ * broad band. The vertex stage reads these through `uPatchBand`.
  */
 export const AIR_PATCH_BAND = { ground: [0.10, 0.50], water: [0.40, 0.62] } as const;
 export function airPatchBand(species: AirSpecies): readonly [number, number] {
   return species.hoverAboveWaterM !== undefined ? AIR_PATCH_BAND.water : AIR_PATCH_BAND.ground;
 }
 
-const VERTEX = /* glsl */ `
-attribute vec3 aBase;
-attribute vec3 aSeed;
-attribute float aPhase;
-attribute float aPeriod;
-attribute float aScale;
-
-uniform vec3 uCam;
-uniform float uTime;
-uniform vec3 uBox;
-uniform float uYOffset;
-uniform float uNearClip;
-uniform float uPatchM;
-uniform vec2 uPatchBand;
-uniform float uSizePx;
-uniform float uPixelRatio;
-uniform vec3 uWander;
-uniform float uWanderHz;
-uniform vec3 uDrift;
-uniform float uClusterR;
-uniform float uAmount;
-uniform vec3 uSunDir;
-uniform float uBacklight;
-uniform float uVisibility;
-// The compiled water surface (Phase 16c): W16 in RG, signed depth in B.
-uniform sampler2D uAirWaterTex;
-uniform vec4 uAirWaterInfo;    // size, metresPerPixel, minM, spanM
-uniform vec4 uAirWaterDepth;   // depthMinM, depthSpanM, buriedM, enabled (0/1)
-uniform vec3 uAirHover;        // hover above water (m), hover band (m), lift (m)
-uniform sampler2D uAirHabitat; // 16f: R standing water, G wet ground, B canopy
-uniform vec4 uAirHabitatW;     // species weights on those, w = enabled (0/1)
-
-varying float vAlpha;
-varying float vBacklit;
-
-// The compiled surface texel under xz (nearest): W16 in RG, signed depth in B.
-vec4 esAirWaterTexel(vec2 xz) {
-  vec2 f = clamp(xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
-  return texelFetch(uAirWaterTex, ivec2(f + 0.5), 0);
+/**
+ * The blink envelope a firefly flashes on, given its phase 0..1 through one
+ * period: a slow rise, a brief peak, a slower decay, then a dark gap longer
+ * than the lit part. A fast symmetric pulse reads as a strobe, which is what
+ * the first version did. The vertex stage mirrors this exactly.
+ */
+export function airBlinkEnvelope(phase: number): number {
+  const ss = (e0: number, e1: number, x: number) => {
+    const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0)));
+    return t * t * (3 - 2 * t);
+  };
+  const ph = phase - Math.floor(phase);
+  return Math.pow(ss(0, 0.16, ph) * (1 - ss(0.16, 0.6, ph)), 1.5);
 }
-// KEEP IN LOCKSTEP with airHoverFloorY(): the floor over water, or a huge
-// negative where the texel under the particle is dry ground.
-float esAirFloor(vec2 xz, float bandFrac) {
-  if (uAirWaterDepth.w < 0.5) return -1.0e9;
-  vec4 t = esAirWaterTexel(xz);
-  float w = uAirWaterInfo.z + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uAirWaterInfo.w;
-  float depth = t.b * uAirWaterDepth.y + uAirWaterDepth.x + uAirHover.z;
-  if (depth <= max(uAirWaterDepth.z, 0.0)) return -1.0e9;
-  return w + uAirHover.z + uAirHover.x + bandFrac * uAirHover.y;
+
+/** Largest sprite, in framebuffer pixels (the old gl_PointSize clamp, kept
+ * under the 64 some drivers imposed). */
+export const AIR_SPRITE_MAX_PX = 48;
+
+/**
+ * A particle's sprite size in framebuffer pixels at `distM`, and the alpha
+ * factor that fades a sprite smaller than one pixel instead of drawing it at
+ * one pixel's full weight. The vertex stage mirrors this exactly.
+ */
+export function airSpriteSize(sizePx: number, scale: number, pixelRatio: number, distM: number): {
+  px: number;
+  alpha: number;
+} {
+  const raw = sizePx * scale * pixelRatio * (10 / Math.max(distM, 0.001));
+  const tiny = Math.min(raw, 1);
+  return { px: Math.min(Math.max(raw, 1), AIR_SPRITE_MAX_PX), alpha: tiny * tiny };
 }
-// KEEP IN LOCKSTEP with airWaterGate(): a hover species draws ONLY over
-// standing water (signed depth + lift >= 0.15 m). Without a bound surface
-// (the species has no hover height, or the scene has no water rasters) the
-// ground bounds the band as before and nothing is gated.
-float esAirWaterGate(vec2 xz) {
-  if (uAirWaterDepth.w < 0.5) return 1.0;
-  vec4 t = esAirWaterTexel(xz);
-  float depth = t.b * uAirWaterDepth.y + uAirWaterDepth.x + uAirHover.z;
-  return step(${AIR_WATER_MIN_DEPTH_M.toFixed(2)}, depth);
+
+/**
+ * The swarm's uniforms: `uniform()` nodes owned by the swarm, written through
+ * `.value` exactly as the old `{ value }` objects were. The two textures are
+ * texture nodes: `.value` is the bound texture (a 1x1 blank when none).
+ */
+export interface AirSwarmUniforms {
+  uCam: { value: THREE.Vector3 } & TslNode;
+  uTime: { value: number } & TslNode;
+  uBox: { value: THREE.Vector3 } & TslNode;
+  uYOffset: { value: number } & TslNode;
+  uNearClip: { value: number } & TslNode;
+  uPatchM: { value: number } & TslNode;
+  uPatchBand: { value: THREE.Vector2 } & TslNode;
+  uSizePx: { value: number } & TslNode;
+  uPixelRatio: { value: number } & TslNode;
+  uWander: { value: THREE.Vector3 } & TslNode;
+  uWanderHz: { value: number } & TslNode;
+  uDrift: { value: THREE.Vector3 } & TslNode;
+  uClusterR: { value: number } & TslNode;
+  uAmount: { value: number } & TslNode;
+  uSunDir: { value: THREE.Vector3 } & TslNode;
+  uBacklight: { value: number } & TslNode;
+  uBacklitGain: { value: number } & TslNode;
+  uVisibility: { value: number } & TslNode;
+  /** The compiled water surface (Phase 16c): W16 in RG, signed depth in B. */
+  uAirWaterTex: { value: THREE.Texture } & TslNode;
+  /** size, metresPerPixel, minM, spanM */
+  uAirWaterInfo: { value: THREE.Vector4 } & TslNode;
+  /** depthMinM, depthSpanM, buriedM, enabled (0/1) */
+  uAirWaterDepth: { value: THREE.Vector4 } & TslNode;
+  /** hover above water (m), hover band (m), lift (m) */
+  uAirHover: { value: THREE.Vector3 } & TslNode;
+  /** 16f: R standing water, G wet ground, B canopy */
+  uAirHabitat: { value: THREE.Texture } & TslNode;
+  /** species weights on the habitat channels, w = enabled (0/1) */
+  uAirHabitatW: { value: THREE.Vector4 } & TslNode;
+  /** Scene-linear radiance, written every frame by update(). */
+  uCore: { value: THREE.Color } & TslNode;
+  uHalo: { value: THREE.Color } & TslNode;
+  uOpacity: { value: number } & TslNode;
+}
+
+/** A 1x1 blank RGBA8 texture, bound where no raster is (a texture node always
+ * needs a texture; every read of it is switched off by its enable flag). */
+function blankTexture(): THREE.DataTexture {
+  const t = new THREE.DataTexture(new Uint8Array(4), 1, 1, THREE.RGBAFormat, THREE.UnsignedByteType);
+  t.minFilter = THREE.NearestFilter;
+  t.magFilter = THREE.NearestFilter;
+  t.generateMipmaps = false;
+  t.needsUpdate = true;
+  return t;
 }
 
 // Cheap value noise, for the world-anchored density patches. Dave Hoskins'
 // hash12 rather than fract(sin(dot(p, big))): it never feeds sin() a large
-// argument, so it is exact at any input on any GPU.
-//
-// NAMING: patch and sample are reserved words in GLSL ES 3.00. A local
-// called patch shipped here on 2026-09-11 and the vertex shader failed to
-// compile on every real GPU, so no species drew at all while the presence
-// amounts still read 1.0. ambientAir.test.ts now refuses reserved words in
-// these shaders; keep the es prefix on shader-local names.
-float esAirHash(vec2 p) {
-  vec3 p3 = fract(vec3(p.xyx) * 0.1031);
-  p3 += dot(p3, p3.yzx + 33.33);
-  return fract((p3.x + p3.y) * p3.z);
+// argument, so it is exact at any input on any GPU. Built as plain node
+// expressions (inlined at each call).
+function esAirHash(p: TslNode): TslNode {
+  const p3a: TslNode = fract(vec3(p.x, p.y, p.x).mul(0.1031));
+  const p3: TslNode = p3a.add(dot(p3a, p3a.yzx.add(33.33)));
+  return fract(p3.x.add(p3.y).mul(p3.z));
 }
-float esAirNoise(vec2 p) {
-  vec2 i = floor(p), f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
-  return mix(mix(esAirHash(i), esAirHash(i + vec2(1.0, 0.0)), f.x),
-             mix(esAirHash(i + vec2(0.0, 1.0)), esAirHash(i + vec2(1.0, 1.0)), f.x), f.y);
+function esAirNoise(p: TslNode): TslNode {
+  const i: TslNode = floor(p);
+  const f0: TslNode = fract(p);
+  const f: TslNode = f0.mul(f0).mul(float(3.0).sub(f0.mul(2.0)));
+  return mix(
+    mix(esAirHash(i), esAirHash(i.add(vec2(1.0, 0.0))), f.x),
+    mix(esAirHash(i.add(vec2(0.0, 1.0))), esAirHash(i.add(vec2(1.0, 1.0))), f.x),
+    f.y,
+  );
 }
 
-void main() {
-  float t = uTime;
+/**
+ * The swarm's node graph. Each particle is one instanced screen-aligned quad
+ * (WebGPU has no point size above one pixel), sized in framebuffer pixels
+ * exactly as the old point sprite was and placed in clip space around the
+ * particle's projected centre, so the look is the old point sprite's.
+ */
+function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
+  const aBase: TslNode = attribute("aBase", "vec3");
+  const aSeed: TslNode = attribute("aSeed", "vec3");
+  const aPhase: TslNode = attribute("aPhase", "float");
+  const aPeriod: TslNode = attribute("aPeriod", "float");
+  const aScale: TslNode = attribute("aScale", "float");
+  const t: TslNode = u.uTime;
+  const hz: TslNode = u.uWanderHz;
+
   // Clumps are HORIZONTAL. A spherical clump would throw particles several
   // metres up through a band that is only a couple of metres deep, and the
   // wrap would then fold them back in at the wrong height — so the vertical
   // spread of a knot is capped by the band's own half-height.
-  vec3 clumpR = vec3(uClusterR, min(uClusterR, uBox.y), uClusterR);
-  vec3 inner = (aSeed - 0.5) * 2.0 * clumpR;
+  const clumpR: TslNode = vec3(u.uClusterR, min(u.uClusterR, u.uBox.y), u.uClusterR);
+  const inner: TslNode = aSeed.sub(0.5).mul(2.0).mul(clumpR);
 
-  vec3 w;
-  w.x = sin(t * uWanderHz * (0.6 + aSeed.x) + aSeed.x * 6.283);
-  w.y = sin(t * uWanderHz * (1.0 + aSeed.y) + aSeed.y * 6.283) * 0.6
-      + sin(t * uWanderHz * 2.3 + aSeed.z * 6.283) * 0.2;
-  w.z = cos(t * uWanderHz * (0.7 + aSeed.z) + aSeed.z * 6.283);
+  const wx: TslNode = sin(t.mul(hz).mul(aSeed.x.add(0.6)).add(aSeed.x.mul(6.283)));
+  const wy: TslNode = sin(t.mul(hz).mul(aSeed.y.add(1.0)).add(aSeed.y.mul(6.283))).mul(0.6)
+    .add(sin(t.mul(hz).mul(2.3).add(aSeed.z.mul(6.283))).mul(0.2));
+  const wz: TslNode = cos(t.mul(hz).mul(aSeed.z.add(0.7)).add(aSeed.z.mul(6.283)));
 
-  vec3 pos = aBase + inner + w * uWander + uDrift * t;
+  const pos: TslNode = aBase.add(inner).add(vec3(wx, wy, wz).mul(u.uWander)).add(u.uDrift.mul(t));
 
-  vec3 centre = uCam + vec3(0.0, uYOffset, 0.0);
-  vec3 rel = pos - centre;
-  rel = mod(rel + uBox, uBox * 2.0) - uBox;
-  vec3 world = centre + rel;
+  // The wrap is applied to (base + wander) together (see the file header).
+  const centre: TslNode = u.uCam.add(vec3(0.0, u.uYOffset, 0.0));
+  const rel: TslNode = mod(pos.sub(centre).add(u.uBox), u.uBox.mul(2.0)).sub(u.uBox);
+  const world0: TslNode = centre.add(rel);
+
+  // The compiled surface texel under xz (nearest): W16 in RG, signed depth in
+  // B. The habitat raster shares the grid, so one texel address serves both.
+  const info: TslNode = u.uAirWaterInfo;
+  const texelF: TslNode = clamp(world0.xz.div(info.y).sub(0.5), vec2(0.0), vec2(info.x.sub(1.001)));
+  const texelI: TslNode = ivec2(texelF.add(0.5));
+  const wt: TslNode = textureLoad(u.uAirWaterTex, texelI);
+  const D: TslNode = u.uAirWaterDepth;
+  const H: TslNode = u.uAirHover;
+  const surfaceEnabled: TslNode = D.w.greaterThanEqual(0.5);
+  const waterW: TslNode = info.z.add(wt.r.mul(255.0 * 256.0).add(wt.g.mul(255.0)).div(65535.0).mul(info.w));
+  const waterDepth: TslNode = wt.b.mul(D.y).add(D.x).add(H.z);
+  // KEEP IN LOCKSTEP with airHoverFloorY(): the floor over water, or a huge
+  // negative where the texel under the particle is dry ground.
+  const floorY: TslNode = select(
+    surfaceEnabled.and(waterDepth.greaterThan(max(D.z, 0.0))),
+    waterW.add(H.z).add(H.x).add(aSeed.y.mul(H.y)),
+    float(-1.0e9),
+  );
   // over standing water the band's floor is the WATER SURFACE, never the
   // ground under it (Phase 16c): a species with a hover height rises to it
-  world.y = max(world.y, esAirFloor(world.xz, aSeed.y));
-  // …and a hover species exists only over standing water (16c round 2)
-  float esWaterGate = esAirWaterGate(world.xz);
+  const world: TslNode = vec3(world0.x, max(world0.y, floorY), world0.z);
+  // KEEP IN LOCKSTEP with airWaterGate(): a hover species draws ONLY over
+  // standing water. Without a bound surface nothing is gated.
+  const waterGate: TslNode = select(surfaceEnabled, step(AIR_WATER_MIN_DEPTH_M, waterDepth), float(1.0));
 
-  vec3 edge = 1.0 - smoothstep(vec3(0.62), vec3(1.0), abs(rel) / uBox);
-  float fade = edge.x * edge.y * edge.z;
+  const edgeLo: TslNode = vec3(0.62);
+  const edge: TslNode = vec3(1.0).sub((smoothstep as (...a: TslNode[]) => TslNode)(edgeLo, vec3(1.0), abs(rel).div(u.uBox)));
+  const fade: TslNode = edge.x.mul(edge.y).mul(edge.z);
 
-  // BLINK ENVELOPE. A fast symmetric pulse reads as a strobe, which is what
-  // the first version did. A firefly is a slow rise, a brief peak, a slower
-  // decay, then a DARK GAP longer than the lit part — and the period varies
-  // per insect so a swarm never falls into unison.
-  float blink = 1.0;
-  if (aPeriod > 0.0) {
-    float ph = fract(t / aPeriod + aPhase);
-    blink = smoothstep(0.0, 0.16, ph) * (1.0 - smoothstep(0.16, 0.60, ph));
-    blink = pow(blink, 1.5);
-  }
+  // BLINK ENVELOPE: airBlinkEnvelope(), per-insect period so a swarm never
+  // falls into unison.
+  const ph: TslNode = fract(t.div(aPeriod).add(aPhase));
+  const blink: TslNode = select(
+    aPeriod.greaterThan(0.0),
+    pow(smoothstep(0.0, 0.16, ph).mul(float(1.0).sub(smoothstep(0.16, 0.6, ph))), 1.5),
+    float(1.0),
+  );
 
-  vec4 mv = modelViewMatrix * vec4(world, 1.0);
-  float dist = max(-mv.z, 0.001);
+  const mv: TslNode = modelViewMatrix.mul(vec4(world, 1.0));
+  const dist: TslNode = max(mv.z.negate(), 0.001);
 
   // Forward scatter: brightest between eye and sun. For the lit species this
-  // is most of their visibility, and it is what makes a mote read as caught
-  // in a beam rather than as confetti.
-  vBacklit = 0.0;
-  if (uBacklight > 0.0) {
-    vBacklit = pow(max(dot(normalize(world - uCam), uSunDir), 0.0), 8.0);
-  }
+  // is most of their visibility.
+  const backlit: TslNode = select(
+    u.uBacklight.greaterThan(0.0),
+    pow(max(dot(normalize(world.sub(u.uCam)), u.uSunDir), 0.0), 8.0),
+    float(0.0),
+  );
 
-  // Aerial haze on the scene's own visibility distance, so these sit IN the
-  // air and fade with everything else; plus a near fade so a sprite never
-  // balloons across the screen as the camera passes through the field.
-  float haze = exp(-dist / max(uVisibility, 1.0));
-  // Near clip: keep the field off the lens, and in third person out of the
-  // gap between the camera and the character.
-  float near = smoothstep(uNearClip * 0.55, uNearClip, dist);
+  // Aerial haze on the scene's own visibility distance, plus a near fade so a
+  // sprite never balloons across the screen (and in third person stays out
+  // of the gap between the camera and the character).
+  const haze: TslNode = exp(dist.negate().div(max(u.uVisibility, 1.0)));
+  const near: TslNode = smoothstep(u.uNearClip.mul(0.55), u.uNearClip, dist);
 
-  // World-anchored patchiness. Sampled on the WRAPPED WORLD position, not on
-  // the particle's index, so the pockets belong to the ground and stay put
-  // as the camera moves through them — a real swarm is not spread evenly
-  // over a marsh, it gathers where the marsh suits it.
-  float esPatch = 1.0;
-  if (uPatchM > 0.0) {
-    // Wrap the domain so the hash input stays small in float32 (world
-    // coordinates are thousands of metres); the pattern repeats every 256
-    // patches, far wider than the province. See esAirHash for why the hash
-    // itself must also be safe at these magnitudes.
-    vec2 esPatchUV = mod(world.xz / uPatchM, 256.0);
-    esPatch = smoothstep(uPatchBand.x, uPatchBand.y, esAirNoise(esPatchUV));
-  }
-  // 16f: the RECORD says where life is. With a habitat raster bound the
-  // swarm gathers where its weighted habitat is set (marsh and canopy for
-  // fireflies, standing water for midges and dragonflies, canopy for pollen
-  // and leaf fall) and the value noise only textures the density inside
-  // it; the height-above-surface rule above is untouched.
-  if (uAirHabitatW.w > 0.5) {
-    vec2 esHabF = clamp(world.xz / uAirWaterInfo.y - 0.5, vec2(0.0), vec2(uAirWaterInfo.x - 1.001));
-    vec3 esHab = texelFetch(uAirHabitat, ivec2(esHabF + 0.5), 0).rgb;
-    float esHabW = clamp(dot(esHab, uAirHabitatW.xyz), 0.0, 1.0);
-    esPatch = esHabW * (0.35 + 0.65 * esPatch);
-  }
+  // World-anchored patchiness, sampled on the WRAPPED WORLD position so the
+  // pockets belong to the ground. The domain wraps every 256 patches so the
+  // hash input stays small in float32.
+  const patchUV: TslNode = mod(world.xz.div(u.uPatchM), 256.0);
+  const patchNoise: TslNode = select(
+    u.uPatchM.greaterThan(0.0),
+    smoothstep(u.uPatchBand.x, u.uPatchBand.y, esAirNoise(patchUV)),
+    float(1.0),
+  );
+  // 16f: the RECORD says where life is: the habitat weights gate the patch
+  // centres and the value noise only textures the density inside them.
+  const hab: TslNode = textureLoad(u.uAirHabitat, texelI).rgb;
+  const habW: TslNode = clamp(dot(hab, u.uAirHabitatW.xyz), 0.0, 1.0);
+  const patch: TslNode = select(
+    u.uAirHabitatW.w.greaterThan(0.5),
+    habW.mul(patchNoise.mul(0.65).add(0.35)),
+    patchNoise,
+  );
 
-  vAlpha = fade * blink * uAmount * haze * near * esPatch * esWaterGate;
-  gl_PointSize = uSizePx * aScale * uPixelRatio * (10.0 / dist);
-  float tiny = min(gl_PointSize, 1.0);
-  vAlpha *= tiny * tiny;
-  gl_PointSize = clamp(gl_PointSize, 1.0, 48.0);
-  gl_Position = projectionMatrix * mv;
+  // airSpriteSize(): framebuffer pixels, fading sub-pixel sprites by area.
+  const sizeRaw: TslNode = u.uSizePx.mul(aScale).mul(u.uPixelRatio).mul(float(10.0).div(dist));
+  const tiny: TslNode = min(sizeRaw, 1.0);
+  const sizePx: TslNode = clamp(sizeRaw, 1.0, AIR_SPRITE_MAX_PX);
+  const alpha: TslNode = fade.mul(blink).mul(u.uAmount).mul(haze).mul(near).mul(patch).mul(waterGate)
+    .mul(tiny).mul(tiny);
+
+  // Screen-aligned quad around the projected centre: corners are ±0.5, so the
+  // quad spans `sizePx` framebuffer pixels whatever the depth.
+  const clip: TslNode = cameraProjectionMatrix.mul(mv);
+  const offset: TslNode = positionGeometry.xy.mul(sizePx).mul(2.0).div(viewportSize).mul(clip.w);
+
+  const vAlpha: TslNode = varying(alpha, "vAirAlpha");
+  const vBacklit: TslNode = varying(backlit, "vAirBacklit");
+  const vCorner: TslNode = varying(positionGeometry.xy, "vAirCorner");
+
+  const material = new NodeMaterial();
+  material.vertexNode = vec4(clip.xy.add(offset), clip.z, clip.w);
+  material.fragmentNode = Fn(() => {
+    // Small bright core inside a wide soft halo, in two different colours. A
+    // single flat disc is what reads as "dot"; the two-term falloff with a
+    // hotter core is what reads as "glowing".
+    const d: TslNode = length(vCorner).mul(2.0);
+    const core: TslNode = float(1.0).sub(smoothstep(0.0, 0.34, d));
+    const halo: TslNode = float(1.0).sub(smoothstep(0.06, 1.0, d));
+    // The halo carries most of the visible area; the core is only the hot centre.
+    const a: TslNode = core.add(halo.mul(0.6));
+    If(a.lessThanEqual(0.002).or(vAlpha.lessThanEqual(0.002)), () => {
+      Discard();
+    });
+    // uCore/uHalo arrive as SCENE-LINEAR RADIANCE, never display colours; the
+    // renderer applies its tone map and output encode (toneMapped stays on).
+    const col: TslNode = mix(u.uHalo, u.uCore, core).mul(u.uBacklitGain.mul(vBacklit).add(1.0));
+    return vec4(col, a.mul(vAlpha).mul(u.uOpacity));
+  })();
+  return material;
 }
-`;
-
-const FRAGMENT = /* glsl */ `
-uniform vec3 uCore;
-uniform vec3 uHalo;
-uniform float uOpacity;
-uniform float uBacklitGain;
-varying float vAlpha;
-varying float vBacklit;
-
-void main() {
-  // Small bright core inside a wide soft halo, in two different colours. A
-  // single flat disc is what reads as "dot"; the two-term falloff with a
-  // hotter core is what reads as "glowing".
-  float d = length(gl_PointCoord - 0.5) * 2.0;
-  float core = smoothstep(0.34, 0.0, d);
-  float halo = smoothstep(1.0, 0.06, d);
-  // The halo carries most of the visible area; the core is only the hot
-  // centre. Weighting it too low leaves a small hard dot with nothing
-  // around it, which is the "flat dot" read.
-  float a = core + halo * 0.60;
-  if (a <= 0.002 || vAlpha <= 0.002) discard;
-
-  // uCore/uHalo arrive as SCENE-LINEAR RADIANCE, never display colours: the
-  // lit species from the same sky/sun feeds the water spray uses, the
-  // emissive ones anchored against exposure. The two chunks at the end are
-  // the renderer's own tone map and output encode, which a ShaderMaterial
-  // does NOT get for free the way a built-in material does. Authoring in
-  // display terms and omitting them is what made every one of these render
-  // as a flat charcoal dot.
-  vec3 col = mix(uHalo, uCore, core);
-  col *= 1.0 + uBacklitGain * vBacklit;
-
-  gl_FragColor = vec4(col, a * vAlpha * uOpacity);
-
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
-}
-`;
 
 /** One species' geometry, material and mesh. */
 export class AirSwarm {
-  readonly points: THREE.Points;
-  readonly material: THREE.ShaderMaterial;
-  private readonly geometry: THREE.BufferGeometry;
+  /** One instanced quad per particle (the old `THREE.Points` draw). */
+  readonly points: THREE.Mesh;
+  readonly material: NodeMaterial;
+  readonly uniforms: AirSwarmUniforms;
+  private readonly geometry: THREE.InstancedBufferGeometry;
+  private readonly blank: THREE.DataTexture;
 
   constructor(
     readonly species: AirSpecies,
@@ -418,59 +466,68 @@ export class AirSwarm {
       scale[i] = 0.7 + rand() * 0.6;
     }
 
-    this.geometry = new THREE.BufferGeometry();
-    this.geometry.setAttribute("position", new THREE.BufferAttribute(base, 3));
-    this.geometry.setAttribute("aBase", new THREE.BufferAttribute(base, 3));
-    this.geometry.setAttribute("aSeed", new THREE.BufferAttribute(seed, 3));
-    this.geometry.setAttribute("aPhase", new THREE.BufferAttribute(phase, 1));
-    this.geometry.setAttribute("aPeriod", new THREE.BufferAttribute(period, 1));
-    this.geometry.setAttribute("aScale", new THREE.BufferAttribute(scale, 1));
+    this.geometry = new THREE.InstancedBufferGeometry();
+    // One quad, corners ±0.5 (the sprite's point coordinate, centred).
+    this.geometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3),
+    );
+    this.geometry.setIndex([0, 1, 2, 0, 2, 3]);
+    this.geometry.setAttribute("aBase", new THREE.InstancedBufferAttribute(base, 3));
+    this.geometry.setAttribute("aSeed", new THREE.InstancedBufferAttribute(seed, 3));
+    this.geometry.setAttribute("aPhase", new THREE.InstancedBufferAttribute(phase, 1));
+    this.geometry.setAttribute("aPeriod", new THREE.InstancedBufferAttribute(period, 1));
+    this.geometry.setAttribute("aScale", new THREE.InstancedBufferAttribute(scale, 1));
+    this.geometry.instanceCount = n;
     // The wrap makes every particle's drawn position independent of its base,
     // so an accurate bounding volume is impossible and a culled swarm would
     // simply vanish. Bound it hugely and let the wrap do the work.
     this.geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 1e6);
 
-    this.material = new THREE.ShaderMaterial({
-      uniforms: {
-        uCam: { value: new THREE.Vector3() },
-        uTime: { value: 0 },
-        uBox: { value: new THREE.Vector3(bx, by, bz) },
-        uYOffset: { value: 0 },
-        uNearClip: { value: species.nearClipM },
-        uPatchM: { value: species.patchM },
-        uPatchBand: { value: new THREE.Vector2(...airPatchBand(species)) },
-        uSizePx: { value: species.sizePx },
-        uPixelRatio: { value: 1 },
-        uWander: { value: new THREE.Vector3(...species.wander) },
-        uWanderHz: { value: species.wanderHz },
-        uDrift: { value: new THREE.Vector3(...species.drift) },
-        uClusterR: { value: species.clusterRadius },
-        uAmount: { value: 0 },
-        uSunDir: { value: new THREE.Vector3(0, 1, 0) },
-        uBacklight: { value: species.backlight },
-        uBacklitGain: { value: species.backlight },
-        uVisibility: { value: 1200 },
-        uAirWaterTex: { value: null },
-        uAirWaterInfo: { value: new THREE.Vector4(1, 1, 0, 1) },
-        uAirWaterDepth: { value: new THREE.Vector4(0, 1, -2.5, 0) },
-        uAirHover: { value: new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0) },
-        uAirHabitat: { value: null },
-        uAirHabitatW: { value: new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0) },
-        // Scene-linear radiance, written every frame by update().
-        uCore: { value: new THREE.Color(0, 0, 0) },
-        uHalo: { value: new THREE.Color(0, 0, 0) },
-        uOpacity: { value: species.opacity },
-      },
-      vertexShader: VERTEX,
-      fragmentShader: FRAGMENT,
-      transparent: true,
-      // Never occlude anything: these are specks of light and dust.
-      depthWrite: false,
-      depthTest: true,
-      blending: species.additive ? THREE.AdditiveBlending : THREE.NormalBlending,
-    });
+    this.blank = blankTexture();
+    this.uniforms = {
+      uCam: uniform(new THREE.Vector3()),
+      uTime: uniform(0),
+      uBox: uniform(new THREE.Vector3(bx, by, bz)),
+      uYOffset: uniform(0),
+      uNearClip: uniform(species.nearClipM),
+      uPatchM: uniform(species.patchM),
+      uPatchBand: uniform(new THREE.Vector2(...airPatchBand(species))),
+      uSizePx: uniform(species.sizePx),
+      uPixelRatio: uniform(1),
+      uWander: uniform(new THREE.Vector3(...species.wander)),
+      uWanderHz: uniform(species.wanderHz),
+      uDrift: uniform(new THREE.Vector3(...species.drift)),
+      uClusterR: uniform(species.clusterRadius),
+      uAmount: uniform(0),
+      uSunDir: uniform(new THREE.Vector3(0, 1, 0)),
+      uBacklight: uniform(species.backlight),
+      uBacklitGain: uniform(species.backlight),
+      uVisibility: uniform(1200),
+      uAirWaterTex: texture(this.blank),
+      uAirWaterInfo: uniform(new THREE.Vector4(1, 1, 0, 1)),
+      uAirWaterDepth: uniform(new THREE.Vector4(0, 1, -2.5, 0)),
+      uAirHover: uniform(new THREE.Vector3(species.hoverAboveWaterM ?? 0, species.hoverBandM ?? 0, 0)),
+      uAirHabitat: texture(this.blank),
+      uAirHabitatW: uniform(new THREE.Vector4(...(species.habitat ?? [0, 0, 0]), 0)),
+      uCore: uniform(new THREE.Color(0, 0, 0)),
+      uHalo: uniform(new THREE.Color(0, 0, 0)),
+      uOpacity: uniform(species.opacity),
+    };
 
-    this.points = new THREE.Points(this.geometry, this.material);
+    this.material = buildSwarmMaterial(this.uniforms);
+    this.material.name = `air:${species.id}`;
+    this.material.transparent = true;
+    // Never occlude anything: these are specks of light and dust.
+    this.material.depthWrite = false;
+    this.material.depthTest = true;
+    this.material.blending = species.additive ? THREE.AdditiveBlending : THREE.NormalBlending;
+    // A point sprite is never back-face culled; neither is its quad.
+    this.material.side = THREE.DoubleSide;
+    // The haze is in the graph (uVisibility), as it was: no scene fog on top.
+    this.material.fog = false;
+
+    this.points = new THREE.Mesh(this.geometry, this.material);
     this.points.frustumCulled = false;
     this.points.renderOrder = 6;
     // Drawn in the water pipeline's post-water pass, like rain: on layer 0
@@ -487,25 +544,27 @@ export class AirSwarm {
   /** Bind (or clear) the compiled water surface this swarm hovers over. Only
    * a species with a hover height reads it; the others keep the ground. */
   setWater(water: AirWaterSurface | null): void {
-    const u = this.material.uniforms;
+    const u = this.uniforms;
     // The habitat (16f) binds for EVERY species that declares weights; the
     // surface floor only for the hover species, as before.
     const habitat = water !== null && this.species.habitat !== undefined && water.habitat !== undefined;
     const hover = water !== null && this.species.hoverAboveWaterM !== undefined;
-    (u.uAirWaterTex as { value: THREE.Texture | null }).value = hover || habitat ? water!.texture : null;
-    (u.uAirHabitat as { value: THREE.Texture | null }).value = habitat ? water!.habitat! : null;
-    (u.uAirHabitatW.value as THREE.Vector4).w = habitat ? 1 : 0;
+    const waterTex = hover || habitat ? water!.texture : this.blank;
+    if (u.uAirWaterTex.value !== waterTex) u.uAirWaterTex.value = waterTex;
+    const habTex = habitat ? water!.habitat! : this.blank;
+    if (u.uAirHabitat.value !== habTex) u.uAirHabitat.value = habTex;
+    u.uAirHabitatW.value.w = habitat ? 1 : 0;
     if (hover || habitat) {
-      (u.uAirWaterInfo.value as THREE.Vector4).set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
+      u.uAirWaterInfo.value.set(water!.size, water!.metresPerPixel, water!.minM, water!.spanM);
     }
     // the surface floor and the standing-water gate are the HOVER species'
     // (16c); a ground species that binds the raster for its habitat keeps
     // the ground as its floor and is never gated to open water
     if (hover) {
-      (u.uAirWaterDepth.value as THREE.Vector4).set(water!.depthMinM, water!.depthSpanM, water!.buriedM, 1);
-      (u.uAirHover.value as THREE.Vector3).z = water!.liftM();
+      u.uAirWaterDepth.value.set(water!.depthMinM, water!.depthSpanM, water!.buriedM, 1);
+      u.uAirHover.value.z = water!.liftM();
     } else {
-      (u.uAirWaterDepth.value as THREE.Vector4).w = 0;
+      u.uAirWaterDepth.value.w = 0;
     }
   }
 
@@ -529,41 +588,40 @@ export class AirSwarm {
     exposure: number,
     visibilityM: number,
   ): void {
-    const u = this.material.uniforms;
+    const u = this.uniforms;
     const on = amount > 0.002;
     this.points.visible = on;
     if (!on) return;
     const sp = this.species;
-    (u.uAmount as { value: number }).value = Math.min(1, amount);
-    (u.uCam.value as THREE.Vector3).copy(camera.position);
-    (u.uTime as { value: number }).value = timeS;
-    (u.uPixelRatio as { value: number }).value = pixelRatio;
-    (u.uSunDir.value as THREE.Vector3).copy(sunDir);
-    (u.uVisibility as { value: number }).value = visibilityM;
+    u.uAmount.value = Math.min(1, amount);
+    u.uCam.value.copy(camera.position);
+    u.uTime.value = timeS;
+    u.uPixelRatio.value = pixelRatio;
+    u.uSunDir.value.copy(sunDir);
+    u.uVisibility.value = visibilityM;
     // Band centre as an offset from the camera: down to the band's top, then
     // half its depth further. `aboveGroundM` is not used for placement — the
     // terrain's own depth buffer bounds the band from below.
-    (u.uYOffset as { value: number }).value = -(sp.topBelowCameraM + sp.depthM / 2);
+    u.uYOffset.value = -(sp.topBelowCameraM + sp.depthM / 2);
 
     // THE COLOUR STEP THAT MATTERS. Both branches produce SCENE-LINEAR
-    // RADIANCE, never a display colour — the fragment shader then runs the
-    // renderer's own tone map and output encode over it, exactly as a
-    // built-in material would.
+    // RADIANCE, never a display colour — the renderer then runs its own tone
+    // map and output encode over it, exactly as for a built-in material.
     if (sp.emissive) {
       const k = sp.emissiveScreen / Math.max(exposure, 1e-6);
-      (u.uCore.value as THREE.Color).setRGB(sp.core[0] * k, sp.core[1] * k, sp.core[2] * k);
+      u.uCore.value.setRGB(sp.core[0] * k, sp.core[1] * k, sp.core[2] * k);
       const hk = k * 0.55;
-      (u.uHalo.value as THREE.Color).setRGB(sp.halo[0] * hk, sp.halo[1] * hk, sp.halo[2] * hk);
+      u.uHalo.value.setRGB(sp.halo[0] * hk, sp.halo[1] * hk, sp.halo[2] * hk);
     } else {
       // Lit by the real sky and sun. Never clamp this to display white:
       // daylight exposure is ~1e-5, so clamping turns a white mote into
       // soot — the lesson already recorded in waterParticleLighting.
-      (u.uCore.value as THREE.Color).setRGB(
+      u.uCore.value.setRGB(
         light.x * sp.albedo[0] * sp.core[0],
         light.y * sp.albedo[1] * sp.core[1],
         light.z * sp.albedo[2] * sp.core[2],
       );
-      (u.uHalo.value as THREE.Color).setRGB(
+      u.uHalo.value.setRGB(
         light.x * sp.albedo[0] * sp.halo[0],
         light.y * sp.albedo[1] * sp.halo[1],
         light.z * sp.albedo[2] * sp.halo[2],
@@ -571,7 +629,7 @@ export class AirSwarm {
     }
 
     const f = sp.windFollow * windSpeed;
-    (u.uDrift.value as THREE.Vector3).set(
+    u.uDrift.value.set(
       sp.drift[0] + windXZ[0] * f,
       sp.drift[1],
       sp.drift[2] + windXZ[1] * f,
@@ -581,6 +639,7 @@ export class AirSwarm {
   dispose(): void {
     this.geometry.dispose();
     this.material.dispose();
+    this.blank.dispose();
   }
 }
 
