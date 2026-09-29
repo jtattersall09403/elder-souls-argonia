@@ -102,6 +102,15 @@ import {
 import { clearancesOfBundle, withPlaceClearances } from "@elder-souls/game-core/vegetation/clearanceFilter";
 import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
+import {
+  fillDue,
+  generateBudgetMs,
+  GC_COLD_TILES,
+  GC_SECTORS,
+  SectorCuller,
+  sectorOf,
+  viewPriority,
+} from "./groundcoverSchedule";
 
 /** Ring tiling. Tiles are world-aligned so placement is position-independent. */
 const TILE_M = 16;
@@ -217,25 +226,19 @@ const REBUILD_MOVE_M = 8;
  * its band. Both copies of a crossing plant then exist at the moment of the
  * crossfade, which is the whole point. */
 const TIER_OVERLAP_M = REBUILD_MOVE_M + 6;
-/** Main-thread budget per frame for generating tiles (ms). A row of ~22
- * tiles entering the ring used to be generated in one go inside the rebuild
- * effect — ~18 ms a tile, half a second of stall every 16 m of walking,
- * which was the "stutter" the owner felt. Generation now runs in `useFrame`
- * nearest-tile-first within this budget, and a fill is requested when the
- * queue drains (or every FILL_INTERVAL_S while it is long); the overlap
- * margin hides the tiles still in the queue at the ring's edge. */
-const GENERATE_BUDGET_MS = 5;
+/* Main-thread budget per frame for generating tiles: `generateBudgetMs`
+ * (groundcoverSchedule.ts) — large in the first seconds, small and steady
+ * after. A row of ~22 tiles entering the ring used to be generated in one go
+ * inside the rebuild effect — ~18 ms a tile, half a second of stall every
+ * 16 m of walking. Generation runs in `useFrame`, nearest and in-view first,
+ * and the fill is requested by `fillDue`: in phases on a cold start, at the
+ * queue's drain or every 0.25 s while walking; the overlap margin hides the
+ * tiles still in the queue at the ring's edge. */
 /** Tiles generated in ONE call, however much of the budget is left: the
  * budget is only checked BETWEEN tiles, and a single tile beside a road-track
  * clearance was measured at 110-555 ms on the owner's GPU (2026-09-21). */
-const GENERATE_MAX_TILES_PER_CALL = 8;
+const GENERATE_MAX_TILES_PER_CALL = 12;
 const EMPTY_PATCHES: readonly IndexedPatch[] = [];
-/** While more than this many tiles are still wanted (a spawn, a teleport,
- * a raster arriving), the budget rises to GENERATE_BUDGET_COLD_MS so the ring
- * fills in a second or two instead of creeping outward for ten. */
-const GENERATE_COLD_TILES = 40;
-const GENERATE_BUDGET_COLD_MS = 14;
-const FILL_INTERVAL_S = 0.25;
 /** Metres between the per-tile ground samples (height, slope, water depth).
  * The terrain the ring re-grounds on is 1.83 m per sample, so a 2 m grid
  * loses nothing a plant can show; it replaces three height reads and a
@@ -922,7 +925,7 @@ export interface GroundcoverStats {
   /** Candidate rejections in the last generation pass, by filter. */
   rejected?: Record<string, number>;
   /** Main-thread cost: tile generation since the last fill (spread over
-   * frames within GENERATE_BUDGET_MS each) and this fill. */
+   * frames within `generateBudgetMs` each) and this fill. */
   rebuildMs: { generate: number; fill: number };
   /** DEV per-frame instrumentation (no behaviour), republished every frame on
    * `__STUDIO_GROUNDCOVER_DEBUG__` so the HUD can poll it. */
@@ -957,6 +960,13 @@ export interface GroundcoverPerf {
   fillInstances: number;
   tilesLive: number;
   tilesPending: number;
+  /** Instances in the ring's meshes vs those in meshes the sector cull left
+   * visible this frame, and the draw calls that submits (walk 5). */
+  instancesLive: number;
+  instancesSubmitted: number;
+  drawsSubmitted: number;
+  /** Ring fills (whole-ring copy + upload) since mount. */
+  fills: number;
   /** Cumulative since mount (0084 round 11): tiles GENERATED and whole-cache
    * WIPES. `built` climbs only by as much as `staled` + `retiled` while the
    * player stands still; any more is the double-build defect returning.
@@ -984,18 +994,23 @@ export const GROUNDCOVER_ENABLED: boolean = (() => {
 })();
 
 /**
- * DEV measurement switch (`?gcquad=1|2|4`, default 1, decisions 0084 rounds
- * 11 and 12). How many meshes the ring splits each (species, bucket, part)
- * into: 4 is the quartering around the focus, 2 splits on the focus x axis
- * only, 1 draws one mesh. The owner's reading of 2026-09-22 settled it at 1:
- * 4 → 2 → 1 quadrants moved the frame's calls 480 → 436 → 404 with the frame
- * rate flat at 23–24, so the quartering culls nothing worth its draws.
+ * DEV measurement switch (`?gcsec=1|4|8`, default 8; walk 5, 2026-09-29).
+ * How many wedges around the fill focus the ring splits each (species,
+ * bucket, part) into, plus one core disc; 1 draws one mesh (the old
+ * `?gcquad=1`, still honoured). The quartering of 0084 round 11 culled
+ * nothing because a quarter ring's bounding sphere always met the view; the
+ * wedges are culled per frame against their TILE boxes (`SectorCuller`), and
+ * the core disc keeps the apex, where the camera stands, out of every wedge.
  */
-export const GROUNDCOVER_QUADRANTS: number = (() => {
-  if (typeof window === "undefined") return 1;
-  const raw = new URLSearchParams(window.location.search).get("gcquad");
-  return raw === "2" ? 2 : raw === "4" ? 4 : 1;
+export const GROUNDCOVER_SECTORS: number = (() => {
+  if (typeof window === "undefined") return GC_SECTORS;
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("gcquad") === "1") return 1;
+  const raw = params.get("gcsec");
+  return raw === "1" ? 1 : raw === "4" ? 4 : GC_SECTORS;
 })();
+/** Mesh slots per (species, bucket, part): the core plus the wedges. */
+const SECTOR_SLOTS = GROUNDCOVER_SECTORS === 1 ? 1 : GROUNDCOVER_SECTORS + 1;
 
 /** The once-fetched inputs a cached tile depends on (0084 round 11). */
 type InputKey = "patches" | "region" | "tint" | "water";
@@ -1100,11 +1115,25 @@ export function Groundcover({
   const genPending = useRef(true);
   const lastFillTime = useRef(0);
   const generatedSinceFill = useRef(0);
+  /** A cold burst (spawn, teleport, raster arriving): fills go by phase. */
   const coldStart = useRef(true);
+  /** Phases of the current cold burst already filled (`fillDue`). */
+  const phasesFilled = useRef(0);
+  /** Clock time of the first generate call: the startup budget window. */
+  const genStartS = useRef<number | null>(null);
+  const lastRemaining = useRef(Number.POSITIVE_INFINITY);
+  /** Per-frame wedge culling (walk 5). Slots = core + wedges. */
+  const culler = useMemo(() => new SectorCuller(SECTOR_SLOTS), []);
+  /** The pool as a flat list, so the per-frame visibility loop allocates
+   * no iterator. Rebuilt whenever the pool changes. */
+  const meshList = useRef<THREE.InstancedMesh[]>([]);
+  const forward = useMemo(() => new THREE.Vector3(), []);
   /** Generation counters since the last fill, reported by the fill. */
   const genStats = useRef({ generated: 0, ms: 0, tileMs: 0, tileMaxMs: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } });
   /** Set once the inputs exist; `useFrame` calls it with a time budget. */
-  const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
+  const generateRef = useRef<((budgetMs: number, forwardX: number, forwardZ: number) => {
+    generated: number; remaining: number; missing: number; missingWithin: readonly number[];
+  }) | null>(null);
   const [revision, setRevision] = useState(0);
   /** Counts chunk decode completions only (the `store.load()` completion
    * site below) — never bumped by any other `setRevision` call. */
@@ -1123,6 +1152,7 @@ export function Groundcover({
     phaseExact: 0,
     fillMs: 0, fillMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
+    instancesLive: 0, instancesSubmitted: 0, drawsSubmitted: 0, fills: 0,
     tilesBuilt: 0, cacheStaled: 0, tilesRetiled: 0,
   });
   /** Cumulative counters behind `tilesBuilt`/`cacheStaled`. */
@@ -1251,19 +1281,25 @@ export function Groundcover({
     // Ensure the chunks under the ring are decoding at LOD 1 (the store
     // dedups with the terrain's own requests); a decode arrival rebuilds.
     if (chunks) {
+      // Every tile the ring keeps, corners included: the tiles are generated
+      // on LOD 1 only (walk 5), so every chunk under them must be asked for.
+      const reachM = farRadiusM + TIER_OVERLAP_M + TILE_M;
       // Runs every frame, so it allocates nothing: the four corner offsets are
       // a module constant and the seen-set is keyed by a packed integer rather
       // than by a freshly built `${cx},${cy}` string.
       for (let i = 0; i < CORNER_OFFSETS.length; i += 2) {
         const cx = Math.max(0, Math.min(chunks.grid[0] - 1,
-          Math.floor((focus.x + CORNER_OFFSETS[i] * farRadiusM) / chunks.chunkMetres)));
+          Math.floor((focus.x + CORNER_OFFSETS[i] * reachM) / chunks.chunkMetres)));
         const cy = Math.max(0, Math.min(chunks.grid[1] - 1,
-          Math.floor((focus.z + CORNER_OFFSETS[i + 1] * farRadiusM) / chunks.chunkMetres)));
+          Math.floor((focus.z + CORNER_OFFSETS[i + 1] * reachM) / chunks.chunkMetres)));
         const key = cx * CHUNK_KEY_STRIDE + cy;
         if (requested.current.has(key)) continue;
         requested.current.add(key);
         store.load(cx, cy, "1")
-          .then(() => { chunkArrivals.current += 1; setRevision((r) => r + 1); })
+          // An arrival re-arms generation (`chunkArrivals`); the tiles it
+          // unblocks request the fill themselves. It used to refill the whole
+          // ring on its own, a full copy and upload per chunk (walk 5).
+          .then(() => { chunkArrivals.current += 1; })
           .catch(() => requested.current.delete(key));
       }
     }
@@ -1302,8 +1338,13 @@ export function Groundcover({
     }
     if (genPending.current && generateRef.current) {
       const tGen0 = performance.now();
-      const { generated, remaining } = generateRef.current(
-        coldStart.current ? GENERATE_BUDGET_COLD_MS : GENERATE_BUDGET_MS);
+      if (genStartS.current === null) genStartS.current = state.clock.elapsedTime;
+      state.camera.getWorldDirection(forward);
+      const flat = Math.hypot(forward.x, forward.z) || 1;
+      const { generated, remaining, missing, missingWithin } = generateRef.current(
+        generateBudgetMs(state.clock.elapsedTime - genStartS.current, lastRemaining.current),
+        forward.x / flat, forward.z / flat);
+      lastRemaining.current = remaining;
       p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
       p.tileMs = Math.round(genStats.current.tileMs * 10) / 10;
       p.tileMaxMs = Math.round(genStats.current.tileMaxMs * 10) / 10;
@@ -1315,13 +1356,25 @@ export function Groundcover({
       p.phaseExact = pm.exact;
       if (p.generateMs > p.generateMaxMs) p.generateMaxMs = p.generateMs;
       pendingTiles = remaining;
-      coldStart.current = remaining > GENERATE_COLD_TILES;
-      generatedSinceFill.current += generated;
-      if (remaining === 0) genPending.current = false;
-      if (generatedSinceFill.current > 0
-          && (remaining === 0 || state.clock.elapsedTime - lastFillTime.current > FILL_INTERVAL_S)) {
-        fill = true;
+      if (!coldStart.current && missing > GC_COLD_TILES) {
+        coldStart.current = true;
+        phasesFilled.current = 0;
       }
+      generatedSinceFill.current += generated;
+      const due = fillDue({
+        generatedSinceFill: generatedSinceFill.current,
+        remaining: missing,
+        remainingWithin: missingWithin,
+        phasesFilled: phasesFilled.current,
+        cold: coldStart.current,
+        sinceLastFillS: state.clock.elapsedTime - lastFillTime.current,
+      });
+      if (due.fill) {
+        fill = true;
+        phasesFilled.current = due.phase;
+      }
+      if (remaining === 0) genPending.current = false;
+      if (missing === 0) coldStart.current = false;
     }
     p.tilesPending = pendingTiles + generatedSinceFill.current;
     if (fill) {
@@ -1330,6 +1383,7 @@ export function Groundcover({
       generatedSinceFill.current = 0;
       setRevision((r) => r + 1);
       p.rebuildsStarted++;
+      p.fills++;
       const now = performance.now();
       rebuildTimes.current.push(now);
       while (rebuildTimes.current.length && now - rebuildTimes.current[0] > 1000) {
@@ -1342,6 +1396,25 @@ export function Groundcover({
       }
     }
     p.rebuildsPerSec = rebuildTimes.current.length;
+    // Wedge culling: a wedge none of whose tiles meets the (widened) view is
+    // not submitted. Tested every frame against the live camera.
+    let live = 0; let submitted = 0; let draws = 0;
+    const list = meshList.current;
+    if (SECTOR_SLOTS > 1) {
+      const camera = state.camera;
+      camera.updateMatrixWorld();
+      culler.test(culler.frustumOf(camera));
+    }
+    for (let i = 0; i < list.length; i++) {
+      const mesh = list[i];
+      const show = SECTOR_SLOTS === 1 || culler.visible[mesh.userData.gcSector as number] === 1;
+      mesh.visible = show;
+      live += mesh.count;
+      if (show && mesh.count > 0) { submitted += mesh.count; draws++; }
+    }
+    p.instancesLive = live;
+    p.instancesSubmitted = submitted;
+    p.drawsSubmitted = draws;
     p.tilesBuilt = builtTotal.current;
     p.cacheStaled = wipes.current;
     p.tilesRetiled = retiled.current;
@@ -1399,8 +1472,8 @@ export function Groundcover({
     // A tile is copied into every tier whose outer radius (plus the overlap)
     // its nearest point is within; the shader collapses the copies that are
     // outside their band this frame and dissolves the ones crossing it. The
-    // quadrant is the tile centre's, so each mesh keeps a tight sphere that
-    // can leave the frustum.
+    // slot is the tile's wedge around the focus (or the core disc), culled
+    // per frame against its tiles' boxes.
     const nearRadiusM = ringRadiusM * NEAR_FRACTION;
     const shortFarRadiusM = farRadiusM * SHORT_FAR_FRACTION;
     // The NEAR tier's mesh and its reach, per species, decided ONCE and used
@@ -1418,7 +1491,8 @@ export function Groundcover({
       const level = nearMeshLevel(entry);
       return { parts: level.parts, reach: nearReachFraction(level.tris) };
     });
-    const quadCount = GROUNDCOVER_QUADRANTS;
+    const quadCount = SECTOR_SLOTS;
+    culler.clear();
     interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
       () => Array.from({ length: BUCKET_COUNT * quadCount }, () => ({ tiles: [], count: 0 })));
@@ -1428,9 +1502,12 @@ export function Groundcover({
       if (!tile) continue;
       const centreX = (entry.tx + 0.5) * TILE_M;
       const centreZ = (entry.tz + 0.5) * TILE_M;
-      const quadrant = GROUNDCOVER_QUADRANTS === 1 ? 0
-        : GROUNDCOVER_QUADRANTS === 2 ? (centreX >= focus.x ? 1 : 0)
-          : (centreX >= focus.x ? 1 : 0) + (centreZ >= focus.z ? 2 : 0);
+      const quadrant = sectorOf(centreX, centreZ, focus.x, focus.z, entry.nearest,
+        GROUNDCOVER_SECTORS);
+      // The wedge's cull volume is its tiles' boxes; 4 m over the ground
+      // covers the tallest plant in the table.
+      culler.add(quadrant, entry.tx * TILE_M, tile.minY - 1, entry.tz * TILE_M,
+        (entry.tx + 1) * TILE_M, tile.maxY + 4, (entry.tz + 1) * TILE_M);
       for (const plan of SPECIES_PLANS) {
         const species = tile.perSpecies[plan.index];
         if (species.count === 0) continue;
@@ -1553,7 +1630,10 @@ export function Groundcover({
               // create it lazily on the first `setColorAt`, one instance at
               // a time — this fill writes it in blocks).
               mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
-              mesh.frustumCulled = true;
+              // Culled per wedge in `useFrame` (SectorCuller), never by
+              // three's sphere test, which a ring-sized sphere always passed.
+              mesh.frustumCulled = false;
+              mesh.userData.gcSector = quadrant;
               // Groundcover NEVER casts (module 65 §111 / research §4.2): tens
               // of thousands of alpha-tested casters would dominate the
               // cascades. Nor does it RECEIVE: alpha-tested double-sided cards
@@ -1565,6 +1645,7 @@ export function Groundcover({
               group.add(mesh);
               meshPool.current.set(meshKey, mesh);
               if (previous) { group.remove(previous); previous.dispose(); }
+              meshList.current = [...meshPool.current.values()];
             }
             const matrices = mesh.instanceMatrix.array as Float32Array;
             const colours = mesh.instanceColor!.array as Float32Array;
@@ -1599,7 +1680,7 @@ export function Groundcover({
             mesh.count = drawn;
             mesh.instanceMatrix.needsUpdate = true;
             mesh.instanceColor!.needsUpdate = true;
-            // The sphere from the tiles' extents (a quarter-ring), never by
+            // The sphere from the tiles' extents (a wedge), never by
             // reading the matrices back; the height term covers the plants.
             const sphere = mesh.boundingSphere ?? (mesh.boundingSphere = new THREE.Sphere());
             sphere.center.set((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
@@ -1662,7 +1743,7 @@ export function Groundcover({
   }, [kit, cards, control, chunks, exclusions, exclusionBounds, clearanceIndex,
       regionRaster, tint, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
-      lodFade]);
+      lodFade, culler]);
 
   // The inputs must have SETTLED before a tile is cached: otherwise the
   // tile is built from defaults and has to be thrown away (0084 round 11).
@@ -1749,6 +1830,22 @@ export function Groundcover({
       const maxSpeciesRadiusM = maxPlanRadiusM.current;
       const waterData = water.current;
       const x0 = tx * TILE_M; const z0 = tz * TILE_M;
+      // Build ONCE, on the terrain the tile will settle on (walk 5): a tile
+      // generated on a coarse LOD kept its coarse heights for good, and the
+      // plants floated or sank by the LOD error. The ring asks for LOD 1
+      // under every tile it keeps; until it lands the tile waits, like a
+      // tile with no heights at all (retried on the next chunk arrival).
+      for (let c = 0; c < 4; c++) {
+        const cx = Math.max(0, Math.min(chunks.grid[0] - 1,
+          Math.floor((x0 + (c & 1) * TILE_M) / chunks.chunkMetres)));
+        const cy = Math.max(0, Math.min(chunks.grid[1] - 1,
+          Math.floor((z0 + (c >> 1) * TILE_M) / chunks.chunkMetres)));
+        if (store.loaded(cx, cy, "1")) continue;
+        // A chunk that publishes no LOD 1 (an apron chunk) is already settled.
+        if (!store.chunkAt(cx, cy)?.lods["1"]) continue;
+        rej.height++;
+        return null;
+      }
       // The tile's ground and water ONCE, on a 2 m grid, with the slope's
       // one-sample margin folded into the bilinear read below.
       let minY = Infinity; let maxY = -Infinity;
@@ -1972,7 +2069,12 @@ export function Groundcover({
       };
     };
 
-    generateRef.current = (budgetMs: number) => {
+    const nearPhaseM = ringRadiusM * NEAR_FRACTION + TIER_OVERLAP_M;
+    const midPhaseM = ringRadiusM + TIER_OVERLAP_M;
+    const missingWithin = [0, 0];
+    /** Running mean of one generated tile's cost, ms (the stop rule). */
+    let tileMeanMs = 2;
+    generateRef.current = (budgetMs: number, forwardX: number, forwardZ: number) => {
       const t0 = performance.now();
       const focus = focusRef.current;
       const keepRadiusM = farRadiusM + TIER_OVERLAP_M;
@@ -1982,7 +2084,7 @@ export function Groundcover({
       const cache = tileCache.current;
       // Everything the ring wants that the cache lacks (or holds thinned
       // where full is now wanted), nearest first.
-      const wanted: { tx: number; tz: number; nearest: number; far: boolean }[] = [];
+      const wanted: { tx: number; tz: number; nearest: number; far: boolean; key: number }[] = [];
       for (let tz = ftz - tileReach; tz <= ftz + tileReach; tz++) {
         for (let tx = ftx - tileReach; tx <= ftx + tileReach; tx++) {
           const nearest = tileNearestM(focus, tx, tz);
@@ -1992,17 +2094,29 @@ export function Groundcover({
           // A stale entry counts as missing here (it is rebuilt), but stays in
           // the cache so the fill keeps drawing it meanwhile.
           if (cached && !cached.stale && !(cached.far && !wantFar)) continue;
-          wanted.push({ tx, tz, nearest, far: wantFar });
+          // Nearest first, in front of the camera before behind it.
+          const key = viewPriority(nearest, (tx + 0.5) * TILE_M - focus.x,
+            (tz + 0.5) * TILE_M - focus.z, forwardX, forwardZ);
+          wanted.push({ tx, tz, nearest, far: wantFar, key });
         }
       }
-      wanted.sort((a, b) => a.nearest - b.nearest);
+      wanted.sort((a, b) => a.key - b.key);
       let generated = 0;
       let attempted = 0;
+      let waiting = 0;
+      missingWithin[0] = 0; missingWithin[1] = 0;
+      const countMissing = (nearest: number) => {
+        if (nearest <= nearPhaseM) missingWithin[0]++;
+        if (nearest <= midPhaseM) missingWithin[1]++;
+      };
       let i = 0;
       const rej = genStats.current.rejected;
       const heightRejBefore = rej.height;
       for (; i < wanted.length; i++) {
-        if (attempted > 0 && (performance.now() - t0 > budgetMs
+        // Stop BEFORE a tile that would likely overrun the budget (the
+        // running mean of generated tiles), not after it: the budget is only
+        // checked between tiles, so the overshoot was one whole tile.
+        if (attempted > 0 && (performance.now() - t0 + tileMeanMs > budgetMs
           || generated >= GENERATE_MAX_TILES_PER_CALL)) break;
         const w = wanted[i];
         const tileT0 = performance.now();
@@ -2015,8 +2129,13 @@ export function Groundcover({
           tileCache.current.set(tileKey(w.tx, w.tz), tile);
           builtTotal.current++;
           generated++;
+          tileMeanMs += (tileMs - tileMeanMs) * 0.2;
+        } else {
+          waiting++;
+          countMissing(w.nearest);
         }
       }
+      for (let k = i; k < wanted.length; k++) countMissing(wanted[k].nearest);
       genStats.current.generated += generated;
       genStats.current.ms += performance.now() - t0;
       // A tile that came back null (chunk not decoded yet) is simply not
@@ -2024,7 +2143,14 @@ export function Groundcover({
       // recorded here as the arrival count to wait past — the only event
       // that can supply its heights; a pass that saw none clears the marker.
       incompleteAtChunkArrivals.current = rej.height > heightRejBefore ? chunkArrivals.current : null;
-      return { generated, remaining: wanted.length - i };
+      return {
+        generated,
+        remaining: wanted.length - i,
+        // Tiles still to come, including those waiting on a chunk: a fill
+        // phase is complete only when none of its tiles is missing.
+        missing: wanted.length - i + waiting,
+        missingWithin,
+      };
     };
     genPending.current = true;
     return () => { generateRef.current = null; };
