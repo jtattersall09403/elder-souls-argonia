@@ -342,8 +342,11 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     A piece with `front: null` is symmetric and exempt.
   clearance         {hardClear: [polygon...], thinned: [polygon...],
                     kept: [{id, kind ("hist-tree"|"shade"|"reed-bed"|...),
-                    position}]} — graded vegetation clearing; masks feed
-                    the scatter compiler
+                    position}]} — graded vegetation clearing. hardClear
+                    stays an empty list on a workbench place (16k walk 4):
+                    the bundle derives the tiers from the geometry
+                    (export_settlement_bundle.grow_clearance) and nothing
+                    reads an authored hull; thinned and kept carry through
   variants[]        LocalStateVariant slots from v1 (quests 20 §14):
                     {id, changedRefs [], serviceOverrides {}, ambience?}
                     — at most 3 per blueprint; exemplars ship ≥1
@@ -1756,6 +1759,11 @@ def _number(value) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
 
 
+MOUNTED_SCALE_MIN = 0.2
+"""Least scale of a mounted assembly child (the vanilla brazier flame is
+0.336 of its mesh in the bowl)."""
+
+
 def assembly_failures(parcel: dict) -> list[str]:
     """A parcel's `assembly`: the pieces authored around its shell in the
     placement workbench (tooling/placement-workbench), each an exact pose in
@@ -1784,9 +1792,6 @@ def assembly_failures(parcel: dict) -> list[str]:
             out.append(f"{where}: id must be a unique lower-case slug (a-z, 0-9, '-')")
         else:
             seen.add(m["id"])
-        if m.get("on") == "parent" and "scale" in m:
-            out.append(f"{where}: a piece hung on its shell is drawn at the shell's scale "
-                       f"(anchoring.ts mountedTransform has no child scale); drop scale")
         extra = set(m) - ASSEMBLY_KEYS
         if extra:
             out.append(f"{where}: unknown keys {sorted(extra)}")
@@ -1806,8 +1811,12 @@ def assembly_failures(parcel: dict) -> list[str]:
         for key in ("yaw", "pitch"):
             if key in m and not _number(m[key]):
                 out.append(f"{where}: {key} must be degrees")
-        if "scale" in m and not (_number(m["scale"]) and 0.5 <= m["scale"] <= 1.5):
-            out.append(f"{where}: scale must be 0.5-1.5")
+        # a mounted child's scale is its OWN world scale (anchoring.ts
+        # mountedTransform draws it at child / parent scale; CLAYWATER2 ruling
+        # 2): an effect scaled into its host goes as low as MOUNTED_SCALE_MIN
+        low = MOUNTED_SCALE_MIN if m.get("on") == "parent" else 0.5
+        if "scale" in m and not (_number(m["scale"]) and low <= m["scale"] <= 1.5):
+            out.append(f"{where}: scale must be {low}-1.5")
         if not isinstance(m.get("evidence"), str) or not m["evidence"].strip():
             out.append(f"{where}: evidence must name the template, mount pair or 'measured'")
         if "mountPair" in m:
@@ -1842,7 +1851,8 @@ def y_measured_failures(record: dict) -> list[str]:
     if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v):
         return [f"yMeasured must be a finite number of metres, got {v!r}"]
     if record.get("pieces"):
-        return ["yMeasured is for a single-asset parcel; a run is seated as one chain"]
+        return ["yMeasured on a run belongs on each member piece (the workbench's pose of "
+                "that piece), never on the run parcel"]
     return []
 
 
@@ -1990,17 +2000,22 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 fail(f"parcel {pid}: a parcel is either one assetRef or a pieces list, not both")
             elif not (isinstance(pieces, list) and len(pieces) >= 2 and all(
                     isinstance(q, dict) and isinstance(q.get("asset"), str) and q["asset"]
-                    and set(q) <= {"asset", "yaw", "atM"}
+                    and set(q) <= {"asset", "yaw", "atM", "yMeasured"}
                     and (q.get("yaw") is None or (isinstance(q["yaw"], (int, float))
                                                   and not isinstance(q["yaw"], bool)))
                     and ("atM" not in q or fp.is_plan_point(q["atM"]))
+                    and not y_measured_failures({"yMeasured": q["yMeasured"]} if "yMeasured" in q else {})
                     for q in pieces)):
-                fail(f"parcel {pid}: pieces must be a list of at least two {{asset, yaw?, atM?}} "
-                     f"(asset: an exact kit asset id; yaw: degrees relative to the parcel's yawDeg; "
-                     f"atM: [x, z] metres in the parcel's frame, an authored pose)")
+                fail(f"parcel {pid}: pieces must be a list of at least two {{asset, yaw?, atM?, "
+                     f"yMeasured?}} (asset: an exact kit asset id; yaw: degrees relative to the "
+                     f"parcel's yawDeg; atM: [x, z] metres in the parcel's frame, an authored pose; "
+                     f"yMeasured: the workbench's measured pivot height, compiled verbatim)")
             elif len({"atM" in q for q in pieces}) > 1:
                 # the placement workbench's authored run: every member posed, or none
                 fail(f"parcel {pid}: either every piece carries an authored atM or none does")
+            elif len({"yMeasured" in q for q in pieces}) > 1:
+                # one chain: its riseM is read from every member's pose, or none
+                fail(f"parcel {pid}: either every piece carries yMeasured or none does")
             elif library:
                 missing = [q["asset"] for q in pieces if library.get(q["asset"]) is None]
                 laid, run_errors = fp.lay_pieces(p)

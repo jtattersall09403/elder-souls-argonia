@@ -41,7 +41,7 @@ import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
 import { StudioWater } from "../water/StudioWater";
 import { FloatTestCrates } from "../water/FloatTestCrates";
-import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
+import { setWaterGroundHeight, sharedLocalSurfaces, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
@@ -72,6 +72,7 @@ import { lastWeatherSample } from "../weather/weatherState";
 import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
 import { TravelSockets } from "../travel/TravelSockets";
+import { travelSocketsShown } from "../travel/nearestSocket";
 import type { MinimapOverlay } from "./minimapOverlay";
 import {
   parseQuality,
@@ -536,6 +537,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 onDoors={setDoors}
                 kitCache={kitCache}
                 onError={setSettlementError}
+                localSurfaces={sharedLocalSurfaces(import.meta.env.BASE_URL)}
               />
             )}
           </Suspense>
@@ -617,8 +619,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they
                 are not mounted while the ladder hides the services layer —
-                sockets from an older run stand where nothing was solved. */}
-            {!hiddenLayers.has("services") && <TravelSockets
+                sockets from an older run stand where nothing was solved.
+                Walk 4: only with the sockets overlay on (`travelSocketsShown`). */}
+            {travelSocketsShown(showSockets, hiddenLayers) && <TravelSockets
               positionRef={focusRef}
               groundAt={settlementGroundAt}
               teleportTo={teleportTo}

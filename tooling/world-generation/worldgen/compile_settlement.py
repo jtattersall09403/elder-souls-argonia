@@ -970,6 +970,28 @@ def _plan_footprint_m(asset: dict, position, yaw_deg: float, scale: float):
             for x, z in ((x0, z0), (x1, z0), (x1, z1), (x0, z1))]
 
 
+#: anchor classes whose top is a walkable placed surface at the pivot: a
+#: dock or boardwalk deck (deck top = pivot, the designed-sink `deck-top`
+#: tell), a hull's deck (its floor plane within 0.06 m of the pivot)
+WALKABLE_ANCHOR_CLASSES = frozenset({"water", "deck"})
+
+
+def walkable_surfaces(placements: list[dict], shelf: "KitShelf") -> list[tuple]:
+    """``(plan polygon, top y, id)`` of every compiled placement a person
+    stands on above the ground (`sockets.walkable_surface_at`; 16k walk 4
+    defect 5): the socket compile lifts a socket onto the highest of these
+    under it instead of the terrain."""
+    out = []
+    for pl in placements:
+        asset = shelf.by_asset.get(pl.get("assetId")) or {}
+        if asset.get("anchorClass") not in WALKABLE_ANCHOR_CLASSES or "positionM" not in pl:
+            continue
+        pos = pl["positionM"]
+        out.append((_plan_footprint_m(asset, pos, float(pl.get("yawDeg") or 0.0),
+                                      float(pl.get("scale") or 1.0)), float(pos[1]), pl["id"]))
+    return out
+
+
 def _designed_sink_m(asset: dict) -> float:
     """The p50 of the asset's measured designed sink; 0 if it has none (the
     export refuses such an asset by name, so the compile does not invent one)."""
@@ -1087,8 +1109,11 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
         lx, lz = (float(v) for v in member["atM"])
         (dx, dz), = fp_mod.rotate_m([(lx, lz)], yaw)
         wx, wz = cx + dx, cz + dz
-        # a hung piece is drawn at its parent's scale (no child scale at runtime)
-        m_scale = scale if member["on"] == "parent" else float(member.get("scale", 1.0))
+        # a mounted child is drawn at its OWN scale when it carries one (an
+        # effect scaled into its host, CLAYWATER2 ruling 2; anchoring.ts
+        # mountedTransform applies child / parent scale), else at its host's
+        m_scale = (float(member.get("scale", scale)) if member["on"] == "parent"
+                   else float(member.get("scale", 1.0)))
         row = {"id": f"{bp_id}.{parcel['id']}.assembly.{member['id']}", "parcelId": parcel["id"],
                "objectKind": "assembly", "assetId": asset["id"], "kit": asset["kit"],
                # the ground fit the policy names (interior-zero is direct), never the policy id
@@ -1924,12 +1949,39 @@ def water_fact_errors(flood_report: dict, doors_out: list[dict],
 
 
 def _cleared_at(bp: dict, survey, x: float, z: float) -> bool:
-    """Is this point inside the blueprint's own hard-cleared ground?"""
-    u, v = survey.m_to_uv(x, z)
-    for poly in (bp.get("clearance") or {}).get("hardClear", []) or []:
-        if len(poly) >= 3 and _point_in_polygon_uv(u, v, poly):
+    """Is this point inside the place's derived tree tier as far as the
+    compile can see it: a parcel's footprint grown BUILDING_CLEAR_M (the
+    bundle's `grow_clearance`, 16k walk 4). The blueprint's authored
+    `hardClear` hull is read by nothing: the bundle ignores it and the
+    tiers are derived from the geometry."""
+    from shapely.geometry import Point, Polygon
+    from .export_settlement_bundle import BUILDING_CLEAR_M
+    pt = Point(x, z)
+    for p in bp.get("parcels", []) or []:
+        foot = p.get("footprint") or []
+        if len(foot) >= 3 and Polygon([survey.uv_to_m(u, v) for u, v in foot]).buffer(0) \
+                .distance(pt) <= BUILDING_CLEAR_M:
             return True
     return False
+
+
+def kept_in_doorway(bp: dict, door: dict, survey) -> list[str]:
+    """The kept vegetation (`clearance.kept`, a tree the place keeps) whose
+    position stands within the door's apron (`DOOR_APRON_RADIUS_M`, the
+    disc the bundle clears at every threshold): the one plant the derived
+    tiers never clear, so the one that can stand in a doorway (reader
+    checklist 21, `compile.clearance`)."""
+    from .export_settlement_bundle import DOOR_APRON_RADIUS_M
+    tx, tz = survey.uv_to_m(*door["thresholdUV"])
+    out = []
+    for k in (bp.get("clearance") or {}).get("kept") or []:
+        pos = k.get("position")
+        if not pos or len(pos) < 2:
+            continue
+        kx, kz = survey.uv_to_m(*pos)
+        if math.hypot(kx - tx, kz - tz) <= DOOR_APRON_RADIUS_M:
+            out.append(str(k.get("id")))
+    return out
 
 
 def _canopy_on_ray_m(bp: dict, survey, shelf: "KitShelf",
@@ -2595,10 +2647,20 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 gate("compile.modularRuns", "error", run_errors)
                 continue
             base_y = max(heights) - BURY_M
+            measured = bool(laid) and all("yMeasured" in row for row in laid)
+            if measured:
+                # the workbench's pose is the output (0097, 16k walk 4): each
+                # member at its measured pivot, and the run's datum read FROM
+                # it (member 0's pivot less its rise), never from the run's
+                # highest ground (the Claywater walls stood 1.8-3.0 m over it)
+                a0 = shelf.find(culture, laid[0]["asset"], kind_of.get(pid, "structure"))
+                if a0 is not None:
+                    base_y = float(laid[0]["yMeasured"]) - a0["sizeM"][2] / 2
             if fit == "pad":
                 grades.append({
                     "parcelId": pid, "footprint": parcel["footprint"],
-                    "targetHeightM": max(heights), "falloffRatio": PAD_FALLOFF_RATIO,
+                    "targetHeightM": (base_y + BURY_M) if measured else max(heights),
+                    "falloffRatio": PAD_FALLOFF_RATIO,
                     "residualTiltDeg": PAD_RESIDUAL_TILT_DEG,
                     "tiltBearingDeg": float(parcel["yawDeg"]),
                 })
@@ -2613,6 +2675,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 slope_why = fit_slope_failure(asset, slope)
                 if slope_why:
                     errors.append(f"{pid}: 97 B3 — {asset['id']}: {slope_why}")
+                laid_y, final = y_final(row, base_y + row["riseM"] + asset["sizeM"][2] / 2)
                 placements.append({
                     "id": f"{bp_id}.{pid}.piece.{i + 1}",
                     "parcelId": pid,
@@ -2620,11 +2683,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                     "assetId": asset["id"],
                     "kit": asset["kit"],
                     "positionM": [round(cx + row["xM"], 3),
-                                  round(base_y + row["riseM"] + asset["sizeM"][2] / 2, 3),
+                                  round(laid_y, 4 if final else 3),
                                   round(cz + row["zM"], 3)],
                     "yawDeg": row["yawDeg"],
                     "scale": 1.0,
                     "groundFit": fit,
+                    **final,
                     "run": {"index": i, "length": len(laid), "pair": row["pair"]},
                     # the piece's OWN laid outline: the runtime seats each run
                     # piece on its own ground (anchoring.ts samples footprintM),
@@ -2688,7 +2752,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         yaw = float(parcel["yawDeg"])
         scale = float(parcel.get("scale", 1.0))   # uniform; a natural piece (a trunk) may be scaled, a kit piece rarely
         quay_shift = None
-        if is_quay_run(asset):
+        if is_quay_run(asset) and "yMeasured" not in parcel:
+            # a measured pose is the output (0097): the workbench's landingRule
+            # judges its bank; the compile moves only an unmeasured quay
             anchored = anchor_quay_run(asset, (cx, cz), yaw, scale, survey)
             if anchored is None:
                 errors.append(f"{pid}: quay run {asset['id']} finds no bank (deck plane meets ground) "
@@ -2865,23 +2931,28 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         slope = math.degrees(math.atan(math.hypot(gx, gz)))
         graded = any(g["parcelId"] == door["parcelId"] for g in grades)
         ok_slope = graded or slope <= DOOR_MAX_SLOPE_DEG
-        cleared = _point_in_any(door["thresholdUV"], bp["clearance"].get("hardClear", []))
+        # every threshold is cleared by derivation (the bundle's door apron,
+        # `_attach_door_apron`, raises when it cannot carry one); what can
+        # still stand in a doorway is a tree the place KEEPS (16k walk 4)
+        kept = kept_in_doorway(bp, door, survey)
+        if kept:
+            errors.append(f"{door['id']}: kept vegetation {', '.join(kept)} stands within the "
+                          f"door's apron: move the door or drop it from clearance.kept")
+            gate("compile.clearance", "error", errors[-1:])
         boardwalk_access = _door_has_boardwalk_access(door, bp, survey)
         walked = walk_route_reach(door, bp.get("walkRoutes"))
         reachable = walked if walked is not None else (
-            cleared and ((on_land and ok_slope) or boardwalk_access))
+            (on_land and ok_slope) or boardwalk_access)
         if not reachable and walked is not None:
             errors.append(f"{door['id']}: unreachable (walkRoutes has no route to the door "
                           f"{door['parcelId']} binds; `wb.py check` walkRule names what blocks it)")
         elif not reachable:
             errors.append(
                 f"{door['id']}: unreachable (land={on_land}, slopeOk={ok_slope} "
-                f"[{slope:.0f}°], boardwalkAccess={boardwalk_access}, inHardClear={cleared}"
+                f"[{slope:.0f}°], boardwalkAccess={boardwalk_access}"
                 + (f", stands on {water_here['entityId']} "
                    f"({water_here.get('kind')})" if water_here else "") + ")"
             )
-            if not cleared:
-                gate("compile.clearance", "error", errors[-1:])
         doors_out.append({**door, "reachable": reachable,
                           "access": "boardwalk" if boardwalk_access else "land",
                           "waterEntityId": (water_here or {}).get("entityId"),
@@ -2937,7 +3008,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     layout_doc, layout_error = sk_mod.layout_of(bp)
     sockets, socket_errors = sk_mod.compile_sockets(
         bp, placements, survey.height_at,
-        sk_mod.socket_ops(layout_doc, category_of, vocab), vocab, category_of)
+        sk_mod.socket_ops(layout_doc, category_of, vocab), vocab, category_of,
+        surface_at=sk_mod.walkable_surface_at(walkable_surfaces(placements, shelf)))
     if layout_error:
         socket_errors.insert(0, layout_error)
     socket_errors += sk_mod.socket_gate_errors(bp, macro_record, sockets, placements,
@@ -3044,22 +3116,6 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         # {gate, grade, message} per tagged error or warning, in append order
         "gateFailures": gate_failures,
     }
-
-
-def _point_in_any(pt: list[float], polys: list[list[list[float]]]) -> bool:
-    for poly in polys:
-        n = len(poly)
-        inside = False
-        j = n - 1
-        for i in range(n):
-            xi, yi = poly[i]
-            xj, yj = poly[j]
-            if (yi > pt[1]) != (yj > pt[1]) and pt[0] < (xj - xi) * (pt[1] - yi) / (yj - yi) + xi:
-                inside = not inside
-            j = i
-        if inside:
-            return True
-    return False
 
 
 def resolve_out(arg: str | None, bp_id: str) -> tuple[Path, Path]:

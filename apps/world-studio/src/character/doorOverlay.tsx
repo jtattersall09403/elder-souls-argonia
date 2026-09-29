@@ -1,10 +1,11 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import type { DoorPrompt } from "@elder-souls/game-core/interior/doorTransition";
+import { doorLoadingText } from "@elder-souls/game-core/interior/doors";
 import { input } from "@elder-souls/game-core/io/input";
 
 /**
- * The door prompt, the fade and the load-error line, drawn as plain DOM over
+ * The door prompt, the fade with its loading line and the load-error line, drawn as plain DOM over
  * the canvas like the character HUD (walk 2 D2): a drei `<Html>` inside the
  * canvas projects its anchor every frame, and anchored at the world origin it
  * sat 3 km from any door, off screen. `InteriorDoors` (inside the canvas)
@@ -15,12 +16,17 @@ import { input } from "@elder-souls/game-core/io/input";
 export interface DoorOverlayChannel {
   prompt: DoorPrompt | null;
   error: string | null;
+  /** The text-catalogue id of the line shown on the black while a cell loads (walk 4 c), else null. */
+  loading: string | null;
+  /** The name the named loading line fills in (`text.door.loading-named`), else null. */
+  loadingName: string | null;
   /** 0 clear, 1 black. */
   fade: number;
   /** The fade element, registered by the overlay when it mounts. */
   fadeEl: HTMLDivElement | null;
   setPrompt(prompt: DoorPrompt | null): void;
   setError(error: string | null): void;
+  setLoading(textId: string | null, name?: string | null): void;
   setFade(fade: number): void;
   subscribe(listener: () => void): () => void;
 }
@@ -31,6 +37,8 @@ export function createDoorOverlayChannel(initialFade = 0): DoorOverlayChannel {
   const channel: DoorOverlayChannel = {
     prompt: null,
     error: null,
+    loading: null,
+    loadingName: null,
     fade: initialFade,
     fadeEl: null,
     setPrompt(prompt) {
@@ -42,6 +50,12 @@ export function createDoorOverlayChannel(initialFade = 0): DoorOverlayChannel {
     setError(error) {
       if (error === channel.error) return;
       channel.error = error;
+      notify();
+    },
+    setLoading(textId, name = null) {
+      if (textId === channel.loading && name === channel.loadingName) return;
+      channel.loading = textId;
+      channel.loadingName = name;
       notify();
     },
     setFade(fade) {
@@ -60,14 +74,24 @@ export function createDoorOverlayChannel(initialFade = 0): DoorOverlayChannel {
 export function DoorOverlay({ channel }: { channel: DoorOverlayChannel }) {
   const prompt = useSyncExternalStore(channel.subscribe, () => channel.prompt, () => channel.prompt);
   const error = useSyncExternalStore(channel.subscribe, () => channel.error, () => channel.error);
+  const loading = useSyncExternalStore(channel.subscribe, () => channel.loading, () => channel.loading);
+  const loadingName = useSyncExternalStore(channel.subscribe, () => channel.loadingName, () => channel.loadingName);
   const fadeRef = useCallback((el: HTMLDivElement | null) => {
     channel.fadeEl = el;
     if (el) el.style.opacity = String(channel.fade);
   }, [channel]);
   return (
     <div data-door-overlay style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+      {/* The loading line sits inside the fade, so it shows only as far as the screen is black. */}
       <div ref={fadeRef} data-door-fade style={{ position: "absolute", inset: 0, background: "#000",
-        opacity: channel.fade }} />
+        opacity: channel.fade }}>
+        {loading && (
+          <div data-door-loading style={{ position: "absolute", top: "50%", left: "50%",
+            transform: "translate(-50%, -50%)", font: "16px system-ui", color: "#d8d2c4", whiteSpace: "nowrap" }}>
+            {doorLoadingText(text(CATALOGUE, loading), loadingName)}
+          </div>
+        )}
+      </div>
       {prompt && (
         <div data-door-prompt={prompt.kind} data-ui-capture
           // The prompt is the touch button: pressing it is `activate`.

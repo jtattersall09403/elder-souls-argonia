@@ -85,6 +85,21 @@
   "composite:farmhouse/farmhouse02-with-door": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwayProbeCentreM": [
+    -3.13,
+    5.35
+   ],
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 0.9,
+     "kind": "leaf",
+     "offsetM": [
+      -1.62,
+      3.38
+     ],
+     "sideDeg": 170.0
+    }
+   ],
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "heightM": -0.01,
@@ -137,14 +152,18 @@
      "sideDeg": 179.98
     },
     {
-     "arcM": 0.9,
-     "heightM": 2.7,
-     "kind": "leaf",
+     "arcM": 2.68,
+     "centreShiftM": 0.27,
+     "clearM": 2.95,
+     "kind": "open-front",
      "offsetM": [
-      -1.62,
-      3.38
+      -3.46,
+      7.24
      ],
-     "sideDeg": 170.0
+     "rayConfirmed": true,
+     "sideDeg": 192.68,
+     "sillYM": -1.82,
+     "widthM": 2.9
     }
    ],
    "ringFraction": 1.0,
@@ -214,12 +233,17 @@
     },
     {
      "arcM": 0.85,
+     "centreShiftM": -0.0,
+     "clearM": 1.85,
      "kind": "opening",
      "offsetM": [
       -1.85,
       3.5
      ],
-     "sideDeg": 155.0
+     "rayConfirmed": true,
+     "sideDeg": 155.0,
+     "sillYM": -3.65,
+     "widthM": 5.05
     }
    ],
    "ringFraction": 1.0,
@@ -599,6 +623,21 @@
   "vanilla:architecture/farmhouse/farmhouse02": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwayProbeCentreM": [
+    -3.13,
+    5.35
+   ],
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 0.9,
+     "kind": "leaf",
+     "offsetM": [
+      -1.62,
+      3.38
+     ],
+     "sideDeg": 170.0
+    }
+   ],
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "kind": "esp-door",
@@ -657,14 +696,18 @@
      "sideDeg": 180.33
     },
     {
-     "arcM": 0.9,
-     "heightM": 2.7,
-     "kind": "leaf",
+     "arcM": 2.68,
+     "centreShiftM": 0.27,
+     "clearM": 2.95,
+     "kind": "open-front",
      "offsetM": [
-      -1.62,
-      3.38
+      -3.46,
+      7.24
      ],
-     "sideDeg": 170.0
+     "rayConfirmed": true,
+     "sideDeg": 192.68,
+     "sillYM": -1.82,
+     "widthM": 2.9
     }
    ],
    "ringFraction": 1.0,
@@ -920,14 +963,30 @@
   },
   "vanilla:architecture/riften/rtstables01": {
    "category": "architecture",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.5,
+     "kind": "open-front",
+     "offsetM": [
+      0.03,
+      0.66
+     ],
+     "sideDeg": 247.5
+    }
+   ],
    "entrance": {
     "arcM": 1.56,
+    "centreShiftM": 0.92,
+    "clearM": 2.04,
     "kind": "open-front",
     "offsetM": [
      1.07,
      -0.96
     ],
-    "sideDeg": 20.0
+    "rayConfirmed": true,
+    "sideDeg": 20.0,
+    "sillYM": 0.0,
+    "widthM": 3.2
    },
    "floorOffsetM": 0.0,
    "frontFaceFraction": 1.0,
@@ -940,17 +999,7 @@
     0.56,
     0.44
    ],
-   "provenance": [
-    {
-     "arcM": 1.5,
-     "kind": "open-front",
-     "offsetM": [
-      0.03,
-      0.66
-     ],
-     "sideDeg": 247.5
-    }
-   ],
+   "provenance": [],
    "ringFraction": 0.833,
    "roofOverhead": true,
    "sizeClass": "large",

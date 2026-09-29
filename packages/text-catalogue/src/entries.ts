@@ -698,6 +698,30 @@ export const DOOR_UI_TEXT: readonly TextEntry[] = [
     text: "The door will not open.",
     note: "Shown within 1.5 m of a door whose interior is not built yet, or a building nobody enters. Pressing the action key does nothing more.",
   },
+  {
+    id: "text.door.loading",
+    surface: "system",
+    text: "Loading…",
+    note: "Shown centred on the black screen after a door is used, while the room behind it loads. Cleared when the room appears.",
+  },
+  {
+    id: "text.door.loading-named",
+    surface: "system",
+    text: "Loading {name}…",
+    note: "The loading line when the door belongs to a named building. {name} is the building's name from the place record, as written there.",
+  },
+  {
+    id: "text.door.prompt-open",
+    surface: "system",
+    text: "Open",
+    note: "Shown within 1.5 m of a closed door that swings open in place: a door inside a house, a barn door, a yard gate. The action key label follows it.",
+  },
+  {
+    id: "text.door.prompt-close",
+    surface: "system",
+    text: "Close",
+    note: "Shown within 1.5 m of a swing door standing open. The action key label follows it.",
+  },
 ];
 
 /**

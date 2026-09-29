@@ -105,3 +105,14 @@ its opening. Read once per slice; the rules are binding.
   accepted, its next two places (the two "in a row" of 16k § Slices 2
   on) are built together, in different regions, and go to the owner in
   ONE walk packet (16k § Owner check-ins).
+- **Hanging pieces and missing commands.** A hanging piece (a flower
+  strand, a hanging lantern) is hung with `mount --hang`
+  (placement-workbench § 4; hangingRule fails it on the ground). A
+  placement or measurement no command makes is answered in headless
+  Blender with `wb.py bpy` (§ 5b) and the command is added in the same
+  round, never parked as "needs a tool" (owner 2026-09-28).
+- **Readers for a Workflow lane.** A deliver lane inside a Workflow has
+  no Agent tool: it runs `wb.py round` itself and names the render folder
+  in its report; the PLANNER then runs the Sonnet readers as one Workflow
+  over that folder (one reader per image) and the `text-review` agent. A
+  lane never reports "no readers ran" as a gap.

@@ -85,10 +85,10 @@ Claywater signatures; none repeats here (§ Bars).
    siting candidate `fork-bank`.
 2. **Every building on a mud pad with a batter**; no retaining walls (the mud
    kits have none).
-3. **The spring is a spring house**: the open KotM shed over a stone lip of rock
-   cairns, jars and flowers, on the bank beside the refuge footpath. Water
-   cosmetics are not this lane's work (owner 2026-09-14): the spring is shown by
-   its stones and jars.
+3. **The spring is a pool with a spring house beside it**: a round pool 2.5 m
+   across the water at 4718, 1868 (the layout's `pool` op). The open tent stands
+   east of it across the spring-house path, its open side facing the water
+   (§ The spring).
 4. **The landing is canoes drawn up on the bank** (beached), not a stage: the
    bank is 10° and no mud-kit stage piece reaches water from it.
 
@@ -98,24 +98,22 @@ Claywater signatures; none repeats here (§ Bars).
 |---|---|---|---|
 | Lodge `b-lodge` | the bed-keeper (n1) rents beds and sells rope and stores; D0 safe interior | `composite:mud/kotm-house-pod` 13.6 × 13.9 m, pad fit | record services lodging + trader; 0103 |
 | Root-herald's house `b-herald` | the root-herald trades with Helstrom; keeps the upriver salt | `composite:mud/kotm-house-pod` | notable slot; MR01 evidence |
-| Tree-minder's house `b-minder` | the tree-minder lives beside the Hist | `composite:mud/hut-with-entrance` (BMV hut) 15.1 m | hist-placement R2 |
-| Spring-keeper's house `b-fam1` | the spring-keeper and her family | `kotm:argonia/mudhuts/mudhut01` 10.1 × 13.3 m | notable slot |
-| Family hut `b-fam2` | a family of the village (n2), the cook-fire | `kotm:argonia/mudhuts/mudhut01` | record n2 band |
+| Tree-minder's house `b-minder` | the tree-minder lives beside the Hist | `composite:mud/hut-with-entrance` 15.1 m | hist-placement R2 |
+| Spring-keeper's house `b-fam1` | the spring-keeper and her family | `composite:mud/kotm-house-pod` 13.6 × 13.9 m, door facing 17° onto the spring-house path; was `mudhut01`, then `composite:mud/hut-with-entrance` (§ Doors) | notable slot |
+| Family hut `b-fam2` | a family of the village (n2), the cook-fire | `composite:mud/hut-with-entrance`; was `mudhut01` (§ Doors) | record n2 band |
 | East family hut `b-fam3` | a second family by the track | `composite:mud/hut-with-entrance` | record n2 band |
-| Spring house `b-shed` | the spring head, stone lip and jars | `kotm:argonia/mudhuts/shed` 5.6 m, open front | record why/vibe; LH37, LH38 |
+| Spring house `b-shed` | shelter for the spring's jars and stone lip | `mudmother:gv_meshes/argoniannest/argoniantent02` at 0.85 (5.2 × 4.5 m), open side facing the pool | record why/vibe; LH37, LH38 |
 | The Hist `hist` | the village's tribal Hist, sick | `histtree:skyfall/sleeping tree overhaul/ancient sleeping tree` 24.9 × 27.1 × 24.4 m, on a pad (mound) | 97 C4 the Hist wins; L17 |
 | Hist shrine | the shrine service at the Hist's foot | `rune circle` (anchor), two `argoniantotem01`, `windchimehavok`, two Hist flowers, two candles | L17: a shrine, not a temple |
 | The way | spine from the track's end through the common to the bank footpath | track 2.5 m | 97 C3; owner call 11 |
 | Door paths | one footpath per door, last leg on the door's facing | footpath 1.2 m | pathReachRule |
 | Landing | canoe and plank boat beached | `canoe1`, `plank_ferry_swamp_01` | R5 beached craft |
-| Lights | a candle stand within 2 m of every door | `argoniancandle01` (the mud kit's one ground light; `argonianlanterns02-04` are hanging-only) | 97 C16 |
+| Lights | a candle stand within 2 m of every door; three lanterns hung in the Hist on the shrine side | `argoniancandle01` (the mud kit's one ground light); `argonianlanterns03` hung (§ Lights) | 97 C16 |
 
 ### Bars planned (breadth-bars.json, 0098 § 1)
 
 The column is chosen by the built count (`place_gates`, `breadth_bars.built_column`):
-7 buildings → **village**. Distinct shells ≥ 4: planned 4 (pod, BMV hut,
-mudhut01, shed). Top dwelling-shell share ≤ 0.35: planned 0.33 (2 of 6 per
-shell). Signature ratio 1.0: six dwellings, six dressing sets. Dressing per
+7 buildings → **village**. A Hist village repeats its hut by culture, so the type 2 bar applies (planner ruling 2026-09-28): distinct shells ≥ 3, built 3 (`composite:mud/kotm-house-pod`, `composite:mud/hut-with-entrance`, `argoniantent02`); top dwelling-shell share ≤ 0.50, built 0.50 (3 pods and 3 huts among 6 dwellings). Signature ratio 1.0: six dwellings, six dressing sets. Dressing per
 dwelling within 12 m ≥ 20: not measured by any gate (`place_gates` notMeasured);
 planned 4–7 authored pieces per dwelling plus the neighbours' within 12 m.
 Enclosure kinds: none (97 owner call 8).
@@ -141,17 +139,106 @@ Enclosure kinds: none (97 owner call 8).
 | 15 | yes: "follow the way down to the tree"; "the spring house on the bank" | `wayfinding` |
 | 16 | yes: the slope detour pays with the view over the fork from the Hist mound | `why.playerPurpose` |
 
+### The spring
+
+The village is named for the spring (record `why`). Until walk 4 nothing
+showed it but a cairn and a jar. Now the layout's `pool` op `sp-pool` cuts a
+basin at 4718, 1868: water 2.5 m in radius, 0.5 m deep, with a 1.0 m rim
+that grades back to the bank. The export writes it as a `pool` ground overlay
+and a still water surface in the place's `pools[]`, which the studio shows at
+load. The natural ground on the rim stands 0.08-0.18 m over the water on the
+north and east and 0.01-0.14 m under it on the south-west (bearings 210-270),
+towards the river.
+
+The spring house tent moved east of the pool to 4729.0, 1867.5, turned to
+yaw 270 so its open side faces the water across the spring-house path. It
+could not stay by the water: a building pad outranks the pool and grades the
+ground for 3 m past its edge, so any pad closer than 5.5 m to the centre
+would lift the basin. The jars, the basket, the candle, the stone cairn
+`sp-lip2` and the urn `sp-urn` stand on the tent's pad. Three more
+cairns stand on the rim's north side, 3.25 m from the centre:
+`sp-rim1` (`rockcairn01`, bearing 20°), `sp-rim2` (`rockcairn03`, 65°) and
+`sp-rim3` (`rockcairn04`, 335°). The rock policy rests a cairn on its lowest
+three contacts and lets it sink up to 0.3 m. Each height is set
+in the layout (3.162, 3.26 and 3.138 m) from the rock seat on the ground
+once the pool's rim grades it. `settle` cannot give it yet, because it reads
+no pool ground and does not use the rock seat. The seats put the cairns'
+lowest points 0.18-0.29 m over the still water (2.93 m). The 3.1 m `rockcairn02` is
+not used. Its sink is a mesh reading; a 3 m piece on such a sink fails
+0105 R36. Its one plugin placement is scaled, so the sink miner cannot
+measure it. The Hist flower that stood on the ground at the spring now
+hangs in the Hist (§ Lights).
+
+### Lights
+
+The owner asked for lanterns in the Hist's branches. Three
+`argonianlanterns03` hang there. Mud Mother hangs the same lantern in its own
+Hist tree; it is the kit's mined hanging lantern and carries a light record
+(`SLightStreetStreet01`). `townlantern04` stands in an interior kit with no
+light record, so it was not used. Each is hung with `mount --hang` on the
+shrine side of the trunk, at the lowest branches the rays accept. For each
+lantern the list gives the bearing, the metres out from the trunk and the
+lantern's bottom over the ground: 0°/3 m, 4.06 m; 40°/3 m, 2.60 m; 20°/7 m,
+4.56 m. The third hang is capped at 7 m over the ground (`max_h`), so it
+keeps its branch. Uncapped, it took a limb 9.7 m up once the tree was
+lowered. The tree now stands 0.27 m lower (§ The Hist's height); every
+hung piece came down with it. The four Hist flowers (`sp-flower`,
+`sh-flower1`, `sh-flower2`, `b-minder-flower`) hang the same way. Their
+bottoms stand 2.4-4.5 m over the ground.
+
+### The Hist's height
+
+On walk 4 the owner asked for the tree a little lower. Its sink is now an
+`assetPlacement` row: -0.4023 m for the healthy and the sick tree, with
+evidence 'owner walk 4'. The Skyfall sink was -0.6723 m, so the pivot stands
+0.27 m lower, at 5.625 m over a 5.223 m pad. The root flare's base band had
+stood 0.30 m (p50) over the ground; it now stands 0.03 m over it (p10
+-0.14 m, a 0.25 m ray grid). One
+root spike reaches 1.02 m into the pad, inside the row's designed burial.
+The rune circle stays at 5.03 m.
+
+### Doors
+
+The spring-keeper's house and the family hut were King of the Murkmire
+`mudhut01`. Its one opening, found by rays, is 1.7 m wide and 2.1 m clear.
+Its sill stands 1.14 m over the ground outside. King of the Murkmire
+gives the hut no load door. The family door piece `door01` measures
+2.68 × 3.20 m at the hut's scale. Set in the opening, it crosses the
+shell's mesh at 261 triangle pairs (`wb.py bpy`, walk-4 report). So door01
+cannot close the opening. No one can step 1.14 m up into it either. The
+family hut now uses `composite:mud/hut-with-entrance`, the east family hut's
+shell, turned so its door faces the path it already met (157°). The
+spring-keeper's house is `composite:mud/kotm-house-pod` (planner ruling,
+walk 5), turned to 188.8° so its door faces 17° from the threshold the hut
+had used. The nets set on its west side moved 0.8 m east, off the pad's
+batter.
+
+The planner ruled the family hut onto King of the Murkmire `mudhut02`, with
+the plugin's `door01`. That cannot be built. `mudhut02` is a closed dome:
+rays find no opening in it at any bearing from 0.2 m to 9 m up. The six
+King of the Murkmire `mudhut02` placements put the nearest `door01`
+7.0-12.9 m from the hut's centre (unscaled) and -3.6 to +8.5 m up. Their turn
+against the hut varies from 46° to 308°. Every `door01` stands 3.2 m from a
+`smpodextdoor`, the pod's own entrance frame. So the door belongs to the pod;
+the link record paired it with the nearest building. The family hut stays
+`composite:mud/hut-with-entrance`.
+
+`0098.place` reads the type 2 bar (§ Bars planned) and passes: 3
+distinct shells, top dwelling-shell share 0.50. The bundle exports: 296 resident parts at
+the 1.55 headroom make 459, under the 500 ceiling for a place of five or
+more dwellings (0052).
+
 ### Interiors (0103; asset-aware)
 
 | Door | Shell | Tier | Why |
 |---|---|---|---|
-| 1 lodge | kotm pod | A, `KeebaHouseCrafter` (expected SnailMinder; the fit rule's use class took Crafter) | the pod's designed cells; only Crafter, Fisher and SnailMinder resolve with our assets (Treeminder needs Creation Club pieces) |
-| 2 herald | kotm pod | A, claimed `KeebaHouseFisher` | the fit rule's pick |
-| 3 minder | BMV hut | reserved `bmv` | Black Marsh places the hut with an unlinked door; interior promised as a `vanilla-farmhouse-int` tileset (Phase 12) |
-| 4 spring-keeper | mudhut01 | reserved `kotm` | KotM places mudhut01 with no load door; Phase 12 |
-| 5 family | mudhut01 | reserved `kotm` | as 4 |
-| 6 east family | BMV hut | reserved `bmv` | as 3 |
-| spring house | shed | none | open-fronted, entered without a door |
+| 1 lodge | `composite:mud/kotm-house-pod` | A, `KeebaHouseCrafter` (expected SnailMinder; the fit rule's use class took Crafter) | the pod's designed cells; only Crafter, Fisher and SnailMinder resolve with our assets (Treeminder needs Creation Club pieces) |
+| 2 herald | `composite:mud/kotm-house-pod` | A, claimed `KeebaHouseFisher` | the fit rule's pick |
+| 3 minder | `composite:mud/hut-with-entrance` | A, claimed `KeebaHouseElder` | no plugin links `composite:mud/hut-with-entrance` to a cell, so the claim step takes the culture pool's next fitting cell (§ Variety) |
+| 4 spring-keeper | `composite:mud/kotm-house-pod` | A, claimed `LilmothGlassworksOverseerHouse` | a cell the plugin links to the pod's base shell `smpodext02`; the three Keeba cells are held by doors 1–3 |
+| 5 family | `composite:mud/hut-with-entrance` | A, claimed `LilmothIronworksOverseerHouse` | as 4 |
+| 6 east family | `composite:mud/hut-with-entrance` | A, claimed `LilmothPlantationStorehouse` | as 3 |
+| spring house | tent | none | open-fronted, entered without a door |
 
 Shells rejected on their interiors: `mudhut02` (KeebaHouseElder needs
 HearthFires, Dawnguard and Curios pieces), `mudmother mudhut01` (00MudHut01 needs
@@ -168,15 +255,14 @@ rule (`blueprint_interiors.claim_for_parcel`) on 2026-09-28.
 |---|---|---|---|
 | Lodge (door 1) | `composite:mud/kotm-house-pod` | `KeebaHouseCrafter` | `KeebaHouseFisher`: taken by the herald's house; `KeebaHouseSnailMinder`: a workshop cell (use class smithy) for a `work` parcel; `KeebaHouseTreeminder`: two architecture pieces in no archive we hold |
 | Root-herald's house (door 2) | `composite:mud/kotm-house-pod` | `KeebaHouseFisher` | as the lodge; `KeebaHouseCrafter` is the lodge's |
-| Tree-minder's house (door 3) | `composite:mud/hut-with-entrance` | none (reserved, red) | no plugin links the Black Marsh hut to a cell; the mud pool's only dwelling cells are Crafter and Fisher (both here); `KeebaHouseElder` (`mudhut02`) fails on one Creation Club flower bed; `00MudHut01` (Mud Mother hut) on a Dragonborn door |
-| Spring-keeper's house (door 4) | `kotm:argonia/mudhuts/mudhut01` | none (reserved, red) | King of the Murkmire links no cell to `mudhut01`; its door is modelled shut in the mesh |
-| Family hut (door 5) | `kotm:argonia/mudhuts/mudhut01` | none (reserved, red) | as door 4 |
-| East family hut (door 6) | `composite:mud/hut-with-entrance` | none (reserved, red) | as door 3 |
-| Spring house | `kotm:argonia/mudhuts/overhang01` | none (open-fronted) | no door |
+| Tree-minder's house (door 3) | `composite:mud/hut-with-entrance` | `KeebaHouseElder` (walk-4 claim) | no plugin links `composite:mud/hut-with-entrance` to a cell; the mud pool's only dwelling cells are Crafter and Fisher (both here); `KeebaHouseElder` (`mudhut02`) fails on one Creation Club flower bed; `00MudHut01` (Mud Mother hut) on a Dragonborn door |
+| Spring-keeper's house (door 4) | `composite:mud/kotm-house-pod` (walk 5, § Doors) | `LilmothGlassworksOverseerHouse` (walk-5 claim) | `KeebaHouseCrafter`, `KeebaHouseFisher` and `KeebaHouseElder` are held by doors 1–3; this cell is linked to `smpodext02` |
+| Family hut (door 5) | `composite:mud/hut-with-entrance` (walk 4) | `LilmothIronworksOverseerHouse` (walk-4 claim) | as door 4 |
+| East family hut (door 6) | `composite:mud/hut-with-entrance` | `LilmothPlantationStorehouse` (walk-4 claim) | as door 4 |
+| Spring house | `mudmother:gv_meshes/argoniannest/argoniantent02` | none (open-fronted) | no door |
 
-Doors 3–6 wait on a planner call: a third and fourth pod would repeat
-Crafter and Fisher and break the shell-share bar; `KeebaHouseElder`
-claims only if its one flower bed may be left out.
+The pod and hut pools are spent in this place: each of the six doors
+holds a different cell.
 
 ### Containers and items
 

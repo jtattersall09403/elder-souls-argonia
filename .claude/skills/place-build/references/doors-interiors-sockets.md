@@ -22,6 +22,35 @@ run) and 5 (the gates).
   with an `XTEL` teleport is a load door; without one it swings by its
   NIF's open/close controller sequences, and the mined door-links record
   carries `doorType` from that.
+- **Swing doors are built in 16k (walk 4; owner 2026-09-28)**, never
+  deferred to a later phase. The record (interior bundle `doors[]` entry,
+  or a place door with `doorType: "swing"` plus a `swing` pose):
+  `{id, doorType: "swing", assetId, kit, positionM, rotationDeg, scale,
+  hinge: {pivotM, axis, openAngleDeg, openS, source, leafBoundsM?},
+  initiallyOpen}`. The exporter (`worldgen/export_interior_bundle.py`,
+  schemaVersion 2) writes one per interior DOOR reference with no XTEL,
+  instead of a placement. The hinge is read from the door NIF, never
+  guessed: the animated child node's translation is the pivot (the NIF
+  root is not: farmhouse doors' roots sit mid-width) and the `Open`
+  sequence's last key gives the axis, the signed angle and the duration
+  (farmhouseanimdoor01 −92° over 1.0 s; impjaildoor01 +123°; the
+  farmbtrapdoor02 lid +15° about x). `leafBoundsM` is present when the NIF
+  also draws shapes that do not turn (impwooddoorsingle01's wall); only
+  parts inside it turn. A NIF with no `Open` sequence falls back to the
+  kit bounds' −x edge, 90° over 0.6 s. `initiallyOpen` is the reference's
+  ONAM ("Open by Default", UESP Skyrim_Mod:Mod_File_Format/REFR).
+- **Runtime contract** (`packages/game-core/src/interior/swingDoors.ts`):
+  within 1.5 m the prompt reads Open or Close (`text.door.prompt-open`,
+  `text.door.prompt-close`) through the interaction arbiter; `activate`
+  toggles; the leaf turns about the hinge with an ease over `openS`; its
+  collider is off while it moves and rebuilt at the leaf's pose at rest; a
+  body in the arc it would sweep keeps it shut or open; it emits
+  `door.open`/`door.close` on the typed sound bus (`packages/audio`). The
+  load-door transition never sees a swing door (`loadDoorsOf`).
+- **The loading line names the building:** a load door whose record
+  carries `displayName` (the parcel's reviewed name, copied by the
+  compile) shows "Loading {name}…" (`text.door.loading-named`); without
+  one, "Loading…".
 - **Asset-aware pairing (owner 2026-09-27; SKILL step 1 § Interiors):**
   an enterable shell is used only with the interior its author designed
   for it, built from assets we hold or can source (vanilla, Tropical

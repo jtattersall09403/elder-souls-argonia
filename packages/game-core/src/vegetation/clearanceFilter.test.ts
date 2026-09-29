@@ -64,21 +64,47 @@ describe("bundle vegetation clearance (decision 0102)", () => {
   });
 });
 
-describe("groundcover reads the same place clearance (0102 round 2)", () => {
+describe("groundcover reads the place's ground-cover tier (0102 round 2, 16k walk 4)", () => {
+  // A 25 x 20 m yard the trees are cleared from, a 1.2 m path across it
+  // (grown 0.25 m) the ground cover dies on.
+  const path: [number, number][] = [[270, 2989.15], [295, 2989.15], [295, 2990.85], [270, 2990.85]];
   const place: BundleClearance = {
-    schemaVersion: 1, id: "patch.clearance.bundle.place.t",
+    schemaVersion: 2, id: "patch.clearance.bundle.place.t",
     hardClear: [[[270, 2980], [295, 2980], [295, 3000], [270, 3000]]], thinned: [], kept: [],
+    groundClear: [path], groundEdgeJitterM: 0.5,
   };
   const published = { schemaVersion: 1, patches: [] };
+  const index = indexPatches(withPlaceClearances(published, clearancesOfBundle({
+    settlements: [{ id: "place.t", vegetationClearance: place }] })));
+  const survives = (x: number, z: number) =>
+    survivesPatchesIn(x, z, 0.3, patchEntriesNear(x, z, index, 0.3), 0.99);
 
-  it("drops a groundcover candidate on a place's hard clearance, keeps one clear of it", () => {
-    const index = indexPatches(withPlaceClearances(published, clearancesOfBundle({
-      settlements: [{ id: "place.t", vegetationClearance: place }] })));
-    const strip = patchEntriesNear(289.6, 2985.0, index, 0.3);
-    expect(survivesPatchesIn(289.6, 2985.0, 0.3, strip, 0.99)).toBe(false);
-    expect(survivesPatchesIn(330, 2985.0, 0.3, patchEntriesNear(330, 2985, index, 0.3), 0.99)).toBe(true);
-    // the published patches alone (the pre-0102 groundcover input) keep it
-    const bare = indexPatches(published);
-    expect(survivesPatchesIn(289.6, 2985.0, 0.3, patchEntriesNear(289.6, 2985.0, bare, 0.3), 0.99)).toBe(true);
+  it("keeps ground cover 3 m from every hard surface inside the tree clearance", () => {
+    expect(survives(282, 2986.85 - 0.3)).toBe(true);    // 3 m from the path edge (+ its reach)
+    expect(survives(272, 2996)).toBe(true);             // an open corner of the yard
+    // the trees are cleared there all the same
+    expect(makeClearanceFilter([place]).survives(282, 2996, 0)).toBe(false);
+  });
+
+  it("judges a sub-metre species on the ground-cover tier, a taller one on the tree tier", () => {
+    const filter = makeClearanceFilter([place]);
+    expect(filter.survives(272, 2996, 0, 0.3)).toBe(true);    // a 0.3 m plant in the open yard
+    expect(filter.survives(272, 2996, 0, 0.6)).toBe(false);   // 0.6 m is the tree tier's
+    expect(filter.survives(282, 2990, 0, 0.3)).toBe(false);   // on the path both tiers clear it
+    expect(filter.survives(272, 2996, 0)).toBe(false);        // no height: the tree tier
+  });
+
+  it("drops ground cover on the path", () => {
+    expect(survives(282, 2990)).toBe(false);
+    expect(survives(271, 2989.5)).toBe(false);
+  });
+
+  it("refuses a clearance without the tiers, naming its version", () => {
+    const v1 = { ...place, schemaVersion: 1 };
+    expect(() => clearancesOfBundle({ settlements: [{ id: "place.t", vegetationClearance: v1 }] }))
+      .toThrow(/schemaVersion 1, expected 2/);
+    const noGround = { ...place, groundClear: undefined };
+    expect(() => clearancesOfBundle({ settlements: [{ id: "place.t", vegetationClearance: noGround }] }))
+      .toThrow(/schemaVersion 2 has no groundClear/);
   });
 });

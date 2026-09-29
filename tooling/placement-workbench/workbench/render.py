@@ -90,8 +90,8 @@ def render_ground(cat, scene: Scene):
     return pads.ground_for(cat, scene, None)
 
 
-def _ground_arrays(ground, centre_wb, half: float, out: Path) -> None:
-    step = float(min(2.0, max(0.5, half / 90.0)))
+def _ground_arrays(ground, centre_wb, half: float, out: Path, step: float | None = None) -> None:
+    step = float(step or min(2.0, max(0.5, half / 90.0)))
     n = int(2 * half / step) + 1
     cx, cn = centre_wb[0], centre_wb[1]
     verts = []
@@ -201,6 +201,32 @@ def _plan(cat: Catalogue, scene: Scene, view: str, focus: list[str], span: float
             "groundHalf": span * (0.75 if view == "top" else 1.6), "view": view}
 
 
+def scene_job(cat: Catalogue, scene: Scene, work: Path, ground_centre, ground_half: float,
+              highlight: list[str] | None = None, only: set | None = None,
+              ground_step: float | None = None) -> dict:
+    """The scene half of a Blender JOB, shared by `render` and `wb.py bpy`:
+    every posed piece (raw kit GLB, 4x4 matrix in the wb frame, uid), the
+    padded ground and water mesh (`ground.npz` in ``work``) and the per-kit
+    .blend cache. ``only``: those uids alone."""
+    _ground_arrays(render_ground(cat, scene), ground_centre, ground_half, work / "ground.npz",
+                   ground_step)
+    pieces = []
+    for p in scene.pieces:
+        got = cat.raw_glb(p.asset)
+        if got is None or p.y is None or (only and p.uid not in only):
+            continue
+        a, b = p.matrix()
+        m = np.eye(4)
+        m[:3, :3], m[:3, 3] = a, b
+        tint = [0.95, 0.25, 0.85] if highlight and p.uid in highlight else None
+        pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
+                       "tint": tint, "uid": p.uid})
+    return {"pieces": pieces, "ground": str(work / "ground.npz"),
+            "kitCache": {"dir": str(BLEND_CACHE),
+                         "signatures": {g: glb_file_signature(Path(g))
+                                        for g in sorted({p["glb"] for p in pieces})}}}
+
+
 def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: int,
             highlight: list[str] | None, ground_centre, ground_half: float) -> tuple[list, list]:
     """ONE Blender launch rendering every shot of every plan; the temporary
@@ -210,23 +236,8 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
     from PIL import Image
     work = Path(tempfile.mkdtemp(prefix="wb-render-", dir=paths.OUTPUT))
     try:
-        _ground_arrays(render_ground(cat, scene), ground_centre, ground_half, work / "ground.npz")
-        pieces = []
-        for p in scene.pieces:
-            got = cat.raw_glb(p.asset)
-            if got is None or p.y is None:
-                continue
-            a, b = p.matrix()
-            m = np.eye(4)
-            m[:3, :3], m[:3, 3] = a, b
-            tint = [0.95, 0.25, 0.85] if highlight and p.uid in highlight else None
-            pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
-                           "tint": tint, "uid": p.uid})
-        job = {"res": [res, res], "samples": samples, "pieces": pieces,
-               "ground": str(work / "ground.npz"), "shots": [],
-               "kitCache": {"dir": str(BLEND_CACHE),
-                            "signatures": {g: glb_file_signature(Path(g))
-                                           for g in sorted({p["glb"] for p in pieces})}}}
+        job = scene_job(cat, scene, work, ground_centre, ground_half, highlight=highlight)
+        job.update({"res": [res, res], "samples": samples, "shots": []})
         for k, plan in enumerate(plans):
             rx, ry = res, res if plan["view"] == "top" else int(res * 0.75)
             plan["res"] = (rx, ry)

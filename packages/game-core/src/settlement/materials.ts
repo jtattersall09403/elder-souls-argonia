@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { artificialLightFactor } from "./lighting";
+import { ALWAYS_LIT_DAY_FACTOR, artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
 
 export interface SettlementMaterialUniforms {
@@ -10,22 +10,37 @@ export interface SettlementMaterialUniforms {
 const PATCH = "es-settlement-surface-v2";
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 
-/** How a material glows by night: a window's emissive mask (`true`), a light
- * fixture's own additive flame card (`"flame"`, lighting.ts), or not at all. */
-export type SettlementGlow = boolean | "flame";
+/** How a material glows: a window's emissive mask by night (`true`); an
+ * additive effect card drawn unlit, a fire's (`"flame"`, burns by day at
+ * `ALWAYS_LIT_DAY_FACTOR`) or a lamp's (`"lamp-flame"`, the lamp clock),
+ * lighting.ts `fixtureFactor`; or not at all. */
+export type SettlementGlow = boolean | "flame" | "lamp-flame";
 
 interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
   glowMaterial: SettlementGlow;
   depthPair: boolean;
+  /** An additive card's gain (`additiveGain`); unused by any other surface. */
+  flameGain: number;
 }
 
 /** Warm lamplight colour of a lit window at full night (linear RGB), and its
  * gain over the glTF emissive (the NIF's Glow_Map mask at factor 1). */
 const WINDOW_GLOW_RGB = "vec3(1.0, 0.6, 0.28)";
 const WINDOW_GLOW_GAIN = 2.0;
-/** Gain of a fixture's own flame card over its albedo, added as emission by night. */
+/** Gain of an additive effect card over its texture x vertex colour when its
+ * kit carries none: kits built before output format 3 (build_kit
+ * KIT_OUTPUT_FORMAT_VERSION); every later build writes the NIF's own. */
 const FLAME_GLOW_GAIN = 1.5;
+
+/** An additive card's gain: the NIF shape's emissive multiple, carried as the
+ * glTF material extra `gain` (build_kit apply_additive_gains:
+ * fxfirewithembers01's flame cards 1.6, the campfire's Glow:2 2.5), else
+ * FLAME_GLOW_GAIN. Skyrim's effect shader draws texture x vertex colour x it. */
+export function additiveGain(material: THREE.Material): number {
+  const gain = (material.userData as SettlementKitMaterialExtras | undefined)?.gain;
+  return typeof gain === "number" && gain > 0 ? gain : FLAME_GLOW_GAIN;
+}
 
 /**
  * A glow material is one whose kit build carried the NIF's Glow_Map slot
@@ -95,15 +110,34 @@ export function applySettlementDecal(material: THREE.Material): boolean {
   return true;
 }
 
+/** An additive effect card: the kit build's material extras `{ additive: true }`. */
+export function isSettlementAdditiveMaterial(material: THREE.Material): boolean {
+  return (material.userData as SettlementKitMaterialExtras | undefined)?.additive === true;
+}
+
+/**
+ * An additive effect card (fxfirewithembers01's flame cards, the campfire's
+ * log glow overlays) blends like Skyrim's effect shader: added to what is
+ * behind it, writing no depth. Its colour is unlit (materials.ts glowLine).
+ */
+export function applySettlementAdditive(material: THREE.Material): boolean {
+  material.blending = THREE.AdditiveBlending;
+  material.transparent = true;
+  material.depthWrite = false;
+  return true;
+}
+
 /** How a settlement mesh drawing `material` is flagged: a decal draws after
  * its parent's opaque surface and casts no shadow (the surface under it
- * already does; its twin would double the caster at the same depth). */
+ * already does; its twin would double the caster at the same depth); an
+ * additive effect card casts none (light casts no shadow). */
 export function settlementMeshDrawFlags(material: THREE.Material): {
   castShadow: boolean; renderOrder: number;
 } {
-  return isSettlementDecalMaterial(material)
-    ? { castShadow: false, renderOrder: SETTLEMENT_DECAL_RENDER_ORDER }
-    : { castShadow: true, renderOrder: 0 };
+  if (isSettlementDecalMaterial(material)) {
+    return { castShadow: false, renderOrder: SETTLEMENT_DECAL_RENDER_ORDER };
+  }
+  return { castShadow: !isSettlementAdditiveMaterial(material), renderOrder: 0 };
 }
 
 /**
@@ -119,7 +153,9 @@ export function applySettlementSurface(
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return;
   m.userData.esAerial = true;
-  m.userData.esSettlementSurface = { uniforms, glowMaterial, depthPair: false };
+  m.userData.esSettlementSurface = {
+    uniforms, glowMaterial, depthPair: false, flameGain: additiveGain(m),
+  };
   reapplySettlementSurface(m);
 }
 
@@ -143,7 +179,7 @@ export function applySettlementSurfaceWithShadow(
     displacementBias: m.displacementBias,
   });
   depth.name = `${m.name || "settlement"}.shadow-depth`;
-  depth.userData.esSettlementSurface = { uniforms, glowMaterial: false, depthPair: true };
+  depth.userData.esSettlementSurface = { uniforms, glowMaterial: false, depthPair: true, flameGain: 0 };
   reapplySettlementSurface(depth);
   return depth;
 }
@@ -201,11 +237,24 @@ export function settlementShadowPairErrors(
   return errors;
 }
 
-/** The emissive-stage line a glow kind adds (none for a plain surface). */
+/** The strength of an additive card: lighting.ts `fixtureFactor` on the lamp clock. */
+function flameStrength(glow: "flame" | "lamp-flame"): string {
+  return glow === "flame"
+    ? `(${ALWAYS_LIT_DAY_FACTOR.toFixed(2)} + ${(1 - ALWAYS_LIT_DAY_FACTOR).toFixed(2)} * esSettlementNight)`
+    : "esSettlementNight";
+}
+
+/** The line after the output stage an additive card adds: unlit, its texture
+ * x vertex colour x gain x strength, alpha kept for the additive blend. */
+export function flameOutputLine(glow: SettlementGlow, gain: number): string {
+  return glow === "flame" || glow === "lamp-flame"
+    ? `\ngl_FragColor = vec4(diffuseColor.rgb * ${gain.toFixed(3)} * ${flameStrength(glow)}, diffuseColor.a);`
+    : "";
+}
+
+/** The emissive-stage line a glow kind adds (none for a plain surface or a card). */
 function glowLine(glow: SettlementGlow): string {
-  if (glow === "flame") {
-    return `\ntotalEmissiveRadiance += diffuseColor.rgb * esSettlementNight * ${FLAME_GLOW_GAIN.toFixed(1)};`;
-  }
+  if (glow === "flame" || glow === "lamp-flame") return "";
   return glow
     ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};`
     : "";
@@ -234,6 +283,7 @@ export function reapplySettlementSurface(material: THREE.Material): void {
         // factor is 0, so the glTF's emissive never shows. Added to albedo
         // (the old path) it was multiplied by the night light and stayed dark.
         .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${glowLine(state.glowMaterial)}`)
+        .replace("#include <opaque_fragment>", `#include <opaque_fragment>${flameOutputLine(state.glowMaterial, state.flameGain)}`)
         .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.32, esWallWet * 0.55);`);
     };
   m.onBeforeCompile = hook;
@@ -242,7 +292,7 @@ export function reapplySettlementSurface(material: THREE.Material): void {
     m.userData.esSettlementCacheKeyed = true;
     const priorKey = m.customProgramCacheKey;
     m.customProgramCacheKey = function (this: THREE.Material) {
-      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial === "flame" ? 2 : state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}`;
+      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial === "flame" ? 2 : state.glowMaterial === "lamp-flame" ? 3 : state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}|${state.flameGain.toFixed(3)}`;
     };
   }
   m.needsUpdate = true;

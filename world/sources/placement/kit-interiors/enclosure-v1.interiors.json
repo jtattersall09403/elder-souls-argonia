@@ -96,6 +96,7 @@
   "bmv:architecture/newcastle/wall/1024/1024wall01": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 4.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 4.0,
@@ -124,6 +125,7 @@
   "bmv:architecture/newcastle/wall/1024/1024wall02": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 4.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 4.0,
@@ -252,7 +254,7 @@
     "deg": 15.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 16\u00b0 in the piece's own frame carries 2.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 16\u00b0 in the piece's own frame carries 2.64x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
    "headroomM": 4.82,
@@ -328,6 +330,7 @@
   "bmv:architecture/newcastle/wall/1024/1024walltower01a": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 4.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 4.0,
@@ -629,6 +632,7 @@
   "bmv:architecture/newcastle/wall/slope/1024wallslope256": {
    "category": "architecture",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredBelowM": 7.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 7.0,
@@ -1034,10 +1038,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 173.0,
+    "deg": 173.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 173\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 173\u00b0 in the piece's own frame carries 1.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,

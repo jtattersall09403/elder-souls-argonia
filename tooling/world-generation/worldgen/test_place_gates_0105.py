@@ -47,6 +47,12 @@ def test_fixtures_are_what_the_runtime_lights():
     kinds = sorted(f["kind"] for f in pg.light_fixtures(placements, rows))
     # the house's two glow facings are emissive only (R11): no fixture
     assert kinds == ["fire", "fixture", "fixture"]
+    # a fire socket on a fixture is lit by the fixture (SettlementLayer): not
+    # a second light (CLAYWATER2: the cook fires' smoke sockets)
+    hosted = placements + [{"id": "e", "objectKind": "effect", "assetId": "fx:smoke",
+                            "positionM": [1, 1, 0], "parentPlacementId": "b",
+                            "provenance": {"ruleId": "effect-socket/fire"}}]
+    assert sorted(f["kind"] for f in pg.light_fixtures(hosted, rows)) == kinds
 
 
 BP = {"parcels": [{"id": "parcel.hut", "assetRef": "shell"}, {"id": "parcel.store", "assetRef": "shell"}],

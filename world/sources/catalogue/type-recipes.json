@@ -3374,7 +3374,7 @@
         14
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band",
-      "footprintRadiusM": 55,
+      "footprintRadiusM": 60,
       "footprintSource": "built-ground"
     },
     {

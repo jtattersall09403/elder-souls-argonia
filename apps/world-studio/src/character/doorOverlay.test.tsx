@@ -38,6 +38,33 @@ describe("door overlay (walk 2 D2)", () => {
     expect(renderToStaticMarkup(<DoorOverlay channel={channel} />)).not.toContain("data-door-prompt");
   });
 
+  it("shows the catalogue's loading line inside the fade while a cell loads, and none otherwise (walk 4 c)", () => {
+    const channel = createDoorOverlayChannel(1);
+    expect(renderToStaticMarkup(<DoorOverlay channel={channel} />)).not.toContain("data-door-loading");
+    channel.setLoading(DOOR_TEXT.loading);
+    const html = renderToStaticMarkup(<DoorOverlay channel={channel} />);
+    expect(html).toMatch(/data-door-fade="true"[^>]*>\s*<div data-door-loading/);
+    expect(html).toContain(text(CATALOGUE, DOOR_TEXT.loading));
+  });
+
+  it("names the building on the loading line when the door carries a name, and falls back to the plain line (walk 4)", () => {
+    const channel = createDoorOverlayChannel(1);
+    channel.setLoading(DOOR_TEXT.loadingNamed, "the Poler's Hut");
+    const named = renderToStaticMarkup(<DoorOverlay channel={channel} />);
+    expect(named).toContain(text(CATALOGUE, DOOR_TEXT.loadingNamed).replace("{name}", "the Poler&#x27;s Hut"));
+    expect(named).not.toContain("{name}");
+    channel.setLoading(DOOR_TEXT.loading, null);
+    expect(renderToStaticMarkup(<DoorOverlay channel={channel} />)).toContain(text(CATALOGUE, DOOR_TEXT.loading));
+  });
+
+  it("shows a swing door's Open prompt with the action key", () => {
+    const channel = createDoorOverlayChannel();
+    channel.setPrompt({ kind: "swing", textId: "text.door.prompt-open", doorId: "d.swing" });
+    const html = renderToStaticMarkup(<DoorOverlay channel={channel} />);
+    expect(html).toContain(text(CATALOGUE, "text.door.prompt-open"));
+    expect(html).toContain("[E]");
+  });
+
   it("notifies subscribers only when the prompt or error changes", () => {
     const channel = createDoorOverlayChannel();
     let calls = 0;

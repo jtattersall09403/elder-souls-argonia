@@ -60,80 +60,56 @@
         "wealth": "modest",
         "boundary": [
           [
-            0.641421238,
-            0.247405546
+            0.641555359,
+            0.24702045
           ],
           [
-            0.641241618,
-            0.24748196
+            0.641231865,
+            0.247090844
           ],
           [
-            0.641076649,
-            0.247595637
+            0.640907506,
+            0.247230207
           ],
           [
-            0.640953483,
-            0.247726086
+            0.640769079,
+            0.247295539
           ],
           [
-            0.640854723,
-            0.247858397
+            0.640669356,
+            0.247429517
           ],
           [
-            0.640777588,
-            0.248001805
+            0.64050696,
+            0.247692422
           ],
           [
-            0.640515024,
-            0.248633371
+            0.640362801,
+            0.248021191
           ],
           [
-            0.639277143,
-            0.252703447
+            0.638671988,
+            0.255620714
           ],
           [
-            0.638654651,
-            0.255315035
+            0.639012926,
+            0.25700771
           ],
           [
-            0.638630591,
-            0.255452305
+            0.639189124,
+            0.257178091
           ],
           [
-            0.638907397,
-            0.256578403
+            0.640445191,
+            0.257536968
           ],
           [
-            0.639161022,
-            0.256824746
+            0.640530222,
+            0.257525792
           ],
           [
-            0.63931051,
-            0.256941004
-          ],
-          [
-            0.639487017,
-            0.257030392
-          ],
-          [
-            0.63967472,
-            0.257086541
-          ],
-          [
-            0.639874259,
-            0.257104455
-          ],
-          [
-            0.640052352,
-            0.257082762
-          ],
-          [
-            0.640182938,
-            0.257051262
-          ],
-          [
-            0.646822326,
-            0.255204922
+            0.646841081,
+            0.255191478
           ],
           [
             0.646925974,
@@ -188,7 +164,7 @@
             0.24601592
           ],
           [
-            0.647443884,
+            0.647267098,
             0.24601592
           ]
         ],
@@ -978,14 +954,19 @@
             "id": "b-minder-flower",
             "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
             "atM": [
-              6.143,
-              4.9799
+              12.3387,
+              -9.5112
             ],
             "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 1.0004
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 2.2497
           },
           {
             "id": "b-minder-totem1",
@@ -1274,15 +1255,20 @@
           "microGeography": "A mud pad on the low slope above the channel bank."
         },
         "districtId": "district.greenspring.the-common",
-        "assetRef": "kotm:argonia/mudhuts/mudhut01",
+        "assetRef": "composite:mud/kotm-house-pod",
         "centreUV": [
-          0.640265247,
-          0.255780609
+          0.639935689,
+          0.255982684
         ],
-        "yawDeg": 267.0,
+        "yawDeg": 188.8,
         "pad": {
-          "datumM": 3.92,
+          "datumM": 3.956,
           "apronM": 1.5,
+          "apronBySide": {
+            "n": 3.5,
+            "e": 3.5,
+            "w": 3.0
+          },
           "batter": true
         },
         "assembly": [
@@ -1290,357 +1276,356 @@
             "id": "b-fam1-basket",
             "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
             "atM": [
-              6.1264,
-              -3.9748
+              2.9702,
+              7.0283
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.9197
+            "yMeasured": 3.9557
           },
           {
             "id": "b-fam1-candle",
             "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
             "atM": [
-              5.3234,
-              1.2203
+              -2.2793,
+              7.3047
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 3.9488
+            "yMeasured": 3.9848
           },
           {
             "id": "b-fam1-chair",
             "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
             "atM": [
-              5.6457,
-              3.8608
+              -4.7981,
+              8.1601
             ],
-            "yaw": 290.0,
+            "yaw": 8.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.92
+            "yMeasured": 3.956
           },
           {
             "id": "b-fam1-table",
             "asset": "kotm:argonia/clutter/basketcontainer",
             "atM": [
-              4.5854,
-              3.2645
+              -4.4312,
+              7.0003
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 4.4153
+            "yMeasured": 4.4513
           },
           {
             "id": "b-fam1-urn1",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              5.9618,
-              -1.9807
+              0.9846,
+              7.275
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.9213
+            "yMeasured": 3.9573
           },
           {
             "id": "b-fam1-urn2",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              6.0352,
-              -2.9983
+              1.9956,
+              7.1387
             ],
-            "yaw": 140.0,
+            "yaw": 218.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.9213
+            "yMeasured": 3.9573
           },
           {
             "id": "y4-hc-bucket",
             "asset": "vanilla:clutter/bucket01",
             "atM": [
-              -6.5138,
-              -2.8836
+              -9.833,
+              2.7712
             ],
-            "yaw": 290.0,
+            "yaw": 8.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.92
+            "yMeasured": 3.956
           },
           {
             "id": "y4-hc-pot",
             "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
             "atM": [
-              -5.8384,
-              -4.4469
+              -8.1647,
+              3.1126
             ],
-            "yaw": 290.0,
+            "yaw": 8.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 4.0193
+            "yMeasured": 4.0553
           },
           {
             "id": "y4-hc-potloose",
             "asset": "vanilla:clutter/woodfires/spitpotopenloose01",
             "atM": [
-              -6.6841,
-              -4.7547
+              -8.0363,
+              2.2218
             ],
-            "yaw": 290.0,
+            "yaw": 8.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 4.0193
+            "yMeasured": 4.0553
           },
           {
             "id": "y4-hc-wood",
             "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
             "atM": [
-              -6.71,
-              -3.8064
+              -8.9699,
+              2.3904
             ],
-            "yaw": 20.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 3.884
-          },
-          {
-            "id": "y4-hn-net1",
-            "asset": "shores:shoresofskyrim/fishnet01",
-            "atM": [
-              -4.1863,
-              -7.0588
-            ],
-            "yaw": 110.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 3.8994
-          },
-          {
-            "id": "y4-hn-net2",
-            "asset": "shores:shoresofskyrim/fishnet01",
-            "atM": [
-              -4.8016,
-              -6.5378
-            ],
-            "yaw": 150.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 3.8994
-          },
-          {
-            "id": "y4-hn-sack",
-            "asset": "vanilla:clutter/containers/miscsacklarge",
-            "atM": [
-              -4.1006,
-              -7.8789
-            ],
-            "yaw": 140.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 4.0556
-          },
-          {
-            "id": "y4-hv-basket1",
-            "asset": "kotm:argonia/clutter/basket01",
-            "atM": [
-              5.4256,
-              2.9946
-            ],
-            "yaw": 130.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 4.1825
-          },
-          {
-            "id": "y4-hv-basket2",
-            "asset": "kotm:argonia/clutter/basket02",
-            "atM": [
-              4.8362,
-              2.5673
-            ],
-            "yaw": 170.0,
-            "on": "ground",
-            "layer": "clutter",
-            "evidence": "measured",
-            "yMeasured": 3.9337
-          },
-          {
-            "id": "y4-hv-closed",
-            "asset": "vanilla:clutter/basketclosed01",
-            "atM": [
-              5.8446,
-              1.5509
-            ],
-            "yaw": 110.0,
+            "yaw": 98.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
             "yMeasured": 3.92
           },
           {
-            "id": "y4-hv-small",
-            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "id": "y4-hn-net1",
+            "asset": "shores:shoresofskyrim/fishnet01",
             "atM": [
-              5.1098,
-              1.8155
+              8.3688,
+              -1.3057
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.9197
+            "yMeasured": 3.9354
+          },
+          {
+            "id": "y4-hn-net2",
+            "asset": "shores:shoresofskyrim/fishnet01",
+            "atM": [
+              7.733,
+              -1.8014
+            ],
+            "yaw": 228.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.9354
+          },
+          {
+            "id": "y4-hn-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              9.1891,
+              -1.3895
+            ],
+            "yaw": 218.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 4.0916
+          },
+          {
+            "id": "y4-hv-basket1",
+            "asset": "kotm:argonia/clutter/basket01",
+            "atM": [
+              -3.9953,
+              7.7675
+            ],
+            "yaw": 208.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 4.2185
+          },
+          {
+            "id": "y4-hv-basket2",
+            "asset": "kotm:argonia/clutter/basket02",
+            "atM": [
+              -3.6975,
+              7.1032
+            ],
+            "yaw": 248.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.9697
+          },
+          {
+            "id": "y4-hv-closed",
+            "asset": "vanilla:clutter/basketclosed01",
+            "atM": [
+              -2.4964,
+              7.8825
+            ],
+            "yaw": 188.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.956
+          },
+          {
+            "id": "y4-hv-small",
+            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "atM": [
+              -2.9057,
+              7.2173
+            ],
+            "yaw": 188.2,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.9557
           },
           {
             "id": "y4-hv-store",
             "asset": "kotm:argonia/clutter/basketcontainer",
             "atM": [
-              5.8871,
-              2.3113
+              -3.232,
+              8.0796
             ],
-            "yaw": 110.0,
+            "yaw": 188.2,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 4.4153
+            "yMeasured": 4.4513
           }
         ],
         "footprint": [
           [
-            0.63986562,
-            0.256559015
+            0.640967345,
+            0.256383929
           ],
           [
-            0.639777747,
-            0.256551126
+            0.640907888,
+            0.25656411
           ],
           [
-            0.639688895,
-            0.256524547
+            0.640816342,
+            0.256765399
           ],
           [
-            0.639602259,
-            0.256480672
+            0.640746566,
+            0.2568438
           ],
           [
-            0.639517596,
-            0.256414829
+            0.640399147,
+            0.256995871
           ],
           [
-            0.639140767,
-            0.256048819
+            0.640058737,
+            0.257040611
           ],
           [
-            0.639112827,
-            0.255992497
+            0.639948405,
+            0.257044116
           ],
           [
-            0.639121232,
-            0.255795273
+            0.639723536,
+            0.256918728
           ],
           [
-            0.639186155,
-            0.255424852
+            0.639561882,
+            0.256783914
           ],
           [
-            0.639242483,
-            0.255367238
+            0.639431772,
+            0.2566581
           ],
           [
-            0.639378665,
-            0.2552539
+            0.639228116,
+            0.256342494
           ],
           [
-            0.639614697,
-            0.255108779
+            0.639201507,
+            0.256239564
           ],
           [
-            0.639700775,
-            0.255082403
+            0.639168297,
+            0.256028569
           ],
           [
-            0.639876371,
-            0.255035718
+            0.639190279,
+            0.255789064
           ],
           [
-            0.640143023,
-            0.255057664
+            0.639231338,
+            0.255656812
           ],
           [
-            0.640311383,
-            0.255111312
+            0.639398177,
+            0.255430125
           ],
           [
-            0.640528264,
-            0.255196776
+            0.639478676,
+            0.255353383
           ],
           [
-            0.640775384,
-            0.255322823
+            0.639617029,
+            0.255266385
           ],
           [
-            0.640851688,
-            0.255378172
+            0.640044436,
+            0.255032004
           ],
           [
-            0.640903562,
-            0.255444171
+            0.640097232,
+            0.255027826
           ],
           [
-            0.640940503,
-            0.255940443
+            0.640180025,
+            0.255033781
           ],
           [
-            0.64089384,
-            0.256033471
+            0.64027826,
+            0.255064085
           ],
           [
-            0.640837756,
-            0.256095758
+            0.640356998,
+            0.255105094
           ],
           [
-            0.640772988,
-            0.25614132
+            0.640394396,
+            0.25513833
           ],
           [
-            0.640693134,
-            0.256197044
+            0.640623393,
+            0.255370029
           ],
           [
-            0.640220424,
-            0.256445152
+            0.640832797,
+            0.255604183
           ],
           [
-            0.640135326,
-            0.256490218
+            0.640888684,
+            0.255713017
           ],
           [
-            0.640046623,
-            0.256526102
+            0.640958237,
+            0.255981789
           ],
           [
-            0.639955629,
-            0.256548051
+            0.640978953,
+            0.256211435
           ]
         ],
-        "yMeasured": 7.165,
-        "scale": 1.15
+        "yMeasured": 1.9638
       },
       {
         "id": "parcel.greenspring.family-hut",
@@ -1671,15 +1656,20 @@
           "microGeography": "A mud pad on the gentle slope above the bank."
         },
         "districtId": "district.greenspring.the-common",
-        "assetRef": "kotm:argonia/mudhuts/mudhut01",
+        "assetRef": "composite:mud/hut-with-entrance",
         "centreUV": [
-          0.641621454,
-          0.248863954
+          0.641709607,
+          0.248408269
         ],
-        "yawDeg": 47.3,
+        "yawDeg": 5.7,
         "pad": {
-          "datumM": 3.667,
+          "datumM": 3.559,
           "apronM": 1.5,
+          "apronBySide": {
+            "s": 4.5,
+            "e": 3.5,
+            "w": 3.0
+          },
           "batter": true
         },
         "assembly": [
@@ -1687,357 +1677,368 @@
             "id": "b-fam2-basket",
             "asset": "mudmother:gv_meshes/argoniannest/basketfull",
             "atM": [
-              6.6044,
-              -2.4237
+              6.2348,
+              5.9803
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.7024
+            "yMeasured": 3.5944
           },
           {
             "id": "b-fam2-candle",
             "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
             "atM": [
-              5.9872,
-              -1.7549
+              5.3293,
+              6.0707
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 3.6958
+            "yMeasured": 3.5878
           },
           {
             "id": "b-fam2-fire",
             "asset": "vanilla:clutter/woodfires/campfire01burning",
             "atM": [
-              13.2823,
-              -4.0719
+              12.3228,
+              9.1815
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 4.509
+            "yMeasured": 4.51
           },
           {
             "id": "b-fam2-stand",
             "asset": "vanilla:clutter/woodfires/cookingstand01",
             "atM": [
-              5.8676,
-              2.6658
+              2.3048,
+              9.2971
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6639
+            "yMeasured": 3.5559
           },
           {
             "id": "b-fam2-urn",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              6.052,
-              -3.1375
+              6.2957,
+              5.0798
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6683
+            "yMeasured": 3.5603
           },
           {
             "id": "b-fam2-wood",
             "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
             "atM": [
-              3.4137,
-              5.1775
+              -1.1978,
+              9.5462
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.631
+            "yMeasured": 3.523
           },
           {
             "id": "y5-hc-bucket",
             "asset": "vanilla:clutter/bucket01",
             "atM": [
-              -5.8178,
-              -6.0966
+              -8.4045,
+              2.4368
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.667
+            "yMeasured": 3.559
           },
           {
             "id": "y5-hc-pot",
             "asset": "kotm:argonia/clutter/saxhleelmetalpot01",
             "atM": [
-              -6.4932,
-              -4.5333
+              -9.9474,
+              3.1574
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.7663
+            "yMeasured": 3.6583
           },
           {
             "id": "y5-hc-potloose",
             "asset": "vanilla:clutter/woodfires/spitpotopenloose01",
             "atM": [
-              -5.6474,
-              -4.2255
+              -9.5194,
+              3.9491
             ],
-            "yaw": 110.0,
+            "yaw": 151.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.7663
+            "yMeasured": 3.6583
           },
           {
             "id": "y5-hc-wood",
             "asset": "vanilla:clutter/firewood/firewoodpilesmall01",
             "atM": [
-              -5.6215,
-              -5.1738
+              -8.8704,
+              3.2571
             ],
-            "yaw": 200.0,
+            "yaw": 241.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.631
+            "yMeasured": 3.523
           },
           {
             "id": "y5-hn-net1",
             "asset": "shores:shoresofskyrim/fishnet01",
             "atM": [
-              6.444,
-              1.8642
+              3.268,
+              9.0803
             ],
-            "yaw": 200.0,
+            "yaw": 241.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6464
+            "yMeasured": 3.5384
           },
           {
             "id": "y5-hn-net2",
             "asset": "shores:shoresofskyrim/fishnet01",
             "atM": [
-              5.923,
-              1.2489
+              3.2869,
+              8.2743
             ],
-            "yaw": 240.0,
+            "yaw": 281.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6464
+            "yMeasured": 3.5384
           },
           {
             "id": "y5-hn-sack",
             "asset": "vanilla:clutter/containers/miscsacklarge",
             "atM": [
-              7.2641,
-              1.9499
+              3.8244,
+              9.6889
             ],
-            "yaw": 230.0,
+            "yaw": 271.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.8026
+            "yMeasured": 3.6946
           },
           {
             "id": "y5-hv-basket1",
             "asset": "kotm:argonia/clutter/basket01",
             "atM": [
-              3.7261,
-              3.6074
+              0.0783,
+              8.5794
             ],
-            "yaw": 220.0,
+            "yaw": 261.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.9295
+            "yMeasured": 3.8215
           },
           {
             "id": "y5-hv-basket2",
             "asset": "kotm:argonia/clutter/basket02",
             "atM": [
-              4.1535,
-              3.018
+              0.7892,
+              8.4224
             ],
-            "yaw": 260.0,
+            "yaw": 301.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6807
+            "yMeasured": 3.5727
           },
           {
             "id": "y5-hv-closed",
             "asset": "vanilla:clutter/basketclosed01",
             "atM": [
-              5.1699,
-              4.0265
+              0.8797,
+              9.8513
             ],
-            "yaw": 200.0,
+            "yaw": 241.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.667
+            "yMeasured": 3.559
           },
           {
             "id": "y5-hv-small",
             "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
             "atM": [
-              4.9052,
-              3.2916
+              1.1697,
+              9.1261
             ],
-            "yaw": 200.0,
+            "yaw": 241.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.6667
+            "yMeasured": 3.5587
           },
           {
             "id": "y5-hv-store",
             "asset": "kotm:argonia/clutter/basketcontainer",
             "atM": [
-              4.4095,
-              4.069
+              0.2828,
+              9.3783
             ],
-            "yaw": 200.0,
+            "yaw": 241.6,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 4.1623
+            "yMeasured": 4.0543
           }
         ],
         "footprint": [
           [
-            0.641431706,
-            0.24800978
+            0.640880853,
+            0.248190617
           ],
           [
-            0.641504355,
-            0.247959719
+            0.640988496,
+            0.247945127
           ],
           [
-            0.641589696,
-            0.247923413
+            0.641118547,
+            0.247734585
           ],
           [
-            0.641684379,
-            0.24790183
+            0.641123269,
+            0.247728241
           ],
           [
-            0.641791577,
-            0.24789841
+            0.64113042,
+            0.247724866
           ],
           [
-            0.642315305,
-            0.247939312
+            0.641398135,
+            0.247609841
           ],
           [
-            0.642372778,
-            0.247964798
+            0.641660058,
+            0.247552845
           ],
           [
-            0.642492292,
-            0.248121912
+            0.641927259,
+            0.247579515
           ],
           [
-            0.642678953,
-            0.248448384
+            0.642172749,
+            0.247687158
           ],
           [
-            0.642672416,
-            0.248528693
+            0.642377624,
+            0.247819369
           ],
           [
-            0.642640034,
-            0.248702884
+            0.642383967,
+            0.247824091
           ],
           [
-            0.64255113,
-            0.248965309
+            0.642388692,
+            0.247831377
           ],
           [
-            0.64250175,
-            0.249040586
+            0.642508035,
+            0.248096797
           ],
           [
-            0.642396468,
-            0.249188671
+            0.642565031,
+            0.24835872
           ],
           [
-            0.642177287,
-            0.249342115
+            0.642538361,
+            0.248625921
           ],
           [
-            0.642013482,
-            0.249408381
+            0.642430718,
+            0.248871411
           ],
           [
-            0.641792023,
-            0.249481162
+            0.64223768,
+            0.24926239
           ],
           [
-            0.641521374,
-            0.249542033
+            0.642237545,
+            0.249263739
           ],
           [
-            0.641427311,
-            0.249548189
+            0.642227697,
+            0.249280475
           ],
           [
-            0.64134524,
-            0.249530544
+            0.642218253,
+            0.249293161
           ],
           [
-            0.640999816,
-            0.24917231
+            0.642211102,
+            0.249296537
           ],
           [
-            0.640976295,
-            0.249070927
+            0.641987509,
+            0.249379166
           ],
           [
-            0.640979659,
-            0.248987179
+            0.64197334,
+            0.249384566
           ],
           [
-            0.641000388,
-            0.248910751
+            0.641934474,
+            0.249377961
           ],
           [
-            0.641026233,
-            0.248816869
+            0.641931775,
+            0.249377692
           ],
           [
-            0.641231452,
-            0.248324023
+            0.641491955,
+            0.249237023
           ],
           [
-            0.64126814,
-            0.248234992
+            0.641246465,
+            0.24912938
           ],
           [
-            0.641313466,
-            0.248150722
+            0.641007172,
+            0.24895966
           ],
           [
-            0.641369457,
-            0.24807571
+            0.641000828,
+            0.248954938
+          ],
+          [
+            0.640997453,
+            0.248947786
+          ],
+          [
+            0.640911179,
+            0.248719741
+          ],
+          [
+            0.640854183,
+            0.248457818
           ]
         ],
-        "yMeasured": 6.912,
-        "scale": 1.15
+        "yMeasured": 7.0209
       },
       {
         "id": "parcel.greenspring.east-family-hut",
@@ -2449,71 +2450,71 @@
         "districtId": "district.greenspring.the-common",
         "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
         "centreUV": [
-          0.640059104,
-          0.253013947
+          0.641350213,
+          0.253271627
         ],
-        "yawDeg": 70.7,
+        "yawDeg": 270.0,
         "assembly": [
           {
             "id": "b-shed-basket",
             "asset": "mudmother:gv_meshes/argoniannest/basketfull",
             "atM": [
-              5.1489,
-              -0.6339
+              3.5,
+              1.6
             ],
-            "yaw": 28.8,
+            "yaw": 189.5,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.1514
+            "yMeasured": 4.0154
           },
           {
             "id": "b-shed-candle",
             "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
             "atM": [
-              4.2278,
-              -1.4226
+              -0.9,
+              -2.7
             ],
-            "yaw": 28.8,
+            "yaw": 189.5,
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 3.1448
+            "yMeasured": 4.0088
           },
           {
             "id": "b-shed-urn1",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              -2.9236,
-              -2.8462
+              3.6,
+              -0.5
             ],
-            "yaw": 28.8,
+            "yaw": 189.5,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.1173
+            "yMeasured": 3.9813
           },
           {
             "id": "b-shed-urn2",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              -2.7818,
-              -3.8561
+              3.7,
+              0.6
             ],
-            "yaw": 28.8,
+            "yaw": 189.5,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.1173
+            "yMeasured": 3.9813
           },
           {
             "id": "ld-canoe",
             "asset": "canoe:actors/sfss/canoe/canoe1",
             "atM": [
-              -21.5113,
-              15.4378
+              17.1,
+              -31.2
             ],
-            "yaw": 29.3,
+            "yaw": 190.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -2523,10 +2524,10 @@
             "id": "ld-plank",
             "asset": "ferries:yamadori/ferries/plank_ferry_swamp_01",
             "atM": [
-              -16.5852,
-              20.1296
+              10.9,
+              -34.0
             ],
-            "yaw": 9.3,
+            "yaw": 170.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
@@ -2536,93 +2537,143 @@
             "id": "sp-flower",
             "asset": "histtree:skyfall/sleeping tree overhaul/histflower01",
             "atM": [
-              3.9566,
-              0.1989
+              -12.566,
+              8.8193
             ],
-            "yaw": 289.3,
+            "yaw": 90.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": -2.738
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 2.3598
           },
           {
             "id": "sp-lip2",
             "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
             "atM": [
-              2.5173,
-              2.5238
+              -3.9,
+              -0.0
             ],
-            "yaw": 39.3,
+            "yaw": 180.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.1935
+            "yMeasured": 4.0575
+          },
+          {
+            "id": "sp-rim1",
+            "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
+            "atM": [
+              2.55,
+              -9.89
+            ],
+            "yaw": 200.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.162
+          },
+          {
+            "id": "sp-rim2",
+            "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+            "atM": [
+              0.87,
+              -8.05
+            ],
+            "yaw": 245.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.26
+          },
+          {
+            "id": "sp-rim3",
+            "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
+            "atM": [
+              2.45,
+              -12.37
+            ],
+            "yaw": 155.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured",
+            "yMeasured": 3.138
           },
           {
             "id": "sp-urn",
             "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
             "atM": [
-              0.8366,
-              3.6623
+              -2.1,
+              -2.8
             ],
-            "yaw": 289.3,
+            "yaw": 90.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 3.1173
+            "yMeasured": 3.9813
           }
         ],
         "footprint": [
           [
-            0.64016839,
-            0.252645893
+            0.641125422,
+            0.253582876
           ],
           [
-            0.64019037,
-            0.252652852
+            0.641106977,
+            0.253569043
           ],
           [
-            0.640233242,
-            0.252667153
+            0.641071241,
+            0.253541377
           ],
           [
-            0.640238411,
-            0.25267145
+            0.641067783,
+            0.253535613
           ],
           [
-            0.640384413,
-            0.25321393
+            0.641109283,
+            0.252975364
           ],
           [
-            0.640372992,
-            0.253230144
+            0.641125422,
+            0.252963836
           ],
           [
-            0.639988977,
-            0.253319431
+            0.641517365,
+            0.253006489
           ],
           [
-            0.639962535,
-            0.253306706
+            0.641538115,
+            0.253027239
           ],
           [
-            0.639780578,
-            0.253111485
+            0.641645324,
+            0.253271627
           ],
           [
-            0.639800988,
-            0.252845397
+            0.641538115,
+            0.253516015
           ],
           [
-            0.639813713,
-            0.252818955
+            0.641517365,
+            0.253536765
           ]
         ],
-        "yMeasured": 3.498,
+        "yMeasured": 4.362,
         "scale": 0.85,
         "pad": {
-          "datumM": 3.116,
-          "apronM": 3.0,
+          "datumM": 3.98,
+          "apronM": 0.5,
+          "apronBySide": {
+            "n": 2.0,
+            "s": 2.5,
+            "w": 1.2,
+            "e": 0.5
+          },
           "batter": true
         }
       },
@@ -2661,6 +2712,60 @@
           "batter": true
         },
         "assembly": [
+          {
+            "id": "hist-lantern1",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+            "atM": [
+              1.5557,
+              11.4312
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 11.4347
+          },
+          {
+            "id": "hist-lantern2",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+            "atM": [
+              3.5442,
+              12.1563
+            ],
+            "yaw": 40.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 9.9694
+          },
+          {
+            "id": "hist-lantern3",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+            "atM": [
+              3.7233,
+              7.9669
+            ],
+            "yaw": 20.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured",
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 11.9979
+          },
           {
             "id": "sh-candle1",
             "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
@@ -2704,27 +2809,37 @@
             "id": "sh-flower1",
             "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
             "atM": [
-              2.77,
-              10.21
+              -0.4106,
+              8.6104
             ],
             "yaw": 0.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": -0.7856
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 3.7335
           },
           {
             "id": "sh-flower2",
             "asset": "histtree:skyfall/sleeping tree overhaul/histflower02-sick",
             "atM": [
-              -3.12,
-              11.05
+              2.9693,
+              10.6857
             ],
             "yaw": 0.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": -0.7856
+            "mountPair": {
+              "kind": "unmined",
+              "mountedOn": "hist",
+              "unmined": "reader-approved r13"
+            },
+            "yMeasured": 1.6052
           },
           {
             "id": "sh-totem1",
@@ -2887,7 +3002,7 @@
             0.252944238
           ]
         ],
-        "yMeasured": 5.1816,
+        "yMeasured": 5.0316,
         "scale": 1.1
       }
     ],
@@ -2902,18 +3017,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the bed-keeper",
           "tier": "A",
-          "cellId": "KeebaHouseFisher",
+          "cellId": "KeebaHouseCrafter",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "080A5B30",
+          "interiorLoadDoorRef": "0809B4BD",
           "arrivalMarker": {
             "positionM": [
-              109.529,
-              82.7577,
-              54.5645
+              106.4963,
+              86.2485,
+              54.4948
             ],
-            "yawDeg": 233.95
+            "yawDeg": 182.383
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseFisher is a dwelling serving lodging, room footprint ratio 1.464 to the shell, 2 storeys, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
+          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving lodging, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; ties broken on the plugin's most-used cell (2 door links), then cell id"
         },
         "fills": [
           "promise.greenspring.safe-interior"
@@ -2934,18 +3049,18 @@
           "interiorRef": "interior-kotm-v1",
           "owner": "the root-herald",
           "tier": "A",
-          "cellId": "KeebaHouseCrafter",
+          "cellId": "KeebaHouseFisher",
           "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "0809B4BD",
+          "interiorLoadDoorRef": "080A5B30",
           "arrivalMarker": {
             "positionM": [
-              106.4963,
-              86.2485,
-              54.4948
+              109.529,
+              82.7577,
+              54.5645
             ],
-            "yawDeg": 182.383
+            "yawDeg": 233.95
           },
-          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseCrafter is a dwelling serving use:dwelling, room footprint ratio 1.399 to the shell, 2 storeys, 1 exterior load door; KeebaHouseFisher already furnished another building here, so the plugin's most-used free cell is taken (2 door links)"
+          "why": "2 of 4 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) fit; KeebaHouseFisher is a dwelling serving use:dwelling, room footprint ratio 1.464 to the shell, 2 storeys, 1 exterior load door; KeebaHouseCrafter already furnished another building here, so the plugin's most-used free cell is taken (2 door links)"
         },
         "thresholdUV": [
           0.645469284,
@@ -2987,39 +3102,10 @@
         "parcelId": "parcel.greenspring.spring-keepers-house",
         "doorType": "load",
         "interiorClaim": {
-          "sizeClass": "medium",
+          "sizeClass": "large",
           "culture": "argonian",
           "interiorRef": "interior-kotm-v1",
           "owner": "the spring-keeper",
-          "tier": "A",
-          "cellId": "LilmothPlantationStorehouse",
-          "plugin": "King of the Murkmire.esp",
-          "interiorLoadDoorRef": "088B271D",
-          "arrivalMarker": {
-            "positionM": [
-              97.6755,
-              80.3666,
-              75.3957
-            ],
-            "yawDeg": 176.654
-          },
-          "why": "6 of 96 cells of the argonian culture pool fit kotm:argonia/mudhuts/mudhut01, which no plugin links to a cell; LilmothPlantationStorehouse is a dwelling serving use:dwelling, room footprint ratio 1.196 to the shell at scale 1.15, 3 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseFisher already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
-        },
-        "thresholdUV": [
-          0.640174517,
-          0.255063854
-        ],
-        "facingDeg": 17.0
-      },
-      {
-        "id": "door.hist-heartland.greenspring.5",
-        "parcelId": "parcel.greenspring.family-hut",
-        "doorType": "load",
-        "interiorClaim": {
-          "sizeClass": "medium",
-          "culture": "argonian",
-          "interiorRef": "interior-kotm-v1",
-          "owner": "a spring family",
           "tier": "A",
           "cellId": "LilmothGlassworksOverseerHouse",
           "plugin": "King of the Murkmire.esp",
@@ -3032,17 +3118,17 @@
             ],
             "yawDeg": 182.383
           },
-          "why": "6 of 96 cells of the argonian culture pool fit kotm:argonia/mudhuts/mudhut01, which no plugin links to a cell; LilmothGlassworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 1.059 to the shell at scale 1.15, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseFisher, LilmothPlantationStorehouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "why": "6 of 96 cells linked to kotm:argonia/mudhuts/smpodext02 (the base shell of composite:mud/kotm-house-pod) or in the argonian culture pool fit, every linked one already furnishing another building here; LilmothGlassworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 0.923 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseFisher already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
         },
         "thresholdUV": [
-          0.642149018,
-          0.249357478
+          0.640188215,
+          0.255158517
         ],
-        "facingDeg": 157.3
+        "facingDeg": 17.0
       },
       {
-        "id": "door.hist-heartland.greenspring.6",
-        "parcelId": "parcel.greenspring.east-family-hut",
+        "id": "door.hist-heartland.greenspring.5",
+        "parcelId": "parcel.greenspring.family-hut",
         "doorType": "load",
         "interiorClaim": {
           "sizeClass": "large",
@@ -3061,7 +3147,36 @@
             ],
             "yawDeg": 182.384
           },
-          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; LilmothIronworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 0.813 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseElder, KeebaHouseFisher, LilmothGlassworksOverseerHouse, LilmothPlantationStorehouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; LilmothIronworksOverseerHouse is a dwelling serving use:dwelling, room footprint ratio 0.813 to the shell, 2 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseElder, KeebaHouseFisher, LilmothGlassworksOverseerHouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
+        },
+        "thresholdUV": [
+          0.642078089,
+          0.249291431
+        ],
+        "facingDeg": 157.3
+      },
+      {
+        "id": "door.hist-heartland.greenspring.6",
+        "parcelId": "parcel.greenspring.east-family-hut",
+        "doorType": "load",
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "argonian",
+          "interiorRef": "vanilla-farmhouse-int",
+          "owner": "a spring family",
+          "tier": "A",
+          "cellId": "LilmothPlantationStorehouse",
+          "plugin": "King of the Murkmire.esp",
+          "interiorLoadDoorRef": "088B271D",
+          "arrivalMarker": {
+            "positionM": [
+              97.6755,
+              80.3666,
+              75.3957
+            ],
+            "yawDeg": 176.654
+          },
+          "why": "7 of 96 cells of the argonian culture pool fit bmv:architecture/huts/exterior/hutexterior (the base shell of composite:mud/hut-with-entrance), which no plugin links to a cell; LilmothPlantationStorehouse is a dwelling serving use:dwelling, room footprint ratio 0.918 to the shell, 3 storeys, 2 exterior load doors (one entrance, paired to the lowest of 2 exterior load doors; 1 load door(s) left closed); KeebaHouseCrafter, KeebaHouseElder, KeebaHouseFisher, LilmothGlassworksOverseerHouse, LilmothIronworksOverseerHouse already furnished another building here, so the plugin's most-used free cell is taken (4 door links)"
         },
         "thresholdUV": [
           0.647472537,
@@ -3292,8 +3407,8 @@
             0.250491403
           ],
           [
-            0.642149018,
-            0.249357478
+            0.642078089,
+            0.249291431
           ]
         ]
       },
@@ -3400,12 +3515,8 @@
             0.252864765
           ],
           [
-            0.64083621,
-            0.252947493
-          ],
-          [
-            0.640463253,
-            0.253072264
+            0.640984037,
+            0.253149568
           ]
         ],
         "points": [
@@ -3414,12 +3525,12 @@
             0.25198323
           ],
           [
-            0.64083621,
-            0.252947493
+            0.64080773,
+            0.252864765
           ],
           [
-            0.640354186,
-            0.253101618
+            0.641095766,
+            0.253157844
           ]
         ]
       },
@@ -3456,8 +3567,8 @@
             0.252864765
           ],
           [
-            0.640174517,
-            0.255063854
+            0.640188215,
+            0.255158517
           ]
         ]
       },
@@ -3547,7 +3658,8 @@
           "datumM": 5.223,
           "apronM": 1.0,
           "batter": true
-        }
+        },
+        "yMeasured": 5.6253
       }
     ],
     "travelServices": [],
@@ -3734,50 +3846,7 @@
       }
     ],
     "clearance": {
-      "hardClear": [
-        [
-          [
-            0.63844793,
-            0.254709206
-          ],
-          [
-            0.636332247,
-            0.253339437
-          ],
-          [
-            0.636332247,
-            0.249542058
-          ],
-          [
-            0.639044661,
-            0.24601592
-          ],
-          [
-            0.651386143,
-            0.24601592
-          ],
-          [
-            0.651386143,
-            0.254424402
-          ],
-          [
-            0.651087778,
-            0.254709206
-          ],
-          [
-            0.649623074,
-            0.258221782
-          ],
-          [
-            0.64284204,
-            0.258221782
-          ],
-          [
-            0.639044661,
-            0.257136816
-          ]
-        ]
-      ],
+      "hardClear": [],
       "thinned": [],
       "kept": []
     },
@@ -3952,15 +4021,15 @@
         "sha256": "2861793c32c2bcfb6ad7006b0590739c517fab96578c9d92c7aec1b635d16cfb"
       },
       "kits": {
-        "dungeon-root-v1": "b938dac869f30643da694e407e09ba67b3aeadc5cb47e422a9e4c4bd09aab876",
-        "mudmother-hut-int": "b2665967c200718989a84c1cf32510b7cf415a15a1cadaac502fa14316b22ea1",
-        "settlement-imperial-v1": "203381f574272af71fd9e5292ba88a9f59e961191788b4d6b89d0b626b2d7e1f",
-        "settlement-mud-v1": "f2ff4d89e1ec19fe5bbb28fe44403fdd1217bd4c03ab390ddf5bac4239ddaa7f",
-        "works-v1": "f909ab7dc535cf133ddc841458e0d53bdfd30c4ddfc781d9cf4bd08e23c4d77a"
+        "dungeon-root-v1": "01532639bd3f467d1f2d900ffcad5a19625a2138a0b4d8cca6676f8ed168e262",
+        "mudmother-hut-int": "ceb731c39f8ee185d6498e85ed7c943005819e16d6935b264fcacb7b751b78a5",
+        "settlement-imperial-v1": "38ddf6f620faaf0d10f88b75427de14dba04de4bd361d52da3a0c42312d33f88",
+        "settlement-mud-v1": "571820c863a8fba782fd3758ea2d1d4f71fe2b4015f0d079e3bd45369fa03b96",
+        "works-v1": "6470a4a8a573ba663dc50533e89dbe212536453b67fe1118839d72a5256e3402"
       },
       "layout": {
         "path": "world/sources/blueprints/greenspring.layout.json",
-        "sha256": "1266ea8e408e517149b667fa35c20592a65c578bc9fa9920ef01e17169506f2c"
+        "sha256": "a645eb7ce46ab01d63341911032baa535fd61a6adb4c593f0977676a9b8a2649"
       }
     },
     "walkRoutes": {
@@ -5865,43 +5934,33 @@
               1879.21
             ],
             [
-              4729.54,
-              4.14,
-              1879.21
-            ],
-            [
-              4728.04,
+              4728.54,
               4.08,
               1879.21
             ],
             [
-              4727.54,
-              4.05,
+              4728.04,
+              4.04,
               1879.21
             ],
             [
-              4726.54,
-              3.97,
+              4727.04,
+              3.98,
               1879.21
             ],
             [
               4726.04,
-              3.94,
-              1879.21
-            ],
-            [
-              4725.04,
-              3.92,
+              3.96,
               1879.21
             ],
             [
               4721.54,
-              3.92,
+              3.96,
               1879.21
             ],
             [
               4720.54,
-              3.92,
+              3.96,
               1880.21
             ]
           ],
@@ -5914,7 +5973,7 @@
             "door.hist-heartland.greenspring.4"
           ]
         },
-        "door:b-fam1.1": {
+        "door:b-fam2.0": {
           "points": [
             [
               4801.04,
@@ -5922,528 +5981,503 @@
               1878.21
             ],
             [
-              4800.04,
-              10.73,
-              1878.21
+              4800.54,
+              10.67,
+              1877.71
             ],
             [
-              4799.54,
-              10.74,
-              1878.21
+              4800.04,
+              10.66,
+              1877.21
             ],
             [
               4799.04,
-              10.76,
-              1878.21
-            ],
-            [
-              4798.54,
-              10.77,
-              1878.21
-            ],
-            [
-              4798.04,
-              10.79,
-              1878.21
+              10.66,
+              1876.21
             ],
             [
               4797.54,
-              10.79,
-              1878.21
+              10.69,
+              1874.71
             ],
             [
               4797.04,
-              10.78,
-              1878.21
+              10.68,
+              1874.21
             ],
             [
               4796.54,
-              10.79,
-              1878.21
+              10.66,
+              1873.71
             ],
             [
               4796.04,
-              10.79,
-              1878.21
+              10.61,
+              1873.21
             ],
             [
-              4794.54,
-              10.76,
-              1878.21
+              4795.54,
+              10.54,
+              1872.71
+            ],
+            [
+              4795.04,
+              10.44,
+              1872.21
+            ],
+            [
+              4794.04,
+              10.34,
+              1872.21
+            ],
+            [
+              4793.54,
+              10.3,
+              1872.21
             ],
             [
               4793.04,
-              10.7,
-              1878.21
+              10.25,
+              1872.21
             ],
             [
               4792.54,
-              10.68,
-              1878.71
+              10.21,
+              1872.21
+            ],
+            [
+              4792.04,
+              10.15,
+              1872.21
             ],
             [
               4791.54,
-              10.54,
-              1879.71
+              10.05,
+              1871.71
             ],
             [
               4791.04,
-              10.48,
-              1880.21
+              10.01,
+              1871.71
             ],
             [
-              4790.54,
-              10.4,
-              1880.71
-            ],
-            [
-              4790.04,
-              10.34,
-              1881.21
-            ],
-            [
-              4789.04,
-              10.24,
-              1882.21
+              4789.54,
+              9.8,
+              1871.71
             ],
             [
               4788.54,
-              10.18,
-              1882.21
+              9.64,
+              1871.71
             ],
             [
               4787.54,
-              10.08,
-              1882.21
+              9.46,
+              1871.71
             ],
             [
               4787.04,
-              10.02,
-              1882.21
+              9.38,
+              1871.71
             ],
             [
-              4786.04,
-              9.94,
-              1882.21
+              4786.54,
+              9.33,
+              1871.71
             ],
             [
               4785.54,
-              9.91,
-              1882.21
+              9.21,
+              1871.71
             ],
             [
               4785.04,
-              9.87,
-              1882.21
+              9.12,
+              1871.21
+            ],
+            [
+              4784.54,
+              9.04,
+              1870.71
             ],
             [
               4783.54,
-              9.72,
-              1882.21
+              8.84,
+              1869.71
+            ],
+            [
+              4782.54,
+              8.76,
+              1869.71
             ],
             [
               4782.04,
-              9.54,
-              1882.21
+              8.64,
+              1869.21
+            ],
+            [
+              4781.54,
+              8.6,
+              1869.21
             ],
             [
               4781.04,
-              9.44,
-              1882.21
+              8.53,
+              1869.21
             ],
             [
               4780.54,
-              9.4,
-              1882.21
+              8.47,
+              1869.21
             ],
             [
               4780.04,
-              9.35,
-              1882.21
+              8.37,
+              1868.71
             ],
             [
               4779.54,
-              9.31,
-              1882.21
+              8.3,
+              1868.71
+            ],
+            [
+              4779.04,
+              8.2,
+              1868.21
+            ],
+            [
+              4778.54,
+              8.15,
+              1868.21
             ],
             [
               4778.04,
-              9.16,
-              1882.21
+              8.05,
+              1867.71
+            ],
+            [
+              4777.04,
+              7.91,
+              1867.71
             ],
             [
               4776.54,
-              9.1,
-              1883.71
-            ],
-            [
-              4776.04,
-              9.09,
-              1884.21
+              7.85,
+              1867.71
             ],
             [
               4775.54,
-              9.03,
-              1884.21
+              7.65,
+              1866.71
             ],
             [
               4775.04,
-              8.98,
-              1884.21
+              7.56,
+              1866.21
             ],
             [
               4774.54,
-              8.92,
-              1884.21
+              7.48,
+              1865.71
             ],
             [
               4774.04,
-              8.87,
-              1884.21
+              7.42,
+              1865.71
             ],
             [
               4773.54,
-              8.83,
-              1884.21
+              7.33,
+              1865.21
             ],
             [
               4773.04,
-              8.8,
-              1884.21
+              7.25,
+              1864.71
             ],
             [
               4772.54,
-              8.75,
-              1884.21
+              7.18,
+              1864.21
+            ],
+            [
+              4772.04,
+              7.13,
+              1864.21
             ],
             [
               4771.54,
-              8.67,
-              1884.21
+              7.07,
+              1864.21
+            ],
+            [
+              4771.04,
+              7.03,
+              1864.21
             ],
             [
               4770.54,
-              8.57,
-              1884.21
+              7.0,
+              1864.21
             ],
             [
               4770.04,
-              8.5,
-              1884.21
-            ],
-            [
-              4769.54,
-              8.44,
-              1884.21
-            ],
-            [
-              4768.54,
-              8.3,
-              1884.21
+              6.98,
+              1864.21
             ],
             [
               4768.04,
-              8.3,
-              1884.71
-            ],
-            [
-              4767.54,
-              8.29,
-              1885.21
-            ],
-            [
-              4767.04,
-              8.29,
-              1885.71
+              6.86,
+              1862.21
             ],
             [
               4766.54,
-              8.22,
-              1885.71
+              6.8,
+              1860.71
             ],
             [
               4766.04,
-              8.13,
-              1885.71
+              6.8,
+              1860.21
             ],
             [
               4765.54,
-              8.06,
-              1885.71
+              6.79,
+              1859.71
             ],
             [
               4765.04,
-              8.0,
-              1885.71
+              6.77,
+              1859.21
             ],
             [
-              4764.54,
-              7.96,
-              1885.71
+              4764.04,
+              6.67,
+              1858.21
             ],
             [
               4763.54,
-              7.86,
-              1885.71
+              6.65,
+              1857.71
+            ],
+            [
+              4763.04,
+              6.61,
+              1857.21
+            ],
+            [
+              4762.54,
+              6.56,
+              1856.71
+            ],
+            [
+              4762.04,
+              6.53,
+              1856.71
             ],
             [
               4761.54,
-              7.62,
-              1885.71
+              6.47,
+              1856.21
             ],
             [
               4761.04,
-              7.55,
-              1885.71
+              6.39,
+              1855.71
             ],
             [
               4760.54,
-              7.47,
-              1885.71
+              6.3,
+              1855.21
+            ],
+            [
+              4759.54,
+              6.14,
+              1854.21
+            ],
+            [
+              4759.04,
+              6.04,
+              1853.71
             ],
             [
               4758.54,
-              7.19,
-              1885.71
+              5.96,
+              1853.21
             ],
             [
-              4758.04,
-              7.13,
-              1885.71
+              4757.54,
+              5.82,
+              1852.21
+            ],
+            [
+              4757.04,
+              5.77,
+              1851.71
             ],
             [
               4756.54,
-              6.98,
-              1885.71
+              5.71,
+              1851.21
+            ],
+            [
+              4756.04,
+              5.67,
+              1851.21
             ],
             [
               4755.54,
-              6.9,
-              1885.71
+              5.64,
+              1851.21
             ],
             [
               4755.04,
-              6.87,
-              1885.71
+              5.6,
+              1851.21
             ],
             [
-              4754.04,
-              6.79,
-              1885.71
+              4753.04,
+              5.48,
+              1851.21
             ],
             [
-              4751.54,
-              6.49,
-              1885.71
+              4752.54,
+              5.44,
+              1851.21
+            ],
+            [
+              4752.04,
+              5.41,
+              1851.21
             ],
             [
               4751.04,
-              6.45,
-              1886.21
+              5.33,
+              1851.21
             ],
             [
               4750.54,
-              6.39,
-              1886.21
+              5.28,
+              1851.21
             ],
             [
-              4748.54,
-              6.23,
-              1886.21
+              4750.04,
+              5.23,
+              1850.71
+            ],
+            [
+              4749.04,
+              5.11,
+              1849.71
             ],
             [
               4747.04,
-              6.17,
-              1886.21
+              4.91,
+              1849.71
             ],
             [
               4746.54,
-              6.12,
-              1886.21
+              4.88,
+              1849.71
+            ],
+            [
+              4746.04,
+              4.84,
+              1849.21
+            ],
+            [
+              4745.54,
+              4.81,
+              1849.21
+            ],
+            [
+              4745.04,
+              4.79,
+              1849.21
+            ],
+            [
+              4744.54,
+              4.75,
+              1848.71
+            ],
+            [
+              4744.04,
+              4.73,
+              1848.21
             ],
             [
               4743.54,
-              6.0,
-              1886.21
+              4.7,
+              1847.71
             ],
             [
               4743.04,
-              5.92,
-              1886.21
+              4.66,
+              1847.21
             ],
             [
               4742.54,
-              5.81,
-              1886.71
+              4.63,
+              1846.71
             ],
             [
               4742.04,
-              5.65,
-              1887.21
+              4.61,
+              1846.21
             ],
             [
               4741.54,
-              5.5,
-              1887.71
+              4.58,
+              1845.71
             ],
             [
               4741.04,
-              5.47,
-              1887.71
+              4.54,
+              1845.21
             ],
             [
               4740.54,
-              5.47,
-              1887.71
+              4.52,
+              1844.71
             ],
             [
               4740.04,
-              5.45,
-              1888.21
+              4.51,
+              1844.71
+            ],
+            [
+              4739.54,
+              4.44,
+              1844.21
             ],
             [
               4739.04,
-              5.43,
-              1888.21
+              4.18,
+              1843.71
+            ],
+            [
+              4738.54,
+              3.87,
+              1843.21
             ],
             [
               4738.04,
-              5.39,
-              1888.21
+              3.63,
+              1842.71
             ],
             [
               4737.54,
-              5.38,
-              1888.21
+              3.56,
+              1842.21
             ],
             [
-              4736.54,
-              5.32,
-              1888.21
-            ],
-            [
-              4736.04,
-              5.3,
-              1888.21
-            ],
-            [
-              4735.54,
-              5.26,
-              1888.21
-            ],
-            [
-              4735.04,
-              5.23,
-              1888.21
-            ],
-            [
-              4734.04,
-              5.15,
-              1888.21
-            ],
-            [
-              4733.54,
-              5.1,
-              1888.21
-            ],
-            [
-              4733.04,
-              5.06,
-              1888.21
-            ],
-            [
-              4732.54,
-              5.03,
-              1888.71
-            ],
-            [
-              4732.04,
-              4.98,
-              1889.21
-            ],
-            [
-              4731.54,
-              4.92,
-              1889.71
-            ],
-            [
-              4731.04,
-              4.9,
-              1890.21
-            ],
-            [
-              4730.54,
-              4.86,
-              1890.71
-            ],
-            [
-              4730.04,
-              4.8,
-              1891.21
-            ],
-            [
-              4729.54,
-              4.73,
-              1891.21
-            ],
-            [
-              4729.04,
-              4.64,
-              1891.21
-            ],
-            [
-              4728.54,
-              4.54,
-              1891.21
-            ],
-            [
-              4727.54,
-              4.36,
-              1891.21
-            ],
-            [
-              4727.04,
-              4.26,
-              1891.21
-            ],
-            [
-              4726.54,
-              4.18,
-              1891.21
-            ],
-            [
-              4726.04,
-              4.11,
-              1891.21
-            ],
-            [
-              4725.54,
-              4.05,
-              1891.21
-            ],
-            [
-              4725.04,
-              4.0,
-              1891.21
-            ],
-            [
-              4724.54,
-              3.96,
-              1891.21
-            ],
-            [
-              4723.54,
-              3.92,
-              1891.21
-            ],
-            [
-              4721.54,
-              3.92,
-              1891.21
+              4734.54,
+              3.56,
+              1839.21
             ]
           ],
-          "routeM": 85.27,
-          "steepestDeg": 12.2,
+          "routeM": 83.14,
+          "steepestDeg": 23.6,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -6891,12 +6925,17 @@
             ],
             [
               4742.54,
-              4.61,
+              4.63,
               1846.71
             ],
             [
+              4742.04,
+              4.61,
+              1846.21
+            ],
+            [
               4741.54,
-              4.57,
+              4.58,
               1845.71
             ],
             [
@@ -6910,43 +6949,43 @@
               1844.71
             ],
             [
+              4740.04,
+              4.51,
+              1844.71
+            ],
+            [
               4739.54,
-              4.5,
-              1843.71
+              4.44,
+              1844.21
             ],
             [
               4739.04,
-              4.4,
-              1843.21
+              4.18,
+              1843.71
             ],
             [
               4738.54,
-              4.18,
-              1842.71
+              3.87,
+              1843.21
             ],
             [
               4738.04,
-              3.9,
-              1842.21
+              3.63,
+              1842.71
             ],
             [
               4737.54,
-              3.71,
-              1841.71
+              3.56,
+              1842.21
             ],
             [
-              4737.04,
-              3.67,
-              1841.21
-            ],
-            [
-              4735.04,
-              3.67,
+              4734.54,
+              3.56,
               1839.21
             ]
           ],
-          "routeM": 82.61,
-          "steepestDeg": 21.0,
+          "routeM": 83.14,
+          "steepestDeg": 23.6,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0,
           "parcelId": "parcel.greenspring.family-hut",
@@ -6954,7 +6993,7 @@
             "door.hist-heartland.greenspring.5"
           ]
         },
-        "door:b-fam2.1": {
+        "door:b-fam2.2": {
           "points": [
             [
               4801.04,
@@ -7087,373 +7126,378 @@
               1869.71
             ],
             [
-              4783.04,
-              8.8,
+              4782.54,
+              8.76,
               1869.71
             ],
             [
-              4782.54,
-              8.69,
+              4782.04,
+              8.64,
               1869.21
             ],
             [
-              4782.04,
-              8.57,
-              1868.71
-            ],
-            [
               4781.54,
-              8.52,
-              1868.71
+              8.6,
+              1869.21
             ],
             [
               4781.04,
-              8.46,
-              1868.71
+              8.53,
+              1869.21
             ],
             [
               4780.54,
-              8.36,
-              1868.21
+              8.47,
+              1869.21
+            ],
+            [
+              4780.04,
+              8.37,
+              1868.71
             ],
             [
               4779.54,
-              8.14,
-              1867.21
+              8.3,
+              1868.71
             ],
             [
               4779.04,
-              8.08,
-              1867.21
+              8.2,
+              1868.21
             ],
             [
               4778.54,
-              8.0,
-              1866.71
+              8.15,
+              1868.21
             ],
             [
               4778.04,
-              7.91,
-              1866.21
-            ],
-            [
-              4777.54,
-              7.81,
-              1865.71
+              8.05,
+              1867.71
             ],
             [
               4777.04,
-              7.72,
-              1865.21
+              7.91,
+              1867.71
+            ],
+            [
+              4776.54,
+              7.85,
+              1867.71
+            ],
+            [
+              4775.54,
+              7.65,
+              1866.71
+            ],
+            [
+              4775.04,
+              7.56,
+              1866.21
             ],
             [
               4774.54,
-              7.32,
-              1862.71
+              7.48,
+              1865.71
             ],
             [
               4774.04,
-              7.25,
-              1862.21
+              7.42,
+              1865.71
             ],
             [
               4773.54,
-              7.19,
-              1861.71
+              7.33,
+              1865.21
             ],
             [
               4773.04,
-              7.12,
-              1861.21
+              7.25,
+              1864.71
             ],
             [
               4772.54,
-              7.06,
-              1860.71
+              7.18,
+              1864.21
+            ],
+            [
+              4772.04,
+              7.13,
+              1864.21
+            ],
+            [
+              4771.54,
+              7.07,
+              1864.21
             ],
             [
               4771.04,
-              7.0,
-              1859.21
+              7.03,
+              1864.21
             ],
             [
-              4769.04,
-              7.04,
-              1857.21
+              4770.54,
+              7.0,
+              1864.21
+            ],
+            [
+              4770.04,
+              6.98,
+              1864.21
             ],
             [
               4768.04,
-              7.04,
-              1856.21
-            ],
-            [
-              4767.54,
-              7.04,
-              1856.21
-            ],
-            [
-              4767.04,
-              7.04,
-              1855.71
+              6.86,
+              1862.21
             ],
             [
               4766.54,
-              7.04,
-              1855.71
+              6.8,
+              1860.71
             ],
             [
               4766.04,
-              7.03,
-              1855.71
+              6.8,
+              1860.21
             ],
             [
               4765.54,
-              7.04,
-              1855.21
+              6.79,
+              1859.71
+            ],
+            [
+              4765.04,
+              6.77,
+              1859.21
+            ],
+            [
+              4764.04,
+              6.67,
+              1858.21
             ],
             [
               4763.54,
-              7.04,
-              1853.21
+              6.65,
+              1857.71
             ],
             [
               4763.04,
-              6.99,
-              1852.71
+              6.61,
+              1857.21
             ],
             [
               4762.54,
-              6.8,
-              1852.21
+              6.56,
+              1856.71
+            ],
+            [
+              4762.04,
+              6.53,
+              1856.71
             ],
             [
               4761.54,
-              6.44,
-              1852.21
+              6.47,
+              1856.21
             ],
             [
               4761.04,
-              6.27,
-              1852.21
+              6.39,
+              1855.71
             ],
             [
               4760.54,
-              6.16,
-              1851.71
+              6.3,
+              1855.21
             ],
             [
               4759.54,
-              6.04,
-              1850.71
+              6.14,
+              1854.21
             ],
             [
               4759.04,
-              5.97,
-              1850.21
+              6.04,
+              1853.71
             ],
             [
-              4758.04,
-              5.85,
-              1849.21
+              4758.54,
+              5.96,
+              1853.21
             ],
             [
               4757.54,
-              5.8,
-              1848.71
+              5.82,
+              1852.21
             ],
             [
               4757.04,
-              5.76,
-              1848.21
+              5.77,
+              1851.71
             ],
             [
               4756.54,
-              5.73,
-              1847.71
+              5.71,
+              1851.21
             ],
             [
               4756.04,
-              5.71,
-              1847.21
+              5.67,
+              1851.21
+            ],
+            [
+              4755.54,
+              5.64,
+              1851.21
             ],
             [
               4755.04,
-              5.65,
-              1846.21
-            ],
-            [
-              4754.54,
-              5.63,
-              1845.71
-            ],
-            [
-              4754.04,
               5.6,
-              1845.21
+              1851.21
             ],
             [
-              4753.54,
-              5.56,
-              1844.71
+              4753.04,
+              5.48,
+              1851.21
+            ],
+            [
+              4752.54,
+              5.44,
+              1851.21
             ],
             [
               4752.04,
               5.41,
-              1843.21
-            ],
-            [
-              4751.54,
-              5.33,
-              1842.71
+              1851.21
             ],
             [
               4751.04,
-              5.26,
-              1842.21
+              5.33,
+              1851.21
+            ],
+            [
+              4750.54,
+              5.28,
+              1851.21
             ],
             [
               4750.04,
-              5.16,
-              1841.21
-            ],
-            [
-              4749.54,
-              5.09,
-              1840.71
+              5.23,
+              1850.71
             ],
             [
               4749.04,
-              5.04,
-              1840.21
-            ],
-            [
-              4748.54,
-              5.0,
-              1839.71
-            ],
-            [
-              4747.54,
-              4.96,
-              1838.71
+              5.11,
+              1849.71
             ],
             [
               4747.04,
-              4.96,
-              1838.21
+              4.91,
+              1849.71
             ],
             [
               4746.54,
-              5.0,
-              1837.71
+              4.88,
+              1849.71
             ],
             [
               4746.04,
-              5.03,
-              1837.21
+              4.84,
+              1849.21
+            ],
+            [
+              4745.54,
+              4.81,
+              1849.21
             ],
             [
               4745.04,
-              5.11,
-              1836.21
+              4.79,
+              1849.21
             ],
             [
               4744.54,
-              5.17,
-              1835.71
+              4.75,
+              1848.71
             ],
             [
               4744.04,
-              5.14,
-              1835.21
+              4.73,
+              1848.21
             ],
             [
               4743.54,
-              4.94,
-              1834.71
+              4.7,
+              1847.71
             ],
             [
               4743.04,
-              4.64,
-              1834.21
+              4.66,
+              1847.21
             ],
             [
               4742.54,
-              4.25,
-              1833.71
+              4.63,
+              1846.71
             ],
             [
               4742.04,
-              3.97,
-              1833.21
+              4.61,
+              1846.21
             ],
             [
               4741.54,
-              3.76,
-              1832.71
+              4.58,
+              1845.71
             ],
             [
               4741.04,
-              3.67,
-              1832.21
+              4.54,
+              1845.21
             ],
             [
-              4736.54,
-              3.67,
-              1827.71
+              4740.54,
+              4.52,
+              1844.71
             ],
             [
-              4734.04,
-              3.67,
-              1827.71
+              4740.04,
+              4.51,
+              1844.71
             ],
             [
-              4733.54,
-              3.67,
-              1827.21
+              4739.54,
+              4.44,
+              1844.21
             ],
             [
-              4733.04,
-              3.67,
-              1827.21
+              4739.04,
+              4.18,
+              1843.71
             ],
             [
-              4731.54,
-              3.67,
-              1825.71
+              4738.54,
+              3.87,
+              1843.21
             ],
             [
-              4730.54,
-              3.67,
-              1825.71
+              4738.04,
+              3.63,
+              1842.71
             ],
             [
-              4729.04,
-              3.67,
-              1827.21
+              4737.54,
+              3.56,
+              1842.21
             ],
             [
-              4729.04,
-              3.67,
-              1828.71
-            ],
-            [
-              4728.04,
-              3.67,
-              1829.71
-            ],
-            [
-              4728.04,
-              3.67,
-              1830.21
-            ],
-            [
-              4727.04,
-              3.67,
-              1831.21
+              4734.54,
+              3.56,
+              1839.21
             ]
           ],
-          "routeM": 99.88,
-          "steepestDeg": 28.7,
+          "routeM": 83.14,
+          "steepestDeg": 23.6,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -9033,162 +9077,97 @@
               1871.21
             ],
             [
-              4741.54,
+              4742.04,
               5.22,
               1871.21
             ],
             [
-              4741.04,
+              4741.54,
               5.2,
               1870.71
             ],
             [
-              4740.54,
-              5.11,
+              4741.04,
+              5.1,
               1870.21
             ],
             [
-              4740.04,
-              4.96,
+              4740.54,
+              4.95,
               1869.71
+            ],
+            [
+              4740.04,
+              4.77,
+              1869.21
             ],
             [
               4739.54,
-              4.94,
-              1869.71
+              4.76,
+              1869.21
             ],
             [
               4739.04,
-              4.89,
-              1869.71
+              4.72,
+              1869.21
             ],
             [
               4738.54,
-              4.81,
-              1869.71
-            ],
-            [
-              4738.04,
-              4.71,
-              1869.71
+              4.67,
+              1869.21
             ],
             [
               4737.54,
-              4.6,
-              1869.71
+              4.55,
+              1869.21
             ],
             [
               4737.04,
               4.5,
-              1869.71
-            ],
-            [
-              4736.54,
-              4.44,
-              1869.71
-            ],
-            [
-              4736.04,
-              4.41,
-              1869.71
-            ],
-            [
-              4735.54,
-              4.39,
-              1869.71
-            ],
-            [
-              4735.04,
-              4.35,
-              1869.71
-            ],
-            [
-              4734.04,
-              4.29,
-              1869.71
-            ],
-            [
-              4733.54,
-              4.27,
-              1869.71
-            ],
-            [
-              4733.04,
-              4.26,
-              1869.71
-            ],
-            [
-              4731.54,
-              4.2,
-              1869.71
-            ],
-            [
-              4731.04,
-              4.17,
-              1869.71
-            ],
-            [
-              4730.54,
-              4.15,
-              1869.71
-            ],
-            [
-              4730.04,
-              4.09,
-              1869.71
-            ],
-            [
-              4729.04,
-              3.99,
-              1869.71
-            ],
-            [
-              4728.54,
-              3.93,
-              1869.71
-            ],
-            [
-              4728.04,
-              3.84,
               1869.21
             ],
             [
-              4727.54,
-              3.69,
+              4735.54,
+              4.44,
+              1869.21
+            ],
+            [
+              4735.04,
+              4.41,
+              1869.21
+            ],
+            [
+              4734.54,
+              4.37,
+              1869.21
+            ],
+            [
+              4734.04,
+              4.3,
+              1869.21
+            ],
+            [
+              4733.54,
+              4.22,
+              1869.21
+            ],
+            [
+              4733.04,
+              4.13,
+              1869.21
+            ],
+            [
+              4732.54,
+              4.06,
               1868.71
             ],
             [
-              4727.04,
-              3.55,
-              1868.21
-            ],
-            [
-              4726.54,
-              3.39,
-              1867.71
-            ],
-            [
-              4726.04,
-              3.26,
-              1867.21
-            ],
-            [
-              4725.54,
-              3.15,
-              1867.21
-            ],
-            [
-              4725.04,
-              3.12,
-              1867.21
-            ],
-            [
-              4723.04,
-              3.12,
-              1867.21
+              4732.04,
+              4.0,
+              1868.71
             ]
           ],
-          "routeM": 84.84,
+          "routeM": 75.14,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -12681,162 +12660,97 @@
               1871.21
             ],
             [
-              4741.54,
+              4742.04,
               5.22,
               1871.21
             ],
             [
-              4741.04,
+              4741.54,
               5.2,
               1870.71
             ],
             [
-              4740.54,
-              5.11,
+              4741.04,
+              5.1,
               1870.21
             ],
             [
-              4740.04,
-              4.96,
+              4740.54,
+              4.95,
               1869.71
+            ],
+            [
+              4740.04,
+              4.77,
+              1869.21
             ],
             [
               4739.54,
-              4.94,
-              1869.71
+              4.76,
+              1869.21
             ],
             [
               4739.04,
-              4.89,
-              1869.71
+              4.72,
+              1869.21
             ],
             [
               4738.54,
-              4.81,
-              1869.71
-            ],
-            [
-              4738.04,
-              4.71,
-              1869.71
+              4.67,
+              1869.21
             ],
             [
               4737.54,
-              4.6,
-              1869.71
+              4.55,
+              1869.21
             ],
             [
               4737.04,
               4.5,
-              1869.71
-            ],
-            [
-              4736.54,
-              4.44,
-              1869.71
-            ],
-            [
-              4736.04,
-              4.41,
-              1869.71
-            ],
-            [
-              4735.54,
-              4.39,
-              1869.71
-            ],
-            [
-              4735.04,
-              4.35,
-              1869.71
-            ],
-            [
-              4734.04,
-              4.29,
-              1869.71
-            ],
-            [
-              4733.54,
-              4.27,
-              1869.71
-            ],
-            [
-              4733.04,
-              4.26,
-              1869.71
-            ],
-            [
-              4731.54,
-              4.2,
-              1869.71
-            ],
-            [
-              4731.04,
-              4.17,
-              1869.71
-            ],
-            [
-              4730.54,
-              4.15,
-              1869.71
-            ],
-            [
-              4730.04,
-              4.09,
-              1869.71
-            ],
-            [
-              4729.04,
-              3.99,
-              1869.71
-            ],
-            [
-              4728.54,
-              3.93,
-              1869.71
-            ],
-            [
-              4728.04,
-              3.84,
               1869.21
             ],
             [
-              4727.54,
-              3.69,
+              4735.54,
+              4.44,
+              1869.21
+            ],
+            [
+              4735.04,
+              4.41,
+              1869.21
+            ],
+            [
+              4734.54,
+              4.37,
+              1869.21
+            ],
+            [
+              4734.04,
+              4.3,
+              1869.21
+            ],
+            [
+              4733.54,
+              4.22,
+              1869.21
+            ],
+            [
+              4733.04,
+              4.13,
+              1869.21
+            ],
+            [
+              4732.54,
+              4.06,
               1868.71
             ],
             [
-              4727.04,
-              3.55,
-              1868.21
-            ],
-            [
-              4726.54,
-              3.39,
-              1867.71
-            ],
-            [
-              4726.04,
-              3.26,
-              1867.21
-            ],
-            [
-              4725.54,
-              3.15,
-              1867.21
-            ],
-            [
-              4725.04,
-              3.12,
-              1867.21
-            ],
-            [
-              4723.04,
-              3.12,
-              1867.21
+              4732.04,
+              4.0,
+              1868.71
             ]
           ],
-          "routeM": 84.84,
+          "routeM": 75.14,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -12909,418 +12823,413 @@
               1878.21
             ],
             [
-              4792.04,
-              10.59,
-              1878.21
-            ],
-            [
               4791.54,
-              10.51,
-              1878.21
+              10.54,
+              1879.21
             ],
             [
               4791.04,
-              10.45,
-              1878.71
+              10.47,
+              1879.71
+            ],
+            [
+              4790.04,
+              10.31,
+              1880.71
             ],
             [
               4789.54,
-              10.21,
-              1880.21
-            ],
-            [
-              4789.04,
-              10.12,
-              1880.71
-            ],
-            [
-              4788.54,
-              10.05,
-              1880.71
-            ],
-            [
-              4788.04,
-              9.99,
-              1880.71
-            ],
-            [
-              4787.54,
-              9.92,
-              1880.71
-            ],
-            [
-              4787.04,
-              9.86,
-              1880.71
-            ],
-            [
-              4785.54,
-              9.77,
-              1880.71
-            ],
-            [
-              4785.04,
-              9.73,
-              1880.71
-            ],
-            [
-              4784.54,
-              9.68,
-              1880.71
-            ],
-            [
-              4783.54,
-              9.6,
-              1880.71
-            ],
-            [
-              4783.04,
-              9.55,
-              1880.71
-            ],
-            [
-              4781.54,
-              9.37,
-              1880.71
-            ],
-            [
-              4780.04,
-              9.22,
-              1880.71
-            ],
-            [
-              4779.54,
-              9.18,
-              1880.71
-            ],
-            [
-              4778.54,
-              9.08,
-              1880.71
-            ],
-            [
-              4778.04,
-              9.04,
-              1880.71
-            ],
-            [
-              4777.54,
-              8.97,
-              1880.71
-            ],
-            [
-              4776.54,
-              8.85,
-              1880.71
-            ],
-            [
-              4772.54,
-              8.29,
-              1880.71
-            ],
-            [
-              4771.54,
-              8.17,
-              1880.71
-            ],
-            [
-              4771.04,
-              8.04,
-              1880.71
-            ],
-            [
-              4770.54,
-              7.86,
-              1880.71
-            ],
-            [
-              4770.04,
-              7.66,
-              1880.71
-            ],
-            [
-              4769.54,
-              7.45,
-              1880.71
-            ],
-            [
-              4769.04,
-              7.27,
-              1880.71
-            ],
-            [
-              4768.54,
-              7.12,
-              1880.71
-            ],
-            [
-              4768.04,
-              7.03,
-              1880.71
-            ],
-            [
-              4767.54,
-              7.01,
-              1880.71
-            ],
-            [
-              4763.04,
-              7.01,
-              1880.71
-            ],
-            [
-              4762.54,
-              7.03,
-              1880.71
-            ],
-            [
-              4761.04,
-              7.12,
-              1880.71
-            ],
-            [
-              4760.54,
-              7.14,
-              1880.71
-            ],
-            [
-              4760.04,
-              7.15,
-              1880.71
-            ],
-            [
-              4759.54,
-              7.15,
-              1880.71
-            ],
-            [
-              4759.04,
-              7.12,
-              1880.71
-            ],
-            [
-              4758.54,
-              7.08,
-              1880.71
-            ],
-            [
-              4758.04,
-              7.03,
-              1880.71
-            ],
-            [
-              4757.54,
-              7.0,
-              1880.71
-            ],
-            [
-              4756.54,
-              6.92,
-              1880.71
-            ],
-            [
-              4754.04,
-              6.67,
-              1880.71
-            ],
-            [
-              4753.54,
-              6.6,
-              1880.71
-            ],
-            [
-              4750.54,
-              6.24,
-              1880.71
-            ],
-            [
-              4750.04,
-              6.17,
-              1880.71
-            ],
-            [
-              4749.54,
-              6.02,
-              1880.71
-            ],
-            [
-              4749.04,
-              5.95,
+              10.25,
               1881.21
             ],
             [
-              4748.54,
-              5.83,
+              4789.04,
+              10.2,
               1881.71
             ],
             [
-              4748.04,
-              5.68,
+              4788.54,
+              10.14,
+              1881.71
+            ],
+            [
+              4788.04,
+              10.09,
+              1881.71
+            ],
+            [
+              4787.54,
+              10.02,
+              1881.71
+            ],
+            [
+              4787.04,
+              9.96,
+              1881.71
+            ],
+            [
+              4786.54,
+              9.93,
+              1881.71
+            ],
+            [
+              4786.04,
+              9.89,
+              1881.71
+            ],
+            [
+              4785.54,
+              9.86,
+              1881.71
+            ],
+            [
+              4785.04,
+              9.82,
+              1881.71
+            ],
+            [
+              4784.04,
+              9.72,
+              1881.71
+            ],
+            [
+              4783.54,
+              9.68,
+              1881.71
+            ],
+            [
+              4782.04,
+              9.5,
+              1881.71
+            ],
+            [
+              4781.54,
+              9.45,
+              1881.71
+            ],
+            [
+              4781.04,
+              9.41,
+              1881.71
+            ],
+            [
+              4779.04,
+              9.21,
+              1881.71
+            ],
+            [
+              4778.54,
+              9.17,
+              1881.71
+            ],
+            [
+              4778.04,
+              9.12,
+              1881.71
+            ],
+            [
+              4777.04,
+              8.98,
+              1881.71
+            ],
+            [
+              4776.04,
+              8.86,
+              1881.71
+            ],
+            [
+              4775.54,
+              8.79,
+              1881.71
+            ],
+            [
+              4775.04,
+              8.73,
+              1881.71
+            ],
+            [
+              4774.54,
+              8.7,
               1882.21
             ],
             [
+              4774.04,
+              8.64,
+              1882.21
+            ],
+            [
+              4773.54,
+              8.59,
+              1882.21
+            ],
+            [
+              4773.04,
+              8.53,
+              1882.21
+            ],
+            [
+              4772.54,
+              8.46,
+              1882.21
+            ],
+            [
+              4771.54,
+              8.36,
+              1882.21
+            ],
+            [
+              4770.54,
+              8.24,
+              1882.21
+            ],
+            [
+              4770.04,
+              8.17,
+              1882.21
+            ],
+            [
+              4769.54,
+              8.02,
+              1882.21
+            ],
+            [
+              4768.54,
+              8.0,
+              1883.21
+            ],
+            [
+              4768.04,
+              7.98,
+              1883.71
+            ],
+            [
+              4767.54,
+              7.95,
+              1884.21
+            ],
+            [
+              4767.04,
+              7.95,
+              1884.71
+            ],
+            [
+              4766.54,
+              7.78,
+              1884.71
+            ],
+            [
+              4766.04,
+              7.66,
+              1884.71
+            ],
+            [
+              4765.54,
+              7.61,
+              1884.71
+            ],
+            [
+              4765.04,
+              7.61,
+              1884.71
+            ],
+            [
+              4764.04,
+              7.71,
+              1884.71
+            ],
+            [
+              4763.54,
+              7.72,
+              1884.71
+            ],
+            [
+              4763.04,
+              7.68,
+              1884.71
+            ],
+            [
+              4761.04,
+              7.44,
+              1884.71
+            ],
+            [
+              4760.54,
+              7.37,
+              1884.71
+            ],
+            [
+              4760.04,
+              7.31,
+              1884.71
+            ],
+            [
+              4759.54,
+              7.24,
+              1884.71
+            ],
+            [
+              4757.04,
+              6.99,
+              1884.71
+            ],
+            [
+              4756.54,
+              6.95,
+              1884.71
+            ],
+            [
+              4756.04,
+              6.9,
+              1884.71
+            ],
+            [
+              4755.54,
+              6.87,
+              1884.71
+            ],
+            [
+              4754.04,
+              6.75,
+              1884.71
+            ],
+            [
+              4750.54,
+              6.33,
+              1884.71
+            ],
+            [
+              4750.04,
+              6.28,
+              1884.71
+            ],
+            [
+              4748.54,
+              6.16,
+              1884.71
+            ],
+            [
               4747.54,
-              5.54,
-              1882.71
+              5.84,
+              1884.71
             ],
             [
               4747.04,
-              5.37,
-              1882.71
+              5.64,
+              1884.71
             ],
             [
               4746.54,
-              5.29,
-              1882.71
+              5.55,
+              1884.71
             ],
             [
               4746.04,
-              5.25,
-              1882.71
+              5.48,
+              1884.71
             ],
             [
               4745.54,
-              5.22,
-              1882.71
+              5.44,
+              1884.71
+            ],
+            [
+              4745.04,
+              5.42,
+              1884.71
             ],
             [
               4744.54,
-              5.22,
-              1882.71
+              5.42,
+              1884.71
             ],
             [
               4743.54,
-              5.24,
-              1882.71
+              5.48,
+              1884.71
+            ],
+            [
+              4743.04,
+              5.45,
+              1884.71
             ],
             [
               4742.54,
-              5.28,
-              1882.71
+              5.47,
+              1884.71
             ],
             [
               4741.54,
-              5.34,
-              1882.71
-            ],
-            [
-              4741.04,
-              5.36,
-              1882.71
+              5.49,
+              1884.71
             ],
             [
               4740.04,
-              5.36,
-              1882.71
+              5.46,
+              1884.71
             ],
             [
               4739.54,
-              5.34,
-              1882.71
+              5.44,
+              1884.71
             ],
             [
-              4739.04,
-              5.29,
-              1882.71
-            ],
-            [
-              4737.54,
-              5.11,
-              1882.71
+              4738.04,
+              5.32,
+              1884.71
             ],
             [
               4736.54,
-              4.97,
-              1882.71
-            ],
-            [
-              4736.04,
-              4.91,
-              1882.71
+              5.17,
+              1884.71
             ],
             [
               4735.54,
-              4.83,
-              1882.71
-            ],
-            [
-              4735.04,
-              4.76,
-              1882.71
-            ],
-            [
-              4734.54,
-              4.68,
-              1882.71
+              5.05,
+              1884.71
             ],
             [
               4733.54,
-              4.54,
-              1882.71
+              4.77,
+              1884.71
             ],
             [
               4733.04,
-              4.48,
-              1882.71
+              4.69,
+              1884.71
             ],
             [
               4732.54,
-              4.41,
-              1882.71
-            ],
-            [
-              4732.04,
-              4.36,
-              1882.71
-            ],
-            [
-              4731.54,
-              4.32,
-              1882.71
+              4.6,
+              1884.71
             ],
             [
               4731.04,
-              4.27,
-              1882.71
+              4.18,
+              1884.71
             ],
             [
               4730.54,
-              4.23,
-              1882.71
+              4.07,
+              1884.71
             ],
             [
               4730.04,
-              4.2,
-              1882.71
+              4.0,
+              1884.71
             ],
             [
-              4728.54,
-              4.02,
-              1882.71
-            ],
-            [
-              4728.04,
-              3.97,
-              1882.71
-            ],
-            [
-              4727.54,
-              3.94,
-              1882.71
-            ],
-            [
-              4727.04,
-              3.92,
-              1882.71
+              4729.54,
+              3.96,
+              1884.71
             ],
             [
               4726.54,
-              3.92,
-              1882.71
+              3.96,
+              1884.71
             ]
           ],
-          "routeM": 76.96,
-          "steepestDeg": 22.5,
+          "routeM": 77.73,
+          "steepestDeg": 21.0,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -13698,191 +13607,191 @@
             ],
             [
               4739.54,
-              5.21,
-              1870.71
-            ],
-            [
-              4739.04,
-              5.2,
-              1870.71
-            ],
-            [
-              4738.54,
-              5.13,
-              1870.71
-            ],
-            [
-              4738.04,
-              5.01,
-              1870.71
-            ],
-            [
-              4737.54,
-              4.86,
-              1870.71
-            ],
-            [
-              4737.04,
-              4.69,
-              1870.71
-            ],
-            [
-              4736.54,
-              4.64,
-              1871.21
-            ],
-            [
-              4736.04,
-              4.49,
-              1871.21
-            ],
-            [
-              4735.54,
-              4.4,
-              1871.21
-            ],
-            [
-              4734.04,
-              4.34,
-              1871.21
-            ],
-            [
-              4733.54,
-              4.33,
-              1871.21
-            ],
-            [
-              4732.04,
-              4.27,
-              1871.21
-            ],
-            [
-              4731.04,
-              4.19,
-              1871.21
-            ],
-            [
-              4730.54,
-              4.17,
-              1871.21
-            ],
-            [
-              4730.04,
-              4.11,
-              1871.21
-            ],
-            [
-              4729.54,
-              4.04,
-              1871.21
-            ],
-            [
-              4729.04,
-              3.98,
-              1871.21
-            ],
-            [
-              4728.54,
-              3.93,
-              1871.21
-            ],
-            [
-              4728.04,
-              3.87,
-              1871.21
-            ],
-            [
-              4727.54,
-              3.79,
-              1871.21
-            ],
-            [
-              4727.04,
-              3.68,
-              1871.21
-            ],
-            [
-              4726.54,
-              3.58,
-              1871.21
-            ],
-            [
-              4726.04,
-              3.51,
-              1871.21
-            ],
-            [
-              4724.54,
-              3.33,
-              1871.21
-            ],
-            [
-              4724.04,
-              3.28,
-              1871.21
-            ],
-            [
-              4723.54,
-              3.24,
-              1871.21
-            ],
-            [
-              4722.54,
-              3.18,
-              1871.21
-            ],
-            [
-              4721.54,
-              3.14,
-              1871.21
-            ],
-            [
-              4721.04,
-              3.13,
-              1871.21
-            ],
-            [
-              4720.54,
-              3.13,
-              1871.21
-            ],
-            [
-              4720.04,
-              3.12,
-              1871.21
-            ],
-            [
-              4715.54,
-              3.12,
-              1871.21
-            ],
-            [
-              4715.04,
-              3.09,
-              1871.21
-            ],
-            [
-              4714.54,
-              3.04,
-              1871.21
-            ],
-            [
-              4714.04,
-              2.97,
-              1870.71
-            ],
-            [
-              4713.54,
-              2.91,
+              5.11,
               1870.21
             ],
             [
-              4713.04,
-              2.86,
+              4739.04,
+              5.08,
+              1870.21
+            ],
+            [
+              4738.54,
+              4.99,
+              1870.21
+            ],
+            [
+              4738.04,
+              4.86,
+              1870.21
+            ],
+            [
+              4737.54,
+              4.72,
+              1870.21
+            ],
+            [
+              4737.04,
+              4.57,
+              1870.21
+            ],
+            [
+              4736.54,
+              4.45,
+              1870.21
+            ],
+            [
+              4736.04,
+              4.38,
+              1870.21
+            ],
+            [
+              4735.54,
+              4.35,
+              1870.21
+            ],
+            [
+              4735.04,
+              4.33,
+              1870.21
+            ],
+            [
+              4734.04,
+              4.27,
+              1870.21
+            ],
+            [
+              4733.04,
+              4.13,
+              1870.21
+            ],
+            [
+              4732.54,
+              4.05,
+              1870.21
+            ],
+            [
+              4732.04,
+              4.0,
+              1870.21
+            ],
+            [
+              4731.54,
+              3.98,
+              1870.21
+            ],
+            [
+              4726.54,
+              3.98,
+              1870.21
+            ],
+            [
+              4726.04,
+              3.98,
+              1870.71
+            ],
+            [
+              4725.54,
+              3.98,
+              1870.71
+            ],
+            [
+              4725.04,
+              3.94,
+              1870.71
+            ],
+            [
+              4724.54,
+              3.84,
+              1870.71
+            ],
+            [
+              4724.04,
+              3.68,
+              1870.21
+            ],
+            [
+              4723.54,
+              3.5,
               1869.71
             ],
             [
-              4712.54,
+              4723.04,
+              3.36,
+              1869.71
+            ],
+            [
+              4722.54,
+              3.29,
+              1869.71
+            ],
+            [
+              4722.04,
+              3.25,
+              1869.71
+            ],
+            [
+              4721.54,
+              3.2,
+              1869.71
+            ],
+            [
+              4721.04,
+              3.17,
+              1869.71
+            ],
+            [
+              4719.04,
+              3.09,
+              1869.71
+            ],
+            [
+              4718.04,
+              3.07,
+              1869.71
+            ],
+            [
+              4717.54,
+              3.05,
+              1869.71
+            ],
+            [
+              4717.04,
+              3.02,
+              1869.71
+            ],
+            [
+              4716.54,
+              2.98,
+              1869.71
+            ],
+            [
+              4715.54,
+              2.92,
+              1869.71
+            ],
+            [
+              4715.04,
+              2.88,
+              1869.71
+            ],
+            [
+              4714.54,
+              2.85,
+              1869.71
+            ],
+            [
+              4714.04,
+              2.81,
+              1869.71
+            ],
+            [
+              4713.54,
+              2.8,
+              1869.71
+            ],
+            [
+              4713.04,
               2.8,
               1869.71
             ],
@@ -13902,7 +13811,7 @@
               1869.71
             ]
           ],
-          "routeM": 97.24,
+          "routeM": 97.26,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -14305,24 +14214,34 @@
               1843.71
             ],
             [
+              4748.54,
+              4.85,
+              1843.21
+            ],
+            [
               4748.04,
-              4.76,
+              4.77,
               1842.71
             ],
             [
               4747.54,
-              4.65,
+              4.71,
               1842.21
             ],
             [
               4747.04,
-              4.56,
+              4.63,
               1841.71
             ],
             [
               4746.54,
-              4.52,
+              4.58,
               1841.21
+            ],
+            [
+              4746.04,
+              4.54,
+              1840.71
             ],
             [
               4745.54,
@@ -14335,58 +14254,63 @@
               1839.71
             ],
             [
+              4744.54,
+              4.52,
+              1839.21
+            ],
+            [
+              4744.04,
+              4.52,
+              1838.71
+            ],
+            [
               4743.54,
               4.51,
               1838.21
             ],
             [
               4743.04,
-              4.5,
+              4.48,
               1837.71
             ],
             [
               4742.54,
-              4.47,
+              4.37,
               1837.21
             ],
             [
               4742.04,
-              4.43,
+              4.19,
               1837.21
             ],
             [
-              4741.54,
-              4.26,
-              1836.71
-            ],
-            [
               4741.04,
-              4.03,
-              1836.21
+              3.79,
+              1837.21
             ],
             [
               4740.54,
-              3.87,
-              1836.21
+              3.64,
+              1837.21
             ],
             [
               4740.04,
-              3.74,
-              1836.21
-            ],
-            [
-              4739.54,
-              3.68,
-              1836.21
+              3.56,
+              1836.71
             ],
             [
               4739.04,
-              3.67,
-              1836.21
+              3.56,
+              1836.71
+            ],
+            [
+              4738.04,
+              3.56,
+              1835.71
             ]
           ],
-          "routeM": 79.85,
-          "steepestDeg": 17.8,
+          "routeM": 81.09,
+          "steepestDeg": 22.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -14788,24 +14712,34 @@
               1843.71
             ],
             [
+              4748.54,
+              4.85,
+              1843.21
+            ],
+            [
               4748.04,
-              4.76,
+              4.77,
               1842.71
             ],
             [
               4747.54,
-              4.65,
+              4.71,
               1842.21
             ],
             [
               4747.04,
-              4.56,
+              4.63,
               1841.71
             ],
             [
               4746.54,
-              4.52,
+              4.58,
               1841.21
+            ],
+            [
+              4746.04,
+              4.54,
+              1840.71
             ],
             [
               4745.54,
@@ -14818,58 +14752,63 @@
               1839.71
             ],
             [
+              4744.54,
+              4.52,
+              1839.21
+            ],
+            [
+              4744.04,
+              4.52,
+              1838.71
+            ],
+            [
               4743.54,
               4.51,
               1838.21
             ],
             [
               4743.04,
-              4.5,
+              4.48,
               1837.71
             ],
             [
               4742.54,
-              4.47,
+              4.37,
               1837.21
             ],
             [
               4742.04,
-              4.43,
+              4.19,
               1837.21
             ],
             [
-              4741.54,
-              4.26,
-              1836.71
-            ],
-            [
               4741.04,
-              4.03,
-              1836.21
+              3.79,
+              1837.21
             ],
             [
               4740.54,
-              3.87,
-              1836.21
+              3.64,
+              1837.21
             ],
             [
               4740.04,
-              3.74,
-              1836.21
-            ],
-            [
-              4739.54,
-              3.68,
-              1836.21
+              3.56,
+              1836.71
             ],
             [
               4739.04,
-              3.67,
-              1836.21
+              3.56,
+              1836.71
+            ],
+            [
+              4738.04,
+              3.56,
+              1835.71
             ]
           ],
-          "routeM": 79.85,
-          "steepestDeg": 17.8,
+          "routeM": 81.09,
+          "steepestDeg": 22.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -15321,38 +15260,43 @@
               1848.21
             ],
             [
+              4739.04,
+              4.38,
+              1847.21
+            ],
+            [
+              4738.54,
+              4.29,
+              1846.71
+            ],
+            [
               4738.04,
-              4.26,
+              4.07,
               1846.21
             ],
             [
               4737.54,
-              4.11,
+              3.83,
               1845.71
             ],
             [
               4737.04,
-              3.91,
+              3.63,
               1845.21
             ],
             [
               4736.54,
-              3.74,
+              3.56,
               1844.71
             ],
             [
-              4736.04,
-              3.67,
-              1844.21
-            ],
-            [
               4734.54,
-              3.67,
+              3.56,
               1842.71
             ]
           ],
-          "routeM": 81.62,
-          "steepestDeg": 16.1,
+          "routeM": 81.65,
+          "steepestDeg": 19.0,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -16336,181 +16280,86 @@
             ],
             [
               4739.54,
-              5.21,
-              1870.71
+              5.11,
+              1870.21
             ],
             [
               4739.04,
-              5.2,
-              1870.71
+              5.08,
+              1870.21
             ],
             [
               4738.54,
-              5.13,
-              1870.71
+              4.99,
+              1870.21
             ],
             [
               4738.04,
-              5.01,
-              1870.71
+              4.86,
+              1870.21
             ],
             [
               4737.54,
-              4.86,
-              1870.71
+              4.72,
+              1870.21
             ],
             [
               4737.04,
-              4.69,
-              1870.71
+              4.57,
+              1870.21
             ],
             [
               4736.54,
-              4.64,
-              1871.21
+              4.45,
+              1870.21
             ],
             [
               4736.04,
-              4.49,
-              1871.21
+              4.38,
+              1870.21
             ],
             [
               4735.54,
-              4.4,
-              1871.21
+              4.35,
+              1870.21
+            ],
+            [
+              4735.04,
+              4.33,
+              1870.21
             ],
             [
               4734.04,
-              4.34,
-              1871.21
+              4.27,
+              1870.21
             ],
             [
-              4733.54,
-              4.33,
-              1871.21
+              4733.04,
+              4.13,
+              1870.21
+            ],
+            [
+              4732.54,
+              4.05,
+              1870.21
             ],
             [
               4732.04,
-              4.27,
-              1871.21
+              4.0,
+              1870.21
             ],
             [
-              4731.04,
-              4.19,
-              1871.21
-            ],
-            [
-              4730.54,
-              4.17,
-              1871.21
-            ],
-            [
-              4730.04,
-              4.11,
-              1871.21
-            ],
-            [
-              4729.54,
-              4.04,
-              1871.21
-            ],
-            [
-              4729.04,
+              4731.54,
               3.98,
-              1871.21
-            ],
-            [
-              4728.54,
-              3.93,
-              1871.21
-            ],
-            [
-              4728.04,
-              3.87,
-              1871.21
+              1870.21
             ],
             [
               4727.54,
-              3.79,
-              1871.21
-            ],
-            [
-              4727.04,
-              3.68,
-              1871.21
-            ],
-            [
-              4726.54,
-              3.58,
-              1871.21
-            ],
-            [
-              4726.04,
-              3.51,
-              1871.21
-            ],
-            [
-              4724.54,
-              3.33,
-              1871.21
-            ],
-            [
-              4724.04,
-              3.28,
-              1871.21
-            ],
-            [
-              4723.54,
-              3.24,
-              1871.21
-            ],
-            [
-              4722.54,
-              3.18,
-              1871.21
-            ],
-            [
-              4721.54,
-              3.14,
-              1871.21
-            ],
-            [
-              4721.04,
-              3.13,
-              1871.21
-            ],
-            [
-              4720.54,
-              3.13,
-              1871.21
-            ],
-            [
-              4720.04,
-              3.12,
-              1871.21
-            ],
-            [
-              4719.04,
-              3.12,
-              1871.21
-            ],
-            [
-              4718.54,
-              3.12,
-              1870.71
-            ],
-            [
-              4717.54,
-              3.12,
-              1870.71
-            ],
-            [
-              4716.04,
-              3.12,
-              1869.21
+              3.98,
+              1870.21
             ]
           ],
-          "routeM": 91.44,
+          "routeM": 79.05,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -18328,38 +18177,28 @@
               1879.21
             ],
             [
-              4729.54,
-              4.14,
-              1879.21
-            ],
-            [
-              4728.04,
+              4728.54,
               4.08,
               1879.21
             ],
             [
-              4727.54,
-              4.05,
+              4728.04,
+              4.04,
               1879.21
             ],
             [
-              4726.54,
-              3.97,
+              4727.04,
+              3.98,
               1879.21
             ],
             [
               4726.04,
-              3.94,
-              1879.21
-            ],
-            [
-              4725.04,
-              3.92,
+              3.96,
               1879.21
             ],
             [
               4724.04,
-              3.92,
+              3.96,
               1879.21
             ]
           ],
@@ -18426,498 +18265,428 @@
               1878.21
             ],
             [
-              4794.04,
-              10.74,
+              4793.04,
+              10.7,
               1878.21
             ],
             [
-              4793.04,
-              10.72,
-              1879.21
-            ],
-            [
               4792.54,
-              10.68,
-              1879.71
+              10.66,
+              1878.21
             ],
             [
               4792.04,
-              10.62,
-              1880.21
+              10.59,
+              1878.21
             ],
             [
               4791.54,
-              10.55,
-              1880.71
+              10.51,
+              1878.21
             ],
             [
-              4790.54,
-              10.43,
-              1881.71
+              4791.04,
+              10.45,
+              1878.71
             ],
             [
               4789.54,
-              10.33,
-              1882.71
+              10.21,
+              1880.21
             ],
             [
               4789.04,
-              10.3,
-              1883.21
+              10.12,
+              1880.71
             ],
             [
               4788.54,
-              10.26,
-              1883.21
+              10.05,
+              1880.71
+            ],
+            [
+              4788.04,
+              9.99,
+              1880.71
+            ],
+            [
+              4787.54,
+              9.92,
+              1880.71
             ],
             [
               4787.04,
-              10.11,
-              1883.21
-            ],
-            [
-              4786.04,
-              10.03,
-              1883.21
+              9.86,
+              1880.71
             ],
             [
               4785.54,
-              10.0,
-              1883.21
+              9.77,
+              1880.71
             ],
             [
               4785.04,
-              9.95,
-              1883.21
+              9.73,
+              1880.71
             ],
             [
               4784.54,
-              9.91,
-              1883.21
+              9.68,
+              1880.71
             ],
             [
               4783.54,
-              9.81,
-              1883.21
+              9.6,
+              1880.71
             ],
             [
               4783.04,
-              9.77,
-              1883.21
+              9.55,
+              1880.71
             ],
             [
               4781.54,
-              9.59,
-              1883.21
+              9.37,
+              1880.71
             ],
             [
               4780.04,
-              9.47,
-              1883.21
+              9.22,
+              1880.71
             ],
             [
               4779.54,
-              9.41,
-              1883.21
+              9.18,
+              1880.71
+            ],
+            [
+              4778.54,
+              9.08,
+              1880.71
             ],
             [
               4778.04,
-              9.26,
-              1883.21
+              9.04,
+              1880.71
             ],
             [
               4777.54,
-              9.25,
-              1883.71
+              8.97,
+              1880.71
             ],
             [
               4776.54,
-              9.21,
-              1884.71
-            ],
-            [
-              4776.04,
-              9.14,
-              1884.71
-            ],
-            [
-              4775.54,
-              9.09,
-              1884.71
-            ],
-            [
-              4775.04,
-              9.03,
-              1884.71
-            ],
-            [
-              4774.54,
-              8.98,
-              1884.71
+              8.85,
+              1880.71
             ],
             [
               4772.54,
-              8.82,
-              1884.71
-            ],
-            [
-              4772.04,
-              8.79,
-              1884.71
+              8.29,
+              1880.71
             ],
             [
               4771.54,
-              8.74,
-              1884.71
+              8.17,
+              1880.71
             ],
             [
               4771.04,
-              8.7,
-              1884.71
+              8.04,
+              1880.71
             ],
             [
               4770.54,
-              8.65,
-              1884.71
+              7.86,
+              1880.71
             ],
             [
               4770.04,
-              8.59,
-              1884.71
+              7.66,
+              1880.71
             ],
             [
               4769.54,
-              8.52,
-              1884.71
+              7.45,
+              1880.71
             ],
             [
               4769.04,
-              8.46,
-              1884.71
+              7.27,
+              1880.71
             ],
             [
               4768.54,
-              8.38,
-              1884.71
+              7.12,
+              1880.71
+            ],
+            [
+              4768.04,
+              7.03,
+              1880.71
             ],
             [
               4767.54,
-              8.38,
-              1885.71
+              7.01,
+              1880.71
             ],
             [
-              4767.04,
-              8.37,
-              1886.21
+              4763.04,
+              7.01,
+              1880.71
             ],
             [
-              4766.54,
-              8.3,
-              1886.21
-            ],
-            [
-              4765.54,
-              8.14,
-              1886.21
-            ],
-            [
-              4765.04,
-              8.08,
-              1886.21
-            ],
-            [
-              4764.54,
-              8.03,
-              1886.21
-            ],
-            [
-              4764.04,
-              7.97,
-              1886.21
-            ],
-            [
-              4763.54,
-              7.92,
-              1886.21
-            ],
-            [
-              4761.54,
-              7.68,
-              1886.21
+              4762.54,
+              7.03,
+              1880.71
             ],
             [
               4761.04,
-              7.64,
-              1886.71
+              7.12,
+              1880.71
             ],
             [
               4760.54,
-              7.59,
-              1887.21
+              7.14,
+              1880.71
             ],
             [
               4760.04,
-              7.53,
-              1887.71
+              7.15,
+              1880.71
+            ],
+            [
+              4759.54,
+              7.15,
+              1880.71
+            ],
+            [
+              4759.04,
+              7.12,
+              1880.71
+            ],
+            [
+              4758.54,
+              7.08,
+              1880.71
             ],
             [
               4758.04,
-              7.33,
-              1889.71
+              7.03,
+              1880.71
             ],
             [
               4757.54,
-              7.27,
-              1889.71
+              7.0,
+              1880.71
             ],
             [
               4756.54,
-              7.19,
-              1889.71
-            ],
-            [
-              4756.04,
-              7.14,
-              1889.71
+              6.92,
+              1880.71
             ],
             [
               4754.04,
-              6.98,
-              1889.71
+              6.67,
+              1880.71
             ],
             [
-              4753.04,
-              6.88,
-              1889.71
-            ],
-            [
-              4752.54,
-              6.82,
-              1889.71
-            ],
-            [
-              4752.04,
-              6.8,
-              1890.21
-            ],
-            [
-              4751.04,
-              6.74,
-              1891.21
+              4753.54,
+              6.6,
+              1880.71
             ],
             [
               4750.54,
-              6.68,
-              1891.21
+              6.24,
+              1880.71
             ],
             [
               4750.04,
-              6.65,
-              1891.21
+              6.17,
+              1880.71
+            ],
+            [
+              4749.54,
+              6.02,
+              1880.71
+            ],
+            [
+              4749.04,
+              5.82,
+              1880.71
             ],
             [
               4748.54,
-              6.53,
-              1891.21
+              5.72,
+              1881.21
             ],
             [
               4748.04,
-              6.5,
-              1891.21
+              5.58,
+              1881.71
             ],
             [
               4747.54,
-              6.46,
-              1891.21
+              5.39,
+              1881.71
             ],
             [
               4747.04,
-              6.43,
-              1891.21
+              5.28,
+              1881.71
+            ],
+            [
+              4746.54,
+              5.23,
+              1881.71
             ],
             [
               4746.04,
-              6.33,
-              1891.21
-            ],
-            [
-              4745.54,
-              6.29,
-              1891.21
+              5.22,
+              1881.71
             ],
             [
               4743.54,
-              6.09,
-              1891.21
+              5.22,
+              1881.71
             ],
             [
               4743.04,
-              6.0,
-              1891.71
+              5.22,
+              1881.21
             ],
             [
-              4741.54,
-              5.52,
-              1893.21
+              4742.04,
+              5.22,
+              1881.21
             ],
             [
               4741.04,
-              5.49,
-              1893.71
+              5.24,
+              1881.21
+            ],
+            [
+              4740.54,
+              5.24,
+              1881.21
             ],
             [
               4739.54,
-              5.4,
-              1893.71
+              5.22,
+              1881.21
             ],
             [
               4739.04,
-              5.39,
-              1893.71
+              5.18,
+              1881.21
             ],
             [
               4738.54,
-              5.37,
-              1893.71
-            ],
-            [
-              4738.04,
-              5.36,
-              1893.71
+              5.12,
+              1881.21
             ],
             [
               4737.54,
-              5.34,
-              1893.71
+              4.98,
+              1881.21
+            ],
+            [
+              4736.54,
+              4.82,
+              1881.21
             ],
             [
               4736.04,
-              5.31,
-              1893.71
+              4.75,
+              1881.21
+            ],
+            [
+              4735.54,
+              4.64,
+              1880.71
             ],
             [
               4735.04,
-              5.25,
-              1893.71
-            ],
-            [
-              4734.54,
-              5.23,
-              1893.71
+              4.54,
+              1880.21
             ],
             [
               4734.04,
-              5.2,
-              1893.71
-            ],
-            [
-              4733.54,
-              5.15,
-              1893.71
+              4.4,
+              1879.21
             ],
             [
               4733.04,
-              5.09,
-              1893.71
+              4.34,
+              1879.21
+            ],
+            [
+              4732.54,
+              4.3,
+              1879.21
             ],
             [
               4732.04,
-              4.99,
-              1893.71
+              4.27,
+              1879.21
             ],
             [
-              4731.04,
-              4.85,
-              1893.71
+              4731.54,
+              4.25,
+              1879.21
+            ],
+            [
+              4730.54,
+              4.19,
+              1879.21
             ],
             [
               4730.04,
-              4.73,
-              1893.71
-            ],
-            [
-              4729.54,
-              4.68,
-              1893.71
-            ],
-            [
-              4729.04,
-              4.62,
-              1893.71
+              4.17,
+              1879.21
             ],
             [
               4728.54,
-              4.57,
-              1893.71
+              4.08,
+              1879.21
+            ],
+            [
+              4728.04,
+              4.04,
+              1879.21
             ],
             [
               4727.04,
-              4.48,
-              1893.71
+              3.98,
+              1879.21
             ],
             [
               4726.04,
-              4.44,
-              1893.71
+              3.96,
+              1879.21
             ],
             [
-              4725.04,
-              4.42,
-              1893.71
-            ],
-            [
-              4724.04,
-              4.36,
-              1893.71
-            ],
-            [
-              4723.54,
-              4.32,
-              1893.71
-            ],
-            [
-              4722.54,
-              4.2,
-              1893.71
-            ],
-            [
-              4722.04,
-              4.13,
-              1893.71
-            ],
-            [
-              4720.54,
-              3.98,
-              1893.71
-            ],
-            [
-              4720.04,
-              3.95,
-              1893.71
-            ],
-            [
-              4719.54,
-              3.93,
-              1893.71
-            ],
-            [
-              4719.04,
-              3.92,
-              1893.71
+              4716.54,
+              3.96,
+              1879.21
             ],
             [
               4716.04,
-              3.92,
-              1893.71
+              3.96,
+              1879.71
             ],
             [
-              4714.04,
-              3.92,
-              1891.71
+              4716.04,
+              3.96,
+              1880.21
+            ],
+            [
+              4710.04,
+              3.96,
+              1886.21
             ]
           ],
-          "routeM": 94.61,
-          "steepestDeg": 12.8,
+          "routeM": 97.27,
+          "steepestDeg": 22.5,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -19316,126 +19085,116 @@
             [
               4749.54,
               5.17,
-              1851.21
+              1850.71
             ],
             [
               4749.04,
               5.11,
-              1850.71
-            ],
-            [
-              4748.04,
-              5.01,
-              1850.71
+              1850.21
             ],
             [
               4747.54,
-              4.97,
-              1850.71
+              4.96,
+              1850.21
             ],
             [
-              4747.04,
-              4.92,
-              1850.71
-            ],
-            [
-              4746.04,
-              4.86,
-              1850.71
+              4746.54,
+              4.88,
+              1850.21
             ],
             [
               4745.54,
               4.84,
-              1850.71
+              1850.21
             ],
             [
-              4744.04,
-              4.75,
-              1850.71
+              4744.54,
+              4.78,
+              1850.21
             ],
             [
               4743.54,
-              4.73,
-              1850.71
+              4.74,
+              1850.21
             ],
             [
-              4743.04,
-              4.7,
-              1850.71
-            ],
-            [
-              4742.54,
-              4.66,
-              1850.71
+              4741.04,
+              4.59,
+              1850.21
             ],
             [
               4740.54,
               4.54,
-              1850.71
+              1850.21
             ],
             [
               4740.04,
               4.5,
-              1850.21
+              1849.71
             ],
             [
               4739.54,
               4.45,
-              1849.71
+              1849.21
             ],
             [
               4739.04,
-              4.39,
-              1849.21
+              4.38,
+              1848.71
+            ],
+            [
+              4738.54,
+              4.32,
+              1848.21
             ],
             [
               4738.04,
               4.25,
-              1848.21
-            ],
-            [
-              4737.54,
-              4.19,
               1847.71
             ],
             [
+              4737.54,
+              4.09,
+              1847.21
+            ],
+            [
               4737.04,
-              4.14,
+              3.99,
               1847.21
             ],
             [
               4736.54,
-              4.05,
+              3.79,
               1846.71
             ],
             [
               4736.04,
-              3.91,
+              3.65,
               1846.21
             ],
             [
               4735.54,
-              3.81,
+              3.6,
               1845.71
             ],
             [
+              4735.04,
+              3.57,
+              1845.21
+            ],
+            [
               4734.54,
-              3.71,
+              3.56,
               1844.71
             ],
             [
-              4733.54,
-              3.67,
-              1843.71
-            ],
-            [
               4732.04,
-              3.67,
+              3.56,
               1842.21
             ]
           ],
-          "routeM": 84.29,
-          "steepestDeg": 10.8,
+          "routeM": 84.33,
+          "steepestDeg": 15.8,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -19848,87 +19607,92 @@
             ],
             [
               4746.04,
-              4.86,
-              1849.71
-            ],
-            [
-              4745.54,
-              4.83,
-              1849.71
-            ],
-            [
-              4744.04,
-              4.77,
-              1849.71
-            ],
-            [
-              4743.54,
-              4.73,
+              4.84,
               1849.21
             ],
             [
-              4743.04,
-              4.71,
+              4745.54,
+              4.81,
+              1849.21
+            ],
+            [
+              4745.04,
+              4.79,
+              1849.21
+            ],
+            [
+              4744.54,
+              4.75,
               1848.71
             ],
             [
-              4742.04,
-              4.65,
+              4744.04,
+              4.73,
+              1848.21
+            ],
+            [
+              4743.54,
+              4.7,
               1847.71
             ],
             [
-              4741.54,
-              4.63,
+              4743.04,
+              4.66,
               1847.21
             ],
             [
-              4740.04,
-              4.48,
+              4742.54,
+              4.63,
+              1846.71
+            ],
+            [
+              4742.04,
+              4.61,
+              1846.21
+            ],
+            [
+              4741.54,
+              4.58,
               1845.71
             ],
             [
               4739.54,
-              4.45,
+              4.46,
               1845.71
             ],
             [
               4739.04,
-              4.4,
+              4.34,
               1845.21
             ],
             [
               4738.54,
-              4.34,
+              4.1,
               1844.71
             ],
             [
               4738.04,
-              4.14,
+              3.82,
               1844.21
             ],
             [
               4737.54,
-              3.91,
+              3.61,
               1843.71
             ],
             [
               4737.04,
-              3.73,
+              3.56,
               1843.21
             ],
             [
-              4736.54,
-              3.67,
-              1842.71
-            ],
-            [
               4736.04,
-              3.67,
+              3.56,
               1842.21
             ]
           ],
-          "routeM": 80.34,
-          "steepestDeg": 18.1,
+          "routeM": 80.38,
+          "steepestDeg": 21.4,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -21837,38 +21601,28 @@
               1879.21
             ],
             [
-              4729.54,
-              4.14,
-              1879.21
-            ],
-            [
-              4728.04,
+              4728.54,
               4.08,
               1879.21
             ],
             [
-              4727.54,
-              4.05,
+              4728.04,
+              4.04,
               1879.21
             ],
             [
-              4726.54,
-              3.97,
+              4727.04,
+              3.98,
               1879.21
             ],
             [
               4726.04,
-              3.94,
-              1879.21
-            ],
-            [
-              4725.04,
-              3.92,
+              3.96,
               1879.21
             ],
             [
               4720.04,
-              3.92,
+              3.96,
               1879.21
             ]
           ],
@@ -22315,38 +22069,28 @@
               1879.21
             ],
             [
-              4729.54,
-              4.14,
-              1879.21
-            ],
-            [
-              4728.04,
+              4728.54,
               4.08,
               1879.21
             ],
             [
-              4727.54,
-              4.05,
+              4728.04,
+              4.04,
               1879.21
             ],
             [
-              4726.54,
-              3.97,
+              4727.04,
+              3.98,
               1879.21
             ],
             [
               4726.04,
-              3.94,
-              1879.21
-            ],
-            [
-              4725.04,
-              3.92,
+              3.96,
               1879.21
             ],
             [
               4719.04,
-              3.92,
+              3.96,
               1879.21
             ]
           ],
@@ -22763,47 +22507,47 @@
               1881.71
             ],
             [
-              4731.04,
-              4.23,
-              1881.71
-            ],
-            [
               4730.54,
-              4.2,
+              4.19,
               1881.71
             ],
             [
               4730.04,
-              4.18,
+              4.14,
               1881.71
             ],
             [
               4729.54,
-              4.15,
+              4.08,
+              1881.71
+            ],
+            [
+              4729.04,
+              4.03,
               1881.71
             ],
             [
               4728.54,
-              4.05,
+              3.99,
               1881.71
             ],
             [
-              4727.04,
-              3.93,
+              4728.04,
+              3.97,
               1881.71
             ],
             [
-              4726.54,
-              3.92,
+              4727.54,
+              3.96,
               1881.71
             ],
             [
               4725.54,
-              3.92,
+              3.96,
               1881.71
             ]
           ],
-          "routeM": 77.55,
+          "routeM": 77.56,
           "steepestDeg": 22.5,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -23166,153 +22910,148 @@
               1850.21
             ],
             [
-              4755.04,
-              5.62,
-              1850.21
-            ],
-            [
-              4754.54,
-              5.59,
-              1850.21
-            ],
-            [
-              4754.04,
-              5.57,
-              1849.71
-            ],
-            [
               4753.54,
               5.54,
-              1849.21
-            ],
-            [
-              4752.54,
-              5.46,
               1848.21
             ],
             [
-              4752.04,
-              5.41,
+              4753.04,
+              5.5,
               1847.71
             ],
             [
-              4751.04,
-              5.29,
+              4752.04,
+              5.4,
               1846.71
             ],
             [
-              4750.54,
-              5.22,
+              4751.54,
+              5.33,
               1846.21
             ],
             [
-              4750.04,
-              5.14,
+              4751.04,
+              5.27,
               1845.71
             ],
             [
-              4749.54,
-              5.05,
-              1845.21
-            ],
-            [
-              4749.04,
-              4.97,
+              4750.04,
+              5.11,
               1844.71
             ],
             [
-              4748.54,
-              4.88,
+              4749.54,
+              5.02,
               1844.21
             ],
             [
-              4748.04,
-              4.8,
+              4749.04,
+              4.94,
               1843.71
             ],
             [
-              4747.54,
-              4.7,
+              4748.54,
+              4.85,
               1843.21
             ],
             [
-              4747.04,
-              4.59,
+              4748.04,
+              4.77,
               1842.71
             ],
             [
-              4746.54,
-              4.54,
+              4747.54,
+              4.71,
               1842.21
             ],
             [
-              4746.04,
-              4.51,
+              4747.04,
+              4.63,
               1841.71
             ],
             [
-              4744.54,
-              4.51,
+              4746.54,
+              4.58,
+              1841.21
+            ],
+            [
+              4746.04,
+              4.54,
+              1840.71
+            ],
+            [
+              4745.54,
+              4.52,
               1840.21
+            ],
+            [
+              4745.04,
+              4.51,
+              1839.71
             ],
             [
               4744.04,
               4.51,
-              1840.21
+              1839.71
             ],
             [
-              4743.04,
+              4743.54,
               4.51,
               1839.21
             ],
             [
-              4742.54,
+              4743.04,
               4.5,
               1838.71
             ],
             [
-              4742.04,
+              4742.54,
               4.49,
               1838.71
             ],
             [
+              4742.04,
+              4.44,
+              1838.71
+            ],
+            [
               4741.54,
-              4.46,
+              4.3,
               1838.71
             ],
             [
               4741.04,
-              4.37,
+              4.1,
               1838.71
             ],
             [
               4740.54,
-              4.21,
+              3.88,
               1838.71
             ],
             [
               4740.04,
-              4.03,
+              3.69,
               1838.71
             ],
             [
               4739.54,
-              3.87,
+              3.58,
               1838.71
             ],
             [
               4739.04,
-              3.75,
+              3.56,
               1838.71
             ],
             [
               4738.54,
-              3.68,
+              3.56,
               1838.71
             ]
           ],
-          "routeM": 79.32,
-          "steepestDeg": 19.9,
+          "routeM": 79.36,
+          "steepestDeg": 23.8,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -23674,138 +23413,143 @@
               1850.21
             ],
             [
-              4755.04,
-              5.62,
-              1850.21
-            ],
-            [
-              4754.54,
-              5.59,
-              1850.21
-            ],
-            [
-              4754.04,
-              5.57,
-              1849.71
-            ],
-            [
               4753.54,
               5.54,
-              1849.21
-            ],
-            [
-              4752.54,
-              5.46,
               1848.21
             ],
             [
-              4752.04,
-              5.41,
+              4753.04,
+              5.5,
               1847.71
             ],
             [
-              4751.04,
-              5.29,
+              4752.04,
+              5.4,
               1846.71
             ],
             [
-              4750.54,
-              5.22,
+              4751.54,
+              5.33,
               1846.21
             ],
             [
-              4750.04,
-              5.14,
+              4751.04,
+              5.27,
               1845.71
             ],
             [
-              4749.54,
-              5.05,
-              1845.21
-            ],
-            [
-              4749.04,
-              4.97,
+              4750.04,
+              5.11,
               1844.71
             ],
             [
-              4748.54,
-              4.88,
+              4749.54,
+              5.02,
               1844.21
             ],
             [
-              4748.04,
-              4.8,
+              4749.04,
+              4.94,
               1843.71
             ],
             [
-              4747.54,
-              4.7,
+              4748.54,
+              4.85,
               1843.21
             ],
             [
-              4747.04,
-              4.59,
+              4748.04,
+              4.77,
               1842.71
             ],
             [
-              4746.54,
-              4.54,
+              4747.54,
+              4.71,
               1842.21
             ],
             [
-              4746.04,
-              4.51,
+              4747.04,
+              4.63,
               1841.71
             ],
             [
-              4743.04,
+              4746.54,
+              4.58,
+              1841.21
+            ],
+            [
+              4746.04,
+              4.54,
+              1840.71
+            ],
+            [
+              4745.54,
+              4.52,
+              1840.21
+            ],
+            [
+              4745.04,
               4.51,
+              1839.71
+            ],
+            [
+              4744.54,
+              4.52,
+              1839.21
+            ],
+            [
+              4744.04,
+              4.52,
               1838.71
             ],
             [
-              4742.54,
-              4.5,
+              4743.54,
+              4.51,
               1838.21
             ],
             [
-              4742.04,
-              4.45,
+              4743.04,
+              4.48,
               1837.71
             ],
             [
-              4741.54,
-              4.32,
+              4742.54,
+              4.37,
+              1837.21
+            ],
+            [
+              4742.04,
+              4.19,
               1837.21
             ],
             [
               4741.04,
-              4.16,
+              3.79,
               1837.21
             ],
             [
               4740.54,
-              3.99,
+              3.64,
               1837.21
             ],
             [
               4740.04,
-              3.84,
+              3.57,
               1837.21
             ],
             [
               4739.54,
-              3.73,
+              3.56,
               1837.21
             ],
             [
               4739.04,
-              3.67,
+              3.56,
               1837.21
             ]
           ],
-          "routeM": 79.44,
-          "steepestDeg": 18.8,
+          "routeM": 79.47,
+          "steepestDeg": 22.3,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
         },
@@ -24621,111 +24365,71 @@
             ],
             [
               4737.04,
-              4.51,
-              1868.71
-            ],
-            [
-              4736.54,
-              4.51,
-              1868.71
-            ],
-            [
-              4736.04,
               4.5,
-              1868.71
+              1869.21
+            ],
+            [
+              4735.54,
+              4.44,
+              1869.21
             ],
             [
               4735.04,
-              4.46,
-              1868.71
+              4.41,
+              1869.21
             ],
             [
               4734.54,
-              4.42,
-              1868.71
+              4.37,
+              1869.21
             ],
             [
               4734.04,
-              4.37,
-              1868.71
-            ],
-            [
-              4733.54,
               4.34,
               1868.71
             ],
             [
-              4732.04,
-              4.28,
-              1868.71
-            ],
-            [
-              4731.54,
-              4.25,
-              1868.71
-            ],
-            [
-              4731.04,
-              4.23,
-              1868.71
-            ],
-            [
-              4730.54,
-              4.2,
-              1868.71
-            ],
-            [
-              4730.04,
-              4.18,
+              4733.54,
+              4.26,
               1868.21
             ],
             [
-              4728.54,
-              4.0,
+              4733.04,
+              4.15,
+              1867.71
+            ],
+            [
+              4732.54,
+              4.05,
+              1867.21
+            ],
+            [
+              4732.04,
+              3.99,
               1866.71
             ],
             [
-              4727.54,
-              3.86,
-              1865.71
+              4731.54,
+              3.98,
+              1866.21
             ],
             [
-              4727.04,
-              3.75,
+              4730.54,
+              3.98,
               1865.21
             ],
             [
-              4726.04,
-              3.45,
-              1864.21
+              4730.04,
+              3.98,
+              1865.21
             ],
             [
-              4725.54,
-              3.32,
-              1863.71
-            ],
-            [
-              4725.04,
-              3.23,
-              1863.21
-            ],
-            [
-              4724.54,
-              3.17,
-              1862.71
-            ],
-            [
-              4724.04,
-              3.12,
-              1862.71
-            ],
-            [
-              4722.54,
-              3.12,
-              1862.71
+              4729.54,
+              3.98,
+              1864.71
             ]
           ],
-          "routeM": 87.18,
+          "routeM": 79.3,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -25159,86 +24863,36 @@
             ],
             [
               4734.54,
-              4.45,
-              1868.21
+              4.42,
+              1868.71
             ],
             [
-              4733.54,
+              4734.04,
               4.37,
               1868.21
             ],
             [
+              4732.54,
+              4.04,
+              1866.71
+            ],
+            [
               4732.04,
-              4.31,
-              1868.21
-            ],
-            [
-              4730.54,
-              4.22,
-              1868.21
-            ],
-            [
-              4730.04,
-              4.17,
-              1867.71
-            ],
-            [
-              4728.54,
               3.99,
               1866.21
             ],
             [
-              4728.04,
-              3.92,
+              4731.54,
+              3.98,
               1865.71
             ],
             [
-              4727.54,
-              3.86,
-              1865.21
-            ],
-            [
-              4727.04,
-              3.77,
+              4730.54,
+              3.98,
               1864.71
-            ],
-            [
-              4726.54,
-              3.63,
-              1864.21
-            ],
-            [
-              4726.04,
-              3.48,
-              1863.71
-            ],
-            [
-              4725.54,
-              3.36,
-              1863.21
-            ],
-            [
-              4725.04,
-              3.27,
-              1862.71
-            ],
-            [
-              4724.54,
-              3.19,
-              1862.21
-            ],
-            [
-              4724.04,
-              3.13,
-              1862.21
-            ],
-            [
-              4723.54,
-              3.12,
-              1862.21
             ]
           ],
-          "routeM": 86.39,
+          "routeM": 78.3,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0
@@ -25606,157 +25260,102 @@
               1871.21
             ],
             [
-              4740.54,
+              4742.04,
               5.22,
               1871.21
             ],
             [
-              4740.04,
-              5.21,
-              1870.71
-            ],
-            [
-              4739.54,
-              5.21,
-              1870.71
-            ],
-            [
-              4739.04,
+              4741.54,
               5.2,
               1870.71
             ],
             [
-              4738.54,
-              5.13,
-              1870.71
+              4741.04,
+              5.1,
+              1870.21
             ],
             [
-              4738.04,
-              5.01,
-              1870.71
+              4740.54,
+              4.95,
+              1869.71
+            ],
+            [
+              4740.04,
+              4.77,
+              1869.21
+            ],
+            [
+              4739.54,
+              4.76,
+              1869.21
+            ],
+            [
+              4739.04,
+              4.72,
+              1869.21
+            ],
+            [
+              4738.54,
+              4.67,
+              1869.21
             ],
             [
               4737.54,
-              4.86,
-              1870.71
+              4.55,
+              1869.21
             ],
             [
               4737.04,
-              4.69,
-              1870.71
+              4.51,
+              1868.71
             ],
             [
               4736.54,
-              4.53,
-              1870.71
+              4.52,
+              1868.21
             ],
             [
               4736.04,
-              4.41,
-              1870.71
+              4.51,
+              1868.21
             ],
             [
               4735.54,
-              4.37,
-              1870.71
+              4.51,
+              1867.71
+            ],
+            [
+              4735.04,
+              4.5,
+              1867.21
+            ],
+            [
+              4734.54,
+              4.48,
+              1866.71
             ],
             [
               4734.04,
-              4.31,
-              1870.71
-            ],
-            [
-              4733.54,
-              4.3,
-              1870.71
+              4.39,
+              1866.21
             ],
             [
               4733.04,
-              4.28,
-              1870.71
+              4.11,
+              1865.21
             ],
             [
               4732.54,
-              4.27,
-              1870.71
+              4.02,
+              1864.71
             ],
             [
               4732.04,
-              4.24,
-              1870.71
-            ],
-            [
-              4731.54,
-              4.2,
-              1870.71
-            ],
-            [
-              4731.04,
-              4.18,
-              1870.71
-            ],
-            [
-              4730.54,
-              4.15,
-              1870.71
-            ],
-            [
-              4729.54,
-              4.03,
-              1870.71
-            ],
-            [
-              4729.04,
               3.98,
-              1870.71
-            ],
-            [
-              4728.04,
-              3.86,
-              1870.71
-            ],
-            [
-              4727.54,
-              3.74,
-              1870.71
-            ],
-            [
-              4727.04,
-              3.59,
-              1870.71
-            ],
-            [
-              4726.54,
-              3.47,
-              1870.71
-            ],
-            [
-              4726.04,
-              3.38,
-              1870.71
-            ],
-            [
-              4725.04,
-              3.28,
-              1870.71
-            ],
-            [
-              4724.04,
-              3.2,
-              1870.71
-            ],
-            [
-              4723.54,
-              3.17,
-              1870.71
-            ],
-            [
-              4723.04,
-              3.15,
-              1870.71
+              1864.21
             ]
           ],
-          "routeM": 83.43,
+          "routeM": 77.01,
           "steepestDeg": 22.7,
           "largestStepM": 0.0,
           "deepestWadeM": 0.0

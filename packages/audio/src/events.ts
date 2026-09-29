@@ -61,7 +61,9 @@ export type SoundEvent =
   | ({ type: "movement.footstep"; footwear: Footwear; gait: Gait; surface: FootstepSurface } & Located)
   | ({ type: "movement.jump" | "movement.land"; footwear: Footwear; surface: FootstepSurface } & Located)
   | ({ type: "movement.swim"; stroke: "stroke" | "tread" } & Located)
-  | ({ type: "movement.splash" } & Located);
+  | ({ type: "movement.splash" } & Located)
+  /** A swing door starts to open or close (game-core interior/swingDoors.ts; 16k walk 4). */
+  | ({ type: "door.open" | "door.close" } & Located);
 
 export type SoundEventType = SoundEvent["type"];
 
@@ -138,6 +140,10 @@ export function candidateSets(e: SoundEvent): SoundSetId[] {
       return [`footstep.swim.${e.stroke}`];
     case "movement.splash":
       return ["footstep.water.splash"];
+    case "door.open":
+      return ["door.open"];
+    case "door.close":
+      return ["door.close", "door.open"];
   }
 }
 

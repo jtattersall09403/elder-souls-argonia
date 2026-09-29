@@ -351,12 +351,6 @@
      0.05
     ],
     "fixtureKind": "lantern",
-    "flameOffsetM": [
-     0.0037,
-     0.103,
-     -0.0015
-    ],
-    "flameEvidence": "Top of the candle submesh CandleLanternWithCandle:7 (texture candles01) in the settlement-imperial-v1 kit GLB, piece frame, glTF Y-up metres: y is the submesh's highest vertex (0.103), x and z the mean of its 5 unique vertices within 5 mm of that top. The flame seats there; offsetM is the placed LIGH record's point light only (walk 2 round 5, planner 2026-09-27).",
     "evidence": "Skyrim.esm: DefaultCandleLight01NSDesat is the nearest LIGH ref (< 200 units, same cell) to 246 of 1393 CandleLanternwithCandle01 (STAT 0002d847) refs (next: DefaultCandleLight01NS 172, BleakFallsCandleLight01NS 75, DefaultCandleLight01 64; none 392); offset is the per-axis median of those 246 in the piece's frame, glTF Y-up metres (horizontal median distance 0.61 m: vanilla places the light beside and just above the lantern, not in it). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
    }
   },

@@ -624,18 +624,18 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": null,
-   "frontFaceFraction": 0.435,
+   "frontFaceFraction": 0.431,
    "headroomM": 99.0,
-   "heightM": 4.04,
+   "heightM": 3.85,
    "interior": "none",
-   "medianWallM": 0.33,
+   "medianWallM": 0.24,
    "planAreaM2": 12.79,
    "planCentreM": [
     0.27,
     -0.07
    ],
    "provenance": [],
-   "ringFraction": 0.958,
+   "ringFraction": 0.903,
    "roofOverhead": false,
    "sizeClass": "small",
    "why": "category 'clutter' is never a building"
@@ -1507,17 +1507,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 72.8,
+    "deg": 347.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 73\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 347\u00b0 in the piece's own frame carries 1.83x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
-   "heightM": 2.16,
+   "heightM": 0.86,
    "interior": "none",
-   "planAreaM2": 6.48,
+   "planAreaM2": 5.63,
    "provenance": [],
    "sizeClass": "small",
-   "why": "too small to hold an interior (6.5 m\u00b2 plan, 2.2 m tall)"
+   "why": "too small to hold an interior (5.6 m\u00b2 plan, 0.9 m tall)"
   },
   "vanilla:clutter/woodfires/cookingstand01": {
    "category": "clutter",
@@ -1787,17 +1787,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 287.4,
+    "deg": 15.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 287\u00b0 in the piece's own frame carries 2.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 16\u00b0 in the piece's own frame carries 2.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
-   "heightM": 1.65,
+   "heightM": 0.94,
    "interior": "none",
-   "planAreaM2": 1.63,
+   "planAreaM2": 0.89,
    "provenance": [],
    "sizeClass": "small",
-   "why": "too small to hold an interior (1.6 m\u00b2 plan, 1.6 m tall)"
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.9 m tall)"
   }
  },
  "kit": "works-v1",

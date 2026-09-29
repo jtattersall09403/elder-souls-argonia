@@ -13,61 +13,69 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-28, slices 1c and 2 with the owner: Claywater walk 4 and Greenspring walk 2 in one packet; the closing agent of each slice replaces this section)
+## Starting state (2026-09-28 late, slices 1c and 2 with the owner: Claywater walk 5 and Greenspring walk 3 in one packet; the closing agent of each slice replaces this section)
 
-- **Both places pass every place gate** (`place_gates`, 23/23 each,
-  `tooling/.reports/16k/<place-id>/place-gates.json`; three breadth bars
-  still NOT_MEASURED, S28) and are published with `--places` and deployed.
-  - **Claywater Station** (type 1): walk-3 fix round (L7b, 105 min): the
-    Riften stable (`rtstables01`), exterior candle lanterns (no interior
-    sconces), four tier A rooms (Brina, Fisher, Crafter, SnailMinder), the
-    ferry prose rewritten to the water that exists (R5); no two-storey
-    house exists, the keeper lives in the station house (R27). Every
-    fixture within 200 m emits, cap 16 (0105 R3, `lighting.ts`).
-  - **Greenspring** (type 2): walk-1 fix round (L7b, L20, L22): the sick
-    Hist tree recoloured and sunk, every doored hut enterable from the
-    Argonian pool (38 -> 96 cells, R56-R57; doors 4-6 take
-    LilmothPlantationStorehouse and the Glassworks and Ironworks overseer
-    houses), `argoniantent02` an open shelter (R58), `gen_greenspring.py`
-    retired (R59).
-  - **The empty places** (walk 3: nothing built, a black box following the
-    player): the settlement loader now raises a readable error and a build
-    gate refuses the cause (`deliver-settlement-fatal.md`).
-- **Rulings:** one row each in `.claude/skills/place-build/references/rulings.md`
-  (R1-R62; 0105 holds R1-R8, 0106 the working method). Owner
-  2026-09-28: every building that looks enterable is enterable (R52, 0103
-  decision 1 corrected at source); every lane brief has a hard wall-clock
-  stop (R60); no agent walks or renders the studio (R61); elapsed time per
-  lane in every check-in (R62).
-- **Packet 4** (`tooling/.reports/16k/walk3/packet-4.md`, issue #1): two
-  questions, the dressing bar 20 per dwelling and the Argonian interior
-  variety.
-- **Ledger** (`build_ledger.py --report`, 2026-09-28): walk-3 fix rounds
-  were hand rows, far over target: Claywater `#walk-3` 105.3 min and
-  Greenspring `#walk-1` 64.3 min against 10; Greenspring `#1` 64.0 against
-  40. Stage events time every stage from the next run on.
-- **Open strands the planner owns:**
-  - Speed-up (first, before the next fix round): **S29 incremental
-    mining**, then **S30 the scoped placement gate**, then S19-S28.
-  - Adversarial review: method review r5 delivered
-    (`tooling/.reports/16k/walk3/method-review-r5.md`, follow-ups R31-R40);
-    r6 runs after the next walk's fix round.
-  - R53 (`mount --unmined` branch-hang) is a REQUEST row, not built.
-  - Recommendations not yet taken (`tooling/.reports/16k/walk3/deliver-L<n>.md`
-    § Recommendations): L9 4 (Riften farmhouse as the stablemaster house)
-    and 5 (warn when build code moves without a version bump); L10 1
-    (962 sink fallback rows are interior-only pieces: a floor-contact
-    sink from interior cells) and 3 (city worldspaces inherit the parent
-    LAND in `master_lands`); L13 4 (is a toll-tower a guard tower); L14
-    (14 meshes in no vault file, 22 texture-blocked pieces: sourcing log);
-    L15 2 (`displayName` source for the manifest) and 4 (route bundles
-    need a real extent before rollout). L12 1-2 are answered (R16-R17).
-  - The walk-2 residuals in `tooling/.reports/16k/walk3/owned-strands.md`
-    (rows 3-8, 16-28) stand unless this round closed them.
-- **Next:** "continue 16k slices 1c and 2 after owner walk", or, if the
-  owner accepts both places, "deliver 16k slice 3 by the contrast rule".
-  The planner owns the speed-up (S29 first) and the adversarial reviews
-  in that session too.
+- **Both places pass every place gate** (`place_gates` 23/23 each, with
+  the walk-4 rules added: burial, landing, hanging, sign, fixture seat,
+  archway, all on the scene AND the compiled record) and are published
+  with `--places` and deployed. Packet 5 is
+  `tooling/.reports/16k/walk4/packet-5.md` (issue #1).
+- **Walk-4 root causes, all fixed at source this round** (reports in
+  `tooling/.reports/16k/walk4/deliver-*.md`, orient reports beside them):
+  - *Fire:* the kit exporter dropped every NIF flame (particles and
+    AddOn nodes). `build_kit` now mines `flames[]`/`glows[]` per piece
+    (`nif_blocks.py`), publishes the flame atlases with the palette baked,
+    and `lighting.ts` draws flipbook sprites with flicker; glow discs are
+    sprites; additive cards draw unlit; every outdoor fixture emits one
+    warm orange (`FIXTURE_LIGHT_RGB`). Kit output format 3; all 26 kits
+    rebuilt (site 709 MB with parts, warn 750).
+  - *Interiors:* the grey screen was `scene.background` as a Color making
+    three clear the frame on every water pass (fixed in
+    `interiorEnvironment.ts` and, for the whole class, in
+    `WaterPipeline.tsx`); leaving a hut landed above Greenspring because
+    the return followed a shared cell claim (now: the door entered by,
+    `doorTransition.ts`); "Loading…" line during the fade; the navigation
+    toast is `?dev=1` only; cells load per-asset parts
+    (`kits/<kit>/parts/`, scoped to the 10 kits cells name; KeebaHouseFisher
+    108.9 MB → 6.9 MB, cell open 22.7 s → 3.4 s headless).
+  - *Swing doors* ship now (`swingDoors.ts`, exporter keeps DOOR refs with
+    no teleport; 7 in 3 of the 95 Argonian cells; none in the owner's 8).
+  - *Compile re-seat:* the compile re-derived heights (stable 3.48 m
+    under, deck 3.01 m over); it now takes the workbench seat (`yFinal`)
+    for every piece, mount and run (R69).
+  - *Workbench:* `wb.py bpy` (an agent's own script over the loaded
+    scene, 6.6 s Claywater), `mount --hang` (branch hang by ray, R53
+    built), the six check rules above, `pool` op; mounted children keep
+    their own scale (brazier flames); the interiors measurer keeps only
+    ray-confirmed doorways (mudhut01's true opening found; kotm door01
+    does not fit it, so its huts take the hut-with-entrance composite or
+    the Black Marsh hut).
+  - *Ground:* clearance cut per instance against pads, ways and floors
+    (Claywater 8,801 → 2,416 m²); paths painted by the `groundPaint`
+    overlay (13 and 16 entries); the Greenspring spring is a `pool`
+    (terrain cut + local water surface at load, `localSurfaces.ts`,
+    `PoolDiscs.ts`).
+  - *Sockets:* no socket visible or interactable without `?sockets=1`;
+    socket height from the walkable surface; the poler's work socket is
+    the raft's (R72).
+- **Rulings:** R63–R73 in `rulings.md`; the type-2 breadth bar is shells
+  ≥ 3, top share ≤ 0.50 (`breadth-bars.json`, owner question in the
+  packet); the collider ceiling is 500 for 5+ dwellings (0052 note).
+- **Ways of working (owner 2026-09-28):** CLAUDE.md "get it right first
+  time" rule; a batch is a fix round; one exhaustive review per batch
+  (findings under `tooling/.reports/review/`); a budget stop is
+  diagnosed, never a gap; 0106 decisions 11–16.
+- **Open, owned by the planner next session:** the owner's reply to
+  packet 5; the reader prompt asks for screen-left/right + camera bearing
+  on any direction claim (a reader misread the sign this round); collider
+  parts per convex piece (rec: one hull per piece); the claim table
+  rebuild (`batch_prepass --places …`, 7 min saved per chain run); the
+  door-link miner should divide offsets by shell scale; the 12 hlaalu and
+  imperial-keep leaf-entrance shells re-measured; `kit_parts --all`
+  after every cell publish; the `.claude/settings.json` duplicate Bash
+  hooks (owner pastes).
+- **Next:** "continue 16k slices 1c and 2 after owner walk" (walk 5 / walk 3),
+  or on acceptance "deliver 16k slice 3 by the contrast rule".
 
 ## Read (fresh agent: this is your whole map)
 
@@ -193,7 +201,7 @@ step 2 from the slice that first builds it.
 | Seated, joined (runs as one rigid chain) | 16h items 1–4, 7; 259b200a | yes |
 | Doors as transitions (reserved or claimed) | 0081; items 11, 18; 16i items 4–5 | yes |
 | Windows glowing at night | item 28 (done) | yes |
-| Paths and worn ground to every door | G1 ground paint; widths 97:341, :852; `pathReachRule` (0102) | yes |
+| Paths and worn ground to every door | G1 ground paint, painted by the `groundPaint` overlay (16k walk 4); widths 97:341, :852; `pathReachRule` (0102) | yes |
 | Ground-to-wall blend | item 25 | yes |
 | Pads, retaining walls, steps | items 12, 13; retaining walls R1 (0101); `floorEdgeRule` (0102) | yes |
 | Enclosure (fences, walls as a placed rule) | new rule R2 (97 Part F column) | yes |
@@ -415,6 +423,7 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     the TS/Python parity tests extend to the tiers.
 
     *Status 2026-09-26:* the clearance travels in the place's bundle as a runtime overlay (0102 decision 1); no chain stage runs for it.
+    *Status 2026-09-28 (walk 4):* by tier in the bundle (`vegetationClearance` schemaVersion 2: `hardClear`/`thinned` for trees and large plants, `groundClear` for ground cover; `packages/game-core/src/settlement/README.md`); the blueprint's hull `hardClear` is no longer carried. Claywater's ground-cover clearance fell from 8,801 to 2,416 m2, Greenspring's from 8,865 to 2,694 m2.
 
 15. **Additive dressing as a patch** (new; owner 2026-09-20). A second
     vegetation patch kind, `dressing-add`, that adds placed instances

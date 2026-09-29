@@ -856,6 +856,20 @@ def test_resident_collision_parts_counts_real_parts_not_placements(tmp_path):
         "place.test.big": 15}
 
 
+def test_a_piece_under_0_3_m_in_plan_and_height_carries_no_collider():
+    """GREENSPRING3 ruling 2 (planner 2026-09-28): under 0.3 m in both plan
+    axes AND in height at its placed scale, a piece exports collision none,
+    so it counts toward no ceiling; at or over the line in any one of the
+    three it keeps its manifest collider."""
+    candle = {"sizeM": [0.12, 0.12, 0.28], "collision": "convex"}
+    assert ex.is_small_piece(candle) and ex._collision_contract(candle)["kind"] == "none"
+    assert not ex.is_small_piece(candle, scale=1.1)          # 0.308 m tall
+    assert ex._collision_contract(candle, scale=1.1)["kind"] == "convex"
+    for size in ([0.3, 0.1, 0.1], [0.1, 0.35, 0.1], [0.1, 0.1, 1.2]):
+        assert ex._collision_contract({"sizeM": size, "collision": "convex"})["kind"] == "convex"
+    assert not ex.is_small_piece({"collision": "convex"})     # unmeasured: kept
+
+
 def test_collider_budget_gate_fails_below_the_requirement_and_passes_above(tmp_path):
     settlements, placements = _budget_fixture(tmp_path)
     errors = ex.collider_budget_errors(settlements, placements, 9, tmp_path)
@@ -870,6 +884,25 @@ def test_collider_budget_is_derived_and_the_ceiling_gate_fails_above_it(tmp_path
     assert budget == round(10 * ex.COLLIDER_PART_HEADROOM) == 16 and errors == []
     budget, errors = ex.collider_part_budget(settlements, placements, tmp_path, ceiling=15)
     assert len(errors) == 1 and "place.test.big" in errors[0] and "15" in errors[0]
+
+
+def test_a_place_of_five_dwellings_is_held_to_the_large_ceiling(tmp_path, monkeypatch):
+    """planner ruling 2026-09-28 (0052): 5 or more dwellings -> ceiling
+    COLLIDER_PART_CEILING_LARGE, named with its reason in the message; fewer
+    keep the base ceiling. Budget 16 against base ceilings of 15."""
+    settlements, placements = _budget_fixture(tmp_path)
+    monkeypatch.setattr(ex, "COLLIDER_PART_CEILING_LARGE", 16)
+    sid = "place.test.big"
+    _, errors = ex.collider_part_budget(settlements, placements, tmp_path, 15, {sid: 4})
+    assert len(errors) == 1 and "ceiling of 15" in errors[0]
+    _, errors = ex.collider_part_budget(settlements, placements, tmp_path, 15, {sid: 5})
+    assert errors == []
+    monkeypatch.setattr(ex, "COLLIDER_PART_CEILING_LARGE", 15.5)
+    _, errors = ex.collider_part_budget(settlements, placements, tmp_path, 15, {sid: 5})
+    assert len(errors) == 1 and "5 or more dwellings (5 here)" in errors[0]
+    assert ex.collider_ceiling(4) == ex.COLLIDER_PART_CEILING == 400
+    monkeypatch.undo()
+    assert ex.collider_ceiling(5) == ex.COLLIDER_PART_CEILING_LARGE == 500
 
 
 def test_collider_budget_warns_over_the_warning_line(tmp_path, capsys, monkeypatch):
@@ -897,7 +930,11 @@ def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
     # Decision 0052's rule, derived from THIS bundle: the budget is 1.55x the
     # worst resident case, so the biggest settlement can grow by half again.
     assert budget == round(max(totals.values()) * ex.COLLIDER_PART_HEADROOM)
-    assert budget <= ex.COLLIDER_PART_CEILING
+    # each place is held to its own ceiling (planner ruling 2026-09-28: 500
+    # for 5 or more dwellings), so the published budget is under the largest
+    dwellings = ex.dwelling_counts(sorted(totals))
+    for sid, parts in totals.items():
+        assert round(parts * ex.COLLIDER_PART_HEADROOM) <= ex.collider_ceiling(dwellings[sid]), sid
     over = {name: parts for name, parts in totals.items() if parts > budget}
     assert not over, f"published settlements exceed the collider budget: {over}"
 
@@ -1044,6 +1081,42 @@ def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
     assert ex.attach_ground_overlays(_padded_bundle(False), None, survey=_FlatSurvey()) == 0
 
 
+POOL_OP = {"op": "pool", "uid": "spring", "centreM": [11.0, 12.0], "radiusM": 3.0,
+           "depthM": 0.5, "rimM": 1.5, "why": "w", "sources": ["s"]}
+
+
+def test_a_layout_pool_op_travels_as_a_pool_overlay_and_a_pools_record(tmp_path):
+    """16k walk 4: the export reads the `pool` ops of the layout the blueprint
+    names, and `attach_ground_overlays` measures them on the frozen ground."""
+    import hashlib
+    lay = tmp_path / "t.layout.json"
+    lay.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.t", "window": {},
+                               "ops": [{"op": "note", "uid": "n", "text": "t"}, POOL_OP]}))
+    bp = {"id": "place.t", "authoredOn": {"layout": {
+        "path": str(lay), "sha256": hashlib.sha256(lay.read_bytes()).hexdigest()}}}
+    assert ex.layout_pool_ops(bp) == {"poolOps": [POOL_OP]}
+    assert ex.layout_pool_ops({"id": "place.t"}) == {}
+    bundle = _padded_bundle(True)
+    bundle["settlements"][0].update(ex.layout_pool_ops(bp))
+    assert ex.attach_ground_overlays(bundle, None, survey=_FlatSurvey()) == 2
+    site = bundle["settlements"][0]
+    assert "poolOps" not in site
+    pads = site["groundOverlays"]["pads"]
+    assert [p["kind"] for p in pads] == ["pool", "building"]     # runs and pools, then buildings
+    pool = pads[0]
+    assert pool["id"] == "pool.place.t.spring" and pool["hardM"] == 0.0 and pool["blendM"] == 1.5
+    assert len(pool["pieces"][0]["polygonM"]) == 24 and pool["pieces"][0]["datumM"] == 9.5
+    assert site["pools"] == [{"id": "pool.place.t.spring", "centreM": [11.0, 12.0], "radiusM": 3.0,
+                              "levelM": pytest.approx(9.92), "bedM": 9.5}]
+    lay.write_text(lay.read_text() + " ")               # changed since the blueprint's export
+    with pytest.raises(ValueError, match="re-apply the layout"):
+        ex.layout_pool_ops(bp)
+    bad = tmp_path / "bad.layout.json"
+    bad.write_text(json.dumps({"ops": [{**POOL_OP, "radiusM": 20}]}))
+    with pytest.raises(ValueError, match="radiusM must be 2..12"):
+        ex.layout_pool_ops({"id": "place.t", "authoredOn": {"layout": {"path": str(bad)}}})
+
+
 def test_a_declared_pad_with_no_overlay_refuses_the_export(monkeypatch):
     from . import pad_overlay
     monkeypatch.setattr(pad_overlay, "place_overlays", lambda *a, **k: [])
@@ -1055,12 +1128,12 @@ def test_the_bundle_schema_version_moved_with_the_mount_fields(tmp_path):
     """The layer refuses a bundle it does not understand by version, so the
     version must move when the placement shape does (16h item 6: anchorClass,
     parentPlacementId, mountOffsetM, waterLevelM, waterEntityId)."""
-    assert ex.SCHEMA_VERSION == 4                   # 4: yFinal (16k walk 2)
-    assert ex.READABLE_SCHEMA_VERSIONS == (3, 4)
+    assert ex.SCHEMA_VERSION == 5                   # 4: yFinal (16k walk 2); 5: pools (walk 4)
+    assert ex.READABLE_SCHEMA_VERSIONS == (3, 4, 5)
     _warned_settlement(tmp_path, conforms=True)
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, []))
-    assert bundle["schemaVersion"] == 4
+    assert bundle["schemaVersion"] == 5
 
 
 def test_the_shipped_build_refuses_a_fixture_record(tmp_path):
@@ -1386,7 +1459,7 @@ def test_a_y_final_row_passes_through_and_a_v3_base_is_upgraded(tmp_path, monkey
     doc["placements"][0]["yFinal"] = True
     _write(tmp_path / "sett/place.a.settlement.json", doc)
     merged = ex.merge_bundle(old, build(places=["place.a"]), {"place.a"})
-    assert merged["schemaVersion"] == 4
+    assert merged["schemaVersion"] == ex.SCHEMA_VERSION
     house = next(p for p in merged["placements"] if p["id"] == "place.a.parcel.a.building")
     assert house["yFinal"] is True and house["positionM"][1] == 4.321
     assert not any(p.get("yFinal") for p in merged["placements"] if p["sourceId"] == "place.b")
@@ -1532,10 +1605,11 @@ _PUBLIC = Path(__file__).resolve().parents[3] / "apps/world-studio/public/provin
 
 
 def test_the_clearance_covers_every_pad_and_every_footprint_buildings_grown_1_5_m_others_0_5_m():
-    """0102 round 2: a place's hard clearance is its compiled hardClear plus
-    the union of every pad polygon, every building footprint buffered 1.5 m
-    and every other placement footprint buffered 0.5 m, so no plant stands on
-    levelled ground or a floor the compile's box missed."""
+    """0102 round 2: a place's tree clearance is the union of every pad
+    polygon, every building footprint buffered 1.5 m and every other
+    placement footprint buffered 0.5 m, so no plant stands on levelled
+    ground or a floor the compile's box missed. The blueprint's authored
+    hull is not a tier (16k walk 4)."""
     from shapely.geometry import Point, Polygon
     site = {"id": "place.t", "vegetationClearance": {
         "schemaVersion": 1, "id": "patch.clearance.bundle.place.t",
@@ -1549,7 +1623,8 @@ def test_the_clearance_covers_every_pad_and_every_footprint_buildings_grown_1_5_
     ex.grow_clearance(site, rows)
     rings = [Polygon(r) for r in site["vegetationClearance"]["hardClear"]]
     covered = lambda x, z: any(r.buffer(1e-6).contains(Point(x, z)) for r in rings)  # noqa: E731
-    assert covered(5, 5) and covered(22, 2) and covered(24, 4)
+    assert not covered(5, 5)                                # the authored hull is gone
+    assert covered(22, 2) and covered(24, 4)
     assert covered(38.6, -1.4) and covered(45.4, 5.4)      # the footprint grown 1.5 m
     assert covered(60.5, 0.5) and covered(59.6, -0.4)       # a dressing piece grown 0.5 m
     assert not covered(37.0, 2) and not covered(59.0, 0.5)  # past each buffer
@@ -1628,6 +1703,86 @@ def test_the_published_ground_sidecar_is_the_bundle_s_ground_and_clears_the_fami
     assert not loose, f"family-hut pad vertices outside the hard clearance: {loose[:4]}"
 
 
+# --- 16k walk 4: clearance by tier and the painted ways -------------------------
+class _Survey:
+    """uv_to_m as the identity scaled to metres, for the paint tests."""
+    @staticmethod
+    def uv_to_m(u, v):
+        return (u * 1000.0, v * 1000.0)
+
+
+def _two_paths():
+    return [{"id": "route.t.b", "kind": "footpath", "widthM": 1.2, "via": [[0.0, 0.01], [0.03, 0.01]]},
+            {"id": "route.t.a", "kind": "road", "widthM": 4.3, "via": [[0.0, 0.0], [0.03, 0.0]]}]
+
+
+def test_a_layout_with_two_paths_yields_two_paint_entries_byte_identical_on_a_rerun():
+    one = ex.ground_paint("place.t", _two_paths(), _Survey())
+    two = ex.ground_paint("place.t", list(reversed(_two_paths())), _Survey())
+    assert [e["id"] for e in one["entries"]] == ["paint.route.t.a", "paint.route.t.b"]
+    assert [e["texture"] for e in one["entries"]] == ["bc_road", "dirt_path"]
+    assert json.dumps(one, sort_keys=True) == json.dumps(two, sort_keys=True)
+    with pytest.raises(ValueError, match="kind 'lane' has no ground paint"):
+        ex.ground_paint("place.t", [{**_two_paths()[0], "kind": "lane"}], _Survey())
+
+
+def test_ground_cover_survives_between_buildings_and_dies_on_ways_pads_and_floors():
+    """Ground cover dies only on hard surfaces (ways, pads, floors, their
+    0.25 m margin); trees go from footprints, ways and pads plus margins."""
+    from shapely.geometry import Point, Polygon
+    site = {"id": "place.t", "groundPaint": ex.ground_paint("place.t", _two_paths(), _Survey())}
+    rows = [{"id": "place.t.hut.building", "footprintM": [[0, 20], [6, 20], [6, 26], [0, 26]]}]
+    treatments = [{"id": "treatment.place.t.hut.building", "kind": "floor",
+                   "footprintM": rows[0]["footprintM"], "apronsM": [[3.0, 19.0, 1.0]]}]
+    ex.grow_clearance(site, rows, treatments)
+    c = site["vegetationClearance"]
+    assert c["schemaVersion"] == 2 and c["groundEdgeJitterM"] == 0.5
+
+    def inside(tier, x, z):
+        return any(Polygon(r).buffer(1e-6).contains(Point(x, z)) for r in c[tier])
+    assert inside("groundClear", 15, 0) and inside("groundClear", 15, 10)      # the two ways
+    assert inside("groundClear", 3, 23)                                        # the floor
+    assert not inside("groundClear", 15, 5) and not inside("groundClear", 20, 30)  # 3 m + from any
+    assert inside("hardClear", 3, 23) and inside("hardClear", -1.2, 23)       # footprint + 1.5 m
+    assert not inside("hardClear", 15, 5)
+    assert inside("thinned", 15, 5) and c["fringeFalloffM"] == 10.0
+
+
+def test_the_paint_dies_under_floors_but_reaches_the_door_apron():
+    from shapely.geometry import Point, Polygon
+    site = {"id": "place.t", "groundPaint": {"schemaVersion": 1, "entries": [{
+        "id": "paint.route.t.p", "routeId": "route.t.p", "kind": "footpath", "texture": "dirt_path",
+        "edgeM": 0.4, "polygonM": [[2.2, 10.0], [3.8, 10.0], [3.8, 24.0], [2.2, 24.0]]}]}}
+    treatments = [{"id": "treatment.place.t.hut.building", "kind": "floor",
+                   "footprintM": [[0, 20], [6, 20], [6, 26], [0, 26]], "apronsM": [[3.0, 20.0, 1.0]]}]
+    ex.clip_ground_paint(site, treatments)
+    [entry] = site["groundPaint"]["entries"]
+    poly = Polygon(entry["polygonM"])
+    assert poly.contains(Point(3.0, 15.0)) and poly.contains(Point(3.0, 20.3))   # to the threshold
+    assert not poly.contains(Point(3.0, 23.0))                                    # not on the floor
+
+
+def test_published_places_clear_ground_cover_only_on_their_ways_pads_and_floors():
+    """16k walk 4: the published tiers. Every painted way lies inside the
+    ground-cover clearance, the ground-cover clearance lies inside the tree
+    clearance, and it is far smaller than the old hull (Claywater 7,830 m2
+    hull; under 3,000 m2 now)."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    side = {s["id"]: s for s in json.loads(
+        (_PUBLIC / "settlements/ground-overlays.json").read_text())["settlements"]}
+    for pid in ("place.imperial-fringe.claywater-station", "place.hist-heartland.greenspring"):
+        c = side[pid]["vegetationClearance"]
+        assert c["schemaVersion"] == 2, pid
+        ground = unary_union([Polygon(r).buffer(0) for r in c["groundClear"]])
+        trees = unary_union([Polygon(r).buffer(0) for r in c["hardClear"]])
+        paint = json.loads((_PUBLIC / f"settlements/{pid}.json").read_text())["settlement"]["groundPaint"]
+        ways = unary_union([Polygon(e["polygonM"]) for e in paint["entries"]])
+        assert ways.difference(ground.buffer(1e-3)).area < 0.01, pid
+        assert ground.difference(trees.buffer(1e-3)).area < 0.5, pid
+        assert ground.area < 3000.0, (pid, ground.area)
+
+
 # --- 16k fix 2 r3 ruling 1: the warning ledger compares FLOOD warnings only
 def test_the_flood_ledger_ignores_a_non_flood_warning():
     front = "place.a: front — parcel x has a derived front ..."
@@ -1642,3 +1797,18 @@ def test_the_flood_ledger_still_fails_a_lost_flood_warning():
     assert "disagrees" in ex.flood_ledger_error(doc)
     legacy = {"id": "place.a", "warnings": ["w"], "floodBandReport": {"warningCount": 0}}
     assert "disagrees" in ex.flood_ledger_error(legacy)
+
+
+def test_a_final_run_is_seated_at_its_poses_not_its_highest_ground():
+    """16k walk 4: run_seats (the bundle's run pads) takes a yFinal run's
+    pivots as recorded; an unmeasured run keeps the rigid-chain datum."""
+    from . import settlement_run_pads as srp
+    foot = [[0.0, 0.0], [1.0, 0.0], [1.0, 1.0]]
+    rows = [{"id": f"r.piece.{i + 1}", "positionM": [0.0, y, 0.0], "yFinal": True,
+             "run": {"id": "r", "index": i, "riseM": y - 35.59}, "footprintM": foot,
+             "anchor": {"designedSinkM": {"p50": -0.35}}} for i, y in enumerate((35.59, 35.60))]
+    assert srp.run_seats(rows, lambda x, z: 38.0) == {"r.piece.1": 35.59, "r.piece.2": 35.60}
+    for r in rows:
+        r.pop("yFinal")
+    got = srp.run_seats(rows, lambda x, z: 38.0)
+    assert got["r.piece.1"] == pytest.approx(38.35)

@@ -2,11 +2,13 @@ import * as THREE from "three";
 import type { ArchitectureAsset } from "../settlement/kit";
 import { SETTLEMENT_COLLISION_FRAME, type SettlementSolid } from "../settlement/types";
 import { trimeshFromGeometry } from "../physics/floraSolids";
+import { buildSwingDoor, type SwingDoor } from "./swingDoors";
 import {
-  interiorBundleUrl, parseInteriorBundle,
+  interiorBundleUrl, isInteriorSwingDoor, parseInteriorBundle,
   type ColorRGB, type InteriorBundle, type InteriorKitRef, type InteriorLight, type InteriorPlacement,
   type InteriorSubstitution, type Vec3,
 } from "./bundle";
+import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
 
 /**
  * THE NUMBER THE OWNER TUNES IN THE STUDIO: a point light's intensity is
@@ -41,15 +43,15 @@ export function interiorLightIntensity(light: Pick<InteriorLight, "fade">): numb
 }
 
 /**
- * The injected hosts: how JSON arrives and how a published kit GLB becomes
- * its asset index. The studio passes the settlement layer's `KitCache`
- * (settlement/kitCache.ts) with its `createKitLoader(decoders).loadAsync`,
- * then `buildArchitectureKit`, so a kit already resident outside is not
- * loaded a second time.
+ * The injected hosts: how JSON arrives and how one published part GLB
+ * (`kits/<kit>/parts/<file>.glb`, kitParts.ts) becomes its asset index. The
+ * studio passes `createKitLoader(decoders).loadAsync` then
+ * `buildArchitectureKit`, through the scene's shared `KitCache`
+ * (settlement/kitCache.ts) keyed per part.
  */
 export interface InteriorLoaderHosts {
   fetchJson(url: string): Promise<unknown>;
-  loadKit(kit: InteriorKitRef, glbUrl: string): Promise<Map<string, ArchitectureAsset>>;
+  loadPart(kit: InteriorKitRef, assetId: string, glbUrl: string): Promise<Map<string, ArchitectureAsset>>;
 }
 
 /** An instantiated cell, in its own frame; the caller positions `group`. */
@@ -61,6 +63,18 @@ export interface LoadedInterior {
   fog: THREE.Fog;
   background: THREE.Color;
   counts: { placements: number; substitutions: number; meshes: number; lights: number; solids: number };
+  /** Seconds from the loader's request to the built cell (bundle, parts, instancing); null when built directly. */
+  loadS: number | null;
+  /** The cell's swing doors, drawn under `group` at rest; `SwingDoorController` turns them (16k walk 4). */
+  swingDoors: SwingDoor[];
+}
+
+/** The assets a cell's swing doors draw, as placements (so the loader fetches them). */
+export function swingDoorAssets(bundle: InteriorBundle): InteriorPlacement[] {
+  return bundle.doors.filter(isInteriorSwingDoor).map((d) => ({
+    id: d.id, assetId: d.assetId, kit: d.kit, positionM: d.positionM, rotationDeg: d.rotationDeg,
+    scale: d.scale, category: "door",
+  }));
 }
 
 /** A stand-in drawn as a placement of its stand-in asset, with the reference's transform. */
@@ -137,6 +151,13 @@ export function instantiateInterior(
       if (solid) solids.push(solid);
     }
   }
+  const swingDoors = bundle.doors.filter(isInteriorSwingDoor).map((d) => {
+    const asset = kits.get(d.kit)?.get(d.assetId);
+    if (!asset) throw new Error(`interior ${bundle.cellId}: swing door ${d.id} names ${d.kit}/${d.assetId}, not in the loaded kit`);
+    const door = buildSwingDoor(d.id, d, asset.levels[0] ?? []);
+    group.add(door.object);
+    return door;
+  });
   for (const light of bundle.lights) {
     const point = new THREE.PointLight(colorFromRGB(light.colorRGB), interiorLightIntensity(light),
       light.radiusM, interiorLightDecay(light));
@@ -160,7 +181,7 @@ export function instantiateInterior(
   }
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
-    bundle, group, solids, background,
+    bundle, group, solids, background, loadS: null, swingDoors,
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,
@@ -215,13 +236,18 @@ type Entry =
 
 /**
  * Fetches, validates and instantiates cells; one entry per cellId, kept for
- * the loader's life (a cell visited is re-entered instantly). Kits are
- * loaded once per kit id and shared by every cell that uses them. Owned by
- * whoever constructs it: no module state.
+ * the loader's life (a cell visited is re-entered instantly). A cell fetches
+ * only the assets it draws: each kit's parts index once, then one part GLB
+ * per (kit, assetId), all in parallel, each cached and shared by every cell
+ * that draws it (walk 4: KeebaHouseFisher drew 53 assets out of 7 whole kits,
+ * 108.9 MB). A drawn asset with no published part is a named error, which
+ * the door overlay shows as its red line. Owned by whoever constructs it: no
+ * module state.
  */
 export class InteriorLoader {
   private readonly entries = new Map<string, Entry>();
-  private readonly kits = new Map<string, Promise<Map<string, ArchitectureAsset>>>();
+  private readonly indexes = new Map<string, Promise<KitPartsIndex>>();
+  private readonly parts = new Map<string, Promise<ArchitectureAsset>>();
 
   constructor(private readonly baseUrl: string, private readonly hosts: InteriorLoaderHosts) {}
 
@@ -258,23 +284,52 @@ export class InteriorLoader {
   get cellIds(): string[] { return [...this.entries.keys()]; }
 
   private async load(cellId: string): Promise<LoadedInterior> {
+    const startedMs = performance.now();
     const url = interiorBundleUrl(this.baseUrl, cellId);
     const bundle = parseInteriorBundle(await this.hosts.fetchJson(url), url);
     if (bundle.cellId !== cellId) throw new Error(`interior bundle ${url} carries cellId ${bundle.cellId}`);
-    const used = new Set(drawnPlacements(bundle).map((p) => p.kit));
+    const wanted = new Map<string, InteriorPlacement>();
+    for (const p of [...drawnPlacements(bundle), ...swingDoorAssets(bundle)]) wanted.set(`${p.kit}|${p.assetId}`, p);
     const kits = new Map<string, Map<string, ArchitectureAsset>>();
-    await Promise.all([...used].map(async (id) => {
-      kits.set(id, await this.kit(bundle.kits[id]));
+    await Promise.all([...wanted.values()].map(async (p) => {
+      const asset = await this.part(cellId, bundle.kits[p.kit], p.assetId);
+      let kit = kits.get(p.kit);
+      if (!kit) { kit = new Map(); kits.set(p.kit, kit); }
+      kit.set(p.assetId, asset);
     }));
-    return instantiateInterior(bundle, kits);
+    const interior = instantiateInterior(bundle, kits);
+    interior.loadS = (performance.now() - startedMs) / 1000;
+    return interior;
   }
 
-  private kit(ref: InteriorKitRef): Promise<Map<string, ArchitectureAsset>> {
-    let promise = this.kits.get(ref.id);
+  private index(ref: InteriorKitRef): Promise<KitPartsIndex> {
+    let promise = this.indexes.get(ref.id);
     if (!promise) {
-      promise = this.hosts.loadKit(ref, `${this.baseUrl}${ref.glb}`);
-      promise.catch(() => this.kits.delete(ref.id));
-      this.kits.set(ref.id, promise);
+      const url = `${this.baseUrl}${kitPartsDir(ref)}index.json`;
+      promise = this.hosts.fetchJson(url).then((raw) => parseKitPartsIndex(raw, ref.id, url));
+      promise.catch(() => this.indexes.delete(ref.id));
+      this.indexes.set(ref.id, promise);
+    }
+    return promise;
+  }
+
+  private part(cellId: string, ref: InteriorKitRef, assetId: string): Promise<ArchitectureAsset> {
+    const key = `${ref.id}|${assetId}`;
+    let promise = this.parts.get(key);
+    if (!promise) {
+      promise = this.index(ref).then(async (index) => {
+        const row = index.assets[assetId];
+        if (!row) {
+          throw new Error(`interior ${cellId}: ${ref.id}/${assetId} has no published part `
+            + `(${kitPartsDir(ref)}index.json; run kit_parts.mjs --kit ${ref.id})`);
+        }
+        const glbUrl = `${this.baseUrl}${kitPartsDir(ref)}${row.file}`;
+        const asset = (await this.hosts.loadPart(ref, assetId, glbUrl)).get(assetId);
+        if (!asset) throw new Error(`interior ${cellId}: part ${glbUrl} does not hold ${assetId}`);
+        return asset;
+      });
+      promise.catch(() => this.parts.delete(key));
+      this.parts.set(key, promise);
     }
     return promise;
   }

@@ -49,7 +49,9 @@ def test_clean_compile_tags_only_its_warnings(compile_survey, shelf):  # noqa: F
 @requires_delivered("16h")
 def test_ground_gates_carry_their_ids(compile_survey, shelf):  # noqa: F811
     bp = _corrected(_blueprint())
-    bp["clearance"]["hardClear"] = []                         # clearance
+    door = bp["doors"][0]                                     # clearance: a kept tree in a doorway
+    bp["clearance"]["kept"] = [{"id": "kept.tree", "kind": "shade",
+                                "position": list(door["thresholdUV"])}]
     hut1, hut2 = bp["parcels"][0], bp["parcels"][1]           # spacing: one on the other
     hut2["centreUV"], hut2["footprint"] = list(hut1["centreUV"]), copy.deepcopy(hut1["footprint"])
     bp["approaches"][0]["firstSeen"] = "landmark.mire-landing.nothing"   # firstSeen

@@ -30,10 +30,10 @@ new row goes in its section's file.
 |---|---|---|
 | Record and grounding | [lessons/record-and-grounding.md](lessons/record-and-grounding.md) | L01, L02, L03, L04, L05, L06, L52, L73 |
 | Layout | [lessons/layout.md](lessons/layout.md) | L07, L08, L09, L10, L11, L12, L13, L14, L15, L16, L17, L18, L72 |
-| Buildings, doors and composites | [lessons/buildings-doors-and-composites.md](lessons/buildings-doors-and-composites.md) | L19, L20, L21, L22, L23, L24, L25, L26, L27, L50, L51 |
+| Buildings, doors and composites | [lessons/buildings-doors-and-composites.md](lessons/buildings-doors-and-composites.md) | L19, L20, L21, L22, L23, L24, L25, L26, L27, L50, L51, L78, L79 |
 | Runs and built ways | [lessons/runs-and-built-ways.md](lessons/runs-and-built-ways.md) | L28, L29, L30, L31, L32 |
 | Dressing, clearance and ground | [lessons/dressing-clearance-and-ground.md](lessons/dressing-clearance-and-ground.md) | L33, L34, L35, L47, L36, L75, L76 |
-| Build and publish | [lessons/build-and-publish.md](lessons/build-and-publish.md) | L37, L38, L39, L40, L41, L48, L49, L71, L74 |
+| Build and publish | [lessons/build-and-publish.md](lessons/build-and-publish.md) | L37, L38, L39, L40, L41, L48, L49, L71, L74, L77 |
 | Walk 2 (owner walk 2 2026-09-27) | [lessons/walk-2.md](lessons/walk-2.md) | L53, L54, L55, L56, L57, L58, L59, L60, L61, L62, L63, L64, L65, L66, L67, L68, L69, L70 |
 | Tooling gaps still open | [lessons/tooling-gaps-still-open.md](lessons/tooling-gaps-still-open.md) | L42, L43, L44 |
 | Walk findings that are not layout | [lessons/walk-findings-that-are-not-layout.md](lessons/walk-findings-that-are-not-layout.md) | L45, L46 |
@@ -45,6 +45,4 @@ new row goes in its section's file.
 | Type | Rows |
 |---|---|
 | 2 | L08, L17, L24, L33, L75, L76, L64 |
-| 3 | L31 |
 | 5 | L26 |
-| 7 | L31 |

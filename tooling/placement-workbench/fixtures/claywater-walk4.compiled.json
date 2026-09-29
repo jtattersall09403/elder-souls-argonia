@@ -1,0 +1,885 @@
+{
+"_": "Claywater's placements as `wb.py apply` compiled them from claywater-walk4.layout.json (2026-09-28 15:02, output/apply/...compiled): id and positionM only. The walk-4 burial and landing rules are shown failing on these pivots (the stable 2.57 m under, the landing 3.01 m over the workbench seat).",
+"placements": [
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.building",
+"positionM": [
+339.0,
+33.8988,
+2968.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-basket",
+"positionM": [
+326.586,
+35.8907,
+2966.849
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-candle",
+"positionM": [
+328.0,
+35.9198,
+2966.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-chair",
+"positionM": [
+330.475,
+35.891,
+2963.949
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-pot",
+"positionM": [
+326.656,
+35.9903,
+2965.929
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-sack",
+"positionM": [
+325.172,
+36.0266,
+2966.849
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-table",
+"positionM": [
+329.414,
+36.3863,
+2962.889
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-urn",
+"positionM": [
+325.808,
+35.8923,
+2966.071
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-lamp",
+"positionM": [
+336.6,
+35.9198,
+2975.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-pot",
+"positionM": [
+334.6,
+35.9903,
+2958.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.f2",
+"positionM": [
+336.0,
+35.8879,
+2958.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.ferry-raft.building",
+"positionM": [
+348.3,
+35.24,
+3007.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.landing-stage.piece.1",
+"positionM": [
+336.76,
+38.602,
+3001.89
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.landing-stage.piece.2",
+"positionM": [
+343.228,
+38.602,
+3005.233
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.building",
+"positionM": [
+314.0,
+33.3078,
+3000.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-basket",
+"positionM": [
+313.6,
+35.2997,
+2990.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-candle",
+"positionM": [
+312.0,
+35.3288,
+2990.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-chair",
+"positionM": [
+308.8,
+35.3,
+2990.2
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-oven",
+"positionM": [
+310.5,
+35.2969,
+2989.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-pot",
+"positionM": [
+312.9,
+35.3993,
+2991.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-sack",
+"positionM": [
+314.6,
+35.4356,
+2991.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-table",
+"positionM": [
+308.8,
+35.7953,
+2991.7
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-urn",
+"positionM": [
+313.6,
+35.3013,
+2992.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-basket1",
+"positionM": [
+326.57,
+34.9392,
+2998.693
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-basket2",
+"positionM": [
+327.542,
+34.8834,
+2999.437
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-candle1",
+"positionM": [
+329.5,
+35.2677,
+3016.75
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-candle2",
+"positionM": [
+319.5,
+35.26,
+3010.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-net",
+"positionM": [
+328.346,
+34.9204,
+3000.369
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-oar",
+"positionM": [
+323.921,
+35.3055,
+3002.566
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-rack1",
+"positionM": [
+327.0,
+34.7384,
+3002.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.b4-lamp",
+"positionM": [
+311.5,
+35.3288,
+3007.3
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hc-bucket",
+"positionM": [
+305.5,
+35.3,
+3000.8
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hc-pot",
+"positionM": [
+305.6,
+35.3993,
+2999.1
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hc-potloose",
+"positionM": [
+304.7,
+35.3993,
+2999.1
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hc-wood",
+"positionM": [
+305.0,
+35.264,
+3000.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hv-basket1",
+"positionM": [
+321.8,
+35.5625,
+3000.2
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hv-basket2",
+"positionM": [
+321.6,
+35.3137,
+3000.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hv-closed",
+"positionM": [
+320.3,
+35.3,
+3000.3
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hv-small",
+"positionM": [
+320.8,
+35.2997,
+3000.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.c4-hv-store",
+"positionM": [
+321.0,
+35.7953,
+3000.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.canoe",
+"positionM": [
+331.0,
+35.2656,
+3006.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.cleat1",
+"positionM": [
+332.6,
+35.6518,
+3003.4
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.cleat2",
+"positionM": [
+333.6,
+35.3674,
+3004.3
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.plank",
+"positionM": [
+330.5,
+35.1802,
+3019.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.1",
+"positionM": [
+321.63,
+39.166,
+3080.36
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.2",
+"positionM": [
+323.548,
+39.187,
+3077.29
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.3",
+"positionM": [
+325.472,
+39.187,
+3074.212
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.4",
+"positionM": [
+327.39,
+39.187,
+3071.142
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.1",
+"positionM": [
+302.01,
+39.69,
+3069.96
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.2",
+"positionM": [
+305.08,
+39.71,
+3071.878
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.3",
+"positionM": [
+308.158,
+39.71,
+3073.802
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.4",
+"positionM": [
+311.237,
+39.71,
+3075.726
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.5",
+"positionM": [
+314.315,
+39.71,
+3077.649
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.6",
+"positionM": [
+317.385,
+39.71,
+3079.567
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.1",
+"positionM": [
+305.74,
+38.927,
+3056.66
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.2",
+"positionM": [
+303.822,
+38.948,
+3059.73
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.3",
+"positionM": [
+301.898,
+38.948,
+3062.808
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.4",
+"positionM": [
+299.98,
+38.948,
+3065.878
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.building",
+"positionM": [
+334.6,
+34.831,
+3087.6
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.b2-barrel",
+"positionM": [
+326.6,
+37.4,
+3084.8
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.b2-post",
+"positionM": [
+326.4,
+39.2498,
+3085.6
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.sty-hay",
+"positionM": [
+328.7,
+37.4,
+3089.9
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.sty-trough",
+"positionM": [
+331.2,
+37.3903,
+3091.3
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.sty-wood",
+"positionM": [
+341.0,
+36.5857,
+3084.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable.assembly.b2-lamp",
+"positionM": [
+326.947,
+40.559,
+3086.547
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.1",
+"positionM": [
+334.35,
+38.75,
+3077.41
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.2",
+"positionM": [
+331.28,
+38.771,
+3079.328
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.3",
+"positionM": [
+328.202,
+38.771,
+3081.252
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.4",
+"positionM": [
+325.132,
+38.771,
+3083.17
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.1",
+"positionM": [
+334.63,
+38.698,
+3098.31
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.2",
+"positionM": [
+337.7,
+38.719,
+3096.392
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.3",
+"positionM": [
+340.778,
+38.719,
+3094.468
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.4",
+"positionM": [
+343.848,
+38.719,
+3092.55
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.1",
+"positionM": [
+323.8,
+40.305,
+3087.63
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.2",
+"positionM": [
+325.718,
+40.326,
+3090.7
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.3",
+"positionM": [
+327.642,
+40.326,
+3093.778
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.4",
+"positionM": [
+329.56,
+40.326,
+3096.848
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.building",
+"positionM": [
+314.0,
+37.4979,
+3068.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-barrel",
+"positionM": [
+319.8,
+37.45,
+3065.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-bench",
+"positionM": [
+312.5,
+37.4447,
+3061.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-bucket",
+"positionM": [
+317.2,
+37.45,
+3063.4
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-post",
+"positionM": [
+320.4,
+39.2998,
+3065.6
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-sack",
+"positionM": [
+315.85,
+37.5856,
+3062.65
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-wood",
+"positionM": [
+309.0,
+37.3869,
+3063.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.c1-isp-basket",
+"positionM": [
+311.52,
+37.45,
+3073.678
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.c1-isp-bucket",
+"positionM": [
+310.11,
+37.45,
+3072.915
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.c1-isp-sack",
+"positionM": [
+311.0,
+37.5856,
+3073.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-lamp",
+"positionM": [
+319.493,
+40.609,
+3064.989
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.building",
+"positionM": [
+329.0,
+33.3078,
+2982.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-basket",
+"positionM": [
+336.2,
+35.3354,
+2985.6
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-lamp",
+"positionM": [
+336.3,
+35.3288,
+2984.4
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-urn",
+"positionM": [
+335.0,
+35.3013,
+2986.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.building",
+"positionM": [
+328.0,
+34.2389,
+3047.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-barrel1",
+"positionM": [
+313.5,
+37.2203,
+3054.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-barrel2",
+"positionM": [
+310.8,
+37.4455,
+3058.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-bench",
+"positionM": [
+321.5,
+37.4447,
+3065.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-bucket",
+"positionM": [
+311.9,
+37.221,
+3053.6
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-cart",
+"positionM": [
+323.5,
+37.7807,
+3066.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-crate",
+"positionM": [
+317.0,
+37.7506,
+3062.5
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-fire",
+"positionM": [
+309.0,
+37.4073,
+3058.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-lamp",
+"positionM": [
+311.0,
+37.2278,
+3052.8
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-trough",
+"positionM": [
+327.5,
+34.0832,
+3044.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.p1",
+"positionM": [
+320.5,
+35.0161,
+3049.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.p1-board",
+"positionM": [
+320.5,
+37.187,
+3049.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.p1-board2",
+"positionM": [
+320.5,
+37.181,
+3049.0
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.1",
+"positionM": [
+317.47,
+38.422,
+3060.72
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.2",
+"positionM": [
+314.4,
+38.443,
+3058.802
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.3",
+"positionM": [
+311.322,
+38.443,
+3056.878
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.4",
+"positionM": [
+308.252,
+38.443,
+3054.96
+]
+},
+{
+"id": "place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-fire.socket.fire",
+"positionM": [
+309.023,
+37.853,
+3058.107
+]
+}
+]
+}

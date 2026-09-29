@@ -23,8 +23,9 @@ def test_bundle_accounts_for_every_reference(path):
     bundle = _load(path)
     assert bundle["schemaVersion"] == ex.SCHEMA_VERSION
     assert ex.check(bundle) == []
+    swings = [d for d in bundle["doors"] if d["doorType"] == "swing"]
     assert (len(bundle["placements"]) + len(bundle["drops"])
-            + len(bundle.get("substitutions") or [])) == bundle["refCount"]
+            + len(bundle.get("substitutions") or []) + len(swings)) == bundle["refCount"]
     assert not [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"], \
         "a tier A cell ships with every mesh in a published kit"
 
@@ -59,7 +60,8 @@ def test_contract_refuses_what_the_runtime_refuses():
         (lambda b: b["lights"][0].pop("raw"), "light 0 raw malformed"),
         (lambda b: b["doors"][0].pop("arrivalMarker"), "bad doors entry"),
         (lambda b: b["doors"].append({"interiorLoadDoorRef": "X", "closed": True}), "bad doors entry"),
-        (lambda b: b.update(schemaVersion=2), "schemaVersion"),
+        (lambda b: b.update(schemaVersion=1), "schemaVersion"),
+        (lambda b: b["doors"][0].pop("doorType"), "doorType must be load or swing"),
     ):
         b = copy.deepcopy(fixture)
         mutate(b)
@@ -75,7 +77,7 @@ def test_closed_door_entry_passes_the_contract():
     """Ruling 3 (round 3): an unpaired load door ships closed, with no exterior
     door and no arrival marker."""
     b = json.loads(ex.FIXTURE.read_text())
-    b["doors"].append({"interiorLoadDoorRef": "00000A02", "closed": True,
+    b["doors"].append({"doorType": "load", "interiorLoadDoorRef": "00000A02", "closed": True,
                        "loadDoor": {"positionM": [3.0, 3.4, 0.0], "yawDeg": 90.0}})
     assert ex.validate_bundle(b) == []
 
@@ -111,7 +113,7 @@ def test_reexport_matches_the_published_bundle():
     if bundle["plugin"] not in paths:
         pytest.skip(f"{bundle['plugin']} not in the local vault")
     doors = [{k: d[k] for k in ("exteriorDoorId", "interiorLoadDoorRef", "arrivalMarker")}
-             for d in bundle["doors"] if not d.get("closed")]
+             for d in bundle["doors"] if d["doorType"] == "load" and not d.get("closed")]
     again = ex.export_cell(bundle["plugin"], bundle["cellId"], paths, registry,
                            ex.published_kit_assets(), lambda n: pools.get(n), doors=doors)
     if not doors:
@@ -417,3 +419,66 @@ def test_tropical_skyrims_wolfpelt_override_wins(vault_env):
     info = ex._base_info(got[("Skyrim.esm", 0x03AD74)])
     assert info["editorId"] == "WolfPelt"
     assert "slaughterfishscale" in info["model"], info["model"]
+
+
+# --------------------------------------------------------------------------- #
+# Swing doors (16k walk 4, owner 2026-09-28): a DOOR reference with no XTEL is
+# a `swing` doors[] entry, its hinge read from the door NIF.
+# --------------------------------------------------------------------------- #
+def test_swing_entry_counts_as_a_reference_and_passes_the_contract():
+    fixture = json.loads(ex.FIXTURE.read_text())
+    swings = [d for d in fixture["doors"] if d["doorType"] == "swing"]
+    assert len(swings) == 1 and ex.validate_bundle(fixture) == []
+    counted = {"cellId": "X", "refCount": 2, "drops": [], "placements": [{"id": "X.1"}], "doors": swings}
+    assert ex.check(counted) == []
+    for mutate, expect in (
+        (lambda d: d["hinge"].update(axis=[0, 2, 0]), "bad swing door"),
+        (lambda d: d["hinge"].update(leafBoundsM=[[0, 0]]), "bad swing door"),
+        (lambda d: d.update(kit="nope"), "is not in the bundle's kits"),
+    ):
+        b = copy.deepcopy(fixture)
+        mutate(next(d for d in b["doors"] if d["doorType"] == "swing"))
+        assert any(expect in m for m in ex.validate_bundle(b)), expect
+
+
+def test_hinge_from_bounds_is_the_minus_x_edge_mid_thickness():
+    h = ex.hinge_from_bounds([1.366, 0.185, 2.503], [0.683, 0.128, 0.0])
+    assert h["pivotM"] == [-0.683, 0.0, 0.0355] and h["axis"] == [0.0, 1.0, 0.0]
+    assert h["openAngleDeg"] == ex.SWING_DEFAULT_OPEN_DEG
+
+
+@pytest.mark.parametrize("asset,model,pivot,axis,angle,leaf", [
+    # the NIF root is mid-width (kit originOffsetM x 0.683 of 1.366); the hinge is the Door01 node
+    ("vanilla:architecture/farmhouse/farmhouseanimdoor01", "meshes/architecture/farmhouse/farmhouseanimdoor01.nif",
+     [0.6828, 1.2517, -0.0569], [0.0, 1.0, 0.0], -92.0, False),
+    ("kotm:argonia/mudhuts/door01", "meshes/argonia/mudhuts/door01.nif",
+     [0.6828, 1.2517, -0.0569], [0.0, 1.0, 0.0], -18.0, False),
+    # a wall around the leaf that does not turn: the leaf's box is carried
+    ("vanilla:dungeons/imperial/door/impwooddoorsingle01", "meshes/dungeons/imperial/door/impwooddoorsingle01.nif",
+     [1.0154, 1.8374, -0.0778], [0.0, 1.0, 0.0], -87.0, True),
+    # a trapdoor lifts about x
+    ("vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
+     "meshes/architecture/farmhouse/interior/basement/farmbtrapdoor02.nif",
+     [0.0, 0.1991, 0.3698], [1.0, 0.0, 0.0], 15.0, True),
+])
+def test_swing_hinge_is_read_from_the_door_nif(asset, model, pivot, axis, angle, leaf):
+    try:
+        data = ex.door_nif_bytes(asset, model)
+    except Exception as exc:  # pragma: no cover - no vault on the runner
+        pytest.skip(f"vault not available: {exc}")
+    if data is None:
+        pytest.skip(f"{model} not in the local vault")
+    h = ex.door_hinge(data)
+    assert h["pivotM"] == pivot and h["axis"] == axis and h["openAngleDeg"] == angle
+    assert ("leafBoundsM" in h) is leaf
+
+
+def test_a_static_door_nif_has_no_hinge_sequence():
+    try:
+        data = ex.door_nif_bytes("vanilla:architecture/farmhouse/farmhousedoor01",
+                                 "meshes/architecture/farmhouse/farmhousedoor01.nif")
+    except Exception as exc:  # pragma: no cover
+        pytest.skip(f"vault not available: {exc}")
+    if data is None:
+        pytest.skip("farmhousedoor01 not in the local vault")
+    assert ex.door_hinge(data) is None

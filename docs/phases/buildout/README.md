@@ -94,7 +94,8 @@ will also use.
   bundle is rebuilt at 14) · **door + interior-claim records** on every
   enterable structure (stable door ID = the fill point for the 16k loop's tier A building interiors and
   Phase 12's dungeon portals, *and* the interior streaming boundary), with door *reachability* validated every
-  compile. Full statements: decision 0041's forward-compatibility block.
+  compile; doors are typed `load` or `swing`, and swing doors (inside houses, barn doors, gates) are built in
+  16k (walk 4, owner 2026-09-28: `game-core/interior/swingDoors.ts`), not deferred. Full statements: decision 0041's forward-compatibility block.
 - **At the Phase 10 gate:** schedule or consciously re-defer the
   beyond-border land apron (55 §98b says "alongside Phase 10").
 - **At 16g (promise vocabulary) and Phase 12 (interiors), 0062:** dungeon **anchor sockets** (Boss/Boss-Chest/Captive) in

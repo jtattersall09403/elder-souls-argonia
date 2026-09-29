@@ -69,7 +69,8 @@ SILL_OWN_DECK_M = 0.5        # ... a threshold on its own assembly's deck (the p
 PORCH_STEP_MAX_M = 0.45      # ... and that deck reaches the ground by a step no higher than this
 PORCH_REACH_M = 8.0          # ... read along the facing at most this far out
 SIGN_BEARING_MAX_DEG = 15.0  # signRule: a board's arm within this of the road's bearing
-SIGN_HEIGHT_M = (1.7, 2.4)   # ... the board's centre this high over the ground
+SIGN_HEIGHT_M = (1.5, 2.4)   # ... the board's centre this high over the ground (floor 1.5:
+                             # the owner's lower arm at 1.55 m, planner ruling 4 2026-09-28)
 SIGN_BOARD_TOKENS = ("roadsign",)  # a board: the name says roadsign and not signpost
 BERTH_REACH_M = 1.0          # berthReachRule: a way or landing end within this of the hull
 BERTH_DRY_M = 0.2            # ... its other end on ground this far over the water
@@ -104,9 +105,21 @@ FIX_HINTS = {
     "pathReachRule": "end a path within 1 m of the door, its last leg on the door's facing",
     "propSeatRule": "re-settle the prop, or move it off uneven ground (site --free)",
     "roadSurfaceRule": "move the piece off the road paint (wb.py scan reports the overlap)",
-    "signRule": "turn the board's arm onto the road's bearing and mount it at 1.7-2.4 m",
+    "signRule": "turn the board's arm onto the road's bearing and mount it at 1.5-2.4 m",
     "berthReachRule": "lay a landing or plank from dry ground to within 1 m of the hull",
     "colliderRule": "use a piece whose kit manifest carries a collider, or source one",
+    "burialRule": "raise the piece (settle it, a sink with evidence, or a pad datum at its base), "
+                  "or pick a piece whose base meets the ground",
+    "hangingRule": "hang it from its host: wb.py mount CHILD PARENT --hang --unmined 'reader-approved rN'",
+    "fixtureSeatRule": "re-seat the light on the surface under it (settle, mount, or move it off "
+                       "the floor it sinks into)",
+    "landingRule": "re-seat the deck 0.15-0.35 m over the water and close its landward end on dry "
+                   "ground or with a step piece",
+    "rockSeatRule": "seat the rock on its lowest three contacts (the row's seatYM) or move it "
+                    "where it embeds no more than 0.3 m",
+    "archwayRule": "place the named plugin door piece in the shell's doorway (attach it at the "
+                   "opening the LOD0 mesh leaves: blender/examples/doorway_rays.py finds it), or "
+                   "use a composite that bakes the door",
 }
 
 
@@ -435,15 +448,20 @@ class WalkGrid:
                 continue
             obstacles.append((i, p, poly))
         # every deck is laid before any obstacle is judged: a head clearance
-        # is read over the final walk surface, whatever the pieces' order
-        for i, p, poly in obstacles:
+        # is read over the final walk surface, whatever the pieces' order.
+        # Where footprints overlap, the SMALLEST obstacle names the cell, so a
+        # piece standing inside a building's footprint (a wall under a hut's
+        # eave, in front of a recessed doorway) is never masked by the building
+        # the door approach steps over (`_door_cells`; walk 4: mudhut01's
+        # ray-confirmed opening sits 2.5 m inside its footprint)
+        for i, p, poly in sorted(obstacles, key=lambda o: -o[2].area):
             inside = contains_xy(poly.buffer(self.radius_m), self.X, self.Z)
             low = _lowest_m(cat, p)
             if low is not None:
                 # a piece hung at or above head height over a cell is walked
                 # under there (a lantern under an eave; r5 review)
                 inside &= ~((low - self.H) >= HEAD_CLEARANCE_M)   # no ground: blocked
-            self.block[inside & (self.block < 0)] = i
+            self.block[inside] = i
         with np.errstate(invalid="ignore"):
             self.depth = np.where(np.isnan(self.level), 0.0, np.maximum(0.0, self.level - self.H))
         self.wet = self.depth > 0.0
@@ -1502,7 +1520,151 @@ def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
     return {p.uid: r}, failures
 
 
-def _sign_posts(cat, scene, uids) -> list:
+SIGN_ARM_RISE_M = 0.25        # signRule (walk 4): arms on one post differ in height by at least this
+SIGN_ROUTE_REACH_M = 150.0    # ... a destination's route is read within this of the post
+SIGN_LEG_M = 5.0              # ... its bearing: the route this far on from the post (its next leg;
+                              # 25 m reads a bend: Claywater 345 deg against the 315 deg leg)
+SIGN_TIP_RATIO = 0.5          # a board's tip end is under this share of its other end's height
+
+
+def board_tip_bearing(cat, p) -> float | None:
+    """The compass bearing a road board POINTS (walk 4): along its longest
+    plan axis toward its tip, the end whose mesh is under SIGN_TIP_RATIO of
+    the other end's height (roadsignmedium01l/r: 0.27 m at the post, a
+    point at the tip); None for a board with no tip (both ends alike)."""
+    v = np.asarray(cat.mesh(p.asset).vertices)
+    lo, hi = v.min(axis=0), v.max(axis=0)
+    axis = 0 if hi[0] - lo[0] >= hi[1] - lo[1] else 1
+    span = hi[axis] - lo[axis]
+    ends = []
+    for sel in (v[:, axis] <= lo[axis] + 0.08 * span, v[:, axis] >= hi[axis] - 0.08 * span):
+        ends.append(float(np.ptp(v[sel, 2])) if sel.any() else 0.0)
+    if ends[1] < SIGN_TIP_RATIO * ends[0]:
+        local = 90.0 if axis == 0 else 0.0          # +x east / +y north at yaw 0
+    elif ends[0] < SIGN_TIP_RATIO * ends[1]:
+        local = 270.0 if axis == 0 else 180.0
+    else:
+        return None
+    return (p.yaw + local) % 360.0
+
+
+def _route_lines() -> tuple:
+    """(id, from, to, metre polyline) of every published route (routes.json)."""
+    doc = json.loads((paths.PROVINCE / "routes.json").read_text())
+    ends = {r["id"]: (r.get("from"), r.get("to")) for r in doc.get("routes") or []}
+    return tuple((rid, *ends.get(rid, (None, None)), pts) for rid, pts in _published_roads())
+
+
+def _along(pts, x: float, z: float, forward: bool, leg: float) -> tuple[float, float] | None:
+    """(bearing, distance to the route) walking ``leg`` metres along the
+    polyline from its nearest point to (x, z), toward its last point when
+    ``forward`` else its first."""
+    best = None
+    for i, ((ax, az), (bx, bz)) in enumerate(zip(pts, pts[1:])):
+        vx, vz = bx - ax, bz - az
+        ll = vx * vx + vz * vz
+        if ll <= 0:
+            continue
+        t = max(0.0, min(1.0, ((x - ax) * vx + (z - az) * vz) / ll))
+        d = math.hypot(ax + t * vx - x, az + t * vz - z)
+        if best is None or d < best[0]:
+            best = (d, i, (ax + t * vx, az + t * vz))
+    if best is None:
+        return None
+    d, i, here = best
+    walk = list(pts[i + 1:]) if forward else list(reversed(pts[:i + 1]))
+    left, cur = leg, here
+    for q in walk:
+        step = math.dist(cur, q)
+        if step >= left:
+            f = left / step
+            cur = (cur[0] + (q[0] - cur[0]) * f, cur[1] + (q[1] - cur[1]) * f)
+            left = 0.0
+            break
+        left -= step
+        cur = q
+    if cur == here:
+        return None
+    return math.degrees(math.atan2(cur[0] - here[0], -(cur[1] - here[1]))) % 360.0, d
+
+
+def destination_bearing(x: float, z: float, dest: str) -> tuple[float, str] | None:
+    """(bearing, route id) a board naming ``dest`` should point from (x, z):
+    along the route graph's leg toward it. A route id: along that route
+    toward its `to` end, the way the road leads (Claywater's board naming
+    route.road.gideon-blackwood-road points north-west toward Blackwood,
+    its socket's why). A place id: along the nearest
+    route ending at that place (`from`/`to` = its last id segment), toward
+    that end. None when no such route passes within SIGN_ROUTE_REACH_M."""
+    lines = _route_lines()
+    if dest.startswith("route."):
+        cands = [(rid, pts, None) for rid, _f, _t, pts in lines if rid == dest]
+    else:
+        slug = dest.rsplit(".", 1)[-1]
+        cands = [(rid, pts, f == slug) for rid, f, t, pts in lines if slug in (f, t)]
+    best = None
+    for rid, pts, toward_first in cands:
+        if toward_first is None:     # a road named: the way it leads, toward its `to` end
+            toward_first = False
+        got = _along(pts, x, z, not toward_first, SIGN_LEG_M)
+        if got is not None and got[1] <= SIGN_ROUTE_REACH_M and (best is None or got[1] < best[1]):
+            best = (got[0], got[1], rid)
+    return None if best is None else (best[0], best[2])
+
+
+def _post_arms(cat, scene, g, post: str, boards: list, sock: dict | None) -> tuple[dict, list]:
+    """The walk-4 half of signRule for one post: arms at least
+    SIGN_ARM_RISE_M apart in height, never pointing the same way (within
+    SIGN_BEARING_MAX_DEG), and each pointing along the route toward one of
+    the socket's `pointsTo` (the best one-to-one match, each within
+    SIGN_BEARING_MAX_DEG)."""
+    import itertools
+    arms = []
+    for uid in boards:
+        p = scene.piece(uid)
+        mesh = _world_mesh(cat, p)
+        cx, cy, cz = (mesh.bounds[0] + mesh.bounds[1]) / 2.0
+        up = float(cz) - float(g.chunk_height(float(cx), float(-cy)))
+        arms.append((uid, up, board_tip_bearing(cat, p)))
+    host = scene.piece(post)
+    row = {"arms": [{"uid": u, "centreOverGroundM": round(h, 2),
+                     "pointsDeg": None if b is None else round(b, 1)} for u, h, b in arms]}
+    fails = []
+    for (u1, h1, b1), (u2, h2, b2) in itertools.combinations(arms, 2):
+        if abs(h1 - h2) < SIGN_ARM_RISE_M:
+            fails.append(f"{post}: arms {u1} and {u2} stand {abs(h1 - h2):.2f} m apart in height "
+                         f"(want at least {SIGN_ARM_RISE_M} m)")
+        if b1 is not None and b2 is not None and _angle_off(b1, b2) <= SIGN_BEARING_MAX_DEG:
+            fails.append(f"{post}: arms {u1} and {u2} point the same way ({b1:.0f} and {b2:.0f} deg)")
+    dests = list((sock or {}).get("pointsTo") or [])
+    if dests and len(dests) == len(arms):
+        want = [destination_bearing(host.x, host.z, d) for d in dests]
+        row["destinations"] = [{"to": d, "bearingDeg": None if w is None else round(w[0], 1),
+                                "route": w and w[1]} for d, w in zip(dests, want)]
+        for d, w in zip(dests, want):
+            if w is None:
+                fails.append(f"{post}: no published route toward {d} passes within "
+                             f"{SIGN_ROUTE_REACH_M:.0f} m of the post")
+        pairs = [(i, j) for i in range(len(arms)) for j in range(len(dests))
+                 if arms[i][2] is not None and want[j] is not None]
+        if pairs and all(w is not None for w in want):
+            best = min(itertools.permutations(range(len(dests))),
+                       key=lambda perm: max(_angle_off(arms[i][2], want[j][0])
+                                            if arms[i][2] is not None else 180.0
+                                            for i, j in enumerate(perm)))
+            row["match"] = {}
+            for i, j in enumerate(best):
+                u, _h, b = arms[i]
+                off = 180.0 if b is None else _angle_off(b, want[j][0])
+                row["match"][u] = {"to": dests[j], "offDeg": round(off, 1)}
+                if off > SIGN_BEARING_MAX_DEG:
+                    fails.append(f"{post}: arm {u} points {'nowhere' if b is None else f'{b:.0f} deg'}, "
+                                 f"the road toward {dests[j]} leaves at {want[j][0]:.0f} deg "
+                                 f"({off:.0f} deg off; > {SIGN_BEARING_MAX_DEG})")
+    return row, fails
+
+
+def _sign_posts(cat, scene, uids) -> tuple[dict, list]:
     """signRule's post half: every signpost carrying boards has a `sign`
     socket whose `pointsTo` has one entry per board on it; with ``uids``,
     only the posts named or carrying a named board."""
@@ -1514,7 +1676,8 @@ def _sign_posts(cat, scene, uids) -> list:
         parent = _parent_of(scene, p)
         if parent is not None and _has(parent.asset, ROAD_SIGN_TOKENS):
             boards_on.setdefault(parent.uid, []).append(p.uid)
-    failures = []
+    failures, rows = [], {}
+    g = _ground(cat, scene) if boards_on else None
     for post, boards in sorted(boards_on.items()):
         if uids is not None and post not in uids and not set(boards) & uids:
             continue
@@ -1525,7 +1688,9 @@ def _sign_posts(cat, scene, uids) -> list:
         elif len(s.get("pointsTo") or []) != len(boards):
             failures.append(f"{post}: sign socket {s['id']} points to {len(s.get('pointsTo') or [])} "
                             f"places for {len(boards)} board(s)")
-    return failures
+        rows[post], f = _post_arms(cat, scene, g, post, boards, s)
+        failures += f
+    return rows, failures
 
 
 def sign(cat, scene, uids=None) -> dict:
@@ -1533,7 +1698,10 @@ def sign(cat, scene, uids=None) -> dict:
     post, its arm (the board's local +x: world yaw + 90, place-diag P4)
     within SIGN_BEARING_MAX_DEG of the nearest road's bearing, its centre
     SIGN_HEIGHT_M over the ground; and a `sign` socket on the post whose
-    `pointsTo` has one entry per board on it (0104 decision 4). ``uids``:
+    `pointsTo` has one entry per board on it (0104 decision 4); the arms on
+    one post differ in height by SIGN_ARM_RISE_M, never point the same way,
+    and each points along the route toward one of `pointsTo` (`_post_arms`,
+    walk 4). ``uids``:
     judge only these boards and their posts (`piece_rule`)."""
     return piece_rule("sign", cat, scene, uids)
 
@@ -1643,7 +1811,9 @@ def collider(cat, scene, uids=None) -> dict:
 # piece at a time against a context built once per scene, so `check`'s
 # pool splits them by piece and `check --only` judges only the named ones
 # --------------------------------------------------------------------------
-PIECE_RULES = ("floorEdge", "propSeat", "roadSurface", "sill", "sign", "collider")
+PIECE_RULES = ("floorEdge", "propSeat", "roadSurface", "sill", "sign", "collider",
+               "burial", "hanging", "fixtureSeat", "archway",   # these four: seat_rules (walk 4)
+               "rockSeat")                                       # seat_rules ROCK_POLICY (CLAYWATER2)
 _ROWS_KEY = {"sill": "doors", "sign": "boards"}
 
 
@@ -1669,18 +1839,41 @@ def piece_targets(key: str, cat, scene) -> list[str]:
         return [p.uid for p in scene.pieces if _sign_target(p)]
     if key == "collider":
         return [p.uid for p in scene.pieces]
+    from . import seat_rules
+    if key == "burial":
+        return seat_rules.burial_targets(cat, scene)
+    if key == "hanging":
+        return seat_rules.hanging_targets(cat, scene)
+    if key == "fixtureSeat":
+        return seat_rules.fixture_targets(cat, scene)
+    if key == "archway":
+        return seat_rules.archway_targets(cat, scene)
+    if key == "rockSeat":
+        return seat_rules.rock_targets(cat, scene)
     raise KeyError(key)
 
 
 def piece_context(key: str, cat, scene) -> dict:
     return {"floorEdge": _floor_edge_ctx, "propSeat": _prop_seat_ctx, "sill": _sill_ctx,
-            "sign": lambda c, s: {"g": _ground(c, s)}}.get(key, lambda c, s: {})(cat, scene)
+            "sign": lambda c, s: {"g": _ground(c, s)},
+            "burial": lambda c, s: {"g": _ground(c, s), "compiled": _compiled(s)},
+            "rockSeat": lambda c, s: {"g": _ground(c, s)},
+            "fixtureSeat": lambda c, s: {"g": _ground(c, s), "compiled": _compiled(s)}}.get(key, lambda c, s: {})(cat, scene)
+
+
+def _compiled(scene) -> dict:
+    from . import seat_rules
+    return seat_rules.compiled_y(scene)
 
 
 def piece_part(key: str, cat, scene, uids: list, fit_for=None) -> tuple[dict, list]:
     """(rows, failures) of a per-piece rule over ``uids`` (targets, in order)."""
+    from . import seat_rules
     ctx = piece_context(key, cat, scene)
-    fn = {"floorEdge": lambda c, s, x, p: floor_edge_piece(c, s, x, p, fit_for),
+    fn = {"burial": seat_rules.burial_piece, "hanging": seat_rules.hanging_piece,
+          "fixtureSeat": seat_rules.fixture_piece, "archway": seat_rules.archway_piece,
+          "rockSeat": seat_rules.rock_piece,
+          "floorEdge": lambda c, s, x, p: floor_edge_piece(c, s, x, p, fit_for),
           "propSeat": prop_seat_piece, "roadSurface": road_surface_piece,
           "sill": sill_piece, "sign": sign_piece, "collider": collider_piece}[key]
     rows, failures = {}, []
@@ -1698,9 +1891,11 @@ def piece_merge(key: str, cat, scene, parts: list, uids=None) -> dict:
     for r, f in parts:
         rows.update(r)
         failures += f
+    out = {_ROWS_KEY.get(key, "pieces"): rows, "failures": failures}
     if key == "sign":
-        failures += _sign_posts(cat, scene, None if uids is None else set(uids))
-    return {_ROWS_KEY.get(key, "pieces"): rows, "failures": failures}
+        out["posts"], more = _sign_posts(cat, scene, None if uids is None else set(uids))
+        failures += more
+    return out
 
 
 def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:

@@ -550,14 +550,15 @@ def test_set_alpha_modes_blends_an_effect_card_and_flags_it_additive(tmp_path):
     ]})
     summary = {"assets": [{"alphaTest": False, "materials": ["Glow02:0.Mat", "Ash.Mat"],
                            "alphaMaskMaterials": {"Glow02:0.Mat": 0.5},
-                           "additiveMaterials": ["Glow02:0.Mat"]}]}
+                           "additiveMaterials": ["Glow02:0.Mat"],
+                           "additiveGains": {"Glow02:0.Mat": 1.6}}]}
     assert set_alpha_modes(glb, summary) == {"MASK": 0, "OPAQUE": 1, "BLEND": 1}
     data = glb.read_bytes()
     chunk_length = struct.unpack_from("<I", data, 12)[0]
     materials = {m["name"]: m for m in json.loads(data[20:20 + chunk_length])["materials"]}
     assert materials["Glow02:0.Mat"]["alphaMode"] == "BLEND"
     assert "alphaCutoff" not in materials["Glow02:0.Mat"]
-    assert materials["Glow02:0.Mat"]["extras"] == {"additive": True}
+    assert materials["Glow02:0.Mat"]["extras"] == {"additive": True, "gain": 1.6}
     assert "alphaMode" not in materials["Ash.Mat"] and "extras" not in materials["Ash.Mat"]
 
 

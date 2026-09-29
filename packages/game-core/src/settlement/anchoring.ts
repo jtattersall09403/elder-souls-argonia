@@ -238,10 +238,13 @@ export function finalPlacementTransform(
 }
 
 /**
- * A child mounted on another placement (anchor class wall / hanging / deck):
- * its parent's FINAL runtime transform, then the mined mount offset in the
- * parent's local frame, then the child's own yaw/pitch. Terrain is never
- * sampled for one of these (16h item 2).
+ * A child mounted on another placement (anchor class wall / hanging / deck /
+ * fx): its parent's FINAL runtime transform, then the mined mount offset in
+ * the parent's local frame, then the child's own yaw/pitch, then its own
+ * scale over the parent's (`placement.scale` is the child's WORLD scale: a
+ * flame scaled into its brazier keeps 0.336, CLAYWATER2 ruling 2; a child
+ * compiled at its parent's scale gets ratio 1). Terrain is never sampled for
+ * one of these (16h item 2).
  */
 export function mountedTransform(
   parent: THREE.Matrix4,
@@ -254,11 +257,14 @@ export function mountedTransform(
       + `${placement.parentPlacementId} but carries no mountOffsetM`,
     );
   }
-  return parent.clone()
+  const parentScale = new THREE.Vector3().setFromMatrixScale(parent);
+  const ratio = (placement.scale ?? 1) / (Math.max(parentScale.x, parentScale.y, parentScale.z) || 1);
+  const out = parent.clone()
     .multiply(new THREE.Matrix4().makeTranslation(offset[0], offset[1], offset[2]))
     .multiply(new THREE.Matrix4().makeRotationFromQuaternion(
       placementQuaternion(placement.yawDeg, placement.pitchDeg ?? 0),
     ));
+  return Math.abs(ratio - 1) > 1e-6 ? out.multiply(new THREE.Matrix4().makeScale(ratio, ratio, ratio)) : out;
 }
 
 /**
@@ -366,7 +372,9 @@ export interface ResolvedPlacement {
  *
  *  - `water`   — sits at the berth's recorded level minus its designed waterline.
  *  - `wall` / `hanging` / `fx` — REQUIRE a placed parent (from a mined mount pair);
- *    with none, a named error, never a drop onto the ground.
+ *    with none, a named error, never a drop onto the ground. Exception: a
+ *    `yFinal` placement (a workbench assembly member hung off a landmark,
+ *    16k walk 4: its pose IS the record, decision 0097) stands at its pose.
  *  - `deck`    — with a parent, seated on that parent's final transform plus
  *    the mined/derived `mountOffsetM`; with none (the compile found no placed
  *    parent whose footprint contains its pivot) it is grounded on terrain
@@ -398,7 +406,8 @@ export function resolvePlacement(
     if (!parent) return null;
     return { matrix: mountedTransform(parent, placement), anchored: null };
   }
-  if (anchorClass === "wall" || anchorClass === "hanging" || anchorClass === "fx") {
+  if ((anchorClass === "wall" || anchorClass === "hanging" || anchorClass === "fx")
+      && placement.yFinal !== true) {
     throw new Error(`${placement.id}: ${anchorClass} placement names no parentPlacementId`);
   }
   const anchored = anchorPlacement(placement, lookup.groundAt, lookup.designedSinkM, lookup.fit);

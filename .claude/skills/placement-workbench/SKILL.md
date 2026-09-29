@@ -1,6 +1,6 @@
 ---
 name: placement-workbench
-description: The tool manual for the headless placement workbench (tooling/placement-workbench/wb.py) over the frozen ground — every command (describe, place, snap, settle, mount, attach, group, measure, check, compile, render, export), its bars and its cost. The design procedure for a place is the place-build skill; use this one for how to run a wb.py command, read its output, or judge a contact, a seat or a door on the actual geometry.
+description: The tool manual for the headless placement workbench (tooling/placement-workbench/wb.py) over the frozen ground — every command (describe, place, snap, settle, mount incl. --hang, attach, group, measure, check, compile, render, export, bpy), its bars and its cost. The design procedure for a place is the place-build skill; use this one for how to run a wb.py command, read its output, or judge a contact, a seat or a door on the actual geometry.
 ---
 
 # Placement workbench
@@ -132,6 +132,22 @@ for trying a pose by hand:
   "reader-approved r2"}`; `blueprint.assembly_failures` validates it), which
   the compile copies into the placement's `provenance.mountPair`; the
   member's `evidence` stays as authored.
+- Hanging from a tree or any mesh (R53): `$W mount <child> <parent> --hang
+  --unmined "reader-approved rN" [--along M --bearing D] [--min-h 1.8
+  --max-h 4.0]`. Rays go straight up from rings round the target (the
+  child where it stands, or `--along` m out from the parent's pivot on
+  compass `--bearing`; 0.02 m rings out to 1 m, then 0.1 m, to 3 m) onto
+  the parent's own mesh; a ray counts when the first surface over the child
+  is a branch (a downward underside and its top within 0.6 m, or a
+  one-sided upward top), and the child's hang point (its highest vertex
+  within 0.05 m of its pivot axis) is seated on that top, which must stand
+  `--min-h`..`--max-h` over the padded ground; the nearest such seat wins.
+  Hanging pieces skip the unmined size caps; the approval stands. Proved
+  on the mined Mud Mother lanterns on their Hist tree (3 plugin poses back
+  within 0.008 m). The sick Greenspring Hist has no branch under 4 m
+  (lowest about 6.9 m): pass `--max-h 12` there, or the default refuses by
+  name. The pose records `mountPair: {kind: unmined, on: branch, hitM,
+  hitOverGroundM, branch: closed|open}`; hangingRule stops failing it.
 - A walkable deck (ramp, stair, boardwalk, bridge): `place --walkable`;
   walkRule walks its top instead of routing round it.
 - A part the plugins place on this shell at a fixed offset (a door, a
@@ -181,8 +197,9 @@ PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
 - `walkRule`: a 0.5 m grid over the place; every piece's footprint grown by
   the capsule radius (0.3 m) blocks, except `path`/`paint` pieces and
   `--walkable` decks (their top is the surface). Every edge walks at <= 30
-  deg (97 C14). The step limit, <= 0.18 m (ecctrl `floatHeight`, read from
-  `packages/game-core/src/physics/characterPhysics.ts`), applies ONLY where
+  deg (97 C14). The step limit (ecctrl `floatHeight`, `CHARACTER_FLOAT_HEIGHT`,
+  read live from `packages/game-core/src/physics/characterPhysics.ts`: 0.45 m
+  on 2026-09-28, 0.18 m when ruling 1 below was written) applies ONLY where
   ground meets a walkable deck or deck meets deck; ground to ground is
   governed by the slope alone (planner ruling 1, 2026-09-26: 0.18 m over a
   0.5 m cell is 19.8 deg, so a step bar on every edge could never bind). A
@@ -237,6 +254,118 @@ PADDED ground, each listed by `apply` as `<rule>: ...` when it fails:
   seat only when the kit manifests are refreshed (`kit-build` step 4).
 - `beachedRule` (R5) also reports `beachedProfile`: keel gap and bow height.
 
+The walk-4 seat rules (owner 2026-09-28, `workbench/seat_rules.py`; each
+failed on the defect the owner walked, `tests/test_walk4_wb.py`):
+
+- `burialRule`: every shell and ground prop (not mounted, run, hull, piled,
+  water, hanging or dug-in): its lowest mesh point under the padded ground
+  straight below it. Allowed: max(designed, 0.15 m) + 0.03 m, where
+  designed = (sink p50 + pivot over base) x scale when the sink has
+  evidence (`plugin`, `mesh`, or taken from a `base:`/`part:`/`swap:` row);
+  a policy sink designs nothing. Judged at the workbench pose (a piece whose
+  op never settles it, at the runtime seat) AND at the place's last compiled
+  pivot (`output/apply/<place>.compiled/`, when newer than the layout) when
+  that stands > 0.03 m off: the Claywater stable reads 0.91 m under at the
+  seat and 3.48 m under at the compiled pivot (2.57 m lower). A `place` op
+  that carries a `pad` settles on it with no `settle` flag (the stable's op
+  had none, so every rule skipped it).
+- `hangingRule`: an unmounted piece whose asset hangs fails: the mined
+  anchor class `hanging` (kit-mounts-mined `anchors`, plugin evidence), the
+  manifest's `hanging`, a pivot within 0.15 m of its mesh top with the mesh
+  at least 0.5 m (and 3x) below, or a mesh starting >= 1.0 m over its pivot
+  (a part authored in its host's frame: histflower01 starts 5.85 m up).
+  Greenspring at HEAD: b-minder-flower, sh-flower1, sh-flower2, sp-flower.
+- `fixtureSeatRule`: every light (layer `light`, a manifest `light`
+  record, or a lantern/candle/brazier/torch/sconce/lamp name). Mounted: its
+  gap to the parent <= 0.05 m. Standing: its base (lowest point, at its
+  plan centre) against the highest surface under it within 0.6 m over the
+  base (ground, deck, floor, barrel top): at most 0.05 m over, at most
+  0.03 m under (plus its designed sink on the ground when evidenced: a
+  brazier's plugin 0.04 m). Judged at the compiled pivots too (the light
+  and every surface under it at their compiled y) when the last compile
+  moved either.
+- `landingRule` (every water-edge walkable run; 16k § 16h part 1 "Landing
+  stage reaches dry ground"): along the run's two farthest member ends, the
+  deck 0.3 m inside the water end (further in, 0.1 m at a time, where the
+  last metre is bare posts) stands 0.15-0.35 m over the water; inside the
+  landward end it stands within 0.2 m of the ground 0.3 m past it, or a
+  step piece (`step`/`stair`/`ramp`) within 1.0 m has its top within the
+  controller step (0.45 m) of the deck and its foot on the ground; both ends
+  over water is an open run. Judged at the compiled pivots too: Claywater's
+  landing reads 0.35 m / 0.05 m at the workbench seat and 3.36 m / 3.06 m at
+  the compiled pivots (+3.01 m).
+- `archwayRule` (walk 4 lane COMPILE): a parcel shell whose kit records its
+  doorway in its own mesh with no door leaf (interiors
+  `closedShellPromotedBy: own-geometry-door`) needs a piece named `door`
+  within 2.5 m of a measured doorway; else it fails naming the plugin's
+  door piece (the sidecar entrance, its esp link, the shell's row in
+  `exterior-interior-links.json`, else the door every linked shell of its
+  folder takes). Greenspring at HEAD: b-fam1, b-fam2 (kotm mudhut01:
+  `kotm:argonia/mudhuts/door01` by family, 5 linked placements). Where the
+  opening really is: `blender/examples/doorway_rays.py` (`ring` mode).
+- `signRule` (walk 4 half): the boards on one post differ in centre height
+  by >= 0.25 m, never point within 15 deg of each other (a board points
+  along its longest axis toward its tip, the end under half its other end's
+  height), and each points within 15 deg of the route leg toward one of the
+  post socket's `pointsTo` (best one-to-one match): a route id along that
+  route toward its `to` end, a place id along the nearest route ending
+  there toward that end, read 5 m on from the post in the published
+  `routes.json`. `check` lists them under `sign.posts`.
+
+## 5b. Any other placement question: headless Blender (`wb.py bpy`)
+
+When no command answers it (owner 2026-09-28), ask Blender directly, and
+add the command to `wb.py` in the same lane:
+
+    python3 tooling/placement-workbench/wb.py bpy <scene> <script.py> --out <result.json> \
+        [--only UID,..] [--args A B ...]
+
+The same Linux Blender 3.2.2 and scene assembly as `render`
+(`render.scene_job`, the per-kit .blend cache): every posed piece's top
+object is named by its uid and every object of its tree carries `wb_uid`;
+a piece whose op never settles it is loaded at the runtime seat
+(`seatedAtRuntime`); the padded ground on a 0.5 m grid is `ground`, water
+`water`. The script runs with `api` (`workbench/bpy_api.py`) and `ARGS`;
+whatever it puts in `RESULT` lands in `--out`. The API (points in the wb
+frame: x east, y NORTH, z up; `ground_height` takes province x, z):
+`objects_by_uid()`, `ground_height(x, z)`, `ray_cast(origin, dir,
+filter=None|uid|'ground'|{...})`, `bounds(uid)`, `lowest_point(uid)`,
+`contacts(uid, other)` (gap and crossing triangle pairs), `forget()` after
+the script moves anything. Cost (kit cache warm): Claywater 109 pieces,
+6.6 s (5.0 s building the job, 0.8 s scene build, 0.5 s script);
+Greenspring 120 pieces, 3.5 s. A kit's first launch builds its .blend
+cache (Greenspring cold: 8.9 s scene build). The example
+(`tooling/placement-workbench/blender/examples/branch_survey.py`):
+
+```python
+import math
+
+tree = ARGS[0]
+(lo, hi) = api.bounds(tree)
+cx, cy = (lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2
+rows = []
+for bearing in range(0, 360, 15):                 # a ring of rays per bearing
+    for r in (2.0, 3.0, 4.0, 5.0, 6.0, 7.0):
+        x = cx + r * math.sin(math.radians(bearing))
+        y = cy + r * math.cos(math.radians(bearing))
+        g = api.ground_height(x, -y)               # province z = -y
+        if g is None:
+            continue
+        hit = api.ray_cast((x, y, g + 0.05), (0, 0, 1), filter=tree)
+        if hit and hit["normal"][2] < -0.2:        # a branch underside
+            rows.append({"bearing": bearing, "r": r, "overGroundM":
+                         round(hit["point"][2] - g, 2), "at": [round(x, 2), round(-y, 2)]})
+            break                                   # the nearest on this bearing
+RESULT["tree"] = tree
+RESULT["lowestPoint"] = api.lowest_point(tree)
+RESULT["branches"] = sorted(rows, key=lambda b: b["overGroundM"])
+if len(ARGS) > 1:                                   # a piece against its host / the ground
+    piece, other = ARGS[1], (ARGS[2] if len(ARGS) > 2 else "ground")
+    RESULT["contact"] = api.contacts(piece, other)
+    RESULT["pieceLowest"] = api.lowest_point(piece)
+RESULT["pieces"] = len(api.objects_by_uid())
+```
+
 ## 6. Render and look (Sonnet reader)
 
     $W render top                        # layout, footprints (cyan), paths (orange); no text (R8)
@@ -265,9 +394,17 @@ Numbers first, pictures second: fix what `check` reports before rendering.
     python3 tooling/placement-workbench/wb.py whatchanged <place>.layout.json --base <walked rev>   # packet lines (0105 R35)
 
 Export writes POSE fields only (`centreUV`, `yawDeg`, `assetRef`, run
-`pieces[{asset, atM, yaw}]`, the shell's `assembly[{asset, atM, upM, yaw,
-pitch, on, layer, evidence}]` (`blueprint.assembly_failures`), landmark
-`position`, route `via`/`points`).
+`pieces[{asset, atM, yaw, yMeasured}]`, the shell's `assembly[{asset, atM,
+upM, yaw, pitch, on, layer, evidence}]` (`blueprint.assembly_failures`),
+landmark `position`, route `via`/`points`, and every seated ground piece's
+`yMeasured`). **The pose record is the output (0097):** the compile writes
+each `yMeasured` verbatim with `yFinal` (shells, landmarks, ground assembly
+members, every run member; a run's riseM is read from its members' poses),
+re-seats nothing, moves no measured quay, and derives a pad's grade from the
+pose. The compiled record is checked by the same rules as the scene:
+burial, landing and fixtureSeat judge the last compile's pivots too, and
+`tests/test_walk4_compile.py` holds every compiled y to its workbench seat
+within 0.02 m on Claywater and Greenspring.
 Never hand-edit a pose in the JSON: move it in the workbench and export
 again. Everything else (districts, prose, doors' interior claims) is the
 blueprint skeleton of `place-build` step 2; `wb.py compile` runs the

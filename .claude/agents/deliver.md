@@ -35,6 +35,11 @@ Rules of the road:
 - Player-visible or world-record prose goes through the `text-review` skill
   in a separate agent; say in your report whether that ran.
 - Report: what changed (file:line), what was measured, what failed.
+- A placement the workbench cannot make or measure (owner 2026-09-28): use
+  `wb.py bpy <scene> <script.py> --out <json>` (headless Blender with the
+  whole scene; placement-workbench skill § 5b) to answer it now, and add
+  the command to `wb.py` in the same lane. Never hand the owner or the
+  planner "needs a new tool".
 - Headless Blender (owner 2026-09-26, decision 0079 rule 19): Opus 5.5
   `deliver` agents hold creative control over headless Blender work (shot
   choice beyond `--shots auto`, cameras, lighting, render-script

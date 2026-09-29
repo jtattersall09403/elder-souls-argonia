@@ -112,18 +112,15 @@ def _corrected(bp):
     fixed = copy.deepcopy(bp)
     for p in fixed["parcels"]:
         p["groundFit"] = "stilt"
-    # hard-clear the whole boundary so doors sit in cleared ground
-    fixed["clearance"]["hardClear"] = [fixed["boundary"]]
     return fixed
 
 
 def _underdeclared(bp):
     """The fixture is a valid exemplar; this is the blind-to-terrain draft an
-    authoring agent would have started from (everything 'direct', no clearing)."""
+    authoring agent would have started from (everything 'direct')."""
     bad = copy.deepcopy(bp)
     for p in bad["parcels"]:
         p["groundFit"] = "direct"
-    bad["clearance"]["hardClear"] = []
     return bad
 
 
@@ -134,7 +131,9 @@ def _underdeclared(bp):
 def test_ground_fit_ladder_rejects_underdeclared_fits(survey, shelf):
     result = cs.compile_blueprint(_underdeclared(_blueprint()), survey, shelf)
     assert any("exceeds groundFit 'direct'" in e for e in result["errors"])
-    assert any("unreachable" in e for e in result["errors"])
+    # an empty hardClear no longer makes a door unreachable (16k walk 4): the
+    # bundle clears every threshold's apron by derivation
+    assert not any("unreachable" in e for e in result["errors"])
 
 
 @requires_delivered("16h")

@@ -134,6 +134,22 @@ describe("settlement placement contract", () => {
       .toThrow(/carries no mountOffsetM/);
   });
 
+  it("draws a mounted child at its own scale, not its parent's", () => {
+    // CLAYWATER2 ruling 2: the brazier flame is 0.336 of its mesh in a
+    // brazier at scale 1.2; a child compiled at its parent's scale stays 1:1.
+    const parent = new THREE.Matrix4().compose(
+      new THREE.Vector3(10, 2, 5), new THREE.Quaternion(), new THREE.Vector3(1.2, 1.2, 1.2));
+    const flame: SettlementPlacement = {
+      ...placement, id: "flame", assetId: "flame", anchorClass: "fx",
+      parentPlacementId: "p", mountOffsetM: [0, 0.5, 0], yawDeg: 0, scale: 0.336,
+    };
+    const scaleOf = (m: THREE.Matrix4) => new THREE.Vector3().setFromMatrixScale(m).x;
+    expect(scaleOf(mountedTransform(parent, flame))).toBeCloseTo(0.336);
+    expect(new THREE.Vector3().setFromMatrixPosition(mountedTransform(parent, flame)).y)
+      .toBeCloseTo(2 + 0.5 * 1.2);
+    expect(scaleOf(mountedTransform(parent, { ...flame, scale: 1.2 }))).toBeCloseTo(1.2);
+  });
+
   it("grounds a parentless deck piece and refuses a parentless wall or hanging piece", () => {
     const lookup = {
       groundAt: () => 2,
@@ -152,6 +168,9 @@ describe("settlement placement contract", () => {
     for (const anchorClass of ["wall", "hanging"] as const) {
       expect(() => resolvePlacement({ ...placement, anchorClass }, anchorClass, lookup))
         .toThrow(new RegExp(`${anchorClass} placement names no parentPlacementId`));
+      // ...unless the workbench seated it: a yFinal pose is the record (0097)
+      const posed = resolvePlacement({ ...placement, anchorClass, yFinal: true }, anchorClass, lookup)!;
+      expect(new THREE.Vector3().setFromMatrixPosition(posed.matrix).y).toBeCloseTo(placement.positionM[1]);
     }
   });
 

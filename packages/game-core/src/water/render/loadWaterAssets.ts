@@ -5,6 +5,7 @@ import { WaterWorld } from "../waterWorld";
 import type { WaterAssets } from "./types";
 import { loadWaterfallTextures, type WaterfallTextureSlot } from "./WaterfallSheets";
 import { loadWaterfallKit } from "./WaterfallKit";
+import type { LocalWaterSurfaces } from "../localSurfaces";
 
 /**
  * Loads + decodes the compiled water rasters (worldgen/compile_water.py,
@@ -37,6 +38,8 @@ export interface LoadWaterAssetsOptions {
   waterfallKitUrl?: string;
   /** The weather's wind speed (m/s) for the sea's energy; 0 = the swell floor. */
   windSpeedMS?: () => number;
+  /** The places' own pools (spring basins), so the water query answers them. */
+  localSurfaces?: LocalWaterSurfaces;
 }
 
 /** Entity labels from the raw RGBA bytes of water-id.png (R·256 + G). */
@@ -247,6 +250,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     seasonScalar: options.seasonScalar,
     waveTimeS: options.waveTimeS,
     windSpeedMS: options.windSpeedMS,
+    localSurfaces: options.localSurfaces,
   });
 
   // 16f: the water dressing sidecar (habitat + colour constituents). Optional

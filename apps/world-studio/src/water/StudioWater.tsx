@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
-import { sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
+import { sharedLocalSurfaces, sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
 import { createWaterProbe, type WaterProbeSummary } from "@elder-souls/game-core/water/render/waterProbe";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
@@ -136,6 +136,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
         farExtentM={farExtentM}
         ripple={ripple}
         contactBodies={contactBodies}
+        localSurfaces={sharedLocalSurfaces(base)}
         onReady={onSurfaceReady}
       />
       <WaterPipeline

@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "cellId": "KeebaHouseCrafter",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -57,7 +57,8 @@
  },
  "doors": [
   {
-   "exteriorDoorId": "door.hist-heartland.greenspring.2",
+   "doorType": "load",
+   "exteriorDoorId": "door.hist-heartland.greenspring.1",
    "interiorLoadDoorRef": "0809B4BD",
    "arrivalMarker": {
     "positionM": [
@@ -3941,6 +3942,7 @@
   "drops": 19,
   "lights": 3,
   "substitutions": 5,
+  "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "actor": 4,

@@ -405,7 +405,18 @@
     "2": {
       "name": "Hist village",
       "defaultTier": "M2",
-      "overrides": {},
+      "overrides": {
+        "shellsMin": {
+          "value": 3,
+          "source": "planner ruling 2026-09-28 (16k walk 4, GREENSPRING3 brief ruling 1)",
+          "why": "A Hist village repeats its hut by culture, as Morrowind's villages do; variety comes from dressing, yaw, scale and condition. The Greenspring walk packet asks the owner whether a Hist village may repeat its hut this way."
+        },
+        "topShellShareMax": {
+          "value": 0.5,
+          "source": "planner ruling 2026-09-28 (16k walk 4, GREENSPRING3 brief ruling 1)",
+          "why": "A Hist village repeats its hut by culture, as Morrowind's villages do; variety comes from dressing, yaw, scale and condition. The Greenspring walk packet asks the owner whether a Hist village may repeat its hut this way."
+        }
+      },
       "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:225)"
     },
     "3": {

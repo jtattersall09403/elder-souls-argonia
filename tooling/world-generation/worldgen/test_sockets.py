@@ -294,3 +294,29 @@ def test_a_socket_that_fills_a_promise_realises_it_wherever_it_stands():
     assert bpr.socket_promise_errors([row], [deck]) != []           # no fills map: parcel rule
     assert bpr.socket_promise_errors([row], [deck], subjects) == []
     assert bpr.socket_promise_errors([row], [{**deck, "kind": "idle"}], subjects) != []
+
+
+def test_a_socket_on_a_deck_stands_on_the_deck_top_never_the_terrain():
+    """16k walk 4 defect 5: Claywater's npc-poler compiled at the terrain
+    under the landing deck (32.77 m, the channel bed) with the deck top at
+    35.59 m. Every socket takes its y from the highest walkable placed
+    surface under it (a deck, a hull), else its host's pivot or the ground."""
+    deck = [[-2.0, -2.0], [2.0, -2.0], [2.0, 2.0], [-2.0, 2.0]]
+    surface_at = sk.walkable_surface_at([(deck, 9.5, "deck-a"), (deck, 8.0, "deck-low")])
+    ops = [{"id": "socket.t.on-deck", "kind": "marker", "at": [1.0, 1.0], "zone": "scene",
+            "parcel": "parcel.a", "why": "on the deck"},
+           {"id": "socket.t.off-deck", "kind": "marker", "at": [9.0, 9.0], "zone": "scene",
+            "parcel": "parcel.a", "why": "on the ground"},
+           {"id": "socket.t.hosted", "kind": "container", "host": "barrel",
+            "containerClass": "barrel", "fillRule": "authored",
+            "lootTable": {"itemClasses": ["food"], "valueBand": "low"},
+            "parcel": "parcel.a", "why": "at its host"}]
+    bp = {"id": BP}
+    socks, errors = sk.compile_sockets(bp, PLACEMENTS, lambda x, z: 7.0, ops, VOCAB,
+                                       surface_at=surface_at)
+    assert not errors, errors
+    y = {s["id"]: s["positionM"][1] for s in socks}
+    assert y["socket.t.on-deck"] == 9.5           # the highest deck, not the 7.0 terrain
+    assert y["socket.t.off-deck"] == 7.0          # no deck: the padded ground
+    assert y["socket.t.hosted"] == 10.0           # the barrel at (0, 0) is on the deck
+    # ... whose top (9.5) is below the barrel's pivot: a host above the deck keeps its pivot

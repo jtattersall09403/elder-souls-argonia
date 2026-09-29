@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import fixture from "./__fixtures__/interior.fixture.json";
@@ -5,7 +6,7 @@ import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
 import { parseInteriorBundle, type Vec3 } from "./bundle";
 import { INTERIOR_LIGHT_INTENSITY_PER_FADE, InteriorLoader, type LoadedInterior } from "./interiorLoader";
-import { DOOR_FADE_S, DoorTransition } from "./doorTransition";
+import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
 import { InteriorEnvironment } from "./interiorEnvironment";
 
@@ -19,18 +20,39 @@ function asset(id: string): ArchitectureAsset {
   }]] };
 }
 
-function fixtureLoader(bundle: unknown = fixture) {
+/** Hosts over a bundle whose kits publish a part for every id `assetsOf(kit)` names (kitParts.ts). */
+function partsHosts(bundle: unknown, assetsOf: (kitId: string) => string[]) {
   const fetched: string[] = [];
-  const kitsLoaded: string[] = [];
-  const loader = new InteriorLoader("/base/", {
-    fetchJson: async (url) => { fetched.push(url); return structuredClone(bundle); },
-    loadKit: async (kit, url) => {
-      kitsLoaded.push(url);
-      return new Map(["fixture:floor", "fixture:wall", "fixture:bench", "fixture:barrel"]
-        .map((id) => [id, asset(id)] as const));
+  const partsLoaded: string[] = [];
+  const hosts = {
+    fetchJson: async (url: string) => {
+      fetched.push(url);
+      const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
+      if (!kit) return structuredClone(bundle);
+      return {
+        schemaVersion: 1, kit, source: { bytes: 0, sha256: "" },
+        assets: Object.fromEntries(assetsOf(kit).map((id) => [id, { file: `${encodeURIComponent(id)}.glb`, bytes: 0, vertices: 0, triangles: 0, textures: [] }])),
+      };
     },
-  });
-  return { loader, fetched, kitsLoaded };
+    loadPart: async (_kit: unknown, assetId: string, url: string) => {
+      partsLoaded.push(url);
+      return new Map([[assetId, asset(assetId)] as const]);
+    },
+  };
+  return { hosts, fetched, partsLoaded };
+}
+
+/** Every asset id a bundle draws (placements, stand-ins, swing doors): the kit publishes a part for each. */
+function bundleAssets(bundle: unknown): string[] {
+  const b = bundle as { placements: { assetId: string }[]; substitutions?: { standInAsset: string }[]; doors: { assetId?: string }[] };
+  return [...b.placements.map((p) => p.assetId), ...(b.substitutions ?? []).map((x) => x.standInAsset),
+    ...b.doors.flatMap((d) => (d.assetId ? [d.assetId] : []))];
+}
+
+function fixtureLoader(bundle: unknown = fixture, published: string[] = bundleAssets(fixture)) {
+  const { hosts, fetched, partsLoaded } = partsHosts(bundle, () => published);
+  const loader = new InteriorLoader("/base/", hosts);
+  return { loader, fetched, partsLoaded };
 }
 
 function fakeController(start: { x: number; y: number; z: number }) {
@@ -53,13 +75,13 @@ const door = (over: Partial<SettlementDoor>): SettlementDoor => ({
 });
 
 function rig(doors: SettlementDoor[], start = { x: 100.5, y: 10 + BODY, z: 200 }, resident = { now: true },
-  bundle: unknown = fixture) {
+  bundle: unknown = fixture, groundAt: (x: number, z: number) => number | null = () => 10) {
   const { loader, fetched } = fixtureLoader(bundle);
   const controller = fakeController(start);
   const shown: { cell: string | null; origin: Vec3 | null } = { cell: null, origin: null };
   const t = new DoorTransition({
     controller, interiors: loader, bodyCentreHeightM: BODY,
-    groundAt: () => 10,
+    groundAt,
     showInterior: (i: LoadedInterior, o) => { shown.cell = i.bundle.cellId; shown.origin = o; },
     showExterior: () => { shown.cell = null; },
     interiorResident: () => resident.now,
@@ -79,7 +101,7 @@ async function run(t: DoorTransition, seconds: number, press = false) {
 
 describe("interior bundle", () => {
   it("refuses a bundle of another schema and a placement whose kit is not listed", () => {
-    expect(() => parseInteriorBundle({ ...fixture, schemaVersion: 2 }, "x")).toThrow(/schemaVersion/);
+    expect(() => parseInteriorBundle({ ...fixture, schemaVersion: 1 }, "x")).toThrow(/unsupported schemaVersion 1/);
     const bad = structuredClone(fixture);
     bad.placements[0].kit = "nowhere";
     expect(() => parseInteriorBundle(bad, "x")).toThrow(/not in the bundle's kits/);
@@ -89,20 +111,21 @@ describe("interior bundle", () => {
 describe("interior bundle contract (the shared fixture)", () => {
   it("parses the fixture the exporter test reads: plugin, frame, refCount, exit door, pairings, light raw fields", () => {
     const b = parseInteriorBundle(structuredClone(fixture), "fixture");
-    expect([b.plugin, b.shellAssetId, b.refCount]).toEqual(["Fixture.esp", "fixture:shell/hut01", 9]);
+    expect([b.plugin, b.shellAssetId, b.refCount]).toEqual(["Fixture.esp", "fixture:shell/hut01", 10]);
     expect(b.exitDoor).toMatchObject({ id: "fixture.hut-int.exit", refId: "00000A01" });
-    expect(b.doors).toEqual([{ exteriorDoorId: "door.fixture.1", interiorLoadDoorRef: "00000A01",
+    expect(b.doors.filter((d) => d.doorType === "load")).toEqual([{ doorType: "load", exteriorDoorId: "door.fixture.1", interiorLoadDoorRef: "00000A01",
       arrivalMarker: { positionM: [0, 0, 2.5], yawDeg: 0 }, loadDoor: { positionM: [0, 0, 3.5], yawDeg: 180 } }]);
     expect(b.lights.map((l) => [l.refId, l.fade, l.raw.xrdsUnits])).toEqual([
       ["00000B01", 1.5, null], ["00000B02", 1, -120.5]]);
     // acceptance (0103 decision 3): references = placements + drops
-    expect(b.placements.length + b.drops.length).toBe(b.refCount);
+    // walk 4: plus the swing doors, which are doors[] entries and not placements
+    expect(b.placements.length + b.drops.length + b.doors.filter((d) => d.doorType === "swing").length).toBe(b.refCount);
     expect(parseInteriorBundle({ ...structuredClone(fixture), shellAssetId: null }, "x").shellAssetId).toBeNull();
   });
 
   it("refuses a malformed door pairing, a light without its fade field, a missing drops list", () => {
     const pairing = structuredClone(fixture) as { doors: unknown[] };
-    pairing.doors = [{ exteriorDoorId: "door.x", interiorLoadDoorRef: "00000A01",
+    pairing.doors = [{ doorType: "load", exteriorDoorId: "door.x", interiorLoadDoorRef: "00000A01",
       arrivalMarker: { positionM: [0, 0, 2.5], yawDeg: 0 } }];      // no loadDoor
     expect(() => parseInteriorBundle(pairing, "x")).toThrow(/door pairing 0 malformed/);
     const light = structuredClone(fixture) as { lights: Record<string, unknown>[] };
@@ -157,10 +180,12 @@ describe("InteriorLoader", () => {
   });
 
   it("instantiates the fixture: 6 placements over 4 assets, 2 point lights, ambient and fog", async () => {
-    const { loader, fetched, kitsLoaded } = fixtureLoader();
+    const { loader, fetched, partsLoaded } = fixtureLoader();
     const cell = await loader.request("fixture.hut-int");
-    expect(fetched).toEqual(["/base/province/interiors/fixture.hut-int.json"]);
-    expect(kitsLoaded).toEqual(["/base/kits/fixture-int-v1.glb"]);
+    expect(fetched).toEqual(["/base/province/interiors/fixture.hut-int.json", "/base/kits/fixture-int-v1/parts/index.json"]);
+    // one part per asset drawn (4 placed assets and the swing door), nothing else
+    expect(partsLoaded.sort()).toEqual(["barrel", "bench", "doors/animdoor01", "floor", "wall"]
+      .map((n) => `/base/kits/fixture-int-v1/parts/${encodeURIComponent(`fixture:${n}`)}.glb`));
     const meshes = cell.group.children.filter((c) => (c as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
     expect(meshes.length).toBe(4);
     expect(meshes.reduce((n, m) => n + m.count, 0)).toBe(6);
@@ -172,7 +197,21 @@ describe("InteriorLoader", () => {
     expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6 });
     // cached by cellId: a second request fetches nothing
     await loader.request("fixture.hut-int");
-    expect(fetched.length).toBe(1);
+    expect(fetched.length).toBe(2);
+  });
+});
+
+describe("InteriorLoader: a drawn asset with no published part", () => {
+  it("fails the cell with a line naming the kit and asset, which the transition hands the overlay's red line", async () => {
+    const ghost = structuredClone(fixture);
+    ghost.placements[0].assetId = "fixture:ghost";
+    const { t, loader, shown } = rig([door({})], undefined, undefined, ghost);
+    await run(t, 0.1);
+    await run(t, 3 * DOOR_FADE_S, true);
+    expect(shown.cell).toBeNull();
+    const line = "fixture-int-v1/fixture:ghost has no published part";
+    expect(loader.failure("fixture.hut-int")?.message).toContain(line);
+    expect(t.lastError?.message).toContain(line);    // InteriorDoors: overlay.setError(transition.lastError.message)
   });
 });
 
@@ -230,15 +269,18 @@ describe("DoorTransition", () => {
   it("holds at black on the arrival marker until the cell's colliders are resident", async () => {
     const resident = { now: false };
     const { t, controller } = rig([door({})], undefined, resident);
+    expect(t.loadingTextId).toBeNull();
     await run(t, 3 * DOOR_FADE_S, true);
     expect(t.cellId).toBe("fixture.hut-int");
     expect(t.fade).toBe(1);
+    expect(t.loadingTextId).toBe("text.door.loading");   // the line on the black (walk 4 c)
     controller.teleport({ x: 100, y: 0, z: 202.5 });   // gravity pulled the body down
     await run(t, 0.1);
     expect(controller.pos.y).toBeCloseTo(INTERIOR_SPACE_LIFT_M + BODY);
     resident.now = true;
     await run(t, 2 * DOOR_FADE_S);
     expect(t.fade).toBe(0);
+    expect(t.loadingTextId).toBeNull();
   });
 
   it("opens a cell directly at its arrival marker (studio ?interior=)", async () => {
@@ -257,9 +299,9 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
   const twoDoor = structuredClone(fixture);
   twoDoor.exitDoor = { id: "fixture.hut-int.exit-1", refId: "LOAD1", positionM: [-3, 0, 0], yawDeg: 270 };
   twoDoor.doors = [
-    { exteriorDoorId: "door.one", interiorLoadDoorRef: "LOAD1", arrivalMarker: { positionM: [-2, 0, 0], yawDeg: 90 },
+    { doorType: "load", exteriorDoorId: "door.one", interiorLoadDoorRef: "LOAD1", arrivalMarker: { positionM: [-2, 0, 0], yawDeg: 90 },
       loadDoor: { positionM: [-3, 0, 0], yawDeg: 270 } },
-    { exteriorDoorId: "door.two", interiorLoadDoorRef: "LOAD2", arrivalMarker: { positionM: [2, 0, 0], yawDeg: 270 },
+    { doorType: "load", exteriorDoorId: "door.two", interiorLoadDoorRef: "LOAD2", arrivalMarker: { positionM: [2, 0, 0], yawDeg: 270 },
       loadDoor: { positionM: [3, 0, 0], yawDeg: 90 } },
   ];
   const one = door({ id: "door.one", thresholdM: [96, 200], facingDeg: 270 });
@@ -310,7 +352,7 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
 
   it("a load door no exterior door pairs with is closed: the closed line, and pressing does nothing", async () => {
     const withClosed = { ...structuredClone(twoDoor), doors: [twoDoor.doors[0],
-      { interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }] as unknown[] };
+      { doorType: "load", interiorLoadDoorRef: "UPPER", closed: true, loadDoor: { positionM: [0, 0, 3], yawDeg: 180 } }] as unknown[] };
     const parsed = parseInteriorBundle(structuredClone(withClosed), "x");
     expect(parsed.doors[1]).toMatchObject({ interiorLoadDoorRef: "UPPER", closed: true });
     const bad = structuredClone(withClosed) as { doors: Record<string, unknown>[] };
@@ -327,6 +369,50 @@ describe("DoorTransition: two exterior doors, one cell (owner ruling B)", () => 
     expect(t.candidate).toMatchObject({ id: "fixture.hut-int.exit.UPPER", promptTextId: "text.door.closed" });
     await run(t, 3 * DOOR_FADE_S, true);
     expect(shown.cell).toBe("fixture.hut-int");          // still inside
+  });
+
+  it("two places claim one cell: leaving returns to the door of the place entered from, at its ground (walk 4 b)", async () => {
+    // Claywater (place.a, ground 10 m) and Greenspring (place.b, 4.4 km away,
+    // ground -5 m) both claim the cell; the bundle pairs its load door 1 with
+    // Greenspring's door and Claywater's claim names the same load door.
+    const a = door({ id: "door.a", settlementId: "place.a", thresholdM: [100, 200], facingDeg: 90,
+      interiorClaim: { tier: "A", cellId: "fixture.hut-int", interiorLoadDoorRef: "LOAD1" } });
+    const b = door({ id: "door.one", settlementId: "place.b", thresholdM: [4500, 1850], facingDeg: 270 });
+    const ground = (x: number) => (x > 1000 ? -5 : 10);
+    const { t, controller, shown } = rig([a, b], { x: 100.3, y: 10 + BODY, z: 200 }, undefined, twoDoor, ground);
+    await run(t, 3 * DOOR_FADE_S, true);
+    expect(shown.cell).toBe("fixture.hut-int");
+    controller.teleport({ x: 100 - 3 + 0.4, y: INTERIOR_SPACE_LIFT_M + BODY, z: 200 });
+    await run(t, 0.1);
+    expect(t.candidate).toMatchObject({ id: "fixture.hut-int.exit-1" });
+    await run(t, 3 * DOOR_FADE_S, true);
+    expect(shown.cell).toBeNull();
+    // door.a's threshold, 1 m outward east, standing on its ground
+    expect(Math.hypot(controller.pos.x - 101, controller.pos.z - 200)).toBeLessThan(0.5);
+    expect(controller.pos.y).toBeCloseTo(10 + BODY + RETURN_LIFT_M);
+  });
+
+  it("returns to the height recorded on entry at a deck threshold over the terrain, never below the ground", async () => {
+    const deck = door({ id: "door.deck", settlementId: "place.a", thresholdM: [100, 200], facingDeg: 90 });
+    const { t, controller } = rig([deck], { x: 100.3, y: 14 + BODY, z: 200 });   // deck 4 m over ground 10
+    await run(t, 3 * DOOR_FADE_S, true);
+    controller.teleport({ x: 100, y: INTERIOR_SPACE_LIFT_M + BODY, z: 203.3 });
+    await run(t, 0.1);
+    await run(t, 3 * DOOR_FADE_S, true);
+    expect(controller.pos.y).toBeCloseTo(14 + BODY + RETURN_LIFT_M);
+  });
+
+  it("leaving by another door of the same place stands on that door's ground, not the entry height", async () => {
+    const low = door({ id: "door.one", thresholdM: [96, 200], facingDeg: 270 });
+    const high = door({ id: "door.two", thresholdM: [104, 200], facingDeg: 90 });
+    const ground = (x: number) => (x < 100 ? 2 : 10);
+    const { t, controller } = rig([low, high], { x: 104.3, y: 10 + BODY, z: 200 }, undefined, twoDoor, ground);
+    await run(t, 3 * DOOR_FADE_S, true);
+    controller.teleport({ x: 104 - 3 + 0.4, y: INTERIOR_SPACE_LIFT_M + BODY, z: 200 });
+    await run(t, 0.1);
+    await run(t, 3 * DOOR_FADE_S, true);
+    expect(controller.pos.x).toBeCloseTo(95);
+    expect(controller.pos.y).toBeCloseTo(2 + BODY + RETURN_LIFT_M);
   });
 
   it("answers only the door the arbiter awards the press to", async () => {
@@ -350,8 +436,21 @@ describe("InteriorEnvironment", () => {
     const env = new THREE.Texture();
     scene.add(sun, cell.group);
     scene.environment = env;
-    const gl = { toneMappingExposure: 3 };
+    const sky = new THREE.Color(0.1, 0.2, 0.3);
+    scene.background = sky;
+    const clear = { color: new THREE.Color(0, 0, 0), alpha: 0 };
+    const gl = {
+      toneMappingExposure: 3,
+      getClearColor: (t: THREE.Color) => t.copy(clear.color),
+      getClearAlpha: () => clear.alpha,
+      setClearColor: (c: THREE.Color, a = 1) => { clear.color.copy(c); clear.alpha = a; },
+    };
     const inside = new InteriorEnvironment(scene, gl, cell);
+    // walk 4 a: a Color background makes three clear on every render() call,
+    // wiping the water pipeline's blit; the fog colour is the clear colour
+    expect(scene.background).toBeNull();
+    expect(clear.color.equals(cell.background)).toBe(true);
+    expect(clear.alpha).toBe(1);
     expect(sun.visible).toBe(false);
     expect(scene.environment).toBeNull();
     expect(scene.fog).toBe(cell.fog);
@@ -364,5 +463,38 @@ describe("InteriorEnvironment", () => {
     expect(scene.environment).toBe(env);
     expect(scene.fog).toBeNull();
     expect(gl.toneMappingExposure).toBe(2.5);
+    expect(scene.background).toBe(sky);
+    expect(clear.color.equals(new THREE.Color(0, 0, 0))).toBe(true);
+    expect(clear.alpha).toBe(0);
   });
+});
+
+describe("loaded cell contract (walk 4 a): the owner's cells draw around the arrival, inside the fog", () => {
+  for (const cellId of ["KeebaHouseFisher", "KeebaHouseCrafter", "DawnstarBrinasHouse"]) {
+    it(cellId, async () => {
+      const raw = JSON.parse(readFileSync(new URL(
+        `../../../../apps/world-studio/public/province/interiors/${cellId}.json`, import.meta.url), "utf8"));
+      const bundle = parseInteriorBundle(structuredClone(raw), "x");
+      const { hosts, fetched, partsLoaded } = partsHosts(raw, (kit) => [...bundle.placements, ...(bundle.substitutions ?? [])]
+        .filter((p) => p.kit === kit).map((p) => ("standInAsset" in p ? p.standInAsset : p.assetId) as string));
+      const loader = new InteriorLoader("/base/", hosts);
+      const cell = await loader.request(cellId);
+      const assets = new Set([...cell.bundle.placements, ...(cell.bundle.substitutions ?? [])]
+        .map((p) => `${p.kit}|${"standInAsset" in p ? p.standInAsset : p.assetId}`));
+      expect(cell.counts.meshes).toBe(assets.size);            // one InstancedMesh per (asset, part)
+      // exactly the drawn assets are fetched, one part each, and no whole kit
+      expect(partsLoaded.length).toBe(assets.size);
+      expect(new Set(partsLoaded).size).toBe(assets.size);
+      expect(fetched.filter((u) => u.endsWith("index.json")).length).toBe(Object.keys(cell.bundle.kits).length);
+      expect([...fetched, ...partsLoaded].some((u) => /kits\/[^/]+\.glb$/.test(u))).toBe(false);
+      const box = new THREE.Box3().setFromObject(cell.group);
+      const [ax, ay, az] = cell.bundle.arrivalMarker.positionM;
+      expect(ax).toBeGreaterThan(box.min.x); expect(ax).toBeLessThan(box.max.x);
+      expect(az).toBeGreaterThan(box.min.z); expect(az).toBeLessThan(box.max.z);
+      expect(ay).toBeGreaterThanOrEqual(box.min.y - 0.5);
+      const extent = box.getSize(new THREE.Vector3()).length();
+      expect(cell.fog.far).toBeGreaterThan(extent);
+      expect(cell.fog.near).toBeLessThan(cell.fog.far);
+    });
+  }
 });

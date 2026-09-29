@@ -143,6 +143,14 @@ def edge_jitter(x: float, z: float) -> float:
     return EDGE_JITTER_M * (wobble + 1.0) / 2.0
 
 
+def _jitter_scale(clearance: dict) -> float:
+    """``edgeJitterM`` (optional): a patch's own built-edge wobble, metres, as
+    a share of :data:`EDGE_JITTER_M`. The ground-cover tier of a place uses a
+    tight one (16k walk 4); absent keeps the C13 wobble."""
+    j = clearance.get("edgeJitterM")
+    return 1.0 if j is None else float(j) / EDGE_JITTER_M
+
+
 def keep_at(x: float, z: float, clearance: dict, margin_m: float = 0.0) -> float:
     """Share of wild vegetation that survives at this position, in [0, 1].
 
@@ -162,7 +170,7 @@ def keep_at(x: float, z: float, clearance: dict, margin_m: float = 0.0) -> float
     d_wall = math.inf
     if hard:
         d_hard = max(0.0, d_hard - margin_m)
-        jitter = edge_jitter(x, z)
+        jitter = edge_jitter(x, z) * _jitter_scale(clearance)
         if in_hard or d_hard <= jitter:
             return 0.0
         # Distance from the built edge as CUT, not from the drawn polygon.
@@ -468,7 +476,7 @@ def keep_field(x: np.ndarray, z: np.ndarray, clearance: dict,
         lx, lz = EDGE_JITTER_WAVELENGTH_M
         wobble = (np.sin(x / lx) * np.cos(z / lz)
                   + 0.5 * np.sin(z / (lx * 0.6) + 1.7)) / 1.5
-        jitter = EDGE_JITTER_M * (wobble + 1.0) / 2.0
+        jitter = EDGE_JITTER_M * (wobble + 1.0) / 2.0 * _jitter_scale(clearance)
         in_hard = in_hard | (d_hard <= jitter)
         d_wall = d_hard - jitter
     else:

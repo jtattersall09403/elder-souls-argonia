@@ -863,7 +863,8 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
     swing; a door of an open-fronted building with no interior is dropped);
     returns one report row per door with the candidates. Doors of one parcel take the paired load doors in order
     (entrance i -> the door paired to it). Existing claim fields
-    (interiorRef, sizeClass, owner, culture) are kept."""
+    (owner, culture) are kept; interiorRef and sizeClass are rewritten from
+    the parcel's piece whenever the interiors index holds it."""
     lib = lib if lib is not None else library()
     links = links if links is not None else linked_shells()
     parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
@@ -911,6 +912,16 @@ def claim_doors(bp: dict, lib: InteriorLibrary | None = None,
         for key in ("tier", "cellId", "plugin", "pool", "why", "interiorLoadDoorRef",
                     "arrivalMarker"):
             claim.pop(key, None)
+        # the piece's own interior kit and size class follow the shell, so a
+        # shell swap never keeps the old shell's (GREENSPRING5: a hut -> pod
+        # swap kept 'vanilla-farmhouse-int' and failed the schema check)
+        record = lib.get(parcel.get("assetRef")) if isinstance(parcel.get("assetRef"), str) else None
+        if record is not None:
+            want = record.get("interiorAssetRef") or record.get("tileset")  # InteriorLibrary.interior_ref
+            if want is not None:
+                claim["interiorRef"] = want
+            if record.get("sizeClass") is not None:
+                claim["sizeClass"] = record["sizeClass"]
         tier = result["tier"]
         paired = (result.get("doors") or [])
         if tier == "A" and nth >= len(paired):

@@ -32,3 +32,20 @@ def test_a_y_joined_run_laid_from_its_far_end_reverses_the_pair():
     laid, errors = fp.lay_pieces(parcel, _Y_ABUTS)
     assert errors == []
     assert (round(laid[1]["xM"], 2), round(laid[1]["zM"], 2)) == (0.02, 4.86)
+
+
+def test_a_measured_authored_run_reads_its_rise_from_each_pose():
+    """16k walk 4: a workbench run's members carry `yMeasured`; the laid
+    riseM is each pivot's rise over member 0 (anchorRun then stands every
+    piece at its pose), never 0 with a datum from the run's highest ground."""
+    parcel = {"yawDeg": 90.0, "pieces": [
+        {"asset": "a", "atM": [0.0, 0.0], "yMeasured": 37.075},
+        {"asset": "b", "atM": [3.0, 0.0], "yMeasured": 36.971},
+        {"asset": "b", "atM": [6.0, 0.0], "yMeasured": 36.575}]}
+    laid, errors = fp.lay_pieces(parcel)
+    assert not errors
+    assert [r["riseM"] for r in laid] == [0.0, -0.104, -0.5]
+    assert [r["yMeasured"] for r in laid] == [37.075, 36.971, 36.575]
+    for q in parcel["pieces"]:
+        q.pop("yMeasured")
+    assert [r["riseM"] for r in fp.lay_pieces(parcel)[0]] == [0.0, 0.0, 0.0]

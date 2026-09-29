@@ -1,7 +1,7 @@
 /**
  * A place's vegetation clearance, applied when a vegetation cell is built
  * (decision 0102 decision 1): the clearance travels in the place's bundle
- * (`settlements[i].vegetationClearance`, schemaVersion 1) instead of waiting
+ * (`settlements[i].vegetationClearance`, schemaVersion 2: the tiers) instead of waiting
  * for the chain to prune the published vegetation bundles.
  *
  * The rule is `worldgen.apply_vegetation_patches.survives`, exactly: a plant
@@ -14,13 +14,18 @@
  */
 
 import {
+  type ClearancePolygon,
   clearanceBoundsM,
   keepForExtent,
   type VegetationClearancePatch,
   type VegetationPatchesDoc,
+  type VegetationPatchRecord,
 } from "./vegetationPatches";
 
-export const VEGETATION_CLEARANCE_SCHEMA_VERSION = 1;
+/** 2 since 16k walk 4: the tiers. `hardClear` + `thinned` are where trees
+ * and large plants go (the vegetation cells); `groundClear` is where the
+ * ground cover dies (the groundcover ring): the hard surfaces only. */
+export const VEGETATION_CLEARANCE_SCHEMA_VERSION = 2;
 /** `apply_vegetation_patches` main's default seed. */
 export const CLEARANCE_SEED = 0x5ca77e5;
 /** `apply_vegetation_patches.ROLL_SALT`. */
@@ -29,6 +34,10 @@ const ROLL_SALT = 0xc1ea4n;
 export interface BundleClearance extends VegetationClearancePatch {
   readonly id: string;
   readonly schemaVersion?: number;
+  /** Ways, pads and floors, grown by their margin: the ground-cover tier. */
+  readonly groundClear?: readonly ClearancePolygon[];
+  /** The ground-cover tier's built-edge wobble, metres. */
+  readonly groundEdgeJitterM?: number;
 }
 
 const MASK = 0xffffffffffffffffn;
@@ -75,21 +84,32 @@ export function instanceRoll(seed: number, idHash: bigint, x: number, z: number)
   return Number(hash64(key, 0n) >> 11n) * (1 / 2 ** 53);
 }
 
+/** A species shorter than this (its kit height at scale 1,
+ * `CellSpeciesParams.heightM`) is judged on the ground-cover tier, not the
+ * tree tier: a sub-metre plant is ground cover wherever it grows (GROUND
+ * rec 3, 16k walk 4 lane COMPILE). */
+export const GROUND_TIER_MAX_HEIGHT_M = 0.6;
+
 export interface ClearanceFilter {
-  /** False when the plant at (x, z) with this reach is cleared. */
-  survives(x: number, z: number, radiusM: number): boolean;
+  /** False when the plant at (x, z) with this reach is cleared. `heightM`
+   * (the species' kit height) under GROUND_TIER_MAX_HEIGHT_M reads the
+   * ground-cover tier; absent reads the tree tier. */
+  survives(x: number, z: number, radiusM: number, heightM?: number): boolean;
 }
 
 /** The filter over every place's clearance in a bundle. */
 export function makeClearanceFilter(
   clearances: readonly BundleClearance[], seed: number = CLEARANCE_SEED,
 ): ClearanceFilter {
-  const entries = clearances.flatMap((c) => {
+  const tier = (rows: readonly (VegetationClearancePatch & { readonly id: string })[]) => rows.flatMap((c) => {
     const bounds = clearanceBoundsM(c);
     return bounds ? [{ clearance: c, bounds, idHash: patchIdHash(c.id) }] : [];
   });
+  const trees = tier(clearances);
+  const ground = tier(clearances.map(groundTierOf));
   return {
-    survives(x, z, radiusM) {
+    survives(x, z, radiusM, heightM) {
+      const entries = heightM !== undefined && heightM < GROUND_TIER_MAX_HEIGHT_M ? ground : trees;
       for (const e of entries) {
         const b = e.bounds;
         if (x < b.minX - radiusM || x > b.maxX + radiusM
@@ -115,16 +135,34 @@ export function clearancesOfBundle(bundle: {
       throw new Error(`${s.id}: vegetationClearance schemaVersion ${String(c.schemaVersion)}, `
         + `expected ${VEGETATION_CLEARANCE_SCHEMA_VERSION}`);
     }
+    if (!Array.isArray(c.groundClear)) {
+      throw new Error(`${s.id}: vegetationClearance schemaVersion ${String(c.schemaVersion)} `
+        + "has no groundClear (the ground-cover tier)");
+    }
     out.push(c);
   }
   return out;
 }
 
-/** The published vegetation patches with every place's bundle clearance
- * added: the one clearance list the groundcover tiles index
- * (`indexPatches`), the same list the vegetation cells filter on (0102). */
+/** A place's ground-cover tier as a patch: only its hard surfaces
+ * (`groundClear`) clear, with its own tight wobble; no fringe, so the ground
+ * cover stands everywhere else, between the buildings included. */
+export function groundTierOf(c: BundleClearance): VegetationPatchRecord {
+  return {
+    id: `${c.id}.ground`,
+    hardClear: c.groundClear ?? [],
+    thinned: [],
+    kept: c.kept ?? [],
+    ...(c.groundEdgeJitterM !== undefined ? { edgeJitterM: c.groundEdgeJitterM } : {}),
+  };
+}
+
+/** The published vegetation patches with every place's ground-cover tier
+ * added (`groundTierOf`): the one clearance list the groundcover tiles index
+ * (`indexPatches`). The vegetation cells filter on the tree tier
+ * (`makeClearanceFilter`) of the same rows (0102, 16k walk 4). */
 export function withPlaceClearances(
   doc: VegetationPatchesDoc, places: readonly BundleClearance[],
 ): VegetationPatchesDoc {
-  return { ...doc, patches: [...(doc.patches ?? []), ...places] };
+  return { ...doc, patches: [...(doc.patches ?? []), ...places.map(groundTierOf)] };
 }

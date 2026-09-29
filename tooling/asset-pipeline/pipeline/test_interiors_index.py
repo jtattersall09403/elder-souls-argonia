@@ -33,13 +33,23 @@ def _slab(y, half=5.0) -> list:
 
 
 def room(half: float = 5.0, ceiling: float = 3.0, roof: bool = True,
-         door_at_x: float | None = None) -> np.ndarray:
+         door_at_x: float | None = None, hole_east: bool = False,
+         sill: float = 0.0) -> np.ndarray:
     """A four-walled box with a floor, optionally a ceiling, optionally a door
     leaf set into the +x wall (a panel standing proud of the wall, which is how
     every closed exterior shell in our kits models its door)."""
     tris: list = []
     tris += _wall(-half, -half, half, -half, 0.0, ceiling)
-    tris += _wall(half, -half, half, half, 0.0, ceiling)
+    if hole_east:
+        # a real opening in the +x wall: 1.2 m wide, sill `sill`, 2.2 m clear
+        top = sill + 2.2
+        tris += _wall(half, -half, half, -0.6, 0.0, ceiling)
+        tris += _wall(half, 0.6, half, half, 0.0, ceiling)
+        tris += _wall(half, -0.6, half, 0.6, top, ceiling)
+        if sill > 0:
+            tris += _wall(half, -0.6, half, 0.6, 0.0, sill)
+    else:
+        tris += _wall(half, -half, half, half, 0.0, ceiling)
     tris += _wall(half, half, -half, half, 0.0, ceiling)
     tris += _wall(-half, half, -half, -half, 0.0, ceiling)
     tris += _slab(0.0, half)
@@ -449,7 +459,7 @@ def test_a_measured_opening_beats_the_mined_one_and_keeps_it_as_corroboration():
     record = ix.classify_asset(
         {"id": "htbm:architecture/villages/argonian/bamboohut01", "category": "architecture"},
         "settlement-stilt-v1",
-        _verts(room(door_at_x=3.5)), room(door_at_x=3.5), {},
+        _verts(room(hole_east=True)), room(hole_east=True), {},
         [_mined_fixed()],
     )
     assert record["doorwaySource"] == "geometry"
@@ -1087,3 +1097,52 @@ def test_r18_an_open_front_doorless_piece_placed_outdoors_is_walked_into():
                        (outdoors, ("opening", "open-front")), (outdoors, ("esp-door", "open-front"))):
         r = rec(kinds=kinds); ix.walk_in_open_front(r, row)
         assert r["interior"] == "shell", (row, kinds)
+
+
+# --------------------------------------------------------------------------- #
+# a doorway is where rays pass (16k walk 4, lane PARTS)
+# --------------------------------------------------------------------------- #
+_HUT = {"id": "kotm:argonia/mudhuts/testhut", "category": "architecture"}
+
+
+def test_a_closed_doorway_is_dropped_with_a_warn_naming_the_shell(capsys):
+    """A leaf panel set proud of a CLOSED wall reads as a doorway to the probe,
+    but no ray passes through it: it is dropped, named, and kept for audit."""
+    tris = room(door_at_x=3.5)
+    record = ix.classify_asset(_HUT, "settlement-mud-v1", _verts(tris), tris, {})
+    assert record["doorways"] == []
+    assert record["doorwaysClosedDropped"][0]["sideDeg"] == pytest.approx(90.0, abs=5.0)
+    assert "kotm:argonia/mudhuts/testhut" in capsys.readouterr().out
+
+
+def test_an_open_doorway_is_kept_with_its_sill_clear_height_and_width():
+    tris = room(hole_east=True)
+    record = ix.classify_asset(_HUT, "settlement-mud-v1", _verts(tris), tris, {})
+    door = record["doorways"][0]
+    assert door["rayConfirmed"] is True
+    assert door["sideDeg"] == pytest.approx(90.0, abs=5.0)
+    assert door["sillYM"] == pytest.approx(0.0, abs=0.06)
+    assert door["clearM"] == pytest.approx(2.2, abs=0.1)
+    assert door["widthM"] == pytest.approx(1.2, abs=0.1)
+    assert "doorwaysClosedDropped" not in record
+
+
+def test_an_opening_above_the_floor_is_found_at_its_sill():
+    """mudhut01's shape: the floor ladder stands at a foundation's foot, the
+    opening starts 2.5 m up, so only the sill sweep can find it."""
+    tris = room(hole_east=True, sill=2.5, ceiling=6.0)
+    doors = ix.sill_doorways(tris, (0.0, 0.0), 0.0, 6.0)
+    assert len(doors) == 1
+    assert doors[0]["sideDeg"] == pytest.approx(90.0, abs=5.0)
+    assert doors[0]["sillYM"] == pytest.approx(2.5, abs=0.06)
+    assert doors[0]["clearM"] == pytest.approx(2.2, abs=0.1)
+
+
+def test_the_sill_is_the_tread_not_the_gap_under_a_floor_slab():
+    """The Riften stable's shape: a horizontal ray slides under the stall floor,
+    so the sill is where the down ray finds the tread."""
+    tris = np.vstack([room(hole_east=True), np.asarray(_slab(0.3), dtype=np.float64)])
+    door = {"sideDeg": 90.0, "offsetM": [5.0, 0.0], "arcM": 1.2}
+    proof = ix.doorway_rays(tris, door, 0.0, 0.6)
+    assert proof["sillYM"] == pytest.approx(0.3, abs=0.06)
+    assert proof["clearM"] == pytest.approx(1.9, abs=0.1)

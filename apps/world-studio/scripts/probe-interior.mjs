@@ -5,7 +5,10 @@
 //     the mesh count, and the frame's luminance mean / std-dev.
 //   PROBE=door  X=0.31743 Z=3.065945 -> stands at an exterior door, logs the
 //     door candidate / focus / prompt, the physics floor there, then presses E
-//     and logs whether the cell opened.
+//     and logs whether the cell opened, the seconds from the press to the
+//     cell opening and to the fade clearing, and the interior/kit files and
+//     bytes fetched after the press (`fetchedAfterPress`); PROFILE=1 adds the
+//     main thread's top self-time functions over that wait (`profile`).
 // Usage from apps/world-studio: PROBE=cell node scripts/probe-interior.mjs [--timeout <s>] [--out <file>]
 //   --timeout <s>  hard wall-clock limit (default 120): past it the browser and
 //                  vite are killed and the script exits 124 with one
@@ -121,17 +124,24 @@ try {
   const keep = (t) => !/websocket|vite\] failed to connect/i.test(t);
   page.on("pageerror", (e) => { if (keep(e.message)) errs.push(e.message.slice(0, 300)); });
   page.on("console", (m) => { if (m.type() === "error" && keep(m.text())) errs.push(m.text().slice(0, 300)); });
+  // the default 250-entry resource buffer fills with terrain tiles before the cell's fetches
+  await page.addInitScript(() => performance.setResourceTimingBufferSize(20000));
   const q = PROBE === "cell" ? `&interior=${encodeURIComponent(CELL)}` : "";
   // Cheapest render settings: SwiftShader shares the CPU with the physics.
-  await page.goto(`http://127.0.0.1:${PORT}/?view=character&x=${X}&z=${Z}&q=low&aa=0&water=0&dpr=0.5${q}`, { waitUntil: "domcontentloaded" });
+  await page.goto(`http://127.0.0.1:${PORT}/?view=character&x=${X}&z=${Z}&q=low&aa=0&dpr=0.5${q}`, { waitUntil: "domcontentloaded" });
   await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.player?.() != null, undefined, { timeout: 240000 });
   result.stage = "player-ready";
+  var playerReadyAtS = +((Date.now() - started) / 1000).toFixed(1);
 
   if (PROBE === "cell") {
+    await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.interior?.()?.cellId, undefined, { timeout: 240000, polling: 100 });
+    var cellOpenedAtS = +((Date.now() - started) / 1000).toFixed(1);
     await page.waitForFunction(() => {
       const s = window.__STUDIO_CHARACTER_DEBUG__?.interior?.();
       return s && s.cellId && s.fade === 0;
-    }, undefined, { timeout: 240000 });
+    }, undefined, { timeout: 240000, polling: 100 });
+    var fadeClearAtS = +((Date.now() - started) / 1000).toFixed(1);
+    result.playerReadyAtS = playerReadyAtS;
     const samples = [];
     for (let i = 0; i < 6; i++) {
       await page.waitForTimeout(1500);
@@ -139,6 +149,30 @@ try {
       samples.push({ ...s, cameraInside: inside(s.camera, s.interior.boundsM), playerInside: inside(s.player, s.interior.boundsM) });
     }
     const png = await page.screenshot({ path: `${OUT}interior-${CELL}.png` });
+    // walk 4 lane INTERIOR: fog, render stats, the group's visibility chain, load timings
+    result.scene = await page.evaluate((cell) => {
+      const scene = window.__SCENE__; const gl = window.__RENDERER__;
+      const out = {};
+      if (scene) {
+        const f = scene.fog; out.fog = f ? { near: f.near, far: f.far, color: f.color?.getHexString?.(), density: f.density } : null;
+        out.background = scene.background?.getHexString?.() ?? String(scene.background);
+        const g = scene.getObjectByName(`interior:${cell}`);
+        if (g) {
+          const chain = []; for (let o = g; o; o = o.parent) chain.push({ name: o.name || o.type, visible: o.visible });
+          let meshes = 0, visible = 0, instances = 0, tris = 0; const mats = {};
+          g.traverse((o) => { if (o.isMesh) { meshes++; if (o.visible) visible++; instances += o.count ?? 1;
+            const idx = o.geometry.index; tris += (idx ? idx.count : o.geometry.getAttribute("position").count) / 3;
+            const m = Array.isArray(o.material) ? o.material[0] : o.material; const k = `${m.type}:${m.side}:${m.visible}:${m.opacity}`; mats[k] = (mats[k] ?? 0) + 1; } });
+          g.updateMatrixWorld(true);
+          out.group = { chain, meshes, visible, instances, tris, mats, worldPos: g.getWorldPosition(new window.__THREE__.Vector3()).toArray() };
+        } else out.group = null;
+      }
+      if (gl) out.render = { calls: gl.info.render.calls, triangles: gl.info.render.triangles, programs: gl.info.programs?.length };
+      const res = performance.getEntriesByType("resource").filter((r) => /interiors\/|kits\/.*\.glb|\.ktx2/.test(r.name));
+      out.resources = res.map((r) => ({ url: r.name.replace(/^.*?\/(province|kits)\//, "$1/"), start: Math.round(r.startTime), end: Math.round(r.responseEnd), kb: Math.round(r.transferSize / 1024), status: r.responseStatus }));
+      return out;
+    }, CELL);
+    result.cellOpenedAtS = cellOpenedAtS; result.fadeClearAtS = fadeClearAtS;
     Object.assign(result, {
       cell: CELL, meshes: samples[0].interior.meshes, originM: samples[0].interior.originM,
       boundsM: samples[0].interior.boundsM, samples: samples.map(({ camera, player, arm, cameraInside, playerInside }) => ({
@@ -152,11 +186,56 @@ try {
     const before = await debug(page, `{ player: d.player(), grounded: d.grounded(), interior: d.interior(),
       rayDown: d.rayDown(${x}, ${z}), groundAt: d.groundAt(${x}, ${z}),
       promptInDom: !!document.querySelector("[data-door-prompt]") }`);
+    // Time the entry from the key press (walk 4 lane INTERIOR2): cell opened,
+    // fade clear, and every interior/kit byte fetched after the press.
+    // PROFILE=1: a main-thread CPU profile from the press to the fade clearing,
+    // reduced to the top self-time functions (where the wait at black goes).
+    const cdp = process.env.PROFILE ? await page.context().newCDPSession(page) : null;
+    if (cdp) { await cdp.send("Profiler.enable"); await cdp.send("Profiler.setSamplingInterval", { interval: 1000 }); await cdp.send("Profiler.start"); }
+    const pressAtMs = await page.evaluate(() => performance.now());
+    const pressWall = Date.now();
     await page.keyboard.down("KeyE");
     await page.waitForTimeout(400);
     await page.keyboard.up("KeyE");
-    await page.waitForTimeout(12000);
+    const since = () => +((Date.now() - pressWall) / 1000).toFixed(1);
+    await page.waitForFunction(() => window.__STUDIO_CHARACTER_DEBUG__?.interior?.()?.cellId, undefined, { timeout: 90000, polling: 100 })
+      .then(() => { result.cellOpenedAfterPressS = since(); }, () => { result.cellOpenedAfterPressS = null; });
+    await page.waitForFunction(() => { const s = window.__STUDIO_CHARACTER_DEBUG__?.interior?.(); return s?.cellId && s.fade === 0; },
+      undefined, { timeout: 30000, polling: 100 })
+      .then(() => { result.fadeClearAfterPressS = since(); }, () => { result.fadeClearAfterPressS = null; });
+    if (cdp) {
+      const { profile } = await cdp.send("Profiler.stop");
+      const self = new Map();
+      const byId = new Map(profile.nodes.map((n) => [n.id, n]));
+      const dt = profile.timeDeltas; let total = 0;
+      profile.samples.forEach((id, i) => {
+        const n = byId.get(id); const f = n.callFrame;
+        const key = `${f.functionName || "(anon)"} ${f.url.replace(/^.*\//, "").replace(/\?.*$/, "")}:${f.lineNumber + 1}`;
+        self.set(key, (self.get(key) ?? 0) + (dt[i] ?? 0)); total += dt[i] ?? 0;
+      });
+      result.profile = { totalS: +(total / 1e6).toFixed(1), top: [...self].sort((a, b) => b[1] - a[1]).slice(0, 25)
+        .map(([k, us]) => `${(us / 1e6).toFixed(2)} s ${k}`) };
+    }
+    await page.waitForTimeout(1500);
     const after = await debug(page, "{ player: d.player(), interior: d.interior() }");
+    result.fetchedAfterPress = await page.evaluate((t0) => {
+      const res = performance.getEntriesByType("resource")
+        .filter((r) => r.startTime >= t0 && /interiors\/|kits\/.*\.(glb|ktx2|json)/.test(r.name));
+      const sum = (f) => res.filter(f).reduce((n, r) => n + (r.transferSize || r.encodedBodySize || 0), 0);
+      return {
+        files: res.length, bytes: sum(() => true),
+        wholeKitGlbs: res.filter((r) => /kits\/[^/]+\.glb$/.test(r.name)).map((r) => r.name.replace(/^.*\/kits\//, "")),
+        wholeKitBytes: sum((r) => /kits\/[^/]+\.glb$/.test(r.name)),
+        partGlbs: res.filter((r) => /\/parts\/[^/]+\.glb$/.test(r.name)).length,
+        partBytes: sum((r) => /\/parts\/[^/]+\.glb$/.test(r.name)),
+        textureFiles: res.filter((r) => /\/parts\/tex\//.test(r.name)).length,
+        textureBytes: sum((r) => /\/parts\/tex\//.test(r.name)),
+        lastEndS: +((Math.max(0, ...res.map((r) => r.responseEnd)) - t0) / 1000).toFixed(1),
+        timeline: res.map((r) => ({ url: r.name.replace(/^.*\/(province|kits)\//, "$1/"),
+          startS: +((r.startTime - t0) / 1000).toFixed(2), endS: +((r.responseEnd - t0) / 1000).toFixed(2),
+          kb: Math.round((r.transferSize || r.encodedBodySize || 0) / 1024) })),
+      };
+    }, pressAtMs);
     const png = await page.screenshot({ path: `${OUT}door-${X}-${Z}.png` });
     Object.assign(result, { before, after, luminance: await luminance(page, png) });
   }

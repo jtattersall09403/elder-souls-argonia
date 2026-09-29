@@ -1,0 +1,12 @@
+{
+ "schemaVersion": 1,
+ "decision": [
+  "docs/decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md"
+ ],
+ "kinds": {
+  "road": {"texture": "bc_road", "edgeM": 1.0},
+  "track": {"texture": "track_mud", "edgeM": 0.8},
+  "footpath": {"texture": "dirt_path", "edgeM": 0.4}
+ },
+ "unpainted": ["stair", "ramp"]
+}

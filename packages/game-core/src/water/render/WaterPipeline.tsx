@@ -397,6 +397,13 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     {
       const prevAuto = renderer.autoClear;
       const prevShadow = renderer.shadowMap.autoUpdate;
+      // These passes draw OVER the blit. three (r184) clears on every
+      // render() when scene.background is a Color or a Texture, whatever
+      // autoClear says, which wiped the whole frame to the fog colour the
+      // first time a host set a background (the interior grey screen, 16k
+      // walk 4). No background exists while the on-screen passes run.
+      const prevBackground = scene.background;
+      scene.background = null;
       renderer.autoClear = false;
       renderer.shadowMap.autoUpdate = false;
       if (!underwater && h) {
@@ -423,6 +430,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       segments?.cpuMark("overlay"); segments?.gpuMark("overlay");
       renderer.render(scene, cam);
       segments?.cpuMark("post"); segments?.gpuMark("post");
+      scene.background = prevBackground;
       renderer.autoClear = prevAuto;
       renderer.shadowMap.autoUpdate = prevShadow;
     }

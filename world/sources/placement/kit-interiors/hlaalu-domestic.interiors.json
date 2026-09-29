@@ -77,20 +77,20 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 115.3,
+    "deg": 116.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 115\u00b0 in the piece's own frame carries 7.30x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 116\u00b0 in the piece's own frame carries 4.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
-   "headroomM": 3.69,
+   "headroomM": 5.34,
    "heightM": 6.09,
    "interior": "none",
-   "medianWallM": 4.68,
-   "planAreaM2": 111.36,
+   "medianWallM": 4.46,
+   "planAreaM2": 111.1,
    "planCentreM": [
-    -0.21,
-    2.58
+    0.5,
+    2.0
    ],
    "provenance": [],
    "ringFraction": 1.0,
@@ -522,7 +522,7 @@
     "deg": 44.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 45\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
    "headroomM": 6.45,
@@ -726,7 +726,7 @@
    "category": "misc",
    "closedShellPromotedBy": "own-geometry-door",
    "entrance": {
-    "arcM": 3.05,
+    "arcM": 3.04,
     "kind": "opening",
     "offsetM": [
      2.71,

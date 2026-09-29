@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { inspectSettlementNavigation } from "./settlementNavigationHandoff";
+import { inspectSettlementNavigation, navigationHandoffShown } from "./settlementNavigationHandoff";
 
 describe("settlement navigation hand-off", () => {
+  it("is shown only with ?dev=1, never on the owner's plain studio URL (walk 4 d)", () => {
+    expect(navigationHandoffShown("?view=character&x=0.31&z=3.0")).toBe(false);
+    expect(navigationHandoffShown("")).toBe(false);
+    expect(navigationHandoffShown("?view=character&dev=1")).toBe(true);
+  });
+
+
   it("keeps well-formed exported cuts and links visibly blocked until a runtime consumes them", () => {
     expect(inspectSettlementNavigation({
       navmeshCuts: [{

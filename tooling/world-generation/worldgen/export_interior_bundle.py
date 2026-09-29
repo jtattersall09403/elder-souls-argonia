@@ -52,7 +52,14 @@ record) with its interior load door and arrival marker (owner ruling B,
 interiors round 2); every other load door of the cell follows as
 ``{interiorLoadDoorRef, loadDoor, closed: true}`` (planner ruling 3, interiors
 round 3: shown with the closed line, never used); ``exitDoor``/
-``arrivalMarker`` are the first pair's, the default for ``?interior=``.
+``arrivalMarker`` are the first pair's, the default for ``?interior=``. Every
+entry carries ``doorType``: those are ``load``; a DOOR reference with NO XTEL
+teleport follows as a ``swing`` entry (owner 2026-09-28, schemaVersion 2)
+``{doorType, id, refId, assetId, kit, positionM, rotationDeg, scale, hinge:
+{pivotM, axis, openAngleDeg, openS, source}, initiallyOpen}`` and is not a
+placement (the runtime draws it and animates it, ``interior/swingDoors.ts``):
+the hinge is the NIF's animated node and its ``Open`` sequence (``door_hinge``),
+``initiallyOpen`` the reference's ONAM ("Open by Default").
 
 Run (from tooling/world-generation/):
   python3 -m worldgen.export_interior_bundle --plugin Skyrim.esm --cell DawnstarBrinasHouse
@@ -69,14 +76,24 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from .asset_taxonomy import classify
+_ASSET_PIPELINE = Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
+if str(_ASSET_PIPELINE) not in sys.path:
+    sys.path.insert(0, str(_ASSET_PIPELINE))
+
+from .asset_taxonomy import classify  # noqa: E402
 from .esp_index import GT_WORLD_CHILDREN, UNITS_PER_METRE, Plugin, _cstr, walk
 from .esp import GROUP_HEADER, RECORD_HEADER, _record_at
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
-SCHEMA_VERSION = 1
+#: 2 (16k walk 4, owner 2026-09-28): `doors[]` entries carry `doorType`; a DOOR
+#: reference with no XTEL teleport is a `swing` entry, no longer a placement
+SCHEMA_VERSION = 2
+#: a swing door whose NIF has no Open sequence opens this far (degrees)
+SWING_DEFAULT_OPEN_DEG = 90.0
+#: and over this long (seconds)
+SWING_DEFAULT_OPEN_S = 0.6
 FRAME = ("game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as "
          "Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)")
 FIXTURE = (REPO_ROOT / "packages" / "game-core" / "src" / "interior" / "__fixtures__"
@@ -246,6 +263,10 @@ def _ref_extras(rec) -> dict:
                            "endDistanceCap": round(end_cap, 3), "shadowDepthBias": round(bias, 3)}
         elif st == b"EDID":
             out["editorId"] = _cstr(payload)
+        elif st == b"ONAM":
+            # UESP Skyrim_Mod:Mod_File_Format/REFR: "zero length, appears
+            # together with XACT if 'Open by Default' is set"
+            out["openByDefault"] = True
     return out
 
 
@@ -625,9 +646,206 @@ def _game_pos(pos_units) -> list[float]:
     return [round(x, 4), round(z, 4), round(-y, 4) + 0.0]
 
 
+# --------------------------------------------------------------------------- #
+# swing doors (16k walk 4, owner 2026-09-28): a DOOR reference with no XTEL
+# teleport opens in place. Its hinge is read from the door NIF itself: Skyrim
+# animates the leaf as a child NiNode (`Door`) whose translation is the hinge
+# (farmhouseanimdoor01, kotm argonia/mudhuts/door01: the node stands at
+# (48, 4, 88) units, the leaf's edge), rotated by the `Open` NiControllerSequence
+# (NiTransformData keys; farmhouseanimdoor01 ends at -92 deg after 1.0 s). The
+# NIF ROOT is not the hinge: the published kits put farmhousedoor01's origin at
+# the middle of its width (originOffsetM x 0.683 of 1.366 m).
+# --------------------------------------------------------------------------- #
+def _keygroup_floats(raw: bytes, p: int) -> tuple[list[tuple[float, float]], int]:
+    (n,) = struct.unpack_from("<I", raw, p)
+    p += 4
+    keys = []
+    if n:
+        (kind,) = struct.unpack_from("<I", raw, p)
+        p += 4
+        for _ in range(n):
+            t, v = struct.unpack_from("<2f", raw, p)
+            p += 8 + (8 if kind == 2 else 12 if kind == 3 else 0)
+            keys.append((t, v))
+    return keys, p
+
+
+def _rotation_keys(raw: bytes) -> tuple[list[float], float, float] | None:
+    """NiTransformData (niftools nif.xml, NiKeyframeData): the final rotation
+    as `(nif axis, radians, seconds)`, or None when it carries no rotation."""
+    (n,) = struct.unpack_from("<I", raw, 0)
+    if not n:
+        return None
+    (kind,) = struct.unpack_from("<I", raw, 4)
+    if kind == 4:                                 # XYZ_ROTATION_KEY: three float groups
+        p, groups = 8, []
+        for _ in range(3):
+            keys, p = _keygroup_floats(raw, p)
+            groups.append(keys)
+        deltas = [(k[-1][1] - k[0][1]) if k else 0.0 for k in groups]
+        axis = max(range(3), key=lambda i: abs(deltas[i]))
+        if abs(deltas[axis]) < 1e-4:
+            return None
+        return ([1.0 if i == axis else 0.0 for i in range(3)], deltas[axis], groups[axis][-1][0])
+    size = 20 + (12 if kind == 3 else 0)
+    t, w, x, y, z = struct.unpack_from("<5f", raw, 8 + size * (n - 1))
+    w = max(-1.0, min(1.0, w))
+    angle = 2 * math.acos(w)
+    s_ = math.sqrt(max(0.0, 1 - w * w))
+    if angle < 1e-4 or s_ < 1e-6:
+        return None
+    if angle > math.pi:
+        angle -= 2 * math.pi
+    return ([x / s_, y / s_, z / s_], angle, t)
+
+
+def door_hinge(nif_bytes: bytes) -> dict | None:
+    """The hinge of an animated door NIF, in the kit asset's frame (glTF y up,
+    metres from the NIF root, the frame the published kit draws the mesh in):
+    ``{pivotM, axis, openAngleDeg, openS, source}``; None when the NIF has no
+    `Open` sequence that rotates a node."""
+    import numpy as np
+    from pipeline import nif_blocks as nb
+    nif = nb.parse(nif_bytes)
+    for i, (kind, raw) in enumerate(nif.blocks):
+        if kind != "NiControllerSequence" or nif.name(i) != "Open":
+            continue
+        (count,) = struct.unpack_from("<I", raw, 4)
+        if not count:
+            return None
+        # ControlledBlock (20.2.0.7): interpolator, controller, priority byte, node name
+        interp, _ctrl = struct.unpack_from("<ii", raw, 12)
+        (name_idx,) = struct.unpack_from("<i", raw, 21)
+        node_name = nif.strings[name_idx] if 0 <= name_idx < len(nif.strings) else None
+        node = next((j for j, (k, _) in enumerate(nif.blocks)
+                     if k in nb.NODE_TYPES and nif.name(j) == node_name), None)
+        if node is None or not (0 <= interp < len(nif.blocks)):
+            return None
+        _ik, iraw = nif.blocks[interp]
+        (data_ref,) = struct.unpack_from("<i", iraw, 32)
+        if not (0 <= data_ref < len(nif.blocks)):
+            return None
+        rot = _rotation_keys(nif.blocks[data_ref][1])
+        if rot is None:
+            return None
+        nif_axis, radians, seconds = rot
+        world = nb.world_matrix(nif, node)
+        parent = nif.parent.get(node)
+        parent_rot = nb.world_matrix(nif, parent)[:3, :3] if parent is not None else np.eye(3)
+        a = parent_rot @ np.array(nif_axis)
+        a = a / (np.linalg.norm(a) or 1.0)
+        # NIF (x, y, z up) -> game (x, y up, z south): a proper rotation, so the
+        # signed angle about the mapped axis is the same angle
+        axis = [round(float(a[0]), 4) + 0.0, round(float(a[2]), 4) + 0.0, round(float(-a[1]), 4) + 0.0]
+        out = {"pivotM": nb.to_gltf_m(world[:3, 3], 1.0 / UNITS_PER_METRE), "axis": axis,
+               "openAngleDeg": round(math.degrees(radians), 2), "openS": round(float(seconds), 3),
+               "source": f"nif Open sequence on node {node_name}"}
+        leaf = _leaf_bounds(nif, node)
+        if leaf is not None:
+            out["leafBoundsM"] = leaf
+        return out
+    return None
+
+
+_SHAPES = ("NiTriShape", "BSTriShape", "NiTriStrips")
+
+
+def _shape_points(nif, index: int):
+    """A shape's points in the NIF root frame (units): NiTriShapeData's
+    vertices (bsVersion 83); a BSTriShape's bounding sphere as its box corners."""
+    import numpy as np
+    from pipeline import nif_blocks as nb
+    kind, raw = nif.blocks[index]
+    av, p = nb.av_fields(raw, nif.bs_version)
+    m = nb.world_matrix(nif, index)
+    if kind == "BSTriShape":
+        cx, cy, cz, r = struct.unpack_from("<4f", raw, p)
+        local = np.array([[cx + sx * r, cy + sy * r, cz + sz * r]
+                          for sx in (-1, 1) for sy in (-1, 1) for sz in (-1, 1)])
+    else:
+        (data_ref,) = struct.unpack_from("<i", raw, p)
+        if not (0 <= data_ref < len(nif.blocks)):
+            return None
+        draw = nif.blocks[data_ref][1]
+        (nv,) = struct.unpack_from("<H", draw, 4)
+        if not nv or not draw[8]:
+            return None
+        local = np.array(struct.unpack_from(f"<{3 * nv}f", draw, 9)).reshape(-1, 3)
+    return (m[:3, :3] @ local.T).T + m[:3, 3]
+
+
+def _leaf_bounds(nif, node: int) -> list[list[float]] | None:
+    """The leaf's box in the kit asset frame (glTF metres), ``[min, max]``, when
+    the NIF also draws shapes that do NOT turn (a frame or wall around the
+    leaf: impwooddoorsingle01's FortRuinsDoorWall, farmbtrapdoor02's frame);
+    None when every shape is the leaf (the runtime then turns the whole asset)."""
+    import numpy as np
+
+    def under(i: int) -> bool:
+        while i is not None:
+            if i == node:
+                return True
+            i = nif.parent.get(i)
+        return False
+
+    shapes = [i for i, (k, _) in enumerate(nif.blocks) if k in _SHAPES]
+    leaf = [i for i in shapes if under(i)]
+    if not leaf or len(leaf) == len(shapes):
+        return None
+    pts = [pt for pt in (_shape_points(nif, i) for i in leaf) if pt is not None]
+    if not pts:
+        return None
+    allp = np.vstack(pts) / UNITS_PER_METRE
+    g = np.stack([allp[:, 0], allp[:, 2], -allp[:, 1]], axis=1)   # NIF z up -> glTF y up
+    return [[round(float(v), 4) + 0.0 for v in g.min(axis=0)], [round(float(v), 4) + 0.0 for v in g.max(axis=0)]]
+
+
+def hinge_from_bounds(size_m, origin_m) -> dict:
+    """A door NIF with no `Open` sequence (a static leaf): the hinge is the
+    vertical edge at the leaf's -x face, mid-thickness, from the published
+    kit's measured bounds (sizeM / originOffsetM, NIF axes), and it opens
+    `SWING_DEFAULT_OPEN_DEG` over `SWING_DEFAULT_OPEN_S`."""
+    mid_y = size_m[1] / 2 - origin_m[1]
+    return {"pivotM": [round(-origin_m[0], 4) + 0.0, 0.0, round(-mid_y, 4) + 0.0],
+            "axis": [0.0, 1.0, 0.0], "openAngleDeg": SWING_DEFAULT_OPEN_DEG,
+            "openS": SWING_DEFAULT_OPEN_S, "source": "kit bounds: -x edge (no Open sequence)"}
+
+
+_NIF_SOURCES: dict[str, object] = {}
+
+
+def door_nif_bytes(asset_id: str, registry_path: str) -> bytes | None:
+    """The door's NIF from its pool's mesh source (the kit build's own
+    `pool_sources`), or None when the pool's source is not on this machine."""
+    import tempfile
+    from pipeline.build_kit import pool_sources
+    from .asset_registry import DEFAULT_VAULT
+    pool = asset_id.split(":", 1)[0]
+    if pool not in _NIF_SOURCES:
+        _NIF_SOURCES[pool] = pool_sources(pool, DEFAULT_VAULT).meshes
+    source = _NIF_SOURCES[pool]
+    if not source.contains(registry_path):
+        return None
+    with tempfile.TemporaryDirectory() as tmp:
+        source.extract_many([registry_path], Path(tmp))
+        target = Path(tmp) / registry_path
+        return target.read_bytes() if target.exists() else None
+
+
+def swing_hinge(asset_id: str, model: str, bounds: dict[str, tuple] | None) -> dict:
+    """The swing record's hinge: the NIF's Open sequence, else the kit bounds."""
+    nif = door_nif_bytes(asset_id, model if model.startswith("meshes/") else "meshes/" + model)
+    hinge = door_hinge(nif) if nif else None
+    if hinge:
+        return hinge
+    size, origin = (bounds or {}).get(asset_id) or ([1.0, 0.1, 2.0], [0.5, 0.05, 0.0])
+    return hinge_from_bounds(size, origin)
+
+
 def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], registry,
                 kit_assets, pool_of, doors: list[dict] | None = None,
-                absent: dict[str, dict] | None = None) -> dict:
+                absent: dict[str, dict] | None = None,
+                kit_bounds: dict[str, tuple] | None = None) -> dict:
     """The bundle for one cell (see the module docstring). `doors` is the
     blueprint's pairing, `[{exteriorDoorId, interiorLoadDoorRef,
     arrivalMarker}]` (game frame), in door order."""
@@ -664,7 +882,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
 
     pool = pool_of(plugin_name)
     absent = absent_master_classes() if absent is None else absent
-    placements, drops, lights, sockets = [], [], [], []
+    placements, drops, lights, sockets, swings = [], [], [], [], []
     poses: dict[str, tuple] = {}
     load_doors: dict[str, dict] = {}
     for ref in sorted(refs, key=lambda r: r["formId"]):
@@ -757,6 +975,17 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                  **{"class": cls, "classSource": why, "positionM": pos})
             continue
         kit, kit_category = hit
+        if btype == "DOOR" and ref.get("teleport") is None:
+            # a door that loads nothing opens in place (owner 2026-09-28)
+            if kit_bounds is None:
+                kit_bounds = published_kit_bounds()
+            swings.append({"doorType": "swing", "id": f"{cell_edid}.{rid}", "refId": rid,
+                           "assetId": asset_id, "kit": kit, "positionM": pos, "rotationDeg": rot,
+                           "scale": round(float(ref.get("scale", 1.0)), 4),
+                           "hinge": swing_hinge(asset_id, model, kit_bounds),
+                           "initiallyOpen": bool(ref.get("openByDefault")),
+                           "base": base.get("editorId")})
+            continue
         if btype == "CONT":
             category = "container"
         elif btype == "FURN":
@@ -842,7 +1071,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         if load is None:
             raise SystemExit(f"{cell_edid}: the claim pairs load door {d['interiorLoadDoorRef']}, "
                              f"which is not a load door of the cell")
-        pairs.append({"exteriorDoorId": d["exteriorDoorId"],
+        pairs.append({"doorType": "load", "exteriorDoorId": d["exteriorDoorId"],
                       "interiorLoadDoorRef": d["interiorLoadDoorRef"],
                       "arrivalMarker": d["arrivalMarker"],
                       "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
@@ -854,13 +1083,14 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         for rid in sorted(load_doors):
             if rid not in paired_refs:
                 load = load_doors[rid]
-                pairs.append({"interiorLoadDoorRef": rid, "closed": True,
+                pairs.append({"doorType": "load", "interiorLoadDoorRef": rid, "closed": True,
                               "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
     first = load_doors.get(pairs[0]["interiorLoadDoorRef"]) if pairs else (
         next(iter(sorted(load_doors.values(), key=lambda d: d["refId"])), None))
     arrival = (pairs[0]["arrivalMarker"] if pairs else
                ({"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None))
-    kits = sorted({p["kit"] for p in placements} | {s["kit"] for s in substitutions})
+    kits = sorted({p["kit"] for p in placements} | {s["kit"] for s in substitutions}
+                  | {w["kit"] for w in swings})
     return {
         "schemaVersion": SCHEMA_VERSION,
         "cellId": cell_edid,
@@ -873,7 +1103,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         "arrivalMarker": arrival,
         "exitDoor": ({k: first[k] for k in ("id", "refId", "positionM", "yawDeg")}
                      if first else None),
-        "doors": pairs,
+        "doors": pairs + swings,
         "ambient": {"colorRGB": lighting.get("ambientRGB", [0, 0, 0]), "intensity": 1.0},
         "fog": {"colorRGB": lighting.get("fogNearRGB", [0, 0, 0]),
                 "nearM": lighting.get("fogNearM", 0.0), "farM": lighting.get("fogFarM", 0.0)},
@@ -885,7 +1115,7 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
         "substitutions": substitutions,
         "counts": {
             "placements": len(placements), "drops": len(drops), "lights": len(lights),
-            "substitutions": len(substitutions),
+            "substitutions": len(substitutions), "swingDoors": len(swings),
             "missingByClass": dict(sorted(Counter(d["class"] for d in drops
                                                   if d["reason"] in MISSING_REASONS).items())),
             "dropsByReason": dict(sorted(Counter(d["reason"] for d in drops).items())),
@@ -899,10 +1129,12 @@ def check(bundle: dict) -> list[str]:
     drawn by a same-class stand-in; no architecture piece is missing."""
     problems = []
     subs = bundle.get("substitutions") or []
-    n = len(bundle["placements"]) + len(bundle["drops"]) + len(subs)
+    swings = [d for d in bundle.get("doors") or [] if d.get("doorType") == "swing"]
+    n = len(bundle["placements"]) + len(bundle["drops"]) + len(subs) + len(swings)
     if n != bundle["refCount"]:
         problems.append(f"{bundle['cellId']}: {len(bundle['placements'])} placements + "
-                        f"{len(bundle['drops'])} drops + {len(subs)} substitutions = {n}, "
+                        f"{len(bundle['drops'])} drops + {len(subs)} substitutions + "
+                        f"{len(swings)} swing doors = {n}, "
                         f"the cell has {bundle['refCount']} references")
     arch = [d for d in bundle["drops"] if d.get("reason") in (*MISSING_REASONS, "listed-gap")
             and d.get("class") in ARCHITECTURE_CLASSES]
@@ -939,6 +1171,23 @@ def _marker(v) -> bool:
     return isinstance(v, dict) and _vec3(v.get("positionM")) and _num(v.get("yawDeg"))
 
 
+def swing_problems(d: dict, kits: dict) -> list[str]:
+    """A swing `doors[]` entry against the runtime contract (`parseSwingDoor`)."""
+    h = d.get("hinge") if isinstance(d.get("hinge"), dict) else {}
+    axis = h.get("axis")
+    ok = (isinstance(d.get("id"), str) and d["id"] and isinstance(d.get("assetId"), str)
+          and _vec3(d.get("positionM")) and _vec3(d.get("rotationDeg")) and _num(d.get("scale"))
+          and _vec3(h.get("pivotM")) and _vec3(axis) and abs(math.hypot(*axis) - 1) < 1e-3
+          and _num(h.get("openAngleDeg")) and _num(h.get("openS")) and h["openS"] > 0
+          and isinstance(d.get("initiallyOpen"), bool)
+          and ("leafBoundsM" not in h or (isinstance(h["leafBoundsM"], list) and len(h["leafBoundsM"]) == 2
+                                          and all(_vec3(c) for c in h["leafBoundsM"]))))
+    out = [] if ok else [f"bad swing door {d.get('id')!r}"]
+    if d.get("kit") not in kits:
+        out.append(f"{d.get('id')}: kit {d.get('kit')!r} is not in the bundle's kits")
+    return out
+
+
 def validate_bundle(b: dict) -> list[str]:
     """The runtime's contract (`parseInteriorBundle`, bundle.ts), checked on
     the Python side: the same fields, the same refusals."""
@@ -962,6 +1211,12 @@ def validate_bundle(b: dict) -> list[str]:
     if not (isinstance(ex, dict) and _vec3(ex.get("positionM")) and isinstance(ex.get("refId"), str)):
         bad.append("bad exitDoor")
     for d in b.get("doors") if isinstance(b.get("doors"), list) else [None]:
+        if isinstance(d, dict) and d.get("doorType") == "swing":
+            bad.extend(swing_problems(d, kits))
+            continue
+        if not (isinstance(d, dict) and d.get("doorType") == "load"):
+            bad.append(f"bad doors entry {d!r:.80} (doorType must be load or swing)")
+            continue
         closed = isinstance(d, dict) and d.get("closed") is True
         if not (isinstance(d, dict) and isinstance(d.get("interiorLoadDoorRef"), str)
                 and _marker(d.get("loadDoor"))
@@ -1117,7 +1372,7 @@ def main() -> int:
         bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
                              doors=pairs.get((plugin, cell)))
         bundle["shellAssetId"] = shell
-        if not bundle["doors"]:
+        if not any(d["doorType"] == "load" for d in bundle["doors"]):
             from .interior_cells import game_marker, profile_cell, world_for
             prof = profile_cell(world_for(plugin, paths.get), cell, shell) or {}
             if prof.get("exteriorDoors"):

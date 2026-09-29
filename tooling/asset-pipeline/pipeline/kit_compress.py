@@ -55,6 +55,7 @@ OUTPUT_KITS = REPO_ROOT / "tooling/asset-pipeline/output/kits"
 # recompressed (tool-speed review S2a, 18 s a publish); --force re-runs it.
 COMPRESS_CACHE = REPO_ROOT / "tooling/asset-pipeline/output/cache/kit-compress"
 PUBLIC_KITS = REPO_ROOT / "apps/world-studio/public/kits"
+PUBLIC_INTERIORS = REPO_ROOT / "apps/world-studio/public/province/interiors"
 CONFIG = Path(__file__).parent / "config" / "kits"
 TOOLCHAIN = json.loads((Path(__file__).parent / "config" / "toolchain.json").read_text())
 
@@ -80,6 +81,64 @@ SIDECAR_EXEMPT = {
     "flora-province-v1": "vegetation atlas: no snap edges, no footprints, no interiors",
     "groundcover-province-v1": "groundcover atlas: no snap edges, no footprints, no interiors",
 }
+
+
+# The interior loader's per-asset parts (packages/game-core/src/interior/
+# kitParts.ts): `kit_parts.mjs` cuts the PUBLISHED GLB into
+# public/kits/<kit>/parts/ (one GLB per asset, LOD0 only, textures once per kit
+# by URI). Written at the end of every publish, so a kit and its parts never
+# disagree; `check` fails a stale or missing parts folder (16k walk 4).
+PARTS_WRITER = Path(__file__).with_name("kit_parts.mjs")
+
+
+def parts_scope() -> set[str]:
+    """The kits a published interior cell bundle names in its `kits` table: the
+    only kits that publish parts (kit_parts.mjs `scopedKits`, same rule). Parts
+    are a second copy of a kit's LOD0 geometry and textures and ship to Pages,
+    so an exterior-only kit carries none (16k walk 4, lane PARTS)."""
+    if not PUBLIC_INTERIORS.exists():
+        return set()
+    return {kit for cell in sorted(PUBLIC_INTERIORS.glob("*.json"))
+            for kit in json.loads(cell.read_text()).get("kits", {})}
+
+
+def publish_parts(kit_id: str) -> dict | None:
+    """Run kit_parts.mjs for one scoped kit; returns the parts index's totals.
+    An unscoped kit's parts folder is deleted and None returned."""
+    if kit_id not in parts_scope():
+        shutil.rmtree(PUBLIC_KITS / kit_id / "parts", ignore_errors=True)
+        return None
+    proc = subprocess.run(["node", str(PARTS_WRITER), "--kit", kit_id], cwd=REPO_ROOT,
+                          capture_output=True, text=True)
+    if proc.returncode != 0:
+        raise RuntimeError(f"kit_parts failed on {kit_id}:\n{proc.stdout[-2000:]}{proc.stderr[-2000:]}")
+    index = json.loads((PUBLIC_KITS / kit_id / "parts" / "index.json").read_text())
+    return {**index["totals"], "sourceSha256": index["source"]["sha256"]}
+
+
+def parts_problems(kit_id: str) -> list[str]:
+    """Why a kit's parts folder does not match its published GLB (empty = current):
+    the index must name the GLB's sha256 and every file it lists must exist at
+    its recorded size. Milliseconds; the writer is deterministic, so a current
+    index means current parts."""
+    fix = f"node tooling/asset-pipeline/pipeline/kit_parts.mjs --kit {kit_id}"
+    folder = PUBLIC_KITS / kit_id / "parts"
+    if kit_id not in parts_scope():
+        return ([f"{kit_id}: parts folder but named by no interior cell "
+                 "(node tooling/asset-pipeline/pipeline/kit_parts.mjs --all deletes it)"]
+                if folder.exists() else [])
+    index_path = folder / "index.json"
+    if not index_path.exists():
+        return [f"{kit_id}: no parts folder ({fix})"]
+    index = json.loads(index_path.read_text())
+    glb = PUBLIC_KITS / f"{kit_id}.glb"
+    if index.get("source", {}).get("sha256") != hashlib.sha256(glb.read_bytes()).hexdigest():
+        return [f"{kit_id}: parts were cut from another GLB ({fix})"]
+    missing = [row["file"] for row in index["assets"].values()
+               if not (folder / row["file"]).exists() or (folder / row["file"]).stat().st_size != row["bytes"]]
+    textures = {h for row in index["assets"].values() for h in row["textures"]}
+    missing += [f"tex/{h}.ktx2" for h in sorted(textures) if not (folder / "tex" / f"{h}.ktx2").exists()]
+    return [f"{kit_id}: parts files missing or resized: {', '.join(missing[:5])} ({fix})"] if missing else []
 
 
 def gltfpack_path() -> Path:
@@ -315,6 +374,11 @@ def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
             record = compress(raw, dst, policy, threads)
             remember(kit_id, key, record)
     published = PUBLIC_KITS / f"{kit_id}.kit.json"
+    parts = publish_parts(kit_id)
+    if parts is None:
+        record.pop("parts", None)
+    else:
+        record["parts"] = parts
     sidecars = publish_sidecars(kit_id)
     record["sidecarBytes"] = sidecars
     # The single list of kits the three architecture measurements do not apply
@@ -331,6 +395,13 @@ def _publish(kit_id: str, threads: int = 4, force: bool = False) -> dict:
             f"{n} {b / 1e3:.1f} kB" for n, b in sorted(sidecars.items())))
     elif kit_id in SIDECAR_EXEMPT:
         print(f"[kit] {kit_id}: no sidecars ({SIDECAR_EXEMPT[kit_id]})")
+    parts = record.get("parts")
+    if parts is None:
+        print(f"[kit] {kit_id}: no parts (named by no interior cell)")
+    else:
+        print(f"[kit] {kit_id}: parts {parts['parts']} GLBs {parts['partBytes'] / 1e6:.1f} MB + "
+              f"{parts['textureFiles']} textures {parts['textureBytes'] / 1e6:.1f} MB -> "
+              f"{(PUBLIC_KITS / kit_id / 'parts').relative_to(REPO_ROOT)}")
     if record.get("enabled", True):
         print(f"[kit] {kit_id}: compressed {record['bytesBefore'] / 1e6:.1f} MB -> "
               f"{record['bytesAfter'] / 1e6:.1f} MB ({record['images']} images KTX2, "
@@ -344,7 +415,8 @@ def check(kit_id: str) -> list[str]:
     glb = PUBLIC_KITS / f"{kit_id}.glb"
     if not glb.exists():
         return [f"{kit_id}: no published GLB"]
-    return glb_problems(kit_id, glb, PUBLIC_KITS / f"{kit_id}.kit.json") + sidecar_problems(kit_id)
+    return (glb_problems(kit_id, glb, PUBLIC_KITS / f"{kit_id}.kit.json") + sidecar_problems(kit_id)
+            + parts_problems(kit_id))
 
 
 def glb_problems(kit_id: str, glb: Path, manifest_path: Path) -> list[str]:

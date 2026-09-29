@@ -42,11 +42,30 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   give it an `assetPlacement` row (placement-policies.json) equal to its
   base's. Example: the sick Hist, settlement-mud-v1 (16k walk 3 L5).
 - `"effect": "additive"`: the piece's effect-shader materials (BSEffectShader:
-  flames, smoke, glow cards) are rebuilt by `blender/effect_materials.py` (shared
-  with the weapons lights set) and ship glTF BLEND + material extra
-  `additive: true`; the manifest lists them in `additiveMaterials`. Its
-  refraction-only shapes (heat shimmer) are dropped into `droppedShapes`.
-  Without the flag they ship opaque or masked: solid cards.
+  flame cards, glow overlays) are rebuilt by `blender/effect_materials.py` (shared
+  with the weapons lights set): the greyscale-slot image is never the surface,
+  a GREYSCALE_COLOR card is baked through its palette, the NIF vertex alpha
+  reaches three.js as COLOR_0, and they ship glTF BLEND + material extra
+  `additive: true` (listed in `additiveMaterials`), drawn unlit and additive
+  by the runtime at a gain of the NIF shape's emissive multiple (manifest
+  `additiveGains`, material extra `gain`, `build_kit.apply_additive_gains`;
+  material `<shape>.Mat`, a material with no such shape refuses the build). Refraction-only shapes (heat shimmer) are dropped into
+  `droppedShapes`. Without the flag they ship opaque or masked: solid cards.
+- The fire layer (walk 4) is mined from the NIF, for every piece of every
+  kit (`build_kit.mine_fire_layer`, `pipeline/nif_blocks.py`): Skyrim draws
+  flames as particle systems, which never convert to meshes, so each
+  flame-named NiParticleSystem and each `AddOnNodeN` (Skyrim.esm ADDN N -> its
+  MPS NIF's flame system) becomes a manifest `flames` entry (emitter offset,
+  texture id, measured atlas, fps, edge) that game-core `settlement/lighting.ts`
+  draws as a flipbook sprite. NiBillboardNode glow discs are dropped from the
+  mesh and become `glows` sprites; real flame cards are listed in
+  `flameCardMaterials`. Every sprite texture is a works-v1 `effectTextures`
+  row (`role` flame or glow, `palette` baked at publish); a new fire texture
+  refuses the build until its row is added. Sprites draw on every piece that
+  carries them: a light fixture (light layer or `light` record) also holds a
+  point light; any other piece (the forge's glow, the ferry raft's candles)
+  is a sprite holder, `lighting.ts isSpriteHolderPlacement`, with no light
+  and no fallback flame, and is not counted in place_gates' fixture density.
 - `"light": {formId, editorId, radiusUnits, colourRgb, flicker, flags,
   offsetM, evidence, burnSeconds}`: the Skyrim LIGH record the plugin places
   with the piece (mined from the ref nearest the piece's refs), copied onto
@@ -54,8 +73,9 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   `game-core/fx/carriedLight` `LightRecord`, `offsetM` in glTF Y-up metres
   from the pivot. Example: works-v1 `campfire01burning` (LightCampFire01).
   The settlement runtime reads both (game-core `settlement/lighting.ts`,
-  walk 2 D7): `light` sets a fixture's point-light radius and colour, and
-  the `additiveMaterials` of a fixture glow by night instead of a billboard.
+  walk 2 D7): `light` sets a fixture's point-light radius (every fixture
+  shares one warm colour, `FIXTURE_LIGHT_RGB`), and a fixture with no mined
+  flame and no flame cards gets one fallback candle-flame sprite.
   `light.fixtureKind` (brazier, cook-fire, forge, campfire, lantern, candle,
   sconce, torch) names what burns: the first four are always lit (half light
   by day), the rest follow the clock; absent, the manifest `category` is read.
@@ -105,6 +125,30 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   belongs in `kit_compress.SIDECAR_EXEMPT` with its reason, never silence.
 - Stale if skipped: the studio and the settlement export read the published
   sidecars, not the raw ones.
+- Parts are published with the kit, for **scoped kits only**: a kit publishes
+  parts when a published interior cell (`public/province/interiors/<cell>.json`
+  `kits`) names it, because only the interior loader reads parts and every part
+  is a second copy that ships (walk 4: all 26 kits' parts would have taken the
+  site from 577 MB to ~834 MB; the 10 scoped kits' 131.7 MB give 709.0 MB).
+  `kit_compress` ends by running `node pipeline/kit_parts.mjs --kit <kit>` for a
+  scoped kit and deletes an unscoped kit's parts folder; the writer cuts the
+  published GLB into `public/kits/<kit>/parts/` (one GLB per asset, LOD0 only,
+  textures once per kit as `parts/tex/<sha16>.ktx2`, `index.json`) and records
+  the totals in `compression.parts`. After a cell bundle names a new kit, or a
+  GLB changed any other way, run `node pipeline/kit_parts.mjs --all` (scoped
+  kits written, unscoped folders deleted); `--all --check` and `kit_compress
+  --check` exit 1 on stale, missing or out-of-scope parts. The parts count in
+  the site budget (step 7).
+- A doorway is recorded only where rays pass (`interiors_index.doorway_rays`):
+  every geometric doorway (`opening`, `open-front`, `leaf`) must let horizontal
+  rays through the wall from 0.3 to 1.8 m above its sill across the middle 70%
+  of its width, or it is dropped with a `WARN … closed wall` naming the shell
+  and kept under `doorwaysClosedDropped`; a kept one carries `sillYM` (pivot
+  frame), `clearM`, `widthM`. An opening above the measured floor is found by
+  the sill sweep (`sill_doorways`). Placement evidence (`esp-door`, `assembly`,
+  `composite-leaf`, `door-piece`) is not ray-gated. Re-measure named shells with
+  `interiors_index --kit <kit> --assets <id>…` (merged per asset), then step 3
+  `--sidecars-only`.
 
 ## 4. Refresh the manifests (after a miner record, never before its full run)
 

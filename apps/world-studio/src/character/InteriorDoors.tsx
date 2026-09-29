@@ -11,9 +11,16 @@ import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { InteriorLoader, solidsAt, type LoadedInterior } from "@elder-souls/game-core/interior/interiorLoader";
+import { SharedKtx2Textures } from "@elder-souls/game-core/interior/sharedTextures";
+import type { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { DoorTransition } from "@elder-souls/game-core/interior/doorTransition";
 import { InteriorEnvironment } from "@elder-souls/game-core/interior/interiorEnvironment";
 import type { Vec3 } from "@elder-souls/game-core/interior/bundle";
+import {
+  SwingDoorController, buildSwingDoor, isSwingDoor, leafWorldPose, swingFrameShapes, swingLeafShapes,
+  type SwingDoor, type SwingDoorHosts,
+} from "@elder-souls/game-core/interior/swingDoors";
+import type { SoundEvent } from "@elder-souls/audio";
 import type { InteractionArbiter } from "@elder-souls/game-core/interaction/arbiter";
 import type { KitCache } from "@elder-souls/game-core/settlement/kitCache";
 import { settlementColliderDesc } from "./SettlementColliders";
@@ -33,6 +40,8 @@ export interface InteriorDoorsProbe {
   prompt: string | null;
   fade: number;
   error: string | null;
+  /** The shown cell's load time, request to built (InteriorLoader). */
+  loadS: number | null;
 }
 
 /**
@@ -46,7 +55,7 @@ export interface InteriorDoorsProbe {
  */
 export function InteriorDoors({
   baseUrl, controller, doors, groundAt, bodyCentreHeightM, directCellId, onInside, interaction, kitCache,
-  overlay, probeRef,
+  overlay, probeRef, sounds,
 }: {
   baseUrl: string;
   controller: PlayerMovementController;
@@ -65,6 +74,8 @@ export function InteriorDoors({
   overlay: DoorOverlayChannel;
   /** Dev hook for the headless probe: a getter, so nothing is measured unless a probe asks. */
   probeRef?: { current: (() => InteriorDoorsProbe) | null };
+  /** The scene's typed sound bus: swing doors say `door.open`/`door.close` on it. */
+  sounds?: { emit(e: SoundEvent): void };
 }) {
   const decoders = useKitDecoders(baseUrl);
   const { world, rapier } = useRapier();
@@ -74,11 +85,16 @@ export function InteriorDoors({
   const resident = useRef(false);
   const opened = useRef(false);
 
-  const loader = useMemo(() => new InteriorLoader(baseUrl, {
-    fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
-    loadKit: (kit, url) => kitCache.load(kit.id, url, (u) => createKitLoader(decoders).loadAsync(u))
-      .then(buildArchitectureKit),
-  }), [baseUrl, decoders, kitCache]);
+  const loader = useMemo(() => {
+    // Parts share a kit's textures by URI: each is transcoded and uploaded once (sharedTextures.ts).
+    const textures = new SharedKtx2Textures(decoders.ktx2) as unknown as KTX2Loader;
+    return new InteriorLoader(baseUrl, {
+      fetchJson: (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: HTTP ${r.status}`)))),
+      // One part GLB per (kit, asset) the cell draws (interior/kitParts.ts), kept in the scene's cache.
+      loadPart: (kit, assetId, url) => kitCache.load(`${kit.id}#${assetId}`, url,
+        (u) => createKitLoader(decoders).setKTX2Loader(textures).loadAsync(u)).then(buildArchitectureKit),
+    });
+  }, [baseUrl, decoders, kitCache]);
 
   const transition = useMemo(() => new DoorTransition({
     controller, interiors: loader, bodyCentreHeightM, groundAt,
@@ -117,6 +133,87 @@ export function InteriorDoors({
     };
   }, [shown, world, rapier]);
 
+  // Swing doors (16k walk 4, owner 2026-09-28): the shown cell's, else the
+  // place's exterior ones. One body per leaf, its collider off while the leaf
+  // moves and back at the leaf's pose at rest; the player's body blocks a sweep.
+  const [exteriorSwing, setExteriorSwing] = useState<SwingDoor[]>([]);
+  useEffect(() => {
+    const swingDoors = doors.filter(isSwingDoor);
+    if (!swingDoors.length) { setExteriorSwing([]); return undefined; }
+    let live = true;
+    const kitIds = [...new Set(swingDoors.map((d) => d.swing.kit))];
+    Promise.all(kitIds.map((id) => kitCache.load(id, `${baseUrl}kits/${id}.glb`,
+      (u) => createKitLoader(decoders).loadAsync(u)).then(buildArchitectureKit).then((kit) => [id, kit] as const)))
+      .then((kits) => {
+        if (!live) return;
+        const byKit = new Map(kits);
+        setExteriorSwing(swingDoors.map((d) => buildSwingDoor(d.id, d.swing,
+          byKit.get(d.swing.kit)?.get(d.swing.assetId)?.levels[0] ?? null)));
+      })
+      .catch((err: unknown) => console.error("swing doors: kit load failed", err));
+    return () => { live = false; };
+  }, [doors, baseUrl, kitCache, decoders]);
+
+  const swing = useMemo(() => {
+    const list = shown ? shown.interior.swingDoors : exteriorSwing;
+    if (!list.length) return null;
+    const bodyAt = new THREE.Vector3();
+    const colliders = new Map<string, { body: RigidBody; enabled: boolean }>();
+    const hosts: SwingDoorHosts = {
+      sounds,
+      bodies: () => { controller.position(bodyAt); return [{ x: bodyAt.x, z: bodyAt.z }]; },
+      setColliderEnabled: (door, enabled) => {
+        const c = colliders.get(door.id);
+        if (!c) return;
+        if (enabled) {
+          const pose = leafWorldPose(door);
+          c.body.setTranslation(pose.position, true);
+          c.body.setRotation(pose.quaternion, true);
+        }
+        for (let i = 0; i < c.body.numColliders(); i++) c.body.collider(i).setEnabled(enabled);
+        c.enabled = enabled;
+      },
+    };
+    return { controller: new SwingDoorController(list, hosts, shown ? shown.originM : [0, 0, 0]), colliders };
+  }, [shown, exteriorSwing, controller, sounds]);
+
+  useEffect(() => {
+    if (!swing) return undefined;
+    const bodySet = captureBodySet(world);
+    const frames: RigidBody[] = [];
+    const fixedAt = (at: THREE.Vector3, q: THREE.Quaternion) => world.createRigidBody(rapier.RigidBodyDesc.fixed()
+      .setTranslation(at.x, at.y, at.z).setRotation({ x: q.x, y: q.y, z: q.z, w: q.w }));
+    const addShapes = (body: RigidBody, shapes: ReturnType<typeof swingLeafShapes>) => {
+      for (const part of shapes) {
+        const desc = settlementColliderDesc(rapier, part, 1);
+        desc.setCollisionGroups(CAMERA_BLOCKING_GROUPS);
+        world.createCollider(desc, body);
+      }
+    };
+    for (const door of swing.controller.doors) {
+      const pose = leafWorldPose(door);
+      const body = fixedAt(pose.position, pose.quaternion);
+      addShapes(body, swingLeafShapes(door));
+      swing.colliders.set(door.id, { body, enabled: true });
+      const frameShapes = swingFrameShapes(door);
+      if (frameShapes.length) {
+        // the frame round the leaf (impwooddoorsingle01's wall) stands with the placement
+        const at = new THREE.Vector3();
+        const q = new THREE.Quaternion();
+        door.object.matrixWorld.decompose(at, q, new THREE.Vector3());
+        const frameBody = fixedAt(at, q);
+        addShapes(frameBody, frameShapes);
+        frames.push(frameBody);
+      }
+    }
+    return () => {
+      const bodies = [...swing.colliders.values()].map((c) => c.body).concat(frames);
+      swing.colliders.clear();
+      if (!bodySetAlive(bodySet)) return;
+      for (const body of bodies) world.removeRigidBody(body);
+    };
+  }, [swing, world, rapier]);
+
   // No sun, sky, IBL or scene fog but the cell's while inside.
   const environment = useRef<InteriorEnvironment | null>(null);
   useEffect(() => {
@@ -138,11 +235,20 @@ export function InteriorDoors({
     }
     transition.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
     if (transition.candidate) interaction.offer(transition.candidate);
+    if (swing && transition.fade === 0) {
+      const p = controller.position(new THREE.Vector3());
+      for (const c of swing.controller.candidates(p.x, p.z)) interaction.offer(c);
+      swing.controller.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
+    }
+    const focus = interaction.focused;
+    const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
     environment.current?.frame();
     overlay.setFade(directCellId && !opened.current ? 1 : transition.fade);
     const prompt = transition.prompt;
-    overlay.setPrompt(prompt && interaction.isFocused(prompt.doorId) ? prompt : null);
+    overlay.setPrompt(prompt && interaction.isFocused(prompt.doorId) ? prompt
+      : swingDoor && focus ? { kind: "swing", textId: focus.promptTextId, doorId: swingDoor.id } : null);
     overlay.setError(transition.lastError?.message ?? null);
+    overlay.setLoading(transition.loadingTextId, transition.loadingName);
   });
 
   useEffect(() => {
@@ -152,7 +258,8 @@ export function InteriorDoors({
     return () => { probeRef.current = null; };
   }, [probeRef, shown, transition, interaction, overlay]);
 
-  return shown ? <primitive object={shown.interior.group} position={shown.originM} /> : null;
+  if (shown) return <primitive object={shown.interior.group} position={shown.originM} />;
+  return exteriorSwing.length ? <>{exteriorSwing.map((d) => <primitive key={d.id} object={d.object} />)}</> : null;
 }
 
 const probeBox = new THREE.Box3();
@@ -170,5 +277,6 @@ function probeState(
     cellId: transition.cellId, originM: shown?.originM ?? null, meshes: shown?.interior.counts.meshes ?? 0,
     boundsM, candidate: transition.candidate?.id ?? null, focused,
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
+    loadS: shown?.interior.loadS ?? null,
   };
 }

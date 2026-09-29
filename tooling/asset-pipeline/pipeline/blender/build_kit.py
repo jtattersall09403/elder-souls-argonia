@@ -218,6 +218,34 @@ def swap_variant_images(mat, swaps, source_names=None):
     return swapped
 
 
+def merge_vertex_alpha(obj):
+    """An additive card's vertex alpha into its vertex colour's alpha channel.
+
+    PyNifly imports a NIF's vertex colours as `VERTEX_COLOR` and its vertex
+    alpha as a second attribute `VERTEX_ALPHA` (grey = alpha); the glTF
+    exporter wrote them as COLOR_1 and COLOR_2 behind a fake white COLOR_0,
+    and three.js reads COLOR_0 only, so the soft edge fade was lost. Merged
+    here into one RGBA attribute; pipeline/build_kit.py set_alpha_modes then
+    points the additive primitive's COLOR_0 at it."""
+    attrs = obj.data.color_attributes
+    alpha = attrs.get("VERTEX_ALPHA")
+    if alpha is None:
+        return False
+    colour = attrs.get("VERTEX_COLOR")
+    if colour is None or colour.domain != alpha.domain or len(colour.data) != len(alpha.data):
+        colour = attrs.new(name="VERTEX_COLOR_A", type="FLOAT_COLOR", domain=alpha.domain)
+        rgb = [1.0] * (4 * len(alpha.data))
+    else:
+        rgb = [0.0] * (4 * len(colour.data))
+        colour.data.foreach_get("color", rgb)
+    values = [0.0] * (4 * len(alpha.data))
+    alpha.data.foreach_get("color", values)
+    rgb[3::4] = values[0::4]
+    colour.data.foreach_set("color", rgb)
+    attrs.remove(alpha)
+    return True
+
+
 def rebuild_material(mat, double_sided, effect=None):
     """Diffuse Principled BSDF with alpha linked, and the glow map on Emission.
 
@@ -1046,6 +1074,31 @@ for asset in PLAN["assets"]:
                     solid_meshes.remove(obj)
                 bpy.data.objects.remove(obj, do_unlink=True)
 
+    # Billboard glow discs (the Python half reads them from the NIF:
+    # NiBillboardNode children drawing a glow texture, campfire `Glow02:0`,
+    # fxfirewithembers `glow:0`). The engine turns them to face the camera; a
+    # glTF card cannot, so they shipped as fixed 3.7 m grey discs (walk 4).
+    # Dropped here, measured (centre and largest edge, glTF Y-up metres from
+    # the pivot), and drawn by the runtime as sprites (manifest `glows`).
+    glow_shapes = set(asset.get("billboardGlowShapes") or [])
+    for obj in list(meshes):
+        base = obj.name.rsplit(".", 1)[0] if obj.name.rsplit(".", 1)[-1].isdigit() else obj.name
+        if base not in glow_shapes:
+            continue
+        glo, ghi = world_bounds([obj])
+        centre = (glo + ghi) / 2
+        extent = ghi - glo
+        refraction.append({"shape": obj.name, "nifShape": base, "reason": "billboard-glow",
+                           "centreM": [round(centre.x, 3), round(centre.z, 3),
+                                       round(-centre.y + 0.0, 3)],
+                           "edgeM": round(max(extent.x, extent.y, extent.z), 3),
+                           "extentM": [round(extent.x, 3), round(extent.z, 3), round(extent.y, 3)]})
+        print("[kit]   dropped billboard glow %s (sprite)" % obj.name)
+        meshes.remove(obj)
+        if solid_meshes and obj in solid_meshes:
+            solid_meshes.remove(obj)
+        bpy.data.objects.remove(obj, do_unlink=True)
+
     # 16k kits r3 ruling 5: a shape whose every material is an effect shader
     # (BSEffectShaderProperty) naming no texture at all draws nothing in the
     # game (the Nordic load door's `Object10:3` card: Environment_Map effect,
@@ -1082,6 +1135,11 @@ for asset in PLAN["assets"]:
                 materials.add(slot.material.name)
                 if name:
                     textures.add(variant_sources.get(name, name))
+
+    for obj in meshes:
+        if any(slot.material and slot.material.name in ADDITIVE_MATERIALS
+               for slot in obj.material_slots):
+            merge_vertex_alpha(obj)
 
     dropped = list(refraction)
     if not asset.get("parts"):

@@ -6,7 +6,14 @@
  * its interior space (interiorSpace.ts).
  */
 
-export const INTERIOR_BUNDLE_SCHEMA_VERSION = 1;
+import { swingPoseProblem, type InteriorSwingDoor } from "./swingDoors";
+
+/**
+ * 2 (16k walk 4, owner 2026-09-28): every `doors[]` entry carries `doorType`;
+ * a DOOR reference with no teleport is a `swing` entry (swingDoors.ts), no
+ * longer a placement. A schema-1 bundle is refused with its version named.
+ */
+export const INTERIOR_BUNDLE_SCHEMA_VERSION = 2;
 
 export type Vec3 = [number, number, number];
 
@@ -85,6 +92,7 @@ export interface InteriorMarker { positionM: Vec3; yawDeg: number }
  * cell's load door `interiorLoadDoorRef` returns to that exterior door.
  */
 export interface InteriorOpenDoor {
+  doorType: "load";
   exteriorDoorId: string;
   interiorLoadDoorRef: string;
   arrivalMarker: InteriorMarker;
@@ -99,6 +107,7 @@ export interface InteriorOpenDoor {
  * the plugin put it, shows the closed line and does nothing.
  */
 export interface InteriorClosedDoor {
+  doorType: "load";
   interiorLoadDoorRef: string;
   loadDoor: InteriorMarker;
   closed: true;
@@ -106,7 +115,11 @@ export interface InteriorClosedDoor {
 
 export type InteriorDoorPairing = InteriorOpenDoor | InteriorClosedDoor;
 
-export const isOpenDoor = (d: InteriorDoorPairing): d is InteriorOpenDoor => d.closed !== true;
+export type InteriorDoorEntry = InteriorDoorPairing | InteriorSwingDoor;
+
+export const isLoadDoor = (d: InteriorDoorEntry): d is InteriorDoorPairing => d.doorType === "load";
+export const isOpenDoor = (d: InteriorDoorEntry): d is InteriorOpenDoor => isLoadDoor(d) && d.closed !== true;
+export const isInteriorSwingDoor = (d: InteriorDoorEntry): d is InteriorSwingDoor => d.doorType === "swing";
 
 export interface InteriorExitDoor {
   id: string;
@@ -132,9 +145,10 @@ export interface InteriorBundle {
   exitDoor: InteriorExitDoor;
   /**
    * One entry per exterior door the cell pairs with, then one closed entry
-   * per load door no exterior door pairs with; may be empty.
+   * per load door no exterior door pairs with, then one swing entry per door
+   * that opens in place; may be empty.
    */
-  doors: InteriorDoorPairing[];
+  doors: InteriorDoorEntry[];
   placements: InteriorPlacement[];
   lights: InteriorLight[];
   ambient: { colorRGB: ColorRGB; intensity: number };
@@ -182,6 +196,15 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
   if (!isStr(exit?.id) || !isStr(exit.refId) || !isVec3(exit.positionM) || !isNum(exit.yawDeg)) fail("bad exitDoor");
   if (!Array.isArray(b!.doors)) fail("no doors list");
   for (const [i, entry] of b!.doors!.entries()) {
+    const kind = (entry as { doorType?: unknown } | null)?.doorType;
+    if (kind === "swing") {
+      const sw = entry as InteriorSwingDoor;
+      const why = !isStr(sw.id) ? "no id" : swingPoseProblem(sw);
+      if (why) fail(`swing door ${i} malformed: ${why}`);
+      if (!b!.kits![sw.kit]) fail(`swing door ${sw.id}: kit ${String(sw.kit)} is not in the bundle's kits`);
+      continue;
+    }
+    if (kind !== "load") fail(`door ${i}: doorType ${String(kind)} is neither load nor swing`);
     const d = entry as (Omit<Partial<InteriorOpenDoor>, "closed"> & { closed?: boolean }) | null;
     const closed = d?.closed === true;
     if (!isStr(d?.interiorLoadDoorRef) || !isMarker(d.loadDoor)

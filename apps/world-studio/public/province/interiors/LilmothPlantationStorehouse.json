@@ -1,9 +1,9 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "cellId": "LilmothPlantationStorehouse",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "kotm:argonia/mudhuts/mudhut01",
+ "shellAssetId": "composite:mud/hut-with-entrance",
  "refCount": 122,
  "kits": {
   "htbm-hut-int": {
@@ -67,7 +67,8 @@
  },
  "doors": [
   {
-   "exteriorDoorId": "door.hist-heartland.greenspring.4",
+   "doorType": "load",
+   "exteriorDoorId": "door.hist-heartland.greenspring.6",
    "interiorLoadDoorRef": "088B271D",
    "arrivalMarker": {
     "positionM": [
@@ -87,6 +88,7 @@
    }
   },
   {
+   "doorType": "load",
    "interiorLoadDoorRef": "088B26FB",
    "closed": true,
    "loadDoor": {
@@ -3183,6 +3185,7 @@
   "drops": 12,
   "lights": 4,
   "substitutions": 1,
+  "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "light-source": 4,

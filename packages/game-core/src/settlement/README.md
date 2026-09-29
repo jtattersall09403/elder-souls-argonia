@@ -123,7 +123,50 @@ Load-bearing contracts:
 - ground treatments are the grass exclusion input only
   (`treatmentClearancePolygons`): a `floor` clears its footprint, a `deck`
   (stilt deck > 0.8 m over the ground) only its `contactsM`, and both their
-  1.5 m door `apronsM`.
+  1.5 m door `apronsM`;
+- a place's ground travels as overlays on its `settlement` row (decision
+  0102 decision 1; the frozen terrain is never repainted or re-levelled for a
+  place). Three ground kinds, each with its own `schemaVersion`, refused when
+  unknown, and the still water of its pools:
+  - `groundOverlays` (1): the levelled pads (`terrain/heightOverlays.ts`),
+    applied to every height read of the chunk store. An overlay's `kind` is
+    `run` (a modular run's pad), `building` (a declared pad; with no `kind`,
+    bundles before r7, a building pad is the one with `hardM` 0) or `pool`
+    (a layout `pool` op's basin, since schema 5: a 24-vertex circle at the
+    ground under its centre minus `depthM`, `hardM` 0, `blendM` its `rimM`,
+    applied with the run pads). Run and pool pads apply first in id order,
+    then building pads, and run and pool pads yield inside building pads;
+  - `pools` (bundle schema 5, 16k walk 4): each `pool` op's still water,
+    `{id: pool.<placeId>.<uid>, centreM, radiusM, levelM (ground at the
+    centre - 0.08), bedM (the basin's datum)}`. `SettlementLayer` registers
+    a place's pools with the injected `localSurfaces`
+    (`water/localSurfaces.ts`) on load and clears them when the place leaves
+    the loaded set or the layer unmounts (`pools.ts`); pools on a bundle
+    under schema 5 are refused, per place bundle (`assertPoolsSchema`);
+  - `vegetationClearance` (2, since 16k walk 4): the clearance by tier.
+    `hardClear` + `thinned` (+ `fringeFalloffM`) is where trees and large
+    plants go: footprints (buildings grown 1.5 m, other pieces 0.5 m), ways
+    grown 0.5 m, pads, floors and aprons, and a 10 m thinned ring graded over
+    10 m; the vegetation cells filter on it (`makeClearanceFilter`).
+    `groundClear` (+ `groundEdgeJitterM`) is where ground cover dies: ways,
+    pads, floors and aprons only, grown 0.25 m with a 0-0.5 m wobble; the
+    groundcover ring indexes it (`groundTierOf`). A version-1 row (one tier
+    for everything) is refused. The blueprint's authored `hardClear` is not
+    carried: it was a hull round the whole place;
+  - `groundPaint` (1): every blueprint way (the layout's path ops) as
+    `{id, routeId, kind, texture, edgeM, polygonM}`, the polyline buffered to
+    its width plus half the soft edge and cut under pads and floors except
+    inside a door's apron. `texture` is a ground-material name from
+    `world/sources/vocab/ground-paint.json` (road `bc_road`, track
+    `track_mud`, footpath `dirt_path`: the land cover's road paint); stairs
+    and ramps paint nothing. `GroundPaintLayer` drapes each as a 0.5 m grid
+    strip 3 cm over `groundAt` with a polygon offset and alpha rising over
+    `edgeM`, one mesh per texture with the ground set's own albedo and normal
+    files. Cost at load: 18-20 ms per place (Claywater 13 strips, 5,656
+    triangles; Greenspring 17 strips, 6,932), measured in Node on the VM.
+  The ground sidecar `province/settlements/ground-overlays.json` carries
+  `groundOverlays` and `vegetationClearance` for the studio's terrain and
+  vegetation; `groundPaint` rides only in the place bundle.
 
 Browser acceptance may read the immutable `globalThis.__STUDIO_SETTLEMENT_DEBUG__`
 snapshot. It reports `loading`/`loaded`/`failed`, bundle and rendered placement

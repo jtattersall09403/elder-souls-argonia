@@ -577,3 +577,14 @@ def test_clutter_misses_rank_by_count():
     bp = _bp(["lodging"])
     bi.claim_doors(bp, LIB, LINKS, PROFILE, sourcing=_sourcing(table))
     assert bp["doors"][0]["interiorClaim"]["cellId"] == "Home2"
+
+
+def test_shell_swap_rewrites_interior_ref_and_size_class():
+    """A door kept the old shell's interiorRef after a hut -> pod swap
+    (GREENSPRING5); the claim now takes both from the parcel's piece."""
+    lib = _Lib({**LIB.records, "test:shell": {**LIB.records["test:shell"],
+                                              "tileset": "kit-pod", "sizeClass": "large"}})
+    bp = _bp(["lodging"])
+    bi.claim_doors(bp, lib, LINKS, PROFILE)
+    claim = bp["doors"][0]["interiorClaim"]
+    assert claim["interiorRef"] == "kit-pod" and claim["sizeClass"] == "large"

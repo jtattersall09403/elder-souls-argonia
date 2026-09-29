@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from . import pad_overlay as po
 from .settlement_bundles import load_published
@@ -105,3 +106,28 @@ def test_the_apply_order_is_runs_then_buildings_and_old_bundles_classify_by_hard
              "params": {"pieces": []}}
     assert po.overlay_from_patch(patch, 2.7)["kind"] == "building"
     assert po.overlay_from_patch({**patch, "source": {"runId": "r"}}, 2.7)["kind"] == "run"
+
+
+POOL_OP = {"op": "pool", "uid": "spring", "centreM": [10.0, 20.0], "radiusM": 4.0,
+           "depthM": 0.6, "why": "w", "sources": ["s"]}
+
+
+def test_a_pool_op_is_a_24_vertex_basin_overlay_and_a_still_water_record():
+    ground = lambda x, z: 30.0 + 0.1 * x          # noqa: E731  (31.0 at the centre)
+    o = po.pool_overlay(POOL_OP, "place.t", ground)
+    assert o["id"] == "pool.place.t.spring" and o["kind"] == "pool"
+    assert o["hardM"] == 0.0 and o["blendM"] == 1.0         # rimM default
+    (piece,) = o["pieces"]
+    assert len(piece["polygonM"]) == 24
+    assert piece["datumM"] == pytest.approx(31.0 - 0.6)
+    assert all(np.hypot(x - 10.0, z - 20.0) == pytest.approx(4.0) for x, z in piece["polygonM"])
+    assert o["bboxM"] == pytest.approx([6.0, 16.0, 14.0, 24.0])
+    assert po.pool_overlay({**POOL_OP, "rimM": 2.5}, "place.t", ground)["blendM"] == 2.5
+    rec = po.pool_record(POOL_OP, "place.t", ground)
+    assert rec == {"id": "pool.place.t.spring", "centreM": [10.0, 20.0], "radiusM": 4.0,
+                   "levelM": pytest.approx(31.0 - 0.08), "bedM": pytest.approx(30.4)}
+    assert rec["bedM"] == pytest.approx(piece["datumM"])
+    # the basin cuts the ground at the centre, and is not a building pad
+    assert po.overlay_height(31.0, 10.0, 20.0, [o]) == pytest.approx(30.4)
+    assert not po.is_building(o)
+    assert po.pool_op_errors(POOL_OP) == []

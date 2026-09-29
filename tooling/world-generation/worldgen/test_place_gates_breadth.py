@@ -104,3 +104,21 @@ def test_r6_leaves_out_natural_references_and_markers_but_counts_crops():
     assert not pg.is_r6_counted({**base, "assetId": "tropicalskyrim:landscaping/plants/fern01"})
     assert not pg.is_r6_counted({**base, "assetId": "vanilla:effects/fxmistlow01"})
     assert not pg.is_r6_counted({**base, "assetId": "vanilla:architecture/farmhouse/fencefarm01"})
+
+
+def test_0098_place_reads_the_type_bar_from_the_record():
+    """GREENSPRING3 ruling 1 (planner 2026-09-28): a Hist village (type 2)
+    carries shellsMin 3 / topShellShareMax 0.50 from breadth-bars.json's type
+    overrides; a road station (type 1) keeps its column's numbers."""
+    from . import breadth_bars as bb
+    record = bb.load()
+    hist = pg.place_bars({"classification": {"type": "hist-village"}, "culture": "argonian-mud"}, 8)
+    road = pg.place_bars({"classification": {"type": "road-station-village"}, "culture": "imperial"}, 8)
+    over = record["types"]["2"]["overrides"]
+    assert hist[:2] == ("M2", 2) and road[:2] == ("M2", 1)
+    assert hist[2]["shellsMin"] == over["shellsMin"]["value"] == 3
+    assert hist[2]["topShellShareMax"] == over["topShellShareMax"]["value"] == 0.5
+    assert all(v.get("why") for v in over.values())
+    m2 = record["tiers"]["M2"]
+    assert road[2]["shellsMin"] == m2["shellsMin"]["value"]
+    assert road[2]["topShellShareMax"] == m2["topShellShareMax"]["value"]

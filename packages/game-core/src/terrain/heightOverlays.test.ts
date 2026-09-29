@@ -51,6 +51,18 @@ describe("ground overlays (decision 0102)", () => {
       .toThrow(/schemaVersion 2/);
   });
 
+  it("cuts a pool basin at its datum, applied with the run pads, and yields inside a building pad", () => {
+    const circle = Array.from({ length: 24 }, (_, k) =>
+      [10 + 4 * Math.cos((2 * Math.PI * k) / 24), 20 + 4 * Math.sin((2 * Math.PI * k) / 24)] as const);
+    const pool: GroundOverlay = { id: "pool.place.t.spring", kind: "pool", bboxM: [6, 16, 14, 24],
+      blendM: 1, hardM: 0, pieces: [{ placementId: "pool.place.t.spring", polygonM: circle, datumM: 30.4 }] };
+    expect(overlayHeight(31, 10, 20, [pool])).toBeCloseTo(30.4, 9);   // inside the rim: the bed
+    expect(overlayHeight(31, 10, 25.5, [pool])).toBe(31);              // beyond the 1 m blend
+    const hut: GroundOverlay = { id: "b", kind: "building", bboxM: [9, 19, 11, 21], blendM: 1, hardM: 0,
+      pieces: [{ polygonM: [[9, 19], [11, 19], [11, 21], [9, 21]], datumM: 32 }] };
+    expect(overlayHeight(31, 10, 20, [hut, pool])).toBe(32);           // the building pad outranks it
+  });
+
   it("the registry is ready once set, and empty when its source fails", async () => {
     const reg = new GroundOverlayRegistry();
     reg.set(new Map([["p", fixture.overlays]]));

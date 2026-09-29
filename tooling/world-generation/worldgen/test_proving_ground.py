@@ -474,7 +474,8 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD,
 @pytest.mark.parametrize("place", ("place.fixture.proving-ground", "place.fixture.proving-ground-b"))
 def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey, place):
     bundle = _published()
-    assert bundle["schemaVersion"] in (3, 4)          # 4 adds yFinal (16k walk 2)
+    from .export_settlement_bundle import READABLE_SCHEMA_VERSIONS
+    assert bundle["schemaVersion"] in READABLE_SCHEMA_VERSIONS   # 4 yFinal, 5 pools (16k walk 4)
     rows = ground_audit(bundle, survey, _published_kits(bundle), place)
     assert rows
     slope = [r for r in rows if r["slopeExempt"]]

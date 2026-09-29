@@ -448,8 +448,8 @@ def summarise(samples, kits: dict[str, dict] | None = None) -> list[dict]:
     for (child, parent), rows in sorted(samples.items()):
         if not rows:
             continue
-        rows = [(tuple(row[0]), row[1], row[2] if len(row) > 2 else 1.0)
-                for row in rows]
+        rows = [(tuple(row[0]), row[1], row[2] if len(row) > 2 else 1.0,
+                 row[3] if len(row) > 3 else 1.0) for row in rows]
         offsets = [row[0] for row in rows]
         box = bounds_of(kits.get(parent, {}))
         axis = along_axis(box) if box else 0
@@ -457,6 +457,12 @@ def summarise(samples, kits: dict[str, dict] | None = None) -> list[dict]:
         base = {"child": child, "parent": parent,
                 "parentScale": round(median([row[2] for row in rows]), 4),
                 "n": len(rows), "evidence": "plugin"}
+        in_parent = median([row[3] for row in rows])
+        if abs(in_parent - 1.0) > SCALE_TOLERANCE:
+            # the child's own scale over its parent's (an effect scaled into
+            # its host, CLAYWATER2 ruling 2): the workbench, export, compile
+            # and runtime draw it at parent scale x this, never at the parent's
+            base["childScaleInParent"] = round(in_parent, 4)
         if (len(rows) >= MIN_SAMPLES
                 and quartile_range([o[across] for o in offsets]) < MAX_SPREAD_M
                 and quartile_range([o[2] for o in offsets]) < MAX_SPREAD_M):
@@ -603,6 +609,10 @@ class ChildRef:
     below_land: bool = False
     """Exterior, outside a water column, the pivot more than BURIED_M below
     the LAND: stands in the ground (round 14)."""
+    effect: bool = False
+    """A kit effect (category ``effect``: a flame, a smoke column). Mined at
+    any scale for the pieces it sits in (``effect_mounts``; CLAYWATER2
+    planner ruling 2, 2026-09-28), never classified by contact."""
 
 
 def surface_samples(mesh) -> tuple[np.ndarray, np.ndarray]:
@@ -847,8 +857,11 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
     def scan(rows, parents, land, water_m=None, interior=False, planes=(),
              flat_m=None):
         for child in rows:
-            if (not child.unit_scale or not child.kit or child.asset_id not in cell_boxes
-                    or child.asset_id in effects
+            # an effect child is mined at ANY scale (the flame scaled into its
+            # brazier, CLAYWATER2 ruling 2); every other child at unit scale
+            is_effect = child.asset_id in effects
+            if ((not child.unit_scale and not is_effect) or not child.kit
+                    or child.asset_id not in cell_boxes
                     or (only is not None and child.asset_id not in only)):
                 continue
             stats["childRefs"] += 1
@@ -886,7 +899,8 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
                 inside = bool(np.all(corners >= np.array(child_box[0]) - INSIDE_MARGIN_M)
                               and np.all(corners <= np.array(child_box[1]) + INSIDE_MARGIN_M))
                 links.append((key, parent.asset_id, parent.kit,
-                              ((lx / unit, ly / unit, lz / unit), yaw, parent.scale),
+                              ((lx / unit, ly / unit, lz / unit), yaw, parent.scale,
+                               child.scale / parent.scale),
                               parent.tree, inside, is_shell(parent.asset_id), same))
                 stats["candidatePairs"] += 1
             origin = np.array([child.x, child.y, child.z]) / UNITS_PER_METRE
@@ -899,7 +913,8 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
                 not interior and not wet and land is None,
                 wet, child.own, child.ref_id,
                 placed_water_top(child, planes) if planes else None,
-                not interior and not wet and below_land(land, origin)))
+                not interior and not wet and below_land(land, origin),
+                is_effect))
 
     # ---- pass 2: every cell merged over the load order ------------------ #
     exterior: dict[tuple[int, int, int], dict[int, Instance]] = defaultdict(dict)
@@ -1472,6 +1487,32 @@ def on_a_mesh(child: ChildRef, contacts: dict) -> bool:
     return any(supports(child, patch) for patch in contact_patches(child, contacts)[0])
 
 
+EFFECT_REACH_UP_M = 0.5
+"""effect_mounts fallback: an effect's pivot at most this over its host's
+bounds top (a flame over a brazier bowl it does not touch)."""
+
+
+def effect_mounts(child: ChildRef, contacts: dict, kits: dict[str, dict]) -> list[tuple]:
+    """``[(kit parent, offset row)]`` an effect reference sits in (CLAYWATER2
+    ruling 2): every kit piece it is in contact with, of any kind; with none,
+    the kit candidates whose bounds hold its pivot in plan, between their
+    bottom and EFFECT_REACH_UP_M over their top (the flame over the bowl)."""
+    patches, _carried, _copies = contact_patches(child, contacts)
+    found = [(p[2], p[4]) for p in patches if p[3]]
+    if found:
+        return found
+    out = []
+    for (_key, parent_id, parent_kit, offset, _tree, _inside, _shell, same) in child.links:
+        box = bounds_of(kits.get(parent_id, {})) if parent_kit and not same else None
+        if box is None:
+            continue
+        (x, y, z) = offset[0]
+        if (box[0][0] <= x <= box[1][0] and box[0][1] <= y <= box[1][1]
+                and box[0][2] <= z <= box[1][2] + EFFECT_REACH_UP_M):
+            out.append((parent_id, offset))
+    return out
+
+
 def classify_reference(child: ChildRef, contacts: dict,
                        vertices: np.ndarray | None) -> tuple[str, list, list, str | None]:
     """``(class, [(parent, offset row)] it is mounted by, [abutted parents],
@@ -1805,9 +1846,9 @@ def validate_mount_shapes(pairs: list[dict], anchors: dict[str, dict]) -> list[s
     findings: list[str] = []
     for pair in pairs:
         child, parent = pair.get("child", "?"), pair.get("parent", "?")
-        if (anchors.get(child, {}).get("anchorClass") not in MOUNTED_CLASSES
+        if (anchors.get(child, {}).get("anchorClass") not in MOUNTED_CLASSES + ("fx",)
                 and pair.get("mountClass") not in MOUNTED_CLASSES):
-            findings.append(f"{child}: a mount child must be wall or hanging")
+            findings.append(f"{child}: a mount child must be wall, hanging or fx")
         if parent.startswith(NON_KIT_PREFIX):
             continue
         if not is_mount_parent(anchors.get(parent, {})):
@@ -1952,6 +1993,12 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
         if child.buried:
             # No LAND under the pivot: not evidence, never classified.
             dropped[child.asset_id] += 1
+            continue
+        if child.effect:
+            # CLAYWATER2 ruling 2: an effect is fx by its category; its pairs
+            # are the kit pieces it sits in (effect_mounts), at its own scale
+            mounted[child.asset_id] += [("fx", parent, row)
+                                        for parent, row in effect_mounts(child, contacts, kits)]
             continue
         if child.asset_id not in vertex_cache:
             mesh = meshes(child.asset_id)

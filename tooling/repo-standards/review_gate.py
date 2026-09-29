@@ -43,8 +43,9 @@ REPORT_DIR = os.path.join(ROOT, "tooling", ".reports", "review")
 STAMP = os.path.join(REPORT_DIR, "stamp.json")
 FINDINGS = os.path.join(REPORT_DIR, "review-findings.md")
 FINDINGS_RANGE = os.path.join(REPORT_DIR, "review-findings-range.md")
-MAX_DIFF_BYTES = 250_000
-TIMEOUT_S = 540
+# a fix round's whole code diff; the reviewer's window is 1M tokens; 0106 decision 13
+MAX_DIFF_BYTES = 1_200_000
+TIMEOUT_S = 900
 MODEL = "claude-opus-5-5[1m]"  # owner 2026-09-19: Opus has headroom, review is judgement; 2026-09-23: Opus 5.5 at medium effort
 EFFORT = "high"   # 0106: one exhaustive review per batch, never rounds
 

@@ -225,8 +225,8 @@ record row or an UNVERIFIED mark.
    (`schemaVersion` 1; schema in `tooling/placement-workbench/README.md`
    § apply): the ordered operations for the **whole place** (`window`,
    `place`, `snap`, `mount`, `attach`, `group place`, `path`, `bind`,
-   `socket` per § Sockets row, `note`), every building and dressing group
-   of the brief in it before the first apply. Yard sets come from
+   `socket` per § Sockets row, `pool` for a spring or basin, `note`), every
+   building and dressing group of the brief in it before the first apply. Yard sets come from
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is a
    REQUEST row, never only a `group save` in the layout.
 3. Scan every building's site, then apply:

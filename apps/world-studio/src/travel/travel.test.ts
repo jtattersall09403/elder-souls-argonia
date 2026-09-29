@@ -46,3 +46,18 @@ describe("the prompt-distance rule", () => {
     expect(nearestSocket(sockets, 101, 100)?.serviceId).toBe("a");
   });
 });
+
+describe("operator sockets in the walk (16k walk 4 defect 4)", () => {
+  it("never draw or answer a talk prompt unless the sockets overlay is on", async () => {
+    const { travelSocketsShown } = await import("./nearestSocket");
+    expect(travelSocketsShown(false, new Set())).toBe(false);
+    expect(travelSocketsShown(true, new Set())).toBe(true);
+    expect(travelSocketsShown(true, new Set(["services"]))).toBe(false);
+  });
+
+  it("the character view mounts the travel sockets through that rule", async () => {
+    const { readFileSync } = await import("node:fs");
+    const src = readFileSync(new URL("../character/CharacterMode.tsx", import.meta.url), "utf8");
+    expect(src).toMatch(/travelSocketsShown\(showSockets, hiddenLayers\) && <TravelSockets/);
+  });
+});

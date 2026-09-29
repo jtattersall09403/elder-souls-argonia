@@ -78,6 +78,9 @@ export function kitAssetMetaFromManifest(
       light: asset.light,
       additiveMaterials: asset.additiveMaterials,
       glowFacingsDeg: asset.glowFacingsDeg,
+      flames: asset.flames,
+      glows: asset.glows,
+      flameCardMaterials: asset.flameCardMaterials,
     });
   }
   return out;

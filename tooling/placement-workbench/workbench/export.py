@@ -139,8 +139,12 @@ def poses(scene: Scene, extent: float) -> dict:
         pieces = []
         for _i, p in members:
             rel = ((p.yaw - base + 180.0) % 360.0) - 180.0
+            # each member's measured pivot (16k walk 4): the compile writes it
+            # verbatim (`yFinal`) and the run's riseM is read from it, never a
+            # datum from the run's highest ground (the Claywater walls and
+            # landing stood 1.8-3.0 m over their workbench seats)
             pieces.append({"asset": p.asset, "atM": _local(p.x - first.x, p.z - first.z, base),
-                           "yaw": round(rel, 3)})
+                           "yaw": round(rel, 3), **_y_measured(p)})
         out["parcels"][rid] = {"pieces": pieces, "centreUV": _uv(first.x, first.z, extent),
                                "yawDeg": round(base, 3)}
     for rid, pieces in assemblies.items():
@@ -155,11 +159,6 @@ def poses(scene: Scene, extent: float) -> dict:
             host = mount_host(scene, q, shell, members)
             frame = host or shell
             rel = _rel(frame, q)
-            if q.role["on"] == "parent" and not math.isclose(q.scale, frame.scale):
-                raise ValueError(f"{q.uid}: scale {q.scale} on {frame.uid} at "
-                                 f"{frame.scale}: the runtime draws a hung piece at its "
-                                 f"parent's scale; seat it on the ground or use scale "
-                                 f"{frame.scale}")
             row = {"id": _slug(q.uid), "asset": q.asset,
                    "atM": [round(v, 4) for v in rel["atM"]],
                    "yaw": round(rel["yaw"], 3), "on": q.role["on"],
@@ -176,6 +175,11 @@ def poses(scene: Scene, extent: float) -> dict:
             if q.pitch:
                 row["pitch"] = round(q.pitch, 3)
             if q.scale != 1.0 and q.role["on"] == "ground":
+                row["scale"] = q.scale
+            elif q.role["on"] == "parent" and not math.isclose(q.scale, frame.scale):
+                # a mounted child keeps its OWN world scale (an effect scaled
+                # into its brazier; CLAYWATER2 ruling 2): the compile writes it
+                # and the runtime draws it at that scale, not the parent's
                 row["scale"] = q.scale
             if q.role["on"] == "ground":
                 row.update(_y_measured(q))
@@ -358,6 +362,8 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             parcel.pop("assembly", None)    # the scene holds no assembly for it now
         if "pad" not in fields:
             parcel.pop("pad", None)         # the piece declares no pad now
+        if "yMeasured" not in fields:
+            parcel.pop("yMeasured", None)   # never a height from an earlier pose
         parcel.update(fields)
         changed.append(pid)
     marks = {m["id"]: m for m in bp.get("landmarks", [])}
@@ -367,6 +373,10 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             unknown.append(lid)
             continue
         mark.update({"position": fields["position"], "yawDeg": fields["yawDeg"]})
+        if "yMeasured" in fields:
+            mark["yMeasured"] = fields["yMeasured"]     # the pose is the output (0097)
+        else:
+            mark.pop("yMeasured", None)
         if "scale" in fields:
             mark["scale"] = fields["scale"]
         else:

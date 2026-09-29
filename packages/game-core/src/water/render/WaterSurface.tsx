@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { buildPoolGeometry } from "./PoolDiscs";
+import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getWindWaveScale, whitecapThreshold } from "@elder-souls/game-core/water/index";
@@ -143,7 +145,7 @@ export interface WaterSurfaceHandle {
   stripDiagnostics: { count: number; triangles: number };
 }
 
-export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady }: {
+export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, localSurfaces, onReady }: {
   runtime: WaterRuntime;
   assets: WaterAssets;
   tier: WaterTier;
@@ -153,6 +155,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   ripple?: RippleSim | null;
   /** Live churn sources (player wading, splashes); read every frame. */
   contactBodies?: () => ContactBody[];
+  /** The places' own pools (spring basins); drawn as strip-mode discs. */
+  localSurfaces?: LocalWaterSurfaces;
   onReady?: (handle: WaterSurfaceHandle) => void;
 }) {
   const csm = runtime.csm;
@@ -209,6 +213,34 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     strips.materials.above.dispose();
     strips.materials.below.dispose();
   }, [strips]);
+  // A place's pools (spring basins, 16k walk 4): the same ES_STRIP water,
+  // one disc per pool, rebuilt when a place loads or unloads its pools.
+  const [poolRecords, setPoolRecords] = useState<readonly LocalPoolRecord[]>(() => localSurfaces?.list() ?? []);
+  useEffect(() => {
+    if (!localSurfaces) return;
+    setPoolRecords(localSurfaces.list());
+    return localSurfaces.subscribe(setPoolRecords);
+  }, [localSurfaces]);
+  const pools = useMemo(() => {
+    const built = buildPoolGeometry(poolRecords);
+    if (!built) return null;
+    const materials = {
+      above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+      below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+    };
+    const mesh = new THREE.Mesh(built.geometry, materials.above);
+    mesh.name = "water-pools";
+    mesh.layers.set(WATER_LAYER);
+    mesh.frustumCulled = false;
+    mesh.receiveShadow = true;
+    return { mesh, materials, triangles: built.triangleCount };
+  }, [poolRecords, assets, csm, uniforms, tier, runtime.applyAerial]);
+  useEffect(() => () => {
+    if (!pools) return;
+    pools.mesh.geometry.dispose();
+    pools.materials.above.dispose();
+    pools.materials.below.dispose();
+  }, [pools]);
   const meshRef = useRef<THREE.Mesh>(null);
   // Spray and splashes take the WaterEffects default layer, PRECIP_LAYER:
   // that pass runs after the surface, which is the order they need.
@@ -259,17 +291,18 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh] : [])];
+      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(pools ? [pools.mesh] : []), ...(falls ? [falls.mesh] : [])];
       onReadyRef.current?.({
         uniforms, mesh, meshes, materials, effects, bubbles, falls, foam,
         stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
         setUnderwater(underwater: boolean) {
           mesh.material = underwater ? materials.below : materials.above;
           if (strips) strips.mesh.material = underwater ? strips.materials.below : strips.materials.above;
+          if (pools) pools.mesh.material = underwater ? pools.materials.below : pools.materials.above;
         },
       });
     }
-  }, [materials, uniforms, effects, bubbles, strips, falls, foam]);
+  }, [materials, uniforms, effects, bubbles, strips, pools, falls, foam]);
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();

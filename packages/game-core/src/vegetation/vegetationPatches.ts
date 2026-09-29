@@ -31,6 +31,9 @@ export interface VegetationClearancePatch {
   readonly kept?: readonly KeptPlant[];
   /** Optional per-place override of the fringe falloff, metres. */
   readonly fringeFalloffM?: number;
+  /** Optional override of the built-edge wobble, metres (`EDGE_JITTER_M`
+   * when absent): a place's ground-cover tier uses a tight one (16k walk 4). */
+  readonly edgeJitterM?: number;
 }
 
 /** Share of wild growth surviving at the built edge of the worked fringe. */
@@ -251,7 +254,7 @@ export function keepAt(x: number, z: number, clearance: VegetationClearancePatch
   let dWall = Infinity;
   if (hard.length > 0) {
     const near = nearest(x, z, hard, searchR);
-    const jitter = edgeJitter(x, z);
+    const jitter = edgeJitter(x, z) * (clearance.edgeJitterM ?? EDGE_JITTER_M) / EDGE_JITTER_M;
     if (near.inside || near.distance <= jitter) return 0;
     dHard = near.distance;
     // Distance from the built edge as CUT, not from the drawn polygon.

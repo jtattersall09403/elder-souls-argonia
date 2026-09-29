@@ -1,3 +1,5 @@
+import type { GroundPaintDoc } from "./groundPaint";
+import type { LocalPoolRecord } from "../water/localSurfaces";
 import type * as THREE from "three";
 
 export const SETTLEMENT_COLLISION_FRAME = "settlement-pivot-yup-v1";
@@ -136,8 +138,9 @@ export type SettlementSocket =
     });
 
 export interface SettlementBundle {
-  /** 3, or 4 when placements may carry `yFinal` (additive: a 3 reads as none final). */
-  schemaVersion: 3 | 4;
+  /** 3, 4 when placements may carry `yFinal` (additive: a 3 reads as none
+   * final), 5 when a place may carry `pools` (additive; `pools.ts`). */
+  schemaVersion: 3 | 4 | 5;
   collisionFrame: string;
   lod: {
     tiers: number;
@@ -159,6 +162,11 @@ export interface SettlementBundle {
     /** 0103 decision 5; parse with `parseSettlementSockets` (sockets.ts). */
     socketsSchemaVersion?: typeof SETTLEMENT_SOCKETS_SCHEMA_VERSION;
     sockets?: SettlementSocket[];
+    /** The place's painted ways (16k walk 4); parse with `groundPaintOfBundle`. */
+    groundPaint?: GroundPaintDoc;
+    /** The place's still water (layout `pool` ops, schema 5): registered with
+     * the injected `LocalWaterSurfaces` at load (`pools.ts`). */
+    pools?: LocalPoolRecord[];
   }[];
   placements: SettlementPlacement[];
   groundTreatments: GroundTreatment[];
@@ -360,6 +368,10 @@ export interface SettlementLayerProps {
   /** Injected error channel (decision 0052 addendum 2026-09-28): the host shows
    * the layer's failure as a readable line; called with null once it clears. */
   onError?: (error: SettlementLayerError | null) => void;
+  /** The scene's local still-water registry (`water/localSurfaces.ts`),
+   * injected: each loaded place's `pools` are registered on load and cleared
+   * when the place leaves the loaded set or the layer unmounts (`pools.ts`). */
+  localSurfaces?: import("../water/localSurfaces").LocalWaterSurfaces;
 }
 
 /**
@@ -396,6 +408,40 @@ export interface SettlementKitAssetMeta {
   /** Outward bearings of the piece's window-glow faces, north 0 clockwise
    * (x east, z south; build_kit glow_facings_from_faces). */
   glowFacingsDeg?: number[];
+  /** The NIF's fire layer (build_kit mine_fire_layer, 16k walk 4): one sprite
+   * per flame particle system or AddOnNode flame. */
+  flames?: SettlementKitFlame[];
+  /** Billboard glow discs, drawn as camera-facing additive sprites. */
+  glows?: SettlementKitGlow[];
+  /** Additive materials that are real flame cards (fxfirewithembers01): the
+   * piece needs no fallback flame sprite. */
+  flameCardMaterials?: string[];
+}
+
+/** A kit manifest flame: a flipbook sprite at the emitter (glTF Y-up metres
+ * from the pivot). `texture` is a works-v1 `effectTextures` id; `atlas` its
+ * [cols, rows] grid, null for a single image; `frames` the cells played when
+ * fewer than cols x rows; `fps` 0 for a still. */
+export interface SettlementKitFlame {
+  offsetM: [number, number, number];
+  texture: string;
+  atlas: [number, number] | null;
+  frames?: number;
+  fps: number;
+  sizeM: number;
+  source?: string;
+}
+
+/** A kit manifest glow disc: centre and edge measured on the dropped NIF shape. */
+export interface SettlementKitGlow {
+  offsetM: [number, number, number];
+  texture: string;
+  sizeM: number;
+  /** The disc's offset toward the viewer along its billboard axis (campfire 0.84 m). */
+  towardCameraM?: number;
+  /** The NIF shader's emissive colour (linear 0..1) when it is not white: the
+   * evil welkynd cluster's red. Absent: the fire colour `FIXTURE_LIGHT_RGB`. */
+  tintRgb?: [number, number, number];
 }
 
 /** A kit manifest `light` block: the carriedLight `LightRecord` shape plus the emitter offset. */
@@ -407,10 +453,6 @@ export interface SettlementKitLight {
   flicker?: { frequency: number; intensityAmplitude: number; movementAmplitude: number };
   flags: string[];
   offsetM?: [number, number, number];
-  /** Where the flame seats (the wick, glTF Y-up metres from the pivot), measured
-   * on the piece's mesh (kit config `flameEvidence`); absent, the flame sits on
-   * the top of the piece's bounds. `offsetM` places the point light only. */
-  flameOffsetM?: [number, number, number];
   /** What the fixture is (kit config, mined with the record): brazier, cook-fire,
    * forge and campfire burn by day too (lighting.ts `ALWAYS_LIT_KINDS`). */
   fixtureKind?: string;
@@ -426,6 +468,12 @@ export interface SettlementKitMaterialExtras {
   decal?: true;
   /** Still water held in a piece (NIF water shader), build_kit extras. */
   water?: boolean;
+  /** An effect-shader card (flame, glow overlay) of an `"effect": "additive"`
+   * piece: drawn unlit and additive, no shadow (materials.ts). */
+  additive?: boolean;
+  /** An additive card's gain: its NIF shape's emissive multiple (build_kit
+   * apply_additive_gains; materials.ts additiveGain). */
+  gain?: number;
 }
 
 /** kit id -> asset id -> manifest metadata. */

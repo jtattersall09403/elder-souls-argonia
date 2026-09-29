@@ -14,6 +14,7 @@
  */
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { SettlementBundle } from "./types";
+import { assertPoolsSchema } from "./pools";
 
 export const SETTLEMENT_INDEX_SCHEMA_VERSION = 1;
 /** A bundle loads when its centre is within this range plus its radius. */
@@ -123,11 +124,14 @@ export function assembleSettlementBundle(
     throw new Error(`mixed settlement collision frames: ${[...frames]
       .map(([frame, ids]) => `${frame} (${ids.join(", ")})`).join("; ")}`);
   }
+  // per bundle: the assembled version is the max, which would hide an old
+  // place bundle carrying pools behind a newer one
+  for (const p of places) if (p.settlement) assertPoolsSchema(p.schemaVersion, [p.settlement]);
   const settlements = places.map((p) => p.settlement!);
   const placements = ordered.flatMap((p) => p.placements)
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   return {
-    schemaVersion: Math.max(...ordered.map((p) => p.schemaVersion)) as 3 | 4,
+    schemaVersion: Math.max(...ordered.map((p) => p.schemaVersion)) as 3 | 4 | 5,
     collisionFrame: ordered[0].collisionFrame,
     lod: { ...ordered[0].lod,
       colliderPartBudget: Math.max(...ordered.map((p) => p.lod.colliderPartBudget)) },

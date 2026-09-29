@@ -57,34 +57,42 @@
   {
    "op": "place",
    "uid": "b-fam1",
-   "asset": "kotm:argonia/mudhuts/mudhut01",
+   "asset": "composite:mud/kotm-house-pod",
    "at": [
-    4721.0,
-    1886.0
+    4718.57,
+    1887.49
    ],
-   "yaw": 267.0,
+   "yaw": 188.8,
    "settle": true,
    "pad": {
     "apronM": 1.5,
-    "batter": true
-   },
-   "scale": 1.15
+    "batter": true,
+    "apronBySide": {
+     "n": 3.5,
+     "e": 3.5,
+     "w": 3.0
+    }
+   }
   },
   {
    "op": "place",
    "uid": "b-fam2",
-   "asset": "kotm:argonia/mudhuts/mudhut01",
+   "asset": "composite:mud/hut-with-entrance",
    "at": [
-    4731.0,
-    1835.0
+    4731.65,
+    1831.64
    ],
-   "yaw": 47.3,
+   "yaw": 5.7,
    "settle": true,
    "pad": {
     "apronM": 1.5,
-    "batter": true
-   },
-   "scale": 1.15
+    "batter": true,
+    "apronBySide": {
+     "s": 4.5,
+     "e": 3.5,
+     "w": 3.0
+    }
+   }
   },
   {
    "op": "place",
@@ -106,14 +114,20 @@
    "uid": "b-shed",
    "asset": "mudmother:gv_meshes/argoniannest/argoniantent02",
    "at": [
-    4719.48,
-    1865.6
+    4729.0,
+    1867.5
    ],
-   "yaw": 70.7,
+   "yaw": 270.0,
    "settle": true,
    "pad": {
-    "apronM": 3.0,
-    "batter": true
+    "apronM": 0.5,
+    "batter": true,
+    "apronBySide": {
+     "n": 2.0,
+     "s": 2.5,
+     "w": 1.2,
+     "e": 0.5
+    }
    }
   },
   {
@@ -282,8 +296,7 @@
     4761.34,
     1864.99
    ],
-   "yaw": 355.0,
-   "settle": true
+   "yaw": 355.0
   },
   {
    "op": "place",
@@ -492,8 +505,8 @@
    "uid": "b-shed-candle",
    "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "at": [
-    4722.22,
-    1869.12
+    4726.3,
+    1868.4
    ],
    "yaw": 99.5,
    "settle": true
@@ -503,8 +516,8 @@
    "uid": "b-shed-urn1",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4721.2,
-    1861.9
+    4728.5,
+    1863.9
    ],
    "yaw": 99.5,
    "settle": true
@@ -514,8 +527,8 @@
    "uid": "b-shed-urn2",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4722.2,
-    1861.7
+    4729.6,
+    1863.8
    ],
    "yaw": 99.5,
    "settle": true
@@ -525,8 +538,8 @@
    "uid": "b-shed-basket",
    "asset": "mudmother:gv_meshes/argoniannest/basketfull",
    "at": [
-    4721.78,
-    1870.25
+    4730.6,
+    1864.0
    ],
    "yaw": 99.5,
    "settle": true
@@ -545,6 +558,11 @@
     "apronM": 0.5,
     "batter": true
    }
+  },
+  {
+   "op": "move",
+   "uid": "sh-circle",
+   "dy": -0.15
   },
   {
    "op": "place",
@@ -587,8 +605,7 @@
     4744.17,
     1872.81
    ],
-   "yaw": 0.0,
-   "settle": true
+   "yaw": 0.0
   },
   {
    "op": "place",
@@ -598,8 +615,7 @@
     4738.28,
     1873.65
    ],
-   "yaw": 0.0,
-   "settle": true
+   "yaw": 0.0
   },
   {
    "op": "place",
@@ -628,19 +644,67 @@
    "uid": "sp-lip2",
    "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
    "at": [
-    4717.93,
-    1868.81
+    4729.0,
+    1871.4
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sp-rim1",
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
+   "at": [
+    4719.11,
+    1864.95
    ],
    "yaw": 110.0,
-   "settle": true
+   "y": 3.162
+  },
+  {
+   "op": "place",
+   "uid": "sp-rim2",
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+   "at": [
+    4720.95,
+    1866.63
+   ],
+   "yaw": 155.0,
+   "y": 3.26
+  },
+  {
+   "op": "place",
+   "uid": "sp-rim3",
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
+   "at": [
+    4716.63,
+    1865.05
+   ],
+   "yaw": 65.0,
+   "y": 3.138
+  },
+  {
+   "op": "note",
+   "uid": "sp-rim1",
+   "text": "y 3.162 m set by hand (planner ruling 3, walk 4): the rock seat (lowest three contacts, seat_rules.rock_seat_y) on the padded ground with the sp-pool rim overlay applied; settle reads no pool ground and does not use the rock seat yet"
+  },
+  {
+   "op": "note",
+   "uid": "sp-rim2",
+   "text": "y 3.26 m set by hand (planner ruling 3, walk 4): the rock seat on the pool-graded ground is 3.289 m (third contact), 0.028 m over the prop seat's band (propSeatRule, +0.01 m); 3.26 m keeps three contacts at or under the ground (embedded up to 0.08 m, rock policy 0.3 m) and the prop band. rockcairn03, not rockcairn02: rockcairn02 is 3.1 m long on the mesh-sill sink fallback (0105 R36, sink.fallback); its one plugin reference is scaled, so the sink miner cannot measure it"
+  },
+  {
+   "op": "note",
+   "uid": "sp-rim3",
+   "text": "y 3.138 m set by hand (planner ruling 3, walk 4): the rock seat (lowest three contacts, seat_rules.rock_seat_y) on the padded ground with the sp-pool rim overlay applied; settle reads no pool ground and does not use the rock seat yet"
   },
   {
    "op": "place",
    "uid": "sp-urn",
    "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
    "at": [
-    4716.3,
-    1867.6
+    4726.2,
+    1869.6
    ],
    "yaw": 0.0,
    "settle": true
@@ -653,8 +717,122 @@
     4720.6,
     1869.4
    ],
-   "yaw": 0.0,
-   "settle": true
+   "yaw": 0.0
+  },
+  {
+   "op": "place",
+   "uid": "hist-lantern1",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    4743.0,
+    1870.0
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "place",
+   "uid": "hist-lantern2",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    4743.0,
+    1870.0
+   ],
+   "yaw": 40.0
+  },
+  {
+   "op": "place",
+   "uid": "hist-lantern3",
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
+   "at": [
+    4743.0,
+    1870.0
+   ],
+   "yaw": 20.0
+  },
+  {
+   "op": "mount",
+   "child": "sp-flower",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 240.0,
+   "along": 6.0
+  },
+  {
+   "op": "mount",
+   "child": "sh-flower1",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 340.0,
+   "along": 6.0
+  },
+  {
+   "op": "mount",
+   "child": "sh-flower2",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 20.0,
+   "along": 4.0
+  },
+  {
+   "op": "mount",
+   "child": "b-minder-flower",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 80.0,
+   "along": 7.0
+  },
+  {
+   "op": "mount",
+   "child": "hist-lantern1",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 0.0,
+   "along": 3.0
+  },
+  {
+   "op": "mount",
+   "child": "hist-lantern2",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 12.0,
+   "bearing": 40.0,
+   "along": 3.0
+  },
+  {
+   "op": "mount",
+   "child": "hist-lantern3",
+   "parent": "hist",
+   "hang": true,
+   "unmined": "reader-approved r13",
+   "max_h": 7.0,
+   "bearing": 20.0,
+   "along": 7.0
+  },
+  {
+   "op": "pool",
+   "uid": "sp-pool",
+   "centreM": [
+    4718.0,
+    1868.0
+   ],
+   "radiusM": 2.5,
+   "depthM": 0.5,
+   "rimM": 1.0,
+   "why": "The spring that gives Greenspring its name rises here, beside the spring house.",
+   "sources": [
+    "world/sources/blueprints/greenspring.design.md § The spring"
+   ]
   },
   {
    "op": "place",
@@ -769,8 +947,8 @@
    "action": "place",
    "name": "hist-village-cookpot",
    "at": [
-    4717.55,
-    1892.9
+    4727.8,
+    1886.5
    ],
    "yaw": 197.0,
    "prefix": "y4-",
@@ -781,8 +959,8 @@
    "action": "place",
    "name": "hist-village-nets",
    "at": [
-    4714.17,
-    1890.55
+    4710.1,
+    1887.5
    ],
    "yaw": 17.0,
    "prefix": "y4-",
@@ -805,8 +983,8 @@
    "action": "place",
    "name": "hist-village-cookpot",
    "at": [
-    4730.99,
-    1827.36
+    4722.5,
+    1834.0
    ],
    "yaw": 157.3,
    "prefix": "y5-",
@@ -1048,12 +1226,8 @@
      1864.5
     ],
     [
-     4725.21,
-     1865.11
-    ],
-    [
-     4722.46,
-     1866.03
+     4726.3,
+     1866.6
     ]
    ],
    "width": 1.2,
@@ -1561,7 +1735,61 @@
   },
   {
    "op": "bind",
+   "uid": "hist-lantern1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "hist-lantern2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "hist-lantern3",
+   "kind": "assembly",
+   "id": "parcel.greenspring.hist-shrine",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
    "uid": "sp-lip2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-rim1",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-rim2",
+   "kind": "assembly",
+   "id": "parcel.greenspring.spring-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sp-rim3",
    "kind": "assembly",
    "id": "parcel.greenspring.spring-house",
    "layer": "clutter",

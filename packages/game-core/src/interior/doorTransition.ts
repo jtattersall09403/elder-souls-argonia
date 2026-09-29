@@ -2,18 +2,19 @@ import * as THREE from "three";
 import type { PlayerMovementController } from "../physics/PlayerMovementController";
 import type { SettlementDoor } from "../settlement/types";
 import type { InteractionCandidate } from "../interaction/arbiter";
-import { isOpenDoor, type InteriorBundle, type InteriorMarker, type Vec3 } from "./bundle";
+import { isLoadDoor, isOpenDoor, type InteriorBundle, type InteriorMarker, type Vec3 } from "./bundle";
 import {
   DOOR_REACH_M, DOOR_REACH_VERTICAL_M, DOOR_TEXT, EXIT_OUTWARD_M, INTERIOR_SPACE_LIFT_M,
-  cellsToPrefetch, compassDirection, doorAccess, nearestDoor,
+  cellsToPrefetch, compassDirection, doorAccess, doorDisplayName, nearestDoor,
 } from "./doors";
+import { loadDoorsOf } from "./swingDoors";
 import type { LoadedInterior } from "./interiorLoader";
 
 /** Fade out, swap, fade in: each half lasts this long (0103 decision 4 brief). */
 export const DOOR_FADE_S = 0.4;
 const PREFETCH_EVERY_S = 0.5;
 /** Lift over the recorded doorstep height, so the return never lands in the step. */
-const RETURN_LIFT_M = 0.2;
+export const RETURN_LIFT_M = 0.2;
 
 /** The cell source the transition reads; `InteriorLoader` satisfies it. */
 export interface InteriorSource {
@@ -45,7 +46,8 @@ export interface DoorTransitionHosts {
 }
 
 export interface DoorPrompt {
-  kind: "enter" | "leave" | "closed";
+  /** `swing`: a door that opens in place (swingDoors.ts), its prompt Open or Close. */
+  kind: "enter" | "leave" | "closed" | "swing";
   /** The text-catalogue id the prompt shows. */
   textId: string;
   doorId: string;
@@ -57,7 +59,7 @@ type Inside = {
   cellId: string;
   originM: Vec3;
   interior: LoadedInterior;
-  /** The exterior door entered by (null for `openDirect`). */
+  /** The exterior door entered by, its id and place (null for `openDirect`): leaving returns to it. */
   enteredBy: SettlementDoor | null;
   /** Where the player stands on arrival, in the cell frame. */
   arrival: InteriorMarker;
@@ -81,9 +83,10 @@ export type DoorActivate = boolean | ((doorId: string) => boolean);
 export function interiorExitDoors(
   bundle: InteriorBundle,
 ): { id: string; refId: string; positionM: Vec3; closed: boolean }[] {
-  if (!bundle.doors.length) return [{ ...bundle.exitDoor, closed: false }];
+  const loads = bundle.doors.filter(isLoadDoor);
+  if (!loads.length) return [{ ...bundle.exitDoor, closed: false }];
   const out = new Map<string, { id: string; refId: string; positionM: Vec3; closed: boolean }>();
-  for (const d of bundle.doors) {
+  for (const d of loads) {
     if (out.has(d.interiorLoadDoorRef)) continue;
     const id = d.interiorLoadDoorRef === bundle.exitDoor.refId
       ? bundle.exitDoor.id : `${bundle.cellId}.exit.${d.interiorLoadDoorRef}`;
@@ -116,21 +119,25 @@ export function arrivalFor(bundle: InteriorBundle, door: SettlementDoor | null):
 }
 
 /**
- * The exterior door leaving through the load door `loadDoorRef` returns to:
- * the bundle's pairing, else a door record whose claim names this cell and
- * that load door; null when neither pairs it (the caller returns to the
- * door entered by).
+ * The exterior door leaving through the load door `loadDoorRef` returns to
+ * (owner ruling B, walk 4 defect b): the door entered by, unless the
+ * bundle's `doors[]` pairs that load door with another door of the SAME
+ * place. A cell is shared by places (Claywater Station and Greenspring both
+ * claim KeebaHouseFisher), so a pairing or a claim naming another place's
+ * door is never followed, and door claims are never read for the return.
+ * Null only for a cell opened directly (`openDirect`, no door entered by).
  */
 export function exteriorDoorFor(
   bundle: InteriorBundle, loadDoorRef: string, doors: readonly SettlementDoor[],
+  enteredBy: SettlementDoor | null,
 ): SettlementDoor | null {
+  if (!enteredBy) return null;
   const paired = bundle.doors.filter(isOpenDoor).find((d) => d.interiorLoadDoorRef === loadDoorRef);
-  if (paired) {
+  if (paired && paired.exteriorDoorId !== enteredBy.id) {
     const door = doors.find((d) => d.id === paired.exteriorDoorId);
-    if (door) return door;
+    if (door && door.settlementId === enteredBy.settlementId) return door;
   }
-  return doors.find((d) => d.interiorClaim?.cellId === bundle.cellId
-    && d.interiorClaim?.interiorLoadDoorRef === loadDoorRef) ?? null;
+  return enteredBy;
 }
 
 /**
@@ -158,7 +165,32 @@ export class DoorTransition {
 
   constructor(private readonly hosts: DoorTransitionHosts) {}
 
-  setDoors(doors: readonly SettlementDoor[]): void { this.doors = doors; }
+  /** The place's doors; swing doors are `SwingDoorController`'s and are left out here. */
+  setDoors(doors: readonly SettlementDoor[]): void { this.doors = loadDoorsOf(doors); }
+
+  /**
+   * The line the fade shows while the screen is black waiting for a cell
+   * (its bundle, kits or colliders): the text-catalogue id, else null. The
+   * game reuses the same overlay (walk 4 c).
+   */
+  get loadingTextId(): string | null {
+    if (!this.waiting) return null;
+    return this.loadingName ? DOOR_TEXT.loadingNamed : DOOR_TEXT.loading;
+  }
+
+  /**
+   * The name the named loading line fills in (`DOOR_TEXT.loadingNamed`): the
+   * entered door's display name from the compiled place record, else null.
+   */
+  get loadingName(): string | null {
+    if (!this.waiting) return null;
+    const door = this.pending?.kind === "enter" ? this.pending.door : this.inside?.enteredBy ?? null;
+    return doorDisplayName(door);
+  }
+
+  private get waiting(): boolean {
+    return (this.phase === "hold" && this.pending?.kind === "enter") || this.phase === "settle";
+  }
 
   get cellId(): string | null { return this.inside?.cellId ?? null; }
 
@@ -282,17 +314,23 @@ export class DoorTransition {
     const inside = this.inside;
     if (!inside) return;
     this.hosts.showExterior();
-    // The load door left by decides the exterior door (owner ruling B); the
-    // height floor stays the one recorded on entry (a door record has no y).
-    const paired = exteriorDoorFor(inside.interior.bundle, loadDoorRef, this.doors);
-    const r: ReturnPoint = paired && paired.id !== inside.enteredBy?.id
-      ? { x: paired.thresholdM[0], z: paired.thresholdM[1], y: inside.returnTo.y, facingDeg: paired.facingDeg ?? 0 }
-      : inside.returnTo;
+    // The load door left by decides the exterior door, within the place
+    // entered from (`exteriorDoorFor`). Height: at the door entered by, the
+    // body height recorded on entry (a deck or stilt threshold stands over
+    // the terrain), never below the ground there; at another door of the
+    // place, that door's ground (the recorded height belongs to a different
+    // threshold), the recorded height only where no ground is loaded.
+    const target = exteriorDoorFor(inside.interior.bundle, loadDoorRef, this.doors, inside.enteredBy);
+    const sameDoor = !target || target.id === inside.enteredBy?.id;
+    const r: ReturnPoint = sameDoor
+      ? inside.returnTo
+      : { x: target.thresholdM[0], z: target.thresholdM[1], y: inside.returnTo.y, facingDeg: target.facingDeg ?? 0 };
     const out = compassDirection(r.facingDeg);
     const x = r.x + out.x * EXIT_OUTWARD_M;
     const z = r.z + out.z * EXIT_OUTWARD_M;
     const ground = this.hosts.groundAt(x, z);
-    const y = Math.max(r.y, ground === null ? -Infinity : ground + this.hosts.bodyCentreHeightM) + RETURN_LIFT_M;
+    const standing = ground === null ? null : ground + this.hosts.bodyCentreHeightM;
+    const y = (standing === null ? r.y : sameDoor ? Math.max(r.y, standing) : standing) + RETURN_LIFT_M;
     this.place({ x, y, z }, r.facingDeg);
     this.inside = null;
   }

@@ -108,7 +108,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "a rumour line that names a real place or person",
       "interiorKind": "dwelling",
-      "interiorRef": "interior-kotm-v1",
+      "interiorRef": "vanilla-farmhouse-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -123,7 +123,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": "interior-kotm-v1",
+      "interiorRef": "vanilla-farmhouse-int",
       "socketRef": null,
       "socketKind": null,
       "questId": null

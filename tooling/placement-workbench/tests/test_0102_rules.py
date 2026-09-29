@@ -254,24 +254,27 @@ def test_walk_fails_where_the_water_is_deeper_than_wading(cat, scene, monkeypatc
 
 def test_walk_targets_every_unsealed_doorway(cat, scene):
     """Planner ruling 8: every doorway record of a placed building is a
-    target unless a placed piece stands within 0.5 m in front of it. b4's
-    second doorway: a wall 1.0 m out seals it (skipped); 1.5 m out it is
-    open and unreachable, so it fails."""
+    target unless a placed piece stands within 0.5 m in front of it. b2's
+    third doorway (walk 4: mudhut01 kept one ray-confirmed doorway, so the
+    Claywater hut b4 has no second one): a wall 1.0 m out seals it and its
+    neighbour b2.2 (skipped); 1.5 m out it is open and unreachable, so it
+    fails."""
     got = rules.walk(cat, scene)
-    assert {t["id"] for t in got["targets"]} >= {"door:b4", "door:b4.1", "door:b2.2"}
-    assert _target_id(got, "door:b4.1")["ok"]
-    door = next(d for d in rules.doors(cat, scene, every=True) if d["id"] == "door:b4.1")
+    assert {t["id"] for t in got["targets"]} >= {"door:b4", "door:b2.2", "door:b2.3"}
+    assert _target_id(got, "door:b2.3")["ok"]
+    door = next(d for d in rules.doors(cat, scene, every=True) if d["id"] == "door:b2.3")
     dx, dz = rules._bearing_vec(door["facingDeg"])
     wall = scene.add(Piece("blocker", WALL, door["thresholdM"][0] + dx * 1.0,
                            door["thresholdM"][1] + dz * 1.0, door["facingDeg"]))
     wall.y = measure.seat(cat, scene.ground(), wall)["y"]
     got = rules.walk(cat, scene)
     doorways = [t for t in got["targets"] if t["kind"] == "door"]   # the layout's sockets aside
-    assert [s["id"] for s in got["sealed"]] == ["door:b4.1"] and all(t["ok"] for t in doorways)
+    assert [s["id"] for s in got["sealed"]] == ["door:b2.2", "door:b2.3"]
+    assert all(t["ok"] for t in doorways)
     wall.x, wall.z = door["thresholdM"][0] + dx * 1.5, door["thresholdM"][1] + dz * 1.5
     got = rules.walk(cat, scene)
-    assert not got["sealed"]
-    assert any(f.startswith("b4: walk to its doorway 1 (interiors/leaf): the approach is "
+    assert "door:b2.3" not in [s["id"] for s in got["sealed"]]
+    assert any(f.startswith("b2: walk to its doorway 3 (interiors/probe-centre): the approach is "
                             "blocked by blocker") for f in got["failures"])
 
 

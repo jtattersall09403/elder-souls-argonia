@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "cellId": "KeebaHouseSnailMinder",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
@@ -52,6 +52,7 @@
  },
  "doors": [
   {
+   "doorType": "load",
    "exteriorDoorId": "door.imperial-fringe.claywater-station.5",
    "interiorLoadDoorRef": "08090C43",
    "arrivalMarker": {
@@ -2997,13 +2998,52 @@
    "model": "effects/fxdwesteam01.nif",
    "assetId": null,
    "class": "effect",
-   "classSource": "base record MSTT, model taxonomy"
+   "classSource": "base record MSTT, model taxonomy",
+   "positionM": [
+    100.5639,
+    84.3493,
+    61.3898
+   ]
   },
   {
    "refId": "08095F89",
    "reason": "marker",
    "base": "CraftingTanningRackScaleMarker",
    "baseType": "FURN"
+  },
+  {
+   "refId": "08095FB1",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "positionM": [
+    107.9749,
+    86.9828,
+    59.1537
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
+  },
+  {
+   "refId": "08095FC9",
+   "reason": "listed-gap",
+   "base": null,
+   "baseType": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "positionM": [
+    105.7957,
+    84.2274,
+    63.413
+   ],
+   "gapReason": "asset-exists-nowhere",
+   "gapSearch": "settlement-kit-sourcing-log.md, the KotM stand-ins row of 2026-09-28 (lane L17): no published interior kit holds the same object; the piece lives only in a Creation Club or Hearthfire archive, which the vault does not hold",
+   "why": "A stalk of marshmerrow lies here; no kit holds one, so the spot stays bare."
   },
   {
    "refId": "08095FD3",
@@ -3013,7 +3053,12 @@
    "model": "dlc01/clothes/blindmothpriest/blindmothpriestsandalsgnd.nif",
    "assetId": null,
    "class": "wearable",
-   "classSource": "base record ARMO (a worn item's ground model)"
+   "classSource": "base record ARMO (a worn item's ground model)",
+   "positionM": [
+    104.0671,
+    89.9877,
+    58.2087
+   ]
   },
   {
    "refId": "08095FD5",
@@ -3169,29 +3214,6 @@
    "scale": 1.0
   },
   {
-   "id": "KeebaHouseSnailMinder.08095FB1",
-   "refId": "08095FB1",
-   "originalPath": null,
-   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
-   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
-   "positionM": [
-    107.9749,
-    86.9828,
-    59.1537
-   ],
-   "rotationDeg": [
-    -0.068,
-    331.351,
-    -0.006
-   ],
-   "scale": 1.0
-  },
-  {
    "id": "KeebaHouseSnailMinder.08095FB2",
    "refId": "08095FB2",
    "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
@@ -3261,29 +3283,6 @@
    "scale": 1.4
   },
   {
-   "id": "KeebaHouseSnailMinder.08095FC9",
-   "refId": "08095FC9",
-   "originalPath": null,
-   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
-   "class": "clutter",
-   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
-   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
-   "kit": "interior-kotm-v1",
-   "standInCategory": "clutter",
-   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
-   "positionM": [
-    105.7957,
-    84.2274,
-    63.413
-   ],
-   "rotationDeg": [
-    0.107,
-    291.72,
-    0.03
-   ],
-   "scale": 1.0
-  },
-  {
    "id": "KeebaHouseSnailMinder.08095FD0",
    "refId": "08095FD0",
    "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
@@ -3332,14 +3331,16 @@
  ],
  "counts": {
   "placements": 113,
-  "drops": 12,
+  "drops": 14,
   "lights": 3,
-  "substitutions": 12,
+  "substitutions": 10,
+  "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "actor": 1,
    "light-source": 3,
    "listed-drop": 2,
+   "listed-gap": 2,
    "marker": 5,
    "sound": 1
   },

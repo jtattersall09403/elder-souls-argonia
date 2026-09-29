@@ -1255,7 +1255,7 @@ def test_a_minority_hanging_pair_on_a_non_kit_parent_passes_the_shape_gate():
             "mountClass": "hanging"}
     assert validate_mount_shapes([pair], anchors) == []
     assert validate_mount_shapes([{**pair, "mountClass": None}], anchors) == [
-        "lantern: a mount child must be wall or hanging"]
+        "lantern: a mount child must be wall, hanging or fx"]
 
 
 def test_merge_assets_replaces_only_the_named_assets_rows():
@@ -1344,3 +1344,31 @@ def test_a_persistent_cell_reference_is_read_where_it_stands(tmp_path):
     document = _mine_files([child, master])
     sconce = document["anchors"]["vanilla:test/sconce01"]
     assert (sconce["anchorClass"], sconce["n"]) == ("wall", 3), sconce
+
+
+# ---------------------------------------------------------------- effect children (CLAYWATER2)
+
+def test_a_scaled_child_carries_its_scale_in_the_parent():
+    """Planner ruling 2 (CLAYWATER2, 2026-09-28): an effect scaled into its
+    host records childScaleInParent (the brazier flame at 0.8); a unit child
+    on a unit parent carries none."""
+    from .mine_mounts import summarise
+    flame = [((0.0, 0.0, 0.318), 0.0, 1.0, 0.8)] * 3
+    lamp = [((0.1, 0.0, 1.0), 0.0, 1.0, 1.0)] * 3
+    got = {p["child"]: p for p in summarise({("fx", "brazier"): flame, ("lamp", "post"): lamp})}
+    assert got["fx"]["childScaleInParent"] == pytest.approx(0.8)
+    assert "childScaleInParent" not in got["lamp"]
+
+
+def test_an_effect_sits_in_the_kit_piece_that_holds_its_pivot():
+    """effect_mounts: with no contact, the kit candidate whose bounds hold
+    the flame's pivot in plan, up to EFFECT_REACH_UP_M over its top."""
+    from .mine_mounts import EFFECT_REACH_UP_M, effect_mounts
+    kits = {"brazier": {"sizeM": [1.0, 1.0, 0.5], "originOffsetM": [0.5, 0.5, 0.0]},
+            "rock": {"sizeM": [1.0, 1.0, 0.5], "originOffsetM": [0.5, 0.5, 0.0]}}
+    over = ((0.0, 0.0, 0.5 + EFFECT_REACH_UP_M - 0.01), 0.0, 1.0, 0.8)
+    beside = ((2.0, 0.0, 0.1), 0.0, 1.0, 0.8)
+    links = [("k1", "brazier", True, over, False, False, False, False),
+             ("k2", "rock", True, beside, False, False, False, False)]
+    child = ChildRef("fx", np.eye(3), np.zeros(3), 0.8, None, links, effect=True)
+    assert effect_mounts(child, {}, kits) == [("brazier", over)]

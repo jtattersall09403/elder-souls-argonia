@@ -185,6 +185,7 @@
   "mudmother:gv_meshes/argoniannest/argoniancandle01": "pad",
   "mudmother:gv_meshes/argoniannest/argonianfence01": "direct",
   "mudmother:gv_meshes/argoniannest/argonianlanterns02": "direct",
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": "pad",
   "mudmother:gv_meshes/argoniannest/argonianplatform": "pad",
   "mudmother:gv_meshes/argoniannest/argoniantent02": "pad",
   "mudmother:gv_meshes/argoniannest/argoniantotem01": "direct",
@@ -295,7 +296,8 @@
   "kotm:argonia/clutter/basket02": "direct",
   "kotm:argonia/mudhuts/overhang01": "pad",
   "mudmother:gv_meshes/argoniannest/argoniantent01": "pad",
-  "vanilla:architecture/riften/rtstables01": "pad"
+  "vanilla:architecture/riften/rtstables01": "pad",
+  "vanilla:effects/fxfirewithembers01": "direct"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -344,6 +346,7 @@
   "depths:landscape/grass/waterkelptall03": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "ferries:yamadori/ferries/plank_ferry_swamp_01": "frozen from the settlement-mud-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 -0.0426 m, n 0, evidence mesh-sill",
   "kotm:argonia/mudhuts/mudhut01": "Argonian mud hut building on a declared pad (0101), same contact family as mudmother:gv_meshes/argoniannest/mudhut01",
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": "frozen from the settlement-mud-v1 kit policy (pad), which it resolved to before this row; the lantern hangs (mined anchorClass hanging, plugin), so no fit seats it: mount --hang hangs it from a branch (R53, Greenspring walk 4)",
   "mudmother:gv_meshes/argoniannest/argoniancandle01": "frozen from the settlement-mud-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 -0.0288 m, n 0, evidence mesh-sill",
   "mudmother:gv_meshes/argoniannest/basketfull": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 -0.0354 m, n 0, evidence mesh-sill",
   "mudmother:gv_meshes/argoniannest/basketsmall01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, Claywater dressing): designed-sink p50 0.0003 m, n 0, evidence mesh-sill",
@@ -396,7 +399,8 @@
   "kotm:argonia/clutter/saxhleelmetalpot01": "frozen from the works-v1 manifest's fit (0085 kit truth; planner ruling 6, 2026-09-26, applied to Claywater's walk-3 pieces 2026-09-28): designed-sink p50 -0.0993 m, n 0, evidence mesh-sill",
   "kotm:argonia/mudhuts/overhang01": "KotM mud-hut overhang, attached to a mud hut on its declared pad (0101): same contact family as kotm:argonia/mudhuts/mudhut01 and the settlement-mud-v1 kit policy (pad).",
   "mudmother:gv_meshes/argoniannest/argoniantent01": "Mud Mother Grove hide shelter on a declared pad: same contact family as mudmother:gv_meshes/argoniannest/argoniantent02 (pad); its designedSinkM row sits in assetPlacement.",
-  "vanilla:architecture/riften/rtstables01": "Riften stable on a declared pad: same contact family as the imperial-keep stables (mwimparchstableendl01/endr01, pad); its designedSinkM row sits in assetPlacement (0105 R25)."
+  "vanilla:architecture/riften/rtstables01": "Riften stable on a declared pad: same contact family as the imperial-keep stables (mwimparchstableendl01/endr01, pad); its designedSinkM row sits in assetPlacement (0105 R25).",
+  "vanilla:effects/fxfirewithembers01": "fire effect child of a hearth or campfire: seated by its mined pair (the mounts record's parent offset), never by ground contact, so no sink (fallbackSinkM 0); planner ruling 2026-09-28, GREENSPRING3 ruling 3"
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
@@ -448,7 +452,15 @@
   },
   "vanilla:architecture/riften/rtstables01": {
    "designedSinkM": 0.0,
-   "why": "Riften stable: the stall floor (a 49.3 m2 up-facing band at z 0.004 m) lies at the pivot and the stone foundation reaches 0.91 m below it. The stalls are walked into from the ground, so the pivot sits at the ground (sink 0) and the foundation is buried. The mesh-sill tell took the foundation's foot (-0.91 m, n 0: RiftenWorld has no LAND) and stood the stall floor 0.91 m in the air (0105 R25, planner 2026-09-28)."
+   "why": "Riften stable: the stall floor (a 49.3 m2 up-facing band at z 0.004 m) lies at the pivot and the stone foundation reaches 0.91 m below it. The stalls are walked into from the ground, so the pivot sits at the ground (sink 0) and the foundation is buried. The mesh-sill tell took the foundation's foot (-0.91 m, n 0: RiftenWorld has no LAND) and stood the stall floor 0.91 m in the air (0105 R25, planner 2026-09-28). The designed burial is therefore 0.91 m: (sink 0 + the pivot's 0.91 m over the mesh base) x scale, which burialRule allows for this reviewed row (seat_rules DESIGNED_ROW_EVIDENCE, planner ruling 1 CLAYWATER2 2026-09-28). Evidence: the mesh's floor-to-base offset (a 56.5 m2 up-facing band at z 0.0 over a foot at -0.9103 m; kit-designed-sink groundLineTell floor-plane -0.9103) and the plugin's placement (Riften places it as a walked-into stall, its ray-confirmed open front at sill 0.0, clear 2.04 m, interiors_index walk 4 lane PARTS; the sink miner reads n 0 because RiftenWorld has no LAND)."
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "designedSinkM": -0.4023,
+   "why": "Hist tree, 24.9 x 27.1 x 24.4 m. The one Skyfall reference is rooted in 1.33 m of cell water (0105 R19), and its sink (-0.6723, n 1) stands the root flare 0.30 m (base-band p50 on a 0.25 m ray grid) over the ground at Greenspring, held up by one root spike 0.745 m down. Evidence 'owner walk 4' (planner 2026-09-28, lane GREENSPRING2): the mesh-flare row (p50 -0.12) plus a further 0.15 m for the owner's 'slightly lower', stated by the planner as 0.27 m under the plugin sink; applied as that stated height, -0.6723 + 0.27 = -0.4023 (tooling/.reports/16k/walk4/deliver-GREENSPRING2.md)."
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient-sleeping-tree-sick": {
+   "designedSinkM": -0.4023,
+   "why": "The sick texture variant of the ancient sleeping tree: the same mesh, so the same sink (kit-build texture variants). Evidence 'owner walk 4', as the healthy tree's row."
   },
   "histtree:skyfall/sleeping tree overhaul/rune circle": {
    "designedSinkM": -0.606,

@@ -79,6 +79,11 @@ def run_seats(rows: list[dict], height_at) -> dict[str, float]:
             runs.setdefault(p["run"]["id"], []).append(p)
     out: dict[str, float] = {}
     for members in runs.values():
+        if all(p.get("yFinal") is True for p in members):
+            # a measured run (16k walk 4): the pose is the seat, never a datum
+            # from its highest ground (anchorRun reproduces it from riseM)
+            out.update({p["id"]: float(p["positionM"][1]) for p in members})
+            continue
         means = [sum(height_at(float(x), float(z)) for x, z in p["footprintM"])
                  / len(p["footprintM"]) for p in members]
         d = max(range(len(members)), key=lambda i: means[i])

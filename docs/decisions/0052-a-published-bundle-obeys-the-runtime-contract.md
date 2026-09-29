@@ -36,6 +36,15 @@ otherwise the asset's LOD0 mesh primitive count read from the built GLB — a
 placement is not one part. The derivation lives beside the constant, so the
 next agent who has to move it knows what it was fitted to.
 
+Where each lives now (planner ruling 2026-09-28): the budget is derived per
+publish (`collider_part_budget`, round(worst x 1.55)); the per-place ceiling
+is `COLLIDER_PART_CEILING` 400, and 500 (`COLLIDER_PART_CEILING_LARGE`) for a
+place of 5 or more dwellings, because each dwelling brings its own clutter
+ring (0105 R33) and a static collider is cheap; the check's message names the
+ceiling and the reason. A placement under 0.3 m in both plan axes and in
+height at its scale exports no collider (`is_small_piece`, the colliderRule
+threshold) and counts toward no ceiling.
+
 **2. Every runtime contract gets an export gate that reads the shipped
 artefact.** `export_settlement_bundle` now refuses to publish when:
 

@@ -145,10 +145,14 @@ def machine_is_busy(before, after):
     if os.environ.get("GITHUB_ACTIONS") == "true" or \
             os.path.basename(os.environ.get("ES_ASSET_PIPELINE_ROOT", "")).startswith("no-vault-"):
         return "preflight --runner"
-    moved = sorted((pid, round(after.get(pid, 0) - before.get(pid, 0)))
-                   for pid in set(before) | set(after)
-                   if abs(after.get(pid, 0) - before.get(pid, 0)) >= BUSY_MIB)
-    return f"{len(moved)} other process(es) moved >= {BUSY_MIB} MiB: {moved[:3]}" if moved else None
+    moved = sorted(((pid, round(after.get(pid, 0) - before.get(pid, 0)))
+                    for pid in set(before) | set(after)
+                    if abs(after.get(pid, 0) - before.get(pid, 0)) >= 1), key=lambda m: -abs(m[1]))
+    # summed, not per process: a scoped preflight's xdist workers each move
+    # under BUSY_MIB and together free 500+ MiB (2026-09-29, 515 vs 602 MiB)
+    total = sum(abs(d) for _pid, d in moved)
+    return (f"{len(moved)} other process(es) moved >= {BUSY_MIB} MiB in total ({total} MiB): "
+            f"{moved[:3]}") if total >= BUSY_MIB else None
 
 
 def test_machine_is_busy_names_the_runner_and_moving_processes(monkeypatch):

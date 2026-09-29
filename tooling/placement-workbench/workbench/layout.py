@@ -19,6 +19,14 @@ no piece, so `load` validates it and lifts it out of ``ops`` into
 furniture yield their sockets without an op (`assembly.group_sockets`).
 `replay` cannot recover sockets from a scene log: keep them in the layout.
 
+A pool (16k walk 4) is ``{"op": "pool", "uid", "centreM": [x, z], "radiusM"
+(2..12), "depthM" (0.2..1.5), "rimM" (blend, default 1.0), "why",
+"sources"}``: a spring, a cistern, a basin. Like a socket it moves no piece:
+`load` validates it (``worldgen.pad_overlay.pool_op_errors``) and lifts it
+into ``pools``; the export reads it from the layout the blueprint names and
+writes the basin as a ``pool`` ground overlay plus the place's ``pools[]``
+still-water record, which the runtime draws at load. Never a raster edit.
+
 `apply` builds a fresh scene from the window, runs the ops in order in one
 process (one catalogue, no per-call reload), stops at the first failing op,
 then runs `check` and `compile` and writes one summary. The scene file is
@@ -45,6 +53,7 @@ OPS = ("place", "move", "settle", "snap", "mount", "attach", "mirror", "swap", "
 # with spaces, a note): the pre-shlex log joined argv with single spaces
 _SPACED = {"place": (2, "--"), "swap": (2, "--"), "note": (2, None)}
 SOCKET_OP = "socket"
+POOL_OP = "pool"
 
 
 def sha256(path: Path) -> str:
@@ -225,7 +234,7 @@ def load(path: Path) -> dict:
     for key in ("placeId", "window", "ops"):
         if key not in doc:
             raise ValueError(f"{path}: a layout needs {key!r}")
-    return split_sockets(doc, path)
+    return split_pools(split_sockets(doc, path), path)
 
 
 def split_sockets(doc: dict, path="layout") -> dict:
@@ -242,6 +251,21 @@ def split_sockets(doc: dict, path="layout") -> dict:
         raise ValueError(f"{path}: " + "; ".join(errors))
     return {**doc, "ops": [op for op in doc["ops"] if op.get("op") != SOCKET_OP],
             "sockets": list(doc.get("sockets") or []) + got}
+
+
+def split_pools(doc: dict, path="layout") -> dict:
+    """Lift the `pool` ops out of ``ops`` into ``pools`` (in order), refusing
+    a malformed one with every reason at once."""
+    paths.bridge()
+    from worldgen import pad_overlay as po
+    got = [op for op in doc["ops"] if op.get("op") == POOL_OP]
+    errors = [e for op in got for e in po.pool_op_errors(op)]
+    uids = [op.get("uid") for op in got + list(doc.get("pools") or [])]
+    errors += [f"pool {u}: uid used twice" for u in sorted({u for u in uids if uids.count(u) > 1})]
+    if errors:
+        raise ValueError(f"{path}: " + "; ".join(errors))
+    return {**doc, "ops": [op for op in doc["ops"] if op.get("op") != POOL_OP],
+            "pools": list(doc.get("pools") or []) + got}
 
 
 def scene_path(name: str) -> Path:
@@ -327,14 +351,21 @@ def check_failure_rows(check: dict) -> list[dict]:
 
     def add(rule, uids, text):
         out.append({"rule": rule, "uids": uids, "text": text})
+    from .seat_rules import is_rock
     for uid, r in check["pieces"].items():
+        # a rock (seat_rules ROCK_POLICY, 0075) is judged by rockSeatRule on
+        # its lowest three contacts, never by the direct fit's slope, delta
+        # or foot float (planner ruling 5, CLAYWATER2)
+        rock = is_rock(r.get("asset") or "")
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "notExportable"):
+            if rock and rule in ("slopeRule", "deltaRule"):
+                continue
             if r.get(rule):
                 # the piece row's sillRule is the yard gate's ground line at the pivot
                 add("yardSillRule" if rule == "sillRule" else rule, [uid], f"{uid}: {r[rule]}")
         # a piled deck (dock, jetty, landing span) stands on its piles and
         # seats by its deck: its feet are exempt (lessons L65, round 4)
-        if (r.get("anchorClass") or "ground") == "ground" and not r.get("piled") and \
+        if (r.get("anchorClass") or "ground") == "ground" and not r.get("piled") and not rock and \
                 (r.get("footFloatMaxM") or 0.0) > tpg.FLOAT_LIMIT_M:
             add("footFloat", [uid], f"{uid}: foot floats {r['footFloatMaxM']} m (> {tpg.FLOAT_LIMIT_M})")
         if r.get("hullWater") and not r["hullWater"]["ok"]:
@@ -375,4 +406,6 @@ def _named_uids(text: str, uids: list[str]) -> list[str]:
 RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
          ("propSeat", "propSeatRule"), ("roadSurface", "roadSurfaceRule"), ("sill", "sillRule"),
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"),
-         ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))
+         ("burial", "burialRule"), ("hanging", "hangingRule"), ("fixtureSeat", "fixtureSeatRule"),
+         ("archway", "archwayRule"), ("rockSeat", "rockSeatRule"),
+         ("landing", "landingRule"), ("ownerOk", "ownerOkRule"), ("scanFresh", "scanFreshRule"))

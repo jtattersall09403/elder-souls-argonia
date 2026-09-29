@@ -556,7 +556,17 @@ def light_fixtures(placements: list[dict], rows: dict) -> list[dict]:
     """The fixtures the runtime lights (SettlementLayer + lighting.ts): a fire
     socket; a non-effect piece on the compile's light layer or with a mined
     LIGH record. A lit window is no fixture (walk 3 ruling R11: its glow is
-    the kit's emissive mask, never a point light), so it never counts."""
+    the kit's emissive mask, never a point light), so it never counts. A fire
+    socket mounted on a fixture is no second light (SettlementLayer: "the
+    brazier's own fixture already lights it"; CLAYWATER2 2026-09-28, the
+    cook fires' smoke sockets were counted twice)."""
+    def lit(p) -> bool:
+        row = rows.get((p.get("kit"), p.get("assetId"))) or {}
+        rule = str((p.get("provenance") or {}).get("ruleId") or "")
+        layer = p.get("layer") or (rule.rsplit("/", 1)[-1] if rule.startswith("parcel-assembly/") else None)
+        return layer in LIGHT_LAYERS or bool(row.get("light"))
+    fixture_ids = {p.get("id") for p in placements
+                   if not (p.get("objectKind") == "effect" or p.get("kind") == "effect") and lit(p)}
     out = []
     for p in placements:
         pos = p.get("positionM")
@@ -568,7 +578,7 @@ def light_fixtures(placements: list[dict], rows: dict) -> list[dict]:
         # a published bundle drops objectKind and layer: its kind and its
         # provenance rule (`parcel-assembly/light`) carry them
         if p.get("objectKind") == "effect" or p.get("kind") == "effect":
-            if rule == FIRE_SOCKET_RULE:
+            if rule == FIRE_SOCKET_RULE and p.get("parentPlacementId") not in fixture_ids:
                 out.append({"id": p["id"], "kind": "fire", "at": at})
             continue
         layer = p.get("layer") or (rule.rsplit("/", 1)[-1] if rule.startswith("parcel-assembly/") else None)

@@ -961,6 +961,313 @@ def apply_light_records(summary: dict, kit: dict) -> int:
     return written
 
 
+# --- the fire layer (16k walk 4) ---------------------------------------------
+# Skyrim draws every flame as a particle system: the piece's own
+# NiParticleSystems, or an `AddOnNodeN` resolved through Skyrim.esm ADDN N to
+# an MPS particle NIF. PyNifly imports neither, so the flames are mined from
+# the NIF blocks (pipeline/nif_blocks.py) and written as manifest `flames`,
+# drawn by game-core settlement/lighting.ts as flipbook sprites. Particles
+# never convert to meshes.
+
+#: Where every flame and glow sprite texture is published and looked up:
+#: the runtime reads one manifest (lighting.ts `FLAME_TEXTURE_KIT`).
+FLAME_TEXTURE_KIT = "works-v1"
+#: The palette row a greyscale flame texture is baked through. Skyrim's
+#: GREYSCALE_TO_PALETTE indexes u by the texel's grey and v by the particle's
+#: colour/alpha over its life, which a single baked image cannot follow; row
+#: 48 of 64 is the full-alpha fire row of both vanilla fire gradients
+#: (gradflame01, gradfireexplosion: dark red -> orange -> white, alpha
+#: rising with grey), where the bottom rows turn blue (measured 2026-09-28).
+PALETTE_ROW = 48
+#: A grid line is a gutter when its summed alpha x grey is under this share
+#: of the brightest line of the same axis.
+ATLAS_GUTTER_SHARE = 0.03
+
+
+def flame_texture_id(texture: str, palette: str | None) -> str:
+    """`fx:<stem>` or, baked through a palette, `fx:<stem>-<palette stem>`."""
+    stem = Path(texture).stem.lower()
+    return f"fx:{stem}-{Path(palette).stem.lower()}" if palette else f"fx:{stem}"
+
+
+def atlas_from_gutters(rgba) -> list[int]:
+    """[cols, rows] of a flipbook atlas, measured: the largest power-of-two
+    split of each axis whose every cell edge (the first texel line of each
+    cell) is an empty gutter. Vanilla's fire atlases leave such a line
+    between frames (fxfireatlas02 4x2, fxfireatlas04 1x8,
+    fxfirecolumnanimloop 8x8, candleflame01 2x2: the 2x2 was drawn whole
+    as one "flame" before walk 4, the owner's four floating candle flames)."""
+    import numpy as np
+    arr = np.asarray(rgba, dtype=np.float64)
+    weight = arr[..., :3].mean(-1) * arr[..., 3] / 255.0
+    out = []
+    for axis, length in ((0, arr.shape[1]), (1, arr.shape[0])):
+        lines = weight.sum(axis=axis)
+        peak = lines.max() or 1.0
+        best = 1
+        n = 2
+        while n <= 16 and length % n == 0:
+            step = length // n
+            if all(lines[k * step] <= ATLAS_GUTTER_SHARE * peak for k in range(n)):
+                best = n
+            n *= 2
+        out.append(best)
+    return out
+
+
+def bake_palette(grey_rgba, palette_rgba, row: int = PALETTE_ROW, palette_alpha: bool = True):
+    """A greyscale effect texture through its palette, as RGBA: rgb is the
+    palette at u = the texel's grey on `row`, alpha the texel's alpha times
+    the palette's (GREYSCALE_ALPHA; `palette_alpha=False` keeps the texel's).
+    A deterministic transform of two sourced textures, so the runtime needs
+    no palette shader."""
+    import numpy as np
+    grey = np.asarray(grey_rgba, dtype=np.uint8)
+    pal = np.asarray(palette_rgba, dtype=np.uint8)
+    line = pal[min(row, pal.shape[0] - 1)]
+    lum = grey[..., :3].astype(np.float64).mean(-1)
+    u = np.clip(np.rint(lum / 255.0 * (line.shape[0] - 1)), 0, line.shape[0] - 1).astype(int)
+    out = np.empty_like(grey)
+    out[..., :3] = line[u, :3]
+    alpha = grey[..., 3].astype(np.float64)
+    if palette_alpha:
+        alpha = alpha * line[u, 3] / 255.0
+    out[..., 3] = np.rint(alpha).astype(np.uint8)
+    return out
+
+
+def mine_fire_layer(nif_bytes: bytes, addn: dict, read_mesh,
+                    metres_per_unit: float = METRES_PER_UNIT) -> dict:
+    """A piece's flames and billboard glow shapes, read from its NIF.
+
+    Every `AddOnNodeN` resolves through `addn` (Skyrim.esm ADDN by index) to
+    its MPS NIF (`read_mesh(path) -> bytes`); each flame-named particle
+    system there (not smoke, embers or glow) is one flame at the node. Every
+    flame-named NiParticleSystem of the piece itself is one flame at its
+    emitter. Positions are glTF Y-up metres from the pivot; sizes are the
+    particle's edge (2 x initial radius x its largest scale key)."""
+    from . import nif_blocks as nb
+    nif = nb.parse(nif_bytes)
+    flames = []
+
+    def flame_of(system, at_units, source):
+        size = 2 * (system.get("radiusUnits") or 0) * (system.get("scaleMax") or 1)
+        return {"offsetM": nb.to_gltf_m(at_units, metres_per_unit),
+                "texturePath": system["texture"], "palette": system.get("palette"),
+                "sizeM": round(size * metres_per_unit, 4),
+                "lifeS": system.get("lifeS"),
+                "frameCount": (system.get("subtex") or {}).get("frameCount"),
+                "source": source}
+
+    for node in nb.addon_nodes(nif):
+        row = addn.get(node["index"])
+        if row is None:
+            raise ValueError(f"AddOnNode{node['index']}: no Skyrim.esm ADDN with that index")
+        mps = nb.parse(read_mesh(row["model"]))
+        for system in nb.particle_systems(mps):
+            if system.get("unparsed") or not nb.is_flame_system(system["name"]):
+                continue
+            at = [a + b for a, b in zip(node["positionUnits"], system["positionUnits"])]
+            flames.append(flame_of(system, at,
+                                   f"AddOnNode{node['index']} -> {row['editorId']}/{system['name']}"))
+    for system in nb.particle_systems(nif):
+        if system.get("unparsed"):
+            if nb.is_flame_system(system["name"]):
+                raise ValueError(f"flame particle system {system['name']}: {system['unparsed']}")
+            continue
+        if nb.is_flame_system(system["name"]) and system.get("texture"):
+            flames.append(flame_of(system, system["positionUnits"], system["name"]))
+    glows = [{"shape": g["shape"], "texturePath": g["texture"], "emissive": g.get("emissive")}
+             for g in nb.billboard_glow_shapes(nif)]
+    return {"flames": flames, "glowShapes": glows}
+
+
+def flame_record(flame: dict, atlas_of) -> dict:
+    """The manifest record of a mined flame. `atlas_of(texturePath)` is the
+    texture's measured [cols, rows] (`atlas_from_gutters`). With a
+    BSPSysSubTexModifier the frames play over the particle's life (fps =
+    frames / life, Skyrim's own timing); without one each particle shows one
+    random cell for its life, so the sprite steps to the next cell once per
+    life (fps = 1 / life)."""
+    cols, rows = atlas_of(flame["texturePath"])
+    frames = cols * rows
+    life = flame.get("lifeS") or 1.0
+    if flame.get("frameCount"):
+        frames = min(frames, int(round(flame["frameCount"])))
+        fps = frames / life
+    else:
+        fps = 1.0 / life
+    return {"offsetM": flame["offsetM"],
+            "texture": flame_texture_id(flame["texturePath"], flame.get("palette")),
+            "atlas": [cols, rows] if frames > 1 else None,
+            **({"frames": frames} if frames not in (1, cols * rows) else {}),
+            "fps": round(fps, 3) if frames > 1 else 0,
+            "sizeM": flame["sizeM"], "source": flame["source"]}
+
+
+def glow_record(shape: dict, texture: str, emissive: list[float] | None = None) -> dict:
+    """The sprite of a dropped billboard glow disc. The disc is a flat card in
+    its NiBillboardNode's frame, set off along its thin axis (the axis the
+    engine turns to face the camera): campfire Glow02 stands 0.84 m out, so
+    the halo sits in front of the logs from any side. That offset becomes
+    `towardCameraM` and leaves the position; the edge is the card's longest."""
+    centre = list(shape["centreM"])
+    extent = shape.get("extentM")
+    toward = 0.0
+    if extent:
+        thin = min(range(3), key=lambda i: extent[i])
+        if thin != 1:
+            toward, centre[thin] = abs(centre[thin]), 0.0
+    # A coloured disc (the evil welkynd cluster's GlowMesh07, emissive
+    # 0.5/0/0) keeps its NIF colour as `tintRgb`; a white one (the fires'
+    # glows) takes the runtime's shared fire colour (lighting.ts).
+    rgb = [round(v, 4) for v in (emissive or [1.0, 1.0, 1.0])[:3]]
+    return {"offsetM": centre, "sizeM": shape["edgeM"], "texture": texture,
+            **({"towardCameraM": round(toward, 3)} if toward else {}),
+            **({"tintRgb": rgb} if rgb != [1.0, 1.0, 1.0] else {})}
+
+
+def flame_texture_rows(kit: dict) -> dict[str, dict]:
+    """The effect-texture rows of the flame texture kit (works-v1): every
+    texture a flame or glow record may name must be one of them."""
+    config = kit if kit.get("id") == FLAME_TEXTURE_KIT else json.loads(
+        (CONFIG / f"{FLAME_TEXTURE_KIT}.json").read_text())
+    return config.get("effectTextures") or {}
+
+
+@functools.lru_cache(maxsize=1)
+def _skyrim_addn(esm_path: str) -> dict:
+    from . import nif_blocks as nb
+    return nb.read_addn(Path(esm_path).read_bytes())
+
+
+def _from_windows(path: str) -> Path:
+    return Path(path[2:].replace("\\", "/")) if path.startswith("Z:") else Path(path)
+
+
+def apply_fire_layer(summary: dict, kit: dict, plan_assets: list[dict], vault: Path,
+                     atlas_of) -> int:
+    """Write each piece's mined `flames` and `glows` onto its manifest record.
+
+    Glows are the billboard glow discs the Blender half dropped
+    (`droppedShapes` reason "billboard-glow", measured there: centre and
+    edge); a flame card piece (fxfirewithembers01) keeps its cards and lists
+    them as `flameCardMaterials`. Every texture named must be a row of the
+    flame texture kit's `effectTextures`, else the build refuses."""
+    from . import nif_blocks as nb
+    data = vault / "skyrim-source/Data"
+    addn = _skyrim_addn(str(data / "Skyrim.esm"))
+    meshes = BSAArchive(data / "Skyrim - Meshes.bsa")
+    rows = flame_texture_rows(kit)
+    by_id = {a["id"]: a for a in plan_assets}
+    written = 0
+    missing = set()
+    for record in summary.get("assets", []):
+        for key in ("flames", "glows", "flameCardMaterials"):
+            record.pop(key, None)
+        plan = by_id.get(record["id"])
+        if plan is None or not plan.get("nif"):
+            continue
+        layer = mine_fire_layer(_from_windows(plan["nif"]).read_bytes(), addn, meshes.read)
+        flames = [flame_record(f, atlas_of) for f in layer["flames"]]
+        glow_tex = {g["shape"]: g["texturePath"] for g in layer["glowShapes"]}
+        glow_rgb = {g["shape"]: g.get("emissive") for g in layer["glowShapes"]}
+        glows = []
+        for shape in record.get("droppedShapes", []):
+            if shape.get("reason") != "billboard-glow":
+                continue
+            path = glow_tex.get(shape.get("nifShape")) or next(iter(glow_tex.values()), None)
+            glows.append(glow_record(shape, flame_texture_id(path, None),
+                                     glow_rgb.get(shape.get("nifShape"))))
+        cards = [m for m in record.get("additiveMaterials", []) if nb.is_flame_system(m)]
+        for item in flames + glows:
+            if item["texture"] not in rows:
+                missing.add(item["texture"])
+        if flames:
+            record["flames"] = flames
+        if glows:
+            record["glows"] = glows
+        if cards:
+            record["flameCardMaterials"] = cards
+        written += len(flames) + len(glows)
+    if missing:
+        raise RuntimeError(f"{kit['id']}: flame textures with no {FLAME_TEXTURE_KIT} "
+                           f"effectTextures row: {sorted(missing)}")
+    return written
+
+
+#: The suffix Blender's NIF import gives a shape's material (`Glow:2.Mat`).
+NIF_MATERIAL_SUFFIX = ".Mat"
+
+
+def additive_gains(additive_materials: list[str], shaders: dict[str, dict]) -> dict[str, float]:
+    """Each additive material's gain: the emissive multiple of the NIF shape it
+    was imported from (material `<shape>.Mat`; `nif_blocks.effect_shape_shaders`).
+    Skyrim's effect shader draws texture x vertex colour x emissive multiple,
+    so fxfirewithembers01's cards (vertex rgb <= 0.25) need their 1.6. A
+    material with no effect-shader shape of its name refuses the build."""
+    gains, missing = {}, []
+    for name in additive_materials:
+        shape = name[:-len(NIF_MATERIAL_SUFFIX)] if name.endswith(NIF_MATERIAL_SUFFIX) else name
+        shader = shaders.get(shape)
+        if shader is None or shader.get("emissiveMultiple") is None:
+            missing.append(name)
+            continue
+        gains[name] = shader["emissiveMultiple"]
+    if missing:
+        raise RuntimeError(f"additive materials with no effect-shader NIF shape of that name "
+                           f"(emissive multiple unread): {missing}; shapes: {sorted(shaders)}")
+    return gains
+
+
+def apply_additive_gains(summary: dict, plan_assets: list[dict]) -> int:
+    """Write `additiveGains` (material -> emissive multiple) on every manifest
+    record with `additiveMaterials`; `set_alpha_modes` carries each as the
+    glTF material extra `gain` (materials.ts reads it)."""
+    from . import nif_blocks as nb
+    by_id = {a["id"]: a for a in plan_assets}
+    written = 0
+    for record in summary.get("assets", []):
+        record.pop("additiveGains", None)
+        materials = record.get("additiveMaterials") or []
+        plan = by_id.get(record["id"])
+        if not materials or plan is None or not plan.get("nif"):
+            continue
+        shaders = nb.effect_shape_shaders(nb.parse(_from_windows(plan["nif"]).read_bytes()))
+        record["additiveGains"] = additive_gains(materials, shaders)
+        written += len(materials)
+    return written
+
+
+def effect_texture_rgba(rel: str, vault: Path, tropical: bool):
+    """An effect texture (textures/effects/...) as an RGBA PIL image, with the
+    source it came from and the DDS hash."""
+    import hashlib
+    import io
+    import tempfile
+    from PIL import Image
+    rel = rel.lower().replace("\\", "/")
+    sources = pool_sources("vanilla", vault, tropical=tropical).textures
+    source = next((src for src in sources if src.contains(rel)), None)
+    if source is None:
+        raise FileNotFoundError(f"effect texture {rel} is in no texture source")
+    with tempfile.TemporaryDirectory() as tmp:
+        source.extract_many([rel], Path(tmp))
+        raw = (Path(tmp) / rel).read_bytes()
+    image = Image.open(io.BytesIO(raw))
+    image.load()
+    return image.convert("RGBA"), source, hashlib.sha256(raw).hexdigest()
+
+
+def texture_atlas_measurer(vault: Path, tropical: bool):
+    """`atlas_of(texturePath)` for `flame_record`, one read per texture."""
+    @functools.lru_cache(maxsize=None)
+    def atlas_of(rel: str) -> tuple[int, int]:
+        image, _, _ = effect_texture_rgba(rel, vault, tropical)
+        return tuple(atlas_from_gutters(image))
+    return atlas_of
+
+
 def _default_collision(row: dict) -> str:
     return _COLLISION_BY_CATEGORY.get(row.get("category", ""), "none")
 
@@ -1038,6 +1345,14 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     # plus the material extra `additive: true` for the runtime's blend mode.
     additive = {name for asset in summary["assets"]
                 for name in asset.get("additiveMaterials", [])}
+    # Its gain is the NIF shape's emissive multiple (apply_additive_gains),
+    # the material extra `gain`; one material, one gain across the kit.
+    gains: dict[str, float] = {}
+    for asset in summary["assets"]:
+        for name, gain in (asset.get("additiveGains") or {}).items():
+            if gains.setdefault(name, gain) != gain:
+                raise RuntimeError(f"additive material {name}: gains {gains[name]} and {gain} "
+                                   "in one kit")
     # A NIF water-shader surface (blender/build_kit.py WATER_MATERIALS:
     # horsetrough01's WATER.Mat) is translucent and untextured: glTF BLEND
     # plus the material extra `water: true` (16k fix 2 round 4 ruling K4).
@@ -1068,6 +1383,7 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
         extras = material.get("extras") or {}
         extras.pop("decal", None)
         extras.pop("additive", None)
+        extras.pop("gain", None)
         extras.pop("water", None)
         if material.get("name") in water:
             extras["water"] = True
@@ -1075,10 +1391,14 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
             extras["decal"] = True
         if material.get("name") in additive:
             extras["additive"] = True
+            if material["name"] in gains:
+                extras["gain"] = gains[material["name"]]
         if extras:
             material["extras"] = extras
         else:
             material.pop("extras", None)
+
+    remap_additive_vertex_colours(gltf, additive)
 
     encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
     encoded += b" " * (-len(encoded) % 4)
@@ -1091,6 +1411,30 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
           f"{counts['BLEND']} additive blend; "
           f"{sum(1 for m in gltf.get('materials', []) if (m.get('extras') or {}).get('decal'))} decal")
     return counts
+
+
+def remap_additive_vertex_colours(gltf: dict, additive: set[str]) -> int:
+    """Point each additive primitive's COLOR_0 at its real vertex colour.
+
+    Blender's exporter writes a fake all-white COLOR_0 when no material reads
+    a colour attribute, then the mesh's own attributes as COLOR_1.. (the
+    Blender half merged the NIF vertex alpha into the first,
+    `merge_vertex_alpha`). three.js reads COLOR_0 only, so an additive card
+    lost its vertex tint and soft-edge alpha. The fake is dropped and the
+    real attribute becomes COLOR_0. Returns the primitives changed."""
+    names = [m.get("name") for m in gltf.get("materials", [])]
+    changed = 0
+    for mesh in gltf.get("meshes", []):
+        for prim in mesh.get("primitives", []):
+            index = prim.get("material")
+            attrs = prim.get("attributes", {})
+            if index is None or names[index] not in additive or "COLOR_1" not in attrs:
+                continue
+            attrs["COLOR_0"] = attrs.pop("COLOR_1")
+            for key in [k for k in attrs if k.startswith("COLOR_") and k != "COLOR_0"]:
+                attrs.pop(key)
+            changed += 1
+    return changed
 
 
 # A texture the build could not resolve is a sourcing defect when it is a
@@ -1257,7 +1601,13 @@ PIPELINE_DIR = Path(__file__).resolve().parent
 #: version is stale and rebuilds once.
 #:   1  2026-09-28: introduced (walk 3 L9); replaces the source hash of
 #:      KIT_CODE_FILES in the stamp.
-KIT_OUTPUT_FORMAT_VERSION = 1
+#:   2  2026-09-28: the fire layer (walk 4): manifest `flames`/`glows`/
+#:      `flameCardMaterials`, billboard glow discs dropped, effect cards skip
+#:      their greyscale slot and bake its palette, additive COLOR_0 = the
+#:      NIF's vertex colour and alpha.
+#:   3  2026-09-28: additive materials carry the NIF shape's emissive
+#:      multiple (manifest `additiveGains`, glTF material extra `gain`).
+KIT_OUTPUT_FORMAT_VERSION = 3
 
 #: The code a kit build runs: build_kit, the Blender half and the helper it
 #: imports, and every post-pass `_build` runs on the result. Its edits reach
@@ -1267,7 +1617,7 @@ KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
     "blender/effect_materials.py", "placement_metadata.py", "trunk_solids.py",
     "vet_kit.py", "measure_footprints.py", "interiors_index.py",
     "measure_connectors.py", "piece_front.py",
-    "kit_compress.py", "texture_variants.py"))
+    "kit_compress.py", "texture_variants.py", "nif_blocks.py"))
 
 #: Records the post-passes read (placement_metadata, interiors_index,
 #: measure_connectors), plus the toolchain.
@@ -1275,7 +1625,6 @@ KIT_RECORD_FILES = (
     PIPELINE_DIR / "config" / "toolchain.json",
     REPO_ROOT / "world" / "sources" / "placement" / "kit-mounts-mined.json",
     REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json",
-    REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json",
 )
 
 #: Records a kit build reads row by row: the input hash takes the KIT'S VIEW of
@@ -1288,7 +1637,14 @@ DESIGNED_SINK_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-design
 #: the setting-class miner's record (decision 0105 R1): placement_metadata
 #: copies each asset's row onto the manifest as `settingClass`
 SETTING_CLASS_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-setting-class.json"
-KIT_ROW_RECORDS = (PLACEMENT_POLICIES_FILE, DESIGNED_SINK_FILE, SETTING_CLASS_FILE)
+#: the assemblies record (templates, doorways, abuts): read whole but for
+#: `abuts.singleUse`, which `refresh_abuts_derived` re-derives FROM the built
+#: kits after every build; hashed whole, the build invalidated its own stamp
+#: (16k walk 4 KITS lane: works-v1 and xanmeer stale the second they finished).
+ASSEMBLIES_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json"
+#: keys a build derives into a record after it runs, never read by the build
+BUILD_DERIVED_KEYS = {ASSEMBLIES_FILE.name: ("abuts", "singleUse")}
+KIT_ROW_RECORDS = (PLACEMENT_POLICIES_FILE, DESIGNED_SINK_FILE, SETTING_CLASS_FILE, ASSEMBLIES_FILE)
 #: row-keyed records whose kit view is their schema and the kit's own `assets` rows
 ASSET_ROW_RECORD_NAMES = (DESIGNED_SINK_FILE.name, SETTING_CLASS_FILE.name)
 
@@ -1332,7 +1688,11 @@ def kit_record_view(path: Path, kit_id: str, asset_ids: set[str]) -> bytes:
     def own(rows) -> dict:
         return ({k: v for k, v in rows.items() if normalize_asset_id(k) in asset_ids}
                 if isinstance(rows, dict) else rows)
-    if path.name in ASSET_ROW_RECORD_NAMES:
+    if path.name in BUILD_DERIVED_KEYS:
+        section, key = BUILD_DERIVED_KEYS[path.name]
+        view = dict(doc)
+        view[section] = {k: v for k, v in (doc.get(section) or {}).items() if k != key}
+    elif path.name in ASSET_ROW_RECORD_NAMES:
         view = {"schemaVersion": doc.get("schemaVersion"), "assets": own(doc.get("assets") or {})}
     else:
         view = {key: doc.get(key) for key in POLICY_SHARED_SECTIONS}
@@ -1572,6 +1932,16 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
         "output_glb": to_windows(output_glb),
         "summary_json": to_windows(summary_json),
     }
+    # Billboard glow discs (campfire Glow02, fxfirewithembers glow) are engine
+    # billboards: the Blender half drops them by NIF shape name and measures
+    # them, and the runtime draws them as sprites (apply_fire_layer).
+    for asset in assets:
+        if asset.get("nif") and not asset.get("parts"):
+            from . import nif_blocks as nb
+            shapes = [g["shape"] for g in nb.billboard_glow_shapes(
+                nb.parse(_from_windows(asset["nif"]).read_bytes()))]
+            if shapes:
+                asset["billboardGlowShapes"] = shapes
     hashes = kit_input_hashes(kit_id, work / "data-root", plan, vault)
     digest = digest_of(hashes)
     stamp = inputs_stamp_path(output_glb)
@@ -1631,6 +2001,9 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     summary = json.loads(summary_json.read_text())
     summary["texturesMissing"] = notes["texturesMissing"]
     summary["texturesSubstituted"] = notes["texturesSubstituted"]
+    gains = apply_additive_gains(summary, assets)
+    if gains:
+        print(f"[kit] additive gains: {gains}")
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
     apply_lod_levels(output_glb, summary)
     sized = apply_size_collision(summary, kit)
@@ -1639,6 +2012,10 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     lights = apply_light_records(summary, kit)
     if lights:
         print(f"[kit] light records: {lights}")
+    fire = apply_fire_layer(summary, kit, assets, vault,
+                            texture_atlas_measurer(vault, tropicalised(kit)))
+    if fire:
+        print(f"[kit] flame and glow sprites: {fire}")
     apply_placement_metadata(summary, kit["id"])
     untextured = untextured_material_errors(read_gltf_json(output_glb), summary,
                                             notes["texturesMissing"])
@@ -1794,39 +2171,50 @@ def publish_effect_textures(kit: dict, vault: Path, summary: dict,
     rows = kit.get("effectTextures") or {}
     if not rows:
         return {}
-    import hashlib
-    import io
-    import tempfile
     from PIL import Image
     from . import kit_compress
     out_dir = (public_dir or kit_compress.PUBLIC_KITS) / f"{kit['id']}-fx"
-    sources = pool_sources("vanilla", vault, tropical=tropicalised(kit)).textures
+    tropical = tropicalised(kit)
     records: dict[str, dict] = {}
     published: dict[str, str] = {}
     for asset_id, row in sorted(rows.items()):
         rel = row["texture"].lower().replace("\\", "/")
-        source = next((src for src in sources if src.contains(rel)), None)
-        if source is None:
+        try:
+            image, source, sha = effect_texture_rgba(rel, vault, tropical)
+        except FileNotFoundError:
             raise FileNotFoundError(f"{kit['id']}: effect texture {rel} for {asset_id} "
-                                    f"is in no texture source")
-        with tempfile.TemporaryDirectory() as tmp:
-            source.extract_many([rel], Path(tmp))
-            raw = (Path(tmp) / rel).read_bytes()
-        image = Image.open(io.BytesIO(raw))
-        image.load()
+                                    f"is in no texture source") from None
+        name = Path(rel).stem
+        palette = None
+        if row.get("palette"):
+            # A greyscale flame baked through its palette (bake_palette): the
+            # published PNG is the coloured sprite, hashed as it ships.
+            prel = row["palette"].lower().replace("\\", "/")
+            pimage, psource, psha = effect_texture_rgba(prel, vault, tropical)
+            image = Image.fromarray(bake_palette(image, pimage), "RGBA")
+            name += "-" + Path(prel).stem
+            palette = {"sourcePath": prel, "sha256Dds": psha, "row": PALETTE_ROW,
+                       "sourceArchive": (psource.path if isinstance(psource, BsaSource)
+                                         else psource.root).name}
         out_dir.mkdir(parents=True, exist_ok=True)
-        name = Path(rel).stem + ".png"
-        image.convert("RGBA").save(out_dir / name, optimize=True)
+        name += ".png"
+        image.save(out_dir / name, optimize=True)
         os.chmod(out_dir / name, 0o644)
+        # The atlas grid: the config's where it names one (the smoke puffs),
+        # else measured from the texture's gutters (atlas_from_gutters).
+        atlas = row.get("atlas") or atlas_from_gutters(image)
         records[asset_id] = {
             "file": f"{out_dir.name}/{name}",
             "sourcePath": rel,
             "sourceArchive": (source.path if isinstance(source, BsaSource)
                               else source.root).name,
-            "sha256Dds": hashlib.sha256(raw).hexdigest(),
+            "sha256Dds": sha,
             "px": list(image.size),
             "pngBytes": (out_dir / name).stat().st_size,
-            **({"atlas": row["atlas"]} if row.get("atlas") else {}),
+            **({"sha256Png": hashlib.sha256((out_dir / name).read_bytes()).hexdigest(),
+                "palette": palette} if palette else {}),
+            **({"atlas": list(atlas)} if list(atlas) != [1, 1] else {}),
+            **({"role": row["role"]} if row.get("role") else {}),
         }
         published[asset_id] = records[asset_id]["file"]
     summary["effectTextures"] = records

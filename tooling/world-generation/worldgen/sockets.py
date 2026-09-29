@@ -301,26 +301,54 @@ def find_host(host: str, bp_id: str, placements: list[dict],
     return by_member.get(slug(host))
 
 
+def _inside(poly, x: float, z: float) -> bool:
+    """Even-odd point-in-polygon on the plan (x east, z south)."""
+    hit = False
+    for i in range(len(poly)):
+        (x0, z0), (x1, z1) = poly[i - 1], poly[i]
+        if (z0 > z) != (z1 > z) and x < x0 + (z - z0) * (x1 - x0) / (z1 - z0):
+            hit = not hit
+    return hit
+
+
+def walkable_surface_at(surfaces):
+    """``surfaces``: ``(plan polygon, top y, placement id)`` of every walkable
+    placed surface (a deck, a hull; `compile_settlement.walkable_surfaces`).
+    Returns ``(x, z) -> the highest top whose polygon holds the point, or
+    None`` (16k walk 4 defect 5: the Claywater poler's socket stood on the
+    channel bed under the landing deck)."""
+    rows = [(poly, float(y)) for poly, y, _ in surfaces if len(poly) >= 3]
+
+    def at(x: float, z: float) -> float | None:
+        tops = [y for poly, y in rows if _inside(poly, x, z)]
+        return max(tops) if tops else None
+    return at
+
+
 def compile_sockets(bp: dict, placements: list[dict], height_at, ops: list[dict],
-                    vocab: dict, category_of=None) -> tuple[list[dict], list[str]]:
+                    vocab: dict, category_of=None,
+                    surface_at=None) -> tuple[list[dict], list[str]]:
     """The compiled ``sockets[]`` and the errors resolving them: a hosted
-    socket stands at its host's pivot, a free one on the padded ground. With
+    socket stands at its host's pivot, a free one on the padded ground; either
+    is lifted onto the highest walkable placed surface under it when
+    ``surface_at`` (`walkable_surface_at`) finds one above that (a socket on
+    a deck stands on the deck top, never the terrain under it). With
     ``category_of``, every container placement left without a container
     socket then gets its class default (`default_fill_ops`)."""
     out, errors, seen = [], [], set()
     index = host_index(placements)
-    _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen, index)
+    _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen, index, surface_at)
     if category_of is not None:
         hosted = {s["host"] for s in out if s["kind"] == "container" and s["host"]}
         _compile_ops(bp, placements, height_at,
                      default_fill_ops(bp["id"], placements, hosted, category_of, vocab),
-                     vocab, out, errors, seen, index)
+                     vocab, out, errors, seen, index, surface_at)
     out.sort(key=lambda r: r["id"])
     return out, errors
 
 
 def _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen,
-                 index=None) -> None:
+                 index=None, surface_at=None) -> None:
     for op in ops:
         errs = op_errors(op, vocab)
         if errs:
@@ -342,6 +370,9 @@ def _compile_ops(bp, placements, height_at, ops, vocab, out, errors, seen,
             y = float(height_at(x, z)) if host is None else float(host["positionM"][1])
         else:
             x, y, z = (float(v) for v in host["positionM"])
+        top = surface_at(x, z) if surface_at is not None else None
+        if top is not None and top > y:
+            y = top
         row = {"id": op["id"], "kind": op["kind"],
                # 0104 decision 4: the promises it keeps, and the build-out
                # slots Phase 13 fills (null until then)

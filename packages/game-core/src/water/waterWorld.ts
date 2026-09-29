@@ -10,6 +10,7 @@ import { seasonOffset, tideOffset } from "./tide";
 import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
+import type { LocalWaterSurfaces } from "./localSurfaces";
 import type { WaterData } from "./waterData";
 import { FLOW_WAVE_MIN_SPEED_MS, alongShorePhase, fetchExposure, flowWaveAt, seaRmsHeightM, shoreSwellAt,
   standingWaveRatio, surfEnergyScale, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
@@ -32,6 +33,9 @@ export interface WaterWorldOptions {
    * compiled fetch (`seaRmsHeightM`); the renderer reads the same value into
    * `uWindMS`, so the swell you float on is the swell you see. */
   windSpeedMS?: () => number;
+  /** A place's own pools (spring basins, cisterns), registered at load
+   * (`localSurfaces.ts`); inside a rim they answer before the rasters. */
+  localSurfaces?: LocalWaterSurfaces;
 }
 
 const CLASS_TEMPERATURE: Record<string, number> = {
@@ -60,12 +64,32 @@ export class WaterWorld implements WorldWaterQuery {
 
   /** Still-water surface height at (x, z) including tide/season, no waves. */
   stillSurfaceAt(x: number, z: number, epochMinutes: number): number {
+    const pool = this.opts.localSurfaces?.at(x, z);
+    if (pool) return pool.levelM;
     const s = this.data.sample(x, z);
     const { tide, season } = this.levelOffsets(epochMinutes);
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {
+    const pool = this.opts.localSurfaces?.at(position.x, position.z);
+    if (pool) {
+      // A pool is still water at its own level: no tide, wind, surf or flow.
+      const depth = Math.max(0, pool.levelM - pool.bedM);
+      const immersion = Math.max(0, Math.min(1, (pool.levelM - position.y) / Math.max(depth, 0.05)));
+      return {
+        waterBodyId: pool.pool.id,
+        surfaceHeight: pool.levelM,
+        surfaceNormal: { x: 0, y: 1, z: 0 },
+        flowVelocity: { x: 0, y: 0, z: 0 },
+        depth,
+        immersion,
+        turbidity: 0.1,
+        salinity: 0,
+        temperature: CLASS_TEMPERATURE.marsh,
+        hazardIds: [],
+      };
+    }
     const s = this.data.sample(position.x, position.z);
     const { tide, season } = this.levelOffsets(epochMinutes);
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;

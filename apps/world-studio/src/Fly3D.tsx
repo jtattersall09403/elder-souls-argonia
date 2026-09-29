@@ -25,6 +25,7 @@ import { QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/co
 const FLY_QUALITY: QualitySettings = { ...QUALITY_PRESETS.medium, name: "low" };
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
+import { sharedLocalSurfaces } from "./water/waterAssets";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { loadLadder, useHiddenLayers } from "./ladder";
 import { useApronManifest } from "./apronMaterials";
@@ -363,7 +364,8 @@ export function Fly3D(props: Fly3DProps) {
             {!hiddenLayers.has("settlements") && (
               <SettlementLayer baseUrl={import.meta.env.BASE_URL} focusRef={focusRef}
                 groundAt={settlementGroundAt} environment={settlementEnvironment}
-                onError={setSettlementError} />
+                onError={setSettlementError}
+                localSurfaces={sharedLocalSurfaces(import.meta.env.BASE_URL)} />
             )}
           </>
         ) : (

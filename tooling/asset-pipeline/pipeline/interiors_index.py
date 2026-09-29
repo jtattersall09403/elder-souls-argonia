@@ -139,6 +139,20 @@ measured ``offsetM`` from the plan centre (``planCentreM``), the centre every
 first-pass reading uses, so one opening carries one side whichever point it
 was measured from.
 
+**A doorway is where rays pass** (16k walk 4, lane PARTS). Every doorway the
+geometry passes above name (opening, open-front, leaf) is recorded only when
+horizontal rays fired out through it, from 0.3 m to 1.8 m above its sill and
+across the middle 70 % of its width, cross the wall with no hit
+(``doorway_rays``). A closed one is dropped with a WARN naming the shell and
+kept under ``doorwaysClosedDropped``; a kept one carries ``rayConfirmed``,
+``sillYM`` (pivot frame), ``clearM`` and ``widthM``. So a leaf — a door
+modelled shut — no longer becomes a doorway on its own: KotM's ``mudhut01``
+had two, both closed wall, while its real opening (sill 1.83 m under the
+pivot, above a 4.4 m foundation) was never probed. When no measured doorway
+survives, ``sill_doorways`` walks the door and lintel bands up the wall and
+keeps the lowest opening the rays confirm. Placement evidence (esp-door,
+assembly, composite-leaf, door-piece) is the authors' own and is not gated.
+
 **Doorways from assemblies.** A shell whose door is a SEPARATE mesh has no
 opening in its own geometry, so the ray pass can never find one. For those the
 second source is ``world/sources/placement/kit-assemblies-mined.json``
@@ -211,6 +225,8 @@ timestamps.
 Run (from tooling/asset-pipeline/):
   python3 -m pipeline.interiors_index                       # every built kit
   python3 -m pipeline.interiors_index --kit settlement-stilt-v1
+  python3 -m pipeline.interiors_index --kit settlement-mud-v1 --assets kotm:argonia/mudhuts/mudhut01
+      # re-measure named assets only, merged into the kit's record
 """
 
 from __future__ import annotations
@@ -954,6 +970,170 @@ def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
         return [], ("the openings measured are wider than an open front or narrower than 0.8 m — "
                     "a texture seam or a ring of modular walls, not a doorway")
     return out[:MAX_DOORWAYS], None
+
+
+# --------------------------------------------------------------------------- #
+# a doorway is where rays pass (16k walk 4, lane PARTS)
+# --------------------------------------------------------------------------- #
+#: A doorway is recorded only where horizontal rays fired out through it, from
+#: DOOR_RAY_LOW_M to DOOR_RAY_HIGH_M above its sill and across the middle of
+#: its width, cross the wall with no hit. The top of the band is the module's
+#: own door-height minimum (LEAF_MIN_TALL_M): KotM's mudhut01 opening is 1.85 m
+#: clear above its sill, so a 2.0 m band would reject the one real way in.
+DOOR_RAY_LOW_M = 0.3
+DOOR_RAY_HIGH_M = LEAF_MIN_TALL_M
+DOOR_RAY_STEP_M = 0.05
+#: rays start this far inside the recorded wall point and must travel this far
+#: past it with no hit (the wall's thickness, a jamb, a leaf set into it)
+DOOR_RAY_REACH_M = 1.0
+#: the columns sit across this share of the recorded width (the jambs' own
+#: rounding stays out of the test)
+DOOR_RAY_WIDTH_SHARE = 0.7
+DOOR_RAY_COLUMNS = 5
+
+
+def _blocked(triangles, origins, direction, max_t: float):
+    """Per origin: does a ray from it along `direction` hit a triangle within
+    `max_t`? Two-sided, like `_ray_hits` (a single-sided wall still stops a
+    player)."""
+    import numpy as np
+
+    v0 = triangles[:, 0, :]
+    edge1 = triangles[:, 1, :] - v0
+    edge2 = triangles[:, 2, :] - v0
+    pvec = np.cross(direction, edge2)
+    det = np.einsum("ij,ij->i", edge1, pvec)
+    ok = np.abs(det) > 1e-9
+    inv = np.zeros_like(det)
+    inv[ok] = 1.0 / det[ok]
+    out = np.zeros(len(origins), dtype=bool)
+    for k, origin in enumerate(origins):
+        tvec = origin - v0
+        u = np.einsum("ij,ij->i", tvec, pvec) * inv
+        qvec = np.cross(tvec, edge1)
+        v = (qvec @ direction) * inv
+        t = np.einsum("ij,ij->i", edge2, qvec) * inv
+        out[k] = bool((ok & (u >= -1e-6) & (v >= -1e-6) & (u + v <= 1.0 + 1e-6)
+                       & (t > 1e-4) & (t < max_t)).any())
+    return out
+
+
+def doorway_rays(triangles, door: dict, sill_lo_y: float, sill_hi_y: float) -> dict | None:
+    """Prove a doorway open by rays, or return None (closed wall).
+
+    Rays leave from DOOR_RAY_REACH_M inside the recorded wall point
+    (`offsetM`), outward along `sideDeg`, and must cross 2 x DOOR_RAY_REACH_M
+    with no hit. The sill is searched between `sill_lo_y` and `sill_hi_y`
+    (pivot-frame y): the lowest height from which the centre column is open
+    continuously for DOOR_RAY_HIGH_M and every column across the middle of the
+    recorded width is open from DOOR_RAY_LOW_M to DOOR_RAY_HIGH_M above it.
+    Returns {sillYM, clearM, widthM, centreShiftM}: the sill in the asset's
+    pivot frame, the clear height above it (centre column), and the open width
+    measured 1.0 m above the sill."""
+    import numpy as np
+
+    if door.get("offsetM") is None or door.get("sideDeg") is None:
+        return None
+    rad = math.radians(float(door["sideDeg"]))
+    out_dir = np.asarray([math.sin(rad), 0.0, -math.cos(rad)])
+    lateral = np.asarray([math.cos(rad), 0.0, math.sin(rad)])
+    wall = np.asarray([float(door["offsetM"][0]), 0.0, float(door["offsetM"][1])])
+    start = wall - out_dir * DOOR_RAY_REACH_M
+    reach = 2.0 * DOOR_RAY_REACH_M
+    width = float(door.get("arcM") or LEAF_MIN_ARC_M)
+    half = 0.5 * DOOR_RAY_WIDTH_SHARE * width
+    columns = np.linspace(-half, half, DOOR_RAY_COLUMNS)
+    top = sill_hi_y + DOOR_RAY_HIGH_M + 0.5
+    heights = np.arange(sill_lo_y, top + 1e-9, DOOR_RAY_STEP_M)
+    centre_open = ~_blocked(triangles, [start + np.asarray([0.0, h, 0.0]) for h in heights],
+                            out_dir, reach)
+    need = int(round(DOOR_RAY_HIGH_M / DOOR_RAY_STEP_M))
+    lo = int(round(DOOR_RAY_LOW_M / DOOR_RAY_STEP_M))
+    for i, h in enumerate(heights):
+        if h > sill_hi_y + 1e-9:
+            break
+        if i + need >= len(heights) or not centre_open[i:i + need + 1].all():
+            continue
+        band = heights[i + lo:i + need + 1]
+        origins = [start + lateral * c + np.asarray([0.0, y, 0.0]) for y in band for c in columns]
+        if _blocked(triangles, origins, out_dir, reach).any():
+            continue
+        run = i
+        while run + 1 < len(heights) and centre_open[run + 1]:
+            run += 1
+        # The tread: a horizontal ray slides under a floor slab, so the lowest
+        # open height can sit below the surface a player stands on (the Riften
+        # stable's stall floor is at the pivot, its foundation's foot 0.91 m
+        # below). A down ray just inside the threshold from the top of the open
+        # run finds the tread; it is the sill when a door's height still clears
+        # above it.
+        top_y = float(heights[run])
+        probe = wall - out_dir * 0.3 + np.asarray([0.0, top_y - 0.05, 0.0])
+        down, _front = _ray_hits(triangles, probe, np.asarray([[0.0, -1.0, 0.0]]))
+        if np.isfinite(down[0]):
+            tread = top_y - 0.05 - float(down[0])
+            if h < tread <= top_y - DOOR_RAY_HIGH_M:
+                h = tread
+        # the open width at 1.0 m above the sill, scanned out from the centre
+        y = h + 1.0
+        step = DOOR_RAY_STEP_M
+        offsets = np.arange(-2.5, 2.5 + 1e-9, step)
+        open_lat = ~_blocked(triangles, [start + lateral * c + np.asarray([0.0, y, 0.0])
+                                         for c in offsets], out_dir, reach)
+        mid = len(offsets) // 2
+        a = b = mid
+        while a - 1 >= 0 and open_lat[a - 1]:
+            a -= 1
+        while b + 1 < len(offsets) and open_lat[b + 1]:
+            b += 1
+        return {"sillYM": round(float(h), 2),
+                "clearM": round(float(top_y - h + step), 2),
+                "widthM": round(float(offsets[b] - offsets[a] + step), 2),
+                "centreShiftM": round(float((offsets[a] + offsets[b]) / 2.0), 2)}
+    return None
+
+
+def confirm_doorways(triangles, doors: list[dict], sill_lo_y: float, sill_hi_y: float,
+                     asset_id: str, dropped: list[dict]) -> list[dict]:
+    """Keep the measured doorways rays pass through; drop closed wall with a
+    WARN naming the shell (16k walk 4: mudhut01's two `leaf` doorways were
+    closed wall, and door records were bound to them)."""
+    kept = []
+    for door in doors:
+        proof = doorway_rays(triangles, door, sill_lo_y, sill_hi_y)
+        if proof is None:
+            print(f"WARN interiors_index: {asset_id}: {door.get('kind', 'opening')} doorway at "
+                  f"{door.get('sideDeg')} deg {door.get('offsetM')} is closed wall (rays "
+                  f"{DOOR_RAY_LOW_M}-{DOOR_RAY_HIGH_M} m above any sill hit the shell); dropped")
+            dropped.append({k: door[k] for k in ("kind", "sideDeg", "offsetM", "arcM") if k in door})
+            continue
+        kept.append(dict(door, **proof, rayConfirmed=True))
+    return kept
+
+
+def sill_doorways(triangles, centre: tuple[float, float], floor_y: float,
+                  height_m: float) -> list[dict]:
+    """An opening whose sill stands above the measured floor: probe the door
+    and lintel bands up the whole wall in DOOR_RAY_STEP_M x 5 steps and keep
+    the lowest band whose opening rays confirm. KotM's mudhut01 carries a
+    4.4 m foundation below its pivot, so the floor ladder stands at the
+    foundation's foot and the 1.1 m door band never reaches its opening
+    (sill 2.55 m above the base)."""
+    step = 0.25
+    offset = step
+    while offset + LINTEL_BAND_M < height_m:
+        found, _why = doorways_from_probe(triangles, centre, floor_y + offset, height_m - offset)
+        found = [d for d in found if d.get("kind") == "opening"]
+        confirmed = []
+        for door in found:
+            proof = doorway_rays(triangles, door, floor_y + offset - step,
+                                 floor_y + offset + DOOR_BAND_M)
+            if proof is not None:
+                confirmed.append(dict(door, **proof, rayConfirmed=True))
+        if confirmed:
+            return confirmed[:1]
+        offset += step
+    return []
 
 
 def ground_doorways(triangles, centre: tuple[float, float], base_y: float,
@@ -1831,29 +2011,54 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
         encloses = is_enclosure(probe)
         closed_shell = encloses_shape(probe) and not faces_inward(probe)
         if encloses or closed_shell:
+            # Every measured doorway is proven open by rays before it is
+            # recorded (16k walk 4, lane PARTS): a doorway is where rays
+            # pass, never the pass's label. A closed one is dropped with a
+            # WARN and kept under `doorwaysClosedDropped` for audit.
+            closed: list[dict] = []
+
+            def confirm(found, lo_y, hi_y):
+                return confirm_doorways(triangles, found, lo_y, hi_y, asset_id, closed)
+
+            sill_hi = floor_y + LEAF_SILL_MAX_M
             doors, why_not = doorways_from_probe(triangles, (cx, cz), floor_y, room_h)
+            doors = confirm(doors, floor_y, sill_hi)
             if probe["floorOffsetM"] > 0 and not probe["floor"]:
                 # Nothing to stand on at the storey the ring closed at: the way
                 # in is at the ground, where a player walks (walk 2 lane P,
                 # planner 2026-09-27: the keep stable stalls closed at 2 m, where
                 # only their open run end escaped, and recorded it as the front).
-                low = ground_doorways(triangles, (cx, cz), base_y, height,
-                                      probe["floorOffsetM"])
+                low = confirm(ground_doorways(triangles, (cx, cz), base_y, height,
+                                              probe["floorOffsetM"]),
+                              base_y, floor_y)
                 if low:
                     doors, why_not = low, None
                     record["doorwaysMeasuredBelowM"] = probe["floorOffsetM"]
             if not doors:
                 # the leaf pass: a door modelled shut into the shell
-                doors = leaf_doorways(triangles, (cx, cz), floor_y, room_h)
+                doors = confirm(leaf_doorways(triangles, (cx, cz), floor_y, room_h),
+                                floor_y, sill_hi)
                 if doors:
                     why_not = None
             if not doors:
                 doors, point = doorways_retry_off_centre(
                     triangles, plan, (cx, cz), floor_y, room_h)
+                doors = confirm(doors, floor_y, sill_hi)
                 if doors:
                     why_not = None
                     record["doorwayProbeCentreM"] = [round(point[0], 2), round(point[1], 2)]
+            if not doors:
+                doors = sill_doorways(triangles, (cx, cz), floor_y, room_h)
+                if doors:
+                    why_not = None
+                    record["doorwaysMeasuredAboveFloorM"] = round(doors[0]["sillYM"] - floor_y, 2)
             record["doorways"] = doors
+            if closed:
+                record["doorwaysClosedDropped"] = closed
+                if not doors:
+                    why_not = (f"every measured doorway was closed wall by rays "
+                               f"({len(closed)} dropped); the door is a separate piece or the "
+                               f"plugin's own placement")
             if why_not:
                 record["doorwaysWhy"] = why_not
         # A shell with the SHAPE of a room whose faces point outward is either a
@@ -2050,7 +2255,10 @@ def walk_in_open_front(record: dict, setting_row: dict | None) -> None:
 
 
 def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
-              registry_dir: Path = REGISTRY_DIR) -> dict:
+              registry_dir: Path = REGISTRY_DIR, only: set[str] | None = None) -> dict:
+    """The kit's interiors record. `only` re-measures just those asset ids
+    (every asset's bounds are still read, for the door-piece fit); the caller
+    merges them into the existing record (`write_kit --assets`)."""
     import trimesh
 
     manifest = json.loads((kits_dir / f"{kit_name}.kit.json").read_text())
@@ -2071,6 +2279,10 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     for asset in sorted(manifest["assets"], key=lambda a: a["id"]):
         node = _resolve_node(asset, node_names, by_asset_id)
         verts = _asset_vertices(scene, node) if node else None
+        if only is not None and asset["id"] not in only:
+            if verts is not None and len(verts):
+                bounds[asset["id"]] = (verts.min(axis=0), verts.max(axis=0))
+            continue
         triangles = asset_triangles(scene, node) if node else None
         tris_of[asset["id"]] = triangles
         # A composite has an id of its own that the mine has never seen, so its
@@ -2158,10 +2370,21 @@ def upstream_provenance(paths: tuple[Path, ...] = (LINKS_PATH, ASSEMBLIES_PATH))
     return out
 
 
-def write_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> Path:
-    data = index_kit(kit_name, kits_dir)
-    payload = json.dumps(data, indent=1, sort_keys=True) + "\n"
+def write_kit(kit_name: str, kits_dir: Path = KITS_DIR, only: set[str] | None = None) -> Path:
+    data = index_kit(kit_name, kits_dir, only=only)
     out = kits_dir / f"{kit_name}.interiors.json"
+    if only is not None:
+        missing = sorted(only - set(data["assets"]))
+        if missing:
+            raise SystemExit(f"interiors_index: {kit_name} has no asset(s) {', '.join(missing)}")
+        # Merge per asset (decision 0106: a miner merges per asset, never a
+        # whole-kit run for one piece): the other records stay byte-identical.
+        merged = json.loads(out.read_text())
+        merged["assets"].update(data["assets"])
+        merged["assets"] = dict(sorted(merged["assets"].items()))
+        data = {**merged, "provenance": data["provenance"], "rules": data["rules"],
+                "schemaVersion": data["schemaVersion"]}
+    payload = json.dumps(data, indent=1, sort_keys=True) + "\n"
     out.write_text(payload)
     # Tracked record (world/sources/placement/kit-interiors): CI and local
     # validation both read this copy so they see the same data. Only mirror it
@@ -2179,11 +2402,16 @@ def main() -> int:
     ap.add_argument("--kit", action="append", default=None,
                     help="kit name (repeatable); default every non-probe/flora kit")
     ap.add_argument("--kits-dir", default=str(KITS_DIR))
+    ap.add_argument("--assets", nargs="+", default=None,
+                    help="re-measure only these asset ids and merge them into the kit's "
+                         "existing record (needs exactly one --kit)")
     args = ap.parse_args()
 
     kits_dir = Path(args.kits_dir)
+    if args.assets and len(args.kit or []) != 1:
+        ap.error("--assets needs exactly one --kit")
     for name in (args.kit or kit_names(kits_dir)):
-        out = write_kit(name, kits_dir)
+        out = write_kit(name, kits_dir, only=set(args.assets) if args.assets else None)
         data = json.loads(out.read_text())
         tally: dict[str, int] = {}
         by_kind: dict[str, int] = {}

@@ -31,8 +31,10 @@ export interface GroundOverlayPiece {
 
 export interface GroundOverlay {
   readonly id: string;
-  /** "building" (a declared building pad) or "run" (a modular run's pad). */
-  readonly kind?: "building" | "run";
+  /** "building" (a declared building pad), "run" (a modular run's pad) or
+   * "pool" (a layout `pool` op's basin: a circle at the ground minus its
+   * depth, applied with the run pads; its water is the place's `pools[]`). */
+  readonly kind?: "building" | "run" | "pool";
   /** [minX, minZ, maxX, maxZ] of every piece polygon, metres. */
   readonly bboxM: readonly [number, number, number, number];
   readonly blendM: number;

@@ -226,17 +226,23 @@ def import_kits(needed):
     return roots
 
 
-def copy_tree(root, collection, matrix, tint=None):
+def copy_tree(root, collection, matrix, tint=None, uid=None):
+    """A posed copy of an asset's tree; with ``uid``, the top object is named
+    by it and every copy carries a `wb_uid` property (`wb.py bpy`)."""
     mapping = {}
     for src in [root] + list(root.children_recursive):
         dup = src.copy()
         collection.objects.link(dup)
+        if uid is not None:
+            dup["wb_uid"] = uid
         mapping[src] = dup
     for src, dup in mapping.items():
         dup.parent = mapping.get(src.parent) if src.parent in mapping else None
         if dup.parent is not None:
             dup.matrix_parent_inverse = src.matrix_parent_inverse
     top = mapping[root]
+    if uid is not None:
+        name_object(top, uid)
     top.matrix_world = matrix @ root.matrix_world
     if tint is not None:
         for dup in mapping.values():
@@ -247,8 +253,18 @@ def copy_tree(root, collection, matrix, tint=None):
     return top
 
 
-def main():
-    scene, cam, cam_data = scene_setup()
+def name_object(obj, name):
+    """Give ``obj`` exactly ``name``, renaming any other holder first."""
+    other = bpy.data.objects.get(name)
+    if other is not None and other is not obj:
+        other.name = name + ".wbprev"
+    obj.name = name
+
+
+def build_world(scene):
+    """Every JOB piece posed (its top object named by its uid, every copy
+    tagged `wb_uid`), the ground mesh 'ground' and the water 'water', in a
+    'world' collection. Shared by the render and `wb.py bpy`."""
     world = bpy.data.collections.new("world")
     scene.collection.children.link(world)
     needed = {}
@@ -267,10 +283,11 @@ def main():
             if key not in tints:
                 tints[key] = emission(f"tint{len(tints)}", (*p["tint"], 1.0), 0.9)
             tint = tints[key]
-        copy_tree(root, world, Matrix(p["matrix"]), tint)
+        copy_tree(root, world, Matrix(p["matrix"]), tint, uid=p.get("uid"))
     ground = np.load(JOB["ground"])
-    mesh_object("ground", ground["verts"], ground["faces"],
-                grid_material("ground", (0.36, 0.33, 0.26, 1)), world)
+    g = mesh_object("ground", ground["verts"], ground["faces"],
+                    grid_material("ground", (0.36, 0.33, 0.26, 1)), world)
+    name_object(g, "ground")
     if len(ground["water_faces"]):
         water = bpy.data.materials.new("water")
         water.use_nodes = True
@@ -278,7 +295,14 @@ def main():
         b.inputs["Base Color"].default_value = (0.10, 0.28, 0.45, 1)
         b.inputs["Alpha"].default_value = 0.55
         water.blend_method = "BLEND"
-        mesh_object("water", ground["water_verts"], ground["water_faces"], water, world)
+        w = mesh_object("water", ground["water_verts"], ground["water_faces"], water, world)
+        name_object(w, "water")
+    return world
+
+
+def main():
+    scene, cam, cam_data = scene_setup()
+    world = build_world(scene)
     for i, mark in enumerate(JOB.get("marks", [])):
         mat = emission(f"mark{i}", (*mark["colour"], 1.0), 2.0)
         bpy.ops.mesh.primitive_uv_sphere_add(radius=mark.get("radius", 0.15),
@@ -343,10 +367,11 @@ def main():
     print("[wb-render] done")
 
 
-try:
-    main()
-except Exception as exc:  # Blender exits 0 when a --python script raises
-    import traceback
-    traceback.print_exc()
-    print(f"[wb-render] FAILED {exc}")
-    sys.exit(1)
+if __name__ == "__main__":      # bpy_scene.py imports the helpers for `wb.py bpy`
+    try:
+        main()
+    except Exception as exc:  # Blender exits 0 when a --python script raises
+        import traceback
+        traceback.print_exc()
+        print(f"[wb-render] FAILED {exc}")
+        sys.exit(1)

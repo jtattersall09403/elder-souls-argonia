@@ -7,6 +7,7 @@ import { useFrameWork } from "../scheduling/frameWorkContext";
 import type { FrameJobHandle } from "../scheduling/frameWork";
 import { useKitDecoders } from "../assets/useKitDecoders";
 import { KitCache } from "./kitCache";
+import { GroundPaintLayer } from "./GroundPaintLayer";
 import {
   footprintDiagonalM,
   createPlacementResolver,
@@ -30,6 +31,7 @@ import {
   selectCollisionResidency,
 } from "./collisionResidency";
 import {
+  applySettlementAdditive,
   applySettlementDecal,
   applySettlementStillWater,
   applySettlementSurface,
@@ -58,10 +60,12 @@ import { trimeshFromGeometry } from "../physics/floraSolids";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import {
   FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
-  isFireSocket, isLightFixturePlacement, SettlementLightFixtures,
+  isAlwaysLitFixture, isFireSocket, isLightFixturePlacement, isSpriteHolderPlacement,
+  SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
 import { mergeRunColliders } from "./runColliders";
+import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
   type AssembledSettlementBundle, type SettlementBundleSource,
@@ -77,8 +81,11 @@ interface DrawBucket {
   groundLinesM: number[];
   farTransforms: THREE.Matrix4[];
   farGroundLinesM: number[];
-  /** A light fixture's own additive flame card: it glows by night (lighting.ts). */
+  /** An additive effect card (flame, glow overlay): drawn unlit and additive
+   * under `fixtureFactor` (materials.ts), a fire's by day too. */
   flame?: boolean;
+  /** The card's piece burns by day (lighting.ts `isAlwaysLitFixture`). */
+  alwaysLit?: boolean;
 }
 
 /**
@@ -117,6 +124,14 @@ export function flameManifestPath(kits: Record<string, { manifest: string }>): s
   const any = Object.values(kits)[0]?.manifest;
   const folder = any ? any.replace(/[^/]*$/, "") : "kits/";
   return `${folder}${FLAME_TEXTURE_KIT}.kit.json`;
+}
+
+/** The works-v1 `effectTextures` ids a fixture sprite may name (`role` flame or glow). */
+export function spriteTextureIds(manifest: unknown): string[] {
+  const rows = (manifest as { effectTextures?: Record<string, { role?: string }> } | null)?.effectTextures;
+  return Object.entries(rows ?? {})
+    .filter(([, row]) => row?.role === "flame" || row?.role === "glow")
+    .map(([id]) => id).sort();
 }
 
 /** A load failure as text: a failed image load rejects with an Event, which prints as "[object Event]". */
@@ -225,7 +240,12 @@ export async function loadSettlementBundle(
   // runs stepped at every joint. Schema 4 adds the optional `yFinal` flag
   // (16k walk 2); a schema-3 bundle is read as "no placement is final".
   if (bundle.bundleIds.length === 0) return bundle;   // nothing published in range
-  if (bundle.schemaVersion !== 3 && bundle.schemaVersion !== 4) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
+  // Schema 5 adds a place's optional `pools` (16k walk 4); pools on an older
+  // schema are refused (`assertPoolsSchema`).
+  if (bundle.schemaVersion !== 3 && bundle.schemaVersion !== 4 && bundle.schemaVersion !== 5) {
+    throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
+  }
+  assertPoolsSchema(bundle.schemaVersion, bundle.settlements);
   if (bundle.collisionFrame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`unsupported settlement collision frame ${bundle.collisionFrame}`);
   }
@@ -354,6 +374,7 @@ export function solidFrom(
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
   rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures, onError,
+  localSurfaces,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -478,6 +499,18 @@ export function SettlementLayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bundleSource, queryRevision]);
 
+  // The loaded places' pools go to the injected water registry; a place that
+  // leaves the set (or the layer unmounting) clears its own.
+  const registeredPools = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    if (!localSurfaces) return;
+    registeredPools.current = syncPlacePools(localSurfaces, registeredPools.current, bundle?.settlements ?? []);
+  }, [localSurfaces, bundle]);
+  useEffect(() => {
+    if (!localSurfaces) return undefined;
+    return () => { registeredPools.current = syncPlacePools(localSurfaces, registeredPools.current, []); };
+  }, [localSurfaces]);
+
   // Stream kit GLBs by the references in visual range. The complete exemplar
   // shelf is hundreds of MB; loading it province-wide would undo instancing's
   // benefit before the first frame. A route kit or culture shelf arrives only
@@ -571,10 +604,11 @@ export function SettlementLayer({
     };
   }, [baseUrl, smokeManifest, smokeMissing, uniforms, setEffectError]);
 
-  // The billboard flame texture: vanilla's candle flame, published by the
-  // works-v1 build (`effectTextures`), loaded once per bundle. A fixture is
-  // known only after a build (a LIGH record can make one on any layer), and
-  // the file is one small PNG, so every bundle with placements loads it.
+  // The flame and glow sprite textures: every works-v1 `effectTextures` row
+  // whose `role` is flame or glow (build_kit, the NIF fire layer), loaded
+  // once per bundle. A fixture is known only after a build (a LIGH record can
+  // make one on any layer), and the files are a handful of small PNGs, so
+  // every bundle with placements loads them all.
   const flameManifest = useMemo(
     () => (bundle?.placements.length ? flameManifestPath(bundle.kits) : null), [bundle]);
   useEffect(() => {
@@ -586,12 +620,18 @@ export function SettlementLayer({
       if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
       return response.json();
     }).then((manifest: unknown) => {
-      const file = effectTextureFile(manifest, FLAME_TEXTURE_ASSET_ID, manifestUrl);
-      return new THREE.TextureLoader().loadAsync(`${manifestUrl.replace(/[^/]*$/, "")}${file}`);
-    }).then((texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
-      if (cancelled) { texture.dispose(); return; }
-      lightFixtures.setFlameTexture(texture);   // disposes the one it replaces
+      const ids = spriteTextureIds(manifest);
+      if (!ids.includes(FLAME_TEXTURE_ASSET_ID)) ids.push(FLAME_TEXTURE_ASSET_ID);
+      const folder = manifestUrl.replace(/[^/]*$/, "");
+      return Promise.all(ids.map((id) => new THREE.TextureLoader()
+        .loadAsync(`${folder}${effectTextureFile(manifest, id, manifestUrl)}`)
+        .then((texture) => [id, texture] as const)));
+    }).then((textures) => {
+      for (const [id, texture] of textures) {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        if (cancelled) { texture.dispose(); continue; }
+        lightFixtures.setFlameTexture(texture, id);   // disposes the one it replaces
+      }
     }).catch((error: unknown) => {
       if (!cancelled) setEffectError("flame", `settlement flame texture failed: ${describeLoadError(error)}`);
     });
@@ -761,13 +801,17 @@ export function SettlementLayer({
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         const meta = kitAssetMetaOf(manifests, placement);
         const fixture = inDrawRange && isLightFixturePlacement(placement, meta);
-        // An additive (flame or glow card) material glows by night on every
-        // instance of its asset: fixed per material, so a material never
-        // flips glow kind (and recompiles) with what a build happens to hold.
+        const spriteHolder = inDrawRange && !fixture && isSpriteHolderPlacement(placement, meta);
+        // An additive (flame or glow card) material burns on every instance
+        // of its asset: fixed per material (an asset's materials are its
+        // own), so a material never flips glow kind (and recompiles) with what
+        // a build happens to hold.
         const ownFlames = new Set(meta?.additiveMaterials ?? []);
         if (inDrawRange) {
           const box = assetBox(`${placement.kit}|${placement.assetId}`, asset.levels[0]);
-          if (fixture) fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box));
+          if (fixture || spriteHolder) {
+            fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box, fixture));
+          }
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           const piece = {
             longestSideM: assetLongestSideM(`${placement.kit}|${placement.assetId}`, asset.levels[0])
@@ -786,7 +830,10 @@ export function SettlementLayer({
             const bucket = buckets.get(key) ?? {
               part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
             };
-            if (ownFlames.has(part.material.name)) bucket.flame = true;
+            if (ownFlames.has(part.material.name)) {
+              bucket.flame = true;
+              bucket.alwaysLit = isAlwaysLitFixture(meta);
+            }
             const partTransform = transform.clone().multiply(part.localMatrix);
             if (farMerged) {
               bucket.farTransforms.push(partTransform);
@@ -847,9 +894,11 @@ export function SettlementLayer({
         validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
         // A glow material is one the kit build gave an emissive map (the NIF's
         // Glow_Map slot, build_kit rebuild_material), never a name match.
-        const glowMaterial = isSettlementGlowMaterial(material) || (bucket.flame ? "flame" as const : false);
+        const glowMaterial = bucket.flame ? (bucket.alwaysLit ? "flame" as const : "lamp-flame" as const)
+          : isSettlementGlowMaterial(material);
         materialPatch?.(material);
         applySettlementDecal(material);
+        if (bucket.flame) applySettlementAdditive(material);
         applySettlementStillWater(material);
         const drawFlags = settlementMeshDrawFlags(material);
         let depthMaterial: THREE.MeshDepthMaterial | undefined;
@@ -1049,6 +1098,8 @@ export function SettlementLayer({
       <group key="settlement-layer" ref={root} name="settlement-layer" />
       {smoke && <primitive key="settlement-smoke" object={smoke.mesh} />}
       <primitive key="settlement-light-fixtures" object={lightFixtures.group} />
+      <GroundPaintLayer key="settlement-ground-paint" baseUrl={baseUrl}
+        settlements={bundle?.settlements} groundAt={groundAt} />
     </>
   );
 }

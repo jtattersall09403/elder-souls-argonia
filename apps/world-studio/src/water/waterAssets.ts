@@ -8,6 +8,7 @@ import { waterTimeS } from "./waterClock";
 import { lastWeatherSample } from "../weather/weatherState";
 import { primeWetnessUniforms } from "./groundWetness";
 import type { WaterAssets } from "@elder-souls/game-core/water/render/types";
+import { LocalWaterSurfaces } from "@elder-souls/game-core/water/localSurfaces";
 export type { WaterAssets } from "@elder-souls/game-core/water/render/types";
 
 /** Studio-only preview controls and cache. Runtime loading/decoding lives in
@@ -72,6 +73,21 @@ async function waterfallTextureUrls(base: string): Promise<Partial<Record<Waterf
 }
 
 const cache = new Map<string, Promise<WaterAssets>>();
+
+/** The places' local still water (spring pools, cisterns; 16k walk 4), one
+ * registry per base beside the cached water assets it belongs with: the
+ * settlement layer registers each loaded place's `pools` into it and the
+ * water surface draws them (`StudioWater`). Injected as a prop from here,
+ * never read as a global inside `packages/`. */
+const localSurfacesByBase = new Map<string, LocalWaterSurfaces>();
+export function sharedLocalSurfaces(base: string): LocalWaterSurfaces {
+  let surfaces = localSurfacesByBase.get(base);
+  if (!surfaces) {
+    surfaces = new LocalWaterSurfaces();
+    localSurfacesByBase.set(base, surfaces);
+  }
+  return surfaces;
+}
 export function sharedWaterAssets(base: string): Promise<WaterAssets> {
   const cached = cache.get(base);
   if (cached) return cached;
@@ -89,6 +105,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     windSpeedMS: () => lastWeatherSample()?.windSpeedMS ?? 0,
     waterfallTextureUrls,
     waterfallKitUrl: `${base}${WATERFALL_GEOMETRY}`,
+    localSurfaces: sharedLocalSurfaces(base),
   })).then((assets) => {
     // the terrain wet band samples the same rasters
     primeWetnessUniforms(assets);

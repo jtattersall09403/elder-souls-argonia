@@ -25,8 +25,15 @@ function loaderFor(raw: unknown) {
   const ids = [...b.placements.map((p) => p.assetId), ...(b.substitutions ?? []).map((s) => s.standInAsset)];
   const kitsLoaded: string[] = [];
   const loader = new InteriorLoader("/base/", {
-    fetchJson: async () => structuredClone(raw),
-    loadKit: async (kit) => { kitsLoaded.push(kit.id); return new Map(ids.map((id) => [id, box(id)] as const)); },
+    // a kit's parts index (kitParts.ts) lists every id; anything else is the bundle
+    fetchJson: async (url) => {
+      const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
+      if (!kit) return structuredClone(raw);
+      kitsLoaded.push(kit);
+      return { schemaVersion: 1, kit, source: { bytes: 0, sha256: "" },
+        assets: Object.fromEntries(ids.map((id) => [id, { file: "x.glb", bytes: 0, vertices: 0, triangles: 0, textures: [] }])) };
+    },
+    loadPart: async (_kit, assetId) => new Map([[assetId, box(assetId)] as const]),
   });
   return { loader, kitsLoaded };
 }

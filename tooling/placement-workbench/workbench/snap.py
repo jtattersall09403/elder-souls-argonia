@@ -319,16 +319,27 @@ approved it."""
 UNMINED_RE = re.compile(r"^reader-approved r[0-9]+$")
 
 
-def unmined_refusal(cat, asset: str, scale: float, approval: str | None) -> str | None:
+def unmined_refusal(cat, asset: str, scale: float, approval: str | None,
+                    hanging: bool = False) -> str | None:
     """Why a small unmined mount of ``asset`` at ``scale`` is refused, or
     None: the approval must read 'reader-approved rN', the longest plan side
     be under UNMINED_MAX_PLAN_M and the height under UNMINED_MAX_HEIGHT_M.
-    Shared by `mount --unmined` and the yard sets' `unmined` member field."""
+    Shared by `mount --unmined` and the yard sets' `unmined` member field;
+    ``hanging`` (`mount --hang`, R53) drops the size caps."""
     if not UNMINED_RE.match(approval or ""):
         return (f"an unmined mount must name the render round that approved it "
                 f"('reader-approved rN'), got {approval!r}")
     size = [float(v) * scale for v in cat.row(asset)["sizeM"]]
     plan, height = max(size[0], size[1]), size[2]
+    if (cat.row(asset).get("anchorClass") or "") == "fx":
+        # an effect (a flame in its brazier bowl) is exempt from the size caps
+        # (planner ruling 2, CLAYWATER2 2026-09-28); the approval stands
+        return None
+    if hanging:
+        # R53: a hanging piece is exempt from the size caps (histflower01's
+        # strand is 1.16 m across and 3.46 m long; planner confirmed the plan
+        # cap's exemption, walk 4 lane COMPILE); the approval stands
+        return None
     if plan >= UNMINED_MAX_PLAN_M or height >= UNMINED_MAX_HEIGHT_M:
         return (f"no mined mount pair hangs {asset}, and its longest plan side {plan:.3f} m / "
                 f"height {height:.3f} m is not under {UNMINED_MAX_PLAN_M} m / "
@@ -406,6 +417,130 @@ def unmined_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
     return {"pair": prov}
 
 
+HANG_AXIS_M = 0.05
+"""A hanging child's attachment point: its highest vertex within this of its
+pivot's vertical axis (R53, walk 4 lane WB)."""
+HANG_MIN_H_M, HANG_MAX_H_M = 1.8, 4.0
+"""`mount --hang` defaults: the branch hit this high over the ground under it."""
+HANG_SEARCH_M = 3.0          # rings of upward rays out to this radius from the target
+HANG_RING_M = 0.02           # ring spacing (and the ray spacing along a ring) out to 1 m,
+HANG_RING_FAR_M = 0.1        # ... then this
+HANG_NORMAL_Z = -0.2         # a branch underside: the hit face's normal z at most this
+HANG_THICK_M = 0.6           # ... and its top (the ray's exit) at most this above it
+
+
+def hang_point(cat, asset: str) -> tuple[np.ndarray, str]:
+    """(kit-frame point, how) a hanging child hangs by: its highest vertex
+    within HANG_AXIS_M of its pivot axis (a lantern's hook, a flower strand's
+    top); else the top centre of its bounds. No kit manifest carries a mined
+    attachment node yet (walk 4 lane WB: `node` is the GLB node name)."""
+    v = np.asarray(cat.mesh(asset).vertices)
+    near = np.hypot(v[:, 0], v[:, 1]) <= HANG_AXIS_M
+    if near.any():
+        k = int(np.argmax(np.where(near, v[:, 2], -np.inf)))
+        return v[k].copy(), "axis-top-vertex"
+    lo, hi = cat.mesh(asset).bounds
+    return np.array([(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, hi[2]]), "bounds-top"
+
+
+def hang_mount(cat, scene, child: Piece, parent: Piece, approval: str | None,
+               min_h: float = HANG_MIN_H_M, max_h: float = HANG_MAX_H_M,
+               along_m: float | None = None, bearing_deg: float | None = None,
+               search_m: float = HANG_SEARCH_M) -> dict:
+    """R53 branch-hang: rays straight up from rings round a target plan point
+    (the child where it stands, or ``along_m`` out from the parent's pivot on
+    ``bearing_deg``) onto the parent's own mesh (trimesh, exact on the mesh
+    the workbench measures). A ray counts when the first surface over the
+    child is a branch: closed (a downward-facing underside, then the branch's
+    top where the ray leaves it) or open (an upward top first, a one-sided
+    mesh); the hook rests on that top, which must stand ``min_h`` .. ``max_h``
+    over the padded ground under it; the nearest such seat to the
+    target wins and the child's hang point (`hang_point`) is put on it. The
+    mined Mud Mother lanterns on their Hist tree (kit-mounts-mined, 3 points)
+    come back within 0.1 m (tests/test_walk4_wb.py).
+    Hanging pieces are exempt from the unmined size caps; the render-round
+    approval stands (0102 decision 5)."""
+    from . import pads
+    if cat is None:
+        raise ValueError("mount --hang needs the catalogue")
+    if parent.y is None:
+        raise ValueError(f"{parent.uid} has no height: settle it first")
+    why = unmined_refusal(cat, child.asset, child.scale, approval, hanging=True)
+    if why:
+        raise ValueError(f"hang {child.uid} on {parent.uid}: {why}")
+    g = pads.ground_for(cat, scene, None)
+    hp, how = hang_point(cat, child.asset)
+    a = np.asarray(child.matrix()[0])
+    d = a @ hp                                          # pivot -> hang point (wb frame)
+    if along_m is not None or bearing_deg is not None:
+        b = math.radians(float(bearing_deg if bearing_deg is not None else child.yaw))
+        r = float(along_m if along_m is not None else 0.0)
+        tx, tn = parent.x + r * math.sin(b), -parent.z + r * math.cos(b)
+    else:
+        tx, tn = child.x + float(d[0]), -child.z + float(d[1])
+    mesh = cat.mesh(parent.asset).copy().apply_transform(_t4(parent))
+    normals = np.asarray(mesh.face_normals)
+    rays = 0
+    rings = np.concatenate([np.arange(0.0, min(1.0, search_m) + 1e-9, HANG_RING_M),
+                            np.arange(1.0 + HANG_RING_FAR_M, search_m + 1e-9, HANG_RING_FAR_M)])
+    for ring in rings:
+        step = HANG_RING_M if ring <= 1.0 else HANG_RING_FAR_M
+        n = 1 if ring == 0 else max(6, int(2 * math.pi * ring / step))
+        ang = np.linspace(0.0, 2 * math.pi, n, endpoint=False)
+        xs, ns = tx + ring * np.sin(ang), tn + ring * np.cos(ang)
+        grounds = np.array([float(g.chunk_height(float(x), float(-y))) for x, y in zip(xs, ns)])
+        origins = np.column_stack([xs, ns, grounds + 0.05])
+        rays += n
+        locs, idx, tri = mesh.ray.intersects_location(origins, np.tile([0.0, 0.0, 1.0], (n, 1)),
+                                                      multiple_hits=True)
+        per = {}
+        for loc, i, t in zip(locs, idx, tri):
+            per.setdefault(int(i), []).append((float(loc[2]), loc, t))
+        best = None
+        for i, hits in per.items():
+            hits.sort(key=lambda h: h[0])
+            # the first surface over the child must be a branch: a closed one
+            # (a downward underside, then its top where the ray leaves it,
+            # within HANG_THICK_M) or an open one (an upward top first); the
+            # hook rests on that top, nothing of the parent hangs below it
+            z0, first, t = hits[0]
+            nz0 = normals[t][2]
+            if nz0 <= HANG_NORMAL_Z:
+                top = hits[1] if len(hits) > 1 else None
+                if top is None or normals[top[2]][2] < -HANG_NORMAL_Z or top[0] - z0 > HANG_THICK_M:
+                    continue
+                loc, under, kind = top[1], first, "closed"
+            elif nz0 >= -HANG_NORMAL_Z:
+                loc, under, kind = first, first, "open"
+            else:
+                continue                            # a vertical face: a trunk side
+            over = float(loc[2]) - float(grounds[i])
+            if not (min_h <= over <= max_h):
+                continue
+            off = math.hypot(float(loc[0]) - tx, float(loc[1]) - tn)
+            if best is None or off < best[0]:
+                best = (off, loc, over, kind, round(float(loc[2]) - float(under[2]), 3))
+        if best is not None:
+            break
+    else:
+        raise ValueError(f"hang {child.uid}: no downward-facing surface of {parent.uid} "
+                         f"{min_h}-{max_h} m over the ground within {search_m} m of "
+                         f"({tx:.2f}, {-tn:.2f}) ({rays} rays)")
+    off, hit, over, kind, thick = best
+    child.x = float(hit[0]) - float(d[0])
+    child.z = -(float(hit[1]) - float(d[1]))
+    child.y = float(hit[2]) - float(d[2])
+    child.settledBy = f"mount:{parent.uid}"
+    prov = {"kind": "unmined", "unmined": approval, "on": "branch", "hangPoint": how,
+            "hitM": [round(float(hit[0]), 3), round(-float(hit[1]), 3), round(float(hit[2]), 3)],
+            "hitOverGroundM": round(over, 3), "branch": kind, "branchThicknessM": thick,
+            "offTargetM": round(off, 3), "rays": rays,
+            "yawDeg": (child.yaw - parent.yaw) % 360.0}
+    child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
+    child.notes.append(f"hung on {parent.uid} at {over:.2f} m over the ground: {approval}")
+    return {"pair": prov}
+
+
 def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int = 0,
           unmined: str | None = None, cat=None, wall: bool = False) -> dict:
     """Seat a wall / hanging child on its parent by the mined mount pair:
@@ -433,11 +568,17 @@ def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int 
         pt = pair["points"][min(point, len(pair["points"]) - 1)]
         offset, yaw = list(pt["offsetM"]), float(pt.get("yawDeg", 0.0))
     _set_from_parent(child, parent, offset[:2], offset[2], yaw)
+    # the child's own scale over its parent's, as the plugin placed it (an
+    # effect scaled into its host, CLAYWATER2 ruling 2); a pair without it
+    # keeps the child's scale as authored
+    if pair.get("childScaleInParent") is not None:
+        child.scale = parent.scale * float(pair["childScaleInParent"])
     child.settledBy = f"mount:{parent.uid}"
     child.role = {**child.role, "mountedOn": parent.uid, "mountPair": {
         "kind": pair["kind"], "n": pair.get("n"), "offsetM": offset, "yawDeg": yaw}}
     return {"pair": {k: pair.get(k) for k in ("kind", "n", "offsetM", "yawDeg", "alongAxis",
-                                              "alongMinM", "alongMaxM", "evidence")}}
+                                              "alongMinM", "alongMaxM", "evidence",
+                                              "childScaleInParent")}}
 
 
 def runtime_mounted_pose(parent: Piece, mount_offset_m, child_yaw_deg: float) -> dict:

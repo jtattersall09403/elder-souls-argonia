@@ -91,8 +91,8 @@
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS (exterior and interior cells)",
  "method": "Real mesh-to-mesh contact per placed unit-scale kit reference: candidates are STAT/TREE refs (this cell and the 8 neighbours) whose bounds come within 0.5 m; both meshes placed with the recorded position, rotation and scale (kit GLB, else the vault NIF via the mesh cache); 300 seeded child surface samples; contact = within 0.03 m of the parent surface (trimesh proximity), or at/below the cell LAND. A patch is under/top/side by its mean outward normal in the child frame (z <= -0.5, >= 0.5, else side); terrain is under. A reference with any under contact stands: deck on a kit piece, else ground; its other contacts are abuts. Otherwise side contact is wall, top contact is hanging only with no side contact, none is ground; a top contact whose parent reaches no more than 0.05 m below the contact height lies ON the child (rests-on, an abut, never a vote). A child whose foot is set into a piece (lowest point within 0.05 m of its lowest, top above its top, contact on its top face) stands on it. An interior floor is a ray cast down from the child's footprint through each candidate mesh (0.3 m reach). A door with no frame contact hangs (category row). A pivot within 0.10 m of a placed water surface (a reference whose base model lies under meshes/water/, pivot inside its bounds) is water. Contacts decide first everywhere (terrain contact only on ground below the cell or placed water surface is water); a reference with no contact at all is water in a water column (the cell water, else the worldspace default, above the LAND, else the flat placeholder or worldspace default land, at its pivot), at any depth, and ground (free) outside one. Interior: a shell piece (architecture, dungeon-kit, ruin) that no non-shell static or LAND supports and whose every structural contact is a shell (kit shells, copies of itself, and vanilla dungeon-kit statics under meshes/dungeons/; kit clutter ignored), or whose support from below is only shells, is ground (support interior-zero). Outside a water column an exterior reference with no usable LAND (missing, or an unresolved flat placeholder) is dropped (droppedNoLand); one whose pivot lies more than 2 m below the LAND is ground (buriedGround). Base records resolve through each plugin's on-disk masters; exterior cells are merged over the load order (vanilla, .esm, .esp; last LAND, water and reference override wins; interiors too) before contact is measured. The vote per asset is the defining file's usable references, others only while it has fewer than 3; pairs use every file's. Asset class = majority over n >= 3 references, or all of n 1..2 agreeing (thin), else ground; water first from the mined waterline; when the drop leaves n < 3: water on the sink waterline (evidence sink-waterline), else the placement-policy row (water-zero water, else ground; evidence policy); an asset policy row naming a class (water-zero water, deck deck) decides whatever the vote share, a kit row naming one only an ambiguous vote (1 <= n < 3 or winning share < 0.6) of an asset with no asset row (evidence policy, votedClass); a thin water vote from references with no contact and no mined waterline takes its policy row (asset, else kit, else ground; evidence policy); unplaced assets are ground. A water-class asset with no sink waterline carries waterline: cell water minus pivot, median over the defining file's water-column references (n >= 3, evidence column), else the policy row's fallbackWaterlineM (evidence policy). Ground (with free) and deck references pool as one support vote before the plurality, then split ground vs deck (tie ground); an assetPlacement row's anchorClass decides ahead of everything (evidence policy, votedClass; its designedWaterlineM is the waterline). Non-kit statics under effects/, magic/ and sky/ are never candidates; kit clutter never supports a shell; an interior ray-cast floor within 0.10 m under the footprint supports; a non-kit static's mesh comes from its pool, then the BSA beside the pool's plugins, then vanilla. Pairs: every parent a wall (hanging) reference is in side (top) contact with (a kit parent must be ground or deck; a non-kit static is named plugin-static:<model>); a minority wall or hanging class with at least 20 references over every file also gets its pairs, marked mountClass. worldgen/mine_mounts.py",
  "pairKindCounts": {
-  "band": 198,
-  "points": 2213
+  "band": 203,
+  "points": 2263
  },
  "cellsWalked": 52531,
  "candidatePairs": 1452201,
@@ -14503,9 +14503,9 @@
    "anchorClassEvidence": "plugin",
    "n": 198,
    "refClasses": {
-    "deck": 17,
+    "deck": 23,
     "free": 2,
-    "ground": 174,
+    "ground": 168,
     "wall": 5
    },
    "abuts": {
@@ -76942,6 +76942,1776 @@
    ],
    "yawDeg": 67.56,
    "mountClass": "wall"
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "bmv:landscape/trees/cypress1",
+   "parentScale": 2.0,
+   "n": 3,
+   "evidence": "plugin",
+   "childScaleInParent": 0.95,
+   "alongAxis": "y",
+   "outM": 6.7899,
+   "upM": 20.1223,
+   "alongMinM": 0.0982,
+   "alongMaxM": 0.1734,
+   "offsetM": [
+    6.7899,
+    0.1477,
+    20.1223
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "bmv:landscape/trees/gkbcyrodilcypress2",
+   "parentScale": 1.9,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.5263,
+   "points": [
+    {
+     "offsetM": [
+      -2.6863,
+      -0.2071,
+      0.1135
+     ],
+     "n": 1,
+     "yawDeg": 268.33
+    }
+   ],
+   "offsetM": [
+    -2.6863,
+    -0.2071,
+    0.1135
+   ],
+   "yawDeg": 268.33
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7",
+   "parentScale": 1.6,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.5625,
+   "points": [
+    {
+     "offsetM": [
+      -1.5646,
+      -1.6358,
+      2.4536
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    },
+    {
+     "offsetM": [
+      1.4224,
+      -1.6358,
+      2.4536
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    -1.5646,
+    -1.6358,
+    2.4536
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int",
+   "parentScale": 3.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.19,
+   "points": [
+    {
+     "offsetM": [
+      -2.3483,
+      0.7525,
+      0.3414
+     ],
+     "n": 1,
+     "yawDeg": 342.0
+    }
+   ],
+   "offsetM": [
+    -2.3483,
+    0.7525,
+    0.3414
+   ],
+   "yawDeg": 342.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
+   "parentScale": 1.4,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 2.5786,
+   "points": [
+    {
+     "offsetM": [
+      4.5158,
+      -4.9335,
+      -1.2598
+     ],
+     "n": 1,
+     "yawDeg": 15.0
+    }
+   ],
+   "offsetM": [
+    4.5158,
+    -4.9335,
+    -1.2598
+   ],
+   "yawDeg": 15.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "kotm:argonia/blackwood/walkway05",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      -4.4424,
+      7.3137,
+      1.5403
+     ],
+     "n": 1,
+     "yawDeg": 274.06
+    }
+   ],
+   "offsetM": [
+    -4.4424,
+    7.3137,
+    1.5403
+   ],
+   "yawDeg": 274.06
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "kotm:argonia/clutter/burner02",
+   "parentScale": 1.0,
+   "n": 6,
+   "evidence": "plugin",
+   "alongAxis": "y",
+   "outM": -0.4972,
+   "upM": 1.1239,
+   "alongMinM": -0.0073,
+   "alongMaxM": 0.0466,
+   "offsetM": [
+    -0.4972,
+    0.0248,
+    1.1239
+   ],
+   "yawDeg": 49.96
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/bones/mammothskull1",
+   "parentScale": 1.3,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.6154,
+   "points": [
+    {
+     "offsetM": [
+      -0.0676,
+      0.0149,
+      1.7506
+     ],
+     "n": 1,
+     "yawDeg": 19.0
+    }
+   ],
+   "offsetM": [
+    -0.0676,
+    0.0149,
+    1.7506
+   ],
+   "yawDeg": 19.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/cookingstone01",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.61,
+   "points": [
+    {
+     "offsetM": [
+      0.0081,
+      0.0069,
+      0.3207
+     ],
+     "n": 2,
+     "yawDeg": 66.42
+    }
+   ],
+   "offsetM": [
+    0.0081,
+    0.0069,
+    0.3207
+   ],
+   "yawDeg": 66.42
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/deadanimals/hanginganimalsring01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.78,
+   "points": [
+    {
+     "offsetM": [
+      0.0368,
+      0.1094,
+      2.3405
+     ],
+     "n": 1,
+     "yawDeg": 8.59
+    }
+   ],
+   "offsetM": [
+    0.0368,
+    0.1094,
+    2.3405
+   ],
+   "yawDeg": 8.59
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "parentScale": 1.0,
+   "n": 6,
+   "evidence": "plugin",
+   "alongAxis": "y",
+   "outM": -0.1108,
+   "upM": 0.1119,
+   "alongMinM": -0.0191,
+   "alongMaxM": 0.0971,
+   "offsetM": [
+    -0.1108,
+    0.0653,
+    0.1119
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/hay/haymound01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.64,
+   "points": [
+    {
+     "offsetM": [
+      0.006,
+      0.3223,
+      0.89
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    0.006,
+    0.3223,
+    0.89
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/imperial/impbrazier01",
+   "parentScale": 1.0,
+   "n": 116,
+   "evidence": "plugin",
+   "childScaleInParent": 0.8,
+   "alongAxis": "x",
+   "outM": -0.0011,
+   "upM": 0.3181,
+   "alongMinM": -0.5058,
+   "alongMaxM": 0.063,
+   "offsetM": [
+    -0.0004,
+    -0.0011,
+    0.3181
+   ],
+   "yawDeg": 0.19
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.1,
+   "points": [
+    {
+     "offsetM": [
+      -0.8114,
+      1.3932,
+      0.1708
+     ],
+     "n": 1,
+     "yawDeg": 231.54
+    }
+   ],
+   "offsetM": [
+    -0.8114,
+    1.3932,
+    0.1708
+   ],
+   "yawDeg": 231.54
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/woodfires/campfire01burning",
+   "parentScale": 1.4,
+   "n": 6,
+   "evidence": "plugin",
+   "childScaleInParent": 0.7143,
+   "points": [
+    {
+     "offsetM": [
+      -0.5622,
+      -0.2282,
+      0.0342
+     ],
+     "n": 1,
+     "yawDeg": 270.0
+    },
+    {
+     "offsetM": [
+      -0.358,
+      -0.5534,
+      0.0342
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      -0.2761,
+      0.0311,
+      -0.0176
+     ],
+     "n": 1,
+     "yawDeg": 315.0
+    },
+    {
+     "offsetM": [
+      0.0325,
+      -0.1016,
+      0.0254
+     ],
+     "n": 1,
+     "yawDeg": 89.9
+    },
+    {
+     "offsetM": [
+      0.0987,
+      0.5293,
+      0.0342
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      0.4903,
+      -0.3445,
+      0.0342
+     ],
+     "n": 1,
+     "yawDeg": 315.0
+    }
+   ],
+   "offsetM": [
+    -0.5622,
+    -0.2282,
+    0.0342
+   ],
+   "yawDeg": 270.0
+  },
+  {
+   "kind": "band",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:clutter/woodfires/fireplacewood01burning",
+   "parentScale": 1.0,
+   "n": 3,
+   "evidence": "plugin",
+   "childScaleInParent": 1.42,
+   "alongAxis": "x",
+   "outM": 0.0455,
+   "upM": 0.0435,
+   "alongMinM": -0.1218,
+   "alongMaxM": 0.2153,
+   "offsetM": [
+    0.0261,
+    0.0455,
+    0.0435
+   ],
+   "yawDeg": 331.23
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largehall/implhall1way01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      1.2897,
+      -1.8831,
+      0.0106
+     ],
+     "n": 1,
+     "yawDeg": 90.0
+    }
+   ],
+   "offsetM": [
+    1.2897,
+    -1.8831,
+    0.0106
+   ],
+   "yawDeg": 90.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomcorner01",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.8,
+   "points": [
+    {
+     "offsetM": [
+      -1.9611,
+      -3.3024,
+      5.2676
+     ],
+     "n": 1,
+     "yawDeg": 135.0
+    },
+    {
+     "offsetM": [
+      -0.8164,
+      1.4566,
+      6.1656
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    -1.9611,
+    -3.3024,
+    5.2676
+   ],
+   "yawDeg": 135.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomcorner02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.6,
+   "points": [
+    {
+     "offsetM": [
+      -0.3407,
+      -0.705,
+      3.4308
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    -0.3407,
+    -0.705,
+    3.4308
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomcorner04",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.76,
+   "points": [
+    {
+     "offsetM": [
+      0.1582,
+      3.0458,
+      5.9373
+     ],
+     "n": 1,
+     "yawDeg": 131.0
+    }
+   ],
+   "offsetM": [
+    0.1582,
+    3.0458,
+    5.9373
+   ],
+   "yawDeg": 131.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomicorner01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      -2.1478,
+      -0.1928,
+      8.4633
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    -2.1478,
+    -0.1928,
+    8.4633
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomicorner02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      2.1483,
+      -0.3458,
+      8.4567
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    2.1483,
+    -0.3458,
+    8.4567
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroommid01",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.87,
+   "points": [
+    {
+     "offsetM": [
+      -2.294,
+      3.2869,
+      1.0773
+     ],
+     "n": 1,
+     "yawDeg": 231.57
+    },
+    {
+     "offsetM": [
+      2.2361,
+      3.2869,
+      1.032
+     ],
+     "n": 1,
+     "yawDeg": 31.99
+    }
+   ],
+   "offsetM": [
+    -2.294,
+    3.2869,
+    1.0773
+   ],
+   "yawDeg": 231.57
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroompillar01",
+   "parentScale": 1.145,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.6643,
+   "points": [
+    {
+     "offsetM": [
+      -2.0047,
+      -0.9627,
+      3.4308
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      -1.5381,
+      0.8573,
+      3.2737
+     ],
+     "n": 1,
+     "yawDeg": 29.79
+    }
+   ],
+   "offsetM": [
+    -2.0047,
+    -0.9627,
+    3.4308
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/largeroom/implroomwall01",
+   "parentScale": 1.0,
+   "n": 3,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      -2.1478,
+      -0.1928,
+      8.4633
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    },
+    {
+     "offsetM": [
+      -1.6366,
+      -2.6786,
+      3.4308
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    },
+    {
+     "offsetM": [
+      2.1483,
+      -0.3458,
+      8.4567
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    -2.1478,
+    -0.1928,
+    8.4633
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomcorner02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.59,
+   "points": [
+    {
+     "offsetM": [
+      0.0213,
+      -0.2171,
+      1.6367
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    0.0213,
+    -0.2171,
+    1.6367
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomicorner02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.63,
+   "points": [
+    {
+     "offsetM": [
+      -0.1729,
+      -1.6522,
+      1.3144
+     ],
+     "n": 1,
+     "yawDeg": 142.52
+    }
+   ],
+   "offsetM": [
+    -0.1729,
+    -1.6522,
+    1.3144
+   ],
+   "yawDeg": 142.52
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomicorner04",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.63,
+   "points": [
+    {
+     "offsetM": [
+      -0.8326,
+      0.9521,
+      1.3144
+     ],
+     "n": 1,
+     "yawDeg": 191.22
+    }
+   ],
+   "offsetM": [
+    -0.8326,
+    0.9521,
+    1.3144
+   ],
+   "yawDeg": 191.22
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improommid01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.93,
+   "points": [
+    {
+     "offsetM": [
+      1.7163,
+      -1.7076,
+      1.5903
+     ],
+     "n": 1,
+     "yawDeg": 180.0
+    }
+   ],
+   "offsetM": [
+    1.7163,
+    -1.7076,
+    1.5903
+   ],
+   "yawDeg": 180.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomwall01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.5,
+   "points": [
+    {
+     "offsetM": [
+      -0.554,
+      -0.0789,
+      0.9243
+     ],
+     "n": 1,
+     "yawDeg": 348.54
+    }
+   ],
+   "offsetM": [
+    -0.554,
+    -0.0789,
+    0.9243
+   ],
+   "yawDeg": 348.54
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomwall02",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.575,
+   "points": [
+    {
+     "offsetM": [
+      -0.4163,
+      -1.786,
+      1.3144
+     ],
+     "n": 1,
+     "yawDeg": 191.22
+    },
+    {
+     "offsetM": [
+      0.2631,
+      -0.9469,
+      1.7136
+     ],
+     "n": 1,
+     "yawDeg": 20.05
+    }
+   ],
+   "offsetM": [
+    -0.4163,
+    -1.786,
+    1.3144
+   ],
+   "yawDeg": 191.22
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/imperial/smallroom/improomwall03",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "points": [
+    {
+     "offsetM": [
+      0.4365,
+      0.9861,
+      0.2267
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    0.4365,
+    0.9861,
+    0.2267
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/mines/clutter/minewoodbeam01",
+   "parentScale": 1.28,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.4922,
+   "points": [
+    {
+     "offsetM": [
+      -0.6324,
+      -0.313,
+      -0.4419
+     ],
+     "n": 2,
+     "yawDeg": 7.26
+    }
+   ],
+   "offsetM": [
+    -0.6324,
+    -0.313,
+    -0.4419
+   ],
+   "yawDeg": 7.26
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/nordic/exterior/dragonbridge01",
+   "parentScale": 0.43,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 2.3256,
+   "points": [
+    {
+     "offsetM": [
+      0.249,
+      -5.457,
+      -4.8956
+     ],
+     "n": 1,
+     "yawDeg": 234.68
+    }
+   ],
+   "offsetM": [
+    0.249,
+    -5.457,
+    -4.8956
+   ],
+   "yawDeg": 234.68
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/nordic/exterior/nortmpextplattower02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.32,
+   "points": [
+    {
+     "offsetM": [
+      0.0348,
+      0.0084,
+      5.3089
+     ],
+     "n": 1,
+     "yawDeg": 319.31
+    }
+   ],
+   "offsetM": [
+    0.0348,
+    0.0084,
+    5.3089
+   ],
+   "yawDeg": 319.31
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:dungeons/ship/shiplongboatwreck02",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.17,
+   "points": [
+    {
+     "offsetM": [
+      -0.5789,
+      -0.504,
+      5.7359
+     ],
+     "n": 1,
+     "yawDeg": 152.41
+    }
+   ],
+   "offsetM": [
+    -0.5789,
+    -0.504,
+    5.7359
+   ],
+   "yawDeg": 152.41
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/deadshrub01",
+   "parentScale": 1.0,
+   "n": 9,
+   "evidence": "plugin",
+   "childScaleInParent": 1.2614,
+   "points": [
+    {
+     "offsetM": [
+      1.0904,
+      1.4199,
+      1.803
+     ],
+     "n": 2,
+     "yawDeg": 52.14
+    },
+    {
+     "offsetM": [
+      -1.9719,
+      -1.4471,
+      0.5395
+     ],
+     "n": 1,
+     "yawDeg": 271.94
+    },
+    {
+     "offsetM": [
+      -1.4877,
+      -0.7638,
+      2.0641
+     ],
+     "n": 1,
+     "yawDeg": 135.82
+    },
+    {
+     "offsetM": [
+      -1.1828,
+      2.9907,
+      0.0697
+     ],
+     "n": 1,
+     "yawDeg": 274.06
+    },
+    {
+     "offsetM": [
+      -0.7485,
+      -0.8925,
+      1.2297
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      -0.7104,
+      1.4609,
+      2.0113
+     ],
+     "n": 1,
+     "yawDeg": 121.86
+    },
+    {
+     "offsetM": [
+      0.4515,
+      -0.2622,
+      0.345
+     ],
+     "n": 1,
+     "yawDeg": 323.45
+    },
+    {
+     "offsetM": [
+      1.0419,
+      2.5917,
+      -0.0519
+     ],
+     "n": 1,
+     "yawDeg": 339.37
+    }
+   ],
+   "offsetM": [
+    1.0904,
+    1.4199,
+    1.803
+   ],
+   "yawDeg": 52.14
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/reachbush01",
+   "parentScale": 0.94,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.1277,
+   "points": [
+    {
+     "offsetM": [
+      0.6958,
+      -0.3016,
+      1.6899
+     ],
+     "n": 1,
+     "yawDeg": 339.95
+    }
+   ],
+   "offsetM": [
+    0.6958,
+    -0.3016,
+    1.6899
+   ],
+   "yawDeg": 339.95
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/reachshrub01",
+   "parentScale": 0.895,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 1.1745,
+   "points": [
+    {
+     "offsetM": [
+      -0.6262,
+      -0.0132,
+      1.8571
+     ],
+     "n": 1,
+     "yawDeg": 291.25
+    },
+    {
+     "offsetM": [
+      0.4265,
+      -1.4081,
+      0.5152
+     ],
+     "n": 1,
+     "yawDeg": 205.7
+    }
+   ],
+   "offsetM": [
+    -0.6262,
+    -0.0132,
+    1.8571
+   ],
+   "yawDeg": 291.25
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/swordfern05",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.76,
+   "points": [
+    {
+     "offsetM": [
+      0.4064,
+      -0.0484,
+      1.1631
+     ],
+     "n": 2,
+     "yawDeg": 288.83
+    }
+   ],
+   "offsetM": [
+    0.4064,
+    -0.0484,
+    1.1631
+   ],
+   "yawDeg": 288.83
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/thicket01",
+   "parentScale": 0.905,
+   "n": 6,
+   "evidence": "plugin",
+   "childScaleInParent": 1.2535,
+   "points": [
+    {
+     "offsetM": [
+      -1.6669,
+      -0.2654,
+      0.9554
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      0.1363,
+      -1.2922,
+      1.3583
+     ],
+     "n": 1,
+     "yawDeg": 131.59
+    },
+    {
+     "offsetM": [
+      0.9521,
+      -1.5741,
+      0.0584
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    },
+    {
+     "offsetM": [
+      1.1658,
+      1.3517,
+      1.2689
+     ],
+     "n": 1,
+     "yawDeg": 222.41
+    },
+    {
+     "offsetM": [
+      1.1735,
+      -1.2493,
+      1.9221
+     ],
+     "n": 1,
+     "yawDeg": 169.58
+    },
+    {
+     "offsetM": [
+      1.234,
+      0.6387,
+      1.8446
+     ],
+     "n": 1,
+     "yawDeg": 149.44
+    }
+   ],
+   "offsetM": [
+    -1.6669,
+    -0.2654,
+    0.9554
+   ],
+   "yawDeg": 0.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/plants/tundrashrub01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 5.72,
+   "points": [
+    {
+     "offsetM": [
+      1.0273,
+      -3.0293,
+      -0.9161
+     ],
+     "n": 1,
+     "yawDeg": 57.3
+    }
+   ],
+   "offsetM": [
+    1.0273,
+    -3.0293,
+    -0.9161
+   ],
+   "yawDeg": 57.3
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockcliff01",
+   "parentScale": 1.0,
+   "n": 2,
+   "evidence": "plugin",
+   "childScaleInParent": 0.82,
+   "points": [
+    {
+     "offsetM": [
+      1.7235,
+      -7.3795,
+      2.3929
+     ],
+     "n": 1,
+     "yawDeg": 151.61
+    },
+    {
+     "offsetM": [
+      4.091,
+      -10.3632,
+      -2.0918
+     ],
+     "n": 1,
+     "yawDeg": 240.85
+    }
+   ],
+   "offsetM": [
+    1.7235,
+    -7.3795,
+    2.3929
+   ],
+   "yawDeg": 151.61
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockcliff02",
+   "parentScale": 1.0,
+   "n": 4,
+   "evidence": "plugin",
+   "childScaleInParent": 0.94,
+   "points": [
+    {
+     "offsetM": [
+      -3.4725,
+      12.5518,
+      7.6337
+     ],
+     "n": 1,
+     "yawDeg": 113.4
+    },
+    {
+     "offsetM": [
+      2.4585,
+      -2.6549,
+      10.2606
+     ],
+     "n": 1,
+     "yawDeg": 305.4
+    },
+    {
+     "offsetM": [
+      3.6899,
+      0.5223,
+      9.9243
+     ],
+     "n": 1,
+     "yawDeg": 28.65
+    },
+    {
+     "offsetM": [
+      7.7577,
+      -3.5173,
+      6.7514
+     ],
+     "n": 1,
+     "yawDeg": 61.59
+    }
+   ],
+   "offsetM": [
+    -3.4725,
+    12.5518,
+    7.6337
+   ],
+   "yawDeg": 113.4
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockcliff03",
+   "parentScale": 1.0,
+   "n": 5,
+   "evidence": "plugin",
+   "childScaleInParent": 1.2403,
+   "points": [
+    {
+     "offsetM": [
+      0.4491,
+      6.1709,
+      2.2124
+     ],
+     "n": 1,
+     "yawDeg": 298.92
+    },
+    {
+     "offsetM": [
+      6.4879,
+      1.218,
+      10.5416
+     ],
+     "n": 1,
+     "yawDeg": 171.89
+    },
+    {
+     "offsetM": [
+      7.0253,
+      -6.5755,
+      6.4418
+     ],
+     "n": 1,
+     "yawDeg": 102.94
+    },
+    {
+     "offsetM": [
+      7.2564,
+      3.7517,
+      9.3025
+     ],
+     "n": 1,
+     "yawDeg": 104.23
+    },
+    {
+     "offsetM": [
+      7.5055,
+      -0.2701,
+      10.6168
+     ],
+     "n": 1,
+     "yawDeg": 185.25
+    }
+   ],
+   "offsetM": [
+    0.4491,
+    6.1709,
+    2.2124
+   ],
+   "yawDeg": 298.92
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockcliff04",
+   "parentScale": 1.0,
+   "n": 4,
+   "evidence": "plugin",
+   "childScaleInParent": 0.79,
+   "points": [
+    {
+     "offsetM": [
+      9.5536,
+      9.5735,
+      4.1758
+     ],
+     "n": 1,
+     "yawDeg": 105.0
+    },
+    {
+     "offsetM": [
+      10.5873,
+      6.7537,
+      0.9317
+     ],
+     "n": 1,
+     "yawDeg": 308.43
+    },
+    {
+     "offsetM": [
+      11.7023,
+      -4.1673,
+      4.5172
+     ],
+     "n": 1,
+     "yawDeg": 264.42
+    },
+    {
+     "offsetM": [
+      12.5618,
+      -3.3229,
+      8.0204
+     ],
+     "n": 1,
+     "yawDeg": 190.88
+    }
+   ],
+   "offsetM": [
+    9.5536,
+    9.5735,
+    4.1758
+   ],
+   "yawDeg": 105.0
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockcliff05",
+   "parentScale": 1.0,
+   "n": 3,
+   "evidence": "plugin",
+   "childScaleInParent": 0.87,
+   "points": [
+    {
+     "offsetM": [
+      1.8216,
+      -6.8874,
+      5.8823
+     ],
+     "n": 1,
+     "yawDeg": 322.76
+    },
+    {
+     "offsetM": [
+      3.682,
+      -1.0745,
+      6.5426
+     ],
+     "n": 1,
+     "yawDeg": 195.0
+    },
+    {
+     "offsetM": [
+      9.1381,
+      4.8319,
+      3.6386
+     ],
+     "n": 1,
+     "yawDeg": 270.0
+    }
+   ],
+   "offsetM": [
+    1.8216,
+    -6.8874,
+    5.8823
+   ],
+   "yawDeg": 322.76
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockl02",
+   "parentScale": 1.0,
+   "n": 3,
+   "evidence": "plugin",
+   "childScaleInParent": 1.6,
+   "points": [
+    {
+     "offsetM": [
+      -2.5107,
+      2.3288,
+      2.6938
+     ],
+     "n": 1,
+     "yawDeg": 93.94
+    },
+    {
+     "offsetM": [
+      3.1294,
+      -4.1078,
+      1.3003
+     ],
+     "n": 1,
+     "yawDeg": 297.36
+    },
+    {
+     "offsetM": [
+      4.0961,
+      1.8146,
+      1.0244
+     ],
+     "n": 1,
+     "yawDeg": 311.46
+    }
+   ],
+   "offsetM": [
+    -2.5107,
+    2.3288,
+    2.6938
+   ],
+   "yawDeg": 93.94
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockl03",
+   "parentScale": 1.0,
+   "n": 3,
+   "evidence": "plugin",
+   "childScaleInParent": 0.9,
+   "points": [
+    {
+     "offsetM": [
+      -0.889,
+      1.1285,
+      2.4622
+     ],
+     "n": 1,
+     "yawDeg": 332.11
+    },
+    {
+     "offsetM": [
+      -0.593,
+      -0.942,
+      2.5572
+     ],
+     "n": 1,
+     "yawDeg": 160.43
+    },
+    {
+     "offsetM": [
+      0.3783,
+      -2.8451,
+      1.4271
+     ],
+     "n": 1,
+     "yawDeg": 259.55
+    }
+   ],
+   "offsetM": [
+    -0.889,
+    1.1285,
+    2.4622
+   ],
+   "yawDeg": 332.11
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockm01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.88,
+   "points": [
+    {
+     "offsetM": [
+      -1.8992,
+      0.5573,
+      0.209
+     ],
+     "n": 1,
+     "yawDeg": 56.9
+    }
+   ],
+   "offsetM": [
+    -1.8992,
+    0.5573,
+    0.209
+   ],
+   "yawDeg": 56.9
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockm03",
+   "parentScale": 0.95,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 3.2526,
+   "points": [
+    {
+     "offsetM": [
+      -0.6917,
+      -2.3453,
+      1.3397
+     ],
+     "n": 1,
+     "yawDeg": 56.54
+    }
+   ],
+   "offsetM": [
+    -0.6917,
+    -2.3453,
+    1.3397
+   ],
+   "yawDeg": 56.54
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockpiles01",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 3.03,
+   "points": [
+    {
+     "offsetM": [
+      1.9286,
+      -1.1178,
+      -0.0361
+     ],
+     "n": 1,
+     "yawDeg": 17.76
+    }
+   ],
+   "offsetM": [
+    1.9286,
+    -1.1178,
+    -0.0361
+   ],
+   "yawDeg": 17.76
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockpiles02",
+   "parentScale": 0.74,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 1.2162,
+   "points": [
+    {
+     "offsetM": [
+      -0.2155,
+      -0.7296,
+      1.0584
+     ],
+     "n": 1,
+     "yawDeg": 191.2
+    }
+   ],
+   "offsetM": [
+    -0.2155,
+    -0.7296,
+    1.0584
+   ],
+   "yawDeg": 191.2
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:landscape/rocks/rockpiles04",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 4.62,
+   "points": [
+    {
+     "offsetM": [
+      2.546,
+      2.4717,
+      -0.095
+     ],
+     "n": 1,
+     "yawDeg": 177.75
+    }
+   ],
+   "offsetM": [
+    2.546,
+    2.4717,
+    -0.095
+   ],
+   "yawDeg": 177.75
+  },
+  {
+   "kind": "points",
+   "child": "vanilla:effects/fxfirewithembers01",
+   "parent": "vanilla:plants/floramountainflower01blue",
+   "parentScale": 1.0,
+   "n": 1,
+   "evidence": "plugin",
+   "childScaleInParent": 0.87,
+   "points": [
+    {
+     "offsetM": [
+      -0.1714,
+      0.9923,
+      1.4113
+     ],
+     "n": 1,
+     "yawDeg": 0.0
+    }
+   ],
+   "offsetM": [
+    -0.1714,
+    0.9923,
+    1.4113
+   ],
+   "yawDeg": 0.0
   },
   {
    "kind": "points",

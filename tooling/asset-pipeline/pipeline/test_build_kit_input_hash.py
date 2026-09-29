@@ -323,3 +323,23 @@ def test_a_setting_class_row_of_the_kit_rebuilds_it_and_another_kits_does_not(tm
     assert digest() == before
     _edit(record, lambda d: d["assets"][own].update(settings={"exterior": ["town"]}))
     assert digest() != before
+
+
+def test_the_build_derived_single_use_list_never_moves_a_kit_stamp(tmp_path):
+    # 16k walk 4 KITS lane: refresh_abuts_derived rewrites abuts.singleUse from
+    # the built kits after every build, and the whole-file hash then made the
+    # kit it had just built stale. Expected: singleUse moves nothing, any
+    # other key of the record (a doorway, a family pair) moves the view.
+    record = tmp_path / build_kit.ASSEMBLIES_FILE.name
+    doc = {"schemaVersion": 1, "doorwaysFromAssemblies": {"a": 1},
+           "abuts": {"familyPairs": [1], "singleUse": ["x"]}}
+    record.write_text(json.dumps(doc))
+    before = build_kit.kit_record_view(record, "works-v1", set())
+    doc["abuts"]["singleUse"] = []
+    record.write_text(json.dumps(doc))
+    assert build_kit.kit_record_view(record, "works-v1", set()) == before
+    doc["abuts"]["familyPairs"] = [1, 2]
+    record.write_text(json.dumps(doc))
+    assert build_kit.kit_record_view(record, "works-v1", set()) != before
+    assert build_kit.ASSEMBLIES_FILE in build_kit.KIT_ROW_RECORDS
+    assert build_kit.ASSEMBLIES_FILE not in build_kit.KIT_RECORD_FILES

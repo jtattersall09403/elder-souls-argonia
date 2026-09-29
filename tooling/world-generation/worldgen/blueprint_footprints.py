@@ -266,12 +266,21 @@ def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], lis
     pieces = parcel.get("pieces") or []
     base = float(parcel.get("yawDeg") or 0.0)
     if pieces and all(is_plan_point(q.get("atM")) for q in pieces):
+        # measured members (16k walk 4): riseM is each pivot's rise over
+        # member 0 as the workbench seated it, so the runtime's rigid chain
+        # (anchoring.ts anchorRun) stands every piece at its pose
+        measured = all("yMeasured" in q for q in pieces)
+        y0 = float(pieces[0]["yMeasured"]) if measured else 0.0
         laid = []
         for q in pieces:
             (dx, dz), = rotate_m([(float(q["atM"][0]), float(q["atM"][1]))], base)
-            laid.append({"asset": q.get("asset"), "xM": round(dx, 4), "zM": round(dz, 4),
-                         "yawDeg": round((base + float(q.get("yaw") or 0.0)) % 360.0, 3),
-                         "riseM": 0.0, "pair": "authored"})
+            row = {"asset": q.get("asset"), "xM": round(dx, 4), "zM": round(dz, 4),
+                   "yawDeg": round((base + float(q.get("yaw") or 0.0)) % 360.0, 3),
+                   "riseM": round(float(q["yMeasured"]) - y0, 4) if measured else 0.0,
+                   "pair": "authored"}
+            if measured:
+                row["yMeasured"] = float(q["yMeasured"])
+            laid.append(row)
         return laid, []
     abuts = abuts_record() if abuts is None else abuts
     out: list[dict] = []

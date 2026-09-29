@@ -22,7 +22,26 @@ export const DOOR_TEXT = {
   enter: "text.door.prompt-enter",
   leave: "text.door.prompt-leave",
   closed: "text.door.closed",
+  /** The one line on the black while a cell loads, when the door names nothing (walk 4 c). */
+  loading: "text.door.loading",
+  /** The same line naming what is entered: a template with `{name}` (walk 4, owner 2026-09-28). */
+  loadingNamed: "text.door.loading-named",
 } as const;
+
+/**
+ * The display name of what a door opens onto, from the compiled place
+ * record: the door's `displayName` (the parcel's reviewed world-record
+ * name, copied onto the door by the compile), else null.
+ */
+export function doorDisplayName(door: SettlementDoor | null | undefined): string | null {
+  const name = (door as { displayName?: unknown } | null | undefined)?.displayName;
+  return typeof name === "string" && name.trim() ? name.trim() : null;
+}
+
+/** The loading line: the named template with the name filled, else the plain line. */
+export function doorLoadingText(template: string, name: string | null): string {
+  return name ? template.replace("{name}", name) : template;
+}
 
 export type DoorAccess = { kind: "enter"; cellId: string } | { kind: "closed" };
 

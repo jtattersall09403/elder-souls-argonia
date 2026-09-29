@@ -646,15 +646,40 @@
   "kotm:argonia/mudhuts/mudhut01": {
    "category": "misc",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.69,
+     "kind": "leaf",
+     "offsetM": [
+      -3.97,
+      0.08
+     ],
+     "sideDeg": 245.0
+    },
+    {
+     "arcM": 0.84,
+     "kind": "leaf",
+     "offsetM": [
+      4.62,
+      -0.34
+     ],
+     "sideDeg": 110.0
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 2.55,
    "entrance": {
-    "arcM": 0.84,
-    "heightM": 1.8,
-    "kind": "leaf",
+    "arcM": 1.71,
+    "centreShiftM": 0.02,
+    "clearM": 1.85,
+    "kind": "opening",
     "offsetM": [
-     4.62,
-     -0.34
+     0.13,
+     2.01
     ],
-    "sideDeg": 110.0
+    "rayConfirmed": true,
+    "sideDeg": 182.5,
+    "sillYM": -1.83,
+    "widthM": 1.4
    },
    "floorOffsetM": 0.0,
    "frontFaceFraction": 0.028,
@@ -668,18 +693,7 @@
     -1.91
    ],
    "promiseReason": "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior",
-   "provenance": [
-    {
-     "arcM": 1.69,
-     "heightM": 3.0,
-     "kind": "leaf",
-     "offsetM": [
-      -3.97,
-      0.08
-     ],
-     "sideDeg": 245.0
-    }
-   ],
+   "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
@@ -893,7 +907,18 @@
   },
   "kotm:argonia/mudhuts/smpodext02": {
    "category": "misc",
-   "closedShellPromotedBy": "own-geometry-door",
+   "closedShellPromotedBy": "door-piece",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.21,
+     "kind": "opening",
+     "offsetM": [
+      -4.8,
+      4.68
+     ],
+     "sideDeg": 220.0
+    }
+   ],
    "entrance": {
     "doorAsset": "kotm:argonia/mudhuts/door01",
     "kind": "esp-door",
@@ -927,17 +952,7 @@
     0.46
    ],
    "promiseReason": "King of the Murkmire places no interior door for this shell (door-link mine 2026-09-25); Phase 12 builds it",
-   "provenance": [
-    {
-     "arcM": 1.21,
-     "kind": "opening",
-     "offsetM": [
-      -4.8,
-      4.68
-     ],
-     "sideDeg": 220.0
-    }
-   ],
+   "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",

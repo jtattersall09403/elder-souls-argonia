@@ -90,13 +90,23 @@ const LOADING: SettlementNavigationHandoffStatus = {
   status: "loading", cuts: 0, links: 0, errors: [],
 };
 
+/**
+ * The hand-off readout is a developer's line, never the owner's (walk 4 d):
+ * it shows only with `?dev=1`. The studio carries no other debug switch
+ * (`studioTools.ts` forbids gating on the build mode), so this is that switch.
+ */
+export function navigationHandoffShown(search: string): boolean {
+  return new URLSearchParams(search).get("dev") === "1";
+}
+
 export function SettlementNavigationHandoff({
   baseUrl,
-  visible,
+  visible: requested,
 }: {
   baseUrl: string;
   visible: boolean;
 }) {
+  const visible = requested && navigationHandoffShown(window.location.search);
   // The places the settlement layer has in range (the app's settlement
   // source, S8): this toast has no position of its own, so it only follows
   // the layer's sets and loads nothing itself; read only while it can show.

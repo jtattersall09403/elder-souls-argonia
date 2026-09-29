@@ -34,7 +34,7 @@ From `tooling/world-generation`:
 
 ```
 python3 -m worldgen.lint_prose --region <zone> --json /tmp/lint-<zone>.json   # one catalogue region
-python3 -m worldgen.lint_prose --no-catalogue --md <file.md>                    # a markdown file
+python3 -m worldgen.lint_prose --file <file.md>                                  # a single file
 python3 -m worldgen.lint_prose --strict                                          # whole body (places, quests, strings, blueprints), the npm-test gate
 ```
 

@@ -106,6 +106,12 @@ the addenda of 0105 (now rows of the rulings table).
     ability, the deliver agent runs its own script against the loaded scene
     (`wb.py bpy`) and adds the command in the same lane; "needs a new
     tool" is never a hand-off line (0079 rule 19 widened).
+17. **Two time bars, not one.** A lane's own scoped test run stays under
+    60 s. The batch preflight (decision 12's batch) is under 5 min: walk
+    4's batch touched 21 core modules and selected 89 of 178 placement
+    files legitimately (187 s); a 60 s bar there only breeds re-runs.
+    The review's diff cap is a fix round's code diff (1.2 MB), measured on
+    code files only.
 16. **Reports live in `tooling/.reports/`** (per run, per area), never in
     `.claude/`, the repo root or a docs folder; `.claude/` holds only
     settings, agents and skills.

@@ -17,9 +17,43 @@
    ],
    "why": "The puff atlas vanilla's chimney smoke particle system (mps/mpssmokechimney01.nif, the addon node of effects/ambient/fxsmokechimney01.nif) draws; game-core settlement/smokeColumn.ts billboards it."
   },
-  "fx:flame-billboard": {
+  "fx:candleflame01": {
    "texture": "textures/effects/candleflame01.dds",
-   "why": "Vanilla's candle flame card (textures/effects/, the one flame sprite there that is a single frame, not an atlas). game-core settlement/lightFixtures.ts billboards it over a light fixture (candle, lantern, brazier, torch, sconce, fire socket) whose kit piece has no emissive flame submesh of its own (walk 2 D7)."
+   "role": "flame",
+   "why": "MPSCandleFlame01's CandleFlame01 particle (Skyrim.esm ADDN 49, the AddOnNode49 of every vanilla and Mud Mother candle and lantern): a 2x2 atlas of four flames, one cell per particle (build_kit mine_fire_layer). Also the fallback flame over a fixture whose NIF holds no flame (lighting.ts)."
+  },
+  "fx:fxfireatlas02-gradfireexplosion": {
+   "texture": "textures/effects/fxfireatlas02.dds",
+   "palette": "textures/effects/gradients/gradfireexplosion.dds",
+   "role": "flame",
+   "why": "campfire01burning's FlamesSmall03 particle system: greyscale 4x2 flame atlas baked through its palette (build_kit bake_palette)."
+  },
+  "fx:fxfirecolumnanimloop-gradfireexplosion": {
+   "texture": "textures/effects/fxfirecolumnanimloop.dds",
+   "palette": "textures/effects/gradients/gradfireexplosion.dds",
+   "role": "flame",
+   "why": "campfire01burning's Firearticles particle system: the 8x8 flame-column loop its BSPSysSubTexModifier plays over the particle's life, baked through its palette."
+  },
+  "fx:fxfireatlas04-gradflame01": {
+   "texture": "textures/effects/fxfireatlas04.dds",
+   "palette": "textures/effects/gradients/gradflame01.dds",
+   "role": "flame",
+   "why": "The torch flame (torchsconce01 pFireballCore04, MPSTorchFire01 = ADDN 46): greyscale 1x8 atlas baked through its palette."
+  },
+  "fx:glowslightflash": {
+   "texture": "textures/effects/glowslightflash.dds",
+   "role": "glow",
+   "why": "The billboard glow disc of campfire01burning (Glow02) and fxfirewithembers01 (glow): drawn as a camera-facing additive sprite, never a fixed card (build_kit apply_fire_layer)."
+  },
+  "fx:fxglowwhite01": {
+   "texture": "textures/effects/fxglowwhite01.dds",
+   "role": "glow",
+   "why": "torchsconce01's billboard GlowMesh (interior-farmhouse-v1): drawn as a camera-facing additive sprite."
+  },
+  "fx:glowsoft01": {
+   "texture": "textures/effects/glowsoft01.dds",
+   "role": "glow",
+   "why": "The billboard GlowMesh07 of the Ayleid evil welkynd cluster (ayleidcc arwelkyndclusterevil01, xanmeer-interior-v1): a camera-facing additive sprite in the NIF's own emissive red (glow record tintRgb)."
   }
  },
  "dressing": [

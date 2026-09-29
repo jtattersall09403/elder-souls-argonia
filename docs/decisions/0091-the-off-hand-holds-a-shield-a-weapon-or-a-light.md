@@ -43,8 +43,11 @@ catches.
    `submerged` input, which Phase 9's water sampler (lane round 5) feeds;
    burning out uses the item up. Stealth reads the same light as the target's
    `lightLevel` (lane round 4).
-5. **The flame is the NIF's glow mesh, not its particles.** Torch.nif's two
-   particle systems do not convert; the torch keeps the NIF's own additive
+5. **The flame is the NIF's glow mesh, ~~not its particles~~.** (16k walk 4:
+   particle flames are now mined as sprites, build_kit `mine_fire_layer` and
+   `pipeline/nif_blocks.py`, kit-build skill § fire layer; the carried torch
+   still uses its glow mesh.) Torch.nif's two particle systems do not convert
+   to meshes; the torch keeps the NIF's own additive
    glow mesh (GlowAddMesh, torch_g, vertex alpha and view falloff) and its
    `AttachLight` node, the handle is alpha-tested as the NIF's alpha property
    says, and the flicker lives in the light and the glow's opacity.

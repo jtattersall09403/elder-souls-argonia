@@ -38,3 +38,15 @@ export function nearestSocket(
   }
   return best;
 }
+
+/**
+ * Whether the operator sockets (the dev pole, the talk prompt, the travel
+ * menu) are mounted in the walk. Owner walk 4 (16k, 2026-09-28): a socket is
+ * never visible or interactable unless the sockets overlay is on
+ * (`?sockets=1` or its checkbox); the Claywater poler's pole stood in the
+ * street and answered "talk". Off while the ladder hides the services layer
+ * (16g: sockets from an older run stand where nothing was solved).
+ */
+export function travelSocketsShown(showSockets: boolean, hiddenLayers: ReadonlySet<string>): boolean {
+  return showSockets && !hiddenLayers.has("services");
+}

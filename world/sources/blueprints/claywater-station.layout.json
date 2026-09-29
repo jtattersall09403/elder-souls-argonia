@@ -37,10 +37,16 @@
     "apronM": 2.0,
     "apronBySide": {
      "w": 3.5,
-     "e": 0.0
+     "e": 0.7
     },
     "datumM": 37.4
-   }
+   },
+   "y": 37.4
+  },
+  {
+   "op": "note",
+   "uid": "stable",
+   "text": "walk 4 fix round 2 (planner ruling 1, R25): y 37.40 = the pad datum; the stall floor stands on the pad and the 0.91 m stone foundation is buried, as Riften buries it. The assetPlacement row for rtstables01 records that burial (sink 0, evidence policy) and burialRule judges against it"
   },
   {
    "op": "place",
@@ -145,6 +151,21 @@
    "pick": 3
   },
   {
+   "op": "move",
+   "uid": "land-dock1",
+   "dy": -0.08
+  },
+  {
+   "op": "move",
+   "uid": "land-dock2",
+   "dy": -0.08
+  },
+  {
+   "op": "note",
+   "uid": "land-dock1",
+   "text": "walk 4: the deck sits 0.27 m over the water at its water end (owner band 0.15-0.35; the settled seat was 0.35) and meets the dry bank at its landward end"
+  },
+  {
    "op": "place",
    "uid": "raft",
    "asset": "ferryraft:snt/ferry/ferryraft01",
@@ -212,6 +233,51 @@
     3054.0
    ],
    "yaw": 0.0
+  },
+  {
+   "op": "remove",
+   "uid": "isy-lamp"
+  },
+  {
+   "op": "place",
+   "uid": "isy-lamp",
+   "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+   "at": [
+    313.5,
+    3054.0
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "isy-lamp",
+   "parent": "isy-barrel1",
+   "unmined": "reader-approved r17"
+  },
+  {
+   "op": "note",
+   "uid": "isy-lamp",
+   "text": "walk 4: the owner found this lantern sunk in the floor; it stands on the barrel02's top (no mined pair: unmined, shot and approved in the walk-4 render round)"
+  },
+  {
+   "op": "place",
+   "uid": "isy-flame",
+   "asset": "vanilla:effects/fxfirewithembers01",
+   "at": [
+    313.5,
+    3054.0
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "mount",
+   "child": "isy-flame",
+   "parent": "isy-fire"
+  },
+  {
+   "op": "note",
+   "uid": "isy-flame",
+   "text": "walk 4 fix round 2 (planner ruling 2): the flame in the brazier bowl by the mined pair impbrazier01 (band, n 116): 0.318 m over the brazier pivot at 0.8 of the brazier's scale, as the plugins place it; bound on the clutter layer because the brazier on the light layer already carries the point light"
   },
   {
    "op": "place",
@@ -299,8 +365,8 @@
    "uid": "sty-trough",
    "asset": "vanilla:clutter/horsetrough/horsetrough01",
    "at": [
-    331.2,
-    3091.3
+    331.0,
+    3091.55
    ],
    "yaw": 148.0,
    "settle": true
@@ -332,9 +398,9 @@
    "asset": "vanilla:clutter/deadanimals/fishrack01",
    "at": [
     327.0,
-    3002.0
+    3000.8
    ],
-   "yaw": 30.0,
+   "yaw": 30,
    "settle": true
   },
   {
@@ -353,7 +419,7 @@
    "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
    "at": [
     310.5,
-    2989.0
+    2989.5
    ],
    "yaw": 0.0,
    "settle": true
@@ -424,6 +490,33 @@
    ],
    "yaw": 0.0,
    "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f2-fire",
+   "asset": "vanilla:clutter/woodfires/campfire01burning",
+   "at": [
+    336.15,
+    2957.783
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "ahy-fire",
+   "asset": "vanilla:clutter/woodfires/campfire01burning",
+   "at": [
+    310.65,
+    2988.783
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "note",
+   "uid": "f2-fire",
+   "text": "walk 4 fix round 2 (planner ruling 3): cookingstand01 stands over campfire01burning (the mounts record's abuts, n 1, with no offset): the fire's bounds centre under the stand's bounds centre, same yaw; f2-fire under f2, ahy-fire under ahy-oven; the polers' stand and its fire moved 0.5 m south onto flat pad ground (wb site: 0.51 deg; the fire's 2.8 m ring crossed a 7.66 deg cell)"
   },
   {
    "op": "place",
@@ -1079,7 +1172,7 @@
    "op": "mount",
    "child": "p1-board",
    "parent": "p1",
-   "yaw": 45.0,
+   "yaw": 225.0,
    "height": 1.9
   },
   {
@@ -1133,7 +1226,7 @@
    "child": "p1-board2",
    "parent": "p1",
    "yaw": 45.0,
-   "height": 1.9
+   "height": 1.55
   },
   {
    "op": "path",
@@ -1431,8 +1524,9 @@
    "kind": "assembly",
    "id": "parcel.claywater-station.the-well",
    "layer": "light",
-   "on": "ground",
-   "evidence": "measured"
+   "on": "parent",
+   "evidence": "measured",
+   "host": "isy-barrel1"
   },
   {
    "op": "bind",
@@ -1672,6 +1766,15 @@
   },
   {
    "op": "bind",
+   "uid": "ahy-fire",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
    "uid": "ahy-candle",
    "kind": "assembly",
    "id": "parcel.claywater-station.polers-hut",
@@ -1762,6 +1865,15 @@
   },
   {
    "op": "bind",
+   "uid": "f2-fire",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
    "uid": "p1",
    "kind": "assembly",
    "id": "parcel.claywater-station.the-well",
@@ -1777,6 +1889,16 @@
    "layer": "light",
    "on": "ground",
    "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-flame",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "parent",
+   "evidence": "measured",
+   "host": "isy-fire"
   },
   {
    "op": "bind",
@@ -2269,14 +2391,11 @@
    "kind": "idle",
    "activity": "pole",
    "parcel": "parcel.claywater-station.ferry-raft",
-   "why": "The poler waits on the landing deck for fares and poles carts and beasts over the ford on the raft.",
-   "at": [
-    343.6,
-    3005.9
-   ],
+   "why": "The poler takes carts and beasts across the ford on the raft.",
    "fills": [
     "promise.claywater-station.operator-ferry-imperial-fringe-drowning-gate"
-   ]
+   ],
+   "host": "parcel.claywater-station.ferry-raft"
   },
   {
    "op": "socket",

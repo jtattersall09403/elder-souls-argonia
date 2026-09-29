@@ -26,9 +26,16 @@ a building pad outranks a run pad where they overlap). A run pad also yields
 inside every building pad's polygon: there it leaves the ground as it found
 it, so a retaining run beside a hut never lifts the hut's plinth.
 
-An overlay's ``kind`` ("building" or "run") names its owner. Bundles written
-before r7 carry no ``kind``; there a building pad is the one with ``hardM`` 0
-(`building_pad_patches` is the only writer of a zero hard radius).
+An overlay's ``kind`` ("building", "run" or "pool") names its owner. Bundles
+written before r7 carry no ``kind``; there a building pad is the one with
+``hardM`` 0 (`building_pad_patches` is the only writer of a zero hard radius).
+
+A ``pool`` overlay (16k walk 4) is the basin of a layout ``pool`` op (a
+spring, a cistern, a basin): a 24-vertex circle at the ground under its
+centre minus ``depthM``, ``hardM`` 0, blended over ``rimM``. It applies with
+the run pads (it is not a building pad) and yields inside building pads. The
+same op writes the place's ``pools[]`` record (`pool_record`), the still water
+the runtime draws in the basin (`packages/game-core/src/water/localSurfaces.ts`).
 """
 
 from __future__ import annotations
@@ -255,6 +262,69 @@ def building_overlay(overlay_id: str, polygon, datum: float, blend_m: float) -> 
     return {"id": overlay_id, "kind": "building", "bboxM": [min(xs), min(zs), max(xs), max(zs)],
             "blendM": float(blend_m), "hardM": 0.0,
             "pieces": [{"placementId": overlay_id, "polygonM": poly, "datumM": float(datum)}]}
+
+
+POOL_OP = "pool"
+POOL_RADIUS_M = (2.0, 12.0)
+POOL_DEPTH_M = (0.2, 1.5)
+POOL_RIM_DEFAULT_M = 1.0
+POOL_VERTICES = 24
+# the still level stands this far below the rim ground, so the bank shows
+POOL_FREEBOARD_M = 0.08
+_POOL_KEYS = {"op", "uid", "centreM", "radiusM", "depthM", "rimM", "why", "sources"}
+
+
+def pool_op_errors(op: dict) -> list[str]:
+    """Every reason a layout ``pool`` op is malformed ([] when it is sound)."""
+    uid = op.get("uid")
+    who = f"pool {uid!r}"
+    errors = [f"{who}: unknown key(s) {sorted(set(op) - _POOL_KEYS)}"] if set(op) - _POOL_KEYS else []
+    if not isinstance(uid, str) or not uid:
+        errors.append(f"{who}: needs a uid")
+    c = op.get("centreM")
+    if not (isinstance(c, (list, tuple)) and len(c) == 2
+            and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in c)):
+        errors.append(f"{who}: centreM must be [x, z] metres")
+    for key, (lo, hi) in (("radiusM", POOL_RADIUS_M), ("depthM", POOL_DEPTH_M)):
+        v = op.get(key)
+        if not isinstance(v, (int, float)) or isinstance(v, bool) or not lo <= v <= hi:
+            errors.append(f"{who}: {key} must be {lo:g}..{hi:g} m, got {v!r}")
+    rim = op.get("rimM", POOL_RIM_DEFAULT_M)
+    if not isinstance(rim, (int, float)) or isinstance(rim, bool) or rim < 0:
+        errors.append(f"{who}: rimM must be a blend in metres >= 0, got {rim!r}")
+    if not isinstance(op.get("why"), str) or not op["why"].strip():
+        errors.append(f"{who}: needs a why")
+    if not isinstance(op.get("sources"), list) or not op["sources"]:
+        errors.append(f"{who}: needs sources (a list)")
+    return errors
+
+
+def pool_id(place_id: str, uid: str) -> str:
+    return f"pool.{place_id}.{uid}"
+
+
+def pool_overlay(op: dict, place_id: str, height_at) -> dict:
+    """The basin overlay of one ``pool`` op, measured on the frozen ground."""
+    cx, cz = (float(v) for v in op["centreM"])
+    r = float(op["radiusM"])
+    datum = float(height_at(cx, cz)) - float(op["depthM"])
+    poly = [[cx + r * math.cos(2 * math.pi * k / POOL_VERTICES),
+             cz + r * math.sin(2 * math.pi * k / POOL_VERTICES)] for k in range(POOL_VERTICES)]
+    xs = [x for x, _ in poly]
+    zs = [z for _, z in poly]
+    oid = pool_id(place_id, op["uid"])
+    return {"id": oid, "kind": "pool", "bboxM": [min(xs), min(zs), max(xs), max(zs)],
+            "blendM": float(op.get("rimM", POOL_RIM_DEFAULT_M)), "hardM": 0.0,
+            "pieces": [{"placementId": oid, "polygonM": poly, "datumM": datum}]}
+
+
+def pool_record(op: dict, place_id: str, height_at) -> dict:
+    """The place's still-water record of one ``pool`` op (``pools[]``):
+    level just under the rim ground, bed at the basin's datum."""
+    cx, cz = (float(v) for v in op["centreM"])
+    ground = float(height_at(cx, cz))
+    return {"id": pool_id(place_id, op["uid"]), "centreM": [cx, cz], "radiusM": float(op["radiusM"]),
+            "levelM": ground - POOL_FREEBOARD_M, "bedM": ground - float(op["depthM"])}
 
 
 def apply_grid(heights: np.ndarray, origin_m: tuple[float, float], metres_per_sample: float,

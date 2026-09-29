@@ -61,8 +61,11 @@ from pipeline.placement_metadata import (  # noqa: E402
 # (its positionM[1] is the workbench's measured pivot height, applied verbatim
 # by the runtime, never re-anchored). Additive: a v3 bundle reads as "no
 # placement is final", so a --places publish over a v3 base upgrades it.
-SCHEMA_VERSION = 4
-READABLE_SCHEMA_VERSIONS = (3, 4)
+# 5 (16k walk 4): a place may carry `pools[]` (a layout `pool` op's still
+# water, `pad_overlay.pool_record`) beside its `pool` ground overlay. Additive:
+# a v3/v4 place has no pools; the runtime refuses pools on a bundle under 5.
+SCHEMA_VERSION = 5
+READABLE_SCHEMA_VERSIONS = (3, 4, 5)
 COLLISION_FRAME = "settlement-pivot-yup-v1"
 
 # Hard ceiling on the collision parts the runtime will build for the settlement
@@ -95,6 +98,19 @@ TRIMESH_COLLISION_KINDS = frozenset({"mesh", "convex"})
 # ceiling is seen before it fails.
 COLLIDER_PART_CEILING = 400
 COLLIDER_PART_WARNING = 250
+# planner ruling 2026-09-28 (GREENSPRING3, 0052): a place with this many
+# dwellings or more may reach COLLIDER_PART_CEILING_LARGE. Each dwelling
+# brings its own clutter ring (0105 R33, 20 pieces within 12 m at M1), and a
+# small collider is a cheap static trimesh; the ceiling still fails loudly.
+COLLIDER_PART_CEILING_LARGE = 500
+COLLIDER_CEILING_LARGE_DWELLINGS = 5
+# planner ruling 2026-09-28 (GREENSPRING3, 0052): a placement under this size
+# in plan (both axes) AND in height, at its placed scale, carries no collider
+# and so counts toward no ceiling. The same 0.3 m as colliderRule
+# (placement-workbench rules.COLLIDER_MIN_*_M) and build_kit's size rule
+# (SIZE_COLLIDER_MIN_*_M, owner 2026-09-27).
+SMALL_PIECE_MAX_PLAN_M = 0.3
+SMALL_PIECE_MAX_HEIGHT_M = 0.3
 
 # Error classes that are FATAL AT RUNTIME: each makes the layer refuse to draw
 # or throw outright, so the world the player gets is blank, not merely
@@ -628,27 +644,65 @@ def resident_collision_parts(
     return totals
 
 
+def dwelling_counts(settlement_ids, blueprints_dir: Path = BLUEPRINTS) -> dict[str, int]:
+    """{settlement id: dwellings} as place_gates counts them (counted building
+    parcels whose use is `dwelling`), read from world/sources/blueprints/<id>.json;
+    a settlement with no blueprint there counts 0."""
+    from . import parcel_kinds as pk
+    out = {}
+    for sid in settlement_ids:
+        path = Path(blueprints_dir) / f"{sid}.json"
+        if not path.exists():
+            out[sid] = 0
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        bp = doc.get("blueprint", doc)
+        out[sid] = sum(1 for parcel in pk.counted_parcels(bp, pk.kinds_of(bp), include=("building",))
+                       if parcel.get("use") == "dwelling")
+    return out
+
+
+def collider_ceiling(dwellings: int, ceiling: int = COLLIDER_PART_CEILING) -> int:
+    """The part ceiling one place is held to: COLLIDER_PART_CEILING_LARGE for a
+    place of COLLIDER_CEILING_LARGE_DWELLINGS dwellings or more (planner ruling
+    2026-09-28, 0052), else ``ceiling``."""
+    return max(ceiling, COLLIDER_PART_CEILING_LARGE) if dwellings >= COLLIDER_CEILING_LARGE_DWELLINGS \
+        else ceiling
+
+
 def collider_part_budget(
     settlements: list[dict], placements: list[dict], kits_dir: Path = KITS,
-    ceiling: int = COLLIDER_PART_CEILING,
+    ceiling: int = COLLIDER_PART_CEILING, dwellings: dict[str, int] | None = None,
 ) -> tuple[int, list[str]]:
     """Decision 0052's budget for the set being published, and the ceiling gate.
 
-    budget = round(worst resident parts x COLLIDER_PART_HEADROOM); an error when
-    that exceeds ``ceiling`` (a place grew past what the runtime was sized for).
+    budget = round(worst resident parts x COLLIDER_PART_HEADROOM); an error for
+    each place whose own round(parts x headroom) exceeds its ceiling
+    (``collider_ceiling`` of its dwelling count; ``dwellings`` defaults to
+    ``dwelling_counts`` over the blueprints), i.e. a place grew past what the
+    runtime was sized for.
     """
     totals = resident_collision_parts(settlements, placements, kits_dir)
+    if dwellings is None:
+        dwellings = dwelling_counts(sorted(totals))
     worst_id, worst = max(sorted(totals.items()), key=lambda kv: kv[1], default=("", 0))
     budget = round(worst * COLLIDER_PART_HEADROOM)
     errors = []
-    if budget > ceiling:
-        errors.append(
-            f"{worst_id}: {worst} resident collision parts x {COLLIDER_PART_HEADROOM} = "
-            f"{budget} exceeds the collider part ceiling of {ceiling}; re-measure the "
-            f"runtime before raising COLLIDER_PART_CEILING")
-    elif budget > COLLIDER_PART_WARNING:
-        print(f"warning: {worst_id}: collider part budget {budget} is over "
-              f"{COLLIDER_PART_WARNING} (ceiling {ceiling})", file=sys.stderr)
+    for sid, parts in sorted(totals.items()):
+        own = round(parts * COLLIDER_PART_HEADROOM)
+        n = dwellings.get(sid, 0)
+        cap = collider_ceiling(n, ceiling)
+        if own > cap:
+            why = (f"the ceiling for a place of {COLLIDER_CEILING_LARGE_DWELLINGS} or more dwellings "
+                   f"({n} here), each bringing its own clutter ring (planner ruling 2026-09-28, 0052)"
+                   if cap != ceiling else f"the ceiling for a place of {n} dwelling(s)")
+            errors.append(
+                f"{sid}: {parts} resident collision parts x {COLLIDER_PART_HEADROOM} = "
+                f"{own} exceeds the collider part ceiling of {cap}, {why}; re-measure the "
+                f"runtime before raising COLLIDER_PART_CEILING")
+        elif own > COLLIDER_PART_WARNING:
+            print(f"warning: {sid}: collider part budget {own} is over "
+                  f"{COLLIDER_PART_WARNING} (ceiling {cap}, {n} dwelling(s))", file=sys.stderr)
     return budget, errors
 
 
@@ -806,14 +860,63 @@ def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
             for p in poly]
 
 
+VEGETATION_CLEARANCE_SCHEMA = 2   # 16k walk 4: tiers (trees/plants `hardClear`, ground cover `groundClear`)
+GROUND_PAINT_SCHEMA = 1
+GROUND_PAINT_VOCAB = REPO_ROOT / "world" / "sources" / "vocab" / "ground-paint.json"
+
+
 def _vegetation_clearance(place_id: str, clearance: dict, survey) -> dict:
     """The compiled record's clearance (map UV) as the bundle carries it: world
-    metres, the patch id the thinning roll hashes (`apply_vegetation_patches`)."""
-    return {"schemaVersion": 1, "id": f"patch.clearance.bundle.{place_id}",
-            "hardClear": [_metres(poly, survey) for poly in clearance.get("hardClear") or []],
+    metres, the patch id the thinning roll hashes (`apply_vegetation_patches`).
+
+    The blueprint's authored `hardClear` is NOT carried (16k walk 4): on both
+    places it is a hull round the whole place, and as a tier it cleared the
+    trees and the ground cover off every open patch between the buildings.
+    The tiers are derived from the geometry by `grow_clearance`; the
+    authored `thinned` and `kept` carry through."""
+    return {"schemaVersion": VEGETATION_CLEARANCE_SCHEMA, "id": f"patch.clearance.bundle.{place_id}",
+            "hardClear": [], "groundClear": [],
             "thinned": [_metres(poly, survey) for poly in clearance.get("thinned") or []],
             "kept": [{**k, "positionM": _metres([k["positionM"]], survey)[0]}
                      if "positionM" in k else k for k in clearance.get("kept") or []]}
+
+
+def ground_paint_vocab(path: Path | None = None) -> dict:
+    """`world/sources/vocab/ground-paint.json`: `kinds`, way kind -> the
+    terrain road paint material (the land cover's BC_ROAD / TRACK / PATH, by
+    name) and the soft edge, metres; `unpainted`, the built ways (stairs,
+    ramps: placed pieces) that paint nothing."""
+    doc = json.loads(Path(path or GROUND_PAINT_VOCAB).read_text())
+    if doc.get("schemaVersion") != 1:
+        raise ValueError(f"ground-paint vocab: schemaVersion {doc.get('schemaVersion')!r}, expected 1")
+    return doc
+
+
+def ground_paint(place_id: str, routes: list[dict], survey, vocab: dict | None = None) -> dict:
+    """Every blueprint way (the layout's path ops, `via` in map UV) as a
+    `groundPaint` entry: the polyline buffered to its width plus half the
+    soft edge, so the half-alpha line sits on the way's edge; the texture is
+    the land cover's paint for that kind of way. Deterministic: sorted by id,
+    rounded to the millimetre. Refuses a way kind the vocabulary lacks."""
+    from shapely.geometry import LineString
+    vocab = vocab if vocab is not None else ground_paint_vocab()
+    entries = []
+    kinds, unpainted = vocab["kinds"], set(vocab.get("unpainted") or [])
+    for route in sorted(routes, key=lambda r: r["id"]):
+        kind = route.get("kind")
+        pts = [survey.uv_to_m(float(u), float(v)) for u, v in route.get("via") or route.get("points") or []]
+        if len(pts) < 2 or kind in unpainted:
+            continue
+        if kind not in kinds:
+            raise ValueError(f"{place_id}: way {route['id']} kind {kind!r} has no ground paint "
+                             f"(world/sources/vocab/ground-paint.json)")
+        edge = float(kinds[kind]["edgeM"])
+        poly = LineString(pts).buffer(float(route["widthM"]) / 2 + edge / 2, quad_segs=4)
+        entries.append({"id": f"paint.{route['id']}", "routeId": route["id"], "kind": kind,
+                        "texture": kinds[kind]["texture"], "edgeM": edge,
+                        "polygonM": [[round(float(x), 3), round(float(z), 3)]
+                                     for x, z in list(poly.exterior.coords)[:-1]]})
+    return {"schemaVersion": GROUND_PAINT_SCHEMA, "entries": entries}
 
 
 def load_warning_known_red(path: Path | None = None) -> dict[tuple[str, str, str], dict]:
@@ -1250,7 +1353,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
                 "scale": raw.get("scale", 1), "footprintM": footprint,
                 "anchor": _anchor_contract(asset, fit),
-                "collision": _collision_contract(asset, disabled=is_dressing),
+                "collision": _collision_contract(asset, disabled=is_dressing,
+                                                 scale=raw.get("scale", 1)),
                 **_layer_contract(raw),
                 **({"yFinal": True} if raw.get("yFinal") is True else {}),
                 "provenance": raw["provenance"],
@@ -1299,12 +1403,18 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             # the runtime cell build (0102 decision 1; `clearanceFilter.ts`)
             **({"vegetationClearance": _vegetation_clearance(doc["id"], doc["clearance"], survey)}
                if isinstance(doc.get("clearance"), dict) else {}),
+            # the ways painted on the ground at load (16k walk 4, 0102 decision 1);
+            # clipped under pads and floors by `attach_ground_overlays`
+            "groundPaint": ground_paint(doc["id"], bp.get("routes") or [], survey),
             **walk_routes_field(bp),
             # the place's sockets (0103 decision 5), copied as compiled
             "socketsSchemaVersion": doc.get("socketsSchemaVersion", SOCKETS_SCHEMA),
             "sockets": list(doc.get("sockets") or []),
             # 0104: promise id -> its fillers (sockets, doors, parcels), as compiled
             "promiseFills": dict(doc.get("promiseFills") or {}),
+            # the layout's `pool` ops, turned into overlays and `pools[]` on
+            # the frozen ground by `attach_ground_overlays` (popped there)
+            **layout_pool_ops(bp),
             **({"fixtureReplay": True} if doc.get("fixtureReplay") is True else {}),
             **({"fixtureWaived": doc["fixtureWaived"]}
                if isinstance(doc.get("fixtureWaived"), list) else {}),
@@ -1537,7 +1647,19 @@ def _treatment_kind(asset: dict, raw: dict, fit: str, inventory: dict) -> str:
     return "deck" if clearance is not None and clearance > DECK_TREATMENT_CLEARANCE_M else "floor"
 
 
-def _collision_contract(asset: dict, *, disabled: bool = False) -> dict:
+def is_small_piece(asset: dict, scale: float = 1.0) -> bool:
+    """True when the piece at ``scale`` is under SMALL_PIECE_MAX_PLAN_M in both
+    plan axes and under SMALL_PIECE_MAX_HEIGHT_M tall (manifest ``sizeM``:
+    [x, y] plan, [2] height); such a placement carries no collider."""
+    size = asset.get("sizeM")
+    if not isinstance(size, list) or len(size) != 3 or not all(_is_number(v) for v in size):
+        return False
+    sx, sy, sz = (float(v) * float(scale) for v in size)
+    return max(sx, sy) < SMALL_PIECE_MAX_PLAN_M and sz < SMALL_PIECE_MAX_HEIGHT_M
+
+
+def _collision_contract(asset: dict, *, disabled: bool = False, scale: float = 1.0) -> dict:
+    disabled = disabled or is_small_piece(asset, scale)
     contract = {"frame": COLLISION_FRAME,
                 "kind": "none" if disabled else asset.get("collision", "none")}
     # Asset-pipeline collision boxes are measured against the source pivot.
@@ -1734,38 +1856,95 @@ def _hole_free(poly) -> list:
     return [q for piece in pieces if piece.geom_type == "Polygon" for q in _hole_free(piece)]
 
 
+GROUND_HARD_MARGIN_M = 0.25  # ground cover dies this far past a hard surface, plus the
+GROUND_EDGE_JITTER_M = 0.5   # wobble (0-0.5 m): 0.25-0.75 m, the brief's 0.5 m on average
+WAY_CLEAR_M = 0.5            # trees and large plants stand back this far from a way
+FRINGE_RING_M = 10.0         # the thinned ring past the tree clearance (C13: 5-15 m)
+
+
+def _rings(geom) -> list[list[list[float]]]:
+    """A shapely area as hole-free rings, rounded to the millimetre."""
+    return [[[round(float(x), 3), round(float(z), 3)] for x, z in list(q.exterior.coords)[:-1]]
+            for poly in getattr(geom, "geoms", [geom]) if not poly.is_empty
+            for q in _hole_free(poly)]
+
+
 def grow_clearance(site: dict, rows: list[dict], treatments: list[dict] = ()) -> None:
-    """A place's hard vegetation clearance is its compiled `hardClear` plus
-    the union of every pad polygon (`groundOverlays` pieces), every
-    treatment's clearance polygons (a floor's footprint, a deck's contacts,
-    every door apron: `treatment_clearance_polygons`) and every placement
-    footprint, a building's buffered BUILDING_CLEAR_M and every other one
-    (runs, walls, dressing, yard items) OTHER_CLEAR_M (0102 round 2): no
-    plant on levelled ground, on a floor or against a wall the compile's box
-    missed. A placement with a deck treatment is raised on legs and adds only
-    its treatment's polygons, so the ground cover under it stays (owner
-    2026-09-25). The union is written as hole-free rings (`_hole_free`)."""
+    """A place's vegetation clearance by tier (16k brief item 14, 16k walk 4):
+
+    * `groundClear`, where the ground cover dies: the hard surfaces only, the
+      ways (`groundPaint` polygons), every pad polygon (`groundOverlays`
+      pieces) and every treatment's clearance polygons (a floor's footprint,
+      a deck's contacts, every door apron), grown GROUND_HARD_MARGIN_M and
+      wobbled GROUND_EDGE_JITTER_M. Ground cover survives everywhere else.
+    * `hardClear`, where trees and large plants go: the same surfaces (ways
+      grown WAY_CLEAR_M) plus every placement footprint, a building's grown
+      BUILDING_CLEAR_M and every other one (runs, walls, dressing, yard
+      items) OTHER_CLEAR_M (0102 round 2). A placement with a deck treatment
+      is raised on legs and adds only its treatment's polygons.
+    * `thinned`, the fringe: `hardClear` grown FRINGE_RING_M, graded over
+      the same distance (`fringeFalloffM`), plus any authored thinned band.
+
+    Every tier is written as hole-free rings (`_hole_free`)."""
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
     from .vegetation_patches import treatment_clearance_polygons
+
+    def valid(parts):
+        return [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
+
     decks = {t["id"].removeprefix("treatment.") for t in treatments if t.get("kind") == "deck"}
-    parts = [Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
-             for piece in o["pieces"]]
-    parts += [Polygon(p) for t in treatments for p in treatment_clearance_polygons(t)]
-    parts += [Polygon(r["footprintM"]).buffer(
+    ways = valid([Polygon(e["polygonM"]) for e in (site.get("groundPaint") or {}).get("entries") or []])
+    hard = valid([Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
+                  for piece in o["pieces"]]
+                 + [Polygon(p) for t in treatments for p in treatment_clearance_polygons(t)])
+    feet = valid([Polygon(r["footprintM"]).buffer(
         BUILDING_CLEAR_M if r["id"].endswith(".building") else OTHER_CLEAR_M, join_style=2)
-        for r in rows if r.get("footprintM") and r["id"] not in decks]
-    parts = [p if p.is_valid else p.buffer(0) for p in parts if not p.is_empty]
-    if not parts:
+        for r in rows if r.get("footprintM") and r["id"] not in decks])
+    if not (ways or hard or feet):
         return
-    merged = unary_union(parts)
-    rings = [list(q.exterior.coords)[:-1] for poly in getattr(merged, "geoms", [merged])
-             for q in _hole_free(poly)]
     clearance = site.setdefault("vegetationClearance", {
-        "schemaVersion": 1, "id": f"patch.clearance.bundle.{site['id']}",
-        "hardClear": [], "thinned": [], "kept": []})
-    clearance["hardClear"] = list(clearance.get("hardClear") or []) + [
-        [[round(float(x), 3), round(float(z), 3)] for x, z in ring] for ring in rings]
+        "schemaVersion": VEGETATION_CLEARANCE_SCHEMA, "id": f"patch.clearance.bundle.{site['id']}",
+        "hardClear": [], "groundClear": [], "thinned": [], "kept": []})
+    clearance["schemaVersion"] = VEGETATION_CLEARANCE_SCHEMA
+    ground = unary_union(ways + hard).buffer(GROUND_HARD_MARGIN_M, join_style=2)
+    # the tree tier holds the ground-cover tier whole: no bush on bare ground
+    trees = unary_union([ground] + [w.buffer(WAY_CLEAR_M, join_style=2) for w in ways] + hard + feet)
+    clearance["groundClear"] = _rings(ground)
+    clearance["groundEdgeJitterM"] = GROUND_EDGE_JITTER_M
+    clearance["hardClear"] = _rings(trees)
+    clearance["thinned"] = list(clearance.get("thinned") or []) + _rings(
+        trees.buffer(FRINGE_RING_M, join_style=1, quad_segs=4))
+    clearance["fringeFalloffM"] = FRINGE_RING_M
+
+
+def clip_ground_paint(site: dict, treatments: list[dict] = ()) -> None:
+    """The paint dies under pads and floors, except inside a door's apron, so
+    worn ground reaches every threshold. A way cut in two becomes two
+    entries (`<id>.part-N`); a way wholly under a floor is dropped."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    from .vegetation_patches import apron_polygon
+    paint = site.get("groundPaint")
+    if not paint:
+        return
+    under = [Polygon(piece["polygonM"]) for o in (site.get("groundOverlays") or {}).get("pads") or []
+             for piece in o["pieces"]]
+    under += [Polygon(t["footprintM"]) for t in treatments
+              if t.get("kind", "floor") == "floor" and len(t.get("footprintM") or []) >= 3]
+    aprons = [Polygon(apron_polygon(*a)) for t in treatments for a in t.get("apronsM") or []]
+    under = [p if p.is_valid else p.buffer(0) for p in under]
+    if not under:
+        return
+    cut = unary_union(under).difference(unary_union(aprons)) if aprons else unary_union(under)
+    out = []
+    for e in paint["entries"]:
+        rings = _rings(Polygon(e["polygonM"]).difference(cut))
+        rings = [r for r in rings if Polygon(r).area > 0.05]
+        for i, ring in enumerate(rings):
+            out.append({**e, "id": e["id"] if len(rings) == 1 else f"{e['id']}.part-{i + 1}",
+                        "polygonM": ring})
+    paint["entries"] = out
 
 
 def ground_sidecar(bundle: dict) -> dict:
@@ -1779,6 +1958,27 @@ def ground_sidecar(bundle: dict) -> dict:
                                                  if k in s}}
                             for s in bundle["settlements"]
                             if "groundOverlays" in s or "vegetationClearance" in s]}
+
+
+def layout_pool_ops(bp: dict) -> dict:
+    """``{"poolOps": [...]}``: the `pool` ops of the layout the blueprint was
+    exported from (``authoredOn.layout``, `sockets.layout_of`), validated;
+    ``{}`` when it names no layout or has none. A layout changed since the
+    export refuses (the compile refuses it too), except on a fixture."""
+    from . import pad_overlay
+    from . import sockets as sk_mod
+    layout, error = sk_mod.layout_of(bp)
+    if error:
+        if _is_fixture(bp):
+            return {}
+        raise ValueError(f"{bp['id']}: {error}")
+    ops = [op for op in (layout or {}).get("ops") or [] if op.get("op") == pad_overlay.POOL_OP]
+    ops += list((layout or {}).get("pools") or [])
+    errors = [e for op in ops for e in pad_overlay.pool_op_errors(op)]
+    uids = [op.get("uid") for op in ops]
+    errors += [f"pool {u}: uid used twice" for u in sorted({u for u in uids if uids.count(u) > 1})]
+    _refuse("pool ops", errors, f"{bp['id']}: malformed layout pool op: " + "; ".join(errors))
+    return {"poolOps": ops} if ops else {}
 
 
 def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
@@ -1804,13 +2004,22 @@ def attach_ground_overlays(bundle: dict, places, survey=None) -> int:
         if scope is not None and site["id"] not in scope:
             continue
         rows = [by_id[i] for i in site["placementIds"] if i in by_id]
+        pool_ops = site.pop("poolOps", [])
         site["groundOverlays"] = {"schemaVersion": pad_overlay.SCHEMA_VERSION,
-                                  "pads": pad_overlay.place_overlays(
-                                      rows, site["id"], survey.height_at, is_wet)}
+                                  "pads": pad_overlay.apply_order(pad_overlay.place_overlays(
+                                      rows, site["id"], survey.height_at, is_wet) + [
+                                      pad_overlay.pool_overlay(op, site["id"], survey.height_at)
+                                      for op in pool_ops])}
+        site.pop("pools", None)
+        if pool_ops:
+            site["pools"] = [pad_overlay.pool_record(op, site["id"], survey.height_at)
+                             for op in pool_ops]
         missing += [f"{site['id']}: {pid}" for pid in pad_overlay.missing_overlays(site, by_id)]
         ids = set(site["placementIds"])
-        grow_clearance(site, rows, [t for t in bundle.get("groundTreatments") or []
-                                    if t["id"].removeprefix("treatment.") in ids])
+        own = [t for t in bundle.get("groundTreatments") or []
+               if t["id"].removeprefix("treatment.") in ids]
+        grow_clearance(site, rows, own)       # from the whole ways, before the paint is cut
+        clip_ground_paint(site, own)
     _refuse("ground overlays", missing,
             "declared pad with no ground overlay in the bundle (0102): " + "; ".join(missing))
     return sum(len((s.get("groundOverlays") or {}).get("pads") or []) for s in bundle["settlements"])
@@ -1867,6 +2076,8 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
     bundle.pop("settlementPadGrades", None)    # nothing reads the terrain pad receipt (r4 review)
     if overlays:
         bundle["groundOverlayCount"] = attach_ground_overlays(bundle, places)
+    for site in bundle["settlements"]:
+        site.pop("poolOps", None)       # no overlays measured: no pools either
     if places is not None and report_path.exists():
         # A --places publish re-judges only its own places: every other
         # accepted place's report-mode rows stand as the last export left them.

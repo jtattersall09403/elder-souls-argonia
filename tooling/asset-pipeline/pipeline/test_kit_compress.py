@@ -118,3 +118,44 @@ def test_an_unchanged_input_reuses_the_record_and_a_change_does_not(tmp_path):
     dst.write_bytes(b"someone else's bytes")
     assert reusable_record("k", "key-1", dst, published, cache) is None
     assert reusable_record("other", "key-1", dst, published, cache) is None
+
+
+def test_parts_problems_name_a_missing_folder_another_glb_and_a_missing_file(tmp_path, monkeypatch):
+    """A kit's parts folder is current only when its index names the published
+    GLB's sha256 and every listed file exists at its size (16k walk 4)."""
+    import hashlib
+    from . import kit_compress
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
+    monkeypatch.setattr(kit_compress, "parts_scope", lambda: {"k"})
+    (tmp_path / "k.glb").write_bytes(b"glb-bytes")
+    assert "no parts folder" in kit_compress.parts_problems("k")[0]
+    parts = tmp_path / "k" / "parts"
+    (parts / "tex").mkdir(parents=True)
+    (parts / "a.glb").write_bytes(b"12345")
+    (parts / "tex" / "abcd.ktx2").write_bytes(b"t")
+    index = {"source": {"sha256": "0" * 64},
+             "assets": {"x:a": {"file": "a.glb", "bytes": 5, "textures": ["abcd"]}}}
+    (parts / "index.json").write_text(json.dumps(index))
+    assert "cut from another GLB" in kit_compress.parts_problems("k")[0]
+    index["source"]["sha256"] = hashlib.sha256(b"glb-bytes").hexdigest()
+    (parts / "index.json").write_text(json.dumps(index))
+    assert kit_compress.parts_problems("k") == []
+    (parts / "tex" / "abcd.ktx2").unlink()
+    assert "tex/abcd.ktx2" in kit_compress.parts_problems("k")[0]
+
+
+def test_parts_scope_is_the_kits_published_cells_name(tmp_path, monkeypatch):
+    """Parts ship only for kits an interior cell bundle names (16k walk 4, lane
+    PARTS): an unscoped kit needs no parts folder, and one it still has fails
+    the check, because parts are a second copy that ships to Pages."""
+    from . import kit_compress
+    cells = tmp_path / "interiors"
+    cells.mkdir()
+    (cells / "C.json").write_text(json.dumps({"kits": {"in-cell": {"id": "in-cell"}}}))
+    monkeypatch.setattr(kit_compress, "PUBLIC_INTERIORS", cells)
+    monkeypatch.setattr(kit_compress, "PUBLIC_KITS", tmp_path)
+    assert kit_compress.parts_scope() == {"in-cell"}
+    (tmp_path / "exterior-only.glb").write_bytes(b"g")
+    assert kit_compress.parts_problems("exterior-only") == []
+    (tmp_path / "exterior-only" / "parts").mkdir(parents=True)
+    assert "named by no interior cell" in kit_compress.parts_problems("exterior-only")[0]

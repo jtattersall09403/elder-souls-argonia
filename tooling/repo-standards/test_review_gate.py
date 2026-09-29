@@ -188,6 +188,18 @@ def test_size_limit_measured_on_pathspec_diff_only(repo, monkeypatch):
     assert len(calls) == 1
 
 
+def test_size_measured_on_code_files_only_not_data(repo, monkeypatch):
+    """Decision 0106 §5: the review reads code only; a big data file in the
+    same pathspec must never count toward MAX_DIFF_BYTES."""
+    root, calls = repo
+    (root / "tooling/a" / "big.json").write_text("x" * 1_000_000)
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    assert len(calls) == 1
+    assert len(calls[0]) < 3000
+    assert "big.json" not in calls[0] and "f.py" in calls[0]
+
+
 def test_legacy_single_stamp_reads_as_whole_tree(repo, monkeypatch):
     os.makedirs(os.path.dirname(review_gate.STAMP), exist_ok=True)
     json.dump({"hash": "abc", "time": 1.0, "status": "ok", "findings": 0}, open(review_gate.STAMP, "w"))

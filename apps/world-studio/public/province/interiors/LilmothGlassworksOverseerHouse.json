@@ -1,9 +1,9 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "cellId": "LilmothGlassworksOverseerHouse",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "kotm:argonia/mudhuts/mudhut01",
+ "shellAssetId": "composite:mud/kotm-house-pod",
  "refCount": 109,
  "kits": {
   "interior-farmhouse-v1": {
@@ -57,7 +57,8 @@
  },
  "doors": [
   {
-   "exteriorDoorId": "door.hist-heartland.greenspring.5",
+   "doorType": "load",
+   "exteriorDoorId": "door.hist-heartland.greenspring.4",
    "interiorLoadDoorRef": "08879853",
    "arrivalMarker": {
     "positionM": [
@@ -77,6 +78,7 @@
    }
   },
   {
+   "doorType": "load",
    "interiorLoadDoorRef": "08879852",
    "closed": true,
    "loadDoor": {
@@ -2948,6 +2950,7 @@
   "drops": 18,
   "lights": 4,
   "substitutions": 2,
+  "swingDoors": 0,
   "missingByClass": {},
   "dropsByReason": {
    "light-source": 4,

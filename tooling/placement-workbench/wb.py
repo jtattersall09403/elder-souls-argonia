@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from functools import lru_cache
 import math
 import os
 import shlex
@@ -188,7 +189,11 @@ def cmd_place(a, scene, cat):
                         scale=scale, pad=pads.parse(a.pad), beached=a.beached,
                         walkable=a.walkable))
     out = {"placed": a.uid}
-    if a.settle:
+    if a.settle or (p.pad is not None and a.y is None):
+        # a building on a pad is always settled on it (16k walk 4, WB rec 2):
+        # the Claywater stable's op carried a pad and no `settle`, so it had
+        # no height, every rule skipped it and the compile seated it 2.57 m
+        # under its pad datum
         out["settle"] = _settle(cat, scene, p)
     return out
 
@@ -454,6 +459,15 @@ def _at_height(cat, scene, child, height: float) -> None:
 
 def cmd_mount(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
+    if getattr(a, "hang", False):
+        # R53: hang from the parent's own mesh (a branch underside) by the
+        # child's hang point; --along/--bearing pick the spot from the trunk
+        got = snap.hang_mount(cat, scene, child, parent, getattr(a, "unmined", None),
+                              min_h=a.min_h, max_h=a.max_h, along_m=a.along,
+                              bearing_deg=getattr(a, "bearing", None))
+        got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
+        got["contact"] = measure.contact(cat, child, parent)
+        return got
     wall = bool(getattr(a, "wall", False))
     if wall and snap.mount_pairs(child.asset, parent.asset):
         raise ValueError(f"mount --wall is for an unmined child: a mined pair hangs "
@@ -596,8 +610,9 @@ def _rule_task(cat, scene, key: str):
     from workbench import rules
     if key == "doors":
         return cmd_doors(None, scene, cat)
+    from workbench import seat_rules
     fn = {"walk": rules.walk, "pathReach": rules.path_reach,
-          "berthReach": rules.berth_reach}[key]
+          "berthReach": rules.berth_reach, "landing": seat_rules.landing}[key]
     return fn(cat, scene)
 
 
@@ -616,8 +631,9 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # judge the scene whole, the per-piece ones (`rules.PIECE_RULES`) run split
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
-               "berthReach", "collider")
-GRAPH_RULES = ("walk", "pathReach", "berthReach")
+               "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
+               "landing")
+GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing")
 
 
 def cmd_check(a, scene, cat):
@@ -782,7 +798,27 @@ def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
                        alongRunOverlapBarM=overlap_bar)
             out["ok"] = out["ok"] and overlap <= overlap_bar
         return out
+    n = plugin_abut_n(a.asset, b.asset)
+    if n:
+        # the makers place these two touching (kit-mounts-mined anchor
+        # `abuts`): the cooking stand straddling its cook fire (planner
+        # ruling 3, CLAYWATER2 2026-09-28); their crossing is designed
+        return {"relation": "plugin-abut", "abutN": n, "ok": True}
     return {"relation": "unrelated", "ok": not got["intersecting"]}
+
+
+def plugin_abut_n(a_asset: str, b_asset: str) -> int:
+    """References in which the plugins place ``a`` touching ``b`` (either
+    way round), from the mounts record's anchor `abuts` (0 when none)."""
+    anchors = _mounts_anchors()
+    return max(int(((anchors.get(x) or {}).get("abuts") or {}).get(y, 0))
+               for x, y in ((a_asset, b_asset), (b_asset, a_asset)))
+
+
+@lru_cache(maxsize=1)
+def _mounts_anchors() -> dict:
+    from workbench import paths as wbpaths
+    return json.loads((wbpaths.PLACEMENT_RECORDS / "kit-mounts-mined.json").read_text()).get("anchors", {})
 
 
 def _quay_reach(cat, scene, g, p, row, cs) -> dict:
@@ -1459,6 +1495,16 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--wall", action="store_true",
                    help="with --unmined: hang the child on the parent's nearest wall face where "
                         "it is placed (its height kept), not on its top (walk 2 round 4)")
+    s.add_argument("--hang", action="store_true",
+                   help="R53: hang the child from the parent's mesh (a branch underside) by "
+                        "its hang point (highest vertex on its pivot axis); needs --unmined; "
+                        "--along M / --bearing D from the parent's pivot pick the spot")
+    s.add_argument("--min-h", type=float, default=snap.HANG_MIN_H_M,
+                   help="--hang: the branch hit at least this high over the ground")
+    s.add_argument("--max-h", type=float, default=snap.HANG_MAX_H_M,
+                   help="--hang: the branch hit at most this high over the ground")
+    s.add_argument("--bearing", type=float, default=None,
+                   help="--hang: compass bearing from the parent's pivot to look along")
     s.add_argument("--height", type=float, default=None,
                    help="the child's centre this high over the padded ground under it (a road "
                         "board at hand height: 1.9 m, walk 2 round 4); the pair's face and "
@@ -2279,6 +2325,29 @@ def main(argv=None) -> int:
     return 0
 
 
+def bpy_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(prog="wb.py bpy", description=(
+        "headless Blender with the whole scene loaded (pieces named by uid, 'ground', "
+        "'water'), running SCRIPT with workbench/bpy_api.py importable; api.RESULT -> --out"))
+    ap.add_argument("scene")
+    ap.add_argument("script")
+    ap.add_argument("--out", required=True, help="the JSON the script's api.RESULT is written to")
+    ap.add_argument("--only", default=None, help="load only these uids (comma list)")
+    ap.add_argument("--args", nargs=argparse.REMAINDER, default=[],
+                    help="everything after is the script's api.ARGS")
+    return ap
+
+
+def run_bpy(argv) -> int:
+    from workbench import bpy_run
+    a = bpy_parser().parse_args(argv)
+    scene = open_scene(a.scene)
+    cat = place_catalogue(scene.placeId)
+    only = set(a.only.split(",")) if a.only else None
+    _emit(bpy_run.run(cat, scene, Path(a.script), Path(a.out), a.args, only))
+    return 0
+
+
 def edit_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
         prog="wb.py edit", description="edit a layout op by piece id (no inline python): "
@@ -2360,6 +2429,7 @@ def run_whatchanged(argv) -> int:
 
 
 TOP_LEVEL = {"apply": run_apply, "replay": run_replay, "round": run_round, "edit": run_edit,
+             "bpy": run_bpy,
              "whatchanged": run_whatchanged}
 
 

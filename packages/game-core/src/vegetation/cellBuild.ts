@@ -224,7 +224,8 @@ function buildSpecies(
   for (let k = 0; k < wanted; k++) {
     source.read(k, inst);
     // A place's clearance (0102): a plant on its built ground is never placed.
-    if (clearance && !clearance.survives(inst.x, inst.z, clearRadius)) continue;
+    // A sub-metre species reads the ground-cover tier (`GROUND_TIER_MAX_HEIGHT_M`).
+    if (clearance && !clearance.survives(inst.x, inst.z, clearRadius, params.heightM)) continue;
     const i = count++;
     // Anchor per the mined authoring conventions: terrain species put their
     // PIVOT on the live streamed ground minus the baked sink; water-surface
