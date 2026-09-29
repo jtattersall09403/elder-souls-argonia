@@ -75,7 +75,7 @@ const validVector = (v: Vec3) => Number.isFinite(v.x) && Number.isFinite(v.y) &&
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   If, Fn, attribute, cameraProjectionMatrix, clamp: tClamp, cos, dFdx, dFdy, dot, exp, float, floor, fract, length, max,
-  modelViewMatrix, pow, positionGeometry, select, sin, smoothstep, texture, uniform, uv, varying, vec2, vec3, vec4,
+  modelViewMatrix, pow, positionGeometry, sin, smoothstep, texture, uniform, uv, varying, vec2, vec3, vec4,
 } = tsl as unknown as Record<string, TslNode>;
 
 /**
@@ -178,7 +178,7 @@ function createParticleMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial
     const shape = edge.mul(detail);
     const sceneZ = sceneEyeDepthNode(n.sceneDepth, n.resolution, n.cameraNear, n.cameraFar);
     const soft = sel(n.hasDepth.greaterThan(0.5),
-      tClamp(sceneZ.sub(vViewDepth).div(select(isMist, float(0.8), float(0.12))), 0.0, 1.0), float(1));
+      tClamp(sceneZ.sub(vViewDepth).div(sel(isMist, float(0.8), float(0.12))), 0.0, 1.0), float(1));
     const alpha = shape.mul(vStyle.x).mul(soft).mul(n.lightVisibility);
     return vec4(n.lightColor, alpha);
   })();

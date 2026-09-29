@@ -28,11 +28,11 @@ import * as tsl from "three/tsl";
 import type { LodFadeUniforms } from "./lodFade";
 import { instanceMatrixNode, matrixColumn, whenInstanced } from "./instanceNodes";
 import {
-  claimFeature, wrapPosition, wrapShadowPosition, type TslNode,
+  claimFeature, sel, wrapPosition, wrapShadowPosition, type TslNode,
 } from "../render/nodes/materialNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
-const { dot, length, mat3, max, select, sqrt, transpose, vec2, vec3 } =
+const { dot, length, mat3, max, sqrt, transpose, vec2, vec3 } =
   tsl as unknown as Record<string, TslNode>;
 
 /**
@@ -70,7 +70,7 @@ function billboardNode(uniforms: LodFadeUniforms, p: TslNode): TslNode {
     const scale = sqrt(scaleSq);
     const v = uniforms.esLodViewPos.xz.sub(origin.xz);
     const len = length(v);
-    const right2 = select(len.greaterThan(1e-6), vec2(v.y, v.x.negate()).div(len), vec2(1, 0));
+    const right2 = sel(len.greaterThan(1e-6), vec2(v.y, v.x.negate()).div(max(len, 1e-6)), vec2(1, 0));
     const right = vec3(right2.x, 0, right2.y);
     // Forward completes the frame; a planar card has z ~ 0.
     const fwd = vec3(right2.y.negate(), 0, right2.x);

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import * as TSL_TYPED from "three/tsl";
-import type { TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import type { UniformOf } from "./aerial";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,7 +11,6 @@ const {
   mix,
   normalize,
   pow,
-  select,
   smoothstep,
   texture,
   uniform,
@@ -158,14 +157,14 @@ export function cloudFieldNodes(u: CloudUniforms, options: { vertex?: boolean } 
   // Squall shelf wall: coverage shift by azimuth — piles up on the UPWIND
   // horizon (where the line approaches from), thins downwind so lighter sky
   // shows behind the front. Applied to BOTH the mid deck and the low scud.
-  // (The old `if (uCloudFront <= 0.001) return 0` is exact as a select.)
+  // (The old `if (uCloudFront <= 0.001) return 0` is exact as a sel().)
   const esFrontShift = (d: TslNode): TslNode => {
     const az = normalize(d.xz.add(vec2(1e-4, 0)));
     const front = smoothstep(-0.25, 0.55, dot(az, u.uCloudDir.negate()));
     const shift = u.uCloudFront.mul(
       front.mul(CLOUD.frontGain).sub(float(1).sub(front).mul(CLOUD.frontThin)),
     );
-    return select(u.uCloudFront.lessThanEqual(0.001), float(0), shift);
+    return sel(u.uCloudFront.lessThanEqual(0.001), float(0), shift);
   };
   /** Mid deck: `alpha` and the raw noise `n` (the dome shades bases by it). */
   const esCloudMid = (d: TslNode): { alpha: TslNode; n: TslNode } => {

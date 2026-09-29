@@ -118,7 +118,7 @@ export default defineConfig(({ command }) => ({
   build: { target: "es2022", sourcemap: false },
   // Pre-bundle the heavy deps up front: discovering them on the first page
   // load makes the dev server re-optimise and reload the page mid-load.
-  optimizeDeps: { include: ["three", "@react-three/fiber", "@react-three/drei", "@dimforge/rapier3d-compat", "react", "react-dom/client"] },
+  optimizeDeps: { include: ["three", "three/webgpu", "three/tsl", "@react-three/fiber", "@react-three/drei", "@dimforge/rapier3d-compat", "react", "react-dom/client"] },
   server: {
     host: "0.0.0.0",
     port: TUNNEL_PORT,

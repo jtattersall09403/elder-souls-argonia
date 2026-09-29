@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { NodeMaterial } from "three/webgpu";
 import {
   Discard, Fn, If, abs, attribute, cameraProjectionMatrix, clamp, cos, dot, exp, float, floor, fract, ivec2, length,
-  max, min, mix, mod, modelViewMatrix, normalize, positionGeometry, pow, select, sin, smoothstep, step, texture,
+  max, min, mix, mod, modelViewMatrix, normalize, positionGeometry, pow, sin, smoothstep, step, texture,
   textureLoad, uniform, varying, vec2, vec3, vec4, viewportSize,
 } from "three/tsl";
-import type { TslNode } from "../render/nodes/materialNodes";
+import { sel, type TslNode } from "../render/nodes/materialNodes";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 /**
@@ -325,7 +325,7 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   const waterDepth: TslNode = wt.b.mul(D.y).add(D.x).add(H.z);
   // KEEP IN LOCKSTEP with airHoverFloorY(): the floor over water, or a huge
   // negative where the texel under the particle is dry ground.
-  const floorY: TslNode = select(
+  const floorY: TslNode = sel(
     surfaceEnabled.and(waterDepth.greaterThan(max(D.z, 0.0))),
     waterW.add(H.z).add(H.x).add(aSeed.y.mul(H.y)),
     float(-1.0e9),
@@ -335,7 +335,7 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   const world: TslNode = vec3(world0.x, max(world0.y, floorY), world0.z);
   // KEEP IN LOCKSTEP with airWaterGate(): a hover species draws ONLY over
   // standing water. Without a bound surface nothing is gated.
-  const waterGate: TslNode = select(surfaceEnabled, step(AIR_WATER_MIN_DEPTH_M, waterDepth), float(1.0));
+  const waterGate: TslNode = sel(surfaceEnabled, step(AIR_WATER_MIN_DEPTH_M, waterDepth), float(1.0));
 
   const edgeLo: TslNode = vec3(0.62);
   const edge: TslNode = vec3(1.0).sub((smoothstep as (...a: TslNode[]) => TslNode)(edgeLo, vec3(1.0), abs(rel).div(u.uBox)));
@@ -343,8 +343,9 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
 
   // BLINK ENVELOPE: airBlinkEnvelope(), per-insect period so a swarm never
   // falls into unison.
-  const ph: TslNode = fract(t.div(aPeriod).add(aPhase));
-  const blink: TslNode = select(
+  // divisor kept finite for aPeriod = 0 (blink is 1 there), so sel() never meets a NaN
+  const ph: TslNode = fract(t.div(sel(aPeriod.greaterThan(0.0), aPeriod, float(1.0))).add(aPhase));
+  const blink: TslNode = sel(
     aPeriod.greaterThan(0.0),
     pow(smoothstep(0.0, 0.16, ph).mul(float(1.0).sub(smoothstep(0.16, 0.6, ph))), 1.5),
     float(1.0),
@@ -355,7 +356,7 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
 
   // Forward scatter: brightest between eye and sun. For the lit species this
   // is most of their visibility.
-  const backlit: TslNode = select(
+  const backlit: TslNode = sel(
     u.uBacklight.greaterThan(0.0),
     pow(max(dot(normalize(world.sub(u.uCam)), u.uSunDir), 0.0), 8.0),
     float(0.0),
@@ -370,8 +371,8 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   // World-anchored patchiness, sampled on the WRAPPED WORLD position so the
   // pockets belong to the ground. The domain wraps every 256 patches so the
   // hash input stays small in float32.
-  const patchUV: TslNode = mod(world.xz.div(u.uPatchM), 256.0);
-  const patchNoise: TslNode = select(
+  const patchUV: TslNode = mod(world.xz.div(sel(u.uPatchM.greaterThan(0.0), u.uPatchM, float(1.0))), 256.0);
+  const patchNoise: TslNode = sel(
     u.uPatchM.greaterThan(0.0),
     smoothstep(u.uPatchBand.x, u.uPatchBand.y, esAirNoise(patchUV)),
     float(1.0),
@@ -380,7 +381,7 @@ function buildSwarmMaterial(u: AirSwarmUniforms): NodeMaterial {
   // centres and the value noise only textures the density inside them.
   const hab: TslNode = textureLoad(u.uAirHabitat, texelI).rgb;
   const habW: TslNode = clamp(dot(hab, u.uAirHabitatW.xyz), 0.0, 1.0);
-  const patch: TslNode = select(
+  const patch: TslNode = sel(
     u.uAirHabitatW.w.greaterThan(0.5),
     habW.mul(patchNoise.mul(0.65).add(0.35)),
     patchNoise,

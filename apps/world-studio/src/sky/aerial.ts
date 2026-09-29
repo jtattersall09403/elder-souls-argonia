@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import type { NodeMaterial } from "three/webgpu";
 import * as TSL_TYPED from "three/tsl";
-import { claimFeature, isNodeMaterial, wrapColor, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { claimFeature, isNodeMaterial, sel, wrapColor, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
 // TSL builders typed loosely (standard 0107 §1: chained TSL typings are too deep for tsc).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,7 +27,6 @@ const {
   output,
   positionWorld,
   pow,
-  select,
   sin,
   smoothstep,
   texture,
@@ -211,8 +210,9 @@ const esPathDensity = Fn(([yA0, yB0, H]: [TslNode, TslNode, TslNode]) => {
   const yB = max(yB0, 0);
   const dy = yB.sub(yA);
   const flat = exp(yA.add(yB).mul(-0.5).div(H));
-  const slope = H.div(dy).mul(exp(yA.negate().div(H)).sub(exp(yB.negate().div(H))));
-  return select(abs(dy).lessThan(1), flat, slope);
+  // divisor kept finite where `flat` is chosen, so sel() never multiplies an inf
+  const slope = H.div(sel(abs(dy).lessThan(1), float(1), dy)).mul(exp(yA.negate().div(H)).sub(exp(yB.negate().div(H))));
+  return sel(abs(dy).lessThan(1), flat, slope);
 });
 
 // Asymmetric cloud-forest belt profile (world-weather WHITEOUT_BELT twin):
@@ -220,7 +220,7 @@ const esPathDensity = Fn(([yA0, yB0, H]: [TslNode, TslNode, TslNode]) => {
 // (d/s)² is a product, never pow(): pow of a negative base is undefined.
 function esBeltBell(u: AerialUniforms, y: TslNode): TslNode {
   const d = y.sub(u.uWhiteout.x);
-  const s = select(d.lessThan(0), u.uWhiteout.y, u.uWhiteout.z);
+  const s = sel(d.lessThan(0), u.uWhiteout.y, u.uWhiteout.z);
   const r = d.div(s);
   return exp(r.mul(r).negate());
 }
@@ -313,7 +313,7 @@ export function aerialPerspectiveNode(
     const dWhite = float(0).toVar();
     If(u.uWhiteout.w.greaterThan(0.003), () => {
       const dy = wY.sub(camY);
-      const tx = clamp(u.uWhiteout.x.sub(camY).div(select(abs(dy).lessThan(1), float(1), dy)), 0, 1);
+      const tx = clamp(u.uWhiteout.x.sub(camY).div(sel(abs(dy).lessThan(1), float(1), dy)), 0, 1);
       const pX = mix(camPos, worldPos, tx).toVar();
       const xUv = provinceUv(u, pX).toVar();
       const maskX = pow(sampleAt(u.uClimateVis, xUv).r, 0.6).mul(esInBounds(xUv));

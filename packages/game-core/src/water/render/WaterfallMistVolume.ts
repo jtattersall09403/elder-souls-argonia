@@ -12,7 +12,7 @@ import { sceneEyeDepthNode } from "../../render/nodes/depthNodes";
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
   Break, Fn, If, Loop, attribute, cameraPosition, clamp, distance, dot, exp, float, floor, fract, length, max, min,
-  mix, normalize, positionWorld, pow, screenCoordinate, select, sin, smoothstep, uniform, varying, vec2, vec3, vec4,
+  mix, normalize, positionWorld, pow, screenCoordinate, sin, smoothstep, uniform, varying, vec2, vec3, vec4,
 } = tsl as unknown as Record<string, TslNode>;
 
 /**
@@ -200,7 +200,7 @@ function createMistMaterial(shared: KitSharedUniforms, camForward: TslNode): Mes
     });
     // (the old L accumulator was never read: colour is albedo x light, alpha 1 - T)
     const alpha = float(1).sub(T).mul(range).mul(u.uOpacity).mul(
-      select(tExit.greaterThan(tEnter).and(range.greaterThan(0.001)).and(u.uUnderwater.lessThanEqual(0.5)), float(1), float(0)));
+      sel(tExit.greaterThan(tEnter).and(range.greaterThan(0.001)).and(u.uUnderwater.lessThanEqual(0.5)), float(1), float(0)));
     return vec4(vec3(MIST_ALBEDO).mul(irr).mul(sunGlow), alpha);
   })();
   material.colorNode = out;

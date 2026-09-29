@@ -11,7 +11,7 @@ import { MeshBasicNodeMaterial, NodeMaterial, PointsNodeMaterial } from "three/w
 import * as TSL_TYPED from "three/tsl";
 import { SkyMesh } from "three/examples/jsm/objects/SkyMesh.js";
 import { CSMShadowNode } from "three/examples/jsm/csm/CSMShadowNode.js";
-import type { TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
+import { sel, type TslNode } from "@elder-souls/game-core/render/nodes/materialNodes";
 import { skyFogNode, type AerialUniforms, type UniformOf } from "./aerial";
 import { cloudFieldNodes, type CloudUniforms } from "./cloudField";
 import type { LightRig } from "./lightRig";
@@ -534,7 +534,7 @@ export function createStarLayer(
   // cloud occlusion.
   const vLum = varying(
     Fn(() => {
-      const density = aRank.lessThanEqual(uniforms.uStarFrac).select(float(1), float(0));
+      const density = sel(aRank.lessThanEqual(uniforms.uStarFrac), float(1), float(0));
       const D = uniforms.uSunAltDeg.negate();
       const az = normalize(vec3(pos).xz.add(vec2(1e-5, 0)));
       const cosAz = clamp(dot(az, uniforms.uDawnDir), -1, 1);

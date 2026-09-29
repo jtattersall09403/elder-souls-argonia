@@ -27,7 +27,7 @@ import * as TSLNS from "three/tsl";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, select, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
+  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
 } = TSLNS as any;
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -471,7 +471,9 @@ function makeSsr(u: WaterUniforms): (...args: TslNode[]) => TslNode {
     const rayEye = viewP.z.negate();
     const diff = rayEye.sub(sceneEye).toVar();
     If(diff.greaterThan(0.0).and(diff.lessThan(8.0)).and(sceneEye.lessThan(n(cameraFar).mul(0.9))), () => {
-      const t = select(prevDiff.lessThan(0.0), float(1.0), prevDiff.negate().div(diff.sub(prevDiff)));
+      // the divisor is nudged off exact zero only, so sel() never multiplies an inf (clamp() below gives the same t)
+      const den = diff.sub(prevDiff);
+      const t = sel(prevDiff.lessThan(0.0), float(1.0), prevDiff.negate().div(sel(abs(den).lessThan(1e-12), float(1e-12), den)));
       const hitUV = n(mix(prevUV, uv, clamp(t, 0.0, 1.0)));
       const edge = n(smoothstep(0.0, 0.12, hitUV)).mul(smoothstep(0.0, 0.12, float(1.0).sub(hitUV)));
       const conf = edge.x.mul(edge.y).mul(float(1.0).sub(float(i).div(18.0).mul(0.4)));

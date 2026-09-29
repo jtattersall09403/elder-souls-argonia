@@ -27,12 +27,12 @@ import * as tsl from "three/tsl";
 import { instanceDataNode } from "./batchData";
 import { instanceMatrixNode, matrixColumn } from "./instanceNodes";
 import {
-  claimFeature, wrapPosition, wrapShadowPosition, type TslNode,
+  claimFeature, sel, wrapPosition, wrapShadowPosition, type TslNode,
 } from "../render/nodes/materialNodes";
 
 // TSL chains are typed loosely on purpose (tsl-shaders.md §1).
 const {
-  cameraPosition, cos, dot, float, fract, length, mat3, max, min, pow, select, sin,
+  cameraPosition, cos, dot, float, fract, length, mat3, max, min, pow, sin,
   smoothstep, transpose, uniform, vec2, vec3,
 } = tsl as unknown as Record<string, TslNode>;
 
@@ -230,7 +230,7 @@ function swayNode(material: NodeMaterial, uniforms: WindUniforms, p: TslNode): T
   const worldOffset = vec3(flat.x, flat.y.sub(drop), flat.z);
   const offset = transpose(basis).mul(worldOffset).div(scaleSq);
   const active = strength.greaterThan(0.0001).and(height.greaterThan(0.01));
-  return select(active, p.add(offset), p);
+  return sel(active, p.add(offset), p);
 }
 
 /**

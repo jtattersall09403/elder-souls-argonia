@@ -3,11 +3,11 @@ import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { NodeMaterial, QuadMesh, RenderTarget, type WebGPURenderer } from "three/webgpu";
 import * as TSLNS from "three/tsl";
-import type { TslNode } from "../../render/nodes/materialNodes";
+import { sel, type TslNode } from "../../render/nodes/materialNodes";
 // TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const {
-  abs, clamp, cos, dot, exp, float, fract, getViewPosition, length, max, min, normalize, pow, reference, select, sin,
+  abs, clamp, cos, dot, exp, float, fract, getViewPosition, length, max, min, normalize, pow, reference, sin,
   texture, uniform, uv, vec2, vec4,
 } = TSLNS as any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -92,23 +92,25 @@ function createBlit(rt: RenderTarget, tier: WaterTier, sunDirection: { value: TH
     const below = n(u.uUwSurfaceY).sub(P.y);
     const proj = below.div(max(sun.y, 0.15));
     const sxz = n(P.add(sun.mul(proj))).xz;
-    const term = n(esCaustics(sxz.mul(0.05).add(sun.xz.mul(u.uUwTime).mul(0.2)), n(u.uUwTime).mul(0.4))).mul(exp(below.mul(-0.05)));
+    const term = n(esCaustics(sxz.mul(0.05).add(sun.xz.mul(u.uUwTime).mul(0.2)), n(u.uUwTime).mul(0.4)))
+      // max(below, 0): identical where the term is kept, finite where it is not (sel() multiplies both)
+      .mul(exp(max(below, 0.0).mul(-0.05)));
     // `continue` above the surface in the GLSL: the sample adds nothing there
-    acc = acc.add(select(below.lessThanEqual(0.0), float(0.0), term));
+    acc = acc.add(sel(below.lessThanEqual(0.0), float(0.0), term));
   }
   acc = acc.mul(dt);
   const mu = n(clamp(dot(rd, sun), -1.0, 1.0));
   const phase = float(0.0796 * (1.0 - 0.5184)).div(pow(float(1.0 + 0.5184).sub(mu.mul(1.44)), 1.5));
   const rays = n(u.uUwFog).mul(acc).mul(0.10).mul(phase).mul(12.5663706);
-  under = n(select(n(u.uGodRays).greaterThan(0.5).and(sun.y.greaterThan(0.05)), under.add(rays), under));
+  under = n(sel(n(u.uGodRays).greaterThan(0.5).and(sun.y.greaterThan(0.05)), under.add(rays), under));
   // multiplicative grain before tone mapping — kills the 8-bit banding the
   // smooth murk gradients otherwise show (owner round 1, defect 6)
   const grain = fract(n(sin(n(dot(vUv.mul(vec2(1723.0, 1093.0)), vec2(12.9898, 78.233))).add(n(u.uUwTime).mul(7.0)))).mul(43758.5453));
   under = under.mul(n(grain).sub(0.5).mul(0.05).add(1.0));
-  let colour = n(select(n(u.uUnderwater).greaterThan(0.5), under, base));
+  let colour = n(sel(n(u.uUnderwater).greaterThan(0.5), under, base));
   // underwater bubble composite (premultiplied, half-res target)
   const bubbles = n(n(u.uBubbleColor).sample(vUv));
-  colour = n(select(n(u.uBubbleActive).greaterThan(0.5), colour.mul(float(1.0).sub(bubbles.a)).add(bubbles.rgb), colour));
+  colour = n(sel(n(u.uBubbleActive).greaterThan(0.5), colour.mul(float(1.0).sub(bubbles.a)).add(bubbles.rgb), colour));
   const material = new NodeMaterial();
   material.fragmentNode = vec4(colour, 1.0);
   // The blit also WRITES the scene depth, so the water pass gets hardware

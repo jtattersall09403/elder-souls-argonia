@@ -9,6 +9,11 @@
  * for every line naming a WebGL renderer, a GLSL material hook or GLSL
  * source. Each line is reported once, under its most specific token
  * (RawShaderMaterial before ShaderMaterial). Exit 1 on any hit.
+ *
+ * Also flags a TSL `select(` call (bare or `.select(` on a node) in any file
+ * that imports from "three/tsl" or "three/webgpu", except materialNodes.ts, home of the
+ * branch-free `sel()`: three 0.184 may lower select() on computed operands
+ * to an if/else reading unassigned temporaries (silent NaN, decision 0109).
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative, dirname, extname } from "node:path";
@@ -31,6 +36,12 @@ const TOKENS = [
   ["#include <", /#include </],
 ];
 const ANY = new RegExp(TOKENS.map(([, re]) => re.source).join("|"));
+const TSL_IMPORT = /from\s+["']three\/(?:tsl|webgpu)["']/;
+// A call, not the word in a comment or a destructuring list.
+const SELECT_CALL = /(?:^|[^\w$])select\s*\(/;
+const SELECT_EXEMPT = "materialNodes.ts";
+const SELECT_MSG = "select() call: use sel() from render/nodes/materialNodes (decision 0109 gotcha)";
+const stripComment = (line) => line.replace(/\/\/.*$/, "");
 
 function walk(dir, out) {
   let entries;
@@ -57,12 +68,15 @@ const hitFiles = new Set();
 for (const f of files) {
   if (f === self) continue;
   const text = readFileSync(f, "utf8");
-  if (!ANY.test(text)) continue;
+  const checkSelect = TSL_IMPORT.test(text) && !f.endsWith(SELECT_EXEMPT);
+  if (!ANY.test(text) && !(checkSelect && SELECT_CALL.test(text))) continue;
   const rel = relative(root, f).split("\\").join("/");
   const lines = text.split("\n");
   for (let i = 0; i < lines.length; i++) {
-    if (!ANY.test(lines[i])) continue;
-    const [token] = TOKENS.find(([, re]) => re.test(lines[i]));
+    let token;
+    if (ANY.test(lines[i])) [token] = TOKENS.find(([, re]) => re.test(lines[i]));
+    else if (checkSelect && SELECT_CALL.test(stripComment(lines[i]))) token = SELECT_MSG;
+    else continue;
     console.log(`${rel}:${i + 1}: ${token}`);
     hits++;
     hitFiles.add(rel);
