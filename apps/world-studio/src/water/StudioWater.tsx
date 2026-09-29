@@ -68,23 +68,35 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
     visibility(); document.addEventListener('visibilitychange', visibility);
     return () => { document.removeEventListener('visibilitychange', visibility); setWaterClockHidden(true); };
   }, []);
-  const runtime = useMemo<WaterRuntime>(() => ({
+  const runtime = useMemo<WaterRuntime>(() => {
+    // The dev layer spec is parsed when it changes, not per call (it is read
+    // every frame by the surface and the pipeline; walk 5 perf).
+    let layerSpec: string | null | undefined;
+    let layerSet = parseWaterLayers(null);
+    const wind = { x: 0, y: 0, z: 0 };
+    const waterLayers = () => {
+      const spec = window.__STUDIO_WATER_LAYERS__ !== undefined ? window.__STUDIO_WATER_LAYERS__ : INITIAL_WATER_LAYERS;
+      if (spec !== layerSpec) { layerSpec = spec; layerSet = parseWaterLayers(spec); }
+      return layerSet;
+    };
+    return {
     csm, surfaceFocus, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
     transportTimeS: waterTransportTimeS, transportDeltaS: waterTransportDeltaS,
     advanceClock: dt => advanceWaterClock(dt, worldClock.rate),
     rainIntensity: () => lastWeatherSample()?.rainIntensity ?? 0,
+    // One wind record rewritten per call: its readers use it at once.
     windVelocity: () => {
       const w = lastWeatherSample();
-      return { x: (w?.windDirXZ[0] ?? 0) * (w?.windSpeedMS ?? 0), y: 0,
-        z: (w?.windDirXZ[1] ?? 0) * (w?.windSpeedMS ?? 0) };
+      wind.x = (w?.windDirXZ[0] ?? 0) * (w?.windSpeedMS ?? 0);
+      wind.z = (w?.windDirXZ[1] ?? 0) * (w?.windSpeedMS ?? 0);
+      return wind;
     },
     applyAerial: material => applyAerialPerspective(material, sharedAerialUniforms),
     sunDirection: sharedAerialUniforms.uSunDirW,
     ambient: sharedAerialUniforms.uHazeAmbient,
     sunLight: sharedAerialUniforms.uHazeSunLight,
     causticsInOpaque: true,
-    waterLayers: () => parseWaterLayers(
-      window.__STUDIO_WATER_LAYERS__ !== undefined ? window.__STUDIO_WATER_LAYERS__ : INITIAL_WATER_LAYERS),
+    waterLayers,
     onLocalSurface: state => updateGroundLocalWater(wetnessUniforms, state),
     onLevels: (tide, season, wind, windMS) => {
       wetnessUniforms.uWetLevels.value.set(tide, season);
@@ -96,7 +108,8 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
         ? (window.__STUDIO_CAUSTICS__ as number) : 1;
     },
     onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
-  }), [csm, surfaceFocus]);
+    };
+  }, [csm, surfaceFocus]);
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);

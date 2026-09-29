@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
+import { ALL_WATER_LAYERS, type WaterAssets, type WaterDebugState, type WaterRuntime } from "./types";
 import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
@@ -56,6 +56,11 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   const segments = useFrameSegments();
   /** Drawing-buffer size, read into this every frame (walk 5 perf). */
   const bufferSize = useMemo(() => new THREE.Vector2(), []);
+  const debugState = useRef<WaterDebugState>({
+    tier: "", underwater: false, surfaceAtCameraM: 0, tideOffsetM: 0, seasonOffsetM: 0, cameraDepthM: 0,
+    rtSamples: 0, frames: 0, contextLost: false,
+    camera: { viewProj: new Array<number>(16).fill(0), width: 0, height: 0, verticalScale: 1 },
+  });
   const frames = useRef(0);
   const bubblePass = useMemo(() => new UnderwaterBubblePass(tier.name === "low"), [tier.name]);
   useEffect(() => () => bubblePass.dispose(), [bubblePass]);
@@ -436,27 +441,31 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     renderer.setRenderTarget(prevTarget);
 
     frames.current += 1;
-    runtime.onDebug?.({
-      tier: tier.name,
-      underwater,
-      surfaceAtCameraM: camSample.surfaceHeight,
-      tideOffsetM: assets.world.levelOffsets(epoch).tide,
-      seasonOffsetM: assets.world.levelOffsets(epoch).season,
-      cameraDepthM: Math.max(0, camSample.surfaceHeight - trueY),
-      rtSamples: tier.samples,
-      frames: frames.current,
-      contextLost: contextLost.current,
-      effects: h?.effects.diagnostics,
-      bubbles: h?.bubbles?.diagnostics,
-      bubblePass: bubblePass.diagnostics,
-      strips: h ? h.stripDiagnostics : undefined,
-      falls: h?.falls?.diagnostics,
-      layers: runtime.waterLayers?.() ?? ALL_WATER_LAYERS,
-      camera: {
-        viewProj: viewProj.current.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).toArray(),
-        width: size.x, height: size.y, verticalScale,
-      },
-    });
+    if (runtime.onDebug) {
+      // One debug record rewritten in place (walk 5 perf): no object, camera
+      // block or 16-number array per frame.
+      const d = debugState.current;
+      const levels = assets.world.levelOffsets(epoch);
+      d.tier = tier.name;
+      d.underwater = underwater;
+      d.surfaceAtCameraM = camSample.surfaceHeight;
+      d.tideOffsetM = levels.tide;
+      d.seasonOffsetM = levels.season;
+      d.cameraDepthM = Math.max(0, camSample.surfaceHeight - trueY);
+      d.rtSamples = tier.samples;
+      d.frames = frames.current;
+      d.contextLost = contextLost.current;
+      d.effects = h?.effects.diagnostics;
+      d.bubbles = h?.bubbles?.diagnostics;
+      d.bubblePass = bubblePass.diagnostics;
+      d.strips = h ? h.stripDiagnostics : undefined;
+      d.falls = h?.falls?.diagnostics;
+      d.layers = runtime.waterLayers?.() ?? ALL_WATER_LAYERS;
+      const c = d.camera!;
+      viewProj.current.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).toArray(c.viewProj);
+      c.width = size.x; c.height = size.y; c.verticalScale = verticalScale;
+      runtime.onDebug(d);
+    }
   }, 1);
 
   return null;

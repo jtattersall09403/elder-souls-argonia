@@ -242,6 +242,10 @@ export class FoamField {
   private readonly quad: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
   private readonly pass: THREE.ShaderMaterial;
   private readonly pending: Injection[] = [];
+  /** Renderer state saved around the pass, rewritten per frame (walk 5 perf). */
+  private readonly savedColor = new THREE.Color();
+  private readonly savedViewport = new THREE.Vector4();
+  private readonly savedScissor = new THREE.Vector4();
   private initialized = false;
   private disposed = false;
 
@@ -326,10 +330,10 @@ export class FoamField {
     const target = renderer.getRenderTarget();
     const tone = renderer.toneMapping;
     const autoClear = renderer.autoClear;
-    const color = renderer.getClearColor(new THREE.Color());
+    const color = renderer.getClearColor(this.savedColor);
     const alpha = renderer.getClearAlpha();
-    const viewport = renderer.getViewport(new THREE.Vector4());
-    const scissor = renderer.getScissor(new THREE.Vector4());
+    const viewport = renderer.getViewport(this.savedViewport);
+    const scissor = renderer.getScissor(this.savedScissor);
     const scissorTest = renderer.getScissorTest();
     try {
       renderer.toneMapping = THREE.NoToneMapping;
@@ -344,7 +348,7 @@ export class FoamField {
       u.uPrev.value = this.a.texture;
       renderer.setRenderTarget(this.b);
       renderer.render(this.scene, this.camera);
-      [this.a, this.b] = [this.b, this.a];
+      const swap = this.a; this.a = this.b; this.b = swap;
     } finally {
       renderer.setRenderTarget(target);
       renderer.setViewport(viewport); renderer.setScissor(scissor); renderer.setScissorTest(scissorTest);

@@ -683,6 +683,6 @@ export class RippleSim {
     this.quad.material = material;
     renderer.setRenderTarget(this.b);
     renderer.render(this.scene, this.camera);
-    [this.a, this.b] = [this.b, this.a];
+    const swap = this.a; this.a = this.b; this.b = swap;
   }
 }
