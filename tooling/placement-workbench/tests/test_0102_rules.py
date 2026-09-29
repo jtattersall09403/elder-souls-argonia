@@ -242,7 +242,11 @@ def test_floor_edge_reads_only_underside_within_1_m_of_the_base(cat, scene, monk
 def test_walk_fails_where_the_water_is_deeper_than_wading(cat, scene, monkeypatch):
     """Planner ruling 7: a wet cell is walkable at most 0.7 m deep over the
     padded ground (0093). The well's approach crosses water 0.63 m deep and
-    passes; at a 0.3 m limit it fails as wading."""
+    passes; at a 0.3 m limit it fails as wading. The walk-1 yard-set trough
+    stands on the well's tarn-side approach (the live layout removed both in
+    walk 5), so the unreached diagnosis names it before the water: it is taken
+    out so the only thing closing the approach is the wading depth."""
+    scene.remove("isy-trough")
     t = _target(rules.walk(cat, scene), "well")
     assert t["ok"] and 0.3 < t["deepestWadeM"] <= rules.WADE_MAX_M
     monkeypatch.setattr(rules, "WADE_MAX_M", 0.3)
