@@ -24,7 +24,8 @@ def test_bundle_accounts_for_every_reference(path):
     assert bundle["schemaVersion"] == ex.SCHEMA_VERSION
     assert ex.check(bundle) == []
     swings = [d for d in bundle["doors"] if d["doorType"] == "swing"]
-    assert (len(bundle["placements"]) + len(bundle["drops"])
+    plugin = [p for p in bundle["placements"] if p.get("source") != "addition"]  # 0109: outside the sum
+    assert (len(plugin) + len(bundle["drops"])
             + len(bundle.get("substitutions") or []) + len(swings)) == bundle["refCount"]
     assert not [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"], \
         "a tier A cell ships with every mesh in a published kit"
@@ -586,6 +587,18 @@ def test_an_addition_is_appended_and_lit_by_the_rule(tmp_path):
 def test_a_bad_addition_is_an_export_error(tmp_path, rows, why):
     with pytest.raises(ValueError, match=why):
         _additions(tmp_path, rows)
+
+
+def test_a_cell_with_a_substitution_and_an_addition_exports(tmp_path):
+    # a substitution names its asset as standInAsset, never assetId
+    sub = {"id": "C.00000002", "refId": "C.00000002", "standInAsset": "wall", "kit": "k",
+           "positionM": [4.0, 0.0, 0.0], "rotationDeg": [0.0, 0.0, 0.0], "scale": 1.0}
+    lo, hi = ex.cell_extent(_ADD_PLUGIN + [sub], _ADD_BOUNDS)
+    assert hi[0] > 4.0 + 3.0  # the stand-in's own bounds widen the cell
+    (tmp_path / "C.json").write_text(json.dumps({"schemaVersion": 1, "cellId": "C",
+                                                 "additions": [_row(pos=(7.5, 0.8, 1.0))]}))
+    added = ex.load_additions("C", _ADD_PLUGIN + [sub], _ADD_KITS, _ADD_BOUNDS, directory=tmp_path)
+    assert [a["id"] for a in added] == ["C:add:table-candle"]
 
 
 def test_no_additions_file_adds_nothing(tmp_path):

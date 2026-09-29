@@ -442,10 +442,12 @@ def cell_extent(placements: list[dict], kit_bounds: dict[str, tuple]) -> tuple[l
     """The cell's bounds in its own frame: the box around every plugin
     placement's bounding sphere (radius from its kit ``sizeM`` and
     ``originOffsetM`` times its scale; axis-free, so it never refuses a
-    point inside the room). Catches an addition authored in the wrong frame."""
+    point inside the room). Catches an addition authored in the wrong frame.
+    A substitution carries ``standInAsset`` in place of ``assetId``."""
     lo, hi = [math.inf] * 3, [-math.inf] * 3
     for p in placements:
-        size, origin = kit_bounds.get(p["assetId"]) or ([0.0] * 3, [0.0] * 3)
+        asset = p.get("assetId") or p.get("standInAsset")
+        size, origin = kit_bounds.get(asset) or ([0.0] * 3, [0.0] * 3)
         r = float(p.get("scale", 1.0)) * (math.hypot(*size) / 2 + math.hypot(*origin))
         for i in range(3):
             lo[i] = min(lo[i], p["positionM"][i] - r)
