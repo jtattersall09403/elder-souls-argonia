@@ -51,13 +51,21 @@ export interface FireConfig {
   riseSpeed: number;
   /** Per-card motion, each card on its own phase (its seed): horizontal
    * sway of the upper body (`swayW`, in card widths at the tip), width and
-   * height pulsing (`pulse`, share), at `rateHz`. Small for a candle so it
-   * stays a candle, large for a campfire so its tongues part and merge. */
+   * height pulsing (`pulse`, share), at `rateHz`. A small flame needs MORE
+   * relative sway, pulse and rate than a large one to read as moving at its
+   * few pixels (judge 3, walk 5: at the large presets' share a candle read
+   * as a still blob); a campfire's tongues part and merge at a lower share. */
   motion: { swayW: number; pulse: number; rateHz: number };
   /** The temperature ramp, three bands up the flame: `base` (dark red /
    * orange, the root and the fringe) -> `mid` (bright yellow-white, the
    * body) -> `tip` (pale, fading to transparent at the top). */
   ramp: { base: FireRgb; mid: FireRgb; tip: FireRgb };
+  /** Where the ramp's bands start up the flame (0 root .. 1 top): `mid` the
+   * body band, `tip` the tip band; the tip's fade to transparent starts just
+   * above `tip`. Absent: `DEFAULT_RAMP_BANDS`. A small tapered flame has
+   * little area above half height, so its tip band starts lower or it reads
+   * as a two-tone blob (judge 3, walk 5). */
+  bands?: { mid: number; tip: number };
   /** Brightness flicker: rate (Hz) and share (0..1). The same function and
    * seed drive the point light (lighting.ts), so flame and light agree. */
   flicker: { rateHz: number; amount: number };
@@ -75,7 +83,11 @@ export interface FireConfig {
   gain: { day: number; night: number };
 }
 
-const CANDLE_RAMP = { base: [0.75, 0.1, 0.0], mid: [1.0, 0.86, 0.42], tip: [1.0, 0.5, 0.08] } as const;
+export const DEFAULT_RAMP_BANDS = { mid: 0.2, tip: 0.5 } as const;
+// small flames: a deeper red root, a warm yellow body and a deep orange tip
+// that starts a third of the way up, so the three bands show at candle size
+const CANDLE_RAMP = { base: [0.7, 0.06, 0.0], mid: [1.0, 0.8, 0.32], tip: [0.95, 0.3, 0.02] } as const;
+const SMALL_BANDS = { mid: 0.1, tip: 0.3 } as const;
 const WOOD_RAMP = { base: [0.6, 0.05, 0.0], mid: [1.0, 0.8, 0.3], tip: [1.0, 0.38, 0.03] } as const;
 
 /** The presets, smallest and calmest first. */
@@ -83,8 +95,8 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   candle: {
     schemaVersion: 2, id: "candle",
     shape: { widthM: 0.035, heightM: 0.085, taper: 0.8 },
-    layers: { core: 2, outer: 1, spreadM: 0.003 },
-    turbulence: 0.22, riseSpeed: 1.1, motion: { swayW: 0.45, pulse: 0.12, rateHz: 2.2 }, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.01 },
+    turbulence: 0.4, riseSpeed: 1.6, motion: { swayW: 1.1, pulse: 0.4, rateHz: 3.4 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 5, amount: 0.08 }, windResponse: 0.25,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
@@ -92,8 +104,8 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
   lanternStanding: {
     schemaVersion: 2, id: "lanternStanding",
     shape: { widthM: 0.04, heightM: 0.095, taper: 0.8 },
-    layers: { core: 2, outer: 1, spreadM: 0.004 },
-    turbulence: 0.2, riseSpeed: 1.0, motion: { swayW: 0.4, pulse: 0.1, rateHz: 2.0 }, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.012 },
+    turbulence: 0.4, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.2 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 4, amount: 0.06 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
@@ -103,8 +115,8 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     // bigger flame at the body's centre, reading through the cage
     schemaVersion: 2, id: "lanternHanging",
     shape: { widthM: 0.07, heightM: 0.15, taper: 0.7 },
-    layers: { core: 2, outer: 1, spreadM: 0.008 },
-    turbulence: 0.24, riseSpeed: 1.0, motion: { swayW: 0.4, pulse: 0.12, rateHz: 1.8 }, ramp: CANDLE_RAMP,
+    layers: { core: 2, outer: 1, spreadM: 0.02 },
+    turbulence: 0.42, riseSpeed: 1.5, motion: { swayW: 1.0, pulse: 0.4, rateHz: 3.0 }, ramp: CANDLE_RAMP, bands: SMALL_BANDS,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
     smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },

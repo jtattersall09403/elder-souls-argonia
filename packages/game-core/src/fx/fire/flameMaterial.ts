@@ -40,7 +40,7 @@
  * card instances and place the volume boxes at their emitters.
  */
 import * as THREE from "three";
-import { FIRE_PRESETS, FIRE_PRESET_ORDER } from "./fireTypes";
+import { DEFAULT_RAMP_BANDS, FIRE_PRESETS, FIRE_PRESET_ORDER } from "./fireTypes";
 
 /** A flame never draws narrower than this angle (radians, ~4 px at 1080p),
  * so a 3.5 cm candle flame still reads as a point of fire at 50 m. */
@@ -84,10 +84,11 @@ float fireMask(vec2 p, float taper) {
 }
 // the 3-band temperature ramp up the flame, t 0 root .. 1 top: a dark
 // red/orange base band, a bright yellow-white body band, a pale tip band;
-// narrow transitions, so the three bands read as bands, not one blend
-vec3 fireRamp(float t, vec3 base, vec3 mid, vec3 tip) {
-  vec3 low = mix(base, mid, smoothstep(0.2, 0.32, t));
-  return mix(low, tip, smoothstep(0.5, 0.64, t));
+// narrow transitions, so the three bands read as bands, not one blend;
+// \`at\` is where the body and tip bands start (the preset's \`bands\`)
+vec3 fireRamp(float t, vec3 base, vec3 mid, vec3 tip, vec2 at) {
+  vec3 low = mix(base, mid, smoothstep(at.x, at.x + 0.12, t));
+  return mix(low, tip, smoothstep(at.y, at.y + 0.14, t));
 }
 // smooth 1-D noise in -1..1 (the per-card sway and pulse)
 float fireWobble(float t, float seed) {
@@ -171,6 +172,7 @@ uniform float uTime;
 uniform float uNight;
 uniform vec3 uRamp[${PALETTES * 3}];
 uniform vec2 uGain[${PALETTES}];
+uniform vec2 uBands[${PALETTES}];
 varying vec2 vUv;
 varying float vSeed;
 varying float vIntensity;
@@ -207,9 +209,10 @@ void main() {
   band = mix(band, 0.0, (1.0 - smoothstep(0.08, 0.4, mask)) * (1.0 - band * 0.5));
   // the outer cards are the cooler flanks: orange tongues, red at the root
   band = mix(band, max(band, 0.62), outer);
-  vec3 col = fireRamp(band, base, mid, tip);
-  // the tip thins to transparent over the top third
-  heat *= 1.0 - 0.85 * smoothstep(0.55, 0.95, p.y);
+  vec2 bands = uBands[row];
+  vec3 col = fireRamp(band, base, mid, tip, bands);
+  // the tip thins to transparent from just above the tip band's start
+  heat *= 1.0 - 0.85 * smoothstep(bands.y + 0.05, 0.95, p.y);
   vec2 gainDN = uGain[row];
   float gain = mix(gainDN.x, gainDN.y, uNight);
   // core covers (alpha), fringe adds (colour with no alpha)
@@ -285,21 +288,27 @@ export interface FireUniforms {
   uFade: THREE.IUniform<number>;
   uRamp: THREE.IUniform<THREE.Vector3[]>;
   uGain: THREE.IUniform<THREE.Vector2[]>;
+  /** Per palette: where the body and tip bands start (`FireConfig.bands`). */
+  uBands: THREE.IUniform<THREE.Vector2[]>;
 }
 
 /** The palette tables from the presets, in `FIRE_PRESET_ORDER`. */
 export function makeFireUniforms(): FireUniforms {
   const ramp: THREE.Vector3[] = [];
   const gain: THREE.Vector2[] = [];
+  const bands: THREE.Vector2[] = [];
   for (const id of FIRE_PRESET_ORDER) {
     const c = FIRE_PRESETS[id];
     ramp.push(new THREE.Vector3(...c.ramp.base), new THREE.Vector3(...c.ramp.mid), new THREE.Vector3(...c.ramp.tip));
     gain.push(new THREE.Vector2(c.gain.day, c.gain.night));
+    const b = c.bands ?? DEFAULT_RAMP_BANDS;
+    bands.push(new THREE.Vector2(b.mid, b.tip));
   }
   return {
     uTime: { value: 0 }, uNight: { value: 0 }, uWind: { value: new THREE.Vector2() },
     uMinAngle: { value: FLAME_MIN_ANGLE_RAD }, uMaxDistance: { value: FLAME_MAX_DISTANCE_M },
     uFade: { value: FLAME_FADE_M }, uRamp: { value: ramp }, uGain: { value: gain },
+    uBands: { value: bands },
   };
 }
 
