@@ -16,6 +16,8 @@ Writes `<out>/<asset>/result.json`, and one labelled contact sheet per tier
 
     python3 -m pipeline.tree_tiers_check --kit flora-province-v1 \
         --assets <id,...> --out <dir> [--set far.leafKeep=0.08]
+    ... --calibrate [--bark-ladder --set mid.leafKeep=1]   # settings ladders
+    ... --out <cal dir> --record        # lightest passing -> kit config
 """
 from __future__ import annotations
 
@@ -142,6 +144,13 @@ CALIBRATE_KEEPS = {"mid": (0.28, 0.4, 0.55, 0.7), "far": (0.2, 0.3, 0.45, 0.6)}
 #: cards barely overlap (willow), 0.4 for a dense one whose thinned cards
 #: already cover most of the source (the Anvil canopy: +20 % at 0.85).
 CALIBRATE_GAINS = (0.85, 0.4)
+#: Bark-tube ladder (`--calibrate --bark-ladder`, round 13b): sides round
+#: the tube x the collinear-merge tolerance (m), leaf keep fixed by `--set`.
+#: For trees whose bark is most of the triangles (the mangroves' stilt roots).
+BARK_SIDES = (4, 5, 6, 8)
+BARK_TOLS = (0.03, 0.06, 0.1)
+#: The settings a calibrated level records into `treeTiers.perAsset`.
+RECORDED = ("leafKeep", "gain", "barkKeep", "barkTube", "barkSides", "barkTol", "barkFit")
 #: A tier above this share of the source's triangles is not shipped.
 MAX_SHARE = 0.7
 
@@ -169,7 +178,7 @@ def rechoose(result: dict) -> dict:
 
 
 def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
-          samples: int = 6, calibrate: bool = False) -> dict:
+          samples: int = 6, calibrate: bool = False, bark_ladder: bool = False) -> dict:
     kit = json.loads((tree_tiers.CONFIG / f"{kit_id}.json").read_text())
     glb = (tree_tiers.REPO_ROOT / kit["output"]).resolve()
     manifest = json.loads(glb.with_suffix(".kit.json").read_text())
@@ -184,6 +193,10 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
                         (t, {**base[t], "leafKeep": k, "gain": g})
                         for t, keeps in CALIBRATE_KEEPS.items() for k in keeps
                         for g in CALIBRATE_GAINS}
+            if bark_ladder:
+                variants = {f"{t}-s{n}t{int(round(tol * 100)):02d}":
+                            (t, {**base[t], "barkTube": 1, "barkSides": n, "barkTol": tol})
+                            for t in ("mid", "far") for n in BARK_SIDES for tol in BARK_TOLS}
         counts = tree_tiers.preview(glb, [asset_id], out_root / "glb", kit, overrides,
                                     variants)[asset_id]
         labels = {label: (variants[label][0] if variants else label)
@@ -213,11 +226,14 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
                   "source": counts["source"],
                   "levels": {label: {"tier": labels[label], "triangles": counts[label],
                                      "share": round(counts[label] / counts["source"], 3),
+                                     **({"settings": {key: variants[label][1][key]
+                                                      for key in RECORDED
+                                                      if key in variants[label][1]}}
+                                        if variants else {}),
                                      **scores[label]} for label in labels},
                   "chosen": chosen}
         if calibrate:
-            result["perAsset"] = {t: ({"leafKeep": variants[chosen[t]][1]["leafKeep"],
-                                       "gain": variants[chosen[t]][1]["gain"]}
+            result["perAsset"] = {t: (result["levels"][chosen[t]]["settings"]
                                       if chosen[t] else None) for t in ("mid", "far")}
         for tier in ("mid", "far"):
             label = chosen[tier] or next((lbl for lbl, t in labels.items() if t == tier), None)
@@ -252,7 +268,7 @@ def record(kit_id: str, cal_dir: Path) -> dict:
         row = {}
         for tier in ("mid", "far"):
             level = result["levels"].get(chosen[tier]) if chosen[tier] else None
-            row[tier] = None if level is None else {
+            row[tier] = None if level is None else level.get("settings") or {
                 "leafKeep": float(chosen[tier].split("-k")[1][:2]) / 100,
                 "gain": float(chosen[tier].split("g")[-1]) / 100}
         per[result["assetId"]] = row
@@ -282,6 +298,8 @@ def main() -> None:
     parser.add_argument("--set", action="append", default=[])
     parser.add_argument("--calibrate", action="store_true",
                         help="try the CALIBRATE_KEEPS ladder, report the lowest passing keep")
+    parser.add_argument("--bark-ladder", action="store_true",
+                        help="with --calibrate: the bark-tube ladder (BARK_SIDES x BARK_TOLS)")
     args = parser.parse_args()
     overrides: dict = {}
     for item in args.set:
@@ -292,7 +310,7 @@ def main() -> None:
         print(json.dumps(record(args.kit, args.out), indent=1))
         return
     results = check(args.kit, args.assets.split(","), args.out, overrides, args.samples,
-                    args.calibrate)
+                    args.calibrate, args.bark_ladder)
     (args.out / "results.json").write_text(json.dumps(results, indent=1))
 
 

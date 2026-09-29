@@ -162,3 +162,46 @@ def test_per_asset_null_tier_is_not_built(tmp_path):
     assert lods == {1}
     assert "far" not in manifest["assets"][0]["lodTiers"]
     assert json.dumps(manifest)            # serialisable as the manifest is
+
+
+def _bent_tube(rings: int = 40, sides: int = 12, radius: float = 0.25):
+    """A 4 m tube bending in one plane, one welded island, UVs as a bark wrap."""
+    pos, uv, tris = [], [], []
+    for r in range(rings):
+        t = r / (rings - 1)
+        centre = np.array([np.sin(t * 1.2) * 2.0, t * 4.0, 0.0])
+        tangent = np.array([np.cos(t * 1.2) * 2.4, 4.0, 0.0])
+        tangent /= np.linalg.norm(tangent)
+        side = np.cross(tangent, [0, 0, 1.0])
+        for s in range(sides):
+            a = 2 * np.pi * s / sides
+            pos.append(centre + radius * (np.cos(a) * side + np.sin(a) * np.array([0, 0, 1.0])))
+            uv.append([s / sides, t * 4])
+    for r in range(rings - 1):
+        for s in range(sides):
+            a, b = r * sides + s, r * sides + (s + 1) % sides
+            tris += [[a, b, b + sides], [a, b + sides, a + sides]]
+    return np.asarray(pos, np.float32), np.asarray(uv, np.float32), np.asarray(tris, np.int64)
+
+
+def test_tube_bark_rebuilds_a_tube_lighter_and_in_place():
+    pos, uv, tris = _bent_tube()
+    attrs = {"POSITION": pos, "TEXCOORD_0": uv}
+    built, faces = tt.tube_bark(pos, tris, attrs, sides=4, tol=0.05, keep=1.0)
+    assert len(faces) < len(tris) / 4                         # rings merged + fewer sides
+    assert tt.tube_fits(pos, tris, built["POSITION"], faces, 0.05)
+    # the rebuilt tube spans the source's height and bend
+    assert np.allclose(built["POSITION"].min(0)[:2], pos.min(0)[:2], atol=0.3)
+    assert np.allclose(built["POSITION"].max(0)[:2], pos.max(0)[:2], atol=0.3)
+
+
+def test_tube_fits_refuses_a_misplaced_rebuild():
+    pos, uv, tris = _bent_tube()
+    moved = pos + np.array([0.0, 0.0, 1.0], np.float32)       # a cone or a broken fork
+    assert not tt.tube_fits(pos, tris, moved, tris, 0.05)
+
+
+def test_tube_bark_keeps_small_islands_whole():
+    pos, tris = _cards(5, np.random.default_rng(3))
+    built, faces = tt.tube_bark(pos, tris, {"POSITION": pos}, sides=4, tol=0.05, keep=1.0)
+    assert len(faces) == len(tris)

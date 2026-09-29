@@ -220,6 +220,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_256_0"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3471,
+     "share": 0.608,
+     "settings": {
+      "leafKeep": 0.7,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 2586,
+     "share": 0.453,
+     "settings": {
+      "leafKeep": 0.6,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.6389,
@@ -245,36 +282,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.303,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3471,
-     "share": 0.608,
-     "settings": {
-      "leafKeep": 0.7,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 2586,
-     "share": 0.453,
-     "settings": {
-      "leafKeep": 0.6,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.303
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
@@ -8086,6 +8094,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_0"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3772,
+     "share": 0.324,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 2398,
+     "share": 0.206,
+     "settings": {
+      "leafKeep": 0.2,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.0,
@@ -8111,36 +8156,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.179,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.066,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3772,
-     "share": 0.324,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 2398,
-     "share": 0.206,
-     "settings": {
-      "leafKeep": 0.2,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 4.066
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
@@ -9768,6 +9784,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3756,
+     "share": 0.324,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 3406,
+     "share": 0.294,
+     "settings": {
+      "leafKeep": 0.3,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.0304,
@@ -9793,36 +9846,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 2.925,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3756,
-     "share": 0.324,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 3406,
-     "share": 0.294,
-     "settings": {
-      "leafKeep": 0.3,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 2.925
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
@@ -11287,6 +11311,43 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_1"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 2016,
+     "share": 0.354,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.85,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    },
+    "far": {
+     "level": 2,
+     "triangles": 1546,
+     "share": 0.272,
+     "settings": {
+      "leafKeep": 0.3,
+      "gain": 0.85,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.0,
@@ -11312,36 +11373,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.113,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 2016,
-     "share": 0.354,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.85,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    },
-    "far": {
-     "level": 2,
-     "triangles": 1546,
-     "share": 0.272,
-     "settings": {
-      "leafKeep": 0.3,
-      "gain": 0.85,
-      "maxScale": 4.0,
-      "barkKeep": 0.12,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.002
   },
   {
    "id": "bmv:landscape/plants/chickweed",
@@ -24196,6 +24228,26 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 2892,
+     "share": 0.551,
+     "settings": {
+      "leafKeep": 0.55,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.383,
@@ -24226,23 +24278,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.383,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 2892,
-     "share": 0.551,
-     "settings": {
-      "leafKeep": 0.55,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": -0.383
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -25562,6 +25598,26 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_512_2"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "mid": {
+     "level": 1,
+     "triangles": 3926,
+     "share": 0.461,
+     "settings": {
+      "leafKeep": 0.28,
+      "gain": 0.4,
+      "maxScale": 2.6,
+      "barkKeep": 0.35,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 6,
+      "barkTol": 0.05,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": -0.5194,
@@ -25592,23 +25648,7 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.519,
-   "lodTiers": {
-    "method": "part-aware-rebuild-v1",
-    "mid": {
-     "level": 1,
-     "triangles": 3926,
-     "share": 0.461,
-     "settings": {
-      "leafKeep": 0.28,
-      "gain": 0.4,
-      "maxScale": 2.6,
-      "barkKeep": 0.35,
-      "lengthShare": 0.5,
-      "outer": 0.0
-     }
-    }
-   }
+   "pivotAboveBaseM": 0.519
   },
   {
    "id": "bmv:landscape/trees/scottish-pine22",
@@ -50786,6 +50826,26 @@
    "billboardMaterials": [
     "es|card_es|cardatlas_128_0"
    ],
+   "lodTiers": {
+    "method": "part-aware-rebuild-v1",
+    "far": {
+     "level": 2,
+     "triangles": 2681,
+     "share": 0.646,
+     "settings": {
+      "leafKeep": 0.6,
+      "gain": 0.4,
+      "maxScale": 4.0,
+      "barkKeep": 0.12,
+      "lengthShare": 0.5,
+      "outer": 0.0,
+      "barkTube": 0,
+      "barkSides": 5,
+      "barkTol": 0.12,
+      "barkFit": 2.5
+     }
+    }
+   },
    "lodLevels": 4,
    "designedSinkM": {
     "p25": 0.0818,
@@ -51983,12 +52043,12 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 73834768,
-  "bytesAfter": 25670384,
+  "bytesBefore": 74085208,
+  "bytesAfter": 25708656,
   "images": 149,
-  "imageBytesAfter": 20900040,
+  "imageBytesAfter": 20899961,
   "warnings": [],
-  "sha256": "27297eb50c072ec2c2c9a32f879dba62e6bf1a398bb6f24a1f94d536b6b3eab4",
+  "sha256": "d22ad12d0b49bc3f59077c417943ebd605e648d467b2f8e64cbfebf97d99f2b3",
   "sidecarBytes": {},
   "sidecarsExempt": "vegetation atlas: no snap edges, no footprints, no interiors"
  }
