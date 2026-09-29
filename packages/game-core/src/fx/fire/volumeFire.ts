@@ -215,7 +215,16 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const tExit = min(min(tf.x, tf.y), tf.z);
     const span = max(tExit.sub(tEnter), float(0));
     const stepLen = span.div(steps);
-    const jitter = T.interleavedGradientNoise(T.screenCoordinate.xy);
+    // de-banding (judge (a), 2026-09-29): IGN offsets each ray's first sample
+    // by a fraction of a step, and a second, decorrelated per-pixel hash
+    // jitters every sample inside its grid cell (stochastic filtering), so
+    // neither the step spacing nor the 32 field layers print as bands
+    const px = T.screenCoordinate.xy;
+    const jitter = T.interleavedGradientNoise(px).toVar();
+    const h0 = T.interleavedGradientNoise(px.add(T.vec2(47.0, 17.0))).toVar();
+    const h1 = T.fract(h0.mul(1.618034).add(jitter.mul(0.7548777))).toVar();
+    const h2 = T.fract(h0.mul(0.5698403).add(jitter.mul(1.3247180))).toVar();
+    const cell = vec3(1 / c.grid[0], 1 / c.grid[1], 1 / c.grid[2]);
     // the seed picks one of 8 mirrorings of the shared field
     const flipX = step(0.5, T.fract(vSeed.mul(2)));
     const flipZ = step(0.5, T.fract(vSeed.mul(4)));
@@ -237,7 +246,10 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
         box.z.sub(vLean.y.mul(box.y).mul(box.y).mul(0.15)));
       const mx = mix(leaned.x, float(1).sub(leaned.x), flipX);
       const mz = mix(leaned.z, float(1).sub(leaned.z), flipZ);
-      const uvw = vec3(mix(mx, mz, swap), leaned.y, mix(mz, mx, swap));
+      // per-sample cell jitter: golden-ratio walk from the pixel's hash, +-0.5 cell
+      const g = float(i).mul(0.618034);
+      const cj = vec3(T.fract(h0.add(g)), T.fract(h1.add(g.mul(1.32))), T.fract(h2.add(g.mul(0.79)))).sub(0.5).mul(cell);
+      const uvw = vec3(mix(mx, mz, swap), leaned.y, mix(mz, mx, swap)).add(cj);
       // flame envelope (judge (a), 2026-09-29: the raw field filled its box as a column): a
       // teardrop narrowing to the tip, widest a quarter up, and a fade over the top 30 %
       const r = length(T.vec2(box.x.sub(0.5), box.z.sub(0.5)));
@@ -258,9 +270,15 @@ export function makeVolumeMaterial(u: FireUniforms, field: VolumeFireField): Nod
     const avg = acc.div(max(alpha, 1e-3));
     const gainDN = u.uGain.element(row);
     const gain = mix(gainDN.x, gainDN.y, u.uNight);
-    const cover = alpha.mul(mix(0.95, 0.7, u.uNight)).mul(vIntensity);
+    // the cards' core/fringe split applied to the ray's opacity: by day the
+    // card's core is smoothstep(0.3, 0.75, heat) at alpha 0.95, a solid shape
+    // over the sky; the raw optical alpha is a soft gradient that let the sky
+    // through (pale, pink-grey). So the day core is the same kind of step on
+    // the ray's alpha; by night it relaxes to the raw alpha (the soft volume)
+    const core = mix(smoothstep(0.12, 0.55, alpha), alpha, u.uNight);
+    const cover = core.mul(mix(0.95, 0.7, u.uNight)).mul(vIntensity);
     const glow = smoothstep(0.0, 0.5, alpha).mul(mix(0.06, 0.55, u.uNight));
-    const k = clamp(alpha.mul(mix(1.0, 0.8, u.uNight)).add(glow).mul(vIntensity), 0, 1);
+    const k = clamp(core.mul(mix(1.0, 0.8, u.uNight)).add(glow).mul(vIntensity), 0, 1);
     const scene = displayToScene(min(avg.mul(gain), vec3(1)), u.uExposure, u.uToneMapped);
     return vec4(scene.mul(k), clamp(cover, 0, 1));
   })();

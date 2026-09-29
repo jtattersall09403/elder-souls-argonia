@@ -88,9 +88,27 @@ Judges (two Sonnet agents, 2026-09-29): day/night visibility and the
 first render (pale pink-grey by day, a box-filling column, no hot core,
 banding); one fix round (32 steps, density 7 -> 12, a teardrop envelope on
 the field, a near-white kernel above temperature 0.9) gave tapered flames
-with a hot base at night. Still open: the volume reads fainter than the
-cards by day, and one close-up fire shows horizontal banding under
-SwiftShader (not yet checked on a GPU).
+with a hot base at night.
+
+Fix 1 (2026-09-29). The volume already read the cards' gain and exposure
+path (`uGain` row, `uNight`, `displayToScene` at `uExposure`); the day
+faintness was its coverage: the cards cover with `smoothstep(0.3, 0.75,
+heat)`, the volume covered with its raw optical alpha, a soft gradient the
+sky showed through. By day the volume's coverage is now the same kind of
+step on the ray's alpha (`smoothstep(0.12, 0.55, alpha)`), relaxing to the
+raw alpha by night. De-banding: the IGN start offset stays, and each sample
+is jittered inside its grid cell (a per-pixel IGN hash walked by the golden
+ratio per step; stochastic filtering of the 16x32x16 field).
+Fix 1 measured (SwiftShader WebGPU, 512x288, `/tmp/harness/<scene>-fix1`):
+flame-orange pixels in the volume strip of the day shot 1796 (was 1417;
+the cards 1287); `fire-stress` 73 ms against `fire-stress-cards` 41 ms, a
+volume/cards ratio of ~1.8 on SwiftShader only. Device timing on the M2 /
+Adreno 740 is the owner's to take; no estimate is made here. Judges (two
+fresh Sonnet agents): day/night and stress PASS; volume-vs-reference FAIL:
+the volumes still read softer-edged than the cards by day with a diffuse
+hot core, and the horizontal streaks on the brazier in `fire-close` are
+unchanged by the in-cell jitter, so they are not field or step banding;
+their cause is still open.
 
 ## Why not
 
