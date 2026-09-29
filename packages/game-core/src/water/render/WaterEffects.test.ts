@@ -94,7 +94,8 @@ describe("water effects", () => {
     expect(fx.diagnostics.submittedInstances).toBe(fx.activeCount);
     expect(fx.object3d.layers.mask).toBe(1 << 5);
     expect(fx.object3d.material.depthWrite).toBe(false);
-    expect(fx.object3d.material.fragmentShader).toContain("sceneZ - vViewDepth");
+    expect(fx.object3d.material.colorNode).toBeTruthy();
+    expect(fx.object3d.material.maskNode).toBeTruthy();
     fx.dispose();
   });
 

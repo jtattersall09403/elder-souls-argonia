@@ -13,12 +13,16 @@
  * piece's OWN arc length in metres — never world-time x world position and
  * never a fixed world-space drift (decision 0047 root cause 6).
  *
- * The TS functions are the twins the unit tests measure; `WHITEWATER_GLSL`
- * is the literal source the fragment shaders compile. Edit both or neither.
- * A sourced streak texture (`FXWhiteWater01`-class) can be slotted in with
- * `#define ES_STREAK_TEX` + `uStreakTex`; the procedural field is the
- * fallback and is what ships until the FX kit lands.
+ * The TS functions are the twins the unit tests measure; the node graphs
+ * that draw them (the strip shader in waterMaterial.ts, the falls kit and
+ * mist here) mirror them. Edit both or neither.
  */
+import { Node } from "three/webgpu";
+import * as tsl from "three/tsl";
+import type { TslNode } from "../../render/nodes/materialNodes";
+
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const { clamp, dot, float, max, mix, vec3 } = tsl as unknown as Record<string, TslNode>;
 
 /** One texture tile is this many metres of arc on the body layer (bodytall:
  * 3 V tiles over 16 m ≈ 5.3 m; the recipe rounds to 4 m). */
@@ -213,132 +217,58 @@ export function fallsIrradiance(ambient: readonly number[], sunLight: readonly n
 }
 
 /**
- * CSM sun visibility for the falls kit.
+ * Sun visibility (shadow) for the falls kit and mist.
  *
- * The kit is unlit `ShaderMaterial` outside CSM, so before this a fall at the
- * bottom of a shaded gorge was lit as if it stood in open sun (probe: the
- * `fall-gorge` body measured x2.10 of the water around it, which IS shadowed).
- * `CSM.setupMaterial` cannot help — it patches `<lights_fragment_begin>`,
- * a chunk an unlit shader does not have — but the shadow maps themselves are
- * plain directional-light shadows in three's own uniform block, so the kit
- * takes them directly: `lights: true` on the material, three's shadow chunks
- * included, and the cascade chosen as the first one this fragment falls
- * inside (self-contained: it needs none of CSM's private `CSM_cascades`).
+ * The kit is unlit, so a fall at the bottom of a shaded gorge would be lit
+ * as if it stood in open sun (probe: `fall-gorge` body measured x2.10 of the
+ * water around it, which IS shadowed). The kit therefore reads the sun's own
+ * shadow node, the SAME instance the sun light uses (`CSMShadowNode` on
+ * `light.shadow.shadowNode`, or a `shadow(light)` node): three renders its
+ * maps once per frame whatever reads them, and the cascade choice is the
+ * node's own. The holder is read at material BUILD time; after setting
+ * `node`, mark the materials `needsUpdate` (WaterfallSheets.setSunShadow).
+ * No node = open sun (visibility 1), the old `NUM_DIR_LIGHT_SHADOWS == 0` path.
  */
-export const FALLS_SHADOW_VERTEX_PARS = /* glsl */ `
-#include <common>
-#include <shadowmap_pars_vertex>
-`;
-/** Call with the object-space vertex; declares `worldPosition` for the chunk. */
-export const FALLS_SHADOW_VERTEX = /* glsl */ `
-  vec4 worldPosition = modelMatrix * vec4(esShadowVertex, 1.0);
-  #include <shadowmap_vertex>
-`;
-export const FALLS_SHADOW_FRAGMENT_PARS = /* glsl */ `
-#include <packing>
-#include <shadowmap_pars_fragment>
-float esFallsSunVisibility(){
-  float esVis = 1.0;
-#if defined( USE_SHADOWMAP ) && NUM_DIR_LIGHT_SHADOWS > 0
-  // three unrolls this into straight-line code in ONE scope, so nothing may
-  // be declared inside the body; esDone keeps the first cascade that
-  // contains the fragment (the near cascade is first) instead of the last.
-  vec3 esSc;
-  float esDone = 0.0;
-  #pragma unroll_loop_start
-  for ( int i = 0; i < NUM_DIR_LIGHT_SHADOWS; i ++ ) {
-    esSc = vDirectionalShadowCoord[ i ].xyz / vDirectionalShadowCoord[ i ].w;
-    if ( esDone < 0.5 && all( greaterThanEqual( esSc, vec3( 0.0 ) ) ) && all( lessThanEqual( esSc, vec3( 1.0 ) ) ) ) {
-      esDone = 1.0;
-      esVis = getShadow( directionalShadowMap[ i ], directionalLightShadows[ i ].shadowMapSize,
-        directionalLightShadows[ i ].shadowIntensity, directionalLightShadows[ i ].shadowBias,
-        directionalLightShadows[ i ].shadowRadius, vDirectionalShadowCoord[ i ] );
-    }
-  }
-  #pragma unroll_loop_end
-#endif
-  return esVis;
+export interface FallsSunShadow {
+  node: TslNode | null;
 }
-`;
 
-/** Compiled into the sheet, base and strip fragment shaders. Twin of the
- * functions above: `esStreakUv(layer, u, arcM, t, gain, wobbleScale)`. */
-export const WHITEWATER_GLSL = /* glsl */ `
-#ifndef ES_WHITEWATER_GLSL
-#define ES_WHITEWATER_GLSL 1
-// KEEP IN LOCKSTEP with fallsIrradiance(): upness 0 = vertical sheet, 1 =
-// horizontal pool foam; vis = sun visibility (shadow), 1 = open sun.
-vec3 esFallsIrradianceG(vec3 ambient, vec3 sunLight, vec3 sunDir, float upness, float vis){
-  float up = clamp(upness, 0.0, 1.0);
-  float v = clamp(vis, 0.0, 1.0);
-  float sunY = clamp(sunDir.y, ${FALLS_MIN_SUN_Y.toFixed(2)}, 1.0);
-  float skyView = 1.00;
-  float sunSphere = ${FALLS_SPHERE_INTERCEPT.toFixed(2)} / sunY;
-  float sunView = mix(sunSphere, 1.0, up);
-  float bounce = (1.0 - up) * 0.5 * ${FALLS_GROUND_ALBEDO.toFixed(2)};
-  vec3 sky = ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)};
-  vec3 sun = sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)};
-  vec3 full = sky * skyView + sun * sunView + (sky + sun) * bounce;
-  vec3 lit  = sky * skyView + sun * sunView * v + (sky + sun * v) * bounce;
-  vec3 flat_ = sky + sun * (0.55 + 0.45 * clamp(sunDir.y, 0.0, 1.0));
-  const vec3 LUM = vec3(0.2126, 0.7152, 0.0722);
-  float k = dot(flat_, LUM) / max(dot(full, LUM), 1e-4);
-  return lit * k * RECIPROCAL_PI;
+class EsFallsSunVisibility extends (Node as unknown as new (type: string) => { nodeType: string }) {
+  constructor(private readonly holder: FallsSunShadow) {
+    super("float");
+  }
+  setup(builder: { renderer: { shadowMap: { enabled: boolean } } }): TslNode {
+    const node = this.holder.node;
+    if (!node || !builder.renderer.shadowMap.enabled) return float(1);
+    return float(node);
+  }
 }
-vec3 esFallsIrradiance(vec3 ambient, vec3 sunLight, vec3 sunDir){
-  return esFallsIrradianceG(ambient, sunLight, sunDir, 0.0, 1.0);
+
+/** Sun visibility 0..1 for the current fragment (1 = open sun). */
+export function fallsSunVisibilityNode(holder: FallsSunShadow): TslNode {
+  return new EsFallsSunVisibility(holder);
 }
-const vec3 ES_STREAK_TILE = vec3(${STREAK_LAYERS.map((l) => l.tileM.toFixed(2)).join(", ")});
-const vec3 ES_STREAK_RATE = vec3(${STREAK_LAYERS.map((l) => l.rateMS.toFixed(2)).join(", ")});
-const vec3 ES_STREAK_ACROSS = vec3(${STREAK_LAYERS.map((l) => l.acrossTiles.toFixed(2)).join(", ")});
-const vec3 ES_STREAK_PHASE = vec3(${STREAK_LAYERS.map((l) => l.phaseS.toFixed(2)).join(", ")});
-float esStreakHash(vec2 p){
-  p = fract(p * vec2(123.34, 456.21));
-  p += dot(p, p + 45.32);
-  return fract(p.x * p.y);
+
+/**
+ * Node twin of `fallsIrradiance()` (KEEP IN LOCKSTEP): upness 0 = vertical
+ * sheet, 1 = horizontal pool foam; vis = sun visibility, 1 = open sun.
+ * Arguments are TSL nodes (vec3, vec3, vec3, float, float).
+ */
+export function fallsIrradianceNode(ambient: TslNode, sunLight: TslNode, sunDir: TslNode,
+  upness: TslNode, vis: TslNode): TslNode {
+  const up = clamp(upness, 0, 1);
+  const v = clamp(vis, 0, 1);
+  const sunY = clamp(sunDir.y, FALLS_MIN_SUN_Y, 1);
+  const skyView = float(FALLS_SKY_VIEW);
+  const sunSphere = float(FALLS_SPHERE_INTERCEPT).div(sunY);
+  const sunView = mix(sunSphere, float(1), up);
+  const bounce = float(1).sub(up).mul(0.5 * FALLS_GROUND_ALBEDO);
+  const sky = vec3(ambient).div(AERIAL_SKY_FEED_SCALE);
+  const sun = vec3(sunLight).div(AERIAL_SUN_FEED_SCALE);
+  const full = sky.mul(skyView).add(sun.mul(sunView)).add(sky.add(sun).mul(bounce));
+  const lit = sky.mul(skyView).add(sun.mul(sunView).mul(v)).add(sky.add(sun.mul(v)).mul(bounce));
+  const flat = sky.add(sun.mul(float(0.55).add(clamp(sunDir.y, 0, 1).mul(0.45))));
+  const LUMV = vec3(LUM[0], LUM[1], LUM[2]);
+  const k = dot(flat, LUMV).div(max(dot(full, LUMV), 1e-4));
+  return lit.mul(k).mul(1 / Math.PI);
 }
-float esStreakValueNoise(vec2 p){
-  vec2 i = floor(p), f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);
-  return mix(mix(esStreakHash(i), esStreakHash(i + vec2(1.0, 0.0)), u.x),
-             mix(esStreakHash(i + vec2(0.0, 1.0)), esStreakHash(i + vec2(1.0, 1.0)), u.x), u.y);
-}
-#ifdef ES_STREAK_TEX
-// the vanilla FX textures are greyscale with the coverage in ALPHA (measured
-// 2026-09-08: fxwhitewater R is a flat 0.83, its alpha carries the ring)
-uniform sampler2D uStreakTex;
-float esStreakField(vec2 uv){ return texture2D(uStreakTex, uv).a; }
-#else
-// procedural fallback: value noise y-stretched so blobs become streaks
-float esStreakField(vec2 uv){ return esStreakValueNoise(vec2(uv.x, uv.y * 0.5)); }
-#endif
-float esStreakGain(float speedMS){
-  return clamp(speedMS / ${STREAK_SPEED_REF_MS.toFixed(1)}, ${STREAK_SPEED_GAIN_MIN.toFixed(2)}, 1.0);
-}
-float esStreakBreathe(float t){
-  return 1.0 + ${(STREAK_BREATHE_AMPLITUDE * 0.5).toFixed(3)} * (1.0 - cos(6.2831853 * t / ${STREAK_BREATHE_PERIOD_S.toFixed(2)}));
-}
-// KEEP IN LOCKSTEP with streakUv(): u across 0..1, arcM metres down the piece
-vec2 esStreakUv(int layer, float u, float arcM, float t, float gain, float wobbleScale){
-  float tile = layer == 0 ? ES_STREAK_TILE.x : (layer == 1 ? ES_STREAK_TILE.y : ES_STREAK_TILE.z);
-  float rate = layer == 0 ? ES_STREAK_RATE.x : (layer == 1 ? ES_STREAK_RATE.y : ES_STREAK_RATE.z);
-  float across = layer == 0 ? ES_STREAK_ACROSS.x : (layer == 1 ? ES_STREAK_ACROSS.y : ES_STREAK_ACROSS.z);
-  float phase = layer == 0 ? ES_STREAK_PHASE.x : (layer == 1 ? ES_STREAK_PHASE.y : ES_STREAK_PHASE.z);
-  float tp = t + phase;
-  float breathe = esStreakBreathe(tp);
-  float wobble = sin(u * ${STREAK_WOBBLE_FREQ.toFixed(1)} + tp) * ${STREAK_WOBBLE_AMPLITUDE.toFixed(2)} * wobbleScale;
-  float uu = (u - 0.5) * breathe * across + 0.5 * across + ${STREAK_U_DRIFT_UVS.toFixed(3)} * tp + wobble;
-  float vv = arcM / tile - (rate * gain * t) / tile;
-  return vec2(uu, vv);
-}
-// The three-layer whitewater value, 0..1: body streaks modulated by the fast
-// foam and lifted by the slow accent. returns the combined value; foam is
-// the fast layer alone (the crest/plunge boost rides it).
-float esWhitewater(float u, float arcM, float t, float gain, float wobbleScale, out float foam){
-  float body = esStreakField(esStreakUv(0, u, arcM, t, gain, wobbleScale));
-  foam = esStreakField(esStreakUv(1, u, arcM, t, gain, wobbleScale) + vec2(11.0, 3.0));
-  float accent = esStreakField(esStreakUv(2, u, arcM, t, gain, wobbleScale) + vec2(5.0, 17.0));
-  return clamp(body * (0.55 + 0.75 * foam) * (0.7 + 0.6 * accent), 0.0, 1.0);
-}
-#endif
-`;

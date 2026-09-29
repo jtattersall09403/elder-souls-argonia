@@ -1,9 +1,18 @@
 import * as THREE from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
-import { WHITEWATER_GLSL, FALLS_SHADOW_VERTEX_PARS, FALLS_SHADOW_VERTEX, FALLS_SHADOW_FRAGMENT_PARS } from "./whitewaterStreaks";
+import { fallsIrradianceNode, fallsSunVisibilityNode } from "./whitewaterStreaks";
 import type { FallPath } from "./WaterfallSheets";
-import type { KitSharedUniforms } from "./WaterfallKitMaterial";
+import { liftedInstancePositionNode, sceneEyeDepthNode, type KitSharedUniforms } from "./WaterfallKitMaterial";
+
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const {
+  Break, Fn, If, Loop, attribute, cameraPosition, clamp, distance, dot, exp, float, floor, fract, length, max, min,
+  mix, normalize, positionWorld, pow, screenCoordinate, select, sin, smoothstep, uniform, varying, vec2, vec3, vec4,
+} = tsl as unknown as Record<string, TslNode>;
 
 /**
  * A ray-marched mist volume per fall (decision 0064; research
@@ -17,7 +26,7 @@ import type { KitSharedUniforms } from "./WaterfallKitMaterial";
  * and water softly instead of ending on a plane. Density is a two-octave
  * value noise drifting up and downstream, scaled by a smooth falloff from
  * each shape's axis; lighting is the shared falls irradiance under the
- * scene's CSM shadow with a Henyey–Greenstein forward-scatter lobe toward
+ * sun's shadow node with a Henyey–Greenstein forward-scatter lobe toward
  * the sun (mist glows when backlit). Drawn only within `MIST_DRAW_M`,
  * nothing from under water.
  *
@@ -77,161 +86,126 @@ export function mistVolumeSite(path: FallPath): MistVolumeSite {
   return { id: path.id, lip, plunge, forward, widthM, dropM, bowlRadiusM, min, max };
 }
 
-const VERTEX = /* glsl */ `
-attribute vec3 aLip;
-attribute vec3 aPlunge;
-attribute vec4 aParams;   // width, drop, bowl radius, phase
-attribute vec4 aForward;  // forward xz, unused
-attribute vec3 aBoxMin;
-attribute vec3 aBoxMax;
-varying vec3 vWorldPos;
-varying vec3 vLip;
-varying vec3 vPlunge;
-varying vec4 vParams;
-varying vec2 vForward;
-varying vec3 vBoxMin;
-varying vec3 vBoxMax;
-uniform float uVerticalScale;
-uniform float uLift;
-${FALLS_SHADOW_VERTEX_PARS}
-void main() {
-  vec4 wp = instanceMatrix * vec4(position, 1.0);
-  wp.y = (wp.y + uLift) * uVerticalScale;
-  vec3 esShadowVertex = wp.xyz;
-  vec3 transformedNormal = normalize(normalMatrix * (mat3(instanceMatrix) * normal));
-  ${FALLS_SHADOW_VERTEX}
-  vWorldPos = worldPosition.xyz;
-  vLip = vec3(aLip.x, (aLip.y + uLift) * uVerticalScale, aLip.z);
-  vPlunge = vec3(aPlunge.x, (aPlunge.y + uLift) * uVerticalScale, aPlunge.z);
-  vParams = aParams;
-  vForward = aForward.xy;
-  vBoxMin = vec3(aBoxMin.x, (aBoxMin.y + uLift) * uVerticalScale, aBoxMin.z);
-  vBoxMax = vec3(aBoxMax.x, (aBoxMax.y + uLift) * uVerticalScale, aBoxMax.z);
-  gl_Position = projectionMatrix * viewMatrix * worldPosition;
+/** The old `esMistHash` (value-noise lattice hash). */
+function mistHash(q: TslNode): TslNode {
+  const p = fract(q.mul(0.3183099).add(vec3(0.1, 0.17, 0.23))).mul(17.0);
+  return fract(p.x.mul(p.y).mul(p.z).mul(p.x.add(p.y).add(p.z)));
 }
-`;
 
-const FRAGMENT = /* glsl */ `
-precision highp float;
-varying vec3 vWorldPos;
-varying vec3 vLip;
-varying vec3 vPlunge;
-varying vec4 vParams;
-varying vec2 vForward;
-varying vec3 vBoxMin;
-varying vec3 vBoxMax;
-uniform float uTime;
-uniform vec3 uAmbient;
-uniform vec3 uSunLight;
-uniform vec3 uSunDir;
-uniform sampler2D uSceneDepth;
-uniform float uHasDepth;
-uniform float uCamNear;
-uniform float uCamFar;
-uniform vec2 uResolution;
-uniform float uOpacity;
-uniform float uUnderwater;
-uniform float uVerticalScale;
-uniform vec3 uCamForward;
-#include <common>
-${FALLS_SHADOW_FRAGMENT_PARS}
-${WHITEWATER_GLSL}
-
-float esMistHash(vec3 p){
-  p = fract(p * 0.3183099 + vec3(0.1, 0.17, 0.23));
-  p *= 17.0;
-  return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
-}
-float esMistNoise(vec3 p){
-  vec3 i = floor(p);
-  vec3 f = fract(p);
-  f = f * f * (3.0 - 2.0 * f);
+/** The old `esMistNoise`: trilinear value noise, smoothstep-weighted. */
+function mistNoise(p: TslNode): TslNode {
+  const i = floor(p);
+  const f0 = fract(p);
+  const f = f0.mul(f0).mul(vec3(3.0).sub(f0.mul(2.0)));
+  const h = (x: number, y: number, z: number) => mistHash(i.add(vec3(x, y, z)));
   return mix(
-    mix(mix(esMistHash(i), esMistHash(i + vec3(1,0,0)), f.x), mix(esMistHash(i + vec3(0,1,0)), esMistHash(i + vec3(1,1,0)), f.x), f.y),
-    mix(mix(esMistHash(i + vec3(0,0,1)), esMistHash(i + vec3(1,0,1)), f.x), mix(esMistHash(i + vec3(0,1,1)), esMistHash(i + vec3(1,1,1)), f.x), f.y),
+    mix(mix(h(0, 0, 0), h(1, 0, 0), f.x), mix(h(0, 1, 0), h(1, 1, 0), f.x), f.y),
+    mix(mix(h(0, 0, 1), h(1, 0, 1), f.x), mix(h(0, 1, 1), h(1, 1, 1), f.x), f.y),
     f.z);
 }
-// density 0..1 at a world point: the cone hugging the fall + the dome over the pool
-float esMistDensity(vec3 p, float t){
-  vec3 axis = vPlunge - vLip;
-  float len = max(length(axis), 0.5);
-  vec3 ad = axis / len;
-  float f = clamp(dot(p - vLip, ad) / len, 0.0, 1.0);          // 0 at the lip, 1 at the plunge
-  vec3 onAxis = vLip + ad * f * len;
-  float width = vParams.x;
-  float drop = vParams.y;
-  float radius = min(width * ${MIST_CONE.lipRadiusFrac.toFixed(2)} + f * drop * ${MIST_CONE.growPerM.toFixed(2)}, ${MIST_CONE.maxRadiusM.toFixed(1)});
-  float q = length(p - onAxis) / max(radius, 0.3);
-  float cone = q < 1.0 ? (1.0 - q * q) * (1.0 - q * q) * (0.15 + 0.85 * f) : 0.0;
-  float domeR = vParams.z * ${MIST_DOME.horizontalScale.toFixed(2)};
-  float domeH = clamp(drop * ${MIST_DOME.heightPerDropM.toFixed(2)}, ${MIST_DOME.minHeightM.toFixed(1)}, ${MIST_DOME.maxHeightM.toFixed(1)}) * uVerticalScale;
-  vec3 dc = vPlunge + vec3(vForward.x, 0.0, vForward.y) * domeR * 0.25;
-  vec3 dd = (p - dc) / vec3(domeR, domeH, domeR);
-  float qd = dot(dd, dd);
-  float dome = qd < 1.0 && p.y >= vPlunge.y - 0.5 ? (1.0 - qd) * (1.0 - qd) : 0.0;
+
+interface MistVaryings { lip: TslNode; plunge: TslNode; params: TslNode; forward: TslNode }
+
+/** Density 0..1 at a world point: the cone hugging the fall + the dome over the pool. */
+function mistDensity(p: TslNode, t: TslNode, v: MistVaryings, verticalScale: TslNode): TslNode {
+  const axis = v.plunge.sub(v.lip);
+  const len = max(length(axis), 0.5);
+  const ad = axis.div(len);
+  const f = clamp(dot(p.sub(v.lip), ad).div(len), 0, 1);          // 0 at the lip, 1 at the plunge
+  const onAxis = v.lip.add(ad.mul(f).mul(len));
+  const width = v.params.x;
+  const drop = v.params.y;
+  const radius = min(width.mul(MIST_CONE.lipRadiusFrac).add(f.mul(drop).mul(MIST_CONE.growPerM)), MIST_CONE.maxRadiusM);
+  const q = length(p.sub(onAxis)).div(max(radius, 0.3));
+  const q2 = float(1).sub(q.mul(q));
+  const cone = select(q.lessThan(1), q2.mul(q2).mul(f.mul(0.85).add(0.15)), float(0));
+  const domeR = v.params.z.mul(MIST_DOME.horizontalScale);
+  const domeH = clamp(drop.mul(MIST_DOME.heightPerDropM), MIST_DOME.minHeightM, MIST_DOME.maxHeightM).mul(verticalScale);
+  const dc = v.plunge.add(vec3(v.forward.x, 0, v.forward.y).mul(domeR).mul(0.25));
+  const dd = p.sub(dc).div(vec3(domeR, domeH, domeR));
+  const qd = dot(dd, dd);
+  const qd2 = float(1).sub(qd);
+  const dome = select(qd.lessThan(1).and(p.y.greaterThanEqual(v.plunge.y.sub(0.5))), qd2.mul(qd2), float(0));
   // a drifting, breathing density: two octaves, rising and going downstream
-  vec3 drift = vec3(vForward.x * ${MIST_DRIFT.downstreamMS.toFixed(2)}, -${MIST_DRIFT.upMS.toFixed(2)}, vForward.y * ${MIST_DRIFT.downstreamMS.toFixed(2)}) * t;
-  vec3 np = p + drift;
-  float n = esMistNoise(np * 0.35) * 0.65 + esMistNoise(np * 0.9 + 7.3) * 0.35;
-  n = smoothstep(0.25, 0.85, n);
-  return (cone * ${MIST_SIGMA.cone.toFixed(2)} + dome * ${MIST_SIGMA.dome.toFixed(2)}) * (0.35 + 0.65 * n);
+  const drift = vec3(v.forward.x.mul(MIST_DRIFT.downstreamMS), -MIST_DRIFT.upMS, v.forward.y.mul(MIST_DRIFT.downstreamMS)).mul(t);
+  const np = p.add(drift);
+  const n = smoothstep(0.25, 0.85, mistNoise(np.mul(0.35)).mul(0.65).add(mistNoise(np.mul(0.9).add(7.3)).mul(0.35)));
+  return cone.mul(MIST_SIGMA.cone).add(dome.mul(MIST_SIGMA.dome)).mul(n.mul(0.65).add(0.35));
 }
-void main() {
-  vec3 ro = cameraPosition;
-  vec3 rd = normalize(vWorldPos - ro);
-  // slab test against the fall's world box
-  vec3 inv = 1.0 / rd;
-  vec3 t0 = (vBoxMin - ro) * inv;
-  vec3 t1 = (vBoxMax - ro) * inv;
-  vec3 tmin = min(t0, t1);
-  vec3 tmax = max(t0, t1);
-  float tEnter = max(max(tmin.x, tmin.y), max(tmin.z, 0.0));
-  float tExit = min(min(tmax.x, tmax.y), tmax.z);
-  // never march past what is in front of the mist
-  if (uHasDepth > 0.5) {
-    vec2 suv = gl_FragCoord.xy / uResolution;
-    float d = texture2D(uSceneDepth, suv).x;
-    float sceneEye = (uCamNear * uCamFar) / (uCamFar - d * (uCamFar - uCamNear));
-    float along = max(dot(rd, uCamForward), 0.05);
-    tExit = min(tExit, sceneEye / along);
-  }
-  if (tExit <= tEnter) discard;
-  float dist = distance(ro, (vBoxMin + vBoxMax) * 0.5);
-  float range = 1.0 - smoothstep(${MIST_DRAW_M.near.toFixed(1)}, ${MIST_DRAW_M.far.toFixed(1)}, dist);
-  if (range <= 0.001 || uUnderwater > 0.5) discard;
-  float span = tExit - tEnter;
-  float ds = span / float(${MIST_STEPS});
-  // jitter the start per pixel so the steps never band
-  float jitter = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
-  float t = uTime + vParams.w;
-  float T = 1.0;
-  float L = 0.0;
-  float vis = esFallsSunVisibility();
-  vec3 irr = esFallsIrradianceG(uAmbient, uSunLight, uSunDir, 0.5, vis);
-  // Henyey-Greenstein forward lobe toward the sun, on top of the isotropic term
-  float mu = dot(rd, uSunDir);
-  float g = ${MIST_HG_G.toFixed(2)};
-  float hg = (1.0 - g * g) / (4.0 * PI * pow(1.0 + g * g - 2.0 * g * mu, 1.5));
-  float sunGlow = 0.85 + 2.4 * hg * vis;
-  for (int i = 0; i < ${MIST_STEPS}; i++) {
-    float tt = tEnter + (float(i) + jitter) * ds;
-    vec3 p = ro + rd * tt;
-    float sigma = esMistDensity(p, t);
-    if (sigma > 1e-4) {
-      float a = 1.0 - exp(-sigma * ds);
-      L += T * a;
-      T *= 1.0 - a;
-      if (T < 0.02) break;
-    }
-  }
-  float alpha = (1.0 - T) * range * uOpacity;
-  if (alpha < 0.004) discard;
-  vec3 color = vec3(${MIST_ALBEDO.toFixed(2)}) * irr * sunGlow;
-  gl_FragColor = vec4(color, alpha);
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
+
+/** The ray-marched mist material (one per volume mesh). */
+function createMistMaterial(shared: KitSharedUniforms, camForward: TslNode): MeshBasicNodeMaterial {
+  const u = shared as unknown as Record<string, TslNode>;
+  const material = new MeshBasicNodeMaterial();
+  material.name = "es-waterfall-mist-volume";
+  material.transparent = true;
+  material.depthWrite = false;
+  material.depthTest = false;
+  material.side = THREE.BackSide;
+  material.positionNode = liftedInstancePositionNode(u.uLift, u.uVerticalScale);
+  const lifted = (a: TslNode) => vec3(a.x, a.y.add(u.uLift).mul(u.uVerticalScale), a.z);
+  const v: MistVaryings = {
+    lip: varying(lifted(attribute("aLip", "vec3")), "vEsMistLip"),
+    plunge: varying(lifted(attribute("aPlunge", "vec3")), "vEsMistPlunge"),
+    params: attribute("aParams", "vec4"),   // width, drop, bowl radius, phase
+    forward: attribute("aForward", "vec4").xy,
+  };
+  const boxMin = varying(lifted(attribute("aBoxMin", "vec3")), "vEsMistBoxMin");
+  const boxMax = varying(lifted(attribute("aBoxMax", "vec3")), "vEsMistBoxMax");
+  const vis = fallsSunVisibilityNode(shared.sunShadow);
+  const irr = fallsIrradianceNode(u.uAmbient, u.uSunLight, u.uSunDir, float(0.5), vis);
+
+  const out = Fn(() => {
+    const ro = cameraPosition;
+    const rd = normalize(positionWorld.sub(ro)).toVar();
+    // slab test against the fall's world box
+    const inv = vec3(1).div(rd);
+    const t0 = boxMin.sub(ro).mul(inv);
+    const t1 = boxMax.sub(ro).mul(inv);
+    const tmin = min(t0, t1);
+    const tmax = max(t0, t1);
+    const tEnter = max(max(tmin.x, tmin.y), max(tmin.z, 0.0)).toVar();
+    const tExit = min(min(tmax.x, tmax.y), tmax.z).toVar();
+    // never march past what is in front of the mist
+    If(u.uHasDepth.greaterThan(0.5), () => {
+      const sceneEye = sceneEyeDepthNode(u.uSceneDepth, u.uResolution, u.uCamNear, u.uCamFar);
+      const along = max(dot(rd, camForward), 0.05);
+      tExit.assign(min(tExit, sceneEye.div(along)));
+    });
+    const dist = distance(ro, boxMin.add(boxMax).mul(0.5));
+    const range = float(1).sub(smoothstep(MIST_DRAW_M.near, MIST_DRAW_M.far, dist));
+    const span = tExit.sub(tEnter);
+    const ds = span.div(MIST_STEPS);
+    // jitter the start per pixel so the steps never band
+    const jitter = fract(sin(dot(screenCoordinate.xy, vec2(12.9898, 78.233))).mul(43758.5453));
+    const t = u.uTime.add(v.params.w);
+    const T = float(1).toVar();
+    // Henyey-Greenstein forward lobe toward the sun, on top of the isotropic term
+    const mu = dot(rd, u.uSunDir);
+    const g = MIST_HG_G;
+    const hg = float(1 - g * g).div(pow(float(1 + g * g).sub(mu.mul(2 * g)), 1.5).mul(4 * Math.PI));
+    const sunGlow = hg.mul(vis).mul(2.4).add(0.85);
+    If(tExit.greaterThan(tEnter).and(range.greaterThan(0.001)).and(u.uUnderwater.lessThanEqual(0.5)), () => {
+      Loop(MIST_STEPS, ({ i }: { i: TslNode }) => {
+        const tt = tEnter.add(float(i).add(jitter).mul(ds));
+        const p = ro.add(rd.mul(tt));
+        const sigma = mistDensity(p, t, v, u.uVerticalScale);
+        If(sigma.greaterThan(1e-4), () => {
+          const a = float(1).sub(exp(sigma.negate().mul(ds)));
+          T.mulAssign(float(1).sub(a));
+          If(T.lessThan(0.02), () => { Break(); });
+        });
+      });
+    });
+    // (the old L accumulator was never read: colour is albedo x light, alpha 1 - T)
+    const alpha = float(1).sub(T).mul(range).mul(u.uOpacity).mul(
+      select(tExit.greaterThan(tEnter).and(range.greaterThan(0.001)).and(u.uUnderwater.lessThanEqual(0.5)), float(1), float(0)));
+    return vec4(vec3(MIST_ALBEDO).mul(irr).mul(sunGlow), alpha);
+  })();
+  material.colorNode = out;
+  material.maskNode = out.a.greaterThanEqual(0.004);
+  return material;
 }
-`;
 
 export interface MistVolumeDiagnostics {
   count: number;
@@ -241,11 +215,12 @@ export interface MistVolumeDiagnostics {
 
 export class WaterfallMistVolume {
   readonly mesh: THREE.InstancedMesh;
-  readonly material: THREE.ShaderMaterial;
+  readonly material: MeshBasicNodeMaterial;
   readonly diagnostics: MistVolumeDiagnostics;
-  private readonly camForward = new THREE.Vector3(0, 0, -1);
+  /** The camera's forward axis (world), a `uniform()` node written by `setCamera`. */
+  private readonly camForward: { value: THREE.Vector3 } = uniform(new THREE.Vector3(0, 0, -1));
 
-  constructor(paths: readonly FallPath[], shared: KitSharedUniforms, applyAerial: (m: THREE.Material) => void) {
+  constructor(paths: readonly FallPath[], shared: KitSharedUniforms) {
     const sites = paths.map(mistVolumeSite);
     const n = sites.length;
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -280,23 +255,7 @@ export class WaterfallMistVolume {
     geometry.setAttribute("aForward", new THREE.InstancedBufferAttribute(forward, 4));
     geometry.setAttribute("aBoxMin", new THREE.InstancedBufferAttribute(bmin, 3));
     geometry.setAttribute("aBoxMax", new THREE.InstancedBufferAttribute(bmax, 3));
-    this.material = new THREE.ShaderMaterial({
-      uniforms: {
-        ...THREE.UniformsUtils.merge([THREE.UniformsLib.lights]) as Record<string, THREE.IUniform>,
-        ...shared,
-        uCamForward: { value: this.camForward },
-      },
-      vertexShader: VERTEX,
-      fragmentShader: FRAGMENT,
-      lights: true,
-      transparent: true,
-      depthWrite: false,
-      depthTest: false,
-      side: THREE.BackSide,
-    });
-    this.material.name = "es-waterfall-mist-volume";
-    applyAerial(this.material);
-    this.material.customProgramCacheKey = () => "es-waterfall-mist-volume";
+    this.material = createMistMaterial(shared, this.camForward);
     mesh.material = this.material;
     mesh.name = "water-waterfall-mist-volume";
     mesh.layers.set(WATER_LAYER);
@@ -310,7 +269,7 @@ export class WaterfallMistVolume {
 
   /** The camera's forward axis (world), for the depth clamp along the ray. */
   setCamera(camera: THREE.Camera): void {
-    camera.getWorldDirection(this.camForward);
+    camera.getWorldDirection(this.camForward.value);
   }
 
   update(_runtime: WaterRuntime): void { /* shared uniforms carry time and light */ }

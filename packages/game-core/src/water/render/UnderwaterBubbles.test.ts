@@ -1,10 +1,10 @@
 import { describe,expect,it,vi } from "vitest";
 import { readFileSync } from "node:fs";
-import { Color,Frustum,Matrix4,PerspectiveCamera,Texture,Vector3,type WebGLRenderer } from "three";
+import { Color,Frustum,Matrix4,PerspectiveCamera,Texture,Vector3 } from "three";
+import type { WebGPURenderer } from "three/webgpu";
 import type { Vec3,WaterInteractionEvent,WorldWaterQuery } from "@elder-souls/contracts";
-import { UnderwaterBubbles,UNDERWATER_BUBBLE_FRAGMENT } from "./UnderwaterBubbles";
-import { UnderwaterBubblePass,UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
-import { SAMPLER_GLSL } from "./waterMaterial";
+import { UnderwaterBubbles,bubbleTransmittance } from "./UnderwaterBubbles";
+import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 
 const camera={x:0,y:-.7,z:1};
 const event:WaterInteractionEvent={kind:"enter",position:{x:0,y:0,z:0},velocity:{x:0,y:-4,z:0},radius:.3};
@@ -75,7 +75,7 @@ describe("underwater entrained air",()=>{
     const draw=vi.fn(()=>expect(current).not.toBe(opaque));
     const renderer={getRenderTarget:()=>current,setRenderTarget:(value:unknown)=>{current=value;},
       toneMapping:7,autoClear:true,getClearColor:(out:Color)=>out.setRGB(.2,.3,.4),getClearAlpha:()=>1,
-      setClearColor:vi.fn(),clear:vi.fn(),render:draw} as unknown as WebGLRenderer;
+      setClearColor:vi.fn(),clear:vi.fn(),render:draw} as unknown as WebGPURenderer;
     try{
       expect(pass.render(renderer,cam,bubbles,true,opaque,1920,1080,new Vector3(1,1,1),new Vector3())).toBeNull();
       expect(pass.diagnostics.bytes).toBe(0);expect(draw).not.toHaveBeenCalled();
@@ -87,14 +87,10 @@ describe("underwater entrained air",()=>{
       expect(bubbles.object3d.material.premultipliedAlpha).toBe(true);
       expect(bubbles.object3d.material.depthWrite).toBe(false);
       expect(bubbles.object3d.material.toneMapped).toBe(false);
-      expect(UNDERWATER_BUBBLE_FRAGMENT).toContain("exp(-uAbsorb*min(vDistance,400.0))");
-      expect(UNDERWATER_BUBBLE_COMPOSITE_GLSL).toContain("outgoingLight*(1.0-esBubbles.a)+esBubbles.rgb");
-      const source=readFileSync(new URL("./WaterPipeline.tsx",import.meta.url),"utf8");
-      expect(source.indexOf("${UNDERWATER_BUBBLE_COMPOSITE_GLSL}")).toBeLessThan(source.indexOf("#include <opaque_fragment>\ngl_FragDepth"));
-      // Conservative declaration count, including currently optimized-out
-      // water helpers plus MeshBasic map; no new main-water sampler.
-      const samplers=new Set([...`${SAMPLER_GLSL}\n${source}`.matchAll(/uniform sampler2D\s+(\w+)/g)].map(m=>m[1]));
-      expect(samplers.size+1).toBeLessThanOrEqual(16);
+      expect(bubbles.object3d.material.fog).toBe(false);
+      expect(bubbles.object3d.material.colorNode).toBeTruthy();
+      // particle-distance fog: transmittance saturates at 400 m of water
+      expect(bubbleTransmittance(.01,1000)).toBeCloseTo(Math.exp(-4),9);
       pass.render(renderer,cam,bubbles,false,opaque,1920,1080,new Vector3(),new Vector3());
       expect(pass.diagnostics.bytes).toBe(0);expect(draw).toHaveBeenCalledOnce();
     }finally{pass.dispose();bubbles.dispose();opaque.dispose();}

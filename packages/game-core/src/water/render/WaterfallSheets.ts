@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import type { MeshBasicNodeMaterial } from "three/webgpu";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import type { WaterMeta } from "../waterData";
 import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
@@ -572,7 +574,7 @@ interface ShapeDraw {
   piece: KitPieceId;
   role: KitShapeRole;
   mesh: THREE.InstancedMesh;
-  material: THREE.ShaderMaterial;
+  material: MeshBasicNodeMaterial;
 }
 
 /**
@@ -597,7 +599,7 @@ export class WaterfallSheets {
   private readonly byId = new Map<string, FallPath>();
   private underwater = false;
 
-  constructor(cascades: readonly Cascade[], applyAerial: (m: THREE.Material) => void,
+  constructor(cascades: readonly Cascade[],
     options: { channels?: readonly ChannelStrip[]; textures?: WaterfallTextureSet; kit?: WaterfallKit | null;
       /** Ground height under a world point: the rock the crest leaves. */
       groundHeightM?: GroundSampler } = {}) {
@@ -631,7 +633,7 @@ export class WaterfallSheets {
           const tex = byId[shape.role.texture] ?? null;
           if (!tex) continue;   // a missing texture leaves the shape undrawn, never black
           const normal = shape.role.normal ? byId[shape.role.normal] ?? null : null;
-          const material = createKitPieceMaterial(shape.role, tex, normal, this.uniforms, applyAerial);
+          const material = createKitPieceMaterial(shape.role, tex, normal, this.uniforms);
           const geometry = shape.geometry.clone();
           const attr = new THREE.InstancedBufferAttribute(new Float32Array(instances.length * 4), 4);
           const mesh = new THREE.InstancedMesh(geometry, material, instances.length);
@@ -653,7 +655,7 @@ export class WaterfallSheets {
         }
       }
     }
-    this.mistVolume = kit && falls.length ? new WaterfallMistVolume(falls, this.uniforms, applyAerial) : null;
+    this.mistVolume = kit && falls.length ? new WaterfallMistVolume(falls, this.uniforms) : null;
     if (this.mistVolume) {
       const volume = this.mistVolume;
       volume.mesh.onBeforeRender = (_r, _s, camera) => volume.setCamera(camera);
@@ -718,9 +720,21 @@ export class WaterfallSheets {
     if (underwater) this.uniforms.uHasDepth.value = 0;
   }
 
+  /**
+   * The sun's shadow node (`light.shadow.shadowNode`, e.g. the sky's
+   * CSMShadowNode; null = open sun). The kit and the mist read the SAME
+   * instance the light does; their materials rebuild once to pick it up.
+   */
+  setSunShadow(node: TslNode | null): void {
+    if (this.uniforms.sunShadow.node === node) return;
+    this.uniforms.sunShadow.node = node;
+    for (const d of this.draws) d.material.needsUpdate = true;
+    if (this.mistVolume) this.mistVolume.material.needsUpdate = true;
+  }
+
   setDepth(texture: THREE.Texture | null, near: number, far: number, width: number, height: number): void {
     const depth = this.underwater ? null : texture;
-    this.uniforms.uSceneDepth.value = texture;
+    this.uniforms.uSceneDepth.value = texture ?? this.uniforms.depthPlaceholder;
     this.uniforms.uHasDepth.value = depth && near > 0 && far > near ? 1 : 0;
     this.uniforms.uCamNear.value = near;
     this.uniforms.uCamFar.value = far;
@@ -729,6 +743,7 @@ export class WaterfallSheets {
 
   dispose(): void {
     this.mistVolume?.dispose();
+    this.uniforms.depthPlaceholder.dispose();
     for (const d of this.draws) { d.mesh.geometry.dispose(); d.material.dispose(); d.mesh.removeFromParent(); }
     this.draws.length = 0;
     this.mesh.removeFromParent();

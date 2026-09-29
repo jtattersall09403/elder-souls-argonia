@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { Vector3 } from "three";
+import { float, uniform } from "three/tsl";
 import {
   STREAK_BREATHE_AMPLITUDE, STREAK_BREATHE_PERIOD_S, STREAK_LAYERS, STREAK_RATE_SPREAD, STREAK_RATE_TILES_S,
-  STREAK_U_DRIFT_UVS, WHITEWATER_GLSL, streakBreathe, streakSpeedGain, streakUv,
-  AERIAL_SKY_FEED_SCALE, AERIAL_SUN_FEED_SCALE, fallsIrradiance,
+  STREAK_U_DRIFT_UVS, streakBreathe, streakSpeedGain, streakUv,
+  AERIAL_SKY_FEED_SCALE, AERIAL_SUN_FEED_SCALE, fallsIrradiance, fallsIrradianceNode, fallsSunVisibilityNode,
 } from "./whitewaterStreaks";
 
 describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
@@ -86,15 +88,12 @@ describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
     expect(worst).toBeLessThan(0.9);
   });
 
-  it("compiles the same constants into the GLSL twin", () => {
-    expect(WHITEWATER_GLSL).toContain(`const vec3 ES_STREAK_TILE = vec3(${STREAK_LAYERS.map((l) => l.tileM.toFixed(2)).join(", ")});`);
-    expect(WHITEWATER_GLSL).toContain(`const vec3 ES_STREAK_RATE = vec3(${STREAK_LAYERS.map((l) => l.rateMS.toFixed(2)).join(", ")});`);
-    expect(WHITEWATER_GLSL).toContain("0.030 * tp");
-    expect(WHITEWATER_GLSL).toContain("cos(6.2831853 * t / 8.33)");
-    expect(WHITEWATER_GLSL).toContain("float vv = arcM / tile - (rate * gain * t) / tile;");
-    // texture slot with a procedural fallback
-    expect(WHITEWATER_GLSL).toContain("#ifdef ES_STREAK_TEX");
-    expect(WHITEWATER_GLSL).toContain("uniform sampler2D uStreakTex;");
+  it("builds the node twins (irradiance, sun visibility) without a GPU", () => {
+    const vis = fallsSunVisibilityNode({ node: null });
+    expect(vis.isNode).toBe(true);
+    const irr = fallsIrradianceNode(uniform(new Vector3(0.02, 0.024, 0.03)), uniform(new Vector3(0.4, 0.36, 0.3)),
+      uniform(new Vector3(0, 1, 0)), float(0), vis);
+    expect(irr.isNode).toBe(true);
   });
 
   it("lights the falls kit on real irradiance, not on the aerial feeds", () => {
@@ -126,8 +125,5 @@ describe("whitewater streak layers (vault audit §4, research §2.3)", () => {
     expect(fallsIrradiance(amb, sun, 1, 0, 0)[0]).toBeLessThan(e[0]);
     // night (sun below the horizon) still leaves the sky term
     expect(fallsIrradiance(amb, [0, 0, 0], -1)[0]).toBeGreaterThan(0);
-    expect(WHITEWATER_GLSL).toContain("vec3 esFallsIrradianceG(");
-    expect(WHITEWATER_GLSL).toContain(`ambient / ${AERIAL_SKY_FEED_SCALE.toFixed(2)}`);
-    expect(WHITEWATER_GLSL).toContain(`sunLight / ${AERIAL_SUN_FEED_SCALE.toFixed(2)}`);
   });
 });

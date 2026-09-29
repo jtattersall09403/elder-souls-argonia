@@ -1,12 +1,15 @@
 import type { Vec3, WaterInteractionEvent, WorldWaterQuery } from "@elder-souls/contracts";
 import {
   Color, DoubleSide, DynamicDrawUsage, InstancedBufferAttribute,
-  InstancedBufferGeometry, Mesh, PlaneGeometry, ShaderMaterial, Vector2,
-  Sphere, Vector3, type Frustum, type ColorRepresentation, type Texture,
+  InstancedBufferGeometry, Mesh, PlaneGeometry, Vector2,
+  Sphere, Vector3, type DepthTexture, type Frustum, type ColorRepresentation, type Texture,
 } from "three";
+import { MeshBasicNodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import { WaterCrowns } from "./WaterCrowns";
 import { waterParticleRadiance } from "./waterParticleLighting";
-import { PARTICLE_FOAM_GLSL } from "./particleFoam";
+import { createDepthPlaceholder, sceneEyeDepthNode } from "./WaterfallKitMaterial";
 import { cascadeEmission, waterSourceDistanceSquared, type Cascade } from "./WaterCascadeSources";
 import { advanceFallingSpray, fallingSprayTrajectory, type FallingSprayTrajectory } from './fallingSpray';
 import { waterParticleMotion } from './waterParticleMotion';
@@ -69,6 +72,121 @@ const finite = (value: number | undefined, fallback: number) => Number.isFinite(
 const validVector = (v: Vec3) => Number.isFinite(v.x) && Number.isFinite(v.y) && Number.isFinite(v.z);
 
 
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const {
+  If, Fn, attribute, cameraProjectionMatrix, clamp: tClamp, cos, dFdx, dFdy, dot, exp, float, floor, fract, length, max,
+  modelViewMatrix, pow, positionGeometry, select, sin, smoothstep, texture, uniform, uv, varying, vec2, vec3, vec4,
+} = tsl as unknown as Record<string, TslNode>;
+
+/**
+ * Frame state shared by the spray/mist/foam sprites and the impact crowns:
+ * `uniform()` nodes (write `.value`); `sceneDepth` is a texture node holding
+ * a 1x1 depth placeholder while no scene depth is bound (`hasDepth` 0).
+ */
+export interface WaterParticleUniforms {
+  sceneDepth: { value: Texture };
+  hasDepth: { value: number };
+  cameraNear: { value: number };
+  cameraFar: { value: number };
+  resolution: { value: Vector2 };
+  lightColor: { value: Color };
+  lightVisibility: { value: number };
+  depthPlaceholder: DepthTexture;
+}
+
+export function createWaterParticleUniforms(): WaterParticleUniforms {
+  const depthPlaceholder = createDepthPlaceholder();
+  return {
+    sceneDepth: texture(depthPlaceholder), hasDepth: uniform(0),
+    cameraNear: uniform(0.1), cameraFar: uniform(2000),
+    resolution: uniform(new Vector2(1, 1)), lightColor: uniform(new Color(0.5, 0.55, 0.6)),
+    lightVisibility: uniform(1), depthPlaceholder,
+  };
+}
+
+/** Node twin of particleFoam.ts `esBubbleRandom`. */
+function bubbleRandom(cell: TslNode): TslNode {
+  const p0 = fract(vec3(cell.x, cell.y, cell.x).mul(vec3(0.1031, 0.1030, 0.0973)));
+  const p = p0.add(dot(p0, p0.yxz.add(33.33)));
+  return fract(p.xxy.add(p.yzz).mul(p.zyx));
+}
+
+/**
+ * Node twin of particleFoam.ts `esParticleFoam`: irregular bubble groups,
+ * footprint-integrated rings (`bubbleRingCoverage` is the TS probe twin).
+ * `pixel` (the cell footprint) is taken by the caller OUTSIDE any branch,
+ * since derivatives need uniform control flow.
+ */
+function particleFoamNode(cells: TslNode, pixel: TslNode, phase: TslNode): TslNode {
+  const origin = floor(cells);
+  let coverage: TslNode = float(0);
+  for (let y = -1; y <= 1; y++) for (let x = -1; x <= 1; x++) {
+    const cell = origin.add(vec2(x, y));
+    const random = bubbleRandom(cell.add(floor(phase.mul(7.0))));
+    const centre = cell.add(0.05).add(random.xy.mul(0.9));
+    const distanceM = length(cells.sub(centre));
+    const radius = random.z.mul(0.18).add(0.12);
+    const outer = smoothstep(pixel.negate(), pixel, radius.add(0.025).sub(distanceM));
+    const inner = smoothstep(pixel.negate(), pixel, radius.sub(0.025).sub(distanceM));
+    coverage = max(coverage, outer.sub(inner).mul(smoothstep(0.2, 0.55, random.z)));
+  }
+  return coverage;
+}
+
+/** The sprite material: camera-facing spray/mist, water-flat foam patches. */
+function createParticleMaterial(u: WaterParticleUniforms): MeshBasicNodeMaterial {
+  const n = u as unknown as Record<string, TslNode>;
+  const material = new MeshBasicNodeMaterial();
+  material.name = "es-water-interaction-effects";
+  material.transparent = true;
+  material.depthWrite = false;
+  material.depthTest = true;
+  material.side = DoubleSide;
+  // the particles were never fogged (no fog chunk); the aerial fog node
+  // would also read the unprojected quad, not the sprite
+  material.fog = false;
+  const style = attribute("particleStyle", "vec4");
+  const corner = positionGeometry.xy.mul(style.x);
+  const centre0 = modelViewMatrix.mul(vec4(attribute("particlePosition", "vec3"), 1.0));
+  // Foam lives on the water, never on a camera-facing billboard.
+  const foam = style.z.greaterThan(1.5).and(style.z.lessThan(2.5));
+  const centre = select(foam,
+    centre0.add(modelViewMatrix.mul(vec4(corner.x, 0.0, corner.y, 0.0))),
+    vec4(centre0.xy.add(corner), centre0.zw));
+  material.vertexNode = cameraProjectionMatrix.mul(centre);
+  const vViewDepth = varying(centre.z.negate(), "vEsParticleViewDepth");
+  const vStyle = varying(style.yzw, "vEsParticleStyle");
+
+  const out = Fn(() => {
+    const p = uv().mul(2.0).sub(1.0);
+    const r2 = dot(p, p);
+    const kind = vStyle.y;
+    const edge = float(1).sub(smoothstep(0.25, 1.0, r2));
+    const cells = p.mul(4.0).add(vec2(sin(vStyle.z), cos(vStyle.z)));
+    const pixel = max(0.006, max(length(dFdx(cells)), length(dFdy(cells))));
+    const isFoam = kind.greaterThan(1.5).and(kind.lessThan(2.5));
+    const isMist = kind.greaterThan(0.5).and(kind.lessThan(1.5));
+    const detail = float(0).toVar();
+    If(isFoam, () => {
+      // Several tiny bubble groups, advected as a patch; no solid white discs.
+      detail.assign(particleFoamNode(cells, pixel, vStyle.z));
+    }).ElseIf(isMist, () => {
+      detail.assign(exp(r2.mul(-2.3)).mul(sin(p.x.mul(7.0).add(vStyle.z)).mul(sin(p.y.mul(6.0).sub(vStyle.z))).mul(0.25).add(0.75)));
+    }).Else(() => {
+      detail.assign(pow(max(0.0, float(1).sub(length(p.add(vec2(0.25, -0.3))))), 3.0).mul(0.45).add(0.55));
+    });
+    const shape = edge.mul(detail);
+    const sceneZ = sceneEyeDepthNode(n.sceneDepth, n.resolution, n.cameraNear, n.cameraFar);
+    const soft = select(n.hasDepth.greaterThan(0.5),
+      tClamp(sceneZ.sub(vViewDepth).div(select(isMist, float(0.8), float(0.12))), 0.0, 1.0), float(1));
+    const alpha = shape.mul(vStyle.x).mul(soft).mul(n.lightVisibility);
+    return vec4(n.lightColor, alpha);
+  })();
+  material.colorNode = out;
+  material.maskNode = out.a.greaterThanEqual(0.003);
+  return material;
+}
+
 /** Converts a gameplay impulse into bounded visual energy, independent of mass units. */
 export function waterEmissionProfile(event: WaterInteractionEvent) {
   const radius = clamp(finite(event.radius, 0.4), 0.025, 4);
@@ -90,7 +208,9 @@ export function waterEmissionProfile(event: WaterInteractionEvent) {
  * Particle time is real seconds; epochMinutes is only for the shared water query.
  */
 export class WaterEffects {
-  readonly object3d: Mesh<InstancedBufferGeometry, ShaderMaterial>;
+  readonly object3d: Mesh<InstancedBufferGeometry, MeshBasicNodeMaterial>;
+  /** The sprite and crown frame state (`uniform()` nodes). */
+  readonly uniforms: WaterParticleUniforms;
   private readonly capacity: number;
   private readonly maxDistance: number;
   private readonly particles: Particle[] = [];
@@ -132,83 +252,14 @@ export class WaterEffects {
     geometry.setAttribute("particlePosition", this.offsets);
     geometry.setAttribute("particleStyle", this.appearance);
     geometry.instanceCount = 0;
-    const material = new ShaderMaterial({
-      transparent: true, depthWrite: false, depthTest: true, side: DoubleSide,
-      uniforms: {
-        sceneDepth: { value: null }, hasDepth: { value: 0 },
-        cameraNear: { value: 0.1 }, cameraFar: { value: 2000 },
-        resolution: { value: new Vector2(1, 1) }, lightColor: { value: new Color(0.5, 0.55, 0.6) },
-        lightVisibility: { value: 1 },
-      },
-      vertexShader: /* glsl */`
-        attribute vec3 particlePosition;
-        attribute vec4 particleStyle;
-        varying vec2 vUv;
-        varying vec3 vStyle;
-        varying float vViewDepth;
-        void main() {
-          vUv = uv;
-          vStyle = particleStyle.yzw;
-          vec4 centre = modelViewMatrix * vec4(particlePosition, 1.0);
-          vec2 corner = position.xy * particleStyle.x;
-          if (particleStyle.z > 1.5 && particleStyle.z < 2.5) {
-            // Foam lives on the water, never on a camera-facing billboard.
-            centre += modelViewMatrix * vec4(corner.x, 0.0, corner.y, 0.0);
-          } else {
-            centre.xy += corner;
-          }
-          vViewDepth = -centre.z;
-          gl_Position = projectionMatrix * centre;
-        }
-      `,
-      fragmentShader: /* glsl */`
-        uniform sampler2D sceneDepth;
-        uniform float hasDepth;
-        uniform float cameraNear;
-        uniform float cameraFar;
-        uniform vec2 resolution;
-        uniform vec3 lightColor;
-        uniform float lightVisibility;
-        varying vec2 vUv;
-        varying vec3 vStyle;
-        varying float vViewDepth;
-        ${PARTICLE_FOAM_GLSL}
-        float linearDepth(float depth) {
-          return cameraNear * cameraFar / (cameraFar - depth * (cameraFar - cameraNear));
-        }
-        void main() {
-          vec2 p = vUv * 2.0 - 1.0;
-          float r2 = dot(p, p);
-          float kind = vStyle.y;
-          float edge = 1.0 - smoothstep(0.25, 1.0, r2);
-          float shape = edge;
-          if (kind > 1.5 && kind < 2.5) {
-            // Several tiny bubble groups, advected as a patch; no solid white discs.
-            shape *= esParticleFoam(p, vStyle.z);
-          } else if (kind > 0.5 && kind < 1.5) {
-            shape *= exp(-r2 * 2.3) * (0.75 + 0.25 * sin(p.x * 7.0 + vStyle.z) * sin(p.y * 6.0 - vStyle.z));
-          } else {
-            shape *= 0.55 + 0.45 * pow(max(0.0, 1.0 - length(p + vec2(0.25, -0.3))), 3.0);
-          }
-          float soft = 1.0;
-          if (hasDepth > 0.5) {
-            float sceneZ = linearDepth(texture2D(sceneDepth, gl_FragCoord.xy / resolution).r);
-            soft = clamp((sceneZ - vViewDepth) / (kind > 0.5 && kind < 1.5 ? 0.8 : 0.12), 0.0, 1.0);
-          }
-          float alpha = shape * vStyle.x * soft * lightVisibility;
-          if (alpha < 0.003) discard;
-          gl_FragColor = vec4(lightColor, alpha);
-          #include <tonemapping_fragment>
-          #include <colorspace_fragment>
-        }
-      `,
-    });
+    this.uniforms = createWaterParticleUniforms();
+    const material = createParticleMaterial(this.uniforms);
     this.object3d = new Mesh(geometry, material);
     this.object3d.name = "water-interaction-effects";
     this.object3d.frustumCulled = false;
     this.object3d.layers.set(options.layer ?? 5);
     this.object3d.renderOrder = 3;
-    this.crowns = new WaterCrowns(material.uniforms, options.layer ?? 5);
+    this.crowns = new WaterCrowns(this.uniforms, options.layer ?? 5);
     this.object3d.add(this.crowns.mesh);
   }
 
@@ -273,8 +324,8 @@ export class WaterEffects {
   }
 
   setDepth(texture: Texture | null, near: number, far: number, width: number, height: number): void {
-    const u = this.object3d.material.uniforms;
-    u.sceneDepth.value = texture;
+    const u = this.uniforms;
+    u.sceneDepth.value = texture ?? u.depthPlaceholder;
     u.hasDepth.value = texture && near > 0 && far > near ? 1 : 0;
     u.cameraNear.value = near;
     u.cameraFar.value = far;
@@ -291,11 +342,11 @@ export class WaterEffects {
   }
 
   /** Inject the same sky/sun/moon illumination used by the water foam. */
-  setLighting(color: ColorRepresentation): void { this.object3d.material.uniforms.lightColor.value.set(color); }
+  setLighting(color: ColorRepresentation): void { this.uniforms.lightColor.value.set(color); }
   setIllumination(ambient: Vec3, direct: Vec3, sunY: number, exposure: number): void {
     const lighting = this.stats.illumination;
     const c = waterParticleRadiance(ambient, direct, sunY, lighting.radiance);
-    this.object3d.material.uniforms.lightColor.value.setRGB(c.x, c.y, c.z);
+    this.uniforms.lightColor.value.setRGB(c.x, c.y, c.z);
     lighting.exposure = exposure;
     lighting.exposedLinear.x = c.x * exposure;
     lighting.exposedLinear.y = c.y * exposure;
@@ -304,7 +355,7 @@ export class WaterEffects {
     // become opaque black dust. No emissive colour floor is introduced.
     const luminance = lighting.exposedLinear.x * 0.2126 + lighting.exposedLinear.y * 0.7152 + lighting.exposedLinear.z * 0.0722;
     lighting.visibility = clamp(luminance / 0.008, 0, 1);
-    this.object3d.material.uniforms.lightVisibility.value = lighting.visibility;
+    this.uniforms.lightVisibility.value = lighting.visibility;
   }
 
   update(dt: number, time: number, query: WorldWaterQuery, epochMinutes: number, camera: Vec3, wind?: Vec3): void {
@@ -430,7 +481,7 @@ export class WaterEffects {
     this.disposed = true;
     this.particles.length = 0; this.pending.length = 0; this.sources.clear();
     this.object3d.removeFromParent();
-    this.object3d.geometry.dispose(); this.object3d.material.dispose();
+    this.object3d.geometry.dispose(); this.object3d.material.dispose(); this.uniforms.depthPlaceholder.dispose();
     this.crowns.dispose();
   }
 
