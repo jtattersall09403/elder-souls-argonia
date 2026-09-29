@@ -340,6 +340,12 @@ without that is an escalation to the planner, never a packet.
   socket is `settlement.sockets`; a door is `doors[]`. Compare against
   the previous published value (`git show <walked rev>:<that file>`);
   unchanged where a change was claimed is a defect, found here.
+  A height over water is judged against the DRAWN water and the DRAWN
+  pose (R81): the water the studio draws is `water-surface.png` W plus
+  season (`water-shore.png` G x 1.4 m x (1-s)/2) and tide (coast/estuary
+  class only), and the pose is what `resolvePlacement` (game-core
+  `settlement/anchoring.ts`) draws for the piece's anchor class, never
+  the hydrology record or the layout's y alone.
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the

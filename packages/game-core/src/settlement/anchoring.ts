@@ -396,8 +396,15 @@ export function resolvePlacement(
   },
 ): ResolvedPlacement | null {
   if (anchorClass === "water") {
+    // A yFinal pose is the record for water pieces too (0097): the workbench
+    // seated a landing's deck on the drawn water, and the kit's mined
+    // waterline (a Riften canal dock's pivot 1.59 m over its water) re-seated
+    // it 1.32 m too high (Claywater walk 5).
+    const y = placement.yFinal === true
+      ? placement.positionM[1]
+      : waterPlacementY(placement, lookup.designedWaterlineM);
     return {
-      matrix: placementTransform(placement, waterPlacementY(placement, lookup.designedWaterlineM)),
+      matrix: placementTransform(placement, y),
       anchored: null,
     };
   }
