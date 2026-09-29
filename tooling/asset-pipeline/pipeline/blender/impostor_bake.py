@@ -9,7 +9,7 @@ faces a single orthographic camera, laid out on a grid of square cells of
 unlit), world normal (un-rotated per cell by the driver), alpha and depth
 (camera distance; the driver turns it into depth along the view direction).
 
-The alpha test is made hard (texture alpha > 0.5) as the runtime draws it.
+The alpha test is made hard (texture alpha > the material's alphaCutoff) as the runtime draws it.
 Directions and the cell basis are glTF (Y-up) object space; the frame basis
 is `right = normalize(cross(Y, d))` (X where d is vertical), `up = d x right`,
 the same function the runtime shader uses (game-core vegetation/impostor.ts).
@@ -57,7 +57,9 @@ for mat in bpy.data.materials:
         src = sock.links[0].from_socket
         cmp = nt.nodes.new("ShaderNodeMath")
         cmp.operation = "GREATER_THAN"
-        cmp.inputs[1].default_value = 0.5
+        # the glTF importer sets alpha_threshold from the material's alphaCutoff
+        # (the NIF's own threshold since walk 5), as three.js alphaTest reads it
+        cmp.inputs[1].default_value = mat.alpha_threshold if mat.blend_method == "CLIP" else 0.5
         nt.links.new(src, cmp.inputs[0])
         nt.links.new(cmp.outputs[0], sock)
     mat.blend_method = "CLIP"
