@@ -1365,6 +1365,8 @@ def main() -> int:
         ap.error("--plugin and --cell, or --blueprint")
     paths, pools, registry = _environment()
     kit_assets = published_kit_assets()
+    from .interior_light import apply_light_rule, kit_lights
+    fixture_lights = kit_lights(KITS_DIR)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
@@ -1377,6 +1379,7 @@ def main() -> int:
             prof = profile_cell(world_for(plugin, paths.get), cell, shell) or {}
             if prof.get("exteriorDoors"):
                 bundle["arrivalMarker"] = game_marker(prof["exteriorDoors"][0]["arrivalMarker"])
+        apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
         problems = check(bundle) + validate_bundle(bundle)
         gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
         (out_dir / f"{cell}.json").write_text(json.dumps(bundle, indent=1) + "\n")

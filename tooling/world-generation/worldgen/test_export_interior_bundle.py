@@ -119,6 +119,8 @@ def test_reexport_matches_the_published_bundle():
     if not doors:
         again["arrivalMarker"] = bundle["arrivalMarker"]
     again["shellAssetId"] = bundle["shellAssetId"]
+    from worldgen.interior_light import apply_light_rule, kit_lights
+    apply_light_rule(again, kit_lights(ex.KITS_DIR))  # as main() does before it writes
     assert json.loads(json.dumps(again)) == bundle
 
 

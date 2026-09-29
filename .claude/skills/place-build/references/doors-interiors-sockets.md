@@ -224,3 +224,29 @@ landmark, gate across the road, door visible from the way, …). Each "no"
 becomes a layout edit (a moved sign, a cleared sightline as a clearance
 patch, a lantern) or a rule before the walk; the reader's Plan and Iso
 rows check the answers that show in a picture.
+
+## 7. Interior lighting (16k walk 5)
+
+The plugin's lights and cell lighting are copied verbatim (§ 3); Skyrim
+lit them for its own eye adaptation, so under our ACES at exposure 1 a
+KotM hut's template ambient reads black away from its hearth (walk 5:
+median E 0.028, 96–99 % of the floor dark). The exporter applies one rule
+before it writes, `worldgen/interior_light.py apply_light_rule`:
+
+| Step | What | From |
+|---|---|---|
+| 1 | Every lit fixture (lantern, candle) whose kit asset has a mined LIGH and no plugin light within 1.0 m gets that light, `refId: fixture:<placement id>` | kit manifest `light` (radius, colour, `offsetM`) |
+| 2 | Cell ambient `intensity` raised until the unlit five-face mean reaches `FILL_E` 0.15 (≈45/255 on an albedo-0.3 wall); `ambient.rule: interior-light-floor` | the cell's own ambient and directional colours |
+
+A hearth is the plugin's; a burning hearth piece gets its flame from the
+fire module (fire.md), never from this rule. A cell with no light record
+at all fails.
+
+**Self-check** (1–2 s a cell, in the exporter's test run):
+`python3 -m worldgen.interior_light <bundle.json ...>` (from
+`tooling/world-generation`) samples the roofed standable floor on
+`interior_walk`'s 0.5 m grid at 1.2 m eye height, with the loader's own
+light model (`test_interior_light.py` pins the constants). Bar: at most
+30 % of nodes under `DARK_E` 0.12. `--reached` keeps only nodes reached
+from the doors (~30 s a cell); `--apply` applies the rule to a published
+bundle in place.
