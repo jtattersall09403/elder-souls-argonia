@@ -106,8 +106,13 @@ frames.
   1a2b3ff4): leaves thinned by keeping whole source cards per cluster,
   bark by keeping whole islands; no decimation (0075). Six heavy trees
   ship tiers (four mid + far, two mid only); the mangroves shipped none.
-  Round 13b (mangroves, `tooling/.reports/16k/walk5/perf/round13b.md`):
-  **outcome not yet recorded; the round-13b lane adds its line here.**
+  Round 13b (d20b2176, `tooling/.reports/16k/walk5/perf/round13b.md`): a
+  bark-tube rebuild (ring skeleton swept as an n-sided section) passed the
+  silhouette bar on the mangroves but failed the Sonnet image judges (a cone
+  over the root flare, trunk breaks, dark bands), so no mangrove tier ships;
+  tundrashrub03 ships a far tier (65 %). **So the image judge is a hard gate
+  beside the silhouette bar**: `--record` refuses a bark-tube level with no
+  judge PASS (round 13c, `round13c.md`).
 - **The bar is silhouette IoU ≥ 0.90 in every one of 8 views on masks
   closed by a disc of 1.5 % of the tree's pixel height, and no view losing
   more than 5 % coverage**, rendered at the hand-over distance. Not raw
@@ -123,7 +128,12 @@ frames.
   frame (`lodFadeTemporal.test.ts`, `ladderCoverage.test.ts`).
 - **Bushes hold full mesh to 35 / 50 / 65 m** (low / medium / high).
 - Ground-cover pop-out (`tooling/.reports/16k/walk5/perf/gc-popout.md`):
-  **outcome not yet recorded; the gc-popout lane adds its line here.**
+  the cause was the ring-wide budget thin factor recomputed at every fill,
+  which re-chose which plants survived (57,596 pop-outs in a 1.5 km walk
+  replay). A plant's survival is now a per-plant roll against a per-tile,
+  distance-ramped threshold (near band never thinned), so walking closer
+  never removes a plant shown further out: 0 pop-outs in the replay
+  (a19bbc56, `groundcoverThin.test.ts`).
 
 ## 6. Quality defaults are never lowered to win frames
 
