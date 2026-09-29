@@ -341,6 +341,12 @@ def candidate_eyes(cast, hub, level_z: float) -> list[dict]:
 FRAME_ROWS = ((30.0, 3.0), (15.0, 2.5), (0.0, 3.0), (-15.0, 2.5), (-30.0, 2.0), (-42.0, 1.8))
 FRAME_PROBES = tuple((float(y), pt, bar) for pt, bar in FRAME_ROWS for y in range(-50, 51, 10))
 MIN_FRAME_CLEAR = 0.85   # a frame with more of its probes blocked is rejected
+# The near veto: any hit within NEAR_VETO_M on a 5-degree grid across the
+# frame rejects the eye (thin ladder rails slip between 10-degree probes:
+# the Plantation doorway, walk 5).
+NEAR_VETO_M = 1.5
+NEAR_GRID = tuple((float(y), float(pt)) for pt in range(-40, 31, 5) for y in range(-50, 51, 5))
+OVERHEAD_M = 2.0         # a corner whose up ray hits within this stands under a landing
 FREE_CAP_M = 12.0        # the free distance ahead counts to this
 
 
@@ -360,7 +366,8 @@ def score_eye(cast, eye, target) -> float:
     free distance counts to FREE_CAP_M: past it a room view gains nothing,
     and an uncapped 30 m line outscored a clean frame (Plantation corner-b
     kept a post over a third of its frame, walk 5). A frame with fewer
-    than MIN_FRAME_CLEAR of its probes clear scores 0."""
+    than MIN_FRAME_CLEAR of its probes clear, or with any hit within
+    NEAR_VETO_M on the 5-degree NEAR_GRID (`near_hit`), scores 0."""
     d = [t - e for t, e in zip(target, eye)]
     n = math.sqrt(sum(v * v for v in d)) or 1e-9
     ahead = tuple(v / n for v in d)
@@ -372,32 +379,43 @@ def score_eye(cast, eye, target) -> float:
                         FAN_CLEAR_M) is None)
     frame = sum(1 for y, pt, bar in FRAME_PROBES
                 if cast(eye, _turn(ahead, y, pt), bar) is None) / len(FRAME_PROBES)
-    if frame < MIN_FRAME_CLEAR:
+    if frame < MIN_FRAME_CLEAR or near_hit(cast, eye, ahead):
         return 0.0
     return free * clear / FAN_RAYS * frame
+
+
+def near_hit(cast, eye, ahead) -> bool:
+    """Anything within NEAR_VETO_M on the NEAR_GRID across the frame."""
+    return any(cast(eye, _turn(ahead, y, pt), NEAR_VETO_M) is not None for y, pt in NEAR_GRID)
 
 
 def pick_corners(cast, cands, target, level_z: float) -> list[dict]:
     """The two best-scoring candidates at least CORNER_APART_DEG apart round
     the hub (their seed rays), each on its floor (`floor_ok`) and scoring
-    MIN_SCORE_M or more; fewer when the room has none."""
+    MIN_SCORE_M or more; candidates with nothing overhead within OVERHEAD_M
+    first (KeebaHouseElder corner-a stood under the arrival landing, walk 5),
+    the covered ones only when fewer than two open ones qualify (Elder's
+    main floor lies mostly under its upper floor). Fewer when the room has
+    none."""
     scored = []
     for c in cands:
         if not floor_ok(cast, c["eye"], level_z):
             continue
         s = score_eye(cast, c["eye"], target)
         if s >= MIN_SCORE_M:
-            scored.append({**c, "score": s})
+            covered = cast(c["eye"], (0.0, 0.0, 1.0), OVERHEAD_M) is not None
+            scored.append({**c, "score": s, "covered": covered})
     scored.sort(key=lambda c: (-c["score"], c["ray"], c["frac"]))
-    if not scored:
-        return []
-    picked = [scored[0]]
-    for c in scored[1:]:
-        gap = abs(c["ray"] - picked[0]["ray"]) * 360.0 / CORNER_DIRS
-        if min(gap, 360.0 - gap) >= CORNER_APART_DEG - 1e-6:
-            picked.append(c)
-            break
-    return picked
+
+    def two(pool):
+        picked = pool[:1]
+        for c in pool[1:]:
+            gap = abs(c["ray"] - picked[0]["ray"]) * 360.0 / CORNER_DIRS
+            if min(gap, 360.0 - gap) >= CORNER_APART_DEG - 1e-6:
+                return picked + [c]
+        return picked
+    picked = two([c for c in scored if not c["covered"]])
+    return picked if len(picked) == 2 else two(scored)
 
 
 def doorway_eye(cast, door, hub, level_z: float, target=None) -> tuple:

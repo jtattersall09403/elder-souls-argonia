@@ -435,3 +435,31 @@ def test_a_landing_over_the_main_floor_splits_the_eyes():
     # no drop on the line (arrival on the main floor): 1.2 m in from the door
     flat, _ = ir.doorway_eye(cast, (3.05, 5.0, 0.0), (8.0, 5.0), 0.0)
     assert abs(flat[0] - (3.05 + ir.DOOR_IN_M)) < 1e-9 and abs(flat[2] - ir.EYE_M) < 1e-9
+
+
+_BOX12 = [(-1.0, -1.0, -0.2, 13.0, 9.0, 0.0), (-1.0, -1.0, 4.0, 13.0, 9.0, 4.2),
+          (-1.0, -1.0, 0.0, 0.0, 9.0, 4.0), (12.0, -1.0, 0.0, 13.0, 9.0, 4.0),
+          (0.0, -1.0, 0.0, 12.0, 0.0, 4.0), (0.0, 8.0, 0.0, 12.0, 9.0, 4.0)]
+
+
+def test_a_thin_rail_near_the_eye_vetoes_it():
+    """A 4 cm ladder rail 1 m ahead and 20 degrees off the line slips between
+    the 10-degree frame probes (Plantation doorway, walk 5); the 5-degree
+    near grid rejects the eye."""
+    eye, target = (9.0, 4.0, 1.6), (3.0, 4.0, 1.0)
+    rail = (7.92, 4.34, 0.0, 7.96, 4.38, 4.0)    # ~1.1 m away, ~19 deg left
+    assert ir.score_eye(_solids_cast(_BOX12), eye, target) >= ir.MIN_SCORE_M
+    assert ir.score_eye(_solids_cast(_BOX12 + [rail]), eye, target) == 0.0
+
+
+def test_a_corner_under_a_low_overhang_is_rejected():
+    """KeebaHouseElder corner-a stood under the arrival landing, its underside
+    over the top of the frame: a candidate whose up ray hits within
+    OVERHEAD_M is no corner."""
+    overhang = (8.0, -1.0, 3.4, 12.0, 9.0, 3.6)    # 1.8 m over the eye
+    cast = _solids_cast(_BOX12 + [overhang])
+    picked = ir.pick_corners(cast, ir.candidate_eyes(cast, (4.0, 4.0), 0.0), (4.0, 4.0, 1.0), 0.0)
+    assert picked and all(c["eye"][0] < 8.0 for c in picked)
+    free = ir.pick_corners(_solids_cast(_BOX12), ir.candidate_eyes(_solids_cast(_BOX12), (4.0, 4.0), 0.0),
+                           (4.0, 4.0, 1.0), 0.0)
+    assert free[0]["eye"][0] > 8.0          # without it the best corner stands there
