@@ -66,6 +66,9 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - `NodeMaterial.clone()` is NOT a copy in three 0.184 (it drops map, color, roughness, side): clone
   node materials with `cloneNodeMaterial` from `render/nodes/materialNodes.ts`. The harness checks
   brightness, so a white untextured slab can pass it: look at the sheet.
+- `sel()` and multiply-by-zero gates cannot cancel inf or NaN: clamp every `exp()` argument and guard
+  every divisor (`max(x, eps)`) where the value is made (dry ground once rendered black from an
+  `exp()` of a -300 m water depth). The harness fails a scene whose drawn pixels are over 20% black.
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
