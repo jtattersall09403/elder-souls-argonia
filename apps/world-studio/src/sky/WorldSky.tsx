@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
@@ -14,6 +14,7 @@ import {
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
+import { fixtureLightFieldOf, isFixtureLitMaterial, setLitPreparer } from "@elder-souls/game-core/render/fixtureLights/index";
 import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
@@ -806,20 +807,29 @@ export function WorldSky({
 
   // Any lit material that enters the scene (character GLBs, sea, props) must
   // be CSM-patched or the per-cascade lights each add full-strength lighting.
+  //
+  // It runs before EVERY render (the scene's onBeforeRender, once per frame),
+  // not on a 1 s cadence: a material first drawn unpatched compiled without
+  // CSM (every cascade light at full strength) and relinked up to a second
+  // later, which is the startup "buildings and trees flash darker" (16k walk
+  // 5). Only new materials cost anything; the walk is a WeakSet look-up per
+  // mesh. Layers that build detached (the settlement layer) call the same
+  // patch on their group before warming its programs (`setLitPreparer`).
+  // Every lit material also takes the fixture-light chunk (render/
+  // fixtureLights) and every mesh drawing one its per-object lamp list: the
+  // ONE install point for fixture light.
   const patched = useRef(new WeakSet<THREE.Material>());
-  const patchScene = () => {
-    let anyNew = false;
-    scene.traverse((obj) => {
-      const mesh = obj as THREE.Mesh;
-      if (!mesh.isMesh) return;
-      const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-      for (const m of mats) {
-        const lit = m as THREE.MeshStandardMaterial;
-        if (!lit || patched.current.has(m) || csm.shaders.has(m)) {
-          patched.current.add(m);
-          continue;
-        }
-        if (lit.isMeshStandardMaterial || (m as THREE.MeshLambertMaterial).isMeshLambertMaterial) {
+  const fixtureField = useMemo(() => fixtureLightFieldOf(scene), [scene]);
+  const patchMaterial = (m: THREE.Material | null | undefined): boolean => {
+    if (!m) return false;
+    if (patched.current.has(m)) {
+      // re-wrapped if a later hook assignment (a reapply elsewhere) dropped it
+      return isFixtureLitMaterial(m) && !fixtureField.installed(m) && fixtureField.install(m);
+    }
+    patched.current.add(m);
+    const lit = m as THREE.MeshStandardMaterial;
+    if (csm.shaders.has(m)) return fixtureField.install(m);
+    if (lit.isMeshStandardMaterial || (m as THREE.MeshLambertMaterial).isMeshLambertMaterial) {
           csm.setupMaterial(m);
           // Materials tagged esAerial (vegetation kit) join the one aerial
           // inscatter authority AFTER the CSM patch — csm.setupMaterial
@@ -860,30 +870,55 @@ export function WorldSky({
           // contract: CSM owns the first patch, then the settlement surface
           // hook is restored and chains it (Round B checklist item 12).
           reapplySettlementSurface(m);
+          fixtureField.install(m);
           m.needsUpdate = true;
-          anyNew = true;
-        }
-        patched.current.add(m);
-      }
-    });
-    // Newly patched programs compile off the main thread where the driver
-    // supports it (KHR_parallel_shader_compile) — synchronous first-use
-    // compiles of the big CSM shaders are the load-time frame stalls.
-    // This compiles OUTSIDE the water pipeline's frame, so it must see the
-    // same shadow type the shadow maps are built with: a program compiled
-    // while the deprecated PCFSoft value is set gets `sampler2D` shadow
-    // samplers against PCF comparison textures (WaterPipeline.tsx explains).
-    if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
-    // `compile`, never `compileAsync` (16k walk 3): compileAsync registers
-    // EVERY material in the scene in a Set and polls each program's isReady
-    // on a timer; a material disposed while its program is still linking has
-    // its renderer properties removed, the poll reads `currentProgram` of a
-    // fresh empty entry and throws "Cannot read properties of undefined
-    // (reading 'isReady')" from the Set.forEach. Nothing here awaited the
-    // promise, so the poll bought nothing: `compile` starts the same
-    // parallel links and registers nothing.
-    if (anyNew) gl.compile(scene, camera);
+          return true;
+    }
+    return fixtureField.install(m);
   };
+  /** Patch every mesh under `root`; whether any material was new. */
+  const patchObject = (root: THREE.Object3D, visibleOnly = false): boolean => {
+    let anyNew = false;
+    // per frame only what can draw: a hidden subtree is patched the frame it shows
+    root[visibleOnly ? "traverseVisible" : "traverse"]((obj) => {
+      const mesh = obj as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const material = mesh.material;
+      if (Array.isArray(material)) {
+        for (const m of material) if (patchMaterial(m)) anyNew = true;
+      } else if (patchMaterial(material)) anyNew = true;
+      if (isFixtureLitMaterial(Array.isArray(material) ? material[0] : material)) fixtureField.attach(mesh);
+    });
+    return anyNew;
+  };
+  const patchScene = () => {
+    patchObject(scene, true);
+    // Programs linked outside the water pipeline's frame (the settlement
+    // layer's compileAsync of a detached build) must see the same shadow type
+    // the shadow maps are built with: a program compiled while the deprecated
+    // PCFSoft value is set gets `sampler2D` shadow samplers against PCF
+    // comparison textures (WaterPipeline.tsx explains). The scene walk itself
+    // links nothing: a new material links at its first draw, patched.
+    if (gl.shadowMap.type === THREE.PCFSoftShadowMap) gl.shadowMap.type = THREE.PCFShadowMap;
+  };
+  const patchRef = useRef(patchScene);
+  patchRef.current = patchScene;
+  const patchObjectRef = useRef(patchObject);
+  patchObjectRef.current = patchObject;
+  const patchFrame = useRef({ frame: 0, patched: -1 });
+  // a layout effect: installed at commit, before the first frame renders
+  useLayoutEffect(() => {
+    const previous = scene.onBeforeRender;
+    scene.onBeforeRender = function (...args) {
+      previous.apply(this, args);
+      // the water pipeline renders the scene several times a frame: patch once
+      if (patchFrame.current.patched === patchFrame.current.frame) return;
+      patchFrame.current.patched = patchFrame.current.frame;
+      patchRef.current();
+    };
+    const unregister = setLitPreparer(scene, (root) => { patchObjectRef.current(root); });
+    return () => { scene.onBeforeRender = previous; unregister(); };
+  }, [scene]);
 
   const { sky, extras } = useMemo(() => createSkyDome(STAR_RADIUS * 1.6), []);
   const bake = useMemo(() => {
@@ -1054,7 +1089,6 @@ void main() {
     lastEpoch: Number.NaN,
     envBakes: 0,
     lastNotify: 0,
-    lastPatch: 0,
     lastFrustumUpdate: 0,
     waterWaveScale: NaN,
     waterWaveResume: false,
@@ -1090,6 +1124,7 @@ void main() {
   };
 
   useFrame((_s, delta) => {
+    patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
     // (decision 0084 round 10).
     segments?.cpuMark("sky");
@@ -1217,10 +1252,6 @@ void main() {
     if (nowMs - state.current.lastFrustumUpdate > 500) {
       state.current.lastFrustumUpdate = nowMs;
       csm.updateFrustums();
-      if (nowMs - state.current.lastPatch > 1000) {
-        state.current.lastPatch = nowMs;
-        patchScene();
-      }
     }
 
     // Moonlight: Masser as a cool, weak key (no shadows at Tier 1).

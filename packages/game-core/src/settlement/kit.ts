@@ -20,11 +20,23 @@ function assetIdOf(object: THREE.Object3D): string | null {
   return typeof id === "string" ? id : null;
 }
 
-/** Build the semantic asset/LOD index once; never use sanitised node names. */
+/**
+ * Build the semantic asset/LOD index once; never use sanitised node names.
+ * Each glTF material is cloned ONCE for the kit (the loaded GLTF stays
+ * untouched for the interior loader that shares the cache) and that clone is
+ * shared by every part drawing it: one material, one set of uniforms, one
+ * program look-up, where a clone per part made a material per mesh.
+ */
 export function buildArchitectureKit(gltf: GLTF): Map<string, ArchitectureAsset> {
   gltf.scene.updateMatrixWorld(true);
   const sceneInverse = gltf.scene.matrixWorld.clone().invert();
   const out = new Map<string, ArchitectureAsset>();
+  const cloned = new Map<THREE.Material, THREE.Material>();
+  const shared = (material: THREE.Material): THREE.Material => {
+    let copy = cloned.get(material);
+    if (!copy) { copy = material.clone(); cloned.set(material, copy); }
+    return copy;
+  };
   for (const root of gltf.scene.children) {
     const id = assetIdOf(root);
     if (!id) continue;
@@ -39,7 +51,7 @@ export function buildArchitectureKit(gltf: GLTF): Map<string, ArchitectureAsset>
       const triangles = index ? index.count / 3 : mesh.geometry.getAttribute("position").count / 3;
       (levels[level] ??= []).push({
         geometry: mesh.geometry,
-        material: material.clone(),
+        material: shared(material),
         localMatrix: sceneInverse.clone().multiply(mesh.matrixWorld),
         triangles,
       });

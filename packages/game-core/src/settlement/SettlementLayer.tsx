@@ -65,6 +65,7 @@ import {
   type LightFixture,
 } from "./lighting";
 import { mergeRunColliders } from "./runColliders";
+import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
@@ -77,6 +78,8 @@ import {
 
 interface DrawBucket {
   part: ArchitecturePart;
+  /** The part's material for this bucket's glow kind (`materialVariant`). */
+  material?: THREE.Material;
   transforms: THREE.Matrix4[];
   groundLinesM: number[];
   farTransforms: THREE.Matrix4[];
@@ -149,19 +152,56 @@ const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
   runJointFailures: Object.freeze([] as string[]),
 });
 
+/** Settlement pieces are bucketed per square of this edge (m), so the
+ * instances of a part off screen are frustum-culled with their square (walk 5
+ * perf: one bucket spanning the place was never culled from inside it). */
+export const SETTLEMENT_CHUNK_M = 48;
+
+/** The chunk key of a world position. */
+export function settlementChunkKey(x: number, z: number): string {
+  return `${Math.floor(x / SETTLEMENT_CHUNK_M)},${Math.floor(z / SETTLEMENT_CHUNK_M)}`;
+}
+
+/**
+ * A draw geometry that SHARES the kit part's index and vertex attributes (the
+ * same GPU buffers) and adds only its own per-instance ground line: a rebuild
+ * uploads the ground lines, never the part's vertices again (a clone per
+ * bucket per rebuild did).
+ */
+export function instancedPartView(source: THREE.BufferGeometry, groundLinesM: readonly number[]): THREE.BufferGeometry {
+  const view = new THREE.BufferGeometry();
+  view.setIndex(source.index);
+  for (const [name, attribute] of Object.entries(source.attributes)) view.setAttribute(name, attribute);
+  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
+  view.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(new Float32Array(groundLinesM), 1));
+  view.userData.esSettlementPartView = true;
+  return view;
+}
+
+/** Free a part view's own buffers only: three's geometry dispose deletes every
+ * attribute it holds, and the shared ones belong to the kit part. */
+export function disposePartView(view: THREE.BufferGeometry): void {
+  const ground = view.getAttribute(SETTLEMENT_GROUND_ATTRIBUTE);
+  view.setIndex(null);
+  for (const name of Object.keys(view.attributes)) view.deleteAttribute(name);
+  if (ground) view.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, ground);
+  view.dispose();
+}
+
 /** Dispose and detach everything the layer put in `group`: the per-build
- * instance buffers and far-merge geometry. Colour materials belong to the
- * kit and shadow-depth twins to the layer's cache (one per colour material,
- * disposed on unmount), so a swap never frees a material the next build
- * still draws with. */
-function disposeChildren(group: THREE.Group): void {
+ * instance buffers (part views) and far merges the next build does not keep
+ * (`keep`: the far-merge cache's live geometries). Colour materials belong to
+ * the kit and shadow-depth twins to the layer's cache (one per colour
+ * material, disposed on unmount), so a swap never frees a material the next
+ * build still draws with. */
+function disposeChildren(group: THREE.Group, keep?: ReadonlySet<THREE.BufferGeometry>): void {
   for (const child of [...group.children]) {
     group.remove(child);
     if (child instanceof THREE.InstancedMesh) {
       child.dispose();
-      if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
+      if (child.geometry.userData.esSettlementPartView) disposePartView(child.geometry);
     }
-    else if (child instanceof THREE.Mesh) child.geometry.dispose();
+    else if (child instanceof THREE.Mesh && !keep?.has(child.geometry)) child.geometry.dispose();
   }
 }
 
@@ -182,6 +222,20 @@ function buildSignature(buckets: Map<string, DrawBucket>, colliderParts: number)
 }
 
 const REBUILD_MOVE_M = 40;
+/** How long a finished build waits for its programs to link before it swaps
+ * in anyway (a driver without parallel compile links on first draw). */
+const SETTLEMENT_LINK_WAIT_MS = 4000;
+
+/** A far merge's identity: its instance count and every transform and ground
+ * line to the millimetre. The same instances reuse the merged geometry. */
+function farSignatureOf(transforms: readonly THREE.Matrix4[], groundLinesM: readonly number[]): string {
+  let sum = 0;
+  transforms.forEach((m, i) => {
+    const e = m.elements;
+    sum += (e[12] * 3 + e[13] * 5 + e[14] * 7 + e[0] + e[2] * 11 + groundLinesM[i] * 13) * (i + 1);
+  });
+  return `${transforms.length}:${Math.round(sum * 1000)}`;
+}
 const MAX_RENDER_DISTANCE_M = 5000;
 export const SETTLEMENT_PROOF_KEY = "__STUDIO_SETTLEMENT_DEBUG__";
 
@@ -441,15 +495,17 @@ export function SettlementLayer({
   // once the effect texture named by its kit manifest has loaded.
   const [smoke, setSmoke] = useState<SmokeColumns | null>(null);
   const smokeAnchors = useRef<SmokeAnchor[]>([]);
-  // Light fixtures (lighting.ts): injected by the scene, else the layer's own.
+  // Light fixtures (lighting.ts): injected by the scene, else the layer's own,
+  // lighting through the scene's fixture light field (render/fixtureLights).
+  const { camera: sceneCamera, scene, gl } = useThree();
   const ownLightFixtures = useMemo(
-    () => (sharedLightFixtures ? null : new SettlementLightFixtures(uniforms.esSettlementNight)),
-    [sharedLightFixtures, uniforms]);
+    () => (sharedLightFixtures ? null
+      : new SettlementLightFixtures(uniforms.esSettlementNight, fixtureLightFieldOf(scene))),
+    [sharedLightFixtures, uniforms, scene]);
   const lightFixtures = sharedLightFixtures ?? ownLightFixtures!;
   useEffect(() => () => ownLightFixtures?.dispose(), [ownLightFixtures]);
   // Smoke and billboard flames draw on the post-water layer (like rain): the
   // camera must see it in a plain render too, where no water pipeline runs.
-  const { camera: sceneCamera } = useThree();
   useEffect(() => { sceneCamera.layers.enable(PRECIP_LAYER); }, [sceneCamera]);
   const placementById = useMemo(
     () => new Map((bundle?.placements ?? []).map((p) => [p.id, p])), [bundle]);
@@ -554,9 +610,28 @@ export function SettlementLayer({
   }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
       decoders, kitCache]);
 
-  const kits = useMemo(() => {
-    return new Map([...gltfs].map(([id, gltf]) => [id, buildArchitectureKit(gltf)]));
-  }, [gltfs]);
+  // One index (and one set of material clones) per loaded GLTF for the
+  // layer's life: a new kit arriving must not re-clone every other kit's
+  // materials (new materials meant new depth twins and relinks per kit load).
+  const kitIndex = useRef(new WeakMap<GLTF, ReturnType<typeof buildArchitectureKit>>());
+  const kits = useMemo(() => new Map([...gltfs].map(([id, gltf]) => {
+    let kit = kitIndex.current.get(gltf);
+    if (!kit) { kit = buildArchitectureKit(gltf); kitIndex.current.set(gltf, kit); }
+    return [id, kit];
+  })), [gltfs]);
+  // A part material drawn with a second glow kind (a fire asset in a brazier,
+  // burning by day, and the same asset alone) gets one clone per kind for the
+  // layer's life, so no material flips kind (and relinks) between builds.
+  const glowVariants = useRef(new Map<THREE.Material, Map<string, THREE.Material>>());
+  const materialVariant = useCallback((material: THREE.Material, kind: string): THREE.Material => {
+    let byKind = glowVariants.current.get(material);
+    if (!byKind) { byKind = new Map([[kind, material]]); glowVariants.current.set(material, byKind); }
+    let variant = byKind.get(kind);
+    if (!variant) { variant = material.clone(); byKind.set(kind, variant); }
+    return variant;
+  }, []);
+  // Far merges kept across builds while their instances are unchanged.
+  const farCache = useRef(new Map<string, { signature: string; geometry: THREE.BufferGeometry }>());
 
   // The smoke texture: read from the effect placement's kit manifest
   // (`effectTextures`, build_kit.publish_effect_textures), loaded once per
@@ -842,7 +917,8 @@ export function SettlementLayer({
             // the same fire asset in a brazier and on its own are two buckets
             const flamePart = ownFlames.has(part.material.name);
             const litByDay = flamePart && burnsByDay(meta, hostMeta);
-            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}`;
+            const chunk = settlementChunkKey(placement.positionM[0], placement.positionM[2]);
+            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}${litByDay ? "|day" : ""}|${chunk}`;
             const bucket = buckets.get(key) ?? {
               part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
             };
@@ -904,14 +980,17 @@ export function SettlementLayer({
       // and on the console; never thrown, so one bad run cannot blank a place.
       const runJointFailures = runJointErrors(runJoints);
       if (runJointFailures.length) console.error(`settlement run joints: ${runJointFailures.join("; ")}`);
-      for (const bucket of buckets.values()) {
+      // the far merges this build draws (reused or new), keyed like the buckets
+      const farKept = new Map<string, { signature: string; geometry: THREE.BufferGeometry }>();
+      for (const [bucketKey, bucket] of buckets) {
         yield;
-        const material = bucket.part.material;
-        validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
+        validateMaterialTextureCap(bucket.part.material, bundle.lod.atlasMaxSize);
         // A glow material is one the kit build gave an emissive map (the NIF's
         // Glow_Map slot, build_kit rebuild_material), never a name match.
         const glowMaterial = bucket.flame ? (bucket.alwaysLit ? "flame" as const : "lamp-flame" as const)
-          : isSettlementGlowMaterial(material);
+          : isSettlementGlowMaterial(bucket.part.material);
+        const material = materialVariant(bucket.part.material, String(glowMaterial));
+        bucket.material = material;
         materialPatch?.(material);
         applySettlementDecal(material);
         if (bucket.flame) applySettlementAdditive(material);
@@ -942,27 +1021,30 @@ export function SettlementLayer({
           if (depthMaterial) shadowPairedDraws += drawsHere;
         }
         if (!reuseLive && bucket.transforms.length) {
-          const geometry = bucket.part.geometry.clone();
-          geometry.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(
-            new Float32Array(bucket.groundLinesM), 1,
-          ));
+          const geometry = instancedPartView(bucket.part.geometry, bucket.groundLinesM);
           const mesh = new THREE.InstancedMesh(geometry, material, bucket.transforms.length);
           bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
           mesh.instanceMatrix.needsUpdate = true;
+          // the chunk's own bounds: culled with its square, lit by its lamps
+          mesh.computeBoundingSphere();
           mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
           mesh.renderOrder = drawFlags.renderOrder;
           if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementLodAuthority = true;
-          mesh.userData.esSettlementOwnedGeometry = true;
           next.add(mesh);
           draws += 1;
           nearInstances += bucket.transforms.length;
           groundBoundInstances += bucket.transforms.length;
           if (depthMaterial) shadowPairedDraws += 1;
         }
-        const farGeometry = reuseLive ? null : mergeTransformedGeometry(
-          bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM,
-        );
+        let farGeometry: THREE.BufferGeometry | null = null;
+        if (!reuseLive && bucket.farTransforms.length) {
+          const farSignature = farSignatureOf(bucket.farTransforms, bucket.farGroundLinesM);
+          const cached = farCache.current.get(bucketKey);
+          farGeometry = cached?.signature === farSignature ? cached.geometry
+            : mergeTransformedGeometry(bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM);
+          if (farGeometry) farKept.set(bucketKey, { signature: farSignature, geometry: farGeometry });
+        }
         if (farGeometry) {
           const mesh = new THREE.Mesh(farGeometry, material);
           mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
@@ -987,10 +1069,30 @@ export function SettlementLayer({
       // Final step: the finished build replaces the live one atomically, in
       // one synchronous step, so no frame draws an empty layer.
       if (!reuseLive) {
-        disposeChildren(group);
+        // Every material is patched (CSM, the settlement surface, fixture
+        // lights) and every program linked BEFORE the build is on screen: a
+        // material first drawn unpatched relinked a frame later, which was the
+        // startup "buildings flash darker" (16k walk 5).
+        const prepare = litPreparerOf(scene);
+        if (prepare) prepare(next);
+        else {
+          const field = fixtureLightFieldOf(scene);
+          next.traverse((object) => {
+            const mesh = object as THREE.Mesh;
+            if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
+              && field.install(mesh.material as THREE.Material)) field.attach(mesh);
+          });
+        }
+        let linked = false;
+        gl.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
+        const linkStart = performance.now();
+        while (!linked && performance.now() - linkStart < SETTLEMENT_LINK_WAIT_MS) yield;
+        // the live far merges not kept are freed with the live group
+        const keep = new Set([...farKept.values()].map((entry) => entry.geometry));
+        farCache.current = farKept;
+        disposeChildren(group, keep);
         swapInBuild(group, next);
-        // Twins of materials no longer drawn (a kit re-cloned its materials)
-        // go now, not at unmount.
+        // Twins of materials no longer drawn go now, not at unmount.
         const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));
         for (const [material, twin] of depthTwins.current) {
           if (drawn.has(material)) continue;
@@ -1054,8 +1156,9 @@ export function SettlementLayer({
         frames,
       });
       } finally {
-        // A successful swap leaves `next` empty; a cancelled build does not.
-        disposeChildren(next);
+        // A successful swap leaves `next` empty; a cancelled build does not
+        // (its far merges not in the cache are its own).
+        disposeChildren(next, new Set([...farCache.current.values()].map((entry) => entry.geometry)));
       }
     }
 
@@ -1085,7 +1188,7 @@ export function SettlementLayer({
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
-      placementById]);
+      placementById, materialVariant, gl, scene, sceneCamera]);
 
   // The live group and the depth twins go with the world: on unmount, a new
   // baseUrl, or a fatal error emptying the layer. A new set of bundles
@@ -1096,8 +1199,10 @@ export function SettlementLayer({
     // detached the ref by the time this cleanup runs.
     const group = root.current;
     const twins = depthTwins.current;
+    const far = farCache.current;
     return () => {
       if (group) disposeChildren(group);
+      far.clear();
       liveSignature.current = "";
       liveDraws.current = 0;
       twins.forEach((material) => material?.dispose());

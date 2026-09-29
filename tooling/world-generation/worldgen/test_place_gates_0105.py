@@ -15,7 +15,8 @@ def _lamp(i, x, z=0.0, layer="light", kind="assembly"):
 
 
 def test_the_cap_and_band_are_read_from_the_runtime():
-    assert pg.lighting_constants() == (16, 200.0)
+    # 100 fixture lights (render/fixtureLights, 16k walk 5), no longer 16 point lights
+    assert pg.lighting_constants() == (100, 200.0)
 
 
 def test_lights_density_fails_past_the_cap_and_ignores_fixtures_beyond_the_band():

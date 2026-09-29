@@ -1,7 +1,7 @@
 /**
  * Settlement lighting (walk 2 D7): the lamp clock, the fixture light, the
- * lights band (R3: every burning fixture within 200 m, capped at 16), the
- * stepped light counts and flame reach (R11).
+ * lights band (R3: every burning fixture within 200 m, capped at 100, held
+ * in the scene's FixtureLightField, never three lights) and flame reach.
  */
 import * as THREE from "three";
 import * as lighting from "./lighting";
@@ -11,13 +11,13 @@ import {
   burnsByDay, drawsOwnFire, fixtureLightOf, FIXTURE_CANDELA, FIXTURE_DEFAULT_RADIUS_M, FIXTURE_LIGHT_RGB, isAlwaysLitFixture,
   isFireSocket, fixturesInBand, FLAME_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD,
   FLAME_TEXTURE_ASSET_ID, isLightFixturePlacement, isSpriteHolderPlacement,
-  LIGHT_COUNT_STEPS, lightCountStep,
-  LIGHTS_ACTIVE_M, LIGHTS_CAP,
+  bandFade, LIGHTS_ACTIVE_M, LIGHTS_CAP, LIGHTS_FADE_M,
   SettlementLightFixtures,
 } from "./lighting";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import type { SettlementKitAssetMeta } from "./types";
 import { FIRE_PRESETS } from "../fx/fire/fireTypes";
+import { FIXTURE_LIGHTS_MAX } from "../render/fixtureLights";
 
 const hm = (h: number, m = 0) => h * 60 + m;
 
@@ -104,7 +104,8 @@ describe("light fixtures", () => {
 
   it("the band and the cap are the R3 numbers the place gate reads", () => {
     expect(LIGHTS_ACTIVE_M).toBe(200);
-    expect(LIGHTS_CAP).toBe(16);
+    expect(LIGHTS_CAP).toBe(100);
+    expect(LIGHTS_CAP).toBe(FIXTURE_LIGHTS_MAX);
   });
 
   const ring = (n: number, radiusM: number, prefix = "f") => Array.from({ length: n }, (_, i) => {
@@ -112,8 +113,14 @@ describe("light fixtures", () => {
     return fixtureFromPiece(`${prefix}${i}`, {},
       new THREE.Matrix4().makeTranslation(Math.cos(a) * radiusM, 0, Math.sin(a) * radiusM), box);
   });
+  /** Fixture ids whose field slot carries light now. */
   const lit = (manager: SettlementLightFixtures) =>
-    manager.lights.filter((l) => l.visible && l.intensity > 0);
+    manager.litIds.filter((_, slot) => manager.field.radianceOf(slot)[0] > 0);
+  const pointLights = (manager: SettlementLightFixtures) => {
+    let n = 0;
+    manager.group.traverse((o) => { if ((o as THREE.Light).isLight) n += 1; });
+    return n;
+  };
   const flameQuads = (manager: SettlementLightFixtures) => manager.fire.flameInstances;
   const at = (x: number) => {
     const camera = new THREE.PerspectiveCamera();
@@ -121,62 +128,38 @@ describe("light fixtures", () => {
     return camera;
   };
 
-  it("20 fixtures at 50 m: the 16 nearest emit, the other 4 keep their sprite", () => {
+  it("120 fixtures at 50 m: the 100 nearest light the world, the other 20 keep their flame", () => {
     const manager = new SettlementLightFixtures({ value: 1 });
     manager.setFlameTexture(new THREE.Texture());
     // the camera 2 m off centre gives every fixture a distinct distance near 50 m
-    manager.setFixtures(ring(20, 50));
+    manager.setFixtures(ring(120, 50));
     manager.update(0, at(2));
-    expect(lit(manager)).toHaveLength(16);
-    expect(manager.lights).toHaveLength(16);
-    expect(manager.litIds).toHaveLength(16);
-    expect(flameQuads(manager)).toBe(20);
-    expect(manager.lights.every((l) => l.decay === 2 && !l.castShadow)).toBe(true);
+    expect(lit(manager)).toHaveLength(100);
+    expect(manager.field.count).toBe(100);
+    expect(flameQuads(manager)).toBe(120);
+    // no three light is made for any fixture: the program never sees a count
+    expect(pointLights(manager)).toBe(0);
     manager.dispose();
   });
 
-  it("5 fixtures at 150 m: all 5 emit, padded to 8 visible lights and no more made", () => {
+  it("any count 0..100 is held as is, with no step and no padding", () => {
     const manager = new SettlementLightFixtures({ value: 1 });
-    manager.setFixtures(ring(5, 150));
-    manager.update(0, at(0));
-    expect(lit(manager)).toHaveLength(5);
-    expect(manager.lights).toHaveLength(8);
-    expect(manager.lights.filter((l) => l.visible)).toHaveLength(8);
-    expect(manager.visibleLightCount).toBe(8);
-    manager.dispose();
-  });
-
-  it("the visible light count steps 0/4/8/16 only (R11)", () => {
-    expect(LIGHT_COUNT_STEPS).toEqual([0, 4, 8, 16]);
-    expect([0, 1, 3, 4, 5, 8, 9, 15, 16].map(lightCountStep)).toEqual([0, 4, 4, 4, 8, 8, 16, 16, 16]);
-    const manager = new SettlementLightFixtures({ value: 1 });
-    const seen = new Set<number>();
-    for (const n of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 16, 20, 3, 0]) {
+    for (const n of [0, 1, 5, 7, 40, 99, 100, 3, 0]) {
       manager.setFixtures(ring(n, 50));
       manager.update(n, at(2));
-      const visible = manager.lights.filter((l) => l.visible).length;
-      expect(visible).toBe(lightCountStep(Math.min(n, LIGHTS_CAP)));
-      expect(lit(manager)).toHaveLength(Math.min(n, LIGHTS_CAP));
-      seen.add(visible);
+      expect(manager.field.count).toBe(n);
+      expect(lit(manager)).toHaveLength(n);
     }
-    expect([...seen].sort((a, b) => a - b)).toEqual([0, 4, 8, 16]);
+    expect(pointLights(manager)).toBe(0);
     manager.dispose();
   });
 
-  it("the pool grows only to the step needed", () => {
-    const manager = new SettlementLightFixtures({ value: 1 });
-    manager.setFixtures(ring(3, 50));
-    manager.update(0, at(2));
-    expect(manager.lights).toHaveLength(4);
-    manager.setFixtures(ring(6, 50));
-    manager.update(1, at(2));
-    expect(manager.lights).toHaveLength(8);
-    manager.setFixtures(ring(2, 50));
-    manager.update(2, at(2));
-    // made lights are kept; the unused ones past the step are hidden
-    expect(manager.lights).toHaveLength(8);
-    expect(manager.lights.filter((l) => l.visible)).toHaveLength(4);
-    manager.dispose();
+  it("a light fades out over the band's last LIGHTS_FADE_M, never popping at the edge", () => {
+    expect(LIGHTS_FADE_M).toBe(20);
+    expect(bandFade(0)).toBe(1);
+    expect(bandFade(LIGHTS_ACTIVE_M - LIGHTS_FADE_M)).toBe(1);
+    expect(bandFade(LIGHTS_ACTIVE_M - LIGHTS_FADE_M / 2)).toBeCloseTo(0.5, 9);
+    expect(bandFade(LIGHTS_ACTIVE_M)).toBe(0);
   });
 
   it("a lit window is no fixture: nothing builds a light for it (R11)", () => {
@@ -192,7 +175,7 @@ describe("light fixtures", () => {
     expect(flameQuads(manager)).toBe(2);
     const material = manager.group.getObjectByName("fire-flame-cards") as THREE.Mesh;
     expect((material.material as THREE.ShaderMaterial).uniforms.uMaxDistance.value).toBe(250);
-    expect(manager.lights).toHaveLength(0);
+    expect(manager.field.count).toBe(0);
     manager.dispose();
   });
 
@@ -201,7 +184,7 @@ describe("light fixtures", () => {
     manager.setFixtures(ring(1, 250));
     manager.update(0, at(0));
     expect(lit(manager)).toHaveLength(0);
-    expect(manager.lights).toHaveLength(0);
+    expect(manager.field.count).toBe(0);
     manager.dispose();
   });
 
@@ -221,13 +204,13 @@ describe("light fixtures", () => {
     expect(manager.litIds).toEqual(["f11", "f10", "f9", "f8", "f7", "f6", "f5"]);
     expect(lit(manager)).toHaveLength(7);
     factor.value = 0;
-    // lamps out between refreshes: zero intensity, the visible count holds at 8
+    // lamps out between refreshes: zero intensity at once, the set held to the refresh
     manager.update(1.2, at(330));
-    expect(manager.lights.every((l) => l.intensity === 0)).toBe(true);
-    expect(manager.lights.filter((l) => l.visible)).toHaveLength(8);
+    expect(lit(manager)).toHaveLength(0);
+    expect(manager.field.count).toBe(7);
     manager.update(2.5, at(330));
     expect(manager.litIds).toEqual([]);
-    expect(manager.lights.some((l) => l.visible)).toBe(false);
+    expect(manager.field.count).toBe(0);
     manager.dispose();
   });
 
@@ -264,7 +247,8 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
   const drawn = (manager: SettlementLightFixtures) =>
     Array.from({ length: manager.fire.flameInstances }, (_, i) => manager.fire.flameIntensity(i)).filter((v) => v > 0);
   const intensityOf = (manager: SettlementLightFixtures, id: string) =>
-    manager.lights[manager.litIds.indexOf(id)].intensity;
+    manager.field.radianceOf(manager.litIds.indexOf(id))[0]
+      / new THREE.Color().setRGB(FIXTURE_LIGHT_RGB[0] / 255, 0, 0, THREE.SRGBColorSpace).r;
   /** The light flickers with its flame: within the preset's share of its level. */
   const near = (value: number, level: number, share: number) => {
     expect(value).toBeGreaterThanOrEqual(level * (1 - share) - 1e-9);
@@ -295,11 +279,10 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     camera.position.set(0, 1, 5); camera.updateMatrixWorld();
     manager.update(0, camera);
     expect(ALWAYS_LIT_DAY_FACTOR).toBe(0.5);
-    expect(manager.lights.every((l) => l.visible)).toBe(true);
     near(intensityOf(manager, "brazier"), FIXTURE_CANDELA * 0.5, FIRE_PRESETS.brazier.flicker.amount);
     // a candle that is out holds no light at all
     expect(manager.litIds).toEqual(["brazier"]);
-    expect(manager.lights).toHaveLength(4);
+    expect(manager.field.count).toBe(1);
     // the brazier's fallback fire is its preset's cards, all at 0.5; the candle's at 0
     const brazierCards = FIRE_PRESETS.brazier.layers.core + FIRE_PRESETS.brazier.layers.outer;
     expect(drawn(manager)).toEqual(Array(brazierCards).fill(0.5));
@@ -311,12 +294,12 @@ describe("fires that burn by day (planner ruling, walk 2)", () => {
     manager.dispose();
   });
 
-  it("a lamp-only settlement by day keeps the pool off", () => {
+  it("a lamp-only settlement by day holds no fixture light", () => {
     const manager = new SettlementLightFixtures({ value: 0 });
     manager.setFixtures([fixtureFromPiece("candle", light("candle"), new THREE.Matrix4(), box)]);
     const camera = new THREE.PerspectiveCamera(); camera.updateMatrixWorld();
     manager.update(0, camera);
-    expect(manager.lights.some((l) => l.visible)).toBe(false);
+    expect(manager.field.count).toBe(0);
     manager.dispose();
   });
 });
@@ -443,8 +426,7 @@ describe("sprite holders: mined flames on a piece that is no light fixture (16k 
     manager.update(0, c);
     expect(manager.fire.flameInstances).toBe(2);
     expect(manager.litIds).toHaveLength(0);
-    expect(manager.visibleLightCount).toBe(0);
-    expect(manager.lights).toHaveLength(0);
+    expect(manager.field.count).toBe(0);
     // place_gates' fixture count stays light fixtures only
     expect(manager.fixtureCount).toBe(0);
     manager.dispose();

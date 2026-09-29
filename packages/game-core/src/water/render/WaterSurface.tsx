@@ -242,6 +242,12 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     pools.materials.below.dispose();
   }, [pools]);
   const meshRef = useRef<THREE.Mesh>(null);
+  // The field mesh is on the water layer from its first frame (16k walk 5):
+  // set only in the effect below (after paint), it drew one or more frames on
+  // layer 0 in the plain scene pass, where its material samples a pipeline
+  // target that is not bound, and showed solid black for as long as that
+  // first frame's shader links took (~0.7 s at startup).
+  const waterLayers = useMemo(() => { const l = new THREE.Layers(); l.set(WATER_LAYER); return l; }, []);
   // Spray and splashes take the WaterEffects default layer, PRECIP_LAYER:
   // that pass runs after the surface, which is the order they need.
   const effects = useMemo(() => new WaterEffects({
@@ -522,6 +528,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       ref={meshRef}
       geometry={geometry}
       material={materials.above}
+      layers={waterLayers}
       frustumCulled={false}
       receiveShadow
     />

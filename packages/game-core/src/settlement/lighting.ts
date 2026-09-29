@@ -38,27 +38,27 @@
  *   (the record's) and candela. It stands at the LIGH record's `offsetM` (the
  *   placed light's median offset in the piece frame), else at its first flame.
  * - Lights band (walk 3 ruling R3, owner 2026-09-28): every burning fixture
- *   within `LIGHTS_ACTIVE_M` (200 m) of the camera emits a point light, up to
- *   the perf cap `LIGHTS_CAP` (16) nearest; beyond the band, or past the cap,
- *   the flame sprite and the emissive stay as they are and no light is cast.
- *   The set is re-chosen once a second (`LIGHT_BUDGET_REFRESH_S`).
- * - Stable light counts (R11): three.js compiles a shader program per lit
- *   material for every visible point-light count, so the visible count steps
- *   through `LIGHT_COUNT_STEPS` (0/4/8/16) only: the lit set is padded with
- *   zero-intensity lights that stay visible, and the count changes only at a
- *   refresh. `SettlementLightFixtures` allocates the pool lazily, only up to
- *   the largest step the band has needed: 3 fixtures in range cost 4 lights
- *   (one at zero), none outside a place or in a lamp-only place by day. A
- *   lamp that goes out between refreshes drops to zero intensity and stays
- *   visible until the next refresh re-steps the count. The cap is also a place
- *   check rule (place_gates reads `LIGHTS_CAP` and `LIGHTS_ACTIVE_M`): no
- *   point within a place may see more than 16 fixtures within 200 m. It is
- *   made by the layer (or injected into it), never a module singleton.
+ *   within `LIGHTS_ACTIVE_M` (200 m) of the camera lights the world, up to
+ *   `LIGHTS_CAP` (100) nearest, fading out over the band's last
+ *   `LIGHTS_FADE_M`; beyond the band, or past the cap, the flame and the
+ *   emissive stay as they are and no light is cast. The set is re-chosen once
+ *   a second (`LIGHT_BUDGET_REFRESH_S`).
+ * - Fixture lights are NOT three lights (16k walk 5 perf): they live in the
+ *   scene's `FixtureLightField` (render/fixtureLights), a float texture with a
+ *   runtime count; each drawn object is lit by its 8 nearest lamps only, and
+ *   the program never changes with the count. A new light source for the
+ *   world goes through that field, never a new `PointLight` (the carried
+ *   torch, character CarriedLight, stays the one real point light). The cap
+ *   is also a place check rule (place_gates reads `LIGHTS_CAP` and
+ *   `LIGHTS_ACTIVE_M`): no point within a place may see more than 100
+ *   fixtures within 200 m. It is made by the layer (or injected into it),
+ *   never a module singleton.
  */
 import * as THREE from "three";
 import { MINUTES_PER_DAY } from "@elder-souls/world-time";
 import { lightSourceFromRecord } from "../fx/carriedLight";
 import { FlameSystem } from "../fx/fire/FlameSystem";
+import { FixtureLightField } from "../render/fixtureLights";
 import { pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
 import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
@@ -95,20 +95,21 @@ export const FIXTURE_DEFAULT_RADIUS_M = 6;
  * 4). Fixtures differ only in radius (the LIGH record's) and candela.
  */
 export const FIXTURE_LIGHT_RGB: readonly [number, number, number] = [226, 140, 63];
-/** Perf cap on point lights at once (R3): the nearest burning fixtures in the band.
- * Also the place check rule's fixture-density cap (place_gates reads it). */
-export const LIGHTS_CAP = 16;
+/** Cap on fixture lights at once (R3): the nearest burning fixtures in the band,
+ * the slots of the scene's `FixtureLightField` (render/fixtureLights
+ * `FIXTURE_LIGHTS_MAX`). Also the place check rule's fixture-density cap
+ * (place_gates reads it). */
+export const LIGHTS_CAP = 100;
 /** How often the lit set is re-chosen, seconds. */
 export const LIGHT_BUDGET_REFRESH_S = 1;
 /** Peak intensity (cd) of a fixture light: the carried torch's (character CarriedLight). */
 export const FIXTURE_CANDELA = 6;
-/** The visible point-light counts the pool steps through (R11): each is one
- * cached shader program per lit material, so no count in between is ever shown. */
-export const LIGHT_COUNT_STEPS: readonly number[] = [0, 4, 8, 16];
 /** The lights band (R3): a burning fixture this close to the camera emits a
  * point light (up to `LIGHTS_CAP`); further out only its sprite and emissive
  * show. Also the radius of the place check rule's fixture-density count. */
 export const LIGHTS_ACTIVE_M = 200;
+/** A fixture light fades out over the band's last metres, so no light pops at the edge. */
+export const LIGHTS_FADE_M = 20;
 /** Fallback flame edge (m), and how far away any flame or glow sprite is
  * still drawn (the fire module's own reach, fx/fire/flameMaterial.ts). */
 export const FLAME_SIZE_M = 0.25;
@@ -339,9 +340,9 @@ export function fixtureFromFireSocket(id: string, socketAt: THREE.Vector3): Ligh
     flames: [fallbackFlame(id, socketAt.clone(), "hearth")] };
 }
 
-/** The smallest step of `LIGHT_COUNT_STEPS` that holds `count` lights (the cap past the last). */
-export function lightCountStep(count: number): number {
-  return LIGHT_COUNT_STEPS.find((step) => step >= count) ?? LIGHTS_CAP;
+/** A fixture light's share at `distanceM` from the camera: 1 inside the band, 0 at its edge. */
+export function bandFade(distanceM: number): number {
+  return Math.min(1, Math.max(0, (LIGHTS_ACTIVE_M - distanceM) / LIGHTS_FADE_M));
 }
 
 /**
@@ -375,27 +376,25 @@ interface SpriteBatch {
 }
 
 /**
- * The fixtures of the loaded settlements: a point light on each burning
- * fixture in the band (`fixturesInBand`, at most `LIGHTS_CAP`), the visible
- * count padded to a `LIGHT_COUNT_STEPS` step with zero-intensity lights, and
+ * The fixtures of the loaded settlements: a fixture light in the scene's
+ * `FixtureLightField` for each burning fixture in the band (`fixturesInBand`,
+ * at most `LIGHTS_CAP`, faded over the band's edge by `bandFade`), and
  * every flame drawn by the fire module (`fire`, fx/fire/FlameSystem.ts: two
  * instanced draws for all fires) and every glow disc within
  * `FLAME_MAX_DISTANCE_M` as an additive camera-facing quad, all on the
  * post-water layer (like rain and smoke: drawn after the water surface,
- * depth-tested), one glow draw per sprite texture. A lit fixture's point light
+ * depth-tested), one glow draw per sprite texture. A lit fixture's light
  * flickers with its first flame (`fireFlicker`, the same seed and preset rate
  * the shader uses), so light and flame breathe together. `factor` is the
  * settlement night uniform (`artificialLightFactor`), shared by reference.
  */
 export class SettlementLightFixtures {
   readonly group = new THREE.Group();
-  readonly lights: THREE.PointLight[] = [];
   /** Every fixture's flames (fx/fire): cards and embers, on the post-water layer. */
   readonly fire = new FlameSystem(undefined, PRECIP_LAYER);
   private fixtures: LightFixture[] = [];
   private assigned: number[] = [];
-  /** Lights shown now: a `LIGHT_COUNT_STEPS` step, changed only at a refresh. */
-  private shown = 0;
+  private flickers: (FixtureFlicker | undefined)[] = [];
   private refreshAt = -Infinity;
   private readonly batches = new Map<string, SpriteBatch>();
   private alwaysLitSprites = 0;
@@ -406,21 +405,14 @@ export class SettlementLightFixtures {
   private readonly toCamera = new THREE.Vector3();
   private readonly centre = new THREE.Vector3();
 
-  constructor(private readonly factor: THREE.IUniform<number>) {
+  /** `field`: the scene's fixture light field (`fixtureLightFieldOf(scene)`); a
+   * field of its own when none is given (tests, previews). */
+  constructor(
+    private readonly factor: THREE.IUniform<number>,
+    readonly field: FixtureLightField = new FixtureLightField(),
+  ) {
     this.group.name = "settlement-light-fixtures";
     this.group.add(this.fire.group);
-  }
-
-  /** Grows the light pool to `count` (never past `LIGHTS_CAP`); lights are never made ahead of need. */
-  private ensureLights(count: number): void {
-    for (let i = this.lights.length; i < Math.min(count, LIGHTS_CAP); i++) {
-      const light = new THREE.PointLight(0xffffff, 0, FIXTURE_DEFAULT_RADIUS_M, 2);
-      light.castShadow = false;
-      light.visible = false;
-      light.name = `settlement-fixture-light-${i}`;
-      this.lights.push(light);
-      this.group.add(light);
-    }
   }
 
   private batch(textureId: string): SpriteBatch {
@@ -490,10 +482,8 @@ export class SettlementLightFixtures {
 
   /** Light fixtures held (sprite holders are not counted). */
   get fixtureCount(): number { return this.fixtures.filter((f) => f.castsLight).length; }
-  /** Fixture ids holding a point light now, nearest first. */
+  /** Fixture ids holding a fixture light now, nearest first (slot order). */
   get litIds(): string[] { return this.assigned.map((i) => this.fixtures[i].id); }
-  /** Point lights the renderer counts now (a `LIGHT_COUNT_STEPS` step). */
-  get visibleLightCount(): number { return this.shown; }
 
   update(timeS: number, camera: THREE.Camera): void {
     this.cameraAt.setFromMatrixPosition(camera.matrixWorld);
@@ -504,37 +494,29 @@ export class SettlementLightFixtures {
       const clock = this.factor.value;
       this.assigned = fixturesInBand(this.fixtures, this.cameraAt, LIGHTS_ACTIVE_M, LIGHTS_CAP,
         (i) => this.fixtures[i].castsLight && fixtureFactor(clock, this.fixtures[i].alwaysLit) > 0);
-      this.shown = lightCountStep(this.assigned.length);
-      this.ensureLights(this.shown);
-      this.lights.forEach((light, slot) => {
-        // the padding up to the step stays visible at zero so the count holds
-        light.visible = slot < this.shown;
-        const fixture = this.fixtures[this.assigned[slot]];
-        if (!fixture) { light.userData.candela = 0; return; }
-        light.position.copy(fixture.position);
-        light.distance = fixture.radiusM;
-        light.color.copy(fixture.colour);
-        light.userData.candela = FIXTURE_CANDELA;
-        light.userData.alwaysLit = fixture.alwaysLit;
-        light.userData.flicker = flickerOf(fixture);
-      });
+      this.field.setLights(this.assigned.map((i) => this.fixtures[i]));
+      this.flickers = this.assigned.map((i) => flickerOf(this.fixtures[i]));
     }
     const factor = this.factor.value;
-    // Between refreshes the clock may put lamps out: the light drops to zero
-    // and stays visible, so the renderer's light count changes only at a refresh.
-    this.lights.forEach((light, slot) => {
-      const flicker = light.userData.flicker as FixtureFlicker | undefined;
-      light.intensity = this.assigned[slot] === undefined ? 0
-        : (light.userData.candela ?? 0) * fixtureFactor(factor, light.userData.alwaysLit === true)
-          * (flicker ? fireFlicker(timeS, flicker.seed, flicker.rateHz, flicker.amount) : 1);
+    // Every frame: the clock, the flicker and the band-edge fade (no count
+    // change ever reaches a shader: the field's program is one for 0..100).
+    this.assigned.forEach((index, slot) => {
+      const fixture = this.fixtures[index];
+      const flicker = this.flickers[slot];
+      this.field.setIntensity(slot, fixture.colour, FIXTURE_CANDELA
+        * fixtureFactor(factor, fixture.alwaysLit)
+        * bandFade(fixture.position.distanceTo(this.cameraAt))
+        * (flicker ? fireFlicker(timeS, flicker.seed, flicker.rateHz, flicker.amount) : 1));
     });
+    this.field.commit();
     this.fire.update(timeS, (owner) => fixtureFactor(factor, this.fixtures[owner]?.alwaysLit === true));
     this.updateSprites(timeS, factor);
   }
 
   dispose(): void {
     this.group.removeFromParent();
-    this.lights.forEach((light) => light.dispose());
+    this.field.setLights([]);
+    this.field.commit();
     this.fire.dispose();
     for (const batch of this.batches.values()) {
       const material = batch.mesh.material as THREE.MeshBasicMaterial;
