@@ -92,6 +92,12 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
 calibrates (`--calibrate`, `--bark-ladder`) and records the chosen settings
 into the kit config (`--record`), then step 1 rebuilds.
 
+- **A sample never lives in `pipeline/config/kits/`** (walk 5: a scratch
+  `leafcut-sample.json` left there failed every lane's build at the
+  placement-policy inventory). Sample a tier change with `tree_tiers_check`
+  (it renders from the source, no kit build); if a sample kit build is
+  unavoidable, give it a `kitPolicies` row and delete both the config and the
+  row before the lane hands back.
 - A calibrated level records only the keys its ladder varied plus the run's
   `--set` keys; never copy defaults into `treeTiers.perAsset` (it outranks the kit).
 - **Bark-tube levels (`barkTube` 1 or 2) need an image-judge PASS before

@@ -224,15 +224,21 @@ def validate_policy_inventory(
 
     configured_kits: set[str] = set()
     configured_assets: set[str] = set()
+    config_of: dict[str, Path] = {}
     for path in sorted(kit_config_dir.glob("*.json")):
         doc = json.loads(path.read_text())
         configured_kits.add(doc["id"])
+        config_of[doc["id"]] = path
         configured_assets.update(
             normalize_asset_id(row["asset"])
             for row in doc.get("assets", []) if isinstance(row.get("asset"), str)
         )
     for kit_id in sorted(configured_kits - set(kit_policies)):
-        findings.append(f"kit {kit_id!r} has no authored placement policy")
+        findings.append(
+            f"kit {kit_id!r} has no authored placement policy (config "
+            f"{config_of[kit_id]}): add a kitPolicies row to placement-policies.json, "
+            "or, if it is a scratch or sample config, move it out of config/kits "
+            "(a sample build never lives there: kit-build skill)")
     for kit_id, policy_id in sorted(kit_policies.items()):
         if policy_id not in policies:
             findings.append(f"kit {kit_id!r} names unknown policy {policy_id!r}")

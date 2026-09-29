@@ -569,3 +569,16 @@ def test_piled_decks_rejects_an_id_no_kit_emits():
     inventory = load_inventory()
     inventory["piledDecks"] = {"why": "x", "assets": ["bmv:no/such/piece"]}
     assert any("piledDecks 'bmv:no/such/piece'" in f for f in validate_policy_inventory(inventory))
+
+
+def test_an_unpoliced_kit_config_is_named_by_its_file(tmp_path):
+    """Walk 5: a scratch sample config left in config/kits broke every build
+    with a message that named only the kit id; the finding names the file."""
+    import shutil
+    from pipeline.placement_metadata import KIT_CONFIG_DIR
+    for path in KIT_CONFIG_DIR.glob("*.json"):
+        shutil.copy(path, tmp_path / path.name)
+    (tmp_path / "scratch-sample.json").write_text(json.dumps({"id": "scratch-sample", "assets": []}))
+    findings = validate_policy_inventory(load_inventory(), kit_config_dir=tmp_path)
+    hit = [f for f in findings if "scratch-sample" in f]
+    assert len(hit) == 1 and "scratch-sample.json" in hit[0] and "config/kits" in hit[0]
