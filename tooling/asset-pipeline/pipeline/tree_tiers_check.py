@@ -149,8 +149,12 @@ CALIBRATE_GAINS = (0.85, 0.4)
 #: For trees whose bark is most of the triangles (the mangroves' stilt roots).
 BARK_SIDES = (4, 5, 6, 8)
 BARK_TOLS = (0.03, 0.06, 0.1)
-#: The settings a calibrated level records into `treeTiers.perAsset`.
-RECORDED = ("leafKeep", "gain", "barkKeep", "barkTube", "barkSides", "barkTol", "barkFit")
+#: The settings a calibrated level records into `treeTiers.perAsset`: only
+#: the keys its ladder varied, plus any the run set with `--set`. A default
+#: or kit-level key copied into `perAsset` would outrank (`tier_settings`)
+#: and silently freeze every later kit-level change for that asset.
+LEAF_VARIED = ("leafKeep", "gain")
+BARK_VARIED = ("barkTube", "barkSides", "barkTol")
 #: A tier above this share of the source's triangles is not shipped.
 MAX_SHARE = 0.7
 
@@ -167,6 +171,12 @@ def choose(labels: dict, counts: dict, scores: dict) -> dict:
         chosen[tier] = min(passing, key=lambda label: (counts[label], -scores[label]["iouMin"])) \
             if passing else None
     return chosen
+
+
+def recorded_keys(varied: tuple[str, ...], set_overrides: dict) -> list[str]:
+    """The keys a calibrated level records: the ladder's varied keys, then
+    the `--set` keys for its tier (sorted, so the record is deterministic)."""
+    return list(varied) + sorted(k for k in set_overrides if k not in varied)
 
 
 def rechoose(result: dict) -> dict:
@@ -186,6 +196,7 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
     results = {}
     for asset_id in asset_ids:
         variants = None
+        varied: tuple[str, ...] = ()
         if calibrate:
             base = {t: {**tree_tiers.DEFAULT_TIERS[t], **((kit.get("treeTiers") or {}).get(t) or {}),
                         **overrides.get(t, {})} for t in ("mid", "far")}
@@ -193,9 +204,12 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
                         (t, {**base[t], "leafKeep": k, "gain": g})
                         for t, keeps in CALIBRATE_KEEPS.items() for k in keeps
                         for g in CALIBRATE_GAINS}
+            varied = LEAF_VARIED
             if bark_ladder:
+                varied = BARK_VARIED
                 variants = {f"{t}-s{n}t{int(round(tol * 100)):02d}":
-                            (t, {**base[t], "barkTube": 1, "barkSides": n, "barkTol": tol})
+                            (t, {**base[t], "barkTube": int(base[t].get("barkTube") or 1),
+                                 "barkSides": n, "barkTol": tol})
                             for t in ("mid", "far") for n in BARK_SIDES for tol in BARK_TOLS}
         counts = tree_tiers.preview(glb, [asset_id], out_root / "glb", kit, overrides,
                                     variants)[asset_id]
@@ -227,8 +241,8 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
                   "levels": {label: {"tier": labels[label], "triangles": counts[label],
                                      "share": round(counts[label] / counts["source"], 3),
                                      **({"settings": {key: variants[label][1][key]
-                                                      for key in RECORDED
-                                                      if key in variants[label][1]}}
+                                                      for key in recorded_keys(
+                                                          varied, overrides.get(labels[label], {}))}}
                                         if variants else {}),
                                      **scores[label]} for label in labels},
                   "chosen": chosen}
@@ -254,14 +268,57 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
     return results
 
 
+#: A bark-tube level needs this many image judges, every one PASS (round 13c).
+JUDGES_MIN = 2
+
+
+def judge_path(cal_dir: Path, safe: str, tier: str) -> Path:
+    """The image judges' verdict file, beside the tier's contact sheet."""
+    return cal_dir / f"{safe}-{tier}.judge.json"
+
+
+def judge_passed(cal_dir: Path, safe: str, tier: str, label: str) -> str | None:
+    """None when the judge file beside the sheet passes `label`, else why not.
+    File: {"label": <level label>, "judges": [{"verdict": "PASS"|"FAIL",
+    "note": ...}, ...]}, written from the Sonnet judges' replies."""
+    path = judge_path(cal_dir, safe, tier)
+    if not path.exists():
+        return f"no judge file {path.name}"
+    doc = json.loads(path.read_text())
+    if doc.get("label") != label:
+        return f"{path.name} judged {doc.get('label')!r}, the chosen level is {label!r}"
+    verdicts = [j.get("verdict") for j in doc.get("judges") or []]
+    if len(verdicts) < JUDGES_MIN or any(v != "PASS" for v in verdicts):
+        return f"{path.name} verdicts {verdicts} (need {JUDGES_MIN}+ PASS, no FAIL)"
+    return None
+
+
 def record(kit_id: str, cal_dir: Path) -> dict:
     """Write each calibrated asset's chosen settings into the kit config
     (`treeTiers.assets` + `treeTiers.perAsset`, null = tier not built); an
-    asset with neither tier passing is left out of `assets`."""
+    asset with neither tier passing is left out of `assets`.
+
+    Hard gate (round 13c): the silhouette bar cannot see a cone inside a root
+    mass or a trunk break a few pixels wide, so a chosen BARK-TUBE level is
+    refused (SystemExit, nothing written) unless `judge_passed` finds a PASS
+    file from JUDGES_MIN image judges beside its contact sheet."""
     path = tree_tiers.CONFIG / f"{kit_id}.json"
     kit = json.loads(path.read_text())
     tiers = kit.setdefault("treeTiers", {})
     per = tiers.setdefault("perAsset", {})
+    refused = []
+    for result_path in sorted(cal_dir.glob("*/result.json")):
+        result = json.loads(result_path.read_text())
+        chosen = rechoose(result)
+        for tier in ("mid", "far"):
+            level = result["levels"].get(chosen[tier]) if chosen[tier] else None
+            if level and (level.get("settings") or {}).get("barkTube"):
+                why = judge_passed(cal_dir, result_path.parent.name, tier, chosen[tier])
+                if why:
+                    refused.append(f"{result['assetId']} {tier} {chosen[tier]}: {why}")
+    if refused:
+        raise SystemExit("tree_tiers_check --record refused (bark-tube level without an "
+                         "image-judge PASS):\n  " + "\n  ".join(refused))
     for result_path in sorted(cal_dir.glob("*/result.json")):
         result = json.loads(result_path.read_text())
         chosen = rechoose(result)

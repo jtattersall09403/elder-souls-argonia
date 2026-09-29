@@ -31,6 +31,10 @@ Every tier is built from the source's own parts, whole:
   mangroves at 54-68 % but FAILED the image judge (round13b.md): a cone over
   gkb2's root flare, breaks where gkb9's abutting trunk islands meet, square
   stubby roots, and dark bands where generated UVs sample a bark atlas.
+  `barkTube: 2` (round 13c, `tube_runs`) rebuilds only the straight ring
+  runs inside each island and keeps flares, forks and collars as source,
+  normals and vertex colours blended across the join. Either mode ships
+  only with an image-judge PASS (`tree_tiers_check.record`).
 
 Settings per asset are CALIBRATED, not guessed: `tree_tiers_check
 --calibrate` renders a ladder of leaf keeps and area gains against the
@@ -310,13 +314,17 @@ def _dp_keep(points: np.ndarray, radius: np.ndarray, tol: float) -> list[int]:
     return sorted(keep)
 
 
-def tube_skeleton(pos: np.ndarray, tris: np.ndarray, tol: float):
+def tube_skeleton(pos: np.ndarray, tris: np.ndarray, tol: float, detail: dict | None = None):
     """The ring skeleton of one welded bark island: rings are the connected
     pieces of geodesic-distance bands from the island's lowest vertex (one
     band = 2 median edge lengths), each ring a centre and a mean radius; a
     ring joins the rings of the next band it shares a mesh edge with. Chains
     of rings are then merged where collinear (`_dp_keep`, `tol` metres).
-    Returns (centres (n,3), radii (n,), edges [(parent, child)])."""
+    Returns (centres (n,3), clamped radii (n,), kept edges [(parent, child)],
+    kept ring ids (sorted)). With
+    `detail` (a dict), also fills it with `weld` (source vertex -> welded
+    vertex), `ring` (welded vertex -> ring, -1 unused) and `chains` (every
+    ring chain between branch points and ends, before the merge)."""
     from scipy.sparse import coo_matrix
     from scipy.sparse.csgraph import connected_components, dijkstra
     # Weld first: UV seams split the source's vertices, the tube is one surface.
@@ -419,7 +427,7 @@ def tube_skeleton(pos: np.ndarray, tris: np.ndarray, tol: float):
         rad2 = sol[2] + cu * cu + cv * cv
         ext = float(np.max(np.hypot(u, v)))
         if rad2 > 0 and np.sqrt(rad2) < 1.5 * ext and np.hypot(cu, cv) < ext:
-            centre[r] = centre[r] + cu * x + cv * y + float(np.mean(q @ d)) * 0 * d
+            centre[r] = centre[r] + cu * x + cv * y
             radius[r] = float(np.sqrt(rad2))
     # Chains between branch points and ends, each merged where collinear.
     roots = [r for r in range(k) if r not in parent]
@@ -432,6 +440,8 @@ def tube_skeleton(pos: np.ndarray, tris: np.ndarray, tol: float):
             if len(kids) == 1:
                 stack.append((kids[0], chain + [kids[0]]))
                 continue
+            if detail is not None:
+                detail.setdefault("chains", []).append(list(chain))
             idx = _dp_keep(centre[chain], radius[chain], tol)
             nodes = [chain[i] for i in idx]
             kept.update(nodes)
@@ -445,11 +455,21 @@ def tube_skeleton(pos: np.ndarray, tris: np.ndarray, tol: float):
     for a_, b_ in keep_edges:
         neighbours.setdefault(a_, []).append(b_)
         neighbours.setdefault(b_, []).append(a_)
+    if detail is not None:
+        detail.update(weld=weld.ravel(), ring=lookup, radius=radius.copy())
     clamped = radius.copy()
     for nd, ns in neighbours.items():
         if len(ns) > 2:
             clamped[nd] = min(radius[nd], 1.25 * max(radius[m] for m in ns))
     return centre, clamped, keep_edges, sorted(kept)
+
+
+def corner_radius(radius: float, sides: int) -> float:
+    """Corner radius of a regular `sides`-gon with the same mean width as a
+    circle of `radius`: a convex outline's mean width is perimeter / pi, so
+    the perimeters match, 2 n R sin(pi / n) = 2 pi r (x1.11 at 4 sides,
+    x1.05 at 6; corners on r / cos(pi / n) would circumscribe the circle)."""
+    return float(radius) * (np.pi / sides) / np.sin(np.pi / sides)
 
 
 def rebuild_tubes(pos, tris, attrs: dict, sides: int, tol: float):
@@ -458,6 +478,9 @@ def rebuild_tubes(pos, tris, attrs: dict, sides: int, tol: float):
     along. Frames are parallel-transported down the skeleton (no twist); UVs
     wrap a whole number of times round and run along at the source's own
     texel density; other attributes come from the nearest source vertex.
+    `pos`/`attrs` are the island's own vertices (tube_bark passes them
+    island-local), so the nearest vertex is never a neighbouring island's.
+    Every returned vertex is referenced by a triangle.
     Returns ({name: array}, triangles)."""
     from scipy.spatial import cKDTree
     centre, radius, edges, nodes = tube_skeleton(pos, tris, tol)
@@ -509,9 +532,7 @@ def rebuild_tubes(pos, tris, attrs: dict, sides: int, tol: float):
         d = direction[nd]
         x = ref[nd]
         y = np.cross(d, x)
-        # an n-gon inscribed in the ring loses width between its corners:
-        # corners on radius / cos(pi / n) keep the mean width.
-        r = radius[nd] / np.cos(np.pi / sides) ** 0.5
+        r = corner_radius(radius[nd], sides)
         offs = np.cos(angles)[:, None] * x + np.sin(angles)[:, None] * y
         ring_start[nd] = at
         at += sides + 1
@@ -531,7 +552,7 @@ def rebuild_tubes(pos, tris, attrs: dict, sides: int, tol: float):
             v = ref[a] - np.dot(ref[a], d) * d
             v /= max(np.linalg.norm(v), 1e-9)
             w = np.cross(d, v)
-            r = radius[a] / np.cos(np.pi / sides) ** 0.5
+            r = corner_radius(radius[a], sides)
             offs = np.cos(angles)[:, None] * v + np.sin(angles)[:, None] * w
             fork_start[(a, c)] = at
             at += sides + 1
@@ -546,6 +567,13 @@ def rebuild_tubes(pos, tris, attrs: dict, sides: int, tol: float):
             faces += [(sa + j, sb + j, sb + j + 1), (sa + j, sb + j + 1, sa + j + 1)]
     new_pos = np.concatenate(out_pos) if out_pos else np.zeros((0, 3))
     faces = np.array(faces, dtype=np.int64).reshape(-1, 3)
+    # A root's own ring is superseded by its per-child start rings, and a
+    # lone ring has no faces: drop every vertex no face uses.
+    out_nrm = [np.concatenate(out_nrm)] if out_nrm else [np.zeros((0, 3))]
+    out_uv = [np.concatenate(out_uv)] if out_uv else [np.zeros((0, 2))]
+    used_v, faces = np.unique(faces.ravel(), return_inverse=True)
+    faces = faces.reshape(-1, 3)
+    new_pos, out_nrm, out_uv = new_pos[used_v], [out_nrm[0][used_v]], [out_uv[0][used_v]]
     # Winding: outward normals, as the source's.
     if len(faces):
         f = new_pos[faces]
@@ -598,7 +626,138 @@ def tube_fits(pos, tris, new_pos, new_tris, tol: float, fit: float = 2.5) -> boo
 TUBE_MIN_TRIS = 60
 
 
-def tube_bark(pos, tris, attrs: dict, sides: int, tol: float, keep: float, fit: float = 2.5):
+#: Runs mode (`barkTube: 2`, round 13c): a straight run is rebuilt only
+#: inside a collar of RUN_COLLAR rings and COLLAR_RADII radii from each
+#: end; shorter chains stay source.
+RUN_COLLAR = 2
+COLLAR_RADII = 3.0
+
+
+def _smooth_attrs(p: np.ndarray, attrs: dict, new_pos: np.ndarray, k: int = 6) -> dict:
+    """Attributes other than POSITION/TEXCOORD_0 for new vertices, blended
+    from the k nearest source vertices (inverse distance): the rebuilt
+    tube's normals and vertex colours (Skyrim's baked AO) continue the
+    source's across the join instead of copying one dark vertex."""
+    from scipy.spatial import cKDTree
+    kk = min(k, len(p))
+    d, idx = cKDTree(p).query(new_pos, k=kk)
+    d, idx = d.reshape(len(new_pos), kk), idx.reshape(len(new_pos), kk)
+    w = 1.0 / np.maximum(d, 1e-4)
+    w /= w.sum(1, keepdims=True)
+    out = {}
+    for name, data in attrs.items():
+        if name in ("POSITION", "TEXCOORD_0"):
+            continue
+        blend = np.einsum("nk,nkc->nc", w, data[idx].astype(np.float64))
+        if name == "NORMAL":
+            blend /= np.maximum(np.linalg.norm(blend, axis=1, keepdims=True), 1e-9)
+        if np.issubdtype(data.dtype, np.integer):
+            blend = np.rint(blend)
+        out[name] = blend.astype(data.dtype)
+    return out
+
+
+def tube_runs(pos, tris, attrs: dict, sides: int, tol: float, fit: float = 2.5):
+    """One welded bark island with only its STRAIGHT RING RUNS rebuilt
+    (round 13c): every skeleton chain between branch points of at least
+    2 x RUN_COLLAR + 2 rings has its inner rings' triangles replaced by a
+    swept `sides`-gon from ring RUN_COLLAR - 1 to ring -RUN_COLLAR (merged
+    within `tol`), which starts and ends inside the kept source collar, so
+    the join overlaps instead of opening a crack. Flares, forks, junctions
+    and the root-trunk collar stay source geometry. A run whose rebuild
+    fails `tube_fits` against the triangles it replaces keeps its source.
+    Normals and vertex colours are blended from the source (`_smooth_attrs`)."""
+    detail: dict = {}
+    centre, _, _, _ = tube_skeleton(pos, tris, tol, detail)
+    radius = detail["radius"]
+    ring_of_vertex = detail["ring"][detail["weld"]]          # source vertex -> ring
+    tri_ring = ring_of_vertex[tris]
+    p = pos.astype(np.float64)
+    uv = attrs.get("TEXCOORD_0")
+    e = np.concatenate([tris[:, [0, 1]], tris[:, [1, 2]]])
+    dp = np.linalg.norm(p[e[:, 0]] - p[e[:, 1]], axis=1)
+    density = 1.0
+    if uv is not None:
+        du = np.linalg.norm(uv[e[:, 0]].astype(np.float64) - uv[e[:, 1]], axis=1)
+        ok = dp > 1e-6
+        density = float(np.median(du[ok] / dp[ok])) if ok.any() else 1.0
+    drop = np.zeros(len(tris), bool)
+    pieces = []
+    angles = np.linspace(0, 2 * np.pi, sides + 1)
+    for chain in detail.get("chains", []):
+        # collar: at least RUN_COLLAR rings and COLLAR_RADII x the run's
+        # radius along it from each end (a band front cut slantwise across
+        # the tube reaches that far up the far side)
+        along = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(centre[chain], axis=0), axis=1))])
+        reach = COLLAR_RADII * float(np.median(radius[chain]))
+        lo = max(RUN_COLLAR, int(np.searchsorted(along, reach)))
+        hi = min(len(chain) - RUN_COLLAR, int(np.searchsorted(along, along[-1] - reach, "right")))
+        if hi - lo < 2:
+            continue
+        inner = np.array(chain[lo:hi])
+        replaced = np.all(np.isin(tri_ring, inner), axis=1) & ~drop
+        if not replaced.any():
+            continue
+        span = chain[lo - 1:hi + 1]
+        idx = _dp_keep(centre[span], radius[span], tol)
+        nodes = [span[i] for i in idx]
+        c = centre[nodes]
+        d = np.gradient(c, axis=0) if len(c) > 1 else np.array([[0, 1.0, 0]])
+        d /= np.maximum(np.linalg.norm(d, axis=1, keepdims=True), 1e-9)
+        axis = np.eye(3)[int(np.argmin(np.abs(d[0])))]
+        x = axis - np.dot(axis, d[0]) * d[0]
+        x /= np.linalg.norm(x)
+        # v continues the source's v at the run's first ring
+        first = np.isin(ring_of_vertex, [nodes[0]])
+        v0 = float(np.mean(uv[first, 1])) if uv is not None and first.any() else 0.0
+        vv = v0 + np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(c, axis=0), axis=1))]) * density
+        wraps = max(1, int(round(2 * np.pi * float(np.median(radius[nodes])) * density)))
+        ring_pos, ring_nrm, ring_uv = [], [], []
+        for i in range(len(nodes)):
+            x = x - np.dot(x, d[i]) * d[i]
+            x /= max(np.linalg.norm(x), 1e-9)
+            y = np.cross(d[i], x)
+            offs = np.cos(angles)[:, None] * x + np.sin(angles)[:, None] * y
+            r = corner_radius(radius[nodes[i]], sides)
+            ring_pos.append(c[i] + r * offs)
+            ring_nrm.append(offs)
+            ring_uv.append(np.stack([angles / (2 * np.pi) * wraps, np.full(sides + 1, vv[i])], 1))
+        new_pos = np.concatenate(ring_pos)
+        faces = []
+        for i in range(len(nodes) - 1):
+            a, b = i * (sides + 1), (i + 1) * (sides + 1)
+            for j in range(sides):
+                faces += [(a + j, b + j, b + j + 1), (a + j, b + j + 1, a + j + 1)]
+        faces = np.array(faces, np.int64).reshape(-1, 3)
+        if len(faces) == 0 or len(faces) >= int(replaced.sum()):
+            continue
+        f = new_pos[faces]
+        fn = np.cross(f[:, 1] - f[:, 0], f[:, 2] - f[:, 0])
+        if np.sum(fn * np.concatenate(ring_nrm)[faces[:, 0]]) < 0:
+            faces = faces[:, [0, 2, 1]]
+        if not tube_fits(pos, tris[replaced], new_pos, faces, tol, fit):
+            continue
+        built = _smooth_attrs(p, attrs, new_pos)
+        built["POSITION"] = new_pos.astype(np.float32)
+        if uv is not None:
+            built["TEXCOORD_0"] = np.concatenate(ring_uv).astype(uv.dtype)
+        pieces.append(({k: built[k] for k in attrs}, faces))
+        drop |= replaced
+    keep = tris[~drop]
+    verts, remap = np.unique(keep.ravel(), return_inverse=True)
+    pieces.insert(0, ({k: v[verts] for k, v in attrs.items()}, remap.reshape(-1, 3)))
+    out_attrs = {k: [] for k in attrs}
+    out_tris, base = [], 0
+    for a, t in pieces:
+        for k in attrs:
+            out_attrs[k].append(a[k])
+        out_tris.append(t + base)
+        base += len(a["POSITION"])
+    return {k: np.concatenate(v) for k, v in out_attrs.items()}, np.concatenate(out_tris)
+
+
+def tube_bark(pos, tris, attrs: dict, sides: int, tol: float, keep: float, fit: float = 2.5,
+              runs: bool = False):
     """One bark part as tubes: islands of TUBE_MIN_TRIS or more are rebuilt
     (`rebuild_tubes`); the small ones are kept whole, largest first, up to
     `keep` of their triangles. Returns ({name: array}, triangles)."""
@@ -616,12 +775,17 @@ def tube_bark(pos, tris, attrs: dict, sides: int, tol: float, keep: float, fit: 
             pieces.append(({k: v[verts] for k, v in attrs.items()}, remap.reshape(-1, 3)))
     for isl in big:
         sel = tris[island == isl]
-        built, built_tris = rebuild_tubes(pos, sel, attrs, sides, tol)
-        if tube_fits(pos, sel, built["POSITION"], built_tris, tol, fit):
+        verts, remap = np.unique(sel.ravel(), return_inverse=True)
+        local = {k: v[verts] for k, v in attrs.items()}
+        local_tris = remap.reshape(-1, 3)
+        if runs:
+            pieces.append(tube_runs(local["POSITION"], local_tris, local, sides, tol, fit))
+            continue
+        built, built_tris = rebuild_tubes(local["POSITION"], local_tris, local, sides, tol)
+        if tube_fits(local["POSITION"], local_tris, built["POSITION"], built_tris, tol, fit):
             pieces.append((built, built_tris))
         else:                     # a flare or fork the skeleton misreads: keep the source
-            verts, remap = np.unique(sel.ravel(), return_inverse=True)
-            pieces.append(({k: v[verts] for k, v in attrs.items()}, remap.reshape(-1, 3)))
+            pieces.append((local, local_tris))
     out_attrs = {k: [] for k in attrs}
     out_tris, base = [], 0
     for a, t in pieces:
@@ -731,7 +895,8 @@ def build_tiers(gltf: dict, blob: bytes, asset_ids: list[str], settings,
                               for name, acc_i in prim["attributes"].items()}
                     built, built_tris = tube_bark(pos, tris, source, int(s["barkSides"]),
                                                   s["barkTol"], s["barkKeep"],
-                                                  s.get("barkFit", 2.5))
+                                                  s.get("barkFit", 2.5),
+                                                  runs=int(s["barkTube"]) == 2)
                     part[tier] = int(len(built_tris))
                     row[tier] += int(len(built_tris))
                     if writer is None or len(built_tris) == 0:

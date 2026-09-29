@@ -205,3 +205,99 @@ def test_tube_bark_keeps_small_islands_whole():
     pos, tris = _cards(5, np.random.default_rng(3))
     built, faces = tt.tube_bark(pos, tris, {"POSITION": pos}, sides=4, tol=0.05, keep=1.0)
     assert len(faces) == len(tris)
+
+
+def test_record_refuses_a_bark_tube_level_without_a_judge_pass(tmp_path, monkeypatch):
+    """Round 13c: --record writes a bark-tube level only with an image-judge
+    PASS file beside its sheet (the silhouette bar misses cones and breaks)."""
+    from . import tree_tiers_check as tc
+    monkeypatch.setattr(tt, "CONFIG", tmp_path)
+    monkeypatch.setattr(tc, "sheet", lambda *a, **k: None)
+    (tmp_path / "k.json").write_text("{}")
+    cal = tmp_path / "cal"
+    (cal / "t__tree").mkdir(parents=True)
+    level = {"tier": "mid", "triangles": 50, "iouMin": 0.95, "pass": True, "px": 100,
+             "settings": {"leafKeep": 1.0, "barkTube": 1, "barkSides": 4, "barkTol": 0.1}}
+    (cal / "t__tree" / "result.json").write_text(json.dumps({
+        "assetId": "t:tree", "source": 100, "handoverM": {"mid": 20, "far": 60},
+        "levels": {"mid-s4t10": level}}))
+    with pytest.raises(SystemExit, match="no judge file"):
+        tc.record("k", cal)
+    judge = cal / "t__tree-mid.judge.json"
+    judge.write_text(json.dumps({"label": "mid-s4t10",
+                                 "judges": [{"verdict": "PASS"}, {"verdict": "FAIL"}]}))
+    with pytest.raises(SystemExit, match="verdicts"):
+        tc.record("k", cal)
+    assert json.loads((tmp_path / "k.json").read_text()) == {}     # nothing written
+    judge.write_text(json.dumps({"label": "mid-s4t10",
+                                 "judges": [{"verdict": "PASS"}, {"verdict": "PASS"}]}))
+    per = tc.record("k", cal)
+    assert per["t:tree"]["mid"]["barkTube"] == 1
+
+
+def test_tube_runs_rebuilds_only_the_straight_run_and_keeps_the_collars():
+    """Round 13c runs mode: the run's inner rings are rebuilt, the ends stay
+    source, and the rebuilt tube starts inside the kept collar (no crack)."""
+    pos, uv, tris = _bent_tube()
+    nrm = np.zeros_like(pos); nrm[:, 2] = 1
+    attrs = {"POSITION": pos, "TEXCOORD_0": uv, "NORMAL": nrm}
+    built, faces = tt.tube_bark(pos, tris, attrs, sides=5, tol=0.05, keep=1.0, runs=True)
+    assert len(faces) < len(tris) * 0.7
+    # the lowest and highest source vertices survive untouched (the collars)
+    for end in (pos[:12], pos[-12:]):
+        d = np.min(np.linalg.norm(built["POSITION"][None] - end[:, None], axis=2), axis=1)
+        assert d.max() < 1e-6
+    assert tt.tube_fits(pos, tris, built["POSITION"], faces, 0.05)
+    assert np.allclose(np.linalg.norm(built["NORMAL"], axis=1), 1, atol=1e-5)
+
+
+def test_rebuild_tubes_leaves_no_unreferenced_vertex():
+    """Review 13c: a root's own ring (superseded by its start ring) and a
+    lone ring with no faces are not left in the vertex buffer."""
+    pos, uv, tris = _bent_tube()
+    built, faces = tt.rebuild_tubes(pos, tris, {"POSITION": pos, "TEXCOORD_0": uv}, 5, 0.05)
+    assert len(faces)
+    assert set(np.unique(faces)) == set(range(len(built["POSITION"])))
+    assert len(built["TEXCOORD_0"]) == len(built["POSITION"])
+
+
+def test_corner_radius_keeps_the_mean_width():
+    # perimeter of the n-gon equals the circle's (mean width = perimeter / pi)
+    for n in (4, 5, 6, 8):
+        R = tt.corner_radius(1.0, n)
+        assert 2 * n * R * np.sin(np.pi / n) == pytest.approx(2 * np.pi)
+
+
+def test_calibrate_records_only_varied_and_set_keys():
+    from . import tree_tiers_check as tc
+    assert tc.recorded_keys(tc.LEAF_VARIED, {}) == ["leafKeep", "gain"]
+    assert tc.recorded_keys(tc.BARK_VARIED, {"leafKeep": 0.4, "barkTol": 0.1}) == \
+        ["barkTube", "barkSides", "barkTol", "leafKeep"]
+
+
+def test_apply_with_bark_tubes_writes_a_valid_level(tmp_path):
+    """Review 13c: the tube branch end to end through build_tiers and the
+    writer: the mid bark mesh is the rebuilt trunk (lighter than the
+    source's) plus the kept twig, its indices in range and all used."""
+    path = _glb(tmp_path)
+    kit = {"treeTiers": {"assets": ["t:tree"],
+                         "mid": {"barkTube": 1, "barkSides": 4, "barkTol": 0.1, "barkKeep": 1.0,
+                                 "barkFit": 2.5}}}
+    manifest = {"assets": [{"id": "t:tree"}]}
+    tt.apply(path, manifest, kit)
+    gltf, blob = tt.load_glb(path)
+    source_bark = 11 * 6 * 2 + 2 * 6 * 2           # trunk (11 bands) + twig (2 bands)
+    for node in gltf["nodes"]:
+        extras = node.get("extras") or {}
+        if extras.get("lod") != 1 or "mesh" not in node:
+            continue
+        prim = gltf["meshes"][node["mesh"]]["primitives"][0]
+        if gltf["materials"][prim["material"]]["name"] != "bark":
+            continue
+        idx = tt.accessor(gltf, blob, prim["indices"]).ravel()
+        n = gltf["accessors"][prim["attributes"]["POSITION"]]["count"]
+        assert idx.max() < n and len(np.unique(idx)) == n
+        assert len(idx) // 3 < source_bark
+        break
+    else:
+        raise AssertionError("no mid bark level written")

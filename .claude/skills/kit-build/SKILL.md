@@ -86,6 +86,26 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets
   `convex`. An authored `collision` in the config always wins.
 
+## Tree tiers (flora kit mid/far levels, vegetation round 13)
+
+`pipeline/tree_tiers.py` writes the levels at build; `pipeline/tree_tiers_check.py`
+calibrates (`--calibrate`, `--bark-ladder`) and records the chosen settings
+into the kit config (`--record`), then step 1 rebuilds.
+
+- A calibrated level records only the keys its ladder varied plus the run's
+  `--set` keys; never copy defaults into `treeTiers.perAsset` (it outranks the kit).
+- **Bark-tube levels (`barkTube` 1 or 2) need an image-judge PASS before
+  `--record`** (owner 2026-09-29, round 13c): the silhouette IoU passed cones
+  over root flares, trunk breaks and flat canopy plates the judges caught.
+  Run 2 Sonnet judges in parallel on each chosen tier's contact sheet (trunk
+  and roots continuous, no cones or plates, no dark bands, canopy density,
+  colour) and write their verdicts beside the sheet as
+  `<cal dir>/<asset safe id>-<tier>.judge.json`,
+  `{"label": <level label>, "judges": [{"verdict": "PASS"|"FAIL", "note": ...}]}`.
+  `--record` refuses (exits, writes nothing) when the file is missing, names
+  another label, or has fewer than 2 verdicts or any FAIL
+  (`tree_tiers_check.judge_passed`). Leaf-only levels keep the IoU bar alone.
+
 ## 1. Build (geometry + manifest + sidecars + publish)
 
     cd $P && ../../tooling/repo-standards/memwatch.sh \
