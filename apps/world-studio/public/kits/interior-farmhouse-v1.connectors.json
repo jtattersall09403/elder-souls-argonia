@@ -2766,24 +2766,46 @@
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 0.89,
+    "heightM": 0.88,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.0,
-     -0.4
+     0.01,
+     -0.28
     ],
-    "widthM": 0.26
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     -0.12
+    ],
+    "widthM": 0.31
    },
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 0.89,
+    "heightM": 0.88,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.0,
-     0.13
+     0.01,
+     0.03
     ],
-    "widthM": 0.26
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     -0.12
+    ],
+    "widthM": 0.31
    }
   ],
   "vanilla:clutter/common/wardrobe01": [
@@ -9768,21 +9790,21 @@
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 2.7,
+    "heightM": 1.67,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.0,
+     -0.01,
      -0.71
     ],
-    "widthM": 1.62
+    "widthM": 1.49
    },
    {
     "evidence": "bounds",
     "face": "east",
-    "heightM": 2.7,
+    "heightM": 1.67,
     "normalDeg": 90.0,
     "positionInPiece": [
-     0.81,
+     0.74,
      0.0
     ],
     "widthM": 1.42
@@ -9790,21 +9812,21 @@
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 2.7,
+    "heightM": 1.67,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.0,
+     -0.01,
      0.71
     ],
-    "widthM": 1.62
+    "widthM": 1.49
    },
    {
     "evidence": "bounds",
     "face": "west",
-    "heightM": 2.7,
+    "heightM": 1.67,
     "normalDeg": 270.0,
     "positionInPiece": [
-     -0.81,
+     -0.75,
      0.0
     ],
     "widthM": 1.42
@@ -12249,7 +12271,7 @@
  },
  "counts": {
   "assets": 304,
-  "bounds": 1058,
+  "bounds": 1060,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

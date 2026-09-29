@@ -3,8 +3,8 @@
  "kit": "mudmother-hut-int",
  "writer": "tooling/asset-pipeline/pipeline/kit_parts.mjs",
  "source": {
-  "bytes": 11697380,
-  "sha256": "7ee5c8b536c1df80d0615fdd193373b86469245022a074f68ef5eccc770d12c0"
+  "bytes": 11498828,
+  "sha256": "1a8d502df311b2b0194281a4e9d555ce118dab043d84f09d059c118a14020834"
  },
  "totals": {
   "parts": 5,
