@@ -32,6 +32,9 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/builder-practice.md](references/builder-practice.md) | how the builder works: recommend and do, fan out, scan before editing, one batch per round, per-place files, proven-type fast path | once per slice, before step 0 |
 | [references/brief-sections.md](references/brief-sections.md) | what § Interiors, § Containers and items, § Creative register, § Sockets, § Quests and § Seams must say | step 1 |
 | [references/fix-round-brief-template.md](references/fix-round-brief-template.md) | the planner's fix-round brief: needs, never sites; sourcing candidates cite their record row | step 7 (planner) |
+| [references/promise-ledger.md](references/promise-ledger.md) | the promise ledger's rows, where each source lives, reading the prose, the two-way rule | step 0 item 3 |
+| [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md) | what `place_gates` runs, the per-batch gates, the R74/R81 read-back against the published bundle | step 5, step 7 item 4 |
+| [references/walk-packet.md](references/walk-packet.md) | each walk-packet section in full and the two-run post procedure | step 6 |
 
 **Tools.** `placement-workbench` is the tool manual (every `wb.py`
 command, its bars and its costs). Kit gaps go to `kit-build`,
@@ -97,33 +100,16 @@ would join an earlier walk's run is refused.
         python3 -m worldgen.site_dossier --id <slug> --x <positionM x> --z <positionM z> --radius 400   # (worldgen)
 
    `blueprint_promises --write` generates the **promise ledger**
-   `world/sources/placement/promises/<place-id>.json` (0104 decision 3): one
-   row per promise (service, NPC role, travel operator, quest provision,
-   catalogue socket bucket, D0 safe interior), each with a stable `promise.`
-   id, its source record and field, and its text. **It is the checklist you
-   start from, work through and end on**: every row is filled by a placed
-   thing carrying `fills: [that id]` (0104 decision 4) or carries an
-   `unfilled` block with one of 0102's four reasons; the compile fails
-   otherwise (0104 decision 5). The catalogue record is the row in
-   `world/sources/catalogue/places-<zone>.json`; the plot is
-   `world/sources/sites/macro-plot.json`; the quest provisions are the
-   place's rows in `docs/quests/20-world-provisions.md` and
-   `docs/quests/25-quest-place-map.md`; the lore is the dossiers the design
-   index names for the culture and type.
-   **Read the prose too, sceptically.** The record's `why`, `vibe` and
-   description carry intent the typed fields do not; build to it. Where it
-   contradicts the dossier, the typed fields or an asset fact, the typed
-   field and the ground win and the prose is corrected (lessons L02, L06).
-   No line of prose claims a world behaviour the runtime lacks (0105 R5:
-   a flood, a tide, a rising ford, a collapse); a claim with no system
-   behind it is rewritten to what the player can see.
-   **Two-way (0104 decision 6):** a promise the world cannot keep (an item
-   class no asset shows, a service the ground or culture forbids, an
-   interior no plugin furnishes) is neither left hanging nor faked: file a
-   REQUEST row changing the source record to the nearest thing the world
-   can keep, design on the corrected record, list the prose for the batch's
-   one `text-review`, and log it in the brief's § Record corrections. A
-   change to a quest's premise or a place's purpose is an owner call.
+   `world/sources/placement/promises/<place-id>.json` (0104 decision 3):
+   **the checklist you start from, work through and end on**; every row is
+   filled by a placed thing carrying `fills: [that id]` or carries an
+   `unfilled` block with one of 0102's four reasons (the compile fails
+   otherwise). **Read the prose too, sceptically** (typed fields and the
+   ground win; no claim of a world behaviour the runtime lacks, R5).
+   **Two-way (0104 decision 6):** a promise the world cannot keep is a
+   REQUEST row correcting the source record, logged in § Record
+   corrections. Where each source lives and the full rules:
+   [references/promise-ledger.md](references/promise-ledger.md).
 3b. **The place in its world (seams).** Read the route records that touch
    it (`world/sources/routes/`: the trunk or leg it sits on, every minor
    route ending at it, the ferry crossing and its berths in
@@ -319,38 +305,19 @@ without that is an escalation to the planner, never a packet.
   studio overlays them at load (0102 decision 1). `compile_scatter` is
   never re-run for a place (L35); no chain stage, refreeze or province
   publish runs for one. Publish is per place (`--places`).
-- `place_gates` runs every per-place gate in one process (its module
-  docstring lists them): the 0102 `check` rules (`walkRule`,
-  `floorEdgeRule`, `pathReachRule`, `propSeatRule`, `beachedRule`,
-  `ownerOkRule`, `scanFreshRule`), the compile's reader-checklist gates and
-  lit-entrance rule (97 C16), the socket and promise gates (0103, 0104),
-  the interior bundle gate, the 0098 variety and breadth bars, and the 0105
-  gates (`setting.class`, `interiors.reserved`, `interiors.variety`,
-  `lights.density`, `sink.fallback`). All green before the walk.
-- Per BATCH, never per place (a walk packet's places in 16k, a region
-  packet in Phase 15): the yard regression gates
-  (`worldgen/test_proving_ground.py`,
-  `tooling/placement-workbench/tests/test_proving_ground_b.py`, 0099
-  decision 7), the integrator's REQUEST rows, the one `text-review` (0106:
-  once per batch, here only), `npm run docs:check`, ONE `npm run preflight
-  -- --paths <the batch's files>` (0106; its review reads code only), deploy.
-
-- **Verify against the published result** (R74). Every numeric or
-  positional claim bound for a packet or fix-round report ("lowered 1 m",
-  "path painted", "lamp inside the lantern") is read back from
-  `apps/world-studio/public/province/settlements/<place-id>.json`, never
-  from the layout op, the scene or memory of the edit: a pose is
-  `placements[].positionM` (y = `[1]`, `yFinal: true`) and `yawDeg`; a
-  painted way is `settlement.groundPaint.entries[]` (`polygonM`); a
-  socket is `settlement.sockets`; a door is `doors[]`. Compare against
-  the previous published value (`git show <walked rev>:<that file>`);
-  unchanged where a change was claimed is a defect, found here.
-  A height over water is judged against the DRAWN water and the DRAWN
-  pose (R81): the water the studio draws is `water-surface.png` W plus
-  season (`water-shore.png` G x 1.4 m x (1-s)/2) and tide (coast/estuary
-  class only), and the pose is what `resolvePlacement` (game-core
-  `settlement/anchoring.ts`) draws for the piece's anchor class, never
-  the hydrology record or the layout's y alone.
+- `place_gates` runs every per-place gate in one process (the 0102 `check`
+  rules, reader-checklist gates, lit entrances, sockets and promises, the
+  interior bundle, variety and breadth bars, the 0105 gates; list in
+  [references/publish-gates-and-readback.md](references/publish-gates-and-readback.md)).
+  All green before the walk.
+- Per BATCH, never per place: the yard regression gates, the REQUEST rows,
+  the one `text-review`, `npm run docs:check`, ONE scoped preflight, deploy
+  (same reference § Per batch).
+- **Verify against the published result** (R74, R81): every numeric or
+  positional claim bound for a packet is read back from
+  `apps/world-studio/public/province/settlements/<place-id>.json` and
+  compared with the walked rev; a height over water against the DRAWN
+  water and pose (same reference § Verify).
 
 Ends when: 0 compile errors, every per-place gate green, the place
 published and every claim read back; the batch gates run when the
@@ -359,46 +326,23 @@ batch's last place gets here.
 ## 6. The walk packet (16k § Owner check-ins)
 
 **The packet is short and assumes the owner knows nothing about the
-place** (owner 2026-09-27). No per-item tables; every in-world thing is
-introduced the first time it is named; plain English, at most ~20 lines
-per place plus pictures; a packet of several places repeats sections 2–5
-per place, in road order. Every line is under R5: checked against the
-records and the runtime, never written from memory. Sections, in order:
+place** (owner 2026-09-27): plain English, at most ~20 lines per place
+plus pictures, every line checked against the records (R5). Each section's
+detail and the post procedure are in
+[references/walk-packet.md](references/walk-packet.md). Sections, in order:
 
 1. **What this place is** (three sentences: where, who, why it exists).
-2. **Start here:** one deployed-studio link at the anchor
-   (`https://<pages-url>/?view=character&x=<E>&z=<S>&t=12`; the deploy ran
-   green first), one link per building to enter (and its
-   `&interior=<cellId>` form), and the `&sockets=1` link.
-3. **What changed since the last walk:** the lines
-   `python3 tooling/placement-workbench/wb.py whatchanged <layout> --base <the walked commit>`
-   prints (R35: generated from the layout diff, each piece named by its
-   manifest `displayName`), grouped under the cause each fixes. A piece it
-   reports unnamed is named from its record before posting, never from
-   memory; a line claiming a move or a height carries the published
-   before/after value from the § 5 read-back (R74).
-4. **The numbers, one line:** `check` 0 failures, reader 0 NOs, promises
-   filled N of N, colliders, lights, interiors shipped. The full
-   `walktable` goes to `tooling/.reports/16k/<place>-walk-N/`, its links on
-   the deployed Pages URL, never `$ES_TUNNEL_URL`.
+2. **Start here:** deployed-studio links (anchor, each building's interior, `&sockets=1`); the deploy ran green first.
+3. **What changed since the last walk:** `wb.py whatchanged <layout> --base <walked commit>` (R35), with R74 before/after values.
+4. **The numbers, one line:** `check`, reader NOs, promises N of N, colliders, lights, interiors; full `walktable` to the walk folder.
 5. **Please look at** (at most eight lines): only judgements no tool makes.
-6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls**
-   only for world-level choices. Never an archive purchase, a sourcing
-   question or unfinished work.
-7. Pictures (0102 decision 11): the plan render and up to four Blender
-   shots in `tooling/.reports/16k/<place>-walk-N/`, committed
-   (`git add -f -- <png>`), embedded by `--attach`.
-8. How to reply: "walk it and tell me what looks wrong, in one message;
-   'looks right' when done." Then the stay-or-switch line (0083).
+6. **§ Gaps** only for 0102 decision 3's four reasons; **§ Owner calls** only for world-level choices.
+7. Pictures (0102 decision 11): the plan render and up to four Blender shots, committed.
+8. How to reply, then the stay-or-switch line (0083).
 
-Post (`owner_inbox.py --attach <png...> --walk <walk>`, commit 6201d27f):
-run `python3 tooling/repo-standards/owner_inbox.py --post <packet.md>
---title '<Place> walk N' --attach <plan.png> <shot.png>... --walk <walk>`
-once first — it copies the pictures into
-`tooling/.reports/16k/<walk>/pictures/` and stages them, then refuses to
-post until they are committed; commit and push those files on the branch,
-then run the SAME command again to actually post. Collapse old packets
-with `owner_inbox.py --collapse`.
+Post with `owner_inbox.py --post <packet.md> ... --attach ... --walk <walk>`
+twice (the first run stages the pictures; commit and push them; the second
+posts); collapse old packets with `owner_inbox.py --collapse`.
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
