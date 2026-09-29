@@ -70,7 +70,10 @@ export function esCausticVisibility(depthM: TslNode, turbidity: TslNode, tannin:
   const sunY = clamp(sunE, 0.0, 1.0);
   const eta = 1.0 / 1.333;
   const refractedCosine = sqrt(float(1.0).sub(float(eta * eta).mul(float(1.0).sub(sunY.mul(sunY)))));
-  const opticalPath = d.div(refractedCosine);
+  // Clamp before exp: dry ground sits hundreds of metres above the level, and
+  // exp(+large) overflows to inf, which the zero gates below turn into NaN.
+  // Depths past 7 m are already invisible (the fade below), so this is exact.
+  const opticalPath = clamp(d, 0.0, 8.0).div(refractedCosine);
   const extinction = float(0.10).add(float(2.4).mul(clamp(turbidity, 0.0, 1.0)))
     .add(float(TANNIN_EXTINCTION).mul(clamp(tannin, 0.0, 1.0)));
   const value = nodeSmoothstep(0.01, 0.06, d)

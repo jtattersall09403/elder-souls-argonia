@@ -161,12 +161,15 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     sel(u.uWetAccessParams.x.lessThan(0.5), vec3(-2.0, smoothstep(0.02, 0.15, salinity), season),
       esConnectedStage(p, u.uWetSurf, u.uWetSupport, u.uWetShore, P.z, P.w, u.uWetOrigin,
         u.uWetAccessParams.y, u.uWetAccessParams.z)));
-  const surfaceUv = (xz: TslNode): TslNode => vec2(xz).sub(u.uWetOrigin).div(P.w).add(0.5).div(P.z);
+  // P.z is 0 until a bundle is primed: never divide by it (a NaN here
+  // survives every later zero gate, sel() included).
+  const surfaceUv = (xz: TslNode): TslNode =>
+    vec2(xz).sub(u.uWetOrigin).div(max(P.w, 0.000001)).add(0.5).div(max(P.z, 1.0));
   const classUv = (xz: TslNode): TslNode =>
     vec2(xz).sub(u.uWetKlassParams.z).div(u.uWetKlassParams.y).add(0.5).div(u.uWetKlassParams.x);
   // Decode BEFORE interpolation: 16-bit level is in RG, signed depth in B.
   const levelDepth = (texel: TslNode): TslNode => {
-    const v = u.uWetSurf.load(clamp(texel, ivec2(0), ivec2(int(P.z)).sub(1)));
+    const v = u.uWetSurf.load(clamp(texel, ivec2(0), ivec2(int(max(P.z, 1.0))).sub(1)));
     const level = v.r.mul(255.0 * 256.0).add(v.g.mul(255.0)).div(65535.0);
     return vec2(float(P.x).add(level.mul(P.y)), v.b.mul(u.uWetDepthSpan).add(u.uWetDepthMin));
   };
@@ -178,7 +181,8 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     const value = esOwnedRaster(xz, u.uWetSurf, u.uWetSupport, P.z, P.w, u.uWetOrigin);
     const nLevel = value.rg.dot(vec2(65280.0, 255.0)).div(65535.0);
     const native = vec2(float(P.x).add(nLevel.mul(P.y)), value.b.mul(u.uWetDepthSpan).add(u.uWetDepthMin));
-    const pixel = clamp(vec2(xz).sub(u.uWetOrigin).div(P.w), vec2(0.0), vec2(float(P.z).sub(1.0)));
+    const pixel = clamp(vec2(xz).sub(u.uWetOrigin).div(max(P.w, 0.000001)), vec2(0.0),
+      vec2(max(float(P.z).sub(1.0), 0.0)));
     const corner = ivec2(floor(pixel)).toVar();
     const f = fract(pixel).toVar();
     const s00 = levelDepth(corner).toVar(), s10 = levelDepth(corner.add(ivec2(1, 0))).toVar();
@@ -190,7 +194,11 @@ export function waterReceiverNodes(u: GroundWetnessUniforms) {
     const ww = bw.mul(wet).toVar();
     const wsum = ww.x.add(ww.y).add(ww.z).add(ww.w).toVar();
     const plain = mix(mix(s00, s10, f.x), mix(s01, s11, f.x), f.y).toVar();
-    const weighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x)).div(wsum);
+    // wsum is 0 wherever all four texels are buried (all dry ground): the
+    // unchosen side of sel() is still evaluated, and 0/0 there was the NaN
+    // that blacked every dry terrain fragment (16k walk 5, lane L2d).
+    const weighted = ww.x.mul(s00.x).add(ww.y.mul(s10.x)).add(ww.z.mul(s01.x)).add(ww.w.mul(s11.x))
+      .div(max(wsum, 0.000001));
     const bilinear = vec2(sel(wsum.greaterThan(0.0), weighted, plain.x), plain.y);
     return sel(insideProvince(xz).not(), vec2(0.0, 25.5),
       sel(u.uWetNativeCoverage.greaterThan(0.5), native, bilinear));

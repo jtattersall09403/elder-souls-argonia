@@ -50,6 +50,9 @@ const allScenes = readdirSync(join(studioDir, "src/harness/scenes"))
   .sort();
 const scenes = typeof args.sys === "string" ? args.sys.split(",") : allScenes;
 const timeoutMs = Number(args.timeout) || 240000;
+/** Above this share of drawn pixels at luma < 3 a run fails (NaN shading
+ * renders black), unless its scene exports `expectDark: true`. */
+const BLACK_FRACTION_MAX = 0.2;
 
 const LAUNCH = {
   webgpu: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
@@ -114,16 +117,19 @@ try {
         // The asked backend must be the one that ran: a silent WebGPU->WebGL
         // fallback would make a "webgpu" pass meaningless.
         const wrongBackend = result.backend !== "none" && result.backend !== backend;
-        const ok = Boolean(result.ok) && !wrongBackend
+        // A black (NaN) surface keeps its mean luma plausible: fail on the
+        // share of drawn pixels that came out black (main.ts blackFraction).
+        const tooBlack = !result.expectDark && (result.blackFraction ?? 0) > BLACK_FRACTION_MAX;
+        const ok = Boolean(result.ok) && !wrongBackend && !tooBlack
           && !consoleLines.some((l) => l.startsWith("error") || l.startsWith("pageerror"));
         runs.push({
-          sys, requested: backend, ok, ms: Date.now() - t0, shot, wrongBackend,
+          sys, requested: backend, ok, ms: Date.now() - t0, shot, wrongBackend, tooBlack,
           result, console: consoleLines,
         });
         const warnCount = (result.warnings?.length ?? 0);
         console.log(`${ok ? "ok  " : "FAIL"} ${sys} [${backend}${wrongBackend ? ` ran ${result.backend}` : ""}]`
           + ` compile ${result.compileMs ?? "-"} ms, calls ${result.calls ?? "-"}, tris ${result.triangles ?? "-"},`
-          + ` luma ${result.meanLuma ?? "-"}, drawn ${result.drawnFraction ?? "-"}, errors ${result.errors?.length ?? 0}, warnings ${warnCount}, env-noise ${result.envNoise?.length ?? 0}`
+          + ` luma ${result.meanLuma ?? "-"}, drawn ${result.drawnFraction ?? "-"}, covered ${result.coveredFraction ?? "-"}, black ${result.blackFraction ?? "-"}${tooBlack ? " (> " + BLACK_FRACTION_MAX + ")" : ""}${result.expectDark ? " (expectDark)" : ""}, errors ${result.errors?.length ?? 0}, warnings ${warnCount}, env-noise ${result.envNoise?.length ?? 0}`
           + (result.adapter ? `, adapter: ${result.adapter}` : ""));
         for (const e of (result.errors ?? []).slice(0, 5)) console.log(`     error: ${e}`);
         for (const w of (result.warnings ?? []).slice(0, 5)) console.log(`     warning: ${w}`);

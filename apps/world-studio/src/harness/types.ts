@@ -23,6 +23,8 @@ export interface HarnessBuilt {
 
 export interface HarnessScene {
   name: string;
+  /** Dark by design (e.g. night): exempt from the runner's blackFraction bar. */
+  expectDark?: boolean;
   build(ctx: HarnessContext): Promise<HarnessBuilt> | HarnessBuilt;
 }
 
@@ -46,4 +48,12 @@ export interface HarnessResult {
   meanLuma?: number;
   /** Fraction of pixels differing from the corner (background) pixel. */
   drawnFraction?: number;
+  /** Fraction of pixels a mesh covered (alpha > 0 when re-rendered with no
+   * background over a transparent clear). */
+  coveredFraction?: number;
+  /** Fraction of covered pixels with luma < 3: a
+   * NaN or unlit surface renders black. The runner fails a run above
+   * BLACK_FRACTION_MAX unless the scene sets `expectDark`. */
+  blackFraction?: number;
+  expectDark?: boolean;
 }

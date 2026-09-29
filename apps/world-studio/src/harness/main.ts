@@ -121,11 +121,36 @@ async function main(): Promise<HarnessResult> {
     await new Promise((r) => requestAnimationFrame(() => r(null)));
   }
   result.frameMs = Math.round((performance.now() - f0) / 3);
+  result.calls = renderer.info.render.drawCalls;
+  result.triangles = renderer.info.render.triangles;
   // The last frame, read back and shown on a 2D canvas in place of the
   // live one, on BOTH backends so the two screenshots come from the same
   // path. Mean luma and the fraction of pixels unlike the corner pixel land
   // in the result: "drew something" is a number.
   const px = new Uint8Array((await renderer.readRenderTargetPixelsAsync(target, 0, 0, width, height)).buffer);
+  // Coverage: the same frame again with no background over a transparent
+  // clear, so alpha > 0 is exactly "a mesh drew here" (a black surface over a
+  // dark sky is indistinguishable by colour). blackFraction is the share of
+  // those pixels that came out black (luma < 3) in the real frame: a NaN
+  // surface passes a mean-luma bar, it does not pass this.
+  const background = built.scene.background;
+  const clearColor = renderer.getClearColor(new THREE.Color() as Parameters<typeof renderer.getClearColor>[0]);
+  const clearAlpha = renderer.getClearAlpha();
+  built.scene.background = null;
+  renderer.setClearColor(0x000000, 0);
+  renderer.render(built.scene, built.camera);
+  const coverPx = new Uint8Array((await renderer.readRenderTargetPixelsAsync(target, 0, 0, width, height)).buffer);
+  built.scene.background = background;
+  renderer.setClearColor(clearColor, clearAlpha);
+  let covered = 0, black = 0;
+  for (let i = 0; i < px.length; i += 4) {
+    if (coverPx[i + 3] === 0) continue;
+    covered++;
+    if (0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2] < 3) black++;
+  }
+  result.blackFraction = covered ? Math.round((black / covered) * 1000) / 1000 : 0;
+  result.coveredFraction = Math.round((covered / (width * height)) * 1000) / 1000;
+  result.expectDark = Boolean(harnessScene.expectDark);
   renderer.setRenderTarget(null);
   renderer.setOutputRenderTarget(null);
   target.dispose();
@@ -151,8 +176,6 @@ async function main(): Promise<HarnessResult> {
   for (let i = 3; i < image.data.length; i += 4) image.data[i] = 255;
   shown.getContext("2d")!.putImageData(image, 0, 0);
   canvas.replaceWith(shown);
-  result.calls = renderer.info.render.drawCalls;
-  result.triangles = renderer.info.render.triangles;
   result.ok = errors.length === 0;
   return result;
 }

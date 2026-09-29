@@ -24,7 +24,9 @@ export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslN
   };
   // Derivatives must execute before any per-pixel dry/depth branch.
   const footprint = max(length(dFdx(r.xz)), length(dFdy(r.xz))).toVar();
-  const depth = float(level).sub(r.y).toVar();
+  // Clamped: a receiver far above or below the level is off anyway (the
+  // `off` gate), and the unclamped value overflowed exp() into inf -> NaN.
+  const depth = clamp(float(level).sub(r.y), -1.0, 13.0).toVar();
   const flatRay = refract(sun.negate(), vec3(0.0, 1.0, 0.0), 1.0 / 1.333);
   const p = r.xz.sub(flatRay.xz.div(max(flatRay.y.negate(), 0.15)).mul(depth)).toVar();
   const stepM = max(u.uLocalWaterInfo.z, 0.25).toVar();
@@ -38,7 +40,7 @@ export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslN
   const jacobian = float(1.0).add(dx.x).mul(float(1.0).add(dz.y)).sub(dx.y.mul(dz.x));
   const focused = clamp(float(1.0).div(max(jacobian.abs(), 0.1)), 0.25, 3.0).sub(1.0);
   const value = focused.mul(float(1.0).sub(smoothstep(stepM.mul(0.5), stepM.mul(2.0), footprint)))
-    .mul(smoothstep(0.5, 0.9, vec3(receiverNormal).y)).mul(exp(depth.mul(-0.12)));
+    .mul(smoothstep(0.5, 0.9, vec3(receiverNormal).y)).mul(exp(clamp(depth, 0.0, 12.0).mul(-0.12)));
   const off = float(u.uLocalWaterActive).lessThan(0.5).or(depth.lessThanEqual(0.03))
     .or(depth.greaterThan(12.0)).or(sun.y.lessThanEqual(0.05))
     .or(local.mask(p).lessThan(0.5)).or(neighbours.lessThan(0.5));
