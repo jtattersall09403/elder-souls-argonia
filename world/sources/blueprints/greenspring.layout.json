@@ -580,8 +580,8 @@
    "uid": "sh-totem2",
    "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01",
    "at": [
-    4746.28,
-    1873.94
+    4746.56,
+    1874.22
    ],
    "yaw": 340.0,
    "settle": true
@@ -591,8 +591,8 @@
    "uid": "sh-chime",
    "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
    "at": [
-    4748.11,
-    1875.09
+    4748.39,
+    1875.37
    ],
    "yaw": 0.0,
    "settle": true

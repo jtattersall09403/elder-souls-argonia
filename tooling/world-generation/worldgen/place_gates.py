@@ -166,6 +166,24 @@ def derived_blueprint_path(place_id: str) -> Path:
     return gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
 
 
+JOB_GUARD = REPO_ROOT / "tooling" / "repo-standards" / "job_guard.sh"
+
+
+def guarded(cmd: list[str], lane: str) -> list[str]:
+    """``cmd`` inside ``job_guard.sh`` unless this process already runs under
+    one (``ES_JOB_CORES`` is its export). The CPU watchdog
+    (``cpu_watchdog.py``) SIGSTOPs the heaviest unguarded process one at a
+    time while the machine sits above 95 %; ``check``'s fork pool of up to
+    seven workers is exactly that, so it stopped its own workers and
+    ``pool.map`` idled on each stopped one until the machine fell under 60 %
+    for 10 s (Greenspring 2026-09-29: wb.rules 847 s wall, 25 wb.py STOPs in
+    the watchdog log). A job_guard descendant is never throttled."""
+    import os
+    if os.environ.get("ES_JOB_CORES") or not JOB_GUARD.exists():
+        return cmd
+    return ["bash", str(JOB_GUARD), lane, "--", *cmd]
+
+
 def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, str]:
     """``wb.py apply``; (its summary when this run wrote it, the tail of its
     output). The summary and the derived blueprint a previous run left are
@@ -177,7 +195,8 @@ def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, st
     summary_path = gates_output(place_id) / "apply" / f"{place_id}.json"
     for stale in (summary_path, derived_blueprint_path(place_id)):
         stale.unlink(missing_ok=True)
-    got = subprocess.run(cmd, cwd=WB.parent, capture_output=True, text=True, env=wb_env(place_id))
+    got = subprocess.run(guarded(cmd, "place-gates"), cwd=WB.parent, capture_output=True,
+                         text=True, env=wb_env(place_id))
     tail = (got.stdout + got.stderr).strip().splitlines()[-1:] or [f"exit {got.returncode}"]
     if summary_path.exists():
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
