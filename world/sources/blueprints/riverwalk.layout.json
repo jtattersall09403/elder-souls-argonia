@@ -1181,19 +1181,23 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-toll-holder-work",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
    "activity": "stand",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll-holder calls the toll from the long house door, at the head of the boards."
+   "why": "The toll-holder calls the toll from the long house door, at the head of the boards.",
+   "at": [
+    7200.1,
+    517.0
+   ]
   },
   {
    "op": "socket",
    "id": "socket.riverwalk.idle-toll-holder-home",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll-holder sleeps in the long house."
+   "why": "The toll-holder sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -1246,10 +1250,11 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-stage-mistress-home",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B557",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The stage-mistress sleeps in the long house."
+   "why": "The stage-mistress sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -1293,19 +1298,21 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n1-work",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B562",
    "activity": "work-at",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The household keeps the bunks and the stores in the long house."
+   "why": "The household keeps the bunks and the stores in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
    "id": "socket.riverwalk.idle-n1-home",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B55D",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The household sleeps in the long house."
+   "why": "The household sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -1358,10 +1365,11 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n2-home",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B55E",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The crew takes a bunk in the long house."
+   "why": "The crew takes a bunk in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -1415,10 +1423,11 @@
    "op": "socket",
    "id": "socket.riverwalk.idle-n3-home",
    "kind": "idle",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B556",
    "activity": "sleep",
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll hand sleeps in the long house."
+   "why": "The toll hand sleeps in the long house.",
+   "interiorCell": "KeebaHouseCrafter"
   },
   {
    "op": "socket",
@@ -1569,12 +1578,13 @@
    "op": "socket",
    "id": "socket.riverwalk.item-toll-tally",
    "kind": "item",
-   "host": "parcel.riverwalk.crews-house",
+   "host": "KeebaHouseCrafter.0809B55B",
    "itemClass": "book",
    "valueBand": "low",
    "contentPending": true,
    "parcel": "parcel.riverwalk.crews-house",
-   "why": "The toll-holder's tally of who paid which city."
+   "why": "The toll-holder's tally of who paid which city.",
+   "interiorCell": "KeebaHouseCrafter"
   }
  ]
 }
