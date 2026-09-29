@@ -178,3 +178,115 @@ export class SectorCuller {
     return seen;
   }
 }
+
+/*
+ * The budget thin (walk 5, 2026-09-29: "plants pop in as you approach, then
+ * pop back OUT when you get closer"). Until then the thin was a prefix of
+ * `ceil(n * max/total)` per tile block with the factor recomputed from the
+ * ring's exact total at EVERY fill, so every plant near a prefix edge blinked
+ * in and out as the ring's total moved (walk replay: 57 596 pop-outs over
+ * 1.5 km, groundcoverThin.test.ts).
+ *
+ * Now a plant's survival is its own stable property: its `keep` roll (a hash,
+ * stored sorted per tile block) is compared with
+ *
+ *   t(d) = 1 - (1 - s) * ramp(d),  ramp = 0 inside the NEAR band, rising
+ *          linearly to 1 at the MID radius and held at 1 beyond,
+ *
+ * so the NEAR band is never thinned, far plants thin first, and t only grows
+ * as the focus approaches. `s` belongs to the TILE, not the ring: it is the
+ * factor that would hold the budget if the whole ring were as dense as this
+ * tile (`tileThinFactor`, from the ring's geometric weights `ringWeights`),
+ * quantised, and computed from the tile's far-subset count, which a FAR-built
+ * and a full-built tile share. Nothing about the focus moves it, so walking
+ * closer never removes a plant shown further out. Dense tiles thin, sparse
+ * ones do not; a uniform ring lands exactly on the budget. A ring far denser
+ * than any one tile predicts (dense near, sparse far) is caught by one global
+ * factor `g` on top (`safetyFactor`, quantised, with hysteresis, acting
+ * only past `GC_BUDGET_SLACK` x the budget), which a normal walk never moves.
+ */
+export const GC_THIN_QUANTUM = 1 / 32;
+/** The safety factor's ceiling over the preset budget. The tile factors aim
+ * the average ring at the budget; a ring whose density is uneven (dense near,
+ * sparse far) lands within a few per cent either side of it (walk replay:
+ * -1.8 % mean, +4.2 % peak), and moving `g` for that would bring back the
+ * blinking this rule exists to end. Past 5 % over, `g` acts. */
+export const GC_BUDGET_SLACK = 1.05;
+
+/** 0 inside `nearM`, 1 at and beyond `midM`, linear between. */
+export function thinRamp(distanceM: number, nearM: number, midM: number): number {
+  if (distanceM <= nearM) return 0;
+  if (midM <= nearM || distanceM >= midM) return 1;
+  return (distanceM - nearM) / (midM - nearM);
+}
+
+/** The keep threshold for a tile `distanceM` from the focus under factor `s`. */
+export function thinThreshold(distanceM: number, s: number, nearM: number, midM: number): number {
+  if (s >= 1) return 1;
+  return 1 - (1 - s) * thinRamp(distanceM, nearM, midM);
+}
+
+/**
+ * The ring's geometric weights for one species' radii, per plant of full
+ * tile density: `k` is how many tiles' worth of plants the ring draws (1 per
+ * tile inside the MID band plus overlap, `farThin` per FAR tile), `kr` the
+ * same weighted by `thinRamp` (what `s` can remove). Focus on a tile centre.
+ */
+export function ringWeights(
+  nearM: number, midM: number, farM: number, overlapM: number, tileM: number, farThin: number,
+): { k: number; kr: number } {
+  let k = 0; let kr = 0;
+  const reach = Math.ceil((farM + overlapM) / tileM) + 1;
+  for (let j = -reach; j <= reach; j++) {
+    for (let i = -reach; i <= reach; i++) {
+      const nearest = Math.hypot(
+        Math.max(0, Math.abs(i) * tileM - tileM / 2), Math.max(0, Math.abs(j) * tileM - tileM / 2));
+      const w = nearest <= midM + overlapM ? 1 : (nearest <= farM + overlapM ? farThin : 0);
+      k += w; kr += w * thinRamp(nearest, nearM, midM);
+    }
+  }
+  return { k, kr };
+}
+
+/**
+ * The tile's factor: `nk` = sum over its species of (full count x k), `nkr`
+ * the same with kr. 1 when a ring this dense fits `maxInstances`, else the
+ * nearest quantum to the exact fit (never 0: the ring never goes bare).
+ */
+export function tileThinFactor(nk: number, nkr: number, maxInstances: number): number {
+  if (nk <= maxInstances) return 1;
+  const exact = nkr > 0 ? 1 - (nk - maxInstances) / nkr : 0;
+  return Math.min(1, Math.max(GC_THIN_QUANTUM, Math.round(exact / GC_THIN_QUANTUM) * GC_THIN_QUANTUM));
+}
+
+/**
+ * The global safety factor `g` (multiplies every tile's `s`), quantised with
+ * hysteresis: it drops the moment `drawnAt(g)` exceeds the budget and rises
+ * one quantum only when two quanta more would still fit. `previous` is the
+ * last fill's (1 on a cold start).
+ */
+export function safetyFactor(
+  drawnAt: (g: number) => number, maxInstances: number, previous: number,
+): number {
+  let g = Math.min(1, Math.max(GC_THIN_QUANTUM, previous));
+  if (drawnAt(g) > maxInstances) {
+    g = Math.floor(g / GC_THIN_QUANTUM) * GC_THIN_QUANTUM;
+    while (g > GC_THIN_QUANTUM && drawnAt(g) > maxInstances) g -= GC_THIN_QUANTUM;
+    return Math.max(GC_THIN_QUANTUM, g);
+  }
+  if (g < 1 && drawnAt(Math.min(1, g + 2 * GC_THIN_QUANTUM)) <= maxInstances) {
+    return Math.min(1, g + GC_THIN_QUANTUM);
+  }
+  return g;
+}
+
+/** Plants in `keeps[lo, hi)` (sorted ascending) whose roll is under `t`. */
+export function keptCount(keeps: Float32Array, lo: number, hi: number, t: number): number {
+  if (t >= 1) return hi - lo;
+  let a = lo; let b = hi;
+  while (a < b) {
+    const m = (a + b) >> 1;
+    if (keeps[m] < t) a = m + 1; else b = m;
+  }
+  return a - lo;
+}

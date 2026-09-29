@@ -78,8 +78,14 @@ can still install its own hook afterwards.
 Radii and the instance cap are quality presets, not constants
 (`packages/game-core/src/core/quality.ts`): a MID radius of **50 / 65 / 75 m**,
 a FAR radius of **110 / 145 / 165 m**, and **30k / 45k / 60k instances** for
-low / medium / high. Over budget, every species is thinned by the same factor
-and the factor is reported as `densityScale`. Tiles are 16 m and world-aligned,
+low / medium / high. Over budget, each plant's own `keep` roll is compared with
+a threshold `t(d) = 1 - (1 - s)·ramp(d)` (ramp 0 in the NEAR band, 1 at the MID
+radius and beyond): far plants thin first, the NEAR band never. `s` belongs to
+the TILE (the factor that would fit the budget if the whole ring were as dense
+as this tile, quantised to 1/32), never to the ring's total, so a plant shown
+further out is never removed as you approach. A global safety factor on top
+(`densityScale`, with hysteresis) acts only past 1.05 x the budget
+(`groundcoverSchedule.ts`, walk replay in `groundcoverThin.test.ts`). Tiles are 16 m and world-aligned,
 so placement does not depend on the direction of approach.
 
 ### Three quality tiers per species

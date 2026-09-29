@@ -104,7 +104,13 @@ import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 import {
   fillDue,
+  GC_BUDGET_SLACK,
   generateBudgetMs,
+  keptCount,
+  ringWeights,
+  safetyFactor,
+  thinThreshold,
+  tileThinFactor,
   GC_COLD_TILES,
   GC_SECTORS,
   SectorCuller,
@@ -246,7 +252,9 @@ const EMPTY_PATCHES: readonly IndexedPatch[] = [];
 const TILE_GRID_M = 2;
 const TILE_GRID_N = TILE_M / TILE_GRID_M + 1; // 9 samples per axis
 /** Hard budget. The authored densities want ~30k in jungle; if a rebuild asks
- * for more than this, every species is thinned proportionally. */
+ * for more than this, the ring is thinned by each plant's own `keep` roll
+ * against a per-tile distance threshold (far first, the NEAR band never):
+ * `tileThinFactor` / `thinThreshold` in groundcoverSchedule.ts. */
 const MAX_INSTANCES = 60_000;
 /** Standing water gates: `below-at-least` species need shallow water; land
  * grass should not render drowned under a metre of marsh. How deep a wading
@@ -873,9 +881,10 @@ function tileNearestM(focus: { x: number; z: number }, tx: number, tz: number): 
  * `matrices` (16 floats each) and `colours` (3 floats each), ordered so that
  * the far subset (`farKeep < FAR_THIN`) comes first — `farCount` of them —
  * and each of the two blocks is sorted by the `keep` roll. The FAR tier
- * copies the first block; NEAR and MID copy both; a budget thin takes a
- * prefix of each block, which is the lowest-`keep` subset and so the same
- * plants rebuild after rebuild.
+ * copies the first block; NEAR and MID copy both; a budget thin keeps the
+ * plants whose `keep` is under the tile's threshold, a prefix of each block
+ * found by binary search in `keeps`, so a plant's survival is its own stable
+ * property (groundcoverSchedule.ts `thinThreshold`).
  */
 interface CachedTile {
   far: boolean;
@@ -893,12 +902,14 @@ interface CachedTile {
 interface TileSpecies {
   count: number;
   farCount: number;
+  /** The `keep` roll per instance, in the same order (ascending per block). */
+  keeps: Float32Array;
   matrices: Float32Array;
   colours: Float32Array;
 }
 
 const EMPTY_TILE_SPECIES: TileSpecies = {
-  count: 0, farCount: 0, matrices: new Float32Array(0), colours: new Float32Array(0),
+  count: 0, farCount: 0, keeps: new Float32Array(0), matrices: new Float32Array(0), colours: new Float32Array(0),
 };
 
 /** Floats per candidate in the per-species scratch array while a tile is
@@ -919,8 +930,9 @@ export interface GroundcoverStats {
   tilesGenerated: number;
   /** False while the kit ships no baked cards: every tier is then level 0. */
   cards: boolean;
-  /** 1 unless the authored densities exceeded MAX_INSTANCES; then the
-   * proportional thinning factor actually applied. */
+  /** The global safety factor on every tile's thin (groundcoverSchedule.ts
+   * `safetyFactor`): 1 unless the ring passed GC_BUDGET_SLACK x the budget
+   * after the per-tile thin. */
   densityScale: number;
   /** Candidate rejections in the last generation pass, by filter. */
   rejected?: Record<string, number>;
@@ -1124,6 +1136,8 @@ export function Groundcover({
   const lastRemaining = useRef(Number.POSITIVE_INFINITY);
   /** Per-frame wedge culling (walk 5). Slots = core + wedges. */
   const culler = useMemo(() => new SectorCuller(SECTOR_SLOTS), []);
+  /** The safety factor the last fill used: `safetyFactor`'s hysteresis. */
+  const thinFactor = useRef(1);
   /** The pool as a flat list, so the per-frame visibility loop allocates
    * no iterator. Rebuilt whenever the pool changes. */
   const meshList = useRef<THREE.InstancedMesh[]>([]);
@@ -1493,10 +1507,19 @@ export function Groundcover({
     });
     const quadCount = SECTOR_SLOTS;
     culler.clear();
-    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
+    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; tx: number; tz: number; nearest: number; thin: number; thinNearM: number; thinMidM: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
       () => Array.from({ length: BUCKET_COUNT * quadCount }, () => ({ tiles: [], count: 0 })));
-    let total = 0;
+    // The ring's geometric weights per species (its own radii): what one
+    // plant of full tile density costs the ring, and what the thin can take.
+    const weights = SPECIES_PLANS.map((plan) => {
+      const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
+      const nearM = nearRadiusM * radiusScale * (nearPlans[plan.index]?.reach ?? 0);
+      return ringWeights(nearM, ringRadiusM * radiusScale,
+        (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale, TIER_OVERLAP_M, TILE_M, FAR_THIN);
+    });
+    /** One row per (tile, species) the budget counts: plants, not copies. */
+    const budgetRows: { species: TileSpecies; inMid: boolean; nearest: number; thin: number; nearM: number; midM: number }[] = [];
     for (const entry of live) {
       const tile = cache.get(entry.key);
       if (!tile) continue;
@@ -1508,6 +1531,17 @@ export function Groundcover({
       // covers the tallest plant in the table.
       culler.add(quadrant, entry.tx * TILE_M, tile.minY - 1, entry.tz * TILE_M,
         (entry.tx + 1) * TILE_M, tile.maxY + 4, (entry.tz + 1) * TILE_M);
+      // The tile's own budget factor, from its full density as the far
+      // subset predicts it (a FAR-built and a full-built tile share that
+      // subset, so regeneration never moves it), never from the ring's
+      // total: nothing about the focus changes which plants survive.
+      let nk = 0; let nkr = 0;
+      for (const plan of SPECIES_PLANS) {
+        const full = tile.perSpecies[plan.index].farCount / FAR_THIN;
+        nk += full * weights[plan.index].k;
+        nkr += full * weights[plan.index].kr;
+      }
+      const thin = tileThinFactor(nk, nkr, maxInstances);
       for (const plan of SPECIES_PLANS) {
         const species = tile.perSpecies[plan.index];
         if (species.count === 0) continue;
@@ -1521,7 +1555,7 @@ export function Groundcover({
         const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
         const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
         const bucket = slots[plan.index];
-        const record = { species, far: false, tier: TIER_NEAR, tx: entry.tx, tz: entry.tz, minY: tile.minY, maxY: tile.maxY };
+        const record = { species, far: false, tier: TIER_NEAR, tx: entry.tx, tz: entry.tz, nearest: entry.nearest, thin, thinNearM: speciesNearM, thinMidM: speciesMidM, minY: tile.minY, maxY: tile.maxY };
         const nearSlot = BUCKET_NEAR * quadCount + quadrant;
         const cardSlot = BUCKET_CARD * quadCount + quadrant;
         if (inNear) { bucket[nearSlot].tiles.push(record); bucket[nearSlot].count += species.count; }
@@ -1536,14 +1570,29 @@ export function Groundcover({
         // The budget counts PLANTS, not copies: a tile inside the mid band is
         // its whole list once (its extra tier copies are the overlap cost the
         // shader collapses), a far tile its thinned subset.
-        total += inMid ? species.count : (inFar ? species.farCount : 0);
+        if (inFar) {
+          budgetRows.push({ species, inMid, nearest: entry.nearest, thin, nearM: speciesNearM, midM: speciesMidM });
+        }
       }
     }
 
-    // Pass three: budget guard — thin every species by the same factor. The
-    // thin is a prefix of each tile block (sorted by `keep`), so the same
-    // plants survive from one rebuild to the next.
-    const densityScale = total > maxInstances ? maxInstances / total : 1;
+    // Pass three: budget guard. Each tile's factor sets a keep threshold by
+    // distance (far first, NEAR never); a plant survives while its own `keep`
+    // roll is under it, so walking closer never removes a plant shown further
+    // out. A global safety factor on top acts only past GC_BUDGET_SLACK x the
+    // budget, quantised, with hysteresis (groundcoverSchedule.ts).
+    const drawnAt = (g: number): number => {
+      let n = 0;
+      for (const row of budgetRows) {
+        const sp = row.species;
+        const below = thinThreshold(row.nearest, row.thin * g, row.nearM, row.midM);
+        n += keptCount(sp.keeps, 0, sp.farCount, below);
+        if (row.inMid) n += keptCount(sp.keeps, sp.farCount, sp.count, below);
+      }
+      return n;
+    };
+    const densityScale = safetyFactor(drawnAt, maxInstances * GC_BUDGET_SLACK, thinFactor.current);
+    thinFactor.current = densityScale;
 
     let instances = 0;
     let triangles = 0;
@@ -1584,8 +1633,9 @@ export function Groundcover({
           let minY = Infinity; let maxY = -Infinity;
           for (const t of slotTiles.tiles) {
             const sp = t.species;
-            const farN = Math.ceil(sp.farCount * densityScale);
-            const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
+            const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
+            const farN = keptCount(sp.keeps, 0, sp.farCount, keepBelow);
+            const restN = t.far ? 0 : keptCount(sp.keeps, sp.farCount, sp.count, keepBelow);
             drawn += farN + restN;
             byTier[t.tier] += farN + restN;
             if (t.tx * TILE_M < minX) minX = t.tx * TILE_M;
@@ -1656,8 +1706,9 @@ export function Groundcover({
             let at = 0;
             for (const t of slotTiles.tiles) {
               const sp = t.species;
-              const farN = Math.ceil(sp.farCount * densityScale);
-              const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
+              const keepBelow = thinThreshold(t.nearest, t.thin * densityScale, t.thinNearM, t.thinMidM);
+              const farN = keptCount(sp.keeps, 0, sp.farCount, keepBelow);
+              const restN = t.far ? 0 : keptCount(sp.keeps, sp.farCount, sp.count, keepBelow);
               const band = tierBands[t.tier];
               for (let i = at; i < at + farN + restN; i++) {
                 bandArray[i * 4] = band[0];
@@ -2038,8 +2089,10 @@ export function Groundcover({
         order.subarray(far, count).sort(byKeep);
         const matrices = new Float32Array(count * 16);
         const colours = new Float32Array(count * 3);
+        const keeps = new Float32Array(count);
         for (let i = 0; i < count; i++) {
           const o = order[i] * PLACEMENT_STRIDE;
+          keeps[i] = data[o + 5];
           position.set(data[o], data[o + 1], data[o + 2]);
           quaternion.setFromAxisAngle(up, data[o + 3]);
           scale.setScalar(data[o + 4]);
@@ -2049,7 +2102,7 @@ export function Groundcover({
           colours[i * 3 + 1] = data[o + 8];
           colours[i * 3 + 2] = data[o + 9];
         }
-        return { count, farCount: far, matrices, colours };
+        return { count, farCount: far, keeps, matrices, colours };
       });
       if (DEV) {
         const pm = phaseMax.current;
