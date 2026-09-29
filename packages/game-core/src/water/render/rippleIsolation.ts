@@ -1,3 +1,9 @@
+import type { TslNode } from "../../render/nodes/materialNodes";
+import * as TSL from "three/tsl";
+// Loose TSL (decision 0107 §1): the chained typings are too deep for tsc to
+// check usefully and cost minutes of type-checking; values are TslNode.
+const {Break, If, Loop, abs, bool, clamp, dot, float, floor, fract, ivec2, select, sign, textureLoad, textureSize, vec2, vec3, vec4} = TSL as TslNode;
+
 /** Exact grid supercover for a bounded ripple impulse. Crossing a corner
  * requires both incident orthogonal cells, so diagonal ponds never couple. */
 export function ripplePathConnected(labels: ArrayLike<number>, size: number, ax: number, az: number, bx: number, bz: number): boolean {
@@ -21,30 +27,56 @@ export function ripplePathConnected(labels: ArrayLike<number>, size: number, ax:
   return false;
 }
 
-export const RIPPLE_PATH_GLSL = /* glsl */ `
-uniform float uMaskSize;
-bool esRipplePathCell(vec2 cell, vec2 body) {
-  vec4 value = support((cell + 0.5) / uMaskSize - uMaskOffset);
-  return value.a > 0.5 && sameBody(value.rg, body);
+/** The shared boundary accessors every ripple pass builds once per material
+ * (RippleSim's former COMMON block): `support(uv)` samples the RG-label /
+ * B-depth / A-wet mask at state uv + maskOffset (zero outside), `sameBody`
+ * compares two normalized 16-bit owner labels. */
+export interface RippleSupportNodes {
+  maskOffset: TslNode;
+  maskSize: TslNode;
+  support(uv: TslNode): TslNode;
+  sameBody(a: TslNode, b: TslNode): TslNode;
 }
-bool esRipplePath(vec2 from, vec2 to, vec2 body) {
-  vec2 a = (from + uMaskOffset) * uMaskSize, b = (to + uMaskOffset) * uMaskSize;
-  vec2 cell = floor(a), end = floor(b), delta = b-a, direction = sign(delta);
-  vec2 interval = vec2(abs(delta.x) > 1e-12 ? 1.0/abs(delta.x) : 1e20, abs(delta.y) > 1e-12 ? 1.0/abs(delta.y) : 1e20);
-  vec2 next = vec2(abs(delta.x) > 1e-12 ? ((direction.x > 0.0 ? cell.x+1.0 : cell.x)-a.x)/delta.x : 1e20,
-    abs(delta.y) > 1e-12 ? ((direction.y > 0.0 ? cell.y+1.0 : cell.y)-a.y)/delta.y : 1e20);
-  for (int stepIndex=0; stepIndex<32; stepIndex++) {
-    if (all(equal(cell,end))) return true;
-    if (abs(next.x-next.y)<1e-7) {
-      if (!esRipplePathCell(cell+vec2(direction.x,0),body) || !esRipplePathCell(cell+vec2(0,direction.y),body)) return false;
-      cell += direction; next += interval;
-    } else if (next.x<next.y) { cell.x+=direction.x; next.x+=interval.x; }
-    else { cell.y+=direction.y; next.y+=interval.y; }
-    if (!esRipplePathCell(cell,body)) return false;
-  }
-  return false;
+
+/** Wet, same-body test for one mask cell (GPU twin of the label read inside
+ * ripplePathConnected). */
+export function esRipplePathCell(ctx: RippleSupportNodes, cell: TslNode, body: TslNode): TslNode {
+  const value = ctx.support(cell.add(0.5).div(ctx.maskSize).sub(ctx.maskOffset));
+  return value.a.greaterThan(0.5).and(ctx.sameBody(value.rg, body));
 }
-`;
+
+/** GPU twin of ripplePathConnected in state-uv space (bool node). Emits its
+ * 32-step loop into the current TSL stack: call it inside a Fn / If only
+ * where the GLSL evaluated it, so short-circuited paths stay unevaluated. */
+export function esRipplePath(ctx: RippleSupportNodes, from: TslNode, to: TslNode, body: TslNode): TslNode {
+  // Every input is evaluated once into a local before the loop, so no loop
+  // body re-reads an outer loop's index (the drop pass calls this per drop).
+  const a = from.add(ctx.maskOffset).mul(ctx.maskSize).toVar(), b = to.add(ctx.maskOffset).mul(ctx.maskSize).toVar();
+  const start = floor(a).toVar(), end = floor(b).toVar(), delta = b.sub(a).toVar(), direction = sign(delta).toVar();
+  const target = vec2(body).toVar();
+  const hasX = abs(delta.x).greaterThan(1e-12), hasY = abs(delta.y).greaterThan(1e-12);
+  const interval = vec2(select(hasX, float(1).div(abs(delta.x)), 1e20), select(hasY, float(1).div(abs(delta.y)), 1e20)).toVar();
+  const cell = vec2(start).toVar();
+  const next = vec2(
+    select(hasX, select(direction.x.greaterThan(0), start.x.add(1), start.x).sub(a.x).div(delta.x), 1e20),
+    select(hasY, select(direction.y.greaterThan(0), start.y.add(1), start.y).sub(a.y).div(delta.y), 1e20)).toVar();
+  const connected = bool(false).toVar();
+  Loop({ start: 0, end: 32, type: "int", condition: "<", name: "pathStep" }, () => {
+    If(cell.x.equal(end.x).and(cell.y.equal(end.y)), () => { connected.assign(true); Break(); });
+    const blocked = bool(false).toVar();
+    If(abs(next.x.sub(next.y)).lessThan(1e-7), () => {
+      If(esRipplePathCell(ctx, cell.add(vec2(direction.x, 0)), target).not()
+        .or(esRipplePathCell(ctx, cell.add(vec2(0, direction.y)), target).not()), () => { blocked.assign(true); });
+      cell.assign(cell.add(direction)); next.assign(next.add(interval));
+    }).ElseIf(next.x.lessThan(next.y), () => {
+      cell.assign(cell.add(vec2(direction.x, 0))); next.assign(next.add(vec2(interval.x, 0)));
+    }).Else(() => {
+      cell.assign(cell.add(vec2(0, direction.y))); next.assign(next.add(vec2(0, interval.y)));
+    });
+    If(blocked.or(esRipplePathCell(ctx, cell, target).not()), () => { Break(); });
+  });
+  return connected;
+}
 
 /** Shared renderer oracle: RG height/velocity, BA normalized owner bytes.
  * Never linearly mix owner labels or borrow the other side of a dry corner. */
@@ -69,34 +101,42 @@ export function sampleIsolatedRipple(field: ArrayLike<number>, size: number, u: 
 }
 
 /** No extra texture: point-fetch labels and owner-aware height gradients
- * directly from the existing ripple state. Returns X/Z difference, height. */
-export const RIPPLE_ISOLATION_GLSL = /* glsl */ `
-vec4 esRippleTexel(sampler2D field, ivec2 cell) {
-  ivec2 size = textureSize(field,0);
-  if (any(lessThan(cell,ivec2(0))) || any(greaterThanEqual(cell,size))) return vec4(0.0);
-  return texelFetch(field,cell,0);
+ * directly from the existing ripple state. `field` is a texture node of the
+ * RG height/velocity, BA owner-label state; returns vec3(X difference,
+ * Z difference, height). GPU twin of sampleIsolatedRipple. Call inside a Fn. */
+export function esRippleTexel(field: TslNode, cell: TslNode): TslNode {
+  const size = ivec2(textureSize(field, 0));
+  const outside = cell.x.lessThan(0).or(cell.y.lessThan(0)).or(cell.x.greaterThanEqual(size.x)).or(cell.y.greaterThanEqual(size.y));
+  return select(outside, vec4(0), textureLoad(field, clamp(cell, ivec2(0), size.sub(1))));
 }
-bool esRippleSame(vec4 a,vec4 b) { return dot(abs(a.ba-b.ba),vec2(1.0))<0.002; }
-float esRippleNeighbour(sampler2D field,ivec2 cell,vec4 reference) {
-  vec4 value=esRippleTexel(field,cell); return esRippleSame(value,reference)?value.r:reference.r;
+export function esRippleSame(a: TslNode, b: TslNode): TslNode {
+  return dot(abs(a.ba.sub(b.ba)), vec2(1)).lessThan(0.002);
 }
-vec3 esIsolatedRipple(sampler2D field,vec2 uv) {
-  vec2 size=vec2(textureSize(field,0)), g=uv*size-0.5;
-  ivec2 origin=ivec2(floor(g)), refCell=ivec2(floor(uv*size));
-  vec4 reference=esRippleTexel(field,refCell);
-  if (reference.b+reference.a<0.002) return vec3(0.0);
-  vec2 f=fract(g); vec3 result=vec3(0.0);
-  for(int z=0;z<2;z++) for(int x=0;x<2;x++) {
-    ivec2 cell=origin+ivec2(x,z); vec4 value=esRippleTexel(field,cell);
-    float weight=(x==0?1.0-f.x:f.x)*(z==0?1.0-f.y:f.y);
-    bool connected=esRippleSame(value,reference);
-    if(cell.x!=refCell.x && cell.y!=refCell.y) connected=connected
-      &&esRippleSame(esRippleTexel(field,ivec2(cell.x,refCell.y)),reference)
-      &&esRippleSame(esRippleTexel(field,ivec2(refCell.x,cell.y)),reference);
-    if(!connected) { result.z+=reference.r*weight; continue; }
-    result+=vec3(esRippleNeighbour(field,cell+ivec2(1,0),value)-esRippleNeighbour(field,cell-ivec2(1,0),value),
-      esRippleNeighbour(field,cell+ivec2(0,1),value)-esRippleNeighbour(field,cell-ivec2(0,1),value),value.r)*weight;
-  }
+function esRippleNeighbour(field: TslNode, cell: TslNode, reference: TslNode): TslNode {
+  const value = esRippleTexel(field, cell);
+  return select(esRippleSame(value, reference), value.r, reference.r);
+}
+export function esIsolatedRipple(field: TslNode, uv: TslNode): TslNode {
+  const size = vec2(textureSize(field, 0)), g = uv.mul(size).sub(0.5);
+  const origin = ivec2(floor(g)), refCell = ivec2(floor(uv.mul(size)));
+  const reference = esRippleTexel(field, refCell);
+  const result = vec3(0).toVar();
+  If(reference.b.add(reference.a).greaterThanEqual(0.002), () => {
+    const f = fract(g);
+    for (let z = 0; z < 2; z++) for (let x = 0; x < 2; x++) {
+      const cell = origin.add(ivec2(x, z)), value = esRippleTexel(field, cell);
+      const weight = float(x === 0 ? f.x.oneMinus() : f.x).mul(z === 0 ? f.y.oneMinus() : f.y);
+      const diagonal = cell.x.notEqual(refCell.x).and(cell.y.notEqual(refCell.y));
+      const connected = esRippleSame(value, reference).and(diagonal.not()
+        .or(esRippleSame(esRippleTexel(field, ivec2(cell.x, refCell.y)), reference)
+          .and(esRippleSame(esRippleTexel(field, ivec2(refCell.x, cell.y)), reference))));
+      If(connected.not(), () => { result.assign(result.add(vec3(0, 0, reference.r.mul(weight)))); }).Else(() => {
+        result.assign(result.add(vec3(
+          esRippleNeighbour(field, cell.add(ivec2(1, 0)), value).sub(esRippleNeighbour(field, cell.sub(ivec2(1, 0)), value)),
+          esRippleNeighbour(field, cell.add(ivec2(0, 1)), value).sub(esRippleNeighbour(field, cell.sub(ivec2(0, 1)), value)),
+          value.r).mul(weight)));
+      });
+    }
+  });
   return result;
 }
-`;

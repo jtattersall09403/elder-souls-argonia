@@ -1,33 +1,38 @@
-import { MeshStandardMaterial, ShaderLib, type WebGLRenderer } from 'three';
+import { MeshStandardNodeMaterial } from 'three/webgpu';
 import { expect, it } from 'vitest';
-import { applySubmergedCaustics } from './causticReceiver';
-import { createGroundWetnessUniforms, waterReceiverLight } from './groundWetness';
+import { applyCausticReceiver, applySubmergedCaustics } from './causticReceiver';
+import { createGroundWetnessUniforms, waterReceiverCaustic } from './groundWetness';
+import { wrapLightingFinish } from './receiverLighting';
 
-it('shares injected water state on transformed props and preserves existing lighting hooks', () => {
-  const material = new MeshStandardMaterial(), state = createGroundWetnessUniforms();
-  const scale = { value: 2 };
-  let existing = false;
-  material.onBeforeCompile = () => { existing = true; };
-  applySubmergedCaustics(material, state, scale);
-  const shader = { vertexShader: ShaderLib.standard.vertexShader,
-    fragmentShader: ShaderLib.standard.fragmentShader, uniforms: {} };
-  material.onBeforeCompile(shader as Parameters<typeof material.onBeforeCompile>[0],
-    { capabilities: { maxTextures: 16 } } as WebGLRenderer);
-  expect(existing).toBe(true);
-  expect(shader.uniforms).toMatchObject({ uWaterReceiverScale: scale, uLocalWaterField: state.uLocalWaterField });
-  expect(shader.vertexShader).toContain('instanceMatrix * waterReceiverPos');
-  expect(shader.fragmentShader).toContain('inverseTransformDirection(normal, viewMatrix)');
-  expect(shader.fragmentShader).toContain('reflectedLight.directDiffuse * localFocus * localVisibility');
-  expect(shader.fragmentShader).not.toContain('dfgLUT');
-  expect(material.customProgramCacheKey()).toContain('water-caustic-receiver-v1');
+it('wraps the lighting finish once and keeps the previous model', () => {
+  const material = new MeshStandardNodeMaterial(), state = createGroundWetnessUniforms();
+  const original = material.setupLightingModel;
+  applyCausticReceiver(material, state, { value: 2 });
+  const wrapped = material.setupLightingModel;
+  expect(wrapped).not.toBe(original);
+  applySubmergedCaustics(material, state, 2);
+  expect(material.setupLightingModel).toBe(wrapped);
+  const model = (material as unknown as { setupLightingModel(b: unknown): unknown }).setupLightingModel(undefined) as unknown as { finish: unknown };
+  expect(typeof model.finish).toBe('function');
   material.dispose();
 });
 
-it('gates chemistry, connected stage and owner after evaluating differential optics', () => {
-  const chunk = waterReceiverLight('position', 'normal', 'scale');
-  expect(chunk).toContain('stage.x > offset + 0.001');
-  expect(chunk).toContain('esCausticVisibility(level - receiver.y, klass.g, shore.b');
-  expect(chunk).toContain('abs(localBody - uLocalWaterBody)');
-  // No varying branch may wrap derivative-bearing focus calls.
-  expect(chunk).not.toMatch(/if\s*\([^\n]*\)\s*\{/);
+it('runs the previous finish before the added term, in call order', () => {
+  const material = new MeshStandardNodeMaterial();
+  const calls: string[] = [];
+  const model = (material as unknown as { setupLightingModel(b: unknown): unknown }).setupLightingModel(undefined) as unknown as { finish(b: unknown): void };
+  (material as unknown as { setupLightingModel(): unknown }).setupLightingModel = () => ({
+    finish: () => calls.push('base'),
+  });
+  expect(model).toBeTruthy();
+  wrapLightingFinish(material, () => { calls.push('first'); });
+  wrapLightingFinish(material, () => { calls.push('second'); });
+  const wrapped = (material as unknown as { setupLightingModel(b: unknown): unknown }).setupLightingModel(undefined) as unknown as { finish(b: unknown): void };
+  wrapped.finish({ context: {} });
+  expect(calls).toEqual(['base', 'first', 'second']);
+});
+
+it('builds the receiver caustic graph from explicit inputs', () => {
+  const u = createGroundWetnessUniforms();
+  expect(waterReceiverCaustic(u, { worldPosition: [0, 0, 0], worldNormal: [0, 1, 0], verticalScale: 1 } as never)).toBeTruthy();
 });

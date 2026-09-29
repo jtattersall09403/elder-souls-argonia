@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { RAIN_RINGS, RAIN_RINGS_GLSL, rainRingGradient, rainRingSlope } from "./rainRings";
+import { RAIN_RINGS, rainRingGradient, rainRingSlope } from "./rainRings";
 
-const code = (src: string) => src.replace(/\/\/[^\n]*/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
 
 describe("analytic rain drop rings (study §3.1 (6))", () => {
   it("is silent with no rain and beyond the fade distance, bounded in slope inside it", () => {
@@ -70,14 +69,4 @@ describe("analytic rain drop rings (study §3.1 (6))", () => {
     expect(far).toBeLessThan(near * 0.5); // wider, lower rings at distance
   });
 
-  it("GLSL twin bakes the same cell, period, radius and fade constants", () => {
-    const glsl = code(RAIN_RINGS_GLSL);
-    expect(glsl).toContain("vec2 esRainRings(vec2 wp, float t, float intensity, float dist)");
-    expect(glsl).toContain(`float cell = ${RAIN_RINGS.cellM.toFixed(2)};`);
-    expect(glsl).toContain(`floor(t / ${RAIN_RINGS.periodS.toFixed(2)} + phase)`);
-    expect(glsl).toContain(`age * ${RAIN_RINGS.maxRadiusM.toFixed(2)}`);
-    expect(glsl).toContain(`smoothstep(${RAIN_RINGS.fadeStartM.toFixed(1)}, ${RAIN_RINGS.fadeEndM.toFixed(1)}, dist)`);
-    expect(glsl).toContain("esHash21(c + cyc * vec2(0.618, 0.414))");
-    expect(glsl).toContain("float gs = -2.0 * s * A * exp(-(s * s) / (w * w)) / (w * w);");
-  });
 });

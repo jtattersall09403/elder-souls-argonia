@@ -1,3 +1,10 @@
+import type { TslNode } from "../../render/nodes/materialNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  clamp, float, smoothstep,
+} = TSLNS as any;
 /**
  * Shoreline DEPTH-RANGE froth (Greenheck study §4 (2), §6 "Beach and surf"):
  * a second, wider foam band driven by the vertical water depth over
@@ -35,14 +42,12 @@ export function shoreFroth(depthM: number, noise: number, fetchExposure: number)
     * (0.25 + 0.75 * Math.min(Math.max(fetchExposure, 0), 1));
 }
 
-export const SHORE_FROTH_GLSL = /* glsl */ `
-// KEEP IN LOCKSTEP with shoreFrothBand() / shoreFroth().
-float esShoreFrothBand(float depthM, float noise){
-  float d = depthM + (noise - 0.5) * ${SHORE_FROTH.noiseM.toFixed(2)};
-  return 1.0 - smoothstep(0.0, ${SHORE_FROTH.rangeM.toFixed(2)}, d);
+/** TSL twins of shoreFrothBand() / shoreFroth(). */
+export function esShoreFrothBand(depthM: TslNode, noise: TslNode): TslNode {
+  const d = (depthM as TslNode).add((noise as TslNode).sub(0.5).mul(Number(SHORE_FROTH.noiseM.toFixed(2))));
+  return float(1.0).sub(smoothstep(0.0, Number(SHORE_FROTH.rangeM.toFixed(2)), d));
 }
-float esShoreFroth(float depthM, float noise, float fetchExp){
-  return esShoreFrothBand(depthM, noise) * ${SHORE_FROTH.coverage.toFixed(2)}
-       * (0.25 + 0.75 * clamp(fetchExp, 0.0, 1.0));
+export function esShoreFroth(depthM: TslNode, noise: TslNode, fetchExp: TslNode): TslNode {
+  return (esShoreFrothBand(depthM, noise) as TslNode).mul(Number(SHORE_FROTH.coverage.toFixed(2)))
+    .mul((clamp(fetchExp, 0.0, 1.0) as TslNode).mul(0.75).add(0.25));
 }
-`;

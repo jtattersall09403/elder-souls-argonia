@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SpectralOcean, type SpectralSample } from '../spectralOcean';
-import { SpectralOceanTextures, SPECTRAL_OCEAN_GLSL } from './SpectralOceanTextures';
+import { SpectralOceanTextures } from './SpectralOceanTextures';
 
 const zero = (): SpectralSample => ({ height: 0, slopeX: 0, slopeZ: 0 });
 function filtered(ocean: SpectralOcean, x: number, z: number, footprint: number): SpectralSample {
@@ -68,7 +68,8 @@ describe('spectral geometry and screen footprint filtering', () => {
     const uploads = textures.diagnostics.uploads; textures.sync(); expect(textures.diagnostics.uploads).toBe(uploads);
     ocean.update(23.451); textures.sync(); expect(textures.diagnostics.uploads).toBe(uploads + 1);
     expect(textures.field.image.data).toBe(pixels);
-    expect(SPECTRAL_OCEAN_GLSL.match(/uniform sampler2D/g)).toHaveLength(1);
+    // One atlas is the only texture the shader samples.
+    expect(textures.previous).toBe(textures.field); expect(textures.next).toBe(textures.field);
     textures.dispose();
   });
 

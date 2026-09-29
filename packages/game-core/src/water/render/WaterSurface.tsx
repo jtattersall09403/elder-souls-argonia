@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { MeshPhysicalNodeMaterial } from "three/webgpu";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
 import { useFrame } from "@react-three/fiber";
@@ -17,8 +18,6 @@ import {
   WATER_LAYER,
   MAX_CONTACT_BODIES,
   MAX_PLUNGE_SOURCES,
-  NOISE_GLSL,
-  SAMPLER_GLSL,
   createWaterMaterial,
   createWaterUniforms,
   type WaterTier,
@@ -134,7 +133,7 @@ export interface WaterSurfaceHandle {
   /** Every mesh in the water pass — field grid, strip ribbons, fall sheets.
    * Capture and underwater visibility must treat them as one surface. */
   meshes: THREE.Object3D[];
-  materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial };
+  materials: { above: MeshPhysicalNodeMaterial; below: MeshPhysicalNodeMaterial };
   /** Swaps every surface mesh between the above/below shader variants. */
   setUnderwater(underwater: boolean): void;
   effects: WaterEffects;
@@ -159,14 +158,13 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   localSurfaces?: LocalWaterSurfaces;
   onReady?: (handle: WaterSurfaceHandle) => void;
 }) {
-  const csm = runtime.csm;
   const uniforms = useMemo(() => createWaterUniforms(assets), [assets]);
   const materials = useMemo(
     () => ({
-      above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }),
-      below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }),
+      above: createWaterMaterial("above", { assets, uniforms, tier }),
+      below: createWaterMaterial("below", { assets, uniforms, tier }),
     }),
-    [csm, assets, uniforms, tier],
+    [assets, uniforms, tier],
   );
   const geometry = useMemo(
     () => buildWaterGeometry({ ...GRIDS[tier.name], halfExtent: farExtentM ?? GRIDS[tier.name].halfExtent }),
@@ -197,8 +195,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const built = buildChannelStripGeometry(channels, { rocks: assets.bedRocks });
     if (!built.triangleCount) return null;
     const materials = {
-      above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
-      below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+      above: createWaterMaterial("above", { assets, uniforms, tier }, "strip"),
+      below: createWaterMaterial("below", { assets, uniforms, tier }, "strip"),
     };
     const mesh = new THREE.Mesh(built.geometry, materials.above);
     mesh.name = "water-channel-strips";
@@ -206,7 +204,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     mesh.frustumCulled = false;
     mesh.receiveShadow = true;
     return { mesh, materials, triangles: built.triangleCount, count: built.stripCount };
-  }, [assets, csm, uniforms, tier, runtime.applyAerial, falls]);
+  }, [assets, uniforms, tier, falls]);
   useEffect(() => () => {
     if (!strips) return;
     strips.mesh.geometry.dispose();
@@ -225,8 +223,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const built = buildPoolGeometry(poolRecords);
     if (!built) return null;
     const materials = {
-      above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
-      below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+      above: createWaterMaterial("above", { assets, uniforms, tier }, "strip"),
+      below: createWaterMaterial("below", { assets, uniforms, tier }, "strip"),
     };
     const mesh = new THREE.Mesh(built.geometry, materials.above);
     mesh.name = "water-pools";
@@ -234,7 +232,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     mesh.frustumCulled = false;
     mesh.receiveShadow = true;
     return { mesh, materials, triangles: built.triangleCount };
-  }, [poolRecords, assets, csm, uniforms, tier, runtime.applyAerial]);
+  }, [poolRecords, assets, uniforms, tier]);
   useEffect(() => () => {
     if (!pools) return;
     pools.mesh.geometry.dispose();
@@ -242,6 +240,12 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     pools.materials.below.dispose();
   }, [pools]);
   const meshRef = useRef<THREE.Mesh>(null);
+  // The field mesh is on the water layer from its first frame (16k walk 5):
+  // set only in the effect below (after paint), it drew one or more frames on
+  // layer 0 in the plain scene pass, where its material samples a pipeline
+  // target that is not bound, and showed solid black for as long as that
+  // first frame's shader links took (~0.7 s at startup).
+  const waterLayers = useMemo(() => { const l = new THREE.Layers(); l.set(WATER_LAYER); return l; }, []);
   // Spray and splashes take the WaterEffects default layer, PRECIP_LAYER:
   // that pass runs after the surface, which is the order they need.
   const effects = useMemo(() => new WaterEffects({
@@ -254,13 +258,11 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   const cascadeSources = useMemo(() => new WaterCascadeSources(assets.meta.cascades ?? []), [assets]);
   const flowContacts = useMemo(() => new WaterFlowContacts(), [assets]);
   // Persistent foam energy field (study §3.1 (1)): decodes the same rasters
-  // with the same GLSL and the same uniform objects as the surface, so the
+  // with the same node graph and the same uniform nodes as the surface, so the
   // fold it injects on is the crest the surface renders.
   const foam = useMemo(() => new FoamField({
     size: FOAM_FIELD_SIZE[tier.name],
-    samplerGlsl: SAMPLER_GLSL,
-    noiseGlsl: NOISE_GLSL,
-    uniforms: uniforms as unknown as Record<string, THREE.IUniform>,
+    uniforms,
     waveBands: tier.waveBands,
     classes: assets.meta.klass.classes,
   }), [tier, uniforms, assets]);
@@ -452,7 +454,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     uniforms.uBodyCount.value = Math.min(bodies.length, MAX_CONTACT_BODIES);
     for (let i = 0; i < uniforms.uBodyCount.value; i++) {
       const b = bodies[i];
-      uniforms.uBodies.value[i].set(b.x, b.z, b.radius, b.strength);
+      uniforms.uBodies.array[i].set(b.x, b.z, b.radius, b.strength);
     }
     if (ripple) {
       uniforms.uRipple.value = ripple.texture;
@@ -480,7 +482,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     let plunges = 0;
     for (const fall of cascadeSources.nearby(focus, 300, MAX_PLUNGE_SOURCES)) {
       const strength = Math.min(0.7, 0.18 + fall.dropM * 0.03);
-      uniforms.uPlunges.value[plunges++].set(
+      uniforms.uPlunges.array[plunges++].set(
         fall.plunge.x, fall.plunge.z,
         Math.max(1.5, Math.min(16, fall.widthM)),
         strength,
@@ -522,6 +524,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       ref={meshRef}
       geometry={geometry}
       material={materials.above}
+      layers={waterLayers}
       frustumCulled={false}
       receiveShadow
     />

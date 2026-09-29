@@ -1,5 +1,10 @@
 import * as THREE from "three";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import { SpectralOcean } from "../spectralOcean";
+import * as TSL from "three/tsl";
+// Loose TSL (decision 0107 §1): the chained typings are too deep for tsc to
+// check usefully and cost minutes of type-checking; values are TslNode.
+const {If, float, floor, fract, int, ivec2, log2, max, mix, textureLoad, vec3} = TSL as TslNode;
 
 /** One reused CPU-temporally-blended atlas. This trades a bounded 384KiB
  * upload per rendered frame for half the endpoint texture fetches. No
@@ -17,7 +22,7 @@ export class SpectralOceanTextures {
       size, size * 2 * ocean.cascades.length, THREE.RGBAFormat, THREE.FloatType);
     this.field.minFilter = this.field.magFilter = THREE.NearestFilter;
     this.field.generateMipmaps = false; this.field.colorSpace = THREE.NoColorSpace;
-    // Compatibility with the existing handle; GLSL samples only previous.
+    // Compatibility with the existing handle; the shader samples only `field`.
     this.previous = this.next = this.field;
     this.diagnostics.uploadBytes = (this.field.image.data as Float32Array).byteLength;
   }
@@ -43,37 +48,50 @@ export class SpectralOceanTextures {
   dispose(): void { this.field.dispose(); }
 }
 
-export const SPECTRAL_OCEAN_GLSL = /* glsl */ `
-uniform sampler2D uOceanPrevious;
-uniform float uOceanEnabled;
-vec3 esOceanGrid(vec2 p, float lengthM, int layer, int level) {
-  if (level > 4) return vec3(0.0);
-  int n = 64 >> level;
-  vec2 grid = fract(p / lengthM) * float(n);
-  ivec2 a = ivec2(floor(grid));
-  ivec2 b = (a + 1) % n;
-  vec2 t = fract(grid);
-  int row = layer * 128 + 128 - 2 * n;
-  return mix(mix(texelFetch(uOceanPrevious, ivec2(a.x, a.y + row), 0).rgb,
-                 texelFetch(uOceanPrevious, ivec2(b.x, a.y + row), 0).rgb, t.x),
-             mix(texelFetch(uOceanPrevious, ivec2(a.x, b.y + row), 0).rgb,
-                 texelFetch(uOceanPrevious, ivec2(b.x, b.y + row), 0).rgb, t.x), t.y);
+/** One band's texel-bilinear field sample at one mip `level` (int node) of
+ * cascade `layer` (0..2) from the atlas `field` (texture node of
+ * SpectralOceanTextures.field). Levels above 4 are zero. Call inside a Fn. */
+export function esOceanGrid(field: TslNode, p: TslNode, lengthM: number, layer: number, level: TslNode): TslNode {
+  const out = vec3(0).toVar();
+  If(level.lessThanEqual(4), () => {
+    const n = int(64).shiftRight(level);
+    const grid: TslNode = fract(p.div(lengthM)).mul(float(n));
+    const a: TslNode = ivec2(floor(grid));
+    const b = a.add(1).mod(n);
+    const t: TslNode = fract(grid);
+    const row = int(layer * 128 + 128).sub(n.mul(2));
+    const fetch = (x: TslNode, y: TslNode) => textureLoad(field, ivec2(x, y.add(row))).rgb;
+    out.assign(mix(mix(fetch(a.x, a.y), fetch(b.x, a.y), t.x), mix(fetch(a.x, b.y), fetch(b.x, b.y), t.x), t.y));
+  });
+  return out;
 }
-vec3 esOceanBand(vec2 p, int layer, float footprintM) {
-  float lengthM = layer == 0 ? 512.0 : (layer == 1 ? 96.0 : 16.0);
-  float lod = max(0.0, log2(max(1.0, 2.0 * footprintM * 64.0 / lengthM)));
-  int first = int(floor(lod));
+
+/** Footprint-filtered sum of the populated mip levels of one cascade band. */
+export function esOceanBand(field: TslNode, p: TslNode, layer: 0 | 1 | 2, footprintM: TslNode): TslNode {
+  const lengthM = layer === 0 ? 512.0 : (layer === 1 ? 96.0 : 16.0);
+  const lod = max(0.0, log2(max(1.0, float(footprintM).mul(2.0).mul(64.0).div(lengthM))));
+  const first = int(floor(lod));
   // Levels with no possible modes in this band's authored wavelength range.
-  int last = layer == 0 ? 3 : 2;
-  if (first > last) return vec3(0.0);
-  float blend = fract(lod);
-  vec3 a = esOceanGrid(p, lengthM, layer, first);
-  if (blend < 0.00001) return a;
-  vec3 b = first < last ? esOceanGrid(p, lengthM, layer, first + 1) : vec3(0.0);
-  return mix(a, b, blend);
+  const last = layer === 0 ? 3 : 2;
+  const out = vec3(0).toVar();
+  If(first.lessThanEqual(last), () => {
+    const blend = fract(lod);
+    const a = esOceanGrid(field, p, lengthM, layer, first);
+    out.assign(a);
+    If(blend.greaterThanEqual(0.00001), () => {
+      const b = vec3(0).toVar();
+      If(first.lessThan(last), () => { b.assign(esOceanGrid(field, p, lengthM, layer, first.add(1))); });
+      out.assign(mix(a, b, blend));
+    });
+  });
+  return out;
 }
-vec3 esOceanSpectrum(vec2 p, float footprintM, out vec2 detailSlope) {
-  vec3 detail = esOceanBand(p, 1, footprintM) + esOceanBand(p, 2, footprintM);
-  detailSlope = detail.yz;
-  return esOceanBand(p, 0, footprintM) + detail;
-}`;
+
+/** Filtered ocean spectrum at world XZ `p` (vec2) for a pixel footprint in
+ * metres: `spectrum` = vec3(height, slopeX, slopeZ) summed over the three
+ * cascades, `detailSlope` = the two finer cascades' slope (vec2). `field` is
+ * a texture node of SpectralOceanTextures.field (the ONLY sampler). */
+export function esOceanSpectrum(field: TslNode, p: TslNode, footprintM: TslNode): { spectrum: TslNode; detailSlope: TslNode } {
+  const detail = esOceanBand(field, p, 1, footprintM).add(esOceanBand(field, p, 2, footprintM)).toVar();
+  return { spectrum: esOceanBand(field, p, 0, footprintM).add(detail), detailSlope: detail.yz };
+}

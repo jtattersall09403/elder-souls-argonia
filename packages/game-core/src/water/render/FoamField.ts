@@ -1,7 +1,18 @@
 import * as THREE from "three";
-import { WAVES, gerstnerGlsl, standingRatioGlsl, surfGlsl } from "../waves";
-import { tideResponseGlsl } from "../waterData";
-import { SHORE_FROTH_GLSL } from "./shoreFroth";
+import type { TslNode } from "../../render/nodes/materialNodes";
+import { NodeMaterial, QuadMesh, RenderTarget, type WebGPURenderer } from "three/webgpu";
+import { WAVES } from "../waves";
+import { esShoreFrothBand } from "./shoreFroth";
+import {
+  esFbm, esFetchAt, esFetchExp, esSeaRms, esShoreAt, esStandingRatio, esSurfEnergy, esSurfFoam, esTideResponse,
+  esWaveExposure, esWaveSampleEx, makeSurfaceAt, sel, type WaterSamplerNodes,
+} from "./waterNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  Break, Fn, If, Loop, all, any, clamp, dot, exp, float, int, length, max, min, mix, select, smoothstep, texture, uniform, uniformArray, uv, vec2, vec4,
+} = TSLNS as any;
 
 /**
  * Persistent foam ENERGY field (Greenheck study §1.3, §3.1 (1), §6): one
@@ -14,7 +25,7 @@ import { SHORE_FROTH_GLSL } from "./shoreFroth";
  *
  * - **Advected by the compiled flow raster** (semi-Lagrangian back-trace):
  *   river foam drifts downstream and persists, a plunge pool looks fed.
- * - `fold` is the same wave crest the surface renders (waves.ts GLSL twin,
+ * - `fold` is the same wave crest the surface renders (waves.ts twin, waterNodes.ts,
  *   the fragment's `smoothstep(0.16, 0.34, height)` measure), `windward` the
  *   wind-facing slope, `surf` the bore energy inside the shoreline froth
  *   band — surf foam lingers on the sand and drains back.
@@ -23,7 +34,7 @@ import { SHORE_FROTH_GLSL } from "./shoreFroth";
  * - Injections (≤ 32 a frame) are swept segments with a radius: wading and
  *   contact paths, splashes, plunge pools, strip aeration.
  *
- * The surface fragment samples it with `FOAM_FIELD_GLSL` and takes
+ * The surface fragment samples it with `esFoamFieldAt` and takes
  * `max(instantaneous, field)` in front of the UNCHANGED dissolve, so beyond
  * the field the stateless path continues with no seam. Deterministic: no
  * RNG anywhere. Tier-gated by size (512 high, 256 low, or absent).
@@ -87,144 +98,131 @@ export function foamFieldRecentre(prevCx: number, prevCz: number, focusX: number
   return { cx, cz, shiftU: first ? 0 : (cx - prevCx) / worldSizeM, shiftV: first ? 0 : (cz - prevCz) / worldSizeM };
 }
 
-/** Fragment-side sampler: include in the water material, feed
- * `uFoamField` / `uFoamFieldInfo` from `FoamField.texture` / `.info`. */
-export const FOAM_FIELD_GLSL = /* glsl */ `
-uniform sampler2D uFoamField;
-uniform vec4 uFoamFieldInfo;   // centre x, centre z, world size (m), active
-float esFoamFieldAt(vec2 wp){
-  if (uFoamFieldInfo.w < 0.5) return 0.0;
-  vec2 uv = (wp - uFoamFieldInfo.xy) / uFoamFieldInfo.z + 0.5;
-  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return 0.0;
-  vec2 e = smoothstep(0.0, 0.06, uv) * smoothstep(0.0, 0.06, 1.0 - uv);
-  return texture2D(uFoamField, uv).r * e.x * e.y;
+/** Fragment-side sampler (TSL): the water material reads the persistent
+ * foam energy at `wp`; feed `uFoamField` / `uFoamFieldInfo` from
+ * `FoamField.texture` / `.info`. */
+export function esFoamFieldAt(u: FoamFieldUniforms, wp: TslNode): TslNode {
+  const info = u.uFoamFieldInfo as TslNode;
+  const uv = (wp as TslNode).sub(info.xy).div(info.z).add(0.5);
+  const e = (smoothstep(0.0, 0.06, uv) as TslNode).mul(smoothstep(0.0, 0.06, (float(1.0) as TslNode).sub(uv)));
+  const val = ((u.uFoamField as TslNode).sample(uv) as TslNode).r.mul(e.x).mul(e.y);
+  const outside = (any(uv.lessThan(vec2(0.0))) as TslNode).or(any(uv.greaterThan(vec2(1.0))));
+  return sel(info.w.lessThan(0.5).or(outside), float(0.0), val);
 }
-`;
 
 export interface FoamFieldUniforms {
-  uFoamField: { value: THREE.Texture | null };
-  uFoamFieldInfo: { value: THREE.Vector4 };
+  /** Texture node: set `.value` to the field's current texture. */
+  uFoamField: TslNode & { value: THREE.Texture };
+  uFoamFieldInfo: TslNode & { value: THREE.Vector4 };
 }
 export function createFoamFieldUniforms(): FoamFieldUniforms {
-  return { uFoamField: { value: null }, uFoamFieldInfo: { value: new THREE.Vector4(0, 0, FOAM_FIELD_M, 0) } };
+  const empty = new THREE.DataTexture(new Uint8Array(4), 1, 1, THREE.RGBAFormat);
+  empty.needsUpdate = true;
+  return {
+    uFoamField: texture(empty) as FoamFieldUniforms["uFoamField"],
+    uFoamFieldInfo: uniform(new THREE.Vector4(0, 0, FOAM_FIELD_M, 0)) as FoamFieldUniforms["uFoamFieldInfo"],
+  };
 }
 
 export interface FoamFieldOptions {
   /** Texels a side (512 high tier, 256 low). */
   size: number;
   worldSizeM?: number;
-  /** The water material's raster samplers (`SAMPLER_GLSL`) and noise
-   * (`NOISE_GLSL`) — the pass decodes the SAME rasters the surface does. */
-  samplerGlsl: string;
-  noiseGlsl: string;
-  /** The material's shared uniform objects (raster textures, levels, clocks);
-   * the pass binds the very same objects so nothing is copied per frame. */
-  uniforms: Record<string, THREE.IUniform>;
+  /** The water material's uniform nodes (raster textures, levels, clocks):
+   * the pass reads the very same nodes, so nothing is copied per frame and it
+   * decodes the SAME rasters the surface does. */
+  uniforms: WaterSamplerNodes & {
+    uFlowTex: TslNode; uFlowMax: TslNode; uLevelTide: TslNode; uLevelSeason: TslNode;
+    uWaveTime: TslNode; uWindWave: TslNode; uWindMS: TslNode;
+  };
   /** Gerstner bands to evaluate (the tier's `waveBands`). */
   waveBands?: number;
   /** Compiled class order (`meta.klass.classes`) for the standing ratio. */
   classes: readonly string[];
 }
 
-const VERTEX = /* glsl */ `
-  varying vec2 vUv;
-  void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
-`;
+/** The pass's own uniform nodes. */
+function createPassUniforms(worldSizeM: number) {
+  return {
+    uPrev: texture(new THREE.Texture()) as TslNode,
+    uShift: uniform(new THREE.Vector2()) as TslNode,
+    uField: uniform(new THREE.Vector4(0, 0, worldSizeM, 0)) as TslNode,
+    uWindDir: uniform(new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1])) as TslNode,
+    uFoamLaw: uniform(new THREE.Vector4(FOAM_LAW.crestEq, FOAM_LAW.windwardEq, FOAM_LAW.decaySeaS, FOAM_LAW.decaySlowS)) as TslNode,
+    uFoamLaw2: uniform(new THREE.Vector3(FOAM_LAW.surfEq, FOAM_LAW.decayDryS, FOAM_LAW.windwardSlope)) as TslNode,
+    uInjectA: uniformArray(Array.from({ length: MAX_FOAM_INJECTIONS }, () => new THREE.Vector4()), "vec4") as TslNode,
+    uInjectB: uniformArray(Array.from({ length: MAX_FOAM_INJECTIONS }, () => new THREE.Vector4()), "vec4") as TslNode,
+    uInjectCount: uniform(0) as TslNode,
+  };
+}
+type PassUniforms = ReturnType<typeof createPassUniforms>;
 
-export function foamFieldFragment(opts: FoamFieldOptions): string {
-  return /* glsl */ `
-  precision highp float;
-  varying vec2 vUv;
-  uniform sampler2D uPrev;
-  uniform vec2 uShift;
-  uniform vec4 uField;        // centre x, centre z, world size (m), dt (s)
-  // (uWindDir and uWindMS come with the shared SAMPLER_GLSL block below; a
-  // second declaration here was a GLSL redefinition that stopped this pass
-  // compiling at all until 2026-09-14)
-  uniform vec4 uFoamLaw;      // crestEq, windwardEq, decaySea, decaySlow
-  uniform vec3 uFoamLaw2;     // surfEq, decayDry, windwardSlope
-  uniform vec4 uInjectA[${MAX_FOAM_INJECTIONS}];   // x0, z0, x1, z1
-  uniform vec4 uInjectB[${MAX_FOAM_INJECTIONS}];   // radius, strength, -, -
-  uniform int uInjectCount;
-  ${opts.samplerGlsl}
-  ${opts.noiseGlsl}
-  ${gerstnerGlsl(opts.waveBands ?? WAVES.bands)}
-  ${surfGlsl()}
-  ${standingRatioGlsl(opts.classes)}
-  ${tideResponseGlsl(opts.classes)}
-  ${SHORE_FROTH_GLSL}
-
-  float esSegmentDist(vec2 p, vec2 a, vec2 b){
-    vec2 ab = b - a;
-    float l2 = max(dot(ab, ab), 1e-6);
-    float t = clamp(dot(p - a, ab) / l2, 0.0, 1.0);
-    return length(p - (a + ab * t));
-  }
-
-  void main(){
-    float dt = uField.w;
-    vec2 wp = uField.xy + (vUv - 0.5) * uField.z;
-    // ---- hydraulics at this texel: the vertex stage's decode, verbatim ----
-    vec2 surf = esSurfaceAt(wp);
-    vec2 dUv = clamp(wp / uFlowExtentM, vec2(0.0), vec2(1.0));
-    vec4 kl = texture2D(uKlassTex, dUv);
-    vec4 fl = texture2D(uFlowTex, dUv);
-    float fetchM = esFetchAt(fl);
-    vec3 ss = esShoreAt(wp);
-    float still = surf.x + uLevelTide * esTideResponse(kl.r * 255.0) + uLevelSeason * ss.y;
-    float depth = surf.y + (still - surf.x);
-    float turb = max(kl.g, ss.z);
-    // the vertex stage's amplitude (metres); the crest-fold source below
-    // reads the swell at that amplitude, the decay law a 0..1 exposure
-    float expo01 = esWaveExposure(ss.x, depth, turb);
-    float exposure = expo01 * esSeaRms(uWindMS, fetchM);
-    vec2 flow = (fl.xy - 0.5) * 2.0 * uFlowMax;
-    // ---- 1. history: recentre shift + semi-Lagrangian back-trace along the flow
-    vec2 prevUv = vUv + uShift - flow * dt / uField.z;
-    float E = 0.0;
-    if (all(greaterThanEqual(prevUv, vec2(0.0))) && all(lessThanEqual(prevUv, vec2(1.0)))) {
-      E = texture2D(uPrev, prevUv).r;
-    }
-    // ---- 2. decay: fast at sea, slow when sheltered, drained once dry ------
-    float tau = mix(uFoamLaw.w, uFoamLaw.z, expo01);
-    if (depth <= 0.0) tau = min(tau, uFoamLaw2.y);
-    float keep = exp(-dt / tau);
-    E *= keep;
-    // ---- 3. sources: equilibrium energies, integrated exactly over dt ------
-    float eq = 0.0;
-    if (exposure > 0.002) {
-      float standing = esStandingRatio(kl.r * 255.0, ss.x);
-      EsWave w = esWaveSampleEx(wp, exposure, fetchM, standing, uWaveTime);
-      float fold = smoothstep(0.16, 0.34, w.height);
-      float windward = clamp(dot(w.normal.xz, -uWindDir) / uFoamLaw2.z, 0.0, 1.0);
-      float gust = clamp(uWindWave - 0.8, 0.0, 2.0) * 0.5;
-      eq += (uFoamLaw.x * fold + uFoamLaw.y * windward * gust) * expo01;
-    }
-    if (ss.x < 90.0 && depth > -0.5) {
-      float fetch = esFetchExp(fetchM, turb);
-      // the one surf-energy knob (waves.ts surfEnergyScale, 16c round 2)
-      float windAmp = esSurfEnergy(uWindMS, fetchM);
-      float bn = esFbm(wp * 0.16, 3);
-      float surfE = esSurfFoam(ss.x + bn * 4.0, fetch, uWaveTime, windAmp) * esShoreFrothBand(depth, bn);
-      eq += uFoamLaw2.x * surfE * (1.0 - 0.75 * clamp(turb, 0.0, 1.0));
-    }
-    E += eq * (1.0 - keep);
-    // ---- 4. injections: swept segments with a soft radius ------------------
-    for (int i = 0; i < ${MAX_FOAM_INJECTIONS}; i++) {
-      if (i >= uInjectCount) break;
-      vec4 A = uInjectA[i];
-      vec2 B = uInjectB[i].xy;
-      float r = max(B.x, 0.05);
-      float d = esSegmentDist(wp, A.xy, A.zw);
-      if (d >= r) continue;
-      E += B.y * (1.0 - smoothstep(0.35 * r, r, d));
-    }
-    // ---- outer ring damped so a recentre never drags a hard edge inward ---
-    float edge = min(min(vUv.x, 1.0 - vUv.x), min(vUv.y, 1.0 - vUv.y));
-    E *= smoothstep(0.0, 0.04, edge);
-    gl_FragColor = vec4(clamp(E, 0.0, 2.0), 0.0, 0.0, 1.0);
-  }
-  `;
+/** The field step as a TSL fragment graph (the old foamFieldFragment, same maths). */
+export function foamFieldNode(opts: FoamFieldOptions, p: PassUniforms): TslNode {
+  const U = opts.uniforms as unknown as Record<string, TslNode>;
+  const N = (v: unknown) => v as TslNode;
+  const surfaceAt = makeSurfaceAt(opts.uniforms);
+  return Fn(() => {
+    const vUv = N(uv());
+    const field = N(p.uField);
+    const dt = field.w;
+    const wp = field.xy.add(vUv.sub(0.5).mul(field.z));
+    const surf = N(surfaceAt(wp));
+    const dUv = clamp(wp.div(U.uFlowExtentM), vec2(0.0), vec2(1.0));
+    const kl = N(N(U.uKlassTex).sample(dUv));
+    const fl = N(N(U.uFlowTex).sample(dUv));
+    const fetchM = esFetchAt(opts.uniforms, fl);
+    const ss = N(esShoreAt(opts.uniforms, wp));
+    const still = surf.x.add(N(U.uLevelTide).mul(esTideResponse(opts.classes, kl.r.mul(255.0)))).add(N(U.uLevelSeason).mul(ss.y));
+    const depth = surf.y.add(still.sub(surf.x));
+    const turb = max(kl.g, ss.z);
+    const expo01 = N(esWaveExposure(ss.x, depth, turb));
+    const exposure = expo01.mul(esSeaRms(U.uWindMS, fetchM));
+    const flow = fl.xy.sub(0.5).mul(2.0).mul(U.uFlowMax);
+    // 1. history: recentre shift + semi-Lagrangian back-trace along the flow
+    const prevUv = vUv.add(p.uShift).sub(N(flow).mul(dt).div(field.z));
+    const inside = N(all(prevUv.greaterThanEqual(vec2(0.0)))).and(all(prevUv.lessThanEqual(vec2(1.0))));
+    const E = N(sel(inside, N(N(p.uPrev).sample(prevUv)).r, float(0.0))).toVar();
+    // 2. decay: fast at sea, slow when sheltered, drained once dry
+    const law = N(p.uFoamLaw), law2 = N(p.uFoamLaw2);
+    const tau0 = N(mix(law.w, law.z, expo01));
+    const tau = sel(depth.lessThanEqual(0.0), min(tau0, law2.y), tau0);
+    const keep = N(exp(N(dt).negate().div(tau)));
+    E.mulAssign(keep);
+    // 3. sources: equilibrium energies, integrated exactly over dt
+    const standing = esStandingRatio(opts.classes, kl.r.mul(255.0), ss.x);
+    const w = esWaveSampleEx(wp, exposure, fetchM, standing, U.uWaveTime, opts.waveBands ?? WAVES.bands);
+    const fold = smoothstep(0.16, 0.34, w.height);
+    const windward = clamp(N(dot(N(w.normal).xz, N(p.uWindDir).negate())).div(law2.z), 0.0, 1.0);
+    const gust = N(clamp(N(U.uWindWave).sub(0.8), 0.0, 2.0)).mul(0.5);
+    const eqWave = law.x.mul(fold).add(law.y.mul(windward).mul(gust)).mul(expo01);
+    const fetch = esFetchExp(fetchM, turb);
+    const windAmp = esSurfEnergy(U.uWindMS, fetchM);
+    const bn = N(esFbm(wp.mul(0.16), 3));
+    const surfE = N(esSurfFoam(ss.x.add(bn.mul(4.0)), fetch, U.uWaveTime, windAmp)).mul(esShoreFrothBand(depth, bn));
+    const eqSurf = law2.x.mul(surfE).mul(float(1.0).sub(N(clamp(turb, 0.0, 1.0)).mul(0.75)));
+    const eq = N(sel(exposure.greaterThan(0.002), eqWave, float(0.0)))
+      .add(sel(ss.x.lessThan(90.0).and(depth.greaterThan(-0.5)), eqSurf, float(0.0)));
+    E.addAssign(eq.mul(float(1.0).sub(keep)));
+    // 4. injections: swept segments with a soft radius
+    Loop(MAX_FOAM_INJECTIONS, ({ i }: { i: TslNode }) => {
+      If(N(i).greaterThanEqual(int(p.uInjectCount)), () => { Break(); });
+      const A = N(N(p.uInjectA).element(i));
+      const B = N(N(p.uInjectB).element(i)).xy;
+      const r = N(max(B.x, 0.05));
+      const ab = A.zw.sub(A.xy);
+      const l2 = max(dot(ab, ab), 1e-6);
+      const t = clamp(N(dot(wp.sub(A.xy), ab)).div(l2), 0.0, 1.0);
+      const d = N(length(wp.sub(A.xy.add(ab.mul(t)))));
+      If(d.lessThan(r), () => {
+        E.addAssign(B.y.mul(float(1.0).sub(smoothstep(r.mul(0.35), r, d))));
+      });
+    });
+    // outer ring damped so a recentre never drags a hard edge inward
+    const edge = min(min(vUv.x, float(1.0).sub(vUv.x)), min(vUv.y, float(1.0).sub(vUv.y)));
+    E.mulAssign(smoothstep(0.0, 0.04, edge));
+    return vec4(clamp(E, 0.0, 2.0), 0.0, 0.0, 1.0);
+  })();
 }
 
 interface Injection { x0: number; z0: number; x1: number; z1: number; radius: number; strength: number }
@@ -235,12 +233,11 @@ export class FoamField {
   readonly center = new THREE.Vector2(NaN, NaN);
   /** Feed the water material: (centre x, centre z, world size, active). */
   readonly info = new THREE.Vector4(0, 0, FOAM_FIELD_M, 0);
-  private a: THREE.WebGLRenderTarget;
-  private b: THREE.WebGLRenderTarget;
-  private readonly scene = new THREE.Scene();
-  private readonly camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  private readonly quad: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>;
-  private readonly pass: THREE.ShaderMaterial;
+  private a: RenderTarget;
+  private b: RenderTarget;
+  private readonly quad: QuadMesh;
+  private readonly pass: NodeMaterial;
+  private readonly u: PassUniforms;
   private readonly pending: Injection[] = [];
   private initialized = false;
   private disposed = false;
@@ -250,7 +247,7 @@ export class FoamField {
     this.worldSizeM = opts.worldSizeM ?? FOAM_FIELD_M;
     this.info.z = this.worldSizeM;
     const makeTarget = () => {
-      const rt = new THREE.WebGLRenderTarget(this.size, this.size, {
+      const rt = new RenderTarget(this.size, this.size, {
         type: THREE.HalfFloatType, format: THREE.RGBAFormat,
         minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, depthBuffer: false, stencilBuffer: false,
       });
@@ -260,32 +257,20 @@ export class FoamField {
     };
     this.a = makeTarget();
     this.b = makeTarget();
-    this.pass = new THREE.ShaderMaterial({
-      vertexShader: VERTEX,
-      fragmentShader: foamFieldFragment(opts),
-      uniforms: {
-        ...opts.uniforms,
-        uPrev: { value: null },
-        uShift: { value: new THREE.Vector2() },
-        uField: { value: new THREE.Vector4(0, 0, this.worldSizeM, 0) },
-        uWindDir: { value: new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1]) },
-        uFoamLaw: { value: new THREE.Vector4(FOAM_LAW.crestEq, FOAM_LAW.windwardEq, FOAM_LAW.decaySeaS, FOAM_LAW.decaySlowS) },
-        uFoamLaw2: { value: new THREE.Vector3(FOAM_LAW.surfEq, FOAM_LAW.decayDryS, FOAM_LAW.windwardSlope) },
-        uInjectA: { value: Array.from({ length: MAX_FOAM_INJECTIONS }, () => new THREE.Vector4()) },
-        uInjectB: { value: Array.from({ length: MAX_FOAM_INJECTIONS }, () => new THREE.Vector4()) },
-        uInjectCount: { value: 0 },
-      },
-      depthTest: false, depthWrite: false, blending: THREE.NoBlending, toneMapped: false,
-    });
-    this.quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), this.pass);
-    this.quad.frustumCulled = false;
-    this.scene.add(this.quad);
+    this.u = createPassUniforms(this.worldSizeM);
+    this.pass = new NodeMaterial();
+    this.pass.fragmentNode = foamFieldNode(opts, this.u);
+    this.pass.depthTest = false;
+    this.pass.depthWrite = false;
+    this.pass.blending = THREE.NoBlending;
+    this.pass.toneMapped = false;
+    this.quad = new QuadMesh(this.pass);
   }
 
   get texture(): THREE.Texture { return this.a.texture; }
   /** The energy-law uniforms (probe retuning). */
   get law(): { uFoamLaw: THREE.Vector4; uFoamLaw2: THREE.Vector3 } {
-    return { uFoamLaw: this.pass.uniforms.uFoamLaw.value, uFoamLaw2: this.pass.uniforms.uFoamLaw2.value };
+    return { uFoamLaw: this.u.uFoamLaw.value as THREE.Vector4, uFoamLaw2: this.u.uFoamLaw2.value as THREE.Vector3 };
   }
   get pendingCount(): number { return this.pending.length; }
 
@@ -305,19 +290,19 @@ export class FoamField {
 
   /** One field step: recentre on the focus, advect, decay, deposit. Call
    * once per rendered frame before the water pass. */
-  update(renderer: THREE.WebGLRenderer, focusX: number, focusZ: number, deltaS: number): void {
+  update(renderer: WebGPURenderer, focusX: number, focusZ: number, deltaS: number): void {
     if (this.disposed || ![focusX, focusZ, deltaS].every(Number.isFinite)) return;
     const dt = Math.min(Math.max(deltaS, 0), MAX_STEP_S);
     const plan = foamFieldRecentre(this.center.x, this.center.y, focusX, focusZ, this.size, this.worldSizeM);
     this.center.set(plan.cx, plan.cz);
     this.info.set(plan.cx, plan.cz, this.worldSizeM, 1);
-    const u = this.pass.uniforms;
+    const u = this.u;
     u.uShift.value.set(plan.shiftU, plan.shiftV);
     u.uField.value.set(plan.cx, plan.cz, this.worldSizeM, dt);
     let count = 0;
     for (const p of this.pending) {
-      u.uInjectA.value[count].set(p.x0, p.z0, p.x1, p.z1);
-      u.uInjectB.value[count].set(p.radius, p.strength, 0, 0);
+      (u.uInjectA.array[count] as THREE.Vector4).set(p.x0, p.z0, p.x1, p.z1);
+      (u.uInjectB.array[count] as THREE.Vector4).set(p.radius, p.strength, 0, 0);
       count++;
     }
     this.pending.length = 0;
@@ -326,7 +311,7 @@ export class FoamField {
     const target = renderer.getRenderTarget();
     const tone = renderer.toneMapping;
     const autoClear = renderer.autoClear;
-    const color = renderer.getClearColor(new THREE.Color());
+    const color = renderer.getClearColor(new THREE.Color() as never) as unknown as THREE.Color;
     const alpha = renderer.getClearAlpha();
     const viewport = renderer.getViewport(new THREE.Vector4());
     const scissor = renderer.getScissor(new THREE.Vector4());
@@ -343,7 +328,7 @@ export class FoamField {
       }
       u.uPrev.value = this.a.texture;
       renderer.setRenderTarget(this.b);
-      renderer.render(this.scene, this.camera);
+      this.quad.render(renderer);
       [this.a, this.b] = [this.b, this.a];
     } finally {
       renderer.setRenderTarget(target);
@@ -366,6 +351,5 @@ export class FoamField {
     this.disposed = true;
     this.pending.length = 0;
     this.a.dispose(); this.b.dispose(); this.pass.dispose();
-    this.quad.geometry.dispose(); this.scene.clear();
   }
 }

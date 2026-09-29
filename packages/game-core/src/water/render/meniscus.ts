@@ -1,3 +1,10 @@
+import type { TslNode } from "../../render/nodes/materialNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  abs, clamp, float, mix, normalize, pow, smoothstep,
+} = TSLNS as any;
 /**
  * Waterline meniscus (Greenheck study §1.8, §3.1 (8)): when the camera sits
  * within ±`thicknessM` of the surface — the half-in-half-out swimming shot
@@ -37,16 +44,15 @@ export function meniscusRim(band: number): number {
   return MENISCUS.rimStrength * Math.pow(Math.min(Math.max(band, 0), 1), MENISCUS.sharpness);
 }
 
-export const MENISCUS_GLSL = /* glsl */ `
-// KEEP IN LOCKSTEP with meniscusBand() / meniscusRim().
-float esMeniscusBand(float dy, float dist){
-  return (1.0 - smoothstep(0.0, ${MENISCUS.thicknessM.toFixed(2)}, abs(dy)))
-       * (1.0 - smoothstep(0.3, ${MENISCUS.reachM.toFixed(2)}, dist));
+/** TSL twins of meniscusBand() / meniscusRim() (constants rounded as the GLSL baked them). */
+export function esMeniscusBand(dy: TslNode, dist: TslNode): TslNode {
+  return (float(1.0).sub(smoothstep(0.0, Number(MENISCUS.thicknessM.toFixed(2)), abs(dy))) as TslNode)
+    .mul(float(1.0).sub(smoothstep(0.3, Number(MENISCUS.reachM.toFixed(2)), dist)));
 }
-vec3 esMeniscusNormal(vec3 n, vec3 toCam, float band){
-  return normalize(mix(n, toCam, band * ${MENISCUS.normalStrength.toFixed(2)}));
+export function esMeniscusNormal(nrm: TslNode, toCam: TslNode, band: TslNode): TslNode {
+  return normalize(mix(nrm, toCam, (band as TslNode).mul(Number(MENISCUS.normalStrength.toFixed(2)))));
 }
-float esMeniscusRim(float band){
-  return ${MENISCUS.rimStrength.toFixed(2)} * pow(clamp(band, 0.0, 1.0), ${MENISCUS.sharpness.toFixed(1)});
+export function esMeniscusRim(band: TslNode): TslNode {
+  return (pow(clamp(band, 0.0, 1.0), Number(MENISCUS.sharpness.toFixed(1))) as TslNode)
+    .mul(Number(MENISCUS.rimStrength.toFixed(2)));
 }
-`;

@@ -1,15 +1,25 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
+import { WebGPURenderer } from "three/webgpu";
 import {
-  FOAM_FIELD_GLSL, FOAM_FIELD_M, FOAM_LAW, FoamField, MAX_FOAM_INJECTIONS, createFoamFieldUniforms,
-  foamDecayTime, foamFieldFragment, foamFieldRecentre, foamInjectKernel, foamStep,
+  FOAM_FIELD_M, FOAM_LAW, FoamField, MAX_FOAM_INJECTIONS, createFoamFieldUniforms,
+  foamDecayTime, foamFieldRecentre, foamInjectKernel, foamStep,
 } from "./FoamField";
-import { WAVES } from "../waves";
+import { createWaterUniforms } from "./waterMaterial";
+import type { WaterAssets } from "./types";
 
 const classes = ["none", "coast", "estuary", "river", "lake", "marsh"];
-const stubUniforms = { uSurfTex: { value: null } } as Record<string, THREE.IUniform>;
-const opts = { size: 512, samplerGlsl: "// sampler stub", noiseGlsl: "// noise stub", uniforms: stubUniforms, classes };
-const code = (src: string) => src.replace(/\/\/[^\n]*/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
+const tex = new THREE.DataTexture(new Uint8Array(4), 1, 1);
+const assets = {
+  meta: {
+    schemaVersion: 2,
+    surface: { file: "s.png", size: 64, metresPerPixel: 2, minM: -10, maxM: 10, buryM: 3, depthMinM: -6, depthSpanM: 30.6 },
+    flow: { file: "f.png", size: 64, metresPerPixel: 2, flowMax: 3, shoreMaxM: 160 },
+    klass: { file: "k.png", size: 64, metresPerPixel: 2, classes },
+  },
+  surfaceTex: tex, flowTex: tex, klassTex: tex, shoreTex: tex, hasOwner: false,
+} as unknown as WaterAssets;
+const opts = { size: 512, uniforms: createWaterUniforms(assets), classes };
 
 describe("foam energy field (study §3.1 (1))", () => {
   it("decays in ~0.5 s at sea, 2–4 s when sheltered, ~1 s once dry", () => {
@@ -83,40 +93,32 @@ describe("foam energy field (study §3.1 (1))", () => {
     expect(field.pendingCount).toBe(0);
   });
 
-  it("the pass advects along the compiled flow, decays by exposure, and injects the fold/wind/surf sources", () => {
-    const frag = code(foamFieldFragment(opts));
-    expect(frag).toContain("vec2 prevUv = vUv + uShift - flow * dt / uField.z;");
-    expect(frag).toContain("float tau = mix(uFoamLaw.w, uFoamLaw.z, expo01);");
-    expect(frag).toContain("float keep = exp(-dt / tau);");
-    expect(frag).toContain("E += eq * (1.0 - keep);");
-    expect(frag).toContain("esWaveSampleEx(wp, exposure, fetchM, standing, uWaveTime)");
-    expect(frag).toContain("float fold = smoothstep(0.16, 0.34, w.height);");
-    expect(frag).toContain("dot(w.normal.xz, -uWindDir)");
-    expect(frag).toContain("esSurfFoam(");
-    expect(frag).toContain("esShoreFrothBand(depth, bn)");
-    expect(frag).toContain(`uniform vec4 uInjectA[${MAX_FOAM_INJECTIONS}];`);
-    expect(frag).toContain("esSegmentDist(wp, A.xy, A.zw)");
-    expect(frag).toContain("E *= smoothstep(0.0, 0.04, edge);");
-    // the standing ratio table is compiled from the class order given
-    expect(frag).toContain("if (ci == 4) base = 0.45;");
-    // the low tier compiles fewer bands
-    expect(code(foamFieldFragment({ ...opts, waveBands: WAVES.lowTierBands })).match(/esWaveBand\(pos/g)?.length)
-      .toBe(WAVES.lowTierBands);
+
+
+  it("the field pass builds to WGSL and GLSL without warnings, reading the material's own uniform nodes", () => {
+    for (const forceWebGL of [false, true]) {
+      const warn = vi.spyOn(console, "warn");
+      const canvas = { style: {}, addEventListener() {}, removeEventListener() {} };
+      const renderer = new WebGPURenderer({ forceWebGL, canvas: canvas as unknown as HTMLCanvasElement }) as unknown as {
+        hasFeature(): boolean; backend: { hasFeature(): boolean; createNodeBuilder(o: unknown, r: unknown): Record<string, unknown> & { build(): void } };
+      };
+      renderer.hasFeature = () => false;
+      renderer.backend.hasFeature = () => false;
+      const field = new FoamField(opts);
+      const quad = (field as unknown as { quad: THREE.Mesh }).quad;
+      const builder = renderer.backend.createNodeBuilder(quad, renderer);
+      Object.assign(builder, { scene: new THREE.Scene(), camera: new THREE.OrthographicCamera(), material: quad.material });
+      builder.build();
+      expect(String(builder.fragmentShader).length).toBeGreaterThan(1000);
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
+      field.dispose();
+    }
   });
 
-  it("shares the material's uniform objects instead of copying them", () => {
-    const field = new FoamField(opts);
-    const law = field.law;
-    expect(law.uFoamLaw.x).toBe(FOAM_LAW.crestEq);
-    expect((field as unknown as { pass: THREE.ShaderMaterial }).pass.uniforms.uSurfTex).toBe(stubUniforms.uSurfTex);
-    field.dispose();
-  });
-
-  it("fragment sampler fades the field edge and reads zero when inactive", () => {
+  it("fragment sampler uniforms start inactive", () => {
     const u = createFoamFieldUniforms();
     expect(u.uFoamFieldInfo.value.w).toBe(0);
-    const glsl = code(FOAM_FIELD_GLSL);
-    expect(glsl).toContain("if (uFoamFieldInfo.w < 0.5) return 0.0;");
-    expect(glsl).toContain("smoothstep(0.0, 0.06, uv) * smoothstep(0.0, 0.06, 1.0 - uv)");
+    expect(u.uFoamFieldInfo.value.z).toBe(FOAM_FIELD_M);
   });
 });

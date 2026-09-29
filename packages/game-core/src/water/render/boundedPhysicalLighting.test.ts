@@ -1,26 +1,20 @@
-import { ShaderChunk } from 'three';
 import { expect, it } from 'vitest';
-import { boundedPhysicalLighting } from './boundedPhysicalLighting';
+import { environmentFit, esEnvironmentFit } from './boundedPhysicalLighting';
 
-it('removes every DFG sampler use on minimum WebGL2 hardware without changing direct GGX', () => {
-  const output = boundedPhysicalLighting('#include <lights_physical_pars_fragment>', 16);
-  expect(output).toContain('vec2 esEnvironmentFit');
-  expect(output).not.toContain('dfgLUT');
-  expect(output.match(/esEnvironmentFit\(vec2/g)?.length).toBeGreaterThanOrEqual(3);
-  const direct = (source: string) => {
-    const start = source.indexOf('vec3 BRDF_GGX(');
-    let end = source.indexOf('{', start), depth = 1;
-    while (depth && ++end < source.length) {
-      if (source[end] === '{') depth++;
-      if (source[end] === '}') depth--;
-    }
-    return source.slice(start, end + 1);
-  };
-  expect(direct(output)).toBe(direct(ShaderChunk.lights_physical_pars_fragment));
+it('keeps the Karis environment-BRDF fit bounded and physically ordered', () => {
+  for (const r of [0, 0.25, 0.5, 1]) for (const n of [0, 0.5, 1]) {
+    const [a, b] = environmentFit(r, n);
+    expect(a + b).toBeGreaterThanOrEqual(0);
+    expect(a + b).toBeLessThanOrEqual(1.1);
+  }
+  // smooth, head-on: reflectance scale near 1, bias near 0
+  const [a, b] = environmentFit(0, 1);
+  expect(a).toBeCloseTo(1.0, 1);
+  expect(b).toBeCloseTo(0.0, 1);
+  // grazing lifts the bias term
+  expect(environmentFit(0, 0)[1]).toBeGreaterThan(environmentFit(0, 1)[1]);
 });
 
-it('keeps the current lookup-table shader on hardware with room for it', () => {
-  const source = '#include <lights_physical_pars_fragment>';
-  expect(boundedPhysicalLighting(source, 32)).toBe(source);
-  expect(boundedPhysicalLighting('unlit shader', 16)).toBe('unlit shader');
+it('builds a node graph for the fit', () => {
+  expect(esEnvironmentFit([0.5, 0.5])).toBeTruthy();
 });

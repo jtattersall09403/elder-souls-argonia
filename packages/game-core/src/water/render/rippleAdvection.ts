@@ -1,4 +1,9 @@
-import { ripplePathConnected } from './rippleIsolation';
+import type { TslNode } from "../../render/nodes/materialNodes";
+import { esRipplePath, ripplePathConnected, type RippleSupportNodes } from './rippleIsolation';
+import * as TSL from "three/tsl";
+// Loose TSL (decision 0107 §1): the chained typings are too deep for tsc to
+// check usefully and cost minutes of type-checking; values are TslNode.
+const {If, abs, bool, float, floor, fract, select, texture, vec2, vec4} = TSL as TslNode;
 
 /** Leave slack inside the shared 32-iteration exact supercover. A longer
  * backtrace expires local history; it never slows the authored current. */
@@ -44,38 +49,63 @@ export function advectRippleField(state: Float32Array, size: number, labels: Arr
   return output;
 }
 
-/** Requires COMMON and RIPPLE_PATH_GLSL. The separate bounded pass transports
- * both wave variables through full visible elapsed time; capped wave steps preserve their existing
- * four-neighbour no-flux update. This adds no main-material sampler. */
-export const RIPPLE_ADVECTION_GLSL = /* glsl */ `
-uniform sampler2D uCurrent;
-uniform float uStateSize;
-uniform float uPatchM;
-uniform float uDeltaS;
-void main() {
-  vec4 boundary = support(vUv);
-  if (boundary.a < 0.5) { gl_FragColor = vec4(0.0); return; }
-  vec4 centre = history(vUv, boundary);
-  vec2 velocity = texture2D(uCurrent, vUv + uMaskOffset).rg;
-  vec2 source = vUv - velocity * uDeltaS / uPatchM;
-  vec2 crossings = abs(floor((source + uMaskOffset) * uMaskSize) - floor((vUv + uMaskOffset) * uMaskSize));
-  if (!inside(source) || crossings.x + crossings.y > ${RIPPLE_TRANSPORT_MAX_CELLS.toFixed(1)}) {
-    gl_FragColor = vec4(0.0, 0.0, boundary.rg); return;
-  }
-  vec4 sourceBoundary = support(source);
-  if (sourceBoundary.a < 0.5 || !sameBody(sourceBoundary.rg, boundary.rg)
-      || !esRipplePath(vUv, source, boundary.rg)) { gl_FragColor = centre; return; }
-  vec2 grid = source * uStateSize - 0.5, origin = floor(grid), fraction = fract(grid);
-  vec2 result = vec2(0.0);
-  for (int z = 0; z < 2; z++) for (int x = 0; x < 2; x++) {
-    vec2 tap = (origin + vec2(float(x), float(z)) + 0.5) / uStateSize;
-    float weight = (x == 0 ? 1.0-fraction.x : fraction.x) * (z == 0 ? 1.0-fraction.y : fraction.y);
-    if (weight <= 0.0) continue;
-    vec4 edge = support(tap);
-    bool admitted = inside(tap) && edge.a > 0.5 && sameBody(edge.rg, boundary.rg)
-      && esRipplePath(source, tap, boundary.rg);
-    result += weight * (admitted ? history(tap, edge).rg : centre.rg);
-  }
-  gl_FragColor = vec4(result, boundary.rg);
+/** A ripple pass's shared nodes: the boundary accessors plus the state
+ * history read (RippleSim builds these once per pass material). */
+export interface RipplePassNodes extends RippleSupportNodes {
+  /** Fragment state uv (the quad's uv). */
+  uv: TslNode;
+  inside(uv: TslNode): TslNode;
+  /** Previous state at uv with its label replaced by `boundary.rg`; RG zeroed
+   * off-mask or when the stored owner differs. */
+  history(uv: TslNode, boundary: TslNode): TslNode;
 }
-`;
+
+export interface RippleAdvectionUniforms {
+  /** RG float32 current texture node (metres/second), cell-centred like the mask. */
+  current: TslNode;
+  stateSize: TslNode;
+  patchM: TslNode;
+  deltaS: TslNode;
+}
+
+/** The separate bounded pass transports both wave variables through full
+ * visible elapsed time; capped wave steps preserve their existing
+ * four-neighbour no-flux update. Returns the new state (vec4) at `ctx.uv`.
+ * GPU twin of advectRippleField; call inside a Fn. */
+export function esRippleAdvection(ctx: RipplePassNodes, u: RippleAdvectionUniforms): TslNode {
+  const uv = ctx.uv;
+  const out = vec4(0).toVar();
+  const boundary = ctx.support(uv);
+  If(boundary.a.greaterThanEqual(0.5), () => {
+    const centre = ctx.history(uv, boundary);
+    const velocity: TslNode = (texture(u.current, uv.add(ctx.maskOffset)) as TslNode).level(float(0)).rg;
+    const source = uv.sub(velocity.mul(u.deltaS).div(u.patchM));
+    const crossings: TslNode = abs(floor(source.add(ctx.maskOffset).mul(ctx.maskSize)).sub(floor(uv.add(ctx.maskOffset).mul(ctx.maskSize))));
+    If(ctx.inside(source).not().or(crossings.x.add(crossings.y).greaterThan(RIPPLE_TRANSPORT_MAX_CELLS)), () => {
+      out.assign(vec4(0, 0, boundary.rg));
+    }).Else(() => {
+      out.assign(centre);
+      const sourceBoundary = ctx.support(source);
+      If(sourceBoundary.a.greaterThanEqual(0.5).and(ctx.sameBody(sourceBoundary.rg, boundary.rg)), () => {
+        If(esRipplePath(ctx, uv, source, boundary.rg), () => {
+          const grid: TslNode = source.mul(u.stateSize).sub(0.5), origin: TslNode = floor(grid), fraction: TslNode = fract(grid);
+          const result = vec2(0).toVar();
+          for (let z = 0; z < 2; z++) for (let x = 0; x < 2; x++) {
+            const tap = origin.add(vec2(x, z)).add(0.5).div(u.stateSize);
+            const weight = float(x === 0 ? fraction.x.oneMinus() : fraction.x).mul(z === 0 ? fraction.y.oneMinus() : fraction.y);
+            If(weight.greaterThan(0), () => {
+              const edge = ctx.support(tap);
+              const admitted = bool(false).toVar();
+              If(ctx.inside(tap).and(edge.a.greaterThan(0.5)).and(ctx.sameBody(edge.rg, boundary.rg)), () => {
+                admitted.assign(esRipplePath(ctx, source, tap, boundary.rg));
+              });
+              result.assign(result.add(select(admitted, ctx.history(tap, edge).rg, centre.rg).mul(weight)));
+            });
+          }
+          out.assign(vec4(result, boundary.rg));
+        });
+      });
+    });
+  });
+  return out;
+}

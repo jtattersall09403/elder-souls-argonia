@@ -1,38 +1,56 @@
 import * as THREE from "three";
-import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
+import { MeshPhysicalNodeMaterial, PhysicalLightingModel, RenderTarget } from "three/webgpu";
+import type { TslNode } from "../../render/nodes/materialNodes";
+import {
+  STREAK_LAYERS, STREAK_BREATHE_AMPLITUDE, STREAK_BREATHE_PERIOD_S, STREAK_U_DRIFT_UVS, STREAK_WOBBLE_AMPLITUDE,
+  STREAK_WOBBLE_FREQ,
+} from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
-import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl,
-  whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
-import { buriedThresholdM, tideResponseGlsl } from "../waterData";
+import { FLOW_WAVE_MIN_SPEED_MS, SEA, WAVES, whitecapThreshold, whitecapDriftMS } from "@elder-souls/game-core/water/index";
+import { buriedThresholdM } from "../waterData";
 
 import type { WaterAssets } from "./types";
 import { RIPPLE_PATCH_M } from "./RippleSim";
-import { FOAM_FIELD_GLSL, createFoamFieldUniforms, type FoamFieldUniforms } from "./FoamField";
-import { RAIN_RINGS_GLSL } from "./rainRings";
-import { SPARKLE_SSS_GLSL } from "./sparkleSss";
-import { HORIZON_BLEND_GLSL } from "./horizonBlend";
-import { MENISCUS_GLSL } from "./meniscus";
-import { SHORE_FROTH_GLSL } from "./shoreFroth";
+import { createFoamFieldUniforms, esFoamFieldAt, type FoamFieldUniforms } from "./FoamField";
+import { esRainRings } from "./rainRings";
+import { esCrestSss, esSparkle } from "./sparkleSss";
+import { esHorizonBlend } from "./horizonBlend";
+import { esMeniscusBand, esMeniscusNormal, esMeniscusRim } from "./meniscus";
+import { esShoreFroth } from "./shoreFroth";
+import {
+  esAlongPhase, esDetailGrad, esFbm, esFetchAt, esFetchExp, esFlowWave, esHash21, esOutside, esSeaRms,
+  esShoreAt, esShoreSwell, esStandingRatio, esSurfEnergy, esSurfFoam, esSwash, esTideResponse, esWaveExposure,
+  esWaveSampleEx, esColourAt, makeSurfaceAt, placeholderTexture, sel,
+} from "./waterNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  Break, Fn, If, Loop, abs, all, attribute, cameraFar, cameraNear, cameraPosition, cameraProjectionMatrix, cameraViewMatrix, clamp, cos, distance, dot, exp, float, floor, fract, getScreenPosition, int, ivec2, length, max, min, mix, modelWorldMatrix, normalize, perspectiveDepthToViewZ, pmremTexture, positionGeometry, positionWorld, pow, reflect, refract, screenUV, select, sin, smoothstep, texture, uniform, uniformArray, varying, vec2, vec3, vec4,
+} = TSLNS as any;
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const n = (v: TslNode): any => v;
+/** The GLSL baked these constants with toFixed(d); keep the same rounding. */
+const fx = (v: number, d: number): number => Number(v.toFixed(d));
 
 /**
- * The Phase 8b water material (decision 0025, reworked in owner round 2):
- * a `MeshPhysicalMaterial` patched via `onBeforeCompile` (decision-0020
- * pattern) that inherits CSM sun/moon shadows + GGX glints, PMREM sky
- * reflections and the aerial term, exposure-correct. The patch injects:
+ * The Phase 8b water material (decision 0025, reworked in owner round 2), a
+ * TSL node material since decision 0107: a `MeshPhysicalNodeMaterial` whose
+ * lighting model inherits the CSM sun/moon shadows + GGX glints, PMREM sky
+ * reflections and the scene fog node (aerial haze), exposure-correct. The
+ * graph adds:
  *
- * - vertex: still-water height from the compiled W raster (+ tide + season
- *   + shore swash), Gerstner displacement scaled by baked exposure — the
- *   same wave/swash tables the CPU query uses (game-core/water);
- * - fragment: flow-advected ripples + the local interactive ripple sim,
- *   Beer–Lambert refraction, per-pixel water colour, a REAL foam system
- *   (thin contact line, advancing lapping bands, whitecaps, rapids, churn
- *   rings, drifting river flecks — all turbidity-damped), speckle-free
- *   distance shading (detail and roughness LOD), tiered SSR, and the
- *   terrain-cut shoreline of decision 0047: the hardware depth test against
- *   the blit-written scene depth trims the surface at the terrain, a
- *   VERTICAL thickness fade (unrefracted scene depth) softens it, and the
- *   raster only ever discards as a coarse buried guard (signed depth + lift).
+ * - vertex (`positionNode`): still-water height from the compiled W raster
+ *   (+ tide + season + shore swash), Gerstner displacement scaled by baked
+ *   exposure — the same wave/swash tables the CPU query uses (game-core/water);
+ * - fragment: flow-advected ripples + the local interactive ripple sim
+ *   (`normalNode`), Beer–Lambert refraction, per-pixel water colour and the
+ *   foam system (`colorNode` / `roughnessNode`), the buried/slope/owner guard
+ *   (`maskNode`), and the composite (SSR, transmission, sparkle, crest
+ *   scatter, meniscus rim, soft terrain contact, horizon blend) in the
+ *   lighting model's `finish`, i.e. on the lit colour BEFORE fog and tone
+ *   mapping, exactly where the GLSL patched `opaque_fragment`.
  *
  * Adapted from WaterThreeJS (MIT © achrefelouafi); flow advection after
  * three.js `Water2`/Valve; shore-wave formulas per
@@ -90,351 +108,12 @@ export const MAX_CONTACT_BODIES = 8;
 /** Nearest cascade plunge points fed to the field shader for pool foam. */
 export const MAX_PLUNGE_SOURCES = 16;
 
-export interface WaterUniforms extends FoamFieldUniforms {
-  uWaveTime: { value: number };
-  /** Transport clock (s): current advection, unscaled by wind or preview rate. */
-  uTransportTime: { value: number };
-  /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
-  uWindWave: { value: number };
-  /** The weather's 10 m wind: speed (m/s) sets the sea's rms height with the
-   * compiled fetch (`esSeaRms`); the unit direction drifts the still-water
-   * detail and the whitecap pattern (audit root causes 1, 2, 5). */
-  uWindMS: { value: number };
-  uWindDir: { value: THREE.Vector2 };
-  /** Crest-noise threshold above which a pixel whitecaps (`whitecapThreshold`). */
-  uCapThreshold: { value: number };
-  /** Open-water fetch cap the flow raster's B is encoded against (m). */
-  uFetchMax: { value: number };
-  uLevelTide: { value: number };
-  uLevelSeason: { value: number };
-  uVerticalScale: { value: number };
-  uSceneColor: { value: THREE.Texture | null };
-  uSceneDepth: { value: THREE.Texture | null };
-  uCamNear: { value: number };
-  uCamFar: { value: number };
-  uResolution: { value: THREE.Vector2 };
-  uProjMatrix: { value: THREE.Matrix4 };
-  uSurfTex: { value: THREE.Texture };
-  uSurfMin: { value: number };
-  uSurfSpan: { value: number };
-  uSurfSize: { value: number };
-  uSurfMpp: { value: number };
-  uSurfShoreMax: { value: number };
-  /** Signed-depth decode of the surface B channel: depth = B·span + min. */
-  uSurfDepthMin: { value: number };
-  uSurfDepthSpan: { value: number };
-  /** Texels at or below this signed depth are buried (never level-weighted). */
-  uSurfBuried: { value: number };
-  uSurfShore: { value: THREE.Texture };
-  /** 16f colour constituents: algae rides `uSurfShore.a`, dark rides
-   * `uKlassTex.a` (packed at load; the shader is at the 16-sampler limit).
-   * `uColourOn` 0 when the build ships no dressing. */
-  uColourOn: { value: number };
-  uFlowTex: { value: THREE.Texture };
-  uKlassTex: { value: THREE.Texture };
-  uFlowExtentM: { value: number };
-  uFlowMax: { value: number };
-  /** 16d (0067): beyond the province the water is the open sea at y = 0
-   * over the apron's ground (`uApronTex`, RG16 heights, row 0 = north).
-   * `uHasApron` 0 keeps the edge-texel rule for a build without the apron. */
-  uHasApron: { value: number };
-  /** First row of `uSurfTex` that holds the apron tile (the province's rows
-   * end at `uSurfSize`); no extra sampler — the water shader already uses
-   * every texture unit the flyover's GPU budget allows. */
-  uApronRow0: { value: number };
-  uApronMin: { value: number };
-  uApronSpan: { value: number };
-  uApronOrigin: { value: THREE.Vector2 };
-  uApronMpp: { value: number };
-  uApronSize: { value: THREE.Vector2 };
-  /** Class index / turbidity / salinity of the coast, for the sea beyond. */
-  uApronCoast: { value: THREE.Vector3 };
-  uSsrStrength: { value: number };
-  uRefractStrength: { value: number };
-  uRipple: { value: THREE.Texture | null };
-  /** patch centre x, z, patch size (m); w = strength toggle. */
-  uRippleInfo: { value: THREE.Vector4 };
-  /** Rain intensity 0..1 (round 2): drives the procedural rain agitation
-   * that covers ALL visible water beyond the simulated ripple patch. */
-  uRainRipple: { value: number };
-  /** x, z, radius, strength — churn sources (player, crates, splashes). */
-  uBodies: { value: THREE.Vector4[] };
-  uBodyCount: { value: number };
-  /** Strip/fall ownership mask (0 field, 128 strip, 255 fall) + its toggle:
-   * the field surface discards where a strip mesh or sheet owns the cell. */
-  uHasOwner: { value: number };
-  uSurfExtentM: { value: number };
-  /** x, z, radius (m), strength — nearest waterfall plunge pools. */
-  uPlunges: { value: THREE.Vector4[] };
-  uPlungeCount: { value: number };
-  /** Vanilla foam tile (kit slot `foam`, alpha = coverage) or null → fbm. */
-  uFoamTex: { value: THREE.Texture | null };
-  /** Sun direction (unit, world), sun radiance and sky ambient for the
-   * sparkle, crest scatter and meniscus rim — copied from the runtime each
-   * frame (the aerial patch owns `uSunDirW`; never redeclared here). */
-  uWaterSunDir: { value: THREE.Vector3 };
-  uWaterSunLight: { value: THREE.Vector3 };
-  uWaterAmbient: { value: THREE.Vector3 };
-}
-
-export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
-  const m = assets.meta;
-  return {
-    uWaveTime: { value: 0 },
-    uTransportTime: { value: 0 },
-    uWindWave: { value: 1 },
-    uWindMS: { value: 0 },
-    uWindDir: { value: new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1]) },
-    uCapThreshold: { value: whitecapThreshold(0) },
-    uFetchMax: { value: m.flow.fetchMaxM ?? SEA.fetchMaxM },
-    uLevelTide: { value: 0 },
-    uLevelSeason: { value: 0 },
-    uVerticalScale: { value: 1 },
-    uSceneColor: { value: null },
-    uSceneDepth: { value: null },
-    uCamNear: { value: 0.3 },
-    uCamFar: { value: 60000 },
-    uResolution: { value: new THREE.Vector2(1, 1) },
-    uProjMatrix: { value: new THREE.Matrix4() },
-    uSurfTex: { value: assets.surfaceTex },
-    uSurfMin: { value: m.surface.minM },
-    uSurfSpan: { value: m.surface.maxM - m.surface.minM },
-    uSurfSize: { value: m.surface.size },
-    uSurfMpp: { value: m.surface.metresPerPixel },
-    uSurfShoreMax: { value: m.surface.shoreMaxM ?? 160 },
-    uSurfDepthMin: { value: m.surface.depthMinM ?? 0 },
-    uSurfDepthSpan: { value: m.surface.depthSpanM ?? 25.5 },
-    uSurfBuried: { value: buriedThresholdM(m) },
-    uSurfShore: { value: assets.shoreTex },
-    uColourOn: { value: assets.dressing ? 1 : 0 },
-    uFlowTex: { value: assets.flowTex },
-    uKlassTex: { value: assets.klassTex },
-    uFlowExtentM: { value: m.flow.size * m.flow.metresPerPixel },
-    uFlowMax: { value: m.flow.flowMax },
-    uHasApron: { value: assets.apron ? 1 : 0 },
-    uApronRow0: { value: assets.apron?.atlasRow0 ?? 0 },
-    uApronMin: { value: assets.apron?.minM ?? 0 },
-    uApronSpan: { value: assets.apron ? assets.apron.maxM - assets.apron.minM : 1 },
-    uApronOrigin: { value: new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0) },
-    uApronMpp: { value: assets.apron?.ground.metresPerSample ?? 1 },
-    uApronSize: { value: new THREE.Vector2(assets.apron?.ground.nx ?? 1, assets.apron?.ground.ny ?? 1) },
-    uApronCoast: { value: new THREE.Vector3(assets.apron?.coastClassIndex ?? 1, assets.apron?.coastTurbidity ?? 0, assets.apron?.coastSalinity ?? 1) },
-    uSsrStrength: { value: 0.85 },
-    uRefractStrength: { value: 0.35 },
-    uRipple: { value: null },
-    uRippleInfo: { value: new THREE.Vector4(0, 0, RIPPLE_PATCH_M, 0) },
-    uRainRipple: { value: 0 },
-    uBodies: { value: Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()) },
-    uBodyCount: { value: 0 },
-    uHasOwner: { value: assets.hasOwner ? 1 : 0 },
-    uSurfExtentM: { value: m.surface.size * m.surface.metresPerPixel },
-    uPlunges: { value: Array.from({ length: MAX_PLUNGE_SOURCES }, () => new THREE.Vector4()) },
-    uPlungeCount: { value: 0 },
-    ...createFoamFieldUniforms(),
-    uFoamTex: { value: assets.waterfallTextures?.foam ?? null },
-    uWaterSunDir: { value: new THREE.Vector3(0, 1, 0) },
-    uWaterSunLight: { value: new THREE.Vector3(0, 0, 0) },
-    uWaterAmbient: { value: new THREE.Vector3(0, 0, 0) },
-  };
-}
-
-/** Noise helpers (adapted from WaterThreeJS, MIT). Shared with the foam
- * field pass (`FoamField`), which decodes the same rasters. */
-export const NOISE_GLSL = /* glsl */ `
-  float esHash21(vec2 p){
-    p = fract(p * vec2(123.34, 456.21));
-    p += dot(p, p + 45.32);
-    return fract(p.x * p.y);
-  }
-  vec3 esNoised(vec2 x){
-    vec2 p = floor(x);
-    vec2 f = fract(x);
-    vec2 u  = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
-    vec2 du = 30.0 * f * f * (f * (f - 2.0) + 1.0);
-    float a = esHash21(p);
-    float b = esHash21(p + vec2(1.0, 0.0));
-    float c = esHash21(p + vec2(0.0, 1.0));
-    float d = esHash21(p + vec2(1.0, 1.0));
-    float k1 = b - a;
-    float k2 = c - a;
-    float k3 = a - b - c + d;
-    float n  = a + k1 * u.x + k2 * u.y + k3 * u.x * u.y;
-    vec2  g  = du * vec2(k1 + k3 * u.y, k2 + k3 * u.x);
-    return vec3(n, g);
-  }
-  float esFbm(vec2 p, int oct){
-    float amp = 0.5, sum = 0.0;
-    mat2 M = mat2(1.6, 1.2, -1.2, 1.6);
-    for (int i = 0; i < 6; i++){
-      if (i >= oct) break;
-      sum += amp * esNoised(p).x;
-      p = M * p;
-      amp *= 0.5;
-    }
-    return sum;
-  }
-  vec2 esDetailGrad(vec2 p, vec2 flow){
-    vec2 g = vec2(0.0);
-    float amp = 1.0;
-    mat2 M = mat2(1.7, 1.1, -1.1, 1.7);
-    vec2 fl = flow;
-    for (int i = 0; i < 3; i++){
-      vec3 n = esNoised(p + fl);
-      g += amp * n.yz;
-      p = M * p;
-      fl = -fl * 0.85;
-      amp *= 0.55;
-    }
-    return g;
-  }
-`;
-
 /** Screen-space reflections march only this near (metres): beyond it the
  * environment map's sky reflection is indistinguishable at the pixel.
  * 1.2 km → 420 m (16f round 3) → 260 m (round 5, owner: bring it in a
  * little further; the march is per water pixel, so this is frame time). */
 export const SSR_FADE_START_M = 160;
 export const SSR_FADE_END_M = 260;
-
-/** Shared data samplers (W/depth/shore raster, flow, class). */
-export const SAMPLER_GLSL = /* glsl */ `
-  uniform sampler2D uSurfTex;
-  uniform float uSurfMin;
-  uniform float uSurfSpan;
-  uniform float uSurfSize;
-  uniform float uSurfMpp;
-  uniform float uSurfShoreMax;
-  uniform float uSurfDepthMin;
-  uniform float uSurfDepthSpan;
-  uniform float uSurfBuried;
-  uniform sampler2D uSurfShore;
-  uniform float uColourOn;
-  uniform sampler2D uFlowTex;
-  uniform sampler2D uKlassTex;
-  uniform float uFlowExtentM;
-  uniform float uFlowMax;
-  uniform float uLevelTide;
-  uniform float uLevelSeason;
-  uniform float uWaveTime;
-  uniform float uTransportTime;
-  uniform float uWindWave;
-  uniform float uWindMS;
-  uniform vec2 uWindDir;
-  uniform float uCapThreshold;
-  uniform float uFetchMax;
-  uniform float uHasApron;
-  uniform float uApronRow0;
-  uniform float uApronMin;
-  uniform float uApronSpan;
-  uniform vec2 uApronOrigin;
-  uniform float uApronMpp;
-  uniform vec2 uApronSize;
-  uniform vec3 uApronCoast;
-
-  // KEEP IN LOCKSTEP with waterData.decodeDepthByte(): B is SIGNED depth.
-  vec2 esDecodeSurf(vec4 t){
-    float w = uSurfMin + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uSurfSpan;
-    return vec2(w, t.b * uSurfDepthSpan + uSurfDepthMin);
-  }
-
-  // Outside the province square (the water raster's own extent).
-  bool esOutside(vec2 wpos){
-    float extent = uSurfSize * uSurfMpp;
-    return wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent;
-  }
-  // The apron ground (m) beyond the border: manual bilinear over the RG16
-  // tile, clamped to its edge. KEEP IN LOCKSTEP with WaterData.apronHeight().
-  float esApronTexel(ivec2 i){
-    vec4 t = texelFetch(uSurfTex, ivec2(i.x, int(uApronRow0) + i.y), 0);
-    return uApronMin + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uApronSpan;
-  }
-  float esApronGround(vec2 wpos){
-    vec2 f = clamp((wpos - uApronOrigin) / uApronMpp, vec2(0.0), uApronSize - 1.001);
-    ivec2 i0 = ivec2(f);
-    vec2 t = f - vec2(i0);
-    ivec2 i1 = min(i0 + 1, ivec2(uApronSize) - 1);
-    return mix(mix(esApronTexel(i0), esApronTexel(ivec2(i1.x, i0.y)), t.x),
-               mix(esApronTexel(ivec2(i0.x, i1.y)), esApronTexel(i1), t.x), t.y);
-  }
-
-  // Manual bilinear over the 16-bit W raster (height, signed depth). Beyond
-  // the province the water is the OPEN SEA at y = 0 over the apron ground
-  // (16d, decision 0067): a river or lake on the border ends at the border,
-  // the sea and the canon inlets continue. Without an apron the EDGE texel
-  // continues (clamp-to-edge): a sea border carries the sea outward, a land
-  // border carries buried ground (audit mechanism 5).
-  // KEEP IN LOCKSTEP with WaterData.surfaceBase / depthProxy.
-  vec2 esSurfaceAt(vec2 wpos){
-    if (uHasApron > 0.5 && esOutside(wpos)) return vec2(0.0, -esApronGround(wpos));
-    vec2 f = clamp(wpos / uSurfMpp - 0.5, vec2(0.0), vec2(uSurfSize - 1.001));
-    ivec2 i0 = ivec2(f);
-    vec2 t = f - vec2(i0);
-    ivec2 i1 = min(i0 + 1, ivec2(int(uSurfSize) - 1));
-    vec2 s00 = esDecodeSurf(texelFetch(uSurfTex, i0, 0));
-    vec2 s10 = esDecodeSurf(texelFetch(uSurfTex, ivec2(i1.x, i0.y), 0));
-    vec2 s01 = esDecodeSurf(texelFetch(uSurfTex, ivec2(i0.x, i1.y), 0));
-    vec2 s11 = esDecodeSurf(texelFetch(uSurfTex, i1, 0));
-    // NOT-BURIED height weighting: buried texels carry W = ground - buryM, so
-    // mixing their W into the surface tilts the last texel 5-40 degrees down
-    // into the bank ("blobs sitting on land"). Table texels (dry now, but
-    // floodable, signed depth in (-2, 0]) carry their body's level and DO
-    // count, so the level plane extends over the whole floodable band and a
-    // season lift wets it. The depth keeps plain bilinear.
-    // KEEP IN LOCKSTEP with WaterData.surfaceBase().
-    vec4 esBw = vec4((1.0 - t.x) * (1.0 - t.y), t.x * (1.0 - t.y),
-                     (1.0 - t.x) * t.y, t.x * t.y);
-    vec4 esWet = vec4(step(uSurfBuried, s00.y), step(uSurfBuried, s10.y),
-                      step(uSurfBuried, s01.y), step(uSurfBuried, s11.y));
-    vec4 esWw = esBw * esWet;
-    float esWsum = esWw.x + esWw.y + esWw.z + esWw.w;
-    vec2 esPlain = mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y);
-    float esH = esWsum > 0.0
-      ? (esWw.x * s00.x + esWw.y * s10.x + esWw.z * s01.x + esWw.w * s11.x) / esWsum
-      : esPlain.x;
-    return vec2(esH, esPlain.y);
-  }
-
-  // 16f colour constituents at wpos: x algae (shore raster A), y dark
-  // (class raster A). Zero without the dressing. The alpha bytes are written
-  // at load into the DataTexture, never decoded from a PNG's alpha (canvas
-  // premultiply would corrupt the RGB), which is why they can ride alpha.
-  vec2 esColourAt(vec2 wpos){
-    if (uColourOn < 0.5) return vec2(0.0);
-    float extent = uSurfSize * uSurfMpp;
-    float algae = texture2D(uSurfShore, clamp(wpos / extent, vec2(0.0), vec2(1.0))).a;
-    float dark = texture2D(uKlassTex, clamp(wpos / uFlowExtentM, vec2(0.0), vec2(1.0))).a;
-    return vec2(algae, dark);
-  }
-  // Shore raster: R = shore distance, G = season response, B = tannin,
-  // A = algae (packed at load; a PNG's own alpha is never data).
-  vec3 esShoreAt(vec2 wpos){
-    float extent = uSurfSize * uSurfMpp;
-    vec3 s = texture2D(uSurfShore, clamp(wpos / extent, vec2(0.0), vec2(1.0))).rgb;
-    return vec3(s.r * uSurfShoreMax, s.g, s.b);
-  }
-  // The compiled open-water fetch (m) at wpos (flow raster B, sqrt-encoded).
-  float esFetchAt(vec4 flowTexel){
-    return flowTexel.z * flowTexel.z * uFetchMax;
-  }
-`;
-
-/* ------------------------------------------------------------------ *
- * Steep-strip whitewater (ES_STRIP) — decision 0047 item 4.
- *
- * A compiled steep reach is a shallow film running down a grade. Rendered
- * with the river material it was BROWN (silt albedo, Beer-Lambert over a few
- * centimetres) and its fixed-direction detail drift read as water running
- * uphill. Whitewater is a look, not a colour: slope x speed set an aeration
- * fraction that mixes the clear/tannin water tint toward aerated white,
- * removes transmission and raises roughness; streak noise is scrolled along
- * the ribbon's OWN arc length by a per-ribbon uniform speed (never world-time
- * x world position, never a fixed world drift), so a chute always reads as
- * running down its own axis. No shoreline terms, no refraction, no SSR.
- *
- * The TS functions and `STRIP_AERATION_GLSL` are twins: the tests measure the
- * TS, the shader compiles the string. Edit both or neither.
- * ------------------------------------------------------------------ */
-
 function smoothstep01(e0: number, e1: number, x: number): number {
   const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
   return t * t * (3 - 2 * t);
@@ -499,25 +178,6 @@ export function stripAlbedo(aeration: number, streak: number, salinity: number, 
   }
   return out;
 }
-
-export const STRIP_AERATION_GLSL = /* glsl */ `
-float esStripBank(float side, float edge){
-  // KEEP IN LOCKSTEP with stripBankProfile(): full over the compiled width,
-  // dissolved across the bank margin only
-  return 1.0 - smoothstep(${STRIP_BANK_FADE_START.toFixed(2)}, max(edge, ${(STRIP_BANK_FADE_START + 1e-3).toFixed(3)}), abs(side));
-}
-// KEEP IN LOCKSTEP with stripWhitewaterBlend() / stripAeration().
-float esStripBlend(float dropPerM, float speedMS){
-  return smoothstep(0.06, 0.30, dropPerM) * smoothstep(0.8, 3.0, speedMS);
-}
-float esStripAeration(float dropPerM, float speedMS){
-  return clamp(0.25 + 0.75 * esStripBlend(dropPerM, speedMS), 0.0, 1.0);
-}
-float esStripGain(float scrollMS){
-  return clamp(scrollMS / ${STREAK_LAYERS[0].rateMS.toFixed(2)}, 0.3, 2.0);
-}
-`;
-
 /** Transport-clock advection cycle (s) for dual-phase foam/normal scrolling:
  * the scroll distance per cycle is `speed · FOAM_CYCLE_S`, so 1 m/s of
  * current moves foam exactly 1 m/s. */
@@ -540,7 +200,6 @@ export const CONTACT_FOAM_M = 0.12;
  * mountain stream runs 1.5 m/s (the round-2 evidence) — and `wake` is the
  * downstream tail's weight against the upstream bow's. Owner 2026-09-14. */
 export const RUSH = { speedFromMS: 0.35, speedFullMS: 1.6, wake: 0.75 } as const;
-const FLOW_WAVE_MIN_GLSL = FLOW_WAVE_MIN_SPEED_MS.toFixed(2);
 /** River foam flecks: fbm (2 octaves, `scale` cycles/m) thresholded between
  * lo..hi — tuned so the dual-phase mix covers ≈ 3–6 % of a river (the test
  * ports esFbm and measures it). */
@@ -567,892 +226,754 @@ export const FOAM_TEX = { tileM: 3.0, mean: 0.152, std: 0.195, fbmMean: 0.436, f
  */
 export const OWNER_DILATE_M = 1.2;
 
-/** Dilated owner-mask coverage (0 = the field owns this pixel, 1 = a strip
- * or sheet does), compiled into the FIELD fragment shader. The share of the
- * five taps that are owned, so the field dissolves under a ribbon over
- * OWNER_DILATE_M instead of ending on a texel edge (audit mechanism 1). */
-const OWNER_MASK_GLSL = /* glsl */ `
-float esOwnedFrac(vec2 wpos){
-  float e = ${OWNER_DILATE_M.toFixed(2)};
-  vec2 taps[5];
-  taps[0] = wpos;
-  taps[1] = wpos + vec2(e, 0.0);
-  taps[2] = wpos - vec2(e, 0.0);
-  taps[3] = wpos + vec2(0.0, e);
-  taps[4] = wpos - vec2(0.0, e);
-  float owned = 0.0;
-  for (int i = 0; i < 5; i++) {
-    vec2 uv = taps[i] / max(uSurfExtentM, 1.0);
-    // Owner mask = ALPHA of the surface raster's province rows (packed at
-    // load; one sampler fewer on a 16-unit GPU). texelFetch keeps it NEAREST.
-    if (all(greaterThanEqual(uv, vec2(0.0))) && all(lessThan(uv, vec2(1.0)))
-        && texelFetch(uSurfTex, ivec2(uv * uSurfSize), 0).a > 0.25) owned += 1.0;
-  }
-  return owned / 5.0;
+/** A TSL uniform or texture node; systems write `.value` exactly as they wrote the old `{ value }`. */
+export type WaterUniformNode<T> = TslNode & { value: T };
+
+export interface WaterUniforms extends FoamFieldUniforms {
+  uWaveTime: WaterUniformNode<number>;
+  /** Transport clock (s): current advection, unscaled by wind or preview rate. */
+  uTransportTime: WaterUniformNode<number>;
+  /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
+  uWindWave: WaterUniformNode<number>;
+  /** The weather's 10 m wind: speed (m/s) sets the sea's rms height with the
+   * compiled fetch; the unit direction drifts the still-water detail and the
+   * whitecap pattern (audit root causes 1, 2, 5). */
+  uWindMS: WaterUniformNode<number>;
+  uWindDir: WaterUniformNode<THREE.Vector2>;
+  /** Crest-noise threshold above which a pixel whitecaps (`whitecapThreshold`). */
+  uCapThreshold: WaterUniformNode<number>;
+  /** Open-water fetch cap the flow raster's B is encoded against (m). */
+  uFetchMax: WaterUniformNode<number>;
+  uLevelTide: WaterUniformNode<number>;
+  uLevelSeason: WaterUniformNode<number>;
+  uVerticalScale: WaterUniformNode<number>;
+  /** Scene colour / depth behind the water (texture nodes: set `.value`). */
+  uSceneColor: WaterUniformNode<THREE.Texture>;
+  uSceneDepth: WaterUniformNode<THREE.Texture>;
+  /** Kept for writers; the graph reads the camera's own near/far/projection. */
+  uCamNear: WaterUniformNode<number>;
+  uCamFar: WaterUniformNode<number>;
+  uResolution: WaterUniformNode<THREE.Vector2>;
+  uProjMatrix: WaterUniformNode<THREE.Matrix4>;
+  uSurfTex: WaterUniformNode<THREE.Texture>;
+  uSurfMin: WaterUniformNode<number>;
+  uSurfSpan: WaterUniformNode<number>;
+  uSurfSize: WaterUniformNode<number>;
+  uSurfMpp: WaterUniformNode<number>;
+  uSurfShoreMax: WaterUniformNode<number>;
+  /** Signed-depth decode of the surface B channel: depth = B·span + min. */
+  uSurfDepthMin: WaterUniformNode<number>;
+  uSurfDepthSpan: WaterUniformNode<number>;
+  /** Texels at or below this signed depth are buried (never level-weighted). */
+  uSurfBuried: WaterUniformNode<number>;
+  uSurfShore: WaterUniformNode<THREE.Texture>;
+  /** 16f colour constituents: algae rides `uSurfShore.a`, dark rides `uKlassTex.a`. */
+  uColourOn: WaterUniformNode<number>;
+  uFlowTex: WaterUniformNode<THREE.Texture>;
+  uKlassTex: WaterUniformNode<THREE.Texture>;
+  uFlowExtentM: WaterUniformNode<number>;
+  uFlowMax: WaterUniformNode<number>;
+  /** 16d (0067): beyond the province the water is the open sea at y = 0 over the apron's ground. */
+  uHasApron: WaterUniformNode<number>;
+  /** First row of `uSurfTex` that holds the apron tile. */
+  uApronRow0: WaterUniformNode<number>;
+  uApronMin: WaterUniformNode<number>;
+  uApronSpan: WaterUniformNode<number>;
+  uApronOrigin: WaterUniformNode<THREE.Vector2>;
+  uApronMpp: WaterUniformNode<number>;
+  uApronSize: WaterUniformNode<THREE.Vector2>;
+  /** Class index / turbidity / salinity of the coast, for the sea beyond. */
+  uApronCoast: WaterUniformNode<THREE.Vector3>;
+  uSsrStrength: WaterUniformNode<number>;
+  uRefractStrength: WaterUniformNode<number>;
+  uRipple: WaterUniformNode<THREE.Texture>;
+  /** patch centre x, z, patch size (m); w = strength toggle. */
+  uRippleInfo: WaterUniformNode<THREE.Vector4>;
+  /** Rain intensity 0..1 (round 2). */
+  uRainRipple: WaterUniformNode<number>;
+  /** x, z, radius, strength — churn sources. A uniform array: write `.array[i]`. */
+  uBodies: TslNode & { array: THREE.Vector4[] };
+  uBodyCount: WaterUniformNode<number>;
+  /** Strip/fall ownership mask toggle. */
+  uHasOwner: WaterUniformNode<number>;
+  uSurfExtentM: WaterUniformNode<number>;
+  /** x, z, radius (m), strength — nearest waterfall plunge pools. Write `.array[i]`. */
+  uPlunges: TslNode & { array: THREE.Vector4[] };
+  uPlungeCount: WaterUniformNode<number>;
+  /** Vanilla foam tile (kit slot `foam`, alpha = coverage); the placeholder when absent. */
+  uFoamTex: WaterUniformNode<THREE.Texture>;
+  /** Sun direction (unit, world), sun radiance and sky ambient for the
+   * sparkle, crest scatter and meniscus rim — copied from the runtime each frame. */
+  uWaterSunDir: WaterUniformNode<THREE.Vector3>;
+  uWaterSunLight: WaterUniformNode<THREE.Vector3>;
+  uWaterAmbient: WaterUniformNode<THREE.Vector3>;
+  /** Placeholders a writer restores instead of the old `value = null`. */
+  placeholders: { color: THREE.Texture; depth: THREE.DepthTexture; ripple: THREE.Texture };
 }
-`;
 
-/**
- * The foam dissolve/breakup mask in world metres: the vanilla foam tile when
- * the kit slot is bound (remapped onto the fbm's moments, see FOAM_TEX), the
- * procedural fbm otherwise. `esFoamMask` is the 3-octave dissolve field,
- * `esFoamMask2` the 2-octave fleck/streak field — both dual-phase advected by
- * the caller exactly as before.
- */
-const FOAM_MASK_GLSL = /* glsl */ `
-uniform sampler2D uFoamTex;
-#ifdef ES_FOAM_TEX
-float esFoamTexAt(vec2 wp){
-  float a = texture2D(uFoamTex, wp / ${FOAM_TEX.tileM.toFixed(2)}).a;
-  return ${FOAM_TEX.fbmMean.toFixed(3)} + (a - ${FOAM_TEX.mean.toFixed(3)}) * ${(FOAM_TEX.fbmStd / FOAM_TEX.std).toFixed(4)};
+export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
+  const m = assets.meta;
+  const placeholders = {
+    color: placeholderTexture(),
+    // owned by a 1×1 target so the backend knows its sample count before
+    // the pipeline hands over the real scene depth
+    depth: new RenderTarget(1, 1, { depthTexture: new THREE.DepthTexture(1, 1) }).depthTexture as THREE.DepthTexture,
+    ripple: placeholderTexture(),
+  };
+  const u = (v: number) => uniform(v) as WaterUniformNode<number>;
+  return {
+    uWaveTime: u(0),
+    uTransportTime: u(0),
+    uWindWave: u(1),
+    uWindMS: u(0),
+    uWindDir: uniform(new THREE.Vector2(WAVES.windDir[0], WAVES.windDir[1])) as WaterUniformNode<THREE.Vector2>,
+    uCapThreshold: u(whitecapThreshold(0)),
+    uFetchMax: u(m.flow.fetchMaxM ?? SEA.fetchMaxM),
+    uLevelTide: u(0),
+    uLevelSeason: u(0),
+    uVerticalScale: u(1),
+    uSceneColor: texture(placeholders.color) as WaterUniformNode<THREE.Texture>,
+    uSceneDepth: texture(placeholders.depth) as WaterUniformNode<THREE.Texture>,
+    uCamNear: u(0.3),
+    uCamFar: u(60000),
+    uResolution: uniform(new THREE.Vector2(1, 1)) as WaterUniformNode<THREE.Vector2>,
+    uProjMatrix: uniform(new THREE.Matrix4()) as WaterUniformNode<THREE.Matrix4>,
+    uSurfTex: texture(assets.surfaceTex) as WaterUniformNode<THREE.Texture>,
+    uSurfMin: u(m.surface.minM),
+    uSurfSpan: u(m.surface.maxM - m.surface.minM),
+    uSurfSize: u(m.surface.size),
+    uSurfMpp: u(m.surface.metresPerPixel),
+    uSurfShoreMax: u(m.surface.shoreMaxM ?? 160),
+    uSurfDepthMin: u(m.surface.depthMinM ?? 0),
+    uSurfDepthSpan: u(m.surface.depthSpanM ?? 25.5),
+    uSurfBuried: u(buriedThresholdM(m)),
+    uSurfShore: texture(assets.shoreTex) as WaterUniformNode<THREE.Texture>,
+    uColourOn: u(assets.dressing ? 1 : 0),
+    uFlowTex: texture(assets.flowTex) as WaterUniformNode<THREE.Texture>,
+    uKlassTex: texture(assets.klassTex) as WaterUniformNode<THREE.Texture>,
+    uFlowExtentM: u(m.flow.size * m.flow.metresPerPixel),
+    uFlowMax: u(m.flow.flowMax),
+    uHasApron: u(assets.apron ? 1 : 0),
+    uApronRow0: u(assets.apron?.atlasRow0 ?? 0),
+    uApronMin: u(assets.apron?.minM ?? 0),
+    uApronSpan: u(assets.apron ? assets.apron.maxM - assets.apron.minM : 1),
+    uApronOrigin: uniform(new THREE.Vector2(assets.apron?.ground.originM[0] ?? 0, assets.apron?.ground.originM[1] ?? 0)) as WaterUniformNode<THREE.Vector2>,
+    uApronMpp: u(assets.apron?.ground.metresPerSample ?? 1),
+    uApronSize: uniform(new THREE.Vector2(assets.apron?.ground.nx ?? 1, assets.apron?.ground.ny ?? 1)) as WaterUniformNode<THREE.Vector2>,
+    uApronCoast: uniform(new THREE.Vector3(assets.apron?.coastClassIndex ?? 1, assets.apron?.coastTurbidity ?? 0, assets.apron?.coastSalinity ?? 1)) as WaterUniformNode<THREE.Vector3>,
+    uSsrStrength: u(0.85),
+    uRefractStrength: u(0.35),
+    uRipple: texture(placeholders.ripple) as WaterUniformNode<THREE.Texture>,
+    uRippleInfo: uniform(new THREE.Vector4(0, 0, RIPPLE_PATCH_M, 0)) as WaterUniformNode<THREE.Vector4>,
+    uRainRipple: u(0),
+    uBodies: uniformArray(Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()), "vec4") as TslNode,
+    uBodyCount: u(0),
+    uHasOwner: u(assets.hasOwner ? 1 : 0),
+    uSurfExtentM: u(m.surface.size * m.surface.metresPerPixel),
+    uPlunges: uniformArray(Array.from({ length: MAX_PLUNGE_SOURCES }, () => new THREE.Vector4()), "vec4") as TslNode,
+    uPlungeCount: u(0),
+    ...createFoamFieldUniforms(),
+    uFoamTex: texture(assets.waterfallTextures?.foam ?? placeholderTexture()) as WaterUniformNode<THREE.Texture>,
+    uWaterSunDir: uniform(new THREE.Vector3(0, 1, 0)) as WaterUniformNode<THREE.Vector3>,
+    uWaterSunLight: uniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
+    uWaterAmbient: uniform(new THREE.Vector3(0, 0, 0)) as WaterUniformNode<THREE.Vector3>,
+    placeholders,
+  };
 }
-float esFoamMask(vec2 wp){ return esFoamTexAt(wp); }
-float esFoamMask2(vec2 wp){ return esFoamTexAt(wp * 0.7 + 2.0); }
-float esFoamFleck(vec2 wp){ return texture2D(uFoamTex, wp / ${FOAM_TEX.tileM.toFixed(2)}).a; }
-#else
-float esFoamMask(vec2 wp){ return esFbm(wp * 0.55, 3); }
-float esFoamMask2(vec2 wp){ return esFbm(wp * 0.55, 2); }
-float esFoamFleck(vec2 wp){ return esFbm(wp * ${FLECK.scale.toFixed(2)} + 5.0, 2); }
-#endif
-`;
 
-function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean): string {
-  return /* glsl */ `
-  uniform sampler2D uSceneColor;
-  uniform sampler2D uSceneDepth;
-  uniform float uCamNear;
-  uniform float uCamFar;
-  uniform vec2 uResolution;
-  uniform mat4 uProjMatrix;
-  uniform float uSsrStrength;
-  uniform float uRefractStrength;
-  uniform vec4 uBodies[${MAX_CONTACT_BODIES}];
-  uniform int uBodyCount;
-  ${tier.ripples ? "#define ES_RIPPLES 1" : ""}
-  uniform sampler2D uRipple;
-  uniform vec4 uRippleInfo;
-  uniform float uRainRipple;
-  uniform float uHasOwner;
-  uniform float uSurfExtentM;
-  uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];
-  uniform int uPlungeCount;
-  varying vec4 vEsData;   // stillW, signed depth + lift, exposure, shoreDist
-  varying vec4 vEsKlass;
-varying vec2 vEsColour;  // 16f: algae, dark  // turbidity(silt), salinity, tannin, class index
-  varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
-  varying vec3 vEsNormalW; // world-space wave normal
-  varying vec4 vEsSurf;   // fetch exposure, shoreward dir (xz), surf energy
+/* ------------------------------------------------------------------ *
+ * Fragment helpers (the old fragment prelude), over the uniform nodes.
+ * ------------------------------------------------------------------ */
 
-  float esEyeDepth(vec2 uv){
-    float d = texture2D(uSceneDepth, uv).x;
-    return (uCamNear * uCamFar) / (uCamFar - d * (uCamFar - uCamNear));
+/** Eye depth (m, positive) of the scene depth texture at `uv`. */
+function esEyeDepth(u: WaterUniforms, uv: TslNode): TslNode {
+  const d = n(n(u.uSceneDepth).sample(uv)).x;
+  return n(perspectiveDepthToViewZ(d, cameraNear, cameraFar)).negate();
+}
+
+/** churn RINGS (annulus), textured later, capped well below solid. */
+function makeContactFoam(u: WaterUniforms): (...args: TslNode[]) => TslNode {
+  return Fn(([wp]: [TslNode]) => {
+  const c = float(0.0).toVar();
+  Loop(MAX_CONTACT_BODIES, ({ i }: { i: TslNode }) => {
+    If(n(i).greaterThanEqual(int(u.uBodyCount)), () => { Break(); });
+    const B = n(n(u.uBodies).element(i));
+    If(B.w.greaterThanEqual(0.01), () => {
+      const q = n(length(n(wp).sub(B.xy))).div(max(B.z, 0.1));
+      const ring = n(smoothstep(0.3, 0.75, q)).mul(float(1.0).sub(smoothstep(0.95, 1.5, q)));
+      c.addAssign(ring.mul(B.w).mul(0.6));
+    });
+  });
+  return min(c, 0.65);
+  }).setLayout({ name: "esContactFoam", type: "float", inputs: [{ name: "wp", type: "vec2" }] });
+}
+
+/** Fast water piling on whatever stands in it: a bow wave on the upstream
+ * face and a wake downstream (owner 2026-09-14). Visual only. */
+function makeContactRush(u: WaterUniforms): (...args: TslNode[]) => TslNode {
+  return Fn(([wp, dir, speed]: [TslNode, TslNode, TslNode]) => {
+  const gain = smoothstep(fx(RUSH.speedFromMS, 2), fx(RUSH.speedFullMS, 2), speed);
+  const c = float(0.0).toVar();
+  const dr = n(dir);
+  Loop(MAX_CONTACT_BODIES, ({ i }: { i: TslNode }) => {
+    If(n(i).greaterThanEqual(int(u.uBodyCount)), () => { Break(); });
+    const B = n(n(u.uBodies).element(i));
+    If(B.w.greaterThanEqual(0.01), () => {
+      const d = n(n(wp).sub(B.xy).div(max(B.z, 0.1)));
+      const along = n(dot(d, dr));
+      const across = abs(dot(d, vec2(dr.y.negate(), dr.x)));
+      const bow = n(float(1.0).sub(smoothstep(0.8, 1.7, length(d)))).mul(float(1.0).sub(smoothstep(-0.7, 0.2, along)));
+      const wake = n(smoothstep(0.0, 0.4, along)).mul(float(1.0).sub(smoothstep(0.5, 4.0, along)))
+        .mul(float(1.0).sub(smoothstep(along.mul(0.35).add(0.45), along.mul(0.5).add(1.1), across)));
+      c.addAssign(bow.add(wake.mul(fx(RUSH.wake, 2))).mul(B.w));
+    });
+  });
+  // gain <= 0.001 returned 0 in the GLSL; c * gain is 0 there to within 1e-3·c
+  return sel(n(gain).lessThanEqual(0.001), float(0.0), clamp(n(c).mul(gain), 0.0, 1.0));
+  }).setLayout({ name: "esContactRush", type: "float", inputs: [{ name: "wp", type: "vec2" }, { name: "dir", type: "vec2" }, { name: "speed", type: "float" }] });
+}
+
+/** Plunge-pool foam: a churning disc plus an expanding ring per nearby cascade. */
+function makePlungeFoam(u: WaterUniforms): (...args: TslNode[]) => TslNode {
+  return Fn(([wp, flow]: [TslNode, TslNode]) => {
+  const f = float(0.0).toVar();
+  Loop(MAX_PLUNGE_SOURCES, ({ i }: { i: TslNode }) => {
+    If(n(i).greaterThanEqual(int(u.uPlungeCount)), () => { Break(); });
+    const P = n(n(u.uPlunges).element(i));
+    If(P.w.greaterThanEqual(0.01), () => {
+      const r = max(P.z, 0.5);
+      const q = n(length(n(wp).sub(P.xy).sub(n(flow).mul(0.6)))).div(r);
+      const disc = float(1.0).sub(smoothstep(0.35, 2.0, q));
+      const ph = n(fract(n(u.uTransportTime).div(2.67).add(P.x.mul(0.013)).add(P.y.mul(0.007))));
+      const e = ph.mul(ph);
+      const rr = e.mul(1.15).add(0.45);
+      const ring = n(float(1.0).sub(smoothstep(0.0, 0.16, abs(q.sub(rr))))).mul(float(1.0).sub(e));
+      f.addAssign(P.w.mul(n(disc).add(ring.mul(0.6))));
+    });
+  });
+  return min(f, 0.75);
+  }).setLayout({ name: "esPlungeFoam", type: "float", inputs: [{ name: "wp", type: "vec2" }, { name: "flow", type: "vec2" }] });
+}
+
+/** Tiered screen-space reflection: 18 steps, 1.12 growth. Returns vec4(rgb, confidence). */
+function makeSsr(u: WaterUniforms): (...args: TslNode[]) => TslNode {
+  return Fn(([ro, rd]: [TslNode, TslNode]) => {
+  const result = vec4(0.0).toVar();
+  const stepLen = float(2.2).toVar();
+  const prevDiff = float(-1.0).toVar();
+  const prevUV = vec2(0.0).toVar();
+  Loop({ start: int(1), end: int(19) }, ({ i }: { i: TslNode }) => {
+    const p = n(ro).add(n(rd).mul(stepLen.mul(float(i))));
+    const viewP = n(cameraViewMatrix).mul(vec4(p, 1.0));
+    const clip = n(cameraProjectionMatrix).mul(viewP);
+    If(clip.w.lessThanEqual(0.0), () => { Break(); });
+    const uv = n(getScreenPosition(viewP.xyz, cameraProjectionMatrix)).toVar();
+    If(uv.x.lessThan(0.0).or(uv.x.greaterThan(1.0)).or(uv.y.lessThan(0.0)).or(uv.y.greaterThan(1.0)), () => { Break(); });
+    const sceneEye = n(esEyeDepth(u, uv));
+    const rayEye = viewP.z.negate();
+    const diff = rayEye.sub(sceneEye).toVar();
+    If(diff.greaterThan(0.0).and(diff.lessThan(8.0)).and(sceneEye.lessThan(n(cameraFar).mul(0.9))), () => {
+      const t = select(prevDiff.lessThan(0.0), float(1.0), prevDiff.negate().div(diff.sub(prevDiff)));
+      const hitUV = n(mix(prevUV, uv, clamp(t, 0.0, 1.0)));
+      const edge = n(smoothstep(0.0, 0.12, hitUV)).mul(smoothstep(0.0, 0.12, float(1.0).sub(hitUV)));
+      const conf = edge.x.mul(edge.y).mul(float(1.0).sub(float(i).div(18.0).mul(0.4)));
+      result.assign(vec4(n(n(u.uSceneColor).sample(hitUV)).rgb, conf));
+      Break();
+    });
+    prevDiff.assign(diff);
+    prevUV.assign(uv);
+    stepLen.mulAssign(1.12);
+  });
+  return result;
+  });  // inline: it samples the scene textures (see makeSurfaceAt)
+}
+
+/** Dilated owner-mask coverage (0 = the field owns this pixel, 1 = a strip or sheet does). */
+function esOwnedFrac(u: WaterUniforms, wpos: TslNode): TslNode {
+  const e = fx(OWNER_DILATE_M, 2);
+  const taps = [vec2(0, 0), vec2(e, 0), vec2(-e, 0), vec2(0, e), vec2(0, -e)];
+  let owned: TslNode = float(0.0);
+  for (const off of taps) {
+    const uv = n(n(wpos).add(off).div(max(u.uSurfExtentM, 1.0)));
+    const inside = all(uv.greaterThanEqual(vec2(0.0))).and(all(uv.lessThan(vec2(1.0))));
+    const texel = n(n(u.uSurfTex).load(ivec2(uv.mul(u.uSurfSize))));
+    owned = n(owned).add(sel(n(inside).and(texel.a.greaterThan(0.25)), float(1.0), float(0.0)));
   }
+  return n(owned).div(5.0);
+}
 
-  float esContactFoam(vec2 wp){
-    // churn RINGS (annulus), textured later, capped well below solid
-    float c = 0.0;
-    for (int i = 0; i < ${MAX_CONTACT_BODIES}; i++){
-      if (i >= uBodyCount) break;
-      vec4 B = uBodies[i];
-      if (B.w < 0.01) continue;
-      float q = length(wp - B.xy) / max(B.z, 0.1);
-      float ring = smoothstep(0.3, 0.75, q) * (1.0 - smoothstep(0.95, 1.5, q));
-      c += ring * B.w * 0.6;
-    }
-    return min(c, 0.65);
+/** The foam dissolve/breakup mask: the vanilla foam tile (remapped onto the fbm's moments) or the fbm. */
+function foamMasks(u: WaterUniforms, foamTex: boolean) {
+  const tileM = fx(FOAM_TEX.tileM, 2);
+  const texAt = (wp: TslNode) => {
+    const a = n(n(u.uFoamTex).sample(n(wp).div(tileM))).a;
+    return a.sub(fx(FOAM_TEX.mean, 3)).mul(fx(FOAM_TEX.fbmStd / FOAM_TEX.std, 4)).add(fx(FOAM_TEX.fbmMean, 3));
+  };
+  if (foamTex) {
+    return {
+      mask: (wp: TslNode) => texAt(wp),
+      mask2: (wp: TslNode) => texAt(n(wp).mul(0.7).add(2.0)),
+      fleck: (wp: TslNode) => n(n(u.uFoamTex).sample(n(wp).div(tileM))).a,
+    };
   }
+  return {
+    mask: (wp: TslNode) => esFbm(n(wp).mul(0.55), 3),
+    mask2: (wp: TslNode) => esFbm(n(wp).mul(0.55), 2),
+    fleck: (wp: TslNode) => esFbm(n(wp).mul(fx(FLECK.scale, 2)).add(5.0), 2),
+  };
+}
 
-  /** Fast water piling on whatever stands in it: a bow wave hugging the
-   * UPSTREAM face and a white wake tearing away downstream. The ring above is
-   * a still-water splash and needs the body to move; this is the flow's own,
-   * so standing still in a torrent is not glassy (owner 2026-09-14: "even if
-   * you're standing still in sloped, fast flowing water it is rushing around
-   * and splashing off the player's body"). Visual only — no CPU twin, because
-   * nothing reads it back; the physical side is the contact emitter, which
-   * already rates its spray on the speed RELATIVE to the flow.
-   * dir is the unit flow direction, speed its magnitude in m/s. */
-  float esContactRush(vec2 wp, vec2 dir, float speed){
-    float gain = smoothstep(${RUSH.speedFromMS.toFixed(2)}, ${RUSH.speedFullMS.toFixed(2)}, speed);
-    if (gain <= 0.001) return 0.0;
-    float c = 0.0;
-    for (int i = 0; i < ${MAX_CONTACT_BODIES}; i++){
-      if (i >= uBodyCount) break;
-      vec4 B = uBodies[i];
-      if (B.w < 0.01) continue;
-      vec2 d = (wp - B.xy) / max(B.z, 0.1);
-      float along = dot(d, dir);                       // + is downstream
-      float across = abs(dot(d, vec2(-dir.y, dir.x)));
-      // the bow: a crescent tight to the upstream face
-      float bow = (1.0 - smoothstep(0.8, 1.7, length(d))) * (1.0 - smoothstep(-0.7, 0.2, along));
-      // the wake: a tail that spreads and fades downstream
-      float wake = smoothstep(0.0, 0.4, along) * (1.0 - smoothstep(0.5, 4.0, along))
-                 * (1.0 - smoothstep(0.45 + along * 0.35, 1.1 + along * 0.5, across));
-      c += (bow + wake * ${RUSH.wake.toFixed(2)}) * B.w;
-    }
-    return clamp(c * gain, 0.0, 1.0);
-  }
+/* ------------------------------------------------------------------ *
+ * Steep-strip whitewater (procedural streak path of whitewaterStreaks'
+ * esWhitewater; the water material never bound a streak texture).
+ * ------------------------------------------------------------------ */
 
-  /** Plunge-pool foam: a churning disc plus an expanding RING, spreading OUT
-   * on the receiving surface under each nearby cascade and carried downstream
-   * by the field flow (research §4 — plunge foam spreads, it never pops up).
-   * P = (x, z, radius ≈ widthM, strength); it fades out by ~2 × radius. */
-  float esPlungeFoam(vec2 wp, vec2 flow){
-    float f = 0.0;
-    for (int i = 0; i < ${MAX_PLUNGE_SOURCES}; i++){
-      if (i >= uPlungeCount) break;
-      vec4 P = uPlunges[i];
-      if (P.w < 0.01) continue;
-      float r = max(P.z, 0.5);
-      // the impact point the foam grew FROM sits upstream of this pixel
-      float q = length(wp - P.xy - flow * 0.6) / r;
-      float disc = 1.0 - smoothstep(0.35, 2.0, q);
-      // the expanding ring: fxrapidsringheavy's jetPuffs curve, eased 0 -> 1
-      // over 2.67 s (ease-in), fading as it spreads; phase per source
-      float ph = fract(uTransportTime / 2.67 + P.x * 0.013 + P.y * 0.007);
-      float e = ph * ph;
-      float rr = 0.45 + 1.15 * e;
-      float ring = (1.0 - smoothstep(0.0, 0.16, abs(q - rr))) * (1.0 - e);
-      f += P.w * (disc + ring * 0.6);
-    }
-    return min(f, 0.75);
-  }
-
-  ${tier.ssr && variant === "above" && !strip ? /* glsl */ `
-  #define ES_SSR 1
-  vec4 esSsr(vec3 ro, vec3 rd){
-    float stepLen = 2.2;
-    float prevDiff = -1.0;
-    vec2 prevUV = vec2(0.0);
-    for (int i = 1; i <= 18; i++){
-      vec3 p = ro + rd * (stepLen * float(i));
-      vec4 clip = uProjMatrix * viewMatrix * vec4(p, 1.0);
-      if (clip.w <= 0.0) break;
-      vec2 uv = clip.xy / clip.w * 0.5 + 0.5;
-      if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) break;
-      float sceneEye = esEyeDepth(uv);
-      float rayEye = -(viewMatrix * vec4(p, 1.0)).z;
-      float diff = rayEye - sceneEye;
-      if (diff > 0.0 && diff < 8.0 && sceneEye < uCamFar * 0.9){
-        float t = prevDiff < 0.0 ? 1.0 : (-prevDiff / (diff - prevDiff));
-        vec2 hitUV = mix(prevUV, uv, clamp(t, 0.0, 1.0));
-        vec2 edge = smoothstep(0.0, 0.12, hitUV) * smoothstep(0.0, 0.12, 1.0 - hitUV);
-        float conf = edge.x * edge.y * (1.0 - float(i) / 18.0 * 0.4);
-        return vec4(texture2D(uSceneColor, hitUV).rgb, conf);
-      }
-      prevDiff = diff;
-      prevUV = uv;
-      stepLen *= 1.12;
-    }
-    return vec4(0.0);
-  }` : ""}
-  `;
+function esStripBank(side: TslNode, edge: TslNode): TslNode {
+  return float(1.0).sub(smoothstep(fx(STRIP_BANK_FADE_START, 2), max(edge, fx(STRIP_BANK_FADE_START + 1e-3, 3)), abs(side)));
+}
+function esStripBlend(dropPerM: TslNode, speedMS: TslNode): TslNode {
+  return n(smoothstep(0.06, 0.30, dropPerM)).mul(smoothstep(0.8, 3.0, speedMS));
+}
+function esStripAeration(dropPerM: TslNode, speedMS: TslNode): TslNode {
+  return clamp(n(esStripBlend(dropPerM, speedMS)).mul(0.75).add(0.25), 0.0, 1.0);
+}
+function esStripGain(scrollMS: TslNode): TslNode {
+  return clamp(n(scrollMS).div(fx(STREAK_LAYERS[0].rateMS, 2)), 0.3, 2.0);
+}
+function esStreakValueNoise(p: TslNode): TslNode {
+  const i = floor(p);
+  const f = n(fract(p));
+  const uu = n(f.mul(f).mul(float(3.0).sub(f.mul(2.0))));
+  return mix(mix(esHash21(i), esHash21(n(i).add(vec2(1.0, 0.0))), uu.x),
+    mix(esHash21(n(i).add(vec2(0.0, 1.0))), esHash21(n(i).add(vec2(1.0, 1.0))), uu.x), uu.y);
+}
+function esStreakField(uv: TslNode): TslNode {
+  return esStreakValueNoise(vec2(n(uv).x, n(uv).y.mul(0.5)));
+}
+function esStreakUv(layer: number, uu0: TslNode, arcM: TslNode, t: TslNode, gain: TslNode, wobbleScale: number): TslNode {
+  const L = STREAK_LAYERS[layer];
+  const tile = fx(L.tileM, 2), rate = fx(L.rateMS, 2), across = fx(L.acrossTiles, 2), phase = fx(L.phaseS, 2);
+  const tp = n(t).add(phase);
+  const breathe = n(float(1.0).sub(cos(tp.mul(6.2831853).div(fx(STREAK_BREATHE_PERIOD_S, 2)))))
+    .mul(fx(STREAK_BREATHE_AMPLITUDE * 0.5, 3)).add(1.0);
+  const wobble = n(sin(n(uu0).mul(fx(STREAK_WOBBLE_FREQ, 1)).add(tp))).mul(fx(STREAK_WOBBLE_AMPLITUDE, 2) * wobbleScale);
+  const uu = n(uu0).sub(0.5).mul(breathe).mul(across).add(0.5 * across).add(tp.mul(fx(STREAK_U_DRIFT_UVS, 3))).add(wobble);
+  const vv = n(arcM).div(tile).sub(n(gain).mul(rate).mul(t).div(tile));
+  return vec2(uu, vv);
+}
+function esWhitewater(uu: TslNode, arcM: TslNode, t: TslNode, gain: TslNode, wobbleScale: number): TslNode {
+  const body = n(esStreakField(esStreakUv(0, uu, arcM, t, gain, wobbleScale)));
+  const foam = n(esStreakField(n(esStreakUv(1, uu, arcM, t, gain, wobbleScale)).add(vec2(11.0, 3.0))));
+  const accent = n(esStreakField(n(esStreakUv(2, uu, arcM, t, gain, wobbleScale)).add(vec2(5.0, 17.0))));
+  return clamp(body.mul(foam.mul(0.75).add(0.55)).mul(accent.mul(0.6).add(0.7)), 0.0, 1.0);
 }
 
 export interface WaterMaterialContext {
-  csm: CSM | null;
-  applyAerial: (material: THREE.Material) => void;
+  /** Retired with decision 0107 (CSMShadowNode lives on the light); ignored. */
+  csm?: unknown;
+  /** Retired with decision 0107 (scene.fogNode hazes the water); ignored. */
+  applyAerial?: (material: THREE.Material) => void;
   assets: WaterAssets;
   uniforms: WaterUniforms;
   tier: WaterTier;
+}
+
+/** The lit-colour composite the GLSL spliced before `opaque_fragment`. */
+type Composite = (outgoing: TslNode, reflected: {
+  directDiffuse: TslNode; indirectDiffuse: TslNode; directSpecular: TslNode; indirectSpecular: TslNode;
+}, envSample: ((dir: TslNode, roughness: number) => TslNode) | null) => TslNode;
+
+class WaterLightingModel extends PhysicalLightingModel {
+  constructor(private readonly composite: Composite) { super(); }
+  finish(builder: any): void {
+    super.finish(builder);
+    const { outgoingLight, reflectedLight } = builder.context;
+    const material = builder.material as THREE.MeshPhysicalMaterial;
+    const envTex = (material.envMap ?? builder.scene?.environment ?? null) as THREE.Texture | null;
+    const intensity = material.envMap ? material.envMapIntensity : (builder.scene?.environmentIntensity ?? 1);
+    const envSample = envTex
+      ? (dir: TslNode, roughness: number) => n(pmremTexture(envTex, dir, float(roughness))).rgb.mul(intensity)
+      : null;
+    outgoingLight.assign(this.composite(outgoingLight, reflectedLight, envSample));
+  }
+}
+
+class WaterNodeMaterial extends MeshPhysicalNodeMaterial {
+  composite: Composite | null = null;
+  setupLightingModel(): any {
+    return this.composite ? new WaterLightingModel(this.composite) : super.setupLightingModel();
+  }
 }
 
 export function createWaterMaterial(
   variant: WaterVariant,
   ctx: WaterMaterialContext,
   mode: WaterSurfaceMode = "field",
-): THREE.MeshPhysicalMaterial {
-  const { csm, applyAerial, uniforms, tier } = ctx;
+): MeshPhysicalNodeMaterial {
+  const { uniforms: u, tier } = ctx;
   const strip = mode === "strip";
   const foamTex = !!ctx.assets.waterfallTextures?.foam;
   const classes = ctx.assets.meta.klass.classes;
-  const material = new THREE.MeshPhysicalMaterial({
-    roughness: 0.08,
-    metalness: 0.0,
-    specularIntensity: 0.5, // F0 ≈ 0.02 — water
-    side: strip ? THREE.DoubleSide : variant === "above" ? THREE.FrontSide : THREE.BackSide,
-    // strips overlap the field by one station at each join; a small offset
-    // makes the strip win that overlap instead of z-fighting it.
-    polygonOffset: strip,
-    polygonOffsetFactor: strip ? -2 : 0,
-    polygonOffsetUnits: strip ? -4 : 0,
-  });
+  const material = new WaterNodeMaterial();
+  material.roughness = 0.08;
+  material.metalness = 0.0;
+  material.specularIntensity = 0.5; // F0 ≈ 0.02 — water
+  material.side = strip ? THREE.DoubleSide : variant === "above" ? THREE.FrontSide : THREE.BackSide;
+  // strips overlap the field by one station at each join; a small offset
+  // makes the strip win that overlap instead of z-fighting it.
+  material.polygonOffset = strip;
+  material.polygonOffsetFactor = strip ? -2 : 0;
+  material.polygonOffsetUnits = strip ? -4 : 0;
   material.envMapIntensity = 1.0;
+  material.name = `es-water-${variant}-${tier.name}-${mode}${foamTex ? "-ftex" : ""}`;
+  const surfaceAt = makeSurfaceAt(u, "esSurfaceAtV");
+  const surfaceAtF = makeSurfaceAt(u, "esSurfaceAtF");
+  const esContactFoamFn = makeContactFoam(u);
+  const esContactRushFn = makeContactRush(u);
+  const esPlungeFoamFn = makePlungeFoam(u);
+  const esSsrFn = makeSsr(u);
+  const FLOW_MIN = fx(FLOW_WAVE_MIN_SPEED_MS, 2);
 
-  csm?.setupMaterial(material);
-  const csmHook = material.onBeforeCompile;
+  /* ---------------- vertex ---------------- */
+  const restW = n(n(modelWorldMatrix).mul(vec4(positionGeometry, 1.0))).xyz;
+  const aStill = attribute("aStill", "float"), aBedDepth = attribute("aBedDepth", "float");
+  const aFlow = attribute("aFlow", "vec2"), aSeason = attribute("aSeason", "float");
+  const aDrop = attribute("aDrop", "float");
+  const surf = n(n(strip ? vec2(aStill, max(aBedDepth, 0.0)) : surfaceAt(restW.xz)).toVar());
+  const dataUv = clamp(restW.xz.div(u.uFlowExtentM), vec2(0.0), vec2(1.0));
+  let kl = n(n(n(u.uKlassTex).sample(dataUv)).toVar());
+  let fl = n(n(n(u.uFlowTex).sample(dataUv)).toVar());
+  let ss = n(n(esShoreAt(u, restW.xz)).toVar());
+  if (!strip) {
+    // beyond the border past a LAND or inland edge texel: the coast's class,
+    // no current, open-sea fetch, far from any shore (16d, 0067)
+    const beyond = n(u.uHasApron).greaterThan(0.5).and(esOutside(u, restW.xz))
+      .and(n(esTideResponse(classes, kl.r.mul(255.0))).lessThan(0.5));
+    const coast = n(u.uApronCoast);
+    kl = n(sel(beyond, vec4(coast.x.div(255.0), coast.y, coast.z, 1.0), kl));
+    fl = n(sel(beyond, vec4(0.5, 0.5, 1.0, 1.0), fl));
+    ss = n(sel(beyond, vec3(u.uSurfShoreMax, 0.0, 0.0), ss));
+  }
+  const fetchM = n(n(esFetchAt(u, fl)).toVar());
+  let still = strip
+    ? n(surf.x.add(n(u.uLevelSeason).mul(aSeason)))
+    : n(surf.x.add(n(u.uLevelTide).mul(esTideResponse(classes, kl.r.mul(255.0)))).add(n(u.uLevelSeason).mul(ss.y)));
+  const shore = ss.x;
+  const turbV = max(kl.g, ss.z);
+  const fetch = n(n(esFetchExp(fetchM, turbV)).toVar());
+  // shore frame: shoreward = -grad(shoreDist), for the swell's normal tilt
+  const eG = n(u.uSurfMpp).mul(2.0);
+  const gradD = n(vec2(
+    n(esShoreAt(u, restW.xz.add(vec2(eG, 0.0)))).x.sub(shore),
+    n(esShoreAt(u, restW.xz.add(vec2(0.0, eG)))).x.sub(shore))).div(eG);
+  const gL = length(gradD);
+  const shoreDir = n(n(sel(shore.lessThan(90.0).and(n(gL).greaterThan(0.05)), gradD.negate().div(max(gL, 1e-6)), vec2(0.0))).toVar());
+  const surfE = esSurfEnergy(u.uWindMS, fetchM);
+  const alongPh = esAlongPhase(restW.xz, shoreDir, u.uWaveTime);
+  let swellDHdd: TslNode = float(0.0);
+  if (!strip) {
+    still = still.add(esSwash(shore, fetch, u.uWaveTime, surfE, alongPh));
+    const sw = esShoreSwell(shore, max(surf.y, 0.0), fetch, u.uWaveTime, surfE, alongPh);
+    still = still.add(sw.h);
+    swellDHdd = sw.dHdd;
+  }
+  const vDepth = surf.y.add(still.sub(surf.x));
+  const exposure = strip ? float(0.05) : n(esWaveExposure(shore, vDepth, turbV));
+  const camDist = distance(n(cameraPosition).xz, restW.xz);
+  const waveAmp = n(n(exposure).mul(esSeaRms(u.uWindMS, fetchM)).toVar());
+  const wave = esWaveSampleEx(restW.xz, waveAmp, fetchM, esStandingRatio(classes, kl.r.mul(255.0), shore), u.uWaveTime, tier.waveBands);
+  // below 0.0005 amplitude the GLSL skipped the spectrum (flat, up)
+  const live = waveAmp.greaterThan(0.0005);
+  const wDisp = n(n(sel(live, wave.disp, vec3(0.0))).toVar());
+  let wNormal = n(n(sel(live, wave.normal, vec3(0.0, 1.0, 0.0))).toVar());
+  wNormal = n(normalize(vec3(wNormal.x.add(shoreDir.x.mul(swellDHdd)), wNormal.y, wNormal.z.add(shoreDir.y.mul(swellDHdd)))));
+  const flowV = n(n(strip ? aFlow : fl.xy.sub(0.5).mul(2.0).mul(u.uFlowMax)).toVar());
+  const flowSp = n(n(length(flowV)).toVar());
+  let flowH: TslNode = float(0.0);
+  if (!strip) {
+    const flowing = flowSp.greaterThan(FLOW_MIN);
+    const flowFade = float(1.0).sub(smoothstep(150.0, 400.0, camDist));
+    const fw = esFlowWave(restW.xz, flowV.div(max(flowSp, 1e-6)), flowSp, u.uWaveTime);
+    flowH = sel(flowing, n(fw.h).mul(flowFade), float(0.0));
+    const fN = n(fw.normal);
+    const slope = wNormal.xz.div(max(wNormal.y, 1e-3)).add(fN.xz.div(max(fN.y, 1e-3)).mul(flowFade));
+    wNormal = n(sel(flowing, normalize(vec3(slope.x, 1.0, slope.y)), wNormal));
+  }
+  let dropSlope: TslNode = float(0.0);
+  if (strip) dropSlope = clamp(aDrop, 0.0, 1.0);
+  else {
+    const downAt = n(surfaceAt(restW.xz.add(flowV.div(max(flowSp, 1e-6)).mul(7.0))));
+    dropSlope = sel(flowSp.greaterThan(FLOW_MIN), clamp(surf.x.sub(downAt.x).div(7.0), 0.0, 1.0), float(0.0));
+  }
+  const vEsSurf = n(varying(vec4(fetch, shoreDir, surfE), "vEsSurf"));
+  const vEsData = n(varying(vec4(still, vDepth, exposure, shore), "vEsData"));
+  const vEsKlass = n(varying(vec4(kl.g, kl.b, ss.z, kl.r.mul(255.0)), "vEsKlass"));
+  const vEsColour = n(varying(esColourAt(u, restW.xz), "vEsColour"));
+  const vEsFlow = n(varying(vec3(flowV, dropSlope), "vEsFlow"));
+  const vEsNormalW = n(varying(wNormal, "vEsNormalW"));
+  const vEsSide = n(varying(attribute("aSide", "float"), "vEsSide"));
+  const vEsStrip = n(varying(vec4(attribute("aSideM", "float"), attribute("aArc", "float"),
+    attribute("aScroll", "float"), attribute("aEdge", "float")), "vEsStrip"));
+  const vEsRockFoam = n(varying(attribute("aRockFoam", "vec2"), "vEsRockFoam"));
+  const pg = n(positionGeometry);
+  material.positionNode = vec3(pg.x.add(wDisp.x), still.add(wDisp.y).add(flowH).mul(u.uVerticalScale), pg.z.add(wDisp.z));
 
-  material.onBeforeCompile = (shader, renderer) => {
-    csmHook?.call(material, shader, renderer);
-    Object.assign(shader.uniforms, uniforms);
+  /* ---------------- fragment ---------------- */
+  const wp = n(positionWorld);
+  const wpXZ = wp.xz;
+  let guard: TslNode = float(1.0);
+  if (!strip) {
+    // Decision 0047: the raster only guards against BURIED surface; the
+    // visible edge is the terrain under the hardware depth test. Coverage
+    // terms folded into esCover, never a hard cut (audit mechanisms 1-4).
+    const fs = n(surfaceAtF(wpXZ));
+    const lift = vEsData.x.sub(fs.x);
+    const guardDist = distance(cameraPosition, wp);
+    const floorM = max(n(guardDist).mul(-fx(BURIED_GUARD.perMetre, 4)).add(fx(BURIED_GUARD.nearM, 2)), fx(BURIED_GUARD.floorM, 2));
+    guard = n(smoothstep(n(floorM).sub(fx(BURIED_GUARD.fadeM, 2)), floorM, fs.y.add(lift)));
+    const ge = u.uSurfMpp;
+    const gw = n(vec2(
+      n(surfaceAtF(wpXZ.add(vec2(ge, 0.0)))).x.sub(n(surfaceAtF(wpXZ.sub(vec2(ge, 0.0)))).x),
+      n(surfaceAtF(wpXZ.add(vec2(0.0, ge)))).x.sub(n(surfaceAtF(wpXZ.sub(vec2(0.0, ge)))).x))).div(n(ge).mul(2.0));
+    guard = n(guard).mul(float(1.0).sub(smoothstep(fx(FIELD_SLOPE_FADE.start, 2), fx(FIELD_SLOPE_FADE.full, 2), length(gw))));
+    guard = n(guard).mul(sel(n(u.uHasOwner).greaterThan(0.5), float(1.0).sub(esOwnedFrac(u, wpXZ)), float(1.0)));
+    guard = n(guard).toVar("esGuard");
+    material.maskNode = n(guard).greaterThan(0.003);
+  }
+  const screenUv = screenUV;
+  const viewPos = n(cameraViewMatrix).mul(vec4(wp, 1.0));
+  const fragEye = n(n(viewPos).z.negate().toVar());
+  const sceneEye = n(n(esEyeDepth(u, screenUv)).toVar());
 
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        "#include <common>",
-        /* glsl */ `#include <common>
-${strip ? "#define ES_STRIP 1" : ""}
-#ifdef ES_STRIP
-// Strip vertices carry their own hydraulics: the raster is a 3.66 m field
-// and a one-texel ribbon bilinears into blobs on it (decision 0046 item 4).
-attribute float aStill;
-attribute float aBedDepth;
-attribute vec2 aFlow;
-attribute float aSeason;
-attribute float aDrop;
-attribute float aSide;
-// ribbon UV (decision 0047 item 4): signed across metres, arc metres, and
-// the ribbon's uniform scroll speed for the whitewater streaks
-attribute float aSideM;
-attribute float aArc;
-attribute float aScroll;
-attribute vec2 aRockFoam;   // 16f: baked rock foam at the centreline and at this edge
-attribute float aEdge;
-varying float vEsSide;
-varying vec4 vEsStrip;
-varying vec2 vEsRockFoam;
-#endif
-uniform float uVerticalScale;
-varying vec4 vEsData;
-varying vec4 vEsKlass;
-varying vec2 vEsColour;  // 16f: algae, dark
-varying vec3 vEsFlow;
-varying vec3 vEsNormalW;
-varying vec4 vEsSurf;
-${SAMPLER_GLSL}
-${gerstnerGlsl(tier.waveBands)}
-${standingRatioGlsl(classes)}
-${tideResponseGlsl(classes)}
-${surfGlsl()}
-${flowWaveGlsl()}`,
-      )
-      .replace(
-        "#include <beginnormal_vertex>",
-        /* glsl */ `
-vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
-#ifdef ES_STRIP
-vEsSide = aSide;
-vEsStrip = vec4(aSideM, aArc, aScroll, aEdge);
-vEsRockFoam = aRockFoam;
-vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
-#else
-vec2 esSurf = esSurfaceAt(esRestW.xz);
-#endif
-// (beyond the raster every texture clamps to its edge texel: no override)
-vec2 esDataUv = clamp(esRestW.xz / uFlowExtentM, vec2(0.0), vec2(1.0));
-vec4 esKl = texture2D(uKlassTex, esDataUv);
-vec4 esFl = texture2D(uFlowTex, esDataUv);
-vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
-#ifndef ES_STRIP
-if (uHasApron > 0.5 && esOutside(esRestW.xz) && esTideResponse(esKl.r * 255.0) < 0.5) {
-  // beyond the border, past a LAND or inland-water edge texel: the coast's
-  // class, no current, the open sea's fetch, far from any shore, no season
-  // response, no tannin (16d, 0067). Past a SEA edge texel the clamped values
-  // already are the sea's, and keeping them is what makes the surface
-  // continuous across the border (the owner's seam, 2026-09-15).
-  esKl = vec4(uApronCoast.x / 255.0, uApronCoast.y, uApronCoast.z, 1.0);
-  esFl = vec4(0.5, 0.5, 1.0, 1.0);
-  esSS = vec3(uSurfShoreMax, 0.0, 0.0);
-}
-#endif
-float esFetchM = esFetchAt(esFl);
-#ifdef ES_STRIP
-// no tide response inland on a steep reach; season rides the attribute
-float esStill = esSurf.x + uLevelSeason * aSeason;
-#else
-float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.r * 255.0) + uLevelSeason * esSS.y;
-#endif
-float esShore = esSS.x;
-float esTurbV = max(esKl.g, esSS.z);
-// shore frame: shoreward = -grad(shoreDist), for the swell's normal tilt.
-// The surf's energy is the COMPILED directional fetch at the point (waves.ts
-// gating lesson: never the depth term, which is 0 exactly at the waterline)
-float esFetch = esFetchExp(esFetchM, esTurbV);
-vec2 esShoreDir = vec2(0.0);
-if (esShore < 90.0) {
-  float eG = uSurfMpp * 2.0;
-  vec2 esGradD = vec2(
-    esShoreAt(esRestW.xz + vec2(eG, 0.0)).x - esShore,
-    esShoreAt(esRestW.xz + vec2(0.0, eG)).x - esShore) / eG;
-  float esGL = length(esGradD);
-  esShoreDir = esGL > 0.05 ? -esGradD / esGL : vec2(0.0);
-}
-// the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
-// added BEFORE the depth proxy so the advancing tongue renders on the
-// beach face instead of being discarded as buried (research doc §5).
-// THE surf energy knob (16c round 2): the sea's rms for the weather wind
-// and this shore's compiled fetch — CPU twin surfEnergyScale() in
-// waterWorld.sample. The along-shore phase makes the crests arrive
-// obliquely instead of the whole waterline rising as one (alongShorePhase).
-float esSurfE = esSurfEnergy(uWindMS, esFetchM);
-float esAlong = esAlongPhase(esRestW.xz, esShoreDir, uWaveTime);
-float esSwellDHdd = 0.0;
-#ifndef ES_STRIP
-esStill += esSwash(esShore, esFetch, uWaveTime, esSurfE, esAlong);
-esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfE, esAlong, esSwellDHdd);
-#endif
-// SIGNED depth + lift (decision 0047): wet ⇔ > 0. Dry vertices stay
-// negative until fragment interpolation; the fragment's buried guard and the
-// hardware depth test against the terrain do the cutting.
-float esVDepth = esSurf.y + (esStill - esSurf.x);
-#ifdef ES_STRIP
-// narrow water carries ripples, never swell: a Gerstner band wide enough to
-// see would swing the whole ribbon off its bed.
-float esExposure = 0.05;
-#else
-float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
-#endif
-float esCamDist = distance(cameraPosition.xz, esRestW.xz);
-// the sea's rms height from the wind and the fetch (ruling 7), the local
-// exposure on top; no distance fade (the far grid carries the swell, and
-// the horizon blend is what the far sea meets) — CPU twin: waterWorld.sample
-float esWaveAmp = esExposure * esSeaRms(uWindMS, esFetchM);
-EsWave esW;
-if (esWaveAmp > 0.0005) {
-  // per-band fetch (long swell needs long fetch) + the class standing ratio
-  // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
-  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esFetchM, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime);
-} else {
-  esW.disp = vec3(0.0);
-  esW.normal = vec3(0.0, 1.0, 0.0);
-  esW.height = 0.0;
-}
-// swell tilts the normal along the shoreward axis
-esW.normal.xz += esShoreDir * esSwellDHdd;
-esW.normal = normalize(esW.normal);
-#ifdef ES_STRIP
-vec2 esFlowV = aFlow;
-#else
-vec2 esFlowV = (esFl.xy - 0.5) * 2.0 * uFlowMax;
-#endif
-float esFlowSp = length(esFlowV);
-// Along-flow travelling undulation (decision 0047 item 6): a lowland river
-// at 0.3 m/s is no longer a flat plate. CPU twin: waves.ts flowWaveAt(),
-// used by WaterWorld.sample so buoyancy rides the same crests. Faded out
-// beyond 150 m in the shader only (far LOD triangles cannot carry a 1.6 m
-// wavelength; the CPU never queries there).
-float esFlowH = 0.0;
-${strip ? "" : /* glsl */ `
-if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
-  vec3 esFlowN;
-  float esFlowFade = 1.0 - smoothstep(150.0, 400.0, esCamDist);
-  esFlowH = esFlowWave(esRestW.xz, esFlowV / esFlowSp, esFlowSp, uWaveTime, esFlowN) * esFlowFade;
-  // summed slopes of two small-slope height fields (CPU twin does the same)
-  vec2 esSlope = esW.normal.xz / max(esW.normal.y, 1e-3) + (esFlowN.xz / max(esFlowN.y, 1e-3)) * esFlowFade;
-  esW.normal = normalize(vec3(esSlope.x, 1.0, esSlope.y));
-}`}
-vEsSurf = vec4(esFetch, esShoreDir, esSurfE);
-vEsData = vec4(esStill, esVDepth, esExposure, esShore);
-vEsKlass = vec4(esKl.g, esKl.b, esSS.z, esKl.r * 255.0);   // turbidity, salinity, tannin, class
-vEsColour = esColourAt(esRestW.xz);
-// surface drop along the current → cascades/rapids where water descends
-float esDropSlope = 0.0;
-#ifdef ES_STRIP
-esDropSlope = clamp(aDrop, 0.0, 1.0);
-#else
-if (esFlowSp > ${FLOW_WAVE_MIN_GLSL}) {
-  vec2 esDownAt = esSurfaceAt(esRestW.xz + (esFlowV / esFlowSp) * 7.0);
-  esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
-}
-#endif
-vEsFlow = vec3(esFlowV, esDropSlope);
-vEsNormalW = esW.normal;
-vec3 objectNormal = esW.normal;`,
-      )
-      .replace(
-        "#include <begin_vertex>",
-        /* glsl */ `
-vec3 transformed = vec3(
-  position.x + esW.disp.x,
-  (esStill + esW.disp.y + esFlowH) * uVerticalScale,
-  position.z + esW.disp.z);`,
-      );
+  // ---- normal ----
+  const nBase = normalize(vEsNormalW);
+  const speed = n(n(length(vEsFlow.xy)).toVar());
+  const cascade = n(n(smoothstep(0.04, 0.30, vEsFlow.z)).toVar());
+  const dist = n(n(distance(cameraPosition, wp)).toVar());
+  const detFade = n(n(exp(dist.mul(-0.010))).toVar());
+  const farFade = n(n(exp(dist.mul(-0.0025))).toVar());
+  const detStrength = vEsData.z.mul(0.10).add(0.10).add(n(min(speed, 1.0)).mul(0.05))
+    .mul(farFade.mul(0.8).add(0.2)).mul(cascade.mul(2.5).add(1.0));
+  const flowing = speed.greaterThan(FLOW_MIN);
+  const stillDrift = clamp(n(u.uWindMS).mul(0.06).add(0.15), 0.5, 1.5);
+  const drift = n(n(sel(speed.greaterThan(0.05), vEsFlow.xy, n(u.uWindDir).mul(stillDrift))).toVar());
+  const cycle = FOAM_CYCLE_S;
+  const ph1 = n(n(fract(n(u.uTransportTime).div(cycle))).toVar());
+  const ph2 = n(n(fract(n(u.uTransportTime).div(cycle).add(0.5))).toVar());
+  const phB = n(n(abs(ph1.mul(2.0).sub(1.0))).toVar());
+  const fDirN = n(n(sel(speed.greaterThan(0.05), vEsFlow.xy.div(max(speed, 1e-6)), vec2(1.0, 0.0))).toVar());
+  const stretch = n(n(smoothstep(0.4, 2.2, speed)).mul(1.4).add(1.0).toVar());
+  const p1 = wpXZ.sub(drift.mul(ph1).mul(cycle)).mul(0.55);
+  const p2 = wpXZ.sub(drift.mul(ph2).mul(cycle)).mul(0.55);
+  let g = n(n(mix(esDetailGrad(p1, vec2(0.0)), esDetailGrad(p2, vec2(0.0)), phB)).toVar());
+  g = g.sub(fDirN.mul(dot(g, fDirN)).mul(float(1.0).sub(float(1.0).div(stretch))));
+  const q1 = wpXZ.sub(drift.mul(ph1).mul(cycle)).mul(2.3).add(17.0);
+  const q2 = wpXZ.sub(drift.mul(ph2).mul(cycle)).mul(2.3).add(17.0);
+  const gfFlow = n(mix(esDetailGrad(q1, vec2(0.0)), esDetailGrad(q2, vec2(0.0)), phB)).mul(detFade).mul(0.5);
+  const gfStill = n(esDetailGrad(wpXZ.mul(2.3).add(17.0),
+    n(u.uWindDir).negate().mul(stillDrift).mul(0.6).mul(u.uTransportTime))).mul(detFade).mul(0.5);
+  const gF = n(n(sel(detFade.greaterThan(0.02), sel(flowing, gfFlow, gfStill), vec2(0.0))).toVar());
+  let rip: TslNode = vec2(0.0);
+  let ripCrest: TslNode = float(0.0);
+  if (tier.ripples) {
+    const info = n(u.uRippleInfo);
+    const rUv = n(wpXZ.sub(info.xy).div(info.z).add(0.5));
+    const on = info.w.greaterThan(0.5).and(all(rUv.greaterThan(vec2(0.02)))).and(all(rUv.lessThan(vec2(0.98))));
+    const rT = 1.0 / 256.0;
+    const R = (o: TslNode) => n(n(u.uRipple).sample(rUv.add(o))).r;
+    rip = sel(on, n(vec2(R(vec2(rT, 0.0)).sub(R(vec2(-rT, 0.0))), R(vec2(0.0, rT)).sub(R(vec2(0.0, -rT))))).mul(14.0), vec2(0.0));
+    ripCrest = sel(on, n(abs(n(n(u.uRipple).sample(rUv)).r)).mul(6.0), float(0.0));
+  }
+  let rainG: TslNode = vec2(0.0);
+  if (!strip) rainG = sel(n(u.uRainRipple).greaterThan(0.02), esRainRings(wpXZ, u.uTransportTime, u.uRainRipple, dist), vec2(0.0));
+  const nb = n(nBase);
+  let nw = n(normalize(vec3(
+    nb.x.sub(n(g).x.add(gF.x).mul(detStrength)).sub(n(rip).x).sub(n(rainG).x),
+    nb.y,
+    nb.z.sub(n(g).y.add(gF.y).mul(detStrength)).sub(n(rip).y).sub(n(rainG).y))));
+  const men = n(n(esMeniscusBand(wp.y.sub(n(cameraPosition).y).div(max(u.uVerticalScale, 1e-3)), dist)).toVar());
+  nw = n(sel(men.greaterThan(0.0), esMeniscusNormal(nw, normalize(n(cameraPosition).sub(wp)), men), nw));
+  if (variant === "below") nw = nw.negate();
+  nw = nw.toVar("esNW");
+  material.normalNode = normalize(n(cameraViewMatrix).mul(vec4(nw, 0.0)).xyz);
 
-    const prelude = fragmentPrelude(tier, variant, strip);
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        "#include <common>",
-        /* glsl */ `#include <common>
-${strip ? "#define ES_STRIP 1" : ""}
-#ifdef ES_STRIP
-varying float vEsSide;
-varying vec4 vEsStrip;
-varying vec2 vEsRockFoam;
-#endif
-${strip ? STRIP_AERATION_GLSL + WHITEWATER_GLSL : ""}
-${NOISE_GLSL}
-${surfGlsl()}
-${SAMPLER_GLSL}
-${prelude}
-${strip ? "" : OWNER_MASK_GLSL}
-${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BLEND_GLSL + SHORE_FROTH_GLSL + FOAM_MASK_GLSL}
-${MENISCUS_GLSL}
-${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
-uniform vec3 uWaterSunDir;
-uniform vec3 uWaterSunLight;
-uniform vec3 uWaterAmbient;
-uniform float uVerticalScale;`,
-      )
-      .replace(
-        "void main() {",
-        /* glsl */ `void main() {
-  float esGuard = 1.0;
-  ${strip ? "" : /* glsl */ `
-  {
-    // Decision 0047: the raster no longer cuts the shoreline. It only guards
-    // against drawing BURIED surface (signed depth + lift below the floor);
-    // the visible edge is the plane meeting the terrain mesh under the
-    // hardware depth test against the blit-written scene depth. Phase 16c:
-    // the three guards are COVERAGE terms folded into esCover, never a hard
-    // discard on an unsampled target (audit mechanism 1), and the floor is
-    // tight at every distance (a relaxed floor drew the dry table band as a
-    // sheet over far shores, mechanism 4).
-    vec2 esFS = esSurfaceAt(vEsWorldPos.xz);
-    float esLift = vEsData.x - esFS.x;   // tide + season + surf at this pixel
-    float esGuardDist = distance(cameraPosition, vEsWorldPos);
-    float esFloor = max(${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(4)} * esGuardDist,
-                        ${BURIED_GUARD.floorM.toFixed(2)});
-    esGuard *= smoothstep(esFloor - ${BURIED_GUARD.fadeM.toFixed(2)}, esFloor, esFS.y + esLift);
-    // A field surface is never a cliff: where the compiled STILL surface's
-    // slope, read from the RASTER's own gradient, exceeds FIELD_SLOPE_FADE
-    // the raster is bridging a drop the compiler owns as a sheet
-    // (mechanism 2: the screen-space derivative on a far grid cell read a
-    // step as a ramp and drew a dome, or a hole).
-    float esGe = uSurfMpp;
-    vec2 esGW = vec2(esSurfaceAt(vEsWorldPos.xz + vec2(esGe, 0.0)).x - esSurfaceAt(vEsWorldPos.xz - vec2(esGe, 0.0)).x,
-                     esSurfaceAt(vEsWorldPos.xz + vec2(0.0, esGe)).x - esSurfaceAt(vEsWorldPos.xz - vec2(0.0, esGe)).x)
-                / (2.0 * esGe);
-    esGuard *= 1.0 - smoothstep(${FIELD_SLOPE_FADE.start.toFixed(2)}, ${FIELD_SLOPE_FADE.full.toFixed(2)}, length(esGW));
-    // The field never shows under a compiled strip or waterfall sheet: those
-    // draw the same water from their own geometry (decision 0046 item 4).
-    // Dilated by OWNER_DILATE_M and dissolved, never cut (mechanism 3).
-    if (uHasOwner > 0.5) esGuard *= 1.0 - esOwnedFrac(vEsWorldPos.xz);
-    if (esGuard <= 0.003) discard;
-  }`}
-  vec2 esScreenUV = gl_FragCoord.xy / uResolution;
-  ${variant === "above" ? /* glsl */ `
-  // Scene depth at THIS pixel (unrefracted). No manual occlusion discard:
-  // the material depth-tests against the scene depth the blit wrote.
-  float esFragEye = -(viewMatrix * vec4(vEsWorldPos, 1.0)).z;
-  float esSceneEye = esEyeDepth(esScreenUV);
-  ` : ""}`,
-      )
-      .replace(
-        "#include <normal_fragment_begin>",
-        /* glsl */ `
-float faceDirection = gl_FrontFacing ? 1.0 : -1.0;
-vec3 esNBase = normalize(vEsNormalW);
-float esSpeed = length(vEsFlow.xy);
-// cascades: white churning descent where the surface visibly drops
-float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
-float esDist = distance(cameraPosition, vEsWorldPos);
-// distance LOD: detail normals AND their strength fade out far away —
-// unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
-float esDetFade = exp(-esDist * 0.010);
-float esFarFade = exp(-esDist * 0.0025);
-float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
-                    * (0.2 + 0.8 * esFarFade) * (1.0 + 2.5 * esCascade);
-// flow advection (Water2 dual-phase); still water gets a gentle wobble, not
-// a stream (round 2: 'flowing' foam on static pools)
-bool esFlowing = esSpeed > ${FLOW_WAVE_MIN_GLSL};
-// still water: the fine ripples travel downwind at their own phase speed
-// (audit root cause 2: a fixed 3 cm/s wander read as a static sea)
-float esStillDrift = clamp(0.15 + 0.06 * uWindMS, 0.5, 1.5);
-vec2 esDrift = esSpeed > 0.05 ? vEsFlow.xy : uWindDir * esStillDrift;
-// Transport (foam/normal advection) runs on the TRANSPORT clock on a
-// ${FOAM_CYCLE_S} s dual-phase cycle: the scroll distance per cycle is speed x cycle, so
-// 1 m/s of current moves foam exactly 1 m/s whatever the wind or preview
-// rate does to uWaveTime, which stays the waves/surf clock.
-float esCycle = ${FOAM_CYCLE_S.toFixed(1)};
-float esPh1 = fract(uTransportTime / esCycle);
-float esPh2 = fract(uTransportTime / esCycle + 0.5);
-float esPhB = abs(esPh1 * 2.0 - 1.0);
-// fast water: features stretch along the flow (anisotropy is a primary
-// speed cue — research rivers-on-slopes Q2)
-vec2 esFDirN = esSpeed > 0.05 ? vEsFlow.xy / esSpeed : vec2(1.0, 0.0);
-float esStretch = 1.0 + 1.4 * smoothstep(0.4, 2.2, esSpeed);
-vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 0.55;
-vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * esCycle) * 0.55;
-vec2 esG = mix(esDetailGrad(esP1, vec2(0.0)), esDetailGrad(esP2, vec2(0.0)), esPhB);
-// Apply directional strength to the LOCAL gradient, never rotate kilometre
-// world coordinates by a changing flow angle (the river barcode defect).
-esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);
-// Fine detail ripple: on flowing water it follows the CURRENT (dual-phase,
-// bounded offsets — decision 0047 root cause 6: the old fixed world-direction
-// drift read as upstream motion on every chute); still water keeps a slow
-// uniform wander.
-vec2 esGF = vec2(0.0);
-if (esDetFade > 0.02) {
-  if (esFlowing) {
-    vec2 esQ1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 2.3 + 17.0;
-    vec2 esQ2 = (vEsWorldPos.xz - esDrift * esPh2 * esCycle) * 2.3 + 17.0;
-    esGF = mix(esDetailGrad(esQ1, vec2(0.0)), esDetailGrad(esQ2, vec2(0.0)), esPhB) * esDetFade * 0.5;
+  // ---- albedo, roughness, foam ----
+  let composite: Composite;
+  if (variant === "above" && strip) {
+    const sal = vEsKlass.y, tan = vEsKlass.z;
+    const blend = esStripBlend(vEsFlow.z, speed);
+    const aer = n(esStripAeration(vEsFlow.z, speed));
+    const stripU = clamp(n(vEsSide).div(max(vEsStrip.w, 1.0)).mul(0.5).add(0.5), 0.0, 1.0);
+    const streak = n(esWhitewater(stripU, vEsStrip.y, u.uTransportTime, esStripGain(vEsStrip.z), 0.5));
+    let white = n(clamp(aer.mul(streak.mul(0.65).add(0.35)), 0.0, 1.0));
+    white = white.mul(mix(0.15, 1.0, blend));
+    const rockF = mix(vEsRockFoam.x, vEsRockFoam.y, clamp(abs(vEsSide), 0.0, 1.0));
+    white = n(clamp(white.add(n(rockF).mul(streak.mul(0.4).add(0.6)).mul(float(1.0).sub(white))), 0.0, 1.0));
+    const rushDir = vEsFlow.xy.div(max(speed, 1e-3));
+    const rush = n(esContactRushFn(wpXZ, rushDir, speed));
+    white = n(clamp(white.add(n(esContactFoamFn(wpXZ)).add(n(ripCrest).mul(0.5)).add(rush).mul(float(1.0).sub(white))), 0.0, 1.0)).toVar("esWhite");
+    const albClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), sal);
+    const alb = mix(albClear, vec3(0.045, 0.065, 0.022), clamp(tan, 0.0, 1.0));
+    const T = vec3(float(1.0).sub(aer));
+    const bank = esStripBank(vEsSide, vEsStrip.w);
+    const sw = STRIP_WHITE.map((v) => fx(v, 2));
+    material.colorNode = vec4(mix(alb, vec3(sw[0], sw[1], sw[2]), white), 1.0);
+    material.roughnessNode = mix(0.5, 0.9, white);
+    composite = (outgoing) => {
+      const view = normalize(n(cameraPosition).sub(wp));
+      const fresT = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
+      const scene = n(n(u.uSceneColor).sample(screenUv)).rgb;
+      const transmit = scene.mul(T).mul(float(1.0).sub(fresT));
+      return mix(scene, n(outgoing).add(transmit), bank);
+    };
+  } else if (variant === "above") {
+    const algae = vEsColour.x;
+    const turb = n(n(clamp(vEsKlass.x.add(algae.mul(0.25)), 0.0, 1.0)).toVar());
+    const sal = vEsKlass.y;
+    const tan = n(n(clamp(vEsKlass.z.add(vEsColour.y.mul(0.7)), 0.0, 1.0)).toVar());
+    const murk = n(n(clamp(turb.mul(0.7).add(tan.mul(0.8)), 0.0, 1.0)).toVar());
+    // vertical thickness over the unrefracted scene point (decision 0047 root cause 8)
+    const ray = n(normalize(wp.sub(cameraPosition)));
+    const vm = n(cameraViewMatrix);
+    const camFwd = vec3(vm.element(0).z, vm.element(1).z, vm.element(2).z).negate();
+    const sceneT = sceneEye.div(max(dot(ray, camFwd), 1e-3));
+    const sceneW = n(cameraPosition).add(ray.mul(sceneT));
+    const tv = n(wp.y.sub(sceneW.y).div(max(u.uVerticalScale, 1e-3))).toVar("esTv");
+    const distort = n(n(u.uRefractStrength).mul(clamp(float(6.0).div(max(fragEye, 1.0)), 0.02, 1.0)).mul(smoothstep(0.03, 0.5, tv)).toVar());
+    const rUvRaw = clamp(n(screenUv).add(nw.xz.mul(distort)), vec2(0.001), vec2(0.999));
+    const sceneEyeRRaw = n(esEyeDepth(u, rUvRaw));
+    const rejected = sceneEyeRRaw.lessThan(fragEye);
+    const rUv = n(sel(rejected, screenUv, rUvRaw)).toVar("esRUV");
+    const sceneEyeR = sel(rejected, sceneEye, sceneEyeRRaw);
+    const thick = max(n(sceneEyeR).sub(fragEye), 0.0);
+    const colDepth = min(thick, n(max(vEsData.y, 0.05)).mul(4.0));
+    const absorb = vec3(0.30, 0.10, 0.06).add(vec3(1.2, 1.7, 2.3).mul(turb)).add(vec3(2.2, 2.0, 4.6).mul(tan));
+    const T = n(n(exp(n(absorb).negate().mul(colDepth))).toVar("esT"));
+    let alb = n(n(mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), sal)).toVar());
+    alb = n(mix(alb, vec3(0.115, 0.085, 0.048), clamp(turb, 0.0, 1.0)));
+    alb = n(mix(alb, vec3(0.045, 0.065, 0.022), clamp(tan, 0.0, 1.0)));
+    alb = n(mix(alb, vec3(0.16, 0.30, 0.10), algae.mul(0.55)));
+    const shoreD = vEsData.w;
+    const expo = vEsData.z;
+    // 1. thin contact line
+    const cn0 = n(n(esFbm(wpXZ.mul(1.3).add(3.0), 2)).toVar());
+    let foamE = n(float(1.0).sub(smoothstep(0.0, fx(CONTACT_FOAM_M, 2), tv.add(cn0.sub(0.45).mul(0.10)))))
+      .mul(n(clamp(max(expo.mul(2.0), vEsSurf.x), 0.0, 1.0)).mul(0.5).add(0.18));
+    // 2. surf bore + backwash
+    const bn = n(n(esFbm(wpXZ.mul(0.16), 3)).toVar());
+    foamE = foamE.add(n(esSurfFoam(shoreD.add(bn.mul(4.0)), vEsSurf.x, u.uWaveTime, vEsSurf.w,
+      esAlongPhase(wpXZ, vEsSurf.yz, u.uWaveTime))).mul(0.85));
+    // 3. whitecaps
+    const crestMesh = wp.y.div(max(u.uVerticalScale, 1e-3)).sub(vEsData.x);
+    const crestFade = float(1.0).sub(smoothstep(1200.0, 2400.0, dist));
+    const cp = n(n(wpXZ.sub(n(u.uWindDir).mul(fx(whitecapDriftMS(), 2)).mul(u.uTransportTime)).mul(0.085)).toVar());
+    const cn = n(n(esFbm(cp, 3)).mul(0.5).add(n(esFbm(cp.mul(2.7).add(11.0), 2)).mul(0.5)).toVar());
+    const crest = max(crestMesh, n(smoothstep(n(u.uCapThreshold).sub(0.01), n(u.uCapThreshold).add(0.02), cn)).mul(0.3).add(0.16));
+    foamE = foamE.add(n(smoothstep(0.16, 0.34, crest)).mul(clamp(expo.mul(4.0), 0.0, 1.0)).mul(0.8).mul(crestFade));
+    // 4. rapids churn + cascades
+    foamE = foamE.add(n(smoothstep(0.3, 1.1, speed)).mul(float(1.0).sub(smoothstep(4.0, 30.0, shoreD))).mul(0.5));
+    foamE = foamE.add(cascade.mul(0.55));
+    // 5. contact rings, sim crests, rush, plunge pools
+    foamE = foamE.add(esContactFoamFn(wpXZ)).add(n(ripCrest).mul(0.5));
+    foamE = foamE.add(sel(speed.greaterThan(fx(RUSH.speedFromMS, 2)),
+      esContactRushFn(wpXZ, vEsFlow.xy.div(max(speed, 1e-3)), speed), float(0.0)));
+    foamE = foamE.add(esPlungeFoamFn(wpXZ, vEsFlow.xy));
+    // 5b. shoreline depth-range froth
+    foamE = foamE.add(esShoreFroth(tv, esFbm(wpXZ.mul(0.9).add(7.0), 2), vEsSurf.x));
+    foamE = n(min(foamE, 0.85)).toVar();
+    // 5c. persistent foam field
+    foamE = n(max(foamE, min(esFoamFieldAt(u, wpXZ), 0.95)));
+    foamE = foamE.mul(float(1.0).sub(murk.mul(0.75)));
+    const masks = foamMasks(u, foamTex && !strip);
+    const fp1 = wpXZ.sub(drift.mul(ph1).mul(cycle));
+    const fp2 = wpXZ.sub(drift.mul(ph2).mul(cycle));
+    let fTex = n(n(mix(masks.mask(fp1), masks.mask(fp2), phB)).toVar());
+    {
+      const adv = n(min(speed, 2.5)).mul(cycle);
+      const sp1 = wpXZ.sub(fDirN.mul(adv).mul(ph1));
+      const sp2 = wpXZ.sub(fDirN.mul(adv).mul(ph2));
+      const smear = fDirN.mul(1.55);
+      const s1 = n(masks.mask2(sp1.sub(smear))).add(masks.mask2(sp1)).add(masks.mask2(sp1.add(smear))).div(3.0);
+      const s2 = n(masks.mask2(sp2.sub(smear))).add(masks.mask2(sp2)).add(masks.mask2(sp2.add(smear))).div(3.0);
+      const streak = mix(s1, s2, phB);
+      fTex = n(sel(flowing, mix(fTex, streak, smoothstep(0.2, 1.0, speed)), fTex));
+      foamE = n(sel(flowing, foamE.add(n(smoothstep(0.6, 1.6, speed)).mul(0.3)), foamE));
+    }
+    const fThr = float(1.0).sub(foamE);
+    let foam = n(smoothstep(n(fThr).sub(0.18), n(fThr).add(0.26), fTex)).mul(smoothstep(0.0, 0.10, foamE));
+    const tt = n(u.uTransportTime);
+    foam = n(clamp(foam, 0.0, 1.0))
+      .mul(n(esFbm(wpXZ.mul(1.9).add(vec2(sin(tt.mul(0.17)), cos(tt.mul(0.15))).mul(0.8)), 3)).mul(0.5).add(0.5))
+      .mul(farFade.mul(0.75).add(0.25)).mul(0.9);
+    // 6. river flecks (class 3 = river)
+    {
+      const fk = mix(masks.fleck(fp1), masks.fleck(fp2), phB);
+      const lo = foamTex ? fx(FOAM_TEX.fleck.lo, 3) : fx(FLECK.lo, 3);
+      const hi = foamTex ? fx(FOAM_TEX.fleck.hi, 3) : fx(FLECK.hi, 3);
+      const fleck = n(smoothstep(lo, hi, fk)).mul(farFade.mul(0.75).add(0.25));
+      const isRiver = flowing.and(vEsKlass.w.greaterThan(2.5)).and(vEsKlass.w.lessThan(3.5));
+      foam = n(sel(isRiver, max(foam, fleck.mul(0.7).mul(float(1.0).sub(murk.mul(0.6)))), foam));
+    }
+    foam = foam.toVar("esFoam");
+    const foamShade = n(n(masks.mask(wpXZ.mul(6.7))).mul(0.36).add(0.72).toVar());
+    material.colorNode = vec4(mix(n(alb).mul(float(1.0).sub(T)), vec3(0.80, 0.84, 0.86).mul(foamShade), foam), 1.0);
+    material.roughnessNode = mix(
+      clamp(turb.mul(0.28).add(0.05).add(n(min(speed, 1.0)).mul(0.08)).add(float(1.0).sub(farFade).mul(0.24)), 0.0, 0.85),
+      0.92, foam);
+    composite = (outgoing, reflected, envSample) => {
+      const view = n(normalize(n(cameraPosition).sub(wp)));
+      let specEnv = n(reflected.indirectSpecular);
+      if (tier.ssr) {
+        const s = n(esSsrFn(wp, reflect(view.negate(), nw)));
+        const fres = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
+        const ssrFade = float(1.0).sub(smoothstep(fx(SSR_FADE_START_M, 1), fx(SSR_FADE_END_M, 1), dist));
+        const mixed = mix(specEnv, s.rgb.mul(fres), n(clamp(s.a, 0.0, 1.0)).mul(u.uSsrStrength).mul(ssrFade).mul(float(1.0).sub(foam)));
+        specEnv = n(sel(dist.lessThan(fx(SSR_FADE_END_M, 1)), mixed, specEnv));
+      }
+      const fresT = n(pow(float(1.0).sub(max(dot(nw, view), 0.0)), 5.0)).mul(0.98).add(0.02);
+      const transmit = n(n(u.uSceneColor).sample(rUv)).rgb.mul(T).mul(float(1.0).sub(foam)).mul(float(1.0).sub(fresT));
+      let out = n(outgoing).sub(reflected.indirectSpecular).add(specEnv).add(transmit);
+      const edgeSoft = smoothstep(0.0, fx(EDGE_FADE_M, 2), tv);
+      const cover = n(max(edgeSoft, foam)).mul(guard);
+      const spark = n(esSparkle(nw, view, u.uWaterSunDir, dist, expo)).mul(fresT);
+      const sssTint = mix(vec3(0.10, 0.45, 0.40), vec3(0.14, 0.11, 0.04), murk);
+      const sssW = esCrestSss(view, u.uWaterSunDir, crestMesh, expo);
+      out = out.add(n(u.uWaterSunLight).mul(spark.add(n(sssW).mul(sssTint))).mul(float(1.0).sub(foam)));
+      out = out.add(n(u.uWaterAmbient).mul(10.0).mul(esMeniscusRim(men)));
+      out = n(mix(n(n(u.uSceneColor).sample(screenUv)).rgb, out, cover));
+      if (envSample) {
+        const hz = n(esHorizonBlend(dist));
+        const sky = n(reflect(view.negate(), vec3(0.0, 1.0, 0.0)));
+        const skyDir = normalize(vec3(sky.x, max(sky.y, 0.02), sky.z));
+        out = n(sel(hz.greaterThan(0.0), mix(out, envSample(skyDir, 0.4), hz), out));
+      }
+      return out;
+    };
   } else {
-    // transport clock: uWaveTime folds every 8192 s and this drift is not periodic
-    esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, -uWindDir * esStillDrift * 0.6 * uTransportTime) * esDetFade * 0.5;
+    const turb = clamp(vEsKlass.x.add(vEsKlass.z).add(vEsColour.y.mul(0.7)), 0.0, 1.0);
+    let albU = n(mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), turb));
+    albU = n(mix(albU, vec3(0.16, 0.30, 0.10), vEsColour.x.mul(0.55)));
+    material.colorNode = vec4(albU, 1.0);
+    material.roughnessNode = float(0.4);
+    composite = (_outgoing, reflected, envSample) => {
+      // Snell's window: refract the up-ray through the surface into the sky.
+      const view = n(normalize(n(cameraPosition).sub(wp)));
+      const I = view.negate();
+      const nUp = n(sel(nw.y.greaterThan(0.0), nw, nw.negate()));
+      const refr = n(refract(I, nUp.negate(), 1.333));
+      const ci = abs(dot(nUp, I));
+      const fresU = n(pow(float(1.0).sub(ci), 5.0)).mul(0.98).add(0.02);
+      const glow = n(reflected.directDiffuse).add(reflected.indirectDiffuse);
+      const hasRefr = n(dot(refr, refr)).greaterThan(1e-4);
+      const sky = envSample ? sel(hasRefr, n(envSample(refr, 0.08)).mul(1.15), glow.mul(2.4)) : glow.mul(2.4);
+      const shimmer = smoothstep(0.5, 0.92, esFbm(wpXZ.mul(0.5).add(vec2(0.2).mul(u.uTransportTime)), 4));
+      let col = n(sel(hasRefr, mix(glow.mul(1.4), sky, float(1.0).sub(fresU)), glow.mul(1.6)));
+      col = col.add(glow.mul(shimmer).mul(0.8));
+      col = col.add(n(u.uWaterAmbient).mul(10.0).mul(esMeniscusRim(men)));
+      return col;
+    };
   }
-}
-vec2 esRip = vec2(0.0);
-float esRipCrest = 0.0;
-#ifdef ES_RIPPLES
-{
-  vec2 rUv = (vEsWorldPos.xz - uRippleInfo.xy) / uRippleInfo.z + 0.5;
-  if (uRippleInfo.w > 0.5 && all(greaterThan(rUv, vec2(0.02))) && all(lessThan(rUv, vec2(0.98)))) {
-    float rTexel = 1.0 / 256.0;
-    float hx1 = texture2D(uRipple, rUv + vec2(rTexel, 0.0)).r;
-    float hx0 = texture2D(uRipple, rUv - vec2(rTexel, 0.0)).r;
-    float hz1 = texture2D(uRipple, rUv + vec2(0.0, rTexel)).r;
-    float hz0 = texture2D(uRipple, rUv - vec2(0.0, rTexel)).r;
-    esRip = vec2(hx1 - hx0, hz1 - hz0) * 14.0;
-    esRipCrest = abs(texture2D(uRipple, rUv).r) * 6.0;
-  }
-}
-#endif
-// rain (study §3.1 (6)): analytic cell-hashed drop rings on ALL visible
-// water — discrete expanding rings, no buffers, faded by ~100 m; the 64 m
-// ripple-sim stamps stay for the near field. Real time, not the wave clock.
-vec2 esRainG = vec2(0.0);
-${strip ? "" : /* glsl */ `
-if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);`}
-vec3 esNW = normalize(vec3(
-  esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x - esRainG.x,
-  esNBase.y,
-  esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y - esRainG.y));
-// waterline meniscus (study §3.1 (8)): within +-0.4 m of the camera height
-// and arm's reach, the normal tilts toward the camera; the rim is added in
-// the lighting stage. Both variants: the half-in-half-out swimming shot.
-float esMen = esMeniscusBand((vEsWorldPos.y - cameraPosition.y) / max(uVerticalScale, 1e-3), esDist);
-if (esMen > 0.0) esNW = esMeniscusNormal(esNW, normalize(cameraPosition - vEsWorldPos), esMen);
-${variant === "below" ? "esNW = -esNW;" : ""}
-vec3 normal = normalize((viewMatrix * vec4(esNW, 0.0)).xyz);
-vec3 nonPerturbedNormal = normal;`,
-      )
-      .replace(
-        "#include <emissivemap_fragment>",
-        variant === "above" && strip
-          ? /* glsl */ `
-// ---- whitewater strip (decision 0047 item 4) ---------------------------
-float esSal = vEsKlass.y;
-float esTan = vEsKlass.z;
-float esBlend = esStripBlend(vEsFlow.z, esSpeed);
-float esAer = esStripAeration(vEsFlow.z, esSpeed);
-// three streak layers scrolled along the ribbon's OWN arc (vEsStrip.y, metres)
-// by its uniform speed x transport time: body at the ribbon speed, foam at
-// 2x, accent at 0.3x (the measured 6.7x spread), plus the 0.03 UV/s U drift
-// and the 8.33 s U-scale breathing — never world position x time, never a
-// fixed world drift (TS twins: stripStreakPhase, stripStreakGain, streakUv)
-float esStripU = clamp(0.5 + 0.5 * vEsSide / max(vEsStrip.w, 1.0), 0.0, 1.0);
-float esStripFoam;
-float esStreak = esWhitewater(esStripU, vEsStrip.y, uTransportTime, esStripGain(vEsStrip.z), 0.5, esStripFoam);
-float esWhite = clamp(esAer * (0.35 + 0.65 * esStreak), 0.0, 1.0);
-// below the slope x speed threshold the film stays clear (no white streaks)
-esWhite *= mix(0.15, 1.0, esBlend);
-// 16f: the foam a bed boulder leaves (pillow upstream, tail downstream),
-// baked per station from bed-rocks.json; interpolated across the ribbon
-// between the centreline and the edge value, broken by the streak noise
-{
-  float esRockF = mix(vEsRockFoam.x, vEsRockFoam.y, clamp(abs(vEsSide), 0.0, 1.0));
-  esWhite = clamp(esWhite + esRockF * (0.6 + 0.4 * esStreak) * (1.0 - esWhite), 0.0, 1.0);
-}
-// The player and the floating bodies churn a steep stream too. The contact
-// rings and the ripple-sim crest reach the FIELD fragment only (they are
-// added into esFoamE there), and this branch replaces that block wholesale,
-// so wading into a chute showed nothing at all (owner 2026-09-14:
-// "interaction effects between player and these kinds of sloped water also
-// don't seem to be working (no effects at all)"). Both terms are already in
-// scope: esContactFoam is in the shared prelude and esRipCrest in the shared
-// normal block, which the ribbon's normal already uses. Added AFTER the
-// slope/speed gate so a slow clear film still shows a wake.
-// ...and the flow's own churn: a bow wave on the upstream face of anything
-// standing in the torrent and a wake tearing away downstream, so a player who
-// is standing STILL in fast water still has water rushing off them.
-vec2 esRushDir = vEsFlow.xy / max(esSpeed, 1e-3);
-float esRush = esContactRush(vEsWorldPos.xz, esRushDir, esSpeed);
-esWhite = clamp(esWhite + (esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5 + esRush) * (1.0 - esWhite), 0.0, 1.0);
-// clear / tannin tint only — NEVER the silt-tan river albedo, no Beer–Lambert
-// brown (TS twin: stripAlbedo)
-vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
-vec3 esAlb = mix(esAlbClear, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));
-vec3 esT = vec3(1.0 - esAer);           // transmission: entrained air, not depth
-vec2 esRUV = esScreenUV;                // no refraction on whitewater
-float esFoam = esWhite;
-float esBank = esStripBank(vEsSide, vEsStrip.w);
-diffuseColor.rgb = mix(esAlb, vec3(${STRIP_WHITE.map((v) => v.toFixed(2)).join(", ")}), esWhite);
-roughnessFactor = mix(0.5, 0.9, esWhite);
-#include <emissivemap_fragment>`
-          : variant === "above"
-          ? /* glsl */ `
-// 16f colour constituents (decision 0070, dossier water-colour.md): the
-// dark constituent is more tannin (blackwater under canopy); algae adds a
-// little suspended matter and, below, a green cast to the albedo.
-float esAlgae = vEsColour.x;
-float esTurb = clamp(vEsKlass.x + esAlgae * 0.25, 0.0, 1.0);   // suspended silt — "whitewater" opacity
-float esSal = vEsKlass.y;
-float esTan = clamp(vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);    // dissolved tannin — "blackwater" tea
-float esMurk = clamp(esTurb * 0.7 + esTan * 0.8, 0.0, 1.0);
-// ---- the shoreline is cut by the terrain; its fade is VERTICAL -----------
-// Reconstruct the scene point behind this pixel from the UNREFRACTED scene
-// depth along the view ray and take the true vertical water thickness over
-// it (decision 0047 root cause 8: the ray thickness read through the
-// REFRACTED uv printed the 0.25 m ripple texels into the waterline).
-float esTv;
-{
-  vec3 esRay = normalize(vEsWorldPos - cameraPosition);
-  vec3 esCamFwd = -vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);
-  float esSceneT = esSceneEye / max(dot(esRay, esCamFwd), 1e-3);
-  vec3 esSceneW = cameraPosition + esRay * esSceneT;
-  esTv = (vEsWorldPos.y - esSceneW.y) / max(uVerticalScale, 1e-3);
-}
-// refraction distortion is for the TRANSMITTED colour sample only; it dies
-// in the shallows and is rejected when it lands in front of the surface
-float esThickPre = max(esSceneEye - esFragEye, 0.0);
-float esDistort = uRefractStrength * clamp(6.0 / max(esFragEye, 1.0), 0.02, 1.0)
-                * smoothstep(0.03, 0.5, esTv);
-vec2 esRUV = clamp(esScreenUV + esNW.xz * esDistort, vec2(0.001), vec2(0.999));
-float esSceneEyeR = esEyeDepth(esRUV);
-if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }
-float esThick = max(esSceneEyeR - esFragEye, 0.0);
-float esColDepth = min(esThick, max(vEsData.y, 0.05) * 4.0);
-// Beer–Lambert, three real tropical water types (research doc: Sioli/Amazon
-// typology): clear sea/mountain streams; SILT whitewater — lighter opaque
-// tan (café-au-lait); TANNIN blackwater — glassy dark tea, green-red.
-vec3 esAbsorb = vec3(0.30, 0.10, 0.06)
-  + esTurb * vec3(1.2, 1.7, 2.3)
-  + esTan * vec3(2.2, 2.0, 4.6);
-vec3 esT = exp(-esAbsorb * esColDepth);
-vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
-vec3 esAlb = esAlbClear;
-esAlb = mix(esAlb, vec3(0.115, 0.085, 0.048), clamp(esTurb, 0.0, 1.0));  // silt tan
-esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea green
-esAlb = mix(esAlb, vec3(0.16, 0.30, 0.10), esAlgae * 0.55);              // algae green (16f)
-
-// ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
-float esShoreD = vEsData.w;
-float esExpo = vEsData.z;
-// 1. thin contact line exactly at the waterline (vertical thickness under
-// CONTACT_FOAM_M, noise-broken so it never prints a grid) — fetch-boosted so
-// the active surf edge always carries a bright lip
-float esFoamE;
-{
-  float esCn0 = esFbm(vEsWorldPos.xz * 1.3 + 3.0, 2);
-  esFoamE = (1.0 - smoothstep(0.0, ${CONTACT_FOAM_M.toFixed(2)}, esTv + (esCn0 - 0.45) * 0.10))
-          * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0));
-}
-// 2. surf: bore foam riding each arriving crest + backwash remnants —
-// same closed forms as the swell/swash geometry, so foam and waterline
-// move together; per-pixel phase jitter breaks the parallel-band look
-{
-  float bn = esFbm(vEsWorldPos.xz * 0.16, 3);
-  // the vertex stage's energy and shore frame (vEsSurf.w, .yz): foam and
-  // geometry share one knob and one oblique phase
-  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, vEsSurf.w,
-    esAlongPhase(vEsWorldPos.xz, vEsSurf.yz, uWaveTime)) * 0.85;
-}
-// 3. whitecaps on genuinely exposed water, never in the far shimmer zone
-// The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
-// distance. A screen-resolution, world-anchored fbm crest keeps the density
-// PIXEL-driven; it is advected on the transport clock and scaled by wind.
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
-float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
-float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
-// whitecap density from the wind (waves.ts whitecapCoverage: 2 % of the sea
-// at the swell floor, 6 % at 12 m/s, 12 % in a squall): the crest noise
-// thresholds at the matching quantile (uCapThreshold, TS twin
-// whitecapThreshold), and the pattern rides downwind at the peak band's
-// group speed (audit root cause 5)
-{
-  vec2 esCP = (vEsWorldPos.xz - uWindDir * ${whitecapDriftMS().toFixed(2)} * uTransportTime) * 0.085;
-  float esCn = esFbm(esCP, 3) * 0.5 + esFbm(esCP * 2.7 + 11.0, 2) * 0.5;
-  esCrest = max(esCrest, 0.16 + smoothstep(uCapThreshold - 0.01, uCapThreshold + 0.02, esCn) * 0.3);
-}
-esFoamE += smoothstep(0.16, 0.34, esCrest) * clamp(esExpo * 4.0, 0.0, 1.0) * 0.8 * esCrestFade;
-// 4. rapids churn near banks + aerated cascades wherever water descends
-// (coverage CAPPED — a saturated threshold was the round-6 solid crust)
-esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.5;
-esFoamE += esCascade * 0.55;
-// 5. player/crate/splash rings + sim crests + plunge pools
-esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
-// a flowing river churns around a wader the same way a chute does (the strip
-// variant carries the twin of this line)
-if (esSpeed > ${RUSH.speedFromMS.toFixed(2)})
-  esFoamE += esContactRush(vEsWorldPos.xz, vEsFlow.xy / max(esSpeed, 1e-3), esSpeed);
-esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);
-// 5b. shoreline depth-range froth (study §4 (2)): a wider, lower,
-// noise-broken band over ~1.8 m of vertical depth behind the contact line
-esFoamE += esShoreFroth(esTv, esFbm(vEsWorldPos.xz * 0.9 + 7.0, 2), vEsSurf.x);
-// cap below saturation so the threshold texture ALWAYS breaks the foam up
-// (max coverage ~0.65, research Q3) ...
-esFoamE = min(esFoamE, 0.85);
-// 5c. ...then the PERSISTENT foam energy field (study §3.1 (1)): the
-// instantaneous terms above are the floor, the field carries memory — crest
-// foam trailing off the back of a wave, surf lingering on the sand, plunge
-// and contact foam drifting downstream on the compiled flow. Same dissolve
-// below, so the field's edge is seamless.
-esFoamE = max(esFoamE, min(esFoamFieldAt(vEsWorldPos.xz), 0.95));
-// murky water barely foams white
-esFoamE *= (1.0 - 0.75 * esMurk);
-// foam advection: DUAL-PHASE, like the normals. Scroll distance per cycle
-// = speed x cycle (Valve's one true speed knob). Never any velocity × absolute
-// time: an OSCILLATING velocity × t swings hundreds of metres per frame
-// (round-5 barcode); a SPATIALLY-VARYING velocity × t shears neighbouring
-// pixels apart until the noise shreds into stripes (round-6 barcode).
-// The mask is ONE foam family: the vanilla foam tile when bound (ES_FOAM_TEX,
-// remapped onto the fbm moments — FOAM_TEX), the procedural fbm otherwise.
-float esFTex;
-{
-  vec2 esFP1 = vEsWorldPos.xz - esDrift * esPh1 * esCycle;
-  vec2 esFP2 = vEsWorldPos.xz - esDrift * esPh2 * esCycle;
-  esFTex = mix(esFoamMask(esFP1), esFoamMask(esFP2), esPhB);
-}
-// flowing water reads as CURRENT: foam stretches into streaks along the
-// flow and slides downstream (owner round 6 — rivers must look like rivers);
-// gated at the flow-wave floor, not 0.3 m/s (decision 0047 root cause 7)
-if (esFlowing) {
-  // Never rotate the absolute world position by a spatially varying flow
-  // direction: far from origin, tiny bend-angle changes become huge texture
-  // jumps/barcodes. Stretch a world-anchored pattern using LOCAL offsets.
-  float esAdv = min(esSpeed, 2.5) * esCycle;   // metres per cycle — bounded
-  vec2 esSP1 = vEsWorldPos.xz - esFDirN * esAdv * esPh1;
-  vec2 esSP2 = vEsWorldPos.xz - esFDirN * esAdv * esPh2;
-  vec2 esSmear = esFDirN * 1.55;
-  float esStreak1 = (esFoamMask2(esSP1 - esSmear) + esFoamMask2(esSP1) + esFoamMask2(esSP1 + esSmear)) / 3.0;
-  float esStreak2 = (esFoamMask2(esSP2 - esSmear) + esFoamMask2(esSP2) + esFoamMask2(esSP2 + esSmear)) / 3.0;
-  float esStreak = mix(esStreak1, esStreak2, esPhB);
-  esFTex = mix(esFTex, esStreak, smoothstep(0.2, 1.0, esSpeed));
-  esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.3;
-}
-float esFThr = 1.0 - esFoamE;
-float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
-             * smoothstep(0.0, 0.10, esFoamE);
-// breakup jitter on the TRANSPORT clock (the wave clock folds; a sin of it
-// would pop at the fold unless snapped — real time needs no snapping)
-esFoam = clamp(esFoam, 0.0, 1.0)
-       * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uTransportTime * 0.17), cos(uTransportTime * 0.15)) * 0.8, 3))
-       * (0.25 + 0.75 * esFarFade) * 0.9;
-// 6. sparse drifting foam flecks on flowing river water (decision 0047 item
-// 6): a few percent coverage, dual-phase advected 1:1 with the current so a
-// slow lowland river visibly moves. TS twin of the threshold: riverFleck().
-if (esFlowing && vEsKlass.w > 2.5 && vEsKlass.w < 3.5) {
-  vec2 esFk1 = vEsWorldPos.xz - esDrift * esPh1 * esCycle;
-  vec2 esFk2 = vEsWorldPos.xz - esDrift * esPh2 * esCycle;
-  float esFk = mix(esFoamFleck(esFk1), esFoamFleck(esFk2), esPhB);
-#ifdef ES_FOAM_TEX
-  float esFleck = smoothstep(${FOAM_TEX.fleck.lo.toFixed(3)}, ${FOAM_TEX.fleck.hi.toFixed(3)}, esFk) * (0.25 + 0.75 * esFarFade);
-#else
-  float esFleck = smoothstep(${FLECK.lo.toFixed(3)}, ${FLECK.hi.toFixed(3)}, esFk) * (0.25 + 0.75 * esFarFade);
-#endif
-  esFoam = max(esFoam, esFleck * 0.7 * (1.0 - 0.6 * esMurk));
-}
-float esFoamShade = 0.72 + 0.36 * esFoamMask(vEsWorldPos.xz * 6.7);
-// foam is off-white ALBEDO + high roughness, never near-1.0 white — full
-// white kills all lighting shape and reads as crust (research Q3)
-diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.80, 0.84, 0.86) * esFoamShade, esFoam);
-// distance roughness LOD kills specular fireflies (round 2, defect 1)
-roughnessFactor = mix(
-  clamp(0.05 + esTurb * 0.28 + min(esSpeed, 1.0) * 0.08 + (1.0 - esFarFade) * 0.24, 0.0, 0.85),
-  0.92, esFoam);
-#include <emissivemap_fragment>`
-          : /* glsl */ `
-float esTurb = clamp(vEsKlass.x + vEsKlass.z + vEsColour.y * 0.7, 0.0, 1.0);
-vec3 esAlbU = mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), esTurb);
-esAlbU = mix(esAlbU, vec3(0.16, 0.30, 0.10), vEsColour.x * 0.55);       // algae green (16f)
-diffuseColor.rgb = esAlbU;
-roughnessFactor = 0.4;
-float esFoam = 0.0;
-#include <emissivemap_fragment>`,
-      )
-      .replace(
-        "#include <opaque_fragment>",
-        variant === "above" && strip
-          ? /* glsl */ `
-// whitewater: env/sun specular as lit, transmission (1 - aeration) of the
-// scene straight through (no refraction, no SSR), dissolved across the bank
-// overlap by aSide only — no shoreline terms on a ribbon.
-vec3 esView = normalize(cameraPosition - vEsWorldPos);
-float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
-vec3 esTransmit = texture2D(uSceneColor, esScreenUV).rgb * esT * (1.0 - esFresT);
-outgoingLight = outgoingLight + esTransmit;
-outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esBank);
-#include <opaque_fragment>`
-          : variant === "above"
-          ? /* glsl */ `
-vec3 esView = normalize(cameraPosition - vEsWorldPos);
-vec3 esSpecEnv = reflectedLight.indirectSpecular;
-#ifdef ES_SSR
-// Distance LOD (16f round 3): the 18-step screen-space march ran to 1.2 km,
-// where a reflection is a pixel or two the environment map already gives.
-// Past ${SSR_FADE_END_M} m the sky reflection alone carries the far field.
-if (esDist < ${SSR_FADE_END_M.toFixed(1)}) {
-  vec4 esS = esSsr(vEsWorldPos, reflect(-esView, esNW));
-  float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
-  float esSsrFade = 1.0 - smoothstep(${SSR_FADE_START_M.toFixed(1)}, ${SSR_FADE_END_M.toFixed(1)}, esDist);
-  esSpecEnv = mix(esSpecEnv, esS.rgb * esFres,
-    clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam));
-}
-#endif
-float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
-vec3 esTransmit = texture2D(uSceneColor, esRUV).rgb * esT * (1.0 - esFoam) * (1.0 - esFresT);
-outgoingLight = outgoingLight - reflectedLight.indirectSpecular + esSpecEnv + esTransmit;
-// soft contact: the surface fades in over EDGE_FADE_M of VERTICAL thickness
-// where the terrain cuts it (decision 0047) — no raster, no ripple texel, no
-// view-angle dependence in the waterline; foam may stand on the line itself
-float esEdgeSoft = smoothstep(0.0, ${EDGE_FADE_M.toFixed(2)}, esTv);
-float esCover = max(esEdgeSoft, esFoam) * esGuard;
-// ---- Water Pro transfers (study §3.1 (4), (5), (7), (8)) ---------------
-// sparkle: a dedicated sun glint with its own 8-500 m window, added AFTER
-// the specular and deliberately outside the roughness distance-LOD above
-float esSpark = esSparkle(esNW, esView, uWaterSunDir, esDist, esExpo) * esFresT;
-// crest scatter: backlit crests glow with the water's transmission tint,
-// gated on wave exposure (still marsh water never glows) and sun elevation
-vec3 esSssTint = mix(vec3(0.10, 0.45, 0.40), vec3(0.14, 0.11, 0.04), esMurk);
-float esSssW = esCrestSss(esView, uWaterSunDir, esCrestMesh, esExpo);
-outgoingLight += uWaterSunLight * (esSpark + esSssW * esSssTint) * (1.0 - esFoam);
-// meniscus rim across the waterline band at the camera
-outgoingLight += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
-outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCover);
-// horizon: the far sea converges on the sky it reflects over 1.5-3.5 km, so
-// the water/sky join has no seam. Before the aerial term (tonemapping_fragment)
-// — the fog then acts once on a colour that already agrees with the sky.
-#ifdef USE_ENVMAP
-{
-  float esHz = esHorizonBlend(esDist);
-  if (esHz > 0.0) {
-    vec3 esSkyDir = reflect(-esView, vec3(0.0, 1.0, 0.0));
-    esSkyDir.y = max(esSkyDir.y, 0.02);
-    vec3 esSkyCol = textureCubeUV(envMap, normalize(esSkyDir), 0.4).rgb * envMapIntensity;
-    outgoingLight = mix(outgoingLight, esSkyCol, esHz);
-  }
-}
-#endif
-#include <opaque_fragment>`
-          : /* glsl */ `
-// Snell's window: refract the up-ray through the surface into the sky.
-{
-  vec3 esView = normalize(cameraPosition - vEsWorldPos);
-  vec3 esI = -esView;
-  vec3 esNup = esNW.y > 0.0 ? esNW : -esNW;
-  vec3 esRefr = refract(esI, -esNup, 1.333);
-  float esCi = abs(dot(esNup, esI));
-  float esFresU = 0.02 + 0.98 * pow(1.0 - esCi, 5.0);
-  vec3 esGlow = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse;
-  vec3 esSky = esGlow * 2.4;
-  #ifdef USE_ENVMAP
-  if (dot(esRefr, esRefr) > 1e-4) {
-    esSky = textureCubeUV(envMap, esRefr, 0.08).rgb * envMapIntensity * 1.15;
-  }
-  #endif
-  float esShimmer = smoothstep(0.5, 0.92, esFbm(vEsWorldPos.xz * 0.5 + vec2(0.2) * uTransportTime, 4));
-  vec3 esCol = (dot(esRefr, esRefr) < 1e-4)
-    ? esGlow * 1.6
-    : mix(esGlow * 1.4, esSky, 1.0 - esFresU);
-  esCol += esGlow * esShimmer * 0.8;
-  // meniscus rim from below: the same band, the same highlight
-  esCol += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
-  outgoingLight = esCol;
-}
-#include <opaque_fragment>`,
-      );
-  };
-
-  applyAerial(material);
-  material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}-${mode}${foamTex ? "-ftex" : ""}`;
+  material.composite = composite;
+  material.needsUpdate = true;
   return material;
 }

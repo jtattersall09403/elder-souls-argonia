@@ -1,11 +1,22 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import { NodeMaterial, QuadMesh, RenderTarget, type WebGPURenderer } from "three/webgpu";
+import * as TSLNS from "three/tsl";
+import type { TslNode } from "../../render/nodes/materialNodes";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  abs, clamp, cos, dot, exp, float, fract, getViewPosition, length, max, min, normalize, pow, reference, select, sin,
+  texture, uniform, uv, vec2, vec4,
+} = TSLNS as any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const n = (v: TslNode): any => v;
 import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
-import { UnderwaterBubblePass, UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
+import { UnderwaterBubblePass } from "./UnderwaterBubblePass";
 import { useFrameSegments } from "../../fx/frameSegments";
 
 /**
@@ -25,22 +36,92 @@ import { useFrameSegments } from "../../fx/frameSegments";
 
 export type { WaterDebugState } from "./types";
 
-const CAUSTICS_GLSL = /* glsl */ `
-  float esCaustics(vec2 uv, float t){
-    vec2 p = mod(uv * 6.2831853, 6.2831853) - 250.0;
-    vec2 i = vec2(p);
-    float c = 1.0;
-    float inten = 0.0045;
-    for (int n = 0; n < 3; n++){
-      float tt = t * (1.0 - (3.5 / float(n + 1)));
-      i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
-      c += 1.0 / length(vec2(p.x / (sin(i.x + tt) / inten), p.y / (cos(i.y + tt) / inten)));
-    }
-    c /= 3.0;
-    c = 1.17 - pow(c, 1.4);
-    return clamp(pow(abs(c), 8.0), 0.0, 1.0);
+/** Underwater god-ray caustic pattern (the blit's `esCaustics`, TSL twin). */
+function esCaustics(uv: TslNode, t: TslNode): TslNode {
+  const p = n(uv).mul(6.2831853).mod(6.2831853).sub(250.0);
+  let i = n(vec2(p));
+  let c = n(float(1.0));
+  const inten = 0.0045;
+  for (let k = 0; k < 3; k++) {
+    const tt = n(t).mul(1.0 - 3.5 / (k + 1));
+    i = n(p.add(vec2(n(cos(tt.sub(i.x))).add(sin(tt.add(i.y))), n(sin(tt.sub(i.y))).add(cos(tt.add(i.x))))));
+    c = c.add(float(1.0).div(length(vec2(p.x.div(n(sin(i.x.add(tt))).div(inten)), p.y.div(n(cos(i.y.add(tt))).div(inten))))));
   }
-`;
+  c = c.div(3.0);
+  c = float(1.17).sub(pow(c, 1.4));
+  return clamp(pow(abs(c), 8.0), 0.0, 1.0);
+}
+
+function createBlit(rt: RenderTarget, tier: WaterTier, sunDirection: { value: THREE.Vector3 }) {
+  const uniforms = {
+    uSceneColorB: texture(rt.texture),
+    uSceneDepthB: texture(rt.depthTexture as THREE.Texture),
+    uUnderwater: uniform(0),
+    uCamPos: uniform(new THREE.Vector3()),
+    uProjInverse: uniform(new THREE.Matrix4()),
+    uCamWorld: uniform(new THREE.Matrix4()),
+    uUwAbsorb: uniform(new THREE.Vector3(0.3, 0.1, 0.06)),
+    uUwFog: uniform(new THREE.Vector3(0, 0, 0)),
+    uUwSurfaceY: uniform(0),
+    uUwTime: uniform(0),
+    uGodRays: uniform(tier.godRays ? 1 : 0),
+    // shared with the sky rig — live sun direction, no per-frame copy
+    uSunDirW: reference("value", "vec3", sunDirection),
+    uBubbleColor: texture(new THREE.Texture()),
+    uBubbleActive: uniform(0),
+  };
+  const u = uniforms as Record<string, TslNode>;
+  const vUv = n(uv());
+  const base = n(n(u.uSceneColorB).sample(vUv)).rgb;
+  const sceneDepth = n(n(u.uSceneDepthB).sample(vUv)).x;
+  // Underwater: Beer–Lambert murk over the view distance + god rays + grain
+  const viewPos = n(getViewPosition(vUv, sceneDepth, u.uProjInverse));
+  const worldPos = n(n(u.uCamWorld).mul(vec4(viewPos, 1.0))).xyz;
+  const toFrag = worldPos.sub(u.uCamPos);
+  const viewDist = n(min(length(toFrag), 400.0));
+  const rd = n(normalize(toFrag));
+  const trans = n(exp(n(u.uUwAbsorb).negate().mul(viewDist)));
+  let under = n(base.mul(trans).add(n(u.uUwFog).mul(float(1.0).sub(trans))));
+  const sun = n(u.uSunDirW);
+  const dither = fract(n(sin(n(dot(vUv, vec2(12.9898, 78.233))).add(u.uUwTime))).mul(43758.5453));
+  const march = min(viewDist, 60.0);
+  const dt = n(march).div(14.0);
+  let acc = n(float(0.0));
+  for (let k = 0; k < 14; k++) {
+    const P = n(u.uCamPos).add(rd.mul(n(dither).add(k).mul(dt)));
+    const below = n(u.uUwSurfaceY).sub(P.y);
+    const proj = below.div(max(sun.y, 0.15));
+    const sxz = n(P.add(sun.mul(proj))).xz;
+    const term = n(esCaustics(sxz.mul(0.05).add(sun.xz.mul(u.uUwTime).mul(0.2)), n(u.uUwTime).mul(0.4))).mul(exp(below.mul(-0.05)));
+    // `continue` above the surface in the GLSL: the sample adds nothing there
+    acc = acc.add(select(below.lessThanEqual(0.0), float(0.0), term));
+  }
+  acc = acc.mul(dt);
+  const mu = n(clamp(dot(rd, sun), -1.0, 1.0));
+  const phase = float(0.0796 * (1.0 - 0.5184)).div(pow(float(1.0 + 0.5184).sub(mu.mul(1.44)), 1.5));
+  const rays = n(u.uUwFog).mul(acc).mul(0.10).mul(phase).mul(12.5663706);
+  under = n(select(n(u.uGodRays).greaterThan(0.5).and(sun.y.greaterThan(0.05)), under.add(rays), under));
+  // multiplicative grain before tone mapping — kills the 8-bit banding the
+  // smooth murk gradients otherwise show (owner round 1, defect 6)
+  const grain = fract(n(sin(n(dot(vUv.mul(vec2(1723.0, 1093.0)), vec2(12.9898, 78.233))).add(n(u.uUwTime).mul(7.0)))).mul(43758.5453));
+  under = under.mul(n(grain).sub(0.5).mul(0.05).add(1.0));
+  let colour = n(select(n(u.uUnderwater).greaterThan(0.5), under, base));
+  // underwater bubble composite (premultiplied, half-res target)
+  const bubbles = n(n(u.uBubbleColor).sample(vUv));
+  colour = n(select(n(u.uBubbleActive).greaterThan(0.5), colour.mul(float(1.0).sub(bubbles.a)).add(bubbles.rgb), colour));
+  const material = new NodeMaterial();
+  material.fragmentNode = vec4(colour, 1.0);
+  // The blit also WRITES the scene depth, so the water pass gets hardware
+  // z-culling of buried surface (perf) and the overlay pass (markers)
+  // occludes correctly behind terrain.
+  material.depthNode = sceneDepth;
+  material.depthTest = true;
+  material.depthWrite = true;
+  material.depthFunc = THREE.AlwaysDepth;
+  material.name = "es-water-blit-bubbles";
+  const quad = new QuadMesh(material);
+  return { quad, material, uniforms };
+}
 
 export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ripple }: {
   runtime: WaterRuntime;
@@ -61,7 +142,7 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   const makeTarget = (w: number, h: number) => {
     const depthTexture = new THREE.DepthTexture(w, h);
     depthTexture.type = THREE.UnsignedIntType;
-    const target = new THREE.WebGLRenderTarget(w, h, {
+    const target = new RenderTarget(w, h, {
       type: THREE.HalfFloatType,
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
@@ -88,7 +169,7 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
    * the underside therefore samples the PREVIOUS frame's target and the two
    * targets swap each frame; one frame of refraction latency is invisible.
    */
-  const rtAlt = useRef<THREE.WebGLRenderTarget | null>(null);
+  const rtAlt = useRef<RenderTarget | null>(null);
   const swap = useRef(false);
   /**
    * Resize a scene target AND its depth texture together. three's
@@ -104,107 +185,14 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
    * draw until the next resize. Keeping the image in step makes the first
    * upload — sampled or attached — the right size (16f round 4).
    */
-  const resizeTarget = (t: THREE.WebGLRenderTarget, w: number, h: number) => {
+  const resizeTarget = (t: RenderTarget, w: number, h: number) => {
     if (t.width === w && t.height === h) return;
     t.setSize(w, h);
     const d = t.depthTexture;
     if (d) { d.image.width = w; d.image.height = h; d.needsUpdate = true; }
   };
 
-  const blit = useMemo(() => {
-    const uniforms = {
-      uUnderwater: { value: 0 },
-      uSceneDepthB: { value: rt.depthTexture as THREE.Texture },
-      uInvProjView: { value: new THREE.Matrix4() },
-      uCamPos: { value: new THREE.Vector3() },
-      uUwAbsorb: { value: new THREE.Vector3(0.3, 0.1, 0.06) },
-      uUwFog: { value: new THREE.Vector3(0, 0, 0) },
-      uUwSurfaceY: { value: 0 },
-      uUwTime: { value: 0 },
-      uGodRays: { value: tier.godRays ? 1 : 0 },
-      // shared with the sky rig — live sun direction, no per-frame copy
-      uSunDirW: runtime.sunDirection,
-      uBubbleColor: { value: null as THREE.Texture | null },
-      uBubbleActive: { value: 0 },
-    };
-    // The blit also WRITES the scene depth to the canvas depth buffer, so the
-    // water pass gets hardware z-culling of buried surface (perf) and the
-    // overlay pass (markers) occludes correctly behind terrain.
-    const material = new THREE.MeshBasicMaterial({
-      map: rt.texture,
-      depthTest: true,
-      depthWrite: true,
-    });
-    material.depthFunc = THREE.AlwaysDepth;
-    material.onBeforeCompile = (shader) => {
-      Object.assign(shader.uniforms, uniforms);
-      shader.fragmentShader = shader.fragmentShader
-        .replace(
-          "#include <common>",
-          /* glsl */ `#include <common>
-uniform float uUnderwater;
-uniform sampler2D uSceneDepthB;
-uniform mat4 uInvProjView;
-uniform vec3 uCamPos;
-uniform vec3 uUwAbsorb;
-uniform vec3 uUwFog;
-uniform float uUwSurfaceY;
-uniform float uUwTime;
-uniform float uGodRays;
-uniform vec3 uSunDirW;
-uniform sampler2D uBubbleColor;
-uniform float uBubbleActive;
-${CAUSTICS_GLSL}`,
-        )
-        .replace(
-          "#include <opaque_fragment>",
-          /* glsl */ `
-if (uUnderwater > 0.5) {
-  float esD = texture2D(uSceneDepthB, vMapUv).x;
-  vec4 esClip = vec4(vMapUv * 2.0 - 1.0, esD * 2.0 - 1.0, 1.0);
-  vec4 esWp = uInvProjView * esClip;
-  esWp /= esWp.w;
-  vec3 esToFrag = esWp.xyz - uCamPos;
-  float esViewDist = min(length(esToFrag), 400.0);
-  vec3 esRd = normalize(esToFrag);
-  vec3 esTrans = exp(-uUwAbsorb * esViewDist);
-  outgoingLight = outgoingLight * esTrans + uUwFog * (1.0 - esTrans);
-  if (uGodRays > 0.5 && uSunDirW.y > 0.05) {
-    float esDither = fract(sin(dot(vMapUv, vec2(12.9898, 78.233)) + uUwTime) * 43758.5453);
-    float esMarch = min(esViewDist, 60.0);
-    float esDt = esMarch / 14.0;
-    float esAcc = 0.0;
-    for (int i = 0; i < 14; i++) {
-      vec3 esP = uCamPos + esRd * ((float(i) + esDither) * esDt);
-      float esBelow = uUwSurfaceY - esP.y;
-      if (esBelow <= 0.0) continue;
-      float esProj = esBelow / max(uSunDirW.y, 0.15);
-      vec2 esSxz = (esP + uSunDirW * esProj).xz;
-      esAcc += esCaustics(esSxz * 0.05 + uSunDirW.xz * uUwTime * 0.2, uUwTime * 0.4) * exp(-esBelow * 0.05);
-    }
-    esAcc *= esDt;
-    float esMu = clamp(dot(esRd, uSunDirW), -1.0, 1.0);
-    float esPhase = 0.0796 * (1.0 - 0.5184) / pow(1.0 + 0.5184 - 1.44 * esMu, 1.5);
-    outgoingLight += uUwFog * esAcc * 0.10 * esPhase * 12.5663706;
-  }
-  // multiplicative grain before tone mapping — kills the 8-bit banding the
-  // smooth murk gradients otherwise show (owner round 1, defect 6)
-  float esGrain = fract(sin(dot(vMapUv * vec2(1723.0, 1093.0), vec2(12.9898, 78.233)) + uUwTime * 7.0) * 43758.5453);
-  outgoingLight *= 1.0 + (esGrain - 0.5) * 0.05;
-}
-${UNDERWATER_BUBBLE_COMPOSITE_GLSL}
-#include <opaque_fragment>
-gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
-        );
-    };
-    material.customProgramCacheKey = () => "es-water-blit-bubbles";
-    const scene = new THREE.Scene();
-    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
-    quad.frustumCulled = false;
-    scene.add(quad);
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    return { scene, camera, material, uniforms };
-  }, [rt, tier, runtime]);
+  const blit = useMemo(() => createBlit(rt, tier, runtime.sunDirection), [rt, tier, runtime]);
 
   useEffect(() => () => {
     rt.dispose();
@@ -240,17 +228,23 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
   // the water layer on every light, re-checked as lights come and go.
   const lightPatchTimer = useRef(0);
   const viewProj = useRef(new THREE.Matrix4());
+  const shadowLights = useRef<THREE.DirectionalLight[]>([]);
   // (The precip and overlay passes are never skipped: an empty-layer walk
   // costs ~0.3 ms, and a skip keyed on a 1 Hz count missed objects mounted
   // between ticks for up to a second. Not worth it.)
 
-  useFrame(({ gl: renderer, scene, camera }, delta) => {
+  useFrame(({ gl: glRenderer, scene, camera }, delta) => {
+    const renderer = glRenderer as unknown as WebGPURenderer;
     const h = handle();
     lightPatchTimer.current -= delta;
     if (lightPatchTimer.current <= 0) {
       lightPatchTimer.current = 1;
+      const lights: THREE.DirectionalLight[] = [];
+      shadowLights.current = lights;
       scene.traverse((o) => {
         if ((o as THREE.Light).isLight) o.layers.enable(WATER_LAYER);
+        const shadow = (o as THREE.DirectionalLight).shadow;
+        if ((o as THREE.Light).isLight && o.castShadow && shadow) lights.push(o as THREE.DirectionalLight);
       });
     }
     const size = renderer.getDrawingBufferSize(new THREE.Vector2());
@@ -325,8 +319,13 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const prevLayers = cam.layers.mask;
     // shadow maps re-render every OTHER frame — the sun moves slowly and
     // the cascade passes are a big slice of the frame (owner round 4 perf)
-    renderer.shadowMap.autoUpdate = false;
-    if ((frames.current & 1) === 0) renderer.shadowMap.needsUpdate = true;
+    // (node renderer: shadow updates are per light — `shadow.autoUpdate` off,
+    // `needsUpdate` on alternate frames; the scene pass consumes the flag, so
+    // the later water/precip/overlay passes never re-render the maps)
+    for (const light of shadowLights.current) {
+      light.shadow.autoUpdate = false;
+      if ((frames.current & 1) === 0) light.shadow.needsUpdate = true;
+    }
     renderer.toneMapping = THREE.NoToneMapping;
     cam.layers.mask = underwater ? (1 | (1 << WATER_LAYER)) : 1;
     // Above water the surface reads the SAME target pass 1 draws into. Its
@@ -341,8 +340,8 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const sceneColor = h?.uniforms.uSceneColor.value ?? null;
     const sceneDepth = h?.uniforms.uSceneDepth.value ?? null;
     if (h && !underwater) {
-      h.uniforms.uSceneColor.value = null;
-      h.uniforms.uSceneDepth.value = null;
+      h.uniforms.uSceneColor.value = h.uniforms.placeholders.color;
+      h.uniforms.uSceneDepth.value = h.uniforms.placeholders.depth;
     }
     renderer.setRenderTarget(drawTarget);
     renderer.clear();
@@ -351,20 +350,21 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     // The blit's uniform block below is billed to the blit, not the scene.
     segments?.cpuMark("blit"); segments?.gpuMark("blit");
     if (h) {
-      h.uniforms.uSceneColor.value = sceneColor;
-      h.uniforms.uSceneDepth.value = sceneDepth;
+      if (sceneColor) h.uniforms.uSceneColor.value = sceneColor;
+      if (sceneDepth) h.uniforms.uSceneDepth.value = sceneDepth;
     }
     renderer.toneMapping = prevTone;
     if (underwater && alt) swap.current = !swap.current;
 
     // ---- pass 2: tone-mapped blit (+ underwater fog/god rays) → screen ----
     const bu = blit.uniforms;
-    blit.material.map = drawTarget.texture;
+    bu.uSceneColorB.value = drawTarget.texture;
     bu.uSceneDepthB.value = drawTarget.depthTexture as THREE.Texture;
     bu.uUnderwater.value = underwater ? 1 : 0;
     bu.uUwTime.value = runtime.waveTimeS();
     bu.uCamPos.value.copy(camPos);
-    bu.uInvProjView.value.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).invert();
+    bu.uProjInverse.value.copy(cam.projectionMatrixInverse);
+    bu.uCamWorld.value.copy(cam.matrixWorld);
     bu.uUwSurfaceY.value = camSample.surfaceHeight * verticalScale;
     // Underwater visibility by clarity (16c round 2): the floor is clear
     // water (turbidity 0 sees ~20 m — an upland lake), the turbidity term
@@ -377,26 +377,22 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       0.022 + 1.15 * turb,
     );
     const amb = runtime.ambient.value;
-    const tint = new THREE.Vector3(
-      0.035 + 0.055 * turb,
-      0.115 - 0.064 * turb,
-      0.10 - 0.078 * turb,
-    );
+    // fog tint per channel, inline: no per-frame vector (walk 5 perf audit item 11)
     bu.uUwFog.value.set(
-      Math.max(amb.x, 1e-4) * tint.x * 24.0,
-      Math.max(amb.y, 1e-4) * tint.y * 24.0,
-      Math.max(amb.z, 1e-4) * tint.z * 24.0,
+      Math.max(amb.x, 1e-4) * (0.035 + 0.055 * turb) * 24.0,
+      Math.max(amb.y, 1e-4) * (0.115 - 0.064 * turb) * 24.0,
+      Math.max(amb.z, 1e-4) * (0.10 - 0.078 * turb) * 24.0,
     );
-    bu.uBubbleColor.value = bubblePass.render(renderer, cam, h?.bubbles, underwater,
+    const bubbleTex = bubblePass.render(renderer as never, cam, h?.bubbles, underwater,
       drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
-    bu.uBubbleActive.value = bu.uBubbleColor.value ? 1 : 0;
+    if (bubbleTex) bu.uBubbleColor.value = bubbleTex;
+    bu.uBubbleActive.value = bubbleTex ? 1 : 0;
     renderer.setRenderTarget(null);
-    renderer.render(blit.scene, blit.camera);
+    blit.quad.render(renderer);
 
     // ---- pass 3: water surface, then the display-referred overlay --------
     {
       const prevAuto = renderer.autoClear;
-      const prevShadow = renderer.shadowMap.autoUpdate;
       // These passes draw OVER the blit. three (r184) clears on every
       // render() when scene.background is a Color or a Texture, whatever
       // autoClear says, which wiped the whole frame to the fog colour the
@@ -405,7 +401,6 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       const prevBackground = scene.background;
       scene.background = null;
       renderer.autoClear = false;
-      renderer.shadowMap.autoUpdate = false;
       if (!underwater && h) {
         cam.layers.mask = 1 << WATER_LAYER;
         segments?.cpuMark("water"); segments?.gpuMark("water");
@@ -432,7 +427,6 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       segments?.cpuMark("post"); segments?.gpuMark("post");
       scene.background = prevBackground;
       renderer.autoClear = prevAuto;
-      renderer.shadowMap.autoUpdate = prevShadow;
     }
     cam.layers.mask = prevLayers;
     renderer.setRenderTarget(prevTarget);

@@ -1,4 +1,12 @@
+import { esHash21, sel } from "./waterNodes";
+import type { TslNode } from "../../render/nodes/materialNodes";
 import { hash21 } from "../waves";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  clamp, exp, float, floor, length, max, select, smoothstep, vec2,
+} = TSLNS as any;
 
 /**
  * Analytic rain drop rings (Greenheck study §1.6, §3.1 (6)): world space is
@@ -75,36 +83,37 @@ export function rainRingGradient(x: number, z: number, timeS: number, intensity:
   return out;
 }
 
-export const RAIN_RINGS_GLSL = /* glsl */ `
-// KEEP IN LOCKSTEP with rainRingGradient(). Needs esHash21.
-vec2 esRainRings(vec2 wp, float t, float intensity, float dist){
-  float fade = (1.0 - smoothstep(${RAIN_RINGS.fadeStartM.toFixed(1)}, ${RAIN_RINGS.fadeEndM.toFixed(1)}, dist))
-             * clamp(intensity, 0.0, 1.0);
-  if (fade <= 0.0) return vec2(0.0);
-  float cell = ${RAIN_RINGS.cellM.toFixed(2)};
-  float w = ${RAIN_RINGS.widthM.toFixed(3)} * (1.0 + dist * ${RAIN_RINGS.widthPerM.toFixed(3)});
-  vec2 c0 = floor(wp / cell);
-  vec2 g = vec2(0.0);
-  for (int dz = -1; dz <= 1; dz++) {
-    for (int dx = -1; dx <= 1; dx++) {
-      vec2 c = c0 + vec2(float(dx), float(dz));
-      float phase = esHash21(vec2(c.x * 0.731 + 0.17, c.y * 0.529 + 0.43));
-      float cyc = floor(t / ${RAIN_RINGS.periodS.toFixed(2)} + phase);
-      float age = t / ${RAIN_RINGS.periodS.toFixed(2)} + phase - cyc;
-      float hA = esHash21(c + cyc * vec2(0.618, 0.414));
-      if (hA >= intensity) continue;
-      float jx = esHash21(vec2(c.x + cyc * 0.271 + 3.1, c.y - cyc * 0.133 + 7.7));
-      float jz = esHash21(vec2(c.x - cyc * 0.377 + 5.3, c.y + cyc * 0.219 + 1.9));
-      vec2 o = (c + 0.5) * cell + (vec2(jx, jz) * 2.0 - 1.0) * ${RAIN_RINGS.jitterM.toFixed(2)};
-      vec2 p = wp - o;
-      float d = length(p);
-      if (d < 1e-5) continue;
-      float s = d - age * ${RAIN_RINGS.maxRadiusM.toFixed(2)};
-      float A = ${RAIN_RINGS.amplitudeM.toFixed(3)} * (1.0 - age) * (1.0 - age) * fade;
-      float gs = -2.0 * s * A * exp(-(s * s) / (w * w)) / (w * w);
-      g += gs * p / d;
+/** TSL twin of rainRingGradient(): analytic cell-hashed drop rings over a 3x3 cell block. */
+export function esRainRings(wp: TslNode, t: TslNode, intensity: TslNode, dist: TslNode): TslNode {
+  const R = (v: number, d: number) => Number(v.toFixed(d));
+  const fade = (float(1.0).sub(smoothstep(R(RAIN_RINGS.fadeStartM, 1), R(RAIN_RINGS.fadeEndM, 1), dist)) as TslNode)
+    .mul(clamp(intensity, 0.0, 1.0));
+  const cell = R(RAIN_RINGS.cellM, 2);
+  const period = R(RAIN_RINGS.periodS, 2);
+  const w = (dist as TslNode).mul(R(RAIN_RINGS.widthPerM, 3)).add(1.0).mul(R(RAIN_RINGS.widthM, 3));
+  const c0 = floor((wp as TslNode).div(cell));
+  let g: TslNode = vec2(0.0);
+  for (let dz = -1; dz <= 1; dz++) {
+    for (let dx = -1; dx <= 1; dx++) {
+      const c = (c0 as TslNode).add(vec2(dx, dz));
+      const phase = esHash21(vec2(c.x.mul(0.731).add(0.17), c.y.mul(0.529).add(0.43)));
+      const cyc = floor((t as TslNode).div(period).add(phase)) as TslNode;
+      const age = (t as TslNode).div(period).add(phase).sub(cyc);
+      const hA = esHash21(c.add(cyc.mul(vec2(0.618, 0.414)))) as TslNode;
+      const jx = esHash21(vec2(c.x.add(cyc.mul(0.271)).add(3.1), c.y.sub(cyc.mul(0.133)).add(7.7))) as TslNode;
+      const jz = esHash21(vec2(c.x.sub(cyc.mul(0.377)).add(5.3), c.y.add(cyc.mul(0.219)).add(1.9))) as TslNode;
+      const o = c.add(0.5).mul(cell).add(vec2(jx, jz).mul(2.0).sub(1.0).mul(R(RAIN_RINGS.jitterM, 2)));
+      const p = (wp as TslNode).sub(o);
+      const d = length(p) as TslNode;
+      const s = d.sub(age.mul(R(RAIN_RINGS.maxRadiusM, 2)));
+      const oneMinusAge = float(1.0).sub(age);
+      const A = oneMinusAge.mul(oneMinusAge).mul(fade).mul(R(RAIN_RINGS.amplitudeM, 3));
+      const gs = s.mul(-2.0).mul(A).mul(exp(s.mul(s).negate().div(w.mul(w)))).div(w.mul(w));
+      // `continue` in the GLSL: a cell whose hash exceeds the intensity, or a zero-length offset, adds nothing
+      const live = hA.lessThan(intensity).and(d.greaterThanEqual(1e-5));
+      g = (g as TslNode).add(sel(live, p.mul(gs).div(max(d, 1e-5)), vec2(0.0)));
     }
   }
+  // fade <= 0 returned zero in the GLSL; every term above carries fade
   return g;
 }
-`;

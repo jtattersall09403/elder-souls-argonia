@@ -1,3 +1,10 @@
+import type { TslNode } from "../../render/nodes/materialNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  smoothstep,
+} = TSLNS as any;
 /**
  * Horizon convergence (Greenheck study §1.8 "Atmospheric fog", §3.1 (7)):
  * the water's lit colour is blended toward the sampled sky/environment
@@ -27,9 +34,8 @@ export function horizonBlendWeight(distM: number): number {
   return t * t * (3 - 2 * t) * HORIZON.maxBlend;
 }
 
-export const HORIZON_BLEND_GLSL = /* glsl */ `
-// KEEP IN LOCKSTEP with horizonBlendWeight().
-float esHorizonBlend(float dist){
-  return smoothstep(${HORIZON.startM.toFixed(1)}, ${HORIZON.endM.toFixed(1)}, dist) * ${HORIZON.maxBlend.toFixed(2)};
+/** TSL twin of horizonBlendWeight() (the GLSL baked toFixed constants). */
+export function esHorizonBlend(dist: TslNode): TslNode {
+  return (smoothstep(Number(HORIZON.startM.toFixed(1)), Number(HORIZON.endM.toFixed(1)), dist) as TslNode)
+    .mul(Number(HORIZON.maxBlend.toFixed(2)));
 }
-`;

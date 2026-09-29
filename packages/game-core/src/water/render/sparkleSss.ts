@@ -1,3 +1,10 @@
+import type { TslNode } from "../../render/nodes/materialNodes";
+import * as TSLNS from "three/tsl";
+// TSL typings are too deep for tsc to check usefully (0107 §1): the graph is typed as TslNode.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const {
+  clamp, dot, float, length, max, pow, reflect, smoothstep,
+} = TSLNS as any;
 /**
  * Sun sparkle and crest subsurface scatter (Greenheck study §1.8, §3.1 (4)
  * and (5)).
@@ -56,22 +63,22 @@ export function crestSssTerm(cosBack: number, crestM: number, exposure: number, 
     * sstep(0, CREST_SSS.sunRiseY, sunY) * CREST_SSS.strength;
 }
 
-export const SPARKLE_SSS_GLSL = /* glsl */ `
-// KEEP IN LOCKSTEP with sparkleWindow() / sparkleTerm() / crestSssTerm().
-float esSparkleWindow(float dist){
-  return smoothstep(${SPARKLE.minDistM.toFixed(1)}, ${SPARKLE.nearFullM.toFixed(1)}, dist)
-       * (1.0 - smoothstep(${SPARKLE.fadeStartM.toFixed(1)}, ${SPARKLE.fadeEndM.toFixed(1)}, dist));
+/** TSL twins of sparkleWindow() / sparkleTerm() / crestSssTerm(). */
+export function esSparkleWindow(dist: TslNode): TslNode {
+  return (smoothstep(Number(SPARKLE.minDistM.toFixed(1)), Number(SPARKLE.nearFullM.toFixed(1)), dist) as TslNode)
+    .mul(float(1.0).sub(smoothstep(Number(SPARKLE.fadeStartM.toFixed(1)), Number(SPARKLE.fadeEndM.toFixed(1)), dist)));
 }
-float esSparkle(vec3 N, vec3 view, vec3 sunDir, float dist, float exposure){
-  float cosR = max(dot(reflect(-view, N), sunDir), 0.0);
-  return pow(cosR, ${SPARKLE.power.toFixed(1)}) * esSparkleWindow(dist) * clamp(exposure, 0.0, 1.0)
-       * ${SPARKLE.strength.toFixed(2)};
+export function esSparkle(N: TslNode, view: TslNode, sunDir: TslNode, dist: TslNode, exposure: TslNode): TslNode {
+  const cosR = max(dot(reflect((view as TslNode).negate(), N), sunDir), 0.0);
+  return (pow(cosR, Number(SPARKLE.power.toFixed(1))) as TslNode).mul(esSparkleWindow(dist)).mul(clamp(exposure, 0.0, 1.0))
+    .mul(Number(SPARKLE.strength.toFixed(2)));
 }
-float esCrestSss(vec3 view, vec3 sunDir, float crest, float exposure){
-  vec2 s = sunDir.xz / max(length(sunDir.xz), 1e-4);
-  float back = max(dot(-view.xz, s), 0.0);
-  return pow(back, ${CREST_SSS.power.toFixed(1)}) * clamp(crest / ${CREST_SSS.ampRefM.toFixed(2)}, 0.0, 1.0)
-       * clamp(exposure, 0.0, 1.0) * smoothstep(0.0, ${CREST_SSS.sunRiseY.toFixed(2)}, sunDir.y)
-       * ${CREST_SSS.strength.toFixed(2)};
+export function esCrestSss(view: TslNode, sunDir: TslNode, crest: TslNode, exposure: TslNode): TslNode {
+  const sd = sunDir as TslNode;
+  const s = sd.xz.div(max(length(sd.xz), 1e-4));
+  const back = max(dot((view as TslNode).xz.negate(), s), 0.0);
+  return (pow(back, Number(CREST_SSS.power.toFixed(1))) as TslNode)
+    .mul(clamp((crest as TslNode).div(Number(CREST_SSS.ampRefM.toFixed(2))), 0.0, 1.0))
+    .mul(clamp(exposure, 0.0, 1.0)).mul(smoothstep(0.0, Number(CREST_SSS.sunRiseY.toFixed(2)), sd.y))
+    .mul(Number(CREST_SSS.strength.toFixed(2)));
 }
-`;

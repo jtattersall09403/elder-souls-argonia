@@ -1,5 +1,4 @@
 import type * as THREE from "three";
-import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import type { ApronGround, WaterData, WaterMeta } from "../waterData";
 import type { WaterWorld } from "../waterWorld";
 import type { Vec3 } from "@elder-souls/contracts";
@@ -79,7 +78,8 @@ export interface LocalWaterSurfaceState {
 
 /** Each canvas owns a runtime. All clocks, weather and sky state are injected. */
 export interface WaterRuntime {
-  csm: CSM | null;
+  /** Retired with decision 0107 (CSMShadowNode lives on the sun light); ignored. */
+  csm?: unknown;
   epochMinutes(): number;
   waveTimeS(): number;
   /** Unscaled visible elapsed time for m/s transport and event lifetimes.
@@ -92,6 +92,8 @@ export interface WaterRuntime {
   windVelocity(): Vec3;
   /** Player/interaction focus in TRUE metres; absent in a free camera view. */
   surfaceFocus?(): Vec3 | null;
+  /** Retired with decision 0107 (scene.fogNode hazes every `fog: true` material); the
+   * water surface no longer calls it. Kept until the waterfall lane drops its last call. */
   applyAerial(material: THREE.Material): void;
   /** `wind` is the wave-energy scale (`getWindWaveScale`); `windMS` is the
    * weather's 10 m wind in m/s, which the terrain's wet-shore band needs for

@@ -1,38 +1,50 @@
-/** Refraction-map Jacobian for the interactive surface. Unlike decorative
- * caustic noise, moving a body changes these focused rays through the same
- * height/slope field used by the visible surface and physical queries.
- * Receiver material supplies direct-light shadowing; this is not emission.
- */
-export const LOCAL_WATER_CAUSTICS_GLSL = /* glsl */ `
-vec2 esLocalRefractedOffset(vec2 p, vec3 sunDirection, float depth) {
-  vec4 water = esLocalWaterSurface(p);
-  vec3 normal = normalize(vec3(-water.y, 1.0, -water.z));
-  vec3 ray = refract(-sunDirection, normal, 1.0 / 1.333);
-  return ray.xz / max(-ray.y, 0.15) * max(0.0, depth + water.x);
-}
-float esLocalWaterCaustic(vec3 receiver, vec3 receiverNormal, float level, vec3 sunDirection) {
+import * as tsl from "three/tsl";
+import type { TslNode } from "../../render/nodes/materialNodes";
+import { localWaterSurfaceNodes, type LocalWaterSurfaceUniforms } from "./localWaterSurfaceNodes";
+
+// Loosely typed on purpose (docs/standards/tsl-shaders.md §1).
+const { Fn, clamp, dFdx, dFdy, exp, float, length, max, min, normalize, refract, select, smoothstep, vec2, vec3 } = tsl as TslNode;
+
+/** Refraction-map Jacobian for the interactive surface (node twin of the old
+ * LOCAL_WATER_CAUSTICS_GLSL). Unlike decorative caustic noise, moving a body
+ * changes these focused rays through the same height/slope field used by the
+ * visible surface and physical queries. Receiver material supplies
+ * direct-light shadowing; this is not emission. Branch-free: the GLSL's early
+ * returns are selects, so the derivatives stay in uniform control flow. */
+export function esLocalWaterCaustic(u: LocalWaterSurfaceUniforms, receiver: TslNode,
+  receiverNormal: TslNode, level: TslNode, sunDirection: TslNode): TslNode {
+  return Fn(() => {
+  const local = localWaterSurfaceNodes(u);
+  const r = vec3(receiver).toVar(), sun = vec3(sunDirection).toVar();
+  const refractedOffset = (p: TslNode, depth: TslNode): TslNode => {
+    const water = local.surface(p);
+    const normal = normalize(vec3(water.y.negate(), 1.0, water.z.negate()));
+    const ray = refract(sun.negate(), normal, 1.0 / 1.333);
+    return ray.xz.div(max(ray.y.negate(), 0.15)).mul(max(0.0, depth.add(water.x)));
+  };
   // Derivatives must execute before any per-pixel dry/depth branch.
-  float footprint = max(length(dFdx(receiver.xz)), length(dFdy(receiver.xz)));
-  float depth = level - receiver.y;
-  if (uLocalWaterActive < 0.5 || depth <= 0.03 || depth > 12.0 || sunDirection.y <= 0.05) return 0.0;
-  vec3 flatRay = refract(-sunDirection, vec3(0.0, 1.0, 0.0), 1.0 / 1.333);
-  vec2 p = receiver.xz - flatRay.xz / max(-flatRay.y, 0.15) * depth;
-  if (esLocalWaterMask(p) < 0.5) return 0.0;
-  float stepM = max(uLocalWaterInfo.z, 0.25);
+  const footprint = max(length(dFdx(r.xz)), length(dFdy(r.xz))).toVar();
+  const depth = float(level).sub(r.y).toVar();
+  const flatRay = refract(sun.negate(), vec3(0.0, 1.0, 0.0), 1.0 / 1.333);
+  const p = r.xz.sub(flatRay.xz.div(max(flatRay.y.negate(), 0.15)).mul(depth)).toVar();
+  const stepM = max(u.uLocalWaterInfo.z, 0.25).toVar();
+  const ex = vec2(stepM, 0.0), ez = vec2(0.0, stepM);
   // A dry/foreign neighbour is not a flat water sample. Differentiating
   // across that discontinuity makes a spurious bright rectangular bank.
-  if (min(min(esLocalWaterMask(p + vec2(stepM, 0.0)), esLocalWaterMask(p - vec2(stepM, 0.0))),
-          min(esLocalWaterMask(p + vec2(0.0, stepM)), esLocalWaterMask(p - vec2(0.0, stepM)))) < 0.5) return 0.0;
-  vec2 dx = (esLocalRefractedOffset(p + vec2(stepM, 0.0), sunDirection, depth)
-           - esLocalRefractedOffset(p - vec2(stepM, 0.0), sunDirection, depth)) / (2.0 * stepM);
-  vec2 dz = (esLocalRefractedOffset(p + vec2(0.0, stepM), sunDirection, depth)
-           - esLocalRefractedOffset(p - vec2(0.0, stepM), sunDirection, depth)) / (2.0 * stepM);
-  float jacobian = (1.0 + dx.x) * (1.0 + dz.y) - dx.y * dz.x;
-  float focused = clamp(1.0 / max(abs(jacobian), 0.1), 0.25, 3.0) - 1.0;
-  return focused * (1.0 - smoothstep(stepM * 0.5, stepM * 2.0, footprint))
-    * smoothstep(0.5, 0.9, receiverNormal.y) * exp(-depth * 0.12);
+  const neighbours = min(min(local.mask(p.add(ex)), local.mask(p.sub(ex))),
+    min(local.mask(p.add(ez)), local.mask(p.sub(ez))));
+  const dx = refractedOffset(p.add(ex), depth).sub(refractedOffset(p.sub(ex), depth)).div(stepM.mul(2.0));
+  const dz = refractedOffset(p.add(ez), depth).sub(refractedOffset(p.sub(ez), depth)).div(stepM.mul(2.0));
+  const jacobian = float(1.0).add(dx.x).mul(float(1.0).add(dz.y)).sub(dx.y.mul(dz.x));
+  const focused = clamp(float(1.0).div(max(jacobian.abs(), 0.1)), 0.25, 3.0).sub(1.0);
+  const value = focused.mul(float(1.0).sub(smoothstep(stepM.mul(0.5), stepM.mul(2.0), footprint)))
+    .mul(smoothstep(0.5, 0.9, vec3(receiverNormal).y)).mul(exp(depth.mul(-0.12)));
+  const off = float(u.uLocalWaterActive).lessThan(0.5).or(depth.lessThanEqual(0.03))
+    .or(depth.greaterThan(12.0)).or(sun.y.lessThanEqual(0.05))
+    .or(local.mask(p).lessThan(0.5)).or(neighbours.lessThan(0.5));
+  return select(off, float(0.0), value);
+  })();
 }
-`;
 
 /** CPU optical oracle for probes: the same central-difference refraction
  * Jacobian as the shader, before receiver attenuation and pixel filtering.
