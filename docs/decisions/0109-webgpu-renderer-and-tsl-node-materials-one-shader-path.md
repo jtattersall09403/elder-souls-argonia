@@ -5,8 +5,8 @@ owner's instruction "migrate to WebGPU", tmp/16k-user-instruction.md, and the
 planner's brief). **Branch:** `webgpu`, served at `/webgpu/` beside main's
 studio until the owner accepts it on the M2 and the Honor phone.
 **Evidence:** `tooling/.reports/16k/walk5/webgpu/` (lane reports L1–L10,
-`report.md`). **Amends:** 0084 (GPU time source), 0108 §1 (fixture lights: the
-field stays as the WebGL-backend path; WebGPU uses tiled lighting), 0082 (the
+`report.md`). **Amends:** 0084 (GPU time source), 0108 §1 (the fixture light field is
+ported to TSL and kept on both backends), 0082 (the
 rung choice may run on the GPU). **Conventions:**
 [docs/standards/tsl-shaders.md](../standards/tsl-shaders.md).
 
@@ -43,10 +43,15 @@ hook overwrite is deleted.
 
 ## 3. The GPU does per-instance work where WebGPU allows it
 
-- **Many lights:** on the WebGPU backend, burning fixtures are real point
-  lights binned by three's compute `TiledLighting`; on the WebGL backend,
-  0108's fixture light field (ported to TSL) is the fallback. Numbers are in
-  the lane report.
+- **Many lights:** 0108's fixture light field (100 lamps in a texture, the
+  nearest 8 per object, 16 for terrain), ported to TSL, lights settlements on
+  BOTH backends. three's compute `TiledLighting` was measured against it on the
+  WebGPU backend with 100 lamps and lost: 1.6x the GPU time, and it keeps only
+  8 lights per 32 px tile in index order, not nearest first, so near huts went
+  dark (mean pixel error 13.1/255 vs 0.14 for the field, against 100 real
+  point lights). `installFixtureLighting(renderer, mode)` keeps `tiled` and
+  `plain` as harness-only measurement modes. Revisit if three's tiled lights
+  sort by distance.
 - **Vegetation and ground cover:** on the WebGPU backend, a compute pass
   culls candidates against the frustum, chooses the rung with the same
   ladder and temporal cross-fade as `lodFade`, and writes compacted instance

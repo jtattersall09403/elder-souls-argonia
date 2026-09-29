@@ -111,8 +111,11 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - Shadows: `renderer.shadowMap.enabled = true`, `type = PCFShadowMap`. Cascades: `CSMShadowNode`
   (`three/examples/jsm/csm/CSMShadowNode.js`) set as `light.shadow.shadowNode`; the old `CSM` class
   and its `onBeforeCompile` re-patch are gone (so the `reapply*` functions are too).
-- Many point lights: on the WebGPU backend `renderer.lighting = new TiledLighting()` (compute-binned
-  tiles). On the WebGL backend the settlement's fixed uniform-array loop (cap 100) is the fallback.
+- Many point lights: never add a `PointLight` per lamp. Fixture lamps go through the fixture light
+  field (`packages/game-core/src/render/fixtureLights/`, `installFixtureLighting(renderer)`): one
+  texture of lamps, the nearest 8 per object (16 for terrain), on both backends. three's
+  `TiledLighting` was measured and rejected (decision 0109 §3). Draw settlement meshes per cell, never
+  as one settlement-wide instanced mesh (it would get only the 8 lamps nearest its centre).
 
 ## 7. Tests
 
