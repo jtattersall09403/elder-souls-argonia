@@ -79,7 +79,7 @@ float fireMask(vec2 p, float taper) {
   float y = clamp(p.y, 0.0, 1.0);
   float width = 0.5 * sqrt(clamp(y * 3.0, 0.0, 1.0)) * pow(1.0 - y, mix(0.6, 1.6, taper));
   float d = abs(p.x) / max(width, 1e-3);
-  return (1.0 - smoothstep(0.55, 1.0, d)) * smoothstep(-0.02, 0.1, p.y) * (1.0 - smoothstep(0.85, 1.0, p.y));
+  return (1.0 - smoothstep(0.55, 1.0, d)) * smoothstep(-0.04, 0.22, p.y) * (1.0 - smoothstep(0.85, 1.0, p.y));
 }
 // the 3-stop temperature ramp (webgpu_volume_fire): base -> mid -> tip
 vec3 fireRamp(float t, vec3 base, vec3 mid, vec3 tip) {
@@ -115,14 +115,15 @@ varying float vTaper;
 varying float vTurb;
 varying float vRise;
 varying float vOctaves;
+${FIRE_GLSL_COMMON}
 void main() {
   vec3 at = iPosSeed.xyz;
   vec3 toCam = cameraPosition - at;
   float dist = length(toCam);
   // Y-locked billboard: the card turns about the vertical only, like
   // Skyrim's and BotW's fire cards, so it never tips edge-on from the side
-  vec3 flat = vec3(toCam.x, 0.0, toCam.z);
-  vec3 right = length(flat) > 1e-4 ? normalize(vec3(flat.z, 0.0, -flat.x)) : vec3(1.0, 0.0, 0.0);
+  vec3 horiz = vec3(toCam.x, 0.0, toCam.z);
+  vec3 right = length(horiz) > 1e-4 ? normalize(vec3(horiz.z, 0.0, -horiz.x)) : vec3(1.0, 0.0, 0.0);
   float w = iShape.x;
   float h = iShape.y;
   float grow = max(1.0, dist * uMinAngle / max(w, 1e-4));
@@ -182,15 +183,18 @@ void main() {
   vec3 base = uRamp[row * 3];
   vec3 mid = uRamp[row * 3 + 1];
   vec3 tip = uRamp[row * 3 + 2];
-  vec3 col = fireRamp(clamp(heat * 1.25, 0.0, 1.0), base, mid, tip);
+  // the ramp's temperature: the tip colour only in the hottest core, the
+  // orange body over most of the flame, the dark red at the fringe and root
+  float temp = clamp(pow(heat, 1.4) * 1.15, 0.0, 1.0);
+  vec3 col = fireRamp(temp, base, mid, tip);
   vec2 gainDN = uGain[row];
   float gain = mix(gainDN.x, gainDN.y, uNight);
   // core covers (alpha), fringe adds (colour with no alpha)
-  float core = smoothstep(0.25, 0.65, heat) * (1.0 - outer * 0.6);
-  float fringe = heat * mix(0.25, 0.9, uNight);
-  float a = clamp(core * mix(0.92, 0.6, uNight) * vIntensity, 0.0, 1.0);
+  float core = smoothstep(0.3, 0.75, heat) * (1.0 - outer * 0.5);
+  float fringe = smoothstep(0.0, 0.5, heat) * mix(0.06, 0.55, uNight);
+  float a = clamp(core * mix(0.95, 0.7, uNight) * vIntensity, 0.0, 1.0);
   vec3 enc = linearToOutputTexel(vec4(min(col * gain, vec3(1.0)), 1.0)).rgb;
-  vec3 rgb = enc * clamp((core + fringe) * vIntensity, 0.0, 1.0);
+  vec3 rgb = enc * clamp((core * mix(1.0, 0.8, uNight) + fringe) * vIntensity, 0.0, 1.0);
   gl_FragColor = vec4(rgb, a);
 }
 `;

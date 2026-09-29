@@ -69,7 +69,7 @@ export interface FireConfig {
 }
 
 const CANDLE_RAMP = { base: [0.55, 0.1, 0.01], mid: [1.0, 0.5, 0.08], tip: [1.0, 0.9, 0.62] } as const;
-const WOOD_RAMP = { base: [0.4, 0.04, 0.0], mid: [1.0, 0.36, 0.03], tip: [1.0, 0.82, 0.42] } as const;
+const WOOD_RAMP = { base: [0.45, 0.03, 0.0], mid: [1.0, 0.3, 0.02], tip: [1.0, 0.75, 0.3] } as const;
 
 /** The presets, smallest and calmest first. */
 export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
@@ -80,7 +80,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.12, riseSpeed: 1.1, ramp: CANDLE_RAMP,
     flicker: { rateHz: 5, amount: 0.08 }, windResponse: 0.25,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
-    smokeHandOffM: 0, gain: { day: 1.0, night: 1.15 },
+    smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   lanternStanding: {
     schemaVersion: 1, id: "lanternStanding",
@@ -89,7 +89,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.1, riseSpeed: 1.0, ramp: CANDLE_RAMP,
     flicker: { rateHz: 4, amount: 0.06 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
-    smokeHandOffM: 0, gain: { day: 1.0, night: 1.15 },
+    smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   lanternHanging: {
     // a lantern body with no mined candle (the Argonian cord lanterns): one
@@ -100,7 +100,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.14, riseSpeed: 1.0, ramp: CANDLE_RAMP,
     flicker: { rateHz: 3.5, amount: 0.08 }, windResponse: 0.05,
     embers: { count: 0, riseM: 0, sizeM: 0, lifeS: 1 },
-    smokeHandOffM: 0, gain: { day: 1.0, night: 1.15 },
+    smokeHandOffM: 0, gain: { day: 1.0, night: 0.95 },
   },
   torchGround: {
     schemaVersion: 1, id: "torchGround",
@@ -109,7 +109,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.45, riseSpeed: 2.0, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.35,
     embers: { count: 3, riseM: 0.8, sizeM: 0.012, lifeS: 1.4 },
-    smokeHandOffM: 0.45, gain: { day: 1.0, night: 1.2 },
+    smokeHandOffM: 0.45, gain: { day: 1.0, night: 0.95 },
   },
   torchHandheld: {
     schemaVersion: 1, id: "torchHandheld",
@@ -118,7 +118,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.45, riseSpeed: 2.0, ramp: WOOD_RAMP,
     flicker: { rateHz: 7, amount: 0.14 }, windResponse: 0.45,
     embers: { count: 3, riseM: 0.7, sizeM: 0.012, lifeS: 1.2 },
-    smokeHandOffM: 0.4, gain: { day: 1.0, night: 1.2 },
+    smokeHandOffM: 0.4, gain: { day: 1.0, night: 0.95 },
   },
   brazier: {
     schemaVersion: 1, id: "brazier",
@@ -127,7 +127,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.55, riseSpeed: 2.2, ramp: WOOD_RAMP,
     flicker: { rateHz: 6, amount: 0.12 }, windResponse: 0.3,
     embers: { count: 6, riseM: 1.4, sizeM: 0.014, lifeS: 1.8 },
-    smokeHandOffM: 0.8, gain: { day: 1.0, night: 1.2 },
+    smokeHandOffM: 0.8, gain: { day: 1.0, night: 0.95 },
   },
   hearth: {
     schemaVersion: 1, id: "hearth",
@@ -136,7 +136,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.6, riseSpeed: 2.2, ramp: WOOD_RAMP,
     flicker: { rateHz: 5.5, amount: 0.12 }, windResponse: 0.1,
     embers: { count: 6, riseM: 1.2, sizeM: 0.014, lifeS: 1.8 },
-    smokeHandOffM: 0.9, gain: { day: 1.0, night: 1.2 },
+    smokeHandOffM: 0.9, gain: { day: 1.0, night: 0.95 },
   },
   campfire: {
     schemaVersion: 1, id: "campfire",
@@ -145,7 +145,7 @@ export const FIRE_PRESETS: Readonly<Record<FirePresetId, FireConfig>> = {
     turbulence: 0.72, riseSpeed: 2.5, ramp: WOOD_RAMP,
     flicker: { rateHz: 5, amount: 0.15 }, windResponse: 0.4,
     embers: { count: 10, riseM: 2.2, sizeM: 0.016, lifeS: 2.4 },
-    smokeHandOffM: 1.2, gain: { day: 1.0, night: 1.2 },
+    smokeHandOffM: 1.2, gain: { day: 1.0, night: 0.95 },
   },
 };
 
