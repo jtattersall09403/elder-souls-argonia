@@ -269,9 +269,16 @@ function clearanceIndexOf(clearance: VegetationClearancePatch): ClearanceIndex {
  * `inside`, and the distance to the nearest boundary capped at `radiusM`
  * (beyond it the caller's own clamp makes the exact value irrelevant).
  */
+/** Inside/distance packed in one number so the per-candidate path allocates
+ * nothing: the sign bit is "inside" (-0 included), the magnitude the distance,
+ * exactly (negation is lossless). */
+const packNearest = (inside: boolean, distance: number): number => (inside ? -distance : distance);
+const nearestInside = (packed: number): boolean => packed < 0 || (packed === 0 && 1 / packed < 0);
+const nearestDistance = (packed: number): number => Math.abs(packed);
+
 function nearest(
   x: number, z: number, set: PolySet, radiusM: number,
-): { inside: boolean; distance: number } {
+): number {
   let inside = false;
   let best = Infinity;
   const { polys, grid } = set;
@@ -281,7 +288,7 @@ function nearest(
       const d = distanceToPolygonWithin(x, z, idx, radiusM);
       if (d < best) best = d;
     }
-    return { inside, distance: best };
+    return packNearest(inside, best);
   }
   const cx0 = Math.max(0, Math.floor((x - radiusM - grid.minX) / POLY_GRID_CELL_M));
   const cx1 = Math.min(grid.gw - 1, Math.floor((x + radiusM - grid.minX) / POLY_GRID_CELL_M));
@@ -298,7 +305,7 @@ function nearest(
       }
     }
   }
-  return { inside, distance: best };
+  return packNearest(inside, best);
 }
 
 /** The wobble on the built edge at this position, metres. */
@@ -315,7 +322,8 @@ export function edgeJitter(x: number, z: number): number {
  * continuously over `FRINGE_FALLOFF_M`.
  */
 export function keepAt(x: number, z: number, clearance: VegetationClearancePatch): number {
-  for (const kept of clearance.kept ?? []) {
+  const keptList = clearance.kept;
+  if (keptList) for (const kept of keptList) {
     const radius = (kept.kind && KEPT_RADIUS_M[kept.kind]) || DEFAULT_KEPT_RADIUS_M;
     if (Math.hypot(x - kept.positionM[0], z - kept.positionM[1]) <= radius) return 1;
   }
@@ -329,14 +337,14 @@ export function keepAt(x: number, z: number, clearance: VegetationClearancePatch
   if (hard.polys.length > 0) {
     const near = nearest(x, z, hard, searchR);
     const jitter = edgeJitter(x, z) * (clearance.edgeJitterM ?? EDGE_JITTER_M) / EDGE_JITTER_M;
-    if (near.inside || near.distance <= jitter) return 0;
-    dHard = near.distance;
+    if (nearestInside(near) || nearestDistance(near) <= jitter) return 0;
+    dHard = nearestDistance(near);
     // Distance from the built edge as CUT, not from the drawn polygon.
     dWall = dHard - jitter;
   }
   const thin = nearest(x, z, thinned, searchR);
-  if (!thin.inside) return 1;
-  if (hard.polys.length === 0) dHard = Math.max(0, falloff - thin.distance);
+  if (!nearestInside(thin)) return 1;
+  if (hard.polys.length === 0) dHard = Math.max(0, falloff - nearestDistance(thin));
   const t = falloff > 0 ? Math.min(1, dHard / falloff) : 1;
   let keep = FRINGE_MIN_KEEP + (1 - FRINGE_MIN_KEEP) * t;
   if (dWall < WALL_ENRICH_BAND_M) {
@@ -364,6 +372,21 @@ export function keepForExtent(
     const dx = k === 0 ? radiusM : k === 1 ? -radiusM : 0;
     const dz = k === 2 ? radiusM : k === 3 ? -radiusM : 0;
     keep = Math.min(keep, keepAcross(x + dx, z + dz, clearances));
+    if (keep === 0) return 0;
+  }
+  return keep;
+}
+
+/** `keepForExtent` for one clearance: centre, then the four extent points. */
+function keepForExtentOne(
+  x: number, z: number, radiusM: number, clearance: VegetationClearancePatch,
+): number {
+  let keep = keepAt(x, z, clearance);
+  if (radiusM <= 0 || keep === 0) return keep;
+  for (let k = 0; k < 4; k++) {
+    const dx = k === 0 ? radiusM : k === 1 ? -radiusM : 0;
+    const dz = k === 2 ? radiusM : k === 3 ? -radiusM : 0;
+    keep = Math.min(keep, keepAt(x + dx, z + dz, clearance));
     if (keep === 0) return 0;
   }
   return keep;
@@ -513,15 +536,18 @@ export function survivesPatchesIn(
   region: readonly IndexedPatch[], roll: number,
 ): boolean {
   if (region.length === 0) return true;
-  const near: VegetationClearancePatch[] = [];
-  for (const entry of region) {
+  // The minimum over (clearance, extent point) pairs, taken clearance by
+  // clearance: the same number keepForExtent gives over the filtered list
+  // (min is order-free), with no list built per candidate.
+  let keep = 1;
+  for (let i = 0; i < region.length; i++) {
+    const entry = region[i];
     const b = entry.bounds;
     if (x < b.minX - radiusM || x > b.maxX + radiusM
       || z < b.minZ - radiusM || z > b.maxZ + radiusM) continue;
-    near.push(entry.clearance);
+    keep = Math.min(keep, keepForExtentOne(x, z, radiusM, entry.clearance));
+    if (keep === 0) return false;
   }
-  if (near.length === 0) return true;
-  const keep = keepForExtent(x, z, radiusM, near);
   return keep >= 1 || roll < keep;
 }
 

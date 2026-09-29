@@ -58,6 +58,9 @@ export interface FrameSegmentStats {
   gpuWallTimeOnly: boolean;
 }
 
+/** The whole-frame subset of `FrameSegmentStats`, for a per-frame reader. */
+export type FrameGpuSummary = Pick<FrameSegmentStats, "gpuSumAvg" | "gpuSumMax" | "gpuSupported" | "gpuWallTimeOnly">;
+
 /** A 60-frame average / 120-frame maximum over per-frame per-label totals. */
 class Window {
   /** One map per frame; a label missing from a frame counts as 0 ms. */
@@ -87,21 +90,19 @@ class Window {
     });
   }
 
-  /** Per-frame totals over every label, for the whole-frame line. */
-  totals(): { avg: number; max: number } {
-    const sums = this.frames.map((f) => {
-      let s = 0;
-      for (const v of f.values()) s += v;
-      return s;
-    });
+  /** Per-frame totals over every label, for the whole-frame line, written
+   * into `out` (the HUD reads this every frame: no array, no object). */
+  totals(out: { avg: number; max: number }): void {
+    let sum = 0;
+    for (const f of this.frames) for (const v of f.values()) sum += v;
     let max = 0;
     for (const f of this.maxima) {
       let s = 0;
       for (const v of f.values()) s += v;
       max = Math.max(max, s);
     }
-    const avg = sums.length ? sums.reduce((a, b) => a + b, 0) / sums.length : 0;
-    return { avg, max };
+    out.avg = this.frames.length ? sum / this.frames.length : 0;
+    out.max = max;
   }
 }
 
@@ -123,6 +124,7 @@ export class FrameSegments {
   private cpuStart = 0;
   private cpuFrame = new Map<string, number>();
   private cpuWindow = new Window();
+  private readonly totalsScratch = { avg: 0, max: 0 };
 
   /**
    * Bind the GL context. Split from the constructor so the studio can make
@@ -259,8 +261,21 @@ export class FrameSegments {
     } catch { this.disableGpu(); }
   }
 
+  /** The whole-frame GPU numbers only, written into `out`: the per-frame
+   * reader's path (the HUD's gpu line), allocation-free. `stats()` builds the
+   * per-label rows and is for the 1 Hz poll. */
+  gpuSummary(out: FrameGpuSummary): FrameGpuSummary {
+    this.gpuWindow.totals(this.totalsScratch);
+    out.gpuSumAvg = this.totalsScratch.avg;
+    out.gpuSumMax = this.totalsScratch.max;
+    out.gpuSupported = this.gpuSupported;
+    out.gpuWallTimeOnly = this.wallTimeOnly;
+    return out;
+  }
+
   stats(): FrameSegmentStats {
-    const totals = this.gpuWindow.totals();
+    const totals = { avg: 0, max: 0 };
+    this.gpuWindow.totals(totals);
     return {
       gpu: this.gpuWindow.stats(),
       cpu: this.cpuWindow.stats(),

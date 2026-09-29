@@ -54,6 +54,8 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   // Pass attribution only (decision 0084 round 10): the marks below change
   // no pipeline behaviour.
   const segments = useFrameSegments();
+  /** Drawing-buffer size, read into this every frame (walk 5 perf). */
+  const bufferSize = useMemo(() => new THREE.Vector2(), []);
   const frames = useRef(0);
   const bubblePass = useMemo(() => new UnderwaterBubblePass(tier.name === "low"), [tier.name]);
   useEffect(() => () => bubblePass.dispose(), [bubblePass]);
@@ -253,7 +255,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
         if ((o as THREE.Light).isLight) o.layers.enable(WATER_LAYER);
       });
     }
-    const size = renderer.getDrawingBufferSize(new THREE.Vector2());
+    const size = renderer.getDrawingBufferSize(bufferSize);
     const rw = Math.max(2, Math.round(size.x * tier.rtScale));
     const rh = Math.max(2, Math.round(size.y * tier.rtScale));
     resizeTarget(rt, rw, rh);

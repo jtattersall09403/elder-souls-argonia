@@ -58,8 +58,14 @@ export function SettlementColliders({ solidsRef, focusRef }: {
       live.clear();
     };
   }, [world]);
+  const seenSolids = useRef<SettlementSolid[] | null>(null);
   useFrame(() => {
     const solids = solidsRef.current;
+    // The layer hands over a new array when its solids change: the same array
+    // is the same set, so the id string (every solid's id joined, a string
+    // per frame) is built only when the array changes (walk 5 perf).
+    if (solids === seenSolids.current) return;
+    seenSolids.current = solids;
     const nextRevision = solids.map((s) => s.id).join("|");
     if (revision.current === nextRevision) return;
     revision.current = nextRevision;

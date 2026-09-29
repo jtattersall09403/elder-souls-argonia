@@ -48,18 +48,21 @@ export class WaterWorld implements WorldWaterQuery {
   private activeLocalPatch: LocalWaterPatch | null = null;
   private scratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
   private flowScratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
+  private readonly levelsScratch = { tide: 0, season: 0 };
 
   constructor(
     readonly data: WaterData,
     private readonly opts: WaterWorldOptions,
   ) {}
 
-  /** Level offset shared with the renderer's uniforms: [tide, season]. */
-  levelOffsets(epochMinutes: number): { tide: number; season: number } {
-    return {
-      tide: tideOffset(epochMinutes, this.opts.tidalAmplitudeM),
-      season: seasonOffset(this.opts.seasonScalar(), this.opts.seasonalAmplitudeM),
-    };
+  /** Level offset shared with the renderer's uniforms: [tide, season].
+   * The returned object is this world's one scratch record, rewritten by the
+   * next call (it runs per frame and per water sample): read it, never keep it. */
+  levelOffsets(epochMinutes: number): Readonly<{ tide: number; season: number }> {
+    const out = this.levelsScratch;
+    out.tide = tideOffset(epochMinutes, this.opts.tidalAmplitudeM);
+    out.season = seasonOffset(this.opts.seasonScalar(), this.opts.seasonalAmplitudeM);
+    return out;
   }
 
   /** Still-water surface height at (x, z) including tide/season, no waves. */
@@ -69,6 +72,29 @@ export class WaterWorld implements WorldWaterQuery {
     const s = this.data.sample(x, z);
     const { tide, season } = this.levelOffsets(epochMinutes);
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
+  }
+
+  /**
+   * The ripple shoreline mask's sampler (RippleSim picks it up by name): the
+   * body id, still-water depth and flow `sample()` would give at (x, z), with
+   * none of the waves, surf, normals or nested vectors the mask never reads
+   * (walk 5 perf). `surfaceHeight` is the still level. Same branches as
+   * `sample()`: a local pool, dry ground, wet water.
+   */
+  sampleBoundary(x: number, z: number, epochMinutes: number): {
+    waterBodyId: string | null; depth: number; surfaceHeight: number; flowX: number; flowZ: number;
+  } {
+    const pool = this.opts.localSurfaces?.at(x, z);
+    if (pool) {
+      return { waterBodyId: pool.pool.id, depth: Math.max(0, pool.levelM - pool.bedM), surfaceHeight: pool.levelM, flowX: 0, flowZ: 0 };
+    }
+    const s = this.data.sample(x, z);
+    const { tide, season } = this.levelOffsets(epochMinutes);
+    const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
+    const ground = this.opts.groundHeight?.(x, z) ?? null;
+    const depth = ground !== null ? still - ground : s.depthProxy + tide * s.tideResponse + season * s.seasonResponse;
+    if (depth <= 0.02) return { waterBodyId: null, depth: 0, surfaceHeight: still, flowX: 0, flowZ: 0 };
+    return { waterBodyId: s.entityId ?? s.className, depth: Math.max(depth, 0), surfaceHeight: still, flowX: s.flowX, flowZ: s.flowZ };
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {

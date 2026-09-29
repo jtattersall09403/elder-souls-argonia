@@ -1123,6 +1123,8 @@ void main() {
     void rig;
   };
 
+  // Per-frame scratch (walk 5 perf): the sun direction is rewritten, never allocated.
+  const sunDirScratch = useMemo(() => new THREE.Vector3(), []);
   useFrame((_s, delta) => {
     patchFrame.current.frame += 1;
     // Sky stage of the frame, the PMREM re-bake included when it fires
@@ -1187,7 +1189,7 @@ void main() {
         sunOcclusion,
       },
     );
-    const sunDir = new THREE.Vector3(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
+    const sunDir = sunDirScratch.set(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
 
     // Sky dome follows the camera so the horizon never clips.
     sky.position.copy(camera.position);
@@ -1357,8 +1359,8 @@ void main() {
     rig.moons.forEach((m: MoonState, i) => {
       const mesh = moonRefs.current[i];
       if (!mesh) return;
-      const dir = new THREE.Vector3(m.direction.x, m.direction.y, m.direction.z);
-      mesh.position.copy(camera.position).addScaledVector(dir, MOON_RADIUS);
+      mesh.position.set(camera.position.x + m.direction.x * MOON_RADIUS,
+        camera.position.y + m.direction.y * MOON_RADIUS, camera.position.z + m.direction.z * MOON_RADIUS);
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
       (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);

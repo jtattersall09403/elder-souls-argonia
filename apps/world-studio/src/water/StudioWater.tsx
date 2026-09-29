@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
 import { sharedLocalSurfaces, sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
+import { sharedChunkStore } from "../character/chunkStore";
 import { createWaterProbe, type WaterProbeSummary } from "@elder-souls/game-core/water/render/waterProbe";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
@@ -105,6 +106,16 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
   const ripple = useMemo(() => (tier.ripples ? new RippleSim() : null), [tier]);
   useEffect(() => () => ripple?.dispose(), [ripple]);
   useEffect(() => { if (assets) ripple?.configureBoundary(assets.world, runtime.epochMinutes); }, [ripple, assets, runtime]);
+  // The ripple shoreline mask samples the streamed ground (waterGroundHeight
+  // reads this store): a chunk decoding under the patch refreshes it at once
+  // (the mask never resamples an unchanged patch on its own).
+  useEffect(() => {
+    if (!ripple) return;
+    return sharedChunkStore(base).onArrival((grid) => {
+      const [x0, z0] = grid.meta.originM;
+      ripple.groundChanged(x0, z0, x0 + (grid.nx - 1) * grid.metresPerSample, z0 + (grid.ny - 1) * grid.metresPerSample);
+    });
+  }, [ripple, base]);
 
   useEffect(() => {
     let alive = true;

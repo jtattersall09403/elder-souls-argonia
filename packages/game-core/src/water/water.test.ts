@@ -868,3 +868,21 @@ describe("beyond the border the water is the open sea over the apron ground (16d
     data.attachApron(null);
   });
 });
+
+describe("WaterWorld.sampleBoundary (ripple mask sampler, walk 5 perf)", () => {
+  it("gives the body id, depth and flow sample() gives, on sea and dry ground, at any tide", () => {
+    const world = tinyWorld();
+    for (const epoch of [0, 100, 300]) {
+      for (let x = 1; x < 40; x += 3.7) {
+        for (let z = 1; z < 40; z += 5.3) {
+          const full = world.sample({ x, y: 0, z }, epoch);
+          const cheap = world.sampleBoundary(x, z, epoch);
+          expect(cheap.waterBodyId).toBe(full.waterBodyId);
+          expect(cheap.depth).toBe(full.depth);
+          expect(cheap.flowX).toBe(full.flowVelocity.x);
+          expect(cheap.flowZ).toBe(full.flowVelocity.z);
+        }
+      }
+    }
+  });
+});

@@ -33,15 +33,17 @@ export interface RippleSimOptions {
   patchM?: number;
   boundarySize?: number;
   maskRefreshS?: number;
-  /** Refresh period while tide/season are still (default 1 s). */
+  /** Refresh period while tide/season are still. Default: never. Ground that
+   * streams in is signalled through `groundChanged` (the terrain store's
+   * arrival event), so an unchanged patch is never resampled. */
   staticRefreshS?: number;
   sampleBoundary?: RippleBoundarySampler;
 }
 
 /** CPU mask sampled at 0.5 m by default. Movement reuses overlapping samples;
  * tide/season movement past LEVEL_REFRESH_EPS_M refreshes the complete patch at
- * most once per `refreshS`; with still levels a slower `staticRefreshS` cycle
- * picks up ground that streamed in under the patch (the sampler has no revision).
+ * most once per `refreshS`; so does `requestRefresh()` (a terrain chunk arrived
+ * under the patch). Still levels and no arrival mean no sampling at all.
  * Refreshes without movement rewrite their rows in place and flag only the rows
  * whose bytes changed (`dirtyRows`), so the GPU upload is those rows alone.
  * RG = stable 16-bit local body label, B = depth / 4 m, A = wet support. */
@@ -65,6 +67,8 @@ export class RippleBoundaryMask {
   private season = 0;
   private hasLevels = false;
   private dirty = false;
+  /** Ground under the patch changed since the last cycle started. */
+  private refreshRequested = false;
   /** Levels at the start of the current refresh cycle. */
   private cycleTide = NaN;
   private cycleSeason = NaN;
@@ -92,6 +96,11 @@ export class RippleBoundaryMask {
   }
 
   clearDirty(): void { this.dirtyRows.fill(0); this.dirtyAll = false; }
+
+  /** Start an in-place refresh cycle as soon as the rate limit allows (a
+   * request during a cycle starts the next one, so no row misses it). Keeps
+   * the ripple history: only rows whose bytes change are rewritten. */
+  requestRefresh(): void { this.refreshRequested = true; }
 
   setSampler(sampler: RippleBoundarySampler): void { this.sampler = sampler; this.invalidate(); }
   invalidate(): void { this.age = Infinity; }
@@ -140,11 +149,13 @@ export class RippleBoundaryMask {
     const cz = Math.round(focusZ / texel) * texel;
     this.age += Math.max(0, dt);
     const full = !Number.isFinite(this.age) || !Number.isFinite(this.center.x);
-    if (!full && !this.rowsRemaining && this.age + 1e-9 >= this.refreshS && (this.age + 1e-9 >= this.staticRefreshS
+    if (!full && !this.rowsRemaining && this.age + 1e-9 >= this.refreshS && (this.refreshRequested
+      || this.age + 1e-9 >= this.staticRefreshS
       || !(Math.abs(this.tide - this.cycleTide) <= LEVEL_REFRESH_EPS_M && Math.abs(this.season - this.cycleSeason) <= LEVEL_REFRESH_EPS_M))) {
       this.rowsRemaining = this.size;
       this.refreshRow = 0;
       this.age = 0;
+      this.refreshRequested = false;
       this.cycleTide = this.tide; this.cycleSeason = this.season;
     }
     const rowStart = this.refreshRow;
@@ -180,14 +191,14 @@ export class RippleBoundaryMask {
     }
     this.scratch = this.data;
     this.data = target;
-    [this.current, this.currentScratch] = [this.currentScratch, this.current];
+    const swap = this.current; this.current = this.currentScratch; this.currentScratch = swap;
     this.rowStages.set(this.scratchRowStages);
     this.dirty = false;
     this.stagesMoved = true;
     this.dirtyAll = true;
     this.center.set(cx, cz);
     if (full) {
-      this.age = 0; this.rowsRemaining = 0; this.refreshRow = 0;
+      this.age = 0; this.rowsRemaining = 0; this.refreshRow = 0; this.refreshRequested = false;
       this.cycleTide = this.tide; this.cycleSeason = this.season;
     } else { this.rowsRemaining -= rowCount; this.refreshRow = (this.refreshRow + rowCount) % this.size; }
     return true;
@@ -454,9 +465,9 @@ export class RippleSim {
     // Keep conservative half-metre banks without a 33k-query hitch every
     // fifth of a second. Initial/teleported support is complete immediately;
     // subsequent level changes refresh in bounded row batches.
-    // Still levels re-check the patch once a second for ground that streamed in.
+    // Still levels and no ground arrival: no resampling (walk 5 perf).
     this.mask = new RippleBoundaryMask(boundarySize, this.patchM, Math.max(0.1, options.maskRefreshS ?? 0.2), this.fastSampler, 16,
-      Math.max(0.1, options.staticRefreshS ?? 1));
+      Math.max(0.1, options.staticRefreshS ?? Infinity));
     this.scheduler = new RippleFrameScheduler(size, this.patchM);
     this.center = this.scheduler.center;
     this.maskTexture = new THREE.DataTexture(this.mask.data, boundarySize, boundarySize, THREE.RGBAFormat);
@@ -525,6 +536,18 @@ export class RippleSim {
    * next render step; the new mask is admitted in the usual bounded row budget. */
   invalidateBoundary(): void {
     this.mask.invalidateProgressively(); this.initialized = false; this.pendingDrops.length = 0;
+  }
+
+  /** A terrain chunk covering [minX, maxX] x [minZ, maxZ] (world metres)
+   * arrived: refresh the shoreline mask in place within the usual rate limit
+   * if it touches the patch. Unlike `invalidateBoundary` it keeps the ripple
+   * history. Wired to `ChunkStore.onArrival` by the app. */
+  groundChanged(minX: number, minZ: number, maxX: number, maxZ: number): void {
+    const c = this.mask.center;
+    if (!Number.isFinite(c.x)) return;  // the first full build samples it anyway
+    const half = this.patchM / 2 + 1;
+    if (maxX < c.x - half || minX > c.x + half || maxZ < c.y - half || minZ > c.y + half) return;
+    this.mask.requestRefresh();
   }
 
   /** Optional explicit injection for query adapters without levelOffsets. */

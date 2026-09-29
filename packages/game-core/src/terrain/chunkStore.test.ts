@@ -53,3 +53,18 @@ describe("ChunkStore ground overlays (decision 0102)", () => {
     expect((await pending).heights[6 * 17 + 6]).toBeCloseTo(12, 5);
   });
 });
+
+describe("ChunkStore arrival event", () => {
+  it("tells each listener once per decoded grid, never for a cache hit, and unsubscribes", async () => {
+    stubFetch();
+    const store = new ChunkStore("/", { decodeHeights: flat });
+    const seen: string[] = [];
+    const off = store.onArrival((g) => seen.push(`${g.meta.cx},${g.meta.cy},${g.lod}`));
+    await Promise.all([store.load(0, 0, "1"), store.load(0, 0, "1")]);
+    await store.load(0, 0, "1");
+    expect(seen).toEqual(["0,0,1"]);
+    off();
+    await store.load(0, 0, "4");
+    expect(seen).toEqual(["0,0,1"]);
+  });
+});

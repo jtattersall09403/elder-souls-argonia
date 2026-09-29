@@ -66,6 +66,7 @@ export class ChunkStore {
   private readonly byCell = new Map<string, ChunkMeta>();
   private readonly grids = new Map<string, ChunkGrid>();
   private readonly pending = new Map<string, Promise<ChunkGrid>>();
+  private readonly arrivalListeners = new Set<(grid: ChunkGrid) => void>();
 
   readonly overlays: GroundOverlayRegistry | undefined;
   private readonly decodeHeights: (blob: Blob, lodMeta: ChunkLodMeta) => Promise<Float32Array>;
@@ -105,11 +106,21 @@ export class ChunkStore {
     if (!pending) {
       pending = this.decode(cx, cy, lod).then((grid) => {
         this.grids.set(key, grid);
+        for (const listener of this.arrivalListeners) listener(grid);
         return grid;
       }).finally(() => { this.pending.delete(key); });
       this.pending.set(key, pending);
     }
     return pending;
+  }
+
+  /** Called once per decoded grid (cell + LOD), synchronously as it enters
+   * the cache, for every reader of the store: a consumer that caches
+   * something sampled from the ground (the ripple shoreline mask) refreshes
+   * the part the grid covers. Returns the unsubscribe. */
+  onArrival(listener: (grid: ChunkGrid) => void): () => void {
+    this.arrivalListeners.add(listener);
+    return () => { this.arrivalListeners.delete(listener); };
   }
 
   /** Register chunks that live somewhere other than `province/chunks/`

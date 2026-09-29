@@ -225,6 +225,9 @@ export function InteriorDoors({
     return () => { environment.current = null; env.restore(); };
   }, [shown, scene, gl]);
 
+  // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
+  const bodyPos = useMemo(() => new THREE.Vector3(), []);
+  const answers = useMemo(() => (doorId: string) => interaction.answers(doorId), [interaction]);
   useFrame((state, delta) => {
     // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
     shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
@@ -237,12 +240,12 @@ export function InteriorDoors({
       controller.readPose(p, new THREE.Quaternion());
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z });
     }
-    transition.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
+    transition.update(Math.min(delta, 0.1), answers);
     if (transition.candidate) interaction.offer(transition.candidate);
     if (swing && transition.fade === 0) {
-      const p = controller.position(new THREE.Vector3());
+      const p = controller.position(bodyPos);
       for (const c of swing.controller.candidates(p.x, p.z)) interaction.offer(c);
-      swing.controller.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
+      swing.controller.update(Math.min(delta, 0.1), answers);
     }
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;

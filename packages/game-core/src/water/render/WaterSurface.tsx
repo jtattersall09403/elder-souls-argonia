@@ -442,24 +442,27 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         for (const [k, v] of stamps.current) if (v.seen < stampFrame.current - 8) stamps.current.delete(k);
       }
     }
-    splashes.current = splashes.current.filter((s) => nowS - s.bornS < 2.0).slice(-MAX_CONTACT_BODIES);
-    const bodies: ContactBody[] = [
-      ...(contactBodies?.() ?? []),
-      ...splashes.current.map((s) => {
-        const age = Math.max(nowS - s.bornS, 0);
-        return {
-          x: s.x,
-          z: s.z,
-          radius: s.radius + age * 1.6,
-          strength: s.strength * Math.max(1 - age / 2.0, 0),
-        };
-      }),
-    ];
-    uniforms.uBodyCount.value = Math.min(bodies.length, MAX_CONTACT_BODIES);
-    for (let i = 0; i < uniforms.uBodyCount.value; i++) {
-      const b = bodies[i];
-      uniforms.uBodies.value[i].set(b.x, b.z, b.radius, b.strength);
+    // Live contacts then splashes, written straight into the uniforms: no
+    // filtered, sliced, mapped or spread arrays per frame (walk 5 perf).
+    const sp = splashes.current;
+    let kept = 0;
+    for (let r = 0; r < sp.length; r++) if (nowS - sp[r].bornS < 2.0) sp[kept++] = sp[r];
+    sp.length = kept;
+    if (sp.length > MAX_CONTACT_BODIES) sp.splice(0, sp.length - MAX_CONTACT_BODIES);
+    const live = contactBodies?.();
+    let nBodies = 0;
+    if (live) {
+      for (let i = 0; i < live.length && nBodies < MAX_CONTACT_BODIES; i++) {
+        const b = live[i];
+        uniforms.uBodies.value[nBodies++].set(b.x, b.z, b.radius, b.strength);
+      }
     }
+    for (let i = 0; i < sp.length && nBodies < MAX_CONTACT_BODIES; i++) {
+      const s = sp[i];
+      const age = Math.max(nowS - s.bornS, 0);
+      uniforms.uBodies.value[nBodies++].set(s.x, s.z, s.radius + age * 1.6, s.strength * Math.max(1 - age / 2.0, 0));
+    }
+    uniforms.uBodyCount.value = nBodies;
     if (ripple) {
       uniforms.uRipple.value = ripple.texture;
       uniforms.uRippleInfo.value.set(ripple.center.x, ripple.center.y, RIPPLE_PATCH_M, 1);

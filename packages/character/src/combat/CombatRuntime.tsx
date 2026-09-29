@@ -3504,8 +3504,10 @@ export function CombatRuntime({
           outlineColor="#ffb04d"
         />
       )}
-      {playerTorch && !portrait && (
-        <CarriedLight item={playerOffHandObject} spec={playerTorch.light} level={carriedLightLevel} time={carriedLightClock} />
+      {/* Mounted with or without a torch: the one carried PointLight stays in
+          the scene, so equipping or dousing never recompiles lit materials. */}
+      {!portrait && (
+        <CarriedLight item={playerOffHandObject} spec={playerTorch?.light ?? null} level={carriedLightLevel} time={carriedLightClock} />
       )}
       <Suspense fallback={null}>
         <Arrows
