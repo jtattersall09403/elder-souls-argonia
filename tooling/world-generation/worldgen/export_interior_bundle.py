@@ -47,12 +47,19 @@ Each light keeps its base record's fade (FNAM, unitless: the runtime's
 intensity is fade times one tuned constant); a reference radius override
 (XRDS) counts only when positive, the raw value kept in ``raw``.
 
-Doors: ``doors[]`` pairs each claiming exterior door (the blueprint's door
-record) with its interior load door and arrival marker (owner ruling B,
-interiors round 2); every other load door of the cell follows as
-``{interiorLoadDoorRef, loadDoor, closed: true}`` (planner ruling 3, interiors
-round 3: shown with the closed line, never used); ``exitDoor``/
-``arrivalMarker`` are the first pair's, the default for ``?interior=``. Every
+Doors: the cell file is shared by every place that claims the cell
+(Greenspring, Claywater Station and Riverwalk all claim KeebaHouseCrafter), so
+it carries nothing about any one place (decision 0104: one home per fact).
+``doors[]`` lists every load door of the cell as ``{doorType: "load",
+interiorLoadDoorRef, loadDoor}`` in ref order; which exterior door pairs with
+which load door, and where entering by it arrives, is the PLACE's door record
+(``interiorClaim.{cellId, interiorLoadDoorRef, arrivalMarker}``), and the
+runtime reads open or closed from the place entered from (a load door no door
+of that place claims shows the closed line, planner ruling 3, interiors round
+3). ``exitDoor`` is the first load door; ``arrivalMarker`` is the plugin's own
+arrival (its exterior partner's teleport), the default for ``?interior=`` and
+for a claim without a marker; ``shellAssetId`` is null (the shell is the
+claiming parcel's ``assetRef``). Every
 entry carries ``doorType``: those are ``load``; a DOOR reference with NO XTEL
 teleport follows as a ``swing`` entry (owner 2026-09-28, schemaVersion 2)
 ``{doorType, id, refId, assetId, kit, positionM, rotationDeg, scale, hinge:
@@ -89,7 +96,12 @@ KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "interiors"
 #: 2 (16k walk 4, owner 2026-09-28): `doors[]` entries carry `doorType`; a DOOR
 #: reference with no XTEL teleport is a `swing` entry, no longer a placement
-SCHEMA_VERSION = 2
+#: 3 (2026-09-29): the shared cell file carries no per-place field; load doors
+#: are `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing is the
+#: place's door record (`interiorClaim`)
+SCHEMA_VERSION = 3
+#: fields that belong to one claiming place, never to the shared cell file
+PER_PLACE_DOOR_FIELDS = ("exteriorDoorId", "arrivalMarker", "closed")
 #: a swing door whose NIF has no Open sequence opens this far (degrees)
 SWING_DEFAULT_OPEN_DEG = 90.0
 #: and over this long (seconds)
@@ -847,8 +859,9 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                 absent: dict[str, dict] | None = None,
                 kit_bounds: dict[str, tuple] | None = None) -> dict:
     """The bundle for one cell (see the module docstring). `doors` is the
-    blueprint's pairing, `[{exteriorDoorId, interiorLoadDoorRef,
-    arrivalMarker}]` (game frame), in door order."""
+    claiming places' door claims, `[{interiorLoadDoorRef, ...}]`: each ref is
+    checked to be a load door of the cell and nothing of a claim is written
+    (the output is the same whoever claims the cell)."""
     from .mine_door_links import asset_id_for
 
     pset = plugin_set(paths[plugin_name], paths)
@@ -1065,30 +1078,16 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
                         lighting[f] = template[f]
         lighting["template"] = template.get("editorId")
 
-    pairs = []
     for d in doors or []:
-        load = load_doors.get(d["interiorLoadDoorRef"])
-        if load is None:
+        if d["interiorLoadDoorRef"] not in load_doors:
             raise SystemExit(f"{cell_edid}: the claim pairs load door {d['interiorLoadDoorRef']}, "
                              f"which is not a load door of the cell")
-        pairs.append({"doorType": "load", "exteriorDoorId": d["exteriorDoorId"],
-                      "interiorLoadDoorRef": d["interiorLoadDoorRef"],
-                      "arrivalMarker": d["arrivalMarker"],
-                      "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
-    # Planner ruling 3 (interiors round 3): every load door of the cell no
-    # exterior door pairs with ships CLOSED (the runtime shows the closed line
-    # and does nothing): the farmhouse's upper door, a cellar, a jail.
-    paired_refs = {d["interiorLoadDoorRef"] for d in pairs}
-    if pairs:
-        for rid in sorted(load_doors):
-            if rid not in paired_refs:
-                load = load_doors[rid]
-                pairs.append({"doorType": "load", "interiorLoadDoorRef": rid, "closed": True,
-                              "loadDoor": {"positionM": load["positionM"], "yawDeg": load["yawDeg"]}})
-    first = load_doors.get(pairs[0]["interiorLoadDoorRef"]) if pairs else (
-        next(iter(sorted(load_doors.values(), key=lambda d: d["refId"])), None))
-    arrival = (pairs[0]["arrivalMarker"] if pairs else
-               ({"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None))
+    pairs = [{"doorType": "load", "interiorLoadDoorRef": rid,
+              "loadDoor": {"positionM": load_doors[rid]["positionM"],
+                           "yawDeg": load_doors[rid]["yawDeg"]}}
+             for rid in sorted(load_doors)]
+    first = load_doors[pairs[0]["interiorLoadDoorRef"]] if pairs else None
+    arrival = {"positionM": first["positionM"], "yawDeg": first["yawDeg"]} if first else None
     kits = sorted({p["kit"] for p in placements} | {s["kit"] for s in substitutions}
                   | {w["kit"] for w in swings})
     return {
@@ -1197,8 +1196,8 @@ def validate_bundle(b: dict) -> list[str]:
     for key in ("cellId", "plugin", "frame"):
         if not isinstance(b.get(key), str) or not b.get(key):
             bad.append(f"no {key}")
-    if b.get("shellAssetId") is not None and not isinstance(b.get("shellAssetId"), str):
-        bad.append("shellAssetId is neither a string nor null")
+    if b.get("shellAssetId") is not None:
+        bad.append("shellAssetId is per place (the claiming parcel's assetRef); the shared cell file carries null")
     kits = b.get("kits")
     if not isinstance(kits, dict) or not all(
             isinstance(v, dict) and v.get("id") == k and isinstance(v.get("glb"), str)
@@ -1217,11 +1216,12 @@ def validate_bundle(b: dict) -> list[str]:
         if not (isinstance(d, dict) and d.get("doorType") == "load"):
             bad.append(f"bad doors entry {d!r:.80} (doorType must be load or swing)")
             continue
-        closed = isinstance(d, dict) and d.get("closed") is True
-        if not (isinstance(d, dict) and isinstance(d.get("interiorLoadDoorRef"), str)
-                and _marker(d.get("loadDoor"))
-                and (closed or (isinstance(d.get("exteriorDoorId"), str) and _marker(d.get("arrivalMarker"))))):
+        if not (isinstance(d.get("interiorLoadDoorRef"), str) and _marker(d.get("loadDoor"))):
             bad.append(f"bad doors entry {d!r:.80}")
+        per_place = [k for k in PER_PLACE_DOOR_FIELDS if k in d]
+        if per_place:
+            bad.append(f"load door {d.get('interiorLoadDoorRef')}: per-place field(s) {per_place} "
+                       f"in the shared cell file (the place's door record holds them, 0104)")
     for p in b.get("placements") or []:
         if p.get("kit") not in kits:
             bad.append(f"{p.get('id')}: kit {p.get('kit')!r} is not in the bundle's kits")
@@ -1332,6 +1332,43 @@ def _write_placement_rows(path: Path = ABSENT_MASTER_CLASSES) -> int:
     return 0
 
 
+def blueprint_claims(data: dict) -> dict[tuple[str, str], list[dict]]:
+    """``{(plugin, cellId): [interiorClaim, ...]}`` for every tier A door of a
+    place blueprint, in door order. The claim stays in the place's door record;
+    the exporter only checks its load door ref against the cell."""
+    bp = data.get("blueprint", data)
+    out: dict[tuple[str, str], list[dict]] = {}
+    for door in bp.get("doors", []) or []:
+        claim = door.get("interiorClaim") or {}
+        if claim.get("tier") == "A":
+            out.setdefault((claim["plugin"], claim["cellId"]), []).append(claim)
+    return out
+
+
+def export_bundle(plugin: str, cell: str, env, kit_assets, fixture_lights,
+                  claims: list[dict] | None = None) -> dict:
+    """The shared cell file, as written: `export_cell`, the plugin's own
+    arrival marker (its exterior partner's teleport, `profile_cell`) and the
+    fixture light rule. Place-independent: `claims` only checks load door refs."""
+    from .interior_cells import game_marker, profile_cell, world_for
+    from .interior_light import apply_light_rule
+    paths, pools, registry = env
+    bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
+                         doors=claims)
+    prof = profile_cell(world_for(plugin, paths.get), cell) or {}
+    if prof.get("exteriorDoors"):
+        # the plugin's first door to the outside: its arrival, and the exit door with it
+        first = prof["exteriorDoors"][0]
+        bundle["arrivalMarker"] = game_marker(first["arrivalMarker"])
+        load = next((d for d in bundle["doors"] if d["doorType"] == "load"
+                     and d["interiorLoadDoorRef"] == first["refId"]), None)
+        if load is not None:
+            bundle["exitDoor"] = {"id": f"{cell}.{first['refId']}", "refId": first["refId"],
+                                  **load["loadDoor"]}
+    apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
+    return bundle
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--plugin")
@@ -1344,42 +1381,21 @@ def main() -> int:
     args = ap.parse_args()
     if args.class_absent_by_placement:
         return _write_placement_rows()
-    jobs: list[tuple[str, str, str | None]] = []
-    pairs: dict[tuple[str, str], list[dict]] = {}
     if args.blueprint:
-        data = json.loads(Path(args.blueprint).read_text())
-        bp = data.get("blueprint", data)
-        parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
-        for door in bp.get("doors", []) or []:
-            claim = door.get("interiorClaim") or {}
-            if claim.get("tier") == "A":
-                shell = (parcels.get(door.get("parcelId")) or {}).get("assetRef")
-                jobs.append((claim["plugin"], claim["cellId"], shell))
-                pairs.setdefault((claim["plugin"], claim["cellId"]), []).append({
-                    "exteriorDoorId": door["id"],
-                    "interiorLoadDoorRef": claim["interiorLoadDoorRef"],
-                    "arrivalMarker": claim["arrivalMarker"]})
+        claims = blueprint_claims(json.loads(Path(args.blueprint).read_text()))
     elif args.plugin and args.cell:
-        jobs.append((args.plugin, args.cell, None))
+        claims = {(args.plugin, args.cell): []}
     else:
         ap.error("--plugin and --cell, or --blueprint")
-    paths, pools, registry = _environment()
+    env = _environment()
     kit_assets = published_kit_assets()
-    from .interior_light import apply_light_rule, kit_lights
+    from .interior_light import kit_lights
     fixture_lights = kit_lights(KITS_DIR)
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     failed = 0
-    for plugin, cell, shell in dict.fromkeys(jobs):
-        bundle = export_cell(plugin, cell, paths, registry, kit_assets, lambda n: pools.get(n),
-                             doors=pairs.get((plugin, cell)))
-        bundle["shellAssetId"] = shell
-        if not any(d["doorType"] == "load" for d in bundle["doors"]):
-            from .interior_cells import game_marker, profile_cell, world_for
-            prof = profile_cell(world_for(plugin, paths.get), cell, shell) or {}
-            if prof.get("exteriorDoors"):
-                bundle["arrivalMarker"] = game_marker(prof["exteriorDoors"][0]["arrivalMarker"])
-        apply_light_rule(bundle, fixture_lights)  # doors-interiors-sockets.md § 7
+    for (plugin, cell), cell_claims in claims.items():
+        bundle = export_bundle(plugin, cell, env, kit_assets, fixture_lights, cell_claims)
         problems = check(bundle) + validate_bundle(bundle)
         gaps = [d for d in bundle["drops"] if d["reason"] == "no-kit-asset"]
         (out_dir / f"{cell}.json").write_text(json.dumps(bundle, indent=1) + "\n")

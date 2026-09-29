@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "fixture.hut-int",
  "plugin": "Fixture.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "fixture:shell/hut01",
+ "shellAssetId": null,
  "refCount": 10,
  "kits": {
   "fixture-int-v1": {
@@ -33,16 +33,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.fixture.1",
    "interiorLoadDoorRef": "00000A01",
-   "arrivalMarker": {
-    "positionM": [
-     0,
-     0,
-     2.5
-    ],
-    "yawDeg": 0
-   },
    "loadDoor": {
     "positionM": [
      0,

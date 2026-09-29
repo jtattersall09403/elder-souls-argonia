@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "KeebaHouseFisher",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:mud/kotm-house-pod",
+ "shellAssetId": null,
  "refCount": 126,
  "kits": {
   "interior-farmhouse-v1": {
@@ -63,16 +63,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.hist-heartland.greenspring.2",
    "interiorLoadDoorRef": "080A5B30",
-   "arrivalMarker": {
-    "positionM": [
-     109.529,
-     82.7577,
-     54.5645
-    ],
-    "yawDeg": 233.95
-   },
    "loadDoor": {
     "positionM": [
      110.7332,

@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "DawnstarBrinasHouse",
  "plugin": "Skyrim.esm",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:farmhouse/farmhouse01-with-door",
+ "shellAssetId": null,
  "refCount": 141,
  "kits": {
   "bmv-treehouse-int": {
@@ -63,16 +63,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.1",
    "interiorLoadDoorRef": "00013CC1",
-   "arrivalMarker": {
-    "positionM": [
-     -23.6671,
-     0.0,
-     12.7593
-    ],
-    "yawDeg": 0.0
-   },
    "loadDoor": {
     "positionM": [
      -23.6639,

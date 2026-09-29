@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "LilmothIronworksOverseerHouse",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:mud/hut-with-entrance",
+ "shellAssetId": null,
  "refCount": 109,
  "kits": {
   "interior-farmhouse-v1": {
@@ -39,48 +39,26 @@
  },
  "arrivalMarker": {
   "positionM": [
-   97.7738,
-   80.3475,
-   75.313
+   109.128,
+   85.6285,
+   76.4691
   ],
-  "yawDeg": 182.384
+  "yawDeg": 266.654
  },
  "exitDoor": {
-  "id": "LilmothIronworksOverseerHouse.08864DBA",
-  "refId": "08864DBA",
+  "id": "LilmothIronworksOverseerHouse.08864DA3",
+  "refId": "08864DA3",
   "positionM": [
-   97.6776,
-   80.4602,
-   74.2038
+   109.9096,
+   85.608,
+   76.1626
   ],
-  "yawDeg": 0.0
+  "yawDeg": 90.0
  },
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.hist-heartland.greenspring.5",
-   "interiorLoadDoorRef": "08864DBA",
-   "arrivalMarker": {
-    "positionM": [
-     97.7738,
-     80.3475,
-     75.313
-    ],
-    "yawDeg": 182.384
-   },
-   "loadDoor": {
-    "positionM": [
-     97.6776,
-     80.4602,
-     74.2038
-    ],
-    "yawDeg": 0.0
-   }
-  },
-  {
-   "doorType": "load",
    "interiorLoadDoorRef": "08864DA3",
-   "closed": true,
    "loadDoor": {
     "positionM": [
      109.9096,
@@ -88,6 +66,18 @@
      76.1626
     ],
     "yawDeg": 90.0
+   }
+  },
+  {
+   "doorType": "load",
+   "interiorLoadDoorRef": "08864DBA",
+   "loadDoor": {
+    "positionM": [
+     97.6776,
+     80.4602,
+     74.2038
+    ],
+    "yawDeg": 0.0
    }
   }
  ],

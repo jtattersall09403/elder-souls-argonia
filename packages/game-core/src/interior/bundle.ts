@@ -12,8 +12,14 @@ import { swingPoseProblem, type InteriorSwingDoor } from "./swingDoors";
  * 2 (16k walk 4, owner 2026-09-28): every `doors[]` entry carries `doorType`;
  * a DOOR reference with no teleport is a `swing` entry (swingDoors.ts), no
  * longer a placement. A schema-1 bundle is refused with its version named.
+ * 3 (2026-09-29, decision 0104): the cell file is shared by every place that
+ * claims the cell, so it carries no per-place field: a load door is
+ * `{doorType, interiorLoadDoorRef, loadDoor}` and the pairing (which exterior
+ * door, its arrival marker) is the place's door record (`interiorClaim`).
+ * Schema 2 still parses: its per-place door fields are ignored.
  */
-export const INTERIOR_BUNDLE_SCHEMA_VERSION = 2;
+export const INTERIOR_BUNDLE_SCHEMA_VERSION = 3;
+const READABLE_SCHEMA_VERSIONS: readonly number[] = [2, INTERIOR_BUNDLE_SCHEMA_VERSION];
 
 export type Vec3 = [number, number, number];
 
@@ -87,38 +93,21 @@ export interface InteriorLight {
 export interface InteriorMarker { positionM: Vec3; yawDeg: number }
 
 /**
- * One exterior door's pairing (owner ruling B, 0103 decision 2): entering
- * by `exteriorDoorId` arrives at `arrivalMarker`; leaving through the
- * cell's load door `interiorLoadDoorRef` returns to that exterior door.
+ * One load door of the cell (a cell transition). Which exterior door pairs
+ * with it is the place's door record (`interiorClaim.interiorLoadDoorRef`),
+ * never this file: places share cells (decision 0104). Open or closed is
+ * read from the place entered from (`openLoadDoorRefs`, doorTransition.ts).
  */
-export interface InteriorOpenDoor {
+export interface InteriorLoadDoor {
   doorType: "load";
-  exteriorDoorId: string;
   interiorLoadDoorRef: string;
-  arrivalMarker: InteriorMarker;
   /** Where that load door stands in the cell (cell frame, y up): leaving by it is walking to it. */
   loadDoor: InteriorMarker;
-  closed?: false;
 }
 
-/**
- * A load door of the cell no exterior door pairs with (planner ruling 3,
- * interiors round 3: the farmhouse's upper door, a cellar): it stands where
- * the plugin put it, shows the closed line and does nothing.
- */
-export interface InteriorClosedDoor {
-  doorType: "load";
-  interiorLoadDoorRef: string;
-  loadDoor: InteriorMarker;
-  closed: true;
-}
+export type InteriorDoorEntry = InteriorLoadDoor | InteriorSwingDoor;
 
-export type InteriorDoorPairing = InteriorOpenDoor | InteriorClosedDoor;
-
-export type InteriorDoorEntry = InteriorDoorPairing | InteriorSwingDoor;
-
-export const isLoadDoor = (d: InteriorDoorEntry): d is InteriorDoorPairing => d.doorType === "load";
-export const isOpenDoor = (d: InteriorDoorEntry): d is InteriorOpenDoor => isLoadDoor(d) && d.closed !== true;
+export const isLoadDoor = (d: InteriorDoorEntry): d is InteriorLoadDoor => d.doorType === "load";
 export const isInteriorSwingDoor = (d: InteriorDoorEntry): d is InteriorSwingDoor => d.doorType === "swing";
 
 export interface InteriorExitDoor {
@@ -130,13 +119,13 @@ export interface InteriorExitDoor {
 }
 
 export interface InteriorBundle {
-  schemaVersion: typeof INTERIOR_BUNDLE_SCHEMA_VERSION;
+  schemaVersion: number;
   cellId: string;
   /** The plugin file the cell was copied from (0103 decision 3). */
   plugin: string;
   /** Human-readable statement of the coordinate frame; documentation only. */
   frame: string;
-  /** The exterior shell the cell was picked for; null for a directly opened cell. */
+  /** Null from schema 3 (the shell is the claiming parcel's `assetRef`); schema 2 files name one. */
   shellAssetId: string | null;
   /** References in the plugin cell: placements plus the listed drops (0103 decision 3 acceptance). */
   refCount: number;
@@ -183,7 +172,7 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
   const fail = (why: string): never => { throw new Error(`interior bundle ${source}: ${why}`); };
   const b = raw as Partial<InteriorBundle> | null;
   if (!b || typeof b !== "object") fail("not an object");
-  if (b!.schemaVersion !== INTERIOR_BUNDLE_SCHEMA_VERSION) {
+  if (!READABLE_SCHEMA_VERSIONS.includes(b!.schemaVersion as number)) {
     fail(`unsupported schemaVersion ${String(b!.schemaVersion)}`);
   }
   if (typeof b!.cellId !== "string" || !b!.cellId) fail("no cellId");
@@ -205,12 +194,10 @@ export function parseInteriorBundle(raw: unknown, source: string): InteriorBundl
       continue;
     }
     if (kind !== "load") fail(`door ${i}: doorType ${String(kind)} is neither load nor swing`);
-    const d = entry as (Omit<Partial<InteriorOpenDoor>, "closed"> & { closed?: boolean }) | null;
-    const closed = d?.closed === true;
-    if (!isStr(d?.interiorLoadDoorRef) || !isMarker(d.loadDoor)
-      || (!closed && (!isStr(d.exteriorDoorId) || !isMarker(d.arrivalMarker)))) {
-      fail(`door pairing ${i} malformed`);
-    }
+    const d = entry as Partial<InteriorLoadDoor> | null;
+    if (!isStr(d?.interiorLoadDoorRef) || !isMarker(d.loadDoor)) fail(`load door ${i} malformed`);
+    // schema 2 wrote the pairing here (exteriorDoorId, arrivalMarker, closed): one place's, overwritten by the next
+    b!.doors![i] = { doorType: "load", interiorLoadDoorRef: d!.interiorLoadDoorRef!, loadDoor: d!.loadDoor! };
   }
   if (!Array.isArray(b!.placements)) fail("no placements list");
   for (const p of b!.placements!) {

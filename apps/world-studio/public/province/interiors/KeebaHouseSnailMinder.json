@@ -1,9 +1,9 @@
 {
- "schemaVersion": 2,
+ "schemaVersion": 3,
  "cellId": "KeebaHouseSnailMinder",
  "plugin": "King of the Murkmire.esp",
  "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
- "shellAssetId": "composite:mud/kotm-house-pod",
+ "shellAssetId": null,
  "refCount": 137,
  "kits": {
   "interior-farmhouse-v1": {
@@ -53,16 +53,7 @@
  "doors": [
   {
    "doorType": "load",
-   "exteriorDoorId": "door.imperial-fringe.claywater-station.5",
    "interiorLoadDoorRef": "08090C43",
-   "arrivalMarker": {
-    "positionM": [
-     105.4125,
-     83.4645,
-     52.8801
-    ],
-    "yawDeg": 182.383
-   },
    "loadDoor": {
     "positionM": [
      105.3724,

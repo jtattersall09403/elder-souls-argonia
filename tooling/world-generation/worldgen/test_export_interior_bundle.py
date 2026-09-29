@@ -58,8 +58,10 @@ def test_contract_refuses_what_the_runtime_refuses():
         (lambda b: b["placements"][0].update(kit="nope"), "is not in the bundle's kits"),
         (lambda b: b["lights"][0].update(colorRGB=[1.0, 0.5, 0.2, 9]), "light 0 malformed"),
         (lambda b: b["lights"][0].pop("raw"), "light 0 raw malformed"),
-        (lambda b: b["doors"][0].pop("arrivalMarker"), "bad doors entry"),
-        (lambda b: b["doors"].append({"interiorLoadDoorRef": "X", "closed": True}), "bad doors entry"),
+        (lambda b: b["doors"][0].pop("loadDoor"), "bad doors entry"),
+        (lambda b: b["doors"][0].update(exteriorDoorId="door.x"), "per-place field"),
+        (lambda b: b["doors"][0].update(closed=True), "per-place field"),
+        (lambda b: b.update(shellAssetId="composite:mud/kotm-house-pod"), "shellAssetId is per place"),
         (lambda b: b.update(schemaVersion=1), "schemaVersion"),
         (lambda b: b["doors"][0].pop("doorType"), "doorType must be load or swing"),
     ):
@@ -73,13 +75,15 @@ def test_published_bundles_pass_the_contract(path):
     assert ex.validate_bundle(_load(path)) == []
 
 
-def test_closed_door_entry_passes_the_contract():
-    """Ruling 3 (round 3): an unpaired load door ships closed, with no exterior
-    door and no arrival marker."""
-    b = json.loads(ex.FIXTURE.read_text())
-    b["doors"].append({"doorType": "load", "interiorLoadDoorRef": "00000A02", "closed": True,
-                       "loadDoor": {"positionM": [3.0, 3.4, 0.0], "yawDeg": 90.0}})
-    assert ex.validate_bundle(b) == []
+@pytest.mark.parametrize("path", BUNDLES, ids=[p.stem for p in BUNDLES])
+def test_shared_cell_file_carries_no_per_place_field(path):
+    """0104: a cell file is shared by every place claiming the cell; the
+    pairing lives in the place's door record, never here."""
+    bundle = _load(path)
+    assert bundle["shellAssetId"] is None
+    for d in bundle["doors"]:
+        if d["doorType"] == "load":
+            assert set(d) == {"doorType", "interiorLoadDoorRef", "loadDoor"}
 
 
 def test_rotation_is_the_runtime_euler():
@@ -112,15 +116,9 @@ def test_reexport_matches_the_published_bundle():
     bundle = _load(BUNDLES[0])
     if bundle["plugin"] not in paths:
         pytest.skip(f"{bundle['plugin']} not in the local vault")
-    doors = [{k: d[k] for k in ("exteriorDoorId", "interiorLoadDoorRef", "arrivalMarker")}
-             for d in bundle["doors"] if d["doorType"] == "load" and not d.get("closed")]
-    again = ex.export_cell(bundle["plugin"], bundle["cellId"], paths, registry,
-                           ex.published_kit_assets(), lambda n: pools.get(n), doors=doors)
-    if not doors:
-        again["arrivalMarker"] = bundle["arrivalMarker"]
-    again["shellAssetId"] = bundle["shellAssetId"]
-    from worldgen.interior_light import apply_light_rule, kit_lights
-    apply_light_rule(again, kit_lights(ex.KITS_DIR))  # as main() does before it writes
+    from worldgen.interior_light import kit_lights
+    again = ex.export_bundle(bundle["plugin"], bundle["cellId"], (paths, pools, registry),
+                             ex.published_kit_assets(), kit_lights(ex.KITS_DIR))
     assert json.loads(json.dumps(again)) == bundle
 
 
@@ -484,3 +482,60 @@ def test_a_static_door_nif_has_no_hinge_sequence():
     if data is None:
         pytest.skip("farmhousedoor01 not in the local vault")
     assert ex.door_hinge(data) is None
+
+
+# --------------------------------------------------------------------------- #
+# One cell, many places (2026-09-29): Riverwalk, Greenspring and Claywater
+# Station share KeebaHouseCrafter; the second export used to overwrite the
+# first place's exteriorDoorId in the shared file.
+# --------------------------------------------------------------------------- #
+BLUEPRINTS = ex.REPO_ROOT / "world" / "sources" / "blueprints"
+
+
+def _two_places():
+    a = json.loads((BLUEPRINTS / "place.hist-heartland.greenspring.json").read_text())
+    b = json.loads((BLUEPRINTS / "place.imperial-fringe.claywater-station.json").read_text())
+    return a, b
+
+
+def test_each_place_door_record_holds_its_own_pairing():
+    """The pairing's home is the place's door: its own id, the cell and the
+    load door ref; two places claiming one cell each keep their own door."""
+    a, b = _two_places()
+    ca, cb = ex.blueprint_claims(a), ex.blueprint_claims(b)
+    shared = set(ca) & set(cb)
+    assert shared, "Greenspring and Claywater Station share a claimed cell"
+    for bp in (a, b):
+        rec = bp.get("blueprint", bp)
+        prefix = "door." + rec["id"].split("place.", 1)[1] + "."
+        for d in rec["doors"]:
+            claim = d.get("interiorClaim") or {}
+            if claim.get("tier") == "A" and (claim["plugin"], claim["cellId"]) in shared:
+                assert d["id"].startswith(prefix)
+                assert isinstance(claim["interiorLoadDoorRef"], str) and "exteriorDoorId" not in claim
+
+
+def test_two_places_export_one_cell_file_in_either_order():
+    """Export the shared cells for place A then B, and B then A: the file is
+    identical whichever order and whichever place, and names no place."""
+    try:
+        env = ex._environment()
+    except Exception as exc:  # pragma: no cover - no vault on the runner
+        pytest.skip(f"vault not available: {exc}")
+    from worldgen.interior_light import kit_lights
+    a, b = _two_places()
+    ca, cb = ex.blueprint_claims(a), ex.blueprint_claims(b)
+    key = sorted(set(ca) & set(cb))[0]
+    if key[0] not in env[0]:
+        pytest.skip(f"{key[0]} not in the local vault")
+    kits, lights = ex.published_kit_assets(), kit_lights(ex.KITS_DIR)
+    out = {}
+    for order in ((ca, cb), (cb, ca)):
+        written = None
+        for claims in order:
+            written = ex.export_bundle(*key, env, kits, lights, claims[key])
+        out[order[0] is ca] = json.dumps(written, sort_keys=True)
+    assert out[True] == out[False]
+    bundle = json.loads(out[True])
+    assert ex.validate_bundle(bundle) == []
+    assert "door.hist-heartland" not in out[True] and "door.imperial-fringe" not in out[True]
