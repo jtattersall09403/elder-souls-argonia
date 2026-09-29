@@ -105,3 +105,22 @@ def test_publish_writes_a_versioned_sidecar(tmp_path, monkeypatch):
     assert data["schemaVersion"] == 1
     assert data["impostors"][0]["path"] == "k-impostors/bmv__a_b.glb"
     assert (tmp_path / "kits" / "k-impostors" / "bmv__a_b.glb").exists()
+
+
+def test_far_bar_is_beating_the_card_in_every_view():
+    assert b.beats_card([0.70, 0.80], [0.52, 0.40])
+    assert not b.beats_card([0.70, 0.39], [0.52, 0.40])      # one view loses
+    assert not b.beats_card([0.70, 0.80], [])                # no card measured
+    assert not b.beats_card([0.70, 0.80], [0.5])             # views disagree
+
+
+def test_publish_needs_two_passing_judges(tmp_path):
+    assert "no judges.json" in b.judges_passed(tmp_path)
+    (tmp_path / "judges.json").write_text(json.dumps({"judges": [{"verdict": "PASS"}]}))
+    assert "need 2+" in b.judges_passed(tmp_path)
+    (tmp_path / "judges.json").write_text(json.dumps(
+        {"judges": [{"verdict": "PASS"}, {"verdict": "FAIL"}]}))
+    assert b.judges_passed(tmp_path) is not None
+    (tmp_path / "judges.json").write_text(json.dumps(
+        {"judges": [{"verdict": "PASS"}, {"verdict": "PASS"}]}))
+    assert b.judges_passed(tmp_path) is None

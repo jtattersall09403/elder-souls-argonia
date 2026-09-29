@@ -112,6 +112,16 @@ into the kit config (`--record`), then step 1 rebuilds.
   needs the same 2-judge PASS file. `--tiers mid` renders one tier only (the
   other keeps its kit row on `--record`); `--keeps mid=0.2,0.4` replaces the
   leaf-keep ladder.
+- **Far stand-ins have their own bar** (lead, walk 5, decision 0108 §5): a
+  view-sampled FAR stand-in (the octahedral impostor, `pipeline/impostor_bake.py`)
+  ships when its silhouette IoU beats the card it replaces in EVERY view AND
+  2 Sonnet judges pass its sheet; the 0.90 same-view bar is for mesh tiers
+  only. `--publish` writes the GLB and `<kit>.impostors.json`; the runtime
+  loads them after the startup window, never in the startup payload.
+- **Leaf cutoff is the NIF's** (walk 5): a foliage material ships glTF MASK at
+  its NiAlphaProperty threshold / 255 (`blender/build_kit.py ni_alpha`), never
+  a fixed 0.5; the tier and impostor renders read the GLB's `alphaCutoff`
+  (`mat.alpha_threshold`), and the studio keeps it on mesh levels (cards 0.5).
 
 ## 1. Build (geometry + manifest + sidecars + publish)
 

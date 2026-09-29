@@ -21,9 +21,12 @@ Judge (`judge`): the source's G-buffer rendered from 8 azimuths at 5 degrees
 and 2 elevations (30, 60) at the impostor's hand-over pixel height, the
 impostor reconstructed in numpy with the SAME frame selection and per-frame
 projection as the runtime shader (game-core `vegetation/impostor.ts`), both
-shaded by one Lambert sun + ambient. Bar: silhouette IoU >= 0.90 on closed
-masks in every view (decision 0108 §5), no view losing > 5 % coverage; the
-contact sheets go to the image judges.
+shaded by one Lambert sun + ambient. Bar (decision 0108 §5, lead walk 5):
+the impostor's silhouette IoU on closed masks beats the species' baked card
+(`card_iou`, same views, same masks) in EVERY view, and 2 Sonnet judges pass
+its sheets (`<out>/<asset>/judges.json`); the 0.90 same-view bar is for mesh
+tiers only. `--publish-only` publishes from an earlier run's rows once the
+judges' file is written.
 """
 from __future__ import annotations
 
@@ -398,6 +401,64 @@ def judge(glb: Path, albedo: np.ndarray, normal: np.ndarray, depth: np.ndarray, 
     return result
 
 
+def card_iou(kit_glb: Path, asset_id: str, out: Path, cell_m: float, centre, res: int,
+             radius: int, samples: int = 32) -> list[float]:
+    """Silhouette IoU of the species' baked CARD against the source, per judge
+    view, on the same masks as `judge` (its `judge/src/alpha.npy`): the
+    number the impostor must beat in every view (decision 0108 §5, lead walk
+    5). The card is rendered centred on its own bounds, so its mask is moved
+    by the centre difference before the comparison."""
+    gltf, blob = tree_tiers.load_glb(kit_glb)
+    root = tree_tiers.asset_roots(gltf)[asset_id]
+    cards = [c for c in gltf["nodes"][root]["children"]
+             if (gltf["nodes"][c].get("extras") or {}).get("billboard")]
+    if not cards:
+        return []
+    gltf["nodes"].append({"name": "source", "children": cards})
+    gltf["scenes"] = [{"nodes": [len(gltf["nodes"]) - 1]}]
+    gltf["scene"] = 0
+    sub, sub_blob = tree_tiers.compact(gltf, blob)
+    card_glb = out / "card.glb"
+    tree_tiers.save_glb(card_glb, sub, sub_blob)
+    dirs = judge_dirs()
+    cells = blender_views(card_glb, dirs, cell_m, res, len(dirs), out / "card", samples)["cells"]
+    src = np.load(out / "judge" / "src" / "alpha.npy")[..., 0]
+    bc = json.loads((out / "card" / "bounds.json").read_text())["centre"]
+    delta = np.asarray(centre, float) - np.asarray(bc, float)
+    ious = []
+    for k, d in enumerate(dirs):
+        right, up = frame_basis(d)
+        shift = (int(round(-(delta @ up) / cell_m * res)), int(round((delta @ right) / cell_m * res)))
+        cm = np.roll(np.roll(cells[k]["alpha"] > 0.5, -shift[0], 0), -shift[1], 1)
+        sm = src[0:res, k * res:(k + 1) * res] > 0.5
+        ious.append(round(ttc.iou(ttc.closed(sm, radius), ttc.closed(cm, radius)), 3))
+    return ious
+
+
+def beats_card(impostor_iou: list[float], card_ious: list[float]) -> bool:
+    """The far stand-in bar (decision 0108 §5): the impostor's silhouette IoU
+    beats the card it replaces in EVERY view. The 0.90 same-view bar is for
+    mesh tiers only."""
+    return bool(card_ious) and len(card_ious) == len(impostor_iou) and all(
+        i > c for i, c in zip(impostor_iou, card_ious))
+
+
+JUDGES_FILE = "judges.json"
+
+
+def judges_passed(asset_dir: Path) -> str | None:
+    """None when `<asset dir>/judges.json` holds 2+ Sonnet verdicts, all PASS,
+    on this bake's sheets, else why not. File: {"judges": [{"verdict":
+    "PASS"|"FAIL", "note": ...}, ...]}."""
+    path = asset_dir / JUDGES_FILE
+    if not path.exists():
+        return f"no {JUDGES_FILE} in {asset_dir}"
+    verdicts = [j.get("verdict") for j in json.loads(path.read_text()).get("judges") or []]
+    if len(verdicts) < ttc.JUDGES_MIN or any(v != "PASS" for v in verdicts):
+        return f"{path} verdicts {verdicts} (need {ttc.JUDGES_MIN}+ PASS, no FAIL)"
+    return None
+
+
 # --- driver -----------------------------------------------------------------
 
 def safe_id(asset_id: str) -> str:
@@ -405,7 +466,7 @@ def safe_id(asset_id: str) -> str:
 
 
 def bake(asset_id: str, glb: Path, height_m: float, out: Path, samples: int = 8,
-         n: int = GRID, frame_px: int = FRAME_PX) -> dict:
+         n: int = GRID, frame_px: int = FRAME_PX, kit_glb: Path | None = None) -> dict:
     from PIL import Image
     verts = source_vertices(glb)
     lo, hi = verts.min(0), verts.max(0)
@@ -423,6 +484,11 @@ def bake(asset_id: str, glb: Path, height_m: float, out: Path, samples: int = 8,
     depth = np.asarray(depth_img).astype(float) / 255
     result = judge(glb, albedo, normal, depth, cell_m, height_m, out / "judge", samples, n,
                    frame_px)
+    if kit_glb is not None:
+        result["cardIou"] = card_iou(kit_glb, asset_id, out, cell_m, centre, result["res"],
+                                     result["closeRadiusPx"], samples)
+    result["pass"] = beats_card(result["silhouetteIou"], result.get("cardIou") or [])
+    (out / "judge" / "judge.json").write_text(json.dumps(result, indent=1))
     raw = out / f"{safe_id(asset_id)}.raw.glb"
     quad_glb(*((out / f"{k}.png").read_bytes() for k in ("albedo", "normal", "depth")),
              safe_id(asset_id), raw)
@@ -434,7 +500,7 @@ def bake(asset_id: str, glb: Path, height_m: float, out: Path, samples: int = 8,
             "boundsM": [[round(float(x), 4) for x in lo], [round(float(x), 4) for x in hi]],
             "contentPx": round(content_px(hi[1] - lo[1], cell_m, frame_px), 1),
             "bytes": record["bytesAfter"], "sha256": record["sha256"],
-            "judge": {k: result[k] for k in ("px", "iouMin", "worstLoss", "pass")}}
+            "judge": {k: result.get(k) for k in ("px", "iouMin", "worstLoss", "cardIou", "pass")}}
 
 
 def publish(kit_id: str, rows: list[dict], out: Path) -> Path:
@@ -466,8 +532,16 @@ def main() -> None:
     ap.add_argument("--grid", type=int, default=GRID)
     ap.add_argument("--frame-px", type=int, default=FRAME_PX)
     ap.add_argument("--publish", action="store_true",
-                    help="publish only assets whose judge passed")
+                    help="publish only assets that beat their card in every view and "
+                         "carry 2 Sonnet PASS verdicts in <out>/<asset>/judges.json")
+    ap.add_argument("--publish-only", action="store_true",
+                    help="no bake: publish from the row.json files an earlier run wrote")
     a = ap.parse_args()
+    if a.publish_only:
+        rows = [json.loads((a.out / safe_id(i) / "row.json").read_text())
+                for i in a.assets.split(",")]
+        publish_passing(a.kit, rows, a.out)
+        return
     kit = json.loads((tree_tiers.CONFIG / f"{a.kit}.json").read_text())
     manifest = json.loads((PUBLIC / f"{a.kit}.kit.json").read_text())
     heights = {x["id"]: x["sizeM"][2] for x in manifest["assets"]}
@@ -478,14 +552,25 @@ def main() -> None:
         if not glb.exists():
             src = (tree_tiers.REPO_ROOT / kit["output"]).resolve()
             tree_tiers.preview(src, [asset_id], glb.parent, kit)
-        row = bake(asset_id, glb, heights[asset_id], out, a.samples, a.grid, a.frame_px)
+        row = bake(asset_id, glb, heights[asset_id], out, a.samples, a.grid, a.frame_px,
+                   kit_glb=(tree_tiers.REPO_ROOT / kit["output"]).resolve())
         (out / "row.json").write_text(json.dumps(row, indent=1))
         print(json.dumps(row))
         rows.append(row)
     if a.publish:
-        passing = [r for r in rows if r["judge"]["pass"]]
-        if passing:
-            print("published", publish(a.kit, passing, a.out))
+        publish_passing(a.kit, rows, a.out)
+
+
+def publish_passing(kit_id: str, rows: list[dict], out: Path) -> None:
+    passing = []
+    for r in rows:
+        why = None if r["judge"]["pass"] else "does not beat its card in every view"
+        why = why or judges_passed(out / safe_id(r["id"]))
+        print(f"{r['id']}: {'PUBLISH' if why is None else 'held: ' + why}")
+        if why is None:
+            passing.append(r)
+    if passing:
+        print("published", publish(kit_id, passing, out))
 
 
 if __name__ == "__main__":
