@@ -377,6 +377,11 @@ RESULT["pieces"] = len(api.objects_by_uid())
                                          # door side, isos from 45 and 225 deg; or a list
                                          # top,iso,iso:BEARING,front:UID -> output/renders/<scene>/round-N/
                                          # with manifest.json naming each shot's subject
+    python3 tooling/placement-workbench/wb.py render-interior <cell> [--day|--night] [--out PNG]
+                                         # interior lighting sheet from the published bundle
+                                         # (no scene): doorway + two corners x day (runtime
+                                         # light model) / night (sources only); flame proxies;
+                                         # -> tooling/.reports/16k/interior-renders/<cell>.png, ~40 s
 
 Hand the PNG paths to a Sonnet `general-purpose` agent (read-only) with this
 list: is each base on the red ground line (float / sunk, in metres from the

@@ -259,3 +259,16 @@ least 50 %. Under 30 % the cell is `flat` (a failure with `--balance`, a
 flag without it). The judged half is reader row 48, on renders of the cell
 under the same light model. On 2026-09-29 all eight tier A cells measured
 flat after the rule (0–4 % source-led, the fill at ambient ×4.8–8.2).
+
+**The renders** (reader row 48): `python3 tooling/placement-workbench/wb.py
+render-interior <cell>` (~40 s a cell, one Blender launch) writes
+`tooling/.reports/16k/interior-renders/<cell>.png` from the published
+bundle: three views (from the doorway looking in, from two opposite
+corners, each stepped in past a blocker), row `day` = the loader's light
+model (records at fade × π with the range window, ambient unoccluded,
+directional from above, no shadows, no bounces), row `night` = the sources
+alone (ambient and directional off: the runtime lights an interior the same
+at every hour, so this row shows what the cell's own lights reach), and a
+flame proxy at every fire the loader burns (orange; magenta = a lit
+fixture's fallback). `--day` / `--night` render one row. A reader judges
+readable, warm, lit by its sources, not flat.

@@ -277,6 +277,11 @@ Lit pieces: add a day and a night close-up per fixture
 resolved flame; presets, the contact sheet and the anchor check are in
 `references/fire.md`.
 
+Interiors: run `wb.py render-interior <cell>` for every tier-A cell the
+place's doors claim (one contact sheet each, ~40 s; `references/doors-interiors-sockets.md`
+§ 7); a reader judges it readable, warm, lit by its sources, not flat
+(reader row 48). This is the required interior check.
+
 One Blender launch: the top view, one front per building, two isos, and a
 shot of every `unmined` mount (0102 decision 5). The readers run as one
 `Workflow`, one Sonnet reader per image or contact sheet, one merged NO
