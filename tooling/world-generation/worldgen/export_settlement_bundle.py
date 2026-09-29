@@ -1675,8 +1675,22 @@ def _collision_contract(asset: dict, *, disabled: bool = False, scale: float = 1
     return contract
 
 
+def _scoped_kits(bundle: dict, places=None) -> list[str]:
+    """The kits `_stage_assets` checks and stages: every kit in the bundle, or
+    with `places` only those the named places' own placements use (a
+    composite's parts are placements of their own, so they count). One
+    lane's in-flight kit never blocks another place's publish; a place that
+    uses a stale kit is still refused."""
+    scope = _place_scope(places)
+    if scope is None:
+        return sorted(bundle["kits"])
+    used = {p["kit"] for p in bundle["placements"]
+            if p.get("kind") != "route-structure" and p.get("sourceId") in scope and p.get("kit")}
+    return sorted(used & set(bundle["kits"]))
+
+
 def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
-                  publish_kit=None) -> tuple[Path, list[str]]:
+                  publish_kit=None, places=None) -> tuple[Path, list[str]]:
     """Validate and copy every asset to a private sibling before publication.
 
     16h K14 (M19 ruling 5): the GLB that ships is the PUBLISHED, compressed
@@ -1690,7 +1704,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
     output, where the measurers write them."""
     from pipeline.kit_compress import glb_problems, publish
     publish_kit = publish_kit or publish
-    kits = sorted(bundle["kits"])
+    kits = _scoped_kits(bundle, places)
 
     def sidecar_suffixes(name: str) -> list[str]:
         return [f".{part}.json" for part in KIT_SIDECARS
@@ -1740,8 +1754,8 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
 
 
 def copy_assets(bundle: dict, kits_dir: Path = KITS,
-                public_dir: Path = PUBLIC_KITS, publish_kit=None) -> None:
-    stage, names = _stage_assets(bundle, kits_dir, public_dir, publish_kit)
+                public_dir: Path = PUBLIC_KITS, publish_kit=None, places=None) -> None:
+    stage, names = _stage_assets(bundle, kits_dir, public_dir, publish_kit, places)
     try:
         public_dir.mkdir(parents=True, exist_ok=True)
         for name in names:
@@ -2085,7 +2099,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
         report = [row for row in _read(report_path).get("rows", [])
                   if row.get("placeId") not in scope] + report
     if copy:
-        copy_assets(bundle)
+        copy_assets(bundle, places=places)
     # settlements/index.json is the publication marker. It can never name
     # assets that have not all been validated, staged and moved into place.
     # the studio's ground reader (0102 round 2): written before the bundle,
