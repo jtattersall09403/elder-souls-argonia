@@ -6,11 +6,11 @@ On `npm run preflight` (or preflight.mjs):
   0. decision 0106: only CODE is reviewed (.py .ts .tsx .mjs .js under
      packages/ apps/ tooling/); a batch with no code change -> allow, no review
   1. no uncommitted change              -> allow
-  2. stamp matches the current diff      -> allow (already reviewed)
-  3. a WORKING-TREE stamp recorded at the current HEAD commit (one review
-     per commit batch, 0106) -> allow (the fix cycle after a review; a new
-     commit on HEAD starts a new batch); a `--range` stamp never exempts the working-tree diff
-  4. otherwise run a headless Opus 5.5 (medium) review of the diff (read-only tools),
+  2. a stamp for this batch              -> allow (already reviewed)
+  3. any stamp recorded at the current HEAD commit (one review per commit
+     batch, 0106) -> allow (the fix cycle after a review; a new commit on
+     HEAD starts a new batch); a `--range` review never writes a stamp
+  4. otherwise run a headless Opus 5.5 review of the WHOLE working-tree code diff (read-only tools),
      write tooling/.reports/review/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
        - findings    -> exit 2: the findings are the refusal message; the
@@ -27,14 +27,15 @@ touches the working-tree stamp: it writes only
 tooling/.reports/review/review-findings-range.md and leaves the stamp file
 (and therefore the working-tree exemption) alone.
 
-Pathspec (decision 0087 §3): `npm run preflight -- --paths <pathspec...>` (the
-hook reads it from the command) or `--run --paths <pathspec...>` reviews only
-`git diff HEAD -- <pathspec>` plus untracked files under it, and MAX_DIFF_BYTES
-is measured on that diff alone. Stamps are keyed by the pathspec: a stamp (and
-its fix window) satisfies only a later run with the same pathspec, so one
-lane's review never masks another's or the whole tree's. Findings for a
-pathspec go to tooling/.reports/review/review-findings-<key>.md. No --paths:
-whole tree, as before.
+The stamp is keyed to the BATCH, never the pathspec (walk 5 process review:
+three callers naming three pathspecs got three reviews of one batch, 22 min):
+the key is HEAD plus a hash of the whole working-tree diff (tracked changes
+and untracked non-ignored files, `batch_key`). A scoped preflight
+(`--paths <pathspec...>`) still fires the gate, but the review reads the whole
+tree's code diff and MAX_DIFF_BYTES is measured on it, so the stamp covers
+every lane's code and any later preflight or `--run` at the same HEAD passes
+whatever pathspec it names. `--run --force` reviews again regardless.
+Findings go to tooling/.reports/review/review-findings.md.
 """
 import fcntl, hashlib, json, os, re, shlex, subprocess, sys, tempfile, time
 
@@ -243,17 +244,37 @@ def argv_paths(argv):
     return paths or None
 
 
-def stamp_key(paths):
-    """'*' for the whole tree; else the sorted pathspec joined by NUL."""
-    return "*" if not paths else "\0".join(sorted(paths))
-
-
 def sh(*args):
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True).stdout
 
 
 def current_head():
     return sh("git", "rev-parse", "HEAD").strip()
+
+
+def tree_hash():
+    """sha256 of the whole working-tree diff against HEAD: every tracked
+    change (binary-safe) plus every untracked non-ignored file's path and blob
+    id. Independent of any pathspec."""
+    # the gate's own files never move the key (they are gitignored in the repo)
+    own = os.path.relpath(os.path.dirname(os.path.abspath(STAMP)), ROOT)
+    spec = ("--", ".", f":(exclude){own}") if not own.startswith("..") else ()
+    h = hashlib.sha256()
+    h.update(subprocess.run(["git", "diff", "HEAD", "--binary", *spec], cwd=ROOT, capture_output=True).stdout)
+    others = subprocess.run(["git", "ls-files", "--others", "--exclude-standard", "-z", *spec],
+                            cwd=ROOT, capture_output=True).stdout.split(b"\0")
+    others = [p for p in others if p]
+    if others:
+        ids = subprocess.run(["git", "hash-object", "--stdin-paths"], cwd=ROOT, capture_output=True,
+                             input=b"\n".join(others) + b"\n").stdout.split()
+        for p, oid in zip(others, ids):
+            h.update(b"\0untracked\0" + p + b"\0" + oid)
+    return h.hexdigest()[:16]
+
+
+def batch_key(head=None):
+    """The stamp key of the current batch: HEAD plus the whole-tree diff hash."""
+    return f"{head or current_head()}:{tree_hash()}"
 
 
 # Design briefs are world prose that text-review owns; each is ~23 KB, so ~11
@@ -300,7 +321,7 @@ def current_diff(paths=None):
 
 
 def read_stamps():
-    """{key: stamp}. A pre-0087 single stamp is the whole-tree ('*') stamp."""
+    """{key: stamp}. A pre-0087 single stamp reads as key '*'."""
     try:
         d = json.load(open(STAMP))
     except Exception:
@@ -310,8 +331,13 @@ def read_stamps():
     return {"*": d} if isinstance(d, dict) and "hash" in d else {}
 
 
-def read_stamp(paths=None):
-    return read_stamps().get(stamp_key(paths), {})
+def batch_stamp(head, key):
+    """The stamp that exempts this batch: the one for `key`, else any stamp
+    recorded at `head` (0106 fix window); {} when none."""
+    stamps = read_stamps()
+    if key in stamps:
+        return stamps[key]
+    return next((s for s in stamps.values() if s.get("head") == head), {})
 
 
 def stamp_lock_path():
@@ -326,18 +352,19 @@ def stamp_lock_path():
     return str(path)
 
 
-def write_stamp(h, status, n, paths=None, head=None):
-    """Add or replace one stamp. The read-modify-write holds an exclusive flock
+def write_stamp(key, h, status, n, head=None, paths=None):
+    """Add or replace the stamp for batch `key`; stamps from other HEADs are
+    dropped (their batch is over). The read-modify-write holds an exclusive flock
     on the stamp's lock file and replaces the stamp file by rename, so
-    parallel preflights keep every lane's stamp and a reader never sees a
+    parallel preflights keep every stamp and a reader never sees a
     half-written file (16k S9: unlocked, 8 writers lost 195 of 200 stamps)."""
+    head = head if head is not None else current_head()
     os.makedirs(os.path.dirname(STAMP), exist_ok=True)
     with open(stamp_lock_path(), "a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        stamps = read_stamps()
-        stamps[stamp_key(paths)] = {"hash": h, "paths": paths or [], "time": time.time(),
-                                     "head": head if head is not None else current_head(),
-                                     "status": status, "findings": n}
+        stamps = {k: s for k, s in read_stamps().items() if s.get("head") == head}
+        stamps[key] = {"hash": h, "paths": paths or [], "time": time.time(),
+                       "head": head, "status": status, "findings": n}
         fd, tmp = tempfile.mkstemp(prefix=".review-stamp.", dir=os.path.dirname(STAMP))
         try:
             with os.fdopen(fd, "w") as f:
@@ -347,12 +374,6 @@ def write_stamp(h, status, n, paths=None, head=None):
             if os.path.exists(tmp):
                 os.unlink(tmp)
             raise
-
-
-def findings_rel(paths):
-    if not paths:
-        return "review-findings.md"
-    return f"review-findings-{hashlib.sha256(stamp_key(paths).encode()).hexdigest()[:8]}.md"
 
 
 def review(diff, what):
@@ -378,6 +399,7 @@ def main():
             return 2
         rng = sys.argv[i + 1]
     paths = argv_paths(sys.argv)
+    force = "--force" in sys.argv
     if not manual:
         try:
             d = json.load(sys.stdin)
@@ -395,36 +417,36 @@ def main():
     if rng and paths:
         sys.stderr.write("[review gate] --range and --paths cannot be combined\n")
         return 2
-    diff = range_diff(rng) if rng else current_diff(paths)
+    # the batch, never the pathspec: `paths` only fired the gate
+    diff = range_diff(rng) if rng else current_diff()
     if not diff.strip():
         if rng:
             print(f"review gate: empty diff for range {rng}")
             return 2
-        if manual and paths:
-            print(f"[review gate] nothing uncommitted under {' '.join(paths)}.")
-        elif manual:
+        if manual:
             print("[review gate] the working tree is clean: nothing uncommitted to review. "
                   "To review the last commit, run with `--range HEAD`.")
         return 0
     h = hashlib.sha256(diff.encode()).hexdigest()[:16]
-    st = {} if rng else read_stamp(paths)
     head = current_head()
-    if not manual and st.get("hash") == h:
+    key = None if rng else batch_key(head)
+    st = {} if rng or force else batch_stamp(head, key)
+    if st:
+        if manual:
+            print(f"[review gate] this batch was reviewed at HEAD {head[:8]} ({st.get('status')}, "
+                  f"{st.get('findings')} findings); `--force` reviews again.")
         return 0
-    if not manual and st.get("head") and st.get("head") == head:
-        return 0
-    what = f"diff {rng}" if rng else (f"uncommitted diff of {' '.join(paths)}" if paths else "uncommitted diff")
+    what = f"diff {rng}" if rng else "uncommitted diff of the whole batch"
     if len(diff) > MAX_DIFF_BYTES:
         sys.stderr.write(f"[review gate] the {what} is {len(diff)//1000} KB, too large for one review; "
-                         "commit the finished part first (pathspec), or review only your own files "
-                         "with `npm run preflight -- --paths <pathspec...>`.\n")
+                         "commit the finished part first (pathspec), then preflight the rest.\n")
         return 2
     out, rc, err = review(diff, what)
-    rel = "review-findings-range.md" if rng else findings_rel(paths)
+    rel = "review-findings-range.md" if rng else "review-findings.md"
     findings_path = os.path.join(os.path.dirname(FINDINGS), rel)
     if rc != 0 or not out:
         if not rng:
-            write_stamp(h, f"review failed: {err.strip()[:120]}", 0, paths, head)
+            write_stamp(key, h, f"review failed: {err.strip()[:120]}", 0, head, paths)
         sys.stderr.write(f"[review gate] the automatic review could not run ({err.strip()[:120]}); preflight allowed. "
                          "Run `python3 tooling/repo-standards/review_gate.py --run` to retry.\n")
         return 0
@@ -433,14 +455,13 @@ def main():
     with open(findings_path, "w") as f:
         f.write(f"# Automatic code review ({MODEL}), diff {h}, {time.strftime('%Y-%m-%d %H:%M')}\n\n{out}\n")
     if not rng:
-        write_stamp(h, "ok", n, paths, head)
+        write_stamp(key, h, "ok", n, head, paths)
     if n == 0:
         if manual:
             print("NO FINDINGS")
         return 0
-    same = " with the same --paths" if paths else ""
     next_step = ("fix, then run `--run` (working tree) or preflight" if rng
-                 else f"run preflight again{same} (allowed while HEAD stays {head[:8]})")
+                 else f"run preflight again (allowed while HEAD stays {head[:8]})")
     sys.stderr.write(
         f"REVIEW REFUSED: {n} findings in tooling/.reports/review/{rel}\n"
         f"[review gate, decision 0079 §8] a {MODEL} code review of the {what} ran before preflight and "

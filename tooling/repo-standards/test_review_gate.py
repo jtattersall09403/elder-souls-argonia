@@ -154,38 +154,58 @@ def run_hook(monkeypatch, cmd):
     return review_gate.main()
 
 
-def test_stamp_for_pathspec_a_does_not_satisfy_pathspec_b(repo, monkeypatch):
+def test_one_review_per_batch_whatever_the_pathspec(repo, monkeypatch):
+    """Walk 5 process review: three callers naming three pathspecs got three
+    reviews of one batch. The stamp is keyed to HEAD + the whole-tree diff."""
     root, calls = repo
     (root / "tooling/a" / "f.py").write_text("x = 2\n")
     (root / "tooling/b" / "f.py").write_text("x = 3\n")
     assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
-    assert len(calls) == 1 and "tooling/a/f.py" in calls[0] and "tooling/b/f.py" not in calls[0]
-    # same pathspec again, inside the fix window: satisfied by A's stamp
-    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
+    # the review read the whole batch, not just the pathspec
+    assert len(calls) == 1 and "tooling/a/f.py" in calls[0] and "tooling/b/f.py" in calls[0]
+    for cmd in ("npm run preflight -- --paths tooling/a", "npm run preflight -- --paths tooling/b",
+                "npm run preflight -- --runner"):
+        assert run_hook(monkeypatch, cmd) == 0
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--run", "--paths", "tooling/b"])
+    assert review_gate.main() == 0
     assert len(calls) == 1
-    # pathspec B: A's stamp (and its fix window) must not satisfy it
-    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 0
-    assert len(calls) == 2 and "tooling/b/f.py" in calls[1] and "tooling/a/f.py" not in calls[1]
-    # whole tree: neither pathspec stamp satisfies it
-    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 0
-    assert len(calls) == 3 and "tooling/a/f.py" in calls[2] and "tooling/b/f.py" in calls[2]
     stamps = json.load(open(review_gate.STAMP))["stamps"]
-    assert set(stamps) == {"tooling/a", "tooling/b", "*"} and stamps["tooling/a"]["paths"] == ["tooling/a"]
+    assert list(stamps) == [review_gate.batch_key()]
+    # --force reviews again
+    monkeypatch.setattr(sys, "argv", ["review_gate.py", "--run", "--force"])
+    assert review_gate.main() == 0 and len(calls) == 2
 
 
-def test_size_limit_measured_on_pathspec_diff_only(repo, monkeypatch):
+def test_batch_key_moves_with_the_tree_and_head_not_the_pathspec(repo, monkeypatch):
+    root, calls = repo
+    k0 = review_gate.batch_key()
+    (root / "tooling/a" / "f.py").write_text("x = 2\n")
+    k1 = review_gate.batch_key()
+    (root / "notes.txt").write_text("untracked\n")            # an untracked non-ignored file counts
+    k2 = review_gate.batch_key()
+    (root / ".gitignore").write_text("ignored.txt\n")
+    k3 = review_gate.batch_key()
+    (root / "ignored.txt").write_text("x\n")                  # an ignored file does not
+    assert len({k0, k1, k2, k3}) == 4 and review_gate.batch_key() == k3
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0 and len(calls) == 1
+    # a fix after the review at the same HEAD: the 0106 fix window, no second review
+    (root / "tooling/b" / "f.py").write_text("x = 9\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 0 and len(calls) == 1
+    # a HEAD move starts a new batch
+    subprocess.run(["git", "commit", "-qam", "c"], cwd=root, check=True, capture_output=True)
+    (root / "tooling/a" / "f.py").write_text("x = 5\n")
+    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0 and len(calls) == 2
+    stamps = json.load(open(review_gate.STAMP))["stamps"]
+    assert list(stamps) == [review_gate.batch_key()]         # the old HEAD's stamp is dropped
+
+
+def test_size_limit_measured_on_the_whole_batch(repo, monkeypatch):
     root, calls = repo
     (root / "tooling/a" / "f.py").write_text("x = 2\n")
     (root / "tooling/b" / "f.py").write_text("y = 1\n" * (review_gate.MAX_DIFF_BYTES // 6 + 10))
-    # the whole tree is over the limit: refused before any review
-    assert run_hook(monkeypatch, "npm run preflight -- --runner") == 2
+    for cmd in ("npm run preflight -- --runner", "npm run preflight -- --paths tooling/a"):
+        assert run_hook(monkeypatch, cmd) == 2
     assert calls == []
-    # pathspec a is small: reviewed, although the tree is over the limit
-    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/a") == 0
-    assert len(calls) == 1 and len(calls[0]) < 1000
-    # pathspec b alone is over the limit: refused
-    assert run_hook(monkeypatch, "npm run preflight -- --paths tooling/b") == 2
-    assert len(calls) == 1
 
 
 def test_size_measured_on_code_files_only_not_data(repo, monkeypatch):
@@ -200,11 +220,11 @@ def test_size_measured_on_code_files_only_not_data(repo, monkeypatch):
     assert "big.json" not in calls[0] and "f.py" in calls[0]
 
 
-def test_legacy_single_stamp_reads_as_whole_tree(repo, monkeypatch):
+def test_legacy_single_stamp_reads_but_never_exempts_another_head(repo, monkeypatch):
     os.makedirs(os.path.dirname(review_gate.STAMP), exist_ok=True)
     json.dump({"hash": "abc", "time": 1.0, "status": "ok", "findings": 0}, open(review_gate.STAMP, "w"))
-    assert review_gate.read_stamp()["hash"] == "abc"
-    assert review_gate.read_stamp(["a"]) == {}
+    assert review_gate.read_stamps()["*"]["hash"] == "abc"
+    assert review_gate.batch_stamp(review_gate.current_head(), review_gate.batch_key()) == {}
 
 
 def test_per_place_prose_never_enters_the_review_diff(repo, monkeypatch):
