@@ -12,6 +12,7 @@ from . import export_settlement_bundle as ex
 from . import compile_settlement as cs
 from . import terrain_requests
 from . import grade_settlement_pads as pad_grades
+from . import pad_overlay
 
 from .blueprint_files import blueprint_paths
 
@@ -1111,7 +1112,9 @@ def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
     assert doc["schemaVersion"] == 1
     (pad,) = doc["pads"]
     assert pad["id"] == "patch.pad.settlement.place.t.b1" and pad["hardM"] == 0.0
-    assert pad["pieces"] == [{"placementId": "place.t.b1.building", "datumM": 11.0,
+    # a building pad grades PAD_FLOOR_CLEARANCE_M under its recorded floor datum (R75)
+    assert pad["pieces"] == [{"placementId": "place.t.b1.building",
+                              "datumM": 11.0 - pad_overlay.PAD_FLOOR_CLEARANCE_M,
                               "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}]
     assert ex.attach_ground_overlays(_padded_bundle(False), None, survey=_FlatSurvey()) == 0
 
