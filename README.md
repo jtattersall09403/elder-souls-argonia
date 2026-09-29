@@ -173,6 +173,13 @@ asset registry.
   resource; roof shingles from vanilla Riften, window/wood-end/stall-roof from
   Dark Creations' Beyond Skyrim: Bruma — per the mesh's own readme) is the
   nailed licence/notice board in the `works-v1` kit.
+  Its **swamp house** (`architecture/swamp house.nif`, sha256
+  `be5fa276e197605ca9bbc34a8d9bc4e4239356ba29db2569aaeed343ec085195`; HTBM
+  ships a variant under `villages/kothringi/`) is the in-water dwelling
+  shell `composite:stilt/swamp-house-with-landing` in the
+  `settlement-stilt-v1` kit (Riverwalk's long house). A mesh of that name is
+  reported ripped from *Sniper: Ghost Warrior 2* (Nexus skyrim 89966); the
+  owner ruled the pool's permission covers it (decision 0098 §3).
 - **Mud Mother Grove — An Argonian Mud Hut** (Nexus SSE mod 146557,
   GeminiVoid, v1.5.1) — the Shadowfen mud/wattle building culture: round mud
   hut shell and thatch roofing, round deck, woven furniture and fences, tents,

@@ -1272,3 +1272,17 @@ def test_a_probe_kit_is_never_placeable_and_an_alpha_tested_piece_is(tmp_path):
     assert shelf.locate("x:rock") is None
     assert shelf.locate("x:probe") is None
     assert "x:probe" in shelf.by_asset        # measurement still reads it
+
+
+def test_walkable_surface_of_a_house_on_piles_is_its_floor():
+    """A water-class deck is walked at its pivot; a house on piles at its
+    manifest walkTopM over the pivot (Riverwalk long house, 2026-09-29: its
+    sockets stood on the cove bed under the floor)."""
+    from types import SimpleNamespace
+    from worldgen.compile_settlement import walkable_surfaces
+    base = {"anchorClass": "water", "sizeM": [4.0, 4.0, 3.0], "originOffsetM": [2.0, 2.0, 1.0]}
+    shelf = SimpleNamespace(by_asset={"deck": dict(base), "house": dict(base, walkTopM=2.5)})
+    placements = [{"id": "d", "assetId": "deck", "positionM": [0.0, -1.0, 0.0]},
+                  {"id": "h", "assetId": "house", "positionM": [10.0, -2.0, 0.0], "scale": 1.2}]
+    tops = {pid: top for _, top, pid in walkable_surfaces(placements, shelf)}
+    assert tops == {"d": -1.0, "h": pytest.approx(-2.0 + 2.5 * 1.2)}

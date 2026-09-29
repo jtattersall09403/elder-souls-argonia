@@ -118,9 +118,9 @@ The named families, located:
 Held vs used, exterior building pieces: vanilla 2,028 / 106; BM&V 2,461 / 263; the other pools
 about 1,050 (net of duplicates) / 306; KotM about 500 / 0.
 
-Provenance flags, which sit outside the owner's author permissions:
-- `swamp house.nif` ships in both BM&V (`architecture/swamp house.nif`) and HTBM (`villages/kothringi/swamp house`). Nexus skyrim 89966 says a mesh of that name was taken from *Sniper: Ghost Warrior 2* (inventory §9). A commercial-game rip is not covered by any mod author's permission. Keep it out of every kit until the two meshes are compared.
-- KotM `blackwood/shiveringhouse_#` reads as a Shivering Isles (Oblivion) building. Verify its source before use, as for any Bethesda asset from another game.
+Provenance flags (both ruled usable, decision 0098 §3):
+- `swamp house.nif` ships in both BM&V (`architecture/swamp house.nif`) and HTBM (`villages/kothringi/swamp house`). Nexus skyrim 89966 says a mesh of that name was taken from *Sniper: Ghost Warrior 2* (inventory §9). The owner ruled it usable on 2026-09-24 (decision 0098 §3); it is in `settlement-stilt-v1` as `composite:stilt/swamp-house-with-landing` (BM&V copy).
+- KotM `blackwood/shiveringhouse_#` reads as a Shivering Isles (Oblivion) building. Ruled usable by the same decision (0098 §3).
 
 ## 2. "Tropicalised": the mechanism and the rule
 

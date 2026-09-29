@@ -5898,6 +5898,93 @@
    "undersideCoverage": 0.062,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 4.2
+  },
+  {
+   "id": "composite:stilt/swamp-house-with-landing",
+   "node": "es|6bd5599025|omposite__stilt_swamp-house-with-landing",
+   "category": "architecture",
+   "sizeM": [
+    20.699,
+    21.366,
+    16.137
+   ],
+   "originOffsetM": [
+    8.804,
+    11.528,
+    3.87
+   ],
+   "triangles": 15184,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "050239f8.dds",
+    "247cc174.dds",
+    "258752c4.dds",
+    "3b60467b.dds",
+    "4f5ebd22.dds",
+    "734ed7bf.dds",
+    "7db7b43b.dds",
+    "8417507c.dds",
+    "d18d6e1f.dds",
+    "riftencanalplanks01.dds",
+    "riftencanalwood01.dds",
+    "sgrate.dds"
+   ],
+   "materials": [
+    "050239f8.Mat",
+    "247cc174.Mat",
+    "258752c4:1.Mat",
+    "258752c4:2.Mat",
+    "258752c4:3.Mat",
+    "3b60467b.Mat",
+    "4f5ebd22.Mat",
+    "4f5ebd22:1.Mat",
+    "4f5ebd22:2.Mat",
+    "734ed7bf.Mat",
+    "7db7b43b.Mat",
+    "8417507c:1.Mat",
+    "8417507c:2.Mat",
+    "DockStrEnt02:0.Mat",
+    "DockStrEnt02:1.Mat",
+    "DockStrEnt02:3.Mat",
+    "Scene Root:13.Mat",
+    "Scene Root:45.Mat",
+    "d18d6e1f.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "policy",
+   "designedWaterlineM": 2.02,
+   "walkTopM": 2.725,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.87,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.981,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.87
   }
  ],
  "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
@@ -5913,13 +6000,21 @@
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds",
   "textures/stroti/stilthouse/iron01.dds": "textures/architecture/stilthouse/iron01.dds",
   "textures/stroti/stilthouse/iron01_n.dds": "textures/architecture/stilthouse/iron01_n.dds",
-  "textures/architecture/windhelm/whwoodboards02.dds": "textures/lod/whwoodboards02lod.dds",
+  "textures/swamp house/050239f8.dds": "textures/architecture/050239f8.dds",
+  "textures/swamp house/247cc174.dds": "textures/architecture/247cc174.dds",
+  "textures/swamp house/258752c4.dds": "textures/architecture/258752c4.dds",
+  "textures/swamp house/3b60467b.dds": "textures/architecture/3b60467b.dds",
+  "textures/swamp house/4f5ebd22.dds": "textures/architecture/4f5ebd22.dds",
+  "textures/swamp house/734ed7bf.dds": "textures/architecture/734ed7bf.dds",
+  "textures/swamp house/7db7b43b.dds": "textures/architecture/7db7b43b.dds",
+  "textures/swamp house/8417507c.dds": "textures/architecture/8417507c.dds",
+  "textures/swamp house/d18d6e1f.dds": "textures/architecture/d18d6e1f.dds",
   "textures/architecture/farmhouse/rope01.dds": "textures/architecture/sheogorad/dagon fel/rope01.dds",
   "textures/architecture/farmhouse/rope01_n.dds": "textures/architecture/sheogorad/dagon fel/rope01_n.dds"
  },
  "alphaModes": {
   "MASK": 17,
-  "OPAQUE": 298,
+  "OPAQUE": 317,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -5953,16 +6048,24 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 41465380,
-  "bytesAfter": 16740104,
-  "images": 55,
-  "imageBytesAfter": 11568596,
+  "bytesBefore": 48207660,
+  "bytesAfter": 20007348,
+  "images": 65,
+  "imageBytesAfter": 14433767,
   "warnings": [],
-  "sha256": "e9ae98159ed9b1044115fd3ecc5d533b0122591aa0c3eafe61105d3cb52deaad",
+  "sha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846",
+  "parts": {
+   "parts": 1,
+   "partBytes": 8980,
+   "textureFiles": 2,
+   "textureBytes": 133322,
+   "bytes": 142302,
+   "sourceSha256": "2b2274c6792293e0492bb25b92d8f9975dd8d17432100a1e75bd5edcdae95846"
+  },
   "sidecarBytes": {
-   "connectors": 74052,
-   "footprints": 107727,
-   "interiors": 68764
+   "connectors": 74810,
+   "footprints": 109159,
+   "interiors": 72178
   }
  }
 }

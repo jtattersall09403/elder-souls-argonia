@@ -134,9 +134,9 @@ off-limits inland** — they are for Thorn and the Morrowind border only.
 |---|---|---|---|---|---|---|
 | **HTBM bamboo village set** — `bamboohut01/02` each **with a matched interior** + door, `stilthouseplatform` (Kothringi), **11-piece Tamu dock/plank family incl. 3 broken planks**, wicker chair/sofa/table/basket/chest, stone wall arch/curve/pillar, awnings | reed/stilt | 37 | `htbm` pool → `.../architecture/villages/` | golden bamboo, woven wicker straw, weathered dock plank, palm thatch | intact + 3 broken planks | **yes** |
 | **Mud Mother Grove Argonian set** — `MudHut01` + matched interior, `RoundFloor01`, `ThatchRoofing`, 2 Argonian tents, 2 platforms, `ArgonianBridge` (459 KB, the mod's largest asset) + bridge start, archway sticks, **7 fence pieces** (Argonian ×3, Snake ×3, Woven) | mud | 20 | `mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/` | wet ochre mud, sun-baked daub, grey thatch, lashed stick, woven reed | intact | **yes ⚠ permissions unread** |
-| **Round mud-hut shells** — `hutexterior` (11.6 m round), `hutdecking` (14.7 m on a raised deck), `argonianhouse`, `swamp house`, orc huts, + windows/steps/doorframe | mud | 19 | BM&V `meshes/architecture/huts/`, `/argonianhouse.nif`, `/swamp house.nif` | wet ochre mud, sun-baked tan, dark log skeleton, moss streaks | intact only | **archived** |
+| **Round mud-hut shells** — `hutexterior` (11.6 m round), `hutdecking` (14.7 m on a raised deck), `argonianhouse`, orc huts, + windows/steps/doorframe | mud | 18 | BM&V `meshes/architecture/huts/`, `/argonianhouse.nif` | wet ochre mud, sun-baked tan, dark log skeleton, moss streaks | intact only | **archived** |
 | **Modular plank/thatch shack kit** — 3.64 m walls, 6 frame forms, 11 roof pieces, **20 broken pieces** | reed/stilt | 58 | vanilla `meshes/architecture/shackkit/` | weathered driftwood grey, tarred plank, straw thatch | intact / ruined / half-collapsed | **yes** |
-| **Stilt & waterside shells** — `stilthouseext`, 5 Dagon Fel shacks each with an interior, `housetall01` (3-storey, 16.8 m), tree house + rope ladders, awnings | reed/stilt | 30 | BM&V `architecture/stilthouse`, `sheogorad/dagon fel`, `stroti/tree house` | dark wet timber, silvered plank, amber lantern | intact | **archived** |
+| **Stilt & waterside shells** — `stilthouseext`, `swamp house` (stands in water: pivot a median 1.45 m under the surface over 47 BM&V placements; in `settlement-stilt-v1`), 5 Dagon Fel shacks each with an interior, `housetall01` (3-storey, 16.8 m), tree house + rope ladders, awnings | reed/stilt | 31 | BM&V `architecture/stilthouse`, `/swamp house.nif`, `sheogorad/dagon fel`, `stroti/tree house` | dark wet timber, silvered plank, amber lantern | intact | **archived** |
 | **Imperial farmhouse & civic** — farmhouse01–06 (12.8–23.8 m) + **destroyed variants**, longhouse (31 m), inn (+2 destroyed), well, windmill, woven fences, full basement interior kit, five city kits | Imperial | 2,495 | vanilla `architecture/{farmhouse,whiterun,solitude,riften,markarth,windhelm,winterhold,orclonghouse}` | grey slate, lime plaster, dark stained timber | intact / destroyed | **yes** |
 | **Fort, curtain wall & gate** — Griffon Fortress (walls, bastions, towers, gates, thronehall, chapel, crypt), Newcastle 1024-unit walls, Rochester houses + ruins, Seaview coastal castle (136) | Imperial | 481 | BM&V `griffon fortress`, `architecture/{newcastle,rochester,largecastle,seaview}` | dressed ashlar, damp green base course, half-timber ochre | intact / ruined | **archived** |
 | **Dunmer / Telvanni organic** — tower, pods, gourdhouse, gazebos, ramps, roots; Velothi, Daedric, Ashlander hut, silt strider | foreign only | 288 | BM&V `architecture/phitt/*`, `telvanni/*`, `vvardenfell/*` | chitin brown, fungal ochre, ash grey | intact / ruined | **archived** |
@@ -382,11 +382,11 @@ canoe mesh.
 RoboBirdie's packs · Oaristys/Tony67 Modder's Resource Pack · Ships and boats of
 Tamriel.
 
-**One cross-check flag:** BM&V bundles `meshes/architecture/swamp house.nif`,
+**One cross-check flag, ruled:** BM&V bundles `meshes/architecture/swamp house.nif`,
 which this inventory catalogues (observed 47× in BM&V's own worldspace).
 A Nexus mod of the same name (`skyrim:89966`) was ripped from the commercial
-game *Sniper: Ghost Warrior 2*. **If they are the same asset it is unusable —
-verify before relying on it.**
+game *Sniper: Ghost Warrior 2*. The owner ruled on 2026-09-24 that the pool's
+permission covers it (decision 0098 §3), so it is usable in kits and places.
 
 ---
 

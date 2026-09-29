@@ -297,7 +297,8 @@
   "kotm:argonia/mudhuts/overhang01": "pad",
   "mudmother:gv_meshes/argoniannest/argoniantent01": "pad",
   "vanilla:architecture/riften/rtstables01": "pad",
-  "vanilla:effects/fxfirewithembers01": "direct"
+  "vanilla:effects/fxfirewithembers01": "direct",
+  "vanilla:architecture/docks/dockstrsol01": "stilt"
  },
  "kitAssetPolicies": {
   "dungeon-root-v1": {
@@ -400,7 +401,8 @@
   "kotm:argonia/mudhuts/overhang01": "KotM mud-hut overhang, attached to a mud hut on its declared pad (0101): same contact family as kotm:argonia/mudhuts/mudhut01 and the settlement-mud-v1 kit policy (pad).",
   "mudmother:gv_meshes/argoniannest/argoniantent01": "Mud Mother Grove hide shelter on a declared pad: same contact family as mudmother:gv_meshes/argoniannest/argoniantent02 (pad); its designedSinkM row sits in assetPlacement.",
   "vanilla:architecture/riften/rtstables01": "Riften stable on a declared pad: same contact family as the imperial-keep stables (mwimparchstableendl01/endr01, pad); its designedSinkM row sits in assetPlacement (0105 R25).",
-  "vanilla:effects/fxfirewithembers01": "fire effect child of a hearth or campfire: seated by its mined pair (the mounts record's parent offset), never by ground contact, so no sink (fallbackSinkM 0); planner ruling 2026-09-28, GREENSPRING3 ruling 3"
+  "vanilla:effects/fxfirewithembers01": "fire effect child of a hearth or campfire: seated by its mined pair (the mounts record's parent offset), never by ground contact, so no sink (fallbackSinkM 0); planner ruling 2026-09-28, GREENSPRING3 ruling 3",
+  "vanilla:architecture/docks/dockstrsol01": "frozen from the docks-v1 manifest's fit (Riverwalk's cross walk, 16k slice 3): policy stilt, a piled deck (piledDecks), anchor class water, designed-sink p50 -1.64 m over 6 plugin references"
  },
  "assetPlacement": {
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
@@ -490,6 +492,12 @@
    "designedSinkM": -0.4494,
    "why": "Mud Mother Grove hide shelter on poles, 6.1 x 5.3 m and 4.3 m tall. The plugin places it once, at a scale other than 1, so the sink miner drops it (refsDroppedNonUnitScale 1) and no plugin sink exists. The mesh's lowest vertices lie 0.449 m below the pivot in a 4.6 m run along its back (the ground log the poles stand in); 388 vertices within 0.5 m of that level span the whole 5.4 x 4.7 m footprint: sink -0.4494 sets the log and the pole feet on the ground. (0105 R36 and R54, reviewed by lane L20 2026-09-28 for the Greenspring spring house; measured on the raw settlement-mud-v1.glb) floorClass openShelter: 0105 R58: a hide canopy on poles with no floor slab. On the mesh the pole feet and the ground log are the lowest vertices (0.449 m below the pivot) and the canopy skirt hangs about 1 m above them, so the posts are judged and the canopy is not.",
    "floorClass": "openShelter"
+  },
+  "composite:stilt/swamp-house-with-landing": {
+   "anchorClass": "water",
+   "designedWaterlineM": 2.02,
+   "why": "BM&V's swamp house, placed by the composite at scale 2.9. BM&V places the shell 47 times in 25 cells, all in open water, and its depth follows its scale: the pivot sits a median 0.22 m under the water at scale 2.6 (n 17), 1.36 m at 2.8 (n 10), 2.02 m at 2.9 (n 7) and 2.21 m at 3.0 (n 13); 1.45 m over all 47 (bmv-blackmarsh-placement.json, aboveWaterM). The row takes the scale-2.9 median, as the sink miner does for a scaled base (byScale): the floor stands 0.70 m over the water and the landing plank's deck 0.56 m. The sink miner has no row for it (it was in no kit). walkTopM 2.725: the floor, a 246 m2 up-facing band at z 2.443 m in the unit-2.6 shell (p50 over its triangles), is 2.725 m over the pivot at scale 2.9; sockets inside stand on it.",
+   "walkTopM": 2.725
   }
  },
  "piledDecks": {
