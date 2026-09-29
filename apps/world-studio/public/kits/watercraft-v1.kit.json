@@ -1,0 +1,3678 @@
+{
+ "kit": "watercraft-v1",
+ "assets": [
+  {
+   "id": "canoe:actors/sfss/canoe/canoe1",
+   "node": "es|efc936a55b|canoe__actors_sfss_canoe_canoe1",
+   "category": "creature",
+   "sizeM": [
+    1.981,
+    6.762,
+    2.125
+   ],
+   "originOffsetM": [
+    0.99,
+    2.986,
+    0.166
+   ],
+   "triangles": 9788,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "albedo.dds",
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag01.dds",
+    "miscbag02.dds",
+    "prisonercarriage01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat",
+    "CrateCommon:0.Mat",
+    "CrateCommon:2.Mat",
+    "CrateSmall02:004.Mat",
+    "CrateSmall02:005.Mat",
+    "CrateSmall02:1.Mat",
+    "CrateSmall02:3.Mat",
+    "MiscSack02Large01:0.Mat",
+    "MiscSack02Large01:002.Mat",
+    "MiscSack02Large01:1.Mat",
+    "Object006:1.Mat",
+    "Object006:2.Mat",
+    "Object007:1.001.Mat",
+    "Object007:1.002.Mat",
+    "Object007:1.Mat",
+    "Object007:2.Mat",
+    "Object008.Mat",
+    "Object009:1.Mat",
+    "Object009:2.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1663,
+    "p50": -0.1663,
+    "p75": -0.1663,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1663
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.166,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.166
+  },
+  {
+   "id": "canoe:weapons/sfss/shipoar01",
+   "node": "es|66beffab23|canoe__weapons_sfss_shipoar01",
+   "category": "weapon",
+   "sizeM": [
+    0.271,
+    3.47,
+    0.081
+   ],
+   "originOffsetM": [
+    0.135,
+    1.735,
+    0.041
+   ],
+   "triangles": 204,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "BSX.Mat",
+    "Prn.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0407,
+    "p50": -0.0407,
+    "p75": -0.0407,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0407
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.041,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.041
+  },
+  {
+   "id": "canoe:weapons/sfss/shipoar01ground",
+   "node": "es|3a60645212|canoe__weapons_sfss_shipoar01ground",
+   "category": "weapon",
+   "sizeM": [
+    3.47,
+    0.271,
+    0.081
+   ],
+   "originOffsetM": [
+    1.735,
+    0.135,
+    0.041
+   ],
+   "triangles": 204,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "ShipOar01:5.Mat",
+    "ShipOar01:6.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0407,
+    "p50": -0.0407,
+    "p75": -0.0407,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0407
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.041,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.041
+  },
+  {
+   "id": "canoe:weapons/sfss/shipoar01towhanded",
+   "node": "es|c587fa29b2|canoe__weapons_sfss_shipoar01towhanded",
+   "category": "weapon",
+   "sizeM": [
+    0.271,
+    3.47,
+    0.081
+   ],
+   "originOffsetM": [
+    0.135,
+    1.735,
+    0.041
+   ],
+   "triangles": 204,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "BSX.Mat.001",
+    "Prn.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0407,
+    "p50": -0.0407,
+    "p75": -0.0407,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0407
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.041,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.041
+  },
+  {
+   "id": "canoe:weapons/sfss/anchor",
+   "node": "es|016aa8e920|canoe__weapons_sfss_anchor",
+   "category": "weapon",
+   "sizeM": [
+    0.373,
+    0.237,
+    0.144
+   ],
+   "originOffsetM": [
+    0.343,
+    0.062,
+    0.015
+   ],
+   "triangles": 200,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "saw01.dds"
+   ],
+   "materials": [
+    "BSX.Mat.002"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0151,
+    "p50": -0.0151,
+    "p75": -0.0151,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0151
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.015,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.18,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.015
+  },
+  {
+   "id": "ferryraft:snt/ferry/ferryraft01",
+   "node": "es|6e446b2e65|ferryraft__snt_ferry_ferryraft01",
+   "category": "misc",
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ],
+   "triangles": 3592,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "candles01.dds",
+    "cratewood02.dds",
+    "diningset01.dds",
+    "lampgeneric01.dds",
+    "rottingwood01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "BasicTankard01:0.Mat",
+    "CandleLanternWithCandle:11.Mat",
+    "CandleLanternWithCandle:7.Mat",
+    "Crate.Mat",
+    "LongCrate.Mat",
+    "Oar02.Mat",
+    "OarDet02.Mat",
+    "ShipOar01.Mat",
+    "ShipOarDet01.Mat",
+    "planks01.Mat",
+    "planks02.Mat",
+    "planks03.Mat",
+    "planks04.Mat",
+    "planks05.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat": 0.89
+   },
+   "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "designedSinkM": {
+    "p25": -0.4728,
+    "p50": -0.4728,
+    "p75": -0.4728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": [
+      "wild"
+     ]
+    },
+    "n": 8,
+    "interior": {},
+    "exterior": {
+     "wild": 8
+    },
+    "sourceCells": [
+     "exterior:wild:Tamriel"
+    ],
+    "evidence": "plugin",
+    "vehicle": true
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4728
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.473,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.892,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.473
+  },
+  {
+   "id": "ferryraft:snt/ferry/ferryraft01_no_col",
+   "node": "es|6e437bd37b|ferryraft__snt_ferry_ferryraft01_no_col",
+   "category": "misc",
+   "sizeM": [
+    3.236,
+    4.104,
+    1.711
+   ],
+   "originOffsetM": [
+    1.59,
+    2.016,
+    0.473
+   ],
+   "triangles": 3592,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "candles01.dds",
+    "cratewood02.dds",
+    "diningset01.dds",
+    "lampgeneric01.dds",
+    "rottingwood01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "BasicTankard01:0.Mat.001",
+    "CandleLanternWithCandle:11.Mat.001",
+    "CandleLanternWithCandle:7.Mat.001",
+    "Crate.Mat.001",
+    "LongCrate.Mat.001",
+    "Oar02.Mat.001",
+    "OarDet02.Mat.001",
+    "ShipOar01.Mat.001",
+    "ShipOarDet01.Mat.001",
+    "planks01.Mat.001",
+    "planks02.Mat.001",
+    "planks03.Mat.001",
+    "planks04.Mat.001",
+    "planks05.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat.001": 0.89
+   },
+   "lodLevels": 3,
+   "flames": [
+    {
+     "offsetM": [
+      -1.2176,
+      0.5342,
+      0.1451
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    },
+    {
+     "offsetM": [
+      -1.2375,
+      0.5085,
+      0.0868
+     ],
+     "texture": "fx:candleflame01",
+     "atlas": [
+      2,
+      2
+     ],
+     "fps": 3.0,
+     "sizeM": 0.036,
+     "source": "AddOnNode49 -> MPSCandleFlame01/CandleFlame01"
+    }
+   ],
+   "designedSinkM": {
+    "p25": -0.4728,
+    "p50": -0.4728,
+    "p75": -0.4728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4728
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.473,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.892,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.473
+  },
+  {
+   "id": "ferryraft:snt/ferry/norbridgewoodplanks01",
+   "node": "es|e3b714f45c|rryraft__snt_ferry_norbridgewoodplanks01",
+   "category": "misc",
+   "sizeM": [
+    5.576,
+    3.597,
+    0.079
+   ],
+   "originOffsetM": [
+    2.788,
+    1.795,
+    0.079
+   ],
+   "triangles": 792,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "NorBridgeWoodPlanks01:11.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0791,
+    "p50": -0.0791,
+    "p75": -0.0791,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0791
+   },
+   "designedWaterlineM": -0.1472,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.079,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.9,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.079
+  },
+  {
+   "id": "ferryraft:snt/ferry/norbridgewoodplanks02",
+   "node": "es|e05764773a|rryraft__snt_ferry_norbridgewoodplanks02",
+   "category": "misc",
+   "sizeM": [
+    0.882,
+    3.574,
+    0.079
+   ],
+   "originOffsetM": [
+    0.441,
+    1.784,
+    0.079
+   ],
+   "triangles": 160,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "NorBridgeWoodPlanks02:11.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0791,
+    "p50": -0.0791,
+    "p75": -0.0791,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0791
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.079,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.906,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.079
+  },
+  {
+   "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
+   "node": "es|c500e76b9c|s__yamadori_ferries_plank_ferry_swamp_01",
+   "category": "misc",
+   "sizeM": [
+    2.65,
+    3.557,
+    1.546
+   ],
+   "originOffsetM": [
+    2.139,
+    1.779,
+    0.764
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "ShipOar01:5.Mat.001",
+    "ShipOar01:6.Mat.001",
+    "ShipWoodplanks04:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0426,
+    "p50": -0.0426,
+    "p75": -0.0426,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0426
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.764,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.783,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "ferries:yamadori/ferries/plank_ferry_swamp_03",
+   "node": "es|8217834d83|s__yamadori_ferries_plank_ferry_swamp_03",
+   "category": "misc",
+   "sizeM": [
+    2.65,
+    3.557,
+    1.546
+   ],
+   "originOffsetM": [
+    2.139,
+    1.779,
+    0.764
+   ],
+   "triangles": 851,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "giantlichen01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds"
+   ],
+   "materials": [
+    "DLC1HouseIngrdGiantLichen01_1:0.Mat",
+    "ShipOar01:5.Mat.002",
+    "ShipOar01:6.Mat.002",
+    "ShipWoodplanks04:5.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "DLC1HouseIngrdGiantLichen01_1:0.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0426,
+    "p50": -0.0426,
+    "p75": -0.0426,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0426
+   },
+   "designedWaterlineM": 0.12,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.764,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.783,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
+   "node": "es|0ec55d1bd1|_yamadori_ferries_rowboat_ferry_swamp_01",
+   "category": "misc",
+   "sizeM": [
+    2.771,
+    9.624,
+    2.185
+   ],
+   "originOffsetM": [
+    1.385,
+    4.945,
+    0.036
+   ],
+   "triangles": 3542,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "L1_BoatDetails.Mat",
+    "ShipRowBoat01:3.Mat",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0363,
+    "p50": -0.0363,
+    "p75": -0.0363,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {
+     "exterior": []
+    },
+    "n": 1,
+    "interior": {},
+    "exterior": {
+     "village": 1
+    },
+    "sourceCells": [
+     "exterior:village:AbandonedShackLocation"
+    ],
+    "evidence": "plugin",
+    "classNotMeasured": {
+     "exterior": {
+      "village": 1
+     }
+    },
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0363
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.036,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.036
+  },
+  {
+   "id": "ferries:yamadori/ferries/common_rowboat_inialta_01",
+   "node": "es|754dc5002b|madori_ferries_common_rowboat_inialta_01",
+   "category": "misc",
+   "sizeM": [
+    3.657,
+    9.624,
+    2.185
+   ],
+   "originOffsetM": [
+    2.272,
+    4.945,
+    0.036
+   ],
+   "triangles": 5144,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "miscbag01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds",
+    "wrshields.dds",
+    "wrwoodbeam02.dds"
+   ],
+   "materials": [
+    "L1_BoatDetails.Mat.001",
+    "MiscSackLargeFlat03:0.001.Mat",
+    "ShipOar01:5.Mat.003",
+    "ShipOar01:6.Mat.003",
+    "ShipRowBoat01:3.Mat.001",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat.001",
+    "WRIntShield03:0.Mat",
+    "WRIntShield03:1.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0363,
+    "p50": -0.0363,
+    "p75": -0.0363,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0363
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.036,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.643,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.036
+  },
+  {
+   "id": "ferries:yamadori/ferries/river_ferry_rift_01",
+   "node": "es|7ec9ef0ffd|es__yamadori_ferries_river_ferry_rift_01",
+   "category": "misc",
+   "sizeM": [
+    4.733,
+    8.494,
+    6.854
+   ],
+   "originOffsetM": [
+    2.419,
+    4.247,
+    0.507
+   ],
+   "triangles": 8058,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "shipcyrodiilicnavysails01.dds",
+    "shipcyrodiilicwood01.dds",
+    "shipcyrodiilicwoodside01.dds",
+    "shiphullweed01.dds",
+    "shipredguardshiprope01.dds",
+    "whlogend.dds"
+   ],
+   "materials": [
+    "Canopy.Mat",
+    "Flag.Mat",
+    "Impferrypontoon.Mat",
+    "Impferrypontoon001.Mat",
+    "pontoon ends001.Mat",
+    "shipwood.Mat",
+    "supersturecture rope.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Canopy.Mat": 0.235,
+    "Flag.Mat": 0.196,
+    "Impferrypontoon001.Mat": 0.078
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.507,
+    "p50": -0.507,
+    "p75": -0.507,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.507
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.507,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.507
+  },
+  {
+   "id": "ferries:yamadori/ferries/volkihar_ferry_01",
+   "node": "es|a35e290983|ries__yamadori_ferries_volkihar_ferry_01",
+   "category": "misc",
+   "sizeM": [
+    3.657,
+    9.744,
+    3.189
+   ],
+   "originOffsetM": [
+    2.272,
+    4.945,
+    0.036
+   ],
+   "triangles": 6020,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [
+    {
+     "shape": "EditorMarker",
+     "reason": "effect-no-texture"
+    }
+   ],
+   "textures": [
+    "bloodybones.dds",
+    "candles01.dds",
+    "lampgeneric01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds",
+    "tundradriftwoodbark01.dds",
+    "winebottles01.dds",
+    "wrshields.dds",
+    "wrwoodbeam02.dds"
+   ],
+   "materials": [
+    "BanditPole03:13.Mat",
+    "CandleLanternWithCandle:11.Mat.002",
+    "CandleLanternWithCandle:7.Mat.002",
+    "L1_BoatDetails.Mat.002",
+    "L1_Parts05.Mat",
+    "ShipOar01:5.Mat.004",
+    "ShipOar01:6.Mat.004",
+    "ShipRowBoat01:3.Mat.002",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat.002",
+    "WRIntShield03:0.Mat.001",
+    "WRIntShield03:1.Mat.001",
+    "WineBottle02BEmpty:0.Mat",
+    "WineBottle02BEmpty:1.Mat",
+    "WineBottle02BEmpty:2.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat.002": 0.89
+   },
+   "decalMaterials": [
+    "WineBottle02BEmpty:2.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0363,
+    "p50": -0.0363,
+    "p75": -0.0363,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0363
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.036,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.647,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.036
+  },
+  {
+   "id": "rowboats:dungeons/ship/shiprowboat01",
+   "node": "es|37373f2335|rowboats__dungeons_ship_shiprowboat01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.495,
+    9.552,
+    1.681
+   ],
+   "originOffsetM": [
+    3.747,
+    4.882,
+    0.179
+   ],
+   "triangles": 5484,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rowboat.dds"
+   ],
+   "materials": [
+    "L1_BoatDetails.Mat.003",
+    "ShipRowBoat01:3.Mat.003",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat.003"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1789,
+    "p50": -0.1789,
+    "p75": -0.1789,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1789
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.179,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.422,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.179
+  },
+  {
+   "id": "rowboats:dungeons/ship/shiprowboatanim01",
+   "node": "es|1bed14970f|owboats__dungeons_ship_shiprowboatanim01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    7.495,
+    9.552,
+    1.681
+   ],
+   "originOffsetM": [
+    3.747,
+    4.882,
+    0.179
+   ],
+   "triangles": 5484,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rowboat.dds"
+   ],
+   "materials": [
+    "L1_BoatDetails:5.Mat",
+    "L1_BoatDetails:6.Mat",
+    "REF_ATTACH_NODE:3.Mat",
+    "REF_ATTACH_NODE:5.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.1789,
+    "p50": -0.1789,
+    "p75": -0.1789,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1789
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.179,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.422,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.179
+  },
+  {
+   "id": "rowboats:dungeons/clutter/shipoar01",
+   "node": "es|0a1bf82a90|rowboats__dungeons_clutter_shipoar01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    3.407,
+    0.416,
+    0.138
+   ],
+   "originOffsetM": [
+    1.673,
+    0.217,
+    0.071
+   ],
+   "triangles": 200,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rowboat.dds"
+   ],
+   "materials": [
+    "ShipOar01:7.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0715,
+    "p50": -0.0715,
+    "p75": -0.0715,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0715
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.071,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.345,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.071
+  },
+  {
+   "id": "sailboats:sailboats/sailboat",
+   "node": "es|c876536a54|sailboats__sailboats_sailboat",
+   "category": "misc",
+   "sizeM": [
+    3.418,
+    7.865,
+    6.05
+   ],
+   "originOffsetM": [
+    2.068,
+    3.21,
+    0.093
+   ],
+   "triangles": 13160,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "breticshipdeck01.dds",
+    "breticshiprope01.dds",
+    "breticshipsails01.dds",
+    "breticshipside01.dds",
+    "breticshipside02.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "miscbag02.dds"
+   ],
+   "materials": [
+    "Blocks, tiller.Mat",
+    "Boards.Mat",
+    "Canoe:69.Mat",
+    "Canoe:73.Mat",
+    "CrateCommon:0.Mat.001",
+    "CrateSmall02:004.Mat.001",
+    "CrateSmall02:1.Mat.001",
+    "Flags002.Mat",
+    "Hull and masts.Mat",
+    "Hull detail002.Mat",
+    "MiscSack02Large01:0.Mat.001",
+    "MiscSack02Large01:002.Mat.001",
+    "Shiprope002.Mat",
+    "sailing-Sailsandropes:1.Mat",
+    "sailing-Sailsandropes:2.Mat",
+    "sailing-blocks.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0927,
+    "p50": -0.0927,
+    "p75": -0.0927,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0927
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.093,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.907,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.093
+  },
+  {
+   "id": "sailboats:sailboats/sailboatfurled",
+   "node": "es|2d67054cae|sailboats__sailboats_sailboatfurled",
+   "category": "misc",
+   "sizeM": [
+    3.213,
+    7.865,
+    6.05
+   ],
+   "originOffsetM": [
+    1.862,
+    3.21,
+    0.093
+   ],
+   "triangles": 12806,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "breticshipdeck01.dds",
+    "breticshiprope01.dds",
+    "breticshipsails01.dds",
+    "breticshipside01.dds",
+    "breticshipside02.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "miscbag02.dds"
+   ],
+   "materials": [
+    "Blocks, tiller.Mat.001",
+    "Boards.Mat.001",
+    "Canoe:69.Mat.001",
+    "Canoe:73.Mat.001",
+    "CrateCommon:0.Mat.002",
+    "CrateSmall02:004.Mat.002",
+    "CrateSmall02:1.Mat.002",
+    "Flags002.Mat.001",
+    "Hull and masts.Mat.001",
+    "Hull detail002.Mat.001",
+    "MiscSack02Large01:0.Mat.002",
+    "MiscSack02Large01:002.Mat.002",
+    "Shiprope002.Mat.001",
+    "docked-Sailfurled.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0927,
+    "p50": -0.0927,
+    "p75": -0.0927,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0927
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.093,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.906,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.093
+  },
+  {
+   "id": "sailboats:sailboats/sailboatelf",
+   "node": "es|d7924e96ce|sailboats__sailboats_sailboatelf",
+   "category": "misc",
+   "sizeM": [
+    1.989,
+    11.17,
+    8.788
+   ],
+   "originOffsetM": [
+    0.994,
+    3.129,
+    0.272
+   ],
+   "triangles": 18756,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "gray.dds",
+    "hms_oxenfurt_tretogor_deck.dds",
+    "hms_oxenfurt_tretogor_mixt_a.dds",
+    "hms_oxenfurt_tretogor_mixt_b.dds",
+    "miscbag02.dds",
+    "nilfgaardian_elements_02.dds",
+    "nilfgaardian_lower_keel.dds",
+    "nilfgaardian_rudder.dds",
+    "nilfgaardian_sail.dds",
+    "nilfgaardian_sail_sign.dds",
+    "nilfgaardian_upper_keel.dds",
+    "shipwood02.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat.001",
+    "Canoe:49:113.Mat",
+    "Canoe:49:121.Mat",
+    "Canoe:49:122.Mat",
+    "Canoe:49:125.Mat",
+    "CrateCommon:0.Mat.003",
+    "CrateSmall02:004.Mat.003",
+    "CrateSmall02:005.Mat.001",
+    "CrateSmall02:1.Mat.003",
+    "CrateSmall02:3.Mat.001",
+    "MiscSack02Large01:0.Mat.003",
+    "MiscSack02Large01:002.Mat.003",
+    "grp1.Mat",
+    "grp11.Mat",
+    "grp12.Mat",
+    "grp13.Mat",
+    "grp14.Mat",
+    "grp2.Mat",
+    "grp22.Mat",
+    "grp23.Mat",
+    "grp24.Mat",
+    "grp3.Mat",
+    "grp31.Mat",
+    "grp32.Mat",
+    "grp33.Mat",
+    "grp4.Mat",
+    "grp41.Mat",
+    "grp42.Mat",
+    "grp5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "grp13.Mat": 0.502,
+    "grp22.Mat": 0.502,
+    "grp4.Mat": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.2722,
+    "p50": -0.2722,
+    "p75": -0.2722,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2722
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.272,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.875,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.272
+  },
+  {
+   "id": "sailboats:sailboats/sailboatelffurled",
+   "node": "es|8a862a3d1c|sailboats__sailboats_sailboatelffurled",
+   "category": "misc",
+   "sizeM": [
+    1.989,
+    11.17,
+    8.788
+   ],
+   "originOffsetM": [
+    0.996,
+    3.13,
+    0.272
+   ],
+   "triangles": 19187,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "gray.dds",
+    "hms_oxenfurt_tretogor_deck.dds",
+    "hms_oxenfurt_tretogor_mixt_a.dds",
+    "hms_oxenfurt_tretogor_mixt_b.dds",
+    "miscbag02.dds",
+    "nilfgaardian_elements_02.dds",
+    "nilfgaardian_lower_keel.dds",
+    "nilfgaardian_rudder.dds",
+    "nilfgaardian_sail.dds",
+    "nilfgaardian_upper_keel.dds",
+    "ship01_d.dds",
+    "shipwood02.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat.002",
+    "Canoe:49:113.Mat.001",
+    "Canoe:49:121.Mat.001",
+    "Canoe:49:122.Mat.001",
+    "Canoe:49:125.Mat.001",
+    "CrateCommon:0.Mat.004",
+    "CrateSmall02:004.Mat.004",
+    "CrateSmall02:005.Mat.002",
+    "CrateSmall02:1.Mat.004",
+    "CrateSmall02:3.Mat.002",
+    "MiscSack02Large01:0.Mat.004",
+    "MiscSack02Large01:002.Mat.004",
+    "grp1.Mat.001",
+    "grp11.Mat.001",
+    "grp12.Mat.001",
+    "grp14.Mat.001",
+    "grp2.Mat.001",
+    "grp21.Mat",
+    "grp23.Mat.001",
+    "grp24.Mat.001",
+    "grp3.Mat.001",
+    "grp32.Mat.001",
+    "grp33.Mat.001",
+    "grp4.Mat.001",
+    "grp41.Mat.001",
+    "grp42.Mat.001",
+    "grp5.Mat.001",
+    "sail_close.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "grp21.Mat": 0.502,
+    "grp4.Mat.001": 0.502
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.2722,
+    "p50": -0.2722,
+    "p75": -0.2722,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2722
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.272,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.875,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.272
+  },
+  {
+   "id": "sailboats:sailboats/longboat",
+   "node": "es|8ce52886c7|sailboats__sailboats_longboat",
+   "category": "misc",
+   "sizeM": [
+    6.089,
+    8.84,
+    6.32
+   ],
+   "originOffsetM": [
+    3.045,
+    3.752,
+    0.214
+   ],
+   "triangles": 19633,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "barrel01.dds",
+    "basket01.dds",
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag01.dds",
+    "miscbag02.dds",
+    "nordshipdeck01.dds",
+    "nordshiprope01.dds",
+    "nordshipsails01.dds",
+    "nordshipside01.dds",
+    "nordshipwood01.dds",
+    "nordshipwood02.dds"
+   ],
+   "materials": [
+    "Barrel01:0.Mat",
+    "Basket04:0.Mat",
+    "Bucket01:0.Mat.003",
+    "Cabin roof.Mat",
+    "Canoe:102.Mat",
+    "Canoe:69.Mat.002",
+    "Canoe:73.Mat.002",
+    "Canoe:90.Mat",
+    "Canoe:94.Mat",
+    "CrateCommon:0.Mat.005",
+    "CrateCommon:2.Mat.001",
+    "CrateSmall02:004.Mat.005",
+    "CrateSmall02:005.Mat.003",
+    "CrateSmall02:1.Mat.005",
+    "CrateSmall02:3.Mat.003",
+    "Deckandstairs.Mat",
+    "Hull.Mat",
+    "MiscSack02Large01:0.Mat.005",
+    "MiscSack02Large01:002.Mat.005",
+    "MiscSack02Large01:1.Mat.001",
+    "Shiprope.Mat",
+    "Shipwood01.Mat",
+    "Shipwood02.Mat",
+    "sailing - sailsset.Mat",
+    "sailing - shiprope.Mat",
+    "sailing - shipwood02.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.2136,
+    "p50": -0.2136,
+    "p75": -0.2136,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2136
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.214,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.878,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.214
+  },
+  {
+   "id": "sailboats:sailboats/longboatfurled",
+   "node": "es|d44a7ec319|sailboats__sailboats_longboatfurled",
+   "category": "misc",
+   "sizeM": [
+    5.74,
+    8.84,
+    6.32
+   ],
+   "originOffsetM": [
+    2.87,
+    3.752,
+    0.214
+   ],
+   "triangles": 19259,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "barrel01.dds",
+    "basket01.dds",
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag01.dds",
+    "miscbag02.dds",
+    "nordshipdeck01.dds",
+    "nordshiprope01.dds",
+    "nordshipsails01.dds",
+    "nordshipside01.dds",
+    "nordshipwood01.dds",
+    "nordshipwood02.dds"
+   ],
+   "materials": [
+    "Barrel01:0.Mat.001",
+    "Basket04:0.Mat.001",
+    "Bucket01:0.Mat.004",
+    "Cabin roof.Mat.001",
+    "Canoe:102.Mat.001",
+    "Canoe:69.Mat.003",
+    "Canoe:73.Mat.003",
+    "Canoe:90.Mat.001",
+    "Canoe:94.Mat.001",
+    "CrateCommon:0.Mat.006",
+    "CrateCommon:2.Mat.002",
+    "CrateSmall02:004.Mat.006",
+    "CrateSmall02:005.Mat.004",
+    "CrateSmall02:1.Mat.006",
+    "CrateSmall02:3.Mat.004",
+    "Deckandstairs.Mat.001",
+    "Hull.Mat.001",
+    "MiscSack02Large01:0.Mat.006",
+    "MiscSack02Large01:002.Mat.006",
+    "MiscSack02Large01:1.Mat.002",
+    "Shiprope.Mat.001",
+    "Shipwood01.Mat.001",
+    "Shipwood02.Mat.001",
+    "docked - sailsfurled.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.2136,
+    "p50": -0.2136,
+    "p75": -0.2136,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2136
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.214,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.878,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.214
+  },
+  {
+   "id": "sailboats:sailboats/rowboat",
+   "node": "es|2697929632|sailboats__sailboats_rowboat",
+   "category": "misc",
+   "sizeM": [
+    2.217,
+    7.7,
+    1.765
+   ],
+   "originOffsetM": [
+    1.108,
+    4.013,
+    -0.14
+   ],
+   "triangles": 8006,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "breticshipdeck01.dds",
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag01.dds",
+    "miscbag02.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boards.Mat.002",
+    "Bucket01:0.Mat.005",
+    "Canoe:69.Mat.004",
+    "Canoe:70.Mat",
+    "CrateCommon:0.Mat.007",
+    "CrateCommon:2.Mat.003",
+    "CrateSmall02:004.Mat.007",
+    "CrateSmall02:005.Mat.005",
+    "CrateSmall02:1.Mat.007",
+    "CrateSmall02:3.Mat.005",
+    "L1_BoatDetails.Mat.004",
+    "MiscSack02Large01:0.Mat.007",
+    "MiscSack02Large01:002.Mat.007",
+    "MiscSack02Large01:1.Mat.003",
+    "ShipRowBoat01:3.Mat.004",
+    "ShipRowBoat01:5 - L1_BoatDetails:5.Mat.004"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.1395,
+    "p50": 0.1395,
+    "p75": 0.1395,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.1395
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.14,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.932,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.14
+  },
+  {
+   "id": "sailboats:sailboats/rowboatnord",
+   "node": "es|2e94954cd8|sailboats__sailboats_rowboatnord",
+   "category": "misc",
+   "sizeM": [
+    2.096,
+    5.749,
+    1.547
+   ],
+   "originOffsetM": [
+    1.048,
+    2.675,
+    0.071
+   ],
+   "triangles": 10210,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds",
+    "cratewood01.dds",
+    "cratewood02.dds",
+    "cratewood03.dds",
+    "gray.dds",
+    "miscbag02.dds",
+    "nordshipdeck01.dds",
+    "nordshiprope01.dds",
+    "nordshipside01.dds",
+    "nordshipwood01.dds",
+    "nordshipwood02.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat.006",
+    "Canoe:69.Mat.005",
+    "Canoe:73.Mat.004",
+    "CrateCommon:0.Mat.008",
+    "CrateCommon:2.Mat.004",
+    "CrateSmall02:004.Mat.008",
+    "CrateSmall02:005.Mat.006",
+    "CrateSmall02:1.Mat.008",
+    "CrateSmall02:3.Mat.006",
+    "Floorboards.Mat",
+    "Hull.Mat.002",
+    "MiscSack02Large01:0.Mat.008",
+    "MiscSack02Large01:002.Mat.008",
+    "Rowlocks.Mat",
+    "Seats.Mat",
+    "Trim.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.0711,
+    "p50": -0.0711,
+    "p75": -0.0711,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0711
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.071,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.071
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01",
+   "node": "es|562a6fe156|yrodiilicships_shipcyrodiiliccityferry01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    4.733,
+    8.494,
+    6.854
+   ],
+   "originOffsetM": [
+    2.419,
+    4.247,
+    0.507
+   ],
+   "triangles": 8058,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipcyrodiilicnavysails01.dds.001",
+    "shipcyrodiilicwood01.dds.001",
+    "shipcyrodiilicwoodside01.dds.001",
+    "shiphullweed01.dds.001",
+    "shipredguardshiprope01.dds.001",
+    "whlogend.dds"
+   ],
+   "materials": [
+    "Canopy.Mat.001",
+    "Flag.Mat.001",
+    "Impferrypontoon.Mat.001",
+    "Impferrypontoon001.Mat.001",
+    "pontoon ends001.Mat.001",
+    "shipwood.Mat.001",
+    "supersturecture rope.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Canopy.Mat.001": 0.235,
+    "Flag.Mat.001": 0.196,
+    "Impferrypontoon001.Mat.001": 0.078
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.507,
+    "p50": -0.507,
+    "p75": -0.507,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.507
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.507,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.507
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01",
+   "node": "es|7d17dc15fc|rodiilicships_shipcyrodiilicriverferry01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    8.689,
+    10.39,
+    6.153
+   ],
+   "originOffsetM": [
+    4.272,
+    5.195,
+    0.583
+   ],
+   "triangles": 16645,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipcyrodiilicnavysails01.dds.001",
+    "shipcyrodiilicrope01.dds",
+    "shipcyrodiilicwood01.dds.001",
+    "shiphullweed01.dds.001",
+    "shipredguardshiprope01.dds.001",
+    "whlogend.dds"
+   ],
+   "materials": [
+    "Canopy.Mat.002",
+    "Flag.Mat.002",
+    "Pontoonalpha01.Mat",
+    "log ends.Mat",
+    "metal.Mat",
+    "ropes.Mat",
+    "shipwood.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "Canopy.Mat.002": 0.275,
+    "Flag.Mat.002": 0.392,
+    "Pontoonalpha01.Mat": 0.059
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5827,
+    "p50": -0.5827,
+    "p75": -0.5827,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5827
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.583,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.909,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.583
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01",
+   "node": "es|97e6a09ae2|_cyrodiilicships_shipcyrodiilicrowboat01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    2.604,
+    6.293,
+    1.626
+   ],
+   "originOffsetM": [
+    1.302,
+    3.135,
+    0.402
+   ],
+   "triangles": 3368,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipbsrope01.dds",
+    "shipcyrodiilicdeck01.dds",
+    "shipcyrodiilicwood01.dds.001",
+    "shipcyrodiilicwoodside01.dds.001"
+   ],
+   "materials": [
+    "planks.Mat",
+    "shiprope.Mat",
+    "shipwood.Mat.003",
+    "shipwoodside.Mat",
+    "trim.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.4019,
+    "p50": -0.4019,
+    "p75": -0.4019,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "settingClass": {
+    "settings": {},
+    "n": 0,
+    "interior": {},
+    "exterior": {},
+    "sourceCells": [],
+    "evidence": "unplaced",
+    "vehicle": true
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4019
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.402,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.402
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked",
+   "node": "es|d696f7c8a9|ilicships_shipcyrodiilicgalleon01_docked",
+   "category": "dungeon-kit",
+   "sizeM": [
+    14.206,
+    36.591,
+    30.896
+   ],
+   "originOffsetM": [
+    7.103,
+    19.594,
+    4.114
+   ],
+   "triangles": 51440,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "glasswindow01.dds",
+    "shipbsrope01.dds",
+    "shipcyrodiilicdeck01.dds",
+    "shipcyrodiilicwood01.dds.001",
+    "shipcyrodiilicwoodside01.dds.001",
+    "shiphullweed01.dds.001",
+    "shipname_n.dds"
+   ],
+   "materials": [
+    "Weed layer.Mat",
+    "alphanameplate.Mat",
+    "deck alpha.Mat",
+    "doorbox.Mat",
+    "sails - docked.Mat",
+    "shipdeck.Mat",
+    "shiprope.Mat.001",
+    "shipwindows.Mat",
+    "shipwood.Mat.004",
+    "shipwoodside.Mat.001",
+    "signwood.Mat"
+   ],
+   "glowMaterials": [
+    "shipwindows.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Weed layer.Mat": 0.118,
+    "deck alpha.Mat": 0.224
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.1136,
+    "p50": -4.1136,
+    "p75": -4.1136,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "stilt-foot",
+    "valueM": -4.1136
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.114,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "glowFacingsDeg": [
+    27.4,
+    81.1,
+    278.9,
+    332.6
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.947,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.114
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked",
+   "node": "es|1c29c8ebf9|ips_shipcyrodiilicnavyshipsmall01_docked",
+   "category": "dungeon-kit",
+   "sizeM": [
+    8.042,
+    19.004,
+    17.188
+   ],
+   "originOffsetM": [
+    4.022,
+    11.589,
+    1.752
+   ],
+   "triangles": 34383,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "anvbronzetiles01.dds",
+    "shipcyrodiilicdeck01.dds",
+    "shipcyrodiilicnavyrope01.dds",
+    "shipcyrodiilicnavysails01.dds.001",
+    "shipcyrodiilicwood01.dds.001",
+    "shipcyrodiilicwoodside01.dds.001",
+    "shiphullweed01.dds.001",
+    "shipname_n.dds"
+   ],
+   "materials": [
+    "Nameplate-sloop01.Mat",
+    "Shipmetal.Mat",
+    "alphanameplate03.Mat",
+    "docked - sails.Mat",
+    "flags - docked.Mat",
+    "hull_alpha.Mat",
+    "shipdeck.Mat.001",
+    "shipdeck_alpha.Mat",
+    "shiprope.Mat.002",
+    "shiprope_HP.Mat",
+    "shipwood.Mat.005",
+    "shipwoodside.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "alphanameplate03.Mat": 0.502,
+    "hull_alpha.Mat": 0.098,
+    "shipdeck_alpha.Mat": 0.18
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -1.752,
+    "p50": -1.752,
+    "p75": -1.752,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "stilt-foot",
+    "valueM": -1.752
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 1.752,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.907,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.752
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01",
+   "node": "es|ebd2d4699a|ships_cyrodiilicships_shipeectradeship01",
+   "category": "dungeon-kit",
+   "sizeM": [
+    13.496,
+    30.072,
+    22.033
+   ],
+   "originOffsetM": [
+    6.748,
+    15.041,
+    3.174
+   ],
+   "triangles": 54708,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "glasswindow01.dds",
+    "shipbsrope01.dds",
+    "shipcyrodiilicdeck01.dds",
+    "shipcyrodiilicnavysails01.dds.001",
+    "shipcyrodiilicwood01.dds.001",
+    "shipcyrodiilicwoodside01.dds.001"
+   ],
+   "materials": [
+    "DeckCover.Mat",
+    "Shipdeck.Mat",
+    "Shiprope.Mat.002",
+    "Shipwood.Mat",
+    "Shipwoodside.Mat",
+    "Windowpane.Mat",
+    "docked - sailsfurled.Mat.001",
+    "doorblock01.Mat"
+   ],
+   "glowMaterials": [
+    "Windowpane.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.174,
+    "p50": -3.174,
+    "p75": -3.174,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.174
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.174,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "glowFacingsDeg": [
+    0.6,
+    180.6
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.891,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.174
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01",
+   "node": "es|d22fc52218|ships_breticships_shipbreticrennenboat01",
+   "category": "boat",
+   "sizeM": [
+    4.284,
+    9.962,
+    8.067
+   ],
+   "originOffsetM": [
+    1.801,
+    4.981,
+    0.636
+   ],
+   "triangles": 9529,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipbreticdeck01.dds",
+    "shipbreticrope01.dds",
+    "shipbreticwood01.dds",
+    "shipbreticwoodside01.dds",
+    "shipbreticwoodsidecarved01.dds"
+   ],
+   "materials": [
+    "Shipdeck.Mat.001",
+    "Shiprope.Mat.003",
+    "Shipwood.Mat.001",
+    "Shipwoodside-carved.Mat",
+    "Shipwoodside.Mat.001",
+    "docked-Sailfurled.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.6356,
+    "p50": -0.6356,
+    "p75": -0.6356,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.6356
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.636,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.906,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.636
+  },
+  {
+   "id": "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01",
+   "node": "es|00447383ab|_breticships_shipbreticgreyteship_hull01",
+   "category": "boat",
+   "sizeM": [
+    11.652,
+    31.189,
+    13.495
+   ],
+   "originOffsetM": [
+    5.826,
+    16.366,
+    4.614
+   ],
+   "triangles": 28504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipbreticdeck01.dds",
+    "shipbreticwindow01.dds",
+    "shipbreticwood01.dds",
+    "shipbreticwoodside01.dds",
+    "shipbreticwoodsidecarved01.dds",
+    "shipbsrope01.dds"
+   ],
+   "materials": [
+    "Hull.Mat.003",
+    "Shipdecka.Mat",
+    "Shipwindows.Mat",
+    "Shipwood.Mat.002",
+    "carvings5.Mat",
+    "shiprope.Mat.003"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -4.6137,
+    "p50": -4.6137,
+    "p75": -4.6137,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -4.6137
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 4.614,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.614
+  },
+  {
+   "id": "bmv:architecture/ships/imperialship01base",
+   "node": "es|bc9d24a152|v__architecture_ships_imperialship01base",
+   "category": "architecture",
+   "sizeM": [
+    29.142,
+    10.027,
+    11.488
+   ],
+   "originOffsetM": [
+    12.347,
+    5.677,
+    5.638
+   ],
+   "triangles": 12321,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "metalwork01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds",
+    "swindow01.dds",
+    "swoodbeam01.dds",
+    "swoodbeam02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "BaseWood.Mat",
+    "Metal.Mat",
+    "ShipHull.Mat",
+    "Windows.Mat",
+    "WoodFLoor.Mat",
+    "WoodFrames.Mat",
+    "WoodOrnaments.Mat"
+   ],
+   "glowMaterials": [
+    "Windows.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -5.6384,
+    "p50": -5.6384,
+    "p75": -5.6384,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 23,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -5.6384
+   },
+   "designedWaterlineM": -0.2276,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 5.638,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "glowFacingsDeg": [
+    12.2,
+    59.3,
+    120.7,
+    167.8
+   ],
+   "undersideClosed": true,
+   "undersideCoverage": 0.991,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.638
+  },
+  {
+   "id": "bmv:architecture/ships/imperialship01masts",
+   "node": "es|90e07f5346|__architecture_ships_imperialship01masts",
+   "category": "architecture",
+   "sizeM": [
+    33.158,
+    15.924,
+    24.457
+   ],
+   "originOffsetM": [
+    16.795,
+    8.775,
+    0.361
+   ],
+   "triangles": 46625,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "metalwork01.dds",
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "swoodbeam01.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "Object001.Mat",
+    "Object002.Mat",
+    "Object003.Mat",
+    "Object004.Mat",
+    "RopesAndSails.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 2.9434,
+    "p50": 2.9434,
+    "p75": 2.9434,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "placedScaleMedian": 1.0,
+   "placedScaleEvidence": {
+    "n": 22,
+    "p10": 1.0,
+    "p90": 1.0,
+    "source": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 2.9434
+   },
+   "designedWaterlineM": 0.208,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.361,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.282,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.361
+  },
+  {
+   "id": "bmv:architecture/boats/rowboat01",
+   "node": "es|04d403cfbc|bmv__architecture_boats_rowboat01",
+   "category": "architecture",
+   "sizeM": [
+    2.777,
+    7.732,
+    1.528
+   ],
+   "originOffsetM": [
+    1.389,
+    3.866,
+    0.764
+   ],
+   "triangles": 3634,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat",
+    "Rowboatbase.Mat",
+    "Rowboatdetails.Mat"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.7639,
+    "p50": -0.7639,
+    "p75": -0.7639,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7639
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.764,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "bmv:architecture/boats/rowboatbrokenback",
+   "node": "es|567cc3021e|mv__architecture_boats_rowboatbrokenback",
+   "category": "architecture",
+   "sizeM": [
+    2.777,
+    3.894,
+    1.269
+   ],
+   "originOffsetM": [
+    1.389,
+    3.866,
+    0.764
+   ],
+   "triangles": 1672,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat.001",
+    "Object001.Mat.001",
+    "Rowboatdetails.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.7638,
+    "p50": -0.7638,
+    "p75": -0.7638,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7638
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.764,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.882,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
+  },
+  {
+   "id": "bmv:architecture/boats/rowboatbrokenfront",
+   "node": "es|35c5d344a6|v__architecture_boats_rowboatbrokenfront",
+   "category": "architecture",
+   "sizeM": [
+    2.711,
+    4.854,
+    1.521
+   ],
+   "originOffsetM": [
+    1.352,
+    0.988,
+    0.757
+   ],
+   "triangles": 1550,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiprope01.dds",
+    "shipwood01.dds",
+    "shipwoodside01.dds"
+   ],
+   "materials": [
+    "Boatwood.Mat.002",
+    "Object001.Mat.002",
+    "Rowboatdetails.Mat.002"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.7572,
+    "p50": -0.7572,
+    "p75": -0.7572,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7572
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.757,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.757
+  },
+  {
+   "id": "bmv:nordships/shipnordrowboat",
+   "node": "es|db61315b3b|bmv__nordships_shipnordrowboat",
+   "category": "boat",
+   "sizeM": [
+    2.994,
+    8.212,
+    2.21
+   ],
+   "originOffsetM": [
+    1.497,
+    4.106,
+    0.508
+   ],
+   "triangles": 5950,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "nordshipdeck01.dds.001",
+    "nordshiprope01.dds.001",
+    "nordshipside01.dds.001",
+    "nordshipwood01.dds.001",
+    "nordshipwood02.dds.001"
+   ],
+   "materials": [
+    "Floorboards.Mat.001",
+    "Hull.Mat.004",
+    "Rowlocks.Mat.001",
+    "Seats.Mat.001",
+    "Trim.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.5079,
+    "p50": -0.5079,
+    "p75": -0.5079,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.5079
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.508,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.508
+  },
+  {
+   "id": "bmv:nordships/shipnordtradeship",
+   "node": "es|5035087a6f|bmv__nordships_shipnordtradeship",
+   "category": "boat",
+   "sizeM": [
+    15.223,
+    22.101,
+    15.8
+   ],
+   "originOffsetM": [
+    7.612,
+    11.05,
+    0.214
+   ],
+   "triangles": 13929,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "nordshipdeck01.dds.002",
+    "nordshipdragontileblack01.dds",
+    "nordshiprope01.dds.002",
+    "nordshipsails01.dds.001",
+    "nordshipside01.dds.002",
+    "nordshipwood01.dds.001",
+    "nordshipwood02.dds.002"
+   ],
+   "materials": [
+    "Cabin roof.Mat.002",
+    "Deckandstairs.Mat.002",
+    "Hull.Mat.005",
+    "Shiprope.Mat.004",
+    "Shipwood01.Mat.002",
+    "Shipwood02.Mat.002",
+    "docked - sailsfurled.Mat.002",
+    "sailing - sailsset.Mat.001",
+    "sailing - shiprope.Mat.001",
+    "sailing - shipwood02.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.214,
+    "p50": -0.214,
+    "p75": -0.214,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.214
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.214,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.878,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.214
+  },
+  {
+   "id": "bmv:nordships/shipnordtradeshipbeached",
+   "node": "es|3a786ffdc8|bmv__nordships_shipnordtradeshipbeached",
+   "category": "boat",
+   "sizeM": [
+    6.998,
+    22.101,
+    15.523
+   ],
+   "originOffsetM": [
+    3.499,
+    11.05,
+    -0.063
+   ],
+   "triangles": 12773,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "nordshipdeck01.dds.002",
+    "nordshipdragontileblack01.dds",
+    "nordshiprope01.dds.002",
+    "nordshipside01.dds.002",
+    "nordshipwood01.dds.001",
+    "nordshipwood02.dds.002"
+   ],
+   "materials": [
+    "Cabin roof.Mat.003",
+    "Deckandstairs.Mat.003",
+    "Hull.Mat.006",
+    "Shiprope.Mat.005",
+    "Shipwood01.Mat.003",
+    "Shipwood02.Mat.003"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": 0.0634,
+    "p50": 0.0634,
+    "p75": 0.0634,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0634
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.063,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.828,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.063
+  },
+  {
+   "id": "bmv:breticships/shipbreticjollyboat",
+   "node": "es|0329f17164|bmv__breticships_shipbreticjollyboat",
+   "category": "boat",
+   "sizeM": [
+    4.558,
+    10.486,
+    8.067
+   ],
+   "originOffsetM": [
+    1.801,
+    5.505,
+    0.636
+   ],
+   "triangles": 10358,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "breticshipdeck01.dds.001",
+    "breticshiprope01.dds.001",
+    "breticshipsails01.dds.001",
+    "breticshipside01.dds.001",
+    "breticshipside02.dds.001"
+   ],
+   "materials": [
+    "Blocks, tiller.Mat.002",
+    "Boards.Mat.003",
+    "Flags002.Mat.002",
+    "Hull and masts.Mat.002",
+    "Hull detail002.Mat.002",
+    "Shiprope002.Mat.002",
+    "docked-Sailfurled.Mat.002",
+    "sailing-Sailsandropes:1.Mat.001",
+    "sailing-Sailsandropes:2.Mat.001",
+    "sailing-blocks.Mat.001"
+   ],
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -0.6356,
+    "p50": -0.6356,
+    "p75": -0.6356,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.6356
+   },
+   "designedWaterlineM": 0.0,
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.636,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.907,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.636
+  },
+  {
+   "id": "bmv:transport/ships/ghostship",
+   "node": "es|6ec10893f3|bmv__transport_ships_ghostship",
+   "category": "vehicle",
+   "sizeM": [
+    21.6,
+    76.086,
+    43.949
+   ],
+   "originOffsetM": [
+    11.773,
+    38.016,
+    3.42
+   ],
+   "triangles": 3510,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "ghostship.dds"
+   ],
+   "materials": [
+    "PLC_BC_SHIPGST.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "PLC_BC_SHIPGST.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -3.4196,
+    "p50": -3.4196,
+    "p75": -3.4196,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -3.4196
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 3.42,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.535,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.42
+  },
+  {
+   "id": "bmv:transport/ships/merchant_ship",
+   "node": "es|b1632e54fd|bmv__transport_ships_merchant_ship",
+   "category": "vehicle",
+   "sizeM": [
+    14.767,
+    40.21,
+    32.9
+   ],
+   "originOffsetM": [
+    7.395,
+    20.105,
+    5.057
+   ],
+   "triangles": 2139,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "merchant_ship_01.dds",
+    "merchant_ship_02.dds"
+   ],
+   "materials": [
+    "PLC_BC_SHIPCAR1_01.Mat",
+    "PLC_BC_SHIPCAR1_02.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "PLC_BC_SHIPCAR1_01.Mat": 0.784,
+    "PLC_BC_SHIPCAR1_02.Mat": 0.784
+   },
+   "lodLevels": 3,
+   "designedSinkM": {
+    "p25": -5.0573,
+    "p50": -5.0573,
+    "p75": -5.0573,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -5.0573
+   },
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 5.057,
+    "buryCapM": 0.0,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.956,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.057
+  }
+ ],
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\watercraft-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/bstamriel/dungeons/ships/cyrodiilicships/shipnames/shipname_makeyourown.dds"
+ ],
+ "texturesSubstituted": {
+  "textures/bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrope01.dds": "textures/BSTamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrope01.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipdeck01.dds": "textures/nordships/nordshipdeck01.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipdeck01_n.dds": "textures/nordships/nordshipdeck01_n.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshiprope01.dds": "textures/nordships/nordshiprope01.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshiprope01_n.dds": "textures/nordships/nordshiprope01_n.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipside01.dds": "textures/nordships/nordshipside01.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipside01_n.dds": "textures/nordships/nordshipside01_n.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipwood02.dds": "textures/nordships/nordshipwood02.dds",
+  "textures/bstamriel/dungeons/ships/nordships/nordshipwood02_n.dds": "textures/nordships/nordshipwood02_n.dds",
+  "textures/dungeons/metalwork01.dds": "textures/architecture/metalwork01.dds",
+  "textures/dungeons/metalwork01_n.dds": "textures/architecture/metalwork01_n.dds",
+  "textures/runs/transport/ships/ghostship.dds": "textures/randomresourceships-beds/transport/ships/ghostship.dds",
+  "textures/runs/transport/ships/ghostship_n.dds": "textures/randomresourceships-beds/transport/ships/ghostship_n.dds",
+  "textures/runs/transport/ships/merchant_ship_01.dds": "textures/randomresourceships-beds/transport/ships/merchant_ship_01.dds",
+  "textures/runs/transport/ships/merchant_ship_01_n.dds": "textures/randomresourceships-beds/transport/ships/merchant_ship_01_n.dds",
+  "textures/runs/transport/ships/merchant_ship_02.dds": "textures/randomresourceships-beds/transport/ships/merchant_ship_02.dds"
+ },
+ "alphaModes": {
+  "MASK": 26,
+  "OPAQUE": 363,
+  "BLEND": 0
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
+ },
+ "compression": {
+  "schemaVersion": 1,
+  "tool": "gltfpack 1.2",
+  "args": [
+   "-cc",
+   "-tc",
+   "-tq",
+   "8",
+   "-kn",
+   "-km",
+   "-ke",
+   "-vtf",
+   "-vpf",
+   "-tj",
+   "4",
+   "-tu",
+   "color,normal,attrib"
+  ],
+  "textures": {
+   "color": "uastc",
+   "normal": "uastc",
+   "attrib": "uastc"
+  },
+  "textureQuality": 8,
+  "textureContainer": "ktx2",
+  "geometry": "EXT_meshopt_compression",
+  "bytesBefore": 82224356,
+  "bytesAfter": 31654616,
+  "images": 94,
+  "imageBytesAfter": 22693665,
+  "warnings": [],
+  "sha256": "94592e448eb5bbc1a8fa30c1f44b223dfc123f4b8737fb186ad1aa2fe155ce45",
+  "sidecarBytes": {
+   "connectors": 23858,
+   "footprints": 88312,
+   "interiors": 35806
+  }
+ }
+}

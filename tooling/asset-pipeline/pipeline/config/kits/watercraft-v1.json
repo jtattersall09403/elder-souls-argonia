@@ -8,6 +8,12 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "textureAliases": {
+  "textures/bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrope01.dds": "textures/BSTamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrope01.dds"
+ },
+ "texturesMissingAccepted": {
+  "textures/bstamriel/dungeons/ships/cyrodiilicships/shipnames/shipname_makeyourown.dds": "genuinely absent from the vault (ships-and-boats-of-tamriel-41653 and every sibling pool searched by directory listing): the mesh's own naming (`_makeyourown`) marks it as a modder's build-your-own-name placeholder slot, never a shipped texture, so it ships untextured rather than faked"
+ },
  "snapLogic": {
   "placement": "Hulls are placed, not snapped. Each mesh's origin is at its own waterline-ish base; sit it on the water plane and let the mooring rope/cleat from docks-v1 do the tying. `shiprowboatanim01` (rowboats pool) carries its own NiControllerSequence bobbing motion and is the reference for moored-boat motion — the only clean animated hull we own.",
   "sailing-variants": "Ships and Boats of Tamriel ships each hull twice, `_docked` and `_sailing` (sails furled vs set); the sailboats pool does the same with plain vs `furled` names. Pick ONE per placement — they are alternative states of the same vessel, never two boats.",
@@ -15,7 +21,9 @@
  },
  "assets": [
   {
-   "asset": "canoe:actors/sfss/canoe/canoe1"
+   "asset": "canoe:actors/sfss/canoe/canoe1",
+   "collision": "mesh",
+   "collisionNote": "the mesh sits under actors/sfss/ so build_kit reads it as a creature; it is a static dugout hull with no rig, so the mesh collider is authored explicitly (16h K6, test_kit_colliders)"
   },
   {
    "asset": "canoe:weapons/sfss/shipoar01"
