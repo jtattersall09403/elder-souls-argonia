@@ -50,7 +50,7 @@ import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import {
-  FrameSegments, FrameSegmentsContext, useFrameSegments,
+  FrameSegments, FrameSegmentsContext, useFrameSegments, useMarkedFrame,
   type FrameGpuSummary, type FrameSegmentStats, type SegmentStat,
 } from "@elder-souls/game-core/fx/frameSegments";
 import { useHiddenLayers } from "../ladder";
@@ -1547,14 +1547,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
 
   // Character + physics stage of the frame (decision 0084 round 10). The HUD
   // splits it: "physics" is the fixed-step rapier loop, "char" the driver
-  // around it, and "after-char" every priority-0 hook that subscribed after
-  // this one (actors, combat, colliders, doors, the water surface), which
-  // the "char" row used to absorb (walk 5 perf).
-  useFrame((_, rawDelta) => {
-    segments?.cpuMark("char");
-    driveCharacter(rawDelta);
-    segments?.cpuMark("after-char");
-  });
+  // around it; "combat", "actors" and "surface" claim their own hooks and
+  // "other" is what no hook claims, all of which the "char" row used to
+  // absorb (walk 5 perf).
+  useMarkedFrame("char", (_, rawDelta) => driveCharacter(rawDelta));
   const driveCharacter = (rawDelta: number) => {
     frameCount.current += 1;
     const delta = Math.min(rawDelta, 1 / 30);

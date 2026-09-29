@@ -19,6 +19,7 @@
  * passes it down through `FrameSegmentsContext`.
  */
 import { createContext, useContext } from "react";
+import { useFrame, type RenderCallback } from "@react-three/fiber";
 
 const AVG_FRAMES = 60;
 const MAX_FRAMES = 120;
@@ -309,4 +310,25 @@ export const FrameSegmentsContext = createContext<FrameSegments | null>(null);
 
 export function useFrameSegments(): FrameSegments | null {
   return useContext(FrameSegmentsContext);
+}
+
+/** CPU label for the priority-0 work no hook has claimed. */
+export const UNCLAIMED_CPU_LABEL = "other";
+
+/**
+ * `useFrame` whose main-thread time the HUD shows under `label` (walk 5 perf).
+ * The CPU clock charges everything to the last mark until the next one, so a
+ * hook that marks only its start also absorbs every unmarked hook after it
+ * (that is how the "char" row came to carry the combat runtime, the actors
+ * and the water surface). This marks the start AND hands the clock back to
+ * `UNCLAIMED_CPU_LABEL` at the end. No allocation per frame; no-op without a
+ * `FrameSegmentsContext` (the combat sandbox).
+ */
+export function useMarkedFrame(label: string, callback: RenderCallback, priority?: number): void {
+  const segments = useFrameSegments();
+  useFrame((state, delta, frame) => {
+    if (!segments) { callback(state, delta, frame); return; }
+    segments.cpuMark(label);
+    try { callback(state, delta, frame); } finally { segments.cpuMark(UNCLAIMED_CPU_LABEL); }
+  }, priority);
 }

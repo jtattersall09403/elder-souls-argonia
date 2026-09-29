@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { buildPoolGeometry } from "./PoolDiscs";
 import type { LocalPoolRecord, LocalWaterSurfaces } from "../localSurfaces";
-import { useFrame } from "@react-three/fiber";
+import { useMarkedFrame } from "../../fx/frameSegments";
 import * as THREE from "three";
 import { getWindWaveScale, whitecapThreshold } from "@elder-souls/game-core/water/index";
 import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
@@ -315,7 +315,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   }, [materials]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame(({ camera, gl }, delta) => {
+  useMarkedFrame("surface", ({ camera, gl }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     // Dev layer toggle (?waterLayers=): each of the four things the water

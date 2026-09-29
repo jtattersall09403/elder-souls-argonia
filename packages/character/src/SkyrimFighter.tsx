@@ -5,7 +5,7 @@ import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/f
 import { constrainDrawingHand } from "./bowConstraints";
 import { assetUrl } from "./assetBase";
 import { useAnimations, useGLTF } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useMarkedFrame } from "@elder-souls/game-core/fx/frameSegments";
 import { Suspense, useCallback, useLayoutEffect, useMemo, useRef, useState, type MutableRefObject } from "react";
 import * as THREE from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
@@ -849,7 +849,7 @@ function PosedActor({
   const bowAlignment = useRef(new THREE.Quaternion());
   const drawConstraintWeight = useRef(0);
   const drawingJointRotations = useRef(new Map<THREE.Object3D, THREE.Quaternion>());
-  useFrame((_, delta) => {
+  useMarkedFrame("actors", (_, delta) => {
     for (const [bone, pose] of constrainedBones.current) bone.quaternion.copy(pose);
     constrainedBones.current.clear();
     const command = animationCommandRef.current;
