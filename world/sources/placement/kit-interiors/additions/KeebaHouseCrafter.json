@@ -1,0 +1,126 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseCrafter",
+ "additions": [
+  {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.767,
+    89.865,
+    59.28
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the book left open on the table."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-02",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.332,
+    83.653,
+    57.596
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the plate set out for supper."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-03",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    103.115,
+    83.653,
+    57.921
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the vase of dried reeds."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:table-glazedcandles-04",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    104.767,
+    83.653,
+    62.915
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the pair of glazed vases."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:bed-argonianlanterns-05",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    103.44,
+    85.813,
+    53.427
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the storage urns beside the bed."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:bed-argonianlanterns-06",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    109.44,
+    85.813,
+    53.927
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the firewood stacked by the bed."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:store-argonianlanterns-07",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    105.44,
+    85.813,
+    53.927
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the rug inside the doorway."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:bed-argonianlanterns-08",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    101.44,
+    85.821,
+    55.427
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the stair rail woven from reed."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:store-argonianlanterns-09",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    109.44,
+    88.808,
+    61.427
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the shelf beneath the window."
+  },
+  {
+   "id": "KeebaHouseCrafter:add:store-argonianlanterns-10",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    106.44,
+    85.636,
+    56.427
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the hanging feathers by the shelves."
+  }
+ ]
+}

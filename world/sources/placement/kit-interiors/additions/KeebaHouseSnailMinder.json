@@ -1,0 +1,150 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseSnailMinder",
+ "additions": [
+  {
+   "id": "KeebaHouseSnailMinder:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    108.207,
+    84.335,
+    57.476
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the low table by the chair."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:table-glazedcandles-02",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.005,
+    84.324,
+    61.204
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the tongs and drying snail meat."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:table-glazedcandles-03",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    107.764,
+    86.98,
+    59.085
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the knife on the second table."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:table-glazedcandles-04",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    105.915,
+    84.22,
+    63.338
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the honeycomb and lichen basket."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-05",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    99.291,
+    89.005,
+    59.472
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the shelf of drying lichen."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-06",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    103.291,
+    89.136,
+    54.972
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the chair by the woven fence."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:door-argonianlanterns-07",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    105.291,
+    88.607,
+    52.472
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the doorway through the reed fence."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-08",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    104.291,
+    89.136,
+    57.972
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the roof post and the ledger."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-09",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    105.791,
+    89.136,
+    55.972
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the bench beneath the fence rail."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:bed-argonianlanterns-10",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    111.791,
+    88.161,
+    56.972
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the bedding laid against the wall."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-11",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    110.791,
+    87.707,
+    54.472
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the window above the stairs."
+  },
+  {
+   "id": "KeebaHouseSnailMinder:add:store-argonianlanterns-12",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    101.791,
+    89.128,
+    58.472
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the passage past the roof post."
+  }
+ ]
+}

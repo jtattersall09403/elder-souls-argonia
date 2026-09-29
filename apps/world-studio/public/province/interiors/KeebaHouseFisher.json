@@ -2119,6 +2119,174 @@
    "category": "item",
    "base": "KoTMBookHowHackwingGotHerTail",
    "baseType": "BOOK"
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-argonianlanterns-06",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    102.702,
+    87.101,
+    52.104
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "bed"
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-argonianlanterns-07",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    103.702,
+    87.26,
+    61.104
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "bed"
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-04",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    109.702,
+    85.813,
+    60.104
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-05",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    110.702,
+    85.813,
+    55.604
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-08",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "kit": "mudmother-hut-int",
+   "positionM": [
+    104.702,
+    85.97,
+    54.104
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.509,
+    83.646,
+    56.458
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-02",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.276,
+    87.154,
+    51.552
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-03",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.251,
+    83.534,
+    50.746
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
   }
  ],
  "lights": [
@@ -2239,6 +2407,198 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 256,
     "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:bed-argonianlanterns-06",
+   "positionM": [
+    102.702,
+    86.551,
+    52.104
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:bed-argonianlanterns-07",
+   "positionM": [
+    103.702,
+    86.71,
+    61.104
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:store-argonianlanterns-04",
+   "positionM": [
+    109.702,
+    85.263,
+    60.104
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:store-argonianlanterns-05",
+   "positionM": [
+    110.702,
+    85.263,
+    55.604
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:store-argonianlanterns-08",
+   "positionM": [
+    104.702,
+    85.42,
+    54.104
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    247,
+    139,
+    43
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "SLightStreetStreet01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": null,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-01",
+   "positionM": [
+    103.329,
+    84.406,
+    56.378
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-02",
+   "positionM": [
+    108.096,
+    87.914,
+    51.472
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:KeebaHouseFisher:add:table-glazedcandles-03",
+   "positionM": [
+    106.071,
+    84.294,
+    50.666
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
     "recordFalloffExponent": 1.0
    }
   }
@@ -3129,9 +3489,9 @@
   }
  ],
  "counts": {
-  "placements": 105,
+  "placements": 113,
   "drops": 9,
-  "lights": 5,
+  "lights": 13,
   "substitutions": 12,
   "swingDoors": 0,
   "missingByClass": {},
@@ -3145,6 +3505,7 @@
    "container": 8,
    "idle": 12,
    "item": 18
-  }
+  },
+  "additions": 8
  }
 }

@@ -48,7 +48,8 @@
   },
   "bmv:architecture/ships/imperialship01base": {
    "category": "architecture",
-   "closedShellPromotedBy": "door-piece",
+   "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredAboveFloorM": 8.7,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -187,11 +188,11 @@
    "headroomM": 1.74,
    "heightM": 15.52,
    "interior": "none",
-   "medianWallM": 3.38,
-   "planAreaM2": 105.28,
+   "medianWallM": 3.43,
+   "planAreaM2": 105.25,
    "planCentreM": [
-    -0.08,
-    1.25
+    -0.01,
+    1.21
    ],
    "provenance": [],
    "ringFraction": 1.0,
@@ -202,6 +203,27 @@
   "bmv:transport/ships/ghostship": {
    "category": "vehicle",
    "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 3.57,
+     "kind": "opening",
+     "offsetM": [
+      -3.21,
+      -29.97
+     ],
+     "sideDeg": 355.0
+    },
+    {
+     "arcM": 3.56,
+     "kind": "opening",
+     "offsetM": [
+      2.11,
+      -29.7
+     ],
+     "sideDeg": 10.0
+    }
+   ],
+   "doorwaysMeasuredAboveFloorM": 16.0,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -224,6 +246,8 @@
   },
   "bmv:transport/ships/merchant_ship": {
    "category": "vehicle",
+   "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredAboveFloorM": 22.5,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -325,7 +349,7 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 224.7,
+    "deg": 224.8,
     "evidence": "asymmetry",
     "outside": true,
     "why": "the band at 225\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
@@ -718,9 +742,25 @@
   },
   "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01": {
    "category": "boat",
-   "doorwayProbeCentreM": [
-    0.83,
-    4.91
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 12.16,
+     "kind": "open-front",
+     "offsetM": [
+      -1.95,
+      5.4
+     ],
+     "sideDeg": 195.12
+    },
+    {
+     "arcM": 4.73,
+     "kind": "opening",
+     "offsetM": [
+      -1.62,
+      0.21
+     ],
+     "sideDeg": 217.38
+    }
    ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
@@ -735,11 +775,11 @@
    "headroomM": 3.34,
    "heightM": 13.5,
    "interior": "none",
-   "medianWallM": 4.78,
+   "medianWallM": 4.71,
    "planAreaM2": 271.96,
    "planCentreM": [
-    0.0,
-    -1.57
+    0.04,
+    -1.96
    ],
    "provenance": [],
    "ringFraction": 1.0,
@@ -803,6 +843,8 @@
   },
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked": {
    "category": "dungeon-kit",
+   "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredAboveFloorM": 6.74,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -825,6 +867,53 @@
   },
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked": {
    "category": "dungeon-kit",
+   "doorwaysClosedDropped": [
+    {
+     "arcM": 1.87,
+     "kind": "opening",
+     "offsetM": [
+      -1.5,
+      -2.43
+     ],
+     "sideDeg": 347.5
+    },
+    {
+     "arcM": 2.67,
+     "kind": "open-front",
+     "offsetM": [
+      1.96,
+      0.04
+     ],
+     "sideDeg": 37.85
+    },
+    {
+     "arcM": 2.55,
+     "kind": "opening",
+     "offsetM": [
+      1.65,
+      -2.32
+     ],
+     "sideDeg": 20.33
+    },
+    {
+     "arcM": 1.09,
+     "kind": "opening",
+     "offsetM": [
+      0.15,
+      0.11
+     ],
+     "sideDeg": 9.06
+    },
+    {
+     "arcM": 0.93,
+     "kind": "opening",
+     "offsetM": [
+      -1.19,
+      -3.8
+     ],
+     "sideDeg": 352.52
+    }
+   ],
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
@@ -859,7 +948,7 @@
     "deg": 78.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 78\u00b0 in the piece's own frame carries 3.14x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 78\u00b0 in the piece's own frame carries 3.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.971,
    "headroomM": 1.87,
@@ -896,6 +985,8 @@
   },
   "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01": {
    "category": "dungeon-kit",
+   "closedShellPromotedBy": "own-geometry-door",
+   "doorwaysMeasuredAboveFloorM": 7.4,
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,

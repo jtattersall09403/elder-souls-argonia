@@ -15,6 +15,21 @@ def test_select_frames_matches_the_runtime_fixture():
     assert np.allclose(w, [0.642873, 0.214253, 0.142873], atol=1e-4)
     assert abs(w.sum() - 1) < 1e-9
 
+    # Toward grid corners (0,0)/(n-1,n-1) the cell splits on its main diagonal.
+    frames, w = b.select_frames(np.array([-0.952579, 0.136083, -0.272166]), 12)
+    assert [tuple(map(int, f)) for f in frames] == [(0, 2), (1, 3), (0, 3)]
+    assert np.allclose(w, [0.249976, 0.550037, 0.199987], atol=1e-4)
+
+
+def test_low_axis_views_lean_on_the_on_axis_horizon_frame():
+    # gkb9 lost views 3 and 7 (azimuths +-X) to its card: with one split
+    # everywhere the on-axis frame there weighed 0.12 (decision 0108 sec 5).
+    el = np.radians(5)
+    for x, z, corner in ((1, 0, (11, 11)), (-1, 0, (0, 0)), (0, 1, (11, 0)), (0, -1, (0, 11))):
+        frames, w = b.select_frames(np.array([x * np.cos(el), np.sin(el), z * np.cos(el)]), 12)
+        k = [tuple(map(int, f)) for f in frames].index(corner)
+        assert w[k] > 0.5
+
 
 def test_grid_border_is_the_horizon_and_bases_are_orthonormal():
     for i in range(12):

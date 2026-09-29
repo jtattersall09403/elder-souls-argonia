@@ -1822,6 +1822,363 @@
    "category": "item",
    "base": "KoTMBookKeshuForeignAdventures01",
    "baseType": "BOOK"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:hearth-candlehornfloor-17",
+   "assetId": "vanilla:clutter/candles/candlehornfloor01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.986,
+    88.27,
+    76.711
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "hearth"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornchandelier-10",
+   "assetId": "vanilla:clutter/candles/candlehornchandelier01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    97.486,
+    87.089,
+    75.711
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-05",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    99.777,
+    90.451,
+    78.095
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-06",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    101.964,
+    88.015,
+    79.097
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-07",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    101.688,
+    85.979,
+    73.711
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-08",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    99.777,
+    83.817,
+    73.828
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-09",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.464,
+    82.098,
+    79.097
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-11",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    101.789,
+    82.2,
+    81.422
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-12",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    106.964,
+    85.966,
+    79.097
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-13",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    97.964,
+    83.767,
+    79.097
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-14",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.668,
+    82.098,
+    79.711
+   ],
+   "rotationDeg": [
+    0.0,
+    90.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-15",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    107.525,
+    85.98,
+    73.581
+   ],
+   "rotationDeg": [
+    0.0,
+    180.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:store-candlehornwall-16",
+   "assetId": "vanilla:clutter/candles/candlehornwall01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.454,
+    92.236,
+    76.711
+   ],
+   "rotationDeg": [
+    0.0,
+    270.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "store"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-01",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    105.614,
+    81.178,
+    73.848
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-02",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    109.221,
+    86.458,
+    74.075
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-03",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    104.027,
+    89.601,
+    74.33
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
+  },
+  {
+   "id": "LilmothGlassworksOverseerHouse:add:table-candlehorntable-04",
+   "assetId": "vanilla:clutter/candles/candlehorntable01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    103.386,
+    81.244,
+    79.55
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": null,
+   "baseType": null,
+   "source": "addition",
+   "zone": "table"
   }
  ],
  "lights": [
@@ -1832,13 +2189,13 @@
     81.8821,
     74.8248
    ],
-   "radiusM": 0.377,
+   "radiusM": 5.462,
    "colorRGB": [
     225,
     121,
     51
    ],
-   "fade": 2.604,
+   "fade": 2.747,
    "flags": 12297,
    "falloffExponent": 0.01,
    "base": "SolitudeInnFirePlacesShadowSlow",
@@ -1918,6 +2275,366 @@
     "xrdsUnits": null,
     "baseRadiusUnits": 256,
     "recordFade": 2.5,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:hearth-candlehornfloor-17",
+   "positionM": [
+    105.556,
+    90.52,
+    76.961
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornchandelier-10",
+   "positionM": [
+    97.496,
+    87.069,
+    75.731
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-05",
+   "positionM": [
+    98.667,
+    90.391,
+    78.095
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-06",
+   "positionM": [
+    101.964,
+    87.955,
+    77.987
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-07",
+   "positionM": [
+    100.578,
+    85.919,
+    73.711
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-08",
+   "positionM": [
+    98.667,
+    83.757,
+    73.828
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-09",
+   "positionM": [
+    109.464,
+    82.038,
+    77.987
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-11",
+   "positionM": [
+    101.789,
+    82.14,
+    80.312
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-12",
+   "positionM": [
+    106.964,
+    85.906,
+    77.987
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-13",
+   "positionM": [
+    97.964,
+    83.707,
+    77.987
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-14",
+   "positionM": [
+    104.558,
+    82.038,
+    79.711
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-15",
+   "positionM": [
+    107.525,
+    85.92,
+    72.471
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:store-candlehornwall-16",
+   "positionM": [
+    110.564,
+    92.176,
+    76.711
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:table-candlehorntable-01",
+   "positionM": [
+    105.774,
+    82.538,
+    74.008
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:LilmothGlassworksOverseerHouse:add:table-candlehorntable-02",
+   "positionM": [
+    109.381,
+    87.818,
+    74.235
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
   }
@@ -2945,9 +3662,9 @@
   }
  ],
  "counts": {
-  "placements": 89,
+  "placements": 106,
   "drops": 18,
-  "lights": 4,
+  "lights": 19,
   "substitutions": 2,
   "swingDoors": 0,
   "missingByClass": {},
@@ -2961,6 +3678,7 @@
    "container": 6,
    "idle": 9,
    "item": 37
-  }
+  },
+  "additions": 17
  }
 }

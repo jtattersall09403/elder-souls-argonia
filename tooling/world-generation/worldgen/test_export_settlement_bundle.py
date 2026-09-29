@@ -12,6 +12,7 @@ from . import export_settlement_bundle as ex
 from . import compile_settlement as cs
 from . import terrain_requests
 from . import grade_settlement_pads as pad_grades
+from . import pad_overlay
 
 from .blueprint_files import blueprint_paths
 
@@ -654,6 +655,41 @@ def test_copy_assets_ships_the_published_pair_never_a_raw_kit_build(tmp_path):
     assert (public / "k.glb").read_bytes() == packed
 
 
+def test_copy_assets_for_named_places_checks_only_their_kits(tmp_path):
+    """A --places publish stages only the kits its places place (composite
+    parts included, they are placements); another lane's stale kit does not
+    block it, and a named place that uses the stale kit is still refused.
+    With no place list every kit in the bundle is checked."""
+    import struct as _struct
+    body = json.dumps({"meshes": [{}], "images": [{"mimeType": "image/ktx2"}],
+                       "extensionsUsed": ["KHR_texture_basisu", "EXT_meshopt_compression"]}).encode()
+    body += b" " * (-len(body) % 4)
+    chunk = _struct.pack("<II", len(body), 0x4E4F534A) + body
+    packed = b"glTF" + _struct.pack("<II", 2, 12 + len(chunk)) + chunk
+    manifest = json.dumps({"compression": {"bytesAfter": len(packed)}})
+    source, public = tmp_path / "source", tmp_path / "public"
+    source.mkdir()
+    public.mkdir()
+    for name in ("ok", "stale"):
+        (source / f"{name}.kit.json").write_text(manifest)
+        (public / f"{name}.glb").write_bytes(packed)
+        (public / f"{name}.kit.json").write_text(manifest)
+    (source / "stale.kit.json").write_text(json.dumps(
+        {"compression": {"bytesAfter": len(packed)}, "assets": ["in-flight"]}))
+    bundle = {"kits": {"ok": {}, "stale": {}}, "placements": [
+        {"id": "a.1", "sourceId": "place.a", "kit": "ok"},
+        {"id": "a.2", "sourceId": "place.a", "kit": "ok", "parentPlacementId": "a.1"},
+        {"id": "b.1", "sourceId": "place.b", "kit": "stale"},
+        {"id": "r.1", "sourceId": "place.a", "kind": "route-structure", "kit": "stale"}]}
+
+    assert ex._scoped_kits(bundle, ["place.a"]) == ["ok"]
+    ex.copy_assets(bundle, source, public, places=["place.a"])
+    with pytest.raises(ValueError, match="stale: published manifest differs"):
+        ex.copy_assets(bundle, source, public, places=["place.a", "place.b"])
+    with pytest.raises(ValueError, match="stale publish"):
+        ex.copy_assets(bundle, source, public)
+
+
 def test_measured_manifest_box_is_exported_as_the_collision_proxy():
     contract = ex._collision_contract({
         "collision": "mesh", "collisionFrame": "pivot-yup-v3",
@@ -1076,7 +1112,9 @@ def test_a_declared_pad_travels_in_the_bundle_as_its_ground_overlay():
     assert doc["schemaVersion"] == 1
     (pad,) = doc["pads"]
     assert pad["id"] == "patch.pad.settlement.place.t.b1" and pad["hardM"] == 0.0
-    assert pad["pieces"] == [{"placementId": "place.t.b1.building", "datumM": 11.0,
+    # a building pad grades PAD_FLOOR_CLEARANCE_M under its recorded floor datum (R75)
+    assert pad["pieces"] == [{"placementId": "place.t.b1.building",
+                              "datumM": 11.0 - pad_overlay.PAD_FLOOR_CLEARANCE_M,
                               "polygonM": [[8.5, 8.5], [15.5, 8.5], [15.5, 15.5], [8.5, 15.5]]}]
     assert ex.attach_ground_overlays(_padded_bundle(False), None, survey=_FlatSurvey()) == 0
 

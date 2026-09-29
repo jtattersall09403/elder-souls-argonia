@@ -1,0 +1,270 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseElder",
+ "additions": [
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    102.095,
+    90.192,
+    51.896
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the drying dragon's tongue leaves."
+  },
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-02",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    101.965,
+    90.2,
+    51.4
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the dragon's tongue bundle by the stairs."
+  },
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-03",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    107.049,
+    86.93,
+    50.691
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the sake bottle by the stove."
+  },
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-04",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    113.673,
+    86.877,
+    55.014
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the beeswax jar and the ledger."
+  },
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-05",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.573,
+    93.03,
+    56.178
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the knife laid out for gutting fish."
+  },
+  {
+   "id": "KeebaHouseElder:add:table-glazedcandles-06",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    101.911,
+    92.976,
+    52.982
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the flatbread cooling on the west table."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-07",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    96.783,
+    97.317,
+    57.905
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the shelf of jars by the wall."
+  },
+  {
+   "id": "KeebaHouseElder:add:bed-argonianlanterns-08",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    110.783,
+    96.113,
+    54.905
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the sleeping mat's woven blanket."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-09",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    98.783,
+    98.283,
+    52.405
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the cupboard of clay dishes."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-10",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    105.783,
+    92.028,
+    53.405
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the chair by the roof post."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-11",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    103.783,
+    92.085,
+    55.905
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the strings of drying snail meat."
+  },
+  {
+   "id": "KeebaHouseElder:add:bed-argonianlanterns-12",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    108.283,
+    92.085,
+    53.905
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the rug spread along the walkway."
+  },
+  {
+   "id": "KeebaHouseElder:add:hearth-argonianlanterns-13",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    110.283,
+    92.028,
+    51.405
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the chair beside the window."
+  },
+  {
+   "id": "KeebaHouseElder:add:hearth-argonianlanterns-14",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    109.283,
+    89.702,
+    48.905
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the baskets hung on the wall."
+  },
+  {
+   "id": "KeebaHouseElder:add:hearth-argonianlanterns-15",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    105.283,
+    89.234,
+    47.905
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the stove where the broth simmers."
+  },
+  {
+   "id": "KeebaHouseElder:add:hearth-argonianlanterns-16",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    102.783,
+    89.765,
+    47.405
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the woodpile stacked by the hearth."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-17",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    113.283,
+    92.071,
+    49.905
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the passage toward the window."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-18",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    115.283,
+    92.028,
+    48.405
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the passage to the woodpile."
+  },
+  {
+   "id": "KeebaHouseElder:add:hearth-argonianlanterns-19",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    112.783,
+    92.071,
+    46.905
+   ],
+   "rotZDeg": 0,
+   "zone": "hearth",
+   "why": "Lights the floor path to the stove."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-20",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    96.783,
+    94.166,
+    55.405
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the top of the stairwell."
+  },
+  {
+   "id": "KeebaHouseElder:add:store-argonianlanterns-21",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    98.283,
+    95.009,
+    49.905
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the stairs beside the basket shelf."
+  },
+  {
+   "id": "KeebaHouseElder:add:door-argonianlanterns-22",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    109.283,
+    92.071,
+    58.405
+   ],
+   "rotZDeg": 0,
+   "zone": "door",
+   "why": "Lights the threshold at the front door."
+  }
+ ]
+}

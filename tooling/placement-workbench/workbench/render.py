@@ -253,8 +253,8 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
                                      "res": [rx, ry], "out": str(work / f"{k}-{s['name']}.png")})
         (work / "job.json").write_text(json.dumps(job))
         env = dict(os.environ, JOB=str(work / "job.json"))
-        proc = subprocess.run([str(paths.LINUX_BLENDER), "-b", "--factory-startup", "--python",
-                               str(paths.BLENDER_SCRIPT)], env=env, capture_output=True,
+        proc = subprocess.run(paths.guarded([str(paths.LINUX_BLENDER), "-b", "--factory-startup",
+                                            "--python", str(paths.BLENDER_SCRIPT)], "render"), env=env, capture_output=True,
                               text=True, timeout=TIMEOUT_S)
         if proc.returncode != 0 or "[wb-render] done" not in proc.stdout:
             raise RuntimeError("render failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])

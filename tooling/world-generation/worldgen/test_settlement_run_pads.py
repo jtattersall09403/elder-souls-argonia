@@ -221,6 +221,7 @@ def test_one_pad_maths_every_python_sampler_agrees_on_claywater_family_hut():
         want = pad_overlay.overlay_height(p["baseM"], p["x"], p["z"], overlays)
         assert abs(want - p["expectedM"]) < 1e-4
         workbench = pad_ground(base, [{"id": hut["id"], "polygonM": hut["pieces"][0]["polygonM"],
+                                       "blendM": hut["blendM"],
                                        # the record's datum: the overlay grades PAD_FLOOR_CLEARANCE_M under it
                                        "datumM": hut["pieces"][0]["datumM"]
                                        + pad_overlay.PAD_FLOOR_CLEARANCE_M}])(p["x"], p["z"])

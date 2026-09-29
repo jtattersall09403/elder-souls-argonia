@@ -1,0 +1,1444 @@
+{
+ "assets": {
+  "bmv:architecture/boats/rowboat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.87
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.87
+    ],
+    "widthM": 2.78
+   }
+  ],
+  "bmv:architecture/boats/rowboatbrokenback": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.03
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.87
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   }
+  ],
+  "bmv:architecture/boats/rowboatbrokenfront": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.87
+    ],
+    "widthM": 2.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.36,
+     -1.44
+    ],
+    "widthM": 4.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.99
+    ],
+    "widthM": 2.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.36,
+     -1.44
+    ],
+    "widthM": 4.86
+   }
+  ],
+  "bmv:architecture/ships/imperialship01base": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.8,
+     0.67
+    ],
+    "widthM": 10.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.35,
+     0.67
+    ],
+    "widthM": 10.03
+   }
+  ],
+  "bmv:architecture/ships/imperialship01masts": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 24.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.36,
+     0.81
+    ],
+    "widthM": 15.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 24.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.8,
+     0.81
+    ],
+    "widthM": 15.92
+   }
+  ],
+  "bmv:breticships/shipbreticjollyboat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.47,
+     -4.98
+    ],
+    "widthM": 4.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.47,
+     5.51
+    ],
+    "widthM": 4.57
+   }
+  ],
+  "bmv:nordships/shipnordrowboat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.11
+    ],
+    "widthM": 3.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.11
+    ],
+    "widthM": 3.02
+   }
+  ],
+  "bmv:nordships/shipnordtradeship": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.05
+    ],
+    "widthM": 15.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.61,
+     0.0
+    ],
+    "widthM": 22.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.05
+    ],
+    "widthM": 15.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.61,
+     0.0
+    ],
+    "widthM": 22.1
+   }
+  ],
+  "bmv:nordships/shipnordtradeshipbeached": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.05
+    ],
+    "widthM": 7.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.05
+    ],
+    "widthM": 7.0
+   }
+  ],
+  "bmv:transport/ships/ghostship": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.97,
+     -38.07
+    ],
+    "widthM": 21.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.97,
+     38.02
+    ],
+    "widthM": 21.6
+   }
+  ],
+  "bmv:transport/ships/merchant_ship": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 32.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -20.1
+    ],
+    "widthM": 14.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 32.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     20.1
+    ],
+    "widthM": 14.77
+   }
+  ],
+  "canoe:actors/sfss/canoe/canoe1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.78
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.99
+    ],
+    "widthM": 1.98
+   }
+  ],
+  "canoe:weapons/sfss/anchor": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.16,
+     -0.18
+    ],
+    "widthM": 0.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.03,
+     -0.06
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.16,
+     0.06
+    ],
+    "widthM": 0.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     -0.06
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "canoe:weapons/sfss/shipoar01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.74
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.74
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "canoe:weapons/sfss/shipoar01ground": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "canoe:weapons/sfss/shipoar01towhanded": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.74
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.74
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "ferries:yamadori/ferries/common_rowboat_inialta_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.43,
+     -4.69
+    ],
+    "widthM": 3.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.43,
+     4.95
+    ],
+    "widthM": 3.68
+   }
+  ],
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.82,
+     -1.78
+    ],
+    "widthM": 2.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.82,
+     1.78
+    ],
+    "widthM": 2.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.14,
+     0.0
+    ],
+    "widthM": 3.56
+   }
+  ],
+  "ferries:yamadori/ferries/plank_ferry_swamp_03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.81,
+     -1.78
+    ],
+    "widthM": 2.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.52,
+     0.0
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.81,
+     1.78
+    ],
+    "widthM": 2.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.14,
+     0.0
+    ],
+    "widthM": 3.56
+   }
+  ],
+  "ferries:yamadori/ferries/river_ferry_rift_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     -4.25
+    ],
+    "widthM": 4.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.31,
+     0.0
+    ],
+    "widthM": 8.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     4.25
+    ],
+    "widthM": 4.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.42,
+     0.0
+    ],
+    "widthM": 8.5
+   }
+  ],
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.68
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.95
+    ],
+    "widthM": 2.78
+   }
+  ],
+  "ferries:yamadori/ferries/volkihar_ferry_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.43,
+     -4.8
+    ],
+    "widthM": 3.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.43,
+     4.95
+    ],
+    "widthM": 3.68
+   }
+  ],
+  "ferryraft:snt/ferry/ferryraft01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -2.09
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.65,
+     -0.03
+    ],
+    "widthM": 4.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     2.02
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.59,
+     -0.03
+    ],
+    "widthM": 4.11
+   }
+  ],
+  "ferryraft:snt/ferry/ferryraft01_no_col": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -2.09
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.65,
+     -0.03
+    ],
+    "widthM": 4.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     2.02
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.59,
+     -0.03
+    ],
+    "widthM": 4.11
+   }
+  ],
+  "ferryraft:snt/ferry/norbridgewoodplanks01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.8
+    ],
+    "widthM": 5.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.79,
+     -0.01
+    ],
+    "widthM": 3.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.79
+    ],
+    "widthM": 5.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.79,
+     -0.01
+    ],
+    "widthM": 3.59
+   }
+  ],
+  "ferryraft:snt/ferry/norbridgewoodplanks02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.79
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.78
+    ],
+    "widthM": 0.88
+   }
+  ],
+  "rowboats:dungeons/clutter/shipoar01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.73,
+     0.01
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.67,
+     0.01
+    ],
+    "widthM": 0.42
+   }
+  ],
+  "rowboats:dungeons/ship/shiprowboat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.69
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.75,
+     0.09
+    ],
+    "widthM": 9.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.88
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.75,
+     0.09
+    ],
+    "widthM": 9.57
+   }
+  ],
+  "rowboats:dungeons/ship/shiprowboatanim01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.67
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.75,
+     0.1
+    ],
+    "widthM": 9.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.88
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.75,
+     0.1
+    ],
+    "widthM": 9.55
+   }
+  ],
+  "sailboats:sailboats/longboat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.09
+    ],
+    "widthM": 6.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.04,
+     -0.67
+    ],
+    "widthM": 8.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.75
+    ],
+    "widthM": 6.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.04,
+     -0.67
+    ],
+    "widthM": 8.84
+   }
+  ],
+  "sailboats:sailboats/longboatfurled": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.09
+    ],
+    "widthM": 5.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.87,
+     -0.67
+    ],
+    "widthM": 8.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.75
+    ],
+    "widthM": 5.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.87,
+     -0.67
+    ],
+    "widthM": 8.84
+   }
+  ],
+  "sailboats:sailboats/rowboat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.78,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.7
+    ],
+    "widthM": 2.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.78,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.02
+    ],
+    "widthM": 2.24
+   }
+  ],
+  "sailboats:sailboats/rowboatnord": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.07
+    ],
+    "widthM": 2.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.68
+    ],
+    "widthM": 2.1
+   }
+  ],
+  "sailboats:sailboats/sailboat": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.36,
+     -4.66
+    ],
+    "widthM": 3.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.36,
+     3.21
+    ],
+    "widthM": 3.42
+   }
+  ],
+  "sailboats:sailboats/sailboatelf": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -8.04
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.13
+    ],
+    "widthM": 1.98
+   }
+  ],
+  "sailboats:sailboats/sailboatelffurled": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -8.04
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     3.13
+    ],
+    "widthM": 1.99
+   }
+  ],
+  "sailboats:sailboats/sailboatfurled": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.25,
+     -4.66
+    ],
+    "widthM": 3.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.25,
+     3.21
+    ],
+    "widthM": 3.22
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -14.82
+    ],
+    "widthM": 11.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     16.42
+    ],
+    "widthM": 11.66
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.33,
+     -4.98
+    ],
+    "widthM": 4.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.33,
+     4.98
+    ],
+    "widthM": 4.29
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     -4.25
+    ],
+    "widthM": 4.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.32,
+     0.0
+    ],
+    "widthM": 8.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     4.25
+    ],
+    "widthM": 4.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.42,
+     0.0
+    ],
+    "widthM": 8.5
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 31.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -17.0
+    ],
+    "widthM": 14.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 31.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     19.61
+    ],
+    "widthM": 14.2
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 17.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -7.41
+    ],
+    "widthM": 8.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 17.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.59
+    ],
+    "widthM": 8.04
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -5.2
+    ],
+    "widthM": 8.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.42,
+     -0.0
+    ],
+    "widthM": 10.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     5.19
+    ],
+    "widthM": 8.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.28,
+     -0.0
+    ],
+    "widthM": 10.39
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.18
+    ],
+    "widthM": 2.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.16
+    ],
+    "widthM": 2.6
+   }
+  ],
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 22.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -15.03
+    ],
+    "widthM": 13.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 22.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     15.04
+    ],
+    "widthM": 13.5
+   }
+  ]
+ },
+ "counts": {
+  "assets": 45,
+  "bounds": 122,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "watercraft-v1",
+ "schemaVersion": 1
+}

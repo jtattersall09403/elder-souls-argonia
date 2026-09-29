@@ -8,10 +8,10 @@
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
    "file": "bmv__landscape_trees_mangrovereachtree0gkb2.glb",
-   "grid": 12,
+   "grid": 14,
    "framePx": 192,
    "normalFramePx": 96,
-   "cellM": 15.6001,
+   "cellM": 15.6189,
    "centreM": [
     0.7328,
     3.0484,
@@ -29,28 +29,75 @@
      3.9081
     ]
    ],
-   "contentPx": 161.8,
-   "bytes": 3614156,
-   "sha256": "ee679530f304183fd177429eeaed6390b72bcf8ce165f150e554fc92d37cc091",
+   "contentPx": 161.6,
+   "bytes": 4872344,
+   "sha256": "68a14a1abbbbc90072ca7a8a9ddcaf3c06e50440e991e66013ce13948ee32ada",
    "judge": {
     "px": 162,
-    "iouMin": 0.857,
-    "worstLoss": 0.022,
+    "iouMin": 0.836,
+    "worstLoss": 0.014,
     "cardIou": [
-     0.858,
-     0.627,
-     0.874,
-     0.643,
-     0.865,
-     0.609,
-     0.857,
-     0.676,
-     0.635,
-     0.483
+     0.862,
+     0.624,
+     0.873,
+     0.639,
+     0.862,
+     0.613,
+     0.856,
+     0.671,
+     0.637,
+     0.486
     ],
     "pass": true
    },
    "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb2.glb"
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
+   "file": "bmv__landscape_trees_mangrovereachtree0gkb3.glb",
+   "grid": 12,
+   "framePx": 192,
+   "normalFramePx": 96,
+   "cellM": 12.3457,
+   "centreM": [
+    0.0815,
+    3.4969,
+    -0.7187
+   ],
+   "boundsM": [
+    [
+     -4.556,
+     -1.795,
+     -4.9822
+    ],
+    [
+     4.7191,
+     8.7889,
+     3.5448
+    ]
+   ],
+   "contentPx": 164.6,
+   "bytes": 4273508,
+   "sha256": "bdec64bcd6749bd17b6fbf78970c74e264a55e8a1921b44ae53531eb9f342d7c",
+   "judge": {
+    "px": 165,
+    "iouMin": 0.89,
+    "worstLoss": -0.003,
+    "cardIou": [
+     0.865,
+     0.625,
+     0.898,
+     0.673,
+     0.883,
+     0.637,
+     0.896,
+     0.674,
+     0.654,
+     0.479
+    ],
+    "pass": true
+   },
+   "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb3.glb"
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
@@ -98,6 +145,53 @@
     "pass": true
    },
    "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb8.glb"
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
+   "file": "bmv__landscape_trees_mangrovereachtree0gkb9.glb",
+   "grid": 14,
+   "framePx": 192,
+   "normalFramePx": 96,
+   "cellM": 10.3815,
+   "centreM": [
+    0.2377,
+    3.7634,
+    0.0682
+   ],
+   "boundsM": [
+    [
+     -2.8551,
+     -0.9032,
+     -2.5661
+    ],
+    [
+     3.3306,
+     8.4299,
+     2.7025
+    ]
+   ],
+   "contentPx": 172.6,
+   "bytes": 5117392,
+   "sha256": "02f3f5c822e0f829414348758306a449e29e468fee2bb45724a91086787f8b8c",
+   "judge": {
+    "px": 173,
+    "iouMin": 0.885,
+    "worstLoss": 0.027,
+    "cardIou": [
+     0.901,
+     0.701,
+     0.912,
+     0.728,
+     0.918,
+     0.712,
+     0.925,
+     0.723,
+     0.647,
+     0.53
+    ],
+    "pass": true
+   },
+   "path": "flora-province-v1-impostors/bmv__landscape_trees_mangrovereachtree0gkb9.glb"
   }
  ]
 }

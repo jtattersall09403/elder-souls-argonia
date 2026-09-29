@@ -66,17 +66,61 @@ def _is_card(name, cards):
     return any(name == c or name.startswith(c + ".") for c in cards)
 
 
-def ambient_materials(ambient, cards):
+GLOW_STRENGTH = 4.0   # an emissive flame card's strength: it reads as flame in both rows
+
+
+def glow_card(mat):
+    """A flame card the loader draws (a piece with mined `flames`): its
+    texture as emission, blended additively (Add Shader over Transparent),
+    scaled by its alpha, so it reads as flame in the sources-only row too."""
+    nt = mat.node_tree
+    bsdf = next((n for n in nt.nodes if n.type == "BSDF_PRINCIPLED"), None)
+    base = bsdf.inputs["Base Color"] if bsdf else None
+    alpha = bsdf.inputs["Alpha"] if bsdf else None
+    col_src = base.links[0].from_socket if base is not None and base.is_linked else None
+    a_src = alpha.links[0].from_socket if alpha is not None and alpha.is_linked else None
+    col_val = tuple(base.default_value) if base is not None else (1.0, 0.5, 0.1, 1.0)
+    for n in list(nt.nodes):
+        if n.type != "TEX_IMAGE" and n.type != "UVMAP":
+            nt.nodes.remove(n)
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    tr = nt.nodes.new("ShaderNodeBsdfTransparent")
+    em = nt.nodes.new("ShaderNodeEmission")
+    em.inputs["Strength"].default_value = GLOW_STRENGTH
+    mul = nt.nodes.new("ShaderNodeMixRGB")
+    mul.blend_type = "MULTIPLY"
+    mul.inputs[0].default_value = 1.0
+    if col_src is not None:
+        nt.links.new(col_src, mul.inputs[1])
+    else:
+        mul.inputs[1].default_value = col_val
+    if a_src is not None:
+        nt.links.new(a_src, mul.inputs[2])
+    else:
+        mul.inputs[2].default_value = (1.0, 1.0, 1.0, 1.0)
+    nt.links.new(mul.outputs[0], em.inputs["Color"])
+    add = nt.nodes.new("ShaderNodeAddShader")
+    nt.links.new(tr.outputs[0], add.inputs[0])
+    nt.links.new(em.outputs[0], add.inputs[1])
+    nt.links.new(add.outputs[0], out.inputs[0])
+    mat.blend_method = "BLEND"
+
+
+def ambient_materials(ambient, cards, glow=()):
     """Add albedo x ambient/pi as emission to every Principled material (the
-    AmbientLight three.js never occludes); flame-card materials go
-    transparent (the loader leaves them undrawn). Returns the ambient colour
-    sockets, set per row."""
+    AmbientLight three.js never occludes); flame-card materials the loader
+    leaves undrawn go transparent, those it draws (`glow`) go emissive and
+    additive (`glow_card`). Returns the ambient colour sockets, set per row."""
     k = [c / math.pi for c in ambient]
     sockets = []
     for mat in bpy.data.materials:
         if not mat.use_nodes:
             continue
         nt = mat.node_tree
+        if glow and _is_card(mat.name, glow) and not _is_card(mat.name, cards):
+            glow_card(mat)
+            print(f"[wb-irender] flame card {mat.name} emissive")
+            continue
         if _is_card(mat.name, cards):
             for n in list(nt.nodes):
                 nt.nodes.remove(n)
@@ -163,37 +207,60 @@ def record_light(i, rec, scene):
     return obj
 
 
-def clear_eye(scene, shot, corners):
-    """The shot's camera matrix. A corner shot stands at its eye from
-    interior_render.corner_eyes (from the arrival point; `corners` caches
-    them across the rows), aimed at its target; then every eye walks along
-    its line to the target until interior_render.settle_eye accepts it
-    (inside the room, its view clear), so its aim holds. Returns (matrix,
-    metres moved, warning or None)."""
+def scene_cast(scene):
     from mathutils import Vector
-    m, target = Matrix(shot["matrix"]), tuple(shot["targetBlender"])
     dg = bpy.context.evaluated_depsgraph_get()
 
     def cast(origin, direction, max_m):
         o = Vector(origin)
         ok, loc, *_ = scene.ray_cast(dg, o, Vector(direction), distance=max_m)
         return (loc - o).length if ok else None
-    if "fromArrival" in shot:
-        key = tuple(shot["arrivalEye"])
-        if key not in corners:
-            corners[key] = ir.corner_eyes(cast, key, shot["eyeHeightM"])
-        eyes = corners[key]
-        if shot["fromArrival"] < len(eyes):
-            m = Matrix(ir._look_matrix(eyes[shot["fromArrival"]], target))
-    eye, moved = ir.settle_eye(cast, tuple(m.translation), target, shot["eyeHeightM"])
-    m.translation = Vector(eye)
-    inside = ir.is_inside(cast, eye) and ir.on_level(cast, eye, shot["eyeHeightM"])
-    clear = ir.view_clear(cast, eye, target)
-    warn = None
-    if not inside or clear < 1.0:
-        warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
-                f"inside and level={inside} view clear {clear:.2f} of 1")
-    return m, moved, warn
+    return cast
+
+
+def floor_survey(scene):
+    """interior_render.floor_plan on the scene: the floor ray-cast below the
+    arrival marker against the room's main (largest) walkable level."""
+    lo, hi = JOB["boundsBlender"]
+    plan = ir.floor_plan(scene_cast(scene), lo, hi, JOB["arrivalBlender"])
+    print(f"[wb-irender] floor arrival {plan['arrivalZ']:.2f} below {plan['belowZ']:.2f} "
+          f"main {plan['mainZ']:.2f} onMain={plan['onMain']} eyes on {plan['floorZ']:.2f} "
+          f"hub {tuple(round(v, 2) for v in plan['hub'])} levels {plan['levels']}")
+    return plan
+
+
+def clear_eye(scene, shot, eyes):
+    """The shot's camera matrix from interior_render.eye_plan (`eyes`,
+    computed once for the cell): the doorway at the landing edge or 1.2 m
+    in, the corners the two best-scoring candidates 90+ degrees apart, all
+    looking at the hub. A view the plan has no eye for falls back to its
+    fallback camera walked by interior_render.settle_eye, with a warning.
+    Returns (matrix, metres moved, warning or None)."""
+    cast = scene_cast(scene)
+    target = tuple(eyes["target"])
+    view = shot["view"]
+    eye = None
+    if view == "doorway" and eyes["doorway"] is not None:
+        eye, target = eyes["doorway"]
+    elif view in ("corner-a", "corner-b"):
+        i = 0 if view == "corner-a" else 1
+        eye = eyes["corners"][i] if i < len(eyes["corners"]) else None
+    if eye is not None:
+        score = ir.score_eye(cast, eye, target)
+        warn = None
+        if score < ir.MIN_SCORE_M:
+            warn = (f"[wb-irender] warning {shot['name']} eye at {tuple(round(v, 2) for v in eye)} "
+                    f"scores {score:.2f} m, under {ir.MIN_SCORE_M}")
+        print(f"[wb-irender] eyes {shot['name']} at {tuple(round(v, 2) for v in eye)} "
+              f"aim {tuple(round(v, 2) for v in target)} score {score:.2f}")
+        return Matrix(ir._look_matrix(eye, target)), 0.0, warn
+    m = Matrix(shot["matrix"])
+    t = tuple(shot["targetBlender"])
+    eye, moved = ir.settle_eye(cast, tuple(m.translation), t, shot["eyeHeightM"])
+    t = ir.level_aim(eye, t)             # within MAX_PITCH_DEG of level
+    m = Matrix(ir._look_matrix(eye, t))
+    return m, moved, (f"[wb-irender] warning {shot['name']} has no scored eye; fallback at "
+                      f"{tuple(round(v, 2) for v in eye)} view clear {ir.view_clear(cast, eye, t):.2f}")
 
 
 def main():
@@ -219,7 +286,13 @@ def main():
             continue
         rs.copy_tree(root, world, Matrix(p["matrix"]), None, uid=p["uid"])
     lap("import")
-    sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [])
+    plan = floor_survey(scene)
+    if JOB.get("surveyOnly"):
+        print("[wb-irender] done")
+        return
+    shots = [ir.on_floor(s, plan, JOB["arrivalFloor"]) for s in JOB["shots"]]
+    sockets, amb = ambient_materials(JOB.get("ambient") or [0, 0, 0], JOB.get("flameCards") or [],
+                                     JOB.get("glowCards") or [])
     rs.add_fire_light_pass(world, JOB.get("fires"))
     for obj in world.objects:          # the proxies are markers, never light sources
         if obj.name.startswith("fire"):
@@ -235,8 +308,12 @@ def main():
         scene.collection.objects.link(sun)
         sun.rotation_euler = (0.0, 0.0, 0.0)        # straight down
     lap("lights")
-    corners = {}
-    for shot in JOB["shots"]:
+    eyes = ir.eye_plan(scene_cast(scene), plan, JOB["doorBlender"])
+    print(f"[wb-irender] eyes hub {tuple(round(v, 2) for v in eyes['hub'])} corners on "
+          f"{eyes['cornerZ']:.2f} scores {eyes['scores']} doorway on {eyes['doorZ']:.2f} at "
+          + (f"{tuple(round(v, 2) for v in eyes['doorway'][0])} aim {tuple(round(v, 2) for v in eyes['doorway'][1])}"
+             if eyes["doorway"] is not None else "none (fallback camera)"))
+    for shot in shots:
         day = shot["row"] == "day"
         for s in sockets:
             s.default_value = (*(amb if day else (0.0, 0.0, 0.0)), 1.0)
@@ -246,7 +323,7 @@ def main():
         cam_data.lens = shot.get("lens", 14.0)
         cam_data.clip_start = 0.05
         cam_data.clip_end = 500.0
-        m, moved, warn = clear_eye(scene, shot, corners)
+        m, moved, warn = clear_eye(scene, shot, eyes)
         if warn:
             print(warn)
         cam.matrix_world = m

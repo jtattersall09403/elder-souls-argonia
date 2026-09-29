@@ -42,12 +42,26 @@ EXEMPT: dict[str, str] = {
     "depths:dos/ships/shipatmoranwarshipwreck02": QUEUED,
     "depths:dos/ships/shipbreticcarrack_halfwreck01": QUEUED,
     "depths:dos/ships/shipbreticcarrack_halfwreck02": QUEUED,
+    "canoe:weapons/sfss/shipoar01":
+        "a canoe paddle prop (category weapon, held/leaning), not a hull; "
+        "matched the hull regex only because Bethesda's own asset name is "
+        "'ship oar'",
+    "canoe:weapons/sfss/shipoar01ground":
+        "the ground-lying variant of the same paddle prop",
+    "canoe:weapons/sfss/shipoar01towhanded":
+        "the two-handed carry variant of the same paddle prop",
 }
 
 
 def needs_collider(asset: dict) -> bool:
+    # Match the asset's own path, never the pool prefix before the colon: a
+    # prop from a pool named "canoe" or "ferryraft" (an oar, an anchor, a
+    # loose plank) is not itself a hull just because its POOL is (16k walk 5
+    # fix round: false positives on canoe:weapons/sfss/anchor and
+    # ferryraft:snt/ferry/norbridgewoodplanks01/02).
+    asset_path = str(asset.get("id", "")).lower().split(":", 1)[-1]
     return (asset.get("category") in SOLID_CATEGORIES
-            or bool(HULL_OR_SIGN.search(str(asset.get("id", "")).lower())))
+            or bool(HULL_OR_SIGN.search(asset_path)))
 
 
 def uncollidable(kits_dir: Path = PUBLISHED_KITS,

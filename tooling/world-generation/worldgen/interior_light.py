@@ -51,14 +51,13 @@ FILL_E = 0.15
 FIXTURE_LIT_M = 1.0
 #: The balance check (``light_balance``): a walked spot is source-led when the cell's
 #: lights give at least this share of its E, and a room is flat when under
-#: ``MIN_SOURCE_LED_FRACTION`` of its walked floor is source-led. Every tier A cell
-#: measured 0-12 % source-led before the fill and 0-4 % after it (2026-09-29); the
-#: 30 % bar is a chosen value, to be confirmed against the reader's row-48 renders. With the
-#: Skyrim curve (step 3) DawnstarBrinasHouse reads 91 %, the Keeba and Lilmoth cells 0-12 %:
-#: their few 2.5-4.6 m lights cover under 40 % of the floor even at a 0.04 fill (60-88 %
-#: of it then reads dark), so there the fill still carries the room (lamp coverage, not curve).
+#: ``MIN_SOURCE_LED_FRACTION`` of its walked floor is source-led. The bar is 70 %
+#: (decision 0109): before additions every tier A cell measured 0-12 % source-led;
+#: with the additions files (kit-interiors/additions/, 2026-09-29) the seven KotM cells
+#: measure 71-80 % (SnailMinder 71.0, Elder 71.4, Crafter 74.4, Fisher 77.8,
+#: Glassworks 78.7, Ironworks 78.5, Plantation 80.3) and DawnstarBrinasHouse 96.6 %.
 SOURCE_LED_SHARE = 0.5
-MIN_SOURCE_LED_FRACTION = 0.30
+MIN_SOURCE_LED_FRACTION = 0.70
 #: Skyrim's point-light attenuation (the Creation Engine Lighting shader as reconstructed by
 #: Community Shaders, package/Shaders/Lighting.hlsl: ``intensityFactor = saturate(lightDist /
 #: radius); intensityMultiplier = 1 - intensityFactor * intensityFactor``, times the light's

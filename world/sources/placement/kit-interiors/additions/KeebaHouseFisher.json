@@ -1,0 +1,102 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseFisher",
+ "additions": [
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-01",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    103.509,
+    83.646,
+    56.458
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the wooden bowl beside the lantern."
+  },
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-02",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    108.276,
+    87.154,
+    51.552
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the carved doll left on the table."
+  },
+  {
+   "id": "KeebaHouseFisher:add:table-glazedcandles-03",
+   "assetId": "vanilla:clutter/glazedcandles01",
+   "pos": [
+    106.251,
+    83.534,
+    50.746
+   ],
+   "rotZDeg": 0,
+   "zone": "table",
+   "why": "Lights the open book on the table."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-04",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    109.702,
+    85.813,
+    60.104
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the bed across the room."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-05",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    110.702,
+    85.813,
+    55.604
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the cupboard by the hearth floor."
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-argonianlanterns-06",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    102.702,
+    87.101,
+    52.104
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the sleeping mat and its rug."
+  },
+  {
+   "id": "KeebaHouseFisher:add:bed-argonianlanterns-07",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    103.702,
+    87.26,
+    61.104
+   ],
+   "rotZDeg": 0,
+   "zone": "bed",
+   "why": "Lights the bed beneath the window."
+  },
+  {
+   "id": "KeebaHouseFisher:add:store-argonianlanterns-08",
+   "assetId": "mudmother:gv_meshes/argoniannest/argonianlanterns04",
+   "pos": [
+    104.702,
+    85.97,
+    54.104
+   ],
+   "rotZDeg": 0,
+   "zone": "store",
+   "why": "Lights the stairway rail of woven reed."
+  }
+ ]
+}
