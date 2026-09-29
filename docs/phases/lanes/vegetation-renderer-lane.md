@@ -213,7 +213,7 @@ is a local commit on `main`, none pushed.
   `&vegshader=off|lod|wind|noaerial` draws batches with those shader patches
   removed; `&q=low` the low quality preset; `&gc=0` unmounts the ground-cover
   renderer; `&dpr=<n>` pins the canvas pixel density to n (0.5..2) instead of
-  the preset's cap; `&aa=0` creates the canvas without MSAA; `&vegorder=0`
+  the preset's cap; `&aa=1` creates the canvas with MSAA (off by default since the walk-5 perf round); `&vegorder=0`
   leaves every batch at `renderOrder = 0` instead of sorting batches front to
   back; `&csm=<cascades>,<maxFar>` sets the shadow cascade count and reach in
   character mode (the default is `1,160`; `&csm=2,300` is what round 7 ran);

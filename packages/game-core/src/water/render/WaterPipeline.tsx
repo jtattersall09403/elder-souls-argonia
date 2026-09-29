@@ -377,15 +377,11 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       0.022 + 1.15 * turb,
     );
     const amb = runtime.ambient.value;
-    const tint = new THREE.Vector3(
-      0.035 + 0.055 * turb,
-      0.115 - 0.064 * turb,
-      0.10 - 0.078 * turb,
-    );
+    // fog tint per channel, inline: no per-frame vector (walk 5 perf audit item 11)
     bu.uUwFog.value.set(
-      Math.max(amb.x, 1e-4) * tint.x * 24.0,
-      Math.max(amb.y, 1e-4) * tint.y * 24.0,
-      Math.max(amb.z, 1e-4) * tint.z * 24.0,
+      Math.max(amb.x, 1e-4) * (0.035 + 0.055 * turb) * 24.0,
+      Math.max(amb.y, 1e-4) * (0.115 - 0.064 * turb) * 24.0,
+      Math.max(amb.z, 1e-4) * (0.10 - 0.078 * turb) * 24.0,
     );
     bu.uBubbleColor.value = bubblePass.render(renderer, cam, h?.bubbles, underwater,
       drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);

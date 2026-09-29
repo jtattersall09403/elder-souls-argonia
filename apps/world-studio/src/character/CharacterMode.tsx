@@ -213,10 +213,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
-  // DEV fill-rate switch (`?aa=0`): the canvas is created without MSAA, so a
-  // frame can be measured with the resolve removed and nothing else changed.
+  // Canvas MSAA is OFF by default (walk 5 perf audit item 4): the scene
+  // renders into the water pipeline's samples:0 target and reaches the canvas
+  // as one full-screen blit, so a multisampled canvas only smoothed the water
+  // surface's edges and the precip/overlay passes, for a full-screen resolve
+  // every frame. `?aa=1` restores it for an A/B.
   const canvasAa = useMemo(() => (
-    new URLSearchParams(window.location.search).get("aa") !== "0"
+    new URLSearchParams(window.location.search).get("aa") === "1"
   ), []);
   // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
   // pipeline and surface are not mounted, so the frame can be measured
@@ -1000,13 +1003,20 @@ function mean(values: number[]): number {
   return sum / values.length;
 }
 
-/** Per-slot mean of a ring of bucket rows (all slots zero when empty). */
-function meanBuckets(rows: number[][]): number[] {
-  const out = emptyBuckets();
+/** Per-slot mean of a ring of bucket rows, written into `out` (all slots zero when empty). */
+function meanBuckets(rows: number[][], out: number[]): number[] {
+  out.fill(0);
   if (rows.length === 0) return out;
   for (const row of rows) for (let i = 0; i < out.length; i++) out[i] += row[i] ?? 0;
   for (let i = 0; i < out.length; i++) out[i] /= rows.length;
   return out;
+}
+
+/** Largest value of a bounded ring, 0 when empty or all negative (no spread: one frame, no garbage). */
+function maxOf(values: number[]): number {
+  let max = 0;
+  for (const v of values) if (v > max) max = v;
+  return max;
 }
 
 /** Millions, one decimal — the only scale these counts are read at. */
@@ -1039,10 +1049,16 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     cpuStart: number;
     cpuSamples: number[];
     cpuMaxWindow: number[];
+    /** The one published stats object, rewritten in place every frame. */
+    stats: FrameGpuStats;
   }>({
     triSamples: [], callSamples: [],
     frameBuckets: emptyBuckets(), bucketSamples: [],
     cpuStart: 0, cpuSamples: [], cpuMaxWindow: [],
+    stats: {
+      avg: 0, max: 0, supported: false,
+      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
+    },
   });
 
   useEffect(() => {
@@ -1056,10 +1072,12 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     // therefore report the LAST pass alone. Take the reset over manually: it
     // happens once per frame below, so `info.render` accumulates every pass.
     gl.info.autoReset = false;
-    host.__STUDIO_GPU_MS__ = {
-      avg: 0, max: 0, supported: Boolean(segments?.gpuSupported),
-      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
-    };
+    host.__STUDIO_GPU_MS__ = Object.assign(gpu.current.stats, {
+      avg: 0, max: 0, supported: Boolean(segments?.gpuSupported), wall: undefined,
+      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0,
+      hiddenChunks: undefined, hiddenSectors: undefined,
+    });
+    gpu.current.stats.buckets.fill(0);
     // Attribution (HUD line 3). `info.render.triangles` is the only count
     // three.js keeps, so the per-draw delta around the one call every draw
     // goes through is what attributes the frame; the shadow-map pass is
@@ -1122,33 +1140,32 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
-      g.bucketSamples.push(g.frameBuckets.slice());
-      if (g.bucketSamples.length > 60) g.bucketSamples.shift();
+      // Recycle the row that leaves the window: no per-frame array.
+      const row = g.bucketSamples.length >= 60 ? g.bucketSamples.shift()! : new Array<number>(g.frameBuckets.length);
+      for (let i = 0; i < g.frameBuckets.length; i++) row[i] = g.frameBuckets[i];
+      g.bucketSamples.push(row);
     }
     g.frameBuckets.fill(0);
     gl.info.reset();
 
     const seg = segments?.stats();
-    const prior = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
-      .__STUDIO_GPU_MS__;
-    (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__ = {
-      // The occlusion counts live on this object and are republished with
-      // it, so a re-publish does not blank the HUD between evaluations.
-      hiddenChunks: prior?.hiddenChunks,
-      hiddenSectors: prior?.hiddenSectors,
-      avg: Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10,
-      max: Math.round((seg?.gpuSumMax ?? 0) * 10) / 10,
-      supported: Boolean(seg?.gpuSupported),
-      // Marked, not corrected: on Apple/Metal the timer query reports wall
-      // time, so the figure is an upper bound, not the pass's work (0084 r11).
-      wall: Boolean(seg?.gpuWallTimeOnly),
-      tris: mean(g.triSamples),
-      calls: Math.round(mean(g.callSamples)),
-      cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
-      cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
-      lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
-      buckets: meanBuckets(g.bucketSamples),
-    };
+    // One object rewritten in place (walk 5 perf audit item 11). The
+    // occlusion passes write hiddenChunks/hiddenSectors into it themselves,
+    // so they persist between their evaluations without a copy.
+    const st = g.stats;
+    st.avg = Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10;
+    st.max = Math.round((seg?.gpuSumMax ?? 0) * 10) / 10;
+    st.supported = Boolean(seg?.gpuSupported);
+    // Marked, not corrected: on Apple/Metal the timer query reports wall
+    // time, so the figure is an upper bound, not the pass's work (0084 r11).
+    st.wall = Boolean(seg?.gpuWallTimeOnly);
+    st.tris = mean(g.triSamples);
+    st.calls = Math.round(mean(g.callSamples));
+    st.cpu = Math.round(mean(g.cpuSamples) * 10) / 10;
+    st.cpuMax = Math.round(maxOf(g.cpuMaxWindow) * 10) / 10;
+    st.lastTris = g.triSamples[g.triSamples.length - 1] ?? 0;
+    meanBuckets(g.bucketSamples, st.buckets);
+    (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__ = st;
   }, -100);
 
   // The frame's last hook: every render of the frame (the water pipeline
@@ -1279,7 +1296,10 @@ function TriangleAttributionLine() {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
     };
     const read = () => {
-      setGpu(host.__STUDIO_GPU_MS__ ?? null);
+      // A snapshot: the published object is rewritten in place every frame,
+      // so its identity never changes and React would skip the update.
+      const live = host.__STUDIO_GPU_MS__;
+      setGpu(live ? { ...live, buckets: live.buckets.slice() } : null);
       setVeg(host.__STUDIO_VEGETATION_DEBUG__ ?? null);
     };
     read();

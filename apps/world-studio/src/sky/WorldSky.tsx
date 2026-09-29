@@ -1229,12 +1229,12 @@ void main() {
       const l = moonLightRef.current;
       l.intensity = rig.moonIntensity;
       l.color.setRGB(...rig.moonColor);
-      l.position
-        .copy(camera.position)
-        .addScaledVector(
-          new THREE.Vector3(masser.direction.x, masser.direction.y, masser.direction.z),
-          2000,
-        );
+      const d = masser.direction;
+      l.position.set(
+        camera.position.x + d.x * 2000,
+        camera.position.y + d.y * 2000,
+        camera.position.z + d.z * 2000,
+      );
       moonLightTarget.position.copy(camera.position);
       l.target = moonLightTarget;
     }
