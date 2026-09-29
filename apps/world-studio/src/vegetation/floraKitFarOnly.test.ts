@@ -156,20 +156,16 @@ describe("far-only tier chain (a published mid + far tree, mid dropped)", () => 
         submerged: species.submerged, folded: species.folded,
       }, preset.vegDrawScale, preset.name);
       const ladder = lodLadder(rings, meshLevels, species.billboardIndex, maxDraw);
-      // The drawn rungs step down the kit's levels in order from the base
-      // (the low preset's card hand-over can come before the far rung's, so
-      // a rung may be skipped, never revisited), and the far rung is drawn in
-      // some preset: a far tier never drawn is dead data (tundrashrub03's,
-      // removed in round 13d).
+      // Every shipped rung is drawn, in order, in EVERY preset: a far tier
+      // skipped in one band is dead data there (round 13d found the low band
+      // going base -> card at 18 m; speciesRings now gives each level a rung).
       const shown = ladder.filter((r) => r.hi > r.lo).map((r) => r.level);
-      expect(shown[0]).toBe(0);
-      expect(shown.every((l, i) => i === 0 || l > shown[i - 1])).toBe(true);
-      expect(shown.every((l) => l <= 2)).toBe(true);
-      if (shown.includes(1)) farDrawn += 1;
+      expect(shown, preset.name).toEqual([0, 1, 2]);
+      farDrawn += 1;
       failures.push(...ladderCoverageFailures(
         ladder, species.submerged || species.category !== "tree", maxDraw, preset.name));
     }
     expect(failures.slice(0, 10)).toEqual([]);
-    expect(farDrawn).toBeGreaterThan(0);
+    expect(farDrawn).toBe(Object.values(QUALITY_PRESETS).length);
   });
 });

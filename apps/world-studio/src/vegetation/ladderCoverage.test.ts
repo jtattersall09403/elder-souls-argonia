@@ -49,6 +49,17 @@ describe("vegetation ladder band coverage", () => {
                   { heightM, meshLevels, category, submerged, folded },
                   preset.vegDrawScale, preset.name);
                 const ladder = lodLadder(rings, meshLevels, card, maxDraw);
+                // Every shipped mesh level is reached (round 13d: low skipped
+                // a two-level tree's far rung) wherever the draw distance
+                // reaches the last level's start.
+                const shown = ladder.filter((r) => r.hi > r.lo).map((r) => r.level);
+                const meshShown = shown.filter((l) => l < meshLevels);
+                if (meshLevels === 1 || rings[meshLevels - 2] < maxDraw) {
+                  const want = Array.from({ length: meshLevels }, (_, i) => i);
+                  if (JSON.stringify(meshShown) !== JSON.stringify(want)) {
+                    failures.push(`${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels}: rungs ${shown}`);
+                  }
+                }
                 const vanishes = submerged || category !== "tree";
                 failures.push(...ladderCoverageFailures(ladder, vanishes, maxDraw,
                   `${preset.name} h${heightM} ${category} sub${submerged} L${meshLevels} card${hasCard}`));

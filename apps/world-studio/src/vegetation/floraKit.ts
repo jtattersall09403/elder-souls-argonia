@@ -234,11 +234,13 @@ export function buildFloraKit(
       const material = material0;
       // Foliage is alpha-*tested*, never blended: blending sorts wrongly
       // through a canopy and costs the most on exactly the devices that can
-      // least afford it (module 65 §111). Billboards are always cutout cards,
-      // whatever the base asset's mode.
+      // least afford it (module 65 §111). Billboards are always cutout cards
+      // at 0.5, whatever the base asset's mode; a mesh level keeps the cutoff
+      // GLTFLoader read from its MASK material (the NIF's own NiAlphaProperty
+      // threshold, walk 5: mangroves test at 45-70/255, not 0.5).
       const std = material as THREE.MeshStandardMaterial;
       if ((alphaTested.has(id) || isBillboard(mesh)) && std) {
-        std.alphaTest = 0.5;
+        std.alphaTest = !isBillboard(mesh) && std.alphaTest > 0 ? std.alphaTest : 0.5;
         std.transparent = false;
         std.depthWrite = true;
         std.side = THREE.DoubleSide;
@@ -607,6 +609,17 @@ export function speciesRings(
   // Two mesh levels: the second runs to the card, so rings 1 and 2 are one.
   if (species.meshLevels === 2) rings[1] = rings[2];
   for (let i = 1; i < rings.length; i++) rings[i] = Math.max(rings[i], rings[i - 1]);
+  // Every shipped mesh level gets a rung in every band: each level ends no
+  // nearer than where it starts times the band's own pixel step between the
+  // two hand-overs (the screen-size span the band gives it unclamped). Without
+  // it the low band's 18 m floor on ring 0 met the card at 18 m and a
+  // two-level tree went base -> card, never drawing its far level (round 13d).
+  const ends = species.meshLevels === 2 ? [0, 2] : [0, 1, 2];
+  for (let k = 1; k < ends.length; k++) {
+    const [a, b] = [ends[k - 1], ends[k]];
+    rings[b] = Math.max(rings[b], rings[a] * (px[a] / px[b]));
+  }
+  if (species.meshLevels === 2) rings[1] = rings[2];
   return rings;
 }
 
