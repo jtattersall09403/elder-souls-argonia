@@ -3,6 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
+import { RenderTarget, type WebGPURenderer } from "three/webgpu";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import type { SettlementDoor } from "@elder-souls/game-core/settlement/types";
 import { buildArchitectureKit } from "@elder-souls/game-core/settlement/kit";
@@ -109,7 +110,7 @@ export function InteriorDoors({
     });
   }, [baseUrl, decoders, kitCache]);
 
-  const linker = useMemo(() => new InteriorLinker(gl, scene), [gl, scene]);
+  const linker = useMemo(() => new InteriorLinker(gl as unknown as WebGPURenderer, scene), [gl, scene]);
   useEffect(() => () => linker.dispose(), [linker]);
 
   // A cell the doors prefetch is linked as soon as it is built, against the
@@ -328,7 +329,7 @@ const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
  * settlement layer links a build (SettlementLayer `compileAsync`): the sky's
  * lit preparer patches every material first (CSM, fixture lights), then
  * `compileAsync` links in parallel where the driver can
- * (KHR_parallel_shader_compile). A program's key depends on where the scene
+ * (async pipeline creation). A pipeline's key depends on where the scene
  * pass draws: the water pipeline draws the scene into a linear, un-tone-mapped
  * target, the bare scene draws to the screen. `scene.onBeforeRender` records
  * which for the pass that draws layer 0, and the link binds a 1x1 target of
@@ -336,16 +337,16 @@ const fmtS = (s: number | null) => (s === null ? "-" : `${s.toFixed(2)} s`);
  */
 class InteriorLinker {
   private drawsToTarget = false;
-  private readonly scratch = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+  private readonly scratch = new RenderTarget(1, 1, { type: THREE.HalfFloatType });
   private readonly warmed = new WeakSet<LoadedInterior>();
   private readonly hook: THREE.Scene["onBeforeRender"];
   private readonly previous: THREE.Scene["onBeforeRender"];
 
-  constructor(private readonly gl: THREE.WebGLRenderer, private readonly scene: THREE.Scene) {
+  constructor(private readonly gl: WebGPURenderer, private readonly scene: THREE.Scene) {
     const previous = scene.onBeforeRender;
     this.previous = previous;
     const hook: THREE.Scene["onBeforeRender"] = (...args) => {
-      const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, THREE.WebGLRenderTarget | null];
+      const [, , camera, target] = args as unknown as [unknown, unknown, THREE.Camera, RenderTarget | null];
       if (camera.layers.isEnabled(0)) this.drawsToTarget = target !== null;
       previous.apply(scene, args);
     };

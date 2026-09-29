@@ -13,6 +13,14 @@ import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { NodeMaterial } from "three/webgpu";
 import { toNodeMaterial } from "@elder-souls/game-core/render/nodes/materialNodes";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
+import {
+  BAYER4_THRESHOLDS,
+  LOD_CULL_BAND_M,
+  lodFadeFactors,
+  lodPixelKept,
+  type LodRung,
+} from "@elder-souls/game-core/fx/lodFade";
+import { cellRungs } from "@elder-souls/game-core/vegetation/cellBuild";
 
 export interface KitLevel {
   readonly parts: {
@@ -62,6 +70,10 @@ export interface KitSpecies {
    * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
    * — drawing them puts geometry underground or in the sky either way. */
   readonly suspect: boolean;
+  /** Set where the species' card level draws an octahedral IMPOSTOR
+   * (`installImpostors`): the tree's height in impostor texels. The rung
+   * never starts where the tree is taller than that on screen. */
+  readonly impostorPx?: number;
 }
 
 export type FloraKit = Map<string, KitSpecies>;
@@ -230,11 +242,13 @@ export function buildFloraKit(
       const material = material0;
       // Foliage is alpha-*tested*, never blended: blending sorts wrongly
       // through a canopy and costs the most on exactly the devices that can
-      // least afford it (module 65 §111). Billboards are always cutout cards,
-      // whatever the base asset's mode.
+      // least afford it (module 65 §111). Billboards are always cutout cards
+      // at 0.5, whatever the base asset's mode; a mesh level keeps the cutoff
+      // GLTFLoader read from its MASK material (the NIF's own NiAlphaProperty
+      // threshold, walk 5: mangroves test at 45-70/255, not 0.5).
       const std = material as unknown as THREE.MeshStandardMaterial;
       if ((alphaTested.has(id) || isBillboard(mesh)) && std) {
-        std.alphaTest = 0.5;
+        std.alphaTest = !isBillboard(mesh) && std.alphaTest > 0 ? std.alphaTest : 0.5;
         std.transparent = false;
         std.depthWrite = true;
         std.side = THREE.DoubleSide;
@@ -548,13 +562,21 @@ export function speciesRings(
     category: string | null;
     submerged: boolean;
     folded: boolean;
+    /** `KitSpecies.impostorPx`: the card rung is an impostor. */
+    impostorPx?: number;
   },
   drawScale: number,
   band: QualitySettings["name"] = "low",
 ): number[] {
   const small = species.category !== "tree" && !species.submerged;
+  // An impostor rung starts no nearer than where the tree's projected height
+  // falls to its texel height (screen-size hand-over; walk-5 impostor lane).
+  const impostorFrom = species.impostorPx
+    ? distanceAtPx(species.heightM, species.impostorPx) * (species.submerged ? SUBMERGED_LOD_SCALE : 1)
+    : 0;
   if (species.meshLevels <= 1) {
-    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band);
+    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band)
+      .map((r) => Math.max(r, impostorFrom));
     if (!small) return rings;
     const floor = SMALL_PLANT_TOP_TIER_M[band];
     return rings.map((r) => Math.max(r, floor));
@@ -575,11 +597,68 @@ export function speciesRings(
   rings[0] = Math.max(rings[0], floor0 * scale);
   // The card never comes nearer than the folded ladder put it: a species that
   // gained tiers only ever gains mesh distance.
-  rings[2] = Math.max(rings[2], lodRings(h, drawScale, species.submerged, true, band)[0]);
+  rings[2] = Math.max(rings[2], lodRings(h, drawScale, species.submerged, true, band)[0],
+    impostorFrom);
   // Two mesh levels: the second runs to the card, so rings 1 and 2 are one.
   if (species.meshLevels === 2) rings[1] = rings[2];
   for (let i = 1; i < rings.length; i++) rings[i] = Math.max(rings[i], rings[i - 1]);
+  // Every shipped mesh level gets a rung in every band: each level ends no
+  // nearer than where it starts times the band's own pixel step between the
+  // two hand-overs (the screen-size span the band gives it unclamped). Without
+  // it the low band's 18 m floor on ring 0 met the card at 18 m and a
+  // two-level tree went base -> card, never drawing its far level (round 13d).
+  const ends = species.meshLevels === 2 ? [0, 2] : [0, 1, 2];
+  for (let k = 1; k < ends.length; k++) {
+    const [a, b] = [ends[k - 1], ends[k]];
+    rings[b] = Math.max(rings[b], rings[a] * (px[a] / px[b]));
+  }
+  if (species.meshLevels === 2) rings[1] = rings[2];
   return rings;
+}
+
+/**
+ * Swap a species' CARD level for its octahedral impostor (walk-5 impostor
+ * lane; decision 0108 §5). The impostor takes the card's rung, not a new one:
+ * it is two triangles against the card's four and reads the tree from every
+ * direction, so a card after it would only be a worse picture of the same
+ * thing. A species with no card, or whose impostor GLB lacks a texture,
+ * keeps what it had. `parts` come from game-core `impostorPart`.
+ */
+export function installImpostors(
+  kit: FloraKit,
+  impostors: ReadonlyMap<string, { part: KitLevel["parts"][number]; contentPx: number }>,
+): FloraKit {
+  const out: FloraKit = new Map(kit);
+  for (const [id, { part, contentPx }] of impostors) {
+    const species = kit.get(id);
+    if (!species || species.billboardIndex === null) continue;
+    const levels = species.levels.map((level, i) =>
+      i === species.billboardIndex ? { parts: [part], triangles: 2 } : level);
+    out.set(id, { ...species, levels, impostorPx: contentPx });
+  }
+  return out;
+}
+
+/**
+ * Withhold the card of every species whose impostor is still downloading
+ * (walk-5 impostor ship): the impostors load after the startup window, never
+ * in the startup payload, and until they arrive the species' last MESH level
+ * runs to the draw distance (no card rung, `lodLadder` with a null card), so
+ * coverage has no gap and the tree never shows a card it is about to swap.
+ */
+export function withholdCards(kit: FloraKit, ids: Iterable<string>): FloraKit {
+  const out: FloraKit = new Map(kit);
+  for (const id of ids) {
+    const species = kit.get(id);
+    if (!species || species.billboardIndex === null
+      || species.billboardIndex !== species.levels.length - 1) continue;
+    out.set(id, {
+      ...species,
+      levels: species.levels.slice(0, species.billboardIndex),
+      billboardIndex: null,
+    });
+  }
+  return out;
 }
 
 /**
@@ -595,4 +674,45 @@ export function mergeFloraKits(first: FloraKit, second: FloraKit): FloraKit {
     if (!merged.has(id)) merged.set(id, species);
   }
   return merged;
+}
+
+/** The lowest, a middle and the highest Bayer threshold. */
+const COVERAGE_BAYERS = [BAYER4_THRESHOLDS[0], BAYER4_THRESHOLDS[7], BAYER4_THRESHOLDS[15]];
+
+/**
+ * The band-coverage invariant (walk 5, 2026-09-29) for one emitted ladder, as
+ * failure lines (empty = holds): the rungs run contiguously from 0 to
+ * `maxDraw`, and at every metre and around every rung edge each screen pixel
+ * is kept by EXACTLY one rung (inside the vanish window, at most one). A gap
+ * is a plant invisible at some distance that reappears nearer — the walk-5
+ * "pop in, then pop out". Shared by `ladderCoverage.test.ts` (every species
+ * shape) and the real-kit ladder tests (`floraKitFarOnly.test.ts`).
+ */
+export function ladderCoverageFailures(
+  ladder: readonly LodRung[],
+  vanishes: boolean,
+  maxDraw: number,
+  label: string,
+): string[] {
+  const failures: string[] = [];
+  if (ladder.length === 0 || ladder[0].lo !== 0) failures.push(`${label} does not start at 0`);
+  for (let i = 1; i < ladder.length; i++) {
+    if (ladder[i].lo !== ladder[i - 1].hi) failures.push(`${label} gap/overlap at rung ${i}`);
+  }
+  if (ladder.length && Math.abs(ladder[ladder.length - 1].hi - maxDraw) > 1e-6) {
+    failures.push(`${label} ends at ${ladder[ladder.length - 1].hi}, not ${maxDraw}`);
+  }
+  const rungs = cellRungs(ladder, vanishes);
+  const solidTo = vanishes ? maxDraw - LOD_CULL_BAND_M : maxDraw * 1.2;
+  const ds: number[] = [];
+  for (let d = 0; d <= maxDraw + LOD_CULL_BAND_M + 1; d += 1) ds.push(d);
+  for (const r of ladder) for (const e of [-0.5, -1e-3, 0, 1e-3, 0.5]) ds.push(Math.max(0, r.hi + e));
+  for (const d of ds) {
+    for (const bayer of COVERAGE_BAYERS) {
+      let kept = 0;
+      for (const r of rungs) if (lodPixelKept(lodFadeFactors(r.band, d), bayer)) kept++;
+      if (d < solidTo ? kept !== 1 : kept > 1) failures.push(`${label} d${d} kept ${kept}`);
+    }
+  }
+  return failures;
 }

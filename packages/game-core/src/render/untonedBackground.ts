@@ -3,7 +3,7 @@
  *
  * Three 0.184's WebGPURenderer tone-maps the whole frame in its output pass,
  * the clear colour included, so a Color background shifts under ACES; the
- * classic WebGLRenderer cleared to it untouched. No node can skip that pass,
+ * classic (pre-node) renderer cleared to it untouched. No node can skip that pass,
  * so this pre-applies the inverse: the returned Color, once tone-mapped with
  * the renderer's own exposure, lands on the requested colour (decision 0111).
  * Only NoToneMapping and ACESFilmicToneMapping are inverted; any other mode

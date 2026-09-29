@@ -3,30 +3,41 @@
  * decision 0108 §5). One quad per instance, facing the camera; its pixels
  * come from an atlas of the tree's own mesh rendered from a hemi-octahedral
  * grid of directions (`pipeline/impostor_bake.py`, agargaro's
- * octahedral-impostor method). The vertex shader picks the three baked views
+ * octahedral-impostor method). The vertex stage picks the three baked views
  * around the current view direction and projects the quad onto each of them;
- * the fragment shader blends the three taps by alpha-weighted barycentric
- * weights, and lights the pixel through the object-space normal atlas with
- * the material's own lights (sun, ambient, CSM, fixture lights: it IS a
- * `MeshStandardMaterial`, so WorldSky's per-frame patch walk treats it like
- * every other lit plant).
+ * the fragment stage blends the three taps by alpha-weighted barycentric
+ * weights (the cell's split diagonal follows the grid's axis diagonals, see
+ * `selectFrames`), and lights the pixel through the object-space normal atlas
+ * with the material's own lights: it IS a `MeshStandardNodeMaterial`, so the
+ * sun, ambient, CSM shadow node, fixture lights and the scene fogNode apply
+ * as to every other lit plant.
  *
  * THE SHARED GEOMETRY. `frameBasis`, `gridDir` and `selectFrames` below are
- * the same arithmetic as the GLSL and as `impostor_bake.py` (whose judge
- * reconstructs the impostor with them); `impostor.test.ts` pins the three
- * copies to the same numbers.
+ * the same arithmetic as the node graph and as `impostor_bake.py` (whose
+ * judge reconstructs the impostor with them); `impostor.test.ts` pins the TS
+ * and Python copies to the same numbers.
  *
- * Survival rules, the same contract as `fx/billboardQuad.ts`: the hook is
- * chained (`previous?.call` first), re-installed by `reapplyImpostor` after
- * CSM overwrites `onBeforeCompile`, and carries a stable
- * `customProgramCacheKey` suffix, so every impostor species shares one
- * program. Unlike the other hooks its state lives on the material INSTANCE,
- * not in `userData`: the vegetation batches `clone()` the kit material, and
- * `Material.copy` JSON-clones `userData` (a texture there would not survive)
- * and drops `onBeforeCompile`; `ImpostorMaterial.copy` re-installs the hook.
+ * TSL node features (decision 0111, docs/standards/tsl-shaders.md): the quad
+ * rebuild is the `positionNode` (object space, pre-instance, installed first
+ * so wind and the LOD fade wrap it), the tap blend is the `colorNode`, the
+ * atlas normal is the `normalNode`. The nodes are plain own properties, so a
+ * batch's `cloneNodeMaterial` copy carries them; nothing needs re-installing.
+ * In the shadow pass `cameraPosition` is the light's camera, so the caster
+ * turns to the sun and casts the tree's silhouette from the sun's side.
  */
 
 import * as THREE from "three";
+import { MeshStandardNodeMaterial } from "three/webgpu";
+import * as tsl from "three/tsl";
+import { instanceMatrixNode, matrixColumn } from "../fx/instanceNodes";
+import { sel, type TslNode } from "../render/nodes/materialNodes";
+
+// TSL chains are typed loosely on purpose (tsl-shaders.md §1).
+const {
+  abs, cameraPosition, cameraViewMatrix, clamp, cross, dot, float, floor, length, mat3, max,
+  modelWorldMatrix, normalize, positionGeometry, texture, transpose, uniform, varying,
+  vec2, vec3, vec4,
+} = tsl as unknown as Record<string, TslNode>;
 
 /** One row of the kit's `<kit>.impostors.json` sidecar. */
 export interface ImpostorRecord {
@@ -89,6 +100,14 @@ export function selectFrames(v: V3, n: number): { frames: [number, number][]; we
   const g = [((px + pz) * 0.5 + 0.5) * (n - 1), ((px - pz) * 0.5 + 0.5) * (n - 1)];
   const c = g.map((k) => Math.min(Math.max(Math.floor(k), 0), n - 2));
   const f = [g[0] - c[0], g[1] - c[1]];
+  const h = (n - 1) / 2;
+  if ((c[0] + 0.5 - h) * (c[1] + 0.5 - h) > 0) {
+    // Toward grid corners (0,0) and (n-1,n-1) the cell splits along its main
+    // diagonal, so the +-X azimuths run along a triangle edge as +-Z do.
+    return f[0] >= f[1]
+      ? { frames: [[c[0], c[1]], [c[0] + 1, c[1] + 1], [c[0] + 1, c[1]]], weights: [1 - f[0], f[1], f[0] - f[1]] }
+      : { frames: [[c[0], c[1]], [c[0] + 1, c[1] + 1], [c[0], c[1] + 1]], weights: [1 - f[1], f[0], f[1] - f[0]] };
+  }
   if (f[0] + f[1] < 1) {
     return {
       frames: [[c[0], c[1]], [c[0] + 1, c[1]], [c[0], c[1] + 1]],
@@ -106,130 +125,7 @@ export function selectFrames(v: V3, n: number): { frames: [number, number][]; we
 export const PARALLAX_STEPS = 2;
 export const PARALLAX_MIN_COS = 0.2;
 
-const SHARED_HEAD = /* glsl */ `
-varying vec3 esImpP;
-varying vec3 esImpVd;
-varying vec4 esImpF01;
-varying vec2 esImpF2;
-varying vec3 esImpW;
-varying vec3 esImpAx;
-varying vec3 esImpAy;
-varying vec3 esImpAz;
-uniform float esImpGrid;
-uniform float esImpCell;
-vec3 esImpDir(vec2 f) {
-  vec2 g = f / (esImpGrid - 1.0) * 2.0 - 1.0;
-  vec2 p = vec2(g.x + g.y, g.x - g.y) * 0.5;
-  return normalize(vec3(p.x, max(1.0 - abs(p.x) - abs(p.y), 0.0), p.y));
-}
-void esImpBasis(vec3 d, out vec3 r, out vec3 u) {
-  r = vec3(d.z, 0.0, -d.x);
-  float n = length(r);
-  r = n < 1e-6 ? vec3(1.0, 0.0, 0.0) : r / n;
-  u = cross(d, r);
-}
-`;
-
-const VERTEX_HEAD = /* glsl */ `
-${SHARED_HEAD}
-uniform vec3 esImpCentre;
-`;
-
-const VERTEX_BODY = /* glsl */ `
-{
-  mat4 esImpM = modelMatrix;
-  mat3 esImpN = normalMatrix;
-  #ifdef USE_INSTANCING
-    esImpM = modelMatrix * instanceMatrix;
-    esImpN = normalMatrix * mat3(instanceMatrix);
-  #endif
-  vec3 esImpV = normalize((inverse(esImpM) * vec4(cameraPosition, 1.0)).xyz - esImpCentre);
-  vec3 esImpR; vec3 esImpU;
-  esImpBasis(esImpV, esImpR, esImpU);
-  esImpP = (position.x * esImpR + position.y * esImpU) * esImpCell;
-  esImpVd = esImpV;
-  transformed = esImpCentre + esImpP;
-  vec3 esImpH = vec3(esImpV.x, max(esImpV.y, 0.0) + 1e-5, esImpV.z);
-  vec2 esImpQ = esImpH.xz / (abs(esImpH.x) + esImpH.y + abs(esImpH.z));
-  vec2 esImpG = (vec2(esImpQ.x + esImpQ.y, esImpQ.x - esImpQ.y) * 0.5 + 0.5) * (esImpGrid - 1.0);
-  vec2 esImpC = clamp(floor(esImpG), vec2(0.0), vec2(esImpGrid - 2.0));
-  vec2 esImpFr = esImpG - esImpC;
-  if (esImpFr.x + esImpFr.y < 1.0) {
-    esImpF01 = vec4(esImpC, esImpC + vec2(1.0, 0.0));
-    esImpW = vec3(1.0 - esImpFr.x - esImpFr.y, esImpFr.x, esImpFr.y);
-  } else {
-    esImpF01 = vec4(esImpC + vec2(1.0), esImpC + vec2(1.0, 0.0));
-    esImpW = vec3(esImpFr.x + esImpFr.y - 1.0, 1.0 - esImpFr.y, 1.0 - esImpFr.x);
-  }
-  esImpF2 = esImpC + vec2(0.0, 1.0);
-  esImpAx = esImpN * vec3(1.0, 0.0, 0.0);
-  esImpAy = esImpN * vec3(0.0, 1.0, 0.0);
-  esImpAz = esImpN * vec3(0.0, 0.0, 1.0);
-}
-`;
-
-/** Per frame: the pixel's view ray walked onto the frame's depth surface
- * (PARALLAX_STEPS fixed-point steps from the centre plane), then the tap
- * coordinates; outside the frame a tap is empty. */
-const FRAGMENT_HEAD = /* glsl */ `
-${SHARED_HEAD}
-uniform sampler2D esImpNormalMap;
-uniform sampler2D esImpDepthMap;
-vec2 esImpAt(vec2 f, vec2 uv) {
-  return (f + vec2(uv.x, 1.0 - uv.y)) / esImpGrid;
-}
-vec2 esImpUv(vec2 f) {
-  vec3 d = esImpDir(f);
-  vec3 r; vec3 u;
-  esImpBasis(d, r, u);
-  vec3 q = esImpP / esImpCell;
-  float vr = dot(esImpVd, r);
-  float vu = dot(esImpVd, u);
-  float vd = max(dot(esImpVd, d), ${PARALLAX_MIN_COS.toFixed(2)});
-  vec3 o = vec3(dot(q, r), dot(q, u), dot(q, d));
-  float t = 0.0;
-  for (int k = 0; k < ${PARALLAX_STEPS}; k++) {
-    vec2 uv = clamp(vec2(o.x - t * vr, o.y - t * vu) + 0.5, 0.0, 1.0);
-    t = (o.z - (texture2D(esImpDepthMap, esImpAt(f, uv)).r - 0.5)) / vd;
-  }
-  return vec2(o.x - t * vr, o.y - t * vu) + 0.5;
-}
-bool esImpIn(vec2 uv) {
-  return uv.x >= 0.0 && uv.y >= 0.0 && uv.x <= 1.0 && uv.y <= 1.0;
-}
-vec4 esImpTap(sampler2D t, vec2 f, vec2 uv) {
-  return esImpIn(uv) ? texture2D(t, esImpAt(f, uv)) : vec4(0.0);
-}
-`;
-
-/** Replaces <map_fragment>: the alpha-weighted blend of the three taps. */
-const MAP_BODY = /* glsl */ `
-  vec2 esImpUv0 = esImpUv(esImpF01.xy);
-  vec2 esImpUv1 = esImpUv(esImpF01.zw);
-  vec2 esImpUv2 = esImpUv(esImpF2);
-  vec4 esImpT0 = esImpTap(map, esImpF01.xy, esImpUv0);
-  vec4 esImpT1 = esImpTap(map, esImpF01.zw, esImpUv1);
-  vec4 esImpT2 = esImpTap(map, esImpF2, esImpUv2);
-  vec3 esImpWa = esImpW * vec3(esImpT0.a, esImpT1.a, esImpT2.a);
-  float esImpAlpha = esImpWa.x + esImpWa.y + esImpWa.z;
-  vec3 esImpCol = (esImpT0.rgb * esImpWa.x + esImpT1.rgb * esImpWa.y + esImpT2.rgb * esImpWa.z)
-    / max(esImpAlpha, 1e-4);
-  diffuseColor *= vec4(esImpCol, esImpAlpha);
-`;
-
-/** Replaces <normal_fragment_maps>: object-space normal atlas -> view space. */
-const NORMAL_BODY = /* glsl */ `
-  vec3 esImpNo = (esImpTap(esImpNormalMap, esImpF01.xy, esImpUv0).xyz * 2.0 - 1.0) * esImpWa.x
-    + (esImpTap(esImpNormalMap, esImpF01.zw, esImpUv1).xyz * 2.0 - 1.0) * esImpWa.y
-    + (esImpTap(esImpNormalMap, esImpF2, esImpUv2).xyz * 2.0 - 1.0) * esImpWa.z;
-  normal = normalize(esImpAx * esImpNo.x + esImpAy * esImpNo.y + esImpAz * esImpNo.z
-    + vec3(0.0, 0.0, 1e-4));
-`;
-
-/** Cache-key suffix: every impostor program is the same program. */
-export const IMPOSTOR_CACHE_KEY = "|es-imp";
-
-/** What the hook needs; shared by reference between a material and its clones. */
+/** What the graph needs; shared by reference between a material and its clones. */
 export interface ImpostorParams {
   grid: number;
   cellM: number;
@@ -238,76 +134,151 @@ export interface ImpostorParams {
   depthMap: THREE.Texture;
 }
 
-function installImpostorHook(material: ImpostorMaterial): void {
-  const params = material.esImpostor;
-  if (!params) return;
-  const previous = material.onBeforeCompile;
-  const uniforms = {
-    esImpGrid: { value: params.grid },
-    esImpCell: { value: params.cellM },
-    esImpCentre: { value: params.centre },
-    esImpNormalMap: { value: params.normalMap },
-    esImpDepthMap: { value: params.depthMap },
+/** `frameBasis` as nodes: right = normalize(Y x d) (X where d is vertical). */
+function basisNode(d: TslNode): { r: TslNode; u: TslNode } {
+  const r0 = vec3(d.z, 0, d.x.negate());
+  const n = length(r0);
+  const r = sel(n.lessThan(1e-6), vec3(1, 0, 0), r0.div(max(n, 1e-6)));
+  return { r, u: cross(d, r) };
+}
+
+/** `gridDir` as nodes, for a frame `f` (vec2, float grid coordinates). */
+function dirNode(f: TslNode, grid: TslNode): TslNode {
+  const g = f.div(grid.sub(1)).mul(2).sub(1);
+  const p = vec2(g.x.add(g.y), g.x.sub(g.y)).mul(0.5);
+  return normalize(vec3(p.x, max(float(1).sub(abs(p.x)).sub(abs(p.y)), 0), p.y));
+}
+
+/**
+ * The impostor graph for one material: sets `positionNode`, `colorNode` and
+ * `normalNode`. The vertex half (quad rebuild, frame choice, the instance's
+ * axes in view space) reaches the fragment through varyings, as the GLSL did.
+ */
+function installImpostorNodes(material: ImpostorMaterial, params: ImpostorParams, albedo: THREE.Texture | null): void {
+  const grid = uniform(params.grid);
+  const cell = uniform(params.cellM);
+  const centre = uniform(params.centre);
+
+  // ---- vertex: the object's frame. The instance basis is rotation x uniform
+  // scale (the scatter never shears), so its inverse is basis^T / s^2: WGSL
+  // has no inverse().
+  const m = modelWorldMatrix.mul(instanceMatrixNode());
+  const c0 = matrixColumn(m, 0);
+  const scaleSq = max(dot(c0, c0), 1e-12);
+  const basis = mat3(c0, matrixColumn(m, 1), matrixColumn(m, 2));
+  const camObj = transpose(basis).mul(cameraPosition.sub(matrixColumn(m, 3))).div(scaleSq);
+  const v = normalize(camObj.sub(centre));
+  const { r, u } = basisNode(v);
+  // The raw attribute, not positionLocal: a varying reads it too.
+  const quad = positionGeometry;
+  const pObj = r.mul(quad.x).add(u.mul(quad.y)).mul(cell);
+
+  const hv = vec3(v.x, max(v.y, 0).add(1e-5), v.z);
+  const q = hv.xz.div(abs(hv.x).add(hv.y).add(abs(hv.z)));
+  const g = vec2(q.x.add(q.y), q.x.sub(q.y)).mul(0.5).add(0.5).mul(grid.sub(1));
+  const cc = clamp(floor(g), vec2(0), vec2(grid.sub(2)));
+  const fr = g.sub(cc);
+  const qd = cc.add(0.5).sub(grid.sub(1).mul(0.5));
+  const diag = qd.x.mul(qd.y).greaterThan(0);
+  const ge = fr.x.greaterThanEqual(fr.y);
+  const lower = fr.x.add(fr.y).lessThan(1);
+  const one = vec2(1, 0);
+  const up = vec2(0, 1);
+  // Main-diagonal split toward grid corners (0,0) and (n-1,n-1), else the
+  // anti-diagonal split: the same three cases as `selectFrames`.
+  const f01 = sel(diag, vec4(cc, cc.add(1)),
+    sel(lower, vec4(cc, cc.add(one)), vec4(cc.add(1), cc.add(one))));
+  const f2 = sel(diag, sel(ge, cc.add(one), cc.add(up)), cc.add(up));
+  const w = sel(diag,
+    sel(ge, vec3(float(1).sub(fr.x), fr.y, fr.x.sub(fr.y)), vec3(float(1).sub(fr.y), fr.x, fr.y.sub(fr.x))),
+    sel(lower, vec3(float(1).sub(fr.x).sub(fr.y), fr.x, fr.y), vec3(fr.x.add(fr.y).sub(1), float(1).sub(fr.y), float(1).sub(fr.x))));
+  // The instance's object axes in view space (normalMatrix x mat3(instance)
+  // up to the uniform scale, which the final normalize removes).
+  const mv = cameraViewMatrix.mul(m);
+  const axis = (a: TslNode) => mv.mul(vec4(a, 0)).xyz;
+
+  material.positionNode = centre.add(pObj);
+
+  // ---- fragment.
+  const vP = varying(pObj, "esImpP");
+  const vVd = varying(v, "esImpVd");
+  const vF01 = varying(f01, "esImpF01");
+  const vF2 = varying(f2, "esImpF2");
+  const vW = varying(w, "esImpW");
+  const vAx = varying(axis(vec3(1, 0, 0)), "esImpAx");
+  const vAy = varying(axis(vec3(0, 1, 0)), "esImpAy");
+  const vAz = varying(axis(vec3(0, 0, 1)), "esImpAz");
+
+  const at = (f: TslNode, uv: TslNode) => f.add(vec2(uv.x, float(1).sub(uv.y))).div(grid);
+  /** The pixel's view ray walked onto frame `f`'s depth surface
+   * (PARALLAX_STEPS fixed-point steps from the centre plane), as tap uv. */
+  const frameUv = (f: TslNode) => {
+    const d = dirNode(f, grid);
+    const b = basisNode(d);
+    const qn = vP.div(cell);
+    const vr = dot(vVd, b.r);
+    const vu = dot(vVd, b.u);
+    const vd = max(dot(vVd, d), PARALLAX_MIN_COS);
+    const o = vec3(dot(qn, b.r), dot(qn, b.u), dot(qn, d));
+    let t: TslNode = float(0);
+    for (let k = 0; k < PARALLAX_STEPS; k++) {
+      const uv = clamp(vec2(o.x.sub(t.mul(vr)), o.y.sub(t.mul(vu))).add(0.5), 0, 1);
+      t = o.z.sub(texture(params.depthMap, at(f, uv)).r.sub(0.5)).div(vd);
+    }
+    return vec2(o.x.sub(t.mul(vr)), o.y.sub(t.mul(vu))).add(0.5);
   };
-  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
-    previous?.call(material, shader, renderer);
-    if (shader.vertexShader.includes("esImpProject")) return; // never twice
-    Object.assign(shader.uniforms, uniforms);
-    shader.vertexShader = shader.vertexShader
-      .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
-      // Right after `begin_vertex`: the quad is rebuilt in object space
-      // before wind, the fade and `project_vertex` see `transformed`.
-      .replace("#include <begin_vertex>", `#include <begin_vertex>\n${VERTEX_BODY}`);
-    shader.fragmentShader = shader.fragmentShader
-      .replace("void main() {", `${FRAGMENT_HEAD}\nvoid main() {`)
-      .replace("#include <map_fragment>", MAP_BODY)
-      .replace("#include <normal_fragment_maps>", NORMAL_BODY);
+  // Outside its frame a tap is empty (both sides evaluated: sel, never select).
+  const tap = (tex: THREE.Texture, f: TslNode, uv: TslNode) => {
+    const inside = uv.x.greaterThanEqual(0).and(uv.y.greaterThanEqual(0))
+      .and(uv.x.lessThanEqual(1)).and(uv.y.lessThanEqual(1));
+    return sel(inside, texture(tex, at(f, uv)), vec4(0));
   };
-  material.onBeforeCompile = wrapped;
-  material.esImpostorWrapped = wrapped;
+  const fa = vF01.xy;
+  const fb = vF01.zw;
+  const uv0 = frameUv(fa);
+  const uv1 = frameUv(fb);
+  const uv2 = frameUv(vF2);
+  const map = albedo ?? new THREE.Texture();
+  const t0 = tap(map, fa, uv0);
+  const t1 = tap(map, fb, uv1);
+  const t2 = tap(map, vF2, uv2);
+  const wa = vW.mul(vec3(t0.a, t1.a, t2.a));
+  const alpha = wa.x.add(wa.y).add(wa.z);
+  const col = t0.rgb.mul(wa.x).add(t1.rgb.mul(wa.y)).add(t2.rgb.mul(wa.z)).div(max(alpha, 1e-4));
+  // diffuseColor = (colour, opacity) x (blend, alpha); NodeMaterial applies
+  // the opacity and the 0.5 alpha test after this node.
+  material.colorNode = vec4(col, alpha);
+
+  const nrm = (f: TslNode, uv: TslNode) => tap(params.normalMap, f, uv).xyz.mul(2).sub(1);
+  const no = nrm(fa, uv0).mul(wa.x).add(nrm(fb, uv1).mul(wa.y)).add(nrm(vF2, uv2).mul(wa.z));
+  material.normalNode = normalize(vAx.mul(no.x).add(vAy.mul(no.y)).add(vAz.mul(no.z))
+    .add(vec3(0, 0, 1e-4)));
   material.needsUpdate = true;
 }
 
 /**
- * The impostor rung's material. A `MeshStandardMaterial` (so every lit-
- * material patch applies), alpha-tested at 0.5 like all foliage, front-faced
- * (the quad always faces the camera), `map` = the albedo atlas.
+ * The impostor rung's material. A `MeshStandardNodeMaterial` (so every lit-
+ * material feature applies), alpha-tested at 0.5 like all foliage,
+ * front-faced (the quad always faces the camera), `map` = the albedo atlas
+ * (for inspection; the colour graph samples it directly).
  */
-export class ImpostorMaterial extends THREE.MeshStandardMaterial {
+export class ImpostorMaterial extends MeshStandardNodeMaterial {
   readonly isImpostorMaterial = true;
   esImpostor: ImpostorParams | null = null;
-  esImpostorWrapped: THREE.Material["onBeforeCompile"] | null = null;
 
   constructor(albedo?: THREE.Texture, params?: ImpostorParams) {
-    super({ map: albedo ?? null, alphaTest: 0.5, roughness: 1, metalness: 0 });
+    super();
+    this.map = albedo ?? null;
+    this.alphaTest = 0.5;
+    this.roughness = 1;
+    this.metalness = 0;
     this.name = "es-impostor";
     this.side = THREE.FrontSide;
-    this.userData.esAerial = true;
     if (params) {
       this.esImpostor = params;
-      installImpostorHook(this);
+      installImpostorNodes(this, params, albedo ?? null);
     }
   }
-
-  override customProgramCacheKey(): string {
-    return `${super.customProgramCacheKey()}${IMPOSTOR_CACHE_KEY}`;
-  }
-
-  override copy(source: ImpostorMaterial): this {
-    super.copy(source);
-    this.esImpostor = source.esImpostor;
-    installImpostorHook(this);
-    return this;
-  }
-}
-
-/** Restore the hook after CSM reassigned `onBeforeCompile`. A no-op on any
- * other material and while the wrapper is live. */
-export function reapplyImpostor(material: THREE.Material): void {
-  const m = material as ImpostorMaterial;
-  if (!m.isImpostorMaterial || !m.esImpostor) return;
-  if (m.onBeforeCompile === m.esImpostorWrapped) return;
-  installImpostorHook(m);
 }
 
 /** The shared quad: corners at ±0.5 in the shader's (right, up) plane. */
