@@ -1593,7 +1593,7 @@ KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
     "build_kit.py", "build.py", "blender/build_kit.py",
     "blender/effect_materials.py", "effect_palette.py", "placement_metadata.py", "trunk_solids.py",
     "vet_kit.py", "measure_footprints.py", "interiors_index.py",
-    "measure_connectors.py", "piece_front.py",
+    "measure_connectors.py", "piece_front.py", "tree_tiers.py",
     "kit_compress.py", "texture_variants.py", "nif_blocks.py"))
 
 #: Records the post-passes read (placement_metadata, interiors_index,
@@ -1982,6 +1982,13 @@ def _build(kit_id: str, vault: Path, force: bool = False, stamp_only: bool = Fal
     if gains:
         print(f"[kit] additive gains: {gains}")
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
+    # Part-aware mid/far mesh tiers for the kit's heavy trees (vegetation
+    # round 13, `treeTiers` in the config; pipeline/tree_tiers.py): after the
+    # alpha modes (the tier materials copy them), before `lodLevels` counts.
+    from . import tree_tiers
+    tiers = tree_tiers.apply(output_glb, summary, kit)
+    if tiers:
+        print(f"[kit] tree tiers: {len(tiers)} assets")
     apply_lod_levels(output_glb, summary)
     sized = apply_size_collision(summary, kit)
     if sized:
