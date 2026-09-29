@@ -31,15 +31,17 @@ import {
 } from "./types";
 import * as THREE from "three";
 import { toEpochMinutes } from "@elder-souls/world-time";
+import { MeshStandardNodeMaterial } from "three/webgpu";
 import {
   applySettlementSurface,
-  applySettlementSurfaceWithShadow,
+  cloneSettlementMaterial,
+  createSettlementMaterialUniforms,
   isSettlementGlowMaterial,
+  settlementSurfaceOf,
+  settlementWallWetness,
+  settlementWetAlbedoScale,
   updateSettlementEnvironment,
   SETTLEMENT_GROUND_ATTRIBUTE,
-  reapplySettlementSurface,
-  settlementShadowPairErrors,
-  syncSettlementDepthTwin,
 } from "./materials";
 
 const placement: SettlementPlacement = {
@@ -318,52 +320,58 @@ describe("settlement placement contract", () => {
   });
 });
 
-describe("settlement material patch contract", () => {
-  it("stores state, chains cache identity, and can be restored after CSM", () => {
-    const material = new THREE.MeshStandardMaterial();
-    const uniforms = { esSettlementRain: { value: 1 }, esSettlementNight: { value: 1 } };
+describe("settlement material node features", () => {
+  it("wraps the colour, emissive and roughness slots once; the same state again changes nothing", () => {
+    const material = new MeshStandardNodeMaterial();
+    const uniforms = createSettlementMaterialUniforms();
     applySettlementSurface(material, uniforms, true);
-    const first = material.onBeforeCompile;
     expect(material.userData.esAerial).toBe(true);
-    expect(material.customProgramCacheKey()).toContain("es-settlement-surface-v2|1|colour");
-    material.onBeforeCompile = () => undefined; // exactly what CSM does
-    reapplySettlementSurface(material);
-    expect(material.onBeforeCompile).not.toBe(first);
-    const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
-      fragmentShader: "#include <common>\n#include <color_fragment>\n#include <emissivemap_fragment>\n#include <roughnessmap_fragment>" };
-    material.onBeforeCompile(shader as never, {} as never);
-    expect(shader.vertexShader).toContain(SETTLEMENT_GROUND_ATTRIBUTE);
-    expect(shader.vertexShader).toContain("esSettlementHeightAboveGround");
-    expect(shader.fragmentShader).toContain("esWallWet");
-    expect(Object.keys(shader.uniforms)).toContain("esSettlementNight");
+    const slots = [material.colorNode, material.emissiveNode, material.roughnessNode];
+    expect(slots.every(Boolean)).toBe(true);
+    const version = material.version;
+    applySettlementSurface(material, uniforms, true);
+    expect([material.colorNode, material.emissiveNode, material.roughnessNode]).toEqual(slots);
+    expect(material.version).toBe(version);
+    // state and base slots never land in the JSON-copied userData
+    expect(Object.keys(material.userData)).toEqual(["esAerial"]);
+    expect(settlementSurfaceOf(material)?.glowMaterial).toBe(true);
+  });
+
+  it("a classic material is left alone (kit.ts converts at load)", () => {
+    const classic = new THREE.MeshStandardMaterial();
+    applySettlementSurface(classic, createSettlementMaterialUniforms(), true);
+    expect(settlementSurfaceOf(classic)).toBeNull();
   });
 
   // Check-in 2 item 8: the night glow is the kit's emissive mask, lit in the
-  // EMISSIVE stage, chosen by the emissive map, ramped on the sun's altitude.
-  it("lights a glow material in the emissive stage and leaves albedo alone", () => {
-    const glow = new THREE.MeshStandardMaterial({ emissive: 0xffffff });
+  // EMISSIVE stage, chosen by the emissive map, ramped on the lamp clock.
+  it("lights a glow material in the emissive stage and leaves a plain one's emissive alone", () => {
+    const glow = new MeshStandardNodeMaterial({ emissive: 0xffffff });
     glow.name = "Farmhouse01:14.Mat"; // no "window" in the name, as shipped
     glow.emissiveMap = new THREE.Texture();
-    const plain = new THREE.MeshStandardMaterial();
+    const plain = new MeshStandardNodeMaterial();
     plain.name = "window-frame"; // a name match must not make it glow
     expect(isSettlementGlowMaterial(glow)).toBe(true);
     expect(isSettlementGlowMaterial(plain)).toBe(false);
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 } };
-    const compile = (material: THREE.MeshStandardMaterial) => {
-      applySettlementSurface(material, uniforms, isSettlementGlowMaterial(material));
-      const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
-        fragmentShader: "#include <common>\n#include <color_fragment>\n#include <emissivemap_fragment>\n#include <roughnessmap_fragment>" };
-      material.onBeforeCompile(shader as never, {} as never);
-      return shader.fragmentShader;
-    };
-    const lit = compile(glow);
-    expect(lit).toMatch(/emissivemap_fragment>\ntotalEmissiveRadiance \*= .*esSettlementNight/);
-    expect(lit).not.toMatch(/diffuseColor\.rgb \+=/);
-    expect(compile(plain)).not.toContain("totalEmissiveRadiance *=");
+    const uniforms = createSettlementMaterialUniforms();
+    applySettlementSurface(glow, uniforms, isSettlementGlowMaterial(glow));
+    applySettlementSurface(plain, uniforms, isSettlementGlowMaterial(plain));
+    expect(glow.emissiveNode).toBeTruthy();
+    expect(plain.emissiveNode).toBeNull();
+    expect(glow.lights).toBe(true);
+  });
+
+  it("wetness: full at the ground line, 0.55 of the rain from 4 m up; albedo to 0.62 x at the wet share", () => {
+    expect(settlementWallWetness(1, 0)).toBe(1);
+    expect(settlementWallWetness(1, -2)).toBe(1);
+    expect(settlementWallWetness(1, 4)).toBeCloseTo(0.55, 12);
+    expect(settlementWallWetness(0.5, 2)).toBeCloseTo(0.5 * (0.55 + 0.45 * 0.5), 12);
+    expect(settlementWetAlbedoScale(0)).toBe(1);
+    expect(settlementWetAlbedoScale(1)).toBeCloseTo(1 - 0.38 * 0.55, 12);
   });
 
   it("lights windows on the lamp clock (lighting.ts), not the sun", () => {
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const uniforms = createSettlementMaterialUniforms();
     const at = (minuteOfDay: number) => {
       updateSettlementEnvironment(uniforms, 0,
         toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }));
@@ -375,67 +383,32 @@ describe("settlement material patch contract", () => {
     expect(at(17 * 60 + 20)).toBeCloseTo(0.5, 6);
   });
 
-  it("creates an alpha/displacement-matched shadow twin with the same state", () => {
-    const material = new THREE.MeshStandardMaterial({ alphaTest: .42, side: THREE.DoubleSide });
-    material.name = "reed-window";
+  it("the shadow pass reuses the colour material: no depth twin, the textures and alpha test are the material's own", () => {
+    const material = new MeshStandardNodeMaterial({ alphaTest: .42, side: THREE.DoubleSide });
     material.map = new THREE.Texture();
-    material.alphaMap = new THREE.Texture();
-    material.displacementMap = new THREE.Texture();
-    material.displacementScale = 1.7;
-    material.displacementBias = -.2;
-    const uniforms = { esSettlementRain: { value: .8 }, esSettlementNight: { value: 0 } };
-    const depth = applySettlementSurfaceWithShadow(material, uniforms, true)!;
-    expect(depth.map).toBe(material.map);
-    expect(depth.alphaMap).toBe(material.alphaMap);
-    expect(depth.alphaTest).toBe(.42);
-    expect(depth.displacementMap).toBe(material.displacementMap);
-    expect(depth.displacementScale).toBe(1.7);
-    expect(depth.userData.esSettlementSurface.uniforms).toBe(uniforms);
-    expect(settlementShadowPairErrors(material, depth)).toEqual([]);
-    expect(depth.customProgramCacheKey()).toContain("es-settlement-surface-v2|0|depth");
-    const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
-      fragmentShader: "#include <common>" };
-    depth.onBeforeCompile(shader as never, {} as never);
-    expect(shader.vertexShader).toContain(SETTLEMENT_GROUND_ATTRIBUTE);
-    expect(shader.vertexShader).toContain("esSettlementHeightAboveGround");
-    depth.dispose(); material.dispose();
+    applySettlementSurface(material, createSettlementMaterialUniforms(), false);
+    const mesh = new THREE.Mesh(new THREE.BoxGeometry(), material);
+    expect(mesh.customDepthMaterial).toBeUndefined();
+    expect(material.castShadowPositionNode).toBeNull();
+    expect(material.maskShadowNode).toBeNull();
+    expect(material.alphaTest).toBe(.42);
   });
 
-  it("re-syncs a reused shadow twin after three's shadow pass flips its side", () => {
-    const material = new THREE.MeshStandardMaterial({ alphaTest: .5 });
+  it("a glow-kind variant copies the textures and re-wraps from the material's own slots, never stacking", () => {
+    const material = new MeshStandardNodeMaterial({ alphaTest: .3, side: THREE.DoubleSide });
     material.map = new THREE.Texture();
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
-    const depth = applySettlementSurfaceWithShadow(material, uniforms)!;
-    depth.side = THREE.BackSide; // what WebGLShadowMap.getDepthMaterial writes
-    expect(settlementShadowPairErrors(material, depth)).toContain(
-      "face side differs from shadow-depth face side");
-    syncSettlementDepthTwin(depth, material);
-    expect(settlementShadowPairErrors(material, depth)).toEqual([]);
-  });
-
-  it("rebuilds and verifies the colour/depth pair at every LOD swap", () => {
-    const contract = { absoluteTriangleFloor: [120, 80] as const,
-      distancePerFootprintDiagonal: [4, 12] as const, farMergeDistanceM: 900 };
-    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
-    const levels = [20, 100, 1000].map((distance) => {
-      const level = architectureLod(distance, 14, 3, contract).level;
-      const colour = new THREE.MeshStandardMaterial({ alphaTest: .3 });
-      colour.name = `lod-${level}`;
-      colour.map = new THREE.Texture();
-      const depth = applySettlementSurfaceWithShadow(colour, uniforms)!;
-      return { level, colour, depth };
-    });
-    expect(levels.map((row) => row.level)).toEqual([0, 1, 2]);
-    for (const row of levels) expect(settlementShadowPairErrors(row.colour, row.depth)).toEqual([]);
-    levels[2].depth.alphaTest = 0;
-    expect(settlementShadowPairErrors(levels[2].colour, levels[2].depth))
-      .toContain("alpha test differs from shadow-depth alpha test");
-    for (const row of levels) { row.depth.dispose(); row.colour.dispose(); }
-  });
-
-  it("refuses an architecture draw that cannot carry a verified depth pair", () => {
-    expect(settlementShadowPairErrors(new THREE.MeshBasicMaterial(), undefined))
-      .toContain("architecture colour material is not a supported physically lit material");
+    material.userData = { additive: true, gain: 2.5 };
+    const uniforms = createSettlementMaterialUniforms();
+    applySettlementSurface(material, uniforms, "lamp-flame");
+    material.userData.esNode_mipAlphaBoost = true;
+    const variant = cloneSettlementMaterial(material);
+    expect([variant.map, variant.alphaTest, variant.side]).toEqual([material.map, .3, THREE.DoubleSide]);
+    expect(variant.colorNode).toBeNull();
+    expect(variant.lights).toBe(true);
+    expect(variant.userData.esNode_mipAlphaBoost).toBeUndefined();
+    applySettlementSurface(variant, uniforms, "flame");
+    expect(settlementSurfaceOf(variant)).toEqual({ glowMaterial: "flame", flameGain: 2.5 });
+    expect(settlementSurfaceOf(material)?.glowMaterial).toBe("lamp-flame");
   });
 
   it("validates the dimensions of the texture actually bound for drawing", () => {

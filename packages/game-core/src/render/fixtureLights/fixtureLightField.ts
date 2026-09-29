@@ -1,35 +1,45 @@
 /**
- * Fixture lights outside three's light list (16k walk 5 perf, WebGL path).
+ * Fixture lights outside three's light list (16k walk 5 perf; decision 0107
+ * node port).
  *
- * three compiles `NUM_POINT_LIGHTS` into every lit program and loops every
- * point light for every fragment, so each settlement lamp used to cost every
- * terrain, tree, ground-cover and wall fragment on screen, and each new count
- * cost a program per lit material. Here the lamps live in one small float
- * texture (`FIXTURE_LIGHTS_MAX` slots: row 0 world position + radius, row 1
- * colour x intensity) with a runtime count, and each drawn object carries the
- * slots of its `FIXTURE_LIGHTS_PER_OBJECT` nearest lamps that reach its
- * bounding sphere. The fragment loops those few, with an early exit on the
- * count and on the radius, using three's own `getDistanceAttenuation` and
- * `RE_Direct`, so a lit wall looks exactly as it did under a `PointLight` of
- * the same colour, intensity, distance and decay 2. The shader text and the
- * program cache key never depend on the count: one program for 0 to 100.
+ * A settlement's burning fixtures (up to `FIXTURE_LIGHTS_MAX`) live in one
+ * small float texture per scene, `FixtureLightField` (row 0 world position +
+ * radius, row 1 colour x intensity), with a runtime count. How they reach the
+ * lit materials is the renderer's LIGHTING, chosen once per renderer by
+ * `installFixtureLighting` (the studio's sky walk and the harness call it):
  *
- * - `install(material)`: the fragment chunk and its uniforms, chained onto the
- *   material's `onBeforeCompile` (idempotent, re-applied after CSM overwrites
- *   the hook), with a stable `customProgramCacheKey` suffix.
- * - `attach(object)`: the per-object slot list, re-chosen on the CPU when the
- *   lamp set changes (`epoch`) or the object moves, and handed to the program
- *   in `onBeforeRender` (three uploads a built-in material's uniforms only when
- *   the material or program changes, so a changed list is written straight to
- *   the bound program; no program switch, no recompile).
- * - The texture is used, never a uniform array: 100 lights as uniforms would
- *   take ~200 of the 224 fragment vectors WebGL2 guarantees.
+ * - `"field"` (`FixtureFieldLighting`, both backends): the scene's lights
+ *   node gains one loop over the drawn object's own list of its
+ *   `FIXTURE_LIGHTS_PER_OBJECT` nearest lamps (16 for a material with
+ *   `userData.esFixtureLightsPerObject = 16`, the terrain), chosen on the CPU
+ *   and handed to the draw as a per-object mat4 uniform (`onObjectUpdate`),
+ *   each lamp through three's own `directPointLight` (getDistanceAttenuation,
+ *   decay 2) and the material's lighting model `direct` (the same BRDF as a
+ *   `PointLight`). The program never depends on the count: one program per
+ *   material for 0..100 lamps.
+ * - `"tiled"` (`FixtureTiledLighting`, WebGPU only): the field mirrors its
+ *   slots into real `PointLight`s (no shadow, decay 2) that three's
+ *   `TiledLighting` bins per 32 px screen tile in a compute pass.
+ * - `"plain"`: the same `PointLight`s through three's default light list (a
+ *   program per light count; the measurement baseline only).
+ *
+ * The choice (`fixtureLightingModeFor`) is the field on both backends,
+ * measured against the other two (tooling/.reports/16k/walk5/webgpu/
+ * lane-L8.md): three's tiled binning drops near lamps (8 per tile, index
+ * order). `"tiled"` and `"plain"` stay for the harness's `?lighting=` switch.
  *
  * One field per scene (`fixtureLightFieldOf`): the scene is the context
- * object; nothing here is a module singleton. The WebGPU path replaces this
- * with clustered lighting; this is the WebGL fallback.
+ * object; nothing here is a module singleton.
  */
 import * as THREE from "three";
+import { Lighting, LightsNode } from "three/webgpu";
+import type { WebGPURenderer } from "three/webgpu";
+import { TiledLighting } from "three/examples/jsm/lighting/TiledLighting.js";
+import {
+  Break, Fn, If, Loop, cameraViewMatrix, directPointLight, float, int, ivec2, positionView, textureLoad, uniform, vec4,
+} from "three/tsl";
+import { activeBackend } from "../createRenderer";
+import type { TslNode } from "../nodes/materialNodes";
 
 /** Lamps the field holds at once: the nearest burning fixtures in the band. */
 export const FIXTURE_LIGHTS_MAX = 100;
@@ -40,14 +50,16 @@ export const FIXTURE_LIGHTS_PER_OBJECT = 8;
 export const FIXTURE_LIGHTS_PER_OBJECT_MAX = 16;
 
 /** The list length a material's objects get: its `userData.esFixtureLightsPerObject`, else 8. */
-export function fixtureLightsPerObject(material: THREE.Material): number {
-  const n = material.userData?.esFixtureLightsPerObject;
+export function fixtureLightsPerObject(material: THREE.Material | null | undefined): number {
+  const n = material?.userData?.esFixtureLightsPerObject;
   return typeof n === "number" && n >= 1
     ? Math.min(FIXTURE_LIGHTS_PER_OBJECT_MAX, Math.floor(n)) : FIXTURE_LIGHTS_PER_OBJECT;
 }
 /** three's PointLight decay the fixture lights reproduce. */
 export const FIXTURE_LIGHT_DECAY = 2;
-const CACHE_KEY = "es-fixture-lights-v1";
+
+/** How fixture light reaches the lit materials (module doc). */
+export type FixtureLightingMode = "field" | "tiled" | "plain";
 
 export interface FixtureLightInput {
   position: THREE.Vector3;
@@ -57,55 +69,35 @@ export interface FixtureLightInput {
 interface ObjectSlots {
   epoch: number;
   n: number;
-  x: number; y: number; z: number; r: number;
+  x: number; y: number; z: number;
   idx: Int32Array;
   count: number;
-  key: number;
 }
 
-type ProgramLike = { program: WebGLProgram; getUniforms(): { setValue(gl: WebGL2RenderingContext, name: string, value: unknown): void } };
-
-/** The fragment lines: three's point-light term for each listed lamp (`n` per object). */
-export const fixtureLightsFragment = (n: number): string => /* glsl */ `
-#if defined( RE_Direct )
-for ( int esFxI = 0; esFxI < ${n}; esFxI ++ ) {
-	if ( esFxI >= esFxCount ) break;
-	int esFxL = esFxIdx[ esFxI ];
-	vec4 esFxP = texelFetch( esFxData, ivec2( esFxL, 0 ), 0 );
-	vec3 esFxV = ( viewMatrix * vec4( esFxP.xyz, 1.0 ) ).xyz - geometryPosition;
-	float esFxD = length( esFxV );
-	if ( esFxD >= esFxP.w ) continue;
-	IncidentLight esFxLight;
-	esFxLight.direction = esFxV / max( esFxD, 1e-4 );
-	esFxLight.color = texelFetch( esFxData, ivec2( esFxL, 1 ), 0 ).rgb
-		* getDistanceAttenuation( esFxD, esFxP.w, ${FIXTURE_LIGHT_DECAY.toFixed(1)} );
-	esFxLight.visible = true;
-	RE_Direct( esFxLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
+/**
+ * three's point-light attenuation (LightUtils getDistanceAttenuation): the
+ * plain-number twin of the graph, for tests.
+ */
+export function fixtureAttenuation(distanceM: number, radiusM: number, decay = FIXTURE_LIGHT_DECAY): number {
+  const falloff = 1 / Math.max(Math.pow(distanceM, decay), 0.01);
+  if (!(radiusM > 0)) return falloff;
+  const t = Math.min(1, Math.max(0, 1 - Math.pow(distanceM / radiusM, 4)));
+  return falloff * t * t;
 }
-#endif
-`;
 
-const FIXTURE_LIGHTS_PARS = /* glsl */ `
-uniform highp sampler2D esFxData;
-uniform int esFxIdx[ ${FIXTURE_LIGHTS_PER_OBJECT_MAX} ];
-uniform int esFxCount;
-`;
-
-/** A material three lights (the ones whose fragment runs `RE_Direct`). */
+/** A material three lights (classic or node: Standard/Physical, Lambert, Phong). */
 export function isFixtureLitMaterial(material: THREE.Material | null | undefined): boolean {
-  const m = material as THREE.MeshStandardMaterial | undefined;
-  return Boolean(m && (m.isMeshStandardMaterial
-    || (m as unknown as THREE.MeshLambertMaterial).isMeshLambertMaterial
-    || (m as unknown as THREE.MeshPhongMaterial).isMeshPhongMaterial));
+  const m = material as (THREE.Material & Record<string, unknown>) | null | undefined;
+  if (!m || (m as { lights?: boolean }).lights === false) return false;
+  return Boolean(m.isMeshStandardMaterial || m.isMeshLambertMaterial || m.isMeshPhongMaterial
+    || m.isMeshStandardNodeMaterial || m.isMeshLambertNodeMaterial || m.isMeshPhongNodeMaterial);
 }
 
 export class FixtureLightField {
   readonly texture: THREE.DataTexture;
-  readonly uniforms: {
-    esFxData: THREE.IUniform<THREE.DataTexture>;
-    esFxIdx: THREE.IUniform<Int32Array>;
-    esFxCount: THREE.IUniform<number>;
-  };
+  /** Per drawn object: its lamp slots as a mat4 (column-major, slot k at
+   * element k; -1 ends the list), written for each draw by `onObjectUpdate`. */
+  readonly slotsNode: TslNode;
   /** Bumps whenever a slot's position or radius changes: per-object lists re-chosen. */
   epoch = 0;
   private readonly data = new Float32Array(FIXTURE_LIGHTS_MAX * 2 * 4);
@@ -113,12 +105,13 @@ export class FixtureLightField {
   private dirty = false;
   private readonly slots = new WeakMap<THREE.Object3D, ObjectSlots>();
   private readonly attached = new WeakSet<THREE.Object3D>();
-  private readonly lastKey = new WeakMap<WebGLProgram, number>();
-  private lastMaterial: THREE.Material | null = null;
   private readonly sphere = new THREE.Sphere();
   private readonly order = new Float64Array(FIXTURE_LIGHTS_MAX);
-  /** Draws that wrote a changed slot list straight to the bound program (probes). */
-  directUploads = 0;
+  private readonly slotMatrix = new THREE.Matrix4();
+  /** The `"tiled"`/`"plain"` modes' real lights (made on first use). */
+  private pointLights: THREE.Group | null = null;
+  /** Draw updates of the slot list so far (probes). */
+  objectUpdates = 0;
 
   constructor() {
     this.texture = new THREE.DataTexture(this.data, FIXTURE_LIGHTS_MAX, 2, THREE.RGBAFormat, THREE.FloatType);
@@ -127,11 +120,8 @@ export class FixtureLightField {
     this.texture.generateMipmaps = false;
     this.texture.name = "es-fixture-lights";
     this.texture.needsUpdate = true;
-    this.uniforms = {
-      esFxData: { value: this.texture },
-      esFxIdx: { value: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX) },
-      esFxCount: { value: 0 },
-    };
+    this.slotsNode = (uniform as (value: unknown, type: string) => TslNode)(new THREE.Matrix4(), "mat4").onObjectUpdate(
+      ({ object, material }: { object: THREE.Object3D; material?: THREE.Material }) => this.slotMatrixFor(object, material));
   }
 
   /** Lamps held now. */
@@ -171,64 +161,69 @@ export class FixtureLightField {
     return [this.data[o], this.data[o + 1], this.data[o + 2]];
   }
 
-  /** Upload the texture if any slot changed this frame (a 3.2 KB texImage). */
+  /** Upload the texture if any slot changed this frame (a 3.2 KB write), and
+   * mirror the slots into the point lights when a point-light mode uses them. */
   commit(): void {
     if (!this.dirty) return;
     this.dirty = false;
     this.texture.needsUpdate = true;
+    if (this.pointLights) this.syncPointLights();
   }
 
   /**
-   * Chain the fragment chunk onto `material` (a lit material only). Idempotent,
-   * and safe to call again after another hook (CSM) replaced `onBeforeCompile`:
-   * it re-wraps the new hook. Returns whether the material now carries it.
+   * The `"tiled"`/`"plain"` modes' lights: `FIXTURE_LIGHTS_MAX` PointLights
+   * (no shadow, decay 2) under one group added to `scene`, mirroring the
+   * slots (a slot past the count, or dark, is hidden). Idempotent.
    */
-  install(material: THREE.Material): boolean {
-    if (!isFixtureLitMaterial(material)) return false;
-    const m = material;
-    if (m.userData.esFixtureHook && m.userData.esFixtureHook === m.onBeforeCompile) return true;
-    const previous = m.onBeforeCompile;
-    const uniforms = this.uniforms;
-    const perObject = fixtureLightsPerObject(m);
-    const hook: THREE.Material["onBeforeCompile"] = function (this: THREE.Material, shader, renderer) {
-      previous?.call(this, shader, renderer);
-      shader.uniforms.esFxData = uniforms.esFxData;
-      shader.uniforms.esFxIdx = uniforms.esFxIdx;
-      shader.uniforms.esFxCount = uniforms.esFxCount;
-      shader.fragmentShader = shader.fragmentShader
-        .replace("#include <common>", `#include <common>\n${FIXTURE_LIGHTS_PARS}`)
-        .replace("#include <lights_fragment_begin>", `#include <lights_fragment_begin>\n${fixtureLightsFragment(perObject)}`);
-    };
-    const wasInstalled = Boolean(m.userData.esFixtureHook);
-    m.onBeforeCompile = hook;
-    m.userData.esFixtureHook = hook;
-    if (!m.userData.esFixtureKeyed) {
-      m.userData.esFixtureKeyed = true;
-      const priorKey = m.customProgramCacheKey;
-      m.customProgramCacheKey = function (this: THREE.Material) {
-        return `${priorKey.call(this)}|${CACHE_KEY}|${fixtureLightsPerObject(this)}`;
-      };
+  usePointLights(scene: THREE.Object3D): THREE.Group {
+    if (!this.pointLights) {
+      const group = new THREE.Group();
+      group.name = "es-fixture-point-lights";
+      for (let i = 0; i < FIXTURE_LIGHTS_MAX; i++) {
+        const light = new THREE.PointLight(0xffffff, 0, 1, FIXTURE_LIGHT_DECAY);
+        light.castShadow = false;
+        light.visible = false;
+        group.add(light);
+      }
+      this.pointLights = group;
+      this.syncPointLights();
     }
-    // A material that already compiled without the chunk must relink once.
-    if (!wasInstalled || m.version > 0) m.needsUpdate = true;
-    return true;
+    if (this.pointLights.parent !== scene) scene.add(this.pointLights);
+    return this.pointLights;
   }
 
-  /** Whether `material` carries the chunk now (its hook is the one installed). */
+  private syncPointLights(): void {
+    const group = this.pointLights!;
+    for (let i = 0; i < FIXTURE_LIGHTS_MAX; i++) {
+      const light = group.children[i] as THREE.PointLight;
+      const p = i * 4; const c = (FIXTURE_LIGHTS_MAX + i) * 4;
+      const on = i < this.used && (this.data[c] > 0 || this.data[c + 1] > 0 || this.data[c + 2] > 0);
+      light.visible = on;
+      if (!on) continue;
+      light.position.set(this.data[p], this.data[p + 1], this.data[p + 2]);
+      light.distance = this.data[p + 3];
+      light.color.setRGB(this.data[c], this.data[c + 1], this.data[c + 2], THREE.LinearSRGBColorSpace);
+      light.intensity = 1;
+      light.updateMatrixWorld();
+    }
+  }
+
+  /** Kept for the callers of the WebGL-era API: fixture light is the
+   * renderer's lighting now, so every lit material receives it with no
+   * patch. Returns whether `material` is one it lights. */
+  install(material: THREE.Material): boolean {
+    return isFixtureLitMaterial(material);
+  }
+
+  /** Whether `material` receives fixture light (every lit material does). */
   installed(material: THREE.Material): boolean {
-    return Boolean(material.userData?.esFixtureHook && material.userData.esFixtureHook === material.onBeforeCompile);
+    return isFixtureLitMaterial(material);
   }
 
-  /** Give `object` its per-object lamp list at draw time. Idempotent; chains an existing `onBeforeRender`. */
+  /** Kept for the WebGL-era callers: the per-object list is chosen at draw
+   * time for every object (`onObjectUpdate`); this only records the object. */
   attach(object: THREE.Object3D): void {
-    if (this.attached.has(object)) return;
     this.attached.add(object);
-    const previous = object.onBeforeRender;
-    const hasPrevious = previous !== THREE.Object3D.prototype.onBeforeRender;
-    object.onBeforeRender = (renderer, scene, camera, geometry, material, group) => {
-      if (hasPrevious) previous.call(object, renderer, scene, camera, geometry, material, group);
-      this.beforeDraw(renderer, object, geometry, material);
-    };
   }
 
   isAttached(object: THREE.Object3D): boolean { return this.attached.has(object); }
@@ -265,22 +260,29 @@ export class FixtureLightField {
     return this.refresh(object, geometry ?? (object as THREE.Mesh).geometry, perObject);
   }
 
+  /** The draw's slot matrix (element k = slot k, -1 past the list): what
+   * `slotsNode` hands the GPU for `object` drawn with `material`. */
+  slotMatrixFor(object: THREE.Object3D, material?: THREE.Material): THREE.Matrix4 {
+    const s = this.refresh(object, (object as THREE.Mesh).geometry, fixtureLightsPerObject(material));
+    const e = this.slotMatrix.elements;
+    for (let k = 0; k < 16; k++) e[k] = k < s.count ? s.idx[k] : -1;
+    this.objectUpdates += 1;
+    return this.slotMatrix;
+  }
+
   private refresh(object: THREE.Object3D, geometry: THREE.BufferGeometry | undefined, perObject: number): ObjectSlots {
     let s = this.slots.get(object);
     const e = object.matrixWorld.elements;
     if (s && s.epoch === this.epoch && s.n === perObject && s.x === e[12] && s.y === e[13] && s.z === e[14]) return s;
     if (!s) {
-      s = { epoch: -1, n: 0, x: 0, y: 0, z: 0, r: 0, idx: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX), count: 0, key: 0 };
+      s = { epoch: -1, n: 0, x: 0, y: 0, z: 0, idx: new Int32Array(FIXTURE_LIGHTS_PER_OBJECT_MAX), count: 0 };
       this.slots.set(object, s);
     }
     s.epoch = this.epoch; s.n = perObject; s.x = e[12]; s.y = e[13]; s.z = e[14];
     if (this.used === 0 || !this.worldSphere(object, geometry)) {
-      s.count = 0; s.key = 0; return s;
+      s.count = 0; return s;
     }
     s.count = this.selectFor(this.sphere, s.idx, perObject);
-    let key = s.count;
-    for (let k = 0; k < s.count; k++) key = (key * 131 + s.idx[k] + 1) % 2147483647;
-    s.key = key;
     return s;
   }
 
@@ -299,42 +301,161 @@ export class FixtureLightField {
     return true;
   }
 
-  private beforeDraw(
-    renderer: THREE.WebGLRenderer, object: THREE.Object3D, geometry: THREE.BufferGeometry, material: THREE.Material,
-  ): void {
-    if (!this.installed(material)) return;
-    const s = this.refresh(object, geometry, fixtureLightsPerObject(material));
-    this.uniforms.esFxIdx.value.set(s.idx);
-    this.uniforms.esFxCount.value = s.count;
-    // three re-uploads a built-in material's uniforms only when the material or
-    // the program changes (and sorts opaque draws by material, so the draws of
-    // one material run together). A material change uploads the values just
-    // set; two draws in a row of one material keep the first list, so a list
-    // that differs from what the program holds is written to it now (the
-    // program is the bound one; if not, it is bound and the old one restored,
-    // no three state touched).
-    const program = (renderer.properties.get(material) as { currentProgram?: ProgramLike }).currentProgram;
-    const sameMaterial = material === this.lastMaterial;
-    this.lastMaterial = material;
-    if (!program?.program) return;
-    if (!sameMaterial || this.lastKey.get(program.program) === s.key) {
-      this.lastKey.set(program.program, s.key);
-      return;
-    }
-    this.lastKey.set(program.program, s.key);
-    const gl = renderer.getContext() as WebGL2RenderingContext;
-    const bound = gl.getParameter(gl.CURRENT_PROGRAM) as WebGLProgram | null;
-    if (bound !== program.program) gl.useProgram(program.program);
-    const u = program.getUniforms();
-    u.setValue(gl, "esFxIdx", this.uniforms.esFxIdx.value);
-    u.setValue(gl, "esFxCount", s.count);
-    if (bound !== program.program) gl.useProgram(bound);
-    this.directUploads += 1;
-  }
-
   dispose(): void {
     this.texture.dispose();
+    this.pointLights?.removeFromParent();
+    this.pointLights = null;
   }
+}
+
+/**
+ * The scene's lights node plus the fixture-light loop: the drawn object's
+ * slot list (`FixtureLightField.slotsNode`), each lamp through three's
+ * `directPointLight` and the lighting model's `direct`, as a PointLight is.
+ */
+export class FixtureFieldLightsNode extends LightsNode {
+  static get type(): string { return "FixtureFieldLightsNode"; }
+  readonly field: FixtureLightField;
+
+  constructor(field: FixtureLightField) {
+    super();
+    this.field = field;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setupLights(builder: any, lightNodes: any[]): void {
+    const reflected = builder.context.reflectedLight;
+    // declared before the loop (TiledLightsNode does the same)
+    reflected.directDiffuse.toStack();
+    reflected.directSpecular.toStack();
+    super.setupLights(builder, lightNodes);
+    const slots = this.field.slotsNode;
+    const tex = this.field.texture;
+    Fn(() => {
+      Loop(FIXTURE_LIGHTS_PER_OBJECT_MAX, ({ i }: { i: TslNode }) => {
+        const k = int(i);
+        const slot = slots.element(k.div(4)).element(k.mod(4));
+        If(slot.lessThan(0), () => { Break(); });
+        const index = int(slot);
+        const posRadius = textureLoad(tex, ivec2(index, int(0)));
+        const radiance = textureLoad(tex, ivec2(index, int(1)));
+        const viewPosition = cameraViewMatrix.mul(vec4(posRadius.xyz, 1)).xyz;
+        // three 0.184's runtime takes `lightVector` (its typings lag)
+        builder.lightsNode.setupDirectLight(builder, this, (directPointLight as (p: Record<string, TslNode>) => TslNode)({
+          color: radiance.rgb,
+          lightVector: viewPosition.sub(positionView),
+          cutoffDistance: posRadius.w,
+          decayExponent: float(FIXTURE_LIGHT_DECAY),
+        }));
+      });
+    }, "void")();
+  }
+
+  /** Always lit: a lamp that lights later must not change the program. */
+  get hasLights(): boolean { return true; }
+}
+
+/** The renderer lighting for `"field"`: one `FixtureFieldLightsNode` per scene. */
+export class FixtureFieldLighting extends Lighting {
+  private readonly nodes = new WeakMap<object, LightsNode>();
+  private readonly quad = new LightsNode();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getNode(scene: any): LightsNode {
+    if (scene.isQuadMesh) return this.quad;
+    let node = this.nodes.get(scene);
+    if (!node) {
+      node = new FixtureFieldLightsNode(fixtureLightFieldOf(scene));
+      this.nodes.set(scene, node);
+    }
+    return node;
+  }
+}
+
+/** The renderer lighting for `"tiled"`: three's TiledLighting, with the
+ * scene's field mirrored into real PointLights; a node per scene held here
+ * (three's base getNode keys a module map shared with every Lighting). */
+export class FixtureTiledLighting extends TiledLighting {
+  private readonly nodes = new WeakMap<object, LightsNode>();
+  private readonly quad = new LightsNode();
+  private readonly renderer: WebGPURenderer;
+  constructor(renderer: WebGPURenderer) {
+    super();
+    this.renderer = renderer;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getNode(scene: any): LightsNode {
+    if (scene.isQuadMesh) return this.quad;
+    let node = this.nodes.get(scene);
+    if (!node) {
+      fixtureLightFieldOf(scene).usePointLights(scene);
+      node = this.createNode() as unknown as LightsNode;
+      // TiledLightsNode makes its compute pass on its first render, but its
+      // cache key reads it: a compileAsync before any render threw on null
+      (node as unknown as { updateProgram(r: WebGPURenderer): void }).updateProgram(this.renderer);
+      this.nodes.set(scene, node);
+    }
+    return node;
+  }
+}
+
+/** The measurement baseline: the field's PointLights through three's own light list. */
+export class FixturePlainLighting extends Lighting {
+  private readonly nodes = new WeakMap<object, LightsNode>();
+  private readonly quad = new LightsNode();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getNode(scene: any): LightsNode {
+    if (scene.isQuadMesh) return this.quad;
+    let node = this.nodes.get(scene);
+    if (!node) {
+      fixtureLightFieldOf(scene).usePointLights(scene);
+      node = this.createNode();
+      this.nodes.set(scene, node);
+    }
+    return node;
+  }
+}
+
+/**
+ * The mode a renderer uses on `backend`: the field on both (16k walk 5,
+ * lane L8 measurement, settlement-night harness). three 0.184's
+ * TiledLightsNode keeps at most 8 lights per 32 px tile, taken in light-index
+ * order rather than nearest-first, with no depth range: a street-level view
+ * down a lamp-lined lane fills the centre tiles with far lamps and leaves the
+ * near huts dark. `"tiled"` stays selectable for measurement.
+ */
+export function fixtureLightingModeFor(_backend: "webgpu" | "webgl"): FixtureLightingMode {
+  return "field";
+}
+
+const LIGHTING_MODE_KEY = "esFixtureLightingMode";
+
+/**
+ * Make fixture light the renderer's lighting (idempotent; cheap to call every
+ * frame). Best before a scene's first render: render lists made so far hold
+ * their lights node, so they are dropped once and remade (a relink).
+ * `mode` overrides the measured choice (harness measurements only).
+ */
+export function installFixtureLighting(renderer: WebGPURenderer, mode?: FixtureLightingMode): FixtureLightingMode {
+  const r = renderer as unknown as {
+    lighting: Lighting;
+    _renderLists?: { lighting: Lighting; dispose(): void };
+    [LIGHTING_MODE_KEY]?: FixtureLightingMode;
+  };
+  const backend = activeBackend(renderer);
+  const want = mode ?? fixtureLightingModeFor(backend);
+  const chosen: FixtureLightingMode = want === "tiled" && backend !== "webgpu" ? "field" : want;
+  if (r[LIGHTING_MODE_KEY] === chosen) return chosen;
+  const lighting = chosen === "tiled" ? new FixtureTiledLighting(renderer)
+    : chosen === "plain" ? new FixturePlainLighting() : new FixtureFieldLighting();
+  r.lighting = lighting;
+  // the render lists took the renderer's lighting at init: point them at the
+  // new one and drop the lists (each holds the lights node it was made with)
+  if (r._renderLists) {
+    r._renderLists.lighting = lighting;
+    r._renderLists.dispose();
+  }
+  r[LIGHTING_MODE_KEY] = chosen;
+  return chosen;
 }
 
 const FIELD_KEY = "esFixtureLightField";
@@ -344,20 +465,21 @@ export function fixtureLightFieldOf(scene: THREE.Object3D): FixtureLightField {
   let field = scene.userData[FIELD_KEY] as FixtureLightField | undefined;
   if (!field) {
     field = new FixtureLightField();
-    scene.userData[FIELD_KEY] = field;
+    // non-enumerable: a scene's userData is JSON-copied by clone/toJSON
+    Object.defineProperty(scene.userData, FIELD_KEY, { value: field, enumerable: false, configurable: true, writable: true });
   }
   return field;
 }
 
 const PREPARER_KEY = "esLitPreparer";
 /** Patches every lit material under a root the way the scene's own walk does
- * (CSM, the chained hooks, fixture lights): a layer that builds detached calls
- * it before warming the programs, so nothing is first drawn unpatched. */
+ * (the chained node features): a layer that builds detached calls it before
+ * warming the programs, so nothing is first drawn unpatched. */
 export type LitPreparer = (root: THREE.Object3D) => void;
 
-/** Register the scene's preparer (the sky owns CSM); returns the unregister. */
+/** Register the scene's preparer (the sky's walk); returns the unregister. */
 export function setLitPreparer(scene: THREE.Object3D, prepare: LitPreparer): () => void {
-  scene.userData[PREPARER_KEY] = prepare;
+  Object.defineProperty(scene.userData, PREPARER_KEY, { value: prepare, enumerable: false, configurable: true, writable: true });
   return () => { if (scene.userData[PREPARER_KEY] === prepare) delete scene.userData[PREPARER_KEY]; };
 }
 

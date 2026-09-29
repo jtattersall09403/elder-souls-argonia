@@ -1,29 +1,43 @@
-// Fixture-light harness (16k walk 5; no studio, owner ruling): bundles
-// entry.ts with vite, runs it in headless Chromium on SwiftShader (CPU GL:
-// frame ms are RATIOS only) and prints JSON: programs and useProgram calls
-// per frame for 0/5/40/100 lamps, pixel parity against real PointLights, and
-// the frame cost of 16 PointLights vs 16 field lamps. ~20 s.
-//   node packages/game-core/src/render/fixtureLights/harness/run.mjs
-import { build } from "vite";
-import { tmpdir } from "node:os";
+// Fixture-light bench (16k walk 5, lane L8; decision 0109 harness): drives the
+// studio harness page's settlement-night scene (100 lantern lamps over real
+// mud-kit pieces) once per lighting mode and backend, and prints one JSON
+// line per run: CPU ms per frame (render call), GPU ms per frame (WebGPU
+// timestamp queries; null on WebGL) and draw calls. SwiftShader on this VM:
+// the numbers are RATIOS only. ~1-4 min per run (the shader compile).
+//   node packages/game-core/src/render/fixtureLights/harness/run.mjs \
+//     [--runs webgpu:field,webgpu:tiled,webgl:field] [--frames 30] [--url http://127.0.0.1:PORT/]
+// `plain` (100 real PointLights in three's light list) is selectable but did
+// not finish compiling within 240 s on either SwiftShader backend.
 import { chromium } from "playwright";
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-const here = fileURLToPath(new URL(".", import.meta.url));
-await build({ logLevel: "error", root: here, build: { outDir: `${tmpdir()}/es-fixture-lights-harness`, emptyOutDir: true, minify: false,
-  lib: { entry: `${here}/entry.ts`, formats: ["iife"], name: "H", fileName: () => "h.js" } } });
-const browser = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
-const page = await browser.newPage();
-page.on("console", (m) => { if (m.type() === "error" || m.type() === "warning") console.error("[page]", m.text()); });
-await page.setContent("<html><body></body></html>");
-await page.addScriptTag({ content: readFileSync(`${tmpdir()}/es-fixture-lights-harness/h.js`, "utf8") });
-const out = {
-  programs: await page.evaluate(() => window.runPrograms(false)),
-  programsSharedMaterial: await page.evaluate(() => window.runPrograms(true)),
-  baselineUseProgram: await page.evaluate(() => window.runBaseline()),
-  parity: await page.evaluate(() => window.runParity()),
-  sharedParity: await page.evaluate(() => window.runSharedParity()),
-  cost: await page.evaluate(() => window.runCost(20)),
+import { startStudioDevServer } from "../../../../../../apps/world-studio/scripts/dev-server.mjs";
+
+const arg = (k, d) => { const i = process.argv.indexOf(`--${k}`); return i > 0 ? process.argv[i + 1] : d; };
+const runs = arg("runs", "webgpu:field,webgpu:tiled,webgl:field").split(",").map((r) => r.split(":"));
+const frames = Number(arg("frames", "30"));
+const LAUNCH = {
+  webgpu: ["--enable-unsafe-webgpu", "--enable-features=UnsafeWebGPU", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
+  webgl: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
 };
-console.log(JSON.stringify(out, null, 1));
-await browser.close();
+const server = arg("url") ? null : await startStudioDevServer();
+const base = (arg("url") ?? server.url).replace(/\/?$/, "/");
+try {
+  for (const [backend, mode] of runs) {
+    const browser = await chromium.launch({ headless: true, args: LAUNCH[backend] });
+    let logs = [];
+    try {
+      const page = await browser.newPage({ viewport: { width: 600, height: 400 } });
+      logs = [];
+      page.on("console", (m) => { if (m.type() === "error") logs.push(m.text().slice(0, 200)); });
+      page.on("pageerror", (e) => logs.push(String(e).slice(0, 200)));
+      await page.goto(`${base}harness.html?sys=settlement-night&renderer=${backend}&w=512&h=288&lighting=${mode}&bench=${frames}`);
+      const bench = await (await page.waitForFunction(() => window.__FIXTURE_BENCH__, null, { timeout: 240000 })).jsonValue();
+      console.log(JSON.stringify(bench));
+    } catch (e) {
+      console.log(JSON.stringify({ backend, mode, error: String(e).split("\n")[0], logs: logs.slice(0, 3) }));
+    } finally {
+      await browser.close();
+    }
+  }
+} finally {
+  server?.stop();
+}

@@ -79,6 +79,7 @@ describe("settlement decal materials", () => {
       castShadow: false, renderOrder: SETTLEMENT_DECAL_RENDER_ORDER,
     });
     expect(SETTLEMENT_DECAL_RENDER_ORDER).toBeGreaterThan(settlementMeshDrawFlags(band).renderOrder);
-    expect(grime).toBeInstanceOf(THREE.MeshStandardMaterial);
+    // converted once at load (kit.ts): the surface features wrap its node slots
+    expect((grime as unknown as { isMeshStandardNodeMaterial?: boolean }).isMeshStandardNodeMaterial).toBe(true);
   });
 });

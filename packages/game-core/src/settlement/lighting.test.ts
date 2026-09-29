@@ -177,8 +177,8 @@ describe("light fixtures", () => {
     manager.setFixtures([...ring(1, 240, "near"), ...ring(1, 260, "far")]);
     manager.update(0, at(0));
     expect(flameQuads(manager)).toBe(2 * cardsOf("candle"));
-    const material = manager.group.getObjectByName("fire-flame-cards") as THREE.Mesh;
-    expect((material.material as THREE.ShaderMaterial).uniforms.uMaxDistance.value).toBe(250);
+    // the flame and ember materials share the fire system's uniforms
+    expect(manager.fire.uniforms.uMaxDistance.value).toBe(250);
     expect(manager.field.count).toBe(0);
     manager.dispose();
   });
@@ -224,9 +224,11 @@ describe("light fixtures", () => {
     for (const name of ["fire-flame-cards", "fire-embers"]) {
       const mesh = manager.group.getObjectByName(name) as THREE.Mesh;
       expect(mesh.layers.mask).toBe(1 << PRECIP_LAYER);
-      const m = mesh.material as THREE.ShaderMaterial;
-      expect([m.toneMapped, m.blending, m.blendSrc, m.blendDst, m.depthWrite])
-        .toEqual([false, THREE.CustomBlending, THREE.OneFactor, THREE.OneMinusSrcAlphaFactor, false]);
+      const m = mesh.material as THREE.Material;
+      // tone mapping is the fire graph's own (fx/fire fireNodes displayToScene):
+      // the node path reads no material toneMapped flag
+      expect([m.blending, m.blendSrc, m.blendDst, m.depthWrite])
+        .toEqual([THREE.CustomBlending, THREE.OneFactor, THREE.OneMinusSrcAlphaFactor, false]);
     }
     manager.setFlameTexture(new THREE.Texture());
     const flames = manager.spriteMesh()!;
@@ -386,8 +388,8 @@ describe("the NIF's own flames (16k walk 4)", () => {
     // the vertex stage grows the card to dist x FLAME_MIN_ANGLE_RAD
     expect(FLAME_MIN_ANGLE_RAD).toBe(0.004);
     const manager = new SettlementLightFixtures({ value: 1 });
-    const mesh = manager.group.getObjectByName("fire-flame-cards") as THREE.Mesh;
-    expect((mesh.material as THREE.ShaderMaterial).uniforms.uMinAngle.value).toBe(FLAME_MIN_ANGLE_RAD);
+    expect(manager.group.getObjectByName("fire-flame-cards")).toBeTruthy();
+    expect(manager.fire.uniforms.uMinAngle.value).toBe(FLAME_MIN_ANGLE_RAD);
     manager.dispose();
   });
 

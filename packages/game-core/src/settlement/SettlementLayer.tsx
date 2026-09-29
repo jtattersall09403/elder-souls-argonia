@@ -31,16 +31,11 @@ import {
   selectCollisionResidency,
 } from "./collisionResidency";
 import {
-  applySettlementAdditive,
-  applySettlementDecal,
-  applySettlementStillWater,
-  applySettlementSurface,
-  applySettlementSurfaceWithShadow,
+  cloneSettlementMaterial,
+  createSettlementMaterialUniforms,
   isSettlementGlowMaterial,
   SETTLEMENT_GROUND_ATTRIBUTE,
-  settlementMeshDrawFlags,
-  settlementShadowPairErrors,
-  syncSettlementDepthTwin,
+  prepareSettlementMaterial,
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
@@ -66,7 +61,7 @@ import {
 } from "./lighting";
 import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
-import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
+import { fixtureLightFieldOf, litPreparerOf } from "../render/fixtureLights";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
 import {
   SETTLEMENT_REQUERY_MOVE_M, useSettlementBundleSource,
@@ -470,9 +465,6 @@ export function SettlementLayer({
   const incomplete = useRef(false);
   const retryAt = useRef(0);
   const collisionFailure = useRef<SettlementProofState["collision"] | null>(null);
-  // One shadow-depth twin per colour material for the layer's life: a new
-  // twin per build meant new programs to link on every rebuild.
-  const depthTwins = useRef(new Map<THREE.Material, THREE.MeshDepthMaterial | undefined>());
   // What the live group draws, so a retry that resolves the same set is not
   // swapped in; and how many draws the last swap put on screen.
   const liveSignature = useRef("");
@@ -489,9 +481,7 @@ export function SettlementLayer({
   // settlement is never on screen (owner 2026-09-20, walking stutter).
   const running = useRef<FrameJobHandle | null>(null);
   const queue = useFrameWork();
-  const uniforms = useMemo<SettlementMaterialUniforms>(() => ({
-    esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 },
-  }), []);
+  const uniforms = useMemo<SettlementMaterialUniforms>(createSettlementMaterialUniforms, []);
   // Chimney smoke (smokeColumn.ts): one draw for every anchored column, made
   // once the effect texture named by its kit manifest has loaded.
   const [smoke, setSmoke] = useState<SmokeColumns | null>(null);
@@ -628,7 +618,7 @@ export function SettlementLayer({
     let byKind = glowVariants.current.get(material);
     if (!byKind) { byKind = new Map([[kind, material]]); glowVariants.current.set(material, byKind); }
     let variant = byKind.get(kind);
-    if (!variant) { variant = material.clone(); byKind.set(kind, variant); }
+    if (!variant) { variant = cloneSettlementMaterial(material); byKind.set(kind, variant); }
     return variant;
   }, []);
   // Far merges kept across builds while their instances are unchanged.
@@ -996,25 +986,11 @@ export function SettlementLayer({
         const material = materialVariant(bucket.part.material, String(glowMaterial));
         bucket.material = material;
         materialPatch?.(material);
-        applySettlementDecal(material);
-        if (bucket.flame) applySettlementAdditive(material);
-        applySettlementStillWater(material);
-        const drawFlags = settlementMeshDrawFlags(material);
-        let depthMaterial: THREE.MeshDepthMaterial | undefined;
-        if (depthTwins.current.has(material)) {
-          applySettlementSurface(material, uniforms, glowMaterial);
-          depthMaterial = depthTwins.current.get(material);
-          if (depthMaterial) syncSettlementDepthTwin(depthMaterial, material);
-        } else {
-          depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, glowMaterial);
-          depthTwins.current.set(material, depthMaterial);
-        }
-        const pairErrors = settlementShadowPairErrors(material, depthMaterial);
-        if (pairErrors.length) {
-          shadowPairFailures.push(...pairErrors.map((error) =>
-            `${material.name || "<unnamed>"}: ${error}`));
-          throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
-        }
+        // decal, additive card, still water and the surface features; the
+        // shadow pass reuses the colour material's own position and mask
+        // (decision 0107), so every draw's caster matches its colour by
+        // construction: there is no depth twin to pair or check.
+        const drawFlags = prepareSettlementMaterial(material, uniforms, glowMaterial, bucket.flame === true);
         if (reuseLive) {
           const drawsHere = (bucket.transforms.length ? 1 : 0) + (bucket.farTransforms.length ? 1 : 0);
           draws += drawsHere;
@@ -1022,7 +998,7 @@ export function SettlementLayer({
           nearInstances += bucket.transforms.length;
           farInstances += bucket.farTransforms.length;
           groundBoundInstances += bucket.transforms.length + bucket.farTransforms.length;
-          if (depthMaterial) shadowPairedDraws += drawsHere;
+          shadowPairedDraws += drawsHere;
         }
         if (!reuseLive && bucket.transforms.length) {
           const geometry = instancedPartView(bucket.part.geometry, bucket.groundLinesM);
@@ -1033,13 +1009,12 @@ export function SettlementLayer({
           mesh.computeBoundingSphere();
           mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
           mesh.renderOrder = drawFlags.renderOrder;
-          if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementLodAuthority = true;
           next.add(mesh);
           draws += 1;
           nearInstances += bucket.transforms.length;
           groundBoundInstances += bucket.transforms.length;
-          if (depthMaterial) shadowPairedDraws += 1;
+          shadowPairedDraws += 1;
         }
         let farGeometry: THREE.BufferGeometry | null = null;
         if (!reuseLive && bucket.farTransforms.length) {
@@ -1053,14 +1028,13 @@ export function SettlementLayer({
           const mesh = new THREE.Mesh(farGeometry, material);
           mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
           mesh.renderOrder = drawFlags.renderOrder;
-          if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementFarMerge = true;
           next.add(mesh);
           draws += 1;
           farMeshes += 1;
           farInstances += bucket.farTransforms.length;
           groundBoundInstances += bucket.farTransforms.length;
-          if (depthMaterial) shadowPairedDraws += 1;
+          shadowPairedDraws += 1;
         }
         triangles += bucket.part.triangles * bucket.transforms.length;
         triangles += bucket.part.triangles * bucket.farTransforms.length;
@@ -1073,20 +1047,13 @@ export function SettlementLayer({
       // Final step: the finished build replaces the live one atomically, in
       // one synchronous step, so no frame draws an empty layer.
       if (!reuseLive) {
-        // Every material is patched (CSM, the settlement surface, fixture
-        // lights) and every program linked BEFORE the build is on screen: a
-        // material first drawn unpatched relinked a frame later, which was the
-        // startup "buildings flash darker" (16k walk 5).
-        const prepare = litPreparerOf(scene);
-        if (prepare) prepare(next);
-        else {
-          const field = fixtureLightFieldOf(scene);
-          next.traverse((object) => {
-            const mesh = object as THREE.Mesh;
-            if (mesh.isMesh && isFixtureLitMaterial(mesh.material as THREE.Material)
-              && field.install(mesh.material as THREE.Material)) field.attach(mesh);
-          });
-        }
+        // Every material is patched (the settlement surface above, the
+        // scene's own walk through its preparer) and every program linked
+        // BEFORE the build is on screen: a material first drawn unpatched
+        // relinked a frame later, the startup "buildings flash darker" (16k
+        // walk 5). Fixture light needs no per-material patch: it is the
+        // renderer's lighting (render/fixtureLights installFixtureLighting).
+        litPreparerOf(scene)?.(next);
         let linked = false;
         gl.compileAsync(next, sceneCamera, scene).then(() => { linked = true; }, () => { linked = true; });
         const linkStart = performance.now();
@@ -1096,13 +1063,6 @@ export function SettlementLayer({
         farCache.current = farKept;
         disposeChildren(group, keep);
         swapInBuild(group, next);
-        // Twins of materials no longer drawn go now, not at unmount.
-        const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));
-        for (const [material, twin] of depthTwins.current) {
-          if (drawn.has(material)) continue;
-          twin?.dispose();
-          depthTwins.current.delete(material);
-        }
         liveSignature.current = signature;
         liveDraws.current = draws;
         frames.swaps += 1;
@@ -1194,7 +1154,7 @@ export function SettlementLayer({
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
       placementById, materialVariant, gl, scene, sceneCamera]);
 
-  // The live group and the depth twins go with the world: on unmount, a new
+  // The live group goes with the world: on unmount, a new
   // baseUrl, or a fatal error emptying the layer. A new set of bundles
   // in range (S8) is NOT a reason: the next build swaps in over the live
   // group, so the buildings on screen never blink while the player walks.
@@ -1202,15 +1162,12 @@ export function SettlementLayer({
     // Captured now: when a fatal error empties the layer, React has already
     // detached the ref by the time this cleanup runs.
     const group = root.current;
-    const twins = depthTwins.current;
     const far = farCache.current;
     return () => {
       if (group) disposeChildren(group);
       far.clear();
       liveSignature.current = "";
       liveDraws.current = 0;
-      twins.forEach((material) => material?.dispose());
-      twins.clear();
     };
   }, [baseUrl, fatalError]);
 

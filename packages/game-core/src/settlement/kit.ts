@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { toNodeMaterial } from "../render/nodes/materialNodes";
 import { isSmokeColumnPlacement } from "./smokeColumn";
 import type { SettlementKitAssetMeta, SettlementKitManifests, SettlementPlacement } from "./types";
 
@@ -34,7 +35,9 @@ export function buildArchitectureKit(gltf: GLTF): Map<string, ArchitectureAsset>
   const cloned = new Map<THREE.Material, THREE.Material>();
   const shared = (material: THREE.Material): THREE.Material => {
     let copy = cloned.get(material);
-    if (!copy) { copy = material.clone(); cloned.set(material, copy); }
+    // the node twin of a clone (decision 0107): converted ONCE at load, so
+    // the surface features wrap its slots; the glTF's own material stays classic
+    if (!copy) { copy = toNodeMaterial(material.clone()); cloned.set(material, copy); }
     return copy;
   };
   for (const root of gltf.scene.children) {
