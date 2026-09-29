@@ -270,3 +270,14 @@ Only the exemplar and contrast areas are compiled
 (`public/province/vegetation/`, 42 chunks) — the rest of the province has no
 bundles and renders bare, which is the exemplar-first rollout working as
 intended (module 95 §85.4). Province-wide fill is Phase 15.
+
+## Two cull paths (decision 0111)
+
+- **WebGPU backend** (renderer supports `indirect-first-instance`): `GpuCullPool`
+  (`packages/game-core/src/render/gpuCull/`) culls vegetation copies and ground-cover plants on the
+  GPU each frame and draws the kept rows indirectly. Switch points: `Vegetation.tsx` (search
+  `GpuCullPool`) and `Groundcover.tsx` (`registerGcDraw` / `fillGcDraw` / `releaseGcDraw`). The CPU
+  tile gate still runs for the HUD stats and front-to-back order but applies nothing.
+- **WebGL backend**: the CPU gate, per-tile flips and the wedge culler, unchanged.
+
+Harness parity: `harness.html?sys=veg|gc&cull=gpu|cpu&measure=1` (pixel diff GPU vs CPU is 0).
