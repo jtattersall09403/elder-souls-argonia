@@ -190,13 +190,68 @@ function distanceToPolygonWithin(
 /** Indexed polygons of one clearance, built once and memoised on the patch
  * object itself (a WeakMap: no lifetime of its own, no observable state). */
 interface ClearanceIndex {
-  readonly hard: readonly PolyIndex[];
-  readonly thinned: readonly PolyIndex[];
+  readonly hard: PolySet;
+  readonly thinned: PolySet;
+}
+
+/**
+ * The polygons of one clearance list with a grid over their BOUNDS (walk 5,
+ * 2026-09-29). A road-track clearance is ~1,200 separate quads, and
+ * `nearest` walked every one of them, hard and thinned, for each of the five
+ * points `keepForExtent` samples: 490 candidates beside a road cost ~50 ms
+ * of one ground-cover tile ("cand 49.2 ms" on the owner's HUD). The grid
+ * narrows a query to the polygons whose bounds meet its box. Exact: a
+ * polygon that contains the point, or lies within the radius of it, has
+ * bounds inside the query box, and inside/min are idempotent, so a polygon
+ * met in two cells changes nothing.
+ */
+interface PolySet {
+  readonly polys: readonly PolyIndex[];
+  /** CSR over `POLY_GRID_CELL_M` cells; null for short lists (scanned). */
+  readonly grid: {
+    readonly minX: number; readonly minZ: number;
+    readonly gw: number; readonly gh: number;
+    readonly start: Int32Array; readonly items: Int32Array;
+  } | null;
+}
+
+export const POLY_GRID_CELL_M = 16;
+/** Lists at or under this length are scanned: the grid costs more. */
+const POLY_GRID_MIN = 16;
+
+function polySetOf(polys: PolyIndex[]): PolySet {
+  if (polys.length <= POLY_GRID_MIN) return { polys, grid: null };
+  let minX = Infinity; let minZ = Infinity; let maxX = -Infinity; let maxZ = -Infinity;
+  for (const p of polys) {
+    if (p.minX < minX) minX = p.minX;
+    if (p.minZ < minZ) minZ = p.minZ;
+    if (p.maxX > maxX) maxX = p.maxX;
+    if (p.maxZ > maxZ) maxZ = p.maxZ;
+  }
+  const gw = Math.floor((maxX - minX) / POLY_GRID_CELL_M) + 1;
+  const gh = Math.floor((maxZ - minZ) / POLY_GRID_CELL_M) + 1;
+  const counts = new Int32Array(gw * gh + 1);
+  const span = (p: PolyIndex) => [
+    Math.floor((p.minX - minX) / POLY_GRID_CELL_M), Math.floor((p.maxX - minX) / POLY_GRID_CELL_M),
+    Math.floor((p.minZ - minZ) / POLY_GRID_CELL_M), Math.floor((p.maxZ - minZ) / POLY_GRID_CELL_M),
+  ];
+  for (const p of polys) {
+    const [x0, x1, z0, z1] = span(p);
+    for (let cz = z0; cz <= z1; cz++) for (let cx = x0; cx <= x1; cx++) counts[cz * gw + cx + 1]++;
+  }
+  for (let c = 0; c < gw * gh; c++) counts[c + 1] += counts[c];
+  const items = new Int32Array(counts[gw * gh]);
+  const cursor = counts.slice(0, gw * gh);
+  for (let i = 0; i < polys.length; i++) {
+    const [x0, x1, z0, z1] = span(polys[i]);
+    for (let cz = z0; cz <= z1; cz++) for (let cx = x0; cx <= x1; cx++) items[cursor[cz * gw + cx]++] = i;
+  }
+  return { polys, grid: { minX, minZ, gw, gh, start: counts, items } };
 }
 const CLEARANCE_INDEX = new WeakMap<object, ClearanceIndex>();
 
-function polygonsOf(polys: readonly ClearancePolygon[]): PolyIndex[] {
-  return polys.filter((p) => p.length >= 3).map(buildPolyIndex);
+function polygonsOf(polys: readonly ClearancePolygon[]): PolySet {
+  return polySetOf(polys.filter((p) => p.length >= 3).map(buildPolyIndex));
 }
 
 function clearanceIndexOf(clearance: VegetationClearancePatch): ClearanceIndex {
@@ -215,14 +270,33 @@ function clearanceIndexOf(clearance: VegetationClearancePatch): ClearanceIndex {
  * (beyond it the caller's own clamp makes the exact value irrelevant).
  */
 function nearest(
-  x: number, z: number, polys: readonly PolyIndex[], radiusM: number,
-) {
+  x: number, z: number, set: PolySet, radiusM: number,
+): { inside: boolean; distance: number } {
   let inside = false;
   let best = Infinity;
-  for (const idx of polys) {
-    if (pointInPolygonIndexed(x, z, idx)) inside = true;
-    const d = distanceToPolygonWithin(x, z, idx, radiusM);
-    if (d < best) best = d;
+  const { polys, grid } = set;
+  if (!grid) {
+    for (const idx of polys) {
+      if (pointInPolygonIndexed(x, z, idx)) inside = true;
+      const d = distanceToPolygonWithin(x, z, idx, radiusM);
+      if (d < best) best = d;
+    }
+    return { inside, distance: best };
+  }
+  const cx0 = Math.max(0, Math.floor((x - radiusM - grid.minX) / POLY_GRID_CELL_M));
+  const cx1 = Math.min(grid.gw - 1, Math.floor((x + radiusM - grid.minX) / POLY_GRID_CELL_M));
+  const cz0 = Math.max(0, Math.floor((z - radiusM - grid.minZ) / POLY_GRID_CELL_M));
+  const cz1 = Math.min(grid.gh - 1, Math.floor((z + radiusM - grid.minZ) / POLY_GRID_CELL_M));
+  for (let cz = cz0; cz <= cz1; cz++) {
+    for (let cx = cx0; cx <= cx1; cx++) {
+      const c = cz * grid.gw + cx;
+      for (let k = grid.start[c]; k < grid.start[c + 1]; k++) {
+        const idx = polys[grid.items[k]];
+        if (!inside && pointInPolygonIndexed(x, z, idx)) inside = true;
+        const d = distanceToPolygonWithin(x, z, idx, radiusM);
+        if (d < best) best = d;
+      }
+    }
   }
   return { inside, distance: best };
 }
@@ -252,7 +326,7 @@ export function keepAt(x: number, z: number, clearance: VegetationClearancePatch
   const searchR = Math.max(falloff, EDGE_JITTER_M + WALL_ENRICH_BAND_M);
   let dHard = Infinity;
   let dWall = Infinity;
-  if (hard.length > 0) {
+  if (hard.polys.length > 0) {
     const near = nearest(x, z, hard, searchR);
     const jitter = edgeJitter(x, z) * (clearance.edgeJitterM ?? EDGE_JITTER_M) / EDGE_JITTER_M;
     if (near.inside || near.distance <= jitter) return 0;
@@ -262,7 +336,7 @@ export function keepAt(x: number, z: number, clearance: VegetationClearancePatch
   }
   const thin = nearest(x, z, thinned, searchR);
   if (!thin.inside) return 1;
-  if (hard.length === 0) dHard = Math.max(0, falloff - thin.distance);
+  if (hard.polys.length === 0) dHard = Math.max(0, falloff - thin.distance);
   const t = falloff > 0 ? Math.min(1, dHard / falloff) : 1;
   let keep = FRINGE_MIN_KEEP + (1 - FRINGE_MIN_KEEP) * t;
   if (dWall < WALL_ENRICH_BAND_M) {
@@ -285,7 +359,10 @@ export function keepForExtent(
 ): number {
   let keep = keepAcross(x, z, clearances);
   if (radiusM <= 0 || keep === 0) return keep;
-  for (const [dx, dz] of [[radiusM, 0], [-radiusM, 0], [0, radiusM], [0, -radiusM]]) {
+  // The four extent points, unrolled: no array per call.
+  for (let k = 0; k < 4; k++) {
+    const dx = k === 0 ? radiusM : k === 1 ? -radiusM : 0;
+    const dz = k === 2 ? radiusM : k === 3 ? -radiusM : 0;
     keep = Math.min(keep, keepAcross(x + dx, z + dz, clearances));
     if (keep === 0) return 0;
   }
