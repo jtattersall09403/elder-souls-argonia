@@ -61,3 +61,24 @@ def test_the_receipt_copies_the_blueprint_exceptions(tmp_path):
         '{"blueprint": {"variety": {"exceptions": [%s]}}}' % __import__("json").dumps(EXCEPTION))
     assert close_place.variety_exceptions_of("place.x", tmp_path) == [EXCEPTION]
     assert close_place.variety_exceptions_of("place.none", tmp_path) == []
+
+
+def test_flame_anchor_gate_reads_the_vitest(monkeypatch):
+    import subprocess
+    from types import SimpleNamespace
+    line = ('      "kotm.p1 (mudmother:argonianlanterns03) flame fallback at [0.000, 0.187, 0.000] '
+            'sits in the upper half of a hanging piece (its cord), not its body",')
+    calls = []
+
+    def fake(cmd, **kw):
+        calls.append((cmd, kw["cwd"]))
+        return SimpleNamespace(returncode=calls.__len__() - 1, stdout=" Tests  1 passed | 17 skipped" if len(calls) == 1 else line, stderr="")
+    monkeypatch.setattr(subprocess, "run", fake)
+    g = pg.Gates()
+    pg.flame_anchor_gate(g)  # exit 0: green
+    pg.flame_anchor_gate(g)  # exit 1: the anchor line is the failure
+    calls.clear()
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: SimpleNamespace(returncode=0, stdout="Tests  18 skipped", stderr=""))
+    pg.flame_anchor_gate(g)  # exit 0 but nothing ran: red, never a silent pass
+    assert [r["ok"] for r in g.rows] == [True, False, False]
+    assert g.rows[1]["failures"] == [line.strip().strip('",')]

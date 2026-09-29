@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 
 from . import terrain_patches as tp
 from . import pad_overlay
@@ -125,7 +126,9 @@ def test_r1_flags_every_edge_that_stands_more_than_the_bar_off_the_ground():
 def test_the_patched_ground_is_flat_under_the_footprint_and_tapers_beyond():
     slope = lambda x, z: 10.0 - 0.2 * x
     patched = pad_ground(slope, [{"polygonM": pad_polygon(_HOUSE), "datumM": 9.0}])
-    assert patched(5.0, 3.0) == 9.0 and patched(40.0, 3.0) == slope(40.0, 3.0)
+    # graded PAD_FLOOR_CLEARANCE_M under the datum (R75)
+    assert patched(5.0, 3.0) == pytest.approx(9.0 - pad_overlay.PAD_FLOOR_CLEARANCE_M)
+    assert patched(40.0, 3.0) == slope(40.0, 3.0)
     assert surface_slope_deg(patched, _HOUSE) == 0.0
     assert surface_slope_deg(slope, _HOUSE) > 11.0
 
@@ -178,7 +181,9 @@ def test_a_building_pad_is_realised_as_pad_ground_describes_it():
     assert float(out[25, 40]) == float(h[25, 40])
     padded = PaddedSurvey(type("S", (), {"height_at": staticmethod(frozen), "extent_m": 60.0})(),
                           [{"polygonM": poly, "datumM": 15.0}])
-    assert padded.height_at(25, 25) == 15.0 and padded.extent_m == 60.0
+    # the graded ground stands PAD_FLOOR_CLEARANCE_M under the recorded datum (R75)
+    assert padded.height_at(25, 25) == pytest.approx(15.0 - pad_overlay.PAD_FLOOR_CLEARANCE_M)
+    assert padded.extent_m == 60.0
 
 
 def test_merging_a_building_pad_patch_keeps_hardm_zero():
@@ -216,7 +221,9 @@ def test_one_pad_maths_every_python_sampler_agrees_on_claywater_family_hut():
         want = pad_overlay.overlay_height(p["baseM"], p["x"], p["z"], overlays)
         assert abs(want - p["expectedM"]) < 1e-4
         workbench = pad_ground(base, [{"id": hut["id"], "polygonM": hut["pieces"][0]["polygonM"],
-                                       "datumM": hut["pieces"][0]["datumM"]}])(p["x"], p["z"])
+                                       # the record's datum: the overlay grades PAD_FLOOR_CLEARANCE_M under it
+                                       "datumM": hut["pieces"][0]["datumM"]
+                                       + pad_overlay.PAD_FLOOR_CLEARANCE_M}])(p["x"], p["z"])
         gates = patched_height_at(type("S", (), {"height_at": staticmethod(base)})(),
                                   overlays)(p["x"], p["z"])
         assert abs(workbench - want) < 1e-4, (p["zone"], workbench, want)

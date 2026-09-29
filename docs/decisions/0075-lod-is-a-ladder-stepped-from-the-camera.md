@@ -139,3 +139,28 @@ The mid reach (the folded reach and ring 1) is quality-band aware
 (`LOD_REACH_BY_BAND` in `floraKit.ts`): low keeps height × 5 in 50–140 m
 (folded 30–140), medium is height × 7 in 60–200 m (folded 40–200), high is
 height × 9 in 80–280 m (folded 50–280).
+
+## Addendum 2026-09-29 (owner walk 5: tier fades, bushes too close, big trees hold mesh further)
+
+- **Rung edges cross-fade in time, not in distance** (`lodFade.ts`,
+  `LOD_FADE_S` 0.4 s, `LOD_FADE_SAMPLES` 8). The edge stays a hard step in
+  distance; each copy's factor is that step averaged over the camera's last
+  0.4 s of positions (the `esLodHist` uniform, offsets from `esLodViewPos`).
+  The two copies of a plant hold the same factor, so the screen-door
+  partition is exact every frame (coverage never dips), both copies are drawn
+  only for 0.4 s after a crossing, and a still camera draws one copy (the
+  2026-09-21 "no smearing" ruling holds). An all-zero history is the old
+  rule, which is what ground cover still runs (its `TIER_BAND_M` dither is
+  the fade the owner kept, 2026-09-22). Tested in `lodFadeTemporal.test.ts`.
+- **A species' ladder follows the mesh levels its kit carries**
+  (`floraKit.speciesRings`). One level: the folded reach above. Two or three
+  (round 13's part-aware tiers, `lodTiers` in the manifest): screen-space
+  hand-over at a 1080 px, 60° reference view (`HANDOVER_PX`, low/medium/high
+  [370, 320, 300] / [320, 200, 160] / [280, 170, 130] px), never nearer than
+  round 13 validated (mid clamp(2.5 h, 18, 60) m, far clamp(5 h, 50, 140) m)
+  and never carding nearer than the folded ladder. `folded` is now "one mesh
+  level after the dedupe", so tiers draw.
+- **Non-tree plants hold their full mesh to 35 / 50 / 65 m** (low / medium /
+  high, `SMALL_PLANT_TOP_TIER_M`, not scaled by the draw scale).
+- The band-coverage invariant (every distance kept by exactly one rung, for
+  every species shape and preset) is `ladderCoverage.test.ts`.

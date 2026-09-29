@@ -84,7 +84,8 @@
    33,
    27
   ],
-  "intensity": 1.0
+  "intensity": 8.189,
+  "rule": "interior-light-floor"
  },
  "fog": {
   "colorRGB": [
@@ -2931,6 +2932,28 @@
     "xrdsUnits": 47.398,
     "baseRadiusUnits": 256
    }
+  },
+  {
+   "refId": "fixture:KeebaHouseCrafter.080A086E",
+   "positionM": [
+    106.8789,
+    90.516,
+    59.0417
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    242,
+    240,
+    223
+   ],
+   "fade": null,
+   "flags": 0,
+   "falloffExponent": 1.0,
+   "base": "DefaultCandleLight01NSDesat",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256
+   }
   }
  ],
  "sockets": [
@@ -3940,7 +3963,7 @@
  "counts": {
   "placements": 144,
   "drops": 19,
-  "lights": 3,
+  "lights": 4,
   "substitutions": 5,
   "swingDoors": 0,
   "missingByClass": {},

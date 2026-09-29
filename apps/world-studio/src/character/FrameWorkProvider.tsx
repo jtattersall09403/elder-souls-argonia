@@ -17,6 +17,7 @@ import { STUDIO_TOOLS } from "../studioTools";
  */
 export function FrameWorkProvider({ children }: { children: React.ReactNode }) {
   const queue = useMemo(() => new FrameWorkQueue(), []);
+  const mountedAt = useMemo(() => performance.now(), []);
   // Priority -100: r3f sorts frame subscribers ascending and only a POSITIVE
   // priority takes the render loop over, so a negative one simply runs before
   // every other hook in the scene (all of ours use the default 0) and still
@@ -24,7 +25,10 @@ export function FrameWorkProvider({ children }: { children: React.ReactNode }) {
   // deliberate: a step finishes before the frame's movement reads what it
   // produced, never half a frame later.
   useFrame((_, delta) => {
-    const { ms } = queue.pump(performance.now(), frameWorkBudgetMs(delta * 1000));
+    const { ms } = queue.pump(
+      performance.now(),
+      frameWorkBudgetMs(delta * 1000, performance.now() - mountedAt),
+    );
     if (STUDIO_TOOLS) {
       (window as unknown as { __STUDIO_FRAME_WORK__?: unknown }).__STUDIO_FRAME_WORK__ = {
         pending: queue.pending,

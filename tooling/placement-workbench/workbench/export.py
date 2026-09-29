@@ -252,6 +252,8 @@ def _pad_record(cat, scene: Scene, p) -> dict:
         rec["floorMinM"] = float(p.pad["floorMinM"])
     if p.pad.get("apronBySide"):
         rec["apronBySide"] = {k: float(v) for k, v in p.pad["apronBySide"].items()}
+    if isinstance(p.pad.get("blendM"), (int, float)):
+        rec["blendM"] = float(p.pad["blendM"])   # the compile clamps it (`authored_blend_m`)
     if p.pad.get("batter"):
         rec["batter"] = True        # the compile grades it (`building_pad`: batter_blend_m)
     return rec

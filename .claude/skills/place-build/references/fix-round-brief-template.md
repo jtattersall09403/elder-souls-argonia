@@ -28,5 +28,6 @@ candidates from a filename survey carried false links (finding F).
 5. **Rulings:** only new ones, each one line, added to
    [rulings.md](rulings.md) in the same change; the builder reads the
    table, never earlier lane reports.
-6. **Checks:** `place_gates` all green; the packet's § What changed is
-   `wb.py whatchanged` output (R35).
+6. **Checks:** `place_gates` all green; every owner item's fix read back
+   from the published bundle with its field named (R74, SKILL § 5); the
+   packet's § What changed is `wb.py whatchanged` output (R35).

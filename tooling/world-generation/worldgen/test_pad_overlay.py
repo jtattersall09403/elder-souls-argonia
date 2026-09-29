@@ -88,12 +88,13 @@ def test_a_building_pad_outranks_a_run_pad_where_they_overlap():
     run = {"id": "z-wall", "kind": "run", "bboxM": [3.0, -2.0, 5.0, 6.0], "blendM": 3.0,
            "hardM": 2.74, "pieces": [{"placementId": "w1", "polygonM": _square(3, -2, 5, 6),
                                       "datumM": 11.2}]}
+    top = 10.0 - po.PAD_FLOOR_CLEARANCE_M     # the pad grades under its floor datum (R75)
     for x, z in ((1.0, 2.0), (3.5, 2.0), (2.0, 0.5)):
-        assert po.overlay_height(9.0, x, z, [building, run]) == 10.0, (x, z)
-        assert po.overlay_height(9.0, x, z, [run, building]) == 10.0, (x, z)
-        assert po.ground(lambda _x, _z: 9.0, [run, building])(x, z) == 10.0
+        assert po.overlay_height(9.0, x, z, [building, run]) == top, (x, z)
+        assert po.overlay_height(9.0, x, z, [run, building]) == top, (x, z)
+        assert po.ground(lambda _x, _z: 9.0, [run, building])(x, z) == top
         got = po.apply_grid(np.array([[9.0]], np.float32), (x, z), 1.0, [run, building])
-        assert abs(float(got[0, 0]) - 10.0) < 1e-5
+        assert abs(float(got[0, 0]) - top) < 1e-5
     # outside the building polygon the run pad still holds its wall
     assert po.overlay_height(9.0, 7.5, 2.0, [building, run]) == 11.2
 

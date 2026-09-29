@@ -117,9 +117,13 @@ def bundle_mesh(bundle: dict, kits_dir: Path = RAW_KITS):
     return mesh, np.concatenate(owner), sorted(set(missing))
 
 
-def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | None = None) -> dict:
+def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | None = None,
+              want_reached: bool = False, nodes_only: bool = False) -> dict:
     """The layered walk (see the module docstring). `starts` are
-    ``[x, y, z]`` points; `targets` are ``{id, positionM}``."""
+    ``[x, y, z]`` points; `targets` are ``{id, positionM}``. `want_reached`
+    adds ``reachedPositions`` (every node reached from a start); `nodes_only`
+    returns every roofed standable node as ``positions`` and skips the joins (the
+    cheap floor sample of ``interior_light``)."""
     from scipy.sparse import csr_matrix
     from scipy.sparse.csgraph import connected_components
     ch = ch or character()
@@ -145,10 +149,15 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
             above = [yy for yy in ys[k + 1:] if yy > y + 0.05]
             if above and above[0] < y + ch["heightM"]:
                 continue
+            if nodes_only and not above:
+                continue  # open to the sky: a roof top, never a room floor
             iz, ix = divmod(r, len(xs))
             nodes.append((iz, ix, y, int(face_owner[t])))
     if not nodes:
         return {"nodes": 0, "failures": ["no walkable surface in the cell"], "targets": []}
+    if nodes_only:
+        return {"nodes": len(nodes), "positions": [[float(xs[ix]), y, float(zs[iz])]
+                                                   for iz, ix, y, _p in nodes]}
     by_col: dict[tuple[int, int], list[int]] = {}
     for i, (iz, ix, _y, _p) in enumerate(nodes):
         by_col.setdefault((iz, ix), []).append(i)
@@ -226,6 +235,8 @@ def walk_mesh(mesh, face_owner, starts: list, targets: list[dict], ch: dict | No
             out["failures"].append(f"{t['id']}: unreachable from the arrival marker(s); nearest "
                                    f"reached surface {row['nearestReachedM']} m away")
         out["targets"].append(row)
+    if want_reached:
+        out["reachedPositions"] = pos[reached_mask].round(3).tolist()
     return out
 
 

@@ -438,6 +438,64 @@ no id has two homes, and that every promise is filled or excused (the open
 count is pinned per place and only falls); every family in
 `data-registry.json` names its schema or a queued owner.
 
+## Performance checklists (decision 0108)
+
+Standing rules for anything that draws, lights or streams; the architecture
+and numbers are in [0108](../decisions/0108-performance-architecture-fixture-light-field-ready-materials-view-gated-streaming-fading-tiers.md),
+the frame budget in [0084](../decisions/0084-the-frame-is-a-triangle-budget.md).
+A frame is won by doing less invisible work, never by lowering a visible
+default (MSAA stays on). Measure with a node harness over the real code;
+the owner's device gives the fps verdict; never probe the full studio
+headless.
+
+**Before adding a light.**
+- A fixture light (lamp, candle, brazier, window, anything placed) is a
+  slot in the scene's `FixtureLightField` (`render/fixtureLights`,
+  `fixtureLightFieldOf(scene)`), never a new `THREE.PointLight`. The field
+  holds 100 (`LIGHTS_CAP`); each object sees its nearest 8, terrain 16.
+- The count of real three lights is constant for the session (today: the
+  sun/moon rig and the carried torch, parked at intensity 0 when unused).
+  Never add, remove or hide a real light at runtime: every lit program
+  relinks.
+
+**Before adding a material.**
+- Share it: one material per kit glTF material (or per batch key), never a
+  clone per part or per instance.
+- A patched material has a stable `customProgramCacheKey` that reads only
+  its held state; re-applying the same state sets no `needsUpdate`.
+- Patch it before its first draw: streamed builds go through the lit
+  preparer (`litPreparerOf`) and `renderer.compileAsync(obj, camera,
+  scene)` before they join the scene; set layers at creation, not in an
+  effect.
+- Variation (gain, tint, fade, flame strength) is a uniform, never a
+  define or a value in the cache key.
+
+**Before adding a drawable or streamed layer.**
+- Instance it: one `InstancedMesh` per geometry × material with a compact
+  visible prefix, never one draw per object; state the expected draw count.
+- Give it bounds per spatial chunk (the settlement layer's 48 m squares,
+  ground cover's wedges) so frustum culling can reject it; a sphere around
+  the camera never leaves the view. `frustumCulled = false` only where the
+  layer's own gate replaces it (distance AND the view frustum, widened, with
+  a hysteresis latch: reuse `cellGating.viewPlanesFor` / `boxInPlanes`);
+  shadow casters are kept by a sweep along the light.
+- Build each unit once, on the input it settles on (the finest terrain LOD
+  it needs, or a short settle window), and count rebuilds in a harness that
+  replays a startup stream.
+- Build near and in view first, inside a per-frame budget that stops before
+  a step likely to overrun (large while loading, small after); index an
+  expensive per-candidate test spatially once. Show changes in a few whole
+  steps, never one refill per data arrival.
+- Nothing on the per-frame path allocates: vectors, arrays, stats objects
+  and closures are hoisted and reused.
+- Tier edges fade through the `lodFade` partition with the temporal
+  history (one copy per pixel, every frame; coverage never dips), the
+  incoming tier resident before the outgoing one steps out; the coverage
+  test sits beside it.
+- A budget line in 0084 terms: submitted vs in-view copies and triangles
+  (all passes, shadow included) from a node harness over real data, against
+  the 4 M-triangle frame, before the owner walks.
+
 ## Running the checks
 
 **How the checks are run** (decision 0106): one scoped `npm run preflight

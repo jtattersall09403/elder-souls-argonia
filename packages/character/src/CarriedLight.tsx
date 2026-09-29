@@ -1,7 +1,8 @@
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, type MutableRefObject, type RefObject } from "react";
 import * as THREE from "three";
 import type { LightSourceSpec } from "@elder-souls/game-core/fx/carriedLight";
+import { CarriedLightRig } from "@elder-souls/game-core/fx/carriedLightRig";
 
 /**
  * The light a carried source casts: a torch today, a lantern or a light spell
@@ -32,58 +33,17 @@ export function CarriedLight({
 }: {
   /** The mounted off-hand item (`SkyrimFighter`'s `offHandRef`). */
   item: RefObject<THREE.Object3D | null>;
-  spec: LightSourceSpec;
+  /** The held light source; null while the off-hand is not a light (the
+   * light stays in the scene at intensity 0, so the light count is constant). */
+  spec: LightSourceSpec | null;
   /** 0-1 from `carriedLightIntensity`, written every frame by the owner. */
   level: MutableRefObject<number>;
   /** Seconds, for the flicker's movement; the same clock as `level`. */
   time: MutableRefObject<number>;
 }) {
-  const light = useMemo(() => {
-    const point = new THREE.PointLight(
-      new THREE.Color(spec.colour[0], spec.colour[1], spec.colour[2]),
-      0,
-      spec.radiusMetres,
-      2,
-    );
-    point.castShadow = false;
-    point.name = `carried-light:${spec.id}`;
-    return point;
-  }, [spec]);
-  const home = useMemo(() => new THREE.Vector3(), []);
-
-  useEffect(() => () => {
-    light.parent?.remove(light);
-    light.dispose();
-  }, [light]);
-
-  useFrame(() => {
-    const root = item.current;
-    if (!root) {
-      light.parent?.remove(light);
-      return;
-    }
-    const anchor = root.getObjectByName("AttachLight") ?? root;
-    if (light.parent !== anchor) {
-      anchor.add(light);
-      light.position.set(0, 0, 0);
-    }
-    // The anchor may be scaled with the rig; keep the light's reach in metres.
-    const scale = anchor.getWorldScale(home).x || 1;
-    light.distance = spec.radiusMetres / scale;
-    light.intensity = CARRIED_LIGHT_CANDELA * level.current;
-    const flicker = spec.flicker;
-    if (flicker && level.current > 0) {
-      // The record's flicker movement: a small wander of the light, two
-      // incommensurate waves per axis so it never visibly repeats.
-      const phase = 2 * Math.PI * flicker.frequency * time.current;
-      const reach = flicker.movementMetres / scale;
-      light.position.set(
-        reach * 0.5 * Math.sin(phase * 1.13 + 0.4) * Math.sin(phase * 0.37),
-        reach * 0.5 * Math.sin(phase * 0.91 + 2.1),
-        reach * 0.5 * Math.sin(phase * 1.47 + 4.2) * Math.cos(phase * 0.29),
-      );
-    }
-  });
-
+  const scene = useThree((state) => state.scene);
+  const rig = useMemo(() => new CarriedLightRig(scene, CARRIED_LIGHT_CANDELA), [scene]);
+  useEffect(() => () => rig.dispose(), [rig]);
+  useFrame(() => rig.update(item.current, spec, level.current, time.current));
   return null;
 }

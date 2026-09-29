@@ -1,6 +1,6 @@
 /**
- * Draws a place's painted ways (`groundPaint.ts`, 16k walk 4): one mesh per
- * road paint material, built once the ground under every strip is decoded,
+ * Draws the places' painted ways (`groundPaint.ts`, 16k walk 4): one mesh per
+ * (place, road paint material), each built once the ground under its strips is decoded,
  * with the ground material's own albedo and normal textures
  * (`textures/ground/<set>/materials.json`, the files the terrain's road paint
  * samples; never a new texture). Mounted by `SettlementLayer`.
@@ -41,7 +41,7 @@ function paintMaterial(baseUrl: string, set: string, row: GroundMaterialRow): TH
   });
 }
 
-/** One geometry per texture: every strip of that material, UVs in world metres / tileM. */
+/** One geometry per (place, texture) group: every strip of it, UVs in world metres / tileM. */
 export function paintGeometry(entries: readonly GroundPaintEntry[], groundAt: TerrainHeight, tileM: number):
   THREE.BufferGeometry | null {
   const strips = [];
@@ -73,6 +73,59 @@ export function paintGeometry(entries: readonly GroundPaintEntry[], groundAt: Te
   return g;
 }
 
+/** One mesh's worth of paint: a single place's strips of a single texture. */
+export interface PaintGroup {
+  readonly key: string;
+  readonly placeId: string;
+  readonly texture: string;
+  readonly entries: readonly GroundPaintEntry[];
+}
+
+/**
+ * Groups the bundle's paint by (place, texture). Places sit kilometres apart and
+ * their ground decodes at different times, so one place's undecoded terrain must
+ * never hold back another place's paint (the walk-5 silent no-draw).
+ */
+export function paintGroups(
+  settlements: readonly { readonly id: string; readonly groundPaint?: GroundPaintDoc }[],
+): Map<string, PaintGroup> {
+  const out = new Map<string, PaintGroup>();
+  for (const s of settlements) {
+    const byTexture = new Map<string, GroundPaintEntry[]>();
+    for (const e of groundPaintOfBundle([s])) {
+      const list = byTexture.get(e.texture);
+      if (list) list.push(e); else byTexture.set(e.texture, [e]);
+    }
+    for (const [texture, entries] of byTexture) {
+      const key = `${s.id}|${texture}`;
+      out.set(key, { key, placeId: s.id, texture, entries });
+    }
+  }
+  return out;
+}
+
+/**
+ * Builds every group whose ground is decoded; the rest stay waiting and are
+ * retried. A group with no ground material is dropped (`missing`), never retried.
+ */
+export function buildPaintGroups(
+  groups: Iterable<PaintGroup>, groundAt: TerrainHeight, tileMOf: (texture: string) => number | undefined,
+): { built: { group: PaintGroup; geometry: THREE.BufferGeometry }[]; waiting: PaintGroup[]; missing: PaintGroup[] } {
+  const built: { group: PaintGroup; geometry: THREE.BufferGeometry }[] = [];
+  const waiting: PaintGroup[] = []; const missing: PaintGroup[] = [];
+  for (const group of groups) {
+    const tileM = tileMOf(group.texture);
+    if (tileM === undefined) { missing.push(group); continue; }
+    const geometry = paintGeometry(group.entries, groundAt, tileM);
+    if (geometry) built.push({ group, geometry }); else waiting.push(group);
+  }
+  return { built, waiting, missing };
+}
+
+/** A group still undecoded after this long is reported (once per WARN_EVERY_S). */
+const WARN_AFTER_S = 5;
+const WARN_EVERY_S = 30;
+
 export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
   baseUrl: string;
   settlements: readonly { readonly id: string; readonly groundPaint?: GroundPaintDoc }[] | undefined;
@@ -80,8 +133,11 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
 }) {
   const group = useMemo(() => new THREE.Group(), []);
   const [materials, setMaterials] = useState<{ set: string; rows: GroundMaterialRow[] } | null>(null);
-  const pending = useRef<Map<string, GroundPaintEntry[]> | null>(null);
+  const pending = useRef<Map<string, PaintGroup> | null>(null);
   const nextTry = useRef(0);
+  /** Clock time the current pending set was first tried, and when it last warned. */
+  const since = useRef<number | null>(null);
+  const lastWarn = useRef(-Infinity);
   useEffect(() => {
     let live = true;
     groundMaterials(baseUrl).then((m) => { if (live) setMaterials(m); })
@@ -89,42 +145,49 @@ export function GroundPaintLayer({ baseUrl, settlements, groundAt }: {
     return () => { live = false; };
   }, [baseUrl]);
   useEffect(() => {
-    const byTexture = new Map<string, GroundPaintEntry[]>();
+    let groups = new Map<string, PaintGroup>();
     try {
-      for (const e of groundPaintOfBundle(settlements ?? [])) {
-        const list = byTexture.get(e.texture);
-        if (list) list.push(e); else byTexture.set(e.texture, [e]);
-      }
+      groups = paintGroups(settlements ?? []);
     } catch (error: unknown) {
       console.warn("[ground-paint] refused", error);
     }
-    pending.current = byTexture;
+    disposeGroup(group);
+    pending.current = groups;
     nextTry.current = 0;
-  }, [settlements, groundAt]);
+    since.current = null;
+    lastWarn.current = -Infinity;
+  }, [settlements, groundAt, group]);
   useFrame(({ clock }) => {
     const want = pending.current;
     if (!want || !materials || clock.elapsedTime < nextTry.current) return;
+    const now = clock.elapsedTime;
+    since.current ??= now;
     const start = performance.now();
-    const meshes: THREE.Mesh[] = [];
-    for (const [texture, entries] of want) {
-      const row = materials.rows.find((r) => r.name === texture);
-      if (!row) { console.warn(`[ground-paint] no ground material ${texture}`); continue; }
-      const geometry = paintGeometry(entries, groundAt, row.tileM);
-      if (!geometry) {
-        meshes.forEach((m) => m.geometry.dispose());
-        nextTry.current = clock.elapsedTime + RETRY_S;
-        return;
-      }
+    const { built, waiting, missing } = buildPaintGroups(
+      want.values(), groundAt, (t) => materials.rows.find((r) => r.name === t)?.tileM);
+    for (const g of missing) {
+      console.warn(`[ground-paint] no ground material ${g.texture} (${g.placeId})`);
+      want.delete(g.key);
+    }
+    for (const { group: g, geometry } of built) {
+      const row = materials.rows.find((r) => r.name === g.texture)!;
       const mesh = new THREE.Mesh(geometry, paintMaterial(baseUrl, materials.set, row));
-      mesh.name = `ground-paint:${texture}`;
+      mesh.name = `ground-paint:${g.placeId}:${g.texture}`;
       mesh.receiveShadow = true;
       mesh.renderOrder = 1;
-      meshes.push(mesh);
+      group.add(mesh);
+      want.delete(g.key);
     }
-    disposeGroup(group);
-    meshes.forEach((m) => group.add(m));
-    pending.current = null;
-    console.info(`[ground-paint] ${meshes.length} mesh(es) in ${(performance.now() - start).toFixed(1)} ms`);
+    if (built.length) {
+      console.info(`[ground-paint] ${built.length} mesh(es) in ${(performance.now() - start).toFixed(1)} ms`);
+    }
+    if (waiting.length === 0) { pending.current = null; return; }
+    nextTry.current = now + RETRY_S;
+    if (now - since.current > WARN_AFTER_S && now - lastWarn.current >= WARN_EVERY_S) {
+      lastWarn.current = now;
+      console.warn(`[ground-paint] ground still undecoded after ${(now - since.current).toFixed(0)} s for `
+        + waiting.map((g) => g.key).join(", "));
+    }
   });
   useEffect(() => () => disposeGroup(group), [group]);
   return <primitive object={group} />;

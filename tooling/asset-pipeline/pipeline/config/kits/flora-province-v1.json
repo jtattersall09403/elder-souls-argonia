@@ -1,6 +1,6 @@
 {
  "id": "flora-province-v1",
- "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job. Every species' far card is baked from its own mesh (bakeCards, 16f round 4): a mod-authored _lod_flat is matched to a mesh by name only, and three trees wore another tree's picture. Rocks get no card.",
+ "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts — the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job. Every species' far card is baked from its own mesh (bakeCards, 16f round 4): a mod-authored _lod_flat is matched to a mesh by name only, and three trees wore another tree's picture. Rocks get no card. The heavy trees carry part-aware mid and far MESH tiers (treeTiers, vegetation round 13, pipeline/tree_tiers.py): whole source leaf cards thinned and area-compensated, bark kept largest-island first, never decimated; each setting is the lightest that passed the silhouette check (tree_tiers_check --calibrate).",
  "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
  "lodRatios": [
   0.35,
@@ -612,5 +612,83 @@
  "texturesMissingAccepted": {
   "textures/landscape/trees/gkbjunglebranch10.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)",
   "textures/tr_oth_mush_sm2.dds": "the mod that names this path does not ship it, and the build found it in no pool, sibling pool or vanilla archive (16k fix round 2 gate backfill)"
+ },
+ "treeTiers": {
+  "perAsset": {
+   "bmv:landscape/trees/dwarfjunip05": {
+    "mid": {
+     "leafKeep": 0.7,
+     "gain": 0.4
+    },
+    "far": {
+     "leafKeep": 0.6,
+     "gain": 0.85
+    }
+   },
+   "bmv:landscape/trees/mangrovereachtree0gkb2": {
+    "mid": null,
+    "far": null
+   },
+   "bmv:landscape/trees/mangrovereachtree0gkb8": {
+    "mid": null,
+    "far": null
+   },
+   "bmv:landscape/trees/mangrovereachtree0gkb9": {
+    "mid": null,
+    "far": null
+   },
+   "bmv:landscape/trees/treewillow01a": {
+    "mid": {
+     "leafKeep": 0.28,
+     "gain": 0.85
+    },
+    "far": {
+     "leafKeep": 0.2,
+     "gain": 0.85
+    }
+   },
+   "bmv:landscape/trees/treewillow02a": {
+    "mid": {
+     "leafKeep": 0.28,
+     "gain": 0.85
+    },
+    "far": {
+     "leafKeep": 0.3,
+     "gain": 0.85
+    }
+   },
+   "bmv:landscape/trees/treewillow03a": {
+    "mid": {
+     "leafKeep": 0.28,
+     "gain": 0.85
+    },
+    "far": {
+     "leafKeep": 0.3,
+     "gain": 0.85
+    }
+   },
+   "composite:jungle/anvil-canopy-tree": {
+    "mid": {
+     "leafKeep": 0.55,
+     "gain": 0.4
+    },
+    "far": null
+   },
+   "composite:jungle/anvil-emergent-giant": {
+    "mid": {
+     "leafKeep": 0.28,
+     "gain": 0.4
+    },
+    "far": null
+   }
+  },
+  "assets": [
+   "bmv:landscape/trees/dwarfjunip05",
+   "bmv:landscape/trees/treewillow01a",
+   "bmv:landscape/trees/treewillow02a",
+   "bmv:landscape/trees/treewillow03a",
+   "composite:jungle/anvil-canopy-tree",
+   "composite:jungle/anvil-emergent-giant"
+  ]
  }
 }

@@ -9,6 +9,31 @@ import {
   type InteriorSubstitution, type Vec3,
 } from "./bundle";
 import { kitPartsDir, parseKitPartsIndex, type KitPartsIndex } from "./kitParts";
+import { FlameSystem } from "../fx/fire/FlameSystem";
+import {
+  burnsInInterior, interiorFireEmitters, isInteriorFlameCard, type InteriorFireRow,
+} from "../fx/fire/interiorFires";
+
+/** Per kit id, per asset id: the kit manifest rows a cell's fires read (fx/fire/interiorFires.ts). */
+export type InteriorFireRows = ReadonlyMap<string, ReadonlyMap<string, InteriorFireRow>>;
+
+/**
+ * The fire rows of a published kit manifest (`kits/<kit>.kit.json`): only
+ * the assets that burn (`burnsInInterior`: mined `flames`, `flameCardMaterials`
+ * or a light fixture record, which burns a fallback flame), reduced to
+ * the fields the anchors read. A manifest with no assets list is a named error.
+ */
+export function interiorFireRowsFromManifest(manifest: unknown, source: string): Map<string, InteriorFireRow> {
+  const assets = (manifest as { assets?: unknown } | null)?.assets;
+  if (!Array.isArray(assets)) throw new Error(`kit manifest ${source} has no assets list`);
+  const out = new Map<string, InteriorFireRow>();
+  for (const a of assets as (InteriorFireRow & { id?: string })[]) {
+    if (typeof a?.id !== "string" || !burnsInInterior(a)) continue;
+    out.set(a.id, { id: a.id, category: a.category, anchorClass: a.anchorClass, light: a.light,
+      flames: a.flames, sizeM: a.sizeM, originOffsetM: a.originOffsetM, flameCardMaterials: a.flameCardMaterials });
+  }
+  return out;
+}
 
 /**
  * THE NUMBER THE OWNER TUNES IN THE STUDIO: a point light's intensity is
@@ -62,11 +87,17 @@ export interface LoadedInterior {
   solids: SettlementSolid[];
   fog: THREE.Fog;
   background: THREE.Color;
-  counts: { placements: number; substitutions: number; meshes: number; lights: number; solids: number };
+  counts: { placements: number; substitutions: number; meshes: number; lights: number; solids: number; fires: number };
   /** Seconds from the loader's request to the built cell (bundle, parts, instancing); null when built directly. */
   loadS: number | null;
   /** The cell's swing doors, drawn under `group` at rest; `SwingDoorController` turns them (16k walk 4). */
   swingDoors: SwingDoor[];
+  /**
+   * The cell's fires (16k walk 5): every mined flame and every flame-card
+   * bed, drawn under `group`; null when nothing burns. The host calls
+   * `fire.update(t, () => 1)` each frame (an interior burns at any hour).
+   */
+  fire: FlameSystem | null;
 }
 
 /** The assets a cell's swing doors draw, as placements (so the loader fetches them). */
@@ -119,6 +150,7 @@ export function interiorPlacementMatrix(p: InteriorPlacement): THREE.Matrix4 {
  */
 export function instantiateInterior(
   bundle: InteriorBundle, kits: ReadonlyMap<string, ReadonlyMap<string, ArchitectureAsset>>,
+  fireRows: InteriorFireRows = new Map(),
 ): LoadedInterior {
   const group = new THREE.Group();
   group.name = `interior:${bundle.cellId}`;
@@ -136,7 +168,10 @@ export function instantiateInterior(
   const m = new THREE.Matrix4();
   for (const { asset, placements } of byAsset.values()) {
     const parts = asset.levels[0] ?? [];
+    const fireRow = fireRows.get(placements[0].kit)?.get(placements[0].assetId);
     for (const part of parts) {
+      // a flame card is drawn by the cell's FlameSystem instead (interiorFires.ts)
+      if (isInteriorFlameCard(fireRow, part.material.name)) continue;
       const mesh = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       placements.forEach((p, i) => mesh.setMatrixAt(i, m.multiplyMatrices(interiorPlacementMatrix(p), part.localMatrix)));
       mesh.instanceMatrix.needsUpdate = true;
@@ -179,13 +214,21 @@ export function instantiateInterior(
     directional.target.position.set(0, 0, 0);
     group.add(directional, directional.target);
   }
+  const emitters = interiorFireEmitters(drawnPlacements(bundle),
+    (p) => fireRows.get(p.kit)?.get(p.assetId), interiorPlacementMatrix);
+  let fire: FlameSystem | null = null;
+  if (emitters.length) {
+    fire = new FlameSystem();
+    fire.setEmitters(emitters);
+    group.add(fire.group);
+  }
   const background = colorFromRGB(bundle.fog.colorRGB);
   return {
-    bundle, group, solids, background, loadS: null, swingDoors,
+    bundle, group, solids, background, loadS: null, swingDoors, fire,
     fog: new THREE.Fog(background.clone(), bundle.fog.nearM, bundle.fog.farM),
     counts: {
       placements: bundle.placements.length, substitutions: bundle.substitutions?.length ?? 0,
-      meshes, lights: bundle.lights.length, solids: solids.length,
+      meshes, lights: bundle.lights.length, solids: solids.length, fires: emitters.length,
     },
   };
 }
@@ -248,6 +291,7 @@ export class InteriorLoader {
   private readonly entries = new Map<string, Entry>();
   private readonly indexes = new Map<string, Promise<KitPartsIndex>>();
   private readonly parts = new Map<string, Promise<ArchitectureAsset>>();
+  private readonly fireRows = new Map<string, Promise<Map<string, InteriorFireRow>>>();
 
   constructor(private readonly baseUrl: string, private readonly hosts: InteriorLoaderHosts) {}
 
@@ -291,15 +335,33 @@ export class InteriorLoader {
     const wanted = new Map<string, InteriorPlacement>();
     for (const p of [...drawnPlacements(bundle), ...swingDoorAssets(bundle)]) wanted.set(`${p.kit}|${p.assetId}`, p);
     const kits = new Map<string, Map<string, ArchitectureAsset>>();
-    await Promise.all([...wanted.values()].map(async (p) => {
-      const asset = await this.part(cellId, bundle.kits[p.kit], p.assetId);
-      let kit = kits.get(p.kit);
-      if (!kit) { kit = new Map(); kits.set(p.kit, kit); }
-      kit.set(p.assetId, asset);
-    }));
-    const interior = instantiateInterior(bundle, kits);
+    const fireRows = new Map<string, Map<string, InteriorFireRow>>();
+    await Promise.all([
+      ...[...wanted.values()].map(async (p) => {
+        const asset = await this.part(cellId, bundle.kits[p.kit], p.assetId);
+        let kit = kits.get(p.kit);
+        if (!kit) { kit = new Map(); kits.set(p.kit, kit); }
+        kit.set(p.assetId, asset);
+      }),
+      ...[...new Set(drawnPlacements(bundle).map((p) => p.kit))].map(async (kit) => {
+        fireRows.set(kit, await this.fires(bundle.kits[kit]));
+      }),
+    ]);
+    const interior = instantiateInterior(bundle, kits, fireRows);
     interior.loadS = (performance.now() - startedMs) / 1000;
     return interior;
+  }
+
+  /** A kit's fire rows, from its manifest, fetched once per kit for the loader's life. */
+  private fires(ref: InteriorKitRef): Promise<Map<string, InteriorFireRow>> {
+    let promise = this.fireRows.get(ref.id);
+    if (!promise) {
+      const url = `${this.baseUrl}${ref.manifest}`;
+      promise = this.hosts.fetchJson(url).then((raw) => interiorFireRowsFromManifest(raw, url));
+      promise.catch(() => this.fireRows.delete(ref.id));
+      this.fireRows.set(ref.id, promise);
+    }
+    return promise;
   }
 
   private index(ref: InteriorKitRef): Promise<KitPartsIndex> {

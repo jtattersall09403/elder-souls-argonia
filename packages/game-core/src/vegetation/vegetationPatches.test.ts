@@ -251,8 +251,15 @@ describe("patch segment index (2026-09-21 generation cost)", () => {
     ...spine.map(([x, z]) => [x, z - 5] as [number, number]),
     ...[...spine].reverse().map(([x, z]) => [x, z + 5] as [number, number]),
   ];
+  // The published road-track shape (walk 5): hundreds of separate quads
+  // along the spine, hard and thinned, which the polygon grid indexes.
+  const quads = (w: number) => spine.slice(0, 400).map(([x, z], i) => {
+    const [nx, nz] = spine[i + 1];
+    return [[x, z - w], [nx, nz - w], [nx, nz + w], [x, z + w]] as [number, number][];
+  });
   const cases: VegetationClearancePatch[] = [
     { hardClear: [corridor], thinned: [] },
+    { hardClear: quads(2), thinned: quads(5), fringeFalloffM: 2.5 },
     CLEARANCE,
     { hardClear: [[[0, 0], [40, 0], [40, 40], [0, 40]]] as never, thinned: [] },
     { thinned: [[[-200, -200], [200, -200], [200, 200], [-200, 200]]] as never },

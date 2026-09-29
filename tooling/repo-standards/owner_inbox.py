@@ -5,12 +5,19 @@ The owner reads them on their phone (GitHub mobile app, or the email GitHub
 sends for each comment). tooling/repo-standards/README.md § Owner inbox.
 
   owner_inbox.py --post <file.md> [--title <text>] [--attach <png>...]
-      post the file as a comment headed "## <title or Update> — <UTC time>";
-      each --attach image becomes a markdown image linked to its repo blob on
-      the current branch (`?raw=true`): an image link in the file that names
-      the same path is rewritten in place, any other is appended under
-      "Pictures". It commits nothing: commit the images before posting
-      (decision 0102 decision 11); an untracked image is warned about.
+                 [--walk <name>] [--branch <name>]
+      post the file as a comment headed "## <title or Update> — <UTC time>".
+      Each --attach image (any path, gitignored render output included) is
+      copied to tooling/.reports/16k/<walk>/pictures/ and `git add -f`-ed;
+      <walk> is --walk, else the folder of a packet under tooling/.reports/16k/.
+      Each becomes a markdown image linked to its blob on --branch (default
+      main: packets are walked on the deployed build) with `?raw=true`: an
+      image link in the file that names the source or the copy is rewritten
+      in place, any other is appended under "Pictures". It commits nothing
+      (decision 0102 decision 11) and REFUSES to post (exit 2) while any image
+      the comment links (attached, a relative image link, or a blob link into
+      this repo) is not committed on that branch (origin/<branch> when it
+      exists): commit, push, then run the same command again.
   owner_inbox.py --from-progress [--if-changed]
       post the story built from the repo: the commit subjects on dev since the
       last inbox comment, docs/PROGRESS.md § Waiting on user (links made
@@ -139,13 +146,6 @@ def post(number, title, text):
     print(f"owner_inbox: posted {out or f'to issue #{number}'}")
 
 
-def current_branch():
-    r = subprocess.run(["git", "-C", str(REPO_ROOT), "rev-parse", "--abbrev-ref", "HEAD"],
-                       capture_output=True, text=True)
-    branch = r.stdout.strip()
-    return branch if r.returncode == 0 and branch and branch != "HEAD" else "dev"
-
-
 def raw_image_url(rel_path, branch):
     return f"{REPO_URL}/blob/{branch}/{rel_path}?raw=true"
 
@@ -159,12 +159,14 @@ def repo_relative(path):
 
 
 def attach_images(text, images, branch, base_dir=None):
-    """Each image (a repo-relative path) as `![name](blob link?raw=true)`.
-    An image link in `text` whose target resolves to the same path (relative
-    to `base_dir`, the packet's folder, or to the repo root) is rewritten in
-    place; the rest are appended under a "Pictures" heading."""
+    """Each image as `![name](blob link?raw=true)`. An image is a repo-relative
+    path, or a (link path, {paths that name it}) pair: an image link in `text`
+    whose target resolves to one of those paths (relative to `base_dir`, the
+    packet's folder, or to the repo root) is rewritten in place; the rest are
+    appended under a "Pictures" heading."""
     appended = []
-    for rel in images:
+    for image in images:
+        rel, names = (image, {image}) if isinstance(image, str) else (image[0], {image[0], *image[1]})
         url = raw_image_url(rel, branch)
         hit = False
 
@@ -176,7 +178,7 @@ def attach_images(text, images, branch, base_dir=None):
             candidates = {posixpath.normpath(target.lstrip("/"))}
             if base_dir is not None:
                 candidates.add(posixpath.normpath(posixpath.join(base_dir, target)))
-            if rel in candidates:
+            if names & candidates:
                 hit = True
                 return f"{m.group(1)}({url})"
             return m.group(0)
@@ -188,14 +190,99 @@ def attach_images(text, images, branch, base_dir=None):
     return text
 
 
-def untracked(rel_paths):
-    out = []
-    for rel in rel_paths:
-        r = subprocess.run(["git", "-C", str(REPO_ROOT), "cat-file", "-e", f"HEAD:{rel}"],
-                           capture_output=True, text=True)
-        if r.returncode != 0:
-            out.append(rel)
+def git(*args, check=False):
+    r = subprocess.run(["git", "-C", str(REPO_ROOT), *args], capture_output=True, text=True)
+    if check and r.returncode != 0:
+        raise ValueError(f"git {' '.join(args)} failed: {(r.stderr or r.stdout).strip()[-200:]}")
+    return r
+
+
+def branch_ref(branch):
+    """origin/<branch> after a fetch when the repo has that remote branch,
+    else the local branch: the link loads only once the image is there."""
+    if git("remote", "get-url", "origin").returncode == 0:
+        git("fetch", "-q", "origin", branch)
+        if git("rev-parse", "--verify", "-q", f"origin/{branch}").returncode == 0:
+            return f"origin/{branch}"
+    return branch
+
+
+def not_committed(links):
+    """The (branch, path) links whose file is not committed on that branch."""
+    refs = {b: branch_ref(b) for b in sorted({b for b, _ in links})}
+    return [f"{p} (on {refs[b]})" for b, p in links if git("cat-file", "-e", f"{refs[b]}:{p}").returncode != 0]
+
+
+WALK_RE = re.compile(r"^tooling/\.reports/16k/([^/]+)/")
+BLOB_LINK_RE = re.compile(re.escape(REPO_URL) + r"/blob/([^/\s)]+)/([^?#\s)]+)")
+
+
+def walk_name(packet_rel, walk):
+    if walk:
+        return walk
+    m = WALK_RE.match(packet_rel or "")
+    if not m:
+        raise ValueError("--attach needs --walk <name> when the packet is not under tooling/.reports/16k/<walk>/")
+    return m.group(1)
+
+
+def copy_pictures(sources, walk):
+    """Copy each image into tooling/.reports/16k/<walk>/pictures/ and `git add
+    -f` it (tooling/.reports/ is gitignored). Returns [(copy rel, source rel)].
+    A second image with the same file name is prefixed with its folder name."""
+    dest_dir = f"tooling/.reports/16k/{walk}/pictures"
+    (REPO_ROOT / dest_dir).mkdir(parents=True, exist_ok=True)
+    out, taken = [], {}
+    for src in sources:
+        src_path = Path(src).resolve()
+        if not src_path.is_file():
+            raise ValueError(f"{src}: no such image")
+        src_rel = repo_relative(src_path)
+        name = src_path.name
+        if taken.get(name, src_rel) != src_rel:
+            name = f"{src_path.parent.name}-{name}"
+        taken[name] = src_rel
+        rel = f"{dest_dir}/{name}"
+        if (REPO_ROOT / rel).resolve() != src_path:
+            shutil.copyfile(src_path, REPO_ROOT / rel)
+        git("add", "-f", "--", rel, check=True)
+        out.append((rel, src_rel))
     return out
+
+
+def linked_images(text, branch, base_dir):
+    """(branch, repo path) of every image the comment links: blob links into
+    this repo on their own branch, and relative image links (resolved from
+    `base_dir`, or the root for a leading "/") on `branch`."""
+    out = []
+    for m in re.finditer(r"!\[[^\]]*\]\(([^)\s]+)\)", text):
+        target = m.group(1)
+        b = BLOB_LINK_RE.match(target)
+        if b:
+            out.append((b.group(1), b.group(2)))
+        elif not re.match(r"^(https?:|#|data:)", target):
+            rel = target.lstrip("/") if target.startswith("/") else posixpath.join(base_dir or "", target)
+            out.append((branch, posixpath.normpath(rel)))
+    return out
+
+
+def prepare_pictures(text, packet, attach, walk, branch):
+    """The comment body with every attached image copied, staged and linked
+    on `branch`; raises ValueError (post refused) while any linked image is
+    not committed there."""
+    try:
+        base = repo_relative(Path(packet).resolve().parent)
+    except ValueError:
+        base = None           # a packet outside the repo: links resolve from the root
+    if attach:
+        pairs = copy_pictures(attach, walk_name(base and base + "/", walk))
+        text = attach_images(text, [(rel, {src}) for rel, src in pairs], branch, base_dir=base)
+    missing = not_committed(linked_images(text, branch, base))
+    if missing:
+        raise ValueError(f"{len(missing)} linked image(s) not committed (the link would 404): "
+                         + ", ".join(missing) + ". Commit them (attached ones are staged), push "
+                         f"{branch}, then run the same command again")
+    return text
 
 
 def waiting_section(progress_text):
@@ -258,11 +345,21 @@ def main(argv=None):
                     help="the summary line of a --collapse")
     ap.add_argument("--title")
     ap.add_argument("--attach", nargs="+", metavar="PNG", default=[],
-                    help="images to embed by repo blob link (with --post)")
+                    help="images to copy into the walk's pictures folder and embed (with --post)")
+    ap.add_argument("--walk", help="the tooling/.reports/16k/<walk> folder for --attach copies")
+    ap.add_argument("--branch", default="main", help="the branch the links point at (default main)")
     ap.add_argument("--if-changed", action="store_true")
     a = ap.parse_args(argv)
     if a.attach and not a.post:
         ap.error("--attach goes with --post")
+    text = None
+    if a.post:
+        text = Path(a.post).read_text(encoding="utf-8")
+        try:
+            text = prepare_pictures(text, a.post, a.attach, a.walk, a.branch)
+        except ValueError as e:
+            print(f"owner_inbox: {e}; nothing posted", file=sys.stderr)
+            return 2
     if not shutil.which("gh"):
         print("owner_inbox: gh is not installed; nothing posted")
         return 0
@@ -275,20 +372,6 @@ def main(argv=None):
             print("\n".join(list_lines(comments(number))))
             return 0
         if a.post:
-            text = Path(a.post).read_text(encoding="utf-8")
-            if a.attach:
-                try:
-                    rels = [repo_relative(p) for p in a.attach]
-                except ValueError as e:
-                    print(f"owner_inbox: {e}; nothing posted")
-                    return 0
-                try:
-                    base = repo_relative(Path(a.post).resolve().parent)
-                except ValueError:
-                    base = None           # a packet outside the repo: links resolve from the root
-                for rel in untracked(rels):
-                    print(f"owner_inbox: warning: {rel} is not committed at HEAD; its link will not load until it is pushed")
-                text = attach_images(text, rels, current_branch(), base_dir=base)
             post(number, a.title, text)
             return 0
         last = last_story(number)

@@ -12,10 +12,10 @@
      "uid": "isy-trough",
      "piece": "vanilla:clutter/horsetrough/horsetrough01",
      "offsetM": [
-      14.0,
-      -10.0
+      4.0,
+      -2.5
      ],
-     "yaw": 14.0
+     "yaw": 0.0
     },
     {
      "uid": "isy-bench",

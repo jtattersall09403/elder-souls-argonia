@@ -37,12 +37,35 @@ scan did not pass is never authored.
 3. **Readers as ONE Workflow, one wake:** one Sonnet reader per image
    (top, each front, isos, the special shots) inside a single `Workflow`
    script that returns one merged NO list, so the builder wakes once
-   per round, not once per image. Readers get only the checklist rows
-   tagged `reader` (a row tagged with a `check` or compile rule is
-   measured, never read). The plan read is skipped when the compile
-   gates are green; a render round is skipped entirely for a proven
-   type unless the type sheet asks for a sampled one.
-4. **Fix list → next round.** Group by cause; a cause that is a rule,
+   per round, not once per image. Readers judge only what `check`
+   cannot measure: each gets only the checklist rows tagged `reader` for
+   its view, a narrow list of at most ~8 (a row tagged with a `check` or
+   compile rule is measured, never read; a reader turn on it is waste).
+   Where a shot suits it, several shots go on one contact sheet (a 2x2
+   of the fronts) so one reader reads four subjects in one image. The
+   plan read is skipped when the compile gates are green; a render round
+   is skipped entirely for a proven type unless the type sheet asks for
+   a sampled one.
+3a. **Close the ambiguous ones on the geometry, at the next launch.** A reader
+   NO or UNSURE, or a `check` number near its bar, is settled by one
+   look aimed at it, all in the next single Blender launch: a close-up
+   (`render front --focus UID --span 6`), a section (`render cutaway
+   --focus UID --cut M`: a floor against the ground, a buried base), a
+   night shot (`@night`: light coverage), or a `wb.py bpy` script for a
+   number (`contacts(uid, 'ground')`, `lowest_point`, a ray ring for
+   ground-vs-floor gaps under 0.05 m: a z-fight). Never argued from the
+   first wide shot.
+3b. **A fix round renders what is published.** When the round verifies a
+   fix (every round of `continue 16k slice N`), its shots come from a
+   fresh `wb.py apply` of the committed layout after export, compile and
+   publish, and only once the SKILL § 5 read-back shows the published
+   pose equal to the scene's for every fixed item; never from a scene
+   edited in memory by hand commands (walk 5: the landing reported
+   lowered was unchanged in the bundle).
+4. **Before any packet line:** every height or position it states is read
+   back from the published bundle (R74), never from the layout op's delta
+   (walk 5: a landing "lowered" by its op read 35.51 m in the bundle).
+5. **Fix list → next round.** Group by cause; a cause that is a rule,
    tool or record gap under an existing decision is filed to the tooling
    sub-lane (a `deliver` sub-agent outside the round, recommend and do),
    and the round takes the rule at its next round, never writing it
@@ -76,5 +99,5 @@ scan did not pass is never authored.
 ## Budget per round
 
 Scan 1–2 min · edit 5 min · round 2–4 min (cached apply, parallel check,
-one Blender launch) · readers 3 min in parallel · fix list 2 min. A
-round over 25 min wall is a tooling defect to report with its timing.
+one Blender launch) · readers 3 min in parallel · targeted looks (3a)
+2 min · fix list 2 min. A round over 25 min wall is a tooling defect to report with its timing.

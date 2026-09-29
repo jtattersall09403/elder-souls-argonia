@@ -222,6 +222,7 @@ def scene_job(cat: Catalogue, scene: Scene, work: Path, ground_centre, ground_ha
         pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
                        "tint": tint, "uid": p.uid})
     return {"pieces": pieces, "ground": str(work / "ground.npz"),
+            "fires": fire_anchors(cat, scene, only),
             "kitCache": {"dir": str(BLEND_CACHE),
                          "signatures": {g: glb_file_signature(Path(g))
                                         for g in sorted({p["glb"] for p in pieces})}}}
@@ -391,6 +392,62 @@ def _shot_token(tok: str, by_uid: dict, scene: Scene, wanted: list) -> None:
     else:
         raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID[/SPAN[/BEARING]] "
                          f"(each may end in @night)")
+
+
+def _draws_own_fire(row: dict) -> bool:
+    return bool(row.get("flames")) or bool(row.get("flameCardMaterials"))
+
+
+def fire_anchors(cat, scene: Scene, only: set | None = None) -> list[dict]:
+    """Every flame the runtime draws, at its RESOLVED world anchor (the
+    piece's full pose applied to the anchor), for the Blender fire pass
+    (render_scene.py `add_fire_light_pass`, 16k walk 5): the same rule as
+    game-core fx/fire/flameAnchors.ts `pieceFlameAnchorsLocal` and
+    settlement/SettlementLayer.tsx: a light-layer piece or a piece with a
+    LIGH record burns at each mined `flames[].offsetM`, else (no fire of its
+    own, none mounted on it) at one fallback anchor: a hanging piece's body
+    (bottom-centre raised by half its smaller plan width), any other on the
+    top-centre of its bounds; a piece with mined flames and no light burns at
+    its flames. Each entry: {uid, at [x, y, up], heightM, fallback}."""
+    from .scene import hung_on
+    rows = {}
+    for p in scene.pieces:
+        try:
+            rows[p.uid] = cat.row(p.asset)
+        except KeyError:
+            continue
+    hosts_of_fire = {hung_on(p) for p in scene.pieces
+                     if hung_on(p) and p.uid in rows and _draws_own_fire(rows[p.uid])}
+    out = []
+    for p in scene.pieces:
+        row = rows.get(p.uid)
+        if row is None or p.y is None or (only and p.uid not in only):
+            continue
+        fixture = (p.role or {}).get("layer") == "light" or bool(row.get("light"))
+        if not fixture and not row.get("flames"):
+            continue
+        local = []      # kit frame (x, north, up) from glTF Y-up (x, up, south)
+        for f in row.get("flames") or []:
+            ox, oy, oz = (float(v) for v in f["offsetM"])
+            local.append(([ox, -oz, oy], float(f.get("sizeM", 0.1)), False))
+        if not local and fixture and not _draws_own_fire(row) and p.uid not in hosts_of_fire:
+            s, o = row.get("sizeM"), row.get("originOffsetM")
+            if not s or not o:
+                continue
+            cx, cy = s[0] / 2 - o[0], s[1] / 2 - o[1]
+            if row.get("anchorClass") == "hanging":
+                up = -o[2] + min(s[0], s[1], s[2]) * 0.5
+            else:
+                up = s[2] - o[2]
+            local.append(([cx, cy, up], 0.1, True))
+        if not local:
+            continue
+        pts = p.world_points(np.array([l[0] for l in local]))
+        for (_, size, fallback), at in zip(local, pts):
+            out.append({"uid": p.uid, "at": [round(float(v), 4) for v in at],
+                        "heightM": round(min(0.9, max(0.08, size * 2.0)) * p.scale, 4),
+                        "fallback": fallback})
+    return out
 
 
 #: a lantern's flame stands this far up its height (pivot base to top)

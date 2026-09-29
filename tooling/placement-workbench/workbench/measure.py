@@ -230,6 +230,10 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
     samples_xz = (footprint_province(cat, piece) if mode == "streamed-perimeter"
                   else [(piece.x, piece.z)])
     heights = [ground.height(x, z, source) for x, z in samples_xz]
+    if piece.pad is not None and hasattr(ground, "floor_lift"):
+        # the pad's own building rests on its datum, which the overlay grades
+        # PAD_FLOOR_CLEARANCE_M under (pad_overlay; Claywater walk 5 z-fight)
+        heights = [h + ground.floor_lift(x, z) for h, (x, z) in zip(heights, samples_xz)]
     lo, hi = min(heights), max(heights)
     line = lo if fit == "dug-in" else sum(heights) / len(heights)
     sink = sink_of(row) * piece.scale

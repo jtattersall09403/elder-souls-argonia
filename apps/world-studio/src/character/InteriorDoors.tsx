@@ -33,6 +33,8 @@ export interface InteriorDoorsProbe {
   cellId: string | null;
   originM: Vec3 | null;
   meshes: number;
+  /** Fire emitters the shown cell burns (interiorLoader `counts.fires`). */
+  fires: number;
   /** The shown cell's drawn bounds, world metres: [min, max]. */
   boundsM: [Vec3, Vec3] | null;
   candidate: string | null;
@@ -223,7 +225,12 @@ export function InteriorDoors({
     return () => { environment.current = null; env.restore(); };
   }, [shown, scene, gl]);
 
-  useFrame((_, delta) => {
+  // Per-frame scratch (walk 5 perf): no vector or closure made per frame.
+  const bodyPos = useMemo(() => new THREE.Vector3(), []);
+  const answers = useMemo(() => (doorId: string) => interaction.answers(doorId), [interaction]);
+  useFrame((state, delta) => {
+    // the shown cell's fires (interiorLoader `fire`): an interior burns at any hour
+    shown?.interior.fire?.update(state.clock.elapsedTime, () => 1);
     if (directCellId && !opened.current && controller.ready) {
       opened.current = true;
       // The body's own pose: `position()` is the controller's per-frame copy,
@@ -233,12 +240,12 @@ export function InteriorDoors({
       controller.readPose(p, new THREE.Quaternion());
       transition.openDirect(directCellId, { x: p.x, y: p.y, z: p.z });
     }
-    transition.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
+    transition.update(Math.min(delta, 0.1), answers);
     if (transition.candidate) interaction.offer(transition.candidate);
     if (swing && transition.fade === 0) {
-      const p = controller.position(new THREE.Vector3());
+      const p = controller.position(bodyPos);
       for (const c of swing.controller.candidates(p.x, p.z)) interaction.offer(c);
-      swing.controller.update(Math.min(delta, 0.1), (doorId) => interaction.answers(doorId));
+      swing.controller.update(Math.min(delta, 0.1), answers);
     }
     const focus = interaction.focused;
     const swingDoor = swing && focus ? swing.controller.doors.find((d) => d.id === focus.id) : undefined;
@@ -270,11 +277,16 @@ function probeState(
   let boundsM: InteriorDoorsProbe["boundsM"] = null;
   if (shown) {
     shown.interior.group.updateMatrixWorld(true);
-    probeBox.setFromObject(shown.interior.group);
+    // the fire's instanced quads carry no bounds of their own: the cell's meshes only
+    probeBox.makeEmpty();
+    for (const child of shown.interior.group.children) {
+      if (child !== shown.interior.fire?.group) probeBox.expandByObject(child);
+    }
     if (!probeBox.isEmpty()) boundsM = [probeBox.min.toArray() as Vec3, probeBox.max.toArray() as Vec3];
   }
   return {
     cellId: transition.cellId, originM: shown?.originM ?? null, meshes: shown?.interior.counts.meshes ?? 0,
+    fires: shown?.interior.counts.fires ?? 0,
     boundsM, candidate: transition.candidate?.id ?? null, focused,
     prompt: transition.prompt?.doorId ?? null, fade: transition.fade, error: overlay.error,
     loadS: shown?.interior.loadS ?? null,

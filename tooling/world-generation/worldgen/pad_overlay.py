@@ -46,18 +46,32 @@ import numpy as np
 
 SCHEMA_VERSION = 1
 
+#: A building pad's graded ground stands this far BELOW its recorded datum
+#: (the floor level the building rests on), so a floor mesh laid at the datum
+#: never shares a plane with the terrain (Claywater walk 5: the stable's stall
+#: floor z-fought a pad graded exactly to 37.40 m). The record keeps the floor
+#: level; only the overlay the runtime and every Python reader apply is
+#: lowered, in `building_overlay` and `overlay_from_patch` alike, and the seat
+#: of the pad's own building adds it back (`floor_lift`). The workbench's
+#: `padClearRule` fails a floor within PAD_CLEAR_MIN_M of the graded ground.
+PAD_FLOOR_CLEARANCE_M = 0.03
+PAD_CLEAR_MIN_M = 0.01
+
 
 def overlay_from_patch(patch: dict, default_hard_m: float) -> dict:
-    """The overlay of one `settlement-pad` patch (`settlement_run_pads.pad_patch`)."""
+    """The overlay of one `settlement-pad` patch (`settlement_run_pads.pad_patch`);
+    a building pad's datum is lowered by PAD_FLOOR_CLEARANCE_M."""
+    kind = "building" if "buildingId" in (patch.get("source") or {}) else "run"
+    drop = PAD_FLOOR_CLEARANCE_M if kind == "building" else 0.0
     return {
         "id": patch["id"],
-        "kind": "building" if "buildingId" in (patch.get("source") or {}) else "run",
+        "kind": kind,
         "bboxM": [float(v) for v in patch["bboxM"]],
         "blendM": float(patch["blendM"]),
         "hardM": float(patch.get("hardM", default_hard_m)),
         "pieces": [{"placementId": r["placementId"],
                     "polygonM": [[float(x), float(z)] for x, z in r["footprintM"]],
-                    "datumM": float(r["targetM"])} for r in patch["params"]["pieces"]],
+                    "datumM": round(float(r["targetM"]) - drop, 4)} for r in patch["params"]["pieces"]],
     }
 
 
@@ -255,13 +269,15 @@ def ground_many(base: np.ndarray, X: np.ndarray, Z: np.ndarray, overlays: list[d
 
 def building_overlay(overlay_id: str, polygon, datum: float, blend_m: float) -> dict:
     """The overlay of one building pad (its apron polygon at one datum,
-    ``hardM`` 0), as `overlay_from_patch` builds it from the bundle's patch."""
+    ``hardM`` 0), as `overlay_from_patch` builds it from the bundle's patch:
+    ``datum`` is the recorded floor level, graded PAD_FLOOR_CLEARANCE_M under."""
     poly = [[float(x), float(z)] for x, z in polygon]
     xs = [x for x, _ in poly]
     zs = [z for _, z in poly]
     return {"id": overlay_id, "kind": "building", "bboxM": [min(xs), min(zs), max(xs), max(zs)],
             "blendM": float(blend_m), "hardM": 0.0,
-            "pieces": [{"placementId": overlay_id, "polygonM": poly, "datumM": float(datum)}]}
+            "pieces": [{"placementId": overlay_id, "polygonM": poly,
+                        "datumM": round(float(datum) - PAD_FLOOR_CLEARANCE_M, 4)}]}
 
 
 POOL_OP = "pool"

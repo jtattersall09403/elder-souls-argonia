@@ -25,8 +25,9 @@ function loaderFor(raw: unknown) {
   const ids = [...b.placements.map((p) => p.assetId), ...(b.substitutions ?? []).map((s) => s.standInAsset)];
   const kitsLoaded: string[] = [];
   const loader = new InteriorLoader("/base/", {
-    // a kit's parts index (kitParts.ts) lists every id; anything else is the bundle
+    // a kit's parts index (kitParts.ts) lists every id, a manifest no fire; anything else is the bundle
     fetchJson: async (url) => {
+      if (url.endsWith(".kit.json")) return { assets: [] }; // a kit manifest: nothing burns here
       const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
       if (!kit) return structuredClone(raw);
       kitsLoaded.push(kit);

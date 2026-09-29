@@ -53,11 +53,20 @@
    "uid": "well",
    "asset": "vanilla:dungeons/mines/clutter/genericwell01",
    "at": [
-    328.0,
-    3047.0
+    323.0,
+    3062.2
    ],
    "yaw": 14.0,
-   "settle": true
+   "settle": true,
+   "pad": {
+    "apronM": 0.8,
+    "blendM": 1.0
+   }
+  },
+  {
+   "op": "note",
+   "uid": "well",
+   "text": "walk 5: moved from [328.0, 3047.0], where it stood in 1.08 m of the tarn (body.221-1650, level 35.24 m) with its rim 0.32 m under the surface, onto the station bench east of the house, a dry spot off the road paint and clear of the yard (scan walk5-fix/scan-well-out.json; the shore flat at [331, 3049.5] is open water on the compile's grid). A 0.8 m apron pad with a 1.0 m blend levels the bench's slope without regrading the handcart's or the lantern post's ground. The yard set's trough (offset 14, -10 from isy-barrel1) stood in the tarn too and is removed. submergedRule now measures this"
   },
   {
    "op": "place",
@@ -233,6 +242,10 @@
     3054.0
    ],
    "yaw": 0.0
+  },
+  {
+   "op": "remove",
+   "uid": "isy-trough"
   },
   {
    "op": "remove",
@@ -1292,8 +1305,8 @@
      3047.6
     ],
     [
-     327.0,
-     3045.6
+     322.6,
+     3060.6
     ]
    ],
    "width": 1.2,
@@ -1472,15 +1485,6 @@
    "on": "parent",
    "evidence": "measured",
    "host": "p1"
-  },
-  {
-   "op": "bind",
-   "uid": "isy-trough",
-   "kind": "assembly",
-   "id": "parcel.claywater-station.the-well",
-   "layer": "clutter",
-   "on": "ground",
-   "evidence": "measured"
   },
   {
    "op": "bind",
@@ -2307,8 +2311,8 @@
    "id": "socket.claywater-station.npc-well-keeper",
    "kind": "npc",
    "at": [
-    325.8,
-    3047.2
+    325.0,
+    3062.4
    ],
    "rosterSlotId": "well-keeper",
    "role": "the well-keeper",
@@ -2517,8 +2521,8 @@
    "id": "socket.claywater-station.npc-travellers",
    "kind": "npc",
    "at": [
-    323.5,
-    3045.6
+    322.0,
+    3052.5
    ],
    "rosterSlotId": "n2",
    "role": "rank-and-file",

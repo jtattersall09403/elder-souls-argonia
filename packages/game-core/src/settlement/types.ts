@@ -397,6 +397,8 @@ export interface SettlementKitAssetMeta {
    * field the compile's `fit_slope_failure` reads. `dug-in` anchors on the
    * lowest ground under the footprint (97 §C); every other fit on the mean. */
   fit?: string;
+  /** The asset id (`vanilla:effects/fxfirewithembers01`): the fire preset reads it (fireTypes `firePresetFor`). */
+  id?: string;
   /** The kit category (build_kit); window lights are architecture only. */
   category?: string;
   /** The mined Skyrim LIGH record placed with the piece (build_kit

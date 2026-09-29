@@ -224,6 +224,31 @@ def interior_gate(g: Gates, bp: dict) -> None:
     g.add("interiors", time.perf_counter() - t, failures, cells=sorted(set(cells)))
 
 
+#: the vitest that owns the flame anchor rule (fx/fire/flameAnchors.ts
+#: `flameAnchorFailures`) over every published place and interior; the gate
+#: runs it rather than mirror the anchor rule in Python
+FLAME_ANCHOR_TEST = ("src/fx/fire/fire.test.ts", "every flame of every published place and interior lies in its piece")
+GAME_CORE = REPO_ROOT / "packages" / "game-core"
+
+
+def flame_anchor_gate(g: Gates) -> None:
+    """Every flame anchor lies in its piece (16k walk 5): the vitest's
+    failure lines (one per anchor outside its piece's bounds, or in a hanging
+    piece's cord) are this gate's failures. Reads the PUBLISHED bundles."""
+    t = time.perf_counter()
+    got = subprocess.run(["npx", "vitest", "run", FLAME_ANCHOR_TEST[0], "-t", FLAME_ANCHOR_TEST[1]],
+                         cwd=GAME_CORE, capture_output=True, text=True)
+    out = got.stdout + got.stderr
+    ran = re.search(r"Tests\s+1 passed", out) is not None
+    failures = ([] if ran else [f"the flame anchor test did not run (renamed?): {FLAME_ANCHOR_TEST}"]) \
+        if got.returncode == 0 else (
+        sorted({ln.strip().strip('",') for ln in out.splitlines()
+                if "lies outside the piece's bounds" in ln or "upper half of a hanging piece" in ln})
+        or [f"the flame anchor test failed (exit {got.returncode}): "
+            + " | ".join(out.strip().splitlines()[-5:])])
+    g.add("flameAnchors", time.perf_counter() - t, failures)
+
+
 VARIETY_BARS = ("signatureRatioMin", "shellsMin", "topShellShareMax")
 EXCEPTION_FIELDS = ("bar", "reason", "on", "planner")
 
@@ -1183,6 +1208,7 @@ def run(place_id: str, scene_name: str | None = None, *, now: str) -> dict:
     g.rows[-1]["blueprint"] = bp_source
     interior_gate(g, bp)
     g.rows[-1]["blueprint"] = bp_source
+    flame_anchor_gate(g)
     from .blueprint_promises import load_record
     record = load_record(place_id)
     variety_gates(g, place_id, bp, record,

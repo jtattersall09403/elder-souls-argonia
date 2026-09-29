@@ -174,6 +174,10 @@ export function createGroundMaterial(
   };
 
   const material = new THREE.MeshStandardMaterial({ roughness: 1.0, metalness: 0.0 });
+  // Fixture lights (render/fixtureLights, installed by the sky's scene walk):
+  // a near terrain tile is 117 m across and holds a whole place's lamps, so
+  // its fragments read up to 16 per tile, not the default 8.
+  material.userData.esFixtureLightsPerObject = 16;
 
   // CSM must install its hook first so the splat patch can chain after it.
   csm?.setupMaterial(material);

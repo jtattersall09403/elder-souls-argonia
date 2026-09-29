@@ -20,8 +20,9 @@ interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
   glowMaterial: SettlementGlow;
   depthPair: boolean;
-  /** An additive card's gain (`additiveGain`); unused by any other surface. */
-  flameGain: number;
+  /** An additive card's gain (`additiveGain`), a uniform of its own: a
+   * program per distinct gain was one relink per new flame asset. */
+  flameGain: THREE.IUniform<number>;
 }
 
 /** Warm lamplight colour of a lit window at full night (linear RGB), and its
@@ -153,10 +154,19 @@ export function applySettlementSurface(
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return;
   m.userData.esAerial = true;
+  const held = m.userData.esSettlementSurface as SettlementSurfaceState | undefined;
+  const gain = additiveGain(m);
+  // Same state again (every rebuild re-applies it): nothing to relink.
+  if (held && held.uniforms === uniforms && held.glowMaterial === glowMaterial && !held.depthPair) {
+    held.flameGain.value = gain;
+    reapplySettlementSurface(m);
+    return;
+  }
   m.userData.esSettlementSurface = {
-    uniforms, glowMaterial, depthPair: false, flameGain: additiveGain(m),
+    uniforms, glowMaterial, depthPair: false, flameGain: { value: gain },
   };
-  reapplySettlementSurface(m);
+  // a changed glow kind is a new program: the installed hook re-wraps
+  reapplySettlementSurface(m, Boolean(held));
 }
 
 /** Create the alpha/displacement-matched shadow twin at the colour patch call site. */
@@ -179,7 +189,7 @@ export function applySettlementSurfaceWithShadow(
     displacementBias: m.displacementBias,
   });
   depth.name = `${m.name || "settlement"}.shadow-depth`;
-  depth.userData.esSettlementSurface = { uniforms, glowMaterial: false, depthPair: true, flameGain: 0 };
+  depth.userData.esSettlementSurface = { uniforms, glowMaterial: false, depthPair: true, flameGain: { value: 0 } };
   reapplySettlementSurface(depth);
   return depth;
 }
@@ -245,10 +255,11 @@ function flameStrength(glow: "flame" | "lamp-flame"): string {
 }
 
 /** The line after the output stage an additive card adds: unlit, its texture
- * x vertex colour x gain x strength, alpha kept for the additive blend. */
-export function flameOutputLine(glow: SettlementGlow, gain: number): string {
+ * x vertex colour x gain (the `esSettlementFlameGain` uniform) x strength,
+ * alpha kept for the additive blend. */
+export function flameOutputLine(glow: SettlementGlow): string {
   return glow === "flame" || glow === "lamp-flame"
-    ? `\ngl_FragColor = vec4(diffuseColor.rgb * ${gain.toFixed(3)} * ${flameStrength(glow)}, diffuseColor.a);`
+    ? `\ngl_FragColor = vec4(diffuseColor.rgb * esSettlementFlameGain * ${flameStrength(glow)}, diffuseColor.a);`
     : "";
 }
 
@@ -260,39 +271,53 @@ function glowLine(glow: SettlementGlow): string {
     : "";
 }
 
-export function reapplySettlementSurface(material: THREE.Material): void {
+/** The surface's program key part: the glow kind and the pass, never a value. */
+function surfaceKey(state: SettlementSurfaceState): string {
+  const glow = state.glowMaterial === "flame" ? 2 : state.glowMaterial === "lamp-flame" ? 3 : state.glowMaterial ? 1 : 0;
+  return `${PATCH}|${glow}|${state.depthPair ? "depth" : "colour"}`;
+}
+
+export function reapplySettlementSurface(material: THREE.Material, force = false): void {
   const m = material as THREE.MeshStandardMaterial | THREE.MeshDepthMaterial;
   const state = m.userData?.esSettlementSurface as
     | SettlementSurfaceState
     | undefined;
-  if (!state || m.userData.esSettlementHook === m.onBeforeCompile) return;
-  const previous = m.onBeforeCompile;
+  const ours = m.userData.esSettlementHook !== undefined && m.userData.esSettlementHook === m.onBeforeCompile;
+  if (!state || (ours && !force)) return;
+  // Chain onto the hook in place, never onto our own older wrapper (a re-wrap
+  // after a glow change would run the old patch too).
+  const previous = ours
+    ? m.userData.esSettlementPrevious as THREE.Material["onBeforeCompile"] : m.onBeforeCompile;
   const hook: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
       previous?.call(m, shader, renderer);
       shader.uniforms.esSettlementRain = state.uniforms.esSettlementRain;
       shader.uniforms.esSettlementNight = state.uniforms.esSettlementNight;
+      shader.uniforms.esSettlementFlameGain = state.flameGain;
       shader.vertexShader = shader.vertexShader
         .replace("#include <common>", `#include <common>\nattribute float ${SETTLEMENT_GROUND_ATTRIBUTE};\nvarying float esSettlementHeightAboveGround;`)
         .replace("#include <begin_vertex>", `#include <begin_vertex>\nvec4 esSettlementWorldPosition = vec4(transformed, 1.0);\n#ifdef USE_INSTANCING\nesSettlementWorldPosition = instanceMatrix * esSettlementWorldPosition;\n#endif\nesSettlementWorldPosition = modelMatrix * esSettlementWorldPosition;\nesSettlementHeightAboveGround = esSettlementWorldPosition.y - ${SETTLEMENT_GROUND_ATTRIBUTE};`);
       if (state.depthPair) return;
       shader.fragmentShader = shader.fragmentShader
-        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nvarying float esSettlementHeightAboveGround;`)
+        .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nuniform float esSettlementFlameGain;\nvarying float esSettlementHeightAboveGround;`)
         .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);`)
         // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
         // map x factor) x warm lamplight x the lamp clock (lighting.ts). By day the
         // factor is 0, so the glTF's emissive never shows. Added to albedo
         // (the old path) it was multiplied by the night light and stayed dark.
         .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${glowLine(state.glowMaterial)}`)
-        .replace("#include <opaque_fragment>", `#include <opaque_fragment>${flameOutputLine(state.glowMaterial, state.flameGain)}`)
+        .replace("#include <opaque_fragment>", `#include <opaque_fragment>${flameOutputLine(state.glowMaterial)}`)
         .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.32, esWallWet * 0.55);`);
     };
   m.onBeforeCompile = hook;
   m.userData.esSettlementHook = hook;
+  m.userData.esSettlementPrevious = previous;
   if (!m.userData.esSettlementCacheKeyed) {
     m.userData.esSettlementCacheKeyed = true;
     const priorKey = m.customProgramCacheKey;
+    // stable: the kind and the pass read from the state held NOW, never a gain
     m.customProgramCacheKey = function (this: THREE.Material) {
-      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial === "flame" ? 2 : state.glowMaterial === "lamp-flame" ? 3 : state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}|${state.flameGain.toFixed(3)}`;
+      const held = this.userData.esSettlementSurface as SettlementSurfaceState | undefined;
+      return `${priorKey.call(this)}|${held ? surfaceKey(held) : PATCH}`;
     };
   }
   m.needsUpdate = true;

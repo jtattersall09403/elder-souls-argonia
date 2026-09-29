@@ -14,7 +14,7 @@ WRITERS, WRITES = 8, 25
 def _writer(stamp_path, i):
     rg.STAMP = stamp_path
     for j in range(WRITES):
-        rg.write_stamp(f"h{i}-{j}", "ok", 0, [f"lane{i}/path{j}"])
+        rg.write_stamp(f"k{i}-{j}", f"h{i}-{j}", "ok", 0, head="h", paths=[f"lane{i}/path{j}"])
 
 
 def test_concurrent_writers_keep_every_stamp(tmp_path):
@@ -31,7 +31,7 @@ def test_concurrent_writers_keep_every_stamp(tmp_path):
         p.join()
         assert p.exitcode == 0
     stamps = json.load(open(stamp))["stamps"]
-    want = {rg.stamp_key([f"lane{i}/path{j}"]) for i in range(WRITERS) for j in range(WRITES)}
+    want = {f"k{i}-{j}" for i in range(WRITERS) for j in range(WRITES)}
     lost = want - set(stamps)
     assert not lost, f"{len(lost)} of {len(want)} stamps lost to a read-modify-write race"
 

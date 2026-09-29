@@ -1,10 +1,10 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import fixture from "./__fixtures__/interior.fixture.json";
 import type { ArchitectureAsset } from "../settlement/kit";
 import type { SettlementDoor } from "../settlement/types";
-import { parseInteriorBundle, type Vec3 } from "./bundle";
+import { isInteriorSwingDoor, parseInteriorBundle, type Vec3 } from "./bundle";
 import { INTERIOR_LIGHT_INTENSITY_PER_FADE, InteriorLoader, type LoadedInterior } from "./interiorLoader";
 import { DOOR_FADE_S, DoorTransition, RETURN_LIFT_M } from "./doorTransition";
 import { INTERIOR_SPACE_LIFT_M, cellsToPrefetch, doorAccess } from "./doors";
@@ -27,6 +27,12 @@ function partsHosts(bundle: unknown, assetsOf: (kitId: string) => string[]) {
   const hosts = {
     fetchJson: async (url: string) => {
       fetched.push(url);
+      // a kit manifest (the cell's fire rows): the published one
+      const manifest = /(kits\/[^/]+\.kit\.json)$/.exec(url)?.[1];
+      if (manifest) {
+        const file = new URL(`../../../../apps/world-studio/public/${manifest}`, import.meta.url);
+        return existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : { assets: [] };
+      }
       const kit = /kits\/(.+)\/parts\/index\.json$/.exec(url)?.[1];
       if (!kit) return structuredClone(bundle);
       return {
@@ -182,7 +188,9 @@ describe("InteriorLoader", () => {
   it("instantiates the fixture: 6 placements over 4 assets, 2 point lights, ambient and fog", async () => {
     const { loader, fetched, partsLoaded } = fixtureLoader();
     const cell = await loader.request("fixture.hut-int");
-    expect(fetched).toEqual(["/base/province/interiors/fixture.hut-int.json", "/base/kits/fixture-int-v1/parts/index.json"]);
+    // the bundle, the kit's parts index and its manifest (the fire rows), each once
+    expect(fetched.sort()).toEqual(["/base/kits/fixture-int-v1.kit.json", "/base/kits/fixture-int-v1/parts/index.json",
+      "/base/province/interiors/fixture.hut-int.json"]);
     // one part per asset drawn (4 placed assets and the swing door), nothing else
     expect(partsLoaded.sort()).toEqual(["barrel", "bench", "doors/animdoor01", "floor", "wall"]
       .map((n) => `/base/kits/fixture-int-v1/parts/${encodeURIComponent(`fixture:${n}`)}.glb`));
@@ -194,10 +202,10 @@ describe("InteriorLoader", () => {
     expect(cell.group.children.filter((c) => (c as THREE.AmbientLight).isAmbientLight).length).toBe(1);
     expect([cell.fog.near, cell.fog.far]).toEqual([4, 30]);
     expect(cell.solids.length).toBe(6);
-    expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6 });
+    expect(cell.counts).toEqual({ placements: 6, substitutions: 0, meshes: 4, lights: 2, solids: 6, fires: 0 });
     // cached by cellId: a second request fetches nothing
     await loader.request("fixture.hut-int");
-    expect(fetched.length).toBe(2);
+    expect(fetched.length).toBe(3);
   });
 });
 
@@ -487,7 +495,8 @@ describe("loaded cell contract (walk 4 a): the owner's cells draw around the arr
       expect(new Set(partsLoaded).size).toBe(assets.size);
       expect(fetched.filter((u) => u.endsWith("index.json")).length).toBe(Object.keys(cell.bundle.kits).length);
       expect([...fetched, ...partsLoaded].some((u) => /kits\/[^/]+\.glb$/.test(u))).toBe(false);
-      const box = new THREE.Box3().setFromObject(cell.group);
+      const box = new THREE.Box3();
+      for (const child of cell.group.children) if (child !== cell.fire?.group) box.expandByObject(child);
       const [ax, ay, az] = cell.bundle.arrivalMarker.positionM;
       expect(ax).toBeGreaterThan(box.min.x); expect(ax).toBeLessThan(box.max.x);
       expect(az).toBeGreaterThan(box.min.z); expect(az).toBeLessThan(box.max.z);
@@ -497,4 +506,59 @@ describe("loaded cell contract (walk 4 a): the owner's cells draw around the arr
       expect(cell.fog.near).toBeLessThan(cell.fog.far);
     });
   }
+});
+
+describe("interior fires (16k walk 5): the hut hearth burns a flame, not only a glow", () => {
+  it("KeebaHouseFisher: its floor-hearth fxfirewithembers01 burns a brazier bed and its lantern candles burn, under the cell group", async () => {
+    const raw = JSON.parse(readFileSync(new URL(
+      "../../../../apps/world-studio/public/province/interiors/KeebaHouseFisher.json", import.meta.url), "utf8"));
+    const bundle = parseInteriorBundle(structuredClone(raw), "x");
+    const { hosts, fetched } = partsHosts(raw, (kit) => [...bundle.placements, ...(bundle.substitutions ?? [])]
+      .filter((p) => p.kit === kit).map((p) => ("standInAsset" in p ? p.standInAsset : p.assetId) as string));
+    const cell = await new InteriorLoader("/base/", hosts).request("KeebaHouseFisher");
+    // each drawn kit's manifest fetched once
+    const drawnKits = new Set([...bundle.placements, ...(bundle.substitutions ?? [])].map((p) => p.kit));
+    expect(fetched.filter((u) => u.endsWith(".kit.json")).length).toBe(drawnKits.size);
+    expect(cell.fire).not.toBeNull();
+    expect(cell.fire!.group.parent).toBe(cell.group);
+    const presets = cell.fire!.emitters.map((e) => e.preset);
+    expect(presets).toContain("brazier");
+    expect(cell.counts.fires).toBe(cell.fire!.emitters.length);
+    expect(cell.fire!.flameInstances).toBeGreaterThan(0);
+    // the brazier bed stands on the hearth placement's base
+    const hearth = bundle.placements.find((p) => p.assetId === "vanilla:effects/fxfirewithembers01")!;
+    const bed = cell.fire!.emitters.find((e) => e.preset === "brazier")!;
+    expect(bed.position.distanceTo(new THREE.Vector3(...hearth.positionM))).toBeLessThan(0.1);
+    // strength 1 at any hour: every flame instance burns after the first frame
+    cell.fire!.update(1, () => 1);
+    for (let i = 0; i < cell.fire!.flameInstances; i++) expect(cell.fire!.flameIntensity(i)).toBe(1);
+  });
+
+  it("a flame-card piece's cards are left undrawn; a piece with none keeps every part", async () => {
+    const { instantiateInterior } = await import("./interiorLoader");
+    const b = parseInteriorBundle(structuredClone(fixture), "fixture");
+    const p = b.placements[0];
+    const card = new THREE.MeshStandardMaterial(); card.name = "Flames02grant01:0.Mat";
+    const coal = new THREE.MeshStandardMaterial(); coal.name = "L2_CoalsBase:0.Mat";
+    const g = new THREE.BoxGeometry(1, 1, 1);
+    const fireAsset: ArchitectureAsset = { id: p.assetId, levels: [[
+      { geometry: g, material: card, localMatrix: new THREE.Matrix4(), triangles: 12 },
+      { geometry: g, material: coal, localMatrix: new THREE.Matrix4(), triangles: 12 }]] };
+    const ids = new Set([...b.placements, ...b.doors.filter(isInteriorSwingDoor)].map((q) => q.assetId));
+    const kit = new Map([...ids].map((id) => [id, id === p.assetId ? fireAsset : asset(id)] as const));
+    const kits = new Map([[p.kit, kit]]);
+    const plain = instantiateInterior(b, kits);
+    const rows = new Map([[p.kit, new Map([[p.assetId, {
+      id: "vanilla:effects/fxfirewithembers01", category: "effect", anchorClass: "fx",
+      sizeM: [1.073, 1.073, 0.936], originOffsetM: [0.537, 0.536, 0.003], flameCardMaterials: [card.name],
+    }]])]]);
+    const lit = instantiateInterior(b, kits, rows);
+    expect(plain.fire).toBeNull();
+    expect(lit.counts.meshes).toBe(plain.counts.meshes - 1);
+    const drawn = lit.group.children.filter((c): c is THREE.InstancedMesh => (c as THREE.InstancedMesh).isInstancedMesh);
+    expect(drawn.some((m) => m.material === card)).toBe(false);
+    expect(drawn.some((m) => m.material === coal)).toBe(true);
+    expect(lit.fire!.emitters.map((e) => e.preset)).toEqual(
+      b.placements.filter((q) => q.assetId === p.assetId).map(() => "brazier"));
+  });
 });

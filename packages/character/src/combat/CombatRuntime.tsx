@@ -3,6 +3,7 @@ import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
+import { useMarkedFrame } from "@elder-souls/game-core/fx/frameSegments";
 import { useRapier } from "@react-three/rapier";
 import type { EcctrlHandle } from "ecctrl";
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -1600,7 +1601,7 @@ export function CombatRuntime({
     }
   }, [enemies, enemyEnabled]);
 
-  useFrame((_, rawDelta) => {
+  useMarkedFrame("combat", (_, rawDelta) => {
     if (!started) return;
     // The input reader keeps tracking the device behind the inventory, and only
     // the *game* stops.
@@ -3504,8 +3505,10 @@ export function CombatRuntime({
           outlineColor="#ffb04d"
         />
       )}
-      {playerTorch && !portrait && (
-        <CarriedLight item={playerOffHandObject} spec={playerTorch.light} level={carriedLightLevel} time={carriedLightClock} />
+      {/* Mounted with or without a torch: the one carried PointLight stays in
+          the scene, so equipping or dousing never recompiles lit materials. */}
+      {!portrait && (
+        <CarriedLight item={playerOffHandObject} spec={playerTorch?.light ?? null} level={carriedLightLevel} time={carriedLightClock} />
       )}
       <Suspense fallback={null}>
         <Arrows

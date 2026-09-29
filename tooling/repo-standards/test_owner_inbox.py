@@ -142,25 +142,71 @@ def test_attach_rewrites_a_named_image_and_appends_the_rest():
     assert out.count("plan.png?raw=true") == 1
 
 
-def test_post_with_attach_links_on_the_current_branch(tmp_path):
+def _git_repo(tmp_path):
     repo = tmp_path / "repo"
-    shots = repo / "tooling" / ".reports" / "16k" / "w"
-    shots.mkdir(parents=True)
-    (shots / "plan.png").write_bytes(b"\x89PNG")
-    (shots / "front.png").write_bytes(b"\x89PNG")
-    git = ["git", "-C", str(repo)]
-    subprocess.run([*git, "init", "-q", "-b", "slice-1c"], check=True)
-    subprocess.run([*git, "add", "tooling/.reports/16k/w/plan.png"], check=True)
-    subprocess.run([*git, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "p"], check=True)
-    packet = shots / "packet.md"
-    packet.write_text("See ![plan](plan.png).")
-    r, st = _run(tmp_path, "--post", str(packet), "--attach", str(shots / "plan.png"), str(shots / "front.png"))
-    assert r.returncode == 0, r.stderr
+    repo.mkdir(parents=True, exist_ok=True)
+    git = ["git", "-C", str(repo), "-c", "user.email=t@t", "-c", "user.name=t"]
+    subprocess.run([*git, "init", "-q", "-b", "main"], check=True)
+    (repo / ".gitignore").write_text("output/\ntooling/.reports/\n")
+    subprocess.run([*git, "add", ".gitignore"], check=True)
+    subprocess.run([*git, "commit", "-q", "-m", "base"], check=True)
+    return repo, git
+
+
+def test_attach_copies_stages_and_refuses_until_committed(tmp_path):
+    """Walk 5: packet pictures linked from gitignored render output 404'd."""
+    repo, git = _git_repo(tmp_path)
+    renders = repo / "tooling" / "placement-workbench" / "output" / "renders" / "claywater" / "round-03"
+    renders.mkdir(parents=True)
+    (renders / "plan.png").write_bytes(b"\x89PNG plan")
+    (renders / "front.png").write_bytes(b"\x89PNG front")
+    walk = repo / "tooling" / ".reports" / "16k" / "walk5"
+    walk.mkdir(parents=True)
+    packet = walk / "packet.md"
+    packet.write_text("See ![plan](../../../placement-workbench/output/renders/claywater/round-03/plan.png).")
+    args = ("--post", str(packet), "--attach", str(renders / "plan.png"), str(renders / "front.png"))
+    r, st = _run(tmp_path, *args)
+    assert r.returncode == 2 and not st.get("comments")
+    assert "2 linked image(s) not committed" in r.stderr and "nothing posted" in r.stderr
+    pics = "tooling/.reports/16k/walk5/pictures"
+    staged = subprocess.run([*git, "diff", "--cached", "--name-only"], capture_output=True, text=True).stdout.split()
+    assert staged == [f"{pics}/front.png", f"{pics}/plan.png"]
+    assert (repo / pics / "plan.png").read_bytes() == b"\x89PNG plan"
+    subprocess.run([*git, "commit", "-q", "-m", "pictures"], check=True)
+    r, st = _run(tmp_path, *args)
+    assert r.returncode == 0, r.stdout + r.stderr
     body = st["comments"][0]["body"]
-    blob = "https://github.com/jtattersall09403/elder-souls-argonia/blob/slice-1c/tooling/.reports/16k/w/"
-    assert f"![plan]({blob}plan.png?raw=true)" in body
+    blob = f"https://github.com/jtattersall09403/elder-souls-argonia/blob/main/{pics}/"
+    assert f"![plan]({blob}plan.png?raw=true)" in body          # the render link is rewritten to the copy
     assert f"![front.png]({blob}front.png?raw=true)" in body
-    assert "front.png is not committed" in r.stdout and "plan.png is not committed" not in r.stdout
+    assert "output/renders" not in body
+
+
+def test_attach_links_the_named_branch_and_needs_a_walk(tmp_path):
+    repo, git = _git_repo(tmp_path)
+    (repo / "shot.png").write_bytes(b"\x89PNG")
+    packet = tmp_path / "packet.md"
+    packet.write_text("Look.")
+    r, _ = _run(tmp_path, "--post", str(packet), "--attach", str(repo / "shot.png"))
+    assert r.returncode == 2 and "--walk" in r.stderr
+    r, _ = _run(tmp_path, "--post", str(packet), "--attach", str(repo / "shot.png"), "--walk", "w9", "--branch", "dev")
+    assert r.returncode == 2 and "(on dev)" in r.stderr         # no dev branch: not committed there
+    subprocess.run([*git, "commit", "-q", "-m", "p"], check=True)
+    subprocess.run([*git, "branch", "dev"], check=True)
+    r, st = _run(tmp_path, "--post", str(packet), "--attach", str(repo / "shot.png"), "--walk", "w9", "--branch", "dev")
+    assert r.returncode == 0, r.stderr
+    assert "/blob/dev/tooling/.reports/16k/w9/pictures/shot.png?raw=true" in st["comments"][0]["body"]
+
+
+def test_a_blob_image_link_that_is_not_committed_refuses_the_post(tmp_path):
+    _git_repo(tmp_path)
+    packet = tmp_path / "packet.md"
+    packet.write_text(f"![a]({owner_inbox.REPO_URL}/blob/dev/tooling/placement-workbench/output/renders/a.png?raw=true)"
+                      "\n\n![b](https://example.com/b.png)")
+    r, st = _run(tmp_path, "--post", str(packet))
+    assert r.returncode == 2 and not st.get("comments")
+    assert "tooling/placement-workbench/output/renders/a.png (on dev)" in r.stderr
+    assert "example.com" not in r.stderr
 
 
 FAKE_GH_COMMENTS = textwrap.dedent('''\

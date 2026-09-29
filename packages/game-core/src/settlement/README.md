@@ -90,9 +90,15 @@ Load-bearing contracts:
   else 6 m and warm (255,190,120). Its flame is the kit's own additive flame
   material (lit in the emissive stage × the lamp clock) or a billboard of
   vanilla's candle flame (works-v1 `effectTextures` `fx:flame-billboard`). A
-  fixed pool of 8 point lights (decay 2, no shadow) follows the nearest
-  fixtures, re-chosen once a second; the rest glow only. The manager is the
-  layer's own or injected (`lightFixtures` prop);
+  fixture's light is NOT a three light: the nearest 100 burning fixtures
+  within 200 m (`LIGHTS_CAP`, `LIGHTS_ACTIVE_M`, faded over the last 20 m)
+  go into the scene's `FixtureLightField` (render/fixtureLights), re-chosen
+  once a second, and each drawn object is lit by its 8 nearest (one program
+  for any count); the rest glow only. The manager is the layer's own or
+  injected (`lightFixtures` prop). Buckets are split per 48 m square
+  (`SETTLEMENT_CHUNK_M`) so off-screen parts are culled; a build is patched
+  (CSM, surface, fixture lights) and its programs linked (`compileAsync`)
+  before it swaps in;
 - a failed bundle, manifest, schema, collision-frame or geometry load fails
   the layer closed: nothing of it is drawn, `console.error` names the cause
   and the injected `onError` hands the host `{fatal: true, message}` (the

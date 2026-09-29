@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from . import measure, paths
 
-PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter", "apronBySide")
+PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter", "apronBySide", "blendM")
 
 RETAIN_REACH_M = 1.0      # a wall piece's outline within this of a pad edge retains it
 RETAIN_COVER = 0.9        # ... over at least this share of the edge's length
@@ -68,7 +68,7 @@ def resolve(cat, g, piece) -> dict | None:
                           piece.pad.get("floorMinM"),
                           also=[g.survey_height(x, z) for x, z in samples])
     blend = (srp.batter_blend_m(polygon, got["datumM"], g.chunk_height)
-             if piece.pad.get("batter") and got["datumM"] is not None else srp.PAD_BLEND_M)
+             if piece.pad.get("batter") and got["datumM"] is not None else srp.authored_blend_m(piece.pad))
     return {**got, "apronM": apron, "polygonM": polygon, "blendM": blend}
 
 
@@ -134,7 +134,7 @@ def resolve_on_frozen(cat, g, piece) -> dict | None:
     got = srp.resolve_pad(g.chunk_heights(X, Z).tolist(), piece.pad.get("datumM"),
                           piece.pad.get("floorMinM"), also=g.survey_heights(X, Z).tolist())
     blend = (_batch(g, srp.batter_blend_m, polygon, got["datumM"])
-             if piece.pad.get("batter") and got["datumM"] is not None else srp.PAD_BLEND_M)
+             if piece.pad.get("batter") and got["datumM"] is not None else srp.authored_blend_m(piece.pad))
     return {**got, "apronM": apron, "polygonM": polygon, "blendM": blend}
 
 
@@ -162,6 +162,18 @@ class PaddedGround:
                                    for p in pads]) if pads else None
         self._chunks = pad_overlay.ground(g.chunk_height, overlays)
         self._survey = pad_overlay.ground(g.survey_height, overlays)
+        from shapely.prepared import prep
+        self._pads_area = prep(unary_union([Polygon(p["polygonM"]) for p in pads])) if pads else None
+
+    def floor_lift(self, x: float, z: float) -> float:
+        """The height a building pad's own floor stands over the graded ground
+        at (x, z): PAD_FLOOR_CLEARANCE_M inside a building pad (the overlay
+        grades that far under the recorded datum), else 0."""
+        from shapely.geometry import Point
+        from worldgen import pad_overlay
+        if self._pads_area is not None and self._pads_area.covers(Point(x, z)):
+            return pad_overlay.PAD_FLOOR_CLEARANCE_M
+        return 0.0
 
     def __getattr__(self, name):
         return getattr(self._g, name)

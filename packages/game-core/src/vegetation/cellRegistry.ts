@@ -6,7 +6,26 @@
  * built when its chunk is loaded and its terrain is at some LOD; it is built
  * AGAIN only when a FINER terrain LOD arrives (re-grounding), or when the kit
  * or the quality `drawScale` changes — both rare and user-driven.
+ *
+ * Build-once coalescing (walk 5, 2026-09-29): on a cold start the terrain
+ * streams 4 → 2 → 1 within a few hundred milliseconds, and a cell built at
+ * each step was built three times (the owner's startup video: rebuilds at
+ * 1-5/s for ten seconds). A cell whose LOD is coarser than "1" and changed
+ * less than `settleMs` ago is not dirty yet: its first build, or its
+ * finer-LOD rebuild, waits until the terrain under it has stopped moving, so
+ * it builds once at the LOD it settles on. LOD "1" is the finest there is and
+ * never waits. A kit or drawScale rebuild never waits.
  */
+
+/** How long a coarse terrain LOD must hold before a cell builds on it. */
+export const LOD_SETTLE_MS = 400;
+
+export interface CellRegistryOptions {
+  /** Default `LOD_SETTLE_MS`; 0 builds on every LOD the moment it lands. */
+  settleMs?: number;
+  /** Clock, ms. Injected by tests; default `performance.now`. */
+  now?: () => number;
+}
 
 export type TerrainLod = "1" | "2" | "4" | null;
 
@@ -20,6 +39,8 @@ export type CellRebuildReason = "finer-lod" | "kit" | "draw-scale";
 interface CellState {
   loaded: boolean;
   lod: TerrainLod;
+  /** When `lod` last changed (the registry's clock). */
+  lodChangedAt: number;
   builtAt: TerrainLod;
   /** Forced dirty by a kit or drawScale change. */
   forced: CellRebuildReason | null;
@@ -38,6 +59,13 @@ export interface DirtyCell {
 
 export class CellRegistry {
   private readonly cells = new Map<string, CellState>();
+  private readonly settleMs: number;
+  private readonly now: () => number;
+
+  constructor(options: CellRegistryOptions = {}) {
+    this.settleMs = options.settleMs ?? LOD_SETTLE_MS;
+    this.now = options.now ?? (() => performance.now());
+  }
 
   /** Builds of a cell that had already been built. */
   rebuilds = 0;
@@ -51,7 +79,7 @@ export class CellRegistry {
     let s = this.cells.get(key);
     if (!s) {
       s = {
-        loaded: false, lod: null, builtAt: null, forced: null, skipped: [],
+        loaded: false, lod: null, lodChangedAt: 0, builtAt: null, forced: null, skipped: [],
         serial: 0,
       };
       this.cells.set(key, s);
@@ -72,7 +100,10 @@ export class CellRegistry {
   terrainLod(key: string, lod: TerrainLod): void {
     const s = this.cells.get(key);
     if (!s) return;
-    if (s.lod !== lod) s.serial++;
+    if (s.lod !== lod) {
+      s.serial++;
+      s.lodChangedAt = this.now();
+    }
     s.lod = lod;
   }
 
@@ -113,9 +144,12 @@ export class CellRegistry {
   reason(key: string): CellRebuildReason | "first" | null {
     const s = this.cells.get(key);
     if (!s || !s.loaded || s.lod === null) return null;
-    if (s.builtAt === null) return "first";
-    if (s.forced) return s.forced;
-    if (finer(s.lod, s.builtAt)) return "finer-lod";
+    if (s.builtAt !== null && s.forced) return s.forced;
+    // Still streaming finer: wait for the LOD this cell will settle on.
+    const settling = s.lod !== "1" && this.settleMs > 0
+      && this.now() - s.lodChangedAt < this.settleMs;
+    if (s.builtAt === null) return settling ? null : "first";
+    if (finer(s.lod, s.builtAt)) return settling ? null : "finer-lod";
     return null;
   }
 
