@@ -300,9 +300,38 @@ def build_world(scene):
     return world
 
 
+def add_fire_light_pass(world, fires):
+    """The fire pass (16k walk 5, place-build reader row 34): a flame proxy
+    at every RESOLVED flame anchor the runtime draws (workbench/render.py
+    `fire_anchors`: the piece's full pose applied, hang and mount included):
+    an emissive orange teardrop standing on the anchor, a white-hot core at
+    its root, so a reader judges on any shot, day or night, whether each
+    flame sits in its wick, bowl or lantern body. A fallback anchor (no
+    mined emitter) draws magenta-orange so it is told apart."""
+    body = emission("fire-proxy", (1.0, 0.42, 0.06, 1.0), 12.0)
+    stand_in = emission("fire-proxy-fallback", (1.0, 0.3, 0.45, 1.0), 12.0)
+    core = emission("fire-proxy-core", (1.0, 0.95, 0.8, 1.0), 20.0)
+    for i, fire in enumerate(fires or []):
+        h = float(fire.get("heightM", 0.15))
+        x, y, z = fire["at"]
+        for name, mat, radius, lift, stretch in (
+                (f"fire{i}", stand_in if fire.get("fallback") else body, h * 0.22, h * 0.45, 2.2),
+                (f"fire{i}-core", core, h * 0.08, h * 0.1, 1.0)):
+            bpy.ops.mesh.primitive_uv_sphere_add(radius=radius, segments=12, ring_count=8,
+                                                 location=(x, y, z + lift))
+            obj = bpy.context.active_object
+            obj.name = name
+            obj.scale = (1.0, 1.0, stretch)
+            obj.data.materials.append(mat)
+            for used in list(obj.users_collection):
+                used.objects.unlink(obj)
+            world.objects.link(obj)
+
+
 def main():
     scene, cam, cam_data = scene_setup()
     world = build_world(scene)
+    add_fire_light_pass(world, JOB.get("fires"))
     for i, mark in enumerate(JOB.get("marks", [])):
         mat = emission(f"mark{i}", (*mark["colour"], 1.0), 2.0)
         bpy.ops.mesh.primitive_uv_sphere_add(radius=mark.get("radius", 0.15),
