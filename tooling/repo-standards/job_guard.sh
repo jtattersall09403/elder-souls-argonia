@@ -44,6 +44,9 @@
 # into the one string memwatch.sh runs with `bash -c`, so each stays one
 # argument; a single argument is a shell line, run as written (pipes, `&&`,
 # `$VAR`: `job_guard.sh L -- "cd x && make | tee log"`).
+# A job_guard inside a guarded job runs its command inline (ES_JOB_GUARD names
+# the outer lane), so a script may guard itself: tooling/repo-standards
+# `npm test` does (test.sh).
 # Rules (docs/phases/lanes/README.md): every heavy job goes through job_guard;
 # a lane never runs two heavy jobs at once; the planner launches at most one
 # heavy lane per slot.
@@ -75,6 +78,14 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # several are quoted one by one so each reaches the command unchanged
 if (( $# == 1 )); then run_line="$1"; else run_line="$(printf '%q ' "$@")"; run_line="${run_line% }"; fi
 say() { echo "job_guard[$lane]: $*" >&2; }
+# Nested (a guarded job whose own script guards itself, e.g. preflight ->
+# repo-standards `npm test`): the outer job already holds a slot and the
+# watchdog exemption, so run inline; taking a second slot could deadlock.
+if [[ -n "${ES_JOB_GUARD:-}" ]]; then
+  say "inside job_guard[$ES_JOB_GUARD]: running in its slot"
+  exec bash -c "$run_line"
+fi
+export ES_JOB_GUARD="$lane"
 
 cores=$(nproc)
 # Admission is by SLOT (method review C1, 2026-09-27): max(1, floor((nproc-1)/2))

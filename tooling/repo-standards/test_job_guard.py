@@ -10,6 +10,9 @@ import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).parent
+# This suite may itself run inside a job_guard slot (test.sh guards itself);
+# the guard under test must see an unguarded caller unless a test says so.
+os.environ.pop("ES_JOB_GUARD", None)
 
 
 def guard(tmp_path, cmd, **env):
@@ -23,6 +26,13 @@ def guard(tmp_path, cmd, **env):
             full.pop(k, None)
     return subprocess.run(["bash", str(HERE / "job_guard.sh"), "t", "--", cmd], env=full,
                           capture_output=True, text=True, timeout=60)
+
+
+def test_a_nested_guard_runs_inline_without_a_slot(tmp_path):
+    r = guard(tmp_path, "echo ran", ES_JOB_GUARD="outer")
+    assert r.returncode == 0 and r.stdout == "ran\n", r.stderr
+    assert "inside job_guard[outer]" in r.stderr
+    assert not (tmp_path / "locks").exists()           # never took (or waited for) a slot
 
 
 def test_a_high_load_average_does_not_block_admission(tmp_path):
