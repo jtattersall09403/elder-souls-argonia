@@ -1,5 +1,5 @@
 /**
- * Floating dust sparkles as a TSL sprite cloud (decision 0107). Replaces
+ * Floating dust sparkles as a TSL sprite cloud (decision 0109). Replaces
  * drei's `<Sparkles>`, whose material is a hand-written GLSL shader the node
  * renderer cannot run. Same props, same maths:
  *

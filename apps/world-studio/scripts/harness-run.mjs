@@ -1,4 +1,4 @@
-// Subsystem harness runner (decision 0107; owner ruling: no full-studio
+// Subsystem harness runner (decision 0109; owner ruling: no full-studio
 // headless probes, one small page per subsystem instead).
 //
 // Runs harness.html?sys=<name> for every scene under src/harness/scenes/ (or

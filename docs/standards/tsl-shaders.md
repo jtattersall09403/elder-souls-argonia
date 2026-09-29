@@ -1,4 +1,4 @@
-# Shaders are TSL node materials (decision 0107)
+# Shaders are TSL node materials (decision 0109)
 
 Every app renders with three's `WebGPURenderer` (`packages/game-core/src/render/createRenderer.ts`):
 the WebGPU backend where the browser has it, its WebGL 2 backend (`forceWebGL`) otherwise or with

@@ -1,5 +1,5 @@
 /**
- * The harness scene contract (decision 0107, lane-common.md): one file per
+ * The harness scene contract (decision 0109, lane-common.md): one file per
  * ported subsystem under ./scenes/, default-exporting a HarnessScene that
  * builds the subsystem's REAL materials from the package code in a small
  * scene lit like the game at noon (unless the subsystem is about night).

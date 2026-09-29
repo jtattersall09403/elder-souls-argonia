@@ -1,8 +1,8 @@
 /**
- * Node-material composition helpers (decision 0107, docs/standards/tsl-shaders.md).
+ * Node-material composition helpers (decision 0109, docs/standards/tsl-shaders.md).
  *
  * Every shader customisation in the game is a TSL node graph on a NodeMaterial.
- * These helpers replace the old `onBeforeCompile` string patches: a feature
+ * These helpers replace the old string-patch hooks of the WebGL renderer: a feature
  * (wind sway, LOD fade, aerial haze, wetness...) WRAPS the node already in a
  * slot, so any number of features compose in call order on one material, and
  * the shadow pass inherits `positionNode` / `maskNode` automatically (no depth
@@ -26,9 +26,9 @@ import {
   MeshNormalNodeMaterial,
   MeshToonNodeMaterial,
 } from "three/webgpu";
-import { bool as tslBool, float, materialColor, mix, output, positionLocal, select, vec4 } from "three/tsl";
+import { bool as tslBool, float, materialColor, output, positionLocal, select, vec4 } from "three/tsl";
 // TSL node values are typed loosely on purpose: the typings for chained TSL
-// expressions are too deep for tsc to check usefully (standard, 0107 §3).
+// expressions are too deep for tsc to check usefully (standard, 0109 §3).
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type TslNode = any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -73,7 +73,6 @@ export function toNodeMaterial<T extends THREE.Material>(material: T): NodeMater
   for (const key of Object.keys(source)) {
     if (key === "uuid" || key === "id" || key === "type" || key === "version") continue;
     if (key.startsWith("is") || key.startsWith("_")) continue;
-    if (key === "onBeforeCompile" || key === "customProgramCacheKey") continue;
     target[key] = source[key];
   }
   node.name = material.name;
@@ -112,7 +111,7 @@ function touch(material: NodeMaterial): void {
 }
 
 /**
- * Wrap the object-space vertex position (the old `#include <begin_vertex>`
+ * Wrap the object-space vertex position (the old begin_vertex chunk
  * `transformed` patch point). `fn` receives the current position node.
  */
 export function wrapPosition(material: NodeMaterial, fn: (position: TslNode) => TslNode): void {
@@ -156,7 +155,7 @@ export function andShadowMask(material: NodeMaterial, keep: TslNode): void {
 
 /**
  * Wrap the final colour AFTER fog, before tone mapping (the old
- * `gl_FragColor = ...` / `#include <opaque_fragment>` patch point).
+ * final-colour and opaque_fragment patch point).
  * `fn` receives the vec4 output node.
  */
 export function wrapOutput(material: NodeMaterial, fn: (out: TslNode) => TslNode): void {
@@ -175,7 +174,7 @@ export function wrapEmissive(material: NodeMaterial, fn: (emissive: TslNode | nu
 /**
  * Feature marker: record that `feature` has patched this material so a second
  * apply is a no-op (the node-world replacement for the old
- * "never double-patch" string checks and `customProgramCacheKey` suffixes).
+ * "never double-patch" string checks and program cache-key suffixes).
  * Returns true when the feature was NOT yet applied (caller should patch).
  */
 export function claimFeature(material: THREE.Material, feature: string): boolean {
@@ -186,12 +185,17 @@ export function claimFeature(material: THREE.Material, feature: string): boolean
 }
 
 /**
- * Branch-free select: `c ? a : b` as a mix, so the node builder never lowers
+ * Branch-free select: `c ? a : b` as arithmetic, so the node builder never lowers
  * it to an if/else that reads temporaries declared in one branch (three
  * 0.184 does that for `select` on computed operands and the result is NaN,
- * silently; decision 0107 gotchas). Both operands are evaluated: keep them
- * finite.
+ * silently; decision 0109 gotchas). Both operands are evaluated: keep them
+ * finite (guard a division the unchosen side would make by zero).
  */
 export function sel(c: TslNode, a: TslNode, b: TslNode): TslNode {
-  return (mix as (...n: TslNode[]) => TslNode)(b, a, (select as (...n: TslNode[]) => TslNode)(c, float(1.0), float(0.0)));
+  // a·t + b·(1 − t) with t ∈ {0, 1} is EXACT for finite operands (mix(b, a, t)
+  // = b + (a − b)·t is not: a 1e20 sentinel or a small a beside a large b
+  // lost the value), so a simulation state survives the choice bit-for-bit.
+  const t = (select as (...n: TslNode[]) => TslNode)(c, float(1.0), float(0.0));
+  const node = (v: TslNode) => (typeof v === "number" ? float(v) : v);
+  return node(a).mul(t).add(node(b).mul(float(1.0).sub(t)));
 }

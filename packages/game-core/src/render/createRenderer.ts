@@ -1,5 +1,5 @@
 /**
- * One renderer for every app (decision 0107): three's WebGPURenderer, on the
+ * One renderer for every app (decision 0109): three's WebGPURenderer, on the
  * WebGPU backend where the browser has it and on its WebGL 2 backend
  * (`forceWebGL`) otherwise or when `?renderer=webgl` asks for it. Both
  * backends run the same TSL node materials, so there is one shader code path.

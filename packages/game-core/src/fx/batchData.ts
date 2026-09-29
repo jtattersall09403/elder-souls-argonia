@@ -14,7 +14,7 @@
  * The same uniforms also carry the terrain-occlusion mask (`occlusionMask.ts`),
  * because it is read from the same place and by the same instances.
  *
- * Node form (decision 0107): `applyBatchData` marks the material; `lodFade`
+ * Node form (decision 0109): `applyBatchData` marks the material; `lodFade`
  * and `windSway` read `batchTexel(material, k)` at BUILD time, so either may
  * be applied before or after `applyBatchData` (the old `ES_BATCH_SLOTS`
  * define). The texture uniforms are texture nodes: re-point a grown batch

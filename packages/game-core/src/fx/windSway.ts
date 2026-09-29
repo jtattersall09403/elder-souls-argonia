@@ -1,6 +1,6 @@
 /**
  * Wind sway for instanced vegetation — a `positionNode` feature shared by
- * every plant material in the world (decision 0107).
+ * every plant material in the world (decision 0109).
  *
  * The recipe is the standard one (research/rendering/vegetation-scatter-instancing-threejs.md
  * §4, after GPU Gems 3 ch. 16): displace along the wind direction, weighted by

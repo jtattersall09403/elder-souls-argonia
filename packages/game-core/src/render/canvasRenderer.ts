@@ -1,5 +1,5 @@
 /**
- * The R3F `<Canvas gl={...}>` factory every app uses (decision 0107).
+ * The R3F `<Canvas gl={...}>` factory every app uses (decision 0109).
  *
  * R3F 9.7 awaits a function `gl` prop and adopts whatever renderer it
  * returns; it still applies its own defaults afterwards (shadows="percentage"
