@@ -2953,6 +2953,30 @@
     "recordFade": null,
     "recordFalloffExponent": 1.0
    }
+  },
+  {
+   "refId": "fixture:KeebaHouseCrafter.080A086F",
+   "positionM": [
+    105.8095,
+    90.6635,
+    54.3569
+   ],
+   "radiusM": 1.821,
+   "colorRGB": [
+    254,
+    234,
+    152
+   ],
+   "fade": 1.5228,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "WRCandleFlickerNS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 128,
+    "recordFade": 1.7,
+    "recordFalloffExponent": 1.0
+   }
   }
  ],
  "sockets": [
@@ -3962,7 +3986,7 @@
  "counts": {
   "placements": 144,
   "drops": 19,
-  "lights": 4,
+  "lights": 5,
   "substitutions": 5,
   "swingDoors": 0,
   "missingByClass": {},

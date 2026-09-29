@@ -2727,6 +2727,102 @@
     "recordFade": 1.0,
     "recordFalloffExponent": 1.0
    }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E0409",
+   "positionM": [
+    -21.8398,
+    2.232,
+    7.4062
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E043F",
+   "positionM": [
+    -20.3144,
+    2.241,
+    11.6435
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E0440",
+   "positionM": [
+    -19.2705,
+    3.01,
+    6.5056
+   ],
+   "radiusM": 7.283,
+   "colorRGB": [
+    198,
+    162,
+    100
+   ],
+   "fade": 0.921,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "FarmInteriorLight01",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 512,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
+  },
+  {
+   "refId": "fixture:DawnstarBrinasHouse.000E045D",
+   "positionM": [
+    -18.2117,
+    2.232,
+    7.4062
+   ],
+   "radiusM": 3.641,
+   "colorRGB": [
+    236,
+    223,
+    170
+   ],
+   "fade": 0.9083,
+   "flags": 0,
+   "falloffExponent": 0.01,
+   "base": "DefaultCandleLight01NS",
+   "raw": {
+    "xrdsUnits": null,
+    "baseRadiusUnits": 256,
+    "recordFade": 1.0,
+    "recordFalloffExponent": 1.0
+   }
   }
  ],
  "sockets": [
@@ -3966,7 +4062,7 @@
  "counts": {
   "placements": 129,
   "drops": 12,
-  "lights": 5,
+  "lights": 9,
   "substitutions": 0,
   "swingDoors": 0,
   "missingByClass": {},
