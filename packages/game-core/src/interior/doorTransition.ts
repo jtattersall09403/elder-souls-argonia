@@ -37,10 +37,11 @@ export interface DoorTransitionHosts {
   /** Swap back: the exterior shows again and the cell comes down. */
   showExterior(): void;
   /**
-   * Whether the shown cell's colliders are in the physics world. The fade
-   * holds at black, keeping the player on the arrival marker, until they
-   * are, so nobody falls through a floor that is not built yet. Absent reads
-   * as resident.
+   * Whether the shown cell is ready to be seen: its colliders in the physics
+   * world and its shader programs linked (the studio host). The fade holds at
+   * black, keeping the player on the arrival marker, until it is, so nobody
+   * falls through a floor that is not built yet and the first visible frame
+   * compiles nothing. Absent reads as resident.
    */
   interiorResident?(): boolean;
 }
@@ -156,6 +157,14 @@ export class DoorTransition {
   fade = 0;
   /** A cell that failed to load while the player waited at black. */
   lastError: Error | null = null;
+  /**
+   * The last entry's black hold, seconds: the door press (or `openDirect`)
+   * to the frame the fade starts to lift on the cell (bundle, parts,
+   * colliders and the host's shader link all in). Null before any entry.
+   * The loader timer a regression check reads instead of a browser probe (F3).
+   */
+  enterS: number | null = null;
+  private beganMs = 0;
   private doors: readonly SettlementDoor[] = [];
   private inside: Inside | null = null;
   private pending: Pending | null = null;
@@ -255,6 +264,7 @@ export class DoorTransition {
 
   private begin(pending: Pending): void {
     this.pending = pending;
+    this.beganMs = performance.now();
     this.phase = "out";
     this.prompt = null;
     this.lastError = null;
@@ -286,6 +296,7 @@ export class DoorTransition {
     }
     if (this.phase === "settle") {
       if (this.hosts.interiorResident?.() === false) { this.placeAtArrival(); return; }
+      this.enterS = (performance.now() - this.beganMs) / 1000;
       this.phase = "in";
       return;
     }

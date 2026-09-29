@@ -285,10 +285,12 @@ describe("DoorTransition", () => {
     controller.teleport({ x: 100, y: 0, z: 202.5 });   // gravity pulled the body down
     await run(t, 0.1);
     expect(controller.pos.y).toBeCloseTo(INTERIOR_SPACE_LIFT_M + BODY);
+    expect(t.enterS).toBeNull();                        // the hold has not ended
     resident.now = true;
     await run(t, 2 * DOOR_FADE_S);
     expect(t.fade).toBe(0);
     expect(t.loadingTextId).toBeNull();
+    expect(t.enterS).toBeGreaterThanOrEqual(0);         // the loader timer, press to reveal (F3)
   });
 
   it("opens a cell directly at its arrival marker (studio ?interior=)", async () => {
