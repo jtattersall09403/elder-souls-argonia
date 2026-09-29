@@ -63,7 +63,7 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   row (`role` flame or glow, `palette` baked at publish); a new fire texture
   refuses the build until its row is added. Sprites draw on every piece that
   carries them: a light fixture (light layer or `light` record) also holds a
-  point light; any other piece (the forge's glow, the ferry raft's candles)
+  fixture light (a `FixtureLightField` slot, decision 0108; never a PointLight); any other piece (the forge's glow, the ferry raft's candles)
   is a sprite holder, `lighting.ts isSpriteHolderPlacement`, with no light
   and no fallback flame, and is not counted in place_gates' fixture density.
 - `"light": {formId, editorId, radiusUnits, colourRgb, flicker, flags,

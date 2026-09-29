@@ -6,8 +6,8 @@ it **before 16h starts**, because every chunk from 16h on ends in an owner
 walk and the walk must not be judged on a renderer that stutters.
 
 **Status (2026-09-25, decision [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §9):** rounds 0–12 are
-delivered and accepted; the lane is PARKED. Round 13 (briefed below) is
-picked up automatically after 16k's exit, as a named input at the start of
+delivered and accepted; the lane is PARKED. Round 13 was delivered in 16k
+walk 5 (§ Walk 5); further rounds are picked up after 16k's exit, as a named input at the start of
 [Phase 10b](../README.md#phase-10b--full-portable-sandbox-parity-in-the-studio),
 like combat round 8.
 
@@ -278,7 +278,7 @@ character body draws at the pose interpolated between fixed physics steps
 (`59cf430e`). Owner accepted 2026-09-22 (water dip, body interpolation after
 the 3 s-reset fix 31324505, HUD fold): "all good"; round 13 deferred by the
 owner until after 16h.
-Round 13 (part-aware mid tier) is briefed below and not yet started.
+Round 13 was delivered 2026-09-29 (§ Walk 5).
 Owner 2026-09-22: round 13 after Phase 16h; since 0099 (2026-09-25) it runs
 at the start of Phase 10b (Status above).
 
@@ -344,6 +344,14 @@ ladder hands over by screen size, bushes hold full mesh to 50 m in medium
 (decision 0075 and 0082 walk-5 addenda). Numbers: `tooling/.reports/16k/walk5/perf/veg.md`;
 re-measure with `VEG_MEASURE=1 npx vitest run src/vegetation/__measure__`
 in `apps/world-studio`.
+
+**Round 13 delivered (2026-09-29).** The bar a shipped tier passed: silhouette
+IoU ≥ 0.90 in all 8 views on masks closed by a 1.5 % disc, no view losing more
+than 5 % coverage, at the hand-over distance (raw IoU fails the source itself
+under a half-pixel shift). The performance architecture this lane now works
+inside, and the standing checklists, are decision
+[0108](../../decisions/0108-performance-architecture-fixture-light-field-ready-materials-view-gated-streaming-fading-tiers.md).
+The round-13 brief and the "Next agent" list below are history.
 
 ## Round 13 brief: a part-aware mid tier for the heavy trees (planner, 2026-09-22)
 
