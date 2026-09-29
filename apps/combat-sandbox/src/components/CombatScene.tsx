@@ -1,10 +1,13 @@
 import { CombatRuntime, type CombatRuntimeSettings } from "@elder-souls/character";
+import { useThree } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
+import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { flatPoolSampler } from "@elder-souls/game-core/physics/waterSampler";
 import { SANDBOX_POOL } from "@elder-souls/game-core/validation/sandboxPool";
+import { untonedBackground } from "@elder-souls/game-core/render/untonedBackground";
 import { useGameStore, type GameSnapshot } from "../sandboxStore";
 import { Arena } from "./Arena";
 import { ArrowProbe, recordArrowProbeSample } from "./ArrowProbe";
@@ -68,11 +71,16 @@ export function CombatScene({ visualScenario = null }: { visualScenario?: Visual
   // fog takes it too: otherwise the far arena would still fade to the old sky
   // and the "backdrop" a gap shows through would be two different colours.
   const backdrop = visualScenario?.portrait?.backdrop ?? "#dceff4";
+  // The node renderer tone-maps the clear colour (the classic one did not):
+  // pre-invert it so the backdrop shows as its own hex.
+  const toneMapping = useThree((state) => state.gl.toneMapping);
+  const exposure = useThree((state) => state.gl.toneMappingExposure);
+  const background = useMemo(() => untonedBackground(backdrop, toneMapping, exposure), [backdrop, toneMapping, exposure]);
   // A validation scene streams nothing it does not need (the runtime's own rule for asset warm-up).
   const { sounds, audio } = useSandboxAudio({ prefetch: !visualScenario });
   return (
     <>
-      <color attach="background" args={[backdrop]} />
+      <primitive attach="background" object={background} />
       <fog attach="fog" args={[backdrop, 20, 46]} />
       <ambientLight intensity={0.9} color="#ffffff" />
       <hemisphereLight intensity={1.25} color="#f8fdff" groundColor="#b8c5c2" />

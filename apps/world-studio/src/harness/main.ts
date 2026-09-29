@@ -67,6 +67,21 @@ function adapterInfo(renderer: unknown): string | null {
     || "adapter (empty info)";
 }
 
+/** A scene's compileAsync limit: the slowest healthy scene compiles in ~3 s
+ * on SwiftShader (terrain), so 60 s is a hang, not a slow compile. */
+const COMPILE_LIMIT_MS = 60_000;
+
+/** Resolves true when `p` settles within `ms`, false otherwise. */
+async function within(p: Promise<unknown>, ms: number): Promise<boolean> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const limit = new Promise<boolean>((resolve) => { timer = setTimeout(() => resolve(false), ms); });
+  try {
+    return await Promise.race([p.then(() => true, () => true), limit]);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function main(): Promise<HarnessResult> {
   const result: HarnessResult = {
     done: true, ok: false, sys, backend: "none", adapter: null,
@@ -109,7 +124,27 @@ async function main(): Promise<HarnessResult> {
   const { default: harnessScene } = await load();
   const built = await harnessScene.build({ renderer, backend, width, height });
   const t0 = performance.now();
-  if (params.get("compile") !== "0") await renderer.compileAsync(built.scene, built.camera);
+  if (params.get("compile") !== "0") {
+    // A compileAsync that never settles hung the whole page until the
+    // runner's limit (settlement-night on WebGPU: 240 s, while the same scene
+    // renders in 0.4 s/frame with compile=0). Bound it, name the objects whose
+    // programs never settle, then render anyway so the frame is still seen.
+    const settled = await within(renderer.compileAsync(built.scene, built.camera), COMPILE_LIMIT_MS);
+    if (!settled) {
+      const stuck: string[] = [];
+      const meshes: { name: string; type: string; uuid: string }[] = [];
+      built.scene.traverse((o) => { if ((o as { isMesh?: boolean }).isMesh) meshes.push(o); });
+      for (const m of meshes) {
+        if (stuck.length >= 5) break;
+        const obj = m as unknown as Parameters<typeof renderer.compileAsync>[0];
+        if (!await within(renderer.compileAsync(obj, built.camera, built.scene), 5000)) {
+          stuck.push(m.name || `${m.type} ${m.uuid.slice(0, 8)}`);
+        }
+      }
+      errors.push(`compileAsync did not settle within ${COMPILE_LIMIT_MS / 1000} s; `
+        + `objects that never settle: ${stuck.join(", ") || "(none alone: only the whole scene)"}`);
+    }
+  }
   result.compileMs = Math.round(performance.now() - t0);
 
   const f0 = performance.now();

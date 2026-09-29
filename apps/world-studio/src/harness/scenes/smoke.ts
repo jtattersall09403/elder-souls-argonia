@@ -1,9 +1,9 @@
 /**
  * Harness scene "smoke": the settlement chimney smoke (`SmokeColumns`, a
  * MeshBasicNodeMaterial with the night dim in its colour slot) over three
- * chimneys at the three ladder distances. The puff atlas is fetched from the
- * published works-v1 manifest when the studio serves it; a procedural
- * soft disc stands in otherwise (harness only, never shipped).
+ * chimneys at the three ladder distances. The puff atlas is the vanilla one
+ * published in the works-v1 kit manifest's `effectTextures`, loaded the way
+ * SettlementLayer loads it.
  * `frame(t)` advances the puffs, drifts them on the wind and cycles night.
  */
 import * as THREE from "three";
@@ -19,27 +19,20 @@ interface HarnessContext {
   height: number;
 }
 
+/** The works-v1 kit manifest, as a settlement bundle names it
+ * (`bundle.kits["works-v1"].manifest`). */
+const WORKS_MANIFEST = "kits/works-v1.kit.json";
+
+/** The puff atlas, resolved exactly as SettlementLayer does: the manifest's
+ * `effectTextures` row, relative to the manifest's folder. */
 async function smokeTexture(): Promise<THREE.Texture> {
-  try {
-    const manifest = await (await fetch("kits/works-v1/manifest.json")).json();
-    const file = effectTextureFile(manifest, SMOKE_COLUMN_ASSET_ID, "works-v1");
-    const texture = await new THREE.TextureLoader().loadAsync(`kits/${file}`);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    return texture;
-  } catch {
-    const size = 64;
-    const pixels = new Uint8Array(size * size * 4);
-    for (let y = 0; y < size; y++) {
-      for (let x = 0; x < size; x++) {
-        const d = Math.hypot(((x % 16) - 7.5) / 8, ((y % 16) - 7.5) / 8);
-        const a = Math.max(0, 1 - d) * 255;
-        pixels.set([200, 200, 200, a], (y * size + x) * 4);
-      }
-    }
-    const texture = new THREE.DataTexture(pixels, size, size);
-    texture.needsUpdate = true;
-    return texture;
-  }
+  const manifestUrl = `${import.meta.env.BASE_URL ?? "/"}${WORKS_MANIFEST}`;
+  const response = await fetch(manifestUrl);
+  if (!response.ok) throw new Error(`smoke harness: ${manifestUrl} HTTP ${response.status}`);
+  const file = effectTextureFile(await response.json(), SMOKE_COLUMN_ASSET_ID, manifestUrl);
+  const texture = await new THREE.TextureLoader().loadAsync(`${manifestUrl.replace(/[^/]*$/, "")}${file}`);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
 }
 
 export default {

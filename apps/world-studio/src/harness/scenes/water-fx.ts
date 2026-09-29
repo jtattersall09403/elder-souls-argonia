@@ -1,6 +1,6 @@
 /**
  * Harness scene "water-fx": the waterfall and water-interaction effects on
- * the REAL package code (decision 0107) — kit piece materials for four real
+ * the REAL package code (decision 0109) — kit piece materials for four real
  * shape roles (the lit inner shell with its normal map, a two-layer
  * whitewater foam, a breathing thin sheet, a luminance-coverage mist card)
  * on a synthetic 20 m fall, the ray-marched mist volume over that fall (its

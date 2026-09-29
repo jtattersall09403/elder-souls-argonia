@@ -55,26 +55,8 @@ export function buildSkyScene(ctx: HarnessContext, hour: number, opts: { pmrem?:
   aerial.uEsFogCam.value.copy(camera.position);
   (scene as THREE.Scene & { fogNode?: unknown }).fogNode = createAerialFogNode(aerial);
 
-  const clouds = createCloudUniforms();
-  clouds.uCloudCov.value.set(0.15, 0.35, 0.25);
-  clouds.uCloudDens.value = 0.9;
-  clouds.uCloudDir.value.set(0.8, 0.6);
-
-  const dome = createSkyDome(STAR_RADIUS * 1.6, aerial, clouds);
-  writeDomeFromRig(dome, rig, sunDir, 0);
-  dome.sky.position.copy(camera.position);
-  dome.sky.renderOrder = -10;
-  dome.sky.frustumCulled = false;
-  scene.add(dome.sky);
-
-  // PMREM sky IBL from a second dome, as WorldSky bakes it.
-  const bake = createSkyDome(100, aerial, clouds);
-  copySkyUniforms(dome, bake);
-  bake.sky.showSunDisc.value = 0;
-  const bakeScene = new THREE.Scene();
-  bakeScene.add(bake.sky);
-  // Baked in the frame loop, as WorldSky does (never at build time).
-  let pmrem: PMREMGenerator | null = opts.pmrem === false ? null : new PMREMGenerator(renderer);
+  const studioSky = addStudioSky(renderer, scene, camera, rig, sunDir, aerial, { bakeAtBuild: true, ...opts });
+  const { clouds } = studioSky;
 
   // Stars, Serpent, moons.
   const stars = flattenCatalogue();
@@ -116,10 +98,6 @@ export function buildSkyScene(ctx: HarnessContext, hour: number, opts: { pmrem?:
   const { sun } = createSunCascades({ cascades: 3, maxFar: 6000, shadowMapSize: 1024 });
   aimSun(sun, sunDir, camera.position, rig);
   scene.add(sun, sun.target);
-  const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, rig.hemiIntensity);
-  hemi.color.setRGB(...rig.hemiSky);
-  hemi.groundColor.setRGB(...rig.hemiGround);
-  scene.add(hemi);
   const moonLight = new THREE.DirectionalLight(0xffffff, rig.moonIntensity);
   moonLight.color.setRGB(...rig.moonColor);
   const md = rig.moons[0].direction;
@@ -156,6 +134,66 @@ export function buildSkyScene(ctx: HarnessContext, hour: number, opts: { pmrem?:
   return {
     scene,
     camera,
+    frame: studioSky.frame,
+  };
+}
+
+/**
+ * The studio's sky light on a harness scene, as WorldSky sets it: the dome
+ * as the background (radiance on the scene's lux scale, so it survives the
+ * photometric exposure; a plain `scene.background` colour is a clear colour
+ * that WebGPURenderer tone-maps with that exposure, ~2.6e-5 at noon, and
+ * reads black), the PMREM sky IBL baked from a second dome in the first
+ * frame (the studio's main indirect light: without it shadowed ground at
+ * noon lies at luma ~1 on BOTH renderers), and the rig's hemisphere light.
+ * The sun and its cascades stay with the scene.
+ */
+export function addStudioSky(
+  renderer: HarnessContext["renderer"],
+  scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+  rig: ReturnType<typeof computeLightRig>,
+  sunDir: THREE.Vector3,
+  aerial: ReturnType<typeof createAerialUniforms>,
+  opts: { pmrem?: boolean; bakeAtBuild?: boolean } = {},
+): { clouds: ReturnType<typeof createCloudUniforms>; frame(t: number): void } {
+  const clouds = createCloudUniforms();
+  clouds.uCloudCov.value.set(0.15, 0.35, 0.25);
+  clouds.uCloudDens.value = 0.9;
+  clouds.uCloudDir.value.set(0.8, 0.6);
+
+  // Inside the far plane (the dome shades by view direction, not radius).
+  const dome = createSkyDome(Math.min(STAR_RADIUS * 1.6, camera.far * 0.9), aerial, clouds);
+  writeDomeFromRig(dome, rig, sunDir, 0);
+  dome.sky.position.copy(camera.position);
+  dome.sky.renderOrder = -10;
+  dome.sky.frustumCulled = false;
+  scene.add(dome.sky);
+
+  // PMREM sky IBL from a second dome, as WorldSky bakes it.
+  const bake = createSkyDome(100, aerial, clouds);
+  copySkyUniforms(dome, bake);
+  bake.sky.showSunDisc.value = 0;
+  const bakeScene = new THREE.Scene();
+  bakeScene.add(bake.sky);
+  // Baked in the frame loop, as WorldSky does (never at build time).
+  let pmrem: PMREMGenerator | null = opts.pmrem === false ? null : new PMREMGenerator(renderer);
+  // `bakeAtBuild`: bake before the harness's compileAsync, so every program
+  // is compiled with the environment in place. Baked in frame 0 instead, a
+  // heavy material (the ground splat) must recompile inside render(): on
+  // WebGPU/SwiftShader the terrain scene then never finished (240 s).
+  if (pmrem && opts.bakeAtBuild) {
+    scene.environment = pmrem.fromScene(bakeScene, 0, 0.1, 1100).texture;
+    pmrem = null;
+  }
+
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, rig.hemiIntensity);
+  hemi.color.setRGB(...rig.hemiSky);
+  hemi.groundColor.setRGB(...rig.hemiGround);
+  scene.add(hemi);
+
+  return {
+    clouds,
     frame(t: number) {
       clouds.uCloudTime.value = 137 + t * 30;
       if (pmrem) {

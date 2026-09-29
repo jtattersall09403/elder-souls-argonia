@@ -49,6 +49,9 @@ const allScenes = readdirSync(join(studioDir, "src/harness/scenes"))
   .map((f) => f.replace(/\.ts$/, ""))
   .sort();
 const scenes = typeof args.sys === "string" ? args.sys.split(",") : allScenes;
+/** Per-scene limit: navigation plus the page's build, compile and frames.
+ * A scene past it is recorded as `timedOut` and its browser is relaunched
+ * (a hung page can hold the GPU process). */
 const timeoutMs = Number(args.timeout) || 240000;
 /** Above this share of drawn pixels at luma < 3 a run fails (NaN shading
  * renders black), unless its scene exports `expectDark: true`. */
@@ -65,23 +68,68 @@ const LAUNCH = {
 const noise = (t) => /websocket|\[vite\]|favicon\.ico|Instance dropped in popErrorScope/i.test(t);
 
 mkdirSync(outDir, { recursive: true });
-const server = typeof args.url === "string" ? null : await startStudioDevServer();
-const base = (typeof args.url === "string" ? args.url : server.url).replace(/\/?$/, "/");
+let server = typeof args.url === "string" ? null : await startStudioDevServer();
+let base = (typeof args.url === "string" ? args.url : server.url).replace(/\/?$/, "/");
+let serverRestarts = 0;
+/** True when the dev server answers within 5 s. */
+async function serverUp() {
+  try {
+    const r = await fetch(base, { signal: AbortSignal.timeout(5000) });
+    return r.ok;
+  } catch {
+    return false;
+  }
+}
+/** A scene that hangs can take the vite server down with it; without this
+ * every later scene failed ERR_CONNECTION_REFUSED. Only a server this runner
+ * started is restarted (a --url server belongs to someone else). */
+async function ensureServer() {
+  if (!server || await serverUp()) return;
+  console.log(`dev server at ${base} is down: restarting`);
+  server.stop();
+  server = await startStudioDevServer();
+  base = server.url.replace(/\/?$/, "/");
+  serverRestarts++;
+}
 const runs = [];
+/** Every Chromium this runner starts carries this flag (Chromium ignores it),
+ * so a hung browser's whole process tree can be found and killed. */
+const BROWSER_TAG = `--es-harness-run=${process.pid}`;
+/** Settles with `p`, or rejects "Timeout" after `ms`: Playwright's own
+ * timeouts wait on a page that a stuck GPU process may never answer. */
+function bounded(p, ms, what) {
+  let timer;
+  return Promise.race([
+    p,
+    new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(`Timeout: ${what} past ${ms} ms`)), ms); }),
+  ]).finally(() => clearTimeout(timer));
+}
+/** Close a browser, and if it does not close in 10 s, kill its process tree
+ * (one stuck WebGL page held the next scene for 589 s). */
+async function killBrowser(browser) {
+  try { await bounded(browser.close(), 10_000, "browser.close"); } catch { /* hung or gone */ }
+  const found = spawnSync("pgrep", ["-f", BROWSER_TAG.slice(2)], { encoding: "utf8" });
+  for (const pid of (found.stdout ?? "").split(/\s+/).filter(Boolean)) {
+    try { process.kill(Number(pid), "SIGKILL"); } catch { /* already gone */ }
+  }
+}
+
 try {
   for (const backend of backends) {
-    const launch = () => chromium.launch({ headless: true, args: LAUNCH[backend] ?? [] });
+    const launch = () => bounded(
+      chromium.launch({ headless: true, args: [...(LAUNCH[backend] ?? []), BROWSER_TAG] }), 60_000, "chromium.launch");
     let browser = await launch();
     try {
       for (const sys of scenes) {
         // A scene that crashes the GPU process takes the browser with it:
         // relaunch so one bad scene never hides the rest.
         if (!browser.isConnected()) browser = await launch();
+        await ensureServer();
         let page;
         try {
-          page = await browser.newPage({ viewport: { width, height } });
+          page = await bounded(browser.newPage({ viewport: { width, height } }), 30_000, "newPage");
         } catch {
-          try { await browser.close(); } catch { /* already gone */ }
+          await killBrowser(browser);
           browser = await launch();
           page = await browser.newPage({ viewport: { width, height } });
         }
@@ -102,18 +150,27 @@ try {
         const url = `${base}harness.html?sys=${encodeURIComponent(sys)}&renderer=${backend}&w=${width}&h=${height}`;
         const t0 = Date.now();
         let result;
+        let timedOut = false;
         try {
           // "commit", not "load": a cold vite dev server transforms three's
           // node library on the first request, and the page's own
           // __HARNESS__ flag is the real completion signal.
-          await page.goto(url, { waitUntil: "commit", timeout: timeoutMs });
-          await page.waitForFunction(() => window.__HARNESS__?.done, null, { timeout: timeoutMs });
-          result = await page.evaluate(() => window.__HARNESS__);
+          result = await bounded((async () => {
+            await page.goto(url, { waitUntil: "commit", timeout: timeoutMs });
+            await page.waitForFunction(() => window.__HARNESS__?.done, null, { timeout: timeoutMs });
+            return page.evaluate(() => window.__HARNESS__);
+          })(), timeoutMs + 15_000, "scene");
         } catch (e) {
-          result = { done: false, ok: false, sys, backend: "none", errors: [`runner: ${String(e).slice(0, 400)}`], warnings: [] };
+          timedOut = /Timeout/i.test(String(e));
+          // Where it stopped: the page's own progress is unknown once hung,
+          // so name the limit and the elapsed time plainly.
+          const why = timedOut
+            ? `runner: scene timed out after ${Math.round((Date.now() - t0) / 1000)} s (limit ${timeoutMs / 1000} s): the page never set __HARNESS__.done`
+            : `runner: ${String(e).slice(0, 400)}`;
+          result = { done: false, ok: false, sys, backend: "none", errors: [why], warnings: [] };
         }
         const shot = join(outDir, `${sys}.${backend}.png`);
-        try { await page.screenshot({ path: shot }); } catch { /* page gone */ }
+        try { await bounded(page.screenshot({ path: shot, timeout: 15000 }), 20_000, "screenshot"); } catch { /* page gone or hung */ }
         // The asked backend must be the one that ran: a silent WebGPU->WebGL
         // fallback would make a "webgpu" pass meaningless.
         const wrongBackend = result.backend !== "none" && result.backend !== backend;
@@ -123,20 +180,25 @@ try {
         const ok = Boolean(result.ok) && !wrongBackend && !tooBlack
           && !consoleLines.some((l) => l.startsWith("error") || l.startsWith("pageerror"));
         runs.push({
-          sys, requested: backend, ok, ms: Date.now() - t0, shot, wrongBackend, tooBlack,
+          sys, requested: backend, ok, ms: Date.now() - t0, shot, wrongBackend, tooBlack, timedOut,
           result, console: consoleLines,
         });
         const warnCount = (result.warnings?.length ?? 0);
-        console.log(`${ok ? "ok  " : "FAIL"} ${sys} [${backend}${wrongBackend ? ` ran ${result.backend}` : ""}]`
+        console.log(`${ok ? "ok  " : timedOut ? "HUNG" : "FAIL"} ${sys} [${backend}${wrongBackend ? ` ran ${result.backend}` : ""}]`
           + ` compile ${result.compileMs ?? "-"} ms, calls ${result.calls ?? "-"}, tris ${result.triangles ?? "-"},`
           + ` luma ${result.meanLuma ?? "-"}, drawn ${result.drawnFraction ?? "-"}, covered ${result.coveredFraction ?? "-"}, black ${result.blackFraction ?? "-"}${tooBlack ? " (> " + BLACK_FRACTION_MAX + ")" : ""}${result.expectDark ? " (expectDark)" : ""}, errors ${result.errors?.length ?? 0}, warnings ${warnCount}, env-noise ${result.envNoise?.length ?? 0}`
           + (result.adapter ? `, adapter: ${result.adapter}` : ""));
         for (const e of (result.errors ?? []).slice(0, 5)) console.log(`     error: ${e}`);
         for (const w of (result.warnings ?? []).slice(0, 5)) console.log(`     warning: ${w}`);
-        try { await page.close(); } catch { /* browser gone */ }
+        if (!timedOut) try { await bounded(page.close(), 10_000, "page.close"); } catch { /* browser gone */ }
+        if (timedOut) {
+          // A hung page's GPU process is not trusted with the next scene.
+          await killBrowser(browser);
+          browser = await launch();
+        }
       }
     } finally {
-      try { await browser.close(); } catch { /* already gone */ }
+      await killBrowser(browser);
     }
   }
 } catch (e) {
@@ -147,7 +209,7 @@ try {
   server?.stop();
 }
 
-writeFileSync(join(outDir, "summary.json"), JSON.stringify({ label, base, width, height, runs }, null, 2));
+writeFileSync(join(outDir, "summary.json"), JSON.stringify({ label, base, width, height, serverRestarts, runs }, null, 2));
 
 // Contact sheet: one labelled tile per run, scenes down, backends across.
 const sheet = join(outDir, "contact-sheet.png");
@@ -173,5 +235,6 @@ if (tiles.length) {
 }
 
 const failed = runs.filter((r) => !r.ok).length;
-console.log(`harness: ${runs.length - failed}/${runs.length} ok -> ${outDir}`);
+console.log(`harness: ${runs.length - failed}/${runs.length} ok`
+  + `${serverRestarts ? `, dev server restarted ${serverRestarts}x` : ""} -> ${outDir}`);
 process.exit(failed ? 1 : 0);

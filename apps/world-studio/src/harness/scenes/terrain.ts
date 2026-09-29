@@ -7,8 +7,8 @@
  * apron's near material (sharing the province's albedo array, as
  * ApronTerrain does). Lit at noon by the sun's CSMShadowNode cascades, a box
  * standing on the ground casting a shadow, and hazed by the scene's aerial
- * fog node. The camera sits at the province's NW corner, where upland
- * chunk 0,0 meets the apron.
+ * fog node, under the studio's sky dome and PMREM sky light. The camera
+ * sits at the province's NW corner, where upland chunk 0,0 meets the apron.
  */
 import * as THREE from "three";
 import { MeshStandardNodeMaterial } from "three/webgpu";
@@ -22,6 +22,7 @@ import { sharedWaterAssets } from "../../water/waterAssets";
 import { createAerialFogNode, createAerialUniforms } from "../../sky/aerial";
 import { computeLightRig } from "../../sky/lightRig";
 import { aimSun, createSunCascades } from "../../sky/skyObjects";
+import { addStudioSky } from "../skyScene";
 import type { HarnessBuilt, HarnessContext, HarnessScene } from "../types";
 
 const base = import.meta.env.BASE_URL;
@@ -94,7 +95,6 @@ const terrain: HarnessScene = {
     }
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x9cc4e4);
     (scene as THREE.Scene & { fogNode?: unknown }).fogNode = createAerialFogNode(aerial);
     const chunks: [number, number, string][] = [[0, 0, "1"], [1, 0, "2"], [0, 1, "2"], [1, 1, "4"]];
     const grids = await Promise.all(chunks.map(([cx, cy, lod]) => store.load(cx, cy, lod)));
@@ -145,19 +145,18 @@ const terrain: HarnessScene = {
     box.receiveShadow = true;
     scene.add(box);
 
-    // Sun (character-mode cascades), sky ambient.
+    // Sun (character-mode cascades).
     const { sun } = createSunCascades({ cascades: 2, maxFar: 300, shadowMapSize: 1024 });
     aimSun(sun, sunDir, focus, rig);
     scene.add(sun, sun.target);
-    const hemi = new THREE.HemisphereLight(0xffffff, 0xffffff, rig.hemiIntensity);
-    hemi.color.setRGB(...rig.hemiSky);
-    hemi.groundColor.setRGB(...rig.hemiGround);
-    scene.add(hemi);
+    // The studio's sky: dome background, PMREM sky IBL and the rig's
+    // hemisphere light (WorldSky's own builders, harness/skyScene.ts).
+    const sky = addStudioSky(ctx.renderer, scene, camera, rig, sunDir, aerial, { bakeAtBuild: true });
     ctx.renderer.shadowMap.enabled = true;
     ctx.renderer.toneMappingExposure = rig.exposureTarget;
     aerial.uEsFogCam.value.copy(camera.position);
 
-    return { scene, camera };
+    return { scene, camera, frame: sky.frame };
   },
 };
 export default terrain;

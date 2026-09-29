@@ -69,6 +69,13 @@ with an object that must not have it: clone first (the old rule, unchanged).
 - `sel()` and multiply-by-zero gates cannot cancel inf or NaN: clamp every `exp()` argument and guard
   every divisor (`max(x, eps)`) where the value is made (dry ground once rendered black from an
   `exp()` of a -300 m water depth). The harness fails a scene whose drawn pixels are over 20% black.
+- The output pass tone-maps the whole frame, the clear colour too: a `scene.background` Color shifts under
+  ACES (black at the studio's photometric exposure); the classic renderer left it alone. Pass it through
+  `untonedBackground()` (`packages/game-core/src/render/untonedBackground.ts`) to keep the hex, or draw
+  the sky dome / a `backgroundNode` on the scene's radiance scale as the studio does.
+- Bake a PMREM environment BEFORE `renderer.compileAsync(scene)`: setting `scene.environment` after it
+  recompiles every lit program inside `render()`, and on SwiftShader the terrain (WebGPU) and sky-noon
+  (WebGL) harness scenes then never finished (see `addStudioSky` `bakeAtBuild`).
 - Debug a graph with `await renderer.debug.getShaderAsync(scene, camera, mesh)`; to see an
   intermediate value, route it to `outputNode` behind a harness switch.
 
