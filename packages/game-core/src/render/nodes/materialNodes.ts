@@ -155,7 +155,7 @@ export function andShadowMask(material: NodeMaterial, keep: TslNode): void {
 }
 
 /**
- * Wrap the final lit colour before fog/tone mapping (the old
+ * Wrap the final colour AFTER fog, before tone mapping (the old
  * `gl_FragColor = ...` / `#include <opaque_fragment>` patch point).
  * `fn` receives the vec4 output node.
  */

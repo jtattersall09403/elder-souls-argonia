@@ -36,7 +36,7 @@ not own outright.
 | `discard` / dither / alpha cut | `maskNode` (bool, keep when true) | `andMask(m, keep)` |
 | `diffuseColor` / `map_fragment` edits | `colorNode` (vec4) | `wrapColor(m, c => ...)` |
 | `totalEmissiveRadiance` edits | `emissiveNode` | `wrapEmissive` |
-| `gl_FragColor` / `opaque_fragment` edits | `outputNode` (vec4, before fog and tone map) | `wrapOutput(m, o => ...)` |
+| `gl_FragColor` / `opaque_fragment` edits | `outputNode` (vec4; runs AFTER fog, before tone map: NodeMaterial.js setupOutput). For a pre-fog edit override the lighting model `finish` as waterMaterial.ts does | `wrapOutput(m, o => ...)` |
 | normal perturbation | `normalNode` (view space) | assign |
 | `fog_fragment` edits, aerial haze | `scene.fogNode` (one node for the scene) | set once in the sky |
 | a whole custom shader (`ShaderMaterial`) | `NodeMaterial` / `MeshBasicNodeMaterial` with `vertexNode`/`positionNode` + `colorNode`/`fragmentNode` | write the graph |
