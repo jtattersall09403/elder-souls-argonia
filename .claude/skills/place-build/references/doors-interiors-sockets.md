@@ -255,10 +255,11 @@ bundle in place.
 can leave a room evenly grey. The same run reports `light_balance`: the
 share of each spot's E that comes from the cell's lights, and
 `sourceLedFraction`, the fraction of the walked floor where that share is at
-least 50 %. Under 30 % the cell is `flat` (a failure with `--balance`, a
+least 50 %. Under 70 % the cell is `flat` (a failure with `--balance`, a
 flag without it). The judged half is reader row 48, on renders of the cell
-under the same light model. On 2026-09-29 all eight tier A cells measured
-flat after the rule (0–4 % source-led, the fill at ambient ×4.8–8.2).
+under the same light model. Before the additions all eight tier A cells
+measured flat (0–4 % source-led, 2026-09-29); with them the seven KotM cells
+read 71–80 % and DawnstarBrinasHouse 97 %.
 A light reference's XRDS radius counts only when positive and at least a
 quarter of its LIGH's base radius (`export_interior_bundle.light_radius_units`):
 KotM carries negative and sliver values (a 0.38 m Lilmoth hearth light).
@@ -291,3 +292,18 @@ reference), then re-export from `tooling/world-generation`:
 kit asset carries a `light` gets it from the rule's step 1. Verify:
 `light_balance` source-led ≥ 70 % and the render-interior readers pass
 readable, warm, lit by its sources.
+
+**The rule the 2026-09-29 additions used.** A zone already lit (a plugin
+light within 2 m) gets nothing. Each table or desk gets a table candle whose
+every contact vertex lands on its top (±2 cm, clear of clutter); each unlit
+living zone gets its main light: in an Imperial house a wall candle-horn,
+back flush (≤ 3 cm) on a flat wall at 1.75 m beside it, a floor horn only
+where no wall or table is near, and a candle-horn chandelier over the widest
+open floor when the ceiling takes its 3.55 m hang; in an Argonian hut a
+mudmother `argonianlanterns04`, top on the ceiling, bottom ≥ 2 m above the
+floor (the kit's `argonianlanterns03` is the same lantern on a 2.15 m cord and
+sits in the 19 MB dungeon-root kit). Then the builder adds the spot that
+raises source-led most, one at a time, to 72 % (Imperial: at least 12 pieces;
+the Plantation storehouse to 1 lit fixture per 12 m²), capped at 1 lit fixture
+per 12 m² in a hut. The seats are measured by ray cast before export
+(`tooling/.reports/16k/interior-light-additions/`).
