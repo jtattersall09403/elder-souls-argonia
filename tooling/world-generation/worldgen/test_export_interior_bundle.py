@@ -590,3 +590,16 @@ def test_a_bad_addition_is_an_export_error(tmp_path, rows, why):
 
 def test_no_additions_file_adds_nothing(tmp_path):
     assert ex.load_additions("C", _ADD_PLUGIN, _ADD_KITS, _ADD_BOUNDS, directory=tmp_path) == []
+
+
+def test_xrds_override_only_when_plausible():
+    """XRDS overrides the LIGH radius only when positive and at least a quarter of
+    the base; KotM's negative (-65.3, KeebaHouseElder) and sliver (26.5 units,
+    Lilmoth hearths) values fall back to the base record's radius."""
+    assert ex.light_radius_units(None, 384) == 384
+    assert ex.light_radius_units(0.0, 384) == 384
+    assert ex.light_radius_units(-65.265, 384) == 384
+    assert ex.light_radius_units(26.533, 384) == 384
+    assert ex.light_radius_units(float("nan"), 256) == 256
+    assert ex.light_radius_units(325.075, 256) == 325.075
+    assert ex.light_radius_units(104.169, 384) == 104.169

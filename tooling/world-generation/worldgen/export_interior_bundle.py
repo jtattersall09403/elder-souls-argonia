@@ -52,7 +52,8 @@ as Bethesda applies it (X, then Y, then Z, each clockwise: the convention the
 Blender NIF tools use) and re-expressed in that order. Colours are sRGB bytes.
 Each light keeps its base record's fade (FNAM, unitless: the runtime's
 intensity is fade times one tuned constant); a reference radius override
-(XRDS) counts only when positive, the raw value kept in ``raw``.
+(XRDS) counts only when positive and at least a quarter of the base radius
+(``light_radius_units``), the raw value kept in ``raw``.
 
 Doors: the cell file is shared by every place that claims the cell
 (Greenspring, Claywater Station and Riverwalk all claim KeebaHouseCrafter), so
@@ -269,6 +270,27 @@ def _ref_extras(rec) -> dict:
             # together with XACT if 'Open by Default' is set"
             out["openByDefault"] = True
     return out
+
+
+#: An XRDS override under this share of its LIGH's base radius is implausible
+#: and ignored (below).
+MIN_XRDS_SHARE = 0.25
+
+
+def light_radius_units(xrds, base_units: float) -> float:
+    """A light reference's radius in game units. XRDS (UESP
+    Skyrim_Mod:Mod_File_Format/REFR: "Radius, float ... Controls the radii on
+    objects like lights"; xEdit wbFloat(XRDS, 'Radius')) overrides the LIGH's
+    base radius, 0 meaning "use the base". KotM's cells also carry values no
+    author set as a radius: negative ones (KeebaHouseElder 0801AA30: -65.3)
+    and slivers (LilmothGlassworksOverseerHouse 08879824: 26.5 units, 0.38 m,
+    on a 384-unit hearth light that then lit nothing). The override counts only
+    when it is a finite positive float of at least ``MIN_XRDS_SHARE`` of the
+    base radius; otherwise the base record's radius stands (the raw value is
+    kept in the light's ``raw.xrdsUnits``)."""
+    if isinstance(xrds, float) and math.isfinite(xrds) and xrds >= MIN_XRDS_SHARE * float(base_units) and xrds > 0:
+        return xrds
+    return base_units
 
 
 def read_cell(plugin: Plugin, cell_edid: str):
@@ -976,11 +998,8 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             continue
         if btype == "LIGH" and "light" in base:
             lt = base["light"]
-            # XRDS (UESP Skyrim_Mod:Mod_File_Format/REFR: "Radius, float") is
-            # an override when positive; vanilla interiors also carry negative
-            # values, which the radius keeps from the base record (raw kept).
             xrds = ref.get("radius")
-            radius = xrds if isinstance(xrds, float) and xrds > 0 else lt["radiusUnits"]
+            radius = light_radius_units(xrds, lt["radiusUnits"])
             lights.append({"refId": rid, "positionM": pos,
                            "radiusM": round(float(radius) / UNITS_PER_METRE, 3),
                            "colorRGB": lt["colorRGB"], "fade": base.get("fade"),
