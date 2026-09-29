@@ -375,9 +375,14 @@ records and the runtime, never written from memory. Sections, in order:
 8. How to reply: "walk it and tell me what looks wrong, in one message;
    'looks right' when done." Then the stay-or-switch line (0083).
 
-Post: `python3 tooling/repo-standards/owner_inbox.py --post <packet.md>
---title '<Place> walk N' --attach <plan.png> <shot.png>...` after the
-deploy is green; collapse old packets with `owner_inbox.py --collapse`.
+Post (`owner_inbox.py --attach <png...> --walk <walk>`, commit 6201d27f):
+run `python3 tooling/repo-standards/owner_inbox.py --post <packet.md>
+--title '<Place> walk N' --attach <plan.png> <shot.png>... --walk <walk>`
+once first — it copies the pictures into
+`tooling/.reports/16k/<walk>/pictures/` and stages them, then refuses to
+post until they are committed; commit and push those files on the branch,
+then run the SAME command again to actually post. Collapse old packets
+with `owner_inbox.py --collapse`.
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
