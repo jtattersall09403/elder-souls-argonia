@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import type * as THREE from "three";
 
 const disposals: ReturnType<typeof vi.fn>[] = [];
 
@@ -16,8 +15,9 @@ vi.mock("three/examples/jsm/loaders/KTX2Loader.js", () => {
 });
 
 const { kitDecodersFor, retainKitDecoders, releaseKitDecoders } = await import("./kitLoader");
+type KitRenderer = import("./kitLoader").KitRenderer;
 
-const renderer = () => ({}) as THREE.WebGLRenderer;
+const renderer = () => ({}) as KitRenderer;
 const BASE = "/";
 
 describe("kit decoder lifetime", () => {

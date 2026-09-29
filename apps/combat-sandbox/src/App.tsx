@@ -1,6 +1,7 @@
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { Canvas, advance } from "@react-three/fiber";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { canvasRenderer } from "@elder-souls/game-core/render/canvasRenderer";
 import { BASE_FIELD_OF_VIEW } from "@elder-souls/game-core/physics/characterPhysics";
 import { CombatScene } from "./components/CombatScene";
 import { input } from "@elder-souls/game-core/io/input";
@@ -217,6 +218,8 @@ export function App() {
     patch({ started: true, message: text(CATALOGUE, "text.sandbox.combat-ready") });
   };
 
+  const glFactory = useMemo(
+    () => canvasRenderer({ antialias: !visualFast, alpha: false }), [visualFast]);
   return (
     <main
       className={`game-shell${visualScenario ? " visual-scenario" : ""}`}
@@ -231,7 +234,9 @@ export function App() {
         shadows={!visualFast}
         dpr={[1, quality]}
         camera={{ fov: BASE_FIELD_OF_VIEW, near: 0.1, far: 70, position: [0, 3.5, 10] }}
-        gl={{ antialias: !visualFast, powerPreference: "high-performance", alpha: false }}
+        // The node renderer (decision 0107): WebGPU where the browser has it,
+        // WebGL 2 otherwise or with `?renderer=webgl`.
+        gl={glFactory}
         onCreated={({ gl }) => {
           gl.outputColorSpace = "srgb";
           gl.shadowMap.type = 2;

@@ -1,0 +1,15 @@
+<!doctype html>
+<!-- Dev-only subsystem harness (decision 0107): one small scene per ported
+     subsystem, compiled and rendered on the node renderer's WebGPU or WebGL 2
+     backend. Not part of the production build (vite only builds index.html).
+     Driven by scripts/harness-run.mjs; see src/harness/main.ts. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>subsystem harness</title>
+    <style>html, body { margin: 0; background: #000; } canvas { display: block; }</style>
+  </head>
+  <body>
+    <script type="module" src="/src/harness/main.ts"></script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { canvasRenderer } from "@elder-souls/game-core/render/canvasRenderer";
 import { createAnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
 import { CHARACTER_MODEL_OFFSET } from "@elder-souls/game-core/physics/characterPhysics";
 import { SkyrimFighter } from "@elder-souls/character";
@@ -65,6 +66,7 @@ function Doll() {
 export function PaperDoll({ loadoutKey }: { loadoutKey: string }) {
   // Framed to hold a 1.85 m figure whose soles sit at the model offset, with a
   // little headroom either end.
+  const glFactory = useMemo(() => canvasRenderer({ alpha: true, antialias: true }), []);
   const camera = useMemo(() => ({ fov: 32, position: [0, 0.02, 4.3] as [number, number, number] }), []);
   return (
     <Canvas
@@ -72,7 +74,7 @@ export function PaperDoll({ loadoutKey }: { loadoutKey: string }) {
       className="inv-doll-canvas"
       dpr={[1, 1.5]}
       camera={camera}
-      gl={{ alpha: true, antialias: true }}
+      gl={glFactory}
       onCreated={({ gl }) => { gl.outputColorSpace = THREE.SRGBColorSpace; }}
     >
       <ambientLight intensity={1.1} />

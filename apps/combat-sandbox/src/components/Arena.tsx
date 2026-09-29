@@ -1,6 +1,8 @@
-import { Instances, Instance, Sparkles } from "@react-three/drei";
+import { Instances, Instance } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { createSparkles } from "@elder-souls/game-core/fx/sparkles";
 import * as THREE from "three";
 import { SANDBOX_POOL, SANDBOX_POOL_DECK, SANDBOX_POOL_WAY_OUT } from "@elder-souls/game-core/validation/sandboxPool";
 
@@ -8,6 +10,16 @@ import { SANDBOX_POOL, SANDBOX_POOL_DECK, SANDBOX_POOL_WAY_OUT } from "@elder-so
 const POOL_WALL = 0.3;
 /** The arena slab is 0.3 m thick; the pool's east wall runs up to its underside. */
 const ARENA_SLAB_BOTTOM = -0.3;
+
+/** Drifting dust over the arena: the TSL twin of drei's `<Sparkles>` (0107). */
+function ArenaSparkles() {
+  const sparkles = useMemo(() => createSparkles({
+    count: 28, scale: [25, 5, 25], size: 0.9, speed: 0.06, opacity: 0.16, color: "#ffffff",
+  }), []);
+  useEffect(() => () => sparkles.dispose(), [sparkles]);
+  useFrame((state) => { sparkles.time.value = state.clock.elapsedTime; });
+  return <primitive object={sparkles.object} position={[0, 2, 0]} />;
+}
 
 /**
  * The swimming pool west of the arena (decision 0093): basin, way out, deck
@@ -166,7 +178,7 @@ export function Arena() {
           <Instance key={index} position={[x, 3.11, z]} rotation={[0, index * 0.22, 0]} />
         ))}
       </Instances>
-      <Sparkles count={28} scale={[25, 5, 25]} position={[0, 2, 0]} size={0.9} speed={0.06} opacity={0.16} color="#ffffff" />
+      <ArenaSparkles />
       <Backdrop />
       <Pool />
     </group>

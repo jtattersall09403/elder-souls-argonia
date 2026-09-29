@@ -4,8 +4,9 @@ import { Component, type ErrorInfo, type ReactNode } from "react";
  * Error boundary for the contents of an R3F `<Canvas>` (studio, 2026-09-20).
  *
  * Without one, any throw inside the 3D tree unmounts the whole Canvas: the
- * WebGL context is disposed ("THREE.WebGLRenderer: Context Lost" in the
- * console, which reads like a GPU fault and is not), the Rapier world tears
+ * renderer's GPU context or device is disposed (a "context lost" or "device
+ * lost" line in the console, which reads like a GPU fault and is not; the
+ * node renderer, decision 0107, on either backend), the Rapier world tears
  * down mid-step, and React's remount starts the cycle again — the stutter the
  * owner saw. This catches the throw instead: 3D renders nothing, the error is
  * logged ONCE, and the host reports it in plain HTML outside the canvas.

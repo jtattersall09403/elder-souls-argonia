@@ -17,9 +17,15 @@
  *     is what the owner saw for midges and dragonflies.
  *
  * Results land on `window.__AIR_HARNESS__` for scripts/probe-air-fast.mjs.
+ * Renderer: the node renderer (decision 0107); `&renderer=webgl|webgpu`
+ * picks the backend. Pixels are read back from an output render target
+ * (tone mapped and sRGB-encoded like the canvas) with the async readback.
+ *
  * URL: air-harness.html?x=2.84&z=3.02&t=22:00&d=6-17&w=clear
  */
 import * as THREE from "three";
+import { RenderTarget, type WebGPURenderer } from "three/webgpu";
+import { activeBackend, createRenderer, requestedBackend } from "@elder-souls/game-core/render/createRenderer";
 import {
   AIR_SPECIES,
   AirSwarm,
@@ -100,16 +106,26 @@ function eyeCamera(): THREE.PerspectiveCamera {
   return camera;
 }
 
-function readLuma(renderer: THREE.WebGLRenderer): Uint8Array {
-  const gl = renderer.getContext();
-  const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
-  const buf = new Uint8Array(w * h * 4);
-  gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
-  return buf;
+const FRAME_W = 640;
+const FRAME_H = 360;
+
+/** Render into the harness's output target and read it back (RGBA8, sRGB). */
+async function renderAndRead(
+  renderer: WebGPURenderer, target: RenderTarget, scene: THREE.Scene, camera: THREE.Camera,
+): Promise<Uint8Array> {
+  renderer.setOutputRenderTarget(target);
+  renderer.setRenderTarget(target);
+  renderer.render(scene, camera);
+  const px = await renderer.readRenderTargetPixelsAsync(target, 0, 0, FRAME_W, FRAME_H);
+  renderer.setRenderTarget(null);
+  renderer.setOutputRenderTarget(null);
+  return new Uint8Array(px.buffer, px.byteOffset, px.byteLength);
 }
 
 /** Render one species at full amount on black and count its lit pixels. */
-function draw(renderer: THREE.WebGLRenderer, id: string): { lit: number; bright: number } {
+async function draw(
+  renderer: WebGPURenderer, target: RenderTarget, id: string,
+): Promise<{ lit: number; bright: number }> {
   const swarm = new AirSwarm(AIR_SPECIES[id], seededRandom(0x5eeda12));
   const scene = new THREE.Scene();
   scene.add(swarm.points);
@@ -120,8 +136,7 @@ function draw(renderer: THREE.WebGLRenderer, id: string): { lit: number; bright:
   );
   renderer.toneMappingExposure = 1;
   renderer.setClearColor(0x000000, 1);
-  renderer.render(scene, camera);
-  const buf = readLuma(renderer);
+  const buf = await renderAndRead(renderer, target, scene, camera);
   let lit = 0, bright = 0;
   for (let i = 0; i < buf.length; i += 4) {
     const v = buf[i] + buf[i + 1] + buf[i + 2];
@@ -141,9 +156,10 @@ function draw(renderer: THREE.WebGLRenderer, id: string): { lit: number; bright:
  * an 18 % card by day, darker through twilight and at night, which is about
  * what reeds or water in shade come out at on screen.
  */
-function contrast(
-  renderer: THREE.WebGLRenderer, id: string, amount: number, rig: LightRig, visibilityM: number,
-): { changed: number; strong: number; backdrop: number } {
+async function contrast(
+  renderer: WebGPURenderer, target: RenderTarget,
+  id: string, amount: number, rig: LightRig, visibilityM: number,
+): Promise<{ changed: number; strong: number; backdrop: number }> {
   const sp = AIR_SPECIES[id];
   const swarm = new AirSwarm(sp, seededRandom(0x5eeda12));
   const camera = eyeCamera();
@@ -165,12 +181,10 @@ function contrast(
   scene.add(backdrop);
   renderer.toneMappingExposure = rig.exposureTarget;
   renderer.setClearColor(0x000000, 1);
-  renderer.render(scene, camera);
-  const plain = readLuma(renderer);
+  const plain = await renderAndRead(renderer, target, scene, camera);
   scene.add(swarm.points);
   swarm.update(amount, camera, 7.3, 1, sunDir, [1, 0], 1, light, rig.exposureTarget, visibilityM);
-  renderer.render(scene, camera);
-  const withAir = readLuma(renderer);
+  const withAir = await renderAndRead(renderer, target, scene, camera);
   let changed = 0, strong = 0;
   for (let i = 0; i < plain.length; i += 4) {
     const d = Math.abs(plain[i] - withAir[i]) + Math.abs(plain[i + 1] - withAir[i + 1]) + Math.abs(plain[i + 2] - withAir[i + 2]);
@@ -186,22 +200,28 @@ function contrast(
 
 async function main() {
   const canvas = document.createElement("canvas");
-  canvas.width = 640;
-  canvas.height = 360;
+  canvas.width = FRAME_W;
+  canvas.height = FRAME_H;
   document.body.appendChild(canvas);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, preserveDrawingBuffer: true });
+  const renderer = await createRenderer({
+    canvas, antialias: false,
+    backend: requestedBackend(window.location.search, Boolean((navigator as { gpu?: unknown }).gpu)),
+  });
   renderer.setPixelRatio(1);
-  renderer.setSize(640, 360, false);
+  renderer.setSize(FRAME_W, FRAME_H, false);
+  const target = new RenderTarget(FRAME_W, FRAME_H, { depthBuffer: true });
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1;
   const drawn: Record<string, { lit: number; bright: number }> = {};
-  for (const id of Object.keys(AIR_SPECIES)) drawn[id] = draw(renderer, id);
+  for (const id of Object.keys(AIR_SPECIES)) drawn[id] = await draw(renderer, target, id);
   const { rig, visibilityM, ...p } = await presence();
   const seen: Record<string, { changed: number; strong: number; backdrop: number }> = {};
   for (const id of Object.keys(AIR_SPECIES)) {
-    seen[id] = contrast(renderer, id, p.amounts[id] ?? 0, rig, visibilityM);
+    seen[id] = await contrast(renderer, target, id, p.amounts[id] ?? 0, rig, visibilityM);
   }
-  window.__AIR_HARNESS__ = { done: true, ...p, exposure: rig.exposureTarget, draw: drawn, contrast: seen, frame: [640, 360] };
+  window.__AIR_HARNESS__ = { done: true, ...p, exposure: rig.exposureTarget, draw: drawn, contrast: seen, frame: [FRAME_W, FRAME_H],
+    backend: activeBackend(renderer) };
+  target.dispose();
 }
 
 main().catch((e) => {

@@ -1,17 +1,18 @@
 /**
- * Segmented frame timer (decision 0084, performance round 10).
+ * Segmented frame timer (decision 0084, performance round 10; node renderer
+ * since decision 0107).
  *
- * Round 9 left one GPU timer query and one main-thread span across the whole
- * frame, so a frame that costs ~19 ms CPU and ~12 ms GPU regardless of
- * triangle count, resolution or site could not say WHICH pass or stage it is.
- * This splits both clocks into labelled segments.
- *
- * GPU: `EXT_disjoint_timer_query_webgl2` allows exactly ONE active
- * TIME_ELAPSED query at a time, so `gpuMark(name)` ends the open query and
- * begins the next one; the old single whole-frame query is removed rather
- * than run beside this (it would be the second active query and fail). The
- * whole-frame `gpu a/b` the HUD already showed is recovered as the SUM of the
- * segments.
+ * GPU: the renderer's own timestamp queries (`trackTimestamp: true`). Every
+ * render pass three runs (each `renderer.render`, each shadow map, each
+ * `QuadMesh`) is one timed context; `gpuMark(name)` only sets the label the
+ * NEXT passes are filed under, and a pass drawn into a shadow map is filed
+ * under "shadow" whatever the open label. Results are resolved with
+ * `resolveTimestampsAsync("render")` at most every RESOLVE_EVERY frames (or
+ * sooner when the query pool is half full), never awaited in the frame, so
+ * timing never stalls it. On the WebGPU backend the source is the
+ * `timestamp-query` feature; on the WebGL 2 backend three uses
+ * `EXT_disjoint_timer_query_webgl2` itself (we no longer issue our own
+ * queries: two timers cannot share that extension).
  *
  * CPU: `performance.now()` between marks, committed synchronously.
  *
@@ -22,16 +23,32 @@ import { createContext, useContext } from "react";
 
 const AVG_FRAMES = 60;
 const MAX_FRAMES = 120;
-/** Never let unresolved queries pile up if the driver stalls. */
-const MAX_PENDING = 32;
+/** Resolve the timestamp pool at most this often (frames). */
+export const RESOLVE_EVERY = 10;
+/** Label for passes that ran before any mark this frame (or after `gpuEnd`). */
+const UNLABELLED = "other";
 
-type TimerExt = { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number };
-
-interface PendingQuery {
-  query: WebGLQuery;
-  label: string;
-  frame: number;
+/** The slice of three's TimestampQueryPool this timer reads. */
+interface TimestampPool {
+  allocateQueriesForContext(uid: string): number | null;
+  timestamps: Map<string, number>;
+  currentQueryIndex: number;
+  maxQueries: number;
 }
+
+/** The slice of WebGPURenderer this timer reads. */
+export interface TimedRenderer {
+  resolveTimestampsAsync(type?: "render" | "compute"): Promise<number | undefined>;
+  getRenderTarget(): { texture?: { name?: string } } | null;
+  backend: {
+    isWebGPUBackend?: boolean;
+    trackTimestamp?: boolean;
+    timestampQueryPool?: { render?: TimestampPool | null };
+  };
+}
+
+/** Where the HUD's GPU numbers come from. */
+export type GpuTimerSource = "webgpu timestamp-query" | "webgl2 disjoint-timer" | "none";
 
 /** One label's windowed numbers, ms. */
 export interface SegmentStat {
@@ -49,9 +66,11 @@ export interface FrameSegmentStats {
   gpuSumAvg: number;
   /** Max over the 120-frame window of the per-frame GPU sum. */
   gpuSumMax: number;
-  /** False when the timer-query extension is missing (GPU rows read n/a). */
+  /** False when the renderer has no timestamp queries (GPU rows read n/a). */
   gpuSupported: boolean;
-  /** True on Apple/Metal, where ANGLE reports WALL time for a timer query —
+  /** Which clock the GPU rows come from. */
+  gpuSource: GpuTimerSource;
+  /** True on Apple/Metal, where the GPU timestamp is WALL time on the queue —
    * the number is how long the frame took, not how much GPU work the pass
    * did, so the HUD marks it rather than pretending it is a measurement
    * (0084 round 11). */
@@ -106,17 +125,16 @@ class Window {
 }
 
 export class FrameSegments {
-  private ctx: WebGL2RenderingContext | null = null;
-  private ext: TimerExt | null = null;
+  private renderer: TimedRenderer | null = null;
   private wallTimeOnly = false;
-  private open: PendingQuery | null = null;
-  private pending: PendingQuery[] = [];
-  /** Frame id of the segments being opened right now. */
-  private frameId = 0;
-  /** How many GPU queries this frame issued, so a frame commits when whole. */
-  private issued = new Map<number, number>();
-  private resolved = new Map<number, Map<string, number>>();
-  private resolvedCount = new Map<number, number>();
+  /** The pool whose allocator we wrapped (it is created on the first pass). */
+  private pool: TimestampPool | null = null;
+  private unwrapPool: (() => void) | null = null;
+  private gpuLabel: string | null = null;
+  /** Timestamp uid (`<context>:f<frame>`) -> label, until resolved. */
+  private uidLabels = new Map<string, string>();
+  private resolving = false;
+  private framesSinceResolve = 0;
   private gpuWindow = new Window();
 
   private cpuLabel: string | null = null;
@@ -125,68 +143,52 @@ export class FrameSegments {
   private cpuWindow = new Window();
 
   /**
-   * Bind the GL context. Split from the constructor so the studio can make
+   * Bind the renderer. Split from the constructor so the studio can make
    * the instance outside the canvas (where the renderer does not exist yet)
    * and the first in-canvas hook binds it.
    */
-  attach(renderer: { getContext(): unknown } | null): void {
-    try {
-      const raw = renderer?.getContext();
-      if (typeof WebGL2RenderingContext !== "undefined"
-        && raw instanceof WebGL2RenderingContext) {
-        this.ctx = raw;
-        this.ext = raw.getExtension("EXT_disjoint_timer_query_webgl2") as TimerExt | null;
-        const debug = raw.getExtension("WEBGL_debug_renderer_info") as
-          { UNMASKED_RENDERER_WEBGL: number } | null;
-        const name = String(
-          (debug ? raw.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null)
-          ?? raw.getParameter(raw.RENDERER) ?? "");
-        // Apple hardware means Metal in every browser, and Safari's
-        // UNMASKED_RENDERER string names neither: the platform decides too.
-        const nav = typeof navigator === "undefined" ? null : navigator;
-        const platform = nav ? (nav.platform || nav.userAgent || "") : "";
-        this.wallTimeOnly = /apple|metal/i.test(name)
-          || /mac|iphone|ipad/i.test(platform);
-      }
-    } catch { this.ctx = null; this.ext = null; }
-    if (!this.ext) this.ctx = null;
+  attach(renderer: TimedRenderer | null): void {
+    this.renderer = renderer && typeof renderer.resolveTimestampsAsync === "function"
+      ? renderer : null;
+    // Apple hardware means Metal in every browser: the timestamp is the
+    // pass's wall time on the GPU queue there, not its work (0084 r11).
+    const nav = typeof navigator === "undefined" ? null : navigator;
+    const platform = nav ? (nav.platform || nav.userAgent || "") : "";
+    this.wallTimeOnly = /mac|iphone|ipad/i.test(platform);
   }
 
-  get gpuSupported(): boolean { return Boolean(this.ctx && this.ext); }
+  /** Which clock the GPU rows come from ("none" until the first pass is timed). */
+  get gpuSource(): GpuTimerSource {
+    if (!this.renderer || !this.pool) return "none";
+    return this.renderer.backend.isWebGPUBackend ? "webgpu timestamp-query" : "webgl2 disjoint-timer";
+  }
 
-  /** End the open GPU segment (if any) and begin one labelled `name`. */
+  get gpuSupported(): boolean { return this.gpuSource !== "none"; }
+
+  /** File the next render passes under `name`. */
   gpuMark(name: string): void {
-    const { ctx, ext } = this;
-    if (!ctx || !ext) return;
-    try {
-      this.closeGpu();
-      if (this.pending.length >= MAX_PENDING) return;
-      const query = ctx.createQuery();
-      if (!query) return;
-      ctx.beginQuery(ext.TIME_ELAPSED_EXT, query);
-      this.open = { query, label: name, frame: this.frameId };
-      this.issued.set(this.frameId, (this.issued.get(this.frameId) ?? 0) + 1);
-    } catch { this.disableGpu(); }
+    this.gpuLabel = name;
   }
 
-  /** End the open GPU segment without beginning another. */
+  /** Passes after this and before the next mark are filed as "other". */
   gpuEnd(): void {
-    if (!this.ctx || !this.ext) return;
-    try { this.closeGpu(); } catch { this.disableGpu(); }
+    this.gpuLabel = null;
   }
 
-  private closeGpu(): void {
-    if (!this.open || !this.ctx || !this.ext) return;
-    this.ctx.endQuery(this.ext.TIME_ELAPSED_EXT);
-    this.pending.push(this.open);
-    this.open = null;
-  }
-
-  private disableGpu(): void {
-    this.ctx = null;
-    this.ext = null;
-    this.open = null;
-    this.pending = [];
+  /** Wrap the pool's allocator once it exists, so each pass gets a label. */
+  private bindPool(): void {
+    const pool = this.renderer?.backend.timestampQueryPool?.render ?? null;
+    if (!pool || pool === this.pool) return;
+    this.unwrapPool?.();
+    const allocate = pool.allocateQueriesForContext;
+    pool.allocateQueriesForContext = (uid: string) => {
+      const target = this.renderer?.getRenderTarget();
+      const label = target?.texture?.name === "ShadowMap" ? "shadow" : (this.gpuLabel ?? UNLABELLED);
+      this.uidLabels.set(uid, label);
+      return allocate.call(pool, uid);
+    };
+    this.unwrapPool = () => { pool.allocateQueriesForContext = allocate; };
+    this.pool = pool;
   }
 
   /** End the open CPU segment (if any) and begin one labelled `name`. */
@@ -209,54 +211,47 @@ export class FrameSegments {
   }
 
   /**
-   * Once per frame, after the last mark: commit the CPU frame and drain
-   * whatever GPU queries the driver has finished. A frame's GPU row is
-   * published only when every query it issued has come back, so the segments
-   * of one frame always sum to that frame's GPU time.
+   * Once per frame, after the last mark: commit the CPU frame and, every
+   * RESOLVE_EVERY frames, start one asynchronous resolve of the timestamps
+   * the frames since the last one recorded. The resolve is never awaited.
    */
   collect(): void {
     this.cpuWindow.push(this.cpuFrame);
     this.cpuFrame = new Map();
-    const committedFrame = this.frameId;
-    this.frameId += 1;
+    if (!this.renderer) return;
+    this.bindPool();
+    this.framesSinceResolve += 1;
+    const pool = this.pool;
+    if (!pool || this.resolving) return;
+    const halfFull = pool.currentQueryIndex * 2 >= pool.maxQueries;
+    if (this.framesSinceResolve < RESOLVE_EVERY && !halfFull) return;
+    this.framesSinceResolve = 0;
+    this.resolving = true;
+    this.renderer.resolveTimestampsAsync("render")
+      .then(() => this.drain(pool))
+      .catch(() => { this.renderer = null; })
+      .finally(() => { this.resolving = false; });
+  }
 
-    const { ctx, ext } = this;
-    if (!ctx || !ext) return;
-    try {
-      const disjoint = ctx.getParameter(ext.GPU_DISJOINT_EXT) as boolean;
-      const stillPending: PendingQuery[] = [];
-      for (const p of this.pending) {
-        const done = ctx.getQueryParameter(p.query, ctx.QUERY_RESULT_AVAILABLE) as boolean;
-        if (!done) { stillPending.push(p); continue; }
-        if (!disjoint) {
-          const ms = (ctx.getQueryParameter(p.query, ctx.QUERY_RESULT) as number) / 1e6;
-          let row = this.resolved.get(p.frame);
-          if (!row) { row = new Map(); this.resolved.set(p.frame, row); }
-          row.set(p.label, (row.get(p.label) ?? 0) + ms);
-          this.resolvedCount.set(p.frame, (this.resolvedCount.get(p.frame) ?? 0) + 1);
-        }
-        ctx.deleteQuery(p.query);
-      }
-      this.pending = stillPending;
-      if (disjoint) { this.resolved.clear(); this.resolvedCount.clear(); }
-      for (const [frame, row] of this.resolved) {
-        // Only frames whose marks are all closed and resolved can publish.
-        if (frame > committedFrame) continue;
-        if ((this.resolvedCount.get(frame) ?? 0) < (this.issued.get(frame) ?? 0)) continue;
-        this.gpuWindow.push(row);
-        this.resolved.delete(frame);
-        this.resolvedCount.delete(frame);
-        this.issued.delete(frame);
-      }
-      // Bound the bookkeeping if a frame never completes (context loss).
-      for (const frame of this.issued.keys()) {
-        if (committedFrame - frame > MAX_FRAMES) {
-          this.issued.delete(frame);
-          this.resolved.delete(frame);
-          this.resolvedCount.delete(frame);
-        }
-      }
-    } catch { this.disableGpu(); }
+  /** File every resolved pass under its frame and label, then forget it. */
+  private drain(pool: TimestampPool): void {
+    const frames = new Map<number, Map<string, number>>();
+    for (const [uid, label] of this.uidLabels) {
+      const ms = pool.timestamps.get(uid);
+      if (ms === undefined) continue;
+      const frame = frameOfUid(uid);
+      let row = frames.get(frame);
+      if (!row) { row = new Map(); frames.set(frame, row); }
+      row.set(label, (row.get(label) ?? 0) + ms);
+      this.uidLabels.delete(uid);
+      // three never prunes this map; the uids are ours to forget once read.
+      pool.timestamps.delete(uid);
+    }
+    for (const frame of [...frames.keys()].sort((a, b) => a - b)) {
+      this.gpuWindow.push(frames.get(frame)!);
+    }
+    // Uids whose pass never resolved (pool overflow, lost device) must not pile up.
+    if (this.uidLabels.size > 4096) this.uidLabels.clear();
   }
 
   stats(): FrameSegmentStats {
@@ -268,21 +263,22 @@ export class FrameSegments {
       gpuSumMax: totals.max,
       gpuSupported: this.gpuSupported,
       gpuWallTimeOnly: this.wallTimeOnly,
+      gpuSource: this.gpuSource,
     };
   }
 
   dispose(): void {
-    const { ctx, ext } = this;
-    try {
-      if (ctx && ext && this.open) ctx.endQuery(ext.TIME_ELAPSED_EXT);
-      if (ctx) {
-        for (const p of this.pending) ctx.deleteQuery(p.query);
-        if (this.open) ctx.deleteQuery(this.open.query);
-      }
-    } catch { /* context already lost */ }
-    this.open = null;
-    this.pending = [];
+    this.unwrapPool?.();
+    this.unwrapPool = null;
+    this.pool = null;
+    this.uidLabels.clear();
   }
+}
+
+/** The frame number in a three timestamp uid (`<context>:f<frame>`). */
+export function frameOfUid(uid: string): number {
+  const m = /:f(\d+)$/.exec(uid);
+  return m ? Number.parseInt(m[1], 10) : -1;
 }
 
 /**

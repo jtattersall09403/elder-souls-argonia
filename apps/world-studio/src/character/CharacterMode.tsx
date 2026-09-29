@@ -5,6 +5,8 @@ import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
+import { studioCanvasRenderer, type StudioRendererHost } from "../studioRenderer";
+import type { WebGPURenderer } from "three/webgpu";
 import { SettlementErrorLine } from "../SettlementErrorLine";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
@@ -51,7 +53,7 @@ import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import {
   FrameSegments, FrameSegmentsContext, useFrameSegments,
-  type FrameSegmentStats, type SegmentStat,
+  type FrameSegmentStats, type SegmentStat, type GpuTimerSource, type TimedRenderer,
 } from "@elder-souls/game-core/fx/frameSegments";
 import { useHiddenLayers } from "../ladder";
 import { useApronManifest } from "../apronMaterials";
@@ -213,11 +215,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
   // to one value so a frame can be measured at a known fill cost. Null keeps
   // the quality preset's cap.
-  // DEV fill-rate switch (`?aa=0`): the canvas is created without MSAA, so a
-  // frame can be measured with the resolve removed and nothing else changed.
+  // Canvas MSAA is OFF by default (dev 0a689e4d): the scene reaches the
+  // canvas through the water pipeline's samples:0 target as one blit, so
+  // canvas MSAA only smoothed the water edges and the precip/overlay passes.
+  // `?aa=1` creates the canvas with MSAA (the node renderer's `antialias`).
   const canvasAa = useMemo(() => (
-    new URLSearchParams(window.location.search).get("aa") !== "0"
+    new URLSearchParams(window.location.search).get("aa") === "1"
   ), []);
+  // The node renderer (decision 0107), built once by R3F: WebGPU where the
+  // browser has it, WebGL 2 otherwise or with `?renderer=webgl`.
+  const glFactory = useMemo(() => studioCanvasRenderer({ antialias: canvasAa }), [canvasAa]);
   // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
   // pipeline and surface are not mounted, so the frame can be measured
   // without the render-to-target/blit/water/precip/overlay passes.
@@ -467,7 +474,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           // Cap pixel density — see Fly3D (8b round 2 perf); the quality
           // preset tightens it further on foot (fill rate is the retina tax).
           dpr={dprOverride === null ? [1, quality.dprMax] : [dprOverride, dprOverride]}
-          gl={{ antialias: canvasAa }}
+          gl={glFactory}
           // "percentage" = PCFShadowMap, matching Fly3D: "soft" is deprecated
           // in three r184 and r3f re-applies it on every Canvas render, forcing
           // a shadow re-render each frame (WaterPipeline.tsx explains).
@@ -845,9 +852,13 @@ function PerfHudSection({ children }: { children: ReactNode }) {
     }
   });
   const [fps, setFps] = useState(0);
+  const [backend, setBackend] = useState("");
   useEffect(() => {
-    const host = window as unknown as { __STUDIO_FPS__?: number };
-    const read = () => setFps(host.__STUDIO_FPS__ ?? 0);
+    const host = window as unknown as { __STUDIO_FPS__?: number } & StudioRendererHost;
+    const read = () => {
+      setFps(host.__STUDIO_FPS__ ?? 0);
+      setBackend(host.__RENDERER_BACKEND__ ?? "");
+    };
     read();
     const timer = window.setInterval(read, 1000);
     return () => window.clearInterval(timer);
@@ -887,7 +898,7 @@ function PerfHudSection({ children }: { children: ReactNode }) {
           cursor: locked ? "default" : "pointer",
         }}
       >
-        {`perf ${open ? "▾" : "▸"} ${fps} fps`}
+        {`perf ${open ? "▾" : "▸"} ${fps} fps${backend ? ` · ${backend}` : ""}`}
       </span>
       {open ? children : null}
     </>
@@ -900,7 +911,7 @@ function PerfHudSection({ children }: { children: ReactNode }) {
  * out of the line. */
 const GPU_SEGMENT_ORDER = [
   "pre", "sky", "shadow", "scene", "blit", "water", "precip", "overlay",
-  "ripple", "foam", "post",
+  "ripple", "foam", "post", "other",
 ];
 const CPU_SEGMENT_ORDER = [
   "pre", "veg", "gc", "sky", "char", "ripple", "foam", "shadow", "scene",
@@ -939,7 +950,8 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
   return (
     <>
       <span style={{ display: "block", opacity: 0.75 }}>
-        {`${stats.gpuWallTimeOnly ? "gpu(wall, not work on Metal)" : "gpu by pass"}: ${
+        {`${stats.gpuWallTimeOnly ? "gpu(wall, not work on Metal)" : "gpu by pass"}`
+          + ` [${stats.gpuSource}]: ${
           stats.gpuSupported
             ? segmentText(stats.gpu, GPU_SEGMENT_ORDER) || "—"
             : "n/a"}`}
@@ -968,6 +980,8 @@ interface FrameGpuStats {
   supported: boolean;
   /** True where the GPU timer reports wall time, not work (Apple/Metal). */
   wall?: boolean;
+  /** Which clock the GPU figure comes from (node renderer timestamps). */
+  source?: GpuTimerSource;
   /** Triangles and draw calls the WHOLE frame issued, averaged over the same
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
@@ -1000,13 +1014,20 @@ function mean(values: number[]): number {
   return sum / values.length;
 }
 
-/** Per-slot mean of a ring of bucket rows (all slots zero when empty). */
-function meanBuckets(rows: number[][]): number[] {
-  const out = emptyBuckets();
+/** Per-slot mean of a ring of bucket rows, written into `out` (all slots zero when empty). */
+function meanBuckets(rows: number[][], out: number[]): number[] {
+  out.fill(0);
   if (rows.length === 0) return out;
   for (const row of rows) for (let i = 0; i < out.length; i++) out[i] += row[i] ?? 0;
   for (let i = 0; i < out.length; i++) out[i] /= rows.length;
   return out;
+}
+
+/** Largest value of a bounded ring, 0 when empty or all negative (no spread: one frame, no garbage). */
+function maxOf(values: number[]): number {
+  let max = 0;
+  for (const v of values) if (v > max) max = v;
+  return max;
 }
 
 /** Millions, one decimal — the only scale these counts are read at. */
@@ -1039,61 +1060,62 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     cpuStart: number;
     cpuSamples: number[];
     cpuMaxWindow: number[];
+    /** The one published stats object, rewritten in place every frame. */
+    stats: FrameGpuStats;
   }>({
     triSamples: [], callSamples: [],
     frameBuckets: emptyBuckets(), bucketSamples: [],
     cpuStart: 0, cpuSamples: [], cpuMaxWindow: [],
+    stats: {
+      avg: 0, max: 0, supported: false,
+      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
+    },
   });
 
   useEffect(() => {
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
     };
-    segments?.attach(gl);
+    // R3F types `gl` as its classic renderer; it is the node renderer (0107).
+    const renderer = gl as unknown as WebGPURenderer;
+    segments?.attach(renderer as unknown as TimedRenderer);
     // The frame is several `renderer.render` calls (the water pipeline's scene
     // pass, the blit, water, precipitation, the overlay) and three.js clears
     // `info` at the start of every one of them. Reading after the frame would
     // therefore report the LAST pass alone. Take the reset over manually: it
     // happens once per frame below, so `info.render` accumulates every pass.
     gl.info.autoReset = false;
-    host.__STUDIO_GPU_MS__ = {
-      avg: 0, max: 0, supported: Boolean(segments?.gpuSupported),
-      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
-    };
+    host.__STUDIO_GPU_MS__ = Object.assign(gpu.current.stats, {
+      avg: 0, max: 0, supported: Boolean(segments?.gpuSupported), wall: undefined,
+      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0,
+      hiddenChunks: undefined, hiddenSectors: undefined,
+    });
+    gpu.current.stats.buckets.fill(0);
     // Attribution (HUD line 3). `info.render.triangles` is the only count
     // three.js keeps, so the per-draw delta around the one call every draw
-    // goes through is what attributes the frame; the shadow-map pass is
-    // recognised by wrapping the call that runs it.
+    // goes through (`_renderObjectDirect`) attributes the frame; a draw made
+    // with the shadow pass's override material is a shadow-map draw. The CPU
+    // clock flips to "shadow" while those draws run (decision 0084 round 10);
+    // the GPU clock files shadow-map passes itself (FrameSegments).
     const frame = gpu.current.frameBuckets;
     let inShadow = false;
-    const shadowMap = gl.shadowMap;
-    const shadowRender = shadowMap.render;
-    shadowMap.render = function wrapped(this: unknown, ...args: unknown[]) {
-      inShadow = true;
-      // The cascades run INSIDE the water pipeline's scene pass, so the
-      // shadow segment opens here and the scene segment resumes after it
-      // (decision 0084 round 10).
-      segments?.gpuMark("shadow");
-      segments?.cpuMark("shadow");
-      try {
-        return (shadowRender as (...a: unknown[]) => unknown).apply(shadowMap, args);
-      } finally {
-        inShadow = false;
-        segments?.gpuMark("scene");
-        segments?.cpuMark("scene");
+    const internals = renderer as unknown as {
+      _renderObjectDirect: (object: unknown, material: unknown, ...rest: unknown[]) => unknown;
+    };
+    const renderObjectDirect = internals._renderObjectDirect;
+    internals._renderObjectDirect = function wrapped(object: unknown, material: unknown, ...rest: unknown[]) {
+      const shadow = (material as { isShadowPassMaterial?: boolean } | null)?.isShadowPassMaterial === true;
+      if (shadow !== inShadow) {
+        inShadow = shadow;
+        segments?.cpuMark(shadow ? "shadow" : "scene");
       }
-    } as typeof shadowMap.render;
-    const renderBufferDirect = gl.renderBufferDirect;
-    gl.renderBufferDirect = function wrapped(this: unknown, ...args: unknown[]) {
-      const before = gl.info.render.triangles;
-      const out = (renderBufferDirect as (...a: unknown[]) => unknown).apply(gl, args);
-      frame[bucketSlot(inShadow, bucketIndexOf(args[4]))] +=
-        gl.info.render.triangles - before;
+      const before = renderer.info.render.triangles;
+      const out = renderObjectDirect.call(renderer, object, material, ...rest);
+      frame[bucketSlot(shadow, bucketIndexOf(object))] += renderer.info.render.triangles - before;
       return out;
-    } as typeof gl.renderBufferDirect;
+    };
     return () => {
-      shadowMap.render = shadowRender;
-      gl.renderBufferDirect = renderBufferDirect;
+      internals._renderObjectDirect = renderObjectDirect;
       segments?.dispose();
       gl.info.autoReset = true;
       delete host.__STUDIO_GPU_MS__;
@@ -1117,38 +1139,40 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
     g.cpuStart = performance.now();
     // Whole-frame geometry: every pass of the frame just ended, because the
     // reset below is manual. Averaged over the same 60-frame window as `gpu`.
-    const tris = gl.info.render.triangles;
-    const calls = gl.info.render.calls;
+    // `drawCalls`: the node renderer's `calls` counts render() calls.
+    const info = (gl as unknown as WebGPURenderer).info;
+    const tris = info.render.triangles;
+    const calls = info.render.drawCalls;
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
-      g.bucketSamples.push(g.frameBuckets.slice());
-      if (g.bucketSamples.length > 60) g.bucketSamples.shift();
+      // Recycle the row that leaves the window: no per-frame array.
+      const row = g.bucketSamples.length >= 60 ? g.bucketSamples.shift()! : new Array<number>(g.frameBuckets.length);
+      for (let i = 0; i < g.frameBuckets.length; i++) row[i] = g.frameBuckets[i];
+      g.bucketSamples.push(row);
     }
     g.frameBuckets.fill(0);
-    gl.info.reset();
+    info.reset();
 
     const seg = segments?.stats();
-    const prior = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
-      .__STUDIO_GPU_MS__;
-    (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__ = {
-      // The occlusion counts live on this object and are republished with
-      // it, so a re-publish does not blank the HUD between evaluations.
-      hiddenChunks: prior?.hiddenChunks,
-      hiddenSectors: prior?.hiddenSectors,
-      avg: Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10,
-      max: Math.round((seg?.gpuSumMax ?? 0) * 10) / 10,
-      supported: Boolean(seg?.gpuSupported),
-      // Marked, not corrected: on Apple/Metal the timer query reports wall
-      // time, so the figure is an upper bound, not the pass's work (0084 r11).
-      wall: Boolean(seg?.gpuWallTimeOnly),
-      tris: mean(g.triSamples),
-      calls: Math.round(mean(g.callSamples)),
-      cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
-      cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
-      lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
-      buckets: meanBuckets(g.bucketSamples),
-    };
+    // One object rewritten in place (walk 5 perf audit item 11). The
+    // occlusion passes write hiddenChunks/hiddenSectors into it themselves,
+    // so they persist between their evaluations without a copy.
+    const st = g.stats;
+    st.avg = Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10;
+    st.max = Math.round((seg?.gpuSumMax ?? 0) * 10) / 10;
+    st.supported = Boolean(seg?.gpuSupported);
+    // Marked, not corrected: on Apple/Metal the GPU timestamp is wall time,
+    // so the figure is an upper bound, not the pass's work (0084 r11).
+    st.wall = Boolean(seg?.gpuWallTimeOnly);
+    st.source = seg?.gpuSource ?? "none";
+    st.tris = mean(g.triSamples);
+    st.calls = Math.round(mean(g.callSamples));
+    st.cpu = Math.round(mean(g.cpuSamples) * 10) / 10;
+    st.cpuMax = Math.round(maxOf(g.cpuMaxWindow) * 10) / 10;
+    st.lastTris = g.triSamples[g.triSamples.length - 1] ?? 0;
+    meanBuckets(g.bucketSamples, st.buckets);
+    (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__ = st;
   }, -100);
 
   // The frame's last hook: every render of the frame (the water pipeline
@@ -1279,7 +1303,10 @@ function TriangleAttributionLine() {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
     };
     const read = () => {
-      setGpu(host.__STUDIO_GPU_MS__ ?? null);
+      // A snapshot: the published object is rewritten in place every frame,
+      // so its identity never changes and React would skip the update.
+      const live = host.__STUDIO_GPU_MS__;
+      setGpu(live ? { ...live, buckets: live.buckets.slice() } : null);
       setVeg(host.__STUDIO_VEGETATION_DEBUG__ ?? null);
     };
     read();

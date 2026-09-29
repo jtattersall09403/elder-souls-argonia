@@ -3,7 +3,7 @@ import type { LoadedInterior } from "./interiorLoader";
 
 const LIGHT_SWEEP_FRAMES = 30;
 
-/** The renderer fields the cell's environment sets (a `THREE.WebGLRenderer` satisfies it). */
+/** The renderer fields the cell's environment sets (the node renderer, 0107, satisfies it). */
 export interface InteriorRenderer {
   toneMappingExposure: number;
   getClearColor(target: THREE.Color): THREE.Color;
@@ -21,13 +21,18 @@ export interface InteriorRenderer {
  * The cell's fog colour is the renderer's CLEAR colour, never
  * `scene.background`: three clears the target on EVERY `render()` call when
  * the background is a Color, ignoring `autoClear = false`
- * (WebGLBackground.render, r184 `forceClear`). The water pipeline draws the
+ * (renderers/common/Background.js, r184 `forceClear`). The water pipeline draws the
  * scene into its target, blits it to the screen, then renders the scene
  * again three times onto the screen (water, precipitation and overlay
  * layers); a Color background wiped the blit each time, so a cell showed as
  * a flat fog-grey screen (walk 4 defect a). With the background null, those
  * passes draw over the blit, and the scene pass clears to the fog colour
  * through the clear colour.
+ *
+ * Scene fog: the node renderer draws `scene.fogNode` in preference to
+ * `scene.fog` (NodeManager.getFogNode), and the sky sets the outdoor haze
+ * as that node (decision 0107). Inside, the node is lifted so the cell's
+ * own `scene.fog` is the one drawn, and put back on `restore`.
  *
  * `frame()` runs each frame after the sky rig (which re-applies exposure and
  * may re-bake the environment): anything the rig wrote is remembered as the
@@ -36,7 +41,7 @@ export interface InteriorRenderer {
 export class InteriorEnvironment {
   private readonly saved: {
     fog: THREE.Scene["fog"]; background: THREE.Scene["background"];
-    environment: THREE.Scene["environment"]; exposure: number;
+    environment: THREE.Scene["environment"]; fogNode: unknown; exposure: number;
     clearColor: THREE.Color; clearAlpha: number;
   };
   private readonly hidden = new Set<THREE.Light>();
@@ -50,7 +55,8 @@ export class InteriorEnvironment {
   ) {
     this.saved = {
       fog: scene.fog, background: scene.background,
-      environment: scene.environment, exposure: gl.toneMappingExposure,
+      environment: scene.environment, fogNode: fogNodeOf(scene).fogNode ?? null,
+      exposure: gl.toneMappingExposure,
       clearColor: gl.getClearColor(new THREE.Color()), clearAlpha: gl.getClearAlpha(),
     };
     this.frame();
@@ -60,6 +66,9 @@ export class InteriorEnvironment {
     const { scene, gl, interior } = this;
     if (scene.environment) this.saved.environment = scene.environment;
     scene.environment = null;
+    const fogHost = fogNodeOf(scene);
+    if (fogHost.fogNode) this.saved.fogNode = fogHost.fogNode;
+    fogHost.fogNode = null;
     if (gl.toneMappingExposure !== 1) this.saved.exposure = gl.toneMappingExposure;
     gl.toneMappingExposure = 1;
     scene.fog = interior.fog;
@@ -78,6 +87,7 @@ export class InteriorEnvironment {
   restore(): void {
     const { scene, gl, saved } = this;
     scene.fog = saved.fog;
+    fogNodeOf(scene).fogNode = saved.fogNode;
     scene.background = saved.background;
     scene.environment = saved.environment;
     gl.toneMappingExposure = saved.exposure;
@@ -90,4 +100,9 @@ export class InteriorEnvironment {
     for (let p: THREE.Object3D | null = o; p; p = p.parent) if (p === this.interior.group) return true;
     return false;
   }
+}
+
+/** `Scene.fogNode` (three/webgpu; not in the classic Scene typings). */
+function fogNodeOf(scene: THREE.Scene): { fogNode?: unknown } {
+  return scene as unknown as { fogNode?: unknown };
 }

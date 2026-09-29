@@ -53,7 +53,7 @@ export function drawVisualFrameMarker(canvas: HTMLCanvasElement, frame: number) 
 
 /**
  * Publish after the production simulation has updated and before R3F renders.
- * The browser compositor therefore records this code and the matching WebGL
+ * The browser compositor therefore records this code and the matching rendered
  * pose in the same actual video frame.
  */
 export function publishVisualFrameMarker(frame: number) {

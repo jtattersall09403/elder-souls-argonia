@@ -19,13 +19,20 @@
  * compressed in VRAM. The meshopt decoder is a wasm module three.js bundles
  * inline (no file to serve).
  *
+ * The renderer is the node renderer (decision 0107); `createRenderer` has
+ * already awaited `init()`, which `detectSupport` needs on WebGPU to read
+ * the device's compression features (three r181+: no async variant).
+ *
  * The decoders are cached on the renderer instance (a `KTX2Loader` owns a
  * worker pool; one per renderer, never per load), not in module state.
  */
-import type * as THREE from "three";
+import type { WebGPURenderer } from "three/webgpu";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { KTX2Loader } from "three/examples/jsm/loaders/KTX2Loader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+
+/** The renderer kits are decoded for (the shared node renderer). */
+export type KitRenderer = WebGPURenderer;
 
 export interface KitDecoders {
   readonly ktx2: KTX2Loader;
@@ -38,7 +45,7 @@ export interface KitDecoders {
 export const TRANSCODER_DIR = "basis/";
 
 /** Build decoders for a renderer. Prefer `kitDecodersFor`, which caches. */
-export function createKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string): KitDecoders {
+export function createKitDecoders(renderer: KitRenderer, baseUrl: string): KitDecoders {
   const ktx2 = new KTX2Loader().setTranscoderPath(`${baseUrl}${TRANSCODER_DIR}`).detectSupport(renderer);
   return {
     ktx2,
@@ -50,10 +57,10 @@ export function createKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string
 
 const DECODERS = Symbol.for("elder-souls.kitDecoders");
 interface Slot { decoders: KitDecoders; refs: number }
-type Carrier = THREE.WebGLRenderer & { [DECODERS]?: Slot };
+type Carrier = KitRenderer & { [DECODERS]?: Slot };
 
 /** The renderer's decoders, created on first use and shared by every kit load. */
-export function kitDecodersFor(renderer: THREE.WebGLRenderer, baseUrl: string): KitDecoders {
+export function kitDecodersFor(renderer: KitRenderer, baseUrl: string): KitDecoders {
   const carrier = renderer as Carrier;
   const existing = carrier[DECODERS];
   if (existing && existing.decoders.baseUrl === baseUrl) return existing.decoders;
@@ -68,14 +75,14 @@ export function kitDecodersFor(renderer: THREE.WebGLRenderer, baseUrl: string): 
  * `KTX2Loader` owns a worker pool: when the last consumer releases, the pool
  * is disposed, so a later Canvas on a new renderer never leaves two live.
  */
-export function retainKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string): KitDecoders {
+export function retainKitDecoders(renderer: KitRenderer, baseUrl: string): KitDecoders {
   const decoders = kitDecodersFor(renderer, baseUrl);
   (renderer as Carrier)[DECODERS]!.refs += 1;
   return decoders;
 }
 
 /** Drop one hold; at zero, dispose and clear the slot. Below zero is a no-op. */
-export function releaseKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string): void {
+export function releaseKitDecoders(renderer: KitRenderer, baseUrl: string): void {
   const carrier = renderer as Carrier;
   const slot = carrier[DECODERS];
   if (!slot || slot.decoders.baseUrl !== baseUrl) return;

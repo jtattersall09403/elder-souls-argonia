@@ -10,7 +10,10 @@ import basisTranscoder from "@elder-souls/basis-transcoder/plugin";
 // armour, rig, bow rigs — 112 MB) against the sandbox's copy instead of
 // shipping its own (owner 2026-09-18); dev still serves them itself.
 const SANDBOX_BASE = "/elder-souls-argonia/";
-const STUDIO_BASE = `${SANDBOX_BASE}studio/`;
+// ES_STUDIO_BASE overrides the studio's build base (the webgpu branch ships
+// at /elder-souls-argonia/webgpu/ beside main's studio); character files
+// still resolve against main's sandbox at SANDBOX_BASE.
+const STUDIO_BASE = process.env.ES_STUDIO_BASE || `${SANDBOX_BASE}studio/`;
 
 /**
  * Serve `public/` from the DISK, not from Vite's start-up file list.

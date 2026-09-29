@@ -1,7 +1,6 @@
 import { useThree } from "@react-three/fiber";
 import { useEffect } from "react";
-import type * as THREE from "three";
-import { kitDecodersFor, releaseKitDecoders, retainKitDecoders, type KitDecoders } from "./kitLoader";
+import { kitDecodersFor, releaseKitDecoders, retainKitDecoders, type KitDecoders, type KitRenderer } from "./kitLoader";
 
 /**
  * The current renderer's kit decoders (see kitLoader.ts); stable per renderer.
@@ -9,7 +8,8 @@ import { kitDecodersFor, releaseKitDecoders, retainKitDecoders, type KitDecoders
  * with its Canvas instead of living on beside the next one's.
  */
 export function useKitDecoders(baseUrl: string): KitDecoders {
-  const gl = useThree((s) => s.gl) as THREE.WebGLRenderer;
+  // R3F types `gl` as its classic renderer; it is the node renderer (0107).
+  const gl = useThree((s) => s.gl) as unknown as KitRenderer;
   const decoders = kitDecodersFor(gl, baseUrl);
   useEffect(() => {
     retainKitDecoders(gl, baseUrl);

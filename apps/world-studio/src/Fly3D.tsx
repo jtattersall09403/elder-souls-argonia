@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
+import { studioCanvasRenderer } from "./studioRenderer";
 import { SettlementErrorLine } from "./SettlementErrorLine";
 import type { SettlementLayerError } from "@elder-souls/game-core/settlement/types";
 import { CityMarkers } from "./CityMarkers";
@@ -287,6 +288,9 @@ export function Fly3D(props: Fly3DProps) {
         windDirXZ: sample.windDirXZ, windSpeedMS: sample.windSpeedMS }
       : null;
   }, []);
+  // The node renderer (decision 0107): WebGPU where the browser has it,
+  // WebGL 2 otherwise or with `?renderer=webgl`. R3F builds it once.
+  const glFactory = useMemo(() => studioCanvasRenderer(), []);
   return (
     <>
     {canvasError && <CanvasErrorBanner message={canvasError} />}
@@ -299,6 +303,7 @@ export function Fly3D(props: Fly3DProps) {
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
       // RT + blit + water); 1.5 is visually near-identical (8b round 2 perf)
       dpr={[1, 1.5]}
+      gl={glFactory}
       // "percentage" = PCFShadowMap. "soft" is deprecated in three r184 and
       // r3f re-applies it on every Canvas render, which forced a shadow
       // re-render each frame and mis-typed shadow samplers (WaterPipeline.tsx).
