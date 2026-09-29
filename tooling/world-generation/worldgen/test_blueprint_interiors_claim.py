@@ -588,3 +588,18 @@ def test_shell_swap_rewrites_interior_ref_and_size_class():
     bi.claim_doors(bp, lib, LINKS, PROFILE)
     claim = bp["doors"][0]["interiorClaim"]
     assert claim["interiorRef"] == "kit-pod" and claim["sizeClass"] == "large"
+
+
+def test_claim_reexecs_itself_under_job_guard_once(monkeypatch):
+    """`--claim` replaces itself with the same command inside job_guard.sh,
+    and runs inline once it is there (ES_JOB_CORES is job_guard's export)."""
+    from . import job_guard as jg
+    execs = []
+    monkeypatch.setattr(jg.os, "execvp", lambda f, a: execs.append(a))
+    monkeypatch.delenv("ES_JOB_CORES", raising=False)
+    jg.reexec_guarded("interiors-claim", "worldgen.blueprint_interiors", ["--claim", "x.json"])
+    assert execs and execs[0][:4] == ["bash", str(jg.JOB_GUARD), "interiors-claim", "--"]
+    assert execs[0][-4:] == ["-m", "worldgen.blueprint_interiors", "--claim", "x.json"]
+    monkeypatch.setenv("ES_JOB_CORES", "2")
+    jg.reexec_guarded("interiors-claim", "worldgen.blueprint_interiors", ["--claim", "x.json"])
+    assert len(execs) == 1

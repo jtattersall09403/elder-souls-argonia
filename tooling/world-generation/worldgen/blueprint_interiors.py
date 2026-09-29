@@ -970,6 +970,11 @@ def main() -> int:
                          "pre-pass claim table (worldgen.batch_prepass)")
     args = ap.parse_args()
     if args.claim:
+        # every cell read from its plugin is a heavy job (Greenspring
+        # 2026-09-29: minutes of CPU); run it where the watchdog cannot
+        # stop it and a heavy slot bounds it (worldgen.job_guard).
+        from .job_guard import reexec_guarded
+        reexec_guarded("interiors-claim", "worldgen.blueprint_interiors")
         return claim_main(Path(args.claim), [p for p in args.parcels.split(",") if p],
                           use_table=not args.no_table)
     if not args.report:

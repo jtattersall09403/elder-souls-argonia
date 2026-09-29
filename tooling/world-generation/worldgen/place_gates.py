@@ -72,6 +72,7 @@ from collections import Counter
 from pathlib import Path
 
 from .atomic_write import atomic_write_bytes
+from .job_guard import guarded  # shared with blueprint_interiors --claim
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WB = REPO_ROOT / "tooling" / "placement-workbench" / "wb.py"
@@ -164,24 +165,6 @@ def default_scene(place_id: str) -> str:
 def derived_blueprint_path(place_id: str) -> Path:
     """Where ``wb.py apply`` (compile stage) writes the blueprint it derived from the layout."""
     return gates_output(place_id) / "apply" / f"{place_id}.blueprint.json"
-
-
-JOB_GUARD = REPO_ROOT / "tooling" / "repo-standards" / "job_guard.sh"
-
-
-def guarded(cmd: list[str], lane: str) -> list[str]:
-    """``cmd`` inside ``job_guard.sh`` unless this process already runs under
-    one (``ES_JOB_CORES`` is its export). The CPU watchdog
-    (``cpu_watchdog.py``) SIGSTOPs the heaviest unguarded process one at a
-    time while the machine sits above 95 %; ``check``'s fork pool of up to
-    seven workers is exactly that, so it stopped its own workers and
-    ``pool.map`` idled on each stopped one until the machine fell under 60 %
-    for 10 s (Greenspring 2026-09-29: wb.rules 847 s wall, 25 wb.py STOPs in
-    the watchdog log). A job_guard descendant is never throttled."""
-    import os
-    if os.environ.get("ES_JOB_CORES") or not JOB_GUARD.exists():
-        return cmd
-    return ["bash", str(JOB_GUARD), lane, "--", *cmd]
 
 
 def run_apply(layout: Path, scene: str, compile_: bool) -> tuple[dict | None, str]:

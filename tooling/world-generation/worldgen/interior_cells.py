@@ -109,14 +109,34 @@ class PluginWorld:
                 if pname == name and cell.editor_id:
                     self.cells[cell.editor_id] = cell.refs
         self._world: dict[tuple[str, int], object] = {}
+        self._searched: set[tuple[str, int]] = set()
+
+    def _partner_keys(self) -> set[tuple[str, int]]:
+        """Every exterior-bound load door target named by this plugin's cells
+        (the keys ``profile_cell`` asks ``world_refs`` for)."""
+        out = set()
+        for refs in self.cells.values():
+            for ref in refs:
+                if ref.teleport:
+                    k = _key(self.main, ref.teleport[0])
+                    if k not in self.interior_refs:
+                        out.add(k)
+        return out
 
     def base(self, form_id: int):
         return self.bases.get(_key(self.main, form_id))
 
     def world_refs(self, keys: set[tuple[str, int]]) -> dict[tuple[str, int], object]:
-        """The worldspace references with these keys (partner exterior doors)."""
-        want = {k for k in keys if k not in self._world}
+        """The worldspace references with these keys (partner exterior doors).
+        A scan walks every record of every plugin in the set (Skyrim.esm
+        included), so the first one also fetches every exterior-door partner
+        any of this plugin's cells names, and no key is ever scanned for twice
+        (found or not): Greenspring's claim ran 392 scans, 1511 s of its
+        931 s-CPU / 43 min run, before this."""
+        want = {k for k in keys if k not in self._searched}
         if want:
+            want |= self._partner_keys() - self._searched
+            self._searched |= want
             for plugin in self.plugins.values():             # load order: last wins
                 for rec, stack in plugin.records():
                     if rec.type != b"REFR" or not any(f.type == GT_WORLD_CHILDREN for f in stack):
