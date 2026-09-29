@@ -16,8 +16,9 @@
  * instance buffer — switching a copy on appends it, switching one off swaps
  * the last copy into its row — so `count` is the draw and nothing per copy is
  * submitted. Per frame the CPU does three small things and nothing else:
- *   1. hierarchical gating — cell, then 58 m tile — switching whole runs of
- *      copies on and off in that prefix;
+ *   1. hierarchical gating — cell, then 29 m tile, by distance and by the
+ *      widened view frustum (walk 5) — switching whole runs of copies on and
+ *      off in that prefix;
  *   2. a few terrain-occlusion rays into a 128² mask texture the shader reads
  *      (decision 0071's rule, evaluated incrementally);
  *   3. the wind and camera uniforms.
@@ -27,7 +28,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import {
-  lodRings,
+  speciesRings,
   maxDrawDistance,
   treeDrawDistance,
   SUBMERGED_MAX_DRAW_M,
@@ -43,7 +44,9 @@ import { sharedWindUniforms } from "./windUniforms";
 import {
   applyLodFadeWithShadow,
   createLodFadeUniforms,
+  createLodHistory,
   lodLadder,
+  pushLodHistory,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
   applyBatchData,
@@ -76,8 +79,11 @@ import {
   gateSpecies,
   GATE_TILE_COUNT,
   rangeDistances,
+  rungVisible,
   tileBox,
+  viewPlanesFor,
   type GateBox,
+  type GateView,
   type GateSpecies,
   type GateRung,
   type GateStats,
@@ -215,11 +221,15 @@ const MASK_SIZE = 128;
 /** Camera travel that re-runs the gate pass. With the 8 m band margin a 2 m
  * step keeps the resident rung set a superset of what the shader reads. */
 const GATE_STEP_M = 2;
-/** Camera TURN that re-runs the gate pass: the behind-the-camera test depends
- * on the forward vector, so a turn changes the answer even standing still.
- * 20° is a fifth of the hysteresis gap's worth of angle; the time-boxed drain
- * keeps the flips it produces off the frame. */
-const GATE_TURN_RAD = 20 * Math.PI / 180;
+/** Camera TURN (yaw or pitch) that re-runs the gate pass: the view test
+ * depends on where the camera looks, so a turn changes the answer even
+ * standing still. 8° is under the view test's ON margin (15°, `cellGating`),
+ * so the pass that switches a tile on runs before the tile reaches the
+ * screen; the time-boxed drain keeps the flips it produces off the frame. */
+const GATE_TURN_RAD = 8 * Math.PI / 180;
+/** Frames between looks for the sun's shadow-casting light (the view test
+ * sweeps casting tiles along its shadow). */
+const SUN_SCAN_FRAMES = 60;
 /** Frames after which the pass runs anyway, whatever the camera did. */
 const GATE_MAX_FRAMES = 120;
 /** Main-thread milliseconds one frame may spend APPLYING queued flips. A
@@ -229,6 +239,16 @@ const GATE_MAX_FRAMES = 120;
  * 2026-09-21, 15 898 flips in a frame). At least one batch is
  * always applied, so a backlog can never stall. */
 const FLIP_BUDGET_MS = 1.5;
+/** Ceiling for URGENT flips: a switch-on the shader needs now (the camera is
+ * already inside the rung's own band, margin aside). The rung it replaces has
+ * already stepped out in the shader, so waiting on the time budget is a hole:
+ * the walk-5 "plant appears, then vanishes closer, then comes back". Urgent
+ * flips run first and past `FLIP_BUDGET_MS`, up to this. */
+const URGENT_FLIP_BUDGET_MS = 6;
+/** Metres before the band edge a switch-on already counts as urgent: a few
+ * frames of a sprint, so the incoming rung is resident as the cross-fade
+ * starts. */
+const URGENT_LEAD_M = 3;
 
 /**
  * DIAGNOSTIC SWITCH (DEV only, `?vegshader=…`), for telling "the geometry is
@@ -461,6 +481,8 @@ export function Vegetation({
   const queue = useFrameWork();
   const wind = sharedWindUniforms;
   const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  /** The camera's recent positions, for the temporal rung cross-fade. */
+  const lodHistory = useMemo(() => createLodHistory(), []);
   const batchUniforms = useMemo(() => createBatchDataUniforms(), []);
   const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
   const maskTexture = useMemo(() => {
@@ -530,7 +552,12 @@ export function Vegetation({
   const gateBox = useRef<GateBox>({ minX: 0, minZ: 0, maxX: 0, maxZ: 0 });
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
-  const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fz: -1, frame: -1e9 });
+  const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fy: 0, fz: -1, frame: -1e9 });
+  /** The view planes of the last gate pass (null before the first), which a
+   * cell arriving between passes is gated with too. */
+  const gateView = useRef<GateView | null>(null);
+  /** The shadow-casting sun light, looked up every `SUN_SCAN_FRAMES`. */
+  const sunLight = useRef<THREE.DirectionalLight | null>(null);
   const gateDirty = useRef(true);
   const fps = useRef({ sum: 0, count: 0, value: 0, last: 0 });
   const [revision, setRevision] = useState(0);
@@ -660,8 +687,11 @@ export function Vegetation({
         : entry.category === "tree"
           ? treeDrawDistance(chunkRing, index.chunkMetres)
           : maxDrawDistance(entry.heightM) * drawScale;
-      const rings = lodRings(entry.heightM, drawScale, entry.submerged, entry.folded, lodBand);
       const meshLevels = entry.billboardIndex ?? entry.levels.length;
+      const rings = speciesRings({
+        heightM: entry.heightM, meshLevels, category: entry.category,
+        submerged: entry.submerged, folded: entry.folded,
+      }, drawScale, lodBand);
       const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
       const trunkRadius = entry.trunkRadiusM;
       out.set(id, {
@@ -957,6 +987,8 @@ export function Vegetation({
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     lodFade.esLodViewPos.value.copy(state.camera.position);
+    pushLodHistory(lodHistory, state.camera.position.x, state.camera.position.z,
+      state.clock.elapsedTime, lodFade.esLodHist.value);
     cameraPos.current.copy(state.camera.position);
     if (!index || !root.current) return;
     const eye = cameraPos.current;
@@ -1045,9 +1077,11 @@ export function Vegetation({
       }
     }
     if (kit && speciesParams.size > 0 && clearance) {
+      // In-view cells first, nearest first within each group (ground-cover
+      // lane, walk 5): a cell behind the camera can wait for one in front.
       const dirty = registry.current.dirty()
         .filter((d) => !jobs.current.has(d.key))
-        .sort((a, b) => cellDistance(a.key) - cellDistance(b.key));
+        .sort((a, b) => cellBuildRank(a.key) - cellBuildRank(b.key));
       for (const d of dirty) startBuild(d.key, d.serial);
     }
 
@@ -1094,15 +1128,31 @@ export function Vegetation({
     const flen = Math.hypot(forwardVec.x, forwardVec.z);
     if (flen > 1e-6) { fwd.x = forwardVec.x / flen; fwd.z = forwardVec.z / flen; }
     const moved = Math.hypot(eye.x - g.x, eye.z - g.z);
-    const turned = fwd.x * g.fx + fwd.z * g.fz;
+    const turned = forwardVec.x * g.fx + forwardVec.y * g.fy + forwardVec.z * g.fz;
+    if (counters.current.frame % SUN_SCAN_FRAMES === 0) {
+      const found: THREE.DirectionalLight[] = [];
+      state.scene.traverse((o) => {
+        const light = o as THREE.DirectionalLight;
+        if (light.isDirectionalLight && light.castShadow && light.visible) found.push(light);
+      });
+      const sun = found[0] ?? null;
+      if (sun !== sunLight.current) gateDirty.current = true;
+      sunLight.current = sun;
+    }
     const runGate = gateDirty.current
       || !(moved < GATE_STEP_M)
       || !(turned > Math.cos(GATE_TURN_RAD))
       || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
     if (runGate) {
       gateDirty.current = false;
-      g.x = eye.x; g.z = eye.z; g.fx = fwd.x; g.fz = fwd.z;
+      g.x = eye.x; g.z = eye.z;
+      g.fx = forwardVec.x; g.fy = forwardVec.y; g.fz = forwardVec.z;
       g.frame = counters.current.frame;
+      const view = state.camera instanceof THREE.PerspectiveCamera
+        ? viewPlanesFor(state.camera, gateView.current ?? undefined)
+        : null;
+      if (view) view.shadow = VEG_CAST_SHADOW ? shadowOf(sunLight.current) : null;
+      gateView.current = view;
       // Front to back across batches: three sorts opaques by renderOrder
       // ascending before material, so the nearest batch draws first and its
       // depth rejects the far foliage behind it instead of shading it twice.
@@ -1111,7 +1161,7 @@ export function Vegetation({
       if (VEG_ORDER_ENABLED) {
         for (const batch of batches.current.values()) batch.orderMin = Infinity;
         gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
-          gateStats.current, undefined, markOrder);
+          gateStats.current, undefined, markOrder, view ?? undefined);
         for (const batch of batches.current.values()) {
           if (batch.orderMin === Infinity) continue;
           const next = Math.round(batch.orderMin);
@@ -1120,7 +1170,8 @@ export function Vegetation({
           for (const geo of batch.geoList) geo.mesh.renderOrder = next;
         }
       } else {
-        gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current);
+        gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current,
+          undefined, undefined, view ?? undefined);
       }
     }
     const gatingMs = performance.now() - gateStart;
@@ -1181,12 +1232,23 @@ export function Vegetation({
     // before r3f renders.
     flushAllDirty();
 
-    function cellDistance(key: string): number {
+    /** Build order: distance, plus a chunk's width for a cell wholly outside
+     * the view cone (the camera's own cell and its neighbours never are). */
+    function cellBuildRank(key: string): number {
       const cell = cells.current.get(key);
       if (!cell) return Infinity;
-      return Math.hypot(
-        cell.originX + size / 2 - eye.x, cell.originZ + size / 2 - eye.z);
+      const dx = cell.originX + size / 2 - eye.x;
+      const dz = cell.originZ + size / 2 - eye.z;
+      const d = Math.hypot(dx, dz);
+      if (d <= size * 1.5) return d;
+      const f = cameraFwd.current;
+      const cos = (dx * f.x + dz * f.z) / d;
+      // A cell's half-diagonal subtends asin(0.71 size / d) off its centre.
+      const spread = Math.asin(Math.min(1, (0.71 * size) / d));
+      const inView = Math.acos(Math.max(-1, Math.min(1, cos))) - spread < (70 * Math.PI) / 180;
+      return inView ? d : d + size * 4;
     }
+
   });
 
   function refreshOccupied(): void {
@@ -1463,8 +1525,24 @@ export function Vegetation({
   const euler = useMemo(() => new THREE.Euler(), []);
   const quaternion = useMemo(() => new THREE.Quaternion(), []);
   const scaleVec = useMemo(() => new THREE.Vector3(), []);
-  /** Camera forward, re-derived each frame for the gate's behind test. */
+  /** Camera forward, re-derived each frame for the gate's view test. */
   const forwardVec = useMemo(() => new THREE.Vector3(), []);
+  const sunDir = useMemo(() => new THREE.Vector3(), []);
+  const forwardScratch = useMemo(() => new THREE.Vector3(), []);
+
+  /** The horizontal direction the sun's light travels and metres of shadow
+   * per metre of height, for the gate's caster sweep; null when no light
+   * casts (night, storm). */
+  function shadowOf(light: THREE.DirectionalLight | null): GateView["shadow"] {
+    if (!light) return null;
+    light.getWorldPosition(sunDir);
+    sunDir.sub(light.target.getWorldPosition(forwardScratch));
+    const horizontal = Math.hypot(sunDir.x, sunDir.z);
+    if (sunDir.y <= 1e-3 || horizontal < 1e-6) {
+      return horizontal < 1e-6 ? { x: 0, z: 0, perM: 0 } : null;
+    }
+    return { x: -sunDir.x / horizontal, z: -sunDir.z / horizontal, perM: horizontal / sunDir.y };
+  }
 
   /** What `reserveBatches` needs to CREATE a batch for a key. */
   interface PartSpec {
@@ -1906,19 +1984,28 @@ export function Vegetation({
       let nearest = Infinity;
       for (const [rung, tiles] of rungs) {
         for (const [tile, visible] of tiles) {
-          if (visible) on = 1;
-          const d = rangeDistances(
-            tileBox(rung.tileBounds, tile, rung.reachM, gateBox.current),
-            eye.x, eye.z).dMin;
-          if (d < nearest) nearest = d;
+          const pivots = rangeDistances(
+            tileBox(rung.tileBounds, tile, 0, gateBox.current), eye.x, eye.z);
+          // 2 = urgent: the camera is inside (or within URGENT_LEAD_M of) this
+          // rung's own band for some copy of the tile, so the shader draws it
+          // now.
+          if (visible) {
+            on = Math.max(on, rungVisible(rung.band,
+              Math.max(0, pivots.dMin - URGENT_LEAD_M), pivots.dMax + URGENT_LEAD_M,
+              rung.castsFromZero) ? 2 : 1);
+          }
+          if (pivots.dMin < nearest) nearest = pivots.dMin;
         }
       }
       order.push({ batch, on, d: nearest });
     }
     order.sort((a, b) => (b.on - a.on) || (a.d - b.d));
-    const deadline = performance.now() + FLIP_BUDGET_MS;
+    const start = performance.now();
+    const deadline = start + FLIP_BUDGET_MS;
+    const urgentDeadline = start + URGENT_FLIP_BUDGET_MS;
     for (let i = 0; i < order.length; i++) {
-      if (i > 0 && performance.now() > deadline) break;
+      const now = performance.now();
+      if (i > 0 && now > (order[i].on === 2 ? urgentDeadline : deadline)) break;
       applyBatchFlips(order[i].batch);
     }
   }
@@ -2032,7 +2119,8 @@ export function Vegetation({
         let trianglesPerInstance = 0;
         for (const tris of partTriangles) trianglesPerInstance += tris;
         const rungEntry: CellRungEntry = {
-          band: rung.band, near,
+          band: rung.band, near, casts, castsFromZero: fromZero,
+          heightM: params.heightM,
           tileOffsets: sb.tileOffsets,
           tileBounds: sb.tileBounds,
           state: new Uint8Array(GATE_TILE_COUNT),
@@ -2056,7 +2144,7 @@ export function Vegetation({
       if (Number.isFinite(cameraPos.current.x)) {
         gateSpecies([speciesEntry], cameraPos.current, cameraFwd.current,
           applyTile as (rung: GateRung, tile: number, visible: boolean) => void,
-          fillStats.current);
+          fillStats.current, undefined, undefined, gateView.current ?? undefined);
       }
       return speciesEntry;
     }

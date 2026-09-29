@@ -299,12 +299,17 @@ export function buildFloraKit(
     }
     const billboardIndex =
       billboardLevel === null ? null : kept.indexOf(billboardLevel);
+    // Folded = ONE mesh level survives the dedupe. An alpha-tested species
+    // whose kit carries part-aware tier levels (round 13, `lodTiers`: their
+    // primitives own distinct materials, so the swap above leaves them) keeps
+    // those levels and runs the multi-level ladder (`speciesRings`).
+    const meshLevelCount = levels.length - (billboardIndex === null ? 0 : 1);
     kit.set(id, {
       id,
       levels,
       billboardIndex,
       heightM: heights.get(id) ?? 4,
-      folded: alphaTested.has(id),
+      folded: alphaTested.has(id) && meshLevelCount <= 1,
       trunkRadiusM: trunkRadii.get(id) ?? null,
       category: categories.get(id) ?? null,
       sways: !NON_SWAYING_CATEGORIES.has(categories.get(id) ?? ""),
@@ -473,6 +478,114 @@ export function lodRings(
   for (let i = 1; i < rings.length; i++) {
     rings[i] = Math.max(rings[i], rings[i - 1]);
   }
+  return rings;
+}
+
+/**
+ * SCREEN-SPACE HAND-OVER (walk 5, 2026-09-29). Where a species carries more
+ * than one mesh level (round 13's part-aware mid and far levels for the heavy
+ * trees), each hand-over happens where the plant's projected height falls to
+ * a pixel threshold at the reference view, 1080 px tall with a 60° vertical
+ * field of view: `d = heightM × 540 / (tan 30° × px)`, about 935 × height /
+ * px. In medium the 66 m emergent giant leaves its full mesh at 195 m and
+ * becomes the card at 390 m (the folded ladder carded it at 160 m), the 42 m
+ * canopy tree at 248 m (was 160 m), a 22 m willow at 128 m. A species with
+ * ONE mesh level keeps the folded reach above (the card is the only step down,
+ * and the budget measured for it stands).
+ */
+export const SCREEN_REF_HEIGHT_PX = 1080;
+export const SCREEN_REF_FOV_DEG = 60;
+
+/** Projected height in pixels of `heightM` at `distanceM`, reference view. */
+export function projectedHeightPx(heightM: number, distanceM: number): number {
+  return (heightM * SCREEN_REF_HEIGHT_PX / 2)
+    / (Math.tan((SCREEN_REF_FOV_DEG * Math.PI) / 360) * Math.max(distanceM, 1e-6));
+}
+
+/** Distance at which `heightM` projects to `px` pixels, reference view. */
+export function distanceAtPx(heightM: number, px: number): number {
+  return (heightM * SCREEN_REF_HEIGHT_PX / 2)
+    / (Math.tan((SCREEN_REF_FOV_DEG * Math.PI) / 360) * px);
+}
+
+/**
+ * Pixel height at which a multi-level species leaves each level, by quality
+ * band: [full -> mid, mid -> far, far -> card]. Round 13 validated its tiers
+ * (silhouette IoU >= 0.90 over 8 views) at mid from 2.5 x height (<= 374 px)
+ * and far from 5 x height (<= 187 px); no threshold here hands over nearer
+ * than that. The card thresholds are what the triangle budget allows
+ * (decision 0084, vegetation <= ~1.5 M a frame with its shadow), measured
+ * with the gate harness (`__measure__/vegGate.measure.test.ts`) at the
+ * jungle site: report tooling/.reports/16k/walk5/perf/veg.md.
+ */
+export const HANDOVER_PX: Record<QualitySettings["name"], readonly [number, number, number]> = {
+  low: [370, 320, 300],
+  medium: [320, 200, 160],
+  high: [280, 170, 130],
+};
+
+/**
+ * The radius inside which a plant that is not a tree (a bush, a fern, a
+ * fungus, deadfall, scatter) is always its full mesh, by quality band, NOT
+ * scaled by the draw scale: the folded reach (40 m x 0.8 = 32 m in medium, 18
+ * m floor on low) put bushes through their tier step a few strides away (owner
+ * walk 5). Sized from the triangle budget with the gate harness: the full-mesh
+ * non-tree triangles in view at the jungle site (report
+ * tooling/.reports/16k/walk5/perf/veg.md).
+ */
+export const SMALL_PLANT_TOP_TIER_M: Record<QualitySettings["name"], number> = {
+  low: 35,
+  medium: 50,
+  high: 65,
+};
+
+/**
+ * The rings a species runs, from what its kit actually carries: `meshLevels`
+ * mesh levels (the card excluded). One level: the folded reach
+ * (`lodRings`), with a non-tree plant's full mesh held to at least
+ * `SMALL_PLANT_TOP_TIER_M`. Two or more: the screen-space hand-over, clamped
+ * so ring 0 is never under `MIN_MESH_LOD_REACH_M` and never nearer than the
+ * folded reach it replaces for a non-tree plant. Submerged species scale as in
+ * `lodRings`.
+ */
+export function speciesRings(
+  species: {
+    heightM: number;
+    meshLevels: number;
+    category: string | null;
+    submerged: boolean;
+    folded: boolean;
+  },
+  drawScale: number,
+  band: QualitySettings["name"] = "low",
+): number[] {
+  const small = species.category !== "tree" && !species.submerged;
+  if (species.meshLevels <= 1) {
+    const rings = lodRings(species.heightM, drawScale, species.submerged, species.folded, band);
+    if (!small) return rings;
+    const floor = SMALL_PLANT_TOP_TIER_M[band];
+    return rings.map((r) => Math.max(r, floor));
+  }
+  const px = HANDOVER_PX[band];
+  const scale = species.submerged ? SUBMERGED_LOD_SCALE : 1;
+  const floor0 = small ? SMALL_PLANT_TOP_TIER_M[band] : MIN_MESH_LOD_REACH_M;
+  const h = species.heightM;
+  // Never nearer than round 13 validated its tiers: mid at clamp(2.5 h,
+  // 18, 60) m, far at clamp(5 h, 50, 140) m (a 3 m juniper's 30 px card
+  // distance is 30 m, but its far tier was only checked from 50 m).
+  const validated = [
+    Math.min(60, Math.max(MIN_MESH_LOD_REACH_M, h * 2.5)),
+    Math.min(140, Math.max(50, h * 5)),
+    0,
+  ];
+  const rings = px.map((p, i) => Math.max(distanceAtPx(h, p), validated[i]) * scale);
+  rings[0] = Math.max(rings[0], floor0 * scale);
+  // The card never comes nearer than the folded ladder put it: a species that
+  // gained tiers only ever gains mesh distance.
+  rings[2] = Math.max(rings[2], lodRings(h, drawScale, species.submerged, true, band)[0]);
+  // Two mesh levels: the second runs to the card, so rings 1 and 2 are one.
+  if (species.meshLevels === 2) rings[1] = rings[2];
+  for (let i = 1; i < rings.length; i++) rings[i] = Math.max(rings[i], rings[i - 1]);
   return rings;
 }
 

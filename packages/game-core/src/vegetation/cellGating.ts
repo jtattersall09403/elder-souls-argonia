@@ -13,11 +13,18 @@
  * (round 2 addendum): the near rung's vertex load follows the tile size, not
  * the band.
  *
- * Visibility is distance AND a behind-the-camera test with hysteresis: a tile
- * whose centre is more than `BEHIND_MIN_M` behind the eye is off whatever its
- * band says, near rungs included — an off-screen shadow caster at 40 m is not
- * worth its vertices. Panning in place is still nearly free, because a tile
- * only flips as the forward vector crosses the two hysteresis cosines.
+ * Visibility is distance AND the view frustum (walk 5, 2026-09-29): a tile's
+ * box (instance bounds grown by the kit's reach) is tested against the
+ * camera's four side planes, widened by an angle so a quick turn finds the
+ * copies already resident, with hysteresis (a tile goes out beyond
+ * `VIEW_OFF_MARGIN_DEG`, comes back inside `VIEW_ON_MARGIN_DEG`). A rung that
+ * casts the sun shadow is tested with its box swept along the shadow, so a
+ * tree behind the camera whose shadow falls on screen stays, and nothing else
+ * does (at night nothing casts and nothing is kept).
+ * Before this the only direction test dropped a tile more than ~120° off the
+ * view line, so about two thirds of the submitted copies were off screen.
+ * Without a view (`view` omitted) the old behind-latch rule runs, kept for the
+ * measurement harness's before/after only.
  *
  * Pure: no three.js at all.
  */
@@ -39,8 +46,18 @@ export const GATE_TILE_COUNT = CELL_TILES * CELL_TILES;
 export interface GateRung {
   /** (dIn, dOut, wIn, wOut), metres — the same band every copy carries. */
   band: [number, number, number, number];
-  /** Rung index 0: the near rung, which casts shadows off-screen. */
+  /** Rung index 0 (the full-mesh rung). */
   near: boolean;
+  /** This rung's depth copy casts the sun shadow: it keeps the near ring
+   * whatever the camera faces (`CASTER_KEEP_M`). */
+  casts?: boolean;
+  /** Its depth copy casts from distance 0 (`shadowBandFromZero`), so the gate
+   * must keep it from 0 too, not from its band's inner edge: otherwise every
+   * tree nearer than that edge lost its shadow. */
+  castsFromZero?: boolean;
+  /** Tallest instance height at scale 1, metres (the box's top). Absent: the
+   * kit reach is used, which is never smaller. */
+  heightM?: number;
   /** CSR offsets into the rung's instances per tile, shared with the build:
    * `GATE_TILE_COUNT + 1` entries, tile t is [t, t+1). Empty where equal. */
   tileOffsets: Uint32Array;
@@ -115,8 +132,10 @@ export function rungVisible(
   band: readonly [number, number, number, number],
   dMin: number,
   dMax: number,
+  fromZero = false,
 ): boolean {
-  const [dIn, dOut, , wOut] = band;
+  const [dIn0, dOut, wIn, wOut] = band;
+  const dIn = fromZero ? 0 : dIn0 - wIn;
   if (!(dIn <= 0 || dMax >= dIn)) return false;
   if (dOut <= 0 || dOut >= LOD_OPEN_M) return true;
   return dMin < dOut + wOut;
@@ -140,9 +159,112 @@ export interface GateStats {
  */
 export const GATE_MARGIN_M = 8;
 
-/** Nearer than this, a tile is kept whatever the camera faces: it is under
- * the player's feet and its shadow reaches the screen. */
+/** Nearer than this, a tile is kept whatever the camera faces (legacy rule,
+ * no view given). */
 export const BEHIND_MIN_M = 40;
+/** Legacy name of the caster ring, kept for the no-view path only. The view
+ * path sweeps a casting tile along the sun instead (`GateView.shadow`). */
+export const CASTER_KEEP_M = BEHIND_MIN_M;
+/** Angle added to each side of the real frustum. A tile in view stays in
+ * until it is `OFF` degrees outside, and a tile out of view comes back once it
+ * is within `ON` degrees: the gap is the hysteresis, and `ON` is larger than
+ * the gate's re-run turn (`GATE_TURN_RAD` in the renderer, 8°) so a turn
+ * never shows a tile before the pass that switches it on. */
+export const VIEW_ON_MARGIN_DEG = 15;
+export const VIEW_OFF_MARGIN_DEG = 25;
+
+/** The camera's four side planes (inward normal nx, ny, nz, then d), twice:
+ * widened by the ON margin and by the OFF margin. */
+export interface GateView {
+  on: Float64Array;
+  off: Float64Array;
+  /** The sun shadow, when one is cast: the horizontal direction light travels
+   * (unit x, z) and metres of shadow per metre of height (1 / tan elevation,
+   * capped by `SHADOW_REACH_MAX_M`). A casting rung's tile is kept when its box
+   * swept along that shadow touches the view. Null: no shadow is cast (night,
+   * storm, `?vegshadow=0`), so casting rungs are culled like any other. */
+  shadow?: { x: number; z: number; perM: number } | null;
+}
+
+/** Longest shadow the caster test sweeps a tile by, metres: the CSM cascade
+ * reach in character mode is 160 m, and a low sun past that is haze. */
+export const SHADOW_REACH_MAX_M = 120;
+
+/** What `viewPlanesFor` reads: a THREE.PerspectiveCamera fits it. */
+export interface GateCamera {
+  position: { x: number; y: number; z: number };
+  matrixWorld: { elements: ArrayLike<number> };
+  /** Vertical field of view, degrees. */
+  fov: number;
+  aspect: number;
+}
+
+function sidePlanes(
+  cam: GateCamera, marginRad: number, out: Float64Array,
+): Float64Array {
+  const e = cam.matrixWorld.elements;
+  // Columns of the world matrix: right, up, back.
+  const rx = e[0], ry = e[1], rz = e[2];
+  const ux = e[4], uy = e[5], uz = e[6];
+  const fx = -e[8], fy = -e[9], fz = -e[10];
+  const rl = Math.hypot(rx, ry, rz) || 1;
+  const ul = Math.hypot(ux, uy, uz) || 1;
+  const fl = Math.hypot(fx, fy, fz) || 1;
+  const halfV = (cam.fov * Math.PI) / 360;
+  const halfH = Math.atan(Math.tan(halfV) * cam.aspect);
+  const cap = Math.PI / 2;
+  const a = Math.min(cap, halfH + marginRad);
+  const b = Math.min(cap, halfV + marginRad);
+  // Inward normals: forward·sin(half) ∓ axis·cos(half).
+  const planes: Array<[number, number, number]> = [];
+  for (const [ax, ay, az, al, half] of [
+    [rx, ry, rz, rl, a], [ux, uy, uz, ul, b],
+  ] as const) {
+    const s = Math.sin(half);
+    const c = Math.cos(half);
+    for (const sign of [-1, 1]) {
+      planes.push([
+        (fx / fl) * s + sign * (ax / al) * c,
+        (fy / fl) * s + sign * (ay / al) * c,
+        (fz / fl) * s + sign * (az / al) * c,
+      ]);
+    }
+  }
+  const p = cam.position;
+  for (let i = 0; i < 4; i++) {
+    const [nx, ny, nz] = planes[i];
+    out[i * 4] = nx;
+    out[i * 4 + 1] = ny;
+    out[i * 4 + 2] = nz;
+    out[i * 4 + 3] = -(nx * p.x + ny * p.y + nz * p.z);
+  }
+  return out;
+}
+
+/** The widened side planes of a perspective camera, for `gateSpecies`. Call
+ * after the camera's world matrix is current; `into` is reused if given. */
+export function viewPlanesFor(cam: GateCamera, into?: GateView): GateView {
+  const view = into ?? { on: new Float64Array(16), off: new Float64Array(16) };
+  sidePlanes(cam, (VIEW_ON_MARGIN_DEG * Math.PI) / 180, view.on);
+  sidePlanes(cam, (VIEW_OFF_MARGIN_DEG * Math.PI) / 180, view.off);
+  return view;
+}
+
+/** Whether an axis-aligned box touches the inside of all four planes. */
+export function boxInPlanes(
+  planes: Float64Array,
+  minX: number, minY: number, minZ: number,
+  maxX: number, maxY: number, maxZ: number,
+): boolean {
+  for (let i = 0; i < 16; i += 4) {
+    const nx = planes[i], ny = planes[i + 1], nz = planes[i + 2];
+    const px = nx >= 0 ? maxX : minX;
+    const py = ny >= 0 ? maxY : minY;
+    const pz = nz >= 0 ? maxZ : minZ;
+    if (nx * px + ny * py + nz * pz + planes[i + 3] < 0) return false;
+  }
+  return true;
+}
 /** Forward·direction below this turns a tile off, above `BEHIND_ON` back on:
  * the gap is the hysteresis that stops a tile flipping as the camera jitters
  * around the boundary. */
@@ -172,6 +294,7 @@ export function gateSpecies(
   stats: GateStats,
   marginM: number = GATE_MARGIN_M,
   order?: (rung: GateRung, tile: number, d: number) => void,
+  view?: GateView,
 ): void {
   stats.visibleCopies = 0;
   stats.visibleTriangles = 0;
@@ -182,11 +305,11 @@ export function gateSpecies(
     const raw = rangeDistances(entry.cellBox, eye.x, eye.z);
     const dMin = Math.max(0, raw.dMin - marginM);
     const dMax = raw.dMax + marginM;
-    // No tile of a cell wholly inside the behind radius can be behind, so the
-    // whole-cell answers stay whole-cell answers close to the player.
-    const mayBeBehind = raw.dMax > BEHIND_MIN_M;
+    // Legacy rule: no tile of a cell wholly inside the behind radius can be
+    // behind. With a view every tile is tested (the test is a few multiplies).
+    const mayBeBehind = view ? true : raw.dMax > BEHIND_MIN_M;
     for (const rung of entry.rungs) {
-      const dIn = rung.band[0];
+      const dIn = rung.castsFromZero ? 0 : rung.band[0] - rung.band[2];
       const dOut = rung.band[1];
       const wOut = rung.band[3];
       const open = dOut <= 0 || dOut >= LOD_OPEN_M;
@@ -223,13 +346,23 @@ export function gateSpecies(
           if (mode === 1) on = true;
           else {
             stats.checksTile++;
+            // The band is measured to the copy's PIVOT (the shader's
+            // `esLodOrigin`), so the distance test uses the pivots' own
+            // bounds, not the box grown by the kit's reach: the grown box
+            // kept the full-mesh rung of a whole tile of trees up to ~50 m
+            // past its edge, submitted and collapsed (walk 5, 3.5x the
+            // in-band triangles). The reach only matters to the view test.
             const d = rangeDistances(
-              tileBox(rung.tileBounds, t, entry.reachM, scratchBox),
+              tileBox(rung.tileBounds, t, 0, scratchBox),
               eye.x, eye.z);
             tileD = Math.max(0, d.dMin - marginM);
-            on = rungVisible(rung.band, tileD, d.dMax + marginM);
+            on = rungVisible(rung.band, tileD, d.dMax + marginM, rung.castsFromZero);
           }
-          if (on && mayBeBehind) on = !isBehind(rung, t, eye, forward);
+          if (on && mayBeBehind) {
+            on = view
+              ? inView(rung, t, entry.reachM, view)
+              : !isBehind(rung, t, eye, forward);
+          }
           if (on) {
             stats.visibleCopies += count * parts;
             stats.visibleTriangles += count * rung.trianglesPerInstance;
@@ -243,6 +376,38 @@ export function gateSpecies(
       }
     }
   }
+}
+
+const viewBox: GateBox = { minX: 0, minZ: 0, maxX: 0, maxZ: 0 };
+
+/** The frustum test for one tile, with its latch in bit 1 of the state byte
+ * (set = out of view). A casting rung's box is swept along the shadow. */
+function inView(
+  rung: GateRung,
+  tile: number,
+  reachM: number,
+  view: GateView,
+): boolean {
+  const box = tileBox(rung.tileBounds, tile, reachM, viewBox);
+  const b = tile * TILE_BOUNDS_STRIDE;
+  const scale = rung.tileBounds[b + 6];
+  const up = (rung.heightM ?? reachM) * scale;
+  const shadow = rung.casts ? view.shadow : null;
+  if (shadow) {
+    const len = Math.min(SHADOW_REACH_MAX_M, up * shadow.perM);
+    const sx = shadow.x * len;
+    const sz = shadow.z * len;
+    if (sx < 0) box.minX += sx; else box.maxX += sx;
+    if (sz < 0) box.minZ += sz; else box.maxZ += sz;
+  }
+  const minY = rung.tileBounds[b + 1] - reachM * scale;
+  const maxY = rung.tileBounds[b + 4] + up;
+  const latched = (rung.state[tile] & 2) !== 0;
+  const planes = latched ? view.on : view.off;
+  const visible = boxInPlanes(planes, box.minX, minY, box.minZ, box.maxX, maxY, box.maxZ);
+  if (visible) rung.state[tile] &= ~2;
+  else rung.state[tile] |= 2;
+  return visible;
 }
 
 /** The behind latch for one tile, updated in bit 1 of its state byte. */

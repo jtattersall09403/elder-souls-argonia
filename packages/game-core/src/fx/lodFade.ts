@@ -8,8 +8,10 @@
  * LADDER of distance intervals that tile the distance line from 0 to its draw
  * distance, each naming one kit level (full mesh, a decimated mesh, the baked
  * card). At any camera distance exactly one interval holds, and that level is
- * drawn — a hard step at every boundary, chosen per pixel from the live
- * camera distance. Nothing dissolves between levels. The one fade is the
+ * drawn — a hard step at every boundary in DISTANCE, which since walk 5
+ * (2026-09-29) is crossed over `LOD_FADE_S` in TIME (the temporal cross-fade
+ * below: the step averaged over the camera's recent positions), so a copy
+ * never pops and never sits half-dissolved. The one distance fade is the
  * VANISH at the end of the ladder for things that do vanish (a ground plant
  * at 100 m, a rock at 70 m): a short screen-door dither to nothing, which is
  * what Skyrim's object fade does too. Land trees never vanish inside the
@@ -63,6 +65,93 @@ import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
 export interface LodFadeUniforms {
   /** The real camera's world position, set every frame by the renderer. */
   esLodViewPos: { value: THREE.Vector3 };
+  /** The camera's recent XZ positions as OFFSETS from `esLodViewPos`, newest
+   * first, `LOD_FADE_SAMPLES` pairs spanning `LOD_FADE_S` seconds
+   * (`pushLodHistory`). All zero — a renderer that never pushes — is the old
+   * live-distance rule exactly. */
+  esLodHist: { value: Float32Array };
+}
+
+/**
+ * THE TEMPORAL CROSS-FADE (walk 5, 2026-09-29; owner: "tier fades", with the
+ * 2026-09-21 "no smearing" ruling kept). A rung edge is still a hard step in
+ * DISTANCE, but each copy's fade factor is the step averaged over the camera's
+ * last `LOD_FADE_S` seconds: `fadeIn = mean_k step(dIn, d_k)`. So when a copy
+ * crosses an edge, the incoming copy dithers in over `LOD_FADE_S` while the
+ * outgoing one dithers out over the same frames, and once the camera has been
+ * on one side for `LOD_FADE_S` exactly one copy is drawn again: nothing sits
+ * half-dissolved at a fixed distance (the smearing), and nothing pops.
+ *
+ * Coverage never dips. The incoming and the outgoing copy of one plant share
+ * the pivot and read the same uniforms, so they hold the bit-identical factor
+ * `s`, and the fragment test keeps {bayer < s} for one and {bayer >= s} for
+ * the other: every pixel exactly once, every frame, whatever the camera does.
+ * Both copies are drawn only while `0 < s < 1`, i.e. for `LOD_FADE_S` after a
+ * crossing. The transitions are spread over frames by construction, and cost
+ * no CPU per copy: the only per-frame switching is the gate's tile flips,
+ * which are already time-budgeted and applied ON before OFF.
+ */
+export const LOD_FADE_SAMPLES = 8;
+/** Seconds a rung cross-fade takes. */
+export const LOD_FADE_S = 0.4;
+/** A camera jump longer than this between frames (a teleport, a respawn) is
+ * not faded: the history is refilled at the new position. */
+export const LOD_TELEPORT_M = 30;
+
+/** The CPU side of the history: absolute XZ per sample and when slot 1 was
+ * last shifted. */
+export interface LodHistory {
+  xz: Float64Array;
+  last: number;
+  primed: boolean;
+}
+
+export function createLodHistory(): LodHistory {
+  return { xz: new Float64Array(LOD_FADE_SAMPLES * 2), last: 0, primed: false };
+}
+
+/**
+ * Record the camera for this frame: slot 0 is always the current position,
+ * slot k the position ~k × `LOD_FADE_S / LOD_FADE_SAMPLES` seconds ago. Writes
+ * the offsets into `offsets` (the `esLodHist` uniform). Pure but for the two
+ * arrays; unit-tested.
+ */
+export function pushLodHistory(
+  history: LodHistory,
+  x: number,
+  z: number,
+  timeS: number,
+  offsets: Float32Array,
+): void {
+  const n = LOD_FADE_SAMPLES;
+  const dt = LOD_FADE_S / n;
+  const h = history.xz;
+  const jump = Math.hypot(x - h[0], z - h[1]);
+  if (!history.primed || !(jump <= LOD_TELEPORT_M) || timeS < history.last) {
+    for (let k = 0; k < n; k++) { h[k * 2] = x; h[k * 2 + 1] = z; }
+    history.last = timeS;
+    history.primed = true;
+  } else {
+    const steps = Math.floor((timeS - history.last) / dt);
+    if (steps > 0) {
+      const shift = Math.min(steps, n - 1);
+      for (let k = n - 1; k >= 1; k--) {
+        const from = k - shift;
+        // Slots whose source is newer than slot 0's previous value hold the
+        // previous frame's position: a long frame has no samples in between.
+        const src = from >= 0 ? from : 0;
+        h[k * 2] = h[src * 2];
+        h[k * 2 + 1] = h[src * 2 + 1];
+      }
+      history.last += steps * dt;
+    }
+    h[0] = x;
+    h[1] = z;
+  }
+  for (let k = 0; k < n; k++) {
+    offsets[k * 2] = h[k * 2] - x;
+    offsets[k * 2 + 1] = h[k * 2 + 1] - z;
+  }
 }
 
 /** Instanced `vec4` attribute: (dIn, dOut, wIn, wOut), metres. */
@@ -125,7 +214,10 @@ export function lodLadder(
 }
 
 export function createLodFadeUniforms(): LodFadeUniforms {
-  return { esLodViewPos: { value: new THREE.Vector3() } };
+  return {
+    esLodViewPos: { value: new THREE.Vector3() },
+    esLodHist: { value: new Float32Array(LOD_FADE_SAMPLES * 2) },
+  };
 }
 
 /** The vertex shader's `esLodRamp`: a hard step at `edge` when `w` is 0, else a smoothstep across `edge ± w`. */
@@ -168,6 +260,30 @@ export const BAYER4_THRESHOLDS: readonly number[] = Array.from(
 export const BAYER4_MAX: number = BAYER4_THRESHOLDS[BAYER4_THRESHOLDS.length - 1];
 
 /**
+ * The factors with the temporal cross-fade: the ramp of each edge averaged
+ * over the camera distances of the history (`distances[k]` = the copy's
+ * distance from history sample k), in the shader's order. With every distance
+ * equal this is `lodFadeFactors`.
+ */
+export function lodFadeFactorsOver(
+  band: readonly [number, number, number, number],
+  distances: readonly number[],
+): { fadeIn: number; fadeOut: number } {
+  const [dIn, dOut, wIn, wOut] = band;
+  let sIn = 0;
+  let sOut = 0;
+  for (const d of distances) {
+    sIn += ramp(dIn, wIn, d);
+    sOut += ramp(dOut, wOut, d);
+  }
+  const n = distances.length;
+  return {
+    fadeIn: dIn <= 0 ? 1 : sIn / n,
+    fadeOut: dOut <= 0 || dOut >= LOD_OPEN_M ? 0 : sOut / n,
+  };
+}
+
+/**
  * Whether a fragment with dither threshold `bayer` survives — the fragment
  * shader's discard, inverted. Kept iff `bayer < fadeIn` AND `bayer >= fadeOut`.
  * At a ring the incoming copy has `fadeIn = s` and the outgoing copy has
@@ -188,11 +304,20 @@ export function lodCopyCollapsed(factors: { fadeIn: number; fadeOut: number }): 
 
 const VERTEX_HEAD = /* glsl */ `
 uniform vec3 esLodViewPos;
+uniform vec2 esLodHist[${LOD_FADE_SAMPLES}];
 varying vec2 vEsLod;
 // A hard step at the edge when the half-width is 0 (smoothstep with equal
 // edges is undefined in GLSL), else a dither ramp across edge ± w.
 float esLodRamp(float edge, float w, float d) {
   return w > 0.0 ? smoothstep(edge - w, edge + w, d) : step(edge, d);
+}
+// The ramp averaged over the camera's recent positions (lodFadeFactorsOver).
+float esLodEdge(float edge, float w, vec2 origin) {
+  float s = 0.0;
+  for (int k = 0; k < ${LOD_FADE_SAMPLES}; k++) {
+    s += esLodRamp(edge, w, distance(esLodViewPos.xz + esLodHist[k], origin));
+  }
+  return s / ${LOD_FADE_SAMPLES}.0;
 }
 
 #if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
@@ -211,7 +336,7 @@ ${BATCH_DATA_HEAD}
  * string swap, not a uniform, so the two variants are separate programs.
  */
 const VERTEX_IN_LINE =
-  "float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);";
+  "float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodEdge(esBand.x, esBand.z, esLodOrigin.xz);";
 export const LOD_SHADOW_FROM_ZERO_LINE = "float esLodIn = 1.0; // shadowBandFromZero";
 
 const VERTEX_BODY = /* glsl */ `
@@ -233,10 +358,10 @@ const VERTEX_BODY = /* glsl */ `
   // (fadeIn, fadeOut): both RAW smoothsteps — see lodFadeFactors(). The copy
   // fading out at a ring must hold the bit-identical number the copy fading
   // in holds, so the fragment test below partitions the pixels exactly.
-  float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);
+  float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodEdge(esBand.x, esBand.z, esLodOrigin.xz);
   float esLodOut = (esBand.y <= 0.0 || esBand.y >= 1e8)
     ? 0.0
-    : esLodRamp(esBand.y, esBand.w, esLodD);
+    : esLodEdge(esBand.y, esBand.w, esLodOrigin.xz);
   vEsLod = vec2(esLodIn, esLodOut);
   // A copy that is fully faded out still costs a full transform, rasterisation
   // and a discarded fragment for every pixel it covers — and the crossfade
@@ -326,6 +451,7 @@ function installLodHook(
     previous?.call(material, shader, renderer);
     if (shader.vertexShader.includes("esLodViewPos")) return; // never double-patch
     shader.uniforms.esLodViewPos = uniforms.esLodViewPos;
+    shader.uniforms.esLodHist = uniforms.esLodHist;
     shader.vertexShader = shader.vertexShader
       .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
       .replace("#include <begin_vertex>", `#include <begin_vertex>\n${body}`);
