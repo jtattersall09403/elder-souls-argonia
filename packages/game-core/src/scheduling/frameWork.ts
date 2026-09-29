@@ -29,9 +29,17 @@ export const FRAME_WORK_BUDGET_MS = 6;
  * drains faster, capped at 24 ms so a stalled frame never turns into a stalled
  * second.
  */
-export function frameWorkBudgetMs(frameDeltaMs: number): number {
+export function frameWorkBudgetMs(frameDeltaMs: number, sinceStartMs = Infinity): number {
+  if (sinceStartMs < FRAME_WORK_STARTUP_MS) return FRAME_WORK_STARTUP_BUDGET_MS;
   return Math.min(24, Math.max(FRAME_WORK_BUDGET_MS, 0.4 * frameDeltaMs));
 }
+
+/** The settle-in window after the scene mounts (walk 5 perf): the world is
+ * still arriving and the player is not yet moving, so the queue may take most
+ * of each frame and the world settles in about a second instead of in waves.
+ * The same shape as ground cover's schedule (groundcoverSchedule.ts). */
+export const FRAME_WORK_STARTUP_MS = 6000;
+export const FRAME_WORK_STARTUP_BUDGET_MS = 24;
 
 /** A unit of sliced work. Every `next()` must be safe to stop after. */
 export type FrameJob = Iterator<void>;
@@ -66,7 +74,11 @@ export class FrameWorkQueue {
 
   add(job: FrameJob, options: FrameJobOptions): FrameJobHandle {
     const entry: Entry = { job, options, seq: this.seq++ };
-    this.entries.push(entry);
+    // Insert in run order (priority, then arrival) so a pump step never
+    // copies and sorts the queue.
+    let at = this.entries.length;
+    while (at > 0 && this.entries[at - 1].options.priority > options.priority) at--;
+    this.entries.splice(at, 0, entry);
     return { cancel: () => this.remove(entry, true) };
   }
 
@@ -76,7 +88,7 @@ export class FrameWorkQueue {
 
   /** Labels of the jobs still queued, in the order they will run. */
   get labels(): string[] {
-    return this.sorted().map((entry) => entry.options.label);
+    return this.entries.map((entry) => entry.options.label);
   }
 
   /**
@@ -94,7 +106,7 @@ export class FrameWorkQueue {
     let steps = 0;
     while (this.entries.length > 0) {
       if (steps > 0 && performance.now() > deadline) break;
-      const entry = this.sorted()[0];
+      const entry = this.entries[0];
       steps++;
       let result: IteratorResult<void>;
       try {
@@ -112,12 +124,6 @@ export class FrameWorkQueue {
       }
     }
     return { steps, ms: performance.now() - start };
-  }
-
-  private sorted(): Entry[] {
-    return [...this.entries].sort(
-      (a, b) => a.options.priority - b.options.priority || a.seq - b.seq,
-    );
   }
 
   private remove(entry: Entry, close: boolean): void {

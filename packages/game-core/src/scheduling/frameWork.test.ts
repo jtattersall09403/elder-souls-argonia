@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { frameWorkBudgetMs, FrameWorkQueue } from "./frameWork";
+import { frameWorkBudgetMs, FrameWorkQueue, FRAME_WORK_BUDGET_MS, FRAME_WORK_STARTUP_BUDGET_MS, FRAME_WORK_STARTUP_MS, type FrameJob } from "./frameWork";
 
 function* counter(n: number, log: string[], label: string): Generator<void> {
   for (let i = 0; i < n; i++) { log.push(`${label}${i}`); yield; }
@@ -81,5 +81,29 @@ describe("FrameWorkQueue", () => {
     expect(frameWorkBudgetMs(15)).toBe(6); // 60 fps: the floor holds
     expect(frameWorkBudgetMs(50)).toBe(20);
     expect(frameWorkBudgetMs(200)).toBe(24);
+  });
+});
+
+describe("frameWorkBudgetMs startup window", () => {
+  it("gives the startup budget inside the window and the steady one after", () => {
+    expect(frameWorkBudgetMs(16, 0)).toBe(FRAME_WORK_STARTUP_BUDGET_MS);
+    expect(frameWorkBudgetMs(16, FRAME_WORK_STARTUP_MS - 1)).toBe(FRAME_WORK_STARTUP_BUDGET_MS);
+    expect(frameWorkBudgetMs(10, FRAME_WORK_STARTUP_MS)).toBe(FRAME_WORK_BUDGET_MS);
+    expect(frameWorkBudgetMs(10)).toBe(FRAME_WORK_BUDGET_MS);
+  });
+});
+
+describe("FrameWorkQueue run order", () => {
+  it("runs by priority, then arrival, without re-sorting per step", () => {
+    const q = new FrameWorkQueue(1000);
+    const ran: string[] = [];
+    const job = (name: string): FrameJob => (function* () { ran.push(name); })();
+    q.add(job("veg-a"), { priority: 30, label: "veg-a" });
+    q.add(job("col"), { priority: 10, label: "col" });
+    q.add(job("veg-b"), { priority: 30, label: "veg-b" });
+    q.add(job("ter"), { priority: 20, label: "ter" });
+    expect(q.labels).toEqual(["col", "ter", "veg-a", "veg-b"]);
+    q.pump();
+    expect(ran).toEqual(["col", "ter", "veg-a", "veg-b"]);
   });
 });
