@@ -59,7 +59,7 @@ import { MINUTES_PER_DAY } from "@elder-souls/world-time";
 import { lightSourceFromRecord } from "../fx/carriedLight";
 import { FlameSystem } from "../fx/fire/FlameSystem";
 import { FixtureLightField } from "../render/fixtureLights";
-import { pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
+import { flameCardBedAnchorLocal, pieceFlameAnchorsLocal } from "../fx/fire/flameAnchors";
 import { FIRE_PRESETS, fireFlicker, type FirePresetId } from "../fx/fire/fireTypes";
 import { FLAME_MAX_DISTANCE_M as FIRE_MAX_DISTANCE_M, FLAME_MIN_ANGLE_RAD as FIRE_MIN_ANGLE_RAD } from "../fx/fire/flameMaterial";
 import { PRECIP_LAYER } from "../water/render/waterMaterial";
@@ -246,7 +246,8 @@ export function isLightFixturePlacement(
 /**
  * A piece that is no light fixture but carries mined flames or glows
  * (manifest `flames`, `glows`: the forge's glow disc, the ferry raft's two
- * candles, fxfirewithembers01's glow): its sprites draw, it casts no light,
+ * candles, fxfirewithembers01's glow) or flame cards (its brazier bed,
+ * `flameCardBedAnchorLocal`): its sprites draw, it casts no light,
  * and it is not counted with the light fixtures (place_gates' density rule).
  */
 export function isSpriteHolderPlacement(
@@ -254,7 +255,7 @@ export function isSpriteHolderPlacement(
   meta: SettlementKitAssetMeta | undefined,
 ): boolean {
   if (isLightFixturePlacement(placement, meta)) return false;
-  return (meta?.flames?.length ?? 0) + (meta?.glows?.length ?? 0) > 0;
+  return (meta?.flames?.length ?? 0) + (meta?.glows?.length ?? 0) + (meta?.flameCardMaterials?.length ?? 0) > 0;
 }
 
 /** Radius and linear colour of a fixture: the LIGH record's radius where
@@ -308,7 +309,10 @@ export function fixtureFromPiece(
   const scaleOf = new THREE.Vector3().setFromMatrixScale(matrix);
   const scale = Math.max(scaleOf.x, scaleOf.y, scaleOf.z);
   const hostKind = mount.hostMeta?.light?.fixtureKind ?? mount.hostMeta?.category;
-  const anchors = pieceFlameAnchorsLocal(meta, localBox,
+  // a flame-card piece (fxfirewithembers01) burns one bed of its preset; its
+  // cards are not drawn (SettlementLayer, `isFlameCardMaterial`)
+  const bed = flameCardBedAnchorLocal(meta, localBox);
+  const anchors = bed ? [bed] : pieceFlameAnchorsLocal(meta, localBox,
     castsLight && !drawsOwnFire(meta) && !mount.hasMountedFire, hostKind);
   const flames: FixtureSprite[] = anchors.map((a) => {
     const position = a.local.clone().applyMatrix4(matrix);

@@ -15,28 +15,23 @@
  */
 import * as THREE from "three";
 import type { FireEmitter } from "./FlameSystem";
-import { firePresetFor } from "./fireTypes";
-import { manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta, type LocalFlameAnchor } from "./flameAnchors";
+import {
+  flameCardBedAnchorLocal, isFlameCardMaterial, manifestBoxYUp, pieceFlameAnchorsLocal,
+  type FlameAnchorMeta, type LocalFlameAnchor,
+} from "./flameAnchors";
 
 export interface InteriorFirePlacement { id: string; kit: string; assetId: string }
-export type InteriorFireRow = FlameAnchorMeta & {
-  sizeM?: number[]; originOffsetM?: number[];
-  /** The piece's additive flame-card materials (build_kit), replaced by the flame system inside. */
-  flameCardMaterials?: string[] | null;
-};
+export type InteriorFireRow = FlameAnchorMeta & { sizeM?: number[]; originOffsetM?: number[] };
 
 /** A material the interior loader leaves undrawn: one of its piece's flame cards. */
 export function isInteriorFlameCard(row: InteriorFireRow | undefined, materialName: string): boolean {
-  return Boolean(row?.flameCardMaterials?.includes(materialName)) && !row?.flames?.length;
+  return isFlameCardMaterial(row, materialName);
 }
 
 /** The local anchors of an interior piece: its mined emitters, else one bed at a flame-card piece's base centre. */
 export function interiorFlameAnchorsLocal(row: InteriorFireRow, box: THREE.Box3): LocalFlameAnchor[] {
-  if (row.flames?.length) return pieceFlameAnchorsLocal(row, box, false);
-  if (!row.flameCardMaterials?.length) return [];
-  const centre = box.getCenter(new THREE.Vector3());
-  return [{ local: new THREE.Vector3(centre.x, box.min.y, centre.z),
-    preset: firePresetFor({ id: row.id, category: row.category, anchorClass: row.anchorClass }), record: -1 }];
+  const bed = flameCardBedAnchorLocal(row, box);
+  return bed ? [bed] : pieceFlameAnchorsLocal(row, box, false);
 }
 
 /** A stable 0..1 hash of a string (FNV-1a), as settlement/lighting.ts `hash01`. */

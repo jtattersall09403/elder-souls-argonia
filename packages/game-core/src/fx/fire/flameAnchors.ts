@@ -28,6 +28,8 @@ export interface FlameAnchorMeta {
   anchorClass?: string;
   light?: { fixtureKind?: string } | null;
   flames?: readonly { offsetM: readonly [number, number, number] | number[]; source?: string }[] | null;
+  /** The piece's additive flame-card materials (build_kit): fxfirewithembers01's. */
+  flameCardMaterials?: readonly string[] | null;
 }
 
 export interface LocalFlameAnchor {
@@ -51,6 +53,25 @@ export function fallbackFlameAnchorLocal(meta: FlameAnchorMeta | undefined, box:
     return new THREE.Vector3(centre.x, box.min.y + body * 0.5, centre.z);
   }
   return new THREE.Vector3(centre.x, box.max.y, centre.z);
+}
+
+/**
+ * A flame-card piece's bed (fxfirewithembers01, in a brazier's bowl or on a
+ * hut's hearth): no mined emitter, so ONE bed at its base centre with its
+ * preset (`brazier`); its cards are left undrawn by the caller
+ * (`isFlameCardMaterial`), the cards alone read as a glow (walk 5, owner).
+ * Null for a piece with mined emitters or no flame cards.
+ */
+export function flameCardBedAnchorLocal(meta: FlameAnchorMeta | undefined, box: THREE.Box3): LocalFlameAnchor | null {
+  if (meta?.flames?.length || !meta?.flameCardMaterials?.length) return null;
+  const centre = box.getCenter(new THREE.Vector3());
+  return { local: new THREE.Vector3(centre.x, box.min.y, centre.z),
+    preset: firePresetFor({ id: meta.id, category: meta.category, anchorClass: meta.anchorClass }), record: -1 };
+}
+
+/** A material the flame system replaces: one of a flame-card piece's cards (`flameCardBedAnchorLocal`). */
+export function isFlameCardMaterial(meta: FlameAnchorMeta | undefined, materialName: string): boolean {
+  return Boolean(meta?.flameCardMaterials?.includes(materialName)) && !meta?.flames?.length;
 }
 
 /**

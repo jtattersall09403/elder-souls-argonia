@@ -81,6 +81,7 @@ export function kitAssetMetaFromManifest(
     }
     if (out.has(asset.id)) throw new Error(`kit manifest ${source}: duplicate asset id ${asset.id}`);
     out.set(asset.id, {
+      id: asset.id,
       designedSinkM: asset.designedSinkM,
       designedWaterlineM: asset.designedWaterlineM,
       anchorClass: asset.anchorClass,

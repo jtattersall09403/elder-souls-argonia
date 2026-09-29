@@ -64,6 +64,7 @@ import {
   SettlementLightFixtures,
   type LightFixture,
 } from "./lighting";
+import { isFlameCardMaterial } from "../fx/fire/flameAnchors";
 import { mergeRunColliders } from "./runColliders";
 import { fixtureLightFieldOf, isFixtureLitMaterial, litPreparerOf } from "../render/fixtureLights";
 import { assertPoolsSchema, syncPlacePools } from "./pools";
@@ -913,6 +914,9 @@ export function SettlementLayer({
           const level = ladderLevelAt(ladder, distance);
           const farMerged = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
           asset.levels[level].forEach((part, partIndex) => {
+            // a flame card is drawn by the fire module instead: the piece's
+            // fixture burns its bed (lighting.ts, flameCardBedAnchorLocal)
+            if (isFlameCardMaterial(meta, part.material.name)) return;
             // a flame part burns by day or not by what it is mounted on, so
             // the same fire asset in a brazier and on its own are two buckets
             const flamePart = ownFlames.has(part.material.name);

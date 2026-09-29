@@ -83,9 +83,10 @@ describe("light fixtures", () => {
     expect(candle.position.toArray()).toEqual(candle.flames[0].position.toArray());
     // log glow overlays are no flame: the fallback stays
     expect(fixtureFromPiece("g", { additiveMaterials: ["Glow:2.Mat"] }, at, box).flames).toHaveLength(1);
-    const brazierFire = fixtureFromPiece("f", { additiveMaterials: ["L2_Flames02grant:0.Mat"],
-      flameCardMaterials: ["L2_Flames02grant:0.Mat"] }, at, box);
-    expect(brazierFire.flames).toHaveLength(0);
+    // flame cards (fxfirewithembers01) burn one brazier bed, never a fallback candle (walk 5)
+    const brazierFire = fixtureFromPiece("f", { id: "vanilla:effects/fxfirewithembers01",
+      additiveMaterials: ["L2_Flames02grant:0.Mat"], flameCardMaterials: ["L2_Flames02grant:0.Mat"] }, at, box);
+    expect(brazierFire.flames.map((f) => f.preset)).toEqual(["brazier"]);
   });
 
   it("a hanging lantern's fallback flame burns at its body, never its cord's top (walk 5)", () => {
@@ -311,7 +312,7 @@ describe("a brazier and its mounted fire (review 5536a1d9)", () => {
   const box = new THREE.Box3(new THREE.Vector3(-0.5, 0, -0.5), new THREE.Vector3(0.5, 0.47, 0.5));
   const brazier: SettlementKitAssetMeta = { category: "clutter", light: { formId: "00088243",
     burnSeconds: -1, radiusUnits: 256, colourRgb: [197, 156, 112], flags: [], fixtureKind: "brazier" } };
-  const fire: SettlementKitAssetMeta = { category: "effect",
+  const fire: SettlementKitAssetMeta = { id: "vanilla:effects/fxfirewithembers01", category: "effect",
     flameCardMaterials: ["Flames02grant01:0.Mat"], additiveMaterials: ["Flames02grant01:0.Mat"],
     glows: [{ offsetM: [0, 0.487, 0], sizeM: 2.288, texture: "fx:glowslightflash" }] };
 
@@ -332,7 +333,11 @@ describe("a brazier and its mounted fire (review 5536a1d9)", () => {
     expect(burnsByDay(fire, { category: "clutter" })).toBe(false);
     const glow = fixtureFromPiece("flame", fire, new THREE.Matrix4(), box, false, { hostMeta: brazier });
     expect(glow.alwaysLit).toBe(true);
-    expect(glow.flames.every((s) => s.glow)).toBe(true);
+    // its glow disc and one brazier bed at its base centre (the cards are not drawn)
+    expect(glow.flames.filter((s) => s.glow)).toHaveLength(1);
+    const beds = glow.flames.filter((s) => !s.glow);
+    expect(beds.map((s) => s.preset)).toEqual(["brazier"]);
+    expect(beds[0].position.toArray()).toEqual([0, 0, 0]);
   });
 });
 
