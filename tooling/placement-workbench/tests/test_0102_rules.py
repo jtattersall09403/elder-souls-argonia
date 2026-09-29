@@ -131,7 +131,7 @@ def test_floor_edge_fails_on_a_floor_moved_up(cat, scene):
     0.5 m fixture crossed on an eave 4.65 m up, which the band now excludes.)"""
     got = rules.floor_edge(cat, scene, _fit(scene, cat))
     assert got["pieces"]["b1"]["overBand"] == 0
-    assert got["pieces"]["b1"]["worst"]["gapM"] == pytest.approx(-1.01, abs=0.02)
+    assert got["pieces"]["b1"]["worst"]["gapM"] == pytest.approx(-0.98, abs=0.02)  # R75: the pad grades 0.03 m under its datum
     scene.piece("b1").y += 1.5
     assert rules.floor_edge(cat, scene, _fit(scene, cat))["pieces"]["b1"]["overBand"] == 0
     scene.piece("b1").y += 0.2
@@ -235,7 +235,7 @@ def test_floor_edge_reads_only_underside_within_1_m_of_the_base(cat, scene, monk
     got = rules.floor_edge(cat, scene, _fit(scene, cat))
     assert got["pieces"]["b2"]["overBand"] == 0 and got["pieces"]["b2"]["overhang"] > 0
     assert got["pieces"]["b6"]["overBand"] > 0
-    assert got["pieces"]["b6"]["worstUnretained"]["gapM"] == pytest.approx(0.54, abs=0.01)
+    assert got["pieces"]["b6"]["worstUnretained"]["gapM"] == pytest.approx(0.565, abs=0.01)  # R75: pad 0.03 m under its datum
     assert all((r.get("worst") or {}).get("aboveBaseM", 0.0) <= 1.0 for r in got["pieces"].values())
 
 

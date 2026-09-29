@@ -545,6 +545,8 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
                 r.update(_sill(cat, g, p, row, cs))
             r["deltaM"] = round(seat["deltaM"], 3)
             r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
+            if not p.beached and not row.get("piled") and (row.get("anchorClass") or "ground") != "water":
+                r.update(_submerged(g, p, row))
     if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
         r.update(measure.float_under(cat, g, p))
     if cs.is_quay_run(row):
@@ -559,6 +561,29 @@ def _check_row(cat, scene, p, declared, cs) -> dict:
         r["padRule"] = r["pad"].pop("padRule")
         r["ok"] = r.get("ok", True) and r["padRule"] is None
     return r
+
+
+#: a ground piece whose origin stands in more than this depth of the fine
+#: water raster (the runtime's water surface over the ground) is in the water.
+#: The analysis grid's `wet` cells are 5.48 m and read a sub-cell pond as
+#: dry (Claywater walk 5: the well stood in 1.08 m of the tarn, wetVertices 0).
+SUBMERGED_DEPTH_M = 0.15
+
+
+def _submerged(g, p, row) -> dict:
+    """submergedRule: the fine water depth and level at the piece's origin
+    and how far its top stands over the water; fails a ground piece standing
+    in more than SUBMERGED_DEPTH_M of water."""
+    depth, level = float(g.depth(p.x, p.z)), g.water_level(p.x, p.z)
+    out = {"waterDepthM": round(depth, 3)}
+    if level is None or depth <= SUBMERGED_DEPTH_M:
+        return out
+    top = None if p.y is None else p.y + (float(row["sizeM"][2]) - float(row["originOffsetM"][2])) * p.scale
+    out["topOverWaterM"] = None if top is None else round(top - level, 3)
+    out["submergedRule"] = (f"stands in {depth:.2f} m of water (level {level:.2f} m)"
+                            + ("" if top is None else f", top {top - level:+.2f} m over it")
+                            + f" (> {SUBMERGED_DEPTH_M} m for a ground piece)")
+    return out
 
 
 def _check_rows(cat, scene, uids: list) -> list[tuple[str, dict]]:
@@ -632,7 +657,7 @@ def _piece_rule_task(cat, scene, key: str, uids: list):
 # by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider", "burial", "hanging", "fixtureSeat", "archway", "rockSeat",
-               "landing")
+               "padClear", "landing")
 GRAPH_RULES = ("walk", "pathReach", "berthReach", "landing")
 
 

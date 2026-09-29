@@ -117,6 +117,10 @@ FIX_HINTS = {
                    "ground or with a step piece",
     "rockSeatRule": "seat the rock on its lowest three contacts (the row's seatYM) or move it "
                     "where it embeds no more than 0.3 m",
+    "submergedRule": "move the piece onto dry ground (wb.py ground --at X Z: no waterLevelM, or the "
+                     "ground over it), or use a water-class piece made to stand in water",
+    "padClearRule": "a building floor lies flush with its graded pad: publish through the pad overlay "
+                    "(it grades PAD_FLOOR_CLEARANCE_M under the datum), or re-seat the piece on its datum",
     "archwayRule": "place the named plugin door piece in the shell's doorway (attach it at the "
                    "opening the LOD0 mesh leaves: blender/examples/doorway_rays.py finds it), or "
                    "use a composite that bakes the door",
@@ -1807,13 +1811,63 @@ def collider(cat, scene, uids=None) -> dict:
 
 
 # --------------------------------------------------------------------------
+# padClearRule (Claywater walk 5: the stable's stall floor z-fought its pad)
+# --------------------------------------------------------------------------
+PAD_CLEAR_FLOOR_AREA_M2 = 0.5   # a floor face this large or larger is judged
+PAD_CLEAR_NEAR_M = 0.5          # ... when it stands within this of the graded ground
+
+
+def pad_clear_targets(cat, scene) -> list[str]:
+    """Every seated piece that owns a building pad."""
+    return [p.uid for p in scene.pieces if p.pad is not None and p.y is not None]
+
+
+def pad_clear_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """padClearRule for one pad building: ({uid: row}, failures). Each up-
+    facing floor face of the piece's descriptor (`describe` floors, area at
+    least PAD_CLEAR_FLOOR_AREA_M2) standing within PAD_CLEAR_NEAR_M of the
+    graded ground is sampled at its centre and four inset corners; a sample
+    whose floor and ground differ by less than PAD_CLEAR_MIN_M (either way)
+    is near-coplanar and z-fights at runtime. The pad overlay grades
+    PAD_FLOOR_CLEARANCE_M under the datum so a floor at the datum passes."""
+    from worldgen import pad_overlay
+    from . import describe
+    g = ctx["g"]
+    bar = pad_overlay.PAD_CLEAR_MIN_M
+    floors = describe.describe(cat, p.asset).get("floors") or []
+    worst, bad = None, 0
+    for f in floors:
+        if float(f.get("areaM2", 0.0)) < PAD_CLEAR_FLOOR_AREA_M2:
+            continue
+        (x0, x1), (y0, y1) = f["xRangeM"], f["yRangeM"]
+        cx, cy, hx, hy = (x0 + x1) / 2, (y0 + y1) / 2, (x1 - x0) / 4, (y1 - y0) / 4
+        y_floor = p.y + float(f["zM"]) * p.scale
+        for kx, ky in ((cx, cy), (cx - hx, cy - hy), (cx + hx, cy - hy), (cx - hx, cy + hy), (cx + hx, cy + hy)):
+            x, z = plan_to_province((p.x, p.z), p.yaw, (kx * p.scale, -ky * p.scale))
+            gap = y_floor - float(g.chunk_height(x, z))
+            if abs(gap) > PAD_CLEAR_NEAR_M:
+                continue
+            if worst is None or abs(gap) < abs(worst["gapM"]):
+                worst = {"gapM": round(gap, 4), "atM": [round(x, 2), round(z, 2)], "floorZM": f["zM"]}
+            bad += int(abs(gap) < bar)
+    row = {"nearCoplanar": bad, "worst": worst, "barM": bar}
+    failures = []
+    if bad:
+        failures.append(f"{p.uid}: floor at {worst['floorZM']} m over the pivot stands "
+                        f"{worst['gapM']:+.3f} m off the graded ground at {worst['atM']} (|gap| < "
+                        f"{bar} m: z-fights); {bad} near-coplanar samples")
+    return {p.uid: row}, failures
+
+
+# --------------------------------------------------------------------------
 # per-piece rules (speed lane 3B, 2026-09-27): each of these six judges one
 # piece at a time against a context built once per scene, so `check`'s
 # pool splits them by piece and `check --only` judges only the named ones
 # --------------------------------------------------------------------------
 PIECE_RULES = ("floorEdge", "propSeat", "roadSurface", "sill", "sign", "collider",
                "burial", "hanging", "fixtureSeat", "archway",   # these four: seat_rules (walk 4)
-               "rockSeat")                                       # seat_rules ROCK_POLICY (CLAYWATER2)
+               "rockSeat",                                       # seat_rules ROCK_POLICY (CLAYWATER2)
+               "padClear")                                       # Claywater walk 5 z-fight
 _ROWS_KEY = {"sill": "doors", "sign": "boards"}
 
 
@@ -1839,6 +1893,8 @@ def piece_targets(key: str, cat, scene) -> list[str]:
         return [p.uid for p in scene.pieces if _sign_target(p)]
     if key == "collider":
         return [p.uid for p in scene.pieces]
+    if key == "padClear":
+        return pad_clear_targets(cat, scene)
     from . import seat_rules
     if key == "burial":
         return seat_rules.burial_targets(cat, scene)
@@ -1858,6 +1914,7 @@ def piece_context(key: str, cat, scene) -> dict:
             "sign": lambda c, s: {"g": _ground(c, s)},
             "burial": lambda c, s: {"g": _ground(c, s), "compiled": _compiled(s)},
             "rockSeat": lambda c, s: {"g": _ground(c, s)},
+            "padClear": lambda c, s: {"g": _ground(c, s)},
             "fixtureSeat": lambda c, s: {"g": _ground(c, s), "compiled": _compiled(s)}}.get(key, lambda c, s: {})(cat, scene)
 
 
@@ -1875,7 +1932,7 @@ def piece_part(key: str, cat, scene, uids: list, fit_for=None) -> tuple[dict, li
           "rockSeat": seat_rules.rock_piece,
           "floorEdge": lambda c, s, x, p: floor_edge_piece(c, s, x, p, fit_for),
           "propSeat": prop_seat_piece, "roadSurface": road_surface_piece,
-          "sill": sill_piece, "sign": sign_piece, "collider": collider_piece}[key]
+          "sill": sill_piece, "sign": sign_piece, "collider": collider_piece, "padClear": pad_clear_piece}[key]
     rows, failures = {}, []
     for uid in uids:
         r, f = fn(cat, scene, ctx, scene.piece(uid))

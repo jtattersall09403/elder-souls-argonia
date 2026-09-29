@@ -51,6 +51,8 @@ import numpy as np
 
 SEAT_BAR_M = 0.05          # a run member whose ground line stands this far over the ground gets a pad
 PAD_BLEND_M = 3.0          # the pad tapers back to the natural ground over this
+PAD_BLEND_MIN_M = 1.0      # an authored `blendM` (a small plinth among neighbours) is clamped to
+                           # [PAD_BLEND_MIN_M, PAD_BLEND_M] (Claywater walk 5: the well's pad)
 BATTER_MAX_M = 1.2         # 0101 R1 amendment (planner ruling 2026-09-27 r3): a kit with no
 BATTER_RUN = 2.0           # wall family grades an edge up to BATTER_MAX_M over a blend ramp
                            # BATTER_RUN x the edge height wide (never under PAD_BLEND_M)
@@ -182,6 +184,16 @@ def batter_blend_m(polygon, datum: float, height_at) -> float:
     return round(max(PAD_BLEND_M, BATTER_RUN * h), 3)
 
 
+def authored_blend_m(spec) -> float:
+    """The blend ramp of a pad with no batter: its authored ``blendM``
+    clamped to [PAD_BLEND_MIN_M, PAD_BLEND_M], else PAD_BLEND_M. A short
+    ramp keeps a small plinth's regrade off its neighbours' ground."""
+    got = (spec or {}).get("blendM")
+    if not isinstance(got, (int, float)):
+        return PAD_BLEND_M
+    return min(PAD_BLEND_M, max(PAD_BLEND_MIN_M, float(got)))
+
+
 def building_pad(spec, foot_m, height_at, is_wet) -> tuple[dict | None, str | None]:
     """The one judge of a building's declared pad (decision 0101) on the
     ground ``height_at`` with water ``is_wet``: (pad, None) with its polygon
@@ -205,7 +217,8 @@ def building_pad(spec, foot_m, height_at, is_wet) -> tuple[dict | None, str | No
     floor = spec.get("floorMinM")
     if isinstance(floor, (int, float)) and datum < float(floor) - 1e-6:
         return None, f"pad: datum {datum:.2f} m is below its flood floor {float(floor):.2f} m"
-    blend = batter_blend_m(polygon, datum, height_at) if spec.get("batter") else PAD_BLEND_M
+    blend = (batter_blend_m(polygon, datum, height_at) if spec.get("batter")
+             else authored_blend_m(spec))
     patched = pad_ground(height_at, [{"polygonM": polygon, "datumM": datum, "blendM": blend}])
     return {"datumM": round(datum, 3), "apronM": apron, "blendM": blend,
             "polygonM": [[round(x, 3), round(z, 3)] for x, z in polygon],

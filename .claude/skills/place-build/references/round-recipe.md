@@ -62,7 +62,10 @@ scan did not pass is never authored.
    pose equal to the scene's for every fixed item; never from a scene
    edited in memory by hand commands (walk 5: the landing reported
    lowered was unchanged in the bundle).
-4. **Fix list → next round.** Group by cause; a cause that is a rule,
+4. **Before any packet line:** every height or position it states is read
+   back from the published bundle (R74), never from the layout op's delta
+   (walk 5: a landing "lowered" by its op read 35.51 m in the bundle).
+5. **Fix list → next round.** Group by cause; a cause that is a rule,
    tool or record gap under an existing decision is filed to the tooling
    sub-lane (a `deliver` sub-agent outside the round, recommend and do),
    and the round takes the rule at its next round, never writing it

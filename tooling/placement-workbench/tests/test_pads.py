@@ -14,6 +14,9 @@ sys.path.insert(0, str(HERE.parent))
 import wb  # noqa: E402
 from workbench import layout, pads  # noqa: E402
 from workbench.scene import Piece  # noqa: E402
+from workbench import paths as _paths  # noqa: E402
+_paths.bridge()
+from worldgen.pad_overlay import PAD_FLOOR_CLEARANCE_M as CLEAR  # noqa: E402
 
 HOUSE = "composite:farmhouse/farmhouse01-with-door"
 WALL = "composite:farmhouse/stonewall-run-5"
@@ -114,7 +117,9 @@ def test_the_padded_ground_is_the_datum_under_the_pad_and_its_slope_is_flat():
     house = Piece("b1", HOUSE, 0.0, 0.0, pad={"datumM": 9.0})
     scene = _Scene([house])
     g = pads.ground_for(_Cat(), scene, house)
-    assert g.chunk_height(5.0, 3.0) == 9.0 and g.survey_height(5.0, 3.0) == 9.0
+    # the pad grades PAD_FLOOR_CLEARANCE_M under its floor datum (R75)
+    assert g.chunk_height(5.0, 3.0) == pytest.approx(9.0 - CLEAR)
+    assert g.survey_height(5.0, 3.0) == pytest.approx(9.0 - CLEAR)
     assert g.chunk_height(60.0, 3.0) == scene.ground().chunk_height(60.0, 3.0)
     assert g.footprint_max_slope_deg(_outline(house)) == 0.0
 
@@ -127,7 +132,7 @@ def test_a_piece_without_a_pad_reads_the_same_patched_surface_the_compile_does()
     plain = Piece("p", HOUSE, 11.0, 0.0)           # its outline starts 1 m off the pad's edge
     both = _Scene([house, plain])
     g = pads.ground_for(_Cat(), both, plain)
-    assert g.chunk_height(2.0, 3.0) == 9.0         # the pad (the frozen ground there is 9.6)
+    assert g.chunk_height(2.0, 3.0) == pytest.approx(9.0 - CLEAR)   # the pad (the frozen ground is 9.6)
     assert g.chunk_height(60.0, 3.0) == both.ground().chunk_height(60.0, 3.0)
     alone = _Scene([Piece("q", HOUSE, 20.0, 0.0)])
     assert pads.ground_for(_Cat(), alone, alone.pieces[0]) is alone.ground()   # no pad anywhere
@@ -180,7 +185,7 @@ def test_ground_for_reads_its_memo_before_rescanning(monkeypatch):
         assert pads.ground_for(_Cat(), scene, p) is first
     assert calls == []
     house.pad = {"datumM": 8.5}                     # a changed pad is read live
-    assert pads.ground_for(_Cat(), scene, house).chunk_height(5.0, 3.0) == 8.5
+    assert pads.ground_for(_Cat(), scene, house).chunk_height(5.0, 3.0) == pytest.approx(8.5 - CLEAR)
     assert calls == ["b1"]
 
 
