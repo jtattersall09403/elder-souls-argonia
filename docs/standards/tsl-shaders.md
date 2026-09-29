@@ -100,11 +100,14 @@ with an object that must not have it: clone first (the old rule, unchanged).
   `InstancedBufferAttribute`.
 - Data-texture instance feeds keep working: `textureLoad(dataTex, ivec2(instanceIndex.mod(w), instanceIndex.div(w)))`.
   New GPU-fed data uses storage buffers: `instancedArray(count, "vec4")` read with `.element(instanceIndex)`.
-- GPU-driven culling (WebGPU backend only): a compute node (`Fn(() => {...})().compute(n)`, run with
-  `renderer.compute(node)`) tests each candidate and appends visible ids with `atomicAdd` into a
-  storage buffer and the draw's `instanceCount` in an `IndirectStorageBufferAttribute`
-  (`geometry.setIndirect(attr)`). The vertex stage reads the compacted id list. The WebGL backend has
-  no compute: keep the CPU path behind `activeBackend(renderer) === "webgl"`.
+- GPU-driven culling (WebGPU backend only, `renderer` with `indirect-first-instance`): register draws
+  with `GpuCullPool` (`packages/game-core/src/render/gpuCull/`). Candidates (matrix + payload vec4s)
+  are written once when a slot is handed out; one `renderer.compute` per frame tests every candidate
+  (frustum, sun-swept shadow sphere, rung band with the lodFade history) and copies the kept rows into
+  each draw's instance buffer, with the count in its `IndirectStorageBufferAttribute`. Materials do not
+  change. The WebGL backend keeps the CPU path (switch points: Vegetation.tsx, Groundcover.tsx).
+- A compute stage may bind at most 8 storage buffers (WebGPU default limit): pack per-candidate and
+  per-draw data into one buffer each.
 
 ## 5. Render targets, readback, timing
 
