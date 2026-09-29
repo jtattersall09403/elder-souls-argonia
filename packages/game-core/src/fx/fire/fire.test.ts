@@ -12,6 +12,7 @@ import {
 } from "./fireTypes";
 import { FlameSystem } from "./FlameSystem";
 import { FIRE_SHADER_SOURCES } from "./flameMaterial";
+import { interiorFireEmitters } from "./interiorFires";
 import {
   fallbackFlameAnchorLocal, flameAnchorFailures, manifestBoxYUp, pieceFlameAnchorsLocal, type FlameAnchorMeta,
 } from "./flameAnchors";
@@ -175,6 +176,21 @@ function publishedAnchorFailures(): { checked: number; failures: string[] } {
   }
   return { checked, failures };
 }
+
+describe("interior fires", () => {
+  it("every mined flame of a published interior cell becomes an emitter at its placement", () => {
+    const rows = kitRows();
+    const file = join(PUBLIC, "province", "interiors", "LilmothGlassworksOverseerHouse.json");
+    const bundle = JSON.parse(readFileSync(file, "utf8")) as { placements: (Placement & { positionM: number[] })[] };
+    const rowOf = (p: Placement) => rows.get(`${p.kit}|${p.assetId}`);
+    const expected = bundle.placements.reduce((n, p) => n + (rowOf(p)?.flames?.length ?? 0), 0);
+    const emitters = interiorFireEmitters(bundle.placements, rowOf,
+      (p) => new THREE.Matrix4().makeTranslation(p.positionM[0], p.positionM[1], p.positionM[2]));
+    expect(expected).toBeGreaterThan(0);
+    expect(emitters).toHaveLength(expected);
+    expect(emitters.every((e) => e.owner === 0)).toBe(true);
+  });
+});
 
 describe("flame anchor check (16k walk 5)", () => {
   it("fails on purpose: the walk-4 rule put a hanging lantern's flame on its cord's top", () => {
