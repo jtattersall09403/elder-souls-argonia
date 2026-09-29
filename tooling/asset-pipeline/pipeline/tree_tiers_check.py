@@ -17,6 +17,7 @@ Writes `<out>/<asset>/result.json`, and one labelled contact sheet per tier
     python3 -m pipeline.tree_tiers_check --kit flora-province-v1 \
         --assets <id,...> --out <dir> [--set far.leafKeep=0.08]
     ... --calibrate [--bark-ladder --set mid.leafKeep=1]   # settings ladders
+    ... --calibrate --tiers mid --keeps mid=0.1,0.2 --max-share 0.95  # round 13d
     ... --out <cal dir> --record        # lightest passing -> kit config
 """
 from __future__ import annotations
@@ -155,17 +156,29 @@ BARK_TOLS = (0.03, 0.06, 0.1)
 #: and silently freeze every later kit-level change for that asset.
 LEAF_VARIED = ("leafKeep", "gain")
 BARK_VARIED = ("barkTube", "barkSides", "barkTol")
-#: A tier above this share of the source's triangles is not shipped.
+#: Default cap: a tier above this share of the source's triangles is not
+#: shipped. A kit sets its own (`treeTiers.maxShare`) and an asset its own
+#: (`treeTiers.maxShareByAsset.<id>`, written by `--record` from a
+#: `--max-share` calibration): the mangroves' bark is 83-95 % of their
+#: triangles, so their best mid lands at 0.8-0.95 (round 13d, planner ruling
+#: 2026-09-29: the 0.70 was ours, not the owner's). A level recorded over the
+#: kit cap needs the image judges like a bark-tube level.
 MAX_SHARE = 0.7
 
 
-def choose(labels: dict, counts: dict, scores: dict) -> dict:
+def max_share(kit: dict, asset_id: str) -> float:
+    """The share cap for `asset_id`: per asset, else per kit, else MAX_SHARE."""
+    cfg = kit.get("treeTiers") or {}
+    return float((cfg.get("maxShareByAsset") or {}).get(asset_id, cfg.get("maxShare", MAX_SHARE)))
+
+
+def choose(labels: dict, counts: dict, scores: dict, cap: float = MAX_SHARE) -> dict:
     """The lightest passing mid, then the lightest passing far lighter than
-    it; a level over MAX_SHARE of the source saves too little to ship."""
+    it; a level over `cap` of the source saves too little to ship."""
     chosen: dict = {}
     for tier in ("mid", "far"):
         passing = [label for label, t in labels.items() if t == tier and scores[label]["pass"]
-                   and counts[label] <= MAX_SHARE * counts["source"]]
+                   and counts[label] <= cap * counts["source"]]
         if tier == "far" and chosen.get("mid"):
             passing = [label for label in passing if counts[label] < counts[chosen["mid"]]]
         chosen[tier] = min(passing, key=lambda label: (counts[label], -scores[label]["iouMin"])) \
@@ -184,11 +197,16 @@ def rechoose(result: dict) -> dict:
     levels = result["levels"]
     labels = {label: row["tier"] for label, row in levels.items()}
     counts = {"source": result["source"], **{label: row["triangles"] for label, row in levels.items()}}
-    return choose(labels, counts, levels)
+    return choose(labels, counts, levels, result.get("maxShare", MAX_SHARE))
 
 
 def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
-          samples: int = 6, calibrate: bool = False, bark_ladder: bool = False) -> dict:
+          samples: int = 6, calibrate: bool = False, bark_ladder: bool = False,
+          tiers: tuple[str, ...] = ("mid", "far"), keeps: dict | None = None,
+          cap: float | None = None) -> dict:
+    """`tiers`: the tiers a calibration renders (the others keep their kit
+    rows on `--record`); `keeps`: a leaf-keep ladder per tier replacing
+    CALIBRATE_KEEPS; `cap`: the share cap, else `max_share` from the kit."""
     kit = json.loads((tree_tiers.CONFIG / f"{kit_id}.json").read_text())
     glb = (tree_tiers.REPO_ROOT / kit["output"]).resolve()
     manifest = json.loads(glb.with_suffix(".kit.json").read_text())
@@ -202,15 +220,15 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
                         **overrides.get(t, {})} for t in ("mid", "far")}
             variants = {f"{t}-k{int(round(k * 100)):02d}g{int(round(g * 100)):02d}":
                         (t, {**base[t], "leafKeep": k, "gain": g})
-                        for t, keeps in CALIBRATE_KEEPS.items() for k in keeps
-                        for g in CALIBRATE_GAINS}
+                        for t, ladder in {**CALIBRATE_KEEPS, **(keeps or {})}.items()
+                        if t in tiers for k in ladder for g in CALIBRATE_GAINS}
             varied = LEAF_VARIED
             if bark_ladder:
                 varied = BARK_VARIED
                 variants = {f"{t}-s{n}t{int(round(tol * 100)):02d}":
                             (t, {**base[t], "barkTube": int(base[t].get("barkTube") or 1),
                                  "barkSides": n, "barkTol": tol})
-                            for t in ("mid", "far") for n in BARK_SIDES for tol in BARK_TOLS}
+                            for t in tiers for n in BARK_SIDES for tol in BARK_TOLS}
         counts = tree_tiers.preview(glb, [asset_id], out_root / "glb", kit, overrides,
                                     variants)[asset_id]
         labels = {label: (variants[label][0] if variants else label)
@@ -222,7 +240,7 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
         dist = handover_m(h)
         px = {t: pixel_height(h, d) for t, d in dist.items()}
         renders = []
-        for tier in ("mid", "far"):
+        for tier in sorted(set(labels.values())):
             renders += [["source", px[tier]], ["jitter", px[tier]]]
             renders += [[label, px[tier]] for label, t in labels.items() if t == tier]
         job = {"glb": str(out_root / "glb" / f"{safe}.glb"), "outDir": str(out),
@@ -235,9 +253,11 @@ def check(kit_id: str, asset_ids: list[str], out_root: Path, overrides: dict,
         if proc.returncode != 0:
             raise RuntimeError(proc.stdout[-3000:] + proc.stderr[-3000:])
         scores = {label: score(out, label, px[tier]) for label, tier in labels.items()}
-        chosen = choose(labels, counts, scores)
+        asset_cap = cap if cap is not None else max_share(kit, asset_id)
+        chosen = choose(labels, counts, scores, asset_cap)
         result = {"assetId": asset_id, "heightM": h, "handoverM": dist, "px": px,
-                  "source": counts["source"],
+                  "source": counts["source"], "maxShare": asset_cap,
+                  "tiers": [t for t in ("mid", "far") if t in set(labels.values())],
                   "levels": {label: {"tier": labels[label], "triangles": counts[label],
                                      "share": round(counts[label] / counts["source"], 3),
                                      **({"settings": {key: variants[label][1][key]
@@ -299,38 +319,53 @@ def record(kit_id: str, cal_dir: Path) -> dict:
     asset with neither tier passing is left out of `assets`.
 
     Hard gate (round 13c): the silhouette bar cannot see a cone inside a root
-    mass or a trunk break a few pixels wide, so a chosen BARK-TUBE level is
-    refused (SystemExit, nothing written) unless `judge_passed` finds a PASS
-    file from JUDGES_MIN image judges beside its contact sheet."""
+    mass or a trunk break a few pixels wide, so a chosen BARK-TUBE level, or
+    a level over the kit's share cap (round 13d), is refused (SystemExit,
+    nothing written) unless `judge_passed` finds a PASS file from JUDGES_MIN
+    image judges beside its contact sheet.
+
+    A tier the calibration did not render (`--tiers`) keeps its kit row; the
+    result's `maxShare`, when it differs from the kit cap, is written to
+    `treeTiers.maxShareByAsset`."""
     path = tree_tiers.CONFIG / f"{kit_id}.json"
     kit = json.loads(path.read_text())
     tiers = kit.setdefault("treeTiers", {})
     per = tiers.setdefault("perAsset", {})
+    kit_cap = float(tiers.get("maxShare", MAX_SHARE))
     refused = []
     for result_path in sorted(cal_dir.glob("*/result.json")):
         result = json.loads(result_path.read_text())
         chosen = rechoose(result)
         for tier in ("mid", "far"):
             level = result["levels"].get(chosen[tier]) if chosen[tier] else None
-            if level and (level.get("settings") or {}).get("barkTube"):
+            if level and ((level.get("settings") or {}).get("barkTube")
+                          or level["triangles"] > kit_cap * result["source"]):
                 why = judge_passed(cal_dir, result_path.parent.name, tier, chosen[tier])
                 if why:
                     refused.append(f"{result['assetId']} {tier} {chosen[tier]}: {why}")
     if refused:
-        raise SystemExit("tree_tiers_check --record refused (bark-tube level without an "
-                         "image-judge PASS):\n  " + "\n  ".join(refused))
+        raise SystemExit("tree_tiers_check --record refused (bark-tube or over-cap level "
+                         "without an image-judge PASS):\n  " + "\n  ".join(refused))
     for result_path in sorted(cal_dir.glob("*/result.json")):
         result = json.loads(result_path.read_text())
         chosen = rechoose(result)
-        row = {}
-        for tier in ("mid", "far"):
+        rendered = result.get("tiers", ["mid", "far"])
+        row = dict(per.get(result["assetId"]) or {"mid": None, "far": None})
+        caps = tiers.setdefault("maxShareByAsset", {})
+        if result.get("maxShare", kit_cap) != kit_cap:
+            caps[result["assetId"]] = result["maxShare"]
+        else:
+            caps.pop(result["assetId"], None)
+        if not caps:
+            tiers.pop("maxShareByAsset")
+        for tier in rendered:
             level = result["levels"].get(chosen[tier]) if chosen[tier] else None
             row[tier] = None if level is None else level.get("settings") or {
                 "leafKeep": float(chosen[tier].split("-k")[1][:2]) / 100,
                 "gain": float(chosen[tier].split("g")[-1]) / 100}
         per[result["assetId"]] = row
         safe = result_path.parent.name
-        for tier in ("mid", "far"):
+        for tier in rendered:
             dest = cal_dir / f"{safe}-{tier}.png"
             dest.unlink(missing_ok=True)
             if chosen[tier]:
@@ -357,6 +392,12 @@ def main() -> None:
                         help="try the CALIBRATE_KEEPS ladder, report the lowest passing keep")
     parser.add_argument("--bark-ladder", action="store_true",
                         help="with --calibrate: the bark-tube ladder (BARK_SIDES x BARK_TOLS)")
+    parser.add_argument("--tiers", default="mid,far",
+                        help="with --calibrate: the tiers to render (others keep their kit rows)")
+    parser.add_argument("--keeps", action="append", default=[],
+                        help="with --calibrate: <tier>=k1,k2,... replaces CALIBRATE_KEEPS[tier]")
+    parser.add_argument("--max-share", type=float,
+                        help="share cap for this run (recorded per asset by --record)")
     args = parser.parse_args()
     overrides: dict = {}
     for item in args.set:
@@ -366,8 +407,11 @@ def main() -> None:
     if args.record:
         print(json.dumps(record(args.kit, args.out), indent=1))
         return
+    keeps = {t: tuple(float(k) for k in ks.split(","))
+             for t, ks in (item.split("=") for item in args.keeps)}
     results = check(args.kit, args.assets.split(","), args.out, overrides, args.samples,
-                    args.calibrate, args.bark_ladder)
+                    args.calibrate, args.bark_ladder, tuple(args.tiers.split(",")), keeps,
+                    args.max_share)
     (args.out / "results.json").write_text(json.dumps(results, indent=1))
 
 

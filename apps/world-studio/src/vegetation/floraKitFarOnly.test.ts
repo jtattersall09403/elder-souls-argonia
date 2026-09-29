@@ -1,9 +1,11 @@
 /**
- * A FAR-ONLY tier chain on the real published kit (vegetation round 13b):
- * `vanilla:landscape/plants/tundrashrub03` ships `lodTiers.far` (level 2) and
- * no `mid`, so its kit levels are 0 (base), 1 (the builder's decimation of an
- * alpha-tested part, swapped back to base and folded away), 2 (the far tier,
- * own material) and 3 (the baked card). `buildFloraKit` must turn that into
+ * A FAR-ONLY tier chain on the real published kit (vegetation round 13b): a
+ * tree whose mid tier is not built (`treeTiers.perAsset.<id>.mid` null) ships
+ * `lodTiers.far` (level 2) and no `mid`. No published asset is far-only since
+ * round 13d (tundrashrub03's far tier was never drawn and was removed), so the
+ * case is cut from a real mid + far tree: its mid-tier nodes (`esTier` mid)
+ * and `lodTiers.mid` are dropped, leaving 0 (base), 2 (the far tier, own
+ * material) and 3 (the baked card). `buildFloraKit` must turn that into
  * base -> far -> card with no empty rung, and the ladder the renderer builds
  * from it (as `Vegetation.tsx` does) must pass the band-coverage invariant.
  *
@@ -32,7 +34,7 @@ import {
 } from "./floraKit";
 
 const KITS = join(__dirname, "../../public/kits");
-const ID = "vanilla:landscape/plants/tundrashrub03";
+const ID = "bmv:landscape/trees/dwarfjunip05";
 const CHUNK_M = 467.93;
 
 interface GltfJson {
@@ -48,8 +50,9 @@ function readGlbJson(path: string): GltfJson {
   return JSON.parse(buf.subarray(20, 20 + length).toString("utf8")) as GltfJson;
 }
 
-/** The asset's root node as GLTFLoader would give it, geometry as counts only. */
-function sceneFor(json: GltfJson, assetId: string): GLTF {
+/** The asset's root node as GLTFLoader would give it, geometry as counts
+ *  only, without the nodes `drop` names. */
+function sceneFor(json: GltfJson, assetId: string, drop: (extras: Record<string, unknown>) => boolean): GLTF {
   const rootIndex = json.nodes.findIndex(
     (n) => n.extras?.assetId === assetId && (n.children?.length ?? 0) > 0 && n.mesh === undefined,
   );
@@ -83,7 +86,7 @@ function sceneFor(json: GltfJson, assetId: string): GLTF {
     }
     object.name = node.name ?? "";
     object.userData = { ...(node.extras ?? {}) };
-    for (const c of node.children ?? []) object.add(build(c));
+    for (const c of node.children ?? []) if (!drop(json.nodes[c].extras ?? {})) object.add(build(c));
     return object;
   };
   const scene = new THREE.Group();
@@ -102,15 +105,20 @@ function loadSpecies(): { species: KitSpecies; tiers: Record<string, { level: nu
   const manifest = JSON.parse(readFileSync(join(KITS, "flora-province-v1.kit.json"), "utf8")) as KitManifest;
   const asset = manifest.assets.find((a) => a.id === ID) as
     (KitManifest["assets"][number] & { lodTiers?: Tiers }) | undefined;
-  if (!asset?.lodTiers) throw new Error(`${ID} has no lodTiers in the published manifest`);
+  if (!asset?.lodTiers?.mid || !asset.lodTiers.far) {
+    throw new Error(`${ID} has no mid + far lodTiers in the published manifest`);
+  }
+  const farOnly: Tiers = { ...asset.lodTiers };
+  delete farOnly.mid;
   const json = readGlbJson(join(KITS, "flora-province-v1.glb"));
-  const kit = buildFloraKit(sceneFor(json, ID), { ...manifest, assets: [asset] });
+  const kit = buildFloraKit(sceneFor(json, ID, (extras) => extras.esTier === "mid"),
+    { ...manifest, assets: [{ ...asset, lodTiers: farOnly } as KitManifest["assets"][number]] });
   const species = kit.get(ID);
   if (!species) throw new Error(`buildFloraKit dropped ${ID}`);
-  return { species, tiers: asset.lodTiers };
+  return { species, tiers: farOnly };
 }
 
-describe("far-only tier chain (tundrashrub03, published kit)", () => {
+describe("far-only tier chain (a published mid + far tree, mid dropped)", () => {
   const { species, tiers } = loadSpecies();
 
   it("is far-only in the manifest", () => {
@@ -133,6 +141,7 @@ describe("far-only tier chain (tundrashrub03, published kit)", () => {
 
   it("passes the band-coverage invariant at every quality preset", () => {
     const failures: string[] = [];
+    let farDrawn = 0;
     for (const preset of Object.values(QUALITY_PRESETS)) {
       // As Vegetation.tsx builds a species' ladder.
       const maxDraw = species.submerged
@@ -147,16 +156,20 @@ describe("far-only tier chain (tundrashrub03, published kit)", () => {
         submerged: species.submerged, folded: species.folded,
       }, preset.vegDrawScale, preset.name);
       const ladder = lodLadder(rings, meshLevels, species.billboardIndex, maxDraw);
-      // The drawn rungs step down the kit's levels in order from the base.
-      // (Today the 1.21 m shrub's draw distance, max(60, 35 h) x drawScale,
-      // ends inside its small-plant full-mesh radius in every preset, so only
-      // the base is drawn: that is ring policy in `speciesRings`, not the kit.)
+      // The drawn rungs step down the kit's levels in order from the base
+      // (the low preset's card hand-over can come before the far rung's, so
+      // a rung may be skipped, never revisited), and the far rung is drawn in
+      // some preset: a far tier never drawn is dead data (tundrashrub03's,
+      // removed in round 13d).
       const shown = ladder.filter((r) => r.hi > r.lo).map((r) => r.level);
       expect(shown[0]).toBe(0);
-      expect(shown).toEqual([0, 1, 2].slice(0, shown.length));
+      expect(shown.every((l, i) => i === 0 || l > shown[i - 1])).toBe(true);
+      expect(shown.every((l) => l <= 2)).toBe(true);
+      if (shown.includes(1)) farDrawn += 1;
       failures.push(...ladderCoverageFailures(
         ladder, species.submerged || species.category !== "tree", maxDraw, preset.name));
     }
     expect(failures.slice(0, 10)).toEqual([]);
+    expect(farDrawn).toBeGreaterThan(0);
   });
 });

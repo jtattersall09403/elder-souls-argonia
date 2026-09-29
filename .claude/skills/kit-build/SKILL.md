@@ -104,7 +104,14 @@ into the kit config (`--record`), then step 1 rebuilds.
   `{"label": <level label>, "judges": [{"verdict": "PASS"|"FAIL", "note": ...}]}`.
   `--record` refuses (exits, writes nothing) when the file is missing, names
   another label, or has fewer than 2 verdicts or any FAIL
-  (`tree_tiers_check.judge_passed`). Leaf-only levels keep the IoU bar alone.
+  (`tree_tiers_check.judge_passed`). Leaf-only levels keep the IoU bar alone,
+  unless they land over the kit's share cap (next bullet).
+- The share cap is a setting, not a constant (round 13d): `treeTiers.maxShare`
+  (kit, default 0.70) and `treeTiers.maxShareByAsset.<id>` (written by
+  `--record` from a `--calibrate --max-share <x>` run). A level over the kit cap
+  needs the same 2-judge PASS file. `--tiers mid` renders one tier only (the
+  other keeps its kit row on `--record`); `--keeps mid=0.2,0.4` replaces the
+  leaf-keep ladder.
 
 ## 1. Build (geometry + manifest + sidecars + publish)
 

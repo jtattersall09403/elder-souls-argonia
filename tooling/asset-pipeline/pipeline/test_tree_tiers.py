@@ -235,6 +235,41 @@ def test_record_refuses_a_bark_tube_level_without_a_judge_pass(tmp_path, monkeyp
     assert per["t:tree"]["mid"]["barkTube"] == 1
 
 
+def test_share_cap_is_per_asset_and_an_over_cap_level_needs_the_judges(tmp_path, monkeypatch):
+    """Round 13d: the cap is a kit/asset setting, not a constant; a level over
+    the kit cap records only with an image-judge PASS, writes its cap to
+    `maxShareByAsset`, and a tier the run did not render keeps its row."""
+    from . import tree_tiers_check as tc
+    kit = {"treeTiers": {"maxShare": 0.7, "maxShareByAsset": {"t:tree": 0.95}}}
+    assert tc.max_share(kit, "t:tree") == 0.95 and tc.max_share(kit, "t:other") == 0.7
+    assert tc.max_share({}, "t:tree") == tc.MAX_SHARE
+    labels, counts = {"mid-a": "mid"}, {"source": 100, "mid-a": 85}
+    scores = {"mid-a": {"pass": True, "iouMin": 0.93}}
+    assert tc.choose(labels, counts, scores)["mid"] is None
+    assert tc.choose(labels, counts, scores, 0.95)["mid"] == "mid-a"
+    monkeypatch.setattr(tt, "CONFIG", tmp_path)
+    monkeypatch.setattr(tc, "sheet", lambda *a, **k: None)
+    far = {"leafKeep": 0.2, "gain": 0.85}
+    (tmp_path / "k.json").write_text(json.dumps(
+        {"treeTiers": {"perAsset": {"t:tree": {"mid": None, "far": far}}}}))
+    cal = tmp_path / "cal"
+    (cal / "t__tree").mkdir(parents=True)
+    level = {"tier": "mid", "triangles": 85, "share": 0.85, "iouMin": 0.93, "pass": True,
+             "px": 100, "settings": {"leafKeep": 0.1, "gain": 0.4, "barkKeep": 1.0}}
+    (cal / "t__tree" / "result.json").write_text(json.dumps({
+        "assetId": "t:tree", "source": 100, "maxShare": 0.95, "tiers": ["mid"],
+        "handoverM": {"mid": 20, "far": 60}, "levels": {"mid-k10g40": level}}))
+    with pytest.raises(SystemExit, match="no judge file"):
+        tc.record("k", cal)
+    (cal / "t__tree-mid.judge.json").write_text(json.dumps(
+        {"label": "mid-k10g40", "judges": [{"verdict": "PASS"}, {"verdict": "PASS"}]}))
+    per = tc.record("k", cal)
+    assert per["t:tree"] == {"mid": level["settings"], "far": far}
+    written = json.loads((tmp_path / "k.json").read_text())["treeTiers"]
+    assert written["maxShareByAsset"] == {"t:tree": 0.95}
+    assert written["assets"] == ["t:tree"]
+
+
 def test_tube_runs_rebuilds_only_the_straight_run_and_keeps_the_collars():
     """Round 13c runs mode: the run's inner rings are rebuilt, the ends stay
     source, and the rebuilt tube starts inside the kept collar (no crack)."""

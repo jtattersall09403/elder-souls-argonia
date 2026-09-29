@@ -40,7 +40,8 @@ Settings per asset are CALIBRATED, not guessed: `tree_tiers_check
 --calibrate` renders a ladder of leaf keeps and area gains against the
 source at each tier's hand-over distance, and `--record` writes the lightest
 setting that passes the silhouette bar into `treeTiers.perAsset` (null = no
-setting passed within MAX_SHARE of the source; that tier is not built).
+setting passed within the share cap, `tree_tiers_check.max_share`: kit
+`treeTiers.maxShare`, asset `treeTiers.maxShareByAsset`; that tier is not built).
 
 Materials: each tier primitive gets its OWN glTF material, a copy of the
 source material (same name and textures, extras `esTier`), because the runtime swaps an

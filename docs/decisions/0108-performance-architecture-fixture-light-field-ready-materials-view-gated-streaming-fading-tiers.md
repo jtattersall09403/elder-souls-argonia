@@ -112,7 +112,26 @@ frames.
   over the root flare, trunk breaks, dark bands), so no mangrove tier ships;
   tundrashrub03 ships a far tier (65 %). **So the image judge is a hard gate
   beside the silhouette bar**: `--record` refuses a bark-tube level with no
-  judge PASS (round 13c, `round13c.md`).
+  judge PASS (round 13c, `round13c.md`). Round 13d (`round13d.md`): source
+  bark kept whole and the leaves carded passes the bar only at 97-100 % of
+  the source (gkb9 0.97, gkb8 0.99, gkb2 0.99; leaves are 5-19 % of their
+  triangles), so no mangrove mid ships and their only lever is the far
+  impostor. (The source was rendered with the 0.5 leaf cutoff the next
+  bullet's lane found wrong; leaves at 5-19 % of the triangles bound any
+  leaf method at 0.81-0.95 whatever the cutoff.) The share cap is a setting (`treeTiers.maxShare`, per asset
+  `maxShareByAsset`; an over-cap level needs the judges). tundrashrub03's far
+  tier is removed: its draw distance ends inside the small-plant full-mesh
+  radius, so it was never drawn.
+- **Octahedral impostor for the card rung** (walk-5 impostor lane; bake
+  `pipeline/impostor_bake.py`, runtime game-core `vegetation/impostor.ts`):
+  a 12x12 hemi-octahedral atlas of the tree's own mesh (albedo, normal,
+  depth), one quad per instance, three frames blended with a depth walk. It
+  replaces the card rather than sitting before it (two triangles against
+  four, every direction), and starts no nearer than the tree's impostor
+  texel height. Same bar as the tiers, then both image judges; only a
+  passing species is published. None ships: the mangroves score 0.69-0.87
+  (the card they would replace scores 0.35-0.53) and pass both judges
+  (`tooling/.reports/16k/walk5/perf/impostor.md`).
 - **The bar is silhouette IoU ≥ 0.90 in every one of 8 views on masks
   closed by a disc of 1.5 % of the tree's pixel height, and no view losing
   more than 5 % coverage**, rendered at the hand-over distance. Not raw

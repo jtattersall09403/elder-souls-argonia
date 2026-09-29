@@ -680,13 +680,6 @@
      "gain": 0.4
     },
     "far": null
-   },
-   "vanilla:landscape/plants/tundrashrub03": {
-    "mid": null,
-    "far": {
-     "leafKeep": 0.6,
-     "gain": 0.4
-    }
    }
   },
   "assets": [
@@ -695,8 +688,7 @@
    "bmv:landscape/trees/treewillow02a",
    "bmv:landscape/trees/treewillow03a",
    "composite:jungle/anvil-canopy-tree",
-   "composite:jungle/anvil-emergent-giant",
-   "vanilla:landscape/plants/tundrashrub03"
+   "composite:jungle/anvil-emergent-giant"
   ]
  }
 }
