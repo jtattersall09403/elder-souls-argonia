@@ -89,11 +89,11 @@
     ],
     "fade": 1.0,
     "offsetM": [
-     0.32,
+     0.0,
      0.09,
-     1.08
+     0.0
     ],
-    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: DefaultCandleLight01NS is the nearest LIGH ref (< 200 units, same cell) to 5 of 13 candle01 refs (next: SLightStreetStreet01 3; none 5); offset is the median of those 5 in the piece's frame, glTF Y-up metres, horizontal agreement 0.48 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    }
   },
   {

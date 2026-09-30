@@ -112,11 +112,11 @@
     ],
     "fade": 1.35,
     "offsetM": [
-     -0.08,
+     0.0,
      1.13,
-     0.12
+     0.0
     ],
-    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: LightForgeFire01 is the nearest LIGH ref (< 200 units, same cell) to 6 of 9 blacksmithforge01 refs (none 3); offset is the median of those 6 in the piece's frame, glTF Y-up metres, horizontal agreement 0.45 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    }
   },
   {

@@ -4151,11 +4151,11 @@
     ],
     "fade": 1.7,
     "offsetM": [
-     -0.18,
+     0.0,
      0.76,
-     -0.08
+     0.0
     ],
-    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: WRCandleFlickerNS is the nearest LIGH ref (< 200 units, same cell) to 34 of 213 glazedcandles01 refs (next: SolitudeInnCandleDefault 16; none 62); offset is the median of those 34 in the piece's frame, glTF Y-up metres, horizontal agreement 0.10 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "flames": [
     {
@@ -8343,11 +8343,11 @@
     ],
     "fade": 2.0,
     "offsetM": [
-     0.17,
+     0.0,
      0.2,
-     0.11
+     0.0
     ],
-    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres (pipeline/mine_kit_lights.py)."
+    "evidence": "Skyrim.esm: SolitudeInnFiretDefault is the nearest LIGH ref (< 200 units, same cell) to 9 of 19 townlantern04 refs (next: SolitudeInnFirePlacesShadowDefault 3; none 4); offset is the median of those 9 in the piece's frame, glTF Y-up metres, horizontal agreement 0.49 (below 0.6 the side is scatter and zeroed) (pipeline/mine_kit_lights.py)."
    },
    "designedSinkM": {
     "p25": 0.0,
